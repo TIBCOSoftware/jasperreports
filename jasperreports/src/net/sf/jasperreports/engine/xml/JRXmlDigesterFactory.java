@@ -173,7 +173,7 @@ import org.xml.sax.SAXParseException;
  * @author Peter Severin (peter_p_s@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlDigesterFactory
+public final class JRXmlDigesterFactory
 {
 
 	private static final Log log = LogFactory.getLog(JRXmlDigesterFactory.class);

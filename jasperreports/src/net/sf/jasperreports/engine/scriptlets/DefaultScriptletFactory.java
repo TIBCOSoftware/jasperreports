@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class DefaultScriptletFactory implements ScriptletFactory
+public final class DefaultScriptletFactory implements ScriptletFactory
 {
 
 	private static final DefaultScriptletFactory INSTANCE = new DefaultScriptletFactory();

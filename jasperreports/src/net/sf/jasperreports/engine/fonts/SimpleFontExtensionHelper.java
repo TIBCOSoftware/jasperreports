@@ -58,7 +58,7 @@ import org.xml.sax.SAXParseException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRStyledTextParser.java 3082 2009-10-02 12:11:22Z teodord $
  */
-public class SimpleFontExtensionHelper implements ErrorHandler
+public final class SimpleFontExtensionHelper implements ErrorHandler
 {
 	private static final Log log = LogFactory.getLog(SimpleFontExtensionHelper.class);
 

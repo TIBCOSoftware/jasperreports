@@ -52,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ImageConverter extends ElementConverter
+public final class ImageConverter extends ElementConverter
 {
 	private static final Log log = LogFactory.getLog(ImageConverter.class);
 

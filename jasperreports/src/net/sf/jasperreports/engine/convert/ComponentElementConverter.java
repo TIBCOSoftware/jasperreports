@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ComponentElementConverter extends ElementConverter
+public final class ComponentElementConverter extends ElementConverter
 {
 	
 	private final static ComponentElementConverter INSTANCE = new ComponentElementConverter();

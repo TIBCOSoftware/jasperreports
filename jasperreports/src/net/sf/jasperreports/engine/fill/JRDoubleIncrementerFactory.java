@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDoubleIncrementerFactory extends JRAbstractExtendedIncrementerFactory
+public final class JRDoubleIncrementerFactory extends JRAbstractExtendedIncrementerFactory
 {
 
 

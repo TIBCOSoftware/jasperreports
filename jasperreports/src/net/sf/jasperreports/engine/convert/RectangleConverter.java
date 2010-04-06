@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintRectangle;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class RectangleConverter extends ElementConverter
+public final class RectangleConverter extends ElementConverter
 {
 
 	/**
