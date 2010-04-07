@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Collection;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
@@ -51,7 +50,6 @@ public class JRElementFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		Collection groupReprintedElements = xmlLoader.getGroupReprintedElements();
 
 		JRDesignElement element = (JRDesignElement)digester.peek();
 
@@ -129,7 +127,7 @@ public class JRElementFactory extends JRBaseFactory
 			JRDesignGroup group = new JRDesignGroup();
 			group.setName(groupName);
 			element.setPrintWhenGroupChanges(group);
-			groupReprintedElements.add(element);
+			xmlLoader.addGroupReprintedElement(element);
 		}
 
 		String forecolor = atts.getValue(JRXmlConstants.ATTRIBUTE_forecolor);
