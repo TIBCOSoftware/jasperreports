@@ -258,7 +258,7 @@ public class FillTable extends BaseFillComponent
 		JasperReport compiledTableReport = new JasperReport(tableReport, 
 				parentReport.getCompilerClass(), 
 				tableReportCompileData, 
-				new TableReportBaseObjectFactory(),
+				new TableReportBaseObjectFactory(reportDataset),
 				"");// no suffix as already included in the report name
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);

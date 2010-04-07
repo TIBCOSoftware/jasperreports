@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Collection;
-
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -46,7 +44,6 @@ public class JRTextFieldFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		Collection groupEvaluatedTextFields = xmlLoader.getGroupEvaluatedTextFields();
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
 		JRDesignTextField textField = new JRDesignTextField(jasperDesign);
@@ -64,7 +61,7 @@ public class JRTextFieldFactory extends JRBaseFactory
 		}
 		if (textField.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			groupEvaluatedTextFields.add(textField);
+			xmlLoader.addGroupEvaluatedTextField(textField);
 			
 			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)

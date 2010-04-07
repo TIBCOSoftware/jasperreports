@@ -60,6 +60,7 @@ import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardGroupCell;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.TableComponent;
+import net.sf.jasperreports.components.table.TableReportContextXmlRule;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
@@ -250,6 +251,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	{
 		digester.addObjectCreate(pattern, DesignCell.class);
 		digester.addSetNext(pattern, setNextMethod);
+		// rule to set the context dataset name
+		digester.addRule(pattern, new TableReportContextXmlRule());
 		
 		digester.addSetProperties(pattern,
 				new String[]{JRXmlConstants.ATTRIBUTE_style}, 
