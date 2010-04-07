@@ -99,14 +99,18 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			whitespaces[i] = "";
 		}
 		JRStyledText styledText = new JRStyledText();
-		styledText.setGlobalAttributes(new HashMap());
 		
 		for(int i = 0; i < elements.size(); i++)
 		{
 			if (bodyOccurred && chunk != null)
 			{
 				styledText.append(chunk);
-				styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset + crtOffset, endOffset + crtOffset));
+				Map styleAttributes = getAttributes(element.getAttributes());
+				if (!styleAttributes.isEmpty())
+				{
+					styledText.addRun(new JRStyledText.Run(styleAttributes, 
+							startOffset + crtOffset, endOffset + crtOffset));
+				}
 			}
 
 			chunk = null;
@@ -143,6 +147,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					else
 					{
 						chunk = "\n";
+						++crtOffset;
 					}
 				}
 				else if(htmlTag == Tag.UL)
@@ -157,6 +162,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 					else
 					{
 						chunk = "\n";
+						++crtOffset;
 					}
 					
 				}
@@ -201,8 +207,16 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		if (chunk != null && !"\n".equals(chunk))
 		{
 			styledText.append(chunk);
-			styledText.addRun(new JRStyledText.Run(getAttributes(element.getAttributes()), startOffset + crtOffset, endOffset + crtOffset));
+			Map styleAttributes = getAttributes(element.getAttributes());
+			if (!styleAttributes.isEmpty())
+			{
+				styledText.addRun(new JRStyledText.Run(styleAttributes, 
+						startOffset + crtOffset, endOffset + crtOffset));
+			}
 		}
+		
+		styledText.setGlobalAttributes(new HashMap());
+		
 		return JRStyledTextParser.getInstance().write(styledText);
 	}
 	
