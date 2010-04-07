@@ -65,7 +65,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	
 	private List children;
 
-	protected JRLineBox lineBox;
+	private JRLineBox lineBox;
 
 
 	/**

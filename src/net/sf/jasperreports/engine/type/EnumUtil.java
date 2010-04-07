@@ -30,8 +30,15 @@ package net.sf.jasperreports.engine.type;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JasperCompileManager.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public abstract class EnumUtil
+public final class EnumUtil
 {
+	
+	/**
+	 *
+	 */
+	private EnumUtil()
+	{
+	}
 
 	/**
 	 *

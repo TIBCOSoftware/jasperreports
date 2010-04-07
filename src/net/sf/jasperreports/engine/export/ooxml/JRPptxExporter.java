@@ -1251,8 +1251,8 @@ public class JRPptxExporter extends JRAbstractExporter
 	{
 		String href = getHyperlinkURL(link);
 
-		if (href != null)
-		{
+//		if (href != null)
+//		{
 //			String id = (String)hyperlinksMap.get(href);
 //			if (id == null)
 //			{
@@ -1287,7 +1287,7 @@ public class JRPptxExporter extends JRAbstractExporter
 //
 //			docHelper.write(" </w:instrText></w:r>\n");
 //			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
-		}
+//		}
 
 		return href != null;
 	}
