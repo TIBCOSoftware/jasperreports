@@ -516,14 +516,21 @@ public class TableCompiler implements ComponentCompiler
 			
 			public Void visitColumn(Column column)
 			{
-				getRow().add(cellSelector.getCell(column));
+				Cell cell = cellSelector.getCell(column);
+				if (cell != null)
+				{
+					getRow().add(cell);
+				}
 				return null;
 			}
 
 			public Void visitColumnGroup(ColumnGroup columnGroup)
 			{
 				Cell cell = cellSelector.getCell(columnGroup);
-				getRow().add(cell);
+				if (cell != null)
+				{
+					getRow().add(cell);
+				}
 				
 				int span = cell == null ? 0 : 1;
 				if (cell != null && cell.getRowSpan() != null && cell.getRowSpan() > 1)
@@ -547,116 +554,85 @@ public class TableCompiler implements ComponentCompiler
 			column.visitColumn(cellCollector);
 		}
 		
-		if (hasCell(tableCellRows))
+		boolean validRowHeights = true;
+		
+		List<Integer> rowHeights = new ArrayList<Integer>(tableCellRows.size());
+		for (int rowIdx = 0; rowIdx < tableCellRows.size(); ++rowIdx)
 		{
-			boolean validRowHeights = true;
-			
-			List<Integer> rowHeights = new ArrayList<Integer>(tableCellRows.size());
-			for (int rowIdx = 0; rowIdx < tableCellRows.size(); ++rowIdx)
+			Integer rowHeight = null;
+			// going back on rows in order to determine row height
+			int spanHeight = 0;
+			prevRowLoop:
+			for (int idx = rowIdx; idx >= 0; --idx)
 			{
-				Integer rowHeight = null;
-				// going back on rows in order to determine row height
-				int spanHeight = 0;
-				prevRowLoop:
-				for (int idx = rowIdx; idx >= 0; --idx)
+				for (Cell cell : tableCellRows.get(idx))
 				{
-					for (Cell cell : tableCellRows.get(idx))
+					int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
+					if (idx + rowSpan - 1 == rowIdx && cell.getHeight() != null)
 					{
-						if (cell != null)
-						{
-							int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
-							if (idx + rowSpan - 1 == rowIdx && cell.getHeight() != null)
-							{
-								rowHeight = cell.getHeight() - spanHeight;
-								break prevRowLoop;
-							}
-						}
-					}
-					
-					if (rowIdx > 0)
-					{
-						spanHeight += rowHeights.get(rowIdx - 1);
+						rowHeight = cell.getHeight() - spanHeight;
+						break prevRowLoop;
 					}
 				}
 				
-				if (rowHeight == null)
+				if (rowIdx > 0)
 				{
-					verifier.addBrokenRule("Unable to determine " + cellSelector.getCellName() 
-							+ " row #" + (rowIdx + 1) + " height.", 
-							table);
-					validRowHeights = false;
-				}
-				else
-				{
-					rowHeights.add(rowHeight);
+					spanHeight += rowHeights.get(rowIdx - 1);
 				}
 			}
 			
-			// don't do any more verifications if row heights could not be determined
-			if (validRowHeights)
+			if (rowHeight == null)
 			{
-				for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
+				verifier.addBrokenRule("Unable to determine " + cellSelector.getCellName() 
+						+ " row #" + (rowIdx + 1) + " height.", 
+						table);
+				validRowHeights = false;
+			}
+			else
+			{
+				rowHeights.add(rowHeight);
+			}
+		}
+		
+		// don't do any more verifications if row heights could not be determined
+		if (validRowHeights)
+		{
+			for (ListIterator<List<Cell>> rowIt = tableCellRows.listIterator(); rowIt.hasNext();)
+			{
+				List<Cell> row = rowIt.next();
+				int rowIdx = rowIt.previousIndex();
+				int rowHeight = rowHeights.get(rowIdx);
+				
+				for (Cell cell : row)
 				{
-					List<Cell> row = rowIt.next();
-					int rowIdx = rowIt.previousIndex();
-					int rowHeight = rowHeights.get(rowIdx);
-					
-					for (Cell cell : row)
+					Integer rowSpan = cell.getRowSpan();
+					Integer height = cell.getHeight();
+					if ((rowSpan == null || rowSpan >= 1) 
+							&& height != null)
 					{
-						if (cell != null)
+						int span = rowSpan == null ? 1 : rowSpan;
+						if (rowIdx + span > tableCellRows.size())
 						{
-							Integer rowSpan = cell.getRowSpan();
-							Integer height = cell.getHeight();
-							if ((rowSpan == null || rowSpan >= 1) 
-									&& height != null)
+							verifier.addBrokenRule("Row span of " + cellSelector.getCellName() 
+									+ " exceeds number of rows", cell);
+						}
+						else
+						{
+							int spanHeight = rowHeight;
+							for (int idx = 1; idx < span; ++idx)
 							{
-								int span = rowSpan == null ? 1 : rowSpan;
-								if (rowIdx + span > tableCellRows.size())
-								{
-									verifier.addBrokenRule("Row span of " + cellSelector.getCellName() 
-											+ " exceeds number of rows", cell);
-								}
-								else
-								{
-									int spanHeight = rowHeight;
-									for (int idx = 1; idx < span; ++idx)
-									{
-										spanHeight += rowHeights.get(rowIdx + idx);
-									}
-									
-									if (cell.getHeight() != spanHeight)
-									{
-										verifier.addBrokenRule("Height " + cell.getHeight() + " of " + cellSelector.getCellName() 
-												+ " does not match computed row height of " + spanHeight, cell);
-									}
-								}
+								spanHeight += rowHeights.get(rowIdx + idx);
+							}
+							
+							if (cell.getHeight() != spanHeight)
+							{
+								verifier.addBrokenRule("Height " + cell.getHeight() + " of " + cellSelector.getCellName() 
+										+ " does not match computed row height of " + spanHeight, cell);
 							}
 						}
 					}
 				}
 			}
 		}
-	}
-
-	protected boolean hasCell(final List<List<Cell>> tableCellRows)
-	{
-		boolean hasCell;
-		if (tableCellRows.size() == 1)
-		{
-			hasCell = false;
-			for (Cell cell : tableCellRows.get(0))
-			{
-				if (cell != null)
-				{
-					hasCell = true;
-					break;
-				}
-			}
-		}
-		else
-		{
-			hasCell = true;
-		}
-		return hasCell;
 	}
 }
