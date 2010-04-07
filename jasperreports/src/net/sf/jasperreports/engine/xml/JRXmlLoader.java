@@ -33,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -79,13 +78,13 @@ public class JRXmlLoader
 	private JasperDesign jasperDesign = null;
 	private LinkedList<XmlLoaderReportContext> contextStack = 
 		new LinkedList<XmlLoaderReportContext>();
-	private Map<JRDesignElement, XmlLoaderReportContext> groupReprintedElements = 
-		new HashMap<JRDesignElement, XmlLoaderReportContext>();
-	private Collection groupEvaluatedImages = new ArrayList();
-	private Map<JRDesignTextField, XmlLoaderReportContext> groupEvaluatedTextFields = 
-		new HashMap<JRDesignTextField, XmlLoaderReportContext>();
-	private Collection groupEvaluatedCharts = new ArrayList();
+	
+	private Map<XmlGroupReference, XmlLoaderReportContext> groupReferences = 
+		new HashMap<XmlGroupReference, XmlLoaderReportContext>();
+	
+	//TODO use XmlGroupReference for datasets
 	private Set groupBoundDatasets = new HashSet();
+	
 	private List errors = new ArrayList();
 
 	private Digester digester = null;
@@ -108,32 +107,34 @@ public class JRXmlLoader
 		this.jasperDesign = jasperDesign;
 	}
 	
-	public void addGroupReprintedElement(JRDesignElement element)
+	public void addGroupReference(XmlGroupReference reference)
 	{
 		XmlLoaderReportContext reportContext = getReportContext();
-		groupReprintedElements.put(element, reportContext);
+		groupReferences.put(reference, reportContext);
 	}
-
-	/**
-	 *
-	 */
-	public Collection getGroupEvaluatedImages()
+	
+	public void addGroupReprintedElement(JRDesignElement element)
 	{
-		return this.groupEvaluatedImages;
+		addGroupReference(
+				new ElementReprintGroupReference(element));
+	}
+	
+	public void addGroupEvaluatedImage(JRDesignImage image)
+	{
+		addGroupReference(
+				new ImageEvaluationGroupReference(image));
 	}
 	
 	public void addGroupEvaluatedTextField(JRDesignTextField textField)
 	{
-		XmlLoaderReportContext reportContext = getReportContext();
-		groupEvaluatedTextFields.put(textField, reportContext);
+		addGroupReference(
+				new TextFieldEvaluationGroupReference(textField));
 	}
-
-	/**
-	 *
-	 */
-	public Collection getGroupEvaluatedCharts()
+	
+	public void addGroupEvaluatedChart(JRDesignChart chart)
 	{
-		return groupEvaluatedCharts;
+		addGroupReference(
+				new ChartEvaluationGroupReference(chart));
 	}
 
 	/**
@@ -270,10 +271,7 @@ public class JRXmlLoader
 			assignGroupsToVariables(dataset);
 		}
 		
-		this.assignGroupsToElements();
-		this.assignGroupsToImages();
-		this.assignGroupsToTextFields();
-		this.assignGroupsToCharts();
+		assignGroupReferences();
 		this.assignGroupsToDatasets();
 		
 		return this.jasperDesign;
@@ -352,16 +350,16 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	private void assignGroupsToElements() throws JRException
+	private void assignGroupReferences() throws JRException
 	{
-		for (Map.Entry<JRDesignElement, XmlLoaderReportContext> entry : 
-			groupReprintedElements.entrySet())
+		for (Map.Entry<XmlGroupReference, XmlLoaderReportContext> entry : 
+			groupReferences.entrySet())
 		{
-			JRDesignElement element = entry.getKey();
+			XmlGroupReference reference = entry.getKey();
 			XmlLoaderReportContext context = entry.getValue();
 
 			String groupName = null;
-			JRGroup group = element.getPrintWhenGroupChanges();
+			JRGroup group = reference.getGroupReference();
 			if (group != null)
 			{
 				groupName = group.getName();
@@ -370,67 +368,12 @@ public class JRXmlLoader
 
 			if (!ignoreConsistencyProblems && group == null)
 			{
-				throw new JRValidationException("Unknown reprint group '" + groupName + "' for element.", element);
+				reference.groupNotFound(groupName);
 			}
-
-			element.setPrintWhenGroupChanges(group);
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void assignGroupsToImages() throws JRException
-	{
-		Map groupsMap = jasperDesign.getGroupsMap();
-		for(Iterator it = groupEvaluatedImages.iterator(); it.hasNext();)
-		{
-			JRDesignImage image = (JRDesignImage)it.next();
-
-			String groupName = null;
-			JRGroup group = image.getEvaluationGroup();
-			if (group != null)
+			else
 			{
-				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
+				reference.assignGroup(group);
 			}
-
-			if (!ignoreConsistencyProblems && group == null)
-			{
-				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for image.", image);
-			}
-
-			image.setEvaluationGroup(group);
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void assignGroupsToTextFields() throws JRException
-	{
-		for (Map.Entry<JRDesignTextField, XmlLoaderReportContext> entry : 
-			groupEvaluatedTextFields.entrySet())
-		{
-			JRDesignTextField textField = entry.getKey();
-			XmlLoaderReportContext context = entry.getValue();
-
-			String groupName = null;
-			JRGroup group = textField.getEvaluationGroup();
-			if (group != null)
-			{
-				groupName = group.getName();
-				group = resolveGroup(groupName, context);
-			}
-
-			if (!ignoreConsistencyProblems && group == null)
-			{
-				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for text field.", textField);
-			}
-
-			textField.setEvaluationGroup(group);
 		}
 	}
 	
@@ -456,34 +399,6 @@ public class JRXmlLoader
 			group = (JRGroup) dataset.getGroupsMap().get(groupName);
 		}
 		return group;
-	}
-
-
-	/**
-	 *
-	 */
-	private void assignGroupsToCharts() throws JRException
-	{
-		Map groupsMap = jasperDesign.getGroupsMap();
-		for(Iterator it = groupEvaluatedCharts.iterator(); it.hasNext();)
-		{
-			JRDesignChart chart = (JRDesignChart)it.next();
-
-			String groupName = null;
-			JRGroup group = chart.getEvaluationGroup();
-			if (group != null)
-			{
-				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
-			}
-
-			if (!ignoreConsistencyProblems && group == null)
-			{
-				throw new JRValidationException("Unknown evaluation group '" + groupName + "' for chart.", chart);
-			}
-
-			chart.setEvaluationGroup(group);
-		}
 	}
 
 
