@@ -292,35 +292,61 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	
 	public void setGroupFooter(String groupName, Cell cell)
 	{
-		StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
 		int idx = findGroupCellIndex(groupFooters, groupName);
-		if (idx < 0)
-		{
-			addGroupFooter(groupCell);
-		}
-		else
+		if (idx >= 0)
 		{
 			GroupCell old = groupFooters.get(idx);
-			groupFooters.set(idx, groupCell);
-			getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_FOOTERS, idx, 
-					old, groupCell);
+			if (cell == null)
+			{
+				// removing group footer
+				groupFooters.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GROUP_FOOTERS, 
+						old, idx);
+			}
+			else
+			{
+				// replacing group footer
+				StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+				groupFooters.set(idx, groupCell);
+				getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_FOOTERS, idx, 
+						old, groupCell);
+			}
+		}
+		else if (cell != null)
+		{
+				// adding group footer
+				StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+				addGroupFooter(groupCell);
 		}
 	}
 	
 	public void setGroupHeader(String groupName, Cell cell)
 	{
-		StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
 		int idx = findGroupCellIndex(groupHeaders, groupName);
-		if (idx < 0)
-		{
-			addGroupHeader(groupCell);
-		}
-		else
+		if (idx >= 0)
 		{
 			GroupCell old = groupHeaders.get(idx);
-			groupHeaders.set(idx, groupCell);
-			getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_HEADERS, idx, 
-					old, groupCell);
+			if (cell == null)
+			{
+				// removing group header
+				groupHeaders.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GROUP_HEADERS, 
+						old, idx);
+			}
+			else
+			{
+				// replacing group header
+				StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+				groupHeaders.set(idx, groupCell);
+				getEventSupport().fireIndexedPropertyChange(PROPERTY_GROUP_HEADERS, idx, 
+						old, groupCell);
+			}
+		}
+		else if (cell == null)
+		{
+			// adding group header
+			StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
+			addGroupHeader(groupCell);
 		}
 	}
 }
