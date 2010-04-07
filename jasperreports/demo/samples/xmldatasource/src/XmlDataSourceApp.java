@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
@@ -86,6 +87,7 @@ public class XmlDataSourceApp extends AbstractSampleApp
 		ods();
 		docx();
 		xlsx();
+		pptx();
 		xhtml();
 	}
 
@@ -351,8 +353,31 @@ public class XmlDataSourceApp extends AbstractSampleApp
 
 		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
 	}
+	
+	
+	/**
+	 *
+	 */
+	public void pptx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/CustomersReport.jrprint");
 
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pptx");
+		
+		JRPptxExporter exporter = new JRPptxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+
+		exporter.exportReport();
+
+		System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
 	/**
 	 *
 	 */

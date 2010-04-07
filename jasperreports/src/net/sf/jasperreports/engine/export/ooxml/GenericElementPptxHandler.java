@@ -26,15 +26,14 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
 /**
- * A generic print element XLSX export handler.
+ * A generic print element PPTX export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: GenericElementPdfHandler.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public interface GenericElementXlsxHandler extends GenericElementHandler
+public interface GenericElementPptxHandler extends GenericElementHandler
 {
 
 	/**
@@ -42,17 +41,14 @@ public interface GenericElementXlsxHandler extends GenericElementHandler
 	 * 
 	 * <p>
 	 * Access to the exporter output and environment is provided via the
-	 * {@link JRXlsxExporterContext} argument.
+	 * {@link JRPptxExporterContext} argument.
 	 * 
 	 * @param exporterContext the exporter context
 	 * @param element the generic element to export
 	 */
 	void exportElement(
-		JRXlsxExporterContext exporterContext, 
-		JRGenericPrintElement element, 
-		JRExporterGridCell gridCell,
-		int colIndex, 
-		int rowIndex
+		JRPptxExporterContext exporterContext, 
+		JRGenericPrintElement element 
 		) throws JRException;
 	
 }

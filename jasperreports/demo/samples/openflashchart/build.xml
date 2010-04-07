@@ -191,6 +191,14 @@
 		</java>
 	</target>
 
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<java classname="${class.name}" fork="true">
+			<arg value="pptx"/>
+			<arg value="${file.name}.jrprint"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<java classname="${class.name}" fork="true">
 			<arg value="xhtml"/>
@@ -260,6 +268,7 @@
 		<antcall target="ods" />
 		<antcall target="docx" />
 		<antcall target="xlsx" />
+		<antcall target="pptx" />
 		<antcall target="xhtml" />
 		<antcall target="xml4swf" />
 	</target>

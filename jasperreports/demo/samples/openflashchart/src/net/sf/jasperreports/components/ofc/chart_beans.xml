@@ -97,6 +97,9 @@
 						<entry key="net.sf.jasperreports.xlsx">
 							<bean class="net.sf.jasperreports.components.ofc.ChartXlsxHandler"/>
 						</entry>
+						<entry key="net.sf.jasperreports.pptx">
+							<bean class="net.sf.jasperreports.components.ofc.ChartPptxHandler"/>
+						</entry>
 						<entry key="net.sf.jasperreports.xml4swf">
 							<bean class="net.sf.jasperreports.components.ofc.ChartXml4SwfHandler"/>
 						</entry>
