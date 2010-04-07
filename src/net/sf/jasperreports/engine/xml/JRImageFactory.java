@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import java.util.Collection;
-
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignImage;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -50,7 +48,6 @@ public class JRImageFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		Collection groupEvaluatedImages = xmlLoader.getGroupEvaluatedImages();
 		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
 		JRDesignImage image = new JRDesignImage(jasperDesign);
@@ -99,7 +96,7 @@ public class JRImageFactory extends JRBaseFactory
 		}
 		if (image.getEvaluationTimeValue() == EvaluationTimeEnum.GROUP)
 		{
-			groupEvaluatedImages.add(image);
+			xmlLoader.addGroupEvaluatedImage(image);
 
 			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
 			if (groupName != null)
