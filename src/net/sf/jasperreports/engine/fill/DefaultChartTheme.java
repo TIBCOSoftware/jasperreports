@@ -448,7 +448,10 @@ public class DefaultChartTheme implements ChartTheme
 				Color[] colors = new Color[seriesColors.size()];
 				JRSeriesColor[] colorSequence = new JRSeriesColor[seriesColors.size()];
 				seriesColors.toArray(colorSequence);
-				System.arraycopy(colorSequence, 0, colors, 0, colorSequence.length);
+				for (int i = 0; i < colorSequence.length; i++)
+				{
+					colors[i] = colorSequence[i].getColor();
+				}
 
 				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 											DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,

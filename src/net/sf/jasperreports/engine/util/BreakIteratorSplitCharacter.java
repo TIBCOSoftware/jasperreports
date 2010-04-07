@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.text.BreakIterator;
 import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
