@@ -23,8 +23,13 @@
  */
 package net.sf.jasperreports.components.table.fill;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.base.JRBaseGroup;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -36,17 +41,50 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 {
 
-	public TableReportBaseObjectFactory()
+	private final Map<String, JRBaseGroup> groupMap = 
+		new HashMap<String, JRBaseGroup>();
+	
+	public TableReportBaseObjectFactory(TableReportDataset reportDataset)
 	{
 		super((JRExpressionCollector) null);
+		
+		// init all groups to have the dataset object in the cache
+		initGroups(reportDataset);
 	}
 
+	private void initGroups(TableReportDataset reportDataset)
+	{
+		for (JRGroup group : reportDataset.getGroups())
+		{
+			getGroup(group);
+		}
+	}
+	
 	@Override
 	public JRExpression getExpression(JRExpression expression,
 			boolean assignNotUsedId)
 	{
 		// same expressions are used in the table report
 		return expression;
+	}
+
+	@Override
+	protected JRBaseGroup getGroup(JRGroup group)
+	{
+		if (group == null)
+		{
+			return null;
+		}
+		
+		// cache groups by names so that variable groups and dataset groups
+		// result in the same objects
+		JRBaseGroup baseGroup = groupMap.get(group.getName());
+		if (baseGroup == null)
+		{
+			baseGroup = super.getGroup(group);
+			groupMap.put(group.getName(), baseGroup);
+		}
+		return baseGroup;
 	}
 	
 }

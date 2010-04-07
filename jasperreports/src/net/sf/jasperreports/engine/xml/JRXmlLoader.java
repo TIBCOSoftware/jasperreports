@@ -34,8 +34,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.JRDesignChart;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
@@ -74,9 +78,12 @@ public class JRXmlLoader
 	 *
 	 */
 	private JasperDesign jasperDesign = null;
+	private Deque<XmlLoaderReportContext> contextStack = 
+		new LinkedList<XmlLoaderReportContext>();
 	private Collection groupReprintedElements = new ArrayList();
 	private Collection groupEvaluatedImages = new ArrayList();
-	private Collection groupEvaluatedTextFields = new ArrayList();
+	private Map<JRDesignTextField, XmlLoaderReportContext> groupEvaluatedTextFields = 
+		new HashMap<JRDesignTextField, XmlLoaderReportContext>();
 	private Collection groupEvaluatedCharts = new ArrayList();
 	private Set groupBoundDatasets = new HashSet();
 	private List errors = new ArrayList();
@@ -116,13 +123,11 @@ public class JRXmlLoader
 	{
 		return this.groupEvaluatedImages;
 	}
-
-	/**
-	 *
-	 */
-	public Collection getGroupEvaluatedTextFields()
+	
+	public void addGroupEvaluatedTextField(JRDesignTextField textField)
 	{
-		return this.groupEvaluatedTextFields;
+		XmlLoaderReportContext reportContext = getReportContext();
+		groupEvaluatedTextFields.put(textField, reportContext);
 	}
 
 	/**
@@ -407,17 +412,18 @@ public class JRXmlLoader
 	 */
 	private void assignGroupsToTextFields() throws JRException
 	{
-		Map groupsMap = jasperDesign.getGroupsMap();
-		for(Iterator it = groupEvaluatedTextFields.iterator(); it.hasNext();)
+		for (Map.Entry<JRDesignTextField, XmlLoaderReportContext> entry : 
+			groupEvaluatedTextFields.entrySet())
 		{
-			JRDesignTextField textField = (JRDesignTextField)it.next();
+			JRDesignTextField textField = entry.getKey();
+			XmlLoaderReportContext context = entry.getValue();
 
 			String groupName = null;
 			JRGroup group = textField.getEvaluationGroup();
 			if (group != null)
 			{
 				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
+				group = resolveGroup(groupName, context);
 			}
 
 			if (!ignoreConsistencyProblems && group == null)
@@ -427,6 +433,30 @@ public class JRXmlLoader
 
 			textField.setEvaluationGroup(group);
 		}
+	}
+	
+	protected JRGroup resolveGroup(String groupName, XmlLoaderReportContext context)
+	{
+		JRGroup group;
+		if (context == null)
+		{
+			// main dataset groups
+			Map groupsMap = jasperDesign.getGroupsMap();
+			group = (JRGroup) groupsMap.get(groupName);
+		}
+		else
+		{
+			String datasetName = context.getSubdatesetName();
+			JRDesignDataset dataset = (JRDesignDataset) jasperDesign.getDatasetMap().get(datasetName);
+			if (dataset == null)
+			{
+				throw new JRRuntimeException("Could not find subdataset of name \"" 
+						+ datasetName + "\"");
+			}
+			
+			group = (JRGroup) dataset.getGroupsMap().get(groupName);
+		}
+		return group;
 	}
 
 
@@ -562,4 +592,18 @@ public class JRXmlLoader
 		this.ignoreConsistencyProblems = ignoreConsistencyProblems;
 	}
 
+	public void pushReportContext(XmlLoaderReportContext context)
+	{
+		contextStack.addFirst(context);
+	}
+	
+	public XmlLoaderReportContext popReportContext()
+	{
+		return contextStack.removeFirst();
+	}
+	
+	public XmlLoaderReportContext getReportContext()
+	{
+		return contextStack.isEmpty() ? null : contextStack.peekFirst();
+	}
 }
