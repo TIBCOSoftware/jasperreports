@@ -185,8 +185,8 @@ public MappingParser(ParserSharedInputState state) {
 			if ((LA(1)==LPAREN) && (_tokenSet_1.member(LA(2)))) {
 				filter=memberFilter();
 			}
-//			else if ((LA(1)==EOF||LA(1)==LPAREN) && (_tokenSet_2.member(LA(2)))) {
-//			}
+			else if ((LA(1)==EOF||LA(1)==LPAREN) && (_tokenSet_2.member(LA(2)))) { //NOPMD
+			}
 			else {
 				throw new NoViableAltException(LT(1), getFilename());
 			}
