@@ -79,6 +79,10 @@
 		<ant dir="../" target="xlsx"/>
 	</target>
 
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pptx"/>
+	</target>
+		
 	<target name="xhtml" description="Generates an XHTML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xhtml"/>
 	</target>
