@@ -518,6 +518,6 @@ public class JRXmlLoader
 	
 	public XmlLoaderReportContext getReportContext()
 	{
-		return contextStack.isEmpty() ? null : contextStack.peekFirst();
+		return contextStack.isEmpty() ? null : contextStack.getFirst();
 	}
 }
