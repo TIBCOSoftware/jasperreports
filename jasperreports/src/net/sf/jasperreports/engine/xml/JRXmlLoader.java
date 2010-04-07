@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -78,9 +77,10 @@ public class JRXmlLoader
 	 *
 	 */
 	private JasperDesign jasperDesign = null;
-	private Deque<XmlLoaderReportContext> contextStack = 
+	private LinkedList<XmlLoaderReportContext> contextStack = 
 		new LinkedList<XmlLoaderReportContext>();
-	private Collection groupReprintedElements = new ArrayList();
+	private Map<JRDesignElement, XmlLoaderReportContext> groupReprintedElements = 
+		new HashMap<JRDesignElement, XmlLoaderReportContext>();
 	private Collection groupEvaluatedImages = new ArrayList();
 	private Map<JRDesignTextField, XmlLoaderReportContext> groupEvaluatedTextFields = 
 		new HashMap<JRDesignTextField, XmlLoaderReportContext>();
@@ -107,13 +107,11 @@ public class JRXmlLoader
 	{
 		this.jasperDesign = jasperDesign;
 	}
-
-	/**
-	 *
-	 */
-	public Collection getGroupReprintedElements()
+	
+	public void addGroupReprintedElement(JRDesignElement element)
 	{
-		return this.groupReprintedElements;
+		XmlLoaderReportContext reportContext = getReportContext();
+		groupReprintedElements.put(element, reportContext);
 	}
 
 	/**
@@ -356,17 +354,18 @@ public class JRXmlLoader
 	 */
 	private void assignGroupsToElements() throws JRException
 	{
-		Map groupsMap = jasperDesign.getGroupsMap();
-		for(Iterator it = groupReprintedElements.iterator(); it.hasNext();)
+		for (Map.Entry<JRDesignElement, XmlLoaderReportContext> entry : 
+			groupReprintedElements.entrySet())
 		{
-			JRDesignElement element = (JRDesignElement)it.next();
+			JRDesignElement element = entry.getKey();
+			XmlLoaderReportContext context = entry.getValue();
 
 			String groupName = null;
 			JRGroup group = element.getPrintWhenGroupChanges();
 			if (group != null)
 			{
 				groupName = group.getName();
-				group = (JRGroup)groupsMap.get(group.getName());
+				group = resolveGroup(groupName, context);
 			}
 
 			if (!ignoreConsistencyProblems && group == null)
