@@ -142,6 +142,11 @@ public class TableReport implements JRReport
 		
 		void addElement(int rowLevel, JRDesignElement element)
 		{
+			if (band.getHeight() < element.getHeight() + element.getY())
+			{
+				band.setHeight(element.getHeight() + element.getY());
+			}
+			
 			JRDesignElementGroup rowGroup = getRowElementGroup(rowLevel);
 			rowGroup.addElement(element);
 		}
@@ -187,11 +192,6 @@ public class TableReport implements JRReport
 			
 			if (cell != null)
 			{
-				if (bandInfo.band.getHeight() < cell.getHeight() + yOffset)
-				{
-					bandInfo.band.setHeight(cell.getHeight() + yOffset);
-				}
-
 				JRDesignFrame cellFrame = createCellFrame(cell, 
 						column.getWidth(), fillColumn.getWidth(), 
 						xOffset, yOffset);
