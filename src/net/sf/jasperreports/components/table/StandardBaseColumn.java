@@ -342,7 +342,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 						old, groupCell);
 			}
 		}
-		else if (cell == null)
+		else if (cell != null)
 		{
 			// adding group header
 			StandardGroupCell groupCell = new StandardGroupCell(groupName, cell);
