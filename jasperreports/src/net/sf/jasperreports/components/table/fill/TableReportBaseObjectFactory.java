@@ -69,6 +69,19 @@ public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 	}
 
 	@Override
+	public void put(Object object, Object copy)
+	{
+		super.put(object, copy);
+		
+		if (object instanceof JRGroup)
+		{
+			JRGroup group = (JRGroup) object;
+			JRBaseGroup groupCopy = (JRBaseGroup) copy;
+			groupMap.put(group.getName(), groupCopy);
+		}
+	}
+
+	@Override
 	protected JRBaseGroup getGroup(JRGroup group)
 	{
 		if (group == null)
@@ -82,7 +95,7 @@ public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 		if (baseGroup == null)
 		{
 			baseGroup = super.getGroup(group);
-			groupMap.put(group.getName(), baseGroup);
+			// put() will place the entry in groupMap
 		}
 		return baseGroup;
 	}
