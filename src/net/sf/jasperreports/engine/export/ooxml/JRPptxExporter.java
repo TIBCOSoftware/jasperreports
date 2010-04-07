@@ -520,10 +520,10 @@ public class JRPptxExporter extends JRAbstractExporter
 					{
 						exportText((JRPrintText)element);
 					}
-//					else if (element instanceof JRPrintFrame)
-//					{
-//						exportFrame((JRPrintFrame) element);
-//					}
+					else if (element instanceof JRPrintFrame)
+					{
+						exportFrame((JRPrintFrame)element);
+					}
 //					else if (element instanceof JRGenericPrintElement)
 //					{
 //						exportGenericElement((JRGenericPrintElement) element);
@@ -619,30 +619,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	public void exportText(JRPrintText text)
 	{
-		slideHelper.write("<p:sp>\n");
-		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + (elementIndex + 4) + "\" name=\"Title 1\"/>\n");
-		slideHelper.write("    <p:cNvSpPr>\n");
-		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
-		slideHelper.write("    </p:cNvSpPr>\n");
-		slideHelper.write("    <p:nvPr>\n");
-		slideHelper.write("      <p:ph type=\"ctrTitle\"/>\n");
-		slideHelper.write("    </p:nvPr>\n");
-		slideHelper.write("  </p:nvSpPr>\n");
-		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX()) + "\" y=\"" + Utility.emu(text.getY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
-		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
-		{
-			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
-		}
-		slideHelper.write("  </p:spPr>\n");
-		slideHelper.write("  <p:txBody>\n");
-		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"0\" tIns=\"0\" rIns=\"0\" bIns=\"0\" rtlCol=\"0\"/>\n");
-		slideHelper.write("    <a:lstStyle/>\n");
-
 		JRStyledText styledText = getStyledText(text);
 
 		int textLength = 0;
@@ -651,58 +627,118 @@ public class JRPptxExporter extends JRAbstractExporter
 		{
 			textLength = styledText.length();
 		}
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
-
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
-//		if (styleBuffer.length() > 0)
-//		{
-//			writer.write(" style=\"");
-//			writer.write(styleBuffer.toString());
-//			writer.write("\"");
-//		}
-//
-//		writer.write(">");
-		slideHelper.write("    <a:p>\n");
-
-		slideHelper.write("<a:pPr>\n");
-		runHelper.exportProps(text, getTextLocale(text));
-		slideHelper.write("</a:pPr>\n");
 		
-//		insertPageAnchor();
-//		if (text.getAnchorName() != null)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(text.getAnchorName());
-//			tempBodyWriter.write("\"/>");
-//		}
-
-		boolean startedHyperlink = startHyperlink(text, true);
-
 		if (textLength > 0)
 		{
+			slideHelper.write("<p:sp>\n");
+			slideHelper.write("  <p:nvSpPr>\n");
+			slideHelper.write("    <p:cNvPr id=\"" + (elementIndex + 4) + "\" name=\"Title 1\"/>\n");
+			slideHelper.write("    <p:cNvSpPr>\n");
+			slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+			slideHelper.write("    </p:cNvSpPr>\n");
+			slideHelper.write("    <p:nvPr>\n");
+			slideHelper.write("      <p:ph type=\"ctrTitle\"/>\n");
+			slideHelper.write("    </p:nvPr>\n");
+			slideHelper.write("  </p:nvSpPr>\n");
+			slideHelper.write("  <p:spPr>\n");
+			slideHelper.write("    <a:xfrm>\n");
+			slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(text.getY() + getOffsetY()) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
+			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+			if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
+			{
+				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
+			}
+			slideHelper.write("  </p:spPr>\n");
+			slideHelper.write("  <p:txBody>\n");
+			slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"0\" tIns=\"0\" rIns=\"0\" bIns=\"0\" rtlCol=\"0\" anchor=\"");
+			switch (text.getVerticalAlignmentValue())
+			{
+				case TOP:
+					slideHelper.write("t");
+					break;
+				case MIDDLE:
+					slideHelper.write("ctr");
+					break;
+				case BOTTOM:
+					slideHelper.write("b");
+					break;
+				default:
+					slideHelper.write("t");
+					break;
+			}
+			slideHelper.write("\"/>\n");
+			slideHelper.write("    <a:lstStyle/>\n");
+	
+	//		if (isWrapBreakWord)
+	//		{
+	//			styleBuffer.append("width: " + gridCell.width + "; ");
+	//			styleBuffer.append("word-wrap: break-word; ");
+	//		}
+	
+	//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+	//		{
+	//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
+	//		}
+	
+	//		if (styleBuffer.length() > 0)
+	//		{
+	//			writer.write(" style=\"");
+	//			writer.write(styleBuffer.toString());
+	//			writer.write("\"");
+	//		}
+	//
+	//		writer.write(">");
+			slideHelper.write("    <a:p>\n");
+	
+			slideHelper.write("<a:pPr");
+			slideHelper.write(" algn=\"");
+			switch (text.getHorizontalAlignmentValue())
+			{
+				case LEFT:
+					slideHelper.write("l");
+					break;
+				case CENTER:
+					slideHelper.write("ctr");
+					break;
+				case RIGHT:
+					slideHelper.write("r");
+					break;
+				case JUSTIFIED:
+					slideHelper.write("just");
+					break;
+				default:
+					slideHelper.write("l");
+					break;
+			}
+			slideHelper.write("\">\n");
+			runHelper.exportProps(text, getTextLocale(text));
+			slideHelper.write("</a:pPr>\n");
+			
+	//		insertPageAnchor();
+	//		if (text.getAnchorName() != null)
+	//		{
+	//			tempBodyWriter.write("<text:bookmark text:name=\"");
+	//			tempBodyWriter.write(text.getAnchorName());
+	//			tempBodyWriter.write("\"/>");
+	//		}
+	
+			boolean startedHyperlink = startHyperlink(text, true);
+	
 			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+	
+			if (startedHyperlink)
+			{
+				endHyperlink(true);
+			}
+	
+			slideHelper.write("    </a:p>\n");
+	//		docHelper.write("     </w:p>\n");
+	//		docHelper.flush();
+	
+			slideHelper.write("  </p:txBody>\n");
+			slideHelper.write("</p:sp>\n");
 		}
-
-		if (startedHyperlink)
-		{
-			endHyperlink(true);
-		}
-
-		slideHelper.write("    </a:p>\n");
-//		docHelper.write("     </w:p>\n");
-//		docHelper.flush();
-
-		slideHelper.write("  </p:txBody>\n");
-		slideHelper.write("</p:sp>\n");
 	}
 
 
@@ -1113,43 +1149,19 @@ public class JRPptxExporter extends JRAbstractExporter
 
 
 	/**
-	 * In deep grids, this is called only for empty frames.
 	 *
-	protected void exportFrame(DocxTableHelper tableHelper, JRPrintFrame frame, JRExporterGridCell gridCell) throws JRException
+	 */
+	protected void exportFrame(JRPrintFrame frame) throws JRException
 	{
-		tableHelper.getCellHelper().exportHeader(frame, gridCell);
-//		tableHelper.getCellHelper().exportProps(gridCell);
+//		tableHelper.getCellHelper().exportHeader(frame, gridCell);
+////		tableHelper.getCellHelper().exportProps(gridCell);
 
-		boolean appendBackcolor =
-			frame.getModeValue() == ModeEnum.OPAQUE
-			&& (backcolor == null || frame.getBackcolor().getRGB() != backcolor.getRGB());
-
-		if (appendBackcolor)
-		{
-			setBackcolor(frame.getBackcolor());
-		}
-
-		try
-		{
-			JRGridLayout layout = gridCell.getLayout();
-			JRPrintElementIndex frameIndex =
-				new JRPrintElementIndex(
-						reportIndex,
-						pageIndex,
-						gridCell.getWrapper().getAddress()
-						);
-			exportGrid(layout, frameIndex);
-		}
-		finally
-		{
-			if (appendBackcolor)
-			{
-				restoreBackcolor();
-			}
-		}
+		setFrameElementsOffset(frame, false);
+		exportElements(frame.getElements());
+		restoreElementOffsets();
 		
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
-		tableHelper.getCellHelper().exportFooter();
+//		tableHelper.getParagraphHelper().exportEmptyParagraph();
+//		tableHelper.getCellHelper().exportFooter();
 	}
 
 
