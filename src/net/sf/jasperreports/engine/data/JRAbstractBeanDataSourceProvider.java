@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
@@ -58,7 +59,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	public JRAbstractBeanDataSourceProvider(Class beanClass) {
 		if (beanClass == null)
 		{
-			throw new NullPointerException("beanClass must not be null");
+			throw new JRRuntimeException("beanClass must not be null");
 		}
 
 		this.beanClass = beanClass;

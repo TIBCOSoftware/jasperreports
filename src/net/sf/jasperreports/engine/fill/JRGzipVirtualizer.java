@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 
 /**
@@ -95,7 +96,7 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 		try {
 			byte[] data = (byte[]) zippedData.get(o.getUID());
 			if (data == null) {
-				throw new NullPointerException("No data found for object with UID " + o.getUID());
+				throw new JRRuntimeException("No data found for object with UID " + o.getUID());
 			}
 			ByteArrayInputStream bais = new ByteArrayInputStream(data);
 			gis = new GZIPInputStream(bais);

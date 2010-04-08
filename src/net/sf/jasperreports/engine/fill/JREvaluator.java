@@ -327,7 +327,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @see JRFillVariable#getValue()
 	 * @see JRFillField#getValue()
 	 */
-	protected abstract Object evaluate(int id) throws Throwable;
+	protected abstract Object evaluate(int id) throws Throwable; //NOPMD
 
 
 	/**
@@ -340,7 +340,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @see JRFillVariable#getOldValue()
 	 * @see JRFillField#getOldValue()
 	 */
-	protected abstract Object evaluateOld(int id) throws Throwable;
+	protected abstract Object evaluateOld(int id) throws Throwable; //NOPMD
 
 
 	/**
@@ -352,7 +352,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @see net.sf.jasperreports.engine.JRExpression#EVALUATION_ESTIMATED
 	 * @see JRFillVariable#getEstimatedValue()
 	 */
-	protected abstract Object evaluateEstimated(int id) throws Throwable;
+	protected abstract Object evaluateEstimated(int id) throws Throwable; //NOPMD
 
 
 	/**

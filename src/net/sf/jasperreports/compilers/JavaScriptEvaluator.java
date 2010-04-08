@@ -272,21 +272,21 @@ public class JavaScriptEvaluator extends JREvaluator
 		}
 	}
 	
-	protected Object evaluate(int id) throws Throwable
+	protected Object evaluate(int id) throws Throwable //NOPMD
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
 		return evaluateExpression(expression.getJavaType(), 
 				expression.getDefaultExpression());
 	}
 
-	protected Object evaluateEstimated(int id) throws Throwable
+	protected Object evaluateEstimated(int id) throws Throwable //NOPMD
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
 		return evaluateExpression(expression.getJavaType(), 
 				expression.getEstimatedExpression());
 	}
 
-	protected Object evaluateOld(int id) throws Throwable
+	protected Object evaluateOld(int id) throws Throwable //NOPMD
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
 		return evaluateExpression(expression.getJavaType(), 

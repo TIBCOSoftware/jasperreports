@@ -233,7 +233,8 @@ public class FileBufferedOutputStream extends OutputStream
 		disposed = success;
 	}
 
-	protected void finalize() throws Throwable {
+	protected void finalize() throws Throwable //NOPMD 
+	{
 		dispose();
 		super.finalize();
 	}

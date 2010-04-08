@@ -548,7 +548,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	protected void finalize() throws Throwable
+	protected void finalize() throws Throwable //NOPMD
 	{
 		cleanup();
 
