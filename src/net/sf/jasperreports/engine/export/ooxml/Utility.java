@@ -30,7 +30,7 @@ import java.util.StringTokenizer;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class Utility {
+public final class Utility {
 
 	public static String getIndent(int i) {
 		String indent = "";
@@ -113,5 +113,9 @@ public class Utility {
 	{
 		return (int)(pixels * 8);
 	}
+
 	
+	private Utility()
+	{
+	}
 }

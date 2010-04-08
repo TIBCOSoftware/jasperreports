@@ -142,4 +142,8 @@ public final class ComponentsEnvironment
 		return componentsBundle.getComponentManager(name);
 	}
 	
+
+	private ComponentsEnvironment()
+	{
+	}
 }

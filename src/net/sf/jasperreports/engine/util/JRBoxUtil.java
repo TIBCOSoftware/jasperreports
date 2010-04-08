@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JRLineBox;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBoxUtil
+public final class JRBoxUtil
 {
 
 	/**
@@ -203,4 +203,7 @@ public class JRBoxUtil
 	}
 	
 
+	private JRBoxUtil()
+	{
+	}
 }

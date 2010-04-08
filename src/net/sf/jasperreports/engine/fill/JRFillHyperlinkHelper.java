@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillHyperlinkHelper
+public final class JRFillHyperlinkHelper
 {
 
 	/**
@@ -118,5 +118,10 @@ public class JRFillHyperlinkHelper
 		printHyperlink.setHyperlinkTooltip((String) expressionEvaluator.evaluate(hyperlink.getHyperlinkTooltipExpression(), evaluationType));
 		printHyperlink.setHyperlinkParameters(evaluateHyperlinkParameters(hyperlink, expressionEvaluator, evaluationType));
 		return printHyperlink;
+	}
+	
+	
+	private JRFillHyperlinkHelper()
+	{
 	}
 }

@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * Façade class for exporting generated reports into more popular
+ * Faï¿½ade class for exporting generated reports into more popular
  * formats such as PDF, HTML and XML.
  * This class contains convenience methods for exporting to only these 3 formats.
  * <p> 
@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperExportManager
+public final class JasperExportManager
 {
 
 
@@ -437,4 +437,7 @@ public class JasperExportManager
 	}
 
 
+	private JasperExportManager()
+	{
+	}
 }

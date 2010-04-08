@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPercentageCalculatorFactory
+public final class JRPercentageCalculatorFactory
 {
 	private static final Map builtInCalculators;
 
@@ -283,5 +283,10 @@ public class JRPercentageCalculatorFactory
 
 			return percentage;
 		}
+	}
+	
+	
+	private JRPercentageCalculatorFactory()
+	{
 	}
 }

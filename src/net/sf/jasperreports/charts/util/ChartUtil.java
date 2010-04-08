@@ -52,7 +52,7 @@ import org.jfree.chart.entity.EntityCollection;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ChartUtil
+public final class ChartUtil
 {
 
 	/**
@@ -190,4 +190,8 @@ public class ChartUtil
 		return chartRendererFactory;
 	}
 
+
+	private ChartUtil()
+	{
+	}
 }

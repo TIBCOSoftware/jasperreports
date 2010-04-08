@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperReport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRParameterDefaultValuesEvaluator
+public final class JRParameterDefaultValuesEvaluator
 {
 
 	/**
@@ -103,4 +103,8 @@ public class JRParameterDefaultValuesEvaluator
 		}
 	}
 	
+
+	private JRParameterDefaultValuesEvaluator()
+	{
+	}
 }

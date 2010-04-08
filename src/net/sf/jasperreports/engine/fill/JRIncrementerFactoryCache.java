@@ -34,7 +34,7 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRIncrementerFactoryCache
+public final class JRIncrementerFactoryCache
 {
 
 
@@ -74,4 +74,7 @@ public class JRIncrementerFactoryCache
 	}
 
 
+	private JRIncrementerFactoryCache()
+	{
+	}
 }

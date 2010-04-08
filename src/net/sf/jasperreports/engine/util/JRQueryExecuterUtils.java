@@ -38,7 +38,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRQueryExecuterUtils
+public final class JRQueryExecuterUtils
 {
 	/**
 	 * Returns a query executer factory for a query language.
@@ -61,5 +61,10 @@ public class JRQueryExecuterUtils
 			}
 		}
 		throw new JRRuntimeException("No query executer factory registered for the '" + language + "' language.");
+	}
+	
+	
+	private JRQueryExecuterUtils()
+	{
 	}
 }

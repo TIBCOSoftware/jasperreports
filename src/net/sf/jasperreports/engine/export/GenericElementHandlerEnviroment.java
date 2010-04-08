@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class GenericElementHandlerEnviroment
+public final class GenericElementHandlerEnviroment
 {
 
 	private static final Log log = LogFactory.getLog(
@@ -127,4 +127,8 @@ public class GenericElementHandlerEnviroment
 		return bundles;
 	}
 
+	
+	private GenericElementHandlerEnviroment()
+	{
+	}
 }

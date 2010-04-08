@@ -53,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
  * @version $Id$
  * @see FlashHtmlHandler
  */
-public class FlashPrintElement
+public final class FlashPrintElement
 {
 	
 	private static final Log log = LogFactory.getLog(FlashPrintElement.class);
@@ -264,5 +264,10 @@ public class FlashPrintElement
 	    
 	    return xml.toString();
 
+	}
+	
+	
+	private FlashPrintElement()
+	{
 	}
 }
