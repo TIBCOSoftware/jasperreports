@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRProperties
+public final class JRProperties
 {
 	/**
 	 * The default properties file.
@@ -978,5 +978,10 @@ public class JRProperties
 	{
 		return value == null || value.length() == 0 ? null 
 				: new Character(value.charAt(0));
+	}
+	
+	
+	private JRProperties()
+	{
 	}
 }

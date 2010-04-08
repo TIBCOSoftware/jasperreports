@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRReportUtils
+public final class JRReportUtils
 {
 	
 	public static JRDataset findSubdataset(JRDatasetRun datasetRun, 
@@ -64,4 +64,8 @@ public class JRReportUtils
 		return reportDataset;
 	}
 
+
+	private JRReportUtils()
+	{
+	}
 }

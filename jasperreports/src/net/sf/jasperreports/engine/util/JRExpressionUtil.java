@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRExpressionUtil
+public final class JRExpressionUtil
 {
 
 	
@@ -92,4 +92,7 @@ public class JRExpressionUtil
 	}
 
 
+	private JRExpressionUtil()
+	{
+	}
 }

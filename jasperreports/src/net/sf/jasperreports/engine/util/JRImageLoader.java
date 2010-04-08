@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRImageLoader
+public final class JRImageLoader
 {
 
 
@@ -280,4 +280,8 @@ public class JRImageLoader
 		return imageReader.readImage(JRLoader.loadBytes(is));
 	}
 
+
+	private JRImageLoader()
+	{
+	}
 }

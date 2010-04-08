@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeUtils
+public final class BarcodeUtils
 {
 
 	protected static JRSingletonCache imageProducerCache = 
@@ -70,4 +70,7 @@ public class BarcodeUtils
 				|| orientation == BarcodeComponent.ORIENTATION_RIGHT;
 	}
 	
+	private BarcodeUtils()
+	{
+	}
 }

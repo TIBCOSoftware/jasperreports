@@ -36,7 +36,7 @@ import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BarcodeProviders
+public final class BarcodeProviders
 {
 
 	private static Map providers;
@@ -370,5 +370,9 @@ public class BarcodeProviders
 		{
 			return BarcodeFactory.createUSPS(barcodeInfo.getCode());
 		}
+	}
+	
+	private BarcodeProviders()
+	{
 	}
 }

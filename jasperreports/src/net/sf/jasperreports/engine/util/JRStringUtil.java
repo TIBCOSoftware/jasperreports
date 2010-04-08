@@ -37,7 +37,7 @@ import java.util.StringTokenizer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStringUtil
+public final class JRStringUtil
 {
 
 	protected static final String JAVA_IDENTIFIER_PREFIX = "j";
@@ -401,4 +401,8 @@ public class JRStringUtil
 		return sbuffer.toString();
 	}
 	
+
+	private JRStringUtil()
+	{
+	}
 }

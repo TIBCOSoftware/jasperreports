@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRLoader
+public final class JRLoader
 {
 
 
@@ -667,5 +667,10 @@ public class JRLoader
 		}
 		
 		return is;
+	}
+	
+	
+	private JRLoader()
+	{
 	}
 }

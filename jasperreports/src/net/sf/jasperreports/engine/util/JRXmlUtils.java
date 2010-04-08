@@ -47,7 +47,7 @@ import org.xml.sax.SAXException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlUtils
+public final class JRXmlUtils
 {
 	private static final Log log = LogFactory.getLog(JRXmlUtils.class);
 	
@@ -210,5 +210,10 @@ public class JRXmlUtils
 		doc.appendChild(node);
 		
 		return doc;
+	}
+	
+	
+	private JRXmlUtils()
+	{
 	}
 }

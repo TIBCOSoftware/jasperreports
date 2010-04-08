@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRGraphEnvInitializer
+public final class JRGraphEnvInitializer
 {
 
 	/**
@@ -75,4 +75,8 @@ public class JRGraphEnvInitializer
 		return AVAILABLE_FONT_FACE_NAMES.contains(font);//FIXMEFONT not sure if we should check families or fonts
 	}
 
+	
+	private JRGraphEnvInitializer()
+	{
+	}
 }

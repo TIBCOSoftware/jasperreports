@@ -36,13 +36,6 @@ public final class EnumUtil
 	/**
 	 *
 	 */
-	private EnumUtil()
-	{
-	}
-
-	/**
-	 *
-	 */
 	public static JREnum getByValue(JREnum[] values, Integer value)
 	{
 		if (values != null && value != null)
@@ -88,4 +81,10 @@ public final class EnumUtil
 		return null;
 	}
 	
+	/**
+	 *
+	 */
+	private EnumUtil()
+	{
+	}
 }

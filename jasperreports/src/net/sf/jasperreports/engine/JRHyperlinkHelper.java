@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHyperlinkHelper
+public final class JRHyperlinkHelper
 {
 	/**
 	 * "None" link type, equivalent to {@link JRHyperlink#HYPERLINK_TYPE_NONE JRHyperlink.HYPERLINK_TYPE_NONE}.
@@ -306,5 +306,10 @@ public class JRHyperlinkHelper
 		return hyperlink == null
 			|| (hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.NONE
 				&& hyperlink.getHyperlinkTooltipExpression() == null);
+	}
+	
+	
+	private JRHyperlinkHelper()
+	{
 	}
 }
