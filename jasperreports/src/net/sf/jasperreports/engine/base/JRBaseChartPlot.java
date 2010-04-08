@@ -353,7 +353,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		public int compareTo(Object obj) {
 			if (obj == null)
 			{
-				throw new NullPointerException();
+				throw new IllegalArgumentException();
 			}
 			
 			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();

@@ -142,7 +142,7 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	protected Object evaluateOld(int id) throws Throwable
+	protected Object evaluateOld(int id) throws Throwable //NOPMD
 	{
 		try
 		{
@@ -162,7 +162,7 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	protected Object evaluateEstimated(int id) throws Throwable
+	protected Object evaluateEstimated(int id) throws Throwable //NOPMD
 	{
 		try
 		{
@@ -182,7 +182,7 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	protected Object evaluate(int id) throws Throwable
+	protected Object evaluate(int id) throws Throwable //NOPMD
 	{
 		try
 		{
