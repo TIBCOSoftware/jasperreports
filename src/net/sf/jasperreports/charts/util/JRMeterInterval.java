@@ -218,10 +218,13 @@ public class JRMeterInterval implements JRCloneable, Serializable
 		return clone;
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private double alpha = DEFAULT_TRANSPARENCY;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

@@ -158,11 +158,17 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 	}
 	
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte resetType;
+	/**
+	 * @deprecated
+	 */
 	private byte incrementType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

@@ -525,12 +525,21 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		return clone;
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private boolean isShowTickMarks = false;
+	/**
+	 * @deprecated
+	 */
 	private boolean isShowTickLabels = true;
+	/**
+	 * @deprecated
+	 */
 	private boolean isShowLabels = true;
 
 

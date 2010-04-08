@@ -513,12 +513,21 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	}
 
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private double xOffset = BarRenderer3D.DEFAULT_X_OFFSET;
+	/**
+	 * @deprecated
+	 */
 	private double yOffset = BarRenderer3D.DEFAULT_Y_OFFSET;
+	/**
+	 * @deprecated
+	 */
 	private boolean isShowLabels = false;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

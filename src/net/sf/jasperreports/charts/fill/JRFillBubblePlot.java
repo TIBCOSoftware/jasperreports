@@ -257,7 +257,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public int getScaleType()
 	{
-		return getScaleTypeValue().getValue();
+		return getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS.getValue() : getScaleTypeValue().getValue();
 	}
 	
 	/**
@@ -265,7 +265,7 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	 */
 	public Integer getScaleTypeInteger()
 	{
-		return Integer.valueOf(getScaleTypeValue().getValue());
+		return getScaleTypeValue() == null ? null : Integer.valueOf(getScaleTypeValue().getValue());
 	}
 	
 	/**

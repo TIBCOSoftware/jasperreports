@@ -221,11 +221,17 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private double depthFactor = DEPTH_FACTOR_DEFAULT;
+	/**
+	 * @deprecated
+	 */
 	private boolean isCircular = false;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

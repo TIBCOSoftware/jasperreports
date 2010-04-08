@@ -83,7 +83,7 @@ public class JRFillChartAxis implements JRChartAxis
 	 */
 	public byte getPosition()
 	{
-		return getPositionValue().getValue();
+		return getPositionValue() == null ? AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class JRFillChartAxis implements JRChartAxis
 	 */
 	public Byte getPositionByte()
 	{
-		return getPositionValue().getValueByte();
+		return getPositionValue() == null ? null : getPositionValue().getValueByte();
 	}
 
 	public AxisPositionEnum getPositionValue()

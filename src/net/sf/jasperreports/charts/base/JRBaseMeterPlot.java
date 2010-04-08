@@ -201,7 +201,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 */
 	public byte getShape()
 	{
-		return shapeValue == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
+		return getShapeValue() == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 */
 	public Byte getShapeByte()
 	{
-		return getShapeValue().getValueByte();
+		return getShapeValue() == null ? null : getShapeValue().getValueByte();
 	}
 
 	/**
@@ -339,13 +339,25 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		return clone;
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte shape = MeterShapeEnum.PIE.getValue();
+	/**
+	 * @deprecated
+	 */
 	private int meterAngle = 180;
+	/**
+	 * @deprecated
+	 */
 	private double tickInterval = 10.0;
+	/**
+	 * @deprecated
+	 */
 	private Byte shapeByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

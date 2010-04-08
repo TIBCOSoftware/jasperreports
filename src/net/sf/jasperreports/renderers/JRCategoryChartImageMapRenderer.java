@@ -67,8 +67,11 @@ public class JRCategoryChartImageMapRenderer extends JRAbstractChartImageMapRend
 		return categoryChartHyperlinkProvider.hasHyperlinks();
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private Map itemHyperlinks;
 

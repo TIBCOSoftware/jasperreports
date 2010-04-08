@@ -191,8 +191,11 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 		return clone;
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private byte hyperlinkTarget;
 	

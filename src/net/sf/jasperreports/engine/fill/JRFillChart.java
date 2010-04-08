@@ -879,7 +879,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getTitlePosition()
 	{
-		return getTitlePositionValue().getValue();
+		return getTitlePositionValue() == null ? EdgeEnum.TOP.getValue() : getTitlePositionValue().getValue();
 	}
 
 	/**
@@ -895,7 +895,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Byte getTitlePositionByte()
 	{
-		return getTitlePositionValue().getValueByte();
+		return getTitlePositionValue() == null ? null : getTitlePositionValue().getValueByte();
 	}
 
 	/**
@@ -1049,7 +1049,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public byte getLegendPosition()
 	{
-		return getLegendPositionValue().getValue();
+		return getLegendPositionValue() == null ? EdgeEnum.BOTTOM.getValue() : getLegendPositionValue().getValue();
 	}
 
 	/**
@@ -1065,7 +1065,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public Byte getLegendPositionByte()
 	{
-		return getLegendPositionValue().getValueByte();
+		return getLegendPositionValue() == null ? null : getLegendPositionValue().getValue();
 	}
 
 	/**

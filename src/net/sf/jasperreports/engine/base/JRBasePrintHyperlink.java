@@ -205,8 +205,11 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	}
 
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private byte hyperlinkTarget;
 	

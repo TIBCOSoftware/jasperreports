@@ -70,7 +70,7 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	 */
 	public byte getShape()
 	{
-		return getShapeValue().getValue();
+		return getShapeValue() == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	 */
 	public Byte getShapeByte()
 	{
-		return getShapeValue().getValueByte();
+		return getShapeValue() == null ? null : getShapeValue().getValueByte();
 	}
 
 	/**

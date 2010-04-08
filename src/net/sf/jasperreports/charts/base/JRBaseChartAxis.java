@@ -75,7 +75,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 */
 	public byte getPosition()
 	{
-		return getPositionValue() == null ?AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
+		return getPositionValue() == null ? AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	 */
 	public Byte getPositionByte()
 	{
-		return getPositionValue().getValueByte();
+		return getPositionValue() == null ? null : getPositionValue().getValueByte();
 	}
 
 	/**
@@ -127,11 +127,17 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		return clone;
 	}
 	
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte position = AxisPositionEnum.LEFT_OR_TOP.getValue();
+	/**
+	 * @deprecated
+	 */
 	private Byte positionByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
