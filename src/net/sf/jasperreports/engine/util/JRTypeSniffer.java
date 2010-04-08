@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRRenderable;
  * @author George Stojanoff (gstojanoff@jaspersoft.com), Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public class JRTypeSniffer
+public final class JRTypeSniffer
 {
 
 	/**
@@ -186,5 +186,9 @@ public class JRTypeSniffer
 
 		return mimeType;
 	}
+
 	
+	private JRTypeSniffer()
+	{
+	}
 }

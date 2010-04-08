@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 
 /**
- * Façade class for filling compiled report designs with data from report data sources, 
+ * Faï¿½ade class for filling compiled report designs with data from report data sources, 
  * in order to produce page-oriented documents, ready-to-print.
  * <p>
  * All methods receive a Map object that should contain the values for the report parameters.
@@ -62,7 +62,7 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperFillManager
+public final class JasperFillManager
 {
 
 
@@ -652,4 +652,8 @@ public class JasperFillManager
 		return parameters;
 	}
 
+
+	private JasperFillManager()
+	{
+	}
 }

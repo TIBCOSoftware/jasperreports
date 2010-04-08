@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BigDecimalUtils
+public final class BigDecimalUtils
 {
 
 	private static final Log log = LogFactory.getLog(BigDecimalUtils.class);
@@ -84,4 +84,8 @@ public class BigDecimalUtils
 		return handler.divide(dividend, divisor);
 	}
 	
+
+	private BigDecimalUtils()
+	{
+	}
 }

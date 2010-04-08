@@ -62,7 +62,7 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRStyleResolver
+public final class JRStyleResolver
 {
 
 	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
@@ -1911,4 +1911,8 @@ public class JRStyleResolver
 		return getForecolor(plot);
 	}
 
+	
+	private JRStyleResolver()
+	{
+	}
 }

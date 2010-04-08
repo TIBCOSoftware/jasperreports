@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRResourcesUtil
+public final class JRResourcesUtil
 {
 	private static FileResolver globalFileResolver;
 	private static ThreadLocalStack localFileResolverStack = new ThreadLocalStack();
@@ -572,4 +572,8 @@ public class JRResourcesUtil
 		return resourceBundle;
 	}
 	
+
+	private JRResourcesUtil()
+	{
+	}
 }

@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurerFactory;
  * @see JRTextMeasurer
  * @see JRTextMeasurerFactory
  */
-public class JRTextMeasurerUtil
+public final class JRTextMeasurerUtil
 {
 
 	/**
@@ -131,4 +131,8 @@ public class JRTextMeasurerUtil
 		return factoryClass;
 	}
 	
+
+	private JRTextMeasurerUtil()
+	{
+	}
 }

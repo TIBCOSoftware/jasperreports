@@ -112,7 +112,7 @@ import org.jfree.data.time.Year;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRXmlConstants
+public final class JRXmlConstants
 {
 	/**
 	 *
@@ -2716,4 +2716,9 @@ public abstract class JRXmlConstants
 		return JRColorUtil.getColor(strColor, defaultColor);
 	}
 
+
+	private JRXmlConstants()
+	{
+	}
+	
 }

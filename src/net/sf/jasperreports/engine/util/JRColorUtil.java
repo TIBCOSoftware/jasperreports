@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.type.ColorEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRColorUtil
+public final class JRColorUtil
 {
 
 	/**
@@ -84,4 +84,8 @@ public class JRColorUtil
 		return color;
 	}
 
+
+	private JRColorUtil()
+	{
+	}
 }

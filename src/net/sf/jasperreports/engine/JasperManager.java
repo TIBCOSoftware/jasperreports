@@ -36,9 +36,9 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 
 /**
- * General purpose façade class for the JasperReports engine.
+ * General purpose faï¿½ade class for the JasperReports engine.
  * It delegates almost all its functionality to the other specialized 
- * façade classes for compiling, filling, printing or exporting reports.
+ * faï¿½ade classes for compiling, filling, printing or exporting reports.
  * 
  * @see net.sf.jasperreports.engine.JasperCompileManager
  * @see net.sf.jasperreports.engine.JasperFillManager
@@ -47,11 +47,11 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  * @see net.sf.jasperreports.engine.JasperRunManager
  * @see net.sf.jasperreports.engine.util.JRLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
- * @deprecated Use the specialized façade classes for specific operations
+ * @deprecated Use the specialized faï¿½ade classes for specific operations
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperManager
+public final class JasperManager
 {
 
 
@@ -1013,4 +1013,7 @@ public class JasperManager
 	}
 
 
+	private JasperManager()
+	{
+	}
 }

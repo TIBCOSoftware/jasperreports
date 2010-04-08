@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFontUtil
+public final class JRFontUtil
 {
 	private static final Log log = LogFactory.getLog(JRFontUtil.class);
 
@@ -375,6 +375,9 @@ public class JRFontUtil
 	}
 	
 	
+	private JRFontUtil()
+	{
+	}
 }
 
 interface AwtFontDeriver

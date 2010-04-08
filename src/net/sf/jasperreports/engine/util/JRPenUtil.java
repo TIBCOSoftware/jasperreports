@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.type.PenEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRPenUtil
+public final class JRPenUtil
 {
 
 	/**
@@ -245,5 +245,10 @@ public class JRPenUtil
 		}
 		
 		return null;
+	}
+	
+	
+	private JRPenUtil()
+	{
 	}
 }

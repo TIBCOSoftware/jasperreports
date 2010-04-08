@@ -68,7 +68,7 @@ import org.w3c.tools.codec.Base64FormatException;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRValueStringUtils
+public final class JRValueStringUtils
 {
 	
 	protected static interface ValueSerializer
@@ -508,5 +508,10 @@ public class JRValueStringUtils
 				throw new JRRuntimeException(e);
 			}
 		}
+	}
+	
+	
+	private JRValueStringUtils()
+	{
 	}
 }
