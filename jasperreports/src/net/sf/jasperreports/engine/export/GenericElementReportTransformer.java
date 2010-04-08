@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * @version $Id$
  * @see GenericElementTransformer
  */
-public class GenericElementReportTransformer
+public final class GenericElementReportTransformer
 {
 	
 	private static final Log log = LogFactory.getLog(GenericElementReportTransformer.class);
@@ -125,4 +125,8 @@ public class GenericElementReportTransformer
 		
 	}
 	
+
+	private GenericElementReportTransformer()
+	{
+	}
 }

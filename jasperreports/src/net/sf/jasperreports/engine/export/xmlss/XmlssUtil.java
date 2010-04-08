@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class XmlssUtil {
+public final class XmlssUtil {
 
 	public static String getIndent(int i) {
 		String indent = "";
@@ -84,4 +84,8 @@ public class XmlssUtil {
 		return str;
 	}
 	
+
+	private XmlssUtil()
+	{
+	}
 }

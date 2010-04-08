@@ -33,12 +33,12 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
- * Façade class for the JasperReports engine. 
+ * Faï¿½ade class for the JasperReports engine. 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperRunManager
+public final class JasperRunManager
 {
 
 
@@ -579,4 +579,7 @@ public class JasperRunManager
 	}
 
 	
+	private JasperRunManager()
+	{
+	}
 }

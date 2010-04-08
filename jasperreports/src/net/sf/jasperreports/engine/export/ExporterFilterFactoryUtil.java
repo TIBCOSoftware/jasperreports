@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ExporterFilterFactoryUtil
+public final class ExporterFilterFactoryUtil
 {
 	//FIXME this would add commons collections to applet jar
 	//private static final JRSingletonCache cache = new JRSingletonCache(ExporterFilterFactory.class);
@@ -66,4 +66,8 @@ public class ExporterFilterFactoryUtil
 		}
 	}
 
+
+	private ExporterFilterFactoryUtil()
+	{
+	}
 }

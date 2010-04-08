@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JasperReport;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFiller
+public final class JRFiller
 {
 
 
@@ -144,5 +144,10 @@ public abstract class JRFiller
 			}
 		}
 		return filler;
+	}
+	
+	
+	private JRFiller()
+	{
 	}
 }

@@ -29,7 +29,7 @@ package net.sf.jasperreports.engine;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRVirtualizationHelper
+public final class JRVirtualizationHelper
 {
 	private static final ThreadLocal threadVirtualizer = new ThreadLocal();
 
@@ -68,5 +68,10 @@ public class JRVirtualizationHelper
 	public static JRVirtualizer getThreadVirtualizer()
 	{
 		return (JRVirtualizer) threadVirtualizer.get();
+	}
+	
+	
+	private JRVirtualizationHelper()
+	{
 	}
 }

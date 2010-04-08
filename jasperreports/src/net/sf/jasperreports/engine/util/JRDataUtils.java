@@ -31,7 +31,7 @@ import java.util.TimeZone;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDataUtils
+public final class JRDataUtils
 {
 	
 	
@@ -79,4 +79,8 @@ public class JRDataUtils
 		return TimeZone.getTimeZone(id);
 	}
 	
+
+	private JRDataUtils()
+	{
+	}
 }

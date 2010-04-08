@@ -27,7 +27,7 @@
  * 
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -38,7 +38,7 @@ import java.util.StringTokenizer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class Utility {
+public final class Utility {
 
 	public static String getIndent(int i) {
 		String indent = "";
@@ -94,5 +94,9 @@ public class Utility {
 		
 		return str;
 	}
+
 	
+	private Utility()
+	{
+	}
 }

@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  * @version $Id$
  * @see JRResourcesUtil
  */
-public class JRResourcesFillUtil
+public final class JRResourcesFillUtil
 {
 	
 	public static ResourcesFillContext setResourcesFillContext(Map parameterValues)
@@ -126,5 +126,9 @@ public class JRResourcesFillUtil
 		}
 		
 	}
+
 	
+	private JRResourcesFillUtil()
+	{
+	}
 }
