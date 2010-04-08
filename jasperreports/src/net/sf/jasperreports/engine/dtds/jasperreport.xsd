@@ -4072,7 +4072,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:incrementWhenExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
    </sequence>
-   <attribute name="resetType" use="optional" default="Report">
+   <attribute name="resetType" use="optional">
     <annotation>
      <documentation>Reset type for the dataset</documentation>
     </annotation>
