@@ -69,8 +69,11 @@ public class JRPieChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 		return pieChartHyperlinkProvider.hasHyperlinks();
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private Map sectionHyperlinks;
 

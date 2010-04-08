@@ -130,7 +130,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 
 				return super.measure(styledText, remainingTextStart, availableStretchHeight, canOverflow);
 			}
-			catch (NullPointerException e)
+			catch (NullPointerException e) //NOPMD
 			{
 				if (isJdkGlyphError(e))
 				{

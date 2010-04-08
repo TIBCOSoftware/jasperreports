@@ -1678,10 +1678,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte runDirection;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

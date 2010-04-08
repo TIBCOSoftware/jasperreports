@@ -381,12 +381,21 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 
 	
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte footerPosition;
+	/**
+	 * @deprecated
+	 */
 	private JRBand groupHeader = null;
+	/**
+	 * @deprecated
+	 */
 	private JRBand groupFooter = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

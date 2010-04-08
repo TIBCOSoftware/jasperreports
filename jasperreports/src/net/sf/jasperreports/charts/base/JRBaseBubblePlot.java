@@ -320,7 +320,7 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 * @deprecated Replaced by {@link #getScaleTypeValue()}
 	 */
 	public Integer getScaleTypeInteger(){
-		return Integer.valueOf(getScaleTypeValue().getValue());
+		return getScaleTypeValue() == null ? null : Integer.valueOf(getScaleTypeValue().getValue());
 	}
 	
 	/**
@@ -422,11 +422,17 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 		return clone;
 	}
 	
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private int scaleType = XYBubbleRenderer.SCALE_ON_RANGE_AXIS;
+	/**
+	 * @deprecated
+	 */
 	private Integer scaleTypeInteger = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

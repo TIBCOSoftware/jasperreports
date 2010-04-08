@@ -68,8 +68,11 @@ public class JRXYChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 		return xyChartHyperlinkProvider.hasHyperlinks();
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private Map itemHyperlinks;
 

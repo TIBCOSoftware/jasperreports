@@ -249,10 +249,13 @@ public class JROrigin implements JRCloneable, Serializable
 		}
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte bandType;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

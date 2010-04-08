@@ -430,12 +430,21 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		return eventSupport;
 	}
 	
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private float backgroundAlpha = 1;
+	/**
+	 * @deprecated
+	 */
 	private float foregroundAlpha = 1;
+	/**
+	 * @deprecated
+	 */
 	private double labelRotation = 0.0;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

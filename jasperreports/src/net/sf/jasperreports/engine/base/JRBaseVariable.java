@@ -320,12 +320,21 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return clone;
 	}
 		
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte resetType;
+	/**
+	 * @deprecated
+	 */
 	private byte incrementType;
+	/**
+	 * @deprecated
+	 */
 	private byte calculation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

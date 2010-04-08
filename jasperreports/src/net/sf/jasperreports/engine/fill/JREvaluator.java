@@ -155,7 +155,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		{
 			str = ((ResourceBundle) resourceBundle.getValue()).getString(key);
 		}
-		catch (NullPointerException e)
+		catch (NullPointerException e) //NOPMD
 		{
 			str = handleMissingResource(key, e);
 		}
@@ -181,7 +181,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			{
 				value = evaluate(expression.getId());
 			}
-			catch (NullPointerException e)
+			catch (NullPointerException e) //NOPMD
 			{
 			}
 			catch (OutOfMemoryError e)
@@ -213,7 +213,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			{
 				value = evaluateOld(expression.getId());
 			}
-			catch (NullPointerException e)
+			catch (NullPointerException e) //NOPMD
 			{
 			}
 			catch (OutOfMemoryError e)
@@ -245,7 +245,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 			{
 				value = evaluateEstimated(expression.getId());
 			}
-			catch (NullPointerException e)
+			catch (NullPointerException e) //NOPMD
 			{
 			}
 			catch (OutOfMemoryError e)

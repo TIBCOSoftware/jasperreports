@@ -786,13 +786,25 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private JRBand detail = null;
+	/**
+	 * @deprecated
+	 */
 	private byte whenNoDataType;
+	/**
+	 * @deprecated
+	 */
 	private byte printOrder;
+	/**
+	 * @deprecated
+	 */
 	private byte orientation;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

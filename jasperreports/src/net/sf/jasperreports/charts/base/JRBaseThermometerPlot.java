@@ -185,7 +185,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 */
 	public Byte getValueLocationByte()
 	{
-		return getValueLocationValue().getValueByte();
+		return getValueLocationValue() == null ? null : getValueLocationValue().getValueByte();
 	}
 
 	/**
@@ -271,13 +271,18 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		return clone;
 	}
 
-	/**
-	 * This field is only for serialization backward compatibility.
+	/*
+	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private byte valueLocation = ValueLocationEnum.BULB.getValue();
+	/**
+	 * @deprecated
+	 */
 	private Byte valueLocationByte = null;
-
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

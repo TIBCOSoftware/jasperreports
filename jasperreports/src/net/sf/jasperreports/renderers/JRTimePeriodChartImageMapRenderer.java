@@ -68,8 +68,11 @@ public class JRTimePeriodChartImageMapRenderer extends JRAbstractChartImageMapRe
 		return timePeriodChartHyperlinkProvider.hasHyperlinks();
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private Map itemHyperlinks;
 

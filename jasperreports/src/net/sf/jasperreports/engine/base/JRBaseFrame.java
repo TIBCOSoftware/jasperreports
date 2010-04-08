@@ -576,23 +576,68 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 	}
 
 	
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
+	/**
+	 * @deprecated
+	 */
 	private Byte border = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte topBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte leftBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte bottomBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte rightBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Color borderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color topBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color leftBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color bottomBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color rightBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer padding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer topPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer leftPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer bottomPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer rightPadding = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

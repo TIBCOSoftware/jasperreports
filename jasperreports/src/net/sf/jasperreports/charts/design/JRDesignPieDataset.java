@@ -364,12 +364,24 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		return clone;
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
+	/**
+	 * @deprecated
+	 */
 	private JRExpression keyExpression = null;
+	/**
+	 * @deprecated
+	 */
 	private JRExpression valueExpression = null;
+	/**
+	 * @deprecated
+	 */
 	private JRExpression labelExpression = null;
+	/**
+	 * @deprecated
+	 */
 	private JRHyperlink sectionHyperlink = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

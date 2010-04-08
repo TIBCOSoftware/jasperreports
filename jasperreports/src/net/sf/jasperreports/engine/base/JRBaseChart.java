@@ -397,7 +397,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public byte getTitlePosition()
 	{
-		return titlePositionValue == null ? EdgeEnum.TOP.getValue() : getTitlePositionValue().getValue();
+		return getTitlePositionValue() == null ? EdgeEnum.TOP.getValue() : getTitlePositionValue().getValue();
 	}
 
 	/**
@@ -413,7 +413,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public Byte getTitlePositionByte()
 	{
-		return getTitlePositionValue().getValueByte();
+		return getTitlePositionValue() == null ? null : getTitlePositionValue().getValueByte();
 	}
 
 	/**
@@ -542,7 +542,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public byte getLegendPosition()
 	{
-		return legendPositionByte == null? EdgeEnum.BOTTOM.getValue() : getLegendPositionValue().getValue();
+		return getLegendPositionValue() == null? EdgeEnum.BOTTOM.getValue() : getLegendPositionValue().getValue();
 	}
 
 	/**
@@ -558,7 +558,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	 */
 	public Byte getLegendPositionByte()
 	{
-		return getLegendPositionValue().getValue();
+		return getLegendPositionValue() == null? null : getLegendPositionValue().getValueByte();
 	}
 
 	/**
@@ -1282,32 +1282,101 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	}
 
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
 	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
 	private Byte border = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte topBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte leftBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte bottomBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte rightBorder = null;
+	/**
+	 * @deprecated
+	 */
 	private Color borderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color topBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color leftBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color bottomBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Color rightBorderColor = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer padding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer topPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer leftPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer bottomPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private Integer rightPadding = null;
+	/**
+	 * @deprecated
+	 */
 	private boolean isShowLegend = false;
+	/**
+	 * @deprecated
+	 */
 	private byte legendPosition;
+	/**
+	 * @deprecated
+	 */
 	private byte titlePosition;
+	/**
+	 * @deprecated
+	 */
 	private byte hyperlinkType;
+	/**
+	 * @deprecated
+	 */
 	private byte hyperlinkTarget;
+	/**
+	 * @deprecated
+	 */
 	private byte evaluationTime;
+	/**
+	 * @deprecated
+	 */
 	private Byte legendPositionByte = null;
+	/**
+	 * @deprecated
+	 */
 	private Byte titlePositionByte = null;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

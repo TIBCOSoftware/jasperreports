@@ -67,8 +67,11 @@ public class JRHighLowChartImageMapRenderer extends JRAbstractChartImageMapRende
 		return highLowChartHyperlinkProvider.hasHyperlinks();
 	}
 
-	/**
+	/*
 	 * These fields are only for serialization backward compatibility.
+	 */
+	/**
+	 * @deprecated
 	 */
 	private List itemHyperlinks;
 
