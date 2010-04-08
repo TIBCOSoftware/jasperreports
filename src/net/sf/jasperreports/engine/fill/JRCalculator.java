@@ -509,6 +509,11 @@ public class JRCalculator implements JRFillExpressionEvaluator
 					JRFillGroup group = (JRFillGroup)elementDataset.getResetGroup();
 					toInitialize = group.hasChanged();
 				}
+				else if (elementDataset.getResetTypeValue() == ResetTypeEnum.NONE)
+				{
+					// None reset type for datasets means resetting at each record
+					toInitialize = true;
+				}
 				break;
 			}
 			case NONE :

@@ -1167,7 +1167,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementDataset(JRElementDataset dataset) throws IOException
 	{
-		writeElementDataset(dataset, true);
+		writeElementDataset(dataset, ResetTypeEnum.REPORT, true);
 	}
 
 	/**
@@ -1184,8 +1184,28 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeElementDataset(JRElementDataset dataset, boolean skipIfEmpty) throws IOException
 	{
+		writeElementDataset(dataset, ResetTypeEnum.REPORT, skipIfEmpty);
+	}
+	
+	
+	/**
+	 * Writes the JRXML representation of an {@link JRElementDataset element dataset}.
+	 * 
+	 * <p>
+	 * The method produces a <code>&lt;dataset&gt;</code> XML element.
+	 * 
+	 * @param dataset the element dataset
+	 * @param defaultResetType the default dataset reset type
+	 * @param skipIfEmpty if set, no output will be produced if the element dataset
+	 * only has default attribute values
+	 * @throws IOException any I/O exception that occurred while writing the
+	 * XML output
+	 */
+	public void writeElementDataset(JRElementDataset dataset, ResetTypeEnum defaultResetType, 
+			boolean skipIfEmpty) throws IOException
+	{
 		writer.startElement(JRXmlConstants.ELEMENT_dataset, getNamespace());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), ResetTypeEnum.REPORT);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_resetType, dataset.getResetTypeValue(), defaultResetType);
 
 		if (dataset.getResetTypeValue() == ResetTypeEnum.GROUP)
 		{
@@ -1502,7 +1522,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_valueDataset, getNamespace());
 
-		writeElementDataset(dataset);
+		// default reset type of value datasets is None
+		writeElementDataset(dataset, ResetTypeEnum.NONE, true);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, dataset.getValueExpression(), false);
 
