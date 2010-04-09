@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
 
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
@@ -593,49 +592,46 @@ public class JRHorizontalFiller extends JRBaseFiller
 				);
 		}
 
-		JRBand[] groupHeaderBands = groupHeaderSection.getBands();
-		if (groupHeaderBands != null)
+		JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
+		for(int i = 0; i < groupHeaderBands.length; i++)
 		{
-			for(int i = 0; i < groupHeaderBands.length; i++)
+			JRFillBand groupHeaderBand = groupHeaderBands[i];
+
+			groupHeaderBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
+
+			if (groupHeaderBand.isToPrint())
 			{
-				JRFillBand groupHeaderBand = (JRFillBand)groupHeaderBands[i];
-
-				groupHeaderBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
-
-				if (groupHeaderBand.isToPrint())
+				while (
+					groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
+					group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+					)
 				{
-					while (
-						groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-						group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-						)
-					{
-						fillPageBreak(
-							false,
-							evalPrevPage,
-							JRExpression.EVALUATION_DEFAULT,
-							true
-							);
-					}
+					fillPageBreak(
+						false,
+						evalPrevPage,
+						JRExpression.EVALUATION_DEFAULT,
+						true
+						);
 				}
+			}
 
-				if (i == 0)
-				{
-					setNewGroupInBands(group);
+			if (i == 0)
+			{
+				setNewGroupInBands(group);
 
-					group.setFooterPrinted(false);
-				}
+				group.setFooterPrinted(false);
+			}
 
-				if (groupHeaderBand.isToPrint())
-				{
-					setFirstColumn();
+			if (groupHeaderBand.isToPrint())
+			{
+				setFirstColumn();
 
-					SavePoint newSavePoint = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
-					
-					savePoint = advanceSavePoint(savePoint, newSavePoint);
+				SavePoint newSavePoint = fillColumnBand(groupHeaderBand, JRExpression.EVALUATION_DEFAULT);
+				
+				savePoint = advanceSavePoint(savePoint, newSavePoint);
 
-					isFirstPageBand = false;
-					isFirstColumnBand = true;
-				}
+				isFirstPageBand = false;
+				isFirstColumnBand = true;
 			}
 		}
 
@@ -688,32 +684,29 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			JRFillSection groupHeaderSection = (JRFillSection)group.getGroupHeaderSection();
 
-			JRBand[] groupHeaderBands = groupHeaderSection.getBands();
-			if (groupHeaderBands != null)
+			JRFillBand[] groupHeaderBands = groupHeaderSection.getFillBands();
+			for(int i = 0; i < groupHeaderBands.length; i++)
 			{
-				for(int i = 0; i < groupHeaderBands.length; i++)
+				JRFillBand groupHeaderBand = groupHeaderBands[i];
+
+				groupHeaderBand.evaluatePrintWhenExpression(evaluation);
+
+				if (groupHeaderBand.isToPrint())
 				{
-					JRFillBand groupHeaderBand = (JRFillBand)groupHeaderBands[i];
+					setFirstColumn();
 
-					groupHeaderBand.evaluatePrintWhenExpression(evaluation);
-
-					if (groupHeaderBand.isToPrint())
+					while (
+						groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
+						group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
+						)
 					{
-						setFirstColumn();
-
-						while (
-							groupHeaderBand.getBreakHeight() > columnFooterOffsetY - offsetY ||
-							group.getMinHeightToStartNewPage() > columnFooterOffsetY - offsetY
-							)
-						{
-							fillPageBreak(false, evaluation, evaluation, true);
-						}
-
-						fillColumnBand(groupHeaderBand, evaluation);
-
-						isFirstPageBand = false;
-						isFirstColumnBand = true;
+						fillPageBreak(false, evaluation, evaluation, true);
 					}
+
+					fillColumnBand(groupHeaderBand, evaluation);
+
+					isFirstPageBand = false;
+					isFirstColumnBand = true;
 				}
 			}
 		}
@@ -735,34 +728,31 @@ public class JRHorizontalFiller extends JRBaseFiller
 			calculator.estimateVariables();
 		}
 
-		JRBand[] detailBands = detailSection.getBands();
-		if (detailBands != null)
+		JRFillBand[] detailBands = detailSection.getFillBands();
+		for(int i = 0; i < detailBands.length; i++)
 		{
-			for(int i = 0; i < detailBands.length; i++)
+			JRFillBand detailBand = detailBands[i];
+
+			detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_ESTIMATED);
+
+			if (detailBand.isToPrint())
 			{
-				JRFillBand detailBand = (JRFillBand)detailBands[i];
-
-				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_ESTIMATED);
-
-				if (detailBand.isToPrint())
+				while (
+					(columnIndex == columnCount - 1 || isNewGroup)
+					&& detailBand.getHeight() > columnFooterOffsetY - offsetY
+					)
 				{
-					while (
-						(columnIndex == columnCount - 1 || isNewGroup)
-						&& detailBand.getHeight() > columnFooterOffsetY - offsetY
-						)
-					{
-						byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
+					byte evalPrevPage = (isNewGroup?JRExpression.EVALUATION_DEFAULT:JRExpression.EVALUATION_OLD);
 
-						fillPageBreak(
-							false,
-							evalPrevPage,
-							JRExpression.EVALUATION_DEFAULT,
-							true
-							);
-					}
-					
-					break;
+					fillPageBreak(
+						false,
+						evalPrevPage,
+						JRExpression.EVALUATION_DEFAULT,
+						true
+						);
 				}
+				
+				break;
 			}
 		}
 
@@ -978,34 +968,31 @@ public class JRHorizontalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": " + group.getName() + " footer");
 		}
 
-		JRBand[] groupFooterBands = groupFooterSection.getBands();
-		if (groupFooterBands != null)
+		JRFillBand[] groupFooterBands = groupFooterSection.getFillBands();
+		for(int i = 0; i < groupFooterBands.length; i++)
 		{
-			for(int i = 0; i < groupFooterBands.length; i++)
+			JRFillBand groupFooterBand = groupFooterBands[i];
+			
+			groupFooterBand.evaluatePrintWhenExpression(evaluation);
+
+			if (groupFooterBand.isToPrint())
 			{
-				JRFillBand groupFooterBand = (JRFillBand)groupFooterBands[i];
-				
-				groupFooterBand.evaluatePrintWhenExpression(evaluation);
+				setFirstColumn();
 
-				if (groupFooterBand.isToPrint())
+				if (
+					groupFooterBand.getBreakHeight() > columnFooterOffsetY - offsetY
+					)
 				{
-					setFirstColumn();
-
-					if (
-						groupFooterBand.getBreakHeight() > columnFooterOffsetY - offsetY
-						)
-					{
-						fillPageBreak(false, evaluation, evaluation, true);
-					}
-
-					SavePoint newSavePoint = fillColumnBand(groupFooterBand, evaluation);
-					newSavePoint.footerPosition = group.getFooterPositionValue();
-					
-					savePoint = advanceSavePoint(savePoint, newSavePoint);
-
-					isFirstPageBand = false;
-					isFirstColumnBand = true;
+					fillPageBreak(false, evaluation, evaluation, true);
 				}
+
+				SavePoint newSavePoint = fillColumnBand(groupFooterBand, evaluation);
+				newSavePoint.footerPosition = group.getFooterPositionValue();
+				
+				savePoint = advanceSavePoint(savePoint, newSavePoint);
+
+				isFirstPageBand = false;
+				isFirstColumnBand = true;
 			}
 		}
 

@@ -76,6 +76,11 @@ public class JRFillSection implements JRSection, JROriginProvider
 					areAllPrintWhenExprNull = areAllPrintWhenExprNull && bands[i].isPrintWhenExpressionNull();
 				}
 			}
+			else
+			{
+				// use a single missing band for empty sections
+				bands = new JRFillBand[]{filler.missingFillBand};
+			}
 		}
 
 		this.filler = filler;
@@ -110,6 +115,11 @@ public class JRFillSection implements JRSection, JROriginProvider
 	}
 
 
+	public JRFillBand[] getFillBands()
+	{
+		return bands;
+	}
+	
 	/**
 	 *
 	 */
