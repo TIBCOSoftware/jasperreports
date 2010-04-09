@@ -43,14 +43,13 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRLineBox;
-import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementIndex;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -58,7 +57,6 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
@@ -66,6 +64,7 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -124,7 +123,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected int pageIndex = 0;
 	protected int tableIndex = 0;
 	protected boolean startPage;
-	protected int elementIndex = 0;
 
 	/**
 	 * used for counting the total number of sheets
@@ -492,31 +490,27 @@ public class JRPptxExporter extends JRAbstractExporter
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
-				elementIndex = i;
-				
 				element = (JRPrintElement)elements.get(i);
 				
 				if (filter == null || filter.isToExport(element))
 				{
-//					if (element instanceof JRPrintLine)
-//					{
-//						exportLine((JRPrintLine)element);
-//					}
-//					else if (element instanceof JRPrintRectangle)
-//					{
-//						exportRectangle((JRPrintRectangle)element);
-//					}
-//					else if (element instanceof JRPrintEllipse)
-//					{
-//						//exportEllipse((JRPrintEllipse)element);
-//						exportRectangle((JRPrintEllipse)element);
-//					}
+					if (element instanceof JRPrintLine)
+					{
+						exportLine((JRPrintLine)element);
+					}
+					else if (element instanceof JRPrintRectangle)
+					{
+						exportRectangle((JRPrintRectangle)element);
+					}
+					else if (element instanceof JRPrintEllipse)
+					{
+						exportEllipse((JRPrintEllipse)element);
+					}
 //					else if (element instanceof JRPrintImage)
 //					{
 //						exportImage((JRPrintImage)element);
 //					}
-//					else if (element instanceof JRPrintText)
-					if (element instanceof JRPrintText)
+					else if (element instanceof JRPrintText)
 					{
 						exportText((JRPrintText)element);
 					}
@@ -536,81 +530,204 @@ public class JRPptxExporter extends JRAbstractExporter
 
 	/**
 	 *
-	 *
+	 */
 	protected void exportLine(JRPrintLine line)
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = null;
-		float ratio = line.getWidth() / line.getHeight();
-		if (ratio > 1)
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getTopPen();
-			}
-			else
-			{
-				pen = box.getBottomPen();
-			}
-		}
-		else
-		{
-			if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
-			{
-				pen = box.getLeftPen();
-			}
-			else
-			{
-				pen = box.getRightPen();
-			}
-		}
-		pen.setLineColor(line.getLinePen().getLineColor());
-		pen.setLineStyle(line.getLinePen().getLineStyleValue());
-		pen.setLineWidth(line.getLinePen().getLineWidth());
+		int x = line.getX() + getOffsetX();
+		int y = line.getY() + getOffsetY();
+		int height = line.getHeight();
+		int width = line.getWidth();
 
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
-		tableHelper.getCellHelper().exportFooter();
+		if (width <= 1 || height <= 1)
+		{
+			if (width > 1)
+			{
+				height = 0;
+			}
+			else
+			{
+				width = 0;
+			}
+		}
+
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + line.hashCode() + "\" name=\"Line\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm" + (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN ? " flipV=\"1\"" : "") + ">\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(x) + "\" y=\"" + Utility.emu(y) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"line\"><a:avLst/></a:prstGeom>\n");
+		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		if (line.getLinePen().getLineWidth() > 0)
+		{
+			slideHelper.write("  <a:ln w=\"" + Utility.emu(line.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:prstDash val=\"");
+			switch (line.getLinePen().getLineStyleValue())
+			{
+				case DASHED :
+				{
+					slideHelper.write("dash");
+					break;
+				}
+				case DOTTED :
+				{
+					slideHelper.write("dot");
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					slideHelper.write("solid");
+					break;
+				}
+			}
+			slideHelper.write("\"/>\n");
+			slideHelper.write("  </a:ln>\n");
+		}
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+		slideHelper.write("    <a:p>\n");
+		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+		slideHelper.write("    </a:p>\n");
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportRectangle(DocxTableHelper tableHelper, JRPrintRectangle rectangle, JRExporterGridCell gridCell)
+	protected void exportRectangle(JRPrintRectangle rectangle)
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(rectangle.getLinePen().getLineColor());
-		pen.setLineStyle(rectangle.getLinePen().getLineStyleValue());
-		pen.setLineWidth(rectangle.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
-		tableHelper.getCellHelper().exportFooter();
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + rectangle.hashCode() + "\" name=\"Rectangle\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(rectangle.getWidth()) + "\" cy=\"" + Utility.emu(rectangle.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (rectangle.getRadius() == 0 ? "rect" : "roundRect") + "\"><a:avLst/></a:prstGeom>\n"); //FIXMEPPTX radius
+		if (rectangle.getModeValue() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		if (rectangle.getLinePen().getLineWidth() > 0)
+		{
+			slideHelper.write("  <a:ln w=\"" + Utility.emu(rectangle.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:prstDash val=\"");
+			switch (rectangle.getLinePen().getLineStyleValue())
+			{
+				case DASHED :
+				{
+					slideHelper.write("dash");
+					break;
+				}
+				case DOTTED :
+				{
+					slideHelper.write("dot");
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					slideHelper.write("solid");
+					break;
+				}
+			}
+			slideHelper.write("\"/>\n");
+			slideHelper.write("  </a:ln>\n");
+		}
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+		slideHelper.write("    <a:p>\n");
+		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+		slideHelper.write("    </a:p>\n");
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 	}
 
 
 	/**
 	 *
 	 */
-	protected void exportEllipse(DocxTableHelper tableHelper, JRPrintEllipse ellipse, JRExporterGridCell gridCell)
+	protected void exportEllipse(JRPrintEllipse ellipse)
 	{
-		JRLineBox box = new JRBaseLineBox(null);
-		JRPen pen = box.getPen();
-		pen.setLineColor(ellipse.getLinePen().getLineColor());
-		pen.setLineStyle(ellipse.getLinePen().getLineStyleValue());
-		pen.setLineWidth(ellipse.getLinePen().getLineWidth());
-
-		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
-		
-		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
-		tableHelper.getCellHelper().exportFooter();
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + ellipse.hashCode() + "\" name=\"Ellipse\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(ellipse.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(ellipse.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(ellipse.getWidth()) + "\" cy=\"" + Utility.emu(ellipse.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"ellipse\"><a:avLst/></a:prstGeom>\n");
+		if (ellipse.getModeValue() == ModeEnum.OPAQUE && ellipse.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		if (ellipse.getLinePen().getLineWidth() > 0)
+		{
+			slideHelper.write("  <a:ln w=\"" + Utility.emu(ellipse.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:prstDash val=\"");
+			switch (ellipse.getLinePen().getLineStyleValue())
+			{
+				case DASHED :
+				{
+					slideHelper.write("dash");
+					break;
+				}
+				case DOTTED :
+				{
+					slideHelper.write("dot");
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					slideHelper.write("solid");
+					break;
+				}
+			}
+			slideHelper.write("\"/>\n");
+			slideHelper.write("  </a:ln>\n");
+		}
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+		slideHelper.write("    <a:p>\n");
+		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+		slideHelper.write("    </a:p>\n");
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 	}
 
 
@@ -627,118 +744,152 @@ public class JRPptxExporter extends JRAbstractExporter
 		{
 			textLength = styledText.length();
 		}
-		
-		if (textLength > 0)
+	
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + text.hashCode() + "\" name=\"Text\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(text.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
 		{
-			slideHelper.write("<p:sp>\n");
-			slideHelper.write("  <p:nvSpPr>\n");
-			slideHelper.write("    <p:cNvPr id=\"" + (elementIndex + 4) + "\" name=\"Title 1\"/>\n");
-			slideHelper.write("    <p:cNvSpPr>\n");
-			slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
-			slideHelper.write("    </p:cNvSpPr>\n");
-			slideHelper.write("    <p:nvPr>\n");
-			slideHelper.write("      <p:ph type=\"ctrTitle\"/>\n");
-			slideHelper.write("    </p:nvPr>\n");
-			slideHelper.write("  </p:nvSpPr>\n");
-			slideHelper.write("  <p:spPr>\n");
-			slideHelper.write("    <a:xfrm>\n");
-			slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(text.getY() + getOffsetY()) + "\"/>\n");
-			slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
-			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
-			if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		if (text.getLineBox().getPen().getLineWidth() > 0)
+		{
+			slideHelper.write("  <a:ln w=\"" + Utility.emu(text.getLineBox().getPen().getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:prstDash val=\"");
+			switch (text.getLineBox().getPen().getLineStyleValue())
 			{
-				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getBackcolor()) + "\"/></a:solidFill>\n");
-			}
-			slideHelper.write("  </p:spPr>\n");
-			slideHelper.write("  <p:txBody>\n");
-			slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"0\" tIns=\"0\" rIns=\"0\" bIns=\"0\" rtlCol=\"0\" anchor=\"");
-			switch (text.getVerticalAlignmentValue())
-			{
-				case TOP:
-					slideHelper.write("t");
+				case DASHED :
+				{
+					slideHelper.write("dash");
 					break;
-				case MIDDLE:
-					slideHelper.write("ctr");
+				}
+				case DOTTED :
+				{
+					slideHelper.write("dot");
 					break;
-				case BOTTOM:
-					slideHelper.write("b");
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					slideHelper.write("solid");
 					break;
-				default:
-					slideHelper.write("t");
-					break;
+				}
 			}
 			slideHelper.write("\"/>\n");
-			slideHelper.write("    <a:lstStyle/>\n");
-	
-	//		if (isWrapBreakWord)
-	//		{
-	//			styleBuffer.append("width: " + gridCell.width + "; ");
-	//			styleBuffer.append("word-wrap: break-word; ");
-	//		}
-	
-	//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-	//		{
-	//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-	//		}
-	
-	//		if (styleBuffer.length() > 0)
-	//		{
-	//			writer.write(" style=\"");
-	//			writer.write(styleBuffer.toString());
-	//			writer.write("\"");
-	//		}
-	//
-	//		writer.write(">");
-			slideHelper.write("    <a:p>\n");
-	
-			slideHelper.write("<a:pPr");
-			slideHelper.write(" algn=\"");
-			switch (text.getHorizontalAlignmentValue())
-			{
-				case LEFT:
-					slideHelper.write("l");
-					break;
-				case CENTER:
-					slideHelper.write("ctr");
-					break;
-				case RIGHT:
-					slideHelper.write("r");
-					break;
-				case JUSTIFIED:
-					slideHelper.write("just");
-					break;
-				default:
-					slideHelper.write("l");
-					break;
-			}
-			slideHelper.write("\">\n");
-			runHelper.exportProps(text, getTextLocale(text));
-			slideHelper.write("</a:pPr>\n");
-			
-	//		insertPageAnchor();
-	//		if (text.getAnchorName() != null)
-	//		{
-	//			tempBodyWriter.write("<text:bookmark text:name=\"");
-	//			tempBodyWriter.write(text.getAnchorName());
-	//			tempBodyWriter.write("\"/>");
-	//		}
-	
-			boolean startedHyperlink = startHyperlink(text, true);
-	
-			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
-	
-			if (startedHyperlink)
-			{
-				endHyperlink(true);
-			}
-	
-			slideHelper.write("    </a:p>\n");
-	//		docHelper.write("     </w:p>\n");
-	//		docHelper.flush();
-	
-			slideHelper.write("  </p:txBody>\n");
-			slideHelper.write("</p:sp>\n");
+			slideHelper.write("  </a:ln>\n");
 		}
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"" +
+				text.getLineBox().getLeftPadding() +
+				"\" tIns=\"" +
+				text.getLineBox().getTopPadding() +
+				"\" rIns=\"" +
+				text.getLineBox().getRightPadding() +
+				"\" bIns=\"" +
+				text.getLineBox().getBottomPadding() +
+				"\" rtlCol=\"0\" anchor=\"");
+		switch (text.getVerticalAlignmentValue())
+		{
+			case TOP:
+				slideHelper.write("t");
+				break;
+			case MIDDLE:
+				slideHelper.write("ctr");
+				break;
+			case BOTTOM:
+				slideHelper.write("b");
+				break;
+			default:
+				slideHelper.write("t");
+				break;
+		}
+		slideHelper.write("\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+
+//		if (isWrapBreakWord)
+//		{
+//			styleBuffer.append("width: " + gridCell.width + "; ");
+//			styleBuffer.append("word-wrap: break-word; ");
+//		}
+
+//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
+//		{
+//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
+//		}
+
+//		if (styleBuffer.length() > 0)
+//		{
+//			writer.write(" style=\"");
+//			writer.write(styleBuffer.toString());
+//			writer.write("\"");
+//		}
+//
+//		writer.write(">");
+		slideHelper.write("    <a:p>\n");
+
+		slideHelper.write("<a:pPr");
+		slideHelper.write(" algn=\"");
+		switch (text.getHorizontalAlignmentValue())
+		{
+			case LEFT:
+				slideHelper.write("l");
+				break;
+			case CENTER:
+				slideHelper.write("ctr");
+				break;
+			case RIGHT:
+				slideHelper.write("r");
+				break;
+			case JUSTIFIED:
+				slideHelper.write("just");
+				break;
+			default:
+				slideHelper.write("l");
+				break;
+		}
+		slideHelper.write("\">\n");
+		runHelper.exportProps(text, getTextLocale(text));
+		slideHelper.write("</a:pPr>\n");
+		
+//		insertPageAnchor();
+//		if (text.getAnchorName() != null)
+//		{
+//			tempBodyWriter.write("<text:bookmark text:name=\"");
+//			tempBodyWriter.write(text.getAnchorName());
+//			tempBodyWriter.write("\"/>");
+//		}
+
+		boolean startedHyperlink = startHyperlink(text, true);
+
+		if (textLength > 0)
+		{
+			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+		}
+
+		if (startedHyperlink)
+		{
+			endHyperlink(true);
+		}
+
+		slideHelper.write("    </a:p>\n");
+//		docHelper.write("     </w:p>\n");
+//		docHelper.flush();
+
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 	}
 
 
@@ -1153,15 +1304,64 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected void exportFrame(JRPrintFrame frame) throws JRException
 	{
-//		tableHelper.getCellHelper().exportHeader(frame, gridCell);
-////		tableHelper.getCellHelper().exportProps(gridCell);
+		slideHelper.write("<p:sp>\n");
+		slideHelper.write("  <p:nvSpPr>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + frame.hashCode() + "\" name=\"Frame\"/>\n");
+		slideHelper.write("    <p:cNvSpPr>\n");
+		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
+		slideHelper.write("    </p:cNvSpPr>\n");
+		slideHelper.write("    <p:nvPr/>\n");
+		slideHelper.write("  </p:nvSpPr>\n");
+		slideHelper.write("  <p:spPr>\n");
+		slideHelper.write("    <a:xfrm>\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(frame.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(frame.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(frame.getWidth()) + "\" cy=\"" + Utility.emu(frame.getHeight()) + "\"/>\n");
+		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+		if (frame.getModeValue() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
+		{
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getBackcolor()) + "\"/></a:solidFill>\n");
+		}
+		if (frame.getLineBox().getPen().getLineWidth() > 0)
+		{
+			slideHelper.write("  <a:ln w=\"" + Utility.emu(frame.getLineBox().getPen().getLineWidth()) + "\">\n");
+			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+			slideHelper.write("<a:prstDash val=\"");
+			switch (frame.getLineBox().getPen().getLineStyleValue())
+			{
+				case DASHED :
+				{
+					slideHelper.write("dash");
+					break;
+				}
+				case DOTTED :
+				{
+					slideHelper.write("dot");
+					break;
+				}
+				case DOUBLE :
+				case SOLID :
+				default :
+				{
+					slideHelper.write("solid");
+					break;
+				}
+			}
+			slideHelper.write("\"/>\n");
+			slideHelper.write("  </a:ln>\n");
+		}
+		slideHelper.write("  </p:spPr>\n");
+		slideHelper.write("  <p:txBody>\n");
+		slideHelper.write("    <a:bodyPr rtlCol=\"0\" anchor=\"ctr\"/>\n");
+		slideHelper.write("    <a:lstStyle/>\n");
+		slideHelper.write("    <a:p>\n");
+		slideHelper.write("<a:pPr algn=\"ctr\"/>\n");
+		slideHelper.write("    </a:p>\n");
+		slideHelper.write("  </p:txBody>\n");
+		slideHelper.write("</p:sp>\n");
 
 		setFrameElementsOffset(frame, false);
 		exportElements(frame.getElements());
 		restoreElementOffsets();
-		
-//		tableHelper.getParagraphHelper().exportEmptyParagraph();
-//		tableHelper.getCellHelper().exportFooter();
 	}
 
 

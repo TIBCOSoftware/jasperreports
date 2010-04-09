@@ -73,10 +73,6 @@ public class PptxRunHelper extends BaseHelper
 	{
 		if (text != null)
 		{
-			write("      <a:r>\n");
-			
-			exportProps("a:rPr", getAttributes(style), attributes, locale);
-			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
 			{
@@ -87,13 +83,15 @@ public class PptxRunHelper extends BaseHelper
 				}
 				else
 				{
+					write("      <a:r>\n");
+					exportProps("a:rPr", getAttributes(style), attributes, locale);
 					//write("<a:t xml:space=\"preserve\">");
 					write("<a:t>");
 					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
 					write("</a:t>\n");
+					write("      </a:r>\n");
 				}
 			}
-			write("      </a:r>\n");
 		}
 	}
 
