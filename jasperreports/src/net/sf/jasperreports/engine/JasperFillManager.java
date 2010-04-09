@@ -74,12 +74,12 @@ public final class JasperFillManager
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
-		Map parameters,
+		Map params,
 		Connection connection
 		) throws JRException
 	{
@@ -90,7 +90,7 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 		
@@ -106,12 +106,12 @@ public final class JasperFillManager
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @see JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
-		Map parameters
+		Map params
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -121,7 +121,7 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters);
 		
@@ -135,13 +135,13 @@ public final class JasperFillManager
 	 * 
 	 * @param sourceFileName source file containing the compile report design
 	 * @param destFileName   file name to place the generated report into
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters,
+		Map params,
 		Connection connection
 		) throws JRException
 	{
@@ -149,7 +149,7 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters, connection);
 	}
@@ -161,20 +161,20 @@ public final class JasperFillManager
 	 * 
 	 * @param sourceFileName source file containing the compile report design
 	 * @param destFileName   file name to place the generated report into
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @see JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters
+		Map params
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters);
 	}
@@ -228,13 +228,13 @@ public final class JasperFillManager
 	 * the generated report object.
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param connection     JDBC connection object to use for executing the report internal SQL query
 	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
-		Map parameters,
+		Map params,
 		Connection connection
 		) throws JRException
 	{
@@ -242,7 +242,7 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		return fillReport(jasperReport, parameters, connection);
 	}
@@ -253,20 +253,20 @@ public final class JasperFillManager
 	 * the generated report object.
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @return generated report object
 	 * @see JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
-		Map parameters
+		Map params
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 		
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		return fillReport(jasperReport, parameters);
 	}
@@ -444,12 +444,12 @@ public final class JasperFillManager
 	 * plus the <code>*.jrprint</code> extension, located in the same directory as the source file. 
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
-		Map parameters,
+		Map params,
 		JRDataSource dataSource
 		) throws JRException
 	{
@@ -460,7 +460,7 @@ public final class JasperFillManager
 		File destFile = new File(sourceFile.getParent(), jasperReport.getName() + ".jrprint");
 		String destFileName = destFile.toString();
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 		
@@ -474,13 +474,13 @@ public final class JasperFillManager
 	 * 
 	 * @param sourceFileName source file containing the compile report design
 	 * @param destFileName   file name to place the generated report into
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters,
+		Map params,
 		JRDataSource dataSource
 		) throws JRException
 	{
@@ -488,7 +488,7 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		fillReportToFile(jasperReport, destFileName, parameters, dataSource);
 	}
@@ -521,13 +521,13 @@ public final class JasperFillManager
 	 * the generated report object.
 	 * 
 	 * @param sourceFileName source file containing the compile report design
-	 * @param parameters     report parameters map
+	 * @param params     report parameters map
 	 * @param dataSource     data source object
 	 * @return generated report object
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
-		Map parameters,
+		Map params,
 		JRDataSource dataSource
 		) throws JRException
 	{
@@ -535,7 +535,7 @@ public final class JasperFillManager
 
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = setFileResolver(sourceFile, parameters);
+		Map parameters = setFileResolver(sourceFile, params);
 
 		return fillReport(jasperReport, parameters, dataSource);
 	}
@@ -628,8 +628,10 @@ public final class JasperFillManager
 	/**
 	 * 
 	 */
-	protected static Map setFileResolver(File file, Map parameters)
+	protected static Map setFileResolver(File file, Map params)
 	{
+		Map parameters  = params;
+		
 		if (parameters == null)
 		{
 			parameters = new HashMap();

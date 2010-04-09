@@ -48,7 +48,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map parameters, 
+		Map params, 
 		Connection conn
 		) throws JRException
 	{
@@ -57,7 +57,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
@@ -77,14 +77,14 @@ public final class JasperRunManager
 	 * The intermediate JasperPrint object is not saved on disk.
 	 * 
 	 * @param sourceFileName the name of the compiled report file
-	 * @param parameters the parameters map
+	 * @param params the parameters map
 	 * @return the name of the generated PDF file
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map parameters 
+		Map params 
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -92,7 +92,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -312,7 +312,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map parameters, 
+		Map params, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -321,7 +321,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
@@ -430,7 +430,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map parameters, 
+		Map params, 
 		Connection conn
 		) throws JRException
 	{
@@ -439,7 +439,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
@@ -459,14 +459,14 @@ public final class JasperRunManager
 	 * The intermediate JasperPrint object is not saved on disk.
 	 * 
 	 * @param sourceFileName the name of the compiled report file
-	 * @param parameters the parameters map
+	 * @param params the parameters map
 	 * @return the name of the generated HTML file
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map parameters 
+		Map params 
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -474,7 +474,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -536,7 +536,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map parameters, 
+		Map params, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -545,7 +545,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		parameters = JasperFillManager.setFileResolver(sourceFile, parameters);
+		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
