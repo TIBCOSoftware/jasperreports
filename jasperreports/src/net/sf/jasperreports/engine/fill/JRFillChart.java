@@ -1287,11 +1287,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 
 		evaluatePrintWhenExpression(evaluation);
 
-		if (
-			(isPrintWhenExpressionNull() ||
-			(!isPrintWhenExpressionNull() &&
-			isPrintWhenTrue()))
-			)
+		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
 			if (getEvaluationTimeValue() == EvaluationTimeEnum.NOW)
 			{
