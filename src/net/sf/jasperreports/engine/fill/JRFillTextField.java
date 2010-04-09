@@ -361,11 +361,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		evaluatePrintWhenExpression(evaluation);
 
-		if (
-			(isPrintWhenExpressionNull() ||
-			(!isPrintWhenExpressionNull() && 
-			isPrintWhenTrue()))
-			)
+		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
 			if (isEvaluateNow())
 			{

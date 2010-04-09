@@ -258,11 +258,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
 
-		if (
-			(isPrintWhenExpressionNull() ||
-			(!isPrintWhenExpressionNull() && 
-			isPrintWhenTrue()))
-			)
+		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
 			evaluateSubreport(evaluation);
 		}

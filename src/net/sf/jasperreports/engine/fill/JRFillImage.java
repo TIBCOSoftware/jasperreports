@@ -992,20 +992,16 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		initDelayedEvaluations();
 		
-		this.reset();
+		reset();
 		
-		this.evaluatePrintWhenExpression(evaluation);
+		evaluatePrintWhenExpression(evaluation);
 
-		if (
-			(this.isPrintWhenExpressionNull() ||
-			(!this.isPrintWhenExpressionNull() && 
-			this.isPrintWhenTrue()))
-			)
+		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
 			if (isEvaluateNow())
 			{
 				hasOverflowed = false;
-				this.evaluateImage(evaluation);
+				evaluateImage(evaluation);
 			}
 		}
 	}
