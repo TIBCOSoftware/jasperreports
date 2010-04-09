@@ -389,8 +389,7 @@ public class JRStyledText implements Cloneable
 		int insertLength = str.length();
 		
 		//new buffer to do the insertion
-		StringBuffer newText = new StringBuffer(
-				sbuffer.length() + insertLength * offsets.length);
+		StringBuffer newText = new StringBuffer(sbuffer.length() + insertLength * offsets.length); //NOPMD
 		char[] buffer = null;
 		int offset = 0;
 		for (int i = 0; i < offsets.length; i++)

@@ -45,9 +45,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -63,6 +60,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A print page that can be virtualized to free heap memory.
@@ -466,12 +466,14 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	}
 
 
-	protected void finalize()
+	protected void finalize() throws Throwable //NOSONAR
 	{
 		if (virtualizer != null)
 		{
 			virtualizer.deregisterObject(this);
 		}
+		
+		super.finalize();
 	}
 	
 	

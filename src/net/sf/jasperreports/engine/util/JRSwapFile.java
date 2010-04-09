@@ -236,7 +236,7 @@ public class JRSwapFile
 	}
 
 
-	protected void finalize() throws Throwable //NOPMD
+	protected void finalize() throws Throwable //NOSONAR
 	{
 		dispose();
 		super.finalize();

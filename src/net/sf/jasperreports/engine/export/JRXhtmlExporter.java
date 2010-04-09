@@ -1770,7 +1770,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			Integer frameIndex = (Integer)frameIndexStack.get(i);
 
-			sbuffer.append(frameIndex + "_");
+			sbuffer.append(frameIndex).append("_");
 		}
 		
 		JRPrintElementIndex imageIndex =
