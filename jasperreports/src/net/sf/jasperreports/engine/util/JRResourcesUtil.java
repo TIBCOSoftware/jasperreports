@@ -87,13 +87,13 @@ public final class JRResourcesUtil
 	 * Returns an URL stream handler for an URL specified as a <code>String</code>.
 	 * 
 	 * @param spec the <code>String</code> to parse as an URL
-	 * @param urlHandlerFactory an URL stream handler factory
+	 * @param urlHandlerFact an URL stream handler factory
 	 * @return an URL stream handler if one was found for the protocol of the URL
 	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 */
-	public static URLStreamHandler getURLHandler(String spec, URLStreamHandlerFactory urlHandlerFactory)
+	public static URLStreamHandler getURLHandler(String spec, URLStreamHandlerFactory urlHandlerFact)
 	{
-		urlHandlerFactory = getURLHandlerFactory(urlHandlerFactory);
+		URLStreamHandlerFactory urlHandlerFactory = getURLHandlerFactory(urlHandlerFact);
 
 		URLStreamHandler handler = null;
 		if (urlHandlerFactory != null)
@@ -108,11 +108,11 @@ public final class JRResourcesUtil
 	}
 
 	
-	private static String getURLProtocol(String spec)
+	private static String getURLProtocol(String urlSpec)
 	{
 		String protocol = null;
 		
-		spec = spec.trim();
+		String spec = urlSpec.trim();
 		int colon = spec.indexOf(':');
 		if (colon > 0)
 		{
@@ -162,13 +162,14 @@ public final class JRResourcesUtil
 	 * 	<li>the global file resolver</li>
 	 * </ul>
 	 * 
-	 * @param fileResolver a file resolver that will be returned if not null
+	 * @param fileRes a file resolver that will be returned if not null
 	 * @return a file resolver
 	 * @see #setGlobalFileResolver(FileResolver)
 	 * @see #setThreadFileResolver(FileResolver)
 	 */
-	public static FileResolver getFileResolver(FileResolver fileResolver)
+	public static FileResolver getFileResolver(FileResolver fileRes)
 	{
+		FileResolver fileResolver = fileRes;
 		if (fileResolver == null)
 		{
 			fileResolver = getThreadFileResolver();
@@ -242,12 +243,12 @@ public final class JRResourcesUtil
 	 * Attempts to find a file using a file resolver.
 	 * 
 	 * @param location file name
-	 * @param fileResolver a file resolver
+	 * @param fileRes a file resolver
 	 * @return the file, if found
 	 */
-	public static File resolveFile(String location, FileResolver fileResolver)
+	public static File resolveFile(String location, FileResolver fileRes)
 	{
-		fileResolver = getFileResolver(fileResolver);
+		FileResolver fileResolver = getFileResolver(fileRes);
 		
 		if (fileResolver != null)
 		{
@@ -274,13 +275,14 @@ public final class JRResourcesUtil
 	 * 	<li>the global URL stream handler factory</li>
 	 * </ul>
 	 * 
-	 * @param urlHandlerFactory an URL steam handler factory that will be returned if not null
+	 * @param urlHandlerFact an URL steam handler factory that will be returned if not null
 	 * @return an URL steam handler factory
 	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
 	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
 	 */
-	public static URLStreamHandlerFactory getURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
+	public static URLStreamHandlerFactory getURLHandlerFactory(URLStreamHandlerFactory urlHandlerFact)
 	{
+		URLStreamHandlerFactory urlHandlerFactory = urlHandlerFact;
 		if (urlHandlerFactory == null)
 		{
 			urlHandlerFactory = getThreadURLStreamHandlerFactory();
@@ -360,13 +362,14 @@ public final class JRResourcesUtil
 	 * 	<li>the global class loader</li>
 	 * </ul>
 	 * 
-	 * @param classLoader a class loader that will be returned if not null
+	 * @param clsLoader a class loader that will be returned if not null
 	 * @return a class loader.
 	 * @see #setGlobalClassLoader(ClassLoader)
 	 * @see #setThreadClassLoader(ClassLoader)
 	 */
-	public static ClassLoader getClassLoader(ClassLoader classLoader)
+	public static ClassLoader getClassLoader(ClassLoader clsLoader)
 	{
+		ClassLoader classLoader = clsLoader;
 		if (classLoader == null)
 		{
 			classLoader = getThreadClassLoader();
@@ -449,13 +452,13 @@ public final class JRResourcesUtil
 	 * </ul>
 	 * 
 	 * @param location the resource name
-	 * @param classLoader a class loader
+	 * @param clsLoader a class loader
 	 * @param clazz a class
 	 * @return the resource URL if found
 	 */
-	public static URL findClassLoaderResource(String location, ClassLoader classLoader, Class clazz)
+	public static URL findClassLoaderResource(String location, ClassLoader clsLoader, Class clazz)
 	{
-		classLoader = getClassLoader(classLoader);
+		ClassLoader classLoader = getClassLoader(clsLoader);
 		
 		URL url = null;
 		
@@ -521,15 +524,15 @@ public final class JRResourcesUtil
 	 * 
 	 * @param baseName the base name
 	 * @param locale the locale
-	 * @param classLoader 
+	 * @param clsLoader 
 	 * @return the resource bundle for the given base name and locale
 	 * @see ResourceBundle#getBundle(String, Locale, ClassLoader)
 	 */
-	public static ResourceBundle loadResourceBundle(String baseName, Locale locale, ClassLoader classLoader)
+	public static ResourceBundle loadResourceBundle(String baseName, Locale locale, ClassLoader clsLoader)
 	{
 		ResourceBundle resourceBundle = null;
 		
-		classLoader = getClassLoader(classLoader);
+		ClassLoader classLoader = getClassLoader(clsLoader);
 		if (classLoader != null)
 		{
 			try

@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
@@ -45,7 +46,7 @@ public class JRPrintStyleFactory extends JRAbstractStyleFactory
 
 		if (!stylesMap.containsKey(parentStyleName))
 		{
-			printXmlLoader.addError(new Exception("Unknown report style : " + parentStyleName));
+			printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + parentStyleName));
 		}
 		
 		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);

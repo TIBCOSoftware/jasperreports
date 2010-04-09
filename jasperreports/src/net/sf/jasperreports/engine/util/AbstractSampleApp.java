@@ -76,7 +76,7 @@ public abstract class AbstractSampleApp
 		}
 		for (String task:tasks)
 		{
-			sbuffer.append(task + " | ");
+			sbuffer.append(task).append(" | ");
 		}
 		
 		return sbuffer.toString().substring(0, sbuffer.length() - 3);

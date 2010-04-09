@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintElement;
@@ -105,7 +106,7 @@ public class JRPrintElementFactory extends JRBaseFactory
 
 			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
 			{
-				printXmlLoader.addError(new Exception("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+				printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
 			}
 
 			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));

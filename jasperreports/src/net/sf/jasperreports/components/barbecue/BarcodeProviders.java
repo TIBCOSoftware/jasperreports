@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.barbecue;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeException;
 import net.sourceforge.barbecue.BarcodeFactory;
@@ -98,7 +99,7 @@ public final class BarcodeProviders
 				barcodeInfo.getType());
 		if (provider == null)
 		{
-			throw new RuntimeException("No barcode provider for type " 
+			throw new JRRuntimeException("No barcode provider for type " 
 					+ barcodeInfo.getType());
 		}
 		try
@@ -107,7 +108,7 @@ public final class BarcodeProviders
 		}
 		catch (BarcodeException e)
 		{
-			throw new RuntimeException("Error creating barcode", e);
+			throw new JRRuntimeException("Error creating barcode", e);
 		}
 	}
 

@@ -535,7 +535,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					}
 					catch (MalformedURLException e)
 					{
-						log.warn("Reference \"" + href + "\" could not be parsed as URL: " + e);
+						if (log.isWarnEnabled())
+						{
+							log.warn("Reference \"" + href + "\" could not be parsed as URL.", e);
+						}
 					}
 				}
 				addCell(col, row, text, textStr, baseStyle);
@@ -577,7 +580,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				if(log.isWarnEnabled())
 				{
-					log.warn(e.getMessage());
+					log.warn(e.getMessage(), e);
 				}
 			}
 			if(formula != null)

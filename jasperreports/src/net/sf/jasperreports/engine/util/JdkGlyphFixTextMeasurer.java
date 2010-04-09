@@ -158,7 +158,7 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 					}
 					catch (InterruptedException ie)
 					{
-						throw new JRRuntimeException(ie);
+						throw new JRRuntimeException(ie); //NOPMD
 					}
 				}
 			}

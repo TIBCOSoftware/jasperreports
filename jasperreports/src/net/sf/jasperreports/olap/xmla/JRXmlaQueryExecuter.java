@@ -106,12 +106,10 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 		catch (MalformedURLException e)
 		{
-			log.error(e);
 			throw new JRRuntimeException(e);
 		}
 		catch (SOAPException e)
 		{
-			log.error(e);
 			throw new JRRuntimeException(e);
 		}
 		
@@ -158,7 +156,6 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			}
 			catch (SOAPException e)
 			{
-				log.error(e);
 				throw new JRRuntimeException(e);
 			}
 			connection = null;
@@ -174,12 +171,10 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 		catch (UnsupportedOperationException e)
 		{
-			log.error(e);
 			throw new JRRuntimeException(e);
 		}
 		catch (SOAPException e)
 		{
-			log.error(e);
 			throw new JRRuntimeException(e);
 		}
 	}
@@ -247,7 +242,6 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 		catch (SOAPException e)
 		{
-			log.error(e);
 			throw new JRRuntimeException(e);
 		}
 	}
@@ -288,8 +282,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 		catch (SOAPException e)
 		{
-			log.error("Message-Call failed.", e);
-			throw new JRRuntimeException(e);
+			throw new JRRuntimeException("Message-Call failed.", e);
 		}
 	}
 
@@ -326,14 +319,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = responseElements.next();
 			if (eObj == null)
 			{
-				log.error("ExecuteResponse Element is null.");
 				throw new JRRuntimeException("ExecuteResponse Element is null.");
 			}
 			eElement = (SOAPElement) eObj;
 		}
 		else
 		{
-			log.error("Could not retrieve ExecuteResponse Element.");
 			throw new JRRuntimeException("Could not retrieve ExecuteResponse Element.");
 		}
 
@@ -346,7 +337,6 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = returnElements.next();
 			if (eObj == null)
 			{
-				log.error("return Element is null.");
 				throw new JRRuntimeException("return Element is null.");
 			}
 			returnElement = (SOAPElement) eObj;
@@ -361,14 +351,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 				Object eObj = returnElements.next();
 				if (eObj == null)
 				{
-					log.error("return Element is null.");
 					throw new JRRuntimeException("return Element is null.");
 				}
 				returnElement = (SOAPElement) eObj;
 			}
 			else
 			{
-				log.error("Could not retrieve return Element.");
 				throw new JRRuntimeException("Could not retrieve return Element.");
 			}
 		}
@@ -382,14 +370,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = rootElements.next();
 			if (eObj == null)
 			{
-				log.error("root Element is null.");
 				throw new JRRuntimeException("root Element is null.");
 			}
 			rootElement = (SOAPElement) eObj;
 		}
 		else
 		{
-			log.error("Could not retrieve root Element.");
 			throw new JRRuntimeException("Could not retrieve root Element.");
 		}
 		// Get the OlapInfo-Node
@@ -401,14 +387,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = olapInfoElements.next();
 			if (eObj == null)
 			{
-				log.error("OlapInfo Element is null.");
 				throw new JRRuntimeException("OlapInfo Element is null.");
 			}
 			olapInfoElement = (SOAPElement) eObj;
 		}
 		else
 		{
-			log.error("Could not retrieve OlapInfo Element.");
 			throw new JRRuntimeException("Could not retrieve OlapInfo Element.");
 		}
 
@@ -423,14 +407,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = axesElements.next();
 			if (eObj == null)
 			{
-				log.error("Axes Element is null");
 				throw new JRRuntimeException("Axes Element is null");
 			}
 			axesElement = (SOAPElement) eObj;
 		}
 		else
 		{
-			log.error("Could not retrieve Axes Element.");
 			throw new JRRuntimeException("Could not retrieve Axes Element.");
 		}
 
@@ -445,14 +427,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object eObj = cellDataElements.next();
 			if (eObj == null)
 			{
-				log.error("CellData element is null");
 				throw new JRRuntimeException("CellData element is null");
 			}
 			cellDataElement = (SOAPElement) eObj;
 		}
 		else
 		{
-			log.error("Could not retrieve CellData Element.");
 			throw new JRRuntimeException("Could not retrieve CellData Element.");
 		}
 		parseCellDataElement(cellDataElement);
@@ -502,14 +482,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			Object axesObj = axesInfoElements.next();
 			if (axesObj == null)
 			{
-				log.error("AxisInfo Element is null.");
 				throw new JRRuntimeException("AxisInfo Element is null.");
 			}
 			axesElement = (SOAPElement) axesObj;
 		}
 		else
 		{
-			log.error("Could not retrieve AxesInfo Element.");
 			throw new JRRuntimeException("Could not retrieve AxesInfo Element.");
 		}
 		
