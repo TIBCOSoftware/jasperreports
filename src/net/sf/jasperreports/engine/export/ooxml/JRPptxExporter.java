@@ -151,18 +151,15 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected boolean flexibleRowHeight;
 	
 
-	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
+	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
-		DocxTableHelper tableHelper = null;
-		
-		public ExporterContext(DocxTableHelper tableHelper)
+		public ExporterContext()
 		{
-			this.tableHelper = tableHelper;
 		}
 		
-		public DocxTableHelper getTableHelper()
+		public PptxSlideHelper getSlideHelper()
 		{
-			return tableHelper;
+			return slideHelper;
 		}
 
 		public String getExportPropertiesPrefix()
@@ -518,10 +515,10 @@ public class JRPptxExporter extends JRAbstractExporter
 					{
 						exportFrame((JRPrintFrame)element);
 					}
-//					else if (element instanceof JRGenericPrintElement)
-//					{
-//						exportGenericElement((JRGenericPrintElement) element);
-//					}
+					else if (element instanceof JRGenericPrintElement)
+					{
+						exportGenericElement((JRGenericPrintElement) element);
+					}
 				}
 			}
 		}
@@ -745,6 +742,74 @@ public class JRPptxExporter extends JRAbstractExporter
 			textLength = styledText.length();
 		}
 	
+		int x = 0;
+		int y = 0;
+		int width = 0;
+		int height = 0;
+		int rotation = 0;
+		
+		int leftPadding = text.getLineBox().getLeftPadding();
+		int topPadding = text.getLineBox().getTopPadding();
+		int rightPadding = text.getLineBox().getRightPadding();
+		int bottomPadding = text.getLineBox().getBottomPadding();
+
+		switch (text.getRotationValue())
+		{
+			case LEFT:
+			{
+				rotation = -5400000;
+				x = text.getX() + getOffsetX() - (text.getHeight() - text.getWidth()) / 2;
+				y = text.getY() + getOffsetY() + (text.getHeight() - text.getWidth()) / 2;
+				width = text.getHeight();
+				height = text.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = leftPadding;
+				leftPadding = bottomPadding;
+				bottomPadding = rightPadding;
+				rightPadding = tmpPadding;
+				break;
+			}
+			case RIGHT:
+			{
+				rotation = 5400000;
+				x = text.getX() + getOffsetX() - (text.getHeight() - text.getWidth()) / 2;
+				y = text.getY() + getOffsetY() + (text.getHeight() - text.getWidth()) / 2;
+				width = text.getHeight();
+				height = text.getWidth();
+				int tmpPadding = topPadding;
+				topPadding = rightPadding;
+				rightPadding = bottomPadding;
+				bottomPadding = leftPadding;
+				leftPadding = tmpPadding;
+				break;
+			}
+			case UPSIDE_DOWN:
+			{
+				rotation = 10800000;
+				x = text.getX() + getOffsetX();
+				y = text.getY() + getOffsetY();
+				width = text.getWidth();
+				height = text.getHeight();
+				int tmpPadding = topPadding;
+				topPadding = bottomPadding;
+				bottomPadding = tmpPadding;
+				tmpPadding = leftPadding;
+				leftPadding = rightPadding;
+				rightPadding = tmpPadding;
+				break;
+			}
+			case NONE:
+			default:
+			{
+				rotation = 0;
+				x = text.getX() + getOffsetX();
+				y = text.getY() + getOffsetY();
+				width = text.getWidth();
+				height = text.getHeight();
+				break;
+			}
+		}
+		
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
 		slideHelper.write("    <p:cNvPr id=\"" + text.hashCode() + "\" name=\"Text\"/>\n");
@@ -754,9 +819,9 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("    <p:nvPr/>\n");
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
-		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(text.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(text.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(text.getWidth()) + "\" cy=\"" + Utility.emu(text.getHeight()) + "\"/>\n");
+		slideHelper.write("    <a:xfrm rot=\"" + rotation + "\">\n");
+		slideHelper.write("      <a:off x=\"" + Utility.emu(x) + "\" y=\"" + Utility.emu(y) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
 		{
@@ -793,13 +858,13 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"" +
-				text.getLineBox().getLeftPadding() +
+				Utility.emu(leftPadding) +
 				"\" tIns=\"" +
-				text.getLineBox().getTopPadding() +
+				Utility.emu(topPadding) +
 				"\" rIns=\"" +
-				text.getLineBox().getRightPadding() +
+				Utility.emu(rightPadding) +
 				"\" bIns=\"" +
-				text.getLineBox().getBottomPadding() +
+				Utility.emu(bottomPadding) +
 				"\" rtlCol=\"0\" anchor=\"");
 		switch (text.getVerticalAlignmentValue())
 		{
@@ -1368,23 +1433,23 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell)
+	protected void exportGenericElement(JRGenericPrintElement element)
 	{
-		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
+		GenericElementPptxHandler handler = (GenericElementPptxHandler) 
 		GenericElementHandlerEnviroment.getHandler(
 				element.getGenericType(), PPTX_EXPORTER_KEY);
 
 		if (handler != null)
 		{
-			JRDocxExporterContext exporterContext = new ExporterContext(tableHelper);
+			JRPptxExporterContext exporterContext = new ExporterContext();
 
-			handler.exportElement(exporterContext, element, gridCell);
+			handler.exportElement(exporterContext, element);
 		}
 		else
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("No DOCX generic element handler for " 
+				log.debug("No PPTX generic element handler for " 
 						+ element.getGenericType());
 			}
 		}

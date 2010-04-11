@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 
@@ -49,6 +48,6 @@ public interface GenericElementPptxHandler extends GenericElementHandler
 	void exportElement(
 		JRPptxExporterContext exporterContext, 
 		JRGenericPrintElement element 
-		) throws JRException;
+		);
 	
 }

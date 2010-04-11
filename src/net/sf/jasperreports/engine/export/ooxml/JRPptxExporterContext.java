@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 
 
 /**
- * A context that represents information about an DOCX export process.
+ * A context that represents information about an PPTX export process.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRPdfExporterContext.java 3033 2009-08-27 11:46:22Z teodord $
@@ -37,6 +37,6 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 public interface JRPptxExporterContext extends JRExporterContext
 {
 	
-	public DocxTableHelper getTableHelper();
+	public PptxSlideHelper getSlideHelper();
 	
 }

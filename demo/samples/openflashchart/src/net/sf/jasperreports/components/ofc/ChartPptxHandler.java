@@ -41,7 +41,7 @@ public class ChartPptxHandler extends BaseChartHandler implements GenericElement
 	public void exportElement(
 		JRPptxExporterContext exporterContext,
 		JRGenericPrintElement element
-		) throws JRException
+		)
 	{
 		JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
 		
