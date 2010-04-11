@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +34,7 @@ import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -56,19 +58,21 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -107,9 +111,10 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected PptxZip pptxZip = null;
 	protected PptxPresentationHelper presentationHelper = null;
-	protected PptxRelsHelper relsHelper = null;
+	protected PptxPresentationRelsHelper presentationRelsHelper = null;
 	protected PptxContentTypesHelper ctHelper = null;
 	protected PptxSlideHelper slideHelper = null;
+	protected PptxSlideRelsHelper slideRelsHelper = null;
 //	protected DocxDocumentHelper docHelper = null;
 	protected Writer presentationWriter = null;
 
@@ -121,7 +126,8 @@ public class JRPptxExporter extends JRAbstractExporter
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
-	protected int tableIndex = 0;
+	protected List frameIndexStack = null;
+	protected int elementIndex = 0;
 	protected boolean startPage;
 
 	/**
@@ -314,8 +320,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		presentationHelper = new PptxPresentationHelper(presentationWriter);
 		presentationHelper.exportHeader();
 		
-		relsHelper = new PptxRelsHelper(pptxZip.getRelsEntry().getWriter());
-		relsHelper.exportHeader();
+		presentationRelsHelper = new PptxPresentationRelsHelper(pptxZip.getRelsEntry().getWriter());
+		presentationRelsHelper.exportHeader();
 		
 		ctHelper = new PptxContentTypesHelper(pptxZip.getContentTypesEntry().getWriter());
 		ctHelper.exportHeader();
@@ -366,43 +372,43 @@ public class JRPptxExporter extends JRAbstractExporter
 		presentationHelper.exportFooter(jasperPrint);
 		presentationHelper.close();
 
-//		if ((imagesToProcess != null && imagesToProcess.size() > 0))
-//		{
-//			for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
-//			{
-//				JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
-//
-//				JRPrintImage image = getImage(jasperPrintList, imageIndex);
-//				JRRenderable renderer = image.getRenderer();
-//				if (renderer.getType() == JRRenderable.TYPE_SVG)
-//				{
-//					renderer =
-//						new JRWrappingSvgRenderer(
-//							renderer,
-//							new Dimension(image.getWidth(), image.getHeight()),
-//							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
-//							);
-//				}
-//
-//				String mimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());
-//				if (mimeType == null)
-//				{
-//					mimeType = JRRenderable.MIME_TYPE_JPEG;
-//				}
-//				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
-//				
-//				String imageName = getImageName(imageIndex);
-//				
-//				pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
-//					new FileBufferedZipEntry(
-//						"word/media/" + imageName + "." + extension,
-//						renderer.getImageData()
-//						)
-//					);
-//				
-//				relsHelper.exportImage(imageName, extension);
-//			}
-//		}
+		if ((imagesToProcess != null && imagesToProcess.size() > 0))
+		{
+			for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+			{
+				JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+
+				JRPrintImage image = getImage(jasperPrintList, imageIndex);
+				JRRenderable renderer = image.getRenderer();
+				if (renderer.getType() == JRRenderable.TYPE_SVG)
+				{
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							new Dimension(image.getWidth(), image.getHeight()),
+							ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+							);
+				}
+
+				String mimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());
+				if (mimeType == null)
+				{
+					mimeType = JRRenderable.MIME_TYPE_JPEG;
+				}
+				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+				
+				String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
+				
+				pptxZip.addEntry(//FIXMEPPTX optimize with a different implementation of entry
+					new FileBufferedZipEntry(
+						"ppt/media/" + imageName,
+						renderer.getImageData()
+						)
+					);
+				
+				//presentationRelsHelper.exportImage(imageName, extension);
+			}
+		}
 
 //		if ((hyperlinksMap != null && hyperlinksMap.size() > 0))
 //		{
@@ -415,9 +421,9 @@ public class JRPptxExporter extends JRAbstractExporter
 //			}
 //		}
 
-		relsHelper.exportFooter();
+		presentationRelsHelper.exportFooter();
 
-		relsHelper.close();
+		presentationRelsHelper.close();
 
 		ctHelper.exportFooter();
 		
@@ -434,6 +440,8 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException
 	{
+		frameIndexStack = new ArrayList();
+
 		exportElements(page.getElements());
 		
 		if (progressMonitor != null)
@@ -449,19 +457,24 @@ public class JRPptxExporter extends JRAbstractExporter
 		
 		presentationHelper.exportSlide(slideIndex + 1);
 		ctHelper.exportSlide(slideIndex + 1);
-		relsHelper.exportSlide(slideIndex + 1);
+		presentationRelsHelper.exportSlide(slideIndex + 1);
 
-		pptxZip.addEntry("ppt/slides/_rels/slide" + (slideIndex + 1) + ".xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slides/_rels/slide1.xml.rels");
+//		pptxZip.addEntry("ppt/slides/_rels/slide" + (slideIndex + 1) + ".xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slides/_rels/slide1.xml.rels");
 		
 		ExportZipEntry slideEntry = pptxZip.addSlide(slideIndex + 1);
 		Writer slideWriter = slideEntry.getWriter();
 		slideHelper = new PptxSlideHelper(slideWriter);
+
+		ExportZipEntry slideRelsEntry = pptxZip.addSlideRels(slideIndex + 1);
+		Writer slideRelsWriter = slideRelsEntry.getWriter();
+		slideRelsHelper = new PptxSlideRelsHelper(slideRelsWriter);
 		
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
 		runHelper = new PptxRunHelper(slideWriter, fontMap, null);//FIXMEXLSX check this null
 		
 		slideHelper.exportHeader();
+		slideRelsHelper.exportHeader();
 		
 	}
 
@@ -473,6 +486,10 @@ public class JRPptxExporter extends JRAbstractExporter
 			slideHelper.exportFooter();
 			
 			slideHelper.close();
+
+			slideRelsHelper.exportFooter();
+			
+			slideRelsHelper.close();
 		}
 	}
 	
@@ -487,6 +504,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			JRPrintElement element;
 			for(int i = 0; i < elements.size(); i++)
 			{
+				elementIndex = i;
+				
 				element = (JRPrintElement)elements.get(i);
 				
 				if (filter == null || filter.isToExport(element))
@@ -503,10 +522,10 @@ public class JRPptxExporter extends JRAbstractExporter
 					{
 						exportEllipse((JRPrintEllipse)element);
 					}
-//					else if (element instanceof JRPrintImage)
-//					{
-//						exportImage((JRPrintImage)element);
-//					}
+					else if (element instanceof JRPrintImage)
+					{
+						exportImage((JRPrintImage)element);
+					}
 					else if (element instanceof JRPrintText)
 					{
 						exportText((JRPrintText)element);
@@ -986,7 +1005,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(DocxTableHelper tableHelper, JRPrintImage image, JRExporterGridCell gridCell) throws JRException
+	protected void exportImage(JRPrintImage image) throws JRException
 	{
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
@@ -998,10 +1017,6 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
-
-		tableHelper.getCellHelper().exportHeader(image, gridCell);
-
-//		docHelper.write("<w:p>");
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -1158,51 +1173,78 @@ public class JRPptxExporter extends JRAbstractExporter
 
 			boolean startedHyperlink = startHyperlink(image,false);
 
-//			docHelper.write("<w:r>\n"); 
-//			docHelper.write("<w:drawing>\n");
-//			docHelper.write("<wp:anchor distT=\"0\" distB=\"0\" distL=\"0\" distR=\"0\" simplePos=\"0\" relativeHeight=\"0\" behindDoc=\"0\" locked=\"1\" layoutInCell=\"1\" allowOverlap=\"1\">");
-//			docHelper.write("<wp:simplePos x=\"0\" y=\"0\"/>");
-//			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(image.getHorizontalAlignmentValue()) + "</wp:align></wp:positionH>");
-//			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
-////			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
-//			
-//			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
-//			docHelper.write("<wp:wrapNone/>");
-//			docHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
-//			docHelper.write("<a:graphic>\n");
-//			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
-//			docHelper.write("<pic:pic>\n");
-//			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
-//			docHelper.write("<pic:blipFill>\n");
-//			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
-//			docHelper.write("<a:srcRect");
-//			if (cropLeft > 0)
-//			{
-//				docHelper.write(" l=\"" + (int)cropLeft + "\"");
-//			}
-//			if (cropTop > 0)
-//			{
-//				docHelper.write(" t=\"" + (int)cropTop + "\"");
-//			}
-//			if (cropRight > 0)
-//			{
-//				docHelper.write(" r=\"" + (int)cropRight + "\"");
-//			}
-//			if (cropBottom > 0)
-//			{
-//				docHelper.write(" b=\"" + (int)cropBottom + "\"");
-//			}
-//			docHelper.write("/>");
-//			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
-//			docHelper.write("</pic:blipFill>\n");
-//			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
-//			docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
-//			docHelper.write("</pic:pic>\n");
-//			docHelper.write("</a:graphicData>\n");
-//			docHelper.write("</a:graphic>\n");
-//			docHelper.write("</wp:anchor>\n");
-//			docHelper.write("</w:drawing>\n");
-//			docHelper.write("</w:r>"); 
+			String imageName = getImagePath(renderer, image.isLazy());
+			slideRelsHelper.exportImage(imageName);
+
+			slideHelper.write("<p:pic>\n");
+			slideHelper.write("  <p:nvPicPr>\n");
+			slideHelper.write("    <p:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			slideHelper.write("    <p:cNvPicPr>\n");
+			slideHelper.write("      <a:picLocks noChangeAspect=\"1\"/>\n");
+			slideHelper.write("    </p:cNvPicPr>\n");
+			slideHelper.write("    <p:nvPr/>\n");
+			slideHelper.write("  </p:nvPicPr>\n");
+			slideHelper.write("<p:blipFill>\n");
+			slideHelper.write("<a:blip r:embed=\"" + imageName + "\"/>");
+			slideHelper.write("<a:srcRect");
+			if (cropLeft > 0)
+			{
+				slideHelper.write(" l=\"" + (int)cropLeft + "\"");
+			}
+			if (cropTop > 0)
+			{
+				slideHelper.write(" t=\"" + (int)cropTop + "\"");
+			}
+			if (cropRight > 0)
+			{
+				slideHelper.write(" r=\"" + (int)cropRight + "\"");
+			}
+			if (cropBottom > 0)
+			{
+				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
+			}
+			slideHelper.write("/>");
+			slideHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+			slideHelper.write("</p:blipFill>\n");
+			slideHelper.write("  <p:spPr>\n");
+			slideHelper.write("    <a:xfrm>\n");
+			slideHelper.write("      <a:off x=\"" + Utility.emu(image.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(image.getY() + getOffsetY()) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + Utility.emu(image.getWidth()) + "\" cy=\"" + Utility.emu(image.getHeight()) + "\"/>\n");
+			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
+			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
+			{
+				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getBackcolor()) + "\"/></a:solidFill>\n");
+			}
+			if (image.getLineBox().getPen().getLineWidth() > 0)
+			{
+				slideHelper.write("  <a:ln w=\"" + Utility.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
+				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
+				slideHelper.write("<a:prstDash val=\"");
+				switch (image.getLineBox().getPen().getLineStyleValue())
+				{
+					case DASHED :
+					{
+						slideHelper.write("dash");
+						break;
+					}
+					case DOTTED :
+					{
+						slideHelper.write("dot");
+						break;
+					}
+					case DOUBLE :
+					case SOLID :
+					default :
+					{
+						slideHelper.write("solid");
+						break;
+					}
+				}
+				slideHelper.write("\"/>\n");
+				slideHelper.write("  </a:ln>\n");
+			}
+			slideHelper.write("  </p:spPr>\n");
+			slideHelper.write("  </p:pic>\n");
 
 			if(startedHyperlink)
 			{
@@ -1211,15 +1253,13 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 
 //		docHelper.write("</w:p>");
-
-		tableHelper.getCellHelper().exportFooter();
 	}
 
 
 	/**
 	 *
 	 */
-	protected String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell)
+	protected String getImagePath(JRRenderable renderer, boolean isLazy)
 	{
 		String imagePath = null;
 
@@ -1237,10 +1277,17 @@ public class JRPptxExporter extends JRAbstractExporter
 //				}
 //				else
 //				{
-					JRPrintElementIndex imageIndex = getElementIndex(gridCell);
+					JRPrintElementIndex imageIndex = getElementIndex();
 					imagesToProcess.add(imageIndex);
 
-					String imageName = getImageName(imageIndex);
+					String mimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());//FIXMEPPTX this code for file extension is duplicated
+					if (mimeType == null)
+					{
+						mimeType = JRRenderable.MIME_TYPE_JPEG;
+					}
+					String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
+
+					String imageName = IMAGE_NAME_PREFIX + imageIndex.toString() + "." + extension;
 					imagePath = imageName;
 					//imagePath = "Pictures/" + imageName;
 //				}
@@ -1253,13 +1300,21 @@ public class JRPptxExporter extends JRAbstractExporter
 	}
 
 
-	protected JRPrintElementIndex getElementIndex(JRExporterGridCell gridCell)
+	protected JRPrintElementIndex getElementIndex()
 	{
+		StringBuffer sbuffer = new StringBuffer();
+		for (int i = 0; i < frameIndexStack.size(); i++)
+		{
+			Integer frameIndex = (Integer)frameIndexStack.get(i);
+
+			sbuffer.append(frameIndex).append("_");
+		}
+		
 		JRPrintElementIndex imageIndex =
 			new JRPrintElementIndex(
 					reportIndex,
 					pageIndex,
-					gridCell.getWrapper().getAddress()
+					sbuffer.append(elementIndex).toString()
 					);
 		return imageIndex;
 	}
@@ -1344,15 +1399,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static String getImageName(JRPrintElementIndex printElementIndex)
-	{
-		return IMAGE_NAME_PREFIX + printElementIndex.toString();
-	}
-
-
-	/**
-	 *
-	 */
 	public static JRPrintElementIndex getPrintElementIndex(String imageName)
 	{
 		if (!imageName.startsWith(IMAGE_NAME_PREFIX))
@@ -1425,7 +1471,13 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("</p:sp>\n");
 
 		setFrameElementsOffset(frame, false);
+
+		frameIndexStack.add(Integer.valueOf(elementIndex));
+
 		exportElements(frame.getElements());
+
+		frameIndexStack.remove(frameIndexStack.size() - 1);
+		
 		restoreElementOffsets();
 	}
 

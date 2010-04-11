@@ -113,4 +113,16 @@ public class PptxZip extends FileBufferedZip
 		return slideEntry;
 	}
 	
+	/**
+	 * 
+	 */
+	public ExportZipEntry addSlideRels(int index)
+	{
+		ExportZipEntry slideRelsEntry = createEntry("ppt/slides/_rels/slide" + index + ".xml.rels");
+
+		exportZipEntries.add(slideRelsEntry);
+
+		return slideRelsEntry;
+	}
+	
 }

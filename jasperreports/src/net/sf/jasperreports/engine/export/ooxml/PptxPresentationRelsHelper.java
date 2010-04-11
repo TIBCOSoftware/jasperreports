@@ -30,13 +30,13 @@ import java.io.Writer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class PptxRelsHelper extends BaseHelper
+public class PptxPresentationRelsHelper extends BaseHelper
 {
 
 	/**
 	 * 
 	 */
-	public PptxRelsHelper(Writer writer)
+	public PptxPresentationRelsHelper(Writer writer)
 	{
 		super(writer);
 	}
