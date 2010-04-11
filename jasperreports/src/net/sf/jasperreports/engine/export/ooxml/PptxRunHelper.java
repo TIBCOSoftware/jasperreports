@@ -136,36 +136,8 @@ public class PptxRunHelper extends BaseHelper
 	{
 		write("       <" + tag + "\n");
 
-		Object value = attrs.get(TextAttribute.FAMILY);
-		Object oldValue = parentAttrs.get(TextAttribute.FAMILY);
-		
-		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
-		{
-			String fontFamilyAttr = (String)value;
-			String fontFamily = fontFamilyAttr;
-			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
-			{
-				fontFamily = (String) fontMap.get(fontFamilyAttr);
-			}
-			else
-			{
-				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
-				if (fontInfo != null)
-				{
-					//fontName found in font extensions
-					FontFamily family = fontInfo.getFontFamily();
-					String exportFont = family.getExportFont(exporterKey);
-					if (exportFont != null)
-					{
-						fontFamily = exportFont;
-					}
-				}
-			}
-//			write("        <a:rFonts a:ascii=\"" + fontFamily + "\" a:hAnsi=\"" + fontFamily + "\" a:eastAsia=\"" + fontFamily + "\" a:cs=\"" + fontFamily + "\" />\n");
-		}
-		
-		value = attrs.get(TextAttribute.SIZE);
-		oldValue = parentAttrs.get(TextAttribute.SIZE);
+		Object value = attrs.get(TextAttribute.SIZE);
+		Object oldValue = parentAttrs.get(TextAttribute.SIZE);
 
 		if (value != null && !value.equals(oldValue))
 		{
@@ -247,6 +219,36 @@ public class PptxRunHelper extends BaseHelper
 //			write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa((Color)value) + "\"/></a:solidFill>\n");
 //		}
 
+		value = attrs.get(TextAttribute.FAMILY);
+		oldValue = parentAttrs.get(TextAttribute.FAMILY);
+		
+		if (value != null && !value.equals(oldValue))//FIXMEDOCX the text locale might be different from the report locale, resulting in different export font
+		{
+			String fontFamilyAttr = (String)value;
+			String fontFamily = fontFamilyAttr;
+			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
+			{
+				fontFamily = (String) fontMap.get(fontFamilyAttr);
+			}
+			else
+			{
+				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+				if (fontInfo != null)
+				{
+					//fontName found in font extensions
+					FontFamily family = fontInfo.getFontFamily();
+					String exportFont = family.getExportFont(exporterKey);
+					if (exportFont != null)
+					{
+						fontFamily = exportFont;
+					}
+				}
+			}
+			write("        <a:latin typeface=\"" + fontFamily + "\"/>\n");
+			write("        <a:ea typeface=\"" + fontFamily + "\"/>\n");
+			write("        <a:cs typeface=\"" + fontFamily + "\"/>\n");
+		}
+		
 		write("</" + tag + ">\n");
 	}
 
