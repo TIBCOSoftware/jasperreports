@@ -122,7 +122,7 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 			clone.xySeries = new JRXySeries[xySeries.length];
 			for(int i = 0; i < xySeries.length; i++)
 			{
-				xySeries[i] = (JRXySeries)xySeries[i].clone();
+				clone.xySeries[i] = (JRXySeries)xySeries[i].clone();
 			}
 		}
 		
