@@ -232,28 +232,16 @@ public class FillTable extends BaseFillComponent
 		
 		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
 		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
-		TableReport tableReport1 = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
+		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
 		
 		if (log.isDebugEnabled())
 		{
-			String tableReportXml = JRXmlWriter.writeReport(tableReport1, "UTF-8");
+			String tableReportXml = JRXmlWriter.writeReport(tableReport, "UTF-8");
 			log.debug("Generated table report:\n" + tableReportXml);
 		}
-		TableReport tableReport = tableReport1;
 		
-		Serializable compileData = parentReport.getCompileData();
-		if (!(compileData instanceof JRReportCompileData))
-		{
-			throw new JRRuntimeException("Unsupported compiled report data of type " 
-					+ compileData.getClass().getName());
-		}
-		
-		JRReportCompileData reportCompileData = (JRReportCompileData) compileData;
-		Serializable datasetCompileData = reportCompileData.getDatasetCompileData(
-				reportSubdataset);
-		
-		JRReportCompileData tableReportCompileData = new JRReportCompileData();
-		tableReportCompileData.setMainDatasetCompileData(datasetCompileData);
+		JRReportCompileData tableReportCompileData = createTableReportCompileData(
+				parentReport, reportSubdataset);
 		
 		JasperReport compiledTableReport = new JasperReport(tableReport, 
 				parentReport.getCompilerClass(), 
@@ -265,6 +253,37 @@ public class FillTable extends BaseFillComponent
 		return new FillTableSubreport(
 				fillContext.getFiller(), subreport, factory, compiledTableReport,
 				builtinEvaluators);
+	}
+	
+	protected JRReportCompileData createTableReportCompileData(
+			JasperReport parentReport, JRDataset reportSubdataset)
+			throws JRException
+	{
+		Serializable reportCompileDataObj = parentReport.getCompileData();
+		if (!(reportCompileDataObj instanceof JRReportCompileData))
+		{
+			throw new JRRuntimeException("Unsupported compiled report data of type " 
+					+ reportCompileDataObj.getClass().getName());
+		}
+		
+		JRReportCompileData reportCompileData = (JRReportCompileData) reportCompileDataObj;
+		Serializable datasetCompileData = reportCompileData.getDatasetCompileData(
+				reportSubdataset);
+		
+		JRReportCompileData tableReportCompileData = new TableReportCompileData(
+				parentReport);
+		tableReportCompileData.setMainDatasetCompileData(datasetCompileData);
+		
+		JRDataset[] datasets = parentReport.getDatasets();
+		if (datasets != null)
+		{
+			for (JRDataset dataset : datasets)
+			{
+				Serializable compileData = reportCompileData.getDatasetCompileData(dataset);
+				tableReportCompileData.setDatasetCompileData(dataset, compileData);
+			}
+		}
+		return tableReportCompileData;
 	}
 	
 	public FillPrepareResult prepare(int availableHeight)
