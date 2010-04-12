@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.2 (2010-03-12, SVN xxxx)
+JasperReports 3.7.2 (2010-03-12, SVN 3736)
 ---------------------------------------------
 
 - new table component added to simplify designing tables with variable number of columns;
