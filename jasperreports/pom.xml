@@ -36,6 +36,8 @@
 				<includes>
 					<include>**/*.dtd</include>
 					<include>**/*.xsd</include>
+					<include>**/*.rels</include>
+					<include>**/*.xml</include>
 					<include>**/*.properties</include>
 					<include>**/*.png</include>
 					<include>**/*.GIF</include>
