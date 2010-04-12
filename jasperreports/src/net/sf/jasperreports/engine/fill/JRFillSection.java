@@ -82,6 +82,11 @@ public class JRFillSection implements JRSection, JROriginProvider
 				bands = new JRFillBand[]{filler.missingFillBand};
 			}
 		}
+		else
+		{
+			// use a single missing band for null/missing sections
+			bands = new JRFillBand[]{filler.missingFillBand};
+		}
 
 		this.filler = filler;
 	}
