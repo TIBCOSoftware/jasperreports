@@ -201,5 +201,10 @@ public class TableReportGroup implements JRGroup
 	{
 		throw new UnsupportedOperationException();
 	}
+
+	public JRGroup getOriginalGroup()
+	{
+		return datasetGroup;
+	}
 	
 }
