@@ -1068,75 +1068,83 @@ public class JRPptxExporter extends JRAbstractExporter
 				{
 					width = availableImageWidth;
 					height = availableImageHeight;
-					break;
+//					cropTop = 100000 * topPadding / availableImageHeight;
+//					cropLeft = 100000 * leftPadding / availableImageWidth;
+//					cropBottom = 100000 * bottomPadding / availableImageHeight;
+//					cropRight = 100000 * rightPadding / availableImageWidth;
+ 					break;
 				}
 				case CLIP :
 				{
-					if (normalWidth > availableImageWidth)
-					{
+//					if (normalWidth > availableImageWidth)
+//					{
 						switch (image.getHorizontalAlignmentValue())
 						{
 							case RIGHT :
 							{
-								cropLeft = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
 								cropRight = 0;
+//								cropRight = 100000 * rightPadding / availableImageWidth;
 								break;
 							}
 							case CENTER :
 							{
-								cropLeft = 65536 * (- availableImageWidth + normalWidth) / normalWidth / 2;
+								cropLeft = 100000 * (availableImageWidth - normalWidth) / availableImageWidth / 2;
 								cropRight = cropLeft;
 								break;
 							}
 							case LEFT :
 							default :
 							{
+//								cropLeft = 100000 * leftPadding / availableImageWidth;
 								cropLeft = 0;
-								cropRight = 65536 * (normalWidth - availableImageWidth) / normalWidth;
+								cropRight = 100000 * (availableImageWidth - normalWidth) / availableImageWidth;
 								break;
 							}
 						}
-						width = availableImageWidth;
-						cropLeft = cropLeft / 0.75d;
-						cropRight = cropRight / 0.75d;
-					}
-					else
-					{
-						width = (int)normalWidth;
-					}
+//						width = availableImageWidth;
+////						cropLeft = cropLeft / 0.75d;
+////						cropRight = cropRight / 0.75d;
+//					}
+//					else
+//					{
+//						width = (int)normalWidth;
+//					}
 
-					if (normalHeight > availableImageHeight)
-					{
+//					if (normalHeight > availableImageHeight)
+//					{
 						switch (image.getVerticalAlignmentValue())
 						{
 							case TOP :
 							{
+//								cropTop = 100000 * topPadding / availableImageHeight;
 								cropTop = 0;
-								cropBottom = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								cropBottom = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
 								break;
 							}
 							case MIDDLE :
 							{
-								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight / 2;
+								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight / 2;
 								cropBottom = cropTop;
 								break;
 							}
 							case BOTTOM :
 							default :
 							{
-								cropTop = 65536 * (normalHeight - availableImageHeight) / normalHeight;
+								cropTop = 100000 * (availableImageHeight - normalHeight) / availableImageHeight;
 								cropBottom = 0;
+//								cropBottom = 100000 * bottomPadding / availableImageHeight;
 								break;
 							}
 						}
-						height = availableImageHeight;
-						cropTop = cropTop / 0.75d;
-						cropBottom = cropBottom / 0.75d;
-					}
-					else
-					{
-						height = (int)normalHeight;
-					}
+//						height = availableImageHeight;
+//						cropTop = cropTop / 0.75d;
+//						cropBottom = cropBottom / 0.75d;
+//					}
+//					else
+//					{
+//						height = (int)normalHeight;
+//					}
 
 					break;
 				}
@@ -1152,11 +1160,56 @@ public class JRPptxExporter extends JRAbstractExporter
 							width = availableImageWidth;
 							height = (int)(width/ratio);
 
+							switch (image.getVerticalAlignmentValue())
+							{
+								case TOP :
+								{
+									cropTop = 0;
+									cropBottom = 100000 * (availableImageHeight - height) / availableImageHeight;
+									break;
+								}
+								case MIDDLE :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight / 2;
+									cropBottom = cropTop;
+									break;
+								}
+								case BOTTOM :
+								default :
+								{
+									cropTop = 100000 * (availableImageHeight - height) / availableImageHeight;
+									cropBottom = 0;
+									break;
+								}
+							}
 						}
 						else
 						{
 							height = availableImageHeight;
 							width = (int)(ratio * height);
+
+							switch (image.getHorizontalAlignmentValue())
+							{
+								case RIGHT :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth;
+									cropRight = 0;
+									break;
+								}
+								case CENTER :
+								{
+									cropLeft = 100000 * (availableImageWidth - width) / availableImageWidth / 2;
+									cropRight = cropLeft;
+									break;
+								}
+								case LEFT :
+								default :
+								{
+									cropLeft = 0;
+									cropRight = 100000 * (availableImageWidth - width) / availableImageWidth;
+									break;
+								}
+							}
 						}
 					}
 				}
@@ -1187,24 +1240,41 @@ public class JRPptxExporter extends JRAbstractExporter
 			slideHelper.write("<p:blipFill>\n");
 			slideHelper.write("<a:blip r:embed=\"" + imageName + "\"/>");
 			slideHelper.write("<a:srcRect");
-			if (cropLeft > 0)
-			{
-				slideHelper.write(" l=\"" + (int)cropLeft + "\"");
-			}
-			if (cropTop > 0)
-			{
-				slideHelper.write(" t=\"" + (int)cropTop + "\"");
-			}
-			if (cropRight > 0)
-			{
-				slideHelper.write(" r=\"" + (int)cropRight + "\"");
-			}
-			if (cropBottom > 0)
-			{
-				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
-			}
+////			if (cropLeft > 0)
+////			{
+//				slideHelper.write(" l=\"" + (int)(100000 * leftPadding / image.getWidth()) + "\"");
+////			}
+////			if (cropTop > 0)
+////			{
+//				slideHelper.write(" t=\"" + (int)cropTop + "\"");
+////			}
+////			if (cropRight > 0)
+////			{
+//				slideHelper.write(" r=\"" + (int)cropRight + "\"");
+////			}
+////			if (cropBottom > 0)
+////			{
+//				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
+////			}
 			slideHelper.write("/>");
-			slideHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
+			slideHelper.write("<a:stretch><a:fillRect");
+//			if (cropLeft > 0)
+//			{
+				slideHelper.write(" l=\"" + (int)cropLeft + "\"");
+//			}
+//			if (cropTop > 0)
+//			{
+				slideHelper.write(" t=\"" + (int)cropTop + "\"");
+//			}
+//			if (cropRight > 0)
+//			{
+				slideHelper.write(" r=\"" + (int)cropRight + "\"");
+//			}
+//			if (cropBottom > 0)
+//			{
+				slideHelper.write(" b=\"" + (int)cropBottom + "\"");
+//			}
+			slideHelper.write("/></a:stretch>\n");
 			slideHelper.write("</p:blipFill>\n");
 			slideHelper.write("  <p:spPr>\n");
 			slideHelper.write("    <a:xfrm>\n");
