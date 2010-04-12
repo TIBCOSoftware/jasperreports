@@ -378,7 +378,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getFill()
 	{
-		return getFillValue().getValueByte();
+		return getFillValue() == null ? null : getFillValue().getValueByte();
 	}
 
 	/**
@@ -386,7 +386,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 
 	public FillEnum getFillValue()
@@ -414,7 +414,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getScaleImage()
 	{
-		return getScaleImageValue().getValueByte();
+		return getScaleImageValue() == null ? null : getScaleImageValue().getValueByte();
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return getOwnScaleImageValue().getValueByte();
+		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getHorizontalAlignment()
 	{
-		return getHorizontalAlignmentValue().getValue();
+		return getHorizontalAlignmentValue() == null ? null : getHorizontalAlignmentValue().getValueByte();
 	}
 
 	/**
@@ -472,7 +472,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getVerticalAlignment()
 	{
-		return JRStyleResolver.getVerticalAlignment(this);
+		return getVerticalAlignmentValue() == null ? null : getVerticalAlignmentValue().getValueByte();
 	}
 
 	/**
@@ -480,7 +480,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getOwnVerticalAlignment()
 	{
-		return verticalAlignment;
+		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 
 	public VerticalAlignEnum getVerticalAlignmentValue()
@@ -975,8 +975,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 */
 	public Byte getMode()
 	{
-                //FIXME GT: getModeValue() returns null if there is not parent style.
-		return getModeValue().getValueByte();
+		return getModeValue() == null ? null : getModeValue().getValueByte();
 	}
 
 	/**
