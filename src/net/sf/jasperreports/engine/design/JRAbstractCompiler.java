@@ -314,16 +314,16 @@ public abstract class JRAbstractCompiler implements JRCompiler
 
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
-		String unitName = JRAbstractCompiler.getUnitName(jasperReport, dataset);
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();
+		String unitName = reportCompileData.getUnitName(jasperReport, dataset);
 		Serializable compileData = reportCompileData.getDatasetCompileData(dataset);
 		return loadEvaluator(compileData, unitName);
 	}
 
 	public JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
-		String unitName = JRAbstractCompiler.getUnitName(jasperReport, crosstab);
 		JRReportCompileData reportCompileData = (JRReportCompileData) jasperReport.getCompileData();
+		String unitName = reportCompileData.getUnitName(jasperReport, crosstab);
 		Serializable compileData = reportCompileData.getCrosstabCompileData(crosstab);
 		return loadEvaluator(compileData, unitName);
 	}

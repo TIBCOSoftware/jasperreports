@@ -31,6 +31,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReport;
 
 /**
  * Structure used to hold a report's expression evaluator compile data.
@@ -169,5 +170,15 @@ public class JRReportCompileData implements Serializable
 		}
 		
 		return compileData;
+	}
+
+	public String getUnitName(JasperReport jasperReport, JRDataset dataset)
+	{
+		return JRAbstractCompiler.getUnitName(jasperReport, dataset);
+	}
+
+	public String getUnitName(JasperReport jasperReport, JRCrosstab crosstab)
+	{
+		return JRAbstractCompiler.getUnitName(jasperReport, crosstab);
 	}
 }
