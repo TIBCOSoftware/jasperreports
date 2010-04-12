@@ -94,7 +94,6 @@ public class TableReport implements JRReport
 	private final JRDesignBand columnHeader;
 	private final JRDesignBand pageFooter;
 	private final JRDesignBand lastPageFooter;
-	private final JRDataset[] datasets;
 	
 	public TableReport(FillContext fillContext, TableReportDataset mainDataset, 
 			List<FillColumn> fillColumns, 
@@ -129,32 +128,6 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
-
-		List<JRDataset> datasetList = getReportDatasets(mainDataset);
-		if (datasetList.isEmpty())
-		{
-			this.datasets = null;
-		}
-		else
-		{
-			this.datasets = datasetList.toArray(new JRDataset[datasetList.size()]);
-		}
-	}
-
-	protected List<JRDataset> getReportDatasets(TableReportDataset mainDataset)
-	{
-		JRDataset[] reportDatasets = parentReport.getDatasets();
-		List<JRDataset> datasetList = new ArrayList<JRDataset>(
-				reportDatasets.length - 1);
-		JRDataset parentTableDataset = mainDataset.getParentTableDataset();
-		for (JRDataset dataset : reportDatasets)
-		{
-			if (dataset != parentTableDataset)//testing for object identity
-			{
-				datasetList.add(dataset);
-			}
-		}
-		return datasetList;
 	}
 	
 	protected class ReportBandInfo
@@ -933,7 +906,7 @@ public class TableReport implements JRReport
 
 	public JRDataset[] getDatasets()
 	{
-		return datasets;
+		return parentReport.getDatasets();
 	}
 
 	@Deprecated

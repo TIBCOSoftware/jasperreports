@@ -231,7 +231,10 @@ public class FillTable extends BaseFillComponent
 			new HashMap<JRExpression, BuiltinExpressionEvaluator>();
 		
 		String tableReportName = JRAbstractCompiler.getUnitName(parentReport, reportSubdataset);
-		TableReportDataset reportDataset = new TableReportDataset(reportSubdataset, tableReportName);
+		// clone the table subdataset in order to have a different instance for other
+		// elements that might be using it
+		JRDataset tableSubdataset = (JRDataset) reportSubdataset.clone();
+		TableReportDataset reportDataset = new TableReportDataset(tableSubdataset, tableReportName);
 		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
 		
 		if (log.isDebugEnabled())

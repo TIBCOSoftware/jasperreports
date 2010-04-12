@@ -207,11 +207,6 @@ public class TableReportDataset implements JRDataset
 	{
 		return properties.hasProperties();
 	}
-
-	public JRDataset getParentTableDataset()
-	{
-		return tableSubdataset;
-	}
 	
 	public Object clone()
 	{

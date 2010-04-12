@@ -41,22 +41,20 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 {
 
-	private final Map<String, JRBaseGroup> groupMap = 
-		new HashMap<String, JRBaseGroup>();
+	private Map<JRGroup, TableReportGroup> tableGroupMap = 
+		new HashMap<JRGroup, TableReportGroup>();
 	
 	public TableReportBaseObjectFactory(TableReportDataset reportDataset)
 	{
 		super((JRExpressionCollector) null);
 		
-		// init all groups to have the dataset object in the cache
-		initGroups(reportDataset);
-	}
-
-	private void initGroups(TableReportDataset reportDataset)
-	{
-		for (JRGroup group : reportDataset.getGroups())
+		TableReportGroup[] tableGroups = reportDataset.getTableGroups();
+		if (tableGroups != null)
 		{
-			getGroup(group);
+			for (TableReportGroup tableReportGroup : tableGroups)
+			{
+				tableGroupMap.put(tableReportGroup.getOriginalGroup(), tableReportGroup);
+			}
 		}
 	}
 	
@@ -67,37 +65,21 @@ public class TableReportBaseObjectFactory extends JRBaseObjectFactory
 		// same expressions are used in the table report
 		return expression;
 	}
-
-	@Override
-	public void put(Object object, Object copy)
-	{
-		super.put(object, copy);
-		
-		if (object instanceof JRGroup)
-		{
-			JRGroup group = (JRGroup) object;
-			JRBaseGroup groupCopy = (JRBaseGroup) copy;
-			groupMap.put(group.getName(), groupCopy);
-		}
-	}
-
+	
 	@Override
 	protected JRBaseGroup getGroup(JRGroup group)
 	{
-		if (group == null)
+		JRGroup origGroup;
+		if (tableGroupMap.containsKey(group))
 		{
-			return null;
+			origGroup = tableGroupMap.get(group);
+		}
+		else
+		{
+			origGroup = group;
 		}
 		
-		// cache groups by names so that variable groups and dataset groups
-		// result in the same objects
-		JRBaseGroup baseGroup = groupMap.get(group.getName());
-		if (baseGroup == null)
-		{
-			baseGroup = super.getGroup(group);
-			// put() will place the entry in groupMap
-		}
-		return baseGroup;
+		return super.getGroup(origGroup);
 	}
 	
 }
