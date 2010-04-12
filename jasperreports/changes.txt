@@ -2,12 +2,24 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.2 (2010-03-xx, SVN xxxx)
+JasperReports 3.7.2 (2010-03-12, SVN xxxx)
 ---------------------------------------------
 
-- Java 5.0 and type enums;
+- new table component added to simplify designing tables with variable number of columns;
 
-- non-Spring font extension support;
+- new PPTX exporter added to the core library to help creating PowerPoint 2007 documents 
+based on the Office Open XML format;
+
+- upgrade to Java 5.0; starting with this release, JasperReports is no longer compatible 
+with Java 1.4 and makes use of newer language features such as generics and typed enums;
+
+- simple XML-DOM-based font extension implementation added to eliminate the dependency on Spring 
+brought by the previous font extension default implementation;
+
+- code generating utility class added (JRApiWriter) to help users understand how to use 
+the JasperReports API and its report object model to create report templates at runtime (no JRXML);
+
+- the Flash viewer was added to the demo/samples/webapp sample;
 
 - minor bug fixes and improvements;
 
