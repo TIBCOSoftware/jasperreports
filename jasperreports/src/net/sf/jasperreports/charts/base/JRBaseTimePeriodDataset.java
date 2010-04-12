@@ -99,7 +99,7 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 			clone.timePeriodSeries = new JRTimePeriodSeries[timePeriodSeries.length];
 			for(int i = 0; i < timePeriodSeries.length; i++)
 			{
-				timePeriodSeries[i] = (JRTimePeriodSeries)timePeriodSeries[i].clone();
+				clone.timePeriodSeries[i] = (JRTimePeriodSeries)timePeriodSeries[i].clone();
 			}
 		}
 		

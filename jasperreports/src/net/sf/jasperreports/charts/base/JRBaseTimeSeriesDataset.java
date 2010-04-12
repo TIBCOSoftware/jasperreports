@@ -117,7 +117,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 			clone.timeSeries = new JRTimeSeries[timeSeries.length];
 			for(int i = 0; i < timeSeries.length; i++)
 			{
-				timeSeries[i] = (JRTimeSeries)timeSeries[i].clone();
+				clone.timeSeries[i] = (JRTimeSeries)timeSeries[i].clone();
 			}
 		}
 		
