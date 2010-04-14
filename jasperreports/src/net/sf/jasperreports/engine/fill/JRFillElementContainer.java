@@ -366,9 +366,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			tmpWillOverflow = true;
 		}
 		
+		// stretchHeight includes firstY, which is subtracted in fillElements
 		if (tmpWillOverflow)
 		{
-			stretchHeight = availableHeight;
+			stretchHeight = availableHeight + firstY;
 		}
 		else
 		{
@@ -415,7 +416,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = stretchElements[i];
 				
-				element.stretchElement(stretchHeight - getContainerHeight());
+				element.stretchElement(stretchHeight - getContainerHeight());//TODO subtract firstY?
 				
 				element.moveDependantElements();
 			}
@@ -558,7 +559,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 				
 				element.setRelativeY(element.getRelativeY() - firstY);
 
-				if (element.getRelativeY() + element.getStretchHeight() > stretchHeight)
+				if (element.getRelativeY() + element.getStretchHeight() > stretchHeight - firstY)
 				{
 					element.setToPrint(false);
 				}
