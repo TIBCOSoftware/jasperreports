@@ -39,13 +39,13 @@ public class JRTimePeriodDatasetFactory extends JRBaseFactory {
 	public Object createObject( Attributes attrs ){
 		JRDesignChart chart = (JRDesignChart)digester.peek();
 
-		JRDesignTimePeriodDataset dataset =  (JRDesignTimePeriodDataset)chart.getDataset(); 
-		
-		if(chart.getDataset() == null){
-			dataset = new JRDesignTimePeriodDataset(chart.getDataset());
+		JRDesignTimePeriodDataset dataset;
+		JRDesignTimePeriodDataset chartDataset = (JRDesignTimePeriodDataset) chart.getDataset();
+		if(chartDataset == null){
+			dataset = new JRDesignTimePeriodDataset(chartDataset);
 		}
 		else {
-			dataset = (JRDesignTimePeriodDataset)chart.getDataset();
+			dataset = chartDataset;
 		}
 		
 		chart.setDataset(dataset);
