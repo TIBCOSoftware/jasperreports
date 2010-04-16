@@ -108,7 +108,7 @@ public class JRFillSection implements JRSection, JROriginProvider
 	{
 		this.origin = origin;
 
-		if (bands != null && bands.length > 0)
+		if (bands.length > 0)
 		{
 			for (int i = 0; i < bands.length; i++)
 			{
@@ -157,36 +157,27 @@ public class JRFillSection implements JRSection, JROriginProvider
 
 	protected void setNewPageColumn(boolean isNew)
 	{
-		if (bands != null)
+		for(int i = 0; i < bands.length; i++)
 		{
-			for(int i = 0; i < bands.length; i++)
-			{
-				bands[i].setNewPageColumn(isNew);
-			}
+			bands[i].setNewPageColumn(isNew);
 		}
 	}
 
 
 	protected void setNewGroup(JRGroup group, boolean isNew)
 	{
-		if (bands != null)
+		for(int i = 0; i < bands.length; i++)
 		{
-			for(int i = 0; i < bands.length; i++)
-			{
-				bands[i].setNewGroup(group, isNew);
-			}
+			bands[i].setNewGroup(group, isNew);
 		}
 	}
 
 
 	protected void addNowEvaluationTime(JREvaluationTime evaluationTime)
 	{
-		if (bands != null)
+		for(int i = 0; i < bands.length; i++)
 		{
-			for(int i = 0; i < bands.length; i++)
-			{
-				bands[i].addNowEvaluationTime(evaluationTime);
-			}
+			bands[i].addNowEvaluationTime(evaluationTime);
 		}
 	}
 
