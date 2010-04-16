@@ -86,78 +86,78 @@ public final class JRStringUtil
 	 */
 	public static String xmlEncode(String text)
 	{
-		int length = text.length();
-		if (text != null && length > 0)
+		if (text == null || text.length() == 0)
 		{
-			StringBuffer ret = new StringBuffer(length * 12 / 10);
+			return text;
+		}
+		
+		int length = text.length();
+		StringBuffer ret = new StringBuffer(length * 12 / 10);
 
-			int last = 0;
-			for (int i = 0; i < length; i ++)
+		int last = 0;
+		for (int i = 0; i < length; i ++)
+		{
+			char c = text.charAt(i);
+			switch (c)
 			{
-				char c = text.charAt(i);
-				switch (c)
-				{
-		//			case ' ' : ret.append("&nbsp;"); break;
-					case '&' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&amp;");
-						break;
-					case '>' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&gt;");
-						break;
-					case '<' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&lt;");
-						break;
-					case '\"' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&quot;");
-						break;
-					case '\'' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&apos;");
-						break;
+//			case ' ' : ret.append("&nbsp;"); break;
+				case '&' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&amp;");
+					break;
+				case '>' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&gt;");
+					break;
+				case '<' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&lt;");
+					break;
+				case '\"' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&quot;");
+					break;
+				case '\'' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&apos;");
+					break;
 
-					default :
-						break;
-				}
+				default :
+					break;
 			}
-
-			if (last < length)
-			{
-				ret.append(text.substring(last));
-			}
-			
-			return ret.toString();
 		}
 
-		return text;
+		if (last < length)
+		{
+			ret.append(text.substring(last));
+		}
+		
+		return ret.toString();
 	}
 
 
@@ -166,75 +166,78 @@ public final class JRStringUtil
 	 */
 	public static String htmlEncode(String text)
 	{
-		int length = text.length();
-		if (text != null && length > 0)
+		if (text == null || text.length() == 0)
 		{
-			StringBuffer ret = new StringBuffer(length * 12 / 10);
+			return text;
+		}
+		
+		int length = text.length();
+		StringBuffer ret = new StringBuffer(length * 12 / 10);
 
-			boolean isEncodeSpace = true;
-			int last = 0;
-			for (int i = 0; i < length; i ++)
+		boolean isEncodeSpace = true;
+		int last = 0;
+		for (int i = 0; i < length; i ++)
+		{
+			char c = text.charAt(i);
+			switch (c)
 			{
-				char c = text.charAt(i);
-				switch (c)
-				{
-					case ' ' : 
-						if (isEncodeSpace)
-						{
-							if (last < i)
-							{
-								ret.append(text.substring(last, i));
-							}
-							last = i + 1;
-							
-							ret.append("&nbsp;");
-							isEncodeSpace = false;
-						}
-						else
-						{
-							isEncodeSpace = true;
-						}
-						break;
-					case '&' :
+				case ' ' : 
+					if (isEncodeSpace)
+					{
 						if (last < i)
 						{
 							ret.append(text.substring(last, i));
 						}
 						last = i + 1;
 						
-						ret.append("&amp;");
+						ret.append("&nbsp;");
 						isEncodeSpace = false;
-						break;
-					case '>' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&gt;");
-						isEncodeSpace = false;
-						break;
-					case '<' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&lt;");
-						isEncodeSpace = false;
-						break;
-					case '\"' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("&quot;");
-						isEncodeSpace = false;
-						break;
+					}
+					else
+					{
+						isEncodeSpace = true;
+					}
+					break;
+				case '&' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&amp;");
+					isEncodeSpace = false;
+					break;
+				case '>' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&gt;");
+					isEncodeSpace = false;
+					break;
+				case '<' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&lt;");
+					isEncodeSpace = false;
+					break;
+				case '\"' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("&quot;");
+					isEncodeSpace = false;
+					break;
 // it does not work in IE
 //					case '\'' :
 //						if (last < i)
@@ -246,32 +249,29 @@ public final class JRStringUtil
 //						ret.append("&apos;");
 //						isEncodeSpace = false;
 //						break;
-					case '\n' :
-						if (last < i)
-						{
-							ret.append(text.substring(last, i));
-						}
-						last = i + 1;
-						
-						ret.append("<br/>");
-						isEncodeSpace = false;
-						break;
-
-					default :
-						isEncodeSpace = false;
+				case '\n' :
+					if (last < i)
+					{
+						ret.append(text.substring(last, i));
+					}
+					last = i + 1;
+					
+					ret.append("<br/>");
+					isEncodeSpace = false;
 					break;
-				}
-			}
 
-			if (last < length)
-			{
-				ret.append(text.substring(last));
+				default :
+					isEncodeSpace = false;
+				break;
 			}
-
-			return ret.toString();
 		}
 
-		return text;
+		if (last < length)
+		{
+			ret.append(text.substring(last));
+		}
+
+		return ret.toString();
 	}
 
 
