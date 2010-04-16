@@ -1061,7 +1061,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			JRDesignCellContents contents = (JRDesignCellContents) crosstabCell.getContents();
 			
 			String rowTotalGroup = crosstabCell.getRowTotalGroup();
-			int rowGroupIndex = rowTotalGroup == null ? rowGroupIndex = rowGroups.size() : ((Integer) rowGroupsMap.get(rowTotalGroup)).intValue();
+			int rowGroupIndex = rowTotalGroup == null ? rowGroups.size() : ((Integer) rowGroupsMap.get(rowTotalGroup)).intValue();
 			
 			Integer cellWidth = crosstabCell.getWidth();
 			if (cellWidth != null)
@@ -1070,7 +1070,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 
 			String columnTotalGroup = crosstabCell.getColumnTotalGroup();
-			int columnGroupIndex = columnTotalGroup == null ? columnGroupIndex = columnGroups.size() : ((Integer) columnGroupsMap.get(columnTotalGroup)).intValue();
+			int columnGroupIndex = columnTotalGroup == null ? columnGroups.size() : ((Integer) columnGroupsMap.get(columnTotalGroup)).intValue();
 			Integer cellHeight = crosstabCell.getHeight();
 			if (cellHeight != null)
 			{
