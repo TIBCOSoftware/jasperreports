@@ -219,8 +219,8 @@ public class JROrigin implements JRCloneable, Serializable
 			String reportName2 = origin.getReportName();
 			return
 				origin.getBandTypeValue() == bandTypeValue
-				&& ((groupName == null && groupName2 == null) || (groupName.equals(groupName2)))
-				&& ((reportName == null && reportName2 == null) || (reportName.equals(reportName2)));
+				&& (groupName == null ? groupName2 == null : groupName2 != null && groupName.equals(groupName2))
+				&& (reportName == null ? reportName2 == null : reportName2 != null && reportName.equals(reportName2));
 		}
 		return false;
 	}
