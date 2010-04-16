@@ -44,13 +44,11 @@ public interface MappingParserTokenTypes {
 	int POINT = 16;
 	int INT = 17;
 	int MONDRNAME = 18;
-	int MONDRIDX = 19;
-	int NAME = 20;
-	int PLUS = 21;
-	int MINUS = 22;
-	int STAR = 23;
-	int WS = 24;
-	int MONDRCH = 25;
-	int DIGIT = 26;
-	int LETTER = 27;
+	int NAME = 19;
+	int PLUS = 20;
+	int MINUS = 21;
+	int STAR = 22;
+	int WS = 23;
+	int DIGIT = 24;
+	int LETTER = 25;
 }

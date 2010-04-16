@@ -27,6 +27,8 @@ package net.sf.jasperreports.olap.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import antlr.NoViableAltException;
 import antlr.ParserSharedInputState;
@@ -56,9 +58,39 @@ public class MappingParser extends antlr.LLkParser implements MappingParserToken
 		return text.substring(1, text.length() - 1).trim();
 	}
 	
-	private int getMondrIdx (String text)
+	private static final Pattern IDX_PATTERN = Pattern.compile("#(\\d+)");
+	private static final int IDX_GROUP = 1;
+	
+	private int getDimensionIndex(Axis axis, String dimensionName)
 	{
-		return Integer.parseInt(text.substring(2, text.length() - 1).trim());
+		int idx;
+		Matcher matcher = IDX_PATTERN.matcher(dimensionName);
+		if (matcher.matches())
+		{
+			String idxStr = matcher.group(IDX_GROUP);
+			idx = Integer.parseInt(idxStr);
+		}
+		else
+		{
+			idx = mappingMeta.getDimensionIndex(axis, dimensionName);
+		}
+		return idx;
+	}
+	
+	private int getLevelDepth(TuplePosition pos, String levelName)
+	{
+		int depth;
+		Matcher matcher = IDX_PATTERN.matcher(levelName);
+		if (matcher.matches())
+		{
+			String depthStr = matcher.group(IDX_GROUP);
+			depth = Integer.parseInt(depthStr);
+		}
+		else
+		{
+			depth = mappingMeta.getLevelDepth(pos, levelName);
+		}
+		return depth;
 	}
 
 protected MappingParser(TokenBuffer tokenBuf, int k) {
@@ -230,7 +262,6 @@ public MappingParser(ParserSharedInputState state) {
 			{
 			switch ( LA(1)) {
 			case MONDRNAME:
-			case MONDRIDX:
 			{
 				depth=memberDepth(axis, pos);
 				break;
@@ -325,26 +356,9 @@ public MappingParser(ParserSharedInputState state) {
 		int idx;
 		
 		try {      // for error handling
-			{
-			switch ( LA(1)) {
-			case MONDRIDX:
-			{
-				idx=mondrIdx();
-				break;
-			}
-			case MONDRNAME:
-			{
-				String dimensionName;
-				dimensionName=mondrName();
-				idx = mappingMeta.getDimensionIndex(axis, dimensionName);
-				break;
-			}
-			default:
-			{
-				throw new NoViableAltException(LT(1), getFilename());
-			}
-			}
-			}
+			String dimensionName;
+			dimensionName=mondrName();
+			idx = getDimensionIndex(axis, dimensionName);
 			pos = new TuplePosition(axis, idx);
 		}
 		catch (RecognitionException ex) {
@@ -361,28 +375,9 @@ public MappingParser(ParserSharedInputState state) {
 		
 		
 		try {      // for error handling
-			{
-			switch ( LA(1)) {
-			case MONDRIDX:
-			{
-				int depth;
-				depth=mondrIdx();
-				memberDepth = new MemberDepth(depth);
-				break;
-			}
-			case MONDRNAME:
-			{
-				String levelName;
-				levelName=mondrName();
-				memberDepth = new MemberDepth(mappingMeta.getLevelDepth(pos, levelName));
-				break;
-			}
-			default:
-			{
-				throw new NoViableAltException(LT(1), getFilename());
-			}
-			}
-			}
+			String levelName;
+			levelName=mondrName();
+			memberDepth = new MemberDepth(getLevelDepth(pos, levelName));
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -477,23 +472,6 @@ public MappingParser(ParserSharedInputState state) {
 		return idx;
 	}
 	
-	public final int  mondrIdx() throws RecognitionException, TokenStreamException {
-		int i = -1;
-		
-		Token  n = null;
-		
-		try {      // for error handling
-			n = LT(1);
-			match(MONDRIDX);
-			i = getMondrIdx(n.getText());
-		}
-		catch (RecognitionException ex) {
-			reportError(ex);
-			recover(ex,_tokenSet_8);
-		}
-		return i;
-	}
-	
 	public final String  mondrName() throws RecognitionException, TokenStreamException {
 		String name = null;
 		
@@ -506,7 +484,7 @@ public MappingParser(ParserSharedInputState state) {
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
-			recover(ex,_tokenSet_9);
+			recover(ex,_tokenSet_8);
 		}
 		return name;
 	}
@@ -523,7 +501,7 @@ public MappingParser(ParserSharedInputState state) {
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
-			recover(ex,_tokenSet_10);
+			recover(ex,_tokenSet_9);
 		}
 		return name;
 	}
@@ -538,7 +516,7 @@ public MappingParser(ParserSharedInputState state) {
 			member=memberLevel();
 			filter.add(member);
 			{
-			_loop26:
+			_loop24:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -546,7 +524,7 @@ public MappingParser(ParserSharedInputState state) {
 					filter.add(member);
 				}
 				else {
-					break _loop26;
+					break _loop24;
 				}
 				
 			} while (true);
@@ -570,7 +548,7 @@ public MappingParser(ParserSharedInputState state) {
 			pos=axisPosition(axis);
 			++axis; positions.add(pos);
 			{
-			_loop29:
+			_loop27:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -578,7 +556,7 @@ public MappingParser(ParserSharedInputState state) {
 					++axis; positions.add(pos);
 				}
 				else {
-					break _loop29;
+					break _loop27;
 				}
 				
 			} while (true);
@@ -651,7 +629,7 @@ public MappingParser(ParserSharedInputState state) {
 				member=tupleMember();
 				tuple.addMember(member);
 				{
-				_loop35:
+				_loop33:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
@@ -659,7 +637,7 @@ public MappingParser(ParserSharedInputState state) {
 						tuple.addMember(member);
 					}
 					else {
-						break _loop35;
+						break _loop33;
 					}
 					
 				} while (true);
@@ -696,7 +674,7 @@ public MappingParser(ParserSharedInputState state) {
 			name=mondrName();
 			tuple.addName(name);
 			{
-			_loop38:
+			_loop36:
 			do {
 				if ((LA(1)==POINT)) {
 					match(POINT);
@@ -704,7 +682,7 @@ public MappingParser(ParserSharedInputState state) {
 					tuple.addName(name);
 				}
 				else {
-					break _loop38;
+					break _loop36;
 				}
 				
 			} while (true);
@@ -738,13 +716,11 @@ public MappingParser(ParserSharedInputState state) {
 		"POINT",
 		"INT",
 		"MONDRNAME",
-		"MONDRIDX",
 		"NAME",
 		"PLUS",
 		"MINUS",
 		"STAR",
 		"WS",
-		"MONDRCH",
 		"DIGIT",
 		"LETTER"
 	};
@@ -770,12 +746,12 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
 	private static final long[] mk_tokenSet_4() {
-		long[] data = { 786432L, 0L};
+		long[] data = { 262144L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_4 = new BitSet(mk_tokenSet_4());
 	private static final long[] mk_tokenSet_5() {
-		long[] data = { 786466L, 0L};
+		long[] data = { 262178L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_5 = new BitSet(mk_tokenSet_5());
@@ -790,19 +766,14 @@ public MappingParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_7 = new BitSet(mk_tokenSet_7());
 	private static final long[] mk_tokenSet_8() {
-		long[] data = { 802914L, 0L};
+		long[] data = { 344162L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_8 = new BitSet(mk_tokenSet_8());
 	private static final long[] mk_tokenSet_9() {
-		long[] data = { 868450L, 0L};
-		return data;
-	}
-	public static final BitSet _tokenSet_9 = new BitSet(mk_tokenSet_9());
-	private static final long[] mk_tokenSet_10() {
 		long[] data = { 64L, 0L};
 		return data;
 	}
-	public static final BitSet _tokenSet_10 = new BitSet(mk_tokenSet_10());
+	public static final BitSet _tokenSet_9 = new BitSet(mk_tokenSet_9());
 	
 	}
