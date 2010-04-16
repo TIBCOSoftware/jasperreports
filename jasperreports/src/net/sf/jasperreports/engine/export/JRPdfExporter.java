@@ -1719,7 +1719,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				chunk.setTextRise(font.getCalculatedLeading(1f)/2);
 			}
-			else if (script != null && TextAttribute.SUPERSCRIPT_SUB.equals(script))
+			else if (TextAttribute.SUPERSCRIPT_SUB.equals(script))
 			{
 				chunk.setTextRise(-font.getCalculatedLeading(1f)/2);
 			}
