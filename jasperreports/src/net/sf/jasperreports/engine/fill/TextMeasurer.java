@@ -596,10 +596,10 @@ public class TextMeasurer implements JRTextMeasurer
 		if (truncateSuffx != null)
 		{
 			truncateSuffx = truncateSuffx.trim();
-		}
-		if (truncateSuffx.length() == 0)
-		{
-			truncateSuffx = null;
+			if (truncateSuffx.length() == 0)
+			{
+				truncateSuffx = null;
+			}
 		}
 		return truncateSuffx;
 	}
