@@ -1336,7 +1336,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 
 		if (multiAxisPlot != null)
 		{
-			baseMultiAxisPlot = (JRBaseMultiAxisPlot)get(baseMultiAxisPlot);
+			baseMultiAxisPlot = (JRBaseMultiAxisPlot)get(multiAxisPlot);
 			if (baseMultiAxisPlot == null)
 			{
 				baseMultiAxisPlot = new JRBaseMultiAxisPlot(multiAxisPlot, this);
