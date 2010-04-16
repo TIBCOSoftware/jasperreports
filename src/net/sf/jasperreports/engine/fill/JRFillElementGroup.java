@@ -213,7 +213,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 					{
 						if (
 							topElem == null ||
-							(topElem != null &&
+							(
 							element.getRelativeY() + element.getStretchHeight() <
 							topElem.getRelativeY() + topElem.getStretchHeight())
 							)
@@ -223,7 +223,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 
 						if (
 							bottomElem == null ||
-							(bottomElem != null &&
+							(
 							element.getRelativeY() + element.getStretchHeight() >
 							bottomElem.getRelativeY() + bottomElem.getStretchHeight())
 							)
@@ -264,7 +264,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 			{
 				if (
 					topElementInGroup == null ||
-					(topElementInGroup != null &&
+					(
 					allElements[i].getY() + allElements[i].getHeight() <
 					topElementInGroup.getY() + topElementInGroup.getHeight())
 					)
@@ -274,7 +274,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 
 				if (
 					bottomElementInGroup == null ||
-					(bottomElementInGroup != null &&
+					(
 					allElements[i].getY() + allElements[i].getHeight() >
 					bottomElementInGroup.getY() + bottomElementInGroup.getHeight())
 					)
