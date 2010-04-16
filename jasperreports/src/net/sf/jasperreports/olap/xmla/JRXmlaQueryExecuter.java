@@ -256,11 +256,11 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		{
 			return;
 		}
-		Iterator it = params.keySet().iterator();
-		while (it.hasNext())
+		for (Iterator entryIt = params.entrySet().iterator(); entryIt.hasNext();)
 		{
-			String tag = (String) it.next();
-			String value = (String) params.get(tag);
+			Map.Entry entry = (Map.Entry) entryIt.next();
+			String tag = (String) entry.getKey();
+			String value = (String) entry.getValue();
 			nPara = envelope.createName(tag, "", XMLA_URI);
 			SOAPElement eTag = eList.addChildElement(nPara);
 			eTag.addTextNode(value);
