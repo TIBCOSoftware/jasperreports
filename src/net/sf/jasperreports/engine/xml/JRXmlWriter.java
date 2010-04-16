@@ -1615,7 +1615,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			return;
 		}
-		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[0]);
+		//FIXME why do we need an array?
+		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
 		for (int i = 0; i < colors.length; i++)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_seriesColor);
