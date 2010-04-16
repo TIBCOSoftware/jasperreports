@@ -52,6 +52,8 @@ package net.sf.jasperreports.olap.mapping;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sf.jasperreports.olap.mapping.*;
 }
@@ -78,9 +80,39 @@ options
 		return text.substring(1, text.length() - 1).trim();
 	}
 	
-	private int getMondrIdx (String text)
+	private static final Pattern IDX_PATTERN = Pattern.compile("#(\\d+)");
+	private static final int IDX_GROUP = 1;
+	
+	private int getDimensionIndex(Axis axis, String dimensionName)
 	{
-		return Integer.parseInt(text.substring(2, text.length() - 1).trim());
+		int idx;
+		Matcher matcher = IDX_PATTERN.matcher(dimensionName);
+		if (matcher.matches())
+		{
+			String idxStr = matcher.group(IDX_GROUP);
+			idx = Integer.parseInt(idxStr);
+		}
+		else
+		{
+			idx = mappingMeta.getDimensionIndex(axis, dimensionName);
+		}
+		return idx;
+	}
+	
+	private int getLevelDepth(TuplePosition pos, String levelName)
+	{
+		int depth;
+		Matcher matcher = IDX_PATTERN.matcher(levelName);
+		if (matcher.matches())
+		{
+			String depthStr = matcher.group(IDX_GROUP);
+			depth = Integer.parseInt(depthStr);
+		}
+		else
+		{
+			depth = mappingMeta.getLevelDepth(pos, levelName);
+		}
+		return depth;
 	}
 }
 
@@ -129,15 +161,13 @@ axisName returns [int idx = -1]
 tuplePosition [Axis axis] returns [TuplePosition pos = null]
 {int idx;}
 	:
-		(idx=mondrIdx  | 
-			{String dimensionName;} dimensionName=mondrName {idx = mappingMeta.getDimensionIndex(axis, dimensionName);} ) 
+		{String dimensionName;} dimensionName=mondrName {idx = getDimensionIndex(axis, dimensionName);} 
 		{pos = new TuplePosition(axis, idx);}
 	;
 
 memberDepth [Axis axis, TuplePosition pos] returns [MemberDepth memberDepth = null]
 	:
-		({int depth;} depth=mondrIdx {memberDepth = new MemberDepth(depth);} | 
-			{String levelName;} levelName=mondrName {memberDepth = new MemberDepth(mappingMeta.getLevelDepth(pos, levelName));})
+		{String levelName;} levelName=mondrName {memberDepth = new MemberDepth(getLevelDepth(pos, levelName));}
 	;
 
 property returns [MemberProperty prop = null]
@@ -156,7 +186,7 @@ dataMapping returns [DataMapping mapping = null]
 		{mapping = new DataMapping(formatted, filter, positions);}
 	;
 
-memberFilter returns [List filter = new ArrayList();]
+memberFilter returns [List filter = new ArrayList()]
 {Member member;}
 	:
 		LPAREN
@@ -165,7 +195,7 @@ memberFilter returns [List filter = new ArrayList();]
 		RPAREN
 	;
 
-axisPositions returns [List positions = new ArrayList();]
+axisPositions returns [List positions = new ArrayList()]
 {AxisPosition pos; int axis = 0;}
 	:
 		LPAREN
@@ -210,11 +240,6 @@ mondrName returns [String name = null]
 		n:MONDRNAME {name = getMondrName(n.getText());}
 	;
 
-mondrIdx returns [int i = -1]
-	:
-		n:MONDRIDX {i = getMondrIdx(n.getText());}
-	;
-
 name returns [String name = null]
 	:
 		n:NAME {name = n.getText();}
@@ -242,15 +267,12 @@ STAR		: '*' ;
 QMARK		: '?' ;
 COMMA		: ',' ;
 INT			: (DIGIT)+ ;
-MONDRNAME	: '[' ~'#' (~(']'))* ']' ;
-MONDRIDX	: "[#" (DIGIT)+ ']' ;
+MONDRNAME	: '[' (~(']'))+ ']';
 NAME		: LETTER (LETTER | DIGIT | ' ')* ;
 WS			: ( ' ' | '\r' '\n' | '\n' | '\t' )
 				{$setType(Token.SKIP);}
 				;
 
-protected
-MONDRCH		: LETTER | ' ' ;
 protected
 DIGIT 		: '0'..'9' ;
 protected
