@@ -101,31 +101,31 @@ The text field containing the A2 cell's value:
 <br/>
 <br/>
 <code>
-	&lt;textField isBlankWhenNull="false"&gt;
+	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
 	<br/>
-		&lt;reportElement key="textField-1" x="0" y="150" width="280" height="23"&gt;
+		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-1" x="0" y="150" width="280" height="23"&gt;
 		<br/>
-			&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;
 			<br/>
-		&lt;/reportElement&gt;
+		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
 		<br/>
-		&lt;box rightPadding="5">
+		&#160;&#160;&#160;&#160;&lt;box rightPadding="5">
 		<br/>
-			&lt;topPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;topPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-			&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-			&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-			&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-		&lt;/box&gt;
+		&#160;&#160;&#160;&#160;&lt;/box&gt;
 		<br/>
-		&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
 		<br/>
-		&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
+		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
 		<br/>
-	&lt;/textField&gt;
+	&#160;&#160;&lt;/textField&gt;
 </code>
 <br/>
 <br/>
@@ -140,29 +140,29 @@ Next, the text field containing the A4 cell's value:
 <br/>
 <br/>
 <code>
-  &lt;textField isBlankWhenNull="false"&gt;
+   	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
   <br/>
-    &lt;reportElement key="textField-3" x="0" y="196" width="280" height="23"&gt;
+    &#160;&#160;&#160;&#160;&lt;reportElement key="textField-3" x="0" y="196" width="280" height="23"&gt;
     <br/>
-      &lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;
       <br/>
-    &lt;/reportElement&gt;
+    &#160;&#160;&#160;&#160;&lt;/reportElement&gt;
     <br/>
-    &lt;box rightPadding="5">
+    &#160;&#160;&#160;&#160;&lt;box rightPadding="5">
     <br/>
-      &lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
       <br/>
-      &lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
       <br/>
-      &lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
       <br/>
-    &lt;/box&gt;
+    &#160;&#160;&#160;&#160;&lt;/box&gt;
     <br/>
-    &lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+    &#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
     <br/>
-    &lt;textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(0)]]>&lt;/textFieldExpression&gt;
+    &#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(0)]]>&lt;/textFieldExpression&gt;
     <br/>
-  &lt;/textField&gt;
+  &#160;&#160;&lt;/textField&gt;
 </code>
 <br/>
 <br/>
@@ -175,29 +175,29 @@ Finally, the text field containing the A5 cell's value:
 <br/>
 <br/>
 <code>
-	&lt;textField isBlankWhenNull="false"&gt;
+	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
 	<br/>
-		&lt;reportElement key="textField-4" x="0" y="219" width="280" height="23"&gt;
+		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-4" x="0" y="219" width="280" height="23"&gt;
 		<br/>
-			&lt;propertyExpression name="net.sf.jasperreports.export.xls.formula"&gt;&lt;![CDATA["A" + Integer.valueOf(2).intValue() + "-A" + 3]]&gt;&lt;/propertyExpression>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyExpression name="net.sf.jasperreports.export.xls.formula"&gt;&lt;![CDATA["A" + Integer.valueOf(2).intValue() + "-A" + 3]]&gt;&lt;/propertyExpression>
 			<br/>
-		&lt;/reportElement&gt;
+		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
 		<br/>
-		&lt;box rightPadding="5"&gt;
+		&#160;&#160;&#160;&#160;&lt;box rightPadding="5"&gt;
 		<br/>
-			&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-			&lt;bottomPen lineWidth="2.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="2.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-			&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
 			<br/>
-		&lt;/box&gt;
+		&#160;&#160;&#160;&#160;&lt;/box&gt;
 		<br/>
-		&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
 		<br/>
-		&lt;textFieldExpression class="java.lang.Integer"&lt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
+		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&lt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
 		<br/>
-	&lt;/textField&gt;
+	&#160;&#160;&lt;/textField&gt;
 </code>
 <br/>
 <br/>
