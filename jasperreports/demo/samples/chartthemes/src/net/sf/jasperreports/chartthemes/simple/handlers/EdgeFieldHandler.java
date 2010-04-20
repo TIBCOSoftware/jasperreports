@@ -52,7 +52,8 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 			return null;
 		}
 //		return JRXmlConstants.getChartEdgeMap().get(value);
-		return EdgeEnum.getByValue((Byte)value);
+//		return EdgeEnum.getByName((String)value);
+		return ((EdgeEnum)value).getName();
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 	 */
 	public Class getFieldType()
 	{
-		return Byte.class;
+		return EdgeEnum.class;
 	}
 
 	/**
