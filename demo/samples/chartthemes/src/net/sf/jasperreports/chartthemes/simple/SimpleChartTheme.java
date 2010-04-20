@@ -2391,7 +2391,8 @@ public class SimpleChartTheme implements ChartTheme
 						CategoryLabelPositions.createDownRotationLabelPositions((labelRotation / 180.0) * Math.PI));
 			}
 		}
-		PlotOrientation plotOrientation = plotSettings.getOrientation();
+		
+		PlotOrientation plotOrientation = jrPlot.getOrientation() != null ? jrPlot.getOrientation() : plotSettings.getOrientation();
 		if(plotOrientation != null)
 		{
 			p.setOrientation(plotOrientation);
