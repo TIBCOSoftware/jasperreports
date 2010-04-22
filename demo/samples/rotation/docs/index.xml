@@ -25,7 +25,7 @@ There are three possibilities to rotate a text paragraph:
 <li>to the right</li>
 <li>upside-down</li>
 </ul>
-Any rotation above changes both the text flow and the paragraph's relative position within its textbox container. In these conditions horizontal and vertical alignments should be reevaluated.
+Any rotation above changes both the text's flow direction and the paragraph's relative position within its textbox container. In these conditions horizontal and vertical alignments should be reevaluated.
 <br/>
 For example, let's consider a paragraph with "Left" horizontal alignment and "Top" vertical alignment. If this paragraph is rotated to the left, then it will be positioned into the left bottom area of its textbox container. 
 The vertical alignment will change from "Top" to "Bottom", and the text will flow from bottom to top.
@@ -44,14 +44,13 @@ Values allowed for the vertical alignment are: <code>"Top"</code>, <code>"Middle
 <br/>
 Values allowed for the text rotation are: <code>"None"</code>, <code>"Left"</code>, <code>"Right"</code> and <code>"UpsideDown"</code>. By default, text rotation is set to "None".
 <br/>
-Below are some possible combinations:
+Below are some possible combinations between them:
 <ul>
 <li><code>textAlignment="Left"</code></li>
 <li><code>verticalAlignment="Top"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
 This is the case already described above. The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from bottom to top.
-<br/>
 <br/>
 <ul>
 <li><code>textAlignment="Center"</code></li>
@@ -60,14 +59,12 @@ This is the case already described above. The resulting paragraph will be horizo
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from bottom to top.
 <br/>
-<br/>
 <ul>
 <li><code>textAlignment="Right"</code></li>
 <li><code>verticalAlignment="Middle"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned center, vertically aligned top, and the text will flow from bottom to top.
-<br/>
 <br/>
 <ul>
 <li><code>textAlignment="Left"</code></li>
@@ -76,14 +73,12 @@ The resulting paragraph will be horizontally aligned center, vertically aligned 
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from right to left.
 <br/>
-<br/>
 <ul>
 <li><code>textAlignment="Right"</code></li>
 <li><code>verticalAlignment="Top"</code></li>
 <li><code>rotation="UpsideDown"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from right to left.
-<br/>
 <br/>
 <ul>
 <li><code>textAlignment="Right"</code></li>
@@ -92,14 +87,12 @@ The resulting paragraph will be horizontally aligned left, vertically aligned bo
 </ul>
 The resulting paragraph will be horizontally aligned center, vertically aligned bottom, and the text will flow from top to bottom.
 <br/>
-<br/>
 <ul>
 <li><code>textAlignment="Center"</code></li>
 <li><code>verticalAlignment="Bottom"</code></li>
 <li><code>rotation="Right"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned left, vertically aligned middle, and the text will flow from top to bottom.
-<br/>
 <br/>
 <ul>
 <li><code>textAlignment="Left"</code></li>
