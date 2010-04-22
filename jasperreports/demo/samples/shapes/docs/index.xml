@@ -22,7 +22,7 @@ How to use shape elements such as rectangles, ellipses and lines.
 Shapes are predefined geometric objects, very useful when drawing diagrams, flowcharts and other schematic representations. 
 There are a lot of shapes: lines, rectangles, arrows, callouts, stars, etc. All of them can be obtained from a set of line shapes, taking into account that a line shape can be either straight or curved.
 <br/>
-JasperReports offers support for lines, rectangles and ellipses. All shape objects in JasperReports are graphic report elements which implement both <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> and <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api> interfaces. 
+JasperReports provides support for lines, rectangles and ellipses. All shape objects in JasperReports are graphic report elements which implement both <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> and <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api> interfaces. 
 <br/>
 By default any common element should have a width, a height, a unique key identifier, a visualization mode, a foreground color and a background color. Method expose by the <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> are:
 <ul>
