@@ -72,8 +72,8 @@ will point:
 <br/>
 <br/>
 Note that the first two should always return <code>java.lang.String</code> and the third should return <code>java.lang.Integer</code> values. 
-A remote anchor is obtained if both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkAnchorExpression&gt;</code> are present. 
-A remote page is obtained if both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> are present. 
+A remote anchor requires both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkAnchorExpression&gt;</code> to be present. 
+A remote page requires both <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> to be present. 
 <br/>
 <br/>
 <b>Hyperlink Target</b>
