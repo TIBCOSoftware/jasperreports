@@ -35,7 +35,7 @@ Performing various combinations between horizontal alignment, vertical alignment
 In JasperReports calculations related to text rotation are done at export time, based on the text element's <code>textAlignment</code>, <code>verticalAlignment</code> and <code>rotation</code> attributes values.
 <br/>
 <br/>
-<b>Examples of combining horizontal alignment, vertical alignment and rotation</b>
+<b>Examples of combining horizontal alignment, vertical alignment and rotation in a &lt;textElement /&gt; element.</b>
 <br/>
 <br/>
 Values allowed for the horizontal alignment are: <code>"Left"</code>, <code>"Center"</code>, <code>"Right"</code> and <code>"Justified"</code>. By default, horizontal alignment is set to <code>"Left"</code>.
@@ -50,7 +50,7 @@ Below are some possible combinations between them:
 <li><code>verticalAlignment="Top"</code></li>
 <li><code>rotation="Left"</code></li>
 </ul>
-This is the case already described above. The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from bottom to top.
+This is the case already described in the <b>Rotating paragraphs</b> section above. The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from bottom to top.
 <br/>
 <ul>
 <li><code>textAlignment="Center"</code></li>
