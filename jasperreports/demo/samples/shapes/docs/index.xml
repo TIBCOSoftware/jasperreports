@@ -24,7 +24,7 @@ There are a lot of shapes: lines, rectangles, arrows, callouts, stars, etc. All 
 <br/>
 JasperReports provides support for lines, rectangles and ellipses. All shape objects in JasperReports are graphic report elements which implement both <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> and <api href="net/sf/jasperreports/engine/JRGraphicElement.html">JRGraphicElement</api> interfaces. 
 <br/>
-By default any common element should have a width, a height, a unique key identifier, a visualization mode, a foreground color and a background color. Method expose by the <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> are:
+By default any common element is characterized by its width, height, unique key identifier, visualization mode, foreground and background colors. Methods exposed by the <api href="net/sf/jasperreports/engine/JRCommonElement.html">JRCommonElement</api> are:
 <ul>
 <li><code>public int getWidth();</code></li>
 <li><code>public int getHeight();</code></li>
