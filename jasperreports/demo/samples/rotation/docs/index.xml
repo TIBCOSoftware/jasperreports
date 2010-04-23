@@ -38,11 +38,11 @@ In JasperReports calculations related to text rotation are done at export time, 
 <b>Examples of combining horizontal alignment, vertical alignment and rotation</b>
 <br/>
 <br/>
-Values allowed for the horizontal alignment are: <code>"Left"</code>, <code>"Center"</code>, <code>"Right"</code> and <code>"Justified"</code>. By default, horizontal alignment is set to "Left".
+Values allowed for the horizontal alignment are: <code>"Left"</code>, <code>"Center"</code>, <code>"Right"</code> and <code>"Justified"</code>. By default, horizontal alignment is set to <code>"Left"</code>.
 <br/>
-Values allowed for the vertical alignment are: <code>"Top"</code>, <code>"Middle"</code> and <code>"Bottom"</code>. By default, vertical alignment is set to "Top".
+Values allowed for the vertical alignment are: <code>"Top"</code>, <code>"Middle"</code> and <code>"Bottom"</code>. By default, vertical alignment is set to <code>"Top"</code>.
 <br/>
-Values allowed for the text rotation are: <code>"None"</code>, <code>"Left"</code>, <code>"Right"</code> and <code>"UpsideDown"</code>. By default, text rotation is set to "None".
+Values allowed for the text rotation are: <code>"None"</code>, <code>"Left"</code>, <code>"Right"</code> and <code>"UpsideDown"</code>. By default, text rotation is set to <code>"None"</code>.
 <br/>
 Below are some possible combinations between them:
 <ul>
@@ -100,6 +100,26 @@ The resulting paragraph will be horizontally aligned left, vertically aligned mi
 <li><code>rotation="Right"</code></li>
 </ul>
 The resulting paragraph will be horizontally aligned right, vertically aligned top, and the text will flow from top to bottom.
+<br/>
+<br/>
+Below is a code snippet showing how to set text alignment and rotation in a static text:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;staticText&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement mode="Opaque" x="100" y="0" width="90" height="350" backcolor="#c0c0c0"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Left"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;/textElement&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;text>&lt;![CDATA[rotation="Left" textAlignment="Center" verticalAlignment="Bottom"]]&gt;&lt;/text&gt;
+<br/>
+&#160;&#160;&lt;/staticText&gt;
+</code>
 <br/>
 <br/>
 In order to figure out more on text rotation behavior, just test this sample by running from the command line the <code>ant test view</code> command. 
