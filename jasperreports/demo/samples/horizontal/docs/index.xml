@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>horizontal</name>
+  <title>Horizontal Sample</title>
+  <description>Shows how multi-column report templates could be filled horizontally.</description>
+
+  <mainFeature ref="horizontal"/>
+  
+  <!-- horizontal -->
+  
+  <feature name="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports">
+    <description>
+How to create multi-column, horizontally filled reports.
+    </description>
+    <since>0.1.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

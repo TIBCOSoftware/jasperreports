@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>templates</name>
+  <title>Templates Sample</title>
+  <description>Shows how to work with style templates.</description>
+
+  <mainFeature ref="templates"/>
+  
+  <!-- templates -->
+  
+  <feature name="templates" title="Style Templates">
+    <description>
+How to reuse report style definitions from external style templates.
+    </description>
+    <since>2.0.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

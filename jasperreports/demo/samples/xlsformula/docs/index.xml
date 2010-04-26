@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xlsformula</name>
+  <title>XLS Formula Sample</title>
+  <description>Shows how formulas could be introduced in reports exported to XLS format.</description>
+
+  <mainFeature ref="xlsformula"/>
+  
+  <!-- xlsformula -->
+  
+  <feature name="xlsformula" title="Exporting XLS Formulas">
+    <description>
+How to generate formulas, when exporting the report to XLS. 
+    </description>
+    <since>3.0.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

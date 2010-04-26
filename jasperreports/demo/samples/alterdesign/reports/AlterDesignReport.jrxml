@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AlterDesignReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<title>
+		<band height="782">
+			<staticText>
+				<reportElement style="Sans_Normal" mode="Opaque" x="0" y="0" width="555" height="90" backcolor="#DDDDDD"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[The rectangles below have random fore and back colors and even this text element has runtime supplied font settings.
+Changing element colors or other settings do not require report design recompilation.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement key="first.rectangle" x="0" y="100" width="555" height="90"/>
+				<graphicElement>
+					<pen lineWidth="4.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="second.rectangle" x="0" y="200" width="555" height="90"/>
+				<graphicElement>
+					<pen lineWidth="4.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement key="third.rectangle" x="0" y="300" width="555" height="90"/>
+				<graphicElement>
+					<pen lineWidth="4.0"/>
+				</graphicElement>
+			</rectangle>
+		</band>
+	</title>
+</jasperReport>

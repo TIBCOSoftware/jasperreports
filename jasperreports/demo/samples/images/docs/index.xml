@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>images</name>
+  <title>Images Sample</title>
+  <description>Shows how images could be used in a report template.</description>
+
+  <mainFeature ref="images"/>
+  
+  <!-- images -->
+  
+  <feature name="images" title="Images">
+    <description>
+How to render images in reports using the build-in image element.
+    </description>
+    <since>0.1.0</since>
+  	<otherSample ref="horizontal"/>
+  	<otherSample ref="jasper"/>
+    <content>
+[Under Construction]
+<br/>
+Below is an image.
+<br/>
+<img src="dukesign.jpg"/>
+<br/>
+Above is an image.
+<br/>
+The following test is <b>bold</b>, <i>italic</i> and <b><i>bold-italic</i></b>.
+    </content>
+  </feature>
+
+</sample>

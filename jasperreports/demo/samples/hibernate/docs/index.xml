@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>hibernate</name>
+  <title>Hibernate Sample</title>
+  <description>Shows how HQL could be used in reports.</description>
+
+  <mainFeature ref="hibernate"/>
+  <mainFeature ref="queryexecuters"/>
+  
+  <!-- queryexecuters -->
+  
+  <feature name="queryexecuters" title="Query Executers">
+    <description>
+How to implement a custom query executer and how to associate it with a custom report query language.
+    </description>
+    <since>1.2.0</since>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="xmldatasource"/>
+  	<otherSample ref="mondrian"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- hibernate -->
+  
+  <feature name="hibernate" title="Hibernate (HQL) Query Executer">
+    <description>
+How to fill reports using embedded Hibernate (HQL) queries.
+    </description>
+    <since>1.2.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

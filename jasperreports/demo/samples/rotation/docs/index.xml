@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>rotation</name>
+  <title>Rotation Sample</title>
+  <description>Shows how rotated text could be used in report templates.</description>
+
+  <mainFeature ref="rotation"/>
+  
+  <!-- rotation -->
+  
+  <feature name="rotation" title="Rotated Text">
+    <description>
+How to rotate text elements.
+    </description>
+    <since>0.5.2</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

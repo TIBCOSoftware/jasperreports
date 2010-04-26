@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>groovy</name>
+  <title>Groovy Sample</title>
+  <description>Shows how the Groovy scripting languages could be used inside report templates.</description>
+
+  <mainFeature ref="reportcompilers"/>
+  <mainFeature ref="groovy"/>
+  
+  <!-- reportcompilers -->
+  
+  <feature name="reportcompilers" title="Report Compilers">
+    <description>
+How to implement a custom report compiler and how to register it with a custom defined report expression language.
+    </description>
+    <since>0.6.6</since>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- groovy -->
+  
+  <feature name="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)">
+    <description>
+How to use Groovy scripting for report expressions.
+    </description>
+    <since>1.2.2</since>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

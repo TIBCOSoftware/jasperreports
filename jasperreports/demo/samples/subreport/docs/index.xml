@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>subreport</name>
+  <title>Subreport Sample</title>
+  <description>Shows how subreport could be used to create complex document layouts.</description>
+
+  <mainFeature ref="subreports"/>
+  
+  <!-- subreports -->
+  
+  <feature name="subreports" title="Subreports">
+    <description>
+How to use the built-in subreport element to create nested content.
+    </description>
+    <since>0.3.0</since>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

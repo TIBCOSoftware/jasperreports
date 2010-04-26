@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>i18n</name>
+  <title>I18n Sample</title>
+  <description>Shows how a report could be rendered in different languages.</description>
+
+  <mainFeature ref="i18n"/>
+  
+  <!-- i18n -->
+  
+  <feature name="i18n" title="Internationalized Report Templates">
+    <description>
+How to generate reports in different languages using internationalization support.
+    </description>
+    <since>0.6.2</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

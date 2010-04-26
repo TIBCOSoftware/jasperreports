@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>virtualizer</name>
+  <title>Virtualizer Sample</title>
+  <description>Shows how very large reports could be generated using a report virtualizer to optimize memory consumption.</description>
+
+  <mainFeature ref="virtualizer"/>
+  
+  <!-- virtualizer -->
+  
+  <feature name="virtualizer" title="Generating Very Large Documents Using Report Virtualizers">
+    <description>
+How to generate very large documents using report virtualizers that optimize memory consumption.
+    </description>
+    <since>1.0.0</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>
