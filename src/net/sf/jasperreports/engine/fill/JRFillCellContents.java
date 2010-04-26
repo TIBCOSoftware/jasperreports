@@ -82,6 +82,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
+	private int prepareStretchHeight;
 
 	public JRFillCellContents(JRBaseFiller filler, JRCellContents cell, String cellType, 
 			JRFillCrosstabObjectFactory factory)
@@ -378,6 +379,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		resetElements();
 		
 		prepareElements(availableHeight, true);
+		
+		// store the original stretch height in order to compute the external
+		// stretch height
+		prepareStretchHeight = getStretchHeight();
 	}
 
 	
@@ -450,10 +455,10 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		switch (verticalPositionType)
 		{
 			case MIDDLE:
-				positionOffset = (getStretchHeight() - getContainerHeight()) / 2;
+				positionOffset = (getStretchHeight() - prepareStretchHeight) / 2;
 				break;
 			case BOTTOM:
-				positionOffset = getStretchHeight() - getContainerHeight();
+				positionOffset = getStretchHeight() - prepareStretchHeight;
 				break;
 			default:
 				positionOffset = 0;
@@ -469,7 +474,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			for (Iterator it = printElements.iterator(); !outside && it.hasNext();)
 			{
 				JRPrintElement element = (JRPrintElement) it.next();
-				outside = element.getY() > positionY;
+				outside = element.getY() + element.getHeight() > positionY;
 			}
 			
 			if (!outside)
