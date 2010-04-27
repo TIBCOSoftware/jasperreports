@@ -46,6 +46,7 @@
       <feature name="tabular" sample="tabular" title="Creating Table-like Structures"/>
       <feature name="templates" sample="templates" title="Style Templates"/>
       <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
+      <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
     </content>
   </category>
   
