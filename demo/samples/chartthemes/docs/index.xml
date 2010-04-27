@@ -103,9 +103,9 @@ In JasperReports there are 2 different XML-based chart themes implementations.
 <br/>
 This implementation is based on the Spring Framework platform, and uses Spring beans for binding the chart theme bundle class and the 4 above chart settings categories. All related java classes and XML beans are found in the /src/net/sf/jasperreports/chartthemes/spring directory.
 <br/>
-The implementation comes with 4 different sample chart themes, identified by their names: "generic", "default.spring", "eye.candy.sixties", "aegean". The "generic" chart theme is the parent implementation, and all Spring-based chart themes should extend it.
+The implementation comes with 4 different sample chart themes, identified by their names: <code>generic</code>, <code>default.spring</code>, <code>eye.candy.sixties</code>, <code>aegean</code>. The <code>generic</code> chart theme is the parent implementation, and all Spring-based chart themes should extend it.
 <br/>
-In the chartThemesBeans.xml file found in /src/net/sf/jasperreports/chartthemes/spring/beans directory are mapped both the chart theme bundle class, and the parent chart theme named "generic". 
+In the chartThemesBeans.xml file found in /src/net/sf/jasperreports/chartthemes/spring/beans directory are mapped both the chart theme bundle class, and the parent chart theme named <code>generic</code>. 
 The other Spring-based themes are mapped each one in a separate xml file (see the aegeanChartPropertiesBean.xml file, for example), which are referred in the chartThemesBeans.xml by their resource name.
 <br/>
 Below is the theme bundle bean:
@@ -129,7 +129,7 @@ Below is the theme bundle bean:
     </property>
   </bean>
 ]]></pre>
-The generic chart theme bean is referenced by id="genericChartTheme" and contains 4 bean elements related to the 4 chart settings categories: 
+The generic chart theme bean is referenced by <code>id="genericChartTheme"</code> and contains 4 bean elements related to the 4 chart settings categories: 
 <ul>
 <li>defaultChartPropertiesMap - contains general chart settings</li>
 <li>defaultPlotPropertiesMap - contains general plot settings</li>
@@ -231,10 +231,10 @@ All classes mapped above correspond to a related java implementation. You can se
 <br/>
 Now, in order to create a new XML Mapping-based chart theme, one have to write an xml file with the .jrctx extension which is handled by Castor via marshalling/unmarshalling processes.
 <br/>
-In this sample was implemented the <code>net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory</code> class which produces the "simple" theme's specific settings. 
+In this sample was implemented the <code>net.sf.jasperreports.chartthemes.simple.SimpleSettingsFactory</code> class which produces the <code>simple</code> theme's specific settings. 
 These settings are related to the <code>net.sf.jasperreports.chartthemes.simple.SimpleChartTheme</code> class.
 <br/>
-The simple.jrctx file is produced when the ant "themes" task is called, and this file will be used further when a new <code>JFreeChart</code> object gets created. 
+The simple.jrctx file is produced when the ant <code>themes</code> task is called, and this file will be used further when a new <code>JFreeChart</code> object gets created. 
 <br/>
 In order to make available Castor XML Mapping-based chart themes, in the jasperreports_extension.properties file the following lines should be uncommented:
 <br/>
@@ -265,7 +265,7 @@ This configuration property can be used at report level too, in order to overrid
 <code>&lt;property name="net.sf.jasperreports.chart.theme" value="theme_name"/&gt;</code>
 <br/>
 <br/>
-Changing the chart theme is also possible at chart element level using the "theme" attribute:
+Changing the chart theme is also possible at chart element level using the <code>theme</code> attribute:
 <br/>
 <br/>
 <code>&lt;chart theme="theme_name"&gt;

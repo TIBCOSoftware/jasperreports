@@ -94,7 +94,7 @@ In the .jrxml file a rectangle element is represented as follows:
     </graphicElement>
   </rectangle>
 ]]></pre>
-If corners are not rounded, the <code>radius</code> attribute is not necessary.
+If corners are not rounded, then the <code>radius</code> attribute is not necessary.
 <br/>
 <br/>
 <b>The ellipse shape</b>
