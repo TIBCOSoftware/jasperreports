@@ -840,8 +840,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			// first time this sheet name is found;
 			sheetNamesMap.put(sheetName, Integer.valueOf(1));
-			String name = sheetName.length() > 31 ? sheetName.substring(0, 31) : sheetName;
-			return sheetName;
+			return sheetName.length() > 31 ? sheetName.substring(0, 31) : sheetName;
 		}
 
 		int currentIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
