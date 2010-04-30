@@ -840,13 +840,22 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			// first time this sheet name is found;
 			sheetNamesMap.put(sheetName, Integer.valueOf(1));
+			String name = sheetName.length() > 31 ? sheetName.substring(0, 31) : sheetName;
 			return sheetName;
 		}
 
 		int currentIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
 		sheetNamesMap.put(sheetName, Integer.valueOf(currentIndex));
 
-		return sheetName + " " + currentIndex;
+		String name = sheetName + " " + currentIndex;
+		
+		if(name.length() > 31)
+		{
+			String crtIndex = String.valueOf(currentIndex);
+			name = (sheetName + " ").substring(0, 31-crtIndex.length()) + crtIndex;
+		}
+			
+		return name;
 	}
 
 	// Berechnungsvorschriften f�r die DIN Formate A, B, und C.
