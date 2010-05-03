@@ -65,11 +65,11 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	public final static String XML_TIME_ZONE = "XML_TIME_ZONE";
 	
 	private final static Object[] XPATH_BUILTIN_PARAMETERS = {
-		PARAMETER_XML_DATA_DOCUMENT,  org.w3c.dom.Document.class,
-		XML_DATE_PATTERN, java.lang.String.class,
-		XML_NUMBER_PATTERN, java.lang.String.class,
-		XML_LOCALE, java.util.Locale.class,
-		XML_TIME_ZONE, java.util.TimeZone.class,
+		PARAMETER_XML_DATA_DOCUMENT,  "org.w3c.dom.Document",
+		XML_DATE_PATTERN, "java.lang.String",
+		XML_NUMBER_PATTERN, "java.lang.String",
+		XML_LOCALE, "java.util.Locale",
+		XML_TIME_ZONE, "java.util.TimeZone",
 		};
 
 	public Object[] getBuiltinParameters()

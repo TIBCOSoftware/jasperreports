@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
 
 /**
- * @author Michael Günther (m.guenther at users.sourceforge.net)
+ * @author Michael Gï¿½nther (m.guenther at users.sourceforge.net)
  * @version $Id$
  */
 public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
@@ -50,11 +50,11 @@ public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
 
 
 	private final static Object[] XMLA_BUILTIN_PARAMETERS = { 
-		PARAMETER_XMLA_URL, String.class, 
-		PARAMETER_XMLA_DATASOURCE, String.class, 
-		PARAMETER_XMLA_CATALOG, String.class,
-		PARAMETER_XMLA_USER, String.class,
-		PARAMETER_XMLA_PASSWORD, String.class,
+		PARAMETER_XMLA_URL, "java.lang.String", 
+		PARAMETER_XMLA_DATASOURCE, "java.lang.String", 
+		PARAMETER_XMLA_CATALOG, "java.lang.String",
+		PARAMETER_XMLA_USER, "java.lang.String",
+		PARAMETER_XMLA_PASSWORD, "java.lang.String",
 	};
 
 	public Object[] getBuiltinParameters()

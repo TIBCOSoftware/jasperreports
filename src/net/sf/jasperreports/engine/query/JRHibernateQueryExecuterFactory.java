@@ -29,8 +29,6 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRProperties;
 
-import org.hibernate.Session;
-
 /**
  * Query executer factory for HQL queries that uses Hibernate 3.
  * <p/>
@@ -61,8 +59,8 @@ public class JRHibernateQueryExecuterFactory implements JRQueryExecuterFactory
 	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
 	
 	private final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
-		PARAMETER_HIBERNATE_SESSION,  Session.class,
-		PARAMETER_HIBERNATE_FILTER_COLLECTION,  Object.class,
+		PARAMETER_HIBERNATE_SESSION,  "org.hibernate.Session",
+		PARAMETER_HIBERNATE_FILTER_COLLECTION,  "java.lang.Object",
 		};
 
 	/**
