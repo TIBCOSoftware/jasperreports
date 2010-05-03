@@ -32,9 +32,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
@@ -120,8 +118,8 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * Returns the resource bundle used for the current report.
 	 * 
 	 * @return the report resource bundle
-	 * @see JRReport#getResourceBundle()
-	 * @see JRParameter#REPORT_RESOURCE_BUNDLE
+	 * @see net.sf.jasperreports.engine.JRReport#getResourceBundle()
+	 * @see net.sf.jasperreports.engine.JRParameter#REPORT_RESOURCE_BUNDLE
 	 */
 	ResourceBundle getReportResourceBundle();
 	
@@ -129,7 +127,7 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * Returns the locale used to fill the current report.
 	 * 
 	 * @return the report locale
-	 * @see JRParameter#REPORT_LOCALE
+	 * @see net.sf.jasperreports.engine.JRParameter#REPORT_LOCALE
 	 */
 	Locale getReportLocale();
 	
@@ -137,7 +135,7 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * Returns the time zone used to fill the current report.
 	 * 
 	 * @return the report time zone
-	 * @see JRParameter#REPORT_TIME_ZONE
+	 * @see net.sf.jasperreports.engine.JRParameter#REPORT_TIME_ZONE
 	 */
 	TimeZone getReportTimezone();
 

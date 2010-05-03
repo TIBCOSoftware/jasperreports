@@ -23,11 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.export.ExporterFilter;
-import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
-import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -189,7 +184,7 @@ public class JRExporterParameter
 
 
 	/**
-	 * A {@link JRExportProgressMonitor} instance for monitoring export status. This is useful for users who need to be
+	 * A {@link net.sf.jasperreports.engine.export.JRExportProgressMonitor JRExportProgressMonitor} instance for monitoring export status. This is useful for users who need to be
 	 * notified after each page is exported (a GUI tool that shows a progress bar might need this feature).
 	 */
 	public static final JRExporterParameter PROGRESS_MONITOR = new JRExporterParameter("Progress Monitor");
@@ -210,7 +205,7 @@ public class JRExporterParameter
 
 
 	/**
-	 * @deprecated Replaced by {@link FontFamily#getExportFont(String)}.
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.fonts.FontFamily#getExportFont(String) FontFamily.getExportFont(String)}.
 	 */
 	public static final JRExporterParameter FONT_MAP = new JRExporterParameter("Font Map");
 
@@ -232,20 +227,20 @@ public class JRExporterParameter
 
 	
 	/**
-	 * The {@link FileResolver} instance to be used while exporting the report.
+	 * The {@link net.sf.jasperreports.engine.util.FileResolver FileResolver} instance to be used while exporting the report.
 	 */
 	public static final JRExporterParameter FILE_RESOLVER = new JRExporterParameter("File REsolver");
 
 	
 	/**
-	 * A {@link JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
+	 * A {@link net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory JRHyperlinkProducerFactory} which should be used for custom 
 	 * hyperlink types during export.
 	 */
 	public static final JRExporterParameter HYPERLINK_PRODUCER_FACTORY = new JRExporterParameter("Hyperlink producer factory");
 
 	
 	/**
-	 * Instance of the {@link ExporterFilter ExporterFilter} interface to be used by the exporter to filter the elements to be exported.
+	 * Instance of the {@link net.sf.jasperreports.engine.export.ExporterFilter ExporterFilter} interface to be used by the exporter to filter the elements to be exported.
 	 */
 	public static final JRExporterParameter FILTER = new JRExporterParameter("Filter");
 
