@@ -25,7 +25,6 @@ package net.sf.jasperreports.olap;
 
 import java.util.Map;
 
-import mondrian.olap.Connection;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
@@ -44,7 +43,7 @@ public class JRMondrianQueryExecuterFactory implements JRQueryExecuterFactory
 	public final static String PARAMETER_MONDRIAN_CONNECTION = "MONDRIAN_CONNECTION";
 	
 	private final static Object[] MONDRIAN_BUILTIN_PARAMETERS = {
-		PARAMETER_MONDRIAN_CONNECTION,  Connection.class,
+		PARAMETER_MONDRIAN_CONNECTION,  "mondrian.olap.Connection",
 		};
 	
 	public Object[] getBuiltinParameters()

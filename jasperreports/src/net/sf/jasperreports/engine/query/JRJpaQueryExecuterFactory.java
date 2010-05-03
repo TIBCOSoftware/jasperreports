@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -60,8 +58,8 @@ public class JRJpaQueryExecuterFactory implements JRQueryExecuterFactory {
 	
 	
 	private static final Object[] JPA_BUILTIN_PARAMETERS = {
-		PARAMETER_JPA_ENTITY_MANAGER,  EntityManager.class,
-		PARAMETER_JPA_QUERY_HINTS_MAP, Map.class
+		PARAMETER_JPA_ENTITY_MANAGER,  "javax.persistence.EntityManager",
+		PARAMETER_JPA_QUERY_HINTS_MAP, "java.util.Map"
 	};	
 	
 	public Object[] getBuiltinParameters() {

@@ -292,7 +292,23 @@ public class JRDesignDataset extends JRBaseDataset
 		{
 			JRDesignParameter parameter = new JRDesignParameter();
 			parameter.setName((String) parametersArray[i++]);
-			parameter.setValueClass((Class) parametersArray[i]);
+			
+			Object parameterType = parametersArray[i];
+			if (parameterType instanceof Class)
+			{
+				parameter.setValueClass((Class) parameterType);
+			}
+			else if (parameterType instanceof String)
+			{
+				parameter.setValueClassName((String) parameterType);
+			}
+			else
+			{
+				throw new JRRuntimeException("Unknown builtin parameter type " + parameterType 
+						+ " of class " + parameterType.getClass().getName()
+						+ ". Expecint java.lang.Class or java.lang.String");
+			}
+			
 			parameter.setSystemDefined(true);
 			try
 			{
