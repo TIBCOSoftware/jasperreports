@@ -294,6 +294,72 @@
 		</jar>
 	</target>
 
+	<target name="core" description="Builds the JAR containing only the core JasperReports classes and resources.">
+		<mkdir dir="./build/core"/> 
+		<javac srcdir="./src" sourcepath="" destdir="./build/core" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
+			<classpath>
+				<pathelement location="./build/core"/>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<exclude name="net/sf/jasperreports/**/*Hibernate*.java"/>
+			<exclude name="net/sf/jasperreports/**/*Jpa*.java"/>
+			<exclude name="net/sf/jasperreports/j2ee/servlets/**"/>
+			<exclude name="net/sf/jasperreports/ant/**"/>
+			<exclude name="net/sf/jasperreports/olap/**"/>
+			<exclude name="net/sf/jasperreports/compilers/JRBshCompiler.java"/>
+			<exclude name="net/sf/jasperreports/compilers/JRBshEvaluator.java"/>
+			<exclude name="net/sf/jasperreports/compilers/JavaScriptCompiler.java"/>
+			<exclude name="net/sf/jasperreports/compilers/JavaScriptEvaluator.java"/>
+			<exclude name="net/sf/jasperreports/compilers/JRGroovyCompiler.java"/>
+			<exclude name="net/sf/jasperreports/engine/util/xml/JaxenXPathExecuter*.java"/>
+			<!--
+			<exclude name="net/sf/jasperreports/renderers/BatikRenderer.java"/>
+			<exclude name="net/sf/jasperreports/charts/util/SvgChartRendererFactory.java"/>
+			<exclude name="net/sf/jasperreports/components/barbecue/**"/>
+			<exclude name="net/sf/jasperreports/components/barcode4j/**"/>
+			-->
+			<exclude name="net/sf/jasperreports/extensions/Spring*.java"/>
+			<exclude name="net/sf/jasperreports/engine/fill/JRContinuationSubreportRunner*.java"/>
+		</javac>
+		
+		<copy todir="./build/core">
+			<fileset dir="./src">
+				<include name="**/*.dtd"/>
+				<include name="**/*.xsd"/>
+				<include name="**/*.rels"/>
+				<include name="**/*.xml"/>
+				<include name="**/*.properties"/>
+				<include name="**/*.png"/>
+				<include name="**/*.GIF"/>
+				<!--
+				<include name="**/*TokenTypes.txt"/>
+				-->
+			</fileset>
+		</copy>
+
+		<mkdir dir="./dist"/> 
+		<jar jarfile="./dist/jasperreports-core-${version}.jar">
+			<manifest>
+				<attribute name="Built-By" value="Jaspersoft"/>
+				<section name="net/sf/jasperreports/engine/">
+					<attribute name="Specification-Title" value="JasperReports Core Library"/>
+					<attribute name="Specification-Version" value="${version}"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
+					<attribute name="Implementation-Version" value="${version}"/> 
+					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+				</section>
+			</manifest>		
+			<fileset dir="./build/core"/>
+			<fileset dir="./">
+				<include name="**/lgpl.txt"/>
+				<include name="**/license.txt"/>
+			</fileset>
+		</jar>
+	</target>
+	
 	<target name="fonts" description="Builds the JAR containing the JasperReports default font extension.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-fonts-${version}.jar">
