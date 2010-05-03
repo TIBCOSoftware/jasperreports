@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.component;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.view.JasperDesignViewer;
 
 /**
  * Converter of design report elements into a print elements used for report
@@ -39,7 +38,7 @@ import net.sf.jasperreports.view.JasperDesignViewer;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see JasperDesignViewer
+ * @see net.sf.jasperreports.view.JasperDesignViewer
  * @see JRPrintElement
  */
 public interface ComponentDesignConverter
