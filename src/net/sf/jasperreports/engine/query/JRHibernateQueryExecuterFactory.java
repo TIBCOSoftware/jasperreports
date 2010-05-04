@@ -59,6 +59,9 @@ public class JRHibernateQueryExecuterFactory implements JRQueryExecuterFactory
 	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
 	
 	private final static Object[] HIBERNATE_BUILTIN_PARAMETERS = {
+		//passing the parameter type as class name and not class in order to 
+		//avoid a dependency on Hibernate classes so that reports that have
+		//HQL queries would load even when Hibernate is not present
 		PARAMETER_HIBERNATE_SESSION,  "org.hibernate.Session",
 		PARAMETER_HIBERNATE_FILTER_COLLECTION,  "java.lang.Object",
 		};
