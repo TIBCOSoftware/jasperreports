@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -94,6 +95,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 
@@ -127,6 +130,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFRow row = null;
 	protected HSSFCell cell = null;
 	protected HSSFCellStyle emptyCellStyle = null;
+	protected CreationHelper createHelper = null;
+
 
 	/**
 	 *
@@ -189,6 +194,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
+		createHelper = workbook.getCreationHelper();
 	}
 
 
@@ -477,8 +483,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 			}
 		}
-		
-		
 
 		if (isDetectCellType)
 		{
@@ -590,6 +594,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			endCreateCell(cellStyle);
 		}
+		
+		if(textElement.getAnchorName() != null)
+		{
+			//TODO: how to set the anchor name for a given cell
+		}
+
+		setHyperlinkCell(textElement);
+		
 	}
 
 
@@ -1215,6 +1227,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
 				int imgIndex = workbook.addPicture(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG), HSSFWorkbook.PICTURE_TYPE_PNG);
 				patriarch.createPicture(anchor, imgIndex);
+				
+//				setHyperlinkCell(element);
 			}
 		}
 		catch (Exception ex)
@@ -1376,6 +1390,93 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 		}
 		return ps;
+	}
+	
+	protected void setHyperlinkCell(JRPrintHyperlink hyperlink)
+	{
+		
+		String href = null;
+		Hyperlink link = null;
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(hyperlink);
+		if (customHandler == null)
+		{
+			switch (hyperlink.getHyperlinkTypeValue())
+			{
+				case REFERENCE:
+				{
+					href = hyperlink.getHyperlinkReference();
+					if (href != null)
+					{
+						link = createHelper.createHyperlink(Hyperlink.LINK_URL);
+					    link.setAddress(href);
+					    cell.setHyperlink(link);
+					}
+					break;
+				}
+				case LOCAL_ANCHOR :
+				{
+					href = hyperlink.getHyperlinkAnchor();
+					if (href != null)
+					{
+						href = "#" + href;
+						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+					    link.setAddress(href);
+					    cell.setHyperlink(link);
+					}
+					break;
+					
+				}
+				case LOCAL_PAGE :
+				{
+					if(hyperlink.getHyperlinkPage() != null)
+					{
+						href = hyperlink.getHyperlinkPage().toString();
+					}
+					if (href != null)
+					{
+						href = "#JR_PAGE_ANCHOR_0_" + reportIndex + "_" + href;
+						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+					    link.setAddress(href);
+					    cell.setHyperlink(link);
+					}
+					break;
+				}
+				case REMOTE_ANCHOR :
+				{
+					href = hyperlink.getHyperlinkReference();
+					if (href != null && hyperlink.getHyperlinkAnchor() != null)
+					{
+						href = href + "#" + hyperlink.getHyperlinkAnchor();
+						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+					    link.setAddress(href);
+					    cell.setHyperlink(link);
+					}
+					break;
+					
+				}
+				case REMOTE_PAGE :
+				{
+					href = hyperlink.getHyperlinkReference();
+					if (href != null && hyperlink.getHyperlinkPage() != null)
+					{
+						href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
+						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
+					    link.setAddress(href);
+					    cell.setHyperlink(link);
+					}
+					break;
+					
+				}
+				case NONE:
+				default:
+				{
+				}
+			}
+		}
+		else
+		{
+			href = customHandler.getHyperlink(hyperlink);
+		}
 	}
 
 	protected static class BoxStyle
