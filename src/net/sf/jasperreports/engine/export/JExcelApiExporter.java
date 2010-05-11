@@ -484,6 +484,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
+			boolean wrapText = true;
+			if(text.hasProperties() && text.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT) != null)
+			{
+				wrapText = Boolean.valueOf(text.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)).booleanValue();
+				
+			}
 			StyleInfo baseStyle =
 				new StyleInfo(
 					mode, 
@@ -492,7 +498,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					verticalAlignment,
 					rotation, 
 					cellFont,
-					gridCell
+					gridCell,
+					wrapText
 					);
 
 			String textStr = styledText.getText();
@@ -541,6 +548,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						}
 					}
 				}
+				
 				addCell(col, row, text, textStr, baseStyle);
 			}
 			catch (Exception e)
@@ -1426,51 +1434,99 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		protected final int rotation;
 		protected final WritableFont font;
 		protected final BoxStyle box;
+		protected final boolean wrapText;
 		private DisplayFormat displayFormat;
 		private int hashCode;
 
 		protected StyleInfo(
-			Pattern mode, 
-			Colour backcolor, 
-			int horizontalAlignment, 
-			int verticalAlignment, 
-			int rotation, 
-			WritableFont font, 
-			JRExporterGridCell gridCell
-			)
-		{
-			this(
-				mode, 
-				backcolor, 
-				horizontalAlignment, 
-				verticalAlignment, 
-				rotation, 
-				font, 
-				new BoxStyle(gridCell)
-				);
-		}
-		
+				Pattern mode, 
+				Colour backcolor, 
+				int horizontalAlignment, 
+				int verticalAlignment, 
+				int rotation, 
+				WritableFont font, 
+				JRExporterGridCell gridCell
+				)
+			{
+				this(
+					mode, 
+					backcolor, 
+					horizontalAlignment, 
+					verticalAlignment, 
+					rotation, 
+					font, 
+					new BoxStyle(gridCell),
+					true
+					);
+			}
+			
 		protected StyleInfo(
-			Pattern mode, 
-			Colour backcolor, 
-			int horizontalAlignment, 
-			int verticalAlignment, 
-			int rotation, 
-			WritableFont font, 
-			BoxStyle box
-			)
-		{
-			this.mode = mode;
-			this.backcolor = backcolor;
-			this.horizontalAlignment = horizontalAlignment;
-			this.verticalAlignment = verticalAlignment;
-			this.rotation = rotation;
-			this.font = font;
+				Pattern mode, 
+				Colour backcolor, 
+				int horizontalAlignment, 
+				int verticalAlignment, 
+				int rotation, 
+				WritableFont font, 
+				JRExporterGridCell gridCell,
+				boolean wrapText
+				)
+			{
+				this(
+					mode, 
+					backcolor, 
+					horizontalAlignment, 
+					verticalAlignment, 
+					rotation, 
+					font, 
+					new BoxStyle(gridCell),
+					wrapText
+					);
+			}
 			
-			this.box = box;
-			
-			computeHash();
-		}
+		protected StyleInfo(
+				Pattern mode, 
+				Colour backcolor, 
+				int horizontalAlignment, 
+				int verticalAlignment, 
+				int rotation, 
+				WritableFont font, 
+				BoxStyle box
+				)
+			{
+			this(
+					mode, 
+					backcolor, 
+					horizontalAlignment, 
+					verticalAlignment, 
+					rotation, 
+					font, 
+					box,
+					true
+					);
+			}
+
+		protected StyleInfo(
+				Pattern mode, 
+				Colour backcolor, 
+				int horizontalAlignment, 
+				int verticalAlignment, 
+				int rotation, 
+				WritableFont font, 
+				BoxStyle box,
+				boolean wrapText
+				)
+			{
+				this.mode = mode;
+				this.backcolor = backcolor;
+				this.horizontalAlignment = horizontalAlignment;
+				this.verticalAlignment = verticalAlignment;
+				this.rotation = rotation;
+				this.font = font;
+				
+				this.box = box;
+				this.wrapText = wrapText;
+				computeHash();
+			}
 
 		protected void computeHash()
 		{
@@ -1482,6 +1538,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			hash = 31*hash + this.font.hashCode();
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
+			hash = 31*hash + Boolean.valueOf(this.wrapText).hashCode();
 
 			hashCode = hash;
 		}
@@ -1499,7 +1556,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				k.horizontalAlignment == horizontalAlignment && k.verticalAlignment == verticalAlignment &&
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
-				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)));
+				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
+				k.wrapText == wrapText);
 		}
 
 		public DisplayFormat getDisplayFormat()
@@ -1519,7 +1577,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + displayFormat + ")";
+				box + "," + displayFormat + "," + wrapText + ")";
 		}
 	}
 
@@ -1563,7 +1621,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		return getLoadedCellStyle(styleKey);
 	}
 
-
 	protected WritableCellFormat getLoadedCellStyle(StyleInfo styleKey) throws JRException
 	{
 		WritableCellFormat cellStyle = (WritableCellFormat) loadedCellStyles.get(styleKey);
@@ -1585,7 +1642,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				cellStyle.setAlignment(Alignment.getAlignment(styleKey.horizontalAlignment));
 				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(styleKey.verticalAlignment));
 				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
-				cellStyle.setWrap(true);
+				cellStyle.setWrap(styleKey.wrapText);
 
 				if (!isIgnoreCellBorder)
 				{
@@ -1604,6 +1661,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			loadedCellStyles.put(styleKey, cellStyle);
 		}
 
+		
 		return cellStyle;
 	}
 

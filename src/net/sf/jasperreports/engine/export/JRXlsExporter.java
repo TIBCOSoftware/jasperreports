@@ -421,6 +421,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
+		boolean wrapText = true;
+		if(textElement.hasProperties() && textElement.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT) != null)
+		{
+			wrapText = Boolean.valueOf(textElement.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)).booleanValue();
+		}
 		StyleInfo baseStyle =
 			new StyleInfo(
 				mode,
@@ -429,7 +434,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				verticalAlignment,
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
-				gridCell
+				gridCell, 
+				wrapText
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
@@ -601,7 +607,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 
 		setHyperlinkCell(textElement);
-		
 	}
 
 
@@ -893,7 +898,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			cellStyle.setVerticalAlignment(style.verticalAlignment);
 			cellStyle.setRotation(style.rotation);
 			cellStyle.setFont(style.font);
-			cellStyle.setWrapText(true);
+			cellStyle.setWrapText(style.wrapText);
 
 			if (style.hasDataFormat())
 			{
@@ -1610,51 +1615,100 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		protected final short rotation;
 		protected final HSSFFont font;
 		protected final BoxStyle box;
+		protected final boolean wrapText;
 		private short dataFormat = -1;
 		private int hashCode;
 
 		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			JRExporterGridCell gridCell
-			)
-		{
-			this(
-				mode,
-				backcolor,
-				horizontalAlignment,
-				verticalAlignment,
-				rotation,
-				font,
-				new BoxStyle(gridCell)
-				);
-		}
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				JRExporterGridCell gridCell
+				)
+			{
+				this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					new BoxStyle(gridCell),
+					true
+					);
+			}
 
 		public StyleInfo(
-			short mode,
-			short backcolor,
-			short horizontalAlignment,
-			short verticalAlignment,
-			short rotation,
-			HSSFFont font,
-			BoxStyle box
-			)
-		{
-			this.mode = mode;
-			this.backcolor = backcolor;
-			this.horizontalAlignment = horizontalAlignment;
-			this.verticalAlignment = verticalAlignment;
-			this.rotation = rotation;
-			this.font = font;
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				JRExporterGridCell gridCell,
+				boolean wrapText
+				)
+			{
+				this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					new BoxStyle(gridCell),
+					wrapText
+					);
+			}
 
-			this.box = box;
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				BoxStyle box
+				)
+			{
+			this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					box,
+					true
+					);
+			}
 
-			hashCode = computeHash();
-		}
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				BoxStyle box,
+				boolean wrapText
+				)
+			{
+				this.mode = mode;
+				this.backcolor = backcolor;
+				this.horizontalAlignment = horizontalAlignment;
+				this.verticalAlignment = verticalAlignment;
+				this.rotation = rotation;
+				this.font = font;
+
+				this.box = box;
+				this.wrapText = wrapText;
+
+				hashCode = computeHash();
+			}
 
 		protected int computeHash()
 		{
@@ -1666,6 +1720,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			hash = 31*hash + (font == null ? 0 : font.getIndex());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + dataFormat;
+			hash = 31*hash + Boolean.valueOf(this.wrapText).hashCode();
 			return hash;
 		}
 
@@ -1701,7 +1756,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					&& s.rotation == rotation
 					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
-					&& s.rotation == rotation;
+					&& s.rotation == rotation && s.wrapText == wrapText;
 		}
 
 		public String toString()
@@ -1710,7 +1765,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + dataFormat + ")";
+				box + "," + dataFormat + "," + wrapText + ")";
 		}
 	}
 

@@ -318,5 +318,14 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.xls.password";
 
+	/**
+	 * This property indicates whether text wrapping is allowed in a given cell.
+	 * <p>
+	 * The property itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_WRAP_TEXT = JRProperties.PROPERTY_PREFIX + "export.xls.wrap.text";
+
 
 }
