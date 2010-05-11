@@ -484,12 +484,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				backcolor = getWorkbookColour(gridCell.getCellBackcolor(), true);
 			}
 
-			boolean wrapText = true;
-			if(text.hasProperties() && text.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT) != null)
-			{
-				wrapText = Boolean.valueOf(text.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)).booleanValue();
-				
-			}
 			StyleInfo baseStyle =
 				new StyleInfo(
 					mode, 
@@ -499,7 +493,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					rotation, 
 					cellFont,
 					gridCell,
-					wrapText
+					JRProperties.getBooleanProperty(text, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, true)
 					);
 
 			String textStr = styledText.getText();
@@ -1538,7 +1532,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			hash = 31*hash + this.font.hashCode();
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
-			hash = 31*hash + Boolean.valueOf(this.wrapText).hashCode();
+			hash = 31*hash + (this.wrapText ? 0 : 1);
 
 			hashCode = hash;
 		}

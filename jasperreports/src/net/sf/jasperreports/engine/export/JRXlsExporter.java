@@ -421,11 +421,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
-		boolean wrapText = true;
-		if(textElement.hasProperties() && textElement.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT) != null)
-		{
-			wrapText = Boolean.valueOf(textElement.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)).booleanValue();
-		}
 		StyleInfo baseStyle =
 			new StyleInfo(
 				mode,
@@ -435,7 +430,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell, 
-				wrapText
+				JRProperties.getBooleanProperty(textElement, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, true)
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
@@ -1720,7 +1715,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			hash = 31*hash + (font == null ? 0 : font.getIndex());
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + dataFormat;
-			hash = 31*hash + Boolean.valueOf(this.wrapText).hashCode();
+			hash = 31*hash + (this.wrapText ? 0 : 1);
 			return hash;
 		}
 
