@@ -175,6 +175,7 @@
       <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
       <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
       <property ref="net.sf.jasperreports.export.xml.page.count"/>
       <property ref="net.sf.jasperreports.export.xml.start.page.index"/>
@@ -2205,6 +2206,20 @@ These properties are by default not set.
     <default>N/A</default>
     <scope>Report</scope>
     <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.wrap.text -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.wrap.text">
+    <description>
+Custom element property specifying if text wrapping is allowed in a given cell. 
+If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowed.
+</description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_WRAP_TEXT</api>
+    <default>true</default>
+    <scope>Element</scope>
+    <since>3.7.3</since>
   </configProperty>
   
   
