@@ -116,6 +116,10 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private String name = null;
 	private int pageWidth = 0;
 	private int pageHeight = 0;
+	private Integer topMargin = 0;
+	private Integer leftMargin = 0;
+	private Integer bottomMargin = 0;
+	private Integer rightMargin = 0;
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 
 	private Map fontsMap = new HashMap();
@@ -201,6 +205,77 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		this.pageHeight = pageHeight;
 	}
 
+	/**
+	 * @return Returns the top page margin
+	 */
+	public Integer getTopMargin()
+	{
+		return topMargin;
+	}
+		
+	/**
+	 * Sets the top page margin.
+	 * 
+	 * @param topMargin top page margin
+	 */
+	public void setTopMargin(Integer topMargin)
+	{
+		this.topMargin = topMargin;
+	}
+
+	/**
+	 * @return Returns the left page margin
+	 */
+	public Integer getLeftMargin()
+	{
+		return leftMargin;
+	}
+		
+	/**
+	 * Sets the left page margin.
+	 * 
+	 * @param leftMargin left page margin
+	 */
+	public void setLeftMargin(Integer leftMargin)
+	{
+		this.leftMargin = leftMargin;
+	}
+
+	/**
+	 * @return Returns the bottom page margin
+	 */
+	public Integer getBottomMargin()
+	{
+		return bottomMargin;
+	}
+		
+	/**
+	 * Sets the bottom page margin.
+	 * 
+	 * @param bottomMargin bottom page margin
+	 */
+	public void setBottomMargin(Integer bottomMargin)
+	{
+		this.bottomMargin = bottomMargin;
+	}
+
+	/**
+	 * @return Returns the right page margin
+	 */
+	public Integer getRightMargin()
+	{
+		return rightMargin;
+	}
+		
+	/**
+	 * Sets the right page margin.
+	 * 
+	 * @param rightMargin right page margin
+	 */
+	public void setRightMargin(Integer rightMargin)
+	{
+		this.rightMargin = rightMargin;
+	}
 
 	/**
 	 * @deprecated Replaced by {@link #getOrientationValue()}.

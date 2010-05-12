@@ -57,6 +57,30 @@ public class JasperPrintFactory extends JRBaseFactory
 			jasperPrint.setPageHeight(Integer.parseInt(pageHeight));
 		}
 
+		String topMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_topMargin);
+		if (topMargin != null && topMargin.length() > 0)
+		{
+			jasperPrint.setTopMargin(Integer.valueOf(topMargin));
+		}
+
+		String leftMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_leftMargin);
+		if (leftMargin != null && leftMargin.length() > 0)
+		{
+			jasperPrint.setLeftMargin(Integer.valueOf(leftMargin));
+		}
+
+		String bottomMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_bottomMargin);
+		if (bottomMargin != null && bottomMargin.length() > 0)
+		{
+			jasperPrint.setBottomMargin(Integer.valueOf(bottomMargin));
+		}
+
+		String rightMargin = atts.getValue(JRXmlConstants.ATTRIBUTE_rightMargin);
+		if (rightMargin != null && rightMargin.length() > 0)
+		{
+			jasperPrint.setRightMargin(Integer.valueOf(rightMargin));
+		}
+
 		OrientationEnum orientation = OrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{

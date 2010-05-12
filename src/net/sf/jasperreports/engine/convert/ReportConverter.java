@@ -133,6 +133,10 @@ public class ReportConverter
 		jasperPrint.setOrientation(report.getOrientationValue());
 		jasperPrint.setPageWidth(report.getPageWidth());
 		jasperPrint.setPageHeight(report.getPageHeight());
+		jasperPrint.setTopMargin(report.getTopMargin());
+		jasperPrint.setLeftMargin(report.getLeftMargin());
+		jasperPrint.setBottomMargin(report.getBottomMargin());
+		jasperPrint.setRightMargin(report.getRightMargin());
 		
 		JRProperties.transferProperties(report, jasperPrint, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 
