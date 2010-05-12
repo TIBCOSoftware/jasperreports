@@ -46,7 +46,7 @@ public class JRGraphEnvInitializer
 	/**
 	 *
 	 */
-	public static void initializeGraphEnv()
+	public static synchronized void initializeGraphEnv()
 	{
 		if (AVAILABLE_FONT_FACE_NAMES == null)
 		{
