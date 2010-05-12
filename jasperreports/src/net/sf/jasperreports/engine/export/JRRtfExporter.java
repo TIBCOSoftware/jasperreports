@@ -277,7 +277,14 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write("\\paperh");
 				writer.write(String.valueOf(twip(jasperPrint.getPageHeight())));
 
-				writer.write("\\marglsxn0\\margrsxn0\\margtsxn0\\margbsxn0");
+				writer.write("\\marglsxn");
+				writer.write(String.valueOf(twip(jasperPrint.getLeftMargin() == null ? 0 : jasperPrint.getLeftMargin())));
+				writer.write("\\margrsxn");
+				writer.write(String.valueOf(twip(jasperPrint.getRightMargin() == null ? 0 : jasperPrint.getRightMargin())));
+				writer.write("\\margtsxn");
+				writer.write(String.valueOf(twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
+				writer.write("\\margbsxn");
+				writer.write(String.valueOf(twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
 
 				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
 					writer.write("\\lndscpsxn");

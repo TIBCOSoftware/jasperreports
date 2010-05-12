@@ -901,6 +901,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			jasperPrint.setName(name);
 			jasperPrint.setPageWidth(pageWidth);
 			jasperPrint.setPageHeight(pageHeight);
+			jasperPrint.setTopMargin(topMargin);
+			jasperPrint.setLeftMargin(leftMargin);
+			jasperPrint.setBottomMargin(bottomMargin);
+			jasperPrint.setRightMargin(rightMargin);
 			jasperPrint.setOrientation(orientation);
 
 			jasperPrint.setDefaultFont(defaultFont);

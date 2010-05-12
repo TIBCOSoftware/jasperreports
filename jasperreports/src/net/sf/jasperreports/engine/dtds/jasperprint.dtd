@@ -4,6 +4,10 @@
 	name CDATA #REQUIRED
 	pageWidth NMTOKEN "595"
 	pageHeight NMTOKEN "842"
+	topMargin NMTOKEN #IMPLIED
+	leftMargin NMTOKEN #IMPLIED
+	bottomMargin NMTOKEN #IMPLIED
+	rightMargin NMTOKEN #IMPLIED
 	orientation (Portrait | Landscape) "Portrait"
 	formatFactoryClass NMTOKEN #IMPLIED
 	locale CDATA #IMPLIED
