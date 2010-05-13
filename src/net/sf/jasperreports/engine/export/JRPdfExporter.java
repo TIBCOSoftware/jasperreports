@@ -194,6 +194,8 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected Character pdfVersion;
 	protected String pdfJavaScript;
 	protected String printScaling;
+	
+	private boolean collapseMissingBookmarkLevels;
 
 	/**
 	 *
@@ -350,6 +352,10 @@ public class JRPdfExporter extends JRAbstractExporter
 					false
 					)
 				);
+			
+			// no export param for this
+			collapseMissingBookmarkLevels = JRProperties.getBooleanProperty(jasperPrint, 
+					JRPdfExporterParameter.PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS, false);
 
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
@@ -2572,17 +2578,22 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected void addBookmark(int level, String title, int x, int y)
 	{
 		Bookmark parent = bookmarkStack.peek();
-		while(parent.level > level - 1)
+		// searching for parent
+		while(parent.level >= level)
 		{
 			bookmarkStack.pop();
 			parent = bookmarkStack.peek();
 		}
 
-		for (int i = parent.level + 1; i < level; ++i)
+		if (!collapseMissingBookmarkLevels)
 		{
-			Bookmark emptyBookmark = new Bookmark(parent, parent.pdfOutline.getPdfDestination(), EMPTY_BOOKMARK_TITLE);
-			bookmarkStack.push(emptyBookmark);
-			parent = emptyBookmark;
+			// creating empty bookmarks in order to preserve the bookmark level
+			for (int i = parent.level + 1; i < level; ++i)
+			{
+				Bookmark emptyBookmark = new Bookmark(parent, parent.pdfOutline.getPdfDestination(), EMPTY_BOOKMARK_TITLE);
+				bookmarkStack.push(emptyBookmark);
+				parent = emptyBookmark;
+			}
 		}
 
 		Bookmark bookmark = new Bookmark(parent, x, jasperPrint.getPageHeight() - y, title);

@@ -316,4 +316,30 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_TAG_LANGUAGE = JRProperties.PROPERTY_PREFIX + "export.pdf.tag.language";
 
 
+	/**
+	 * Property that determines if missing bookmark levels are collapsed, or if 
+	 * empty bookmarks are created for the missing levels.
+	 * 
+	 * <p>
+	 * The property dictates what happens when a filled report contains an anchor
+	 * having a bookmark level that is not the immediate successor of its parent
+	 * (e.g. an anchor with bookmark level 3 follows immediately after a bookmark
+	 * of level 1).
+	 * If the property is not set, an empty bookmark is created for the missing
+	 * level(s) in order to preserve the original level of the bookmark.
+	 * When the property is set, the level of the bookmark will be collapsed and
+	 * the bookmark will be created as a direct descendant of its nearest parent.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set globally and at report level.
+	 * By default, the property is set to <code>false</code>.
+	 * </p>
+	 * 
+	 * @see net.sf.jasperreports.engine.JRAnchor#getBookmarkLevel()
+	 * @since 3.7.3
+	 */
+	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
+		JRProperties.PROPERTY_PREFIX + "export.pdf.collapse.missing.bookmark.levels";
+	
 }
