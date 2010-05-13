@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
@@ -869,6 +870,36 @@ public class JRVerifier
 				if (style.getName() == null || style.getName().trim().length() == 0)
 				{
 					addBrokenRule("Report style name missing.", style);
+				}
+				
+				verifyConditionalStyles(style);
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	private void verifyConditionalStyles(JRStyle style)
+	{
+		JRConditionalStyle[] condStyles = style.getConditionalStyles();
+		if (condStyles != null && condStyles.length > 0)
+		{
+			for(int index = 0; index < condStyles.length; index++)
+			{
+				JRConditionalStyle condStyle = condStyles[index];
+
+				if (log.isWarnEnabled())
+				{
+					if (condStyle.getName() != null)
+					{
+						log.warn("Conditional style should not have a name.");
+					}
+
+					if (condStyle.isDefault())
+					{
+						log.warn("Conditional style can't be the default style.");
+					}
 				}
 			}
 		}

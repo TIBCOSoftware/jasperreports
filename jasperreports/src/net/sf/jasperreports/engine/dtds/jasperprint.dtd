@@ -41,7 +41,7 @@
 <!ELEMENT style (pen?, box?)>
 <!ATTLIST style
 	name CDATA #REQUIRED
-	isDefault (true | false) "false"
+	isDefault (true | false) #IMPLIED
 	style CDATA #IMPLIED
 	mode (Opaque | Transparent) #IMPLIED
 	forecolor CDATA #IMPLIED

@@ -1125,18 +1125,6 @@ public class JRApiWriter
 	 */
 	private void writeCommonStyle(JRStyle style, String styleName)
 	{
-		write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
-
-		if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
-		{
-			write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
-		}
-		else if (style.getStyleNameReference() != null)
-		{
-			write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
-		}
-		
-		write( styleName + ".setDefault({0});\n", style.isDefault(), false);
 		write( styleName + ".setMode({0});\n", style.getOwnModeValue());
 		write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnFontName()));
 		write( styleName + ".setFontSize({0, number, #});\n", style.getOwnFontSize());
@@ -1174,6 +1162,19 @@ public class JRApiWriter
 		if (style != null && stylesMap.get(style.getName()) == null)
 		{
 			write( "JRDesignStyle " + styleName + " = new JRDesignStyle();\n");
+
+			write( styleName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getName()));
+
+			if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
+			{
+				write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
+			}
+			else if (style.getStyleNameReference() != null)
+			{
+				write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
+			}
+			
+			write( styleName + ".setDefault({0});\n", style.isDefault(), false);
 
 			writeCommonStyle(style, styleName);
 
@@ -3578,6 +3579,15 @@ public class JRApiWriter
 		{
 			write( "JRDesignConditionalStyle " + styleName + " = new JRDesignConditionalStyle();\n");
 			writeExpression( style.getConditionExpression(), styleName, "ConditionExpression");
+
+			if (style.getStyle() != null)//FIXME double check which one to use; style or styleNameReference?
+			{
+				write( styleName + ".setParentStyle({0});\n", JRStringUtil.escapeJavaStringLiteral(style.getStyle().getName()));
+			}
+			else if (style.getStyleNameReference() != null)
+			{
+				write( styleName + ".setParentStyleNameReference(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getStyleNameReference()));
+			}
 
 			writeCommonStyle(style, styleName);
 			

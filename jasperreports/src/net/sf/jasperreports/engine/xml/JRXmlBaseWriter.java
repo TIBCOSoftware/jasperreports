@@ -65,7 +65,7 @@ public abstract class JRXmlBaseWriter
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_style);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault(), false);
 		writeStyleReferenceAttr(style);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_mode, style.getOwnModeValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_forecolor, style.getOwnForecolor());
@@ -111,13 +111,16 @@ public abstract class JRXmlBaseWriter
 
 	public void writeStyleReferenceAttr(JRStyleContainer styleContainer)
 	{
-		if (styleContainer.getStyle() != null)
+		if (!(styleContainer instanceof JRConditionalStyle))
 		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyle().getName());
-		}
-		else if (styleContainer.getStyleNameReference() != null)
-		{
-			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyleNameReference());
+			if (styleContainer.getStyle() != null)
+			{
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyle().getName());
+			}
+			else if (styleContainer.getStyleNameReference() != null)
+			{
+				writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, styleContainer.getStyleNameReference());
+			}
 		}
 	}
 

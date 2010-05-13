@@ -525,7 +525,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_style);
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault());
+		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault(), false);
 
 		if (style.getStyle() != null)
 		{
