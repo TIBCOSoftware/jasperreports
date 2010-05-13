@@ -64,6 +64,7 @@ public class XlsxContentTypesHelper extends BaseHelper
 	public void exportSheet(int index)
 	{
 		write("  <Override PartName=\"/xl/worksheets/sheet" + index + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml\"/>\n");
+		write("  <Override PartName=\"/xl/drawings/drawing" + index + ".xml\" ContentType=\"application/vnd.openxmlformats-officedocument.drawing+xml\"/>\n");
 	}
 	
 

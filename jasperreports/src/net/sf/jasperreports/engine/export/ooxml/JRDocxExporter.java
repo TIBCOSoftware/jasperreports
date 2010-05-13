@@ -780,7 +780,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		tableHelper.getCellHelper().exportHeader(image, gridCell);
 
-		docHelper.write("<w:p>");
+		docHelper.write("<w:p>");//FIXMEDOCX why is this here and not further down?
 
 		JRRenderable renderer = image.getRenderer();
 
