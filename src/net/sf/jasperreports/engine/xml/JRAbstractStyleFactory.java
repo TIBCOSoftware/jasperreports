@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -72,7 +73,17 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 			setParentStyle(style, atts.getValue(JRXmlConstants.ATTRIBUTE_style));
 		}
 
+		// set common style attributes
+		setCommonStyle(style, atts);
 
+		return style;
+	}
+	
+	/**
+	 *
+	 */
+	protected void setCommonStyle(JRStyle style, Attributes atts)
+	{
 		// get JRElement attributes
 		ModeEnum mode = ModeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mode));
 		if (mode != null)
@@ -85,8 +96,6 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 
 		String backcolor = atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor);
 		style.setBackcolor(JRColorUtil.getColor(backcolor, null));
-
-
 
 		// get graphic element attributes
 		PenEnum pen = PenEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_pen));
@@ -356,8 +365,6 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		{
 			style.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
 		}
-
-		return style;
 	}
 	
 	protected abstract void setParentStyle(JRDesignStyle currentStyle, String parentStyleName);

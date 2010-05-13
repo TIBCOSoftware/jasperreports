@@ -487,7 +487,7 @@
 	 <documentation>Name of the report style definition.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="isDefault" use="optional" default="false">
+   <attribute name="isDefault" use="optional">
 	<annotation>
 	 <documentation>The default report style is used as base style for all the elements that do not explicitly reference a report style definition.</documentation>
 	</annotation>
