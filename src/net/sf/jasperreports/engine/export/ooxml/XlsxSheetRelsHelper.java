@@ -24,19 +24,23 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
  */
-public class XlsxRelsHelper extends BaseHelper
+public class XlsxSheetRelsHelper extends BaseHelper
 {
 
+	private Set<String> imageNames = new HashSet<String>();
+	
 	/**
 	 * 
 	 */
-	public XlsxRelsHelper(Writer writer)
+	public XlsxSheetRelsHelper(Writer writer)
 	{
 		super(writer);
 	}
@@ -44,36 +48,11 @@ public class XlsxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportHeader()
+	public void export(int index)
 	{
-		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
 		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
-		write(" <Relationship Id=\"rIdSt\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/>\n");
-//		write(" <Relationship Id=\"rIdCa\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/>\n");
-//		write(" <Relationship Id=\"rIdSh\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings\" Target=\"sharedStrings.xml\"/>\n");
-	}
-	
-	/**
-	 * 
-	 */
-	public void exportSheet(int index)
-	{
-		write(" <Relationship Id=\"rId" + index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet\" Target=\"worksheets/sheet" + index + ".xml\"/>\n");
-	}
-	
-//	/**
-//	 * 
-//	 */
-//	public void exportHyperlink(String id, String href)
-//	{
-//		write(" <Relationship Id=\"" + id + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" + href + "\"/>\n");
-//	}
-	
-	/**
-	 * 
-	 */
-	public void exportFooter()
-	{
+		write(" <Relationship Id=\"rId" + index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing\" Target=\"../drawings/drawing" + index + ".xml\"/>\n");
 		write("</Relationships>\n");
 	}
 	

@@ -92,7 +92,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
 		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
-		write("</worksheet>");		
+		write("<drawing r:id=\"rId1\"/></worksheet>");		
 	}
 
 
