@@ -49,7 +49,7 @@ documents generated in languages that have right-to-left writing (like Arabic an
 Hebrew) can be rendered properly. 
 <br/>
 If an application relies on the built-in Swing viewer to display generated reports, then it 
-too must be internationalized by adapting the button ToolTips or other texts displayed. 
+also must be internationalized by adapting the button ToolTips or other texts displayed. 
 This is very easy to do since the viewer relies on a predefined resource bundle to extract 
 locale-specific information. The base name for this resource bundle is 
 <code>net.sf.jasperreports.view.viewer</code>. 
