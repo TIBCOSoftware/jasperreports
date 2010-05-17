@@ -34,6 +34,7 @@ import groovyjarjarasm.asm.ClassWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +61,9 @@ import org.codehaus.groovy.control.Phases;
 public class JRGroovyCompiler extends JRAbstractJavaCompiler 
 {
 
+	protected static final String SOURCE_ENCODING = "UTF-8";
+	protected static final Charset SOURCE_CHARSET = Charset.forName(SOURCE_ENCODING);
+	
 	public JRGroovyCompiler()
 	{
 		super(false);
@@ -69,12 +73,14 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	protected String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException
 	{
 		CompilerConfiguration config = new CompilerConfiguration();
+		config.setSourceEncoding(SOURCE_ENCODING);
 		//config.setClasspath(classpath);
 		CompilationUnit unit = new CompilationUnit(config);
 		
 		for (int i = 0; i < units.length; i++)
 		{
-			unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(units[i].getSourceCode().getBytes()));
+			byte[] sourceBytes = units[i].getSourceCode().getBytes(SOURCE_CHARSET);
+			unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
 		}
 		
 		ClassCollector collector = new ClassCollector();
