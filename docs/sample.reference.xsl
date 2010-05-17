@@ -135,7 +135,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   -->
   <tr>
     <td colspan="2">
-      <span class="label"><br/><xsl:value-of select="name"/></span>
+      <span class="label"><br/><a><xsl:attribute name="name"><xsl:value-of select="translate(name,' /','')"/></xsl:attribute><xsl:value-of select="name"/></a></span>
     </td>
   </tr>
   <xsl:apply-templates select="content"/>
