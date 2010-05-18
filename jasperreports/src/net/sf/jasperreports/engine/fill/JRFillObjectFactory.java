@@ -199,8 +199,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	protected JRFillObjectFactory(JRBaseFiller filler)
 	{
-		this.filler = filler;
-		this.evaluator = filler.calculator;
+		this(filler, filler.calculator);
 	}
 
 
