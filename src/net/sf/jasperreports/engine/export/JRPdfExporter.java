@@ -672,7 +672,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		} 
 		else 
 		{
-			Font pdfFont = getFont(pdfFontAttrs, getLocale());
+			// no underline or strikethrough
+			Font pdfFont = getFont(pdfFontAttrs, getLocale(), false);
 			chunk = new Chunk(" ", pdfFont);
 		}
 		
@@ -1708,9 +1709,24 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected Chunk getChunk(Map attributes, String text, Locale locale)
 	{
-		Font font = getFont(attributes, locale);
+		// underline and strikethrough are set on the chunk below
+		Font font = getFont(attributes, locale, false);
 
 		Chunk chunk = new Chunk(text, font);
+		
+		if (hasUnderline(attributes))
+		{
+			// using the same values as sun.font.Fond2D
+			chunk.setUnderline(null, 0, 1f / 18, 0, -1f / 12, 0);
+		}
+		
+		if (hasStrikethrough(attributes))
+		{
+			// using the same thickness as sun.font.Fond2D.
+			// the position is calculated in Fond2D based on the ascent, defaulting 
+			// to iText default position which depends on the font size
+			chunk.setUnderline(null, 0, 1f / 18, 0, 1f / 3, 0);
+		}
 
 		Color backcolor = (Color)attributes.get(TextAttribute.BACKGROUND);
 		if (backcolor != null)
@@ -1740,11 +1756,28 @@ public class JRPdfExporter extends JRAbstractExporter
 		return chunk;
 	}
 
+	protected boolean hasUnderline(Map textAttributes)
+	{
+		Integer underline = (Integer) textAttributes.get(TextAttribute.UNDERLINE);
+		return TextAttribute.UNDERLINE_ON.equals(underline);
+	}
+
+	protected boolean hasStrikethrough(Map textAttributes)
+	{
+		Boolean strike = (Boolean) textAttributes.get(TextAttribute.STRIKETHROUGH);
+		return TextAttribute.STRIKETHROUGH_ON.equals(strike);
+	}
+
 
 	/**
-	 *
+	 * Creates a PDF font.
+	 * 
+	 * @param attributes the text attributes of the font
+	 * @param locale the locale for which to create the font
+	 * @param setFontLines whether to set underline and strikethrough as font style
+	 * @return the PDF font for the specified attributes
 	 */
-	protected Font getFont(Map attributes, Locale locale)
+	protected Font getFont(Map attributes, Locale locale, boolean setFontLines)
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
 
@@ -1863,6 +1896,14 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 		}
 
+		int pdfFontStyle = (pdfFont.isPdfSimulatedBold() ? Font.BOLD : 0)
+				| (pdfFont.isPdfSimulatedItalic() ? Font.ITALIC : 0);
+		if (setFontLines)
+		{
+			pdfFontStyle |= (jrFont.isUnderline() ? Font.UNDERLINE : 0)
+					| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0);
+		}
+		
 		try
 		{
 			font = FontFactory.getFont(
@@ -1870,10 +1911,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				pdfFont.getPdfEncoding(),
 				pdfFont.isPdfEmbedded(),
 				jrFont.getFontSize(),
-				(pdfFont.isPdfSimulatedBold() ? Font.BOLD : 0)
-					| (pdfFont.isPdfSimulatedItalic() ? Font.ITALIC : 0)
-					| (jrFont.isUnderline() ? Font.UNDERLINE : 0)
-					| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+				pdfFontStyle,
 				forecolor
 				);
 
@@ -1935,10 +1973,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				new Font(
 					baseFont,
 					jrFont.getFontSize(),
-					((pdfFont.isPdfSimulatedBold()) ? Font.BOLD : 0)
-						| ((pdfFont.isPdfSimulatedItalic()) ? Font.ITALIC : 0)
-						| (jrFont.isUnderline() ? Font.UNDERLINE : 0)
-						| (jrFont.isStrikeThrough() ? Font.STRIKETHRU : 0),
+					pdfFontStyle,
 					forecolor
 					);
 		}
@@ -2689,7 +2724,10 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		public BaseFont awtToPdf(java.awt.Font font)
 		{
-			return getFont(font.getAttributes(), null).getBaseFont();
+			// not setting underline and strikethrough as we only need the base font.
+			// underline and strikethrough will not work here because PdfGraphics2D
+			// doesn't check the font attributes.
+			return getFont(font.getAttributes(), null, false).getBaseFont();
 		}
 
 		public java.awt.Font pdfToAwt(BaseFont font, int size)
