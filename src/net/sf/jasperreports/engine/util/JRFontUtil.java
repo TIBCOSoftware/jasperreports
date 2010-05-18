@@ -100,15 +100,6 @@ public final class JRFontUtil
 	
 
 	/**
-	 *
-	 */
-	private static final AwtFontDeriver FONT_DERIVER 
-		= System.getProperty("java.version").startsWith("1.4")
-			?AwtFontDeriver.JDK14_AWT_FONT_DERIVER
-			:AwtFontDeriver.DEFAULT_AWT_FONT_DERIVER;
-	
-
-	/**
 	 * Fills the supplied Map parameter with attributes copied from the JRFont parameter.
 	 * The attributes include the TextAttribute.FONT, which has a java.awt.Font object as value.
 	 * @deprecated Replaced by {@link #getAttributesWithoutAwtFont(Map, JRFont)}.
@@ -312,7 +303,7 @@ public final class JRFontUtil
 
 				awtFont = awtFont.deriveFont((float)size);
 				
-				awtFont = FONT_DERIVER.deriveFont(awtFont, name, style, faceStyle);
+				awtFont = awtFont.deriveFont(style & ~faceStyle);
 			}
 		}
 		
@@ -378,40 +369,4 @@ public final class JRFontUtil
 	private JRFontUtil()
 	{
 	}
-}
-
-interface AwtFontDeriver
-{
-	public Font deriveFont(Font font, String name, int style, int faceStyle);
-	
-	public static final AwtFontDeriver JDK14_AWT_FONT_DERIVER = 
-		new AwtFontDeriver()
-		{
-			public Font deriveFont(Font font, String name, int style, int faceStyle)
-			{
-				Map attrs = new HashMap();
-				attrs.putAll(font.getAttributes());
-				attrs.put(TextAttribute.FAMILY, name);
-				if ((style & Font.BOLD) > 0)
-				{
-					attrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-				}
-
-				if ((style & Font.ITALIC) > 0)
-				{
-					attrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
-				}
-				
-				return new Font(attrs);
-			}
-		};
-
-	public static final AwtFontDeriver DEFAULT_AWT_FONT_DERIVER = 
-		new AwtFontDeriver()
-		{
-			public Font deriveFont(Font font, String name, int style, int faceStyle)
-			{
-				return font.deriveFont(style & ~faceStyle);
-			}
-		};
 }
