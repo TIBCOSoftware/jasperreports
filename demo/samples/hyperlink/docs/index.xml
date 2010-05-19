@@ -360,7 +360,7 @@ A simple way to add watermark info to a given document is to embed an image into
 <br/>
 In order to handle page backgrounds, there is a special section in JasperReports that is rendered on all pages and its content cannot overflow to the next page. This is the background section. Normal report sections are rendered one after the other, but the 
 background section does not interfere with the other report sections and can be used to 
-achieve watermark effects or to create the same background for all pages.  Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements.
+achieve watermark effects or to create the same background for all pages. Elements placed on this section are evaluated at page initialization time and are displayed in the back. All other page elements are displayed on top of the background elements.
 <br/>
 <br/>
 <b>Using the Background Section Example</b>
