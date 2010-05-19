@@ -727,7 +727,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		
 		if (anyTrue)
 		{
-			String consolidatedStyleName = initialStyle.getName() + code.toString();
+			String consolidatedStyleName = initialStyle.getName() + "|" + code.toString();
 			consolidatedStyle = (JRStyle)filler.getJasperPrint().getStylesMap().get(consolidatedStyleName);
 			if (consolidatedStyle == null)
 			{
