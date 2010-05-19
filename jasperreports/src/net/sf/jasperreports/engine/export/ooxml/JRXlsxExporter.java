@@ -485,45 +485,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //	}
 
 
-	protected boolean exportHyperlink(int rowIndex, int colIndex, JRPrintHyperlink link)
-	{
-		String href = getHyperlinkURL(link);
-
-		if (href != null)
-		{
-//			String id = (String)hyperlinksMap.get(href);
-//			if (id == null)
-//			{
-//				id = "rIdLnk" + hyperlinksMap.size();
-//				hyperlinksMap.put(href, id);
-//			}
-//			
-//			wbHelper.write("<w:hyperlink r:id=\"" + id + "\"");
-//
-//			String target = getHyperlinkTarget(link);//FIXMETARGET
-//			if (target != null)
-//			{
-//				wbHelper.write(" tgtFrame=\"" + target + "\"");
-//			}
-//
-//			wbHelper.write(">\n");
-
-			sheetHelper.exportHyperlink(rowIndex, colIndex, href);
-
-//			String tooltip = link.getHyperlinkTooltip(); 
-//			if (tooltip != null)
-//			{
-//				wbHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
-//			}
-//
-//			wbHelper.write(" </w:instrText></w:r>\n");
-//			wbHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
-		}
-
-		return href != null;
-	}
-
-
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
 	{
 		String target = null;
@@ -750,13 +711,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		Writer sheetWriter = sheetEntry.getWriter();
 		sheetHelper = new XlsxSheetHelper(sheetWriter, sheetRelsHelper);
 		
-		ExportZipEntry drawingEntry = xlsxZip.addDrawing(sheetIndex + 1);
-		Writer drawingWriter = drawingEntry.getWriter();
-		drawingHelper = new XlsxDrawingHelper(drawingWriter);
-		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
 		Writer drawingRelsWriter = drawingRelsEntry.getWriter();
 		drawingRelsHelper = new XlsxDrawingRelsHelper(drawingRelsWriter);
+		
+		ExportZipEntry drawingEntry = xlsxZip.addDrawing(sheetIndex + 1);
+		Writer drawingWriter = drawingEntry.getWriter();
+		drawingHelper = new XlsxDrawingHelper(drawingWriter, drawingRelsHelper);
 		
 		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 		
@@ -1046,7 +1007,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //				tempBodyWriter.write("\"/>");
 //			}
 
-			exportHyperlink(rowIndex, colIndex, image);
 //			boolean startedHyperlink = startHyperlink(image,false);
 
 			String imageName = getImagePath(renderer, image.isLazy(), gridCell);
@@ -1075,7 +1035,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				"</xdr:rowOff></xdr:to>\n");
 			
 			drawingHelper.write("<xdr:pic>\n");
-			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><xdr:cNvPicPr/></xdr:nvPicPr>\n");
+			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\">\n");
+
+			String href = getHyperlinkURL(image);
+			if (href != null)
+			{
+				drawingHelper.exportHyperlink(href);
+			}
+			
+			drawingHelper.write("</xdr:cNvPr><xdr:cNvPicPr/></xdr:nvPicPr>\n");
 			drawingHelper.write("<xdr:blipFill>\n");
 			drawingHelper.write("<a:blip r:embed=\"" + imageName + "\"/>");
 			drawingHelper.write("<a:srcRect");
@@ -1238,7 +1206,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //			tempBodyWriter.write("\"/>");
 //		}
 
-		exportHyperlink(rowIndex, colIndex, text);
+		String href = getHyperlinkURL(text);
+		if (href != null)
+		{
+			sheetHelper.exportHyperlink(rowIndex, colIndex, href);
+		}
 //		boolean startedHyperlink = startHyperlink(text, true);
 
 		if (textLength > 0)

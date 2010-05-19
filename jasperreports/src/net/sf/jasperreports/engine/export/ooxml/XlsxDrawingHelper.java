@@ -32,13 +32,20 @@ import java.io.Writer;
  */
 public class XlsxDrawingHelper extends BaseHelper
 {
+	
+	/**
+	 *
+	 */
+	private XlsxDrawingRelsHelper drawingRelsHelper = null;
 
 	/**
 	 * 
 	 */
-	public XlsxDrawingHelper(Writer writer)
+	public XlsxDrawingHelper(Writer writer, XlsxDrawingRelsHelper drawingRelsHelper)
 	{
 		super(writer);
+		
+		this.drawingRelsHelper = drawingRelsHelper;
 	}
 
 	/**
@@ -53,6 +60,15 @@ public class XlsxDrawingHelper extends BaseHelper
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 	}
 	
+
+	/**
+	 *
+	 */
+	public void exportHyperlink(String href) 
+	{
+		write("<a:hlinkClick r:id=\"rIdLnk" + drawingRelsHelper.getHyperlink(href) + "\"/>\n");
+	}
+
 
 	/**
 	 *
