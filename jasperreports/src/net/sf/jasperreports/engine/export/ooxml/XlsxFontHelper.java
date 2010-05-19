@@ -56,7 +56,7 @@ public class XlsxFontHelper extends BaseHelper
 		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
 		if (font == null)
 		{
-			return 0;			
+			return -1;			
 		}
 
 		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell);
