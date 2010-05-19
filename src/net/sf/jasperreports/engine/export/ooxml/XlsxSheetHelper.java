@@ -40,13 +40,21 @@ public class XlsxSheetHelper extends BaseHelper
 	
 	private FileBufferedWriter colsWriter = new FileBufferedWriter();
 	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
+	private FileBufferedWriter hyperlinksWriter = new FileBufferedWriter();
 	
+	/**
+	 *
+	 */
+	private XlsxSheetRelsHelper sheetRelsHelper = null;
+
 	/**
 	 * 
 	 */
-	public XlsxSheetHelper(Writer writer)
+	public XlsxSheetHelper(Writer writer, XlsxSheetRelsHelper sheetRelsHelper)
 	{
 		super(writer);
+		
+		this.sheetRelsHelper = sheetRelsHelper;
 	}
 
 	/**
@@ -67,7 +75,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportFooter()
+	public void exportFooter(int index)
 	{
 		if (rowIndex > 0)
 		{
@@ -90,9 +98,15 @@ public class XlsxSheetHelper extends BaseHelper
 			mergedCellsWriter.writeData(writer);
 			write("</mergeCells>\n");
 		}
+		if (!hyperlinksWriter.isEmpty())
+		{
+			write("<hyperlinks>\n");//FIXMEXLSX check count attribute
+			hyperlinksWriter.writeData(writer);
+			write("</hyperlinks>\n");
+		}
 		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
 		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
-		write("<drawing r:id=\"rId1\"/></worksheet>");		
+		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
 	}
 
 
@@ -153,6 +167,24 @@ public class XlsxSheetHelper extends BaseHelper
 			{
 				throw new JRRuntimeException(e);
 			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	public void exportHyperlink(int row, int col, String href) 
+	{
+		String ref = 
+			XlsxCellHelper.getColumIndexLetter(col) + (row + 1);
+		
+		try
+		{
+			hyperlinksWriter.write("<hyperlink ref=\"" + ref + "\" r:id=\"rIdLnk" + sheetRelsHelper.getHyperlink(href) + "\"/>\n");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
 

@@ -24,8 +24,8 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -34,9 +34,8 @@ import java.util.Set;
  */
 public class XlsxSheetRelsHelper extends BaseHelper
 {
+	private Map linkCache = new HashMap();
 
-	private Set<String> imageNames = new HashSet<String>();
-	
 	/**
 	 * 
 	 */
@@ -48,11 +47,43 @@ public class XlsxSheetRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void export(int index)
+	public void exportHeader(int index)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n");
 		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
-		write(" <Relationship Id=\"rId" + index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing\" Target=\"../drawings/drawing" + index + ".xml\"/>\n");
+		write(" <Relationship Id=\"rIdDr" + index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing\" Target=\"../drawings/drawing" + index + ".xml\"/>\n");
+	}
+	
+	/**
+	 *
+	 */
+	public int getHyperlink(String href)
+	{
+		Integer linkIndex = (Integer)linkCache.get(href);
+		if (linkIndex == null)
+		{
+			linkIndex = Integer.valueOf(linkCache.size());
+			exportHyperlink(linkIndex, href);
+			linkCache.put(href, linkIndex);
+		}
+		return linkIndex.intValue();
+	}
+
+	/**
+	 * 
+	 */
+	private void exportHyperlink(int index, String href)
+	{
+		write(" <Relationship Id=\"rIdLnk" 
+			+ index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" 
+			+ href + "\" TargetMode=\"External\"/>\n");
+	}
+	
+	/**
+	 * 
+	 */
+	public void exportFooter()
+	{
 		write("</Relationships>\n");
 	}
 	
