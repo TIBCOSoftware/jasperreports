@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
@@ -103,16 +102,22 @@ public class XlsxZip extends FileBufferedZip
 	public ExportZipEntry addSheet(int index)
 	{
 		ExportZipEntry sheetEntry = createEntry("xl/worksheets/sheet" + index + ".xml");
+
 		exportZipEntries.add(sheetEntry);
 
-		ExportZipEntry sheetRelsEntry = createEntry("xl/worksheets/_rels/sheet" + index + ".xml.rels");
-		exportZipEntries.add(sheetRelsEntry);
-		Writer sheetRelsWriter = sheetRelsEntry.getWriter();
-		XlsxSheetRelsHelper sheetRelsHelper = new XlsxSheetRelsHelper(sheetRelsWriter);//FIXMEXLSX move helper code here maybe
-		sheetRelsHelper.export(index);
-		sheetRelsHelper.close();
-		
 		return sheetEntry;
+	}
+	
+	/**
+	 * 
+	 */
+	public ExportZipEntry addSheetRels(int index)
+	{
+		ExportZipEntry sheetRelsEntry = createEntry("xl/worksheets/_rels/sheet" + index + ".xml.rels");
+
+		exportZipEntries.add(sheetRelsEntry);
+		
+		return sheetRelsEntry;
 	}
 	
 	/**
