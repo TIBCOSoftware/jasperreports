@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -359,7 +360,26 @@ public final class JRFontUtil
 		
 		if (awtFont == null)
 		{
-			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap(), font));//FIXMEFONT this is not working in 1.6?
+			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap(), font));
+		}
+		else
+		{
+			// add underline and strikethrough attributes since these are set at
+			// style/font level
+			Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
+			if (font.isUnderline())
+			{
+				attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+			}
+			if (font.isStrikeThrough())
+			{
+				attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+			}
+			
+			if (!attributes.isEmpty())
+			{
+				awtFont = awtFont.deriveFont(attributes);
+			}
 		}
 		
 		return awtFont;
