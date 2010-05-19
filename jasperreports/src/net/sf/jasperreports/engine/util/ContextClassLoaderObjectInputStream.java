@@ -118,8 +118,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 			
 			if (newFont != null)
 			{
-				return newFont; //FIXMEFONT this does not work in jdk1.4, where dialog font gets used unless we derive it using all attributes
-				//return newFont.deriveFont(font.getAttributes()); //this does not work in jdk1.6 where dialog gets used if we derive the font using attributes
+				return newFont.deriveFont(font.getAttributes());
 			}
 		}
 		
