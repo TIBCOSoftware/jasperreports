@@ -25,10 +25,13 @@ package net.sf.jasperreports.extensions;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.util.ClassLoaderResource;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -90,8 +93,11 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	public static final String PROPERTY_REGISTRY_PREFIX = 
 			JRProperties.PROPERTY_PREFIX + "extension.";
 
-	private final ReferenceMap registryCache = new ReferenceMap(
+	private final ReferenceMap registrySetCache = new ReferenceMap(
 			ReferenceMap.WEAK, ReferenceMap.HARD);
+	
+	private final ReferenceMap registryCache = 
+		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
 	public List getExtensions(Class extensionType)
 	{
@@ -113,13 +119,18 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	{
 		List registries;
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
-		synchronized (registryCache)
+		synchronized (registrySetCache)
 		{
-			registries = (List) registryCache.get(cacheKey);
+			registries = (List) registrySetCache.get(cacheKey);
 			if (registries == null)
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Loading registries for cache key " + cacheKey);
+				}
+				
 				registries = loadRegistries();
-				registryCache.put(cacheKey, registries);
+				registrySetCache.put(cacheKey, registries);
 			}
 		}
 		return registries;
@@ -128,36 +139,57 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	protected List loadRegistries()
 	{
 		List allRegistries = new ArrayList();
-		List extensionProperties = loadExtensionProperties();
-		for (Iterator it = extensionProperties.iterator(); it.hasNext();)
+		List<ClassLoaderResource> extensionResources = loadExtensionPropertyResources();
+		for (ClassLoaderResource extensionResource : extensionResources)
 		{
-			JRPropertiesMap properties = (JRPropertiesMap) it.next();
-			List registries = loadRegistries(properties);
+			ClassLoader classLoader = extensionResource.getClassLoader();
+			Map<URL, List> classLoaderRegistries = getClassLoaderRegistries(classLoader);
+			
+			URL url = extensionResource.getUrl();
+			List registries;
+			synchronized (classLoaderRegistries)
+			{
+				registries = classLoaderRegistries.get(url);
+				if (registries == null)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("Loading JasperReports extension properties resource " 
+								+ url);
+					}
+					
+					JRPropertiesMap props = JRPropertiesMap.loadProperties(url);
+					registries = loadRegistries(props);
+					
+					classLoaderRegistries.put(url, registries);
+				}
+			}
+			
 			allRegistries.addAll(registries);
 		}
 		return allRegistries;
 	}
 
-	protected List loadExtensionProperties()
+	protected List<ClassLoaderResource> loadExtensionPropertyResources()
 	{
-		List resources = JRLoader.getResources(EXTENSION_RESOURCE_NAME);
-		List propertiesList = new ArrayList(resources.size());
-		for (Iterator it = resources.iterator(); it.hasNext();)
-		{
-			URL resource = (URL) it.next();
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("Loading JasperReports extension properties resource " 
-						+ resource);
-			}
-			
-			JRPropertiesMap props = JRPropertiesMap.loadProperties(resource);
-			propertiesList.add(props);
-		}
-		return propertiesList;
+		return JRLoader.getClassLoaderResources(
+				EXTENSION_RESOURCE_NAME);
 	}
 
+	protected Map<URL, List> getClassLoaderRegistries(ClassLoader classLoader)
+	{
+		synchronized (registryCache)
+		{
+			Map<URL, List> registries = (Map<URL, List>) registryCache.get(classLoader);
+			if (registries == null)
+			{
+				registries = new HashMap<URL, List>();
+				registryCache.put(classLoader, registries);
+			}
+			return registries;
+		}
+	}
+	
 	protected List loadRegistries(JRPropertiesMap properties)
 	{
 		List registries = new ArrayList();
@@ -169,6 +201,12 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 				(JRProperties.PropertySuffix) it.next();
 			String registryId = factoryProp.getSuffix();
 			String factoryClass = factoryProp.getValue();
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Instantiating registry of type " + factoryClass 
+						+ " for property " + factoryProp.getKey());
+			}
 			
 			try
 			{

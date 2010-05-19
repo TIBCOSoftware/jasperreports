@@ -36,9 +36,15 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -51,6 +57,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public final class JRLoader
 {
 
+	private static final Log log = LogFactory.getLog(JRLoader.class);
 
 	/**
 	 *
@@ -565,7 +572,7 @@ public final class JRLoader
 	}
 
 	/**
-	 * Scans the context classloader and the classload of this class for all 
+	 * Scans the context classloader and the classloader of this class for all 
 	 * resources that have a specified name, and returns a list of
 	 * {@link URL}s for the found resources.
 	 * 
@@ -574,10 +581,10 @@ public final class JRLoader
 	 * the list is empty if no resources have been found for the name
 	 * @see ClassLoader#getResources(String)
 	 */
-	public static List getResources(String resource)
+	public static List<URL> getResources(String resource)
 	{
 		//skip duplicated resources
-		Set resources = new LinkedHashSet();
+		Set<URL> resources = new LinkedHashSet<URL>();
 		collectResources(resource, JRLoader.class.getClassLoader(), 
 				resources);
 		collectResources(resource, Thread.currentThread().getContextClassLoader(), 
@@ -587,16 +594,16 @@ public final class JRLoader
 
 
 	protected static void collectResources(String resourceName,
-			ClassLoader classLoader, Set resources)
+			ClassLoader classLoader, Set<URL> resources)
 	{
 		if (classLoader != null)
 		{
 			try
 			{
-				for (Enumeration urls = classLoader.getResources(resourceName);
+				for (Enumeration<URL> urls = classLoader.getResources(resourceName);
 						urls.hasMoreElements();)
 				{
-					URL url = (URL) urls.nextElement();
+					URL url = urls.nextElement();
 					resources.add(url);
 				}
 			}
@@ -604,6 +611,83 @@ public final class JRLoader
 			{
 				throw new JRRuntimeException(e);
 			}
+		}
+	}
+
+	/**
+	 * Scans the context classloader and the classloader of this class for all 
+	 * resources that have a specified name, and returns a list of
+	 * {@link ClassLoaderResource} objects for the found resources.
+	 * 
+	 * <p>
+	 * The returned list contains the URLs of the resources, and for each resource
+	 * the highest classloader in the classloader hierarchy on which the resource
+	 * was found.
+	 * </p>
+	 * 
+	 * @param resource the resource names
+	 * @return a list of resources with the specified name;
+	 * the list is empty if no resources have been found for the name
+	 * @see ClassLoader#getResources(String)
+	 */
+	public static List<ClassLoaderResource> getClassLoaderResources(
+			String resource)
+	{
+		Map<URL, ClassLoaderResource> resources = 
+			new LinkedHashMap<URL, ClassLoaderResource>();
+		collectResources(resource, JRLoader.class.getClassLoader(), resources);
+		//TODO check if the classloader is the same
+		collectResources(resource, Thread.currentThread()
+				.getContextClassLoader(), resources);
+		return new ArrayList<ClassLoaderResource>(resources.values());
+	}
+
+	protected static void collectResources(String resourceName,
+			ClassLoader classLoader, Map<URL, ClassLoaderResource> resources)
+	{
+		if (classLoader == null)
+		{
+			return;
+		}
+		
+		try
+		{
+			// creating a list of parent classloaders, with the highest in the
+			// hierarchy first
+			LinkedList<ClassLoader> classloaders = new LinkedList<ClassLoader>();
+			for (ClassLoader ancestor = classLoader; ancestor != null; 
+					ancestor = ancestor.getParent())
+			{
+				classloaders.addFirst(ancestor);
+			}
+
+			for (ClassLoader ancestor : classloaders)
+			{
+				for (Enumeration<URL> urls = ancestor.getResources(resourceName); 
+						urls.hasMoreElements();)
+				{
+					URL url = urls.nextElement();
+					// if this is the first time we see this resource, add it
+					// with the current classloader.
+					// this way a resource will be added with the most first
+					// ancestor classloader that has it.
+					if (!resources.containsKey(url))
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("Found resource " + resourceName 
+									+ " at "+ url + " in classloader " + ancestor);
+						}
+						
+						ClassLoaderResource resource = new ClassLoaderResource(
+								url, ancestor);
+						resources.put(url, resource);
+					}
+				}
+			}
+		} catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
 
