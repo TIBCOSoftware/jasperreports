@@ -24,7 +24,9 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -35,6 +37,7 @@ import java.util.Set;
 public class PptxSlideRelsHelper extends BaseHelper
 {
 
+	private Map linkCache = new HashMap();
 	private Set<String> imageNames = new HashSet<String>();
 	
 	/**
@@ -65,6 +68,31 @@ public class PptxSlideRelsHelper extends BaseHelper
 			write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"../media/" + imageName + "\"/>\n");
 			imageNames.add(imageName);
 		}
+	}
+	
+	/**
+	 *
+	 */
+	public int getHyperlink(String href)
+	{
+		Integer linkIndex = (Integer)linkCache.get(href);
+		if (linkIndex == null)
+		{
+			linkIndex = Integer.valueOf(linkCache.size());
+			exportHyperlink(linkIndex, href);
+			linkCache.put(href, linkIndex);
+		}
+		return linkIndex.intValue();
+	}
+
+	/**
+	 * 
+	 */
+	private void exportHyperlink(int index, String href)
+	{
+		write(" <Relationship Id=\"rIdLnk" 
+			+ index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" 
+			+ href + "\" TargetMode=\"External\"/>\n");
 	}
 	
 	/**

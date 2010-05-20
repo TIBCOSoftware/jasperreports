@@ -461,14 +461,14 @@ public class JRPptxExporter extends JRAbstractExporter
 
 //		pptxZip.addEntry("ppt/slides/_rels/slide" + (slideIndex + 1) + ".xml.rels", "net/sf/jasperreports/engine/export/ooxml/pptx/ppt/slides/_rels/slide1.xml.rels");
 		
-		ExportZipEntry slideEntry = pptxZip.addSlide(slideIndex + 1);
-		Writer slideWriter = slideEntry.getWriter();
-		slideHelper = new PptxSlideHelper(slideWriter);
-
 		ExportZipEntry slideRelsEntry = pptxZip.addSlideRels(slideIndex + 1);
 		Writer slideRelsWriter = slideRelsEntry.getWriter();
 		slideRelsHelper = new PptxSlideRelsHelper(slideRelsWriter);
 		
+		ExportZipEntry slideEntry = pptxZip.addSlide(slideIndex + 1);
+		Writer slideWriter = slideEntry.getWriter();
+		slideHelper = new PptxSlideHelper(slideWriter, slideRelsHelper);
+
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
 		runHelper = new PptxRunHelper(slideWriter, fontMap, null);//FIXMEXLSX check this null
@@ -831,7 +831,15 @@ public class JRPptxExporter extends JRAbstractExporter
 		
 		slideHelper.write("<p:sp>\n");
 		slideHelper.write("  <p:nvSpPr>\n");
-		slideHelper.write("    <p:cNvPr id=\"" + text.hashCode() + "\" name=\"Text\"/>\n");
+		slideHelper.write("    <p:cNvPr id=\"" + text.hashCode() + "\" name=\"Text\">\n");
+		
+		String href = getHyperlinkURL(text);
+		if (href != null)
+		{
+			slideHelper.exportHyperlink(href);
+		}
+
+		slideHelper.write("    </p:cNvPr>\n");
 		slideHelper.write("    <p:cNvSpPr>\n");
 		slideHelper.write("      <a:spLocks noGrp=\"1\"/>\n");
 		slideHelper.write("    </p:cNvSpPr>\n");
@@ -956,17 +964,17 @@ public class JRPptxExporter extends JRAbstractExporter
 //			tempBodyWriter.write("\"/>");
 //		}
 
-		boolean startedHyperlink = startHyperlink(text, true);
+//		boolean startedHyperlink = startHyperlink(text, true);
 
 		if (textLength > 0)
 		{
 			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
 		}
 
-		if (startedHyperlink)
-		{
-			endHyperlink(true);
-		}
+//		if (startedHyperlink)
+//		{
+//			endHyperlink(true);
+//		}
 
 		slideHelper.write("    </a:p>\n");
 //		docHelper.write("     </w:p>\n");
@@ -1224,14 +1232,22 @@ public class JRPptxExporter extends JRAbstractExporter
 //			}
 
 
-			boolean startedHyperlink = startHyperlink(image,false);
+//			boolean startedHyperlink = startHyperlink(image,false);
 
 			String imageName = getImagePath(renderer, image.isLazy());
 			slideRelsHelper.exportImage(imageName);
 
 			slideHelper.write("<p:pic>\n");
 			slideHelper.write("  <p:nvPicPr>\n");
-			slideHelper.write("    <p:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			slideHelper.write("    <p:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\">\n");
+
+			String href = getHyperlinkURL(image);
+			if (href != null)
+			{
+				slideHelper.exportHyperlink(href);
+			}
+			
+			slideHelper.write("    </p:cNvPr>\n");
 			slideHelper.write("    <p:cNvPicPr>\n");
 			slideHelper.write("      <a:picLocks noChangeAspect=\"1\"/>\n");
 			slideHelper.write("    </p:cNvPicPr>\n");
@@ -1316,10 +1332,10 @@ public class JRPptxExporter extends JRAbstractExporter
 			slideHelper.write("  </p:spPr>\n");
 			slideHelper.write("  </p:pic>\n");
 
-			if(startedHyperlink)
-			{
-				endHyperlink(false);
-			}
+//			if(startedHyperlink)
+//			{
+//				endHyperlink(false);
+//			}
 		}
 
 //		docHelper.write("</w:p>");
@@ -1646,50 +1662,50 @@ public class JRPptxExporter extends JRAbstractExporter
 //		return yalignFactor;
 //	}
 
-	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
-	{
-		String href = getHyperlinkURL(link);
-
-//		if (href != null)
-//		{
-//			String id = (String)hyperlinksMap.get(href);
-//			if (id == null)
-//			{
-//				id = "link" + hyperlinksMap.size();
-//				hyperlinksMap.put(href, id);
-//			}
-//			
-//			docHelper.write("<w:hyperlink r:id=\"" + id + "\"");
+//	protected boolean startHyperlink(JRPrintHyperlink link, boolean isText)
+//	{
+//		String href = getHyperlinkURL(link);
 //
-//			String target = getHyperlinkTarget(link);//FIXMETARGET
-//			if (target != null)
-//			{
-//				docHelper.write(" tgtFrame=\"" + target + "\"");
-//			}
+////		if (href != null)
+////		{
+////			String id = (String)hyperlinksMap.get(href);
+////			if (id == null)
+////			{
+////				id = "link" + hyperlinksMap.size();
+////				hyperlinksMap.put(href, id);
+////			}
+////			
+////			docHelper.write("<w:hyperlink r:id=\"" + id + "\"");
+////
+////			String target = getHyperlinkTarget(link);//FIXMETARGET
+////			if (target != null)
+////			{
+////				docHelper.write(" tgtFrame=\"" + target + "\"");
+////			}
+////
+////			docHelper.write(">\n");
 //
-//			docHelper.write(">\n");
-
-//			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-//			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
+////			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
+////			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
+////
+////			String target = getHyperlinkTarget(link);//FIXMETARGET
+////			if (target != null)
+////			{
+////				docHelper.write(" \\t \"" + target + "\"");
+////			}
+////
+////			String tooltip = link.getHyperlinkTooltip(); 
+////			if (tooltip != null)
+////			{
+////				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
+////			}
+////
+////			docHelper.write(" </w:instrText></w:r>\n");
+////			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
+////		}
 //
-//			String target = getHyperlinkTarget(link);//FIXMETARGET
-//			if (target != null)
-//			{
-//				docHelper.write(" \\t \"" + target + "\"");
-//			}
-//
-//			String tooltip = link.getHyperlinkTooltip(); 
-//			if (tooltip != null)
-//			{
-//				docHelper.write(" \\o \"" + JRStringUtil.xmlEncode(tooltip) + "\"");
-//			}
-//
-//			docHelper.write(" </w:instrText></w:r>\n");
-//			docHelper.write("<w:r><w:fldChar w:fldCharType=\"separate\"/></w:r>\n");
-//		}
-
-		return href != null;
-	}
+//		return href != null;
+//	}
 
 
 	protected String getHyperlinkTarget(JRPrintHyperlink link)
@@ -1783,11 +1799,11 @@ public class JRPptxExporter extends JRAbstractExporter
 	}
 
 
-	protected void endHyperlink(boolean isText)
-	{
-//		docHelper.write("</w:hyperlink>\n");
-//		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
-	}
+//	protected void endHyperlink(boolean isText)
+//	{
+////		docHelper.write("</w:hyperlink>\n");
+////		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
+//	}
 
 //	protected void insertPageAnchor()
 //	{
