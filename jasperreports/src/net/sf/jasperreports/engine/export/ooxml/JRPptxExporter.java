@@ -917,11 +917,6 @@ public class JRPptxExporter extends JRAbstractExporter
 //			styleBuffer.append("word-wrap: break-word; ");
 //		}
 
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
 //		if (styleBuffer.length() > 0)
 //		{
 //			writer.write(" style=\"");
@@ -953,6 +948,22 @@ public class JRPptxExporter extends JRAbstractExporter
 				break;
 		}
 		slideHelper.write("\">\n");
+		slideHelper.write("<a:lnSpc><a:spcPct");
+		slideHelper.write(" val=\"");
+		switch (text.getLineSpacingValue())
+		{
+			case DOUBLE:
+				slideHelper.write("200");
+				break;
+			case ONE_AND_HALF:
+				slideHelper.write("150");
+				break;
+			case SINGLE:
+			default:
+				slideHelper.write("100");
+				break;
+		}
+		slideHelper.write("%\"/></a:lnSpc>\n");
 		runHelper.exportProps(text, getTextLocale(text));
 		slideHelper.write("</a:pPr>\n");
 		
