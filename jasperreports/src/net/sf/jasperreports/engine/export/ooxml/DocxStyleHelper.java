@@ -73,6 +73,9 @@ public class DocxStyleHelper extends BaseHelper
 		writer.write("   </w:rPr>\n");
 		writer.write("  </w:rPrDefault>\n");
 		writer.write("  <w:pPrDefault>\n");
+		writer.write("  <w:pPr>\n");
+		writer.write("  <w:spacing w:line=\"" + DocxParagraphHelper.LINE_SPACING_FACTOR + "\"/>\n");
+		writer.write("  </w:pPr>\n");
 		writer.write("  </w:pPrDefault>\n");
 		writer.write(" </w:docDefaults>\n");
 

@@ -45,12 +45,7 @@ public class DocxParagraphHelper extends BaseHelper
 	private static final String HORIZONTAL_ALIGN_CENTER = "center";
 	private static final String HORIZONTAL_ALIGN_BOTH = "both";
 
-	/**
-	 *
-	 */
-	private static final String LINE_SPACING_DOUBLE = "480";
-	private static final String LINE_SPACING_ONE_AND_HALF = "360";
-	private static final String LINE_SPACING_SINGLE = "240";
+	protected static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
 	 *
@@ -205,16 +200,21 @@ public class DocxParagraphHelper extends BaseHelper
 	{
 		if (lineSpacing != null)
 		{
+			float lnsp = 0;
 			switch (lineSpacing)
 			{
 				case DOUBLE :
-					return LINE_SPACING_DOUBLE;
+					lnsp = 2;
+					break;
 				case ONE_AND_HALF :
-					return LINE_SPACING_ONE_AND_HALF;
+					lnsp = 1.5f;
+					break;
 				case SINGLE :
 				default :
-					return LINE_SPACING_SINGLE;
+					lnsp = 1;
 			}
+			
+			return String.valueOf((int)(lnsp * LINE_SPACING_FACTOR)); 
 		}
 		return null;
 	}
