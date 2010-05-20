@@ -693,11 +693,6 @@ public class JRDocxExporter extends JRAbstractExporter
 //			styleBuffer.append("word-wrap: break-word; ");
 //		}
 
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
 //		if (styleBuffer.length() > 0)
 //		{
 //			writer.write(" style=\"");
