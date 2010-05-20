@@ -28,6 +28,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
 
 /**
@@ -43,6 +44,13 @@ public class DocxParagraphHelper extends BaseHelper
 	private static final String HORIZONTAL_ALIGN_RIGHT = "right";
 	private static final String HORIZONTAL_ALIGN_CENTER = "center";
 	private static final String HORIZONTAL_ALIGN_BOTH = "both";
+
+	/**
+	 *
+	 */
+	private static final String LINE_SPACING_DOUBLE = "480";
+	private static final String LINE_SPACING_ONE_AND_HALF = "360";
+	private static final String LINE_SPACING_SINGLE = "240";
 
 	/**
 	 *
@@ -72,6 +80,12 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 
+		exportLineSpacing(
+			getLineSpacing(
+				style.getOwnLineSpacingValue() 
+				)
+			);
+
 		exportPropsFooter();
 	}
 	
@@ -88,6 +102,12 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 		
+		exportLineSpacing(
+			getLineSpacing(
+				text.getOwnLineSpacingValue() 
+				)
+			);
+
 //		exportRunDirection(text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL ? "rl" : null);
 
 		exportPropsFooter();
@@ -120,7 +140,17 @@ public class DocxParagraphHelper extends BaseHelper
 		{
 			write("   <w:jc w:val=\"" + horizontalAlignment + "\" />\n");
 		}
-		//FIXMEDOCX line spacing?
+	}
+	
+	/**
+	 *
+	 */
+	private void exportLineSpacing(String lineSpacing)
+	{
+		if (lineSpacing != null)
+		{
+			write("   <w:spacing w:line=\"" + lineSpacing + "\" w:after=\"0\" w:before=\"0\"/>\n");
+		}
 	}
 	
 	/**
@@ -163,6 +193,27 @@ public class DocxParagraphHelper extends BaseHelper
 				case LEFT :
 				default :
 					return HORIZONTAL_ALIGN_LEFT;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public static String getLineSpacing(LineSpacingEnum lineSpacing)
+	{
+		if (lineSpacing != null)
+		{
+			switch (lineSpacing)
+			{
+				case DOUBLE :
+					return LINE_SPACING_DOUBLE;
+				case ONE_AND_HALF :
+					return LINE_SPACING_ONE_AND_HALF;
+				case SINGLE :
+				default :
+					return LINE_SPACING_SINGLE;
 			}
 		}
 		return null;
