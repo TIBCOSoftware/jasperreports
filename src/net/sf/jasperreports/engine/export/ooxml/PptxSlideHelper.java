@@ -35,11 +35,18 @@ public class PptxSlideHelper extends BaseHelper
 
 	
 	/**
+	 *
+	 */
+	private PptxSlideRelsHelper slideRelsHelper = null;
+
+	/**
 	 * 
 	 */
-	public PptxSlideHelper(Writer writer)
+	public PptxSlideHelper(Writer writer, PptxSlideRelsHelper slideRelsHelper)
 	{
 		super(writer);
+		
+		this.slideRelsHelper = slideRelsHelper;
 	}
 
 	
@@ -61,6 +68,15 @@ public class PptxSlideHelper extends BaseHelper
 //		write("<p:sp><p:nvSpPr><p:cNvPr id=\"3\" name=\"Subtitle 2\"/><p:cNvSpPr><a:spLocks noGrp=\"1\"/></p:cNvSpPr><p:nvPr><p:ph type=\"subTitle\" idx=\"1\"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x=\"2209800\" y=\"1219199\"/><a:ext cx=\"2209800\" cy=\"1219199\"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang=\"en-US\" smtClean=\"0\"/><a:t>coco</a:t></a:r><a:endParaRPr lang=\"en-US\" dirty=\"0\"/></a:p></p:txBody></p:sp>\n");
 	}
 	
+
+	/**
+	 *
+	 */
+	public void exportHyperlink(String href) 
+	{
+		write("<a:hlinkClick r:id=\"rIdLnk" + slideRelsHelper.getHyperlink(href) + "\"/>\n");
+	}
+
 
 	/**
 	 *
