@@ -402,9 +402,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	}
 
 	/**
-	 * Returns an array of <tt>java.lang.Boolean</tt> values, one for each appearence of the print dialog during the last export operation.
+	 * Returns an array of <tt>java.lang.Boolean</tt> values, one for each appearance of the print dialog during the last export operation.
 	 * A Boolean.TRUE value in this array means that for that particular occurrence of the print dialog, the OK button was hit. 
-	 * A Boolean.FALSE value means the respective print dialog was cancelled.
+	 * A Boolean.FALSE value means the respective print dialog was canceled.
 	 */
 	public Boolean[] getPrintStatus() 
 	{
