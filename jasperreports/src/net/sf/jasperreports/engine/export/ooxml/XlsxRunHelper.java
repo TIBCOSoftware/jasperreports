@@ -158,7 +158,7 @@ public class XlsxRunHelper extends BaseHelper
 
 		if (value != null && !value.equals(oldValue))
 		{
-			write("        <sz val=\"" + ((Float)value).floatValue() + "\" />\n");
+			write("        <sz val=\"" + (2 * ((Float)value).floatValue()) + "\" />\n");
 			
 		}
 		
