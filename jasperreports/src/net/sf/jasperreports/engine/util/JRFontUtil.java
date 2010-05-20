@@ -28,10 +28,12 @@ import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRFont;
@@ -53,6 +55,17 @@ public final class JRFontUtil
 {
 	private static final Log log = LogFactory.getLog(JRFontUtil.class);
 
+	/**
+	 *.
+	 */
+	private static final InheritableThreadLocal threadMissingFontsCache = new InheritableThreadLocal()
+	{
+		@Override
+		protected Object initialValue() {
+			return new HashSet();
+		}
+	};
+	
 	/**
 	 *
 	 */
@@ -315,15 +328,29 @@ public final class JRFontUtil
 	/**
 	 *
 	 */
+	public static void resetThreadMissingFontsCache()
+	{
+		threadMissingFontsCache.set(new HashSet());
+	}
+	
+	
+	/**
+	 *
+	 */
 	public static void checkAwtFont(String name, boolean ignoreMissingFont)
 	{
 		if (!JRGraphEnvInitializer.isAwtFontAvailable(name))
 		{
 			if (ignoreMissingFont)
 			{
-				if (log.isWarnEnabled())
+				Set missingFontNames = (Set)threadMissingFontsCache.get();
+				if (!missingFontNames.contains(name))
 				{
-					log.warn("Font '" + name + "' is not available to the JVM. For more details, see http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRFontNotFoundException.html");
+					missingFontNames.add(name);
+					if (log.isWarnEnabled())
+					{
+						log.warn("Font '" + name + "' is not available to the JVM. For more details, see http://jasperreports.sourceforge.net/api/net/sf/jasperreports/engine/util/JRFontNotFoundException.html");
+					}
 				}
 			}
 			else
