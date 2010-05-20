@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
@@ -743,6 +744,8 @@ public abstract class JRAbstractExporter implements JRExporter
 			JRResourcesUtil.setThreadFileResolver(fileResolver);
 			fileResolverSet = true;
 		}
+		
+		JRFontUtil.resetThreadMissingFontsCache();
 	}
 		
 

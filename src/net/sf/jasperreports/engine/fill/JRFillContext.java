@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -71,6 +72,8 @@ public class JRFillContext
 		loadedImages = new HashMap();
 		loadedSubreports = new HashMap();
 		loadedTemplates = new HashMap();
+		
+		JRFontUtil.resetThreadMissingFontsCache();
 	}
 	
 	
