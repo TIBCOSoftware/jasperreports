@@ -191,137 +191,74 @@ indentation level set. To do this, set a positive integer value for the <code>bo
 attribute available for all hyperlink elements in JasperReports.
 <br/>
 <br/>
-<b>Creating A Local Anchor Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="5" width="450" height="20"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14" isBold="true"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;/textElement&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["This is the TITLE section"]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;anchorNameExpression&gt;&lt;![CDATA["title"]]&gt;&lt;/anchorNameExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Local Anchor Example</b>
+<pre><![CDATA[
+<textField>
+  <reportElement x="5" y="5" width="450" height="20"/>
+  <textElement>
+    <font size="14" isBold="true"/>
+  </textElement>
+  <textFieldExpression class="java.lang.String">"This is the TITLE section"</textFieldExpression>
+  <anchorNameExpression>"title"</anchorNameExpression>
+</textField>
+]]></pre>
 The <code>&lt;anchorNameExpression&gt;</code> tag was used here in order to associate a local anchor, named <code>title</code>, with this text field.
 <br/>
 <br/>
-<b>Creating A Local Anchor Hyperlink Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField hyperlinkType="LocalAnchor"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["  &gt;&gt; Click here to go to the title section."]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkAnchorExpression&gt;&lt;![CDATA["title"]]&gt;&lt;/hyperlinkAnchorExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Local Anchor Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="LocalAnchor">
+  <reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to the title section."</textFieldExpression>
+  <hyperlinkAnchorExpression>"title"</hyperlinkAnchorExpression>
+</textField>
+]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkAnchorExpression&gt;</code> tag points to the local anchor created above.
 <br/>
 <br/>
-<b>Creating A Local Page Hyperlink Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField hyperlinkType="LocalPage"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["  &gt;&gt; Click here to go to the second page."]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkPageExpression&gt;&lt;![CDATA[Integer.valueOf(2)]]&gt;&lt;/hyperlinkPageExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Local Page Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="LocalPage">
+  <reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to the second page."</textFieldExpression>
+  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+</textField>
+]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkPageExpression&gt;</code> tag points to the second page of the current document.
 <br/>
 <br/>
-<b>Creating A Reference Hyperlink Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField hyperlinkType="Reference"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="95" width="300" height="15"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["  &gt;&gt; Click here to go to www.google.com"]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkReferenceExpression&gt;&lt;![CDATA["http://www.google.com"]]&gt;&lt;/hyperlinkReferenceExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Reference Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="Reference">
+  <reportElement x="5" y="95" width="300" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to www.google.com"</textFieldExpression>
+  <hyperlinkReferenceExpression>"http://www.google.com"</hyperlinkReferenceExpression>
+</textField>
+]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> tag points to the www.google.com site.
 <br/>
 <br/>
-<b>Creating A Remote Anchor Hyperlink Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField hyperlinkType="RemoteAnchor"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="125" width="350" height="15"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["  &gt;&gt; Click here to go to another PDF file (in fact, we use the same file)."]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkReferenceExpression&gt;&lt;![CDATA["./HyperlinkReport.pdf"]]&gt;&lt;/hyperlinkReferenceExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkAnchorExpression&gt;&lt;![CDATA["title"]]&gt;&lt;/hyperlinkAnchorExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Remote Anchor Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="RemoteAnchor">
+  <reportElement x="5" y="125" width="350" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to another PDF file (in fact, we use the same file)."</textFieldExpression>
+  <hyperlinkReferenceExpression>"./HyperlinkReport.pdf"</hyperlinkReferenceExpression>
+  <hyperlinkAnchorExpression>"title"</hyperlinkAnchorExpression>
+</textField>
+]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkAnchorExpression&gt;</code> tags points to an anchor named <code>title</code> found in the HyperlinkReport.pdf document, saved in the current directory.
 <br/>
 <br/>
-<b>Creating A Remote Page Hyperlink Example</b>
-<br/>
-<br/>
-<code>
-&#160;&#160;&lt;textField hyperlinkType="RemoteAnchor"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;reportElement x="5" y="125" width="350" height="15"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textElement/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA["  &gt;&gt; Click here to go to another PDF file (in fact, we use the same file)."]]&gt;&lt;/textFieldExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkReferenceExpression&gt;&lt;![CDATA["./HyperlinkReport.pdf"]]&gt;&lt;/hyperlinkReferenceExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;hyperlinkPageExpression&gt;&lt;![CDATA[Integer.valueOf(2)]]&gt;&lt;/hyperlinkPageExpression&gt;
-<br/>
-&#160;&#160;&lt;/textField&gt;
-</code>
-<br/>
-<br/>
+<b>Creating a Remote Page Hyperlink Example</b>
+<pre><![CDATA[
+<textField hyperlinkType="RemoteAnchor">
+  <reportElement x="5" y="125" width="350" height="15"/>
+  <textFieldExpression class="java.lang.String">"  >> Click here to go to another PDF file (in fact, we use the same file)."</textFieldExpression>
+  <hyperlinkReferenceExpression>"./HyperlinkReport.pdf"</hyperlinkReferenceExpression>
+  <hyperlinkPageExpression>Integer.valueOf(2)</hyperlinkPageExpression>
+</textField>
+]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> tags points to the second page of the HyperlinkReport.pdf document, saved in the current directory.
 
     </content>
@@ -369,25 +306,16 @@ achieve watermark effects or to create the same background for all pages. Elemen
 Below is an example of how to embed an image into document's page background. The image is loaded from the jr.watermark.gif file placed 
 in the current directory.
 <br/>
-<br/>
-<code>
-&#160;&#160;&lt;background&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;band height="742"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;image scaleImage="Clip" vAlign="Bottom"&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="150" height="742"/&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA["jr.watermark.gif"]]&gt;&lt;/imageExpression&gt;
-<br/>
-&#160;&#160;&#160;&#160;&#160;&#160;&lt;/image&gt;
-<br/>
-&#160;&#160;&#160;&#160;&lt;/band&gt;
-<br/>
-&#160;&#160;&lt;/background&gt;
-</code>
-
+<pre><![CDATA[
+<background>
+  <band height="742">
+    <image scaleImage="Clip" vAlign="Bottom">
+      <reportElement x="0" y="0" width="150" height="742"/>
+      <imageExpression class="java.lang.String">"jr.watermark.gif"</imageExpression>
+    </image>
+  </band>
+</background>
+]]></pre>
 
     </content>
   </feature>
