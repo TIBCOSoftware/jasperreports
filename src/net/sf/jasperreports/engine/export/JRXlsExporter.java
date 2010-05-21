@@ -39,9 +39,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -88,6 +90,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFName;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -98,6 +101,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
 
 
 /**
@@ -121,6 +125,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	private static Map hssfColorsCache = new ReferenceMap();
 
 	protected Map loadedCellStyles = new HashMap();
+	protected Map anchorLinks = new HashMap();
+	protected Map pageLinks = new HashMap();
+	protected Map anchorNames = new HashMap();
 
 	/**
 	 *
@@ -219,6 +226,44 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		try
 		{
+			for (Object anchorName : anchorNames.keySet())
+			{
+				HSSFName anchor = (HSSFName)anchorNames.get(anchorName);
+				List linkList = (List)anchorLinks.get(anchorName);
+				if(linkList != null && !linkList.isEmpty())
+				{
+					for(Object hyperlink : linkList)
+					{
+						Hyperlink link = (Hyperlink)hyperlink;
+						int index = anchor.getSheetIndex()+1;
+						link.setAddress((String)anchorName + "_" + index);
+					}
+				}
+				
+				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
+				
+			}
+			for (Object pageIndex : pageLinks.keySet())
+			{
+				List linkList = (List)pageLinks.get(pageIndex);
+				if(linkList != null && !linkList.isEmpty())
+				{
+					for(Object hyperlink : linkList)
+					{
+						Hyperlink link = (Hyperlink)hyperlink;
+						if(isOnePagePerSheet)
+						{
+							link.setAddress(workbook.getSheetName(((Integer)pageIndex).intValue() - 1));
+						}
+						else
+						{
+							link.setAddress(workbook.getSheetName(0));
+						}
+					}
+				}
+				
+			}
+			
 			workbook.write(os);
 		}
 		catch (IOException e)
@@ -596,9 +641,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			endCreateCell(cellStyle);
 		}
 		
-		if(textElement.getAnchorName() != null)
+		String anchorName = textElement.getAnchorName();
+		if(anchorName != null)
 		{
-			//TODO: how to set the anchor name for a given cell
+			HSSFName aName = workbook.createName();
+			aName.setNameName(anchorName);
+			aName.setSheetIndex(workbook.getSheetIndex(sheet));
+			CellReference cRef = new CellReference(rowIndex, colIndex);
+			aName.setRefersToFormula(cRef.formatAsString());
+			anchorNames.put(anchorName, aName);
 		}
 
 		setHyperlinkCell(textElement);
@@ -1409,7 +1460,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						link = createHelper.createHyperlink(Hyperlink.LINK_URL);
 					    link.setAddress(href);
-					    cell.setHyperlink(link);
+					    
 					}
 					break;
 				}
@@ -1418,26 +1469,38 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					href = hyperlink.getHyperlinkAnchor();
 					if (href != null)
 					{
-						href = "#" + href;
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-					    link.setAddress(href);
-					    cell.setHyperlink(link);
+					    if(anchorLinks.containsKey(href))
+					    {
+					    	((List)anchorLinks.get(href)).add(link);
+					    }
+					    else
+					    {
+					    	List hrefList = new ArrayList();
+					    	hrefList.add(link);
+					    	anchorLinks.put(href, hrefList);
+					    }
+					    
 					}
 					break;
 					
 				}
 				case LOCAL_PAGE :
 				{
-					if(hyperlink.getHyperlinkPage() != null)
+					Integer hrefPage = hyperlink.getHyperlinkPage();
+					if (hrefPage != null)
 					{
-						href = hyperlink.getHyperlinkPage().toString();
-					}
-					if (href != null)
-					{
-						href = "#JR_PAGE_ANCHOR_0_" + reportIndex + "_" + href;
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-					    link.setAddress(href);
-					    cell.setHyperlink(link);
+					    if(pageLinks.containsKey(hrefPage))
+					    {
+					    	((List)pageLinks.get(hrefPage)).add(link);
+					    }
+					    else
+					    {
+					    	List hrefList = new ArrayList();
+					    	hrefList.add(link);
+					    	pageLinks.put(hrefPage, hrefList);
+					    }
 					}
 					break;
 				}
@@ -1449,7 +1512,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						href = href + "#" + hyperlink.getHyperlinkAnchor();
 						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
 					    link.setAddress(href);
-					    cell.setHyperlink(link);
+					    
 					}
 					break;
 					
@@ -1462,7 +1525,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
 						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
 					    link.setAddress(href);
-					    cell.setHyperlink(link);
+					    
 					}
 					break;
 					
@@ -1472,10 +1535,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 				}
 			}
+			if(link != null)
+			{
+				cell.setHyperlink(link);
+			}
+			
 		}
 		else
 		{
-			href = customHandler.getHyperlink(hyperlink);
+			//FIXME: to handle a custom hyperlink
+			//href = customHandler.getHyperlink(hyperlink);
 		}
 	}
 
@@ -1771,4 +1840,5 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		return XLS_EXPORTER_KEY;
 	}
+
 }
