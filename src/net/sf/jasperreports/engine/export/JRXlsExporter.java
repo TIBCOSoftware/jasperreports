@@ -241,7 +241,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				
 				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
-				
 			}
 			for (Object pageIndex : pageLinks.keySet())
 			{
@@ -253,11 +252,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						Hyperlink link = (Hyperlink)hyperlink;
 						if(isOnePagePerSheet)
 						{
-							link.setAddress(workbook.getSheetName(((Integer)pageIndex).intValue() - 1));
+							link.setAddress(workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "!A1");
 						}
 						else
 						{
-							link.setAddress(workbook.getSheetName(0));
+							link.setAddress(workbook.getSheetName(0)+ "!A1");
 						}
 					}
 				}
@@ -1460,7 +1459,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						link = createHelper.createHyperlink(Hyperlink.LINK_URL);
 					    link.setAddress(href);
-					    
 					}
 					break;
 				}
@@ -1537,6 +1535,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			if(link != null)
 			{
+//				if(hyperlink.getHyperlinkTooltip() != null)
+//				{
+//				    link.setLabel(hyperlink.getHyperlinkTooltip());
+//				}
 				cell.setHyperlink(link);
 			}
 			
