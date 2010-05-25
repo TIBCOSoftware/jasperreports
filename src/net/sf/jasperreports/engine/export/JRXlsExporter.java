@@ -230,19 +230,22 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			{
 				HSSFName anchor = (HSSFName)anchorNames.get(anchorName);
 				List linkList = (List)anchorLinks.get(anchorName);
+				int index = anchor.getSheetIndex();
+				anchor.setRefersToFormula("'" + workbook.getSheetName(index) + "'!"+ anchor.getRefersToFormula());
+				
 				if(linkList != null && !linkList.isEmpty())
 				{
 					for(Object hyperlink : linkList)
 					{
 						Hyperlink link = (Hyperlink)hyperlink;
-						int index = anchor.getSheetIndex()+1;
 						//FIXME: to work with open office too
-//						link.setAddress((String)anchorName + "_" + index);
-						link.setAddress("'" + workbook.getSheetName(index-1)+"'!"+(String)anchorName);
+//						link.setAddress((String)anchorName + "_" + (index+1));
+//						link.setAddress("'" + workbook.getSheetName(index)+"'!"+(String)anchorName);
+						
+						link.setAddress(anchor.getRefersToFormula());
 					}
 				}
 				
-				anchor.setRefersToFormula("'" + workbook.getSheetName(anchor.getSheetIndex()) + "'!"+ anchor.getRefersToFormula());
 			}
 			for (Object pageIndex : pageLinks.keySet())
 			{
