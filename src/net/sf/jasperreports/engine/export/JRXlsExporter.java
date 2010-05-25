@@ -238,10 +238,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					for(Object hyperlink : linkList)
 					{
 						Hyperlink link = (Hyperlink)hyperlink;
-						//FIXME: to work with open office too
-//						link.setAddress((String)anchorName + "_" + (index+1));
-//						link.setAddress("'" + workbook.getSheetName(index)+"'!"+(String)anchorName);
-						
 						link.setAddress(anchor.getRefersToFormula());
 					}
 				}
@@ -257,14 +253,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						Hyperlink link = (Hyperlink)hyperlink;
 						if(isOnePagePerSheet)
 						{
-							//FIXME: to work with open office too
-//							link.setAddress(workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "!A1");
 							link.setAddress("'" + workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "'!A1");
 						}
 						else
 						{
-							//FIXME: to work with open office too
-//							link.setAddress(workbook.getSheetName(0)+ "!A1");
 							link.setAddress("'" + workbook.getSheetName(0)+ "'!A1");
 						}
 					}
@@ -1544,6 +1536,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			if(link != null)
 			{
+				//TODO: make tooltips functional
 //				if(hyperlink.getHyperlinkTooltip() != null)
 //				{
 //				    link.setLabel(hyperlink.getHyperlinkTooltip());
