@@ -35,7 +35,6 @@ import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -60,8 +59,6 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.ExporterFilter;
-import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
@@ -115,7 +112,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected PptxContentTypesHelper ctHelper = null;
 	protected PptxSlideHelper slideHelper = null;
 	protected PptxSlideRelsHelper slideRelsHelper = null;
-//	protected DocxDocumentHelper docHelper = null;
 	protected Writer presentationWriter = null;
 
 	protected JRExportProgressMonitor progressMonitor = null;
@@ -145,17 +141,8 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected Map fontMap = null;
 
-	protected LinkedList backcolorStack;
-	protected Color backcolor;
-
 	private PptxRunHelper runHelper = null;
 
-	protected ExporterNature nature = null;
-
-	protected boolean deepGrid;
-
-	protected boolean flexibleRowHeight;
-	
 
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
@@ -177,8 +164,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	
 	public JRPptxExporter()
 	{
-		backcolorStack = new LinkedList();
-		backcolor = null;
 	}
 
 
@@ -219,8 +204,6 @@ public class JRPptxExporter extends JRAbstractExporter
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
 			setHyperlinkProducerFactory();
-
-			nature = getExporterNature(filter);
 
 			OutputStream os = (OutputStream)parameters.get(JRExporterParameter.OUTPUT_STREAM);
 			if (os != null)
@@ -1605,23 +1588,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	}
 
 
-	/**
-	 *
-	 */
-	protected void setBackcolor(Color color)
-	{
-		backcolorStack.addLast(backcolor);
-
-		backcolor = color;
-	}
-
-
-	protected void restoreBackcolor()
-	{
-		backcolor = (Color) backcolorStack.removeLast();
-	}
-
-
 //	private float getXAlignFactor(JRPrintImage image)
 //	{
 //		float xalignFactor = 0f;
@@ -1827,36 +1793,6 @@ public class JRPptxExporter extends JRAbstractExporter
 //		}
 //	}
 	
-	/**
-	 *
-	 */
-	protected void setInput() throws JRException
-	{
-		super.setInput();
-
-		deepGrid = 
-			!getBooleanParameter(
-				JRDocxExporterParameter.FRAMES_AS_NESTED_TABLES,
-				JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES,
-				true
-				);
-
-		flexibleRowHeight = 
-			getBooleanParameter(
-				JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT,
-				JRDocxExporterParameter.PROPERTY_FLEXIBLE_ROW_HEIGHT,
-				false
-				);
-	}
-
-	/**
-	 *
-	 */
-	protected ExporterNature getExporterNature(ExporterFilter filter) 
-	{
-		return new JRDocxExporterNature(filter, deepGrid);
-	}
-
 	/**
 	 *
 	 */
