@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -233,7 +234,9 @@ public final class JasperPrintManager
 		) throws JRException
 	{
 		//artf1936
-		if (!checkAvailablePrinters()) {
+		boolean checkAvailablePrinters = JRProperties.getBooleanProperty(jasperPrint, PROPERTY_CHECK_AVAILABLE_PRINTERS, true);
+		if (checkAvailablePrinters && !(unixSunJDK || JRPrintServiceExporter.checkAvailablePrinters())) 
+		{
 			throw new JRException("No printer available.");
 		}
 		//END - artf1936
@@ -399,6 +402,13 @@ public final class JasperPrintManager
 	}
 
 
+	/**
+	 * Property whose value is used to check the availability of printers accepting jobs.
+	 * <p/>
+	 * This property is by default set to <code>true</code>.
+	 */
+	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRProperties.PROPERTY_PREFIX + "check.available.printers";
+
 	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */
 	protected static final boolean unixSunJDK;
 	static
@@ -416,12 +426,6 @@ public final class JasperPrintManager
 		unixSunJDK = found;
 	}
 	
-	// artf1936
-	private static boolean checkAvailablePrinters() 
-	{
-		return unixSunJDK ? true : JRPrintServiceExporter.checkAvailablePrinters();
-	}
-
 	
 	private JasperPrintManager()
 	{
