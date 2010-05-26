@@ -407,7 +407,7 @@ public final class JasperPrintManager
 	 * <p/>
 	 * This property is by default set to <code>true</code>.
 	 */
-	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRProperties.PROPERTY_PREFIX + "check.available.printers";
+	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRProperties.PROPERTY_PREFIX + "awt.check.available.printers";
 
 	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */
 	protected static final boolean unixSunJDK;
