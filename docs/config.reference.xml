@@ -198,13 +198,14 @@
     <content>
       <property ref="net.sf.jasperreports.awt.ignore.missing.font"/>
       <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
+      <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
+      <property ref="net.sf.jasperreports.check.available.printers"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
       <property ref="net.sf.jasperreports.properties"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
-      <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
     </content>
   </category>
   
@@ -2404,6 +2405,19 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
     <default>16</default>
     <scope>Global</scope>
     <since>3.5.4</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.check.available.printers -->
+  
+  <configProperty name="net.sf.jasperreports.check.available.printers">
+    <description>
+Property whose value is used to check the availability of printers accepting jobs.
+    </description>
+    <api>net/sf/jasperreports/engine/JasperPrintManager.html#PROPERTY_CHECK_AVAILABLE_PRINTERS</api>
+    <default>true</default>
+    <scope>Global | Report</scope>
+    <since>3.7.3</since>
   </configProperty>
   
   
