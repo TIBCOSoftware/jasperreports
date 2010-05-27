@@ -116,7 +116,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return getOwnScaleImageValue().getValueByte();
+		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
 	}
 
 	/**

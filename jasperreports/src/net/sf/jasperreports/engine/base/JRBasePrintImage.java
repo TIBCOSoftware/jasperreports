@@ -139,7 +139,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return getOwnScaleImageValue().getValueByte();
+		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
 	}
 
 	/**
