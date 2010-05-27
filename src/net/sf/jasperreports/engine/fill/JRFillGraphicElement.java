@@ -114,7 +114,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 
 	/**

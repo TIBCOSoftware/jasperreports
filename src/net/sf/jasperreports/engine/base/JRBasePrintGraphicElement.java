@@ -128,7 +128,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 
 	/**

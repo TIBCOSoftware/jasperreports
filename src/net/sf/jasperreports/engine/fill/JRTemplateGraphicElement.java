@@ -157,7 +157,7 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 	
 	/**

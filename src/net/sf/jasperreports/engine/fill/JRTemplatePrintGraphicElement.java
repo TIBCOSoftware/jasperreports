@@ -112,7 +112,7 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 
 	/**

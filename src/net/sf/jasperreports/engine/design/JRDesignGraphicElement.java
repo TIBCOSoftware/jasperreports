@@ -126,7 +126,7 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 	
 	/**

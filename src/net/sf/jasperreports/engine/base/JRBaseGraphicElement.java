@@ -138,7 +138,7 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	 */
 	public Byte getOwnFill()
 	{
-		return getOwnFillValue().getValueByte();
+		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
 	}
 	
 	/**

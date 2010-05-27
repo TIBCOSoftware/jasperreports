@@ -133,7 +133,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public Byte getOwnScaleImage()
 	{
-		return getOwnScaleImageValue().getValueByte();
+		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
 	}
 
 	/**
