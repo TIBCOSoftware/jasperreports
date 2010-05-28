@@ -91,6 +91,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
@@ -195,6 +196,33 @@ public class JRVerifier
 	
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
 		JRProperties.PROPERTY_PREFIX + "allow.element.negative.width";
+	
+	/**
+	 * Property that determines whether elements positioned at negative Y offsets 
+	 * on bands, frames and other element containers are allowed in a report.
+	 *
+	 * <p>
+	 * Elements placed at negative Y offsets can cause unexpected problems in
+	 * grid-based exporters where they can overlap elements from previous
+	 * bands/element containers.
+	 * </p>
+	 * 
+	 * <p>
+	 * If the property is set to <code>false</code>, elements in the report are 
+	 * verified to have positive Y offsets.  Otherwise, no check is performed
+	 * on element Y offsets.
+	 * </p>
+	 * 
+	 * <p>
+	 * The property can be set at element, report and global levels.
+	 * By default the property is set to <code>true</code>.
+	 * </p>
+	 * 
+	 * @see JRElement#getY()
+	 * @since 3.7.3
+	 */
+	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y =
+		JRProperties.PROPERTY_PREFIX + "allow.element.negative.y";
 
 	/**
 	 *
@@ -218,6 +246,7 @@ public class JRVerifier
 	private LinkedList currentComponentElementStack = new LinkedList();
 	
 	private boolean allowElementNegativeWidth = false;
+	private final boolean allowElementNegativeY;
 
 	/**
 	 *
@@ -243,6 +272,8 @@ public class JRVerifier
 		}
 		
 		allowElementNegativeWidth = JRProperties.getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
+		allowElementNegativeY = JRProperties.getBooleanProperty(jasperDesign, 
+				PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y, true);
 	}
 
 	public JasperDesign getReportDesign()
@@ -3145,10 +3176,33 @@ public class JRVerifier
 				addBrokenRule("Element cannot have negative width.", element);
 			}
 		}
+		
+		if (element.getY() < 0 && !allowElementNegativeY(element))
+		{
+			addBrokenRule("Element negative Y " + element.getY() + " not allowed", 
+					element);
+		}
 
 		verifyProperyExpressions(element.getPropertyExpressions());
 	}
 
+	protected boolean allowElementNegativeY(JRElement element)
+	{
+		// default to report/global property
+		boolean allow = allowElementNegativeY;
+		if (element.hasProperties())
+		{
+			JRPropertiesMap properties = element.getPropertiesMap();
+			if (properties.containsProperty(PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y))
+			{
+				// use element level property
+				allow = JRProperties.asBoolean(properties.getProperty(
+						PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y));
+			}
+		}
+		return allow;
+	}
+	
 	protected void verifyProperyExpressions(
 			JRPropertyExpression[] propertyExpressions)
 	{
