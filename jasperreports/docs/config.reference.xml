@@ -41,6 +41,7 @@
     <name>Report Design</name>
     <content>
       <property ref="net.sf.jasperreports.allow.element.negative.width"/>
+      <property ref="net.sf.jasperreports.allow.element.negative.y"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
     </content>
   </category>
@@ -546,6 +547,23 @@ at report compile time.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.allow.element.negative.y -->
+  
+  <configProperty name="net.sf.jasperreports.allow.element.negative.y">
+    <description>
+Property that determines whether elements positioned at negative Y offsets on bands, frames and other element containers are allowed in a report.
+<br/>
+Elements placed at negative Y offsets can cause unexpected problems in grid-based exporters where they can overlap elements from previous bands/element containers.
+<br/>
+If the property is set to <code>false</code>, elements in the report are verified to have positive Y offsets.  Otherwise, no check is performed on element Y offsets.
+    </description>
+    <api>net/sf/jasperreports/engine/design/JRVerifier.html#PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.7.3</since>
   </configProperty>
   
   
