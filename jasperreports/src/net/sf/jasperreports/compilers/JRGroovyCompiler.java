@@ -34,12 +34,13 @@ import groovyjarjarasm.asm.ClassWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
-import java.nio.charset.Charset;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -62,7 +63,6 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 {
 
 	protected static final String SOURCE_ENCODING = "UTF-8";
-	protected static final Charset SOURCE_CHARSET = Charset.forName(SOURCE_ENCODING);
 	
 	public JRGroovyCompiler()
 	{
@@ -79,8 +79,15 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		
 		for (int i = 0; i < units.length; i++)
 		{
-			byte[] sourceBytes = units[i].getSourceCode().getBytes(SOURCE_CHARSET);
-			unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
+			try
+			{
+				byte[] sourceBytes = units[i].getSourceCode().getBytes(SOURCE_ENCODING);
+				unit.addSource("calculator_" + units[i].getName(), new ByteArrayInputStream(sourceBytes));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 		
 		ClassCollector collector = new ClassCollector();
