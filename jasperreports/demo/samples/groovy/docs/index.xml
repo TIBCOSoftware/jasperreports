@@ -156,23 +156,49 @@ implementation class is available for the specified language. Default values for
 <li><code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code></li>
 <li><code>net.sf.jasperreports.compiler.javascript=net.sf.jasperreports.compilers.JavaScriptCompiler</code></li>
 </ul>
+<b>The Built-in Groovy Compiler</b>
+<br/>
+<br/>
+When the <code>language</code> attribute is set to <code>groovy</code>, 
+it means that Groovy scripting language will be used within report expressions. After loading the 
+report template into a <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object, the report 
+expressions should be read and evaluated properly, and the evaluation data should be then communicated to the resulting 
+<code>JasperReport</code> object. These operations are performed by the compiler implementation.
+<br/>
+The <code>net.sf.jasperreports.compiler.groovy</code> property indicates the Groovy compiler class. The default implementation is:
+<br/>
+<br/>
+<code>net.sf.jasperreports.compiler.groovy=net.sf.jasperreports.compilers.JRGroovyCompiler</code>
+<br/>
+<br/>
+Let's take a look inside. The <api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api> class 
+extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractJavaCompiler</api> abstract class, 
+which extends itself the less specific <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class. 
+While its parents handle general or Java-related compiling features, the <code>JRGroovyCompiler</code> takes care only for the Groovy-specific operations.
+It implements four methods from the <code>JRAbstractCompiler</code> class:
+<br/>
+<br/>
+<code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
+<br/>
+<code>protected abstract void checkLanguage(String language) throws JRException;</code> 
+<br/>
+<code>protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;</code> 
+<br/>
+<code>protected abstract String getSourceFileName(String unitName);</code> 
+<br/>
+<br/>
 <b>Configuration Properties to Customize Report Compilation</b>
 <ul>
 <li><code>net.sf.jasperreports.compiler.&lt;language&gt;</code> - this property was already presented above.</li>
 <li><code>net.sf.jasperreports.compiler.xml.validation</code> - specifies whether the XML validation should be turned 
 on or off. By default, it is considered turned on (the property value is <code>true</code> by default).</li>
-<li><code>net.sf.jasperreports.compiler.classpath</code> - supplies the classpath for some specific compilers. 
-JDK-based and Jikes-based compilers require that the classpath be 
-supplied as a parameter. They cannot use the current JVM classpath. The supplied 
-classpath resolves class references inside the Java code they are compiling. 
-This property is not used by the JDT-based report compiler, which simply uses the parent 
-application’s classpath during Java source file compilation.</li>
+<li><code>net.sf.jasperreports.compiler.classpath</code> - supplies the classpath for some specific compilers.</li>
 <li><code>net.sf.jasperreports.compiler.temp.dir</code> - specifies the temporary location for the files 
 generated on the fly. By default is considered the current directory.</li>
-<li><code>net.sf.jasperreports.compiler.keep.java.file</code> - specifies whether the generated *.java files or 
+<li><code>net.sf.jasperreports.compiler.keep.java.file</code> - specifies whether the generated source files or 
 scripts should be kept in the temporary location after the report gets compiled. By 
 default, the engine deletes these files after report compilation, along with their corresponding
-*.class files. To keep them, set this property to <code>true</code>.</li>
+*.class files.</li>
 </ul>
 <b>Specific JDT-Compiler Configuration Properties</b>
 <br/>
@@ -238,15 +264,12 @@ the source report template files (true by default).</li>
 by default).</li>
 <li><code>keepjava</code> - flag to indicate if the temporary Java files generated on the fly should be kept 
 and not deleted automatically (false by default).</li>
-<li><code></code> - </li>
-<li><code></code> - </li>
-<li><code></code> - </li>
 </ul>
 The report template compilation task supports nested &lt;src&gt; and &lt;classpath&gt; 
 elements, just like the Ant &lt;javac&gt; built-in task. 
 <br/>
 <br/>
-In order to figure out more on report compiling process, take a look at the Groovy sample below, and 
+To figure out more on report compiling process, take a look at the <a href="#groovy">Groovy sample</a> below, and 
 to the other related samples enumerated in the <b>Other Samples</b> section.
 	</content>
   </feature>
@@ -263,64 +286,24 @@ How to use Groovy scripting for report expressions.
   	<otherSample ref="java1.5"/>
   	<otherSample ref="javascript"/>
     <content>
-<b>The Built-in Groovy Compiler</b>
-<br/>
-<br/>
-When the <code>language</code> attribute within the <code>&lt;jasperReport/&gt;</code> element is set to <code>groovy</code> 
-(<code>language="groovy"</code>), it means that Groovy scripting language will be used within report expressions. After loading the 
-report template into a <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object, the report 
-expressions should be read and evaluated correctly, and the evaluation data should be then communicated to the resulting 
-<code>JasperReport</code> object. That's what a dedicated compiler implementation usually does.
-<br/>
-The <code>net.sf.jasperreports.compiler.groovy</code> property indicates the Groovy compiler class. The default implementation is:
-<br/>
-<br/>
-<code>net.sf.jasperreports.compiler.groovy=net.sf.jasperreports.compilers.JRGroovyCompiler</code>
-<br/>
-<br/>
-Let's take a look inside. The <api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api> class 
-extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractJavaCompiler</api> abstract class, 
-which extends itself the less specific <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class. 
-While its parents handle general or Java-related compiling features, the <code>JRGroovyCompiler</code> takes care only for the Groovy-specific operations.
-It implements four methods from the <code>JRAbstractCompiler</code> class:
-<br/>
-<br/>
-<code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
-<br/>
-&#160;&#160;- it is required as part of the <code>compileReport()</code> method, and is responsible for specific generated source code compilation.
-<br/>
-<br/>
-<code>protected abstract void checkLanguage(String language) throws JRException;</code> 
-<br/>
-&#160;&#160;- checks whether the report language is supported by the compiler. 
-If the language doesn't correspond, an exception is thrown. In the case of the Groovy compiler, both <code>java</code> and <code>groovy</code> languages 
-are allowed.
-<br/>
-<br/>
-<code>protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;</code> 
-<br/>
-&#160;&#160;- generates the expression evaluator source code for a compilation unit. The output will be a Groovy class source code.
-<br/>
-<br/>
-<code>protected abstract String getSourceFileName(String unitName);</code> 
-<br/>
-&#160;&#160;- returns the name of the file which stores the generated source code 
-for a compilation unit. Generated Groovy classes will be saved into files with <code>.groovy</code> extension.
-<br/>
-<br/>
 <b>Groovy Scripting Example</b>
 <br/>
 <br/>
 This sample contains expressions written using both Java and Groovy languages. This is possible due to the 
-<code>JRGroovyCompiler</code> implementation which allows mixing Java and Groovy together. The report 
-<code>language</code> attribute is declared as <code>groovy</code>.
+<api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api> implementation which 
+allows mixing Java and Groovy together. The report 
+<code>language</code> attribute is declared below: 
+<br/>
+<br/>
+<code>language="groovy"</code>
+<br/>
 <br/>
 The main purpose is to show how the Groovy compiler implementation works. In the report template are 
 presented some scripting differences between Java and Groovy, and one could evidentiate some advantages 
 that Groovy scripting comes with.
 <br/>
 Having two numbers, 3 and 5, their sum is calculated first using a Java expression and then using a Groovy one. The two numbers 
-are defined like follows:
+are declared as follows:
 <br/>
 <br/>
 <code>
@@ -338,19 +321,29 @@ are defined like follows:
 </code>
 <br/>
 <br/>
-Both A and B values are of <code>java.lang.Double</code> type. The Java expression to calculate their sum is:
+Both A and B values are of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
+Groovy is able to work with dynamic types. All type conversions are performed at runtime, according to the type declarations above. 
+The Groovy scripting above uses a very simplified syntax. Equivalent Java expressions would be:
+<br/> 
+<br/> 
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(3.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(5.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
+<br/>
+<br/>
+The next expression in the report template uses Java to calculate their sum:
 <br/>
 <br/>
 <code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
 <br/>
 <br/>
-Here, A and B being Double, their <code>doubleValue()</code> method is called in order to calculate the sum, 
+Here, A and B being <code>Double</code>, their <code>doubleValue()</code> method is called in order to calculate the sum, 
 keeping in mind the backward compatibility with JDK 1.4.x or earlier. After that, because the sum should be 
-stored itself in a Double value, a new Double object is instantiated for this purpose. The Java expression looks 
-rather complicate and one has to take care to intantiate objects with their proper types in order to avoid Java class 
+stored itself in a <code>Double</code> value, a new Double object is instantiated for this purpose. The Java expression looks 
+rather complicate and one has to take care to intantiate objects with their proper types in order to avoid class 
 cast exceptions. 
 <br/>
-Things are changing when using a Groovy expression:
+Things are changing when using Groovy expressions:
 <br/>
 <br/>
 <code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
@@ -358,8 +351,8 @@ Things are changing when using a Groovy expression:
 <br/>
 Object instantiation, inboxing and outboxing are transparent processes here, the user is no more preoccupated to 
 carefully handle object types, the only thing to do being to write a simple addition operation between two report 
-parameters (however, the specific parameter syntax still has to be respected). This dynamic data binding and writing 
-simplification represents one of the major advantages in Groovy scripts.
+parameters (however, the specific parameter syntax still has to be respected). The dynamic data binding and simplified writing 
+represent major advantages of Groovy scripts.
 <br/>
 <br/>
 In order to figure out more on Groovy scripting behavior, just test this sample by running from the command line the <code>ant test view</code> command. 
