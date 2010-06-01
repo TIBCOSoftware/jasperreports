@@ -115,6 +115,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor = null;
 
 	protected int reportIndex = 0;
+	protected int pageIndex = 0;
 
 	/**
 	 * @deprecated
@@ -382,7 +383,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				if (isOnePagePerSheet)
 				{
 
-					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
 						{
@@ -437,7 +438,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					}
 					int startRow = 0;
 
-					for(int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+					for(pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 					{
 						if (Thread.interrupted())
 						{

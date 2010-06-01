@@ -126,7 +126,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected List imagesToProcess = null;
 //	protected Map hyperlinksMap = null;
 
-	protected int pageIndex = 0;
 	protected int tableIndex = 0;
 	protected boolean startPage;
 
