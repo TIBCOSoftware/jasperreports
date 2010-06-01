@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.3 (2010-05-31, SVN xxxx)
+JasperReports 3.7.3 (2010-05-31, SVN 3844)
 ---------------------------------------------
 
 - support for images and hyperlinks added to the XLSX exporter;
