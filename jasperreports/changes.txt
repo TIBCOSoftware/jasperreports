@@ -5,6 +5,12 @@ JasperReports Change Log
 JasperReports 3.7.3 (2010-05-31, SVN xxxx)
 ---------------------------------------------
 
+- support for images and hyperlinks added to the XLSX exporter;
+
+- support for line spacing and hyperlinks added to the PPTX exporter;
+
+- support for hyperlinks and local anchors in the POI-based XLS exporter;
+
 - minor bug fixes and improvements;
 
 
