@@ -874,7 +874,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 								if (savePoint != null)
 								{
-									moveSavePointContent(savePoint);
+									savePoint.moveSavePointContent();
 									offsetY = columnFooterOffsetY;
 								}
 
@@ -920,7 +920,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 										// page/column break occurred, so the move operation 
 										// must be performed on the previous save point, regardless 
 										// whether it was a "StackAtBottom" or a "CollateAtBottom"
-										moveSavePointContent(savePoint);
+										savePoint.moveSavePointContent();
 										savePoint = null;
 									}
 								}
@@ -947,7 +947,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			
 			if (savePoint != null)
 			{
-				moveSavePointContent(savePoint);
+				savePoint.moveSavePointContent();
 				offsetY = columnFooterOffsetY;
 			}
 		}

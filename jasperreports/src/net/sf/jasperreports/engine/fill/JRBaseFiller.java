@@ -2141,7 +2141,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			{
 				// page/column break occurred, so the move operation 
 				// must be performed on the previous save point
-				moveSavePointContent(savePoint);
+				savePoint.moveSavePointContent();
 				savePoint = newSavePoint;
 			}
 		}
@@ -2149,23 +2149,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return savePoint;
 	}
 
-
-	/**
-	 *
-	 */
-	protected void moveSavePointContent(SavePoint savePoint)
-	{
-		if (savePoint != null && savePoint.footerPosition != FooterPositionEnum.NORMAL)//FIXME is footerPosition testing required here?
-		{
-			//no page/column break occurred
-			for(int i = savePoint.startElementIndex; i < savePoint.endElementIndex; i++)
-			{
-				JRPrintElement printElement = (JRPrintElement)savePoint.page.getElements().get(i);
-				printElement.setY(printElement.getY() + savePoint.heightOffset);
-			}
-		}
-	}
-	
 
 	/**
 	 *
@@ -2180,12 +2163,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 				if (!keepTogetherSavePoint.isNewColumn)
 				{
-					for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
-					{
-						JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
-						printElement.setX(printElement.getX() + columnSpacing + columnWidth);
-						printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
-					}
+					keepTogetherSavePoint.addContent(
+						printPage, 
+						columnSpacing + columnWidth,
+						offsetY - keepTogetherSavePoint.startOffsetY
+						);
 
 					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
 				}
@@ -2196,19 +2178,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 				if (!keepTogetherSavePoint.isNewPage)
 				{
-					for(int i = keepTogetherSavePoint.startElementIndex; i < keepTogetherSavePoint.endElementIndex; i++)
-					{
-						JRPrintElement printElement = (JRPrintElement)keepTogetherSavePoint.page.getElements().get(i);
-						
-						printElement.setX(printElement.getX() + (columnIndex - keepTogetherSavePoint.columnIndex) * (columnSpacing + columnWidth));
-						printElement.setY(offsetY + printElement.getY() - keepTogetherSavePoint.startOffsetY);
-
-						printPage.addElement(printElement);
-					}
-					for(int i = keepTogetherSavePoint.endElementIndex - 1; i >= keepTogetherSavePoint.startElementIndex; i--)
-					{
-						keepTogetherSavePoint.page.getElements().remove(i);
-					}
+					keepTogetherSavePoint.addContent(
+							printPage, 
+							(columnIndex - keepTogetherSavePoint.columnIndex) * (columnSpacing + columnWidth),
+							offsetY - keepTogetherSavePoint.startOffsetY
+							);
 
 					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
 				}
@@ -2217,7 +2191,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			keepTogetherSavePoint = null;
 		}
 	}
-	
 
 }
 
@@ -2235,6 +2208,7 @@ class SavePoint
 	protected int heightOffset = 0;
 	protected int groupIndex = 0;
 	protected FooterPositionEnum footerPosition = FooterPositionEnum.NORMAL;
+	protected List elementsToMove = new ArrayList();
 	
 	protected SavePoint(
 		JRPrintPage page,
@@ -2273,5 +2247,49 @@ class SavePoint
 	{
 		this.endElementIndex = page.getElements().size();
 	}
+	
+	/**
+	 *
+	 */
+	protected void removeContent()
+	{
+		for(int i = endElementIndex - 1; i >= startElementIndex; i--)
+		{
+			elementsToMove.add(page.getElements().remove(i));
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected void addContent(JRPrintPage printPage, int xdelta, int ydelta)
+	{
+		for(int i = elementsToMove.size() - 1; i >= 0; i--)// elementsToMove were added in reverse order
+		{
+			JRPrintElement printElement = (JRPrintElement)elementsToMove.get(i);
+
+			printElement.setX(printElement.getX() + xdelta);
+			printElement.setY(printElement.getY() + ydelta);
+
+			printPage.addElement(printElement);
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected void moveSavePointContent()
+	{
+		if (footerPosition != FooterPositionEnum.NORMAL)//FIXME is footerPosition testing required here?
+		{
+			//no page/column break occurred
+			for(int i = startElementIndex; i < endElementIndex; i++)
+			{
+				JRPrintElement printElement = (JRPrintElement)page.getElements().get(i);
+				printElement.setY(printElement.getY() + heightOffset);
+			}
+		}
+	}
+
 }
 
