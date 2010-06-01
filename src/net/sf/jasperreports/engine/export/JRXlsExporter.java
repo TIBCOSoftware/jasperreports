@@ -39,6 +39,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,6 +81,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -499,11 +501,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				
 				if (value instanceof NumberTextValue && ((NumberTextValue)value).getPattern() != null)
 				{
-					baseStyle.setDataFormat(
-						dataFormat.getFormat(
-							getConvertedPattern(((NumberTextValue)value).getPattern())
-							)
-						);
+					String convertedPattern = getConvertedPattern(((NumberTextValue)value).getPattern());
+					String currency = DecimalFormat.getInstance(getLocale()).getCurrency().getSymbol();
+					while(convertedPattern.indexOf('\u00A4') > -1)
+					{
+						convertedPattern = convertedPattern.replace('\u00A4', '%');
+					}
+					System.out.println("final pattern: " + convertedPattern);
+					baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
 				}
 				else if (value instanceof DateTextValue && ((DateTextValue)value).getPattern() != null)
 				{
@@ -553,11 +558,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 					if (textValue.getPattern() != null)
 					{
-						baseStyle.setDataFormat(
-							dataFormat.getFormat(
-								getConvertedPattern(textValue.getPattern())
-								)
-							);
+						String convertedPattern = getConvertedPattern(textValue.getPattern());
+						if(convertedPattern.indexOf('\u00A4') > -1)
+						{
+							String currency = DecimalFormat.getInstance(getLocale()).getCurrency().getSymbol();
+							convertedPattern = convertedPattern.replaceAll(String.valueOf('\u00A4'), currency);
+						}
+						baseStyle.setDataFormat(dataFormat.getFormat(convertedPattern));
+
 					}
 
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
@@ -645,7 +653,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if(anchorName != null)
 		{
 			HSSFName aName = workbook.createName();
-			aName.setNameName(anchorName);
+//			aName.setNameName(JRStringUtil.getJavaIdentifier(anchorName));
 			aName.setSheetIndex(workbook.getSheetIndex(sheet));
 			CellReference cRef = new CellReference(rowIndex, colIndex);
 			aName.setRefersToFormula(cRef.formatAsString());
@@ -1364,7 +1372,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 		return pattern;
 	}
-
+	
 	private final short getSuitablePaperSize(JasperPrint jasP)
 	{
 
