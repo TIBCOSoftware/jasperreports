@@ -655,10 +655,24 @@ public final class JRLoader
 			// creating a list of parent classloaders, with the highest in the
 			// hierarchy first
 			LinkedList<ClassLoader> classloaders = new LinkedList<ClassLoader>();
-			for (ClassLoader ancestor = classLoader; ancestor != null; 
-					ancestor = ancestor.getParent())
+			ClassLoader ancestorLoader = classLoader;
+			while (ancestorLoader != null)
 			{
-				classloaders.addFirst(ancestor);
+				classloaders.addFirst(ancestorLoader);
+				
+				try
+				{
+					ancestorLoader = ancestorLoader.getParent();
+				}
+				catch (SecurityException e)
+				{
+					// if we're not allowed to get the parent, stop here.
+					// resources will be listed with the first classloader that
+					// we're allowed to access.
+					// one case when this happens is applets.
+					// FIXME revisit logging on SecurityException for applet
+					ancestorLoader = null;
+				}
 			}
 
 			for (ClassLoader ancestor : classloaders)
