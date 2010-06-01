@@ -253,7 +253,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRDataUtils.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRDefaultImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRFontNotFoundException.class"/>
-				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/JRFontUtil*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRGraphEnvInitializer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageEncoder.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRImageLoader.class"/>
