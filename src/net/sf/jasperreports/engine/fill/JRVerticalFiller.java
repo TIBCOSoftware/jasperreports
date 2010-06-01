@@ -809,7 +809,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 								if (savePoint != null)
 								{
-									moveSavePointContent(savePoint);
+									savePoint.moveSavePointContent();
 									offsetY = columnFooterOffsetY;
 								}
 
@@ -855,7 +855,7 @@ public class JRVerticalFiller extends JRBaseFiller
 										// page/column break occurred, so the move operation 
 										// must be performed on the previous save point, regardless 
 										// whether it was a "StackAtBottom" or a "CollateAtBottom"
-										moveSavePointContent(savePoint);
+										savePoint.moveSavePointContent();
 										savePoint = null;
 									}
 								}
@@ -882,7 +882,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			
 			if (savePoint != null)
 			{
-				moveSavePointContent(savePoint);
+				savePoint.moveSavePointContent();
 				offsetY = columnFooterOffsetY;
 			}
 		}
@@ -1913,6 +1913,11 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
+		if (keepTogetherSavePoint != null)
+		{
+			keepTogetherSavePoint.removeContent();
+		}
+
 		addPage(isResetPageNumber);
 
 		fillPageHeader(evalNextPage);
@@ -1958,6 +1963,11 @@ public class JRVerticalFiller extends JRBaseFiller
 			scriptlet.callBeforeColumnInit();
 			calculator.initializeVariables(ResetTypeEnum.COLUMN, IncrementTypeEnum.COLUMN);
 			scriptlet.callAfterColumnInit();
+
+			if (keepTogetherSavePoint != null)
+			{
+				keepTogetherSavePoint.removeContent();
+			}
 
 			columnIndex += 1;
 			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
