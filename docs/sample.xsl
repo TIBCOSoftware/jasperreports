@@ -340,7 +340,13 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="api">
-<span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="./@href"/></xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+<span class="element">
+  <xsl:element name="a">
+    <xsl:attribute name="href"><xsl:value-of select="$api.url"/><xsl:value-of select="./@href"/></xsl:attribute>
+    <xsl:attribute name="target">_blank</xsl:attribute>
+    <xsl:value-of select="."/>
+  </xsl:element>
+</span>
 </xsl:template>
 
 
