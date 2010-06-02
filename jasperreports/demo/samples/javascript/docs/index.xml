@@ -64,7 +64,8 @@ are declared as follows:
 <br/>
 Both A and B values are declared of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
 JavaScript is able to allocate types at runtime. All type conversions are performed dynamically, according to the type declarations above. 
-The JavaScript scripting above uses a very simplified syntax. Equivalent Java expressions would be:
+The JavaScript scripting above uses a very simplified syntax. Taking into account the backward compatibility with JDK 1.4.x or earlier, 
+equivalent Java expressions would be:
 <br/> 
 <br/> 
 <code>&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[Double.valueOf(3.0)]]&gt;&lt;/defaultValueExpression&gt;</code>
