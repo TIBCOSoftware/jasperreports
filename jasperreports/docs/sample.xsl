@@ -316,7 +316,16 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="a">
-<span class="element"><xsl:element name="a"><xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:value-of select="."/></xsl:element></span>
+  <xsl:element name="a">
+  <xsl:choose>
+   	<xsl:when test="@name">  
+  	  <xsl:attribute name="name"><xsl:value-of select="./@name"/></xsl:attribute><xsl:value-of select="."/>
+  	</xsl:when>  
+  	<xsl:otherwise> 
+      <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><span class="element"><xsl:value-of select="."/></span>
+  	</xsl:otherwise>
+  </xsl:choose>
+  </xsl:element>
 </xsl:template>
 
 
