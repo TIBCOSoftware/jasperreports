@@ -155,7 +155,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Report templates.
 	 */
-	private List templateList = new ArrayList();
+	private List<JRReportTemplate> templateList = new ArrayList<JRReportTemplate>();
 
 	private Map fontsMap = new HashMap();
 	private List fontsList = new ArrayList();
@@ -1310,9 +1310,21 @@ public class JasperDesign extends JRBaseReport
 
 	public JRReportTemplate[] getTemplates()
 	{
-		return (JRReportTemplate[]) templateList.toArray(new JRReportTemplate[templateList.size()]);
+		return templateList.toArray(new JRReportTemplate[templateList.size()]);
 	}
 
+	/**
+	 * Returns the list of report templates defined in the report.
+	 * 
+	 * @return the list of {@link JRReportTemplate} objects for the report
+	 * @see #getTemplates()
+	 * @see #addTemplate(JRReportTemplate)
+	 */
+	public List<JRReportTemplate> getTemplatesList()
+	{
+		return templateList;
+	}
+	
 	/**
 	 * @deprecated Replaced by {@link #setBandOrigin(JRBand, BandTypeEnum)}.
 	 */
