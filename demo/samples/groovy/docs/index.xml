@@ -392,7 +392,7 @@ The next expression in the report template uses Java to calculate their sum:
 Here, A and B being <code>Double</code>, their <code>doubleValue()</code> method is called in order to calculate the sum, 
 keeping in mind the backward compatibility with JDK 1.4.x or earlier. After that, because the sum should be 
 stored itself in a <code>Double</code> value, a new Double object is instantiated for this purpose. The Java expression looks 
-rather complicate and one has to take care to intantiate objects with their proper types in order to avoid class 
+rather complicate and one has to take care to instantiate objects with their proper types in order to avoid class 
 cast exceptions. 
 <br/>
 Things are changing when using Groovy expressions:
@@ -401,7 +401,7 @@ Things are changing when using Groovy expressions:
 <code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
 <br/>
 <br/>
-Object instantiation, inboxing and outboxing are transparent processes here, the user is no more preoccupated to 
+Object creation, autoboxing and unboxing are transparent processes here, the user is no more preoccupated to 
 carefully handle object types, the only thing to do being to write a simple addition operation between two report 
 parameters (however, the specific parameter syntax still has to be respected). The dynamic data binding and simplified writing 
 represent major advantages of Groovy scripts.

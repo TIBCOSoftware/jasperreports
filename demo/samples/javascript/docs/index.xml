@@ -88,7 +88,7 @@ Next, the A + B sum is calculated within a JavaScript expression:
 <code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A} + $P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
 <br/>
 <br/>
-Object instantiation, inboxing, outboxing and type conversion are transparent processes here, the user only 
+Object instantiation and type conversion are transparent processes here, the user only 
 has to write a simple addition operation between the two report 
 parameters (however, the specific parameter syntax still has to be respected). 
 <br/>
