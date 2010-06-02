@@ -64,7 +64,7 @@ There are several implementations for this compiler interface depending on the l
 used for the report expressions or the mechanism used for their runtime evaluation. 
 <br/>
 <br/>
-<b>Report Java Compilers</b>
+<b><a name="javaCompilers">Report</a> Java Compilers</b>
 <br/>
 <br/>
 The default language used for the report expressions is Java, but report expressions 
@@ -156,7 +156,7 @@ implementation class is available for the specified language. Default values for
 <li><code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code></li>
 <li><code>net.sf.jasperreports.compiler.javascript=net.sf.jasperreports.compilers.JavaScriptCompiler</code></li>
 </ul>
-<b>The Built-in Groovy Compiler</b>
+<b><a name="groovyCompiler">The</a> Built-in Groovy Compiler</b>
 <br/>
 <br/>
 When the <code>language</code> attribute is set to <code>groovy</code>, 
@@ -171,7 +171,7 @@ The <code>net.sf.jasperreports.compiler.groovy</code> property indicates the Gro
 <code>net.sf.jasperreports.compiler.groovy=net.sf.jasperreports.compilers.JRGroovyCompiler</code>
 <br/>
 <br/>
-Let's take a look inside. The <api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api> class 
+Let's take a look inside the <api href="net/sf/jasperreports/compilers/JRGroovyCompiler.html">JRGroovyCompiler</api>. It  
 extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractJavaCompiler</api> abstract class, 
 which extends itself the less specific <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class. 
 While its parents handle general or Java-related compiling features, the <code>JRGroovyCompiler</code> takes care only for the Groovy-specific operations.
@@ -187,30 +187,82 @@ It implements four methods from the <code>JRAbstractCompiler</code> class:
 <code>protected abstract String getSourceFileName(String unitName);</code> 
 <br/>
 <br/>
+<b><a name="bshCompiler">The</a> Built-in BeanShell Compiler</b>
+<br/>
+<br/>
+When the <code>language</code> attribute is set to <code>bsh</code>, 
+it means that BeanShell scripting language will be used within report expressions. 
+The default compiler implementation to handle all BeanShell requirements is specified 
+using the <code>net.sf.jasperreports.compiler.bsh</code> property:
+<br/>
+<br/>
+<code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code>
+<br/>
+<br/>
+The <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api> class 
+extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class and 
+implements five methods from its parent:
+<br/>
+<br/>
+<code>protected JREvaluator loadEvaluator(Serializable compileData, String unitName) throws JRException;</code> 
+<br/>
+<code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
+<br/>
+<code>protected abstract void checkLanguage(String language) throws JRException;</code> 
+<br/>
+<code>protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;</code> 
+<br/>
+<code>protected abstract String getSourceFileName(String unitName);</code> 
+<br/>
+<br/>
+<b><a name="jsCompiler">The</a> Built-in JavaScript Compiler</b>
+<br/>
+<br/>
+When the <code>language</code> attribute is set to <code>javascript</code>, 
+report expressions will be written using JavaScript. 
+The default compiler implementation to handle all JavaScript specific stuff is specified 
+below:
+<br/>
+<br/>
+<code>net.sf.jasperreports.compiler.javascript=net.sf.jasperreports.compilers.JavaScriptCompiler</code>
+<br/>
+<br/>
+The <api href="net/sf/jasperreports/compilers/JavaScriptCompiler.html">JavaScriptCompiler</api> class 
+extends the <api href="net/sf/jasperreports/engine/design/JRAbstractJavaCompiler.html">JRAbstractCompiler</api> abstract class and 
+implements five methods from this:
+<br/>
+<br/>
+<code>protected JREvaluator loadEvaluator(Serializable compileData, String unitName) throws JRException;</code> 
+<br/>
+<code>protected abstract String compileUnits(JRCompilationUnit[] units, String classpath, File tempDirFile) throws JRException;</code> 
+<br/>
+<code>protected abstract void checkLanguage(String language) throws JRException;</code> 
+<br/>
+<code>protected abstract JRCompilationSourceCode generateSourceCode(JRSourceCompileTask sourceTask) throws JRException;</code> 
+<br/>
+<code>protected abstract String getSourceFileName(String unitName);</code> 
+<br/>
+<br/>
 <b>Configuration Properties to Customize Report Compilation</b>
 <ul>
 <li><code>net.sf.jasperreports.compiler.&lt;language&gt;</code> - this property was already presented above.</li>
 <li><code>net.sf.jasperreports.compiler.xml.validation</code> - specifies whether the XML validation should be turned 
-on or off. By default, it is considered turned on (the property value is <code>true</code> by default).</li>
+on or off. By default, it is considered turned on.</li>
 <li><code>net.sf.jasperreports.compiler.classpath</code> - supplies the classpath for some specific compilers.</li>
 <li><code>net.sf.jasperreports.compiler.temp.dir</code> - specifies the temporary location for the files 
 generated on the fly. By default is considered the current directory.</li>
 <li><code>net.sf.jasperreports.compiler.keep.java.file</code> - specifies whether the generated source files or 
 scripts should be kept in the temporary location after the report gets compiled. By 
-default, the engine deletes these files after report compilation, along with their corresponding
-*.class files.</li>
+default, they are not kept.</li>
 </ul>
 <b>Specific JDT-Compiler Configuration Properties</b>
 <br/>
 <br/>
 The <code>JRJdtCompiler</code> report compiler can use special JasperReports configuration 
-properties to configure the underlying JDT Java compiler. This report compiler collects 
-all the JasperReports configuration properties that start with the <code>org.eclipse.jdt.core.</code> prefix 
-and passes them to the JDT Java compiler when compiling the generated Java class to 
-evaluate report expressions. 
+properties to configure the underlying JDT Java compiler, all of them starting with the <code>org.eclipse.jdt.core.</code> prefix. 
 <br/>
-One of the uses of this mechanism is to instruct the JDT compiler to observe Java 1.5 
-code compatibility. To do so, the following properties should be set:
+For example, to instruct the JDT compiler to observe Java 1.5 
+code compatibility, the following properties should be set:
 <ul>
 <li><code>org.eclipse.jdt.core.compiler.source=1.5</code></li>
 <li><code>org.eclipse.jdt.core.compiler.compliance=1.5</code></li>
@@ -299,7 +351,7 @@ allows mixing Java and Groovy together. The report
 <br/>
 <br/>
 The main purpose is to show how the Groovy compiler implementation works. In the report template are 
-presented some scripting differences between Java and Groovy, and one could evidentiate some advantages 
+presented some scripting differences between Java and Groovy, and one could notice some advantages 
 that Groovy scripting comes with.
 <br/>
 Having two numbers, 3 and 5, their sum is calculated first using a Java expression and then using a Groovy one. The two numbers 
@@ -321,7 +373,7 @@ are declared as follows:
 </code>
 <br/>
 <br/>
-Both A and B values are of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
+Both A and B values are declared of <code>java.lang.Double</code> type. But their values are let as primitive <code>int</code> types, because 
 Groovy is able to work with dynamic types. All type conversions are performed at runtime, according to the type declarations above. 
 The Groovy scripting above uses a very simplified syntax. Equivalent Java expressions would be:
 <br/> 
