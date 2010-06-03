@@ -404,7 +404,19 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
-			footerPositionValue = FooterPositionEnum.getByValue(footerPosition);
+			if (footerPosition == 0)
+			{
+				// stream class didn't have footerPosition, use default.
+				// ideally we should have used PSEUDO_SERIAL_VERSION_UID to 
+				// detect this case, but there was no PSEUDO_SERIAL_VERSION_UID
+				// when footerPosition was introduced
+				footerPositionValue = FooterPositionEnum.NORMAL;
+			}
+			else
+			{
+				// convert stream byte value to enum
+				footerPositionValue = FooterPositionEnum.getByValue(footerPosition);
+			}
 		}
 
 		if (groupHeader != null)
