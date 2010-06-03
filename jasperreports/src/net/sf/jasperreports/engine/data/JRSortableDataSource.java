@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.fill.JRFillInterruptedException;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
@@ -114,6 +115,12 @@ public class JRSortableDataSource implements JRRewindableDataSource
 		{
 			while(ds.next())
 			{
+				// check whether the fill thread was interrupted
+				if (Thread.currentThread().isInterrupted())
+				{
+					throw new JRFillInterruptedException();
+				}
+				
 				Object[] record = new Object[fields.length];
 				for(int i = 0; i < fields.length; i++)
 				{

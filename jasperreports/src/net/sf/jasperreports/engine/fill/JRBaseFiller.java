@@ -889,14 +889,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		try
 		{
-			setParameters(parameterValues);
-
-			loadStyles();
-
 			if (parentFiller != null)
 			{
 				parentFiller.registerSubfiller(this);
 			}
+
+			setParameters(parameterValues);
+
+			loadStyles();
 
 			jasperPrint.setName(name);
 			jasperPrint.setPageWidth(pageWidth);
