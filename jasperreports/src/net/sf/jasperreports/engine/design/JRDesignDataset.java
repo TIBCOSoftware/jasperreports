@@ -631,15 +631,27 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addField(JRField field) throws JRException
 	{
+		addField(fieldsList.size(), field);
+	}
+
+	
+	/**
+	 * Inserts a field at the specified position into the dataset.
+	 * @param field the field to add
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getFields()
+	 */
+	public void addField(int index, JRField field) throws JRException
+	{
 		if (fieldsMap.containsKey(field.getName()))
 		{
 			throw new JRException("Duplicate declaration of field : " + field.getName());
 		}
 
-		fieldsList.add(field);
+		fieldsList.add(index, field);
 		fieldsMap.put(field.getName(), field);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_FIELDS, field, fieldsList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_FIELDS, field, index);
 	}
 
 	
