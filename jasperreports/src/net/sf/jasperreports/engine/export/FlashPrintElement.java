@@ -148,6 +148,17 @@ public final class FlashPrintElement
 			flashEl.setParameterValue(paramName, value);
 		}
 		
+		if (elementParameters != null && !elementParameters.isEmpty())
+		{
+			for (Iterator it = elementParameters.entrySet().iterator(); it.hasNext();)
+			{
+				Map.Entry entry = (Map.Entry) it.next();
+				String name = (String) entry.getKey();
+				Object value = entry.getValue();
+				flashEl.setParameterValue(name, value);
+			}
+		}
+		
 		return flashEl;
 	}
 	
