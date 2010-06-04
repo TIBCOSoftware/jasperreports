@@ -9,7 +9,7 @@
 	<field name="name" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="the_city" class="java.lang.String">
-		<fieldDescription><![CDATA[me.me.city]]></fieldDescription>
+		<fieldDescription><![CDATA[me.city]]></fieldDescription>
 	</field>
 	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
