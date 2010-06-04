@@ -100,9 +100,17 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public void addConditionalStyle(JRConditionalStyle conditionalStyle)
 	{
-		conditionalStylesList.add(conditionalStyle);
+		addConditionalStyle(conditionalStylesList.size(), conditionalStyle);
+	}
+
+	/**
+	 *
+	 */
+	public void addConditionalStyle(int index, JRConditionalStyle conditionalStyle)
+	{
+		conditionalStylesList.add(index, conditionalStyle);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CONDITIONAL_STYLES, 
-				conditionalStyle, conditionalStylesList.size() - 1);
+				conditionalStyle, index);
 	}
 
 	/**
