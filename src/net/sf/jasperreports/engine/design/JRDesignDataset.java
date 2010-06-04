@@ -395,6 +395,19 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addScriptlet(JRScriptlet scriptlet) throws JRException
 	{
+		addScriptlet(scriptletsList.size(), scriptlet);
+	}
+
+	
+	/**
+	 * Inserts a scriptlet at the specified position into the dataset.
+	 * @param index the scriptlet position
+	 * @param scriptlet the scriptlet to insert
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getScriptlets()
+	 */
+	public void addScriptlet(int index, JRScriptlet scriptlet) throws JRException
+	{
 		if (scriptletsMap.containsKey(scriptlet.getName()))
 		{
 			throw new JRException("Duplicate declaration of scriptlet : " + scriptlet.getName());
@@ -409,10 +422,10 @@ public class JRDesignDataset extends JRBaseDataset
 
 		addParameter(scriptletParameter);
 
-		scriptletsList.add(scriptlet);
+		scriptletsList.add(index, scriptlet);
 		scriptletsMap.put(scriptlet.getName(), scriptlet);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SCRIPTLETS, scriptlet, scriptletsList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SCRIPTLETS, scriptlet, index);
 	}
 
 	
@@ -493,15 +506,28 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addParameter(JRParameter parameter) throws JRException
 	{
+		addParameter(parametersList.size(), parameter);
+	}
+
+	
+	/**
+	 * Inserts a parameter at the specified position into the dataset.
+	 * @param index the parameter position
+	 * @param parameter the parameter to insert
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getParameters()
+	 */
+	public void addParameter(int index, JRParameter parameter) throws JRException
+	{
 		if (parametersMap.containsKey(parameter.getName()))
 		{
 			throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
 		}
 
-		parametersList.add(parameter);
+		parametersList.add(index, parameter);
 		parametersMap.put(parameter.getName(), parameter);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, parametersList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, index);
 	}
 
 	
@@ -637,7 +663,8 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	/**
 	 * Inserts a field at the specified position into the dataset.
-	 * @param field the field to add
+	 * @param index the field position
+	 * @param field the field to insert
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.JRDataset#getFields()
 	 */
@@ -720,15 +747,28 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addSortField(JRSortField sortField) throws JRException
 	{
+		addSortField(sortFieldsList.size(), sortField);
+	}
+
+	
+	/**
+	 * Inserts a sort field at specified position into the dataset.
+	 * @param index the sort field position
+	 * @param sortField the sort field to insert
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getSortFields()
+	 */
+	public void addSortField(int index, JRSortField sortField) throws JRException
+	{
 		if (sortFieldsMap.containsKey(sortField.getName()))
 		{
 			throw new JRException("Duplicate declaration of sort field : " + sortField.getName());
 		}
 
-		sortFieldsList.add(sortField);
+		sortFieldsList.add(index, sortField);
 		sortFieldsMap.put(sortField.getName(), sortField);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SORT_FIELDS, sortField, sortFieldsList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SORT_FIELDS, sortField, index);
 	}
 
 	
@@ -808,7 +848,20 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addVariable(JRDesignVariable variable) throws JRException
 	{
-		addVariable(variable, false);
+		addVariable(variablesList.size(), variable, false);
+	}
+	
+	
+	/**
+	 * Inserts a variable at specified position into the dataset.
+	 * @param index the variable position
+	 * @param variable the variable to insert
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getVariables()
+	 */
+	public void addVariable(int index, JRDesignVariable variable) throws JRException
+	{
+		addVariable(index, variable, variable.isSystemDefined());
 	}
 	
 	
@@ -822,15 +875,29 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	protected void addVariable(JRDesignVariable variable, boolean system) throws JRException
 	{
+		addVariable(variablesList.size(), variable, system);
+	}
+	
+	
+	/**
+	 * Inserts a variable at specified position into the dataset.
+	 * 
+	 * @param index the variable position
+	 * @param variable the variable to insert
+	 * @param system whether the variable should be inserted before user defined variables
+	 * or at the end of the variables list
+	 * @throws JRException
+	 */
+	protected void addVariable(int index, JRDesignVariable variable, boolean system) throws JRException
+	{
 		if (variablesMap.containsKey(variable.getName()))
 		{
 			throw new JRException("Duplicate declaration of variable : " + variable.getName());
 		}
 
-		int addedIdx;
 		if (system)
 		{
-			// add the variable vefore the first non-system variable
+			// add the variable before the first non-system variable
 			ListIterator it = variablesList.listIterator();
 			while (it.hasNext())
 			{
@@ -842,17 +909,16 @@ public class JRDesignDataset extends JRBaseDataset
 				}
 			}
 			it.add(variable);
-			addedIdx = it.previousIndex();
+			index = it.previousIndex();
 		}
 		else
 		{
-			variablesList.add(variable);
-			addedIdx = variablesList.size() - 1;
+			variablesList.add(index, variable);
 		}
 		
 		variablesMap.put(variable.getName(), variable);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_VARIABLES, variable, addedIdx);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_VARIABLES, variable, index);
 	}
 
 	
@@ -931,6 +997,19 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addGroup(JRDesignGroup group) throws JRException
 	{
+		addGroup(groupsList.size(), group);
+	}
+
+	
+	/**
+	 * Inserts a group at the specified position into the dataset.
+	 * @param index the group position
+	 * @param group the group to insert
+	 * @throws JRException
+	 * @see net.sf.jasperreports.engine.JRDataset#getGroups()
+	 */
+	public void addGroup(int index, JRDesignGroup group) throws JRException
+	{
 		if (groupsMap.containsKey(group.getName()))
 		{
 			throw new JRException("Duplicate declaration of group : " + group.getName());
@@ -956,10 +1035,10 @@ public class JRDesignDataset extends JRBaseDataset
 
 		group.setCountVariable(countVariable);
 
-		groupsList.add(group);
+		groupsList.add(index, group);
 		groupsMap.put(group.getName(), group);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUPS, group, groupsList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GROUPS, group, index);
 	}
 
 	

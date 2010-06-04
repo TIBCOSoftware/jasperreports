@@ -63,11 +63,18 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 	 */
 	public void addElement(JRDesignElement element)
 	{
+		addElement(children.size(), element);
+	}
+
+	/**
+	 *
+	 */
+	public void addElement(int index, JRDesignElement element)
+	{
 		element.setElementGroup(this);
 		
-		this.children.add(element);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, 
-				element, children.size() - 1);
+		this.children.add(index, element);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, element, index);
 	}
 
 	/**
@@ -92,11 +99,18 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 	 */
 	public void addElementGroup(JRDesignElementGroup elemGrp)
 	{
+		addElementGroup(children.size(), elemGrp);
+	}
+
+	/**
+	 *
+	 */
+	public void addElementGroup(int index, JRDesignElementGroup elemGrp)
+	{
 		elemGrp.setElementGroup(this);
 		
-		this.children.add(elemGrp);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, 
-				elemGrp, children.size() - 1);
+		this.children.add(index, elemGrp);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, elemGrp, index);
 	}
 
 	/**
