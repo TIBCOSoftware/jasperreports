@@ -765,12 +765,21 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addStyle(JRStyle style) throws JRException
 	{
+		addStyle(stylesList.size(), style);
+	}
+
+
+	/**
+	 * Inserts a report style, that can be referenced by report elements, at specified position.
+	 */
+	public void addStyle(int index, JRStyle style) throws JRException
+	{
 		if (stylesMap.containsKey(style.getName()))
 		{
 			throw new JRException("Duplicate declaration of report style : " + style.getName());
 		}
 
-		stylesList.add(style);
+		stylesList.add(index, style);
 		stylesMap.put(style.getName(), style);
 
 		if (style.isDefault())
@@ -778,7 +787,7 @@ public class JasperDesign extends JRBaseReport
 			setDefaultStyle(style);
 		}
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_STYLES, style, stylesList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_STYLES, style, index);
 	}
 
 
@@ -1071,7 +1080,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 * Adds a new group to the report design. Groups are nested.
+	 * Removes a new group from the report design.
 	 */
 	public JRGroup removeGroup(String groupName)
 	{
@@ -1136,15 +1145,28 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addDataset(JRDesignDataset dataset) throws JRException
 	{
+		addDataset(datasetList.size(), dataset);
+	}
+
+
+	/**
+	 * Inserts a sub dataset at specified position into the report.
+	 *
+	 * @param index the position
+	 * @param dataset the dataset
+	 * @throws JRException
+	 */
+	public void addDataset(int index, JRDesignDataset dataset) throws JRException
+	{
 		if (datasetMap.containsKey(dataset.getName()))
 		{
 			throw new JRException("Duplicate declaration of dataset : " + dataset.getName());
 		}
 
-		datasetList.add(dataset);
+		datasetList.add(index, dataset);
 		datasetMap.put(dataset.getName(), dataset);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_DATASETS, dataset, datasetList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_DATASETS, dataset, index);
 	}
 
 
@@ -1285,9 +1307,21 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void addTemplate(JRReportTemplate template)
 	{
-		templateList.add(template);
+		addTemplate(templateList.size(), template);
+	}
+
+	/**
+	 * Inserts a report template at specified position.
+	 *
+	 * @param index the template position.
+	 * @param template the template to insert.
+	 * @see #getTemplates()
+	 */
+	public void addTemplate(int index, JRReportTemplate template)
+	{
+		templateList.add(index, template);
 		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TEMPLATES, template, templateList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TEMPLATES, template, index);
 	}
 
 	/**

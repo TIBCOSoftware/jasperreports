@@ -118,13 +118,25 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public void addElement(JRElement element)
 	{
+		addElement(children.size(), element);
+	}
+	
+	
+	/**
+	 * Inserts a sub element at specified position into the frame.
+	 * 
+	 * @param index the element position
+	 * @param element the element to add
+	 */
+	public void addElement(int index, JRElement element)
+	{
 		if (element instanceof JRDesignElement)
 		{
 			((JRDesignElement) element).setElementGroup(this);
 		}
 
-		children.add(element);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, element, children.size() - 1);
+		children.add(index, element);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, element, index);
 	}
 	
 	
@@ -159,13 +171,25 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	 */
 	public void addElementGroup(JRElementGroup group)
 	{
+		addElementGroup(children.size(), group);
+	}
+	
+	
+	/**
+	 * Inserts an element group at specified position into the frame.
+	 * 
+	 * @param index the element group position
+	 * @param group the element group to add
+	 */
+	public void addElementGroup(int index, JRElementGroup group)
+	{
 		if (group instanceof JRDesignElementGroup)
 		{
 			((JRDesignElementGroup) group).setElementGroup(this);
 		}
 		
-		children.add(group);
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, group, children.size() - 1);
+		children.add(index, group);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CHILDREN, group, index);
 	}
 	
 	
