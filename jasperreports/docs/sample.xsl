@@ -173,7 +173,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td width="100%"><br/></td>
   </tr>
   <xsl:for-each select="sample/feature">
-  <xsl:sort select="@title"/>
+  <!-- xsl:sort select="@title"/-->
   <tr>
     <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
@@ -387,6 +387,22 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 <xsl:template match="li">
   <xsl:element name="li"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
+<xsl:template match="dl">
+  <xsl:element name="dl"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
+<xsl:template match="dt">
+  <xsl:element name="dt"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
+<xsl:template match="dd">
+  <xsl:element name="dd"><xsl:apply-templates/></xsl:element>
+  <br/>
 </xsl:template>
 
 
