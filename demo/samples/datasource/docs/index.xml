@@ -25,16 +25,16 @@ How to fill reports using data source objects.
 <b>Data Sources</b>
 <br/>
 <br/>
-Data sources are structured data containers, very useful when filling generated reports. Compiled 
+Data sources are structured data containers used when filling generated reports. Compiled 
 <api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> objects 
-are now prepared to encapsulate their dynamic part of data, according to the template defined 
-in the report design.
+are now prepared to encapsulate their dynamic part of data within the generated report template.
 <br/>
 The filling process relies on expression evaluations, variable calculations 
 and successive iterations through the records of the 
-supplied data source object. Every report section is generated and filled step-by-step. 
+supplied data source object. Every report section is filled step-by-step. 
 <br/>
-Normally, the engine expects to receive either a <api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
+Usually, data are loaded into data source objects. The engine expects to receive either a 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
 object as the data source of the 
 report that it has to fill, or a <code>java.sql.Connection</code> when the report data is found in 
 a relational database. 
@@ -48,7 +48,7 @@ The <code>JRDataSource</code> interface is very simple. Only two methods should 
  <dt><code>public Object getFieldValue(JRField jrField) throws JRException;</code></dt>
   <dd>- provides the value for each report field in the current data source record</dd>
 </dl>
-It is very important to know that the only way to retrieve data from the data source is by 
+It is important to notice that the only way to retrieve data from the data source is by 
 using the report fields. As a structured object, a data source object is more like a table with columns and rows 
 containing data in the table cells. The rows of this table are the records through which the 
 reporting engine iterates when filling the report and each column should be mapped to a 
