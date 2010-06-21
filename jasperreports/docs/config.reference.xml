@@ -1777,7 +1777,7 @@ Contains the password belonging to the owner of the document, if it is encrypted
   
   <!-- net.sf.jasperreports.export.pdf.print.scaling -->
   
-  <configProperty name="net.sf.jasperreports.export.pdf.print.scaling.none">
+  <configProperty name="net.sf.jasperreports.export.pdf.print.scaling">
     <description>
 Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PRINT_SCALING">PRINT_SCALING</api> export parameter.
 Possible values are <code>default</code> and <code>none</code>.
