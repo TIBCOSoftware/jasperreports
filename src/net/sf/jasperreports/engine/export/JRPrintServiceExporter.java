@@ -278,6 +278,9 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 							}
 						}
 						
+						// setting the paper object back as getPaper() returns a clone
+						pageFormat.setPaper(paper);
+						
 						printerJob.setPrintable(this, pageFormat);
 
 						printerJob.print(printRequestAttributeSet);
