@@ -588,7 +588,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (importsSet == null)
 		{
-			importsSet = new HashSet();
+			importsSet = new HashSet();//FIXME maintain order
 		}
 		
 		if (importsSet.add(value))
