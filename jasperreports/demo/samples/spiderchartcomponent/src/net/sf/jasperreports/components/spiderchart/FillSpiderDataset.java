@@ -216,4 +216,11 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 		return foundLinks;
 	}
 
+	public void finishDataset()
+	{
+		//one last increment is required in certain cases
+		increment();
+	}
+
+	
 }

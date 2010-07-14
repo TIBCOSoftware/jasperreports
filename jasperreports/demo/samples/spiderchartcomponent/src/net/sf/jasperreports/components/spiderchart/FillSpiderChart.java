@@ -203,14 +203,14 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
         {
         	spiderWebPlot.setWebFilled(plot.getWebFilled());
         }
-        
+
         spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
         spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
         
         Font titleFont = chartSettings.getTitleFont() != null 
-        	? JRFontUtil.getAwtFont(plot.getLabelFont(), Locale.getDefault())
+        	? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
         	: TextTitle.DEFAULT_FONT;
-        JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, false);
+        JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
 		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePositionValue(), RectangleEdge.TOP);
 		
@@ -239,7 +239,10 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 			if(chartSettings.getSubtitleColor() != null)
 			{
-				subtitle.setFont(JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault()));
+		        Font subtitleFont = chartSettings.getSubtitleFont() != null 
+	        	? JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
+	        	: TextTitle.DEFAULT_FONT;
+				subtitle.setFont(subtitleFont);
 			}
 			
 			subtitle.setPosition(titleEdge);
@@ -251,7 +254,10 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		LegendTitle legend = jfreechart.getLegend();
 		if (Boolean.TRUE.equals(chartSettings.getShowLegend()) && legend != null)
 		{
-			legend.setItemPaint(chartSettings.getLegendColor());
+			if(chartSettings.getLegendColor() != null)
+			{
+				legend.setItemPaint(chartSettings.getLegendColor());
+			}
 			if (chartSettings.getLegendBackgroundColor() != null)
 			{
 				legend.setBackgroundPaint(chartSettings.getLegendBackgroundColor());
