@@ -100,11 +100,14 @@ public class SpiderChartApp extends AbstractSampleApp
 		Map parameters = new HashMap();
 		try
 		{
-			JRCsvDataSource cds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/spiderDatasource.csv"), "UTF-8");
-			cds.setRecordDelimiter("\r\n");
-			cds.setUseFirstRowAsHeader(true);
-			parameters.put("spiderDatasource", cds);
+			String[] columnNames = new String[]{"value", "series", "category"};
 
+			JRCsvDataSource cds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/spiderDatasource.csv"), "UTF-8");
+			cds.setRecordDelimiter("\n");
+			cds.setUseFirstRowAsHeader(false);
+			cds.setColumnNames(columnNames);
+
+			parameters.put("spiderDatasource", cds);
 		}
 		catch (UnsupportedEncodingException e)
 		{

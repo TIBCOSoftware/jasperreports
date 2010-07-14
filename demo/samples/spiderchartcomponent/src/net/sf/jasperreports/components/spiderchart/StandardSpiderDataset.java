@@ -43,7 +43,6 @@ public class StandardSpiderDataset extends JRBaseElementDataset implements Spide
 	public StandardSpiderDataset(SpiderDataset dataset, JRBaseObjectFactory factory)
 	{
 		super(dataset, factory);
-		
 		JRCategorySeries[] srcCategorySeries = dataset.getSeries();
 		if (srcCategorySeries != null && srcCategorySeries.length > 0)
 		{

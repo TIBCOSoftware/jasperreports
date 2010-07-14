@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -49,7 +50,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	/**
 	 *
 	 */
-	protected FillCategorySeries[] categorySeries = null;
+	protected JRFillCategorySeries[] categorySeries = null;
 
 	private DefaultCategoryDataset dataset = null;
 	private Map labelsMap = null;
@@ -71,10 +72,10 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 		JRCategorySeries[] srcCategorySeries = spiderDataset.getSeries();
 		if (srcCategorySeries != null && srcCategorySeries.length > 0)
 		{
-			categorySeries = new FillCategorySeries[srcCategorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
+			categorySeries = new JRFillCategorySeries[srcCategorySeries.length];
+			for(int i = 0; i < srcCategorySeries.length; i++)
 			{
-				categorySeries[i] = (FillCategorySeries)factory.getCategorySeries(srcCategorySeries[i]);
+				categorySeries[i] = (JRFillCategorySeries)factory.getCategorySeries(srcCategorySeries[i]);
 			}
 		}
 	}
@@ -129,7 +130,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 			
 			for(int i = 0; i < categorySeries.length; i++)
 			{
-				FillCategorySeries crtCategorySeries = categorySeries[i];
+				JRFillCategorySeries crtCategorySeries = categorySeries[i];
 				
 				Comparable seriesName = crtCategorySeries.getSeries();
 				if (seriesName == null)
@@ -208,7 +209,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 		{
 			for (int i = 0; i < categorySeries.length && !foundLinks; i++)
 			{
-				FillCategorySeries serie = categorySeries[i];
+				JRFillCategorySeries serie = categorySeries[i];
 				foundLinks = serie.hasItemHyperlinks();
 			}
 		}

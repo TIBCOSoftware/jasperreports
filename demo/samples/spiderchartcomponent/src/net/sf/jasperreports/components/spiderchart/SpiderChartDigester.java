@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRFontFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.digester.Digester;
 
@@ -52,37 +53,43 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 	
 	protected void addSpiderChartRules(Digester digester)
 	{
+		String componentNamespace = digester.getRuleNamespaceURI();
+		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
+		
 		String spiderChartPattern = "*/componentElement/spiderChart";
 		digester.addFactoryCreate(spiderChartPattern, SpiderChartXmlFactory.class.getName());
 		
 		String chartSettingsPattern = spiderChartPattern + "/chartSettings";
 		digester.addFactoryCreate(chartSettingsPattern, ChartSettingsXmlFactory.class.getName());
 		digester.addSetNext(chartSettingsPattern, "setChart", ChartSettings.class.getName());
-		
-		String chartTitlePattern = spiderChartPattern + "/chartTitle";
+
+		digester.setRuleNamespaceURI(jrNamespace);
+		String chartTitlePattern = chartSettingsPattern + "/chartTitle";
 		digester.addFactoryCreate(chartTitlePattern, ChartSettingsXmlFactory.ChartTitleFactory.class.getName());
-		digester.addFactoryCreate(chartTitlePattern + "/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate(chartTitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(chartTitlePattern + "/font", "setTitleFont", JRFont.class.getName());
 		digester.addFactoryCreate(chartTitlePattern + "/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext(chartTitlePattern + "/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(chartTitlePattern + "/titleExpression", "setText", 0);
 		
-		String chartSubtitlePattern = spiderChartPattern + "/chartSubtitle";
+		String chartSubtitlePattern = chartSettingsPattern + "/chartSubtitle";
 		digester.addFactoryCreate(chartSubtitlePattern, ChartSettingsXmlFactory.ChartSubtitleFactory.class.getName());
-		digester.addFactoryCreate(chartSubtitlePattern + "/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate(chartSubtitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(chartSubtitlePattern + "/font", "setSubtitleFont", JRFont.class.getName());
 		digester.addFactoryCreate(chartSubtitlePattern + "/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
 		digester.addSetNext(chartSubtitlePattern + "/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(chartSubtitlePattern + "/subtitleExpression", "setText", 0);
 		
 		digester.addFactoryCreate(chartSettingsPattern + "/chartLegend", ChartSettingsXmlFactory.ChartLegendFactory.class.getName());
-		digester.addFactoryCreate(chartSettingsPattern + "/chartLegend/font", JRFontFactory.class.getName());
+		digester.addFactoryCreate(chartSettingsPattern + "/chartLegend/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(chartSettingsPattern + "/chartLegend/font", "setLegendFont", JRFont.class.getName());
 
+		digester.setRuleNamespaceURI(componentNamespace);
 		String spiderDatasetPattern = spiderChartPattern + "/spiderDataset";
 		digester.addFactoryCreate(spiderDatasetPattern, SpiderDatasetXmlFactory.class.getName());
 		digester.addSetNext(spiderDatasetPattern, "setDataset", SpiderDataset.class.getName());
 		
+		digester.setRuleNamespaceURI(jrNamespace);
 		String datasetPattern = spiderDatasetPattern + "/dataset";
 		digester.addFactoryCreate(datasetPattern, JRElementDatasetFactory.class.getName());
 
@@ -94,7 +101,8 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		String seriesPattern = spiderDatasetPattern + "/categorySeries";
 		digester.addFactoryCreate(seriesPattern, JRCategorySeriesFactory.class.getName());
 		digester.addSetNext(seriesPattern, "addCategorySeries", JRDesignCategorySeries.class.getName());
-		
+
+		digester.addFactoryCreate(seriesPattern + "/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
 		digester.addSetNext(seriesPattern + "/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/seriesExpression", "setText", 0);
 		digester.addFactoryCreate(seriesPattern + "/categoryExpression", JRExpressionFactory.ComparableExpressionFactory.class);
@@ -107,14 +115,17 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addSetNext(seriesPattern + "/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/valueExpression", "setText", 0);
 		
+		digester.setRuleNamespaceURI(componentNamespace);
 		String plotPattern = spiderChartPattern + "/spiderPlot";
 		digester.addFactoryCreate(plotPattern, SpiderPlotXmlFactory.class.getName());
 		digester.addSetNext(plotPattern, "setPlot", SpiderPlot.class.getName());
 
+		digester.setRuleNamespaceURI(jrNamespace);
 		String labelFontPattern = plotPattern + "/labelFont/font";
-		digester.addFactoryCreate(labelFontPattern, JRFontFactory.class.getName());
+		digester.addFactoryCreate(labelFontPattern, JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(labelFontPattern, "setLabelFont", JRFont.class.getName());
 
+		digester.setRuleNamespaceURI(componentNamespace);
 		String maxValueExpressionPattern = plotPattern + "/maxValueExpression";
 		digester.addFactoryCreate(maxValueExpressionPattern, JRExpressionFactory.DoubleExpressionFactory.class);
 		digester.addSetNext(maxValueExpressionPattern, "setMaxValueExpression", JRDesignExpression.class.getName() );

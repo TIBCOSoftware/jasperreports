@@ -225,6 +225,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 			
 			title.setFont(titleFont);
 			title.setPosition(titleEdge);
+			jfreechart.setTitle(title);
 		}
 
 		if (subtitleText != null)
