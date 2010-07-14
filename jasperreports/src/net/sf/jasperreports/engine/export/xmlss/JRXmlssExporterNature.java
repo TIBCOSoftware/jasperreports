@@ -75,7 +75,7 @@ public class JRXmlssExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
+	public boolean isDeep(JRPrintFrame frame)
 	{
 		return true;
 	}

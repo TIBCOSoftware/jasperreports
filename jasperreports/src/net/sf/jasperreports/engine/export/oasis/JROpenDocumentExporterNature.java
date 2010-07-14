@@ -30,6 +30,7 @@
 package net.sf.jasperreports.engine.export.oasis;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 
@@ -64,7 +65,7 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
+	public boolean isDeep(JRPrintFrame frame)
 	{
 		return false;
 	}

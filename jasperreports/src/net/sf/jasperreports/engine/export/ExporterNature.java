@@ -40,9 +40,9 @@ public interface ExporterNature extends ExporterFilter
 {
 
 	/**
-	 * Specified whether to include in the grid sub elements of {@link JRPrintFrame frame} elements
+	 * Specified whether to include in the grid sub elements of a given {@link JRPrintFrame frame} element.
 	 */
-	public abstract boolean isDeep();
+	public abstract boolean isDeep(JRPrintFrame frame);
 
 	public abstract boolean isSplitSharedRowSpan();
 
