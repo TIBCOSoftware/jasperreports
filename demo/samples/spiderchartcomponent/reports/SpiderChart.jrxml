@@ -60,18 +60,20 @@
 				<graphicElement/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="70" width="500" height="300"/>
+				<reportElement x="0" y="70" width="500" height="300" mode="Opaque"/>
 				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Now">
 					<sc:chartSettings isShowLegend="true">
-						<chartTitle>
-							<font isItalic="true" size="14"/>
+						<chartTitle position="Bottom">
+							<font isItalic="true" size="12"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
 						</chartTitle>
 						<chartSubtitle color="blue">
 							<font isBold="true" size="6"/>
 							<subtitleExpression><![CDATA["Chart Displaying Spider Webs"]]></subtitleExpression>
 						</chartSubtitle>
-						<chartLegend/>
+						<chartLegend backgroundColor="#eeffee" position="Left">
+							<font size="6"/>
+						</chartLegend>
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
 					</sc:chartSettings>
 					<sc:spiderDataset>
@@ -86,9 +88,9 @@
 							<valueExpression><![CDATA[$F{value}]]></valueExpression>
 						</categorySeries>
 					</sc:spiderDataset>
-					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow" foregroundAlpha="1.0">
+					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow">
 						<labelFont>
-							<font isBold="true" size="4"/>
+							<font isBold="true" isItalic="true" size="6"/>
 						</labelFont>
 						<sc:maxValueExpression><![CDATA[Double.valueOf(10)]]></sc:maxValueExpression>
 					</sc:spiderPlot>

@@ -149,7 +149,6 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 			{
 				chartSettings.setLegendPosition(position);
 			}
-			// Any font set will be put in the chart directly by the digester
 
 			return chartSettings;
 		}

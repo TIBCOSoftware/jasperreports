@@ -60,7 +60,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	
 	public static final String ATTRIBUTE_rotation = "rotation";
 	public static final String ATTRIBUTE_tableOrder = "tableOrder";
-	public static final String ATTRIBUTE_webFilled = "webFilled";
+	public static final String ATTRIBUTE_webFilled = "isWebFilled";
 	public static final String ATTRIBUTE_startAngle = "startAngle";
 	public static final String ATTRIBUTE_headPercent = "headPercent";
 	public static final String ATTRIBUTE_interiorGap = "interiorGap";
