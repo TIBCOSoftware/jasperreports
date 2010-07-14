@@ -135,6 +135,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		hyperlinkAnchor = (String) fillContext.evaluate(chartSettings.getHyperlinkAnchorExpression(), evaluation);
 		hyperlinkPage = (Integer) fillContext.evaluate(chartSettings.getHyperlinkPageExpression(), evaluation);
 		hyperlinkTooltip = (String) fillContext.evaluate(chartSettings.getHyperlinkTooltipExpression(), evaluation);
+
 		dataset.evaluateDatasetRun(evaluation);
 		dataset.finishDataset();
 
