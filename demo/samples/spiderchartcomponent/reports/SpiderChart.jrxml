@@ -29,7 +29,7 @@
 	<group name="spiderChart">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
-		<band height="370">
+		<band height="420">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
 				<graphicElement/>
@@ -40,14 +40,14 @@
 			</line>
 			<staticText>
 				<reportElement x="0" y="10" width="515" height="30"/>
-				<textElement>
-					<font size="22"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
 				</textElement>
 				<text><![CDATA[Spider Chart Component Report]]></text>
 			</staticText>
 			<textField hyperlinkType="Reference">
 				<reportElement x="0" y="40" width="515" height="20"/>
-				<textElement/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA["http://www.jfree.org/jfreechart"]]></textFieldExpression>
 				<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]]></hyperlinkReferenceExpression>
 			</textField>
@@ -60,10 +60,10 @@
 				<graphicElement/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="70" width="500" height="300" mode="Opaque"/>
+				<reportElement x="0" y="70" width="500" height="350" mode="Opaque"/>
 				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Now">
 					<sc:chartSettings isShowLegend="true">
-						<chartTitle position="Bottom">
+						<chartTitle position="Top">
 							<font isItalic="true" size="12"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
 						</chartTitle>
@@ -71,7 +71,7 @@
 							<font isBold="true" size="6"/>
 							<subtitleExpression><![CDATA["Chart Displaying Spider Webs"]]></subtitleExpression>
 						</chartSubtitle>
-						<chartLegend backgroundColor="#eeffee" position="Left">
+						<chartLegend backgroundColor="#eeffee">
 							<font size="6"/>
 						</chartLegend>
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
@@ -88,7 +88,7 @@
 							<valueExpression><![CDATA[$F{value}]]></valueExpression>
 						</categorySeries>
 					</sc:spiderDataset>
-					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow">
+					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0">
 						<labelFont>
 							<font isBold="true" isItalic="true" size="6"/>
 						</labelFont>
