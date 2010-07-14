@@ -31,6 +31,8 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -84,8 +86,17 @@ public class JRHtmlExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
+	public boolean isDeep(JRPrintFrame frame)
 	{
+		if (
+			frame.hasProperties()
+			&& frame.getPropertiesMap().containsProperty(JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return !JRProperties.getBooleanProperty(frame, JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES, !deep);
+		}
 		return deep;
 	}
 	

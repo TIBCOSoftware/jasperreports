@@ -62,7 +62,7 @@ public class JRCsvExporterNature implements ExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
+	public boolean isDeep(JRPrintFrame frame)
 	{
 		return true;
 	}

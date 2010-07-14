@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
 /**
@@ -43,7 +44,7 @@ public class JRXlsxExporterNature extends JROfficeOpenXmlExporterNature
 	/**
 	 * 
 	 */
-	public boolean isDeep()
+	public boolean isDeep(JRPrintFrame frame)
 	{
 		return true;
 	}

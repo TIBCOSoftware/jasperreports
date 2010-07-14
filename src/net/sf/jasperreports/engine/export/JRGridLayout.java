@@ -339,9 +339,9 @@ public class JRGridLayout
 
 				yCuts.addYCuts(element, elementOffsetY);
 				
-				if (nature.isDeep() && element instanceof JRPrintFrame)
+				JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
+				if (frame != null && nature.isDeep(frame))
 				{
-					JRPrintFrame frame = (JRPrintFrame) element;
 					createCuts(
 						wrapper.getWrappers(),
 						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
@@ -408,10 +408,9 @@ public class JRGridLayout
 
 				if (!isOverlap(row1, col1, row2, col2))
 				{
-					if (nature.isDeep() && element instanceof JRPrintFrame)
+					JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
+					if (frame != null && nature.isDeep(frame))
 					{
-						JRPrintFrame frame = (JRPrintFrame) element;
-						
 						setGridElements(
 							wrapper.getWrappers(),
 							x + frame.getLineBox().getLeftPadding().intValue(),
