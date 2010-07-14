@@ -24,10 +24,9 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRHyperlink;
-import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -40,7 +39,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class FillCategorySeries implements JRCategorySeries
+public class FillCategorySeries extends JRFillCategorySeries
 {
 
 	/**
@@ -63,49 +62,18 @@ public class FillCategorySeries implements JRCategorySeries
 		JRFillObjectFactory factory
 		)
 	{
-		factory.put(categorySeries, this);
-
-		parent = categorySeries;
+		super(categorySeries, factory);
+//		factory.put(categorySeries, this);
+//
+//		parent = categorySeries;
 	}
 
 
-	/**
-	 *
-	 */
-	public JRExpression getSeriesExpression()
-	{
-		return parent.getSeriesExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getCategoryExpression()
-	{
-		return parent.getCategoryExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getValueExpression()
-	{
-		return parent.getValueExpression();
-	}
-		
-	/**
-	 *
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return parent.getLabelExpression();
-	}
-	
 	
 	/**
 	 *
 	 */
-	protected Comparable getSeries()
+	public Comparable getSeries()
 	{
 		return series;
 	}
@@ -113,7 +81,7 @@ public class FillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected Comparable getCategory()
+	public Comparable getCategory()
 	{
 		return category;
 	}
@@ -121,7 +89,7 @@ public class FillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected Number getValue()
+	public Number getValue()
 	{
 		return value;
 	}
@@ -129,12 +97,12 @@ public class FillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected String getLabel()
+	public String getLabel()
 	{
 		return label;
 	}
 	
-	protected JRPrintHyperlink getPrintItemHyperlink()
+	public JRPrintHyperlink getPrintItemHyperlink()
 	{
 		return itemHyperlink;
 	}
@@ -143,7 +111,7 @@ public class FillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	public void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
 		category = (Comparable)calculator.evaluate(getCategoryExpression()); 
@@ -157,7 +125,7 @@ public class FillCategorySeries implements JRCategorySeries
 	}
 
 
-	protected void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	public void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		try
 		{
@@ -173,23 +141,4 @@ public class FillCategorySeries implements JRCategorySeries
 		}
 	}
 
-	
-	public boolean hasItemHyperlinks()
-	{
-		return !JRHyperlinkHelper.isEmpty(getItemHyperlink()); 
-	}
-
-
-	public JRHyperlink getItemHyperlink()
-	{
-		return parent.getItemHyperlink();
-	}
-
-	/**
-	 *
-	 */
-	public Object clone() 
-	{
-		throw new UnsupportedOperationException();
-	}
 }

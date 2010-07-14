@@ -147,8 +147,8 @@ public class StandardChartSettings implements ChartSettings
 		titleFont = chart.getTitleFont();
 		subtitleFont = chart.getSubtitleFont();
 		legendFont = chart.getLegendFont();
-
 		titleExpression = factory.getExpression(chart.getTitleExpression());
+
 		subtitleExpression = factory.getExpression(chart.getSubtitleExpression());
 		anchorNameExpression = factory.getExpression(chart.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(chart.getHyperlinkReferenceExpression());

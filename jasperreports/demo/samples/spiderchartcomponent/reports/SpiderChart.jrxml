@@ -26,7 +26,9 @@
 	
 	<parameter name="spiderDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	
-	<title>
+	<group name="spiderChart">
+		<groupExpression><![CDATA[null]]></groupExpression>
+		<groupHeader>
 		<band height="370">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
@@ -59,19 +61,21 @@
 			</line>
 			<componentElement>
 				<reportElement x="0" y="70" width="500" height="300"/>
-				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Report">
-					<sc:chartSettings isShowLegend="true" >
+				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Now">
+					<sc:chartSettings isShowLegend="true">
 						<chartTitle>
+							<font isItalic="true" size="14"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
 						</chartTitle>
-						<chartSubtitle>
+						<chartSubtitle color="blue">
+							<font isBold="true" size="6"/>
 							<subtitleExpression><![CDATA["Chart Displaying Spider Webs"]]></subtitleExpression>
 						</chartSubtitle>
 						<chartLegend/>
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
 					</sc:chartSettings>
 					<sc:spiderDataset>
-						<dataset>
+						<dataset incrementType="Group" incrementGroup="category">
 							<datasetRun subDataset="categoryDataset">
 								<dataSourceExpression><![CDATA[$P{spiderDatasource}]]></dataSourceExpression>
 							</datasetRun>
@@ -79,18 +83,19 @@
 						<categorySeries>
 							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
 							<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
-							<valueExpression><![CDATA[$V{value}]]></valueExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
 						</categorySeries>
 					</sc:spiderDataset>
-					<sc:spiderPlot rotation="Clockwise" startAngle="45" headPercent="0.1" interiorGap="0.3" axisLineColor="#88ee11" backcolor="yellow">
+					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow" foregroundAlpha="1.0">
 						<labelFont>
-							<font isBold="true"/>
+							<font isBold="true" size="4"/>
 						</labelFont>
 						<sc:maxValueExpression><![CDATA[Double.valueOf(10)]]></sc:maxValueExpression>
 					</sc:spiderPlot>
 				</sc:spiderChart>
 			</componentElement>
 		</band>
-	</title>
+		</groupHeader>
+	</group>
 
 </jasperReport>

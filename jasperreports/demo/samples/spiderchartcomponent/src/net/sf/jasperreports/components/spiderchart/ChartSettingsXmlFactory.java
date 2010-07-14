@@ -46,7 +46,6 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 	 */
 	public Object createObject(Attributes atts)
 	{
-
 		StandardChartSettings chartSettings = new StandardChartSettings();
 
 		String isShowLegend = atts.getValue(JRXmlConstants.ATTRIBUTE_isShowLegend);

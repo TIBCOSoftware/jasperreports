@@ -105,7 +105,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected Comparable getSeries()
+	public Comparable getSeries()
 	{
 		return series;
 	}
@@ -113,7 +113,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected Comparable getCategory()
+	public Comparable getCategory()
 	{
 		return category;
 	}
@@ -121,7 +121,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected Number getValue()
+	public Number getValue()
 	{
 		return value;
 	}
@@ -129,12 +129,12 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected String getLabel()
+	public String getLabel()
 	{
 		return label;
 	}
 	
-	protected JRPrintHyperlink getPrintItemHyperlink()
+	public JRPrintHyperlink getPrintItemHyperlink()
 	{
 		return itemHyperlink;
 	}
@@ -143,7 +143,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
+	public void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
 		category = (Comparable)calculator.evaluate(getCategoryExpression()); 
@@ -157,7 +157,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	}
 
 
-	protected void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
+	public void evaluateItemHyperlink(JRCalculator calculator) throws JRExpressionEvalException
 	{
 		try
 		{
