@@ -29,7 +29,7 @@
 	<group name="spiderChart">
 		<groupExpression><![CDATA[null]]></groupExpression>
 		<groupHeader>
-		<band height="420">
+		<band height="550">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
 				<graphicElement/>
@@ -60,7 +60,7 @@
 				<graphicElement/>
 			</line>
 			<componentElement>
-				<reportElement x="0" y="70" width="500" height="350" mode="Opaque"/>
+				<reportElement x="50" y="90" width="400" height="400" mode="Opaque"/>
 				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Now">
 					<sc:chartSettings isShowLegend="true">
 						<chartTitle position="Top">
@@ -69,7 +69,7 @@
 						</chartTitle>
 						<chartSubtitle color="blue">
 							<font isBold="true" size="6"/>
-							<subtitleExpression><![CDATA["Chart Displaying Spider Webs"]]></subtitleExpression>
+							<subtitleExpression><![CDATA["Chart Displaying Spider Web Contours"]]></subtitleExpression>
 						</chartSubtitle>
 						<chartLegend backgroundColor="#eeffee">
 							<font size="6"/>
@@ -86,9 +86,12 @@
 							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
 							<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
 							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<itemHyperlink hyperlinkType="Reference" hyperlinkTarget="Blank">
+								<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]]></hyperlinkReferenceExpression>
+							</itemHyperlink>
 						</categorySeries>
 					</sc:spiderDataset>
-					<sc:spiderPlot rotation="Anticlockwise" isWebFilled="true" startAngle="20" interiorGap="0.2" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0">
+					<sc:spiderPlot rotation="Anticlockwise" startAngle="18" interiorGap="0.2" labelGap="0.05" headPercent="0.01" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0" tableOrder="Row">
 						<labelFont>
 							<font isBold="true" isItalic="true" size="6"/>
 						</labelFont>
