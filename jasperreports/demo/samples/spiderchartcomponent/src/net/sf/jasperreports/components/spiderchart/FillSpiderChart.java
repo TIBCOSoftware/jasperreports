@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
+import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -114,7 +116,8 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	protected void evaluateRenderer(byte evaluation) throws JRException
 	{
 		JFreeChart chart = evaluateChart(evaluation);
-		JRComponentElement element = fillContext.getComponentElement();		
+		JRComponentElement element = fillContext.getComponentElement();	
+		
 		Rectangle2D rectangle = new Rectangle2D.Double(0,0,element.getWidth(),element.getHeight());
 
 		renderer = 
@@ -206,12 +209,13 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
         	spiderWebPlot.setWebFilled(plot.getWebFilled());
         }
 
-        spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
         spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
+        spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
         
         Font titleFont = chartSettings.getTitleFont() != null 
         	? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
         	: TextTitle.DEFAULT_FONT;
+        	
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
 		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePositionValue(), RectangleEdge.TOP);
@@ -283,6 +287,8 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		JRTemplateImage templateImage = new JRTemplateImage(fillContext.getElementOrigin(), 
 				fillContext.getDefaultStyleProvider());
 		templateImage.setStyle(fillContext.getElementStyle());
+		templateImage.setLinkType(getLinkType());
+		templateImage.setLinkTarget(getLinkTarget());
 		
 		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
 		image.setX(element.getX());
@@ -330,7 +336,6 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		printImage.setBookmarkLevel(getBookmarkLevel());
 //		printImage.setHyperlinkParameters(hyperlinkParameters);
 //		transferProperties(printImage);
-			
 	}
 
 	/**
@@ -464,5 +469,14 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		return renderer;
 	}
 
+	public String getLinkType()
+	{
+		return chartSettings.getLinkType();
+	}
+
+	public String getLinkTarget()
+	{
+		return chartSettings.getLinkTarget();
+	}
 
 }
