@@ -59,7 +59,7 @@
 	  <complexType>
 		<sequence>
 		  <element ref="jr:labelFont" minOccurs="0" maxOccurs="1" />
-		  <element name="maxValueExpression">
+		  <element name="maxValueExpression" minOccurs="0" maxOccurs="1">
 			<complexType mixed="true" />
 		  </element>
 		</sequence>
