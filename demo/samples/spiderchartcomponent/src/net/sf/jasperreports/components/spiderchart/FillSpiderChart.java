@@ -35,6 +35,7 @@ import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
@@ -42,6 +43,7 @@ import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.JRFillHyperlinkHelper;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
@@ -80,6 +82,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private Integer bookmarkLevel;
+	private JRPrintHyperlinkParameters hyperlinkParameters;
 	
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private ChartHyperlinkProvider chartHyperlinkProvider;
@@ -119,7 +122,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		Rectangle2D rectangle = new Rectangle2D.Double(0,0,element.getWidth(),element.getHeight());
 
 		renderer = 
-			ChartUtil.getChartRendererFactory(chartSettings.getRenderType()).getRenderer(
+			ChartUtil.getChartRendererFactory(getChartSettings().getRenderType()).getRenderer(
 				chart, 
 				chartHyperlinkProvider,
 				rectangle
@@ -128,103 +131,104 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 	protected JFreeChart evaluateChart(byte evaluation) throws JRException
 	{
-		maxValue = (Double) fillContext.evaluate(plot.getMaxValueExpression(), evaluation);
-        titleText = (String) fillContext.evaluate(chartSettings.getTitleExpression(), evaluation);
-		subtitleText = (String)fillContext.evaluate(chartSettings.getSubtitleExpression(), evaluation);
-		anchorName = (String) fillContext.evaluate(chartSettings.getAnchorNameExpression(), evaluation);
-		hyperlinkReference = (String) fillContext.evaluate(chartSettings.getHyperlinkReferenceExpression(), evaluation);
-		hyperlinkAnchor = (String) fillContext.evaluate(chartSettings.getHyperlinkAnchorExpression(), evaluation);
-		hyperlinkPage = (Integer) fillContext.evaluate(chartSettings.getHyperlinkPageExpression(), evaluation);
-		hyperlinkTooltip = (String) fillContext.evaluate(chartSettings.getHyperlinkTooltipExpression(), evaluation);
+		maxValue = (Double) fillContext.evaluate(getPlot().getMaxValueExpression(), evaluation);
+        titleText = (String) fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation);
+		subtitleText = (String)fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation);
+		anchorName = (String) fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation);
+		hyperlinkReference = (String) fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation);
+		hyperlinkAnchor = (String) fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation);
+		hyperlinkPage = (Integer) fillContext.evaluate(getChartSettings().getHyperlinkPageExpression(), evaluation);
+		hyperlinkTooltip = (String) fillContext.evaluate(getChartSettings().getHyperlinkTooltipExpression(), evaluation);
+		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(getChartSettings(), expressionEvaluator, evaluation);
 
 		dataset.evaluateDatasetRun(evaluation);
 		dataset.finishDataset();
 
 		chartHyperlinkProvider = new CategoryChartHyperlinkProvider(dataset.getItemHyperlinks());
 
-		bookmarkLevel = chartSettings.getBookmarkLevel();
+		bookmarkLevel = getChartSettings().getBookmarkLevel();
 		
 		SpiderWebPlot spiderWebPlot = new SpiderWebPlot((DefaultCategoryDataset)dataset.getCustomDataset());
 
-        if(plot.getAxisLineColor() != null)
+        if(getPlot().getAxisLineColor() != null)
         {
-        	spiderWebPlot.setAxisLinePaint(plot.getAxisLineColor());
+        	spiderWebPlot.setAxisLinePaint(getPlot().getAxisLineColor());
         }
-        if(plot.getAxisLineWidth() != null)
+        if(getPlot().getAxisLineWidth() != null)
         {
-        	spiderWebPlot.setAxisLineStroke(new BasicStroke(plot.getAxisLineWidth()));
+        	spiderWebPlot.setAxisLineStroke(new BasicStroke(getPlot().getAxisLineWidth()));
         }
-        if(plot.getBackcolor() != null)
+        if(getPlot().getBackcolor() != null)
         {
-        	spiderWebPlot.setBackgroundPaint(plot.getBackcolor());
+        	spiderWebPlot.setBackgroundPaint(getPlot().getBackcolor());
         }
-        if(plot.getBackgroundAlpha() != null)
+        if(getPlot().getBackgroundAlpha() != null)
         {
-        	spiderWebPlot.setBackgroundAlpha(plot.getBackgroundAlpha());
+        	spiderWebPlot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
         }
-        if(plot.getForegroundAlpha() != null)
+        if(getPlot().getForegroundAlpha() != null)
         {
-        	spiderWebPlot.setForegroundAlpha(plot.getForegroundAlpha());
+        	spiderWebPlot.setForegroundAlpha(getPlot().getForegroundAlpha());
         }
-        if(plot.getHeadPercent() != null)
+        if(getPlot().getHeadPercent() != null)
         {
-        	spiderWebPlot.setHeadPercent(plot.getHeadPercent());
+        	spiderWebPlot.setHeadPercent(getPlot().getHeadPercent());
         }
-        if(plot.getInteriorGap() != null)
+        if(getPlot().getInteriorGap() != null)
         {
-        	spiderWebPlot.setInteriorGap(plot.getInteriorGap());
+        	spiderWebPlot.setInteriorGap(getPlot().getInteriorGap());
         }
-        if(plot.getLabelColor() != null)
+        if(getPlot().getLabelColor() != null)
         {
-        	spiderWebPlot.setLabelPaint(plot.getLabelColor());
+        	spiderWebPlot.setLabelPaint(getPlot().getLabelColor());
         }
-        if(plot.getLabelFont() != null)
+        if(getPlot().getLabelFont() != null)
         {
-        	spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(plot.getLabelFont(), Locale.getDefault()));
+        	spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(getPlot().getLabelFont(), Locale.getDefault()));
         }
-        if(plot.getLabelGap() != null)
+        if(getPlot().getLabelGap() != null)
         {
-        	spiderWebPlot.setAxisLabelGap(plot.getLabelGap());
+        	spiderWebPlot.setAxisLabelGap(getPlot().getLabelGap());
         }
         if(maxValue != null)
         {
         	spiderWebPlot.setMaxValue(maxValue);
         }
-        if(plot.getRotation() != null)
+        if(getPlot().getRotation() != null)
         {
-        	spiderWebPlot.setDirection(plot.getRotation().getRotation());
+        	spiderWebPlot.setDirection(getPlot().getRotation().getRotation());
         }
-        if(plot.getStartAngle() != null)
+        if(getPlot().getStartAngle() != null)
         {
-        	spiderWebPlot.setStartAngle(plot.getStartAngle());
+        	spiderWebPlot.setStartAngle(getPlot().getStartAngle());
         }
-        if(plot.getTableOrder() != null)
+        if(getPlot().getTableOrder() != null)
         {
-        	spiderWebPlot.setDataExtractOrder(plot.getTableOrder().getOrder());
+        	spiderWebPlot.setDataExtractOrder(getPlot().getTableOrder().getOrder());
         }
-        if(plot.getWebFilled() != null)
+        if(getPlot().getWebFilled() != null)
         {
-        	spiderWebPlot.setWebFilled(plot.getWebFilled());
+        	spiderWebPlot.setWebFilled(getPlot().getWebFilled());
         }
 
         spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
         spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
         
-        Font titleFont = chartSettings.getTitleFont() != null 
-        	? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
+        Font titleFont = getChartSettings().getTitleFont() != null 
+        	? JRFontUtil.getAwtFont(getChartSettings().getTitleFont(), Locale.getDefault())
         	: TextTitle.DEFAULT_FONT;
         	
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
-		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
+		RectangleEdge titleEdge = getEdge(getChartSettings().getTitlePosition(), RectangleEdge.TOP);
 		
 		if (titleText != null)
 		{
 			TextTitle title = jfreechart.getTitle();
 			title.setText(titleText);
-			if(chartSettings.getTitleColor() != null)
+			if(getChartSettings().getTitleColor() != null)
 			{
-				title.setPaint(chartSettings.getTitleColor());
+				title.setPaint(getChartSettings().getTitleColor());
 			}
 			
 			title.setFont(titleFont);
@@ -236,15 +240,15 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		{
 			TextTitle subtitle = new TextTitle(subtitleText);
 			subtitle.setText(subtitleText);
-			if(chartSettings.getSubtitleColor() != null)
+			if(getChartSettings().getSubtitleColor() != null)
 			{
-				subtitle.setPaint(chartSettings.getSubtitleColor());
+				subtitle.setPaint(getChartSettings().getSubtitleColor());
 			}
 
-			if(chartSettings.getSubtitleColor() != null)
+			if(getChartSettings().getSubtitleColor() != null)
 			{
-		        Font subtitleFont = chartSettings.getSubtitleFont() != null 
-	        	? JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
+		        Font subtitleFont = getChartSettings().getSubtitleFont() != null 
+	        	? JRFontUtil.getAwtFont(getChartSettings().getSubtitleFont(), Locale.getDefault())
 	        	: TextTitle.DEFAULT_FONT;
 				subtitle.setFont(subtitleFont);
 			}
@@ -256,22 +260,22 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 		// Apply all of the legend formatting options
 		LegendTitle legend = jfreechart.getLegend();
-		if (Boolean.TRUE.equals(chartSettings.getShowLegend()) && legend != null)
+		if (Boolean.TRUE.equals(getChartSettings().getShowLegend()) && legend != null)
 		{
-			if(chartSettings.getLegendColor() != null)
+			if(getChartSettings().getLegendColor() != null)
 			{
-				legend.setItemPaint(chartSettings.getLegendColor());
+				legend.setItemPaint(getChartSettings().getLegendColor());
 			}
-			if (chartSettings.getLegendBackgroundColor() != null)
+			if (getChartSettings().getLegendBackgroundColor() != null)
 			{
-				legend.setBackgroundPaint(chartSettings.getLegendBackgroundColor());
+				legend.setBackgroundPaint(getChartSettings().getLegendBackgroundColor());
 			}
 
-			if(chartSettings.getLegendFont() != null)
+			if(getChartSettings().getLegendFont() != null)
 			{
-				legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
+				legend.setItemFont(JRFontUtil.getAwtFont(getChartSettings().getLegendFont(), Locale.getDefault()));
 			}
-			legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
+			legend.setPosition(getEdge(getChartSettings().getLegendPosition(), RectangleEdge.BOTTOM));
 		}
 		
 		return jfreechart;
@@ -332,7 +336,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		printImage.setHyperlinkPage(getHyperlinkPage());
 		printImage.setHyperlinkTooltip(getHyperlinkTooltip());
 		printImage.setBookmarkLevel(getBookmarkLevel());
-//		printImage.setHyperlinkParameters(hyperlinkParameters);
+		printImage.setHyperlinkParameters(hyperlinkParameters);
 //		transferProperties(printImage);
 	}
 
@@ -374,6 +378,13 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	protected ChartHyperlinkProvider getHyperlinkProvider()
 	{
 		return chartHyperlinkProvider;
+	}
+
+	/**
+	 * @return the chartSettings
+	 */
+	public FillChartSettings getChartSettings() {
+		return chartSettings;
 	}
 
 	/**
@@ -469,12 +480,19 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 	public String getLinkType()
 	{
-		return chartSettings.getLinkType();
+		return getChartSettings().getLinkType();
 	}
 
 	public String getLinkTarget()
 	{
-		return chartSettings.getLinkTarget();
+		return getChartSettings().getLinkTarget();
+	}
+
+	/**
+	 * @return the hyperlinkParameters
+	 */
+	public JRPrintHyperlinkParameters getHyperlinkParameters() {
+		return hyperlinkParameters;
 	}
 
 }

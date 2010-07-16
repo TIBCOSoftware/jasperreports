@@ -24,6 +24,9 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
@@ -34,8 +37,8 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRDesignHyperlink;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -130,7 +133,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	protected Boolean showLegend = null;
 	protected String linkType;
 	protected String linkTarget;
-	private JRHyperlinkParameter[] hyperlinkParameters;
+	protected List<JRHyperlinkParameter> hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
 	
 	protected Color titleColor = null;
 	protected Color subtitleColor = null;
@@ -199,7 +202,15 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
-		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(chart, factory);
+
+		JRHyperlinkParameter[] hyperlinkParams = chart.getHyperlinkParameters();
+		if (hyperlinkParams != null && hyperlinkParams.length > 0)
+		{
+			for(int i = 0; i < hyperlinkParams.length; i++)
+			{
+				addHyperlinkParameter(factory.getHyperlinkParameter(hyperlinkParams[i]));
+			}
+		}
 	}
 	/**
 	 * 
@@ -467,13 +478,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		return linkTarget;
 	}
 
-
-	public JRHyperlinkParameter[] getHyperlinkParameters()
-	{
-		return hyperlinkParameters;
-	}
-	
-	
 	public JRExpression getHyperlinkTooltipExpression()
 	{
 		return hyperlinkTooltipExpression;
@@ -529,15 +533,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		Object old = this.legendFont;
 		this.legendFont = legendFont;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_FONT, old, this.legendFont);
-	}
-
-	/**
-	 * @param hyperlinkParameters the hyperlinkParameters to set
-	 */
-	public void setHyperlinkParameters(JRHyperlinkParameter[] hyperlinkParameters) {
-		Object old = this.hyperlinkParameters;
-		this.hyperlinkParameters = hyperlinkParameters;
-		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PARAMETERS, old, this.hyperlinkParameters);
 	}
 
 	/**
@@ -622,10 +617,10 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 			
 			if (hyperlinkParameters != null)
 			{
-				clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
-				for(int i = 0; i < hyperlinkParameters.length; i++)
+				clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+				for(int i = 0; i < hyperlinkParameters.size(); i++)
 				{
-					clone.hyperlinkParameters[i] = (JRHyperlinkParameter)hyperlinkParameters[i].clone();
+					clone.hyperlinkParameters.add(i,(JRHyperlinkParameter)hyperlinkParameters.get(i).clone());
 				}
 			}
 	
@@ -680,5 +675,83 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		
 		return eventSupport;
 	}
+
+	public JRHyperlinkParameter[] getHyperlinkParameters()
+	{
+		JRHyperlinkParameter[] parameters = null;
+		if (!hyperlinkParameters.isEmpty())
+		{
+			parameters = new JRHyperlinkParameter[hyperlinkParameters.size()];
+			hyperlinkParameters.toArray(parameters);
+		}
+		return parameters;
+	}
+	
+	
+	/**
+	 * Returns the list of custom hyperlink parameters.
+	 * 
+	 * @return the list of custom hyperlink parameters
+	 */
+	public List getHyperlinkParametersList()
+	{
+		return hyperlinkParameters;
+	}
+	
+	
+	/**
+	 * Adds a custom hyperlink parameter.
+	 * 
+	 * @param parameter the parameter to add
+	 */
+	public void addHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		hyperlinkParameters.add(parameter);
+		getEventSupport().fireCollectionElementAddedEvent(JRDesignHyperlink.PROPERTY_HYPERLINK_PARAMETERS, 
+				parameter, hyperlinkParameters.size() - 1);
+	}
+	
+
+	/**
+	 * Removes a custom hyperlink parameter.
+	 * 
+	 * @param parameter the parameter to remove
+	 */
+	public void removeHyperlinkParameter(JRHyperlinkParameter parameter)
+	{
+		int idx = hyperlinkParameters.indexOf(parameter);
+		if (idx >= 0)
+		{
+			hyperlinkParameters.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(JRDesignHyperlink.PROPERTY_HYPERLINK_PARAMETERS, 
+					parameter, idx);
+		}
+	}
+	
+	
+	/**
+	 * Removes a custom hyperlink parameter.
+	 * <p>
+	 * If multiple parameters having the specified name exist, all of them
+	 * will be removed
+	 * </p>
+	 * 
+	 * @param parameterName the parameter name
+	 */
+	public void removeHyperlinkParameter(String parameterName)
+	{
+		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
+		{
+			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			if (parameter.getName() != null && parameter.getName().equals(parameterName))
+			{
+				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(JRDesignHyperlink.PROPERTY_HYPERLINK_PARAMETERS, 
+						parameter, it.nextIndex());
+			}
+		}
+	}
+	
+	
 	
 }
