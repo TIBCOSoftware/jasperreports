@@ -136,17 +136,6 @@
 	 	 <documentation>Background color of the chart</documentation>
 		</annotation>
 	   </attribute>
-	   <attribute name="orientation" use="optional">
-		<annotation>
-	 	 <documentation>Orientation of the chart</documentation>
-		</annotation>
-	    <simpleType>
-	     <restriction base="string">
-	      <enumeration value="Horizontal"/>
-	      <enumeration value="Vertical"/>
-	     </restriction>
-	    </simpleType>
-	   </attribute>
 	   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional">
 		<annotation>
 	 	 <documentation>Alpha (transparency) parameter for the background.</documentation>

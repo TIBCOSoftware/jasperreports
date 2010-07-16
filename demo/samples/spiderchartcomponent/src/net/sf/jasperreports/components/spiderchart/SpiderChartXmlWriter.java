@@ -24,14 +24,11 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import java.io.IOException;
-import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -68,7 +65,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	public static final String ATTRIBUTE_axisLineWidth = "axisLineWidth";
 	public static final String ATTRIBUTE_labelGap = "labelGap";
 	public static final String ATTRIBUTE_labelColor = "labelColor";
-	
+
 	
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
@@ -79,10 +76,11 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		String namespaceURI = componentKey.getNamespace();
 		String schemaLocation = ComponentsEnvironment
 			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
-		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
+		XmlNamespace componentNamespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
+
 		
-		writer.startElement(ELEMENT_spiderChart, namespace);
+		writer.startElement(ELEMENT_spiderChart, componentNamespace);
 		
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, spiderChartComponent.getEvaluationTime(), EvaluationTimeEnum.NOW);
 
@@ -92,13 +90,13 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		}
 		
 		ChartSettings chartSettings = spiderChartComponent.getChart();
-		writeChart(chartSettings, writer, reportWriter, namespace);
+		writeChart(chartSettings, writer, reportWriter, componentNamespace);
 		
 		SpiderDataset dataset = spiderChartComponent.getDataset();
-		writeSpiderDataSet(dataset, writer, reportWriter, namespace);
+		writeSpiderDataSet(dataset, writer, reportWriter, componentNamespace);
 		
 		SpiderPlot spiderPlot = spiderChartComponent.getPlot();
-		writeSpiderPlot(spiderPlot, chartSettings, writer, namespace);
+		writeSpiderPlot(spiderPlot, chartSettings, writer, componentNamespace);
 		
 		writer.closeElement();//spiderChart
 	}
@@ -117,28 +115,28 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_renderType, chartSettings.getRenderType());
 
 		// write title
-		writer.startElement(JRXmlConstants.ELEMENT_chartTitle);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chartSettings.getTitlePositionValue());
+		writer.startElement(JRXmlConstants.ELEMENT_chartTitle, JRXmlWriter.JASPERREPORTS_NAMESPACE);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chartSettings.getTitlePosition());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chartSettings.getTitleColor());
 		writeFont(chartSettings.getTitleFont(), writer);
 		if (chartSettings.getTitleExpression() != null)
 		{
-			writer.writeExpression(JRXmlConstants.ELEMENT_titleExpression, chartSettings.getTitleExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_titleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getTitleExpression(), false);
 		}
 		writer.closeElement();
 
 		// write subtitle
-		writer.startElement(JRXmlConstants.ELEMENT_chartSubtitle);
+		writer.startElement(JRXmlConstants.ELEMENT_chartSubtitle, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_color, chartSettings.getSubtitleColor());
 		writeFont(chartSettings.getSubtitleFont(), writer);
 		if (chartSettings.getSubtitleExpression() != null)
 		{
-			writer.writeExpression(JRXmlConstants.ELEMENT_subtitleExpression, chartSettings.getSubtitleExpression(), false);
+			writer.writeExpression(JRXmlConstants.ELEMENT_subtitleExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getSubtitleExpression(), false);
 		}
 		writer.closeElement();
 
 		// write chartLegend
-		writer.startElement(JRXmlConstants.ELEMENT_chartLegend);
+		writer.startElement(JRXmlConstants.ELEMENT_chartLegend, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 		if (chartSettings.getLegendColor() != null)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_textColor, chartSettings.getLegendColor());
@@ -147,15 +145,15 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundColor, chartSettings.getLegendBackgroundColor());
 		}
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chartSettings.getLegendPositionValue());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, chartSettings.getLegendPosition());
 		writeFont(chartSettings.getLegendFont(), writer);
 		writer.closeElement();
 
-		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, chartSettings.getAnchorNameExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, chartSettings.getHyperlinkReferenceExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, chartSettings.getHyperlinkAnchorExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, chartSettings.getHyperlinkPageExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, chartSettings.getHyperlinkTooltipExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getAnchorNameExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkReferenceExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkAnchorExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkPageExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkPageExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkTooltipExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, chartSettings.getHyperlinkTooltipExpression(), false);
 		writeHyperlinkParameters(chartSettings.getHyperlinkParameters(), writer);
 
 		writer.closeElement();
@@ -185,13 +183,13 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	 */
 	private void writeCategorySeries(JRCategorySeries categorySeries, JRXmlWriteHelper writer, JRXmlWriter reportWriter) throws IOException
 	{
-		writer.startElement(JRXmlConstants.ELEMENT_categorySeries);
+		writer.startElement(JRXmlConstants.ELEMENT_categorySeries, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 
-		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, categorySeries.getSeriesExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_categoryExpression, categorySeries.getCategoryExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, categorySeries.getValueExpression(), false);
-		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, categorySeries.getLabelExpression(), false);
-		reportWriter.writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, categorySeries.getItemHyperlink());
+		writer.writeExpression(JRXmlConstants.ELEMENT_seriesExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getSeriesExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_categoryExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getCategoryExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getValueExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getLabelExpression(), false);
+		reportWriter.writeHyperlink(JRXmlConstants.ELEMENT_itemHyperlink, JRXmlWriter.JASPERREPORTS_NAMESPACE, categorySeries.getItemHyperlink());
 
 		writer.closeElement();
 	}
@@ -201,7 +199,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	{
 		if (font != null)
 		{
-			writer.startElement(JRXmlConstants.ELEMENT_font);
+			writer.startElement(JRXmlConstants.ELEMENT_font, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			//FIXME: report fonts
 //			if (font.getReportFont() != null)
 //			{
@@ -253,10 +251,10 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	{
 		if (parameter != null)
 		{
-			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter);
+			writer.startElement(JRXmlConstants.ELEMENT_hyperlinkParameter, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, parameter.getName());
 
-			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression,
+			writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkParameterExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE,
 					parameter.getValueExpression(), true, String.class.getName());
 
 			writer.closeElement();
@@ -278,7 +276,6 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writer.addAttribute(ATTRIBUTE_labelGap, spiderPlot.getLabelGap());
 		writer.addAttribute(ATTRIBUTE_labelColor, spiderPlot.getLabelColor());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, spiderPlot.getBackcolor());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_orientation, PlotOrientationEnum.getByValue(spiderPlot.getOrientation()), PlotOrientationEnum.VERTICAL);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backgroundAlpha, spiderPlot.getBackgroundAlpha());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_foregroundAlpha, spiderPlot.getForegroundAlpha());
 		
@@ -286,7 +283,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 //		writeSeriesColors(spiderPlot.getSeriesColors(), writer);
 		
 		writeLabelFont(spiderPlot.getLabelFont(), writer);
-		writer.writeExpression(ELEMENT_maxValueExpression, spiderPlot.getMaxValueExpression(), false);
+		writer.writeExpression(ELEMENT_maxValueExpression, namespace, spiderPlot.getMaxValueExpression(), false);
 		writer.closeElement(true);
 		
 	}
@@ -313,7 +310,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	{
 		if (labelFont != null)
 		{
-			writer.startElement(JRXmlConstants.ELEMENT_labelFont);
+			writer.startElement(JRXmlConstants.ELEMENT_labelFont, JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			writeFont(labelFont, writer);
 			writer.closeElement();
 		}

@@ -36,6 +36,8 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
@@ -43,7 +45,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardChartSettings implements ChartSettings
+public class StandardChartSettings implements ChartSettings, JRChangeEventsSupport
 {
 
 
@@ -74,12 +76,53 @@ public class StandardChartSettings implements ChartSettings
 	
 	public static final String PROPERTY_RENDER_TYPE = "renderType";
 	
+	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
+	
 	public static final String PROPERTY_THEME = "theme";
+	
+	public static final String PROPERTY_ANCHOR_NAME_EXPRESSION = "anchorNameExpression";
+	
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	
+	public static final String PROPERTY_CHART_TYPE = "chartType";
+	
+	public static final String PROPERTY_CUSTOMIZER_CLASS = "customizerClass";
+	
+	public static final String PROPERTY_DATASET = "dataset";
+	
+	public static final String PROPERTY_LEGEND_FONT = "legendFont";
+	
+	public static final String PROPERTY_SUBTITLE_EXPRESSION = "subtitleExpression";
+	
+	public static final String PROPERTY_SUBTITLE_FONT = "subtitleFont";
+	
+	public static final String PROPERTY_TITLE_EXPRESSION = "titleExpression";
+	
+	public static final String PROPERTY_TITLE_FONT = "titleFont";
+	
+	public static final String PROPERTY_HYPERLINK_ANCHOR_EXPRESSION = "hyperlinkAnchorExpression";
+	
+	public static final String PROPERTY_HYPERLINK_PAGE_EXPRESSION = "hyperlinkPageExpression";
+	
+	public static final String PROPERTY_HYPERLINK_REFERENCE_EXPRESSION = "hyperlinkReferenceExpression";
+	
+	public static final String PROPERTY_HYPERLINK_TARGET = "hyperlinkTarget";
+	
+	public static final String PROPERTY_LINK_TARGET = "linkTarget";
+	
+	public static final String PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION = "hyperlinkTooltipExpression";
+	
+	public static final String PROPERTY_LINK_TYPE = "linkType";
+	
+	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
+	
 	
 	/**
 	 *
 	 */
-	protected byte chartType = CHART_TYPE_SPIDER;
+	protected Byte chartType = CHART_TYPE_SPIDER;
 
 	/**
 	 *
@@ -93,8 +136,8 @@ public class StandardChartSettings implements ChartSettings
 	protected Color subtitleColor = null;
 	protected Color legendColor = null;
 	protected Color legendBackgroundColor = null;
-	protected EdgeEnum legendPositionValue = null;
-	protected EdgeEnum titlePositionValue = null;
+	protected EdgeEnum legendPosition = null;
+	protected EdgeEnum titlePosition = null;
 
 	protected String renderType;
 
@@ -136,12 +179,12 @@ public class StandardChartSettings implements ChartSettings
 		showLegend = chart.getShowLegend();
 		linkType = chart.getLinkType();
 		linkTarget = chart.getLinkTarget();
-		titlePositionValue = chart.getTitlePositionValue();
+		titlePosition = chart.getTitlePosition();
 		titleColor = chart.getTitleColor();
 		subtitleColor = chart.getSubtitleColor();
 		legendColor = chart.getLegendColor();
 		legendBackgroundColor = chart.getLegendBackgroundColor();
-		legendPositionValue = chart.getLegendPositionValue();
+		legendPosition = chart.getLegendPosition();
 		renderType = chart.getRenderType();
 		
 		titleFont = chart.getTitleFont();
@@ -157,7 +200,6 @@ public class StandardChartSettings implements ChartSettings
 		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
 		hyperlinkParameters = JRBaseHyperlink.copyHyperlinkParameters(chart, factory);
-
 	}
 	/**
 	 * 
@@ -172,7 +214,9 @@ public class StandardChartSettings implements ChartSettings
 	 */
 	public void setShowLegend(Boolean isShowLegend)
 	{
+		Object old = this.showLegend;
 		this.showLegend = isShowLegend;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.showLegend);
 	}
 
 	/**
@@ -186,17 +230,19 @@ public class StandardChartSettings implements ChartSettings
 	/**
 	 *
 	 */
-	public EdgeEnum getTitlePositionValue()
+	public EdgeEnum getTitlePosition()
 	{
-		return titlePositionValue;
+		return titlePosition;
 	}
 
 	/**
 	 *
 	 */
-	public void setTitlePosition(EdgeEnum titlePositionValue)
+	public void setTitlePosition(EdgeEnum titlePosition)
 	{
-		this.titlePositionValue = titlePositionValue;
+		Object old = this.titlePosition;
+		this.titlePosition = titlePosition;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_POSITION, old, this.titlePosition);
 	}
 
 	/**
@@ -212,7 +258,9 @@ public class StandardChartSettings implements ChartSettings
 	 */
 	public void setTitleColor(Color titleColor)
 	{
+		Object old = this.titleColor;
 		this.titleColor = titleColor;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_COLOR, old, this.titleColor);
 	}
 
 	/**
@@ -236,7 +284,9 @@ public class StandardChartSettings implements ChartSettings
 	 */
 	public void setSubtitleColor(Color subtitleColor)
 	{
+		Object old = this.subtitleColor;
 		this.subtitleColor = subtitleColor;
+		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_COLOR, old, this.subtitleColor);
 	}
 
 	/**
@@ -264,30 +314,36 @@ public class StandardChartSettings implements ChartSettings
 	 *
 	 */
 	public void setLegendBackgroundColor(Color legendBackgroundColor) {
+		Object old = this.legendBackgroundColor;
 		this.legendBackgroundColor = legendBackgroundColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_BACKGROUND_COLOR, old, this.legendBackgroundColor);
 	}
 
 	/**
 	 *
 	 */
 	public void setLegendColor(Color legendColor) {
+		Object old = this.legendColor;
 		this.legendColor = legendColor;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_COLOR, old, this.legendColor);
 	}
 
 	/**
 	 *
 	 */
-	public EdgeEnum getLegendPositionValue()
+	public EdgeEnum getLegendPosition()
 	{
-		return legendPositionValue;
+		return legendPosition;
 	}
 
 	/**
 	 *
 	 */
-	public void setLegendPosition(EdgeEnum legendPositionValue)
+	public void setLegendPosition(EdgeEnum legendPosition)
 	{
-		this.legendPositionValue = legendPositionValue;
+		Object old = this.legendPosition;
+		this.legendPosition = legendPosition;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_POSITION, old, this.legendPosition);
 	}
 
 	/**
@@ -380,7 +436,9 @@ public class StandardChartSettings implements ChartSettings
 	 */
 	public void setRenderType(String renderType)
 	{
+		Object old = this.renderType;
 		this.renderType = renderType;
+		getEventSupport().firePropertyChange(PROPERTY_RENDER_TYPE, old, this.renderType);
 	}
 
 	public int getBookmarkLevel()
@@ -393,7 +451,9 @@ public class StandardChartSettings implements ChartSettings
 	 */
 	public void setBookmarkLevel(int bookmarkLevel)
 	{
+		Object old = this.bookmarkLevel;
 		this.bookmarkLevel = bookmarkLevel;
+		getEventSupport().firePropertyChange(PROPERTY_BOOKMARK_LEVEL, old, this.bookmarkLevel);
 	}
 
 
@@ -423,70 +483,70 @@ public class StandardChartSettings implements ChartSettings
 	/**
 	 * @param chartType the chartType to set
 	 */
-	public void setChartType(byte chartType) {
+	public void setChartType(Byte chartType) {
+		Object old = this.chartType;
 		this.chartType = chartType;
+		getEventSupport().firePropertyChange(PROPERTY_CHART_TYPE, old, this.chartType);
 	}
+	
 	/**
 	 * @param linkType the linkType to set
 	 */
 	public void setLinkType(String linkType) {
+		Object old = this.linkType;
 		this.linkType = linkType;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TYPE, old, this.linkType);
 	}
 	/**
 	 * @param linkTarget the linkTarget to set
 	 */
 	public void setLinkTarget(String linkTarget) {
+		Object old = this.linkTarget;
 		this.linkTarget = linkTarget;
+		getEventSupport().firePropertyChange(PROPERTY_LINK_TARGET, old, this.linkTarget);
 	}
 
 	/**
 	 * @param titleFont the titleFont to set
 	 */
 	public void setTitleFont(JRFont titleFont) {
+		Object old = this.linkTarget;
 		this.titleFont = titleFont;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_FONT, old, this.titleFont);
 	}
 	/**
 	 * @param subtitleFont the subtitleFont to set
 	 */
 	public void setSubtitleFont(JRFont subtitleFont) {
+		Object old = this.subtitleFont;
 		this.subtitleFont = subtitleFont;
+		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_FONT, old, this.subtitleFont);
 	}
 	/**
 	 * @param legendFont the legendFont to set
 	 */
 	public void setLegendFont(JRFont legendFont) {
+		Object old = this.legendFont;
 		this.legendFont = legendFont;
+		getEventSupport().firePropertyChange(PROPERTY_LEGEND_FONT, old, this.legendFont);
 	}
 
 	/**
 	 * @param hyperlinkParameters the hyperlinkParameters to set
 	 */
 	public void setHyperlinkParameters(JRHyperlinkParameter[] hyperlinkParameters) {
+		Object old = this.hyperlinkParameters;
 		this.hyperlinkParameters = hyperlinkParameters;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PARAMETERS, old, this.hyperlinkParameters);
 	}
-
-
-	/**
-	 * @param legendPositionValue the legendPositionValue to set
-	 */
-	public void setLegendPositionValue(EdgeEnum legendPositionValue) {
-		this.legendPositionValue = legendPositionValue;
-	}
-
-
-	/**
-	 * @param titlePositionValue the titlePositionValue to set
-	 */
-	public void setTitlePositionValue(EdgeEnum titlePositionValue) {
-		this.titlePositionValue = titlePositionValue;
-	}
-
 
 	/**
 	 * @param titleExpression the titleExpression to set
 	 */
 	public void setTitleExpression(JRExpression titleExpression) {
+		Object old = this.titleExpression;
 		this.titleExpression = titleExpression;
+		getEventSupport().firePropertyChange(PROPERTY_TITLE_EXPRESSION, old, this.titleExpression);
 	}
 
 
@@ -494,7 +554,9 @@ public class StandardChartSettings implements ChartSettings
 	 * @param subtitleExpression the subtitleExpression to set
 	 */
 	public void setSubtitleExpression(JRExpression subtitleExpression) {
+		Object old = this.subtitleExpression;
 		this.subtitleExpression = subtitleExpression;
+		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_EXPRESSION, old, this.subtitleExpression);
 	}
 
 
@@ -502,16 +564,19 @@ public class StandardChartSettings implements ChartSettings
 	 * @param anchorNameExpression the anchorNameExpression to set
 	 */
 	public void setAnchorNameExpression(JRExpression anchorNameExpression) {
+		Object old = this.anchorNameExpression;
 		this.anchorNameExpression = anchorNameExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ANCHOR_NAME_EXPRESSION, old, this.anchorNameExpression);
 	}
 
 
 	/**
 	 * @param hyperlinkReferenceExpression the hyperlinkReferenceExpression to set
 	 */
-	public void setHyperlinkReferenceExpression(
-			JRExpression hyperlinkReferenceExpression) {
+	public void setHyperlinkReferenceExpression(JRExpression hyperlinkReferenceExpression) {
+		Object old = this.hyperlinkReferenceExpression;
 		this.hyperlinkReferenceExpression = hyperlinkReferenceExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_REFERENCE_EXPRESSION, old, this.hyperlinkReferenceExpression);
 	}
 
 
@@ -519,7 +584,9 @@ public class StandardChartSettings implements ChartSettings
 	 * @param hyperlinkAnchorExpression the hyperlinkAnchorExpression to set
 	 */
 	public void setHyperlinkAnchorExpression(JRExpression hyperlinkAnchorExpression) {
+		Object old = this.hyperlinkAnchorExpression;
 		this.hyperlinkAnchorExpression = hyperlinkAnchorExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_ANCHOR_EXPRESSION, old, this.hyperlinkAnchorExpression);
 	}
 
 
@@ -527,16 +594,19 @@ public class StandardChartSettings implements ChartSettings
 	 * @param hyperlinkPageExpression the hyperlinkPageExpression to set
 	 */
 	public void setHyperlinkPageExpression(JRExpression hyperlinkPageExpression) {
+		Object old = this.hyperlinkPageExpression;
 		this.hyperlinkPageExpression = hyperlinkPageExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_PAGE_EXPRESSION, old, this.hyperlinkPageExpression);
 	}
 
 
 	/**
 	 * @param hyperlinkTooltipExpression the hyperlinkTooltipExpression to set
 	 */
-	public void setHyperlinkTooltipExpression(
-			JRExpression hyperlinkTooltipExpression) {
+	public void setHyperlinkTooltipExpression(JRExpression hyperlinkTooltipExpression) {
+		Object old = this.hyperlinkTooltipExpression;
 		this.hyperlinkTooltipExpression = hyperlinkTooltipExpression;
+		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
@@ -594,9 +664,21 @@ public class StandardChartSettings implements ChartSettings
 		{
 			throw new JRRuntimeException(e);
 		}
-
-		
 	}
 
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 	
 }

@@ -132,11 +132,11 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendPositionValue()
+	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendPosition()
 	 */
-	public EdgeEnum getLegendPositionValue() {
+	public EdgeEnum getLegendPosition() {
 		
-		return parent.getLegendPositionValue();
+		return parent.getLegendPosition();
 	}
 
 	/**
@@ -204,11 +204,11 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitlePositionValue()
+	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitlePosition()
 	 */
-	public EdgeEnum getTitlePositionValue() {
+	public EdgeEnum getTitlePosition() {
 		
-		return parent.getTitlePositionValue();
+		return parent.getTitlePosition();
 	}
 
 	/**

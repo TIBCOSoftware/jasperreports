@@ -25,7 +25,6 @@ package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -99,12 +98,6 @@ public class SpiderPlotXmlFactory extends JRBaseFactory
 			plot.setBackcolor(color);
 		}
 
-		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
-		if (orientation != null)
-		{
-			plot.setOrientation(orientation.getOrientation());
-		}
-		
 		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)
 		{

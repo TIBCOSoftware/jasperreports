@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRFontFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 import org.apache.commons.digester.Digester;
 

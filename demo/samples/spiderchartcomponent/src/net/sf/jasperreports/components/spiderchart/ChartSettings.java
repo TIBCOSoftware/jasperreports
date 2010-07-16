@@ -53,7 +53,7 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
-	public EdgeEnum getTitlePositionValue();
+	public EdgeEnum getTitlePosition();
 
 	/**
 	 *
@@ -88,7 +88,7 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
-	public EdgeEnum getLegendPositionValue();
+	public EdgeEnum getLegendPosition();
 
 
 	/**

@@ -32,7 +32,6 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -44,7 +43,6 @@ import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
-import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -218,7 +216,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
         	
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
-		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePositionValue(), RectangleEdge.TOP);
+		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
 		
 		if (titleText != null)
 		{
@@ -273,7 +271,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 			{
 				legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
 			}
-			legend.setPosition(getEdge(chartSettings.getLegendPositionValue(), RectangleEdge.BOTTOM));
+			legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
 		}
 		
 		return jfreechart;

@@ -31,8 +31,6 @@ import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 
-import org.jfree.chart.plot.PlotOrientation;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -117,11 +115,6 @@ public interface SpiderPlot extends Serializable
 	 * Gets the chart background color.
 	 */
 	public Color getBackcolor();
-	
-	/**
-	 * Gets the plot orientation (horizontal or vertical).
-	 */
-	public PlotOrientation getOrientation();
 	
 	/**
 	 * Gets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
