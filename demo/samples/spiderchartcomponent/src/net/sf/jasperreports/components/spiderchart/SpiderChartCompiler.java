@@ -45,7 +45,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 	public void collectExpressions(Component component, JRExpressionCollector collector)
 	{
 		SpiderChartComponent chart = (SpiderChartComponent) component;
-		collectExpressions(chart.getChart(), collector);
+		collectExpressions(chart.getChartSettings(), collector);
 		collectExpressions(chart.getDataset(), collector);
 		collectExpressions(chart.getPlot(), collector);
 	}
@@ -115,7 +115,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 		
 		verifyEvaluation(verifier, chartComponent);
 		
-		ChartSettings chartSettings = chartComponent.getChart();
+		ChartSettings chartSettings = chartComponent.getChartSettings();
 		if (chartSettings == null)
 		{
 			verifier.addBrokenRule("No chart settings for spider chart", chartComponent);
