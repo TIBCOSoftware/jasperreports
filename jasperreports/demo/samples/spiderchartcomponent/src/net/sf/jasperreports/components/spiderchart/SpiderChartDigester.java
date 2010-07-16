@@ -60,7 +60,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		
 		String chartSettingsPattern = spiderChartPattern + "/chartSettings";
 		digester.addFactoryCreate(chartSettingsPattern, ChartSettingsXmlFactory.class.getName());
-		digester.addSetNext(chartSettingsPattern, "setChart", ChartSettings.class.getName());
+		digester.addSetNext(chartSettingsPattern, "setChartSettings", ChartSettings.class.getName());
 
 		digester.setRuleNamespaceURI(jrNamespace);
 		String chartTitlePattern = chartSettingsPattern + "/chartTitle";

@@ -91,7 +91,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	public FillSpiderChart(SpiderChartComponent chartComponent, JRFillObjectFactory factory)
 	{
 		this.chartComponent = chartComponent;
-		this.chartSettings = new FillChartSettings(chartComponent.getChart(), factory);
+		this.chartSettings = new FillChartSettings(chartComponent.getChartSettings(), factory);
 		this.dataset = new FillSpiderDataset(chartComponent.getDataset(), factory);
 		factory.registerElementDataset(this.dataset);
 		this.plot = new FillSpiderPlot(chartComponent.getPlot(), factory);

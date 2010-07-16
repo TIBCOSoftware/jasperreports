@@ -89,7 +89,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, spiderChartComponent.getEvaluationGroup());
 		}
 		
-		ChartSettings chartSettings = spiderChartComponent.getChart();
+		ChartSettings chartSettings = spiderChartComponent.getChartSettings();
 		writeChart(chartSettings, writer, reportWriter, componentNamespace);
 		
 		SpiderDataset dataset = spiderChartComponent.getDataset();

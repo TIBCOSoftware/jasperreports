@@ -27,6 +27,8 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
@@ -34,15 +36,25 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class SpiderChartComponent implements Component, Serializable
+public class SpiderChartComponent implements Component, JRChangeEventsSupport, Serializable
 {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static final String PROPERTY_CHART_SETTINGS = "chartSettings";
+	
+	public static final String PROPERTY_DATASET = "dataset";
+	
+	public static final String PROPERTY_PLOT = "plot";
+	
+	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
+	
+	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	
 	private EvaluationTimeEnum evaluationTime;
 	private String evaluationGroup;
 	
-	private ChartSettings chart;
+	private ChartSettings chartSettings;
 	private SpiderDataset dataset;
 	private SpiderPlot plot;
 	
@@ -55,7 +67,7 @@ public class SpiderChartComponent implements Component, Serializable
 		this.evaluationTime = chartComponent.getEvaluationTime();
 		this.evaluationGroup = chartComponent.getEvaluationGroup();
 		
-		this.chart = new StandardChartSettings(chartComponent.getChart(), baseFactory);
+		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);
 		this.dataset = new StandardSpiderDataset(chartComponent.getDataset(), baseFactory);
 		this.plot = new StandardSpiderPlot(chartComponent.getPlot(), baseFactory);
 		
@@ -64,15 +76,17 @@ public class SpiderChartComponent implements Component, Serializable
 	/**
 	 * @return the chart
 	 */
-	public ChartSettings getChart() {
-		return chart;
+	public ChartSettings getChartSettings() {
+		return chartSettings;
 	}
 
 	/**
 	 * @param chart the chart to set
 	 */
-	public void setChart(ChartSettings chart) {
-		this.chart = chart;
+	public void setChartSettings(ChartSettings chartSettings) {
+		Object old = this.chartSettings;
+		this.chartSettings = chartSettings;
+		getEventSupport().firePropertyChange(PROPERTY_CHART_SETTINGS, old, this.chartSettings);
 	}
 
 	/**
@@ -91,11 +105,15 @@ public class SpiderChartComponent implements Component, Serializable
 	}
 
 	public void setDataset(SpiderDataset dataset) {
+		Object old = this.dataset;
 		this.dataset = dataset;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 
 	public void setPlot(SpiderPlot plot) {
+		Object old = this.plot;
 		this.plot = plot;
+		getEventSupport().firePropertyChange(PROPERTY_PLOT, old, this.plot);
 	}
 
 	/**
@@ -109,7 +127,9 @@ public class SpiderChartComponent implements Component, Serializable
 	 * @param evaluationTime the evaluationTime to set
 	 */
 	public void setEvaluationTime(EvaluationTimeEnum evaluationTime) {
+		Object old = this.evaluationTime;
 		this.evaluationTime = evaluationTime;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_TIME, old, this.evaluationTime);
 	}
 
 	/**
@@ -123,8 +143,25 @@ public class SpiderChartComponent implements Component, Serializable
 	 * @param evaluationGroup the evaluationGroup to set
 	 */
 	public void setEvaluationGroup(String evaluationGroup) {
+		Object old = this.evaluationGroup;
 		this.evaluationGroup = evaluationGroup;
+		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, old, this.evaluationGroup);
 	}
 
+
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 	
 }
