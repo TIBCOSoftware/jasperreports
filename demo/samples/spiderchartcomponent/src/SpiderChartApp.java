@@ -24,10 +24,7 @@
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -97,24 +94,23 @@ public class SpiderChartApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		Map parameters = new HashMap();
+		
+		JRCsvDataSource cds = null;
 		try
 		{
 			String[] columnNames = new String[]{"value", "series", "category"};
 
-			JRCsvDataSource cds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/spiderDatasource.csv"), "UTF-8");
+			cds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/spiderDatasource.csv"), "UTF-8");
 			cds.setRecordDelimiter("\n");
 			cds.setUseFirstRowAsHeader(false);
 			cds.setColumnNames(columnNames);
-
-			parameters.put("spiderDatasource", cds);
 		}
 		catch (UnsupportedEncodingException e)
 		{
 			throw new JRException(e);
 		}
 		
-		JasperFillManager.fillReportToFile("build/reports/SpiderChart.jasper", parameters, new JREmptyDataSource(12));
+		JasperFillManager.fillReportToFile("build/reports/SpiderChart.jasper", null, cds);
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
