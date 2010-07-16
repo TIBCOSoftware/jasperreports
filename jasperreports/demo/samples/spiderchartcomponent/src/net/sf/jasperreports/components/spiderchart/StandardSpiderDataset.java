@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
@@ -39,9 +40,13 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 public class StandardSpiderDataset extends JRDesignElementDataset implements SpiderDataset
 {
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-//	private JRCategorySeries[] categorySeries;
+	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
+	
 	private List categorySeriesList = new ArrayList();
 	
 	public StandardSpiderDataset()
@@ -82,15 +87,15 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 		return categorySeriesList;
 	}
 
-	
 	/**
 	 *
 	 */
 	public void addCategorySeries(JRCategorySeries categorySeries)
 	{
 		categorySeriesList.add(categorySeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CATEGORY_SERIES, 
+				categorySeries, categorySeriesList.size() - 1);
 	}
-	
 
 	/**
 	 *
@@ -103,11 +108,12 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 			if (idx >= 0)
 			{
 				categorySeriesList.remove(idx);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_CATEGORY_SERIES, 
+						categorySeries, idx);
 			}
 		}
 		
 		return categorySeries;
 	}
-
 
 }

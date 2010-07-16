@@ -32,8 +32,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
-import org.jfree.chart.plot.PlotOrientation;
-
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -162,11 +160,6 @@ public class FillSpiderPlot implements SpiderPlot
 
 	public Float getForegroundAlpha() {
 		return parent.getForegroundAlpha();
-	}
-
-
-	public PlotOrientation getOrientation() {
-		return parent.getOrientation();
 	}
 
 }

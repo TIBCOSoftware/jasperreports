@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.spiderchart;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;

@@ -32,15 +32,15 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-
-import org.jfree.chart.plot.PlotOrientation;
+import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardSpiderPlot implements SpiderPlot
+public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
 {
 
 
@@ -73,6 +73,12 @@ public class StandardSpiderPlot implements SpiderPlot
 	
 	public static final String PROPERTY_LABEL_COLOR = "labelColor";
 
+	public static final String PROPERTY_BACKCOLOR = "backcolor";
+
+	public static final String PROPERTY_BACKGROUND_ALPHA = "backgroundAlpha";
+	
+	public static final String PROPERTY_FOREGROUND_ALPHA = "foregroundAlpha";
+
 	
 	protected JRFont labelFont;
 	protected JRExpression maxValueExpression;
@@ -88,7 +94,6 @@ public class StandardSpiderPlot implements SpiderPlot
 	protected Color labelColor;
 
 	protected Color backcolor;
-	protected PlotOrientation orientation;
 	protected Float backgroundAlpha;
 	protected Float foregroundAlpha;
 
@@ -116,7 +121,6 @@ public class StandardSpiderPlot implements SpiderPlot
 		labelGap = spiderPlot.getLabelGap();
 		labelColor = spiderPlot.getLabelColor();
 		backcolor = spiderPlot.getBackcolor();
-		orientation = spiderPlot.getOrientation();
 		backgroundAlpha = spiderPlot.getBackgroundAlpha();
 		foregroundAlpha = spiderPlot.getForegroundAlpha();
 
@@ -212,7 +216,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setLabelFont(JRFont labelFont)
 	{
+		Object old = this.labelFont;
 		this.labelFont = labelFont;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_FONT, old, this.labelFont);
 	}
 
 	/**
@@ -220,7 +226,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setMaxValueExpression(JRExpression maxValueExpression)
 	{
+		Object old = this.maxValueExpression;
 		this.maxValueExpression = maxValueExpression;
+		getEventSupport().firePropertyChange(PROPERTY_MAX_VALUE_EXPRESSION, old, this.maxValueExpression);
 	}
 
 	/**
@@ -228,7 +236,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setRotation(SpiderRotationEnum rotation)
 	{
+		Object old = this.rotation;
 		this.rotation = rotation;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, old, this.rotation);
 	}
 
 	/**
@@ -236,7 +246,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setTableOrder(TableOrderEnum tableOrder)
 	{
+		Object old = this.tableOrder;
 		this.tableOrder = tableOrder;
+		getEventSupport().firePropertyChange(PROPERTY_TABLE_ORDER, old, this.tableOrder);
 	}
 
 	/**
@@ -244,7 +256,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setWebFilled(Boolean webFilled)
 	{
+		Object old = this.webFilled;
 		this.webFilled = webFilled;
+		getEventSupport().firePropertyChange(PROPERTY_WEB_FILLED, old, this.webFilled);
 	}
 
 
@@ -253,7 +267,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setStartAngle(Double startAngle)
 	{
+		Object old = this.startAngle;
 		this.startAngle = startAngle;
+		getEventSupport().firePropertyChange(PROPERTY_START_ANGLE, old, this.startAngle);
 	}
 
 
@@ -262,7 +278,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setHeadPercent(Double headPercent)
 	{
+		Object old = this.headPercent;
 		this.headPercent = headPercent;
+		getEventSupport().firePropertyChange(PROPERTY_HEAD_PERCENT, old, this.headPercent);
 	}
 
 
@@ -271,7 +289,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setInteriorGap(Double interiorGap)
 	{
+		Object old = this.interiorGap;
 		this.interiorGap = interiorGap;
+		getEventSupport().firePropertyChange(PROPERTY_INTERIOR_GAP, old, this.interiorGap);
 	}
 
 
@@ -280,7 +300,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setAxisLineColor(Color axisLineColor)
 	{
+		Object old = this.axisLineColor;
 		this.axisLineColor = axisLineColor;
+		getEventSupport().firePropertyChange(PROPERTY_AXIS_LINE_COLOR, old, this.axisLineColor);
 	}
 
 	
@@ -289,7 +311,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setAxisLineWidth(Float axisLineWidth)
 	{
+		Object old = this.axisLineWidth;
 		this.axisLineWidth = axisLineWidth;
+		getEventSupport().firePropertyChange(PROPERTY_AXIS_LINE_WIDTH, old, this.axisLineWidth);
 	}
 
 	/**
@@ -297,7 +321,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setLabelGap(Double labelGap)
 	{
+		Object old = this.labelGap;
 		this.labelGap = labelGap;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_GAP, old, this.labelGap);
 	}
 
 
@@ -306,7 +332,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 */
 	public void setLabelColor(Color labelColor)
 	{
+		Object old = this.labelColor;
 		this.labelColor = labelColor;
+		getEventSupport().firePropertyChange(PROPERTY_LABEL_COLOR, old, this.labelColor);
 	}
 	
 	/**
@@ -320,21 +348,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 * @param backcolor the backcolor to set
 	 */
 	public void setBackcolor(Color backcolor) {
+		Object old = this.backcolor;
 		this.backcolor = backcolor;
-	}
-
-	/**
-	 * @return the orientation
-	 */
-	public PlotOrientation getOrientation() {
-		return orientation;
-	}
-
-	/**
-	 * @param orientation the orientation to set
-	 */
-	public void setOrientation(PlotOrientation orientation) {
-		this.orientation = orientation;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**
@@ -348,7 +364,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 * @param backgroundAlpha the backgroundAlpha to set
 	 */
 	public void setBackgroundAlpha(Float backgroundAlpha) {
+		Object old = this.backgroundAlpha;
 		this.backgroundAlpha = backgroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_BACKGROUND_ALPHA, old, this.backgroundAlpha);
 	}
 
 	/**
@@ -362,7 +380,9 @@ public class StandardSpiderPlot implements SpiderPlot
 	 * @param foregroundAlpha the foregroundAlpha to set
 	 */
 	public void setForegroundAlpha(Float foregroundAlpha) {
+		Object old = this.foregroundAlpha;
 		this.foregroundAlpha = foregroundAlpha;
+		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
@@ -370,6 +390,19 @@ public class StandardSpiderPlot implements SpiderPlot
 		SpiderChartCompiler.collectExpressions(this, collector);
 	}
 
+	private transient JRPropertyChangeSupport eventSupport;
 	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
+	}
 	
 }
