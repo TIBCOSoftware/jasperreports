@@ -37,7 +37,7 @@ public class SpiderDatasetXmlFactory extends JRBaseFactory
 
 	public Object createObject(Attributes attrs) throws Exception
 	{
-		DesignSpiderDataset dataset = new DesignSpiderDataset();
+		StandardSpiderDataset dataset = new StandardSpiderDataset();
 		return dataset;
 	}
 
