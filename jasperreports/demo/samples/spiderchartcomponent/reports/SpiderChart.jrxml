@@ -9,26 +9,20 @@
 	
 	<import value="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
 	
-	<subDataset name="categoryDataset">
-		<field name="value" class="java.lang.Double">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="series" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<field name="category" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
-		<group name="category">
-			<groupExpression><![CDATA[$F{category}]]></groupExpression>
-		</group>
-	</subDataset>
+	<field name="value" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="series" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="category" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="category">
+		<groupExpression><![CDATA[$F{category}]]></groupExpression>
+	</group>
 	
-	<parameter name="spiderDatasource" class="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
-	
-	<group name="spiderChart">
-		<groupExpression><![CDATA[null]]></groupExpression>
-		<groupHeader>
+	<summary>
 		<band height="550">
 			<line>
 				<reportElement x="0" y="0" width="515" height="1"/>
@@ -77,11 +71,7 @@
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
 					</sc:chartSettings>
 					<sc:spiderDataset>
-						<dataset incrementType="Group" incrementGroup="category">
-							<datasetRun subDataset="categoryDataset">
-								<dataSourceExpression><![CDATA[$P{spiderDatasource}]]></dataSourceExpression>
-							</datasetRun>
-						</dataset>
+						<dataset incrementType="Group" incrementGroup="category"/>
 						<categorySeries>
 							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
 							<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
@@ -100,7 +90,6 @@
 				</sc:spiderChart>
 			</componentElement>
 		</band>
-		</groupHeader>
-	</group>
+	</summary>
 
 </jasperReport>
