@@ -23,33 +23,41 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRExpressionCollector;
-import net.sf.jasperreports.engine.base.JRBaseElementDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardSpiderDataset extends JRBaseElementDataset implements SpiderDataset
+public class StandardSpiderDataset extends JRDesignElementDataset implements SpiderDataset
 {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JRCategorySeries[] categorySeries;
+//	private JRCategorySeries[] categorySeries;
+	private List categorySeriesList = new ArrayList();
 	
+	public StandardSpiderDataset()
+	{
+		super();
+	}
+
 	public StandardSpiderDataset(SpiderDataset dataset, JRBaseObjectFactory factory)
 	{
 		super(dataset, factory);
 		JRCategorySeries[] srcCategorySeries = dataset.getSeries();
 		if (srcCategorySeries != null && srcCategorySeries.length > 0)
 		{
-			categorySeries = new JRCategorySeries[srcCategorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
+			for(int i = 0; i < srcCategorySeries.length; i++)
 			{
-				categorySeries[i] = factory.getCategorySeries(srcCategorySeries[i]);
+				addCategorySeries(factory.getCategorySeries(srcCategorySeries[i]));
 			}
 		}
 	}
@@ -61,6 +69,43 @@ public class StandardSpiderDataset extends JRBaseElementDataset implements Spide
 
 	public JRCategorySeries[] getSeries()
 	{
+		JRCategorySeries[] categorySeriesArray = new JRCategorySeries[categorySeriesList.size()];
+		categorySeriesList.toArray(categorySeriesArray);
+		return categorySeriesArray;
+	}
+
+	/**
+	 * 
+	 */
+	public List getSeriesList()
+	{
+		return categorySeriesList;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void addCategorySeries(JRCategorySeries categorySeries)
+	{
+		categorySeriesList.add(categorySeries);
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRCategorySeries removeCategorySeries(JRCategorySeries categorySeries)
+	{
+		if (categorySeries != null)
+		{
+			int idx = categorySeriesList.indexOf(categorySeries);
+			if (idx >= 0)
+			{
+				categorySeriesList.remove(idx);
+			}
+		}
+		
 		return categorySeries;
 	}
 
