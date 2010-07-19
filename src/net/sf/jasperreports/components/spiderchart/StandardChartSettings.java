@@ -81,7 +81,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	
 	public static final String PROPERTY_BOOKMARK_LEVEL = "bookmarkLevel";
 	
-	public static final String PROPERTY_THEME = "theme";
+	public static final String PROPERTY_BACKCOLOR = "backcolor";
 	
 	public static final String PROPERTY_ANCHOR_NAME_EXPRESSION = "anchorNameExpression";
 	
@@ -90,10 +90,6 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	
 	public static final String PROPERTY_CHART_TYPE = "chartType";
-	
-	public static final String PROPERTY_CUSTOMIZER_CLASS = "customizerClass";
-	
-	public static final String PROPERTY_DATASET = "dataset";
 	
 	public static final String PROPERTY_LEGEND_FONT = "legendFont";
 	
@@ -130,36 +126,37 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	/**
 	 *
 	 */
-	protected Boolean showLegend = null;
+	protected Boolean showLegend;
 	protected String linkType;
 	protected String linkTarget;
 	protected List<JRHyperlinkParameter> hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
+	protected Color backcolor;
 	
-	protected Color titleColor = null;
-	protected Color subtitleColor = null;
-	protected Color legendColor = null;
-	protected Color legendBackgroundColor = null;
-	protected EdgeEnum legendPosition = null;
-	protected EdgeEnum titlePosition = null;
+	protected Color titleColor;
+	protected Color subtitleColor;
+	protected Color legendColor;
+	protected Color legendBackgroundColor;
+	protected EdgeEnum legendPosition;
+	protected EdgeEnum titlePosition;
 
 	protected String renderType;
 
 	/**
 	 *
 	 */
-	protected JRFont titleFont = null;
-	protected JRFont subtitleFont = null;
-	protected JRFont legendFont = null;
+	protected JRFont titleFont;
+	protected JRFont subtitleFont;
+	protected JRFont legendFont;
 
 	/**
 	 *
 	 */
-	protected JRExpression titleExpression = null;
-	protected JRExpression subtitleExpression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
+	protected JRExpression titleExpression;
+	protected JRExpression subtitleExpression;
+	protected JRExpression anchorNameExpression;
+	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkAnchorExpression;
+	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
 
 	/**
@@ -180,6 +177,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	public StandardChartSettings(ChartSettings chart, JRBaseObjectFactory factory)
 	{
 		showLegend = chart.getShowLegend();
+		backcolor = chart.getBackcolor();
 		linkType = chart.getLinkType();
 		linkTarget = chart.getLinkTarget();
 		titlePosition = chart.getTitlePosition();
@@ -228,6 +226,24 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		Object old = this.showLegend;
 		this.showLegend = isShowLegend;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LEGEND, old, this.showLegend);
+	}
+
+	/**
+	 *
+	 */
+	public Color getBackcolor()
+	{
+		return backcolor;
+	}
+
+	/**
+	 *
+	 */
+	public void setBackcolor(Color backcolor)
+	{
+		Object old = this.backcolor;
+		this.backcolor = backcolor;
+		getEventSupport().firePropertyChange(PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
 	/**

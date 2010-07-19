@@ -220,6 +220,11 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
         	
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
+		if(chartSettings.getBackcolor() != null)
+		{
+			jfreechart.setBackgroundPaint(chartSettings.getBackcolor());
+		}
+		
 		RectangleEdge titleEdge = getEdge(getChartSettings().getTitlePosition(), RectangleEdge.TOP);
 		
 		if (titleText != null)
@@ -260,6 +265,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 		// Apply all of the legend formatting options
 		LegendTitle legend = jfreechart.getLegend();
+
 		if (Boolean.TRUE.equals(getChartSettings().getShowLegend()) && legend != null)
 		{
 			if(getChartSettings().getLegendColor() != null)
@@ -277,7 +283,10 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 			}
 			legend.setPosition(getEdge(getChartSettings().getLegendPosition(), RectangleEdge.BOTTOM));
 		}
-		
+		else
+		{
+			legend.setVisible(false);
+		}
 		return jfreechart;
 	
 	}

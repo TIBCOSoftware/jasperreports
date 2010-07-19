@@ -56,7 +56,7 @@
 			<componentElement>
 				<reportElement x="50" y="90" width="400" height="400" mode="Opaque"/>
 				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" evaluationTime="Now">
-					<c:chartSettings isShowLegend="true">
+					<c:chartSettings isShowLegend="true" backcolor="green">
 						<chartTitle position="Top">
 							<font isItalic="true" size="12"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
