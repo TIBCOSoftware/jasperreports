@@ -71,15 +71,18 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 	/**
 	 *
 	 */
+	private static final Double MAX_VALUE = Double.valueOf(10);
+	
+	/**
+	 *
+	 */
 	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
 	{
-
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
 		if (chartComponent == null)
 		{
 			return null;
 		}
-		
 		JRBasePrintImage printImage = new JRBasePrintImage(reportConverter.getDefaultStyleProvider());
 		ChartSettings chartSettings = chartComponent.getChartSettings();
 
@@ -107,13 +110,6 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 		ChartSettings chartSettings = chartComponent.getChartSettings();
 		SpiderPlot plot = chartComponent.getPlot();
 		
-		String renderType = chartSettings.getRenderType();
-		if(renderType == null)
-		{
-			renderType = JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE);
-		}
-		
-		JFreeChart jfreeChart = null;
 		SpiderWebPlot spiderWebPlot = new SpiderWebPlot(getDataset());
 
         if(plot.getAxisLineColor() != null)
@@ -157,11 +153,8 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
         	spiderWebPlot.setAxisLabelGap(plot.getLabelGap());
         }
         
-        Double maxValue = Double.valueOf(JRExpressionUtil.getExpressionText(plot.getMaxValueExpression()));
-        if(maxValue != null)
-        {
-        	spiderWebPlot.setMaxValue(maxValue);
-        }
+        spiderWebPlot.setMaxValue(MAX_VALUE);
+        
         if(plot.getRotation() != null)
         {
         	spiderWebPlot.setDirection(plot.getRotation().getRotation());
@@ -251,9 +244,15 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 			
 		Rectangle2D rectangle = new Rectangle2D.Double(0, 0, element.getWidth(), element.getHeight());
 
+		String renderType = chartSettings.getRenderType();
+		if(renderType == null)
+		{
+			renderType = JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE);
+		}
+
 		return 
 			ChartUtil.getChartRendererFactory(renderType).getRenderer(
-				jfreeChart, 
+				jfreechart, 
 				null,
 				rectangle
 				);
