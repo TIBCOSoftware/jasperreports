@@ -703,6 +703,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		if (style != null) 
 		{
 			attrs = new HashMap();
+			//FIXME font name for extensions
 			attrs.put(JRTextAttribute.PDF_FONT_NAME, style.getPdfFontName());
 			attrs.put(JRTextAttribute.PDF_ENCODING, style.getPdfEncoding());
 			attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, style.isPdfEmbedded());
@@ -1785,6 +1786,16 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		Color forecolor = (Color)attributes.get(TextAttribute.FOREGROUND);
 
+		// use the same font scale ratio as in JRStyledText.getAwtAttributedString
+		float fontSizeScale = 1f;
+		Integer scriptStyle = (Integer) attributes.get(TextAttribute.SUPERSCRIPT);
+		if (scriptStyle != null && (
+				TextAttribute.SUPERSCRIPT_SUB.equals(scriptStyle)
+				|| TextAttribute.SUPERSCRIPT_SUPER.equals(scriptStyle)))
+		{
+			fontSizeScale = 2f / 3;
+		}
+		
 		Font font = null;
 		PdfFont pdfFont = null;
 		FontKey key = new FontKey(jrFont.getFontName(), jrFont.isBold(), jrFont.isItalic());
@@ -1910,7 +1921,7 @@ public class JRPdfExporter extends JRAbstractExporter
 				pdfFont.getPdfFontName(),
 				pdfFont.getPdfEncoding(),
 				pdfFont.isPdfEmbedded(),
-				jrFont.getFontSize(),
+				jrFont.getFontSize() * fontSizeScale,
 				pdfFontStyle,
 				forecolor
 				);
@@ -1972,7 +1983,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			font =
 				new Font(
 					baseFont,
-					jrFont.getFontSize(),
+					jrFont.getFontSize() * fontSizeScale,
 					pdfFontStyle,
 					forecolor
 					);
