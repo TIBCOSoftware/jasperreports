@@ -53,6 +53,12 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 			chartSettings.setShowLegend(Boolean.valueOf(isShowLegend));
 		}
 
+		Color backcolor = JRColorUtil.getColor(atts.getValue(JRXmlConstants.ATTRIBUTE_backcolor), null);
+		if (backcolor != null)
+		{
+			chartSettings.setBackcolor(backcolor);
+		}
+		
 		chartSettings.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
 		chartSettings.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));
 

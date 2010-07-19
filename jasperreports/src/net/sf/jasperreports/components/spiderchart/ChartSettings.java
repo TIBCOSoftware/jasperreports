@@ -48,6 +48,11 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	/**
 	 *
 	 */
+	public Color getBackcolor();
+
+	/**
+	 *
+	 */
 	public JRFont getTitleFont();
 
 	/**

@@ -294,6 +294,14 @@ public class FillChartSettings implements ChartSettings
 	}
 	
 	/**
+	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendColor()
+	 */
+	public Color getBackcolor() {
+		
+		return parent.getBackcolor();
+	}
+
+	/**
 	 *
 	 */
 	public void collectExpressions(JRExpressionCollector collector)

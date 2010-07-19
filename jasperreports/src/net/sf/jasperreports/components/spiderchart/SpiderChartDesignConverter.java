@@ -183,7 +183,12 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
         	
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
-		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
+		if(chartSettings.getBackcolor() != null)
+		{
+			jfreechart.setBackgroundPaint(chartSettings.getBackcolor());
+		}
+		
+        RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
 		
 		if (titleText != null)
 		{

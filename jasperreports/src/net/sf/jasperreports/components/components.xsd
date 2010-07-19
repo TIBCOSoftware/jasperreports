@@ -529,6 +529,11 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="backcolor" type="string" use="optional">
+	<annotation>
+ 	 <documentation>Background color of the chart</documentation>
+	</annotation>
+   </attribute>
    <attribute name="hyperlinkType" type="string" use="optional"/>
    <attribute name="hyperlinkTarget" type="string" use="optional"/>
    <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>

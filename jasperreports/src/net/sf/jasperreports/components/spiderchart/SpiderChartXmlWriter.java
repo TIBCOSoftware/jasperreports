@@ -108,6 +108,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	{
 		writer.startElement(ELEMENT_chartSettings, namespace);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isShowLegend, chartSettings.getShowLegend());
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_backcolor, chartSettings.getBackcolor());
 
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chartSettings.getLinkType(), HyperlinkTypeEnum.NONE.getName());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chartSettings.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
