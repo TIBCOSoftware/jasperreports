@@ -4,7 +4,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns="http://jasperreports.sourceforge.net/jasperreports"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd
-				http://jasperreports.sourceforge.net/jasperreports/spiderchart http://jasperreports.sourceforge.net/dtds/spiderchart.xsd"
+				http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/jasperreports/components.xsd"
 		name="SpiderChart">
 	
 	<import value="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
@@ -55,8 +55,8 @@
 			</line>
 			<componentElement>
 				<reportElement x="50" y="90" width="400" height="400" mode="Opaque"/>
-				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/spiderchart" evaluationTime="Now">
-					<sc:chartSettings isShowLegend="true">
+				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" evaluationTime="Now">
+					<c:chartSettings isShowLegend="true">
 						<chartTitle position="Top">
 							<font isItalic="true" size="12"/>
 							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
@@ -69,8 +69,8 @@
 							<font size="6"/>
 						</chartLegend>
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
-					</sc:chartSettings>
-					<sc:spiderDataset>
+					</c:chartSettings>
+					<c:spiderDataset>
 						<dataset incrementType="Group" incrementGroup="category"/>
 						<categorySeries>
 							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
@@ -80,14 +80,14 @@
 								<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]]></hyperlinkReferenceExpression>
 							</itemHyperlink>
 						</categorySeries>
-					</sc:spiderDataset>
-					<sc:spiderPlot rotation="Anticlockwise" startAngle="39" interiorGap="0.2" labelGap="0.05" headPercent="0.01" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0" tableOrder="Row">
+					</c:spiderDataset>
+					<c:spiderPlot rotation="Anticlockwise" startAngle="39" interiorGap="0.2" labelGap="0.05" headPercent="0.01" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0" tableOrder="Row">
 						<labelFont>
 							<font isBold="true" isItalic="true" size="6"/>
 						</labelFont>
-						<sc:maxValueExpression><![CDATA[Double.valueOf(10)]]></sc:maxValueExpression>
-					</sc:spiderPlot>
-				</sc:spiderChart>
+						<c:maxValueExpression><![CDATA[Double.valueOf(10)]]></c:maxValueExpression>
+					</c:spiderPlot>
+				</c:spiderChart>
 			</componentElement>
 		</band>
 	</summary>

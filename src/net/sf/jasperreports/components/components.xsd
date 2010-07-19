@@ -491,5 +491,159 @@
 		<attribute name="height" use="required" type="unsignedInt"/>
 		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
 	</complexType>
+	
+	<element name="spiderChart" substitutionGroup="jr:component">
+	  <complexType>
+	    <complexContent>
+		  <extension base="jr:componentType">
+			<sequence>
+			  <element ref="c:chartSettings" />
+			  <element ref="c:spiderDataset" />
+			  <element ref="c:spiderPlot" />
+			</sequence>
+			<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+			<attribute name="evaluationGroup" type="string" use="optional"/>
+		  </extension>
+	    </complexContent>
+	  </complexType>
+	</element>
+
+ <element name="chartSettings">
+  <complexType>
+   <sequence>
+    <element ref="jr:chartTitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="isShowLegend" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="hyperlinkType" type="string" use="optional"/>
+   <attribute name="hyperlinkTarget" type="string" use="optional"/>
+   <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+   <attribute name="renderType" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+	<element name="spiderPlot">
+	  <annotation>
+		<documentation>Plot options for a <elem>spiderChart</elem>.</documentation>
+	  </annotation>
+	  <complexType>
+		<sequence>
+		  <element ref="jr:labelFont" minOccurs="0" maxOccurs="1" />
+		  <element name="maxValueExpression" minOccurs="0" maxOccurs="1">
+			<complexType mixed="true" />
+		  </element>
+		</sequence>
+		<attribute name="rotation" use="optional">
+		  <annotation>
+				<documentation>Specifies the mode the radar axis are drawn (clockwise or anticlockwise).</documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="Clockwise" />
+			  <enumeration value="Anticlockwise" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="tableOrder" use="optional">
+		  <annotation>
+			<documentation>Specifies whether the data series are stored in rows or in columns.</documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="Row" />
+			  <enumeration value="Column" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="isWebFilled" use="optional">
+		  <annotation>
+			<documentation>Specifies if the web polygons are filled or not </documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="true" />
+			  <enumeration value="false" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="startAngle" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the starting angle for the spider chart axis. </documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="headPercent" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the head radius percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="interiorGap" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the interior gap percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="axisLineColor" type="string" use="optional">
+		  <annotation>
+			<documentation>Specifies the color to use when drawing the line showing the axis.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="axisLineWidth" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the axis line width.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="labelGap" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the axis label gap percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="labelColor" type="string" use="optional">
+		  <annotation>
+			<documentation>Specifies the label foreground color.</documentation>
+		  </annotation>
+		</attribute>
+	   <attribute name="backcolor" type="string" use="optional">
+		<annotation>
+	 	 <documentation>Background color of the chart</documentation>
+		</annotation>
+	   </attribute>
+	   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional">
+		<annotation>
+	 	 <documentation>Alpha (transparency) parameter for the background.</documentation>
+		</annotation>
+	   </attribute>
+	   <attribute name="foregroundAlpha" type="NMTOKEN" use="optional">
+		<annotation>
+	 	 <documentation>Alpha (transparency) parameter for the foreground.</documentation>
+		</annotation>
+	   </attribute>
+	  </complexType>
+	</element>
+
+	 <element name="spiderDataset">
+	  <annotation>
+	   <documentation>Creates a dataset with one or more series and values associated with categories</documentation>
+	  </annotation>
+	  <complexType>
+	   <sequence>
+	    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+	    <element ref="jr:categorySeries" minOccurs="0" maxOccurs="unbounded"/>
+	   </sequence>
+	  </complexType>
+	 </element>
+	
 
 </schema>

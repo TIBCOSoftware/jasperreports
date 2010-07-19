@@ -37,6 +37,9 @@ import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
 import net.sf.jasperreports.components.list.ListDesignConverter;
+import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
+import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
+import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -76,6 +79,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		new String[]{"Codabar", "Code128", "EAN128", "DataMatrix", "Code39", "Interleaved2Of5",
 		"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
 		"POSTNET", "PDF417"};
+	protected static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -123,6 +127,13 @@ public class ComponentsExtensionsRegistryFactory implements
 		{
 			componentManagers.put(BARCODE4J_COMPONENT_NAMES[i], barcode4jManager);
 		}
+		
+		DefaultComponentManager spiderChartManager = new DefaultComponentManager();
+		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());
+		spiderChartManager.setComponentCompiler(new SpiderChartCompiler());
+		spiderChartManager.setComponentXmlWriter(xmlHandler);
+		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
+		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

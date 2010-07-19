@@ -26,6 +26,8 @@ package net.sf.jasperreports.components;
 import java.io.IOException;
 import java.util.List;
 
+import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
+import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barbecue.StandardBarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
@@ -48,6 +50,15 @@ import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.spiderchart.ChartSettings;
+import net.sf.jasperreports.components.spiderchart.ChartSettingsXmlFactory;
+import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
+import net.sf.jasperreports.components.spiderchart.SpiderChartXmlFactory;
+import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
+import net.sf.jasperreports.components.spiderchart.SpiderDataset;
+import net.sf.jasperreports.components.spiderchart.SpiderDatasetXmlFactory;
+import net.sf.jasperreports.components.spiderchart.SpiderPlot;
+import net.sf.jasperreports.components.spiderchart.SpiderPlotXmlFactory;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -62,16 +73,20 @@ import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.TableReportContextXmlRule;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
+import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
+import net.sf.jasperreports.engine.xml.JRFontFactory;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
@@ -95,6 +110,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addBarbecueRules(digester);
 		addBarcode4jRules(digester);
 		addTableRules(digester);
+		addSpiderChartRules(digester);
 	}
 
 	protected void addListRules(Digester digester)
@@ -314,6 +330,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					reportWriter, barcode, componentKey);
 			barcodeWriter.writeBarcode();
 		}
+		else if (component instanceof SpiderChartComponent)
+		{
+			SpiderChartComponent spiderChart = (SpiderChartComponent) component;
+			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter();
+			spiderChartWriter.writeToXml(componentKey, spiderChart, reportWriter);
+		}
 	}
 
 	protected void writeList(ListComponent list, ComponentKey componentKey,
@@ -489,4 +511,86 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			writer.closeElement();//cell
 		}
 	}
+	
+	protected void addSpiderChartRules(Digester digester)
+	{
+		String componentNamespace = digester.getRuleNamespaceURI();
+		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
+		
+		String spiderChartPattern = "*/componentElement/spiderChart";
+		digester.addFactoryCreate(spiderChartPattern, SpiderChartXmlFactory.class.getName());
+		
+		String chartSettingsPattern = spiderChartPattern + "/chartSettings";
+		digester.addFactoryCreate(chartSettingsPattern, ChartSettingsXmlFactory.class.getName());
+		digester.addSetNext(chartSettingsPattern, "setChartSettings", ChartSettings.class.getName());
+
+		digester.setRuleNamespaceURI(jrNamespace);
+		String chartTitlePattern = chartSettingsPattern + "/chartTitle";
+		digester.addFactoryCreate(chartTitlePattern, ChartSettingsXmlFactory.ChartTitleFactory.class.getName());
+		digester.addFactoryCreate(chartTitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext(chartTitlePattern + "/font", "setTitleFont", JRFont.class.getName());
+		digester.addFactoryCreate(chartTitlePattern + "/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext(chartTitlePattern + "/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(chartTitlePattern + "/titleExpression", "setText", 0);
+		
+		String chartSubtitlePattern = chartSettingsPattern + "/chartSubtitle";
+		digester.addFactoryCreate(chartSubtitlePattern, ChartSettingsXmlFactory.ChartSubtitleFactory.class.getName());
+		digester.addFactoryCreate(chartSubtitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext(chartSubtitlePattern + "/font", "setSubtitleFont", JRFont.class.getName());
+		digester.addFactoryCreate(chartSubtitlePattern + "/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext(chartSubtitlePattern + "/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(chartSubtitlePattern + "/subtitleExpression", "setText", 0);
+		
+		digester.addFactoryCreate(chartSettingsPattern + "/chartLegend", ChartSettingsXmlFactory.ChartLegendFactory.class.getName());
+		digester.addFactoryCreate(chartSettingsPattern + "/chartLegend/font", JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext(chartSettingsPattern + "/chartLegend/font", "setLegendFont", JRFont.class.getName());
+
+		digester.setRuleNamespaceURI(componentNamespace);
+		String spiderDatasetPattern = spiderChartPattern + "/spiderDataset";
+		digester.addFactoryCreate(spiderDatasetPattern, SpiderDatasetXmlFactory.class.getName());
+		digester.addSetNext(spiderDatasetPattern, "setDataset", SpiderDataset.class.getName());
+		
+		digester.setRuleNamespaceURI(jrNamespace);
+		String datasetPattern = spiderDatasetPattern + "/dataset";
+		digester.addFactoryCreate(datasetPattern, JRElementDatasetFactory.class.getName());
+
+		String datasetIncrementWhenExpressionPath = datasetPattern + JRXmlConstants.ELEMENT_incrementWhenExpression;
+		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
+		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
+
+		String seriesPattern = spiderDatasetPattern + "/categorySeries";
+		digester.addFactoryCreate(seriesPattern, JRCategorySeriesFactory.class.getName());
+		digester.addSetNext(seriesPattern, "addCategorySeries", JRDesignCategorySeries.class.getName());
+
+		digester.addFactoryCreate(seriesPattern + "/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addSetNext(seriesPattern + "/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(seriesPattern + "/seriesExpression", "setText", 0);
+		digester.addFactoryCreate(seriesPattern + "/categoryExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addSetNext(seriesPattern + "/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(seriesPattern + "/categoryExpression", "setText", 0);
+		digester.addFactoryCreate(seriesPattern + "/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addSetNext(seriesPattern + "/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(seriesPattern + "/labelExpression", "setText", 0);
+		digester.addFactoryCreate(seriesPattern + "/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addSetNext(seriesPattern + "/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
+		digester.addCallMethod(seriesPattern + "/valueExpression", "setText", 0);
+		
+		digester.setRuleNamespaceURI(componentNamespace);
+		String plotPattern = spiderChartPattern + "/spiderPlot";
+		digester.addFactoryCreate(plotPattern, SpiderPlotXmlFactory.class.getName());
+		digester.addSetNext(plotPattern, "setPlot", SpiderPlot.class.getName());
+
+		digester.setRuleNamespaceURI(jrNamespace);
+		String labelFontPattern = plotPattern + "/labelFont/font";
+		digester.addFactoryCreate(labelFontPattern, JRFontFactory.ChartFontFactory.class.getName());
+		digester.addSetNext(labelFontPattern, "setLabelFont", JRFont.class.getName());
+
+		digester.setRuleNamespaceURI(componentNamespace);
+		String maxValueExpressionPattern = plotPattern + "/maxValueExpression";
+		digester.addFactoryCreate(maxValueExpressionPattern, JRExpressionFactory.DoubleExpressionFactory.class);
+		digester.addSetNext(maxValueExpressionPattern, "setMaxValueExpression", JRDesignExpression.class.getName() );
+		digester.addCallMethod(maxValueExpressionPattern, "setText", 0 );
+	}
+	
 }
