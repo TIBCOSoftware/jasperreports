@@ -43,6 +43,9 @@
 		<property name="componentFillFactory">
 			<bean class="net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory"/>
 		</property>
+		<property name="componentDesignConverter">
+			<bean class="net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter"/>
+		</property>
 	</bean>
 
 </beans>
