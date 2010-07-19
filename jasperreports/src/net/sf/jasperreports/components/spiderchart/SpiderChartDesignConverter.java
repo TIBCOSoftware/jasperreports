@@ -231,6 +231,7 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 		LegendTitle legend = jfreechart.getLegend();
 		if (Boolean.TRUE.equals(chartSettings.getShowLegend()) && legend != null)
 		{
+			legend.setVisible(true);
 			if(chartSettings.getLegendColor() != null)
 			{
 				legend.setItemPaint(chartSettings.getLegendColor());
