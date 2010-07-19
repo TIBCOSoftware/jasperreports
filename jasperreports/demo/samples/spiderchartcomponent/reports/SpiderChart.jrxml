@@ -18,8 +18,8 @@
 	<field name="category" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<group name="series">
-		<groupExpression><![CDATA[$F{series}]]></groupExpression>
+	<group name="category">
+		<groupExpression><![CDATA[$F{category}]]></groupExpression>
 	</group>
 	
 	<summary>
@@ -71,7 +71,7 @@
 						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
 					</sc:chartSettings>
 					<sc:spiderDataset>
-						<dataset incrementType="Group" incrementGroup="series"/>
+						<dataset incrementType="Group" incrementGroup="category"/>
 						<categorySeries>
 							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
 							<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
