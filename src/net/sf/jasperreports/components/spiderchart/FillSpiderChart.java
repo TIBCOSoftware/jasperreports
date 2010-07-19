@@ -268,6 +268,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 		if (Boolean.TRUE.equals(getChartSettings().getShowLegend()) && legend != null)
 		{
+			legend.setVisible(true);
 			if(getChartSettings().getLegendColor() != null)
 			{
 				legend.setItemPaint(getChartSettings().getLegendColor());
