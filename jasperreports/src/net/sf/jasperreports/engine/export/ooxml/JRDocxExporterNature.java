@@ -31,6 +31,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -56,6 +57,15 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 	 */
 	public boolean isDeep(JRPrintFrame frame)
 	{
+		if (
+			frame.hasProperties()
+			&& frame.getPropertiesMap().containsProperty(JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return !JRProperties.getBooleanProperty(frame, JRDocxExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES, !deepGrid);
+		}
 		return deepGrid;
 	}
 

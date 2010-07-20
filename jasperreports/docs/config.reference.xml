@@ -1508,7 +1508,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
     </description>
     <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>3.5.3</since>
   </configProperty>
   
@@ -1536,7 +1536,7 @@ If set to <code>false</code>, the frame content will be integrated into the mast
     </description>
     <api>net/sf/jasperreports/engine/export/JRHtmlExporterParameter.html#PROPERTY_FRAMES_AS_NESTED_TABLES</api>
     <default>true</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>2.0.1</since>
   </configProperty>
   
