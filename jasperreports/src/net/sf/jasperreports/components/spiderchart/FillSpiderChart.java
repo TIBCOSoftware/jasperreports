@@ -266,27 +266,26 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		// Apply all of the legend formatting options
 		LegendTitle legend = jfreechart.getLegend();
 
-		if (Boolean.TRUE.equals(getChartSettings().getShowLegend()) && legend != null)
+		if (legend != null)
 		{
-			legend.setVisible(true);
-			if(getChartSettings().getLegendColor() != null)
+			legend.setVisible((chartSettings.getShowLegend() == null || chartSettings.getShowLegend()));
+			if (legend.isVisible())
 			{
-				legend.setItemPaint(getChartSettings().getLegendColor());
+				if(getChartSettings().getLegendColor() != null)
+				{
+					legend.setItemPaint(getChartSettings().getLegendColor());
+				}
+				if (getChartSettings().getLegendBackgroundColor() != null)
+				{
+					legend.setBackgroundPaint(getChartSettings().getLegendBackgroundColor());
+				}
+	
+				if(getChartSettings().getLegendFont() != null)
+				{
+					legend.setItemFont(JRFontUtil.getAwtFont(getChartSettings().getLegendFont(), Locale.getDefault()));
+				}
+				legend.setPosition(getEdge(getChartSettings().getLegendPosition(), RectangleEdge.BOTTOM));
 			}
-			if (getChartSettings().getLegendBackgroundColor() != null)
-			{
-				legend.setBackgroundPaint(getChartSettings().getLegendBackgroundColor());
-			}
-
-			if(getChartSettings().getLegendFont() != null)
-			{
-				legend.setItemFont(JRFontUtil.getAwtFont(getChartSettings().getLegendFont(), Locale.getDefault()));
-			}
-			legend.setPosition(getEdge(getChartSettings().getLegendPosition(), RectangleEdge.BOTTOM));
-		}
-		else
-		{
-			legend.setVisible(false);
 		}
 		return jfreechart;
 	
