@@ -81,7 +81,7 @@ public class SpiderChartComponent implements Component, JRChangeEventsSupport, S
 	}
 
 	/**
-	 * @param chart the chart to set
+	 * @param chartSettings the chart to set
 	 */
 	public void setChartSettings(ChartSettings chartSettings) {
 		Object old = this.chartSettings;
