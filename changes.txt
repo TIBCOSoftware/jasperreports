@@ -2,13 +2,15 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.4 (2010-07-20, SVN 3910)
+JasperReports 3.7.4 (2010-07-20, SVN 3911)
 ---------------------------------------------
 
 - new spider/radar chart added as custom component;
 
 - the scope of the "frames as nested tables" configuration properties was extended 
 to frame element level;
+
+- new entries added to Sample Reference documentation; 
 
 - minor bug fixes and improvements;
 
