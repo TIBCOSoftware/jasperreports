@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>styledtext</name>
+  <title>Styled Text Sample</title>
+  <description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+
+  <mainFeature ref="styledtext"/>
+  <secondaryFeature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
+  
+  <!-- styledtext -->
+  
+  <feature name="styledtext" title="Styled Text">
+    <description>
+How to format text using a styled text tags as markup language.
+    </description>
+    <since>2.0.5</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

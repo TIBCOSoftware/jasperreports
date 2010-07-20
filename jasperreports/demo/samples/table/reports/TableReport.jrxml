@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+	name="TableReport" pageWidth="595" pageHeight="842" columnWidth="555"
+	leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30"
+	isFloatColumnFooter="true" whenNoDataType="AllSectionsNoDetail">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"
+		fontSize="10" isBold="false" isItalic="false" isUnderline="false"
+		isStrikeThrough="false" />
+	<style name="Table">
+		<box>
+			<pen lineColor="red" lineWidth="1" />
+		</box>
+	</style>
+	<style name="TableHeader" mode="Opaque" backcolor="gray" />
+	<style name="TableFooter" mode="Opaque" backcolor="lightGray" />
+	<subDataset name="TableData">
+		<variable name="Column1">
+			<variableExpression>"multi\nline text"</variableExpression>
+		</variable>
+		<variable name="Column2">
+			<variableExpression>"text two"</variableExpression>
+		</variable>
+		<variable name="Column3">
+			<variableExpression>"text three"</variableExpression>
+		</variable>
+		<variable name="Column4">
+			<variableExpression>"text four"</variableExpression>
+		</variable>
+		<variable name="Column5">
+			<variableExpression>"12345"</variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="TableDataSource" class="net.sf.jasperreports.engine.JRDataSource" />
+	<title>
+		<band height="150">
+			<image scaleImage="Clip">
+				<reportElement x="0" y="5" width="165" height="40" />
+				<graphicElement />
+				<imageExpression class="java.lang.String"><![CDATA["jasperreports.png"]]></imageExpression>
+				<hyperlinkTooltipExpression>"The JasperReports Logo"
+				</hyperlinkTooltipExpression>
+			</image>
+			<staticText>
+				<reportElement x="180" y="5" width="375" height="40">
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="22" />
+				</textElement>
+				<text>Table Report</text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="50" width="555" height="100"
+					style="Table" />
+				<c:table
+					xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="TableData">
+						<dataSourceExpression>$P{TableDataSource}</dataSourceExpression>
+					</datasetRun>
+					<c:column width="100">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Header 1]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:columnFooter height="15" style="TableFooter">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Total 1]]></text>
+							</staticText>
+						</c:columnFooter>
+						<c:detailCell height="15">
+							<box leftPadding="10">
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textFieldExpression><![CDATA[$V{Column1}]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+					<c:column width="100">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+								<leftPen lineWidth="0.5" />
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Header 2]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:columnFooter height="15" style="TableFooter">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+								<leftPen lineWidth="0.5" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Total 2]]></text>
+							</staticText>
+						</c:columnFooter>
+						<c:detailCell height="15">
+							<box leftPadding="10">
+								<leftPen lineWidth="0.5" />
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textFieldExpression><![CDATA[$V{Column2}]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+					<c:column width="100">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+								<leftPen lineWidth="0.5" />
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Header 3]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:columnFooter height="15" style="TableFooter">
+							<box leftPadding="10">
+								<pen lineColor="black" />
+								<leftPen lineWidth="0.5" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textElement verticalAlignment="Middle">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Total 3]]></text>
+							</staticText>
+						</c:columnFooter>
+						<c:detailCell height="15">
+							<box leftPadding="10">
+								<leftPen lineWidth="0.5" />
+								<bottomPen lineWidth="0.5" />
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="90" height="15">
+								</reportElement>
+								<textFieldExpression><![CDATA[$V{Column3}]]></textFieldExpression>
+							</textField>
+						</c:detailCell>
+					</c:column>
+					<c:columnGroup width="255">
+						<c:columnHeader height="15" style="TableHeader">
+							<box>
+								<pen lineWidth="0.5" lineColor="black" />
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="255" height="15">
+								</reportElement>
+								<textElement textAlignment="Center">
+									<font size="12" isBold="true" />
+								</textElement>
+								<text><![CDATA[Header 4]]></text>
+							</staticText>
+						</c:columnHeader>
+						<c:column width="155">
+							<c:columnHeader height="15" style="TableHeader">
+								<box leftPadding="10">
+									<pen lineColor="black" />
+									<topPen lineWidth="0.5" />
+									<leftPen lineWidth="0.5" />
+									<bottomPen lineWidth="0.5" />
+								</box>
+								<staticText>
+									<reportElement x="0" y="0" width="145" height="15">
+									</reportElement>
+									<textElement>
+										<font isBold="true" />
+									</textElement>
+									<text><![CDATA[Header 4.1]]></text>
+								</staticText>
+							</c:columnHeader>
+							<c:columnFooter height="15" style="TableFooter">
+								<box leftPadding="10">
+									<pen lineColor="black" />
+									<leftPen lineWidth="0.5" />
+								</box>
+								<staticText>
+									<reportElement x="0" y="0" width="145" height="15">
+									</reportElement>
+									<textElement>
+										<font size="12" isBold="true" />
+									</textElement>
+									<text><![CDATA[Total 4.1]]></text>
+								</staticText>
+							</c:columnFooter>
+							<c:detailCell height="15">
+								<box leftPadding="10">
+									<leftPen lineWidth="0.5" />
+									<bottomPen lineWidth="0.5" />
+								</box>
+								<textField>
+									<reportElement x="0" y="0" width="145" height="15">
+									</reportElement>
+									<textFieldExpression><![CDATA[$V{Column4}]]></textFieldExpression>
+								</textField>
+							</c:detailCell>
+						</c:column>
+						<c:column width="100">
+							<c:columnHeader height="15" style="TableHeader">
+								<box rightPadding="10">
+									<pen lineColor="black" />
+									<topPen lineWidth="0.5" />
+									<leftPen lineWidth="0.5" />
+									<bottomPen lineWidth="0.5" />
+								</box>
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="15">
+									</reportElement>
+									<textElement textAlignment="Right">
+										<font isBold="true" />
+									</textElement>
+									<text><![CDATA[Header 4.2]]></text>
+								</staticText>
+							</c:columnHeader>
+							<c:columnFooter height="15" style="TableFooter">
+								<box rightPadding="10">
+									<pen lineColor="black" />
+									<leftPen lineWidth="0.5" />
+								</box>
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="15">
+									</reportElement>
+									<textElement textAlignment="Right">
+										<font size="12" isBold="true" />
+									</textElement>
+									<text><![CDATA[Total 4.2]]></text>
+								</staticText>
+							</c:columnFooter>
+							<c:detailCell height="15">
+								<box>
+									<leftPen lineWidth="0.5" />
+									<bottomPen lineWidth="0.5" />
+								</box>
+								<textField>
+									<reportElement x="0" y="0" width="100" height="15">
+									</reportElement>
+									<textElement textAlignment="Right" />
+									<textFieldExpression><![CDATA[$V{Column5}]]></textFieldExpression>
+								</textField>
+							</c:detailCell>
+						</c:column>
+					</c:columnGroup>
+				</c:table>
+			</componentElement>
+		</band>
+	</title>
+</jasperReport>

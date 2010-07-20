@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>antcompile</name>
+  <title>Ant Compile Sample</title>
+  <description>Shows how multiple JRXML files can be compiled in batch mode using the ANT build tool.</description>
+
+  <mainFeature ref="antcompile"/>
+  <secondaryFeature name="xmlwriter" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
+  
+  <!-- antcompile -->
+  
+  <feature name="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool">
+    <description>
+FIXME
+    </description>
+    <since>0.5.1</since>
+  	<otherSample ref="beanshell"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>
+FIXME
+    </content>
+  </feature>
+
+</sample>

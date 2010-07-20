@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-fonts</artifactId>
+	<version>3.7.4</version>
+	<packaging>jar</packaging>
+	<name>JasperReports Font Extension</name>
+	<url>http://jasperreports.sourceforge.net</url>
+	<description>JasperReports Library Font Extension</description>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://jasperreports.sourceforge.net/license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
+		<tag>jr-3-7-4</tag>
+		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
+	</scm>
+	<repositories>
+		<repository>
+			<id>jasperreports</id>
+			<url>http://jasperreports.sourceforge.net/maven2</url>
+		</repository>
+	</repositories>
+	<build>
+		<sourceDirectory>./</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>./</directory>
+				<includes>
+					<include>**/jasperreports_extension.properties</include>
+					<include>**/fonts.xml</include>
+					<include>**/*.ttf</include>
+					<include>**/LICENSE</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Built-By>Jaspersoft</Built-By>
+						</manifestEntries>
+						<manifestSections>
+							<manifestSection>
+								<name>net/sf/jasperreports/fonts/</name>
+								<manifestEntries>
+									<Specification-Title>JasperReports Library Font Extension</Specification-Title>
+									<Specification-Version>${pom.version}</Specification-Version>
+									<Specification-Vendor>Jaspersoft</Specification-Vendor>
+									<Implementation-Title>net.sf.jasperreports.fonts</Implementation-Title>
+									<Implementation-Version>${pom.version}</Implementation-Version>
+									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

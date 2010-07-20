@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.chartthemes.simple.ChartThemeSettings">
+		<map-to xml="chart-theme"/>
+		<field name="chartSettings" type="net.sf.jasperreports.chartthemes.simple.ChartSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="titleSettings" type="net.sf.jasperreports.chartthemes.simple.TitleSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="subtitleSettings" type="net.sf.jasperreports.chartthemes.simple.TitleSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="legendSettings" type="net.sf.jasperreports.chartthemes.simple.LegendSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="plotSettings" type="net.sf.jasperreports.chartthemes.simple.PlotSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="domainAxisSettings" type="net.sf.jasperreports.chartthemes.simple.AxisSettings">
+			<bind-xml node="element"/>
+		</field>
+		<field name="rangeAxisSettings" type="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
+			<bind-xml node="element"/>
+		</field>
+	</class>
+
+	<class name="net.sf.jasperreports.chartthemes.simple.ChartSettings">
+		<map-to xml="chart"/>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundImage" type="net.sf.jasperreports.chartthemes.simple.ImageProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundImageAlignment" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImageAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="borderVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="borderPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="borderStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="antiAlias" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="textAntiAlias" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.TitleSettings">
+		<map-to xml="title"/>
+		<field name="showTitle" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="positionValue" type="net.sf.jasperreports.charts.type.EdgeEnum" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.LegendSettings">
+		<map-to xml="legend"/>
+		<field name="showLegend" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="positionValue" type="net.sf.jasperreports.charts.type.EdgeEnum" handler="net.sf.jasperreports.chartthemes.simple.handlers.EdgeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="foregroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="font" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="horizontalAlignment" type="org.jfree.ui.HorizontalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.HorizontalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="verticalAlignment" type="org.jfree.ui.VerticalAlignment" handler="net.sf.jasperreports.chartthemes.simple.handlers.VerticalAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.PlotSettings">
+		<map-to xml="plot"/>
+		<field name="orientation" type="org.jfree.chart.plot.PlotOrientation" handler="net.sf.jasperreports.chartthemes.simple.handlers.PlotOrientationFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="foregroundAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImage" type="net.sf.jasperreports.chartthemes.simple.ImageProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="backgroundImageAlpha" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="backgroundImageAlignment" type="java.lang.String" handler="net.sf.jasperreports.chartthemes.simple.handlers.ImageAlignmentFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="labelRotation" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="padding" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="outlineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="outlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="outlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByClass" node="element"/>
+		</field>
+		<field name="seriesColorSequence" type="net.sf.jasperreports.chartthemes.simple.PaintProvider" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="seriesGradientPaintSequence" type="net.sf.jasperreports.chartthemes.simple.PaintProvider" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="seriesOutlinePaintSequence" type="net.sf.jasperreports.chartthemes.simple.PaintProvider" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="seriesStrokeSequence" type="java.awt.Stroke" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="seriesOutlineStrokeSequence" type="java.awt.Stroke" collection="arraylist">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="domainGridlineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="domainGridlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="domainGridlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="rangeGridlineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="rangeGridlinePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="rangeGridlineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickLabelFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="displayFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.AxisSettings" >
+		<map-to xml="axis"/>
+		<field name="visible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="location" type="org.jfree.chart.axis.AxisLocation" handler="net.sf.jasperreports.chartthemes.simple.handlers.AxisLocationHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="linePaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="lineStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="lineVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<!--
+		<field name="label" type="java.lang.String">
+			<bind-xml node="attribute"/>
+		</field>
+		-->
+		<field name="labelAngle" type="java.lang.Double">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="labelPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="labelFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="labelInsets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="labelVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickLabelPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickLabelFont" type="net.sf.jasperreports.engine.JRFont">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickLabelInsets" type="org.jfree.ui.RectangleInsets">
+			<bind-xml node="element"/>
+		</field>
+		<field name="tickLabelsVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksInsideLength" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksOutsideLength" type="java.lang.Float">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickMarksPaint" type="net.sf.jasperreports.chartthemes.simple.PaintProvider">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickMarksStroke" type="java.awt.Stroke">
+			<bind-xml auto-naming="deriveByField" node="element"/>
+		</field>
+		<field name="tickMarksVisible" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickCount" type="java.lang.Integer">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="tickInterval" type="java.lang.Number">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.engine.base.JRBaseFont">
+		<map-to xml="font"/>
+		<field name="fontName" type="java.lang.String" get-method="getOwnFontName" set-method="setFontName">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="fontSize" type="java.lang.Integer" get-method="getOwnFontSize" set-method="setFontSize">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="bold" type="java.lang.Boolean" get-method="isOwnBold" set-method="setBold">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="italic" type="java.lang.Boolean" get-method="isOwnItalic" set-method="setItalic">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="underline" type="java.lang.Boolean" get-method="isOwnUnderline" set-method="setUnderline">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="strikeThrough" type="java.lang.Boolean" get-method="isOwnStrikeThrough" set-method="setStrikeThrough">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfFontName" type="java.lang.String" get-method="getOwnPdfFontName" set-method="setPdfFontName">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfEncoding" type="java.lang.String" get-method="getOwnPdfEncoding" set-method="setPdfEncoding">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="pdfEmbedded" type="java.lang.Boolean" get-method="isOwnPdfEmbedded" set-method="setPdfEmbedded">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="org.jfree.ui.RectangleInsets" verify-constructable="false">
+		<map-to xml="insets"/>
+		<!--FIXMETHEME
+		<field name="unitType" type="org.jfree.util.UnitType" get-method="getUnitType" set-method="%1" handler="net.sf.jasperreports.chartthemes.simple.handlers.UnitTypeFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		-->
+		<field name="top" type="double" get-method="getTop" set-method="%1">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="left" type="double" get-method="getLeft" set-method="%2">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="bottom" type="double" get-method="getBottom" set-method="%3">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="right" type="double" get-method="getRight" set-method="%4">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="java.awt.BasicStroke" verify-constructable="false">
+		<map-to xml="stroke"/>
+		<field name="width" type="float" get-method="getLineWidth" set-method="%1">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.ColorProvider">
+		<map-to xml="color"/>
+		<field name="color" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+	<class name="net.sf.jasperreports.chartthemes.simple.GradientPaintProvider">
+		<map-to xml="gradient-paint"/>
+		<field name="color1" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+		<field name="color2" type="java.awt.Color" handler="net.sf.jasperreports.chartthemes.simple.handlers.ColorFieldHandler">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+
+	<class name="net.sf.jasperreports.chartthemes.simple.FileImageProvider">
+		<map-to xml="file"/>
+		<field name="file" type="java.lang.String">
+			<bind-xml node="attribute"/>
+		</field>
+	</class>
+	
+</mapping>
