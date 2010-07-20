@@ -196,23 +196,26 @@ public class SpiderChartDesignEvaluator
 
 		// Apply all of the legend formatting options
 		LegendTitle legend = jfreechart.getLegend();
-		if (Boolean.TRUE.equals(chartSettings.getShowLegend()) && legend != null)
+		if (legend != null)
 		{
-			legend.setVisible(true);
-			if(chartSettings.getLegendColor() != null)
+			legend.setVisible((chartSettings.getShowLegend() == null || chartSettings.getShowLegend()));
+			if (legend.isVisible())
 			{
-				legend.setItemPaint(chartSettings.getLegendColor());
-			}
-			if (chartSettings.getLegendBackgroundColor() != null)
-			{
-				legend.setBackgroundPaint(chartSettings.getLegendBackgroundColor());
-			}
+				if(chartSettings.getLegendColor() != null)
+				{
+					legend.setItemPaint(chartSettings.getLegendColor());
+				}
+				if (chartSettings.getLegendBackgroundColor() != null)
+				{
+					legend.setBackgroundPaint(chartSettings.getLegendBackgroundColor());
+				}
 
-			if(chartSettings.getLegendFont() != null)
-			{
-				legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
+				if(chartSettings.getLegendFont() != null)
+				{
+					legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
+				}
+				legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
 			}
-			legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
 		}
 			
 		Rectangle2D rectangle = new Rectangle2D.Double(0, 0, element.getWidth(), element.getHeight());
