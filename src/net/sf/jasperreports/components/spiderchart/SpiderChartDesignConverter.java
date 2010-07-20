@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.util.JRExpressionUtil;
 public class SpiderChartDesignConverter implements ComponentDesignConverter
 {
 
-	private static final SpiderChartDesignEvaluator designEvaluator = new SpiderChartDesignEvaluator();
 	/**
 	 *
 	 */
@@ -64,7 +63,7 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 		printImage.setBookmarkLevel(chartSettings.getBookmarkLevel());
 		printImage.setLinkType(chartSettings.getLinkType());
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
-		printImage.setRenderer(designEvaluator.evaluateRenderer(reportConverter, element));
+		printImage.setRenderer(SpiderChartDesignEvaluator.evaluateRenderer(reportConverter, element));
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
 		return printImage;

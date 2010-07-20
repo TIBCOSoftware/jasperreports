@@ -71,7 +71,7 @@ public class SpiderChartDesignEvaluator
 	/**
 	 * 
 	 */
-	public JRRenderable evaluateRenderer(ReportConverter reportConverter, JRComponentElement element)
+	public static JRRenderable evaluateRenderer(ReportConverter reportConverter, JRComponentElement element)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
 		ChartSettings chartSettings = chartComponent.getChartSettings();
@@ -231,7 +231,7 @@ public class SpiderChartDesignEvaluator
 				);
 	}
 	
-	public CategoryDataset getSampleDataset()
+	public static CategoryDataset getSampleDataset()
 	{
 		if (sampleDataset == null)
 		{
