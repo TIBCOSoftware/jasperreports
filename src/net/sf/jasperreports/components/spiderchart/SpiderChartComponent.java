@@ -51,7 +51,7 @@ public class SpiderChartComponent implements Component, JRChangeEventsSupport, S
 	
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	
-	private EvaluationTimeEnum evaluationTime;
+	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	
 	private ChartSettings chartSettings;
