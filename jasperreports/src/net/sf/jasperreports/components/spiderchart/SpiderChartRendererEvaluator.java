@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.util.Locale;
@@ -165,9 +166,10 @@ public class SpiderChartRendererEvaluator
         String titleText = spiderchartBean.getTitleText();
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
-		if(chartSettings.getBackcolor() != null)
+		Color backcolor = chartSettings.getBackcolor() != null ? chartSettings.getBackcolor() : element.getBackcolor();
+        if(backcolor != null)
 		{
-			jfreechart.setBackgroundPaint(chartSettings.getBackcolor());
+			jfreechart.setBackgroundPaint(backcolor);
 		}
 		
 		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
