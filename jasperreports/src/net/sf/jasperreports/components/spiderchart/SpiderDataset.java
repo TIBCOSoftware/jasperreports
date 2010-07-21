@@ -23,15 +23,17 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import java.io.Serializable;
+
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderDataset.java 3874 2010-07-13 14:58:41Z shertage $
+ * @version $Id$
  */
-public interface SpiderDataset extends JRElementDataset
+public interface SpiderDataset extends JRElementDataset, Serializable
 {
 	public JRCategorySeries[] getSeries();
 	

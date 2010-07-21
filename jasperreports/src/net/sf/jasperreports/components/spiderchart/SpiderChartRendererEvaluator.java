@@ -31,13 +31,9 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.ChartUtil;
-import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.convert.ReportConverter;
-import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
@@ -45,7 +41,6 @@ import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.SpiderWebPlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RectangleEdge;
 
@@ -55,29 +50,49 @@ import org.jfree.ui.RectangleEdge;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: SpiderChartDesignConverter.java 3898 2010-07-19 11:30:26Z shertage $
  */
-public class SpiderChartDesignEvaluator
+public class SpiderChartRendererEvaluator
 {
 
 	/**
 	 *
 	 */
+	public static final String FILL_DATASET = "fillDataset";
+	public static final String SAMPLE_DATASET = "sampleDataset";
+	
+	public static final Double SAMPLE_MAXVALUE = Double.valueOf(10d);
+	
 	private static DefaultCategoryDataset sampleDataset;
 	
-	/**
-	 *
-	 */
-	private static final Double MAX_VALUE = Double.valueOf(10);
 	
 	/**
 	 * 
 	 */
-	public static JRRenderable evaluateRenderer(ReportConverter reportConverter, JRComponentElement element)
+	public static JRRenderable evaluateRenderer(
+			JRComponentElement element, 
+			SpiderChartSharedBean spiderchartBean, 
+			String defaultRenderType,
+			String datasetType
+			)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
 		ChartSettings chartSettings = chartComponent.getChartSettings();
 		SpiderPlot plot = chartComponent.getPlot();
 		
-		SpiderWebPlot spiderWebPlot = new SpiderWebPlot(getSampleDataset());
+		DefaultCategoryDataset dataset = null;
+		StandardCategoryItemLabelGenerator labelGenerator = null;
+		
+		if(FILL_DATASET.equals(datasetType))
+		{
+			dataset = ((FillSpiderDataset)spiderchartBean.getDataset()).getCustomDataset();
+			labelGenerator = ((FillSpiderDataset)spiderchartBean.getDataset()).getLabelGenerator();
+		}
+		else
+		{
+			dataset = getSampleDataset();
+			labelGenerator = new StandardCategoryItemLabelGenerator();
+		}
+		
+		SpiderWebPlot spiderWebPlot = new SpiderWebPlot(dataset);
 
         if(plot.getAxisLineColor() != null)
         {
@@ -119,9 +134,10 @@ public class SpiderChartDesignEvaluator
         {
         	spiderWebPlot.setAxisLabelGap(plot.getLabelGap());
         }
-        
-        spiderWebPlot.setMaxValue(MAX_VALUE);
-        
+        if(spiderchartBean.getMaxValue() != null)
+        {
+        	spiderWebPlot.setMaxValue(spiderchartBean.getMaxValue());
+        }
         if(plot.getRotation() != null)
         {
         	spiderWebPlot.setDirection(plot.getRotation().getRotation());
@@ -140,14 +156,13 @@ public class SpiderChartDesignEvaluator
         }
 
         spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
-        
-        String titleText = JRExpressionUtil.getExpressionText(chartSettings.getTitleExpression());
+        spiderWebPlot.setLabelGenerator(labelGenerator);
         
         Font titleFont = chartSettings.getTitleFont() != null 
         	? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
         	: TextTitle.DEFAULT_FONT;
-        	
+       
+        String titleText = spiderchartBean.getTitleText();
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
 		if(chartSettings.getBackcolor() != null)
@@ -155,7 +170,7 @@ public class SpiderChartDesignEvaluator
 			jfreechart.setBackgroundPaint(chartSettings.getBackcolor());
 		}
 		
-        RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
+		RectangleEdge titleEdge = getEdge(chartSettings.getTitlePosition(), RectangleEdge.TOP);
 		
 		if (titleText != null)
 		{
@@ -171,7 +186,7 @@ public class SpiderChartDesignEvaluator
 			jfreechart.setTitle(title);
 		}
 
-        String subtitleText = JRExpressionUtil.getExpressionText(chartSettings.getSubtitleExpression());
+        String subtitleText = spiderchartBean.getSubtitleText();
 		if (subtitleText != null)
 		{
 			TextTitle subtitle = new TextTitle(subtitleText);
@@ -196,6 +211,7 @@ public class SpiderChartDesignEvaluator
 
 		// Apply all of the legend formatting options
 		LegendTitle legend = jfreechart.getLegend();
+
 		if (legend != null)
 		{
 			legend.setVisible((chartSettings.getShowLegend() == null || chartSettings.getShowLegend()));
@@ -209,7 +225,7 @@ public class SpiderChartDesignEvaluator
 				{
 					legend.setBackgroundPaint(chartSettings.getLegendBackgroundColor());
 				}
-
+	
 				if(chartSettings.getLegendFont() != null)
 				{
 					legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
@@ -217,24 +233,19 @@ public class SpiderChartDesignEvaluator
 				legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
 			}
 		}
-			
-		Rectangle2D rectangle = new Rectangle2D.Double(0, 0, element.getWidth(), element.getHeight());
 
-		String renderType = chartSettings.getRenderType();
-		if(renderType == null)
-		{
-			renderType = JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE);
-		}
-
+		String renderType = chartSettings.getRenderType() == null ? defaultRenderType : chartSettings.getRenderType();
+		Rectangle2D rectangle = new Rectangle2D.Double(0,0,element.getWidth(),element.getHeight());
+		
 		return 
 			ChartUtil.getChartRendererFactory(renderType).getRenderer(
 				jfreechart, 
-				null,
+				spiderchartBean.getHyperlinkProvider(),
 				rectangle
 				);
 	}
 	
-	public static CategoryDataset getSampleDataset()
+	public static DefaultCategoryDataset getSampleDataset()
 	{
 		if (sampleDataset == null)
 		{
@@ -265,10 +276,6 @@ public class SpiderChartDesignEvaluator
 		}
 		
 		return sampleDataset;
-	}
-
-	public Object getLabelGenerator() {
-		return null;
 	}
 
 	public Locale getLocale() {

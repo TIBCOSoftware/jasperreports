@@ -23,15 +23,9 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
-import java.awt.BasicStroke;
-import java.awt.Font;
-import java.awt.geom.Rectangle2D;
-import java.util.Locale;
-
-import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
-import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -48,16 +42,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
-
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
-import org.jfree.chart.plot.SpiderWebPlot;
-import org.jfree.chart.title.LegendTitle;
-import org.jfree.chart.title.TextTitle;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.RectangleEdge;
 
 
 /**
@@ -87,7 +71,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private ChartHyperlinkProvider chartHyperlinkProvider;
 	private JRRenderable renderer;
-
+	
 	public FillSpiderChart(SpiderChartComponent chartComponent, JRFillObjectFactory factory)
 	{
 		this.chartComponent = chartComponent;
@@ -116,21 +100,6 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	 */
 	protected void evaluateRenderer(byte evaluation) throws JRException
 	{
-		JFreeChart chart = evaluateChart(evaluation);
-		JRComponentElement element = fillContext.getComponentElement();	
-		
-		Rectangle2D rectangle = new Rectangle2D.Double(0,0,element.getWidth(),element.getHeight());
-
-		renderer = 
-			ChartUtil.getChartRendererFactory(getChartSettings().getRenderType()).getRenderer(
-				chart, 
-				chartHyperlinkProvider,
-				rectangle
-				);
-	}
-
-	protected JFreeChart evaluateChart(byte evaluation) throws JRException
-	{
 		maxValue = (Double) fillContext.evaluate(getPlot().getMaxValueExpression(), evaluation);
         titleText = (String) fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation);
 		subtitleText = (String)fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation);
@@ -145,150 +114,26 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		dataset.finishDataset();
 
 		chartHyperlinkProvider = new CategoryChartHyperlinkProvider(dataset.getItemHyperlinks());
-
 		bookmarkLevel = getChartSettings().getBookmarkLevel();
 		
-		SpiderWebPlot spiderWebPlot = new SpiderWebPlot((DefaultCategoryDataset)dataset.getCustomDataset());
+		JRComponentElement element = fillContext.getComponentElement();	
 
-        if(getPlot().getAxisLineColor() != null)
-        {
-        	spiderWebPlot.setAxisLinePaint(getPlot().getAxisLineColor());
-        }
-        if(getPlot().getAxisLineWidth() != null)
-        {
-        	spiderWebPlot.setAxisLineStroke(new BasicStroke(getPlot().getAxisLineWidth()));
-        }
-        if(getPlot().getBackcolor() != null)
-        {
-        	spiderWebPlot.setBackgroundPaint(getPlot().getBackcolor());
-        }
-        if(getPlot().getBackgroundAlpha() != null)
-        {
-        	spiderWebPlot.setBackgroundAlpha(getPlot().getBackgroundAlpha());
-        }
-        if(getPlot().getForegroundAlpha() != null)
-        {
-        	spiderWebPlot.setForegroundAlpha(getPlot().getForegroundAlpha());
-        }
-        if(getPlot().getHeadPercent() != null)
-        {
-        	spiderWebPlot.setHeadPercent(getPlot().getHeadPercent());
-        }
-        if(getPlot().getInteriorGap() != null)
-        {
-        	spiderWebPlot.setInteriorGap(getPlot().getInteriorGap());
-        }
-        if(getPlot().getLabelColor() != null)
-        {
-        	spiderWebPlot.setLabelPaint(getPlot().getLabelColor());
-        }
-        if(getPlot().getLabelFont() != null)
-        {
-        	spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(getPlot().getLabelFont(), Locale.getDefault()));
-        }
-        if(getPlot().getLabelGap() != null)
-        {
-        	spiderWebPlot.setAxisLabelGap(getPlot().getLabelGap());
-        }
-        if(maxValue != null)
-        {
-        	spiderWebPlot.setMaxValue(maxValue);
-        }
-        if(getPlot().getRotation() != null)
-        {
-        	spiderWebPlot.setDirection(getPlot().getRotation().getRotation());
-        }
-        if(getPlot().getStartAngle() != null)
-        {
-        	spiderWebPlot.setStartAngle(getPlot().getStartAngle());
-        }
-        if(getPlot().getTableOrder() != null)
-        {
-        	spiderWebPlot.setDataExtractOrder(getPlot().getTableOrder().getOrder());
-        }
-        if(getPlot().getWebFilled() != null)
-        {
-        	spiderWebPlot.setWebFilled(getPlot().getWebFilled());
-        }
-
-        spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        spiderWebPlot.setLabelGenerator(new StandardCategoryItemLabelGenerator());
-        
-        Font titleFont = getChartSettings().getTitleFont() != null 
-        	? JRFontUtil.getAwtFont(getChartSettings().getTitleFont(), Locale.getDefault())
-        	: TextTitle.DEFAULT_FONT;
-        	
-        JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
-
-		if(chartSettings.getBackcolor() != null)
-		{
-			jfreechart.setBackgroundPaint(chartSettings.getBackcolor());
-		}
+		SpiderChartSharedBean spiderChartSharedBean = new SpiderChartSharedBean(
+				getChartSettings().getRenderType(),
+				maxValue,
+				titleText,
+				subtitleText,
+				chartHyperlinkProvider,
+				dataset
+				);
 		
-		RectangleEdge titleEdge = getEdge(getChartSettings().getTitlePosition(), RectangleEdge.TOP);
 		
-		if (titleText != null)
-		{
-			TextTitle title = jfreechart.getTitle();
-			title.setText(titleText);
-			if(getChartSettings().getTitleColor() != null)
-			{
-				title.setPaint(getChartSettings().getTitleColor());
-			}
-			
-			title.setFont(titleFont);
-			title.setPosition(titleEdge);
-			jfreechart.setTitle(title);
-		}
-
-		if (subtitleText != null)
-		{
-			TextTitle subtitle = new TextTitle(subtitleText);
-			subtitle.setText(subtitleText);
-			if(getChartSettings().getSubtitleColor() != null)
-			{
-				subtitle.setPaint(getChartSettings().getSubtitleColor());
-			}
-
-			if(getChartSettings().getSubtitleColor() != null)
-			{
-		        Font subtitleFont = getChartSettings().getSubtitleFont() != null 
-	        	? JRFontUtil.getAwtFont(getChartSettings().getSubtitleFont(), Locale.getDefault())
-	        	: TextTitle.DEFAULT_FONT;
-				subtitle.setFont(subtitleFont);
-			}
-			
-			subtitle.setPosition(titleEdge);
-
-			jfreechart.addSubtitle(subtitle);
-		}
-
-		// Apply all of the legend formatting options
-		LegendTitle legend = jfreechart.getLegend();
-
-		if (legend != null)
-		{
-			legend.setVisible((chartSettings.getShowLegend() == null || chartSettings.getShowLegend()));
-			if (legend.isVisible())
-			{
-				if(getChartSettings().getLegendColor() != null)
-				{
-					legend.setItemPaint(getChartSettings().getLegendColor());
-				}
-				if (getChartSettings().getLegendBackgroundColor() != null)
-				{
-					legend.setBackgroundPaint(getChartSettings().getLegendBackgroundColor());
-				}
-	
-				if(getChartSettings().getLegendFont() != null)
-				{
-					legend.setItemFont(JRFontUtil.getAwtFont(getChartSettings().getLegendFont(), Locale.getDefault()));
-				}
-				legend.setPosition(getEdge(getChartSettings().getLegendPosition(), RectangleEdge.BOTTOM));
-			}
-		}
-		return jfreechart;
-	
+		renderer = SpiderChartRendererEvaluator.evaluateRenderer(
+				element, 
+				spiderChartSharedBean, 
+				JRChart.RENDER_TYPE_DRAW, 
+				SpiderChartRendererEvaluator.FILL_DATASET);
+		
 	}
 
 
@@ -349,40 +194,6 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 //		transferProperties(printImage);
 	}
 
-	/**
-	 *
-	 */
-	private static RectangleEdge getEdge(EdgeEnum position, RectangleEdge defaultPosition)
-	{
-		RectangleEdge edge = defaultPosition;
-		if(position != null)
-		{
-			switch (position)
-			{
-				case TOP :
-				{
-					edge = RectangleEdge.TOP;
-					break;
-				}
-				case BOTTOM :
-				{
-					edge = RectangleEdge.BOTTOM;
-					break;
-				}
-				case LEFT :
-				{
-					edge = RectangleEdge.LEFT;
-					break;
-				}
-				case RIGHT :
-				{
-					edge = RectangleEdge.RIGHT;
-					break;
-				}
-			}
-		}
-		return edge;
-	}
 
 	protected ChartHyperlinkProvider getHyperlinkProvider()
 	{

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
@@ -31,6 +32,7 @@ import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Spider Chart preview converter.
@@ -63,10 +65,22 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 		printImage.setBookmarkLevel(chartSettings.getBookmarkLevel());
 		printImage.setLinkType(chartSettings.getLinkType());
 		printImage.setOnErrorType(OnErrorTypeEnum.ICON);
-		printImage.setRenderer(SpiderChartDesignEvaluator.evaluateRenderer(reportConverter, element));
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
+		SpiderChartSharedBean spiderchartBean = new SpiderChartSharedBean(
+				chartSettings.getRenderType(),
+				SpiderChartRendererEvaluator.SAMPLE_MAXVALUE,
+				JRExpressionUtil.getExpressionText(chartSettings.getTitleExpression()),
+				JRExpressionUtil.getExpressionText(chartSettings.getSubtitleExpression()),
+				null,
+				null
+				);
+		
+		printImage.setRenderer(SpiderChartRendererEvaluator.evaluateRenderer(
+				element,
+				spiderchartBean,
+				JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE),
+				SpiderChartRendererEvaluator.SAMPLE_DATASET));
 		
 		return printImage;
 	}
-
 }

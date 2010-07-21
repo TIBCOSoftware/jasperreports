@@ -29,6 +29,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -36,8 +37,8 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillElementDataset;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.Dataset;
 
 
 /**
@@ -47,6 +48,11 @@ import org.jfree.data.general.Dataset;
 public class FillSpiderDataset extends JRFillElementDataset implements SpiderDataset
 {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
 	/**
 	 *
 	 */
@@ -173,7 +179,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	/**
 	 *
 	 */
-	public Dataset getCustomDataset()
+	public DefaultCategoryDataset getCustomDataset()
 	{
 		return dataset;
 	}
@@ -181,9 +187,9 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	/**
 	 *
 	 */
-	public Object getLabelGenerator()
+	public StandardCategoryItemLabelGenerator getLabelGenerator()
 	{
-		return new CategoryLabelGenerator(labelsMap);
+		return labelsMap != null ? new CategoryLabelGenerator(labelsMap) : new StandardCategoryItemLabelGenerator();
 	}
 
 
