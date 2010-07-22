@@ -5,13 +5,13 @@
 	<style name="OrderCountStyle" isDefault="false" style="Sans_Normal">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{OrderCount}.intValue() > 0 && $V{OrderCount}.intValue() % 10 == 0)]]></conditionExpression>
-			<style isDefault="false" style="OrderCountStyle" forecolor="#FF0000" isBold="true"/>
+			<style forecolor="#FF0000" isBold="true"/>
 		</conditionalStyle>
 	</style>
 	<style name="CellStyle" isDefault="false" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
-			<style isDefault="false" style="CellStyle" backcolor="#E0E0E0"/>
+			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
 	<queryString>

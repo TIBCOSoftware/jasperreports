@@ -7,17 +7,17 @@
 	<style name="CellStyle" isDefault="false" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
-			<style isDefault="false" style="CellStyle" backcolor="#E0E0E0"/>
+			<style backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
 	<style name="Detail" isDefault="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}.intValue() % 2 == 0 ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
-			<style isDefault="false" style="Detail" mode="Opaque" backcolor="#E0E0E0"/>
+			<style mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{DeliveryDelay} != null ? Boolean.TRUE : Boolean.FALSE]]></conditionExpression>
-			<style isDefault="false" style="Detail">
+			<style>
 				<pen lineWidth="0.5" lineColor="#FF0000"/>
 			</style>
 		</conditionalStyle>
