@@ -163,6 +163,8 @@
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
+      <property ref="net.sf.jasperreports.export.xls.fit.height"/>
+      <property ref="net.sf.jasperreports.export.xls.fit.width"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
@@ -1936,6 +1938,32 @@ Specifies whether the exporter should take into consideration the type of the or
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.fit.height -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.fit.height">
+    <description>
+Property used at print time to indicate the number of pages height to fit the sheet in.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIT_HEIGHT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.fit.width -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.fit.width">
+    <description>
+Property used at print time to indicate the number of pages width to fit the sheet in.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIT_WIDTH</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
   </configProperty>
   
   
