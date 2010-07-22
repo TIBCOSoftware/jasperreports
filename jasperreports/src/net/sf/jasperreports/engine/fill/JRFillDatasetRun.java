@@ -127,12 +127,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 			copyConnectionParameter(parameterValues);
 			
+			dataset.initCalculator();
 			dataset.setParameterValues(parameterValues);
 			dataset.initDatasource();
 			
 			dataset.filterElementDatasets(elementDataset);
-			
-			dataset.initCalculator();//FIXME too late for cascade param evaluations?
 
 			iterate();
 		}
