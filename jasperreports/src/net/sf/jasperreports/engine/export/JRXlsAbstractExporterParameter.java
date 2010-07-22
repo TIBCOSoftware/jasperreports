@@ -328,4 +328,19 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_WRAP_TEXT = JRProperties.PROPERTY_PREFIX + "export.xls.wrap.text";
 
 
+	/**
+	 * This property indicates the number of pages wide to fit the sheet in.
+	 * <p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FIT_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.fit.width";
+
+	/**
+	 * This property indicates the number of pages height to fit the sheet in.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FIT_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.fit.height";
+
+
 }
