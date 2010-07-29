@@ -489,7 +489,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell, 
-				JRProperties.getBooleanProperty(textElement, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, true)
+				isWrapText(textElement)
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}

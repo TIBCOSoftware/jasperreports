@@ -106,6 +106,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isCollapseRowSpan;
 	protected boolean isIgnoreCellBorder;
 	protected boolean isIgnoreCellBackground;
+	protected boolean wrapText;
 
 	protected int maxRowsPerSheet;
 
@@ -317,6 +318,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.IS_IGNORE_CELL_BACKGROUND,
 				JRXlsAbstractExporterParameter.PROPERTY_IGNORE_CELL_BACKGROUND,
 				false
+				);
+
+		wrapText = 
+			JRProperties.getBooleanProperty(
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT,
+				true
 				);
 
 		String[] sheetNamesArray = 
@@ -889,6 +897,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected final int calculateHeightForDinCN(int n)
 	{
 		return (int) (Math.pow(2.0, (0.375 - (n / 2.0))) * 1000.0);
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isWrapText(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, wrapText);
+		}
+		return wrapText;
 	}
 
 	protected abstract ExporterNature getNature();

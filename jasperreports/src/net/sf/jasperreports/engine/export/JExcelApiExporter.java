@@ -493,7 +493,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					rotation, 
 					cellFont,
 					gridCell,
-					JRProperties.getBooleanProperty(text, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, true)
+					isWrapText(text)
 					);
 
 			String textStr = styledText.getText();
