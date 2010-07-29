@@ -2266,7 +2266,7 @@ If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowe
 </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_WRAP_TEXT</api>
     <default>true</default>
-    <scope>Element</scope>
+    <scope>Global | Report | Element</scope>
     <since>3.7.3</since>
   </configProperty>
   
