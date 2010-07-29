@@ -2339,7 +2339,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TABLE</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2351,7 +2351,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TR</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2363,7 +2363,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TH</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2375,7 +2375,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_TD</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2387,7 +2387,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H1</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2399,7 +2399,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H2</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2411,7 +2411,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_H3</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2423,7 +2423,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_COLSPAN</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
@@ -2435,7 +2435,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     </description>
     <api>net/sf/jasperreports/engine/export/JRPdfExporterTagHelper.html#PROPERTY_TAG_ROWSPAN</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Element</scope>
     <since>3.1.2</since>
   </configProperty>
   
