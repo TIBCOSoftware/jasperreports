@@ -40,16 +40,22 @@ public class ElementWrapper
 	private JRPrintElement element = null;
 	private String address = null;
 	private ElementWrapper[] wrappers = null;
+	private ElementWrapper parent = null;
 	
 	public ElementWrapper(
+		ElementWrapper parent,
 		JRPrintElement element, 
-		String address,
-		ElementWrapper[] wrappers
+		String address
 		)
 	{
+		this.parent = parent;
 		this.element = element;
 		this.address = address;
-		this.wrappers = wrappers;
+	}
+	
+	public ElementWrapper getParent()
+	{
+		return parent;
 	}
 	
 	public JRPrintElement getElement()
@@ -65,5 +71,28 @@ public class ElementWrapper
 	public ElementWrapper[] getWrappers()
 	{
 		return wrappers;
+	}
+	
+	public void setWrappers(ElementWrapper[] wrappers)
+	{
+		this.wrappers = wrappers;
+	}
+	
+	public String getProperty(String propName)
+	{
+		if (
+			element != null
+			&& element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(propName)
+			)
+		{
+			return element.getPropertiesMap().getProperty(propName);
+		}
+		else if (parent != null)
+		{
+			return parent.getProperty(propName);
+		}
+		
+		return null;
 	}
 }
