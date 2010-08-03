@@ -54,6 +54,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -80,6 +81,7 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -217,7 +219,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
-	protected boolean hyperlinkStarted = false;	
+	protected boolean hyperlinkStarted = false;
+	protected int thDepth = 0;
 	
 	protected ExporterNature nature = null;
 
@@ -766,10 +769,26 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
+		List elements = null;
+		
+		boolean accessibleHtml = true;//FIXMENOW
+		if (accessibleHtml)
+		{
+			JRBasePrintFrame frame = new JRBasePrintFrame(jasperPrint.getDefaultStyleProvider());
+
+			new JRHtmlExporterHelper(jasperPrint).createNestedFrames(page.getElements().listIterator(), frame);
+			
+			elements = frame.getElements();
+		}
+		else
+		{
+			elements = page.getElements();
+		}
+		
 		JRGridLayout layout = 
 			new JRGridLayout(
 				nature,
-				page.getElements(),
+				elements,
 				jasperPrint.getPageWidth(), 
 				jasperPrint.getPageHeight(),
 				globalOffsetX, 
@@ -822,6 +841,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		writer.write("</tr>\n");
 		
+		thDepth = 0;
 		for(int y = 0; y < grid.length; y++)
 		{
 			if (gridLayout.getYCuts().isCutSpanned(y) || !isRemoveEmptySpace)
@@ -850,6 +870,21 @@ public class JRHtmlExporter extends JRAbstractExporter
 					{
 						
 						JRPrintElement element = gridCell.getWrapper().getElement();
+						
+						String thTag = null;
+
+						if (
+							element != null
+							&& element.hasProperties()
+							)
+						{
+							thTag = element.getPropertiesMap().getProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TH);
+						}
+						
+						if (thTag != null && (JRPdfExporterTagHelper.TAG_START.equals(thTag) || JRPdfExporterTagHelper.TAG_FULL.equals(thTag)))
+						{
+							thDepth++;
+						}
 
 						if (element instanceof JRPrintLine)
 						{
@@ -879,6 +914,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 						{
 							exportGenericElement((JRGenericPrintElement) element, 
 									gridCell, rowHeight);
+						}
+
+						if (thTag != null && (JRPdfExporterTagHelper.TAG_END.equals(thTag) || JRPdfExporterTagHelper.TAG_FULL.equals(thTag)))
+						{
+							thDepth--;
 						}
 					}
 
@@ -921,7 +961,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void writeEmptyCell(JRExporterGridCell cell, int rowHeight) throws IOException
 	{
-		writer.write("  <td");
+		String cellTag = getCellTag(cell);
+		
+		writer.write("  <" + cellTag);
 		if (cell.getColSpan() > 1)
 		{
 			writer.write(" colspan=\"" + cell.getColSpan() + "\"");
@@ -939,7 +981,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 
 		writer.write(emptyCellStringProvider.getStringForCollapsedTD(imagesURI, cell.getWidth(), rowHeight));
-		writer.write("</td>\n");
+		writer.write("</" + cellTag + ">\n");
 	}
 
 
@@ -948,7 +990,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell) throws IOException
 	{
-		writeCellTDStart(gridCell);
+		writeCellStart(gridCell);
 
 		StringBuffer styleBuffer = new StringBuffer();
 
@@ -996,16 +1038,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
-		writer.write("</td>\n");
+		writeCellEnd(gridCell);
 	}
 
 
 	/**
 	 *
 	 */
-	protected void writeCellTDStart(JRExporterGridCell gridCell) throws IOException
+	protected void writeCellStart(JRExporterGridCell gridCell) throws IOException
 	{
-		writer.write("  <td");
+		writer.write("  <" + getCellTag(gridCell));
 		if (gridCell.getColSpan() > 1)
 		{
 			writer.write(" colspan=\"" + gridCell.getColSpan() +"\"");
@@ -1032,9 +1074,55 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	protected void writeCellEnd(JRExporterGridCell gridCell) throws IOException
+	{
+		writer.write("</" + getCellTag(gridCell) + ">\n");
+	}
+
+
+	/**
+	 *
+	 */
+	protected String getCellTag(JRExporterGridCell gridCell)
+	{
+		if (thDepth > 0)
+		{
+			return "th";
+		}
+		else
+		{
+			ElementWrapper wrapper = gridCell.getWrapper();
+
+			OccupiedGridCell occupiedCell = gridCell instanceof OccupiedGridCell ? (OccupiedGridCell)gridCell : null;
+			if (occupiedCell != null)
+			{
+				wrapper = occupiedCell.getOccupier().getWrapper();
+			}
+			
+			if (wrapper != null)
+			{
+				String cellContentsType = wrapper.getProperty(JRCellContents.PROPERTY_TYPE);
+				if (
+					JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
+					|| JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType)
+					|| JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType)
+					)
+				{
+					return "th";
+				}
+			}
+		}
+		
+		return "td";
+	}
+
+
+	/**
+	 *
+	 */
 	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell) throws IOException
 	{
-		writeCellTDStart(gridCell);
+		writeCellStart(gridCell);
 
 		StringBuffer styleBuffer = new StringBuffer();
 
@@ -1057,7 +1145,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writer.write(emptyCellStringProvider.getStringForEmptyTD(imagesURI));
 
-		writer.write("</td>\n");
+		writeCellEnd(gridCell);
 	}
 
 
@@ -1245,7 +1333,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			textLength = styledText.length();
 		}
 
-		writeCellTDStart(gridCell);//FIXME why dealing with cell style if no text to print (textLength == 0)?
+		writeCellStart(gridCell);//FIXME why dealing with cell style if no text to print (textLength == 0)?
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
@@ -1374,7 +1462,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		endHyperlink();
 
-		writer.write("</td>\n");
+		writeCellEnd(gridCell);
 	}
 
 
@@ -1626,7 +1714,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportImage(JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
-		writeCellTDStart(gridCell);
+		writeCellStart(gridCell);
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1909,7 +1997,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				writeImageMap(imageMapName, image, imageMapAreas);
 			}
 		}
-		writer.write("</td>\n");
+		writeCellEnd(gridCell);
 	}
 
 
@@ -2164,7 +2252,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell) throws IOException, JRException
 	{
-		writeCellTDStart(gridCell);
+		writeCellStart(gridCell);
 
 		StringBuffer styleBuffer = new StringBuffer();
 		Color frameBackcolor = appendBackcolorStyle(gridCell, styleBuffer);
@@ -2195,7 +2283,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			}
 		}
 
-		writer.write("</td>\n");
+		writeCellEnd(gridCell);
 	}
 
 
@@ -2232,7 +2320,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			writeCellTDStart(gridCell);
+			writeCellStart(gridCell);
 
 			StringBuffer styleBuffer = new StringBuffer();
 			appendBackcolorStyle(gridCell, styleBuffer);
@@ -2252,7 +2340,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 				writer.write(htmlFragment);
 			}
 
-			writer.write("</td>\n");
+			writeCellEnd(gridCell);
 		}
 	}
 

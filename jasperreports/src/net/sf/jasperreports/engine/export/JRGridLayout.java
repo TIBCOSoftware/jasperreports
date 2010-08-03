@@ -137,7 +137,7 @@ public class JRGridLayout
 
 		virtualFrameIndex = elements.size();
 
-		layoutGrid(createWrappers(elements, address));
+		layoutGrid(createWrappers(null, elements, address));
 
 		if (nature.isSplitSharedRowSpan())
 		{
@@ -206,7 +206,7 @@ public class JRGridLayout
 
 		JRExporterGridCell gridCell =
 			new ElementGridCell(
-				new ElementWrapper(frame, virtualAddress, null),
+				new ElementWrapper(null, frame, virtualAddress),
 				frame.getWidth(),
 				frame.getHeight(),
 				col2 - col1,
@@ -897,7 +897,7 @@ public class JRGridLayout
 	/**
 	 *
 	 */
-	private static ElementWrapper[] createWrappers(List elementsList, String parentAddress)
+	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List elementsList, String parentAddress)
 	{
 		ElementWrapper[] wrappers = new ElementWrapper[elementsList.size()];
 
@@ -907,14 +907,19 @@ public class JRGridLayout
 
 			String address = (parentAddress == null ? "" : parentAddress + "_") + elementIndex;
 
-			wrappers[elementIndex] =
+			ElementWrapper wrapper = 
 				new ElementWrapper(
+					parentWrapper,
 					element,
-					address,
-					element instanceof JRPrintFrame
-						? createWrappers(((JRPrintFrame)element).getElements(), address)
-						: null
+					address
 					);
+			
+			if (element instanceof JRPrintFrame)
+			{
+				wrapper.setWrappers(createWrappers(wrapper, ((JRPrintFrame)element).getElements(), address));
+			}
+
+			wrappers[elementIndex] = wrapper;
 		}
 
 		return wrappers;

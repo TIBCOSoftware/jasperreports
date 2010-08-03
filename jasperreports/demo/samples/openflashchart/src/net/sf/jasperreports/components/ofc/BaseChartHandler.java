@@ -84,7 +84,7 @@ public class BaseChartHandler implements GenericElementHandler
 
 		JRExporterGridCell newGridCell = 
 			new ElementGridCell(
-				new ElementWrapper(text, null, null), 
+				new ElementWrapper(null, text, null), 
 				gridCell.getWidth(), 
 				gridCell.getHeight(),
 				gridCell.getColSpan(),
