@@ -173,7 +173,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected JRBaseFiller parentFiller = null;
+	protected JRBaseFiller parentFiller;
 	protected JRFillSubreport parentElement;
 
 	private final JRFillObjectFactory factory;
@@ -183,44 +183,44 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	private boolean isInterrupted = false;
+	private boolean isInterrupted;
 
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 
 	protected int columnCount = 1;
 
 	protected PrintOrderEnum printOrder = PrintOrderEnum.VERTICAL;
 
-	protected int pageWidth = 0;
+	protected int pageWidth;
 
-	protected int pageHeight = 0;
+	protected int pageHeight;
 
 	protected OrientationEnum orientation = OrientationEnum.PORTRAIT;
 
 	protected WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
 
-	protected int columnWidth = 0;
+	protected int columnWidth;
 
-	protected int columnSpacing = 0;
+	protected int columnSpacing;
 
-	protected int leftMargin = 0;
+	protected int leftMargin;
 
-	protected int rightMargin = 0;
+	protected int rightMargin;
 
-	protected int topMargin = 0;
+	protected int topMargin;
 
-	protected int bottomMargin = 0;
+	protected int bottomMargin;
 
-	protected boolean isTitleNewPage = false;
+	protected boolean isTitleNewPage;
 
-	protected boolean isSummaryNewPage = false;
+	protected boolean isSummaryNewPage;
 
-	protected boolean isSummaryWithPageHeaderAndFooter = false;
+	protected boolean isSummaryWithPageHeaderAndFooter;
 
-	protected boolean isFloatColumnFooter = false;
+	protected boolean isFloatColumnFooter;
 
 	/**
 	 * the resource missing handling type
@@ -231,49 +231,49 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	
 	protected List<JRTemplate> templates;
 
-	protected JRReportFont defaultFont = null;
+	protected JRReportFont defaultFont;
 
-	protected JRReportFont[] fonts = null;
+	protected JRReportFont[] fonts;
 
-	protected JRStyle defaultStyle = null;
+	protected JRStyle defaultStyle;
 
-	protected JRStyle[] styles = null;
+	protected JRStyle[] styles;
 
 	/**
 	 * Main report dataset.
 	 */
 	protected JRFillDataset mainDataset;
 
-	protected JRFillGroup[] groups = null;
+	protected JRFillGroup[] groups;
 
-	protected JRFillSection missingFillSection = null;
-	protected JRFillBand missingFillBand = null;
+	protected JRFillSection missingFillSection;
+	protected JRFillBand missingFillBand;
 
-	protected JRFillBand background = null;
+	protected JRFillBand background;
 
-	protected JRFillBand title = null;
+	protected JRFillBand title;
 
-	protected JRFillBand pageHeader = null;
+	protected JRFillBand pageHeader;
 
-	protected JRFillBand columnHeader = null;
+	protected JRFillBand columnHeader;
 
-	protected JRFillSection detailSection = null;
+	protected JRFillSection detailSection;
 
-	protected JRFillBand columnFooter = null;
+	protected JRFillBand columnFooter;
 
-	protected JRFillBand pageFooter = null;
+	protected JRFillBand pageFooter;
 
-	protected JRFillBand lastPageFooter = null;
+	protected JRFillBand lastPageFooter;
 
-	protected JRFillBand summary = null;
+	protected JRFillBand summary;
 
-	protected JRFillBand noData = null;
+	protected JRFillBand noData;
 
-	protected JRVirtualizer virtualizer = null;
+	protected JRVirtualizer virtualizer;
 
-	protected ClassLoader reportClassLoader = null;
+	protected ClassLoader reportClassLoader;
 
-	protected FormatFactory formatFactory = null;
+	protected FormatFactory formatFactory;
 
 	protected URLStreamHandlerFactory urlHandlerFactory;
 
@@ -289,11 +289,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected JasperPrint jasperPrint = null;
+	protected JasperPrint jasperPrint;
 
-	protected JRPrintPage printPage = null;
+	protected JRPrintPage printPage;
 
-	protected int printPageStretchHeight = 0;
+	protected int printPageStretchHeight;
 
 	/**
 	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
@@ -336,28 +336,28 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private JRSubreportRunner subreportRunner;
 
-	protected SavePoint keepTogetherSavePoint = null;
+	protected SavePoint keepTogetherSavePoint;
 	
 
 	/**
 	 *
 	 */
-	protected boolean isCreatingNewPage = false;
-	protected boolean isNewPage = false;
-	protected boolean isNewColumn = false;
+	protected boolean isCreatingNewPage;
+	protected boolean isNewPage;
+	protected boolean isNewColumn;
 	protected boolean isNewGroup = true;
-	protected boolean isFirstPageBand = false;
-	protected boolean isFirstColumnBand = false;
+	protected boolean isFirstPageBand;
+	protected boolean isFirstColumnBand;
 
-	protected int columnIndex = 0;
+	protected int columnIndex;
 
-	protected int offsetX = 0;
-	protected int offsetY = 0;
-	protected int columnHeaderOffsetY = 0;
-	protected int columnFooterOffsetY = 0;
-	protected int lastPageColumnFooterOffsetY = 0;
+	protected int offsetX;
+	protected int offsetY;
+	protected int columnHeaderOffsetY;
+	protected int columnFooterOffsetY;
+	protected int lastPageColumnFooterOffsetY;
 
-	protected boolean isLastPageFooter = false;
+	protected boolean isLastPageFooter;
 
 	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRFillSubreport parentElement) throws JRException
 	{
@@ -2197,16 +2197,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 class SavePoint
 {
-	protected JRPrintPage page = null;
-	protected int columnIndex = 0;
-	protected boolean isNewPage = false;
-	protected boolean isNewColumn = false;
-	protected int startOffsetY = 0;
-	protected int endOffsetY = 0;
-	protected int startElementIndex = 0;
-	protected int endElementIndex = 0;
-	protected int heightOffset = 0;
-	protected int groupIndex = 0;
+	protected JRPrintPage page;
+	protected int columnIndex;
+	protected boolean isNewPage;
+	protected boolean isNewColumn;
+	protected int startOffsetY;
+	protected int endOffsetY;
+	protected int startElementIndex;
+	protected int endElementIndex;
+	protected int heightOffset;
+	protected int groupIndex;
 	protected FooterPositionEnum footerPosition = FooterPositionEnum.NORMAL;
 	protected List elementsToMove = new ArrayList();
 	
