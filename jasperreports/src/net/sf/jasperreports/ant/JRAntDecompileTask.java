@@ -73,11 +73,11 @@ public class JRAntDecompileTask extends MatchingTask
 	/**
 	 *
 	 */
-	private Path src = null;
-	private File destdir = null;
-	private Path classpath = null;
+	private Path src;
+	private File destdir;
+	private Path classpath;
 
-	private Map reportFilesMap = null;
+	private Map reportFilesMap;
 
 
 	/**

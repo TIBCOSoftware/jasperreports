@@ -81,15 +81,15 @@ public class JRAntCompileTask extends MatchingTask
 	/**
 	 *
 	 */
-	private Path src = null;
-	private File destdir = null;
-	private File tempdir = null;
-	private boolean keepjava = false;
-	private String compiler = null;
-	private Path classpath = null;
+	private Path src;
+	private File destdir;
+	private File tempdir;
+	private boolean keepjava;
+	private String compiler;
+	private Path classpath;
 	private boolean xmlvalidation = true;
 
-	private Map reportFilesMap = null;
+	private Map reportFilesMap;
 
 
 	/**

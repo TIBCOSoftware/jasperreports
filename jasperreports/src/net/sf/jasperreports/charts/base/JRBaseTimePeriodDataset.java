@@ -43,7 +43,7 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private JRTimePeriodSeries[] timePeriodSeries = null;
+	private JRTimePeriodSeries[] timePeriodSeries;
 	
 	protected JRBaseTimePeriodDataset( JRTimePeriodDataset dataset ){
 		super( dataset );
