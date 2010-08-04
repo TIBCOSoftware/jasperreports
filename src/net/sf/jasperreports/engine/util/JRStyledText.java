@@ -278,9 +278,9 @@ public class JRStyledText implements Cloneable
 		/**
 		 *
 		 */
-		public Map attributes = null;
-		public int startIndex = 0;
-		public int endIndex = 0;
+		public Map attributes;
+		public int startIndex;
+		public int endIndex;
 
 		/**
 		 *

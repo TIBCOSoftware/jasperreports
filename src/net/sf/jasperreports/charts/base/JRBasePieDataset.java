@@ -55,14 +55,14 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	public static final String PROPERTY_MIN_PERCENTAGE = "minPercentage";
 	public static final String PROPERTY_MAX_COUNT = "maxCount";
 
-	private Float minPercentage = null;
-	private Integer maxCount = null;
+	private Float minPercentage;
+	private Integer maxCount;
 	
-	protected JRPieSeries[] pieSeries = null;
+	protected JRPieSeries[] pieSeries;
 
-	protected JRExpression otherKeyExpression = null;
-	protected JRExpression otherLabelExpression = null;
-	private JRHyperlink otherSectionHyperlink = null;
+	protected JRExpression otherKeyExpression;
+	protected JRExpression otherLabelExpression;
+	private JRHyperlink otherSectionHyperlink;
 
 	
 	/**
@@ -283,19 +283,19 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	/**
 	 * @deprecated
 	 */
-	private JRExpression keyExpression = null;
+	private JRExpression keyExpression;
 	/**
 	 * @deprecated
 	 */
-	private JRExpression valueExpression = null;
+	private JRExpression valueExpression;
 	/**
 	 * @deprecated
 	 */
-	private JRExpression labelExpression = null;
+	private JRExpression labelExpression;
 	/**
 	 * @deprecated
 	 */
-	private JRHyperlink sectionHyperlink = null;
+	private JRHyperlink sectionHyperlink;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

@@ -47,7 +47,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	
 	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
 	
-	private JRTimeSeries[] timeSeries = null;
+	private JRTimeSeries[] timeSeries;
 	private Class timePeriod;
 	
 	protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){

@@ -75,14 +75,14 @@ public class JRAntUpdateTask extends MatchingTask
 	/**
 	 *
 	 */
-	private Path src = null;
-	private File destdir = null;
-	private Path classpath = null;
+	private Path src;
+	private File destdir;
+	private Path classpath;
 	private boolean xmlvalidation = true;
 	
-	private List updaters = null;
+	private List updaters;
 
-	private Map reportFilesMap = null;
+	private Map reportFilesMap;
 
 
 	/**

@@ -62,18 +62,18 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 * The range displayed by the Meter.
 	 */
-	protected JRDataRange dataRange = null;
+	protected JRDataRange dataRange;
 
 	/**
 	 * Formatting information for the textual display of the value.
 	 */
-	protected JRValueDisplay valueDisplay = null;
+	protected JRValueDisplay valueDisplay;
 
 	/**
 	 * The shape to use when drawing the Meter. Only applied if the meter is
 	 * over 180 degrees wide and less than a full circle.
 	 */
-	protected MeterShapeEnum shapeValue = null;
+	protected MeterShapeEnum shapeValue;
 
 
 	/**
@@ -86,40 +86,40 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The extend of the meter face in degrees.  It will always be centered
 	 * around the straight up position.
 	 */
-	protected Integer meterAngleInteger = null;
+	protected Integer meterAngleInteger;
 
 	/**
 	 * Optional description of what the meter is displaying.  It will be
 	 * appended to the textual representation of the value.
 	 */
-	protected String units = null;
+	protected String units;
 
 	/**
 	 * How often to draw ticks around the face of the meter.  The interval
 	 * is relative to the meter range - if the meter displays 100 to 200 and
 	 * the tickInterval is 20, there will be 4 ticks at 120, 140, 160 and 180.
 	 */
-	protected Double tickIntervalDouble = null;
+	protected Double tickIntervalDouble;
 
 	/**
 	 * The color to use for the face of the meter.
 	 */
-	protected Color meterBackgroundColor = null;
+	protected Color meterBackgroundColor;
 
 	/**
 	 * The color to use for the pointer on the meter.
 	 */
-	protected Color needleColor = null;
+	protected Color needleColor;
 
 	/**
 	 * The color to use for each tick on the face of the meter.
 	 */
-	protected Color tickColor = null;
+	protected Color tickColor;
 
 	/**
 	 * The font to use when writing tick labels.
 	 */
-	protected JRFont tickLabelFont = null;
+	protected JRFont tickLabelFont;
 
 
 	/**
@@ -358,7 +358,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 * @deprecated
 	 */
-	private Byte shapeByte = null;
+	private Byte shapeByte;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

@@ -43,7 +43,7 @@ public class UpdaterElement
 	/**
 	 *
 	 */
-	private ReportUpdater updater = null;
+	private ReportUpdater updater;
 
 
 	/**

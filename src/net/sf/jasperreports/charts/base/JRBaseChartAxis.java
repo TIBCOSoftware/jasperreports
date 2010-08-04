@@ -46,12 +46,12 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * Where to position the axis.
 	 */
-	protected AxisPositionEnum positionValue = null;
+	protected AxisPositionEnum positionValue;
 
 	/**
 	 * The Chart object containing the dataset and plot to use with this axis.
 	 */
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -138,7 +138,7 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	/**
 	 * @deprecated
 	 */
-	private Byte positionByte = null;
+	private Byte positionByte;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

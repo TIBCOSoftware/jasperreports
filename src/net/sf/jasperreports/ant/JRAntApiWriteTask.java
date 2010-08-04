@@ -79,12 +79,12 @@ public class JRAntApiWriteTask extends MatchingTask
 	/**
 	 *
 	 */
-	private Path src = null;
-	private File destdir = null;
-	private Path classpath = null;
-	private boolean runApi = false;
+	private Path src;
+	private File destdir;
+	private Path classpath;
+	private boolean runApi;
 
-	private Map reportFilesMap = null;
+	private Map reportFilesMap;
 
 
 	/**
