@@ -1643,7 +1643,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			if (mainPlot instanceof CategoryPlot)
 			{
 				CategoryPlot categoryPlot = (CategoryPlot) mainPlot;
-//				categoryPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+				categoryPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
 				if (axisHyperlinkProvider != null)
 				{
 					multiHyperlinkProvider.addHyperlinkProvider(categoryPlot.getDataset(), 
@@ -1653,7 +1653,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			else if (mainPlot instanceof XYPlot)
 			{
 				XYPlot xyPlot = (XYPlot) mainPlot;
-//				xyPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
+				xyPlot.setRangeAxisLocation(0, getChartAxisLocation(axis));
 				if (axisHyperlinkProvider != null)
 				{
 					multiHyperlinkProvider.addHyperlinkProvider(xyPlot.getDataset(), axisHyperlinkProvider);
@@ -1688,7 +1688,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				CategoryPlot axisPlot = (CategoryPlot)axisChart.getPlot();
 				mainCatPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-//				mainCatPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
+				mainCatPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainCatPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -1717,7 +1717,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				// Get the axis and add it to the multi axis chart plot
 				XYPlot axisPlot = (XYPlot)axisChart.getPlot();
 				mainXyPlot.setRangeAxis(axisNumber, axisPlot.getRangeAxis());
-//				mainXyPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
+				mainXyPlot.setRangeAxisLocation(axisNumber, getChartAxisLocation(chartAxis));
 
 				// Add the data set and map it to the recently added axis
 				mainXyPlot.setDataset(axisNumber, axisPlot.getDataset());
@@ -1914,7 +1914,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return ((JRChart) parent).getHyperlinkTooltipExpression();
 	}
 
-	
 	class FillChartContext implements ChartContext
 	{
 		private final byte evaluation; 
@@ -1947,6 +1946,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 		public TimeZone getTimeZone() {
 			return JRFillChart.this.getTimeZone();
 		}
-		
+		public byte getEvaluation() 
+		{
+			return JRFillChart.this.getEvaluationTimeValue().getValue();
+		}
 	}
 }
