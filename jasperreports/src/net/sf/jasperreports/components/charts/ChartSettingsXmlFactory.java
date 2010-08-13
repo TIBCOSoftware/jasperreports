@@ -21,11 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.spiderchart;
+package net.sf.jasperreports.components.charts;
 
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.components.spiderchart.StandardChartSettings;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
@@ -36,7 +37,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: ChartSettingsXmlFactory.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public class ChartSettingsXmlFactory extends JRBaseFactory
 {
@@ -68,6 +69,7 @@ public class ChartSettingsXmlFactory extends JRBaseFactory
 			chartSettings.setBookmarkLevel(Integer.parseInt(bookmarkLevelAttr));
 		}
 
+		chartSettings.setCustomizerClass(atts.getValue(JRXmlConstants.ATTRIBUTE_customizerClass));
 		chartSettings.setRenderType(atts.getValue(JRXmlConstants.ATTRIBUTE_renderType));
 		
 		return chartSettings;

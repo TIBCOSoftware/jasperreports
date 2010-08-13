@@ -21,18 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.spiderchart;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
-import net.sf.jasperreports.charts.JRCategorySeries;
-import net.sf.jasperreports.components.charts.ChartDataset;
+import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
+import net.sf.jasperreports.components.charts.ChartComponent;
+
+import org.jfree.chart.JFreeChart;
 
 /**
- * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public interface SpiderDataset extends ChartDataset
+public class SpiderChartCustomizer extends AbstractChartCustomizer
 {
-	public JRCategorySeries[] getSeries();
-	
+
+	public void customize(JFreeChart chart, ChartComponent chartComponent)
+	{
+		chart.getPlot().setOutlineVisible(true);
+		chart.getPlot().setOutlinePaint(new Color(0,0,255));
+		chart.getPlot().setOutlineStroke(new BasicStroke(1f));
+	}
 }

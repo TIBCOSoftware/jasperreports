@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderChartFillFactory.java 3874 2010-07-13 14:58:41Z shertage $
+ * @version $Id$
  */
 public class SpiderChartFillFactory implements ComponentFillFactory
 {

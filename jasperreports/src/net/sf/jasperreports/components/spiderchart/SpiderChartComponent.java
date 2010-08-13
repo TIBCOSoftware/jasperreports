@@ -23,10 +23,11 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
-import java.io.Serializable;
-
+import net.sf.jasperreports.components.charts.ChartComponent;
+import net.sf.jasperreports.components.charts.ChartDataset;
+import net.sf.jasperreports.components.charts.ChartPlot;
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -36,7 +37,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: SpiderChartComponent.java 3892 2010-07-16 13:43:20Z shertage $
  */
-public class SpiderChartComponent implements Component, JRChangeEventsSupport, Serializable
+public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport
 {
 
 	private static final long serialVersionUID = 1L;
@@ -68,8 +69,8 @@ public class SpiderChartComponent implements Component, JRChangeEventsSupport, S
 		this.evaluationGroup = chartComponent.getEvaluationGroup();
 		
 		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);
-		this.dataset = new StandardSpiderDataset(chartComponent.getDataset(), baseFactory);
-		this.plot = new StandardSpiderPlot(chartComponent.getPlot(), baseFactory);
+		this.dataset = new StandardSpiderDataset((SpiderDataset)chartComponent.getDataset(), baseFactory);
+		this.plot = new StandardSpiderPlot((SpiderPlot)chartComponent.getPlot(), baseFactory);
 		
 	}
 
@@ -92,7 +93,7 @@ public class SpiderChartComponent implements Component, JRChangeEventsSupport, S
 	/**
 	 * @return the dataset
 	 */
-	public SpiderDataset getDataset() {
+	public ChartDataset getDataset() {
 		return this.dataset;
 	}
 
@@ -100,19 +101,19 @@ public class SpiderChartComponent implements Component, JRChangeEventsSupport, S
 	/**
 	 * @return the plot
 	 */
-	public SpiderPlot getPlot() {
+	public ChartPlot getPlot() {
 		return this.plot;
 	}
 
-	public void setDataset(SpiderDataset dataset) {
+	public void setDataset(ChartDataset dataset) {
 		Object old = this.dataset;
-		this.dataset = dataset;
+		this.dataset = (SpiderDataset)dataset;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET, old, this.dataset);
 	}
 
-	public void setPlot(SpiderPlot plot) {
+	public void setPlot(ChartPlot plot) {
 		Object old = this.plot;
-		this.plot = plot;
+		this.plot = (SpiderPlot)plot;
 		getEventSupport().firePropertyChange(PROPERTY_PLOT, old, this.plot);
 	}
 

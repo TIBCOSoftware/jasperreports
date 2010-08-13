@@ -24,8 +24,8 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
-import java.io.Serializable;
 
+import net.sf.jasperreports.components.charts.ChartPlot;
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
 import net.sf.jasperreports.engine.JRExpression;
@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRFont;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: SpiderPlot.java 3889 2010-07-16 10:52:00Z shertage $
  */
-public interface SpiderPlot extends Serializable
+public interface SpiderPlot extends ChartPlot
 {
 
 	/**
@@ -109,24 +109,4 @@ public interface SpiderPlot extends Serializable
 	 * 
 	 */
 	public Color getLabelColor();
-	
-	
-	/**
-	 * Gets the chart background color.
-	 */
-	public Color getBackcolor();
-	
-	/**
-	 * Gets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
-	 * opaque. The default is 1.
-	 * @return a float value between 0 and 1.
-	 */
-	public Float getBackgroundAlpha();
-	
-	/**
-	 * Gets the transparency factor for this plot foreground. The range is from 0 to 1, where 0 means transparent and 1
-	 * opaque. The default is 1.
-	 * @return a float value between 0 and 1.
-	 */
-	public Float getForegroundAlpha();
 }

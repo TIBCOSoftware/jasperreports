@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
 import net.sf.jasperreports.engine.JRConstants;
@@ -383,6 +385,11 @@ public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
 		Object old = this.foregroundAlpha;
 		this.foregroundAlpha = foregroundAlpha;
 		getEventSupport().firePropertyChange(PROPERTY_FOREGROUND_ALPHA, old, this.foregroundAlpha);
+	}
+	
+	public PlotOrientation getOrientation()
+	{
+		return null;
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
