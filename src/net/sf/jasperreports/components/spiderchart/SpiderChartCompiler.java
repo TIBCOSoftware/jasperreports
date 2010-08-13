@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.spiderchart;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
@@ -46,8 +47,8 @@ public class SpiderChartCompiler implements ComponentCompiler
 	{
 		SpiderChartComponent chart = (SpiderChartComponent) component;
 		collectExpressions(chart.getChartSettings(), collector);
-		collectExpressions(chart.getDataset(), collector);
-		collectExpressions(chart.getPlot(), collector);
+		collectExpressions((SpiderDataset)chart.getDataset(), collector);
+		collectExpressions((SpiderPlot)chart.getPlot(), collector);
 	}
 
 	public static void collectExpressions(SpiderDataset dataset, JRExpressionCollector collector)
@@ -121,7 +122,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 			verifier.addBrokenRule("No chart settings for spider chart", chartComponent);
 		}
 		
-		SpiderDataset dataset = chartComponent.getDataset();
+		SpiderDataset dataset = (SpiderDataset)chartComponent.getDataset();
 		if (dataset == null)
 		{
 			verifier.addBrokenRule("No dataset for spider chart", chartComponent);
@@ -131,7 +132,7 @@ public class SpiderChartCompiler implements ComponentCompiler
 			verify(verifier, dataset);
 		}
 		
-		SpiderPlot spiderPlot = chartComponent.getPlot();
+		SpiderPlot spiderPlot = (SpiderPlot)chartComponent.getPlot();
 		
 		if (dataset == null)
 		{

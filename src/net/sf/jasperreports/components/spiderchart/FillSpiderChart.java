@@ -25,6 +25,9 @@ package net.sf.jasperreports.components.spiderchart;
 
 import net.sf.jasperreports.charts.util.CategoryChartHyperlinkProvider;
 import net.sf.jasperreports.charts.util.ChartHyperlinkProvider;
+import net.sf.jasperreports.components.charts.AbstractChartCustomizer;
+import net.sf.jasperreports.components.charts.ChartCustomizer;
+import net.sf.jasperreports.components.charts.FillChartSettings;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -32,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -42,6 +46,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 
 /**
@@ -71,15 +76,19 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private ChartHyperlinkProvider chartHyperlinkProvider;
 	private JRRenderable renderer;
+	private String customizerClass;
+	protected ChartCustomizer chartCustomizer;
+
 	
 	public FillSpiderChart(SpiderChartComponent chartComponent, JRFillObjectFactory factory)
 	{
 		this.chartComponent = chartComponent;
 		this.chartSettings = new FillChartSettings(chartComponent.getChartSettings(), factory);
-		this.dataset = new FillSpiderDataset(chartComponent.getDataset(), factory);
+		this.dataset = new FillSpiderDataset((SpiderDataset)chartComponent.getDataset(), factory);
 		factory.registerElementDataset(this.dataset);
-		this.plot = new FillSpiderPlot(chartComponent.getPlot(), factory);
+		this.plot = new FillSpiderPlot((SpiderPlot)chartComponent.getPlot(), factory);
 		this.expressionEvaluator = factory.getExpressionEvaluator();
+		
 	}
 
 	protected boolean isEvaluateNow()
@@ -127,13 +136,27 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 				dataset
 				);
 		
+		customizerClass = chartSettings.getCustomizerClass();
+		if (customizerClass != null && customizerClass.length() > 0) {
+			try {
+				Class myClass = JRClassLoader.loadClassForName(customizerClass);
+				chartCustomizer = (ChartCustomizer) myClass.newInstance();
+			} catch (Exception e) {
+				throw new JRRuntimeException("Could not create chart customizer instance.", e);
+			}
+
+			if (chartCustomizer instanceof AbstractChartCustomizer)
+			{
+				((AbstractChartCustomizer) chartCustomizer).init(fillContext.getFiller(), getDataset());
+			}
+		}
 		
 		renderer = SpiderChartRendererEvaluator.evaluateRenderer(
 				element, 
 				spiderChartSharedBean, 
+				chartCustomizer, 
 				JRChart.RENDER_TYPE_DRAW, 
 				SpiderChartRendererEvaluator.FILL_DATASET);
-		
 	}
 
 

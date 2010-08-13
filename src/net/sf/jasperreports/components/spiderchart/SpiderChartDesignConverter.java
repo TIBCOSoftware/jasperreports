@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.spiderchart;
 
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -78,6 +79,7 @@ public class SpiderChartDesignConverter implements ComponentDesignConverter
 		printImage.setRenderer(SpiderChartRendererEvaluator.evaluateRenderer(
 				element,
 				spiderchartBean,
+				null,
 				JRProperties.getProperty(reportConverter.getReport(), JRChart.PROPERTY_CHART_RENDER_TYPE),
 				SpiderChartRendererEvaluator.SAMPLE_DATASET));
 		

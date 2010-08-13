@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.spiderchart;
 
 import net.sf.jasperreports.charts.design.JRDesignCategorySeries;
 import net.sf.jasperreports.charts.xml.JRCategorySeriesFactory;
+import net.sf.jasperreports.components.charts.ChartSettings;
+import net.sf.jasperreports.components.charts.ChartSettingsXmlFactory;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;

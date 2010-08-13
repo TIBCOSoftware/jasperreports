@@ -21,13 +21,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.spiderchart;
+package net.sf.jasperreports.components.charts;
 
 import java.awt.Color;
 import java.io.Serializable;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
@@ -35,7 +36,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: ChartSettings.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 {
@@ -115,5 +116,13 @@ public interface ChartSettings extends JRAnchor, JRHyperlink, Serializable
 	 *
 	 */
 	public String getRenderType();
+	
+	/**
+	 * Gets a user specified chart customizer class name.
+	 * @see ChartCustomizer
+ 	 */
+	public String getCustomizerClass();
+
+	
 
 }

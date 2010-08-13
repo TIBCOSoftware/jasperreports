@@ -32,6 +32,8 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.ChartUtil;
+import net.sf.jasperreports.components.charts.ChartCustomizer;
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -71,13 +73,14 @@ public class SpiderChartRendererEvaluator
 	public static JRRenderable evaluateRenderer(
 			JRComponentElement element, 
 			SpiderChartSharedBean spiderchartBean, 
+			ChartCustomizer chartCustomizer, 
 			String defaultRenderType,
 			String datasetType
 			)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
 		ChartSettings chartSettings = chartComponent.getChartSettings();
-		SpiderPlot plot = chartComponent.getPlot();
+		SpiderPlot plot = (SpiderPlot)chartComponent.getPlot();
 		
 		DefaultCategoryDataset dataset = null;
 		StandardCategoryItemLabelGenerator labelGenerator = null;
@@ -164,6 +167,7 @@ public class SpiderChartRendererEvaluator
         	: TextTitle.DEFAULT_FONT;
        
         String titleText = spiderchartBean.getTitleText();
+        
         JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
 		Color backcolor = chartSettings.getBackcolor() != null ? chartSettings.getBackcolor() : element.getBackcolor();
@@ -238,6 +242,11 @@ public class SpiderChartRendererEvaluator
 
 		String renderType = chartSettings.getRenderType() == null ? defaultRenderType : chartSettings.getRenderType();
 		Rectangle2D rectangle = new Rectangle2D.Double(0,0,element.getWidth(),element.getHeight());
+		
+		if (chartCustomizer != null)
+		{
+			chartCustomizer.customize(jfreechart, chartComponent);
+		}
 		
 		return 
 			ChartUtil.getChartRendererFactory(renderType).getRenderer(

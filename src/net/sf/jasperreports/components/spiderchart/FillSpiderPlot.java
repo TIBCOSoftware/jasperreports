@@ -25,6 +25,8 @@ package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
 
+import org.jfree.chart.plot.PlotOrientation;
+
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
 import net.sf.jasperreports.engine.JRConstants;
@@ -162,4 +164,8 @@ public class FillSpiderPlot implements SpiderPlot
 		return parent.getForegroundAlpha();
 	}
 
+	public PlotOrientation getOrientation()
+	{
+		return parent.getOrientation();
+	}
 }

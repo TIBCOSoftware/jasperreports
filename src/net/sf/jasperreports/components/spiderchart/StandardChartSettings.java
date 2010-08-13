@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -117,6 +118,8 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	
 	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
 	
+	public static final String PROPERTY_CUSTOMIZER_CLASS = "customizerClass";
+	
 	
 	/**
 	 *
@@ -157,7 +160,10 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
-	private JRExpression hyperlinkTooltipExpression;
+	protected JRExpression hyperlinkTooltipExpression;
+	
+	protected String customizerClass;
+
 
 	/**
 	 * The bookmark level for the anchor associated with this chart.
@@ -200,7 +206,8 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		hyperlinkPageExpression = factory.getExpression(chart.getHyperlinkPageExpression());
 		hyperlinkTooltipExpression = factory.getExpression(chart.getHyperlinkTooltipExpression());
 		bookmarkLevel = chart.getBookmarkLevel();
-
+		customizerClass = chart.getCustomizerClass();
+		
 		JRHyperlinkParameter[] hyperlinkParams = chart.getHyperlinkParameters();
 		if (hyperlinkParams != null && hyperlinkParams.length > 0)
 		{
@@ -233,7 +240,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public Color getBackcolor()
 	{
-		return backcolor;
+		return this.backcolor;
 	}
 
 	/**
@@ -251,7 +258,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRFont getTitleFont()
 	{
-		return titleFont;
+		return this.titleFont;
 	}
 
 	/**
@@ -259,7 +266,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public EdgeEnum getTitlePosition()
 	{
-		return titlePosition;
+		return this.titlePosition;
 	}
 
 	/**
@@ -277,7 +284,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public Color getTitleColor()
 	{
-		return titleColor;
+		return this.titleColor;
 	}
 
 	/**
@@ -295,7 +302,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRFont getSubtitleFont()
 	{
-		return subtitleFont;
+		return this.subtitleFont;
 	}
 
 	/**
@@ -303,7 +310,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public Color getSubtitleColor()
 	{
-		return subtitleColor;
+		return this.subtitleColor;
 	}
 
 	/**
@@ -320,21 +327,21 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 *
 	 */
 	public Color getLegendBackgroundColor() {
-		return legendBackgroundColor;
+		return this.legendBackgroundColor;
 	}
 
 	/**
 	 *
 	 */
 	public Color getLegendColor() {
-		return legendColor;
+		return this.legendColor;
 	}
 
 	/**
 	 *
 	 */
 	public JRFont getLegendFont() {
-		return legendFont;
+		return this.legendFont;
 	}
 
 	/**
@@ -360,7 +367,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public EdgeEnum getLegendPosition()
 	{
-		return legendPosition;
+		return this.legendPosition;
 	}
 
 	/**
@@ -402,7 +409,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getTitleExpression()
 	{
-		return titleExpression;
+		return this.titleExpression;
 	}
 
 	/**
@@ -410,7 +417,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getSubtitleExpression()
 	{
-		return subtitleExpression;
+		return this.subtitleExpression;
 	}
 
 	/**
@@ -418,7 +425,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getAnchorNameExpression()
 	{
-		return anchorNameExpression;
+		return this.anchorNameExpression;
 	}
 
 	/**
@@ -426,7 +433,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getHyperlinkReferenceExpression()
 	{
-		return hyperlinkReferenceExpression;
+		return this.hyperlinkReferenceExpression;
 	}
 
 	/**
@@ -434,7 +441,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getHyperlinkAnchorExpression()
 	{
-		return hyperlinkAnchorExpression;
+		return this.hyperlinkAnchorExpression;
 	}
 
 	/**
@@ -442,12 +449,12 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public JRExpression getHyperlinkPageExpression()
 	{
-		return hyperlinkPageExpression;
+		return this.hyperlinkPageExpression;
 	}
 	
 	public byte getChartType()
 	{
-		return chartType;
+		return this.chartType;
 	}
 
 	/**
@@ -455,7 +462,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public String getRenderType()
 	{
-		return renderType;
+		return this.renderType;
 	}
 
 	/**
@@ -470,7 +477,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 
 	public int getBookmarkLevel()
 	{
-		return bookmarkLevel;
+		return this.bookmarkLevel;
 	}
 
 	/**
@@ -486,17 +493,26 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 
 	public String getLinkType()
 	{
-		return linkType;
+		return this.linkType;
 	}
 	
 	public String getLinkTarget()
 	{
-		return linkTarget;
+		return this.linkTarget;
 	}
 
 	public JRExpression getHyperlinkTooltipExpression()
 	{
-		return hyperlinkTooltipExpression;
+		return this.hyperlinkTooltipExpression;
+	}
+
+
+	/**
+	 * @return the customizerClass
+	 */
+	public String getCustomizerClass()
+	{
+		return this.customizerClass;
 	}
 
 
@@ -620,6 +636,17 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TOOLTIP_EXPRESSION, old, this.hyperlinkTooltipExpression);
 	}
 
+	/**
+	 * @param customizerClass the customizerClass to set
+	 */
+	public void setCustomizerClass(String customizerClass) 
+	{
+		Object old = this.customizerClass;
+		this.customizerClass = customizerClass;
+		getEventSupport().firePropertyChange(PROPERTY_CUSTOMIZER_CLASS, old, this.customizerClass);
+		
+	}
+	
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		SpiderChartCompiler.collectExpressions(this, collector);
@@ -767,7 +794,5 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 			}
 		}
 	}
-	
-	
-	
+
 }

@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.spiderchart;
 import java.io.IOException;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
+import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
@@ -92,10 +93,10 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		ChartSettings chartSettings = spiderChartComponent.getChartSettings();
 		writeChart(chartSettings, writer, reportWriter, componentNamespace);
 		
-		SpiderDataset dataset = spiderChartComponent.getDataset();
+		SpiderDataset dataset = (SpiderDataset)spiderChartComponent.getDataset();
 		writeSpiderDataSet(dataset, writer, reportWriter, componentNamespace);
 		
-		SpiderPlot spiderPlot = spiderChartComponent.getPlot();
+		SpiderPlot spiderPlot = (SpiderPlot)spiderChartComponent.getPlot();
 		writeSpiderPlot(spiderPlot, chartSettings, writer, componentNamespace);
 		
 		writer.closeElement();//spiderChart
@@ -113,6 +114,7 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkType, chartSettings.getLinkType(), HyperlinkTypeEnum.NONE.getName());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_hyperlinkTarget, chartSettings.getLinkTarget(), HyperlinkTargetEnum.SELF.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_bookmarkLevel, chartSettings.getBookmarkLevel(), JRAnchor.NO_BOOKMARK);
+		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_customizerClass, chartSettings.getCustomizerClass());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_renderType, chartSettings.getRenderType());
 
 		// write title

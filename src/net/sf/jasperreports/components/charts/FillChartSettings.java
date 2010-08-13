@@ -21,11 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.spiderchart;
+package net.sf.jasperreports.components.charts;
 
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
+import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -39,7 +40,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: FillChartSettings.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public class FillChartSettings implements ChartSettings
 {
@@ -100,7 +101,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getChartType()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getChartType()
 	 */
 	public byte getChartType() {
 		
@@ -108,7 +109,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendBackgroundColor()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendBackgroundColor()
 	 */
 	public Color getLegendBackgroundColor() {
 		
@@ -116,7 +117,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendColor()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendColor()
 	 */
 	public Color getLegendColor() {
 		
@@ -124,7 +125,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendFont()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendFont()
 	 */
 	public JRFont getLegendFont() {
 		
@@ -132,7 +133,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendPosition()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendPosition()
 	 */
 	public EdgeEnum getLegendPosition() {
 		
@@ -140,7 +141,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getRenderType()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getRenderType()
 	 */
 	public String getRenderType() {
 		
@@ -148,7 +149,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getShowLegend()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getShowLegend()
 	 */
 	public Boolean getShowLegend() {
 		
@@ -156,7 +157,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getSubtitleColor()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleColor()
 	 */
 	public Color getSubtitleColor() {
 		
@@ -164,7 +165,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getSubtitleExpression()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleExpression()
 	 */
 	public JRExpression getSubtitleExpression() {
 		
@@ -172,7 +173,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getSubtitleFont()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getSubtitleFont()
 	 */
 	public JRFont getSubtitleFont() {
 		
@@ -180,7 +181,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitleColor()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleColor()
 	 */
 	public Color getTitleColor() {
 		
@@ -188,7 +189,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitleExpression()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleExpression()
 	 */
 	public JRExpression getTitleExpression() {
 		
@@ -196,7 +197,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitleFont()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitleFont()
 	 */
 	public JRFont getTitleFont() {
 		
@@ -204,7 +205,7 @@ public class FillChartSettings implements ChartSettings
 	}
 
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getTitlePosition()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getTitlePosition()
 	 */
 	public EdgeEnum getTitlePosition() {
 		
@@ -294,13 +295,21 @@ public class FillChartSettings implements ChartSettings
 	}
 	
 	/**
-	 * @see net.sf.jasperreports.components.spiderchart.ChartSettings#getLegendColor()
+	 * @see net.sf.jasperreports.components.charts.ChartSettings#getLegendColor()
 	 */
 	public Color getBackcolor() {
 		
 		return parent.getBackcolor();
 	}
 
+	/**
+	 *
+	 */
+	public String getCustomizerClass()
+	{
+		return parent.getCustomizerClass();
+	}
+	
 	/**
 	 *
 	 */
