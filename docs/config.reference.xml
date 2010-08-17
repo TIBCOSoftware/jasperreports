@@ -161,6 +161,8 @@
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
+      <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
+      <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
@@ -1910,6 +1912,35 @@ Specifies whether row spans should be collapsed and merging cells across rows sh
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.cell.hidden -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.cell.hidden">
+    <description>
+Property that specifies if the cell content is hidden or exposed in the formula bar of a protected sheet. 
+By default the property is not set (<code>false</code>), and the cell content is not hidden.
+This property has effect only if the enclosing sheet is protected.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_CELL_HIDDEN</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.cell.locked -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.cell.locked">
+    <description>
+Property that specifies if the cell content is locked (read-only) within a protected sheet. 
+By default the property is considered (<code>true</code>), but it only has effect if the enclosing sheet is protected.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_CELL_LOCKED</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.7.5</since>
   </configProperty>
   
   

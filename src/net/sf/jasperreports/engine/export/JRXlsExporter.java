@@ -412,7 +412,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				boxStyle
+				boxStyle,
+				isCellLocked(line),
+				isCellHidden(line)
 				);
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -445,7 +447,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				gridCell
+				gridCell,
+				isCellLocked(element),
+				isCellHidden(element)
 				);
 
 		createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -489,7 +493,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell, 
-				isWrapText(textElement)
+				isWrapText(textElement),
+				isCellLocked(textElement),
+				isCellHidden(textElement)
 				);
 		createTextCell(textElement, gridCell, colIndex, rowIndex, styledText, baseStyle, forecolor);
 	}
@@ -959,6 +965,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			cellStyle.setRotation(style.rotation);
 			cellStyle.setFont(style.font);
 			cellStyle.setWrapText(style.wrapText);
+			cellStyle.setLocked(style.cellLocked);
+			cellStyle.setHidden(style.cellHidden);
 
 			if (style.hasDataFormat())
 			{
@@ -993,23 +1001,53 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			JRExporterGridCell gridCell
 			)
 	{
-		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell);
+		return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell, true, false);
+	}
+
+	protected HSSFCellStyle getLoadedCellStyle(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRExporterGridCell gridCell,
+			boolean isCellLocked,
+			boolean isCellHidden
+			)
+	{
+		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, gridCell, isCellLocked, isCellHidden);
 		return getLoadedCellStyle(style);
 	}
 
 	protected HSSFCellStyle getLoadedCellStyle(
-		short mode,
-		short backcolor,
-		short horizontalAlignment,
-		short verticalAlignment,
-		short rotation,
-		HSSFFont font,
-		BoxStyle box
-		)
-	{
-		StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box);
-		return getLoadedCellStyle(style);
-	}
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box
+			)
+		{
+			return getLoadedCellStyle(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, true, false);
+		}
+
+	protected HSSFCellStyle getLoadedCellStyle(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box,
+			boolean isCellLocked,
+			boolean isCellHidden
+			)
+		{
+			StyleInfo style = new StyleInfo(mode, backcolor, horizontalAlignment, verticalAlignment, rotation, font, box, isCellLocked, isCellHidden);
+			return getLoadedCellStyle(style);
+		}
 
 	/**
 	 *
@@ -1275,7 +1313,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						HSSFCellStyle.VERTICAL_TOP,
 						(short)0,
 						getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-						gridCell
+						gridCell,
+						isCellLocked(element),
+						isCellHidden(element)
 						);
 
 				createMergeRegion(gridCell, colIndex, rowIndex, cellStyle);
@@ -1327,7 +1367,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				HSSFCellStyle.VERTICAL_TOP,
 				(short)0,
 				getLoadedFont(getDefaultFont(), forecolor, null, getLocale()),
-				gridCell
+				gridCell,
+				isCellLocked(frame),
+				isCellHidden(frame)
 				);
 
 		createMergeRegion(gridCell, x, y, cellStyle);
@@ -1698,6 +1740,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		protected final HSSFFont font;
 		protected final BoxStyle box;
 		protected final boolean wrapText;
+		protected final boolean cellLocked;
+		protected final boolean cellHidden;
 		private short dataFormat = -1;
 		private int hashCode;
 
@@ -1719,7 +1763,62 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					rotation,
 					font,
 					new BoxStyle(gridCell),
-					true
+					true,
+					true,
+					false
+					);
+			}
+
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				JRExporterGridCell gridCell,
+				boolean wrapText,
+				boolean cellLocked,
+				boolean cellHidden
+				)
+			{
+				this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					new BoxStyle(gridCell),
+					wrapText,
+					cellLocked,
+					cellHidden
+					);
+			}
+
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				JRExporterGridCell gridCell,
+				boolean cellLocked,
+				boolean cellHidden
+				)
+			{
+				this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					new BoxStyle(gridCell),
+					true,
+					cellLocked,
+					cellHidden
 					);
 			}
 
@@ -1742,7 +1841,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					rotation,
 					font,
 					new BoxStyle(gridCell),
-					wrapText
+					wrapText,
+					true,
+					false
 					);
 			}
 
@@ -1764,7 +1865,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					rotation,
 					font,
 					box,
-					true
+					true,
+					true,
+					false
 					);
 			}
 
@@ -1778,19 +1881,75 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				BoxStyle box,
 				boolean wrapText
 				)
-			{
-				this.mode = mode;
-				this.backcolor = backcolor;
-				this.horizontalAlignment = horizontalAlignment;
-				this.verticalAlignment = verticalAlignment;
-				this.rotation = rotation;
-				this.font = font;
+		{
+			this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					box,
+					wrapText,
+					true,
+					false
+					);
+		}
 
-				this.box = box;
-				this.wrapText = wrapText;
 
-				hashCode = computeHash();
-			}
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				BoxStyle box,
+				boolean cellLocked,
+				boolean cellHidden
+				)
+		{
+			this(
+					mode,
+					backcolor,
+					horizontalAlignment,
+					verticalAlignment,
+					rotation,
+					font,
+					box,
+					true,
+					cellLocked,
+					cellHidden
+					);
+		}
+
+		public StyleInfo(
+				short mode,
+				short backcolor,
+				short horizontalAlignment,
+				short verticalAlignment,
+				short rotation,
+				HSSFFont font,
+				BoxStyle box,
+				boolean wrapText,
+				boolean cellLocked,
+				boolean cellHidden
+				)
+		{
+			this.mode = mode;
+			this.backcolor = backcolor;
+			this.horizontalAlignment = horizontalAlignment;
+			this.verticalAlignment = verticalAlignment;
+			this.rotation = rotation;
+			this.font = font;
+
+			this.box = box;
+			this.wrapText = wrapText;
+			this.cellLocked = cellLocked;
+			this.cellHidden = cellHidden;
+
+			hashCode = computeHash();
+		}
 
 		protected int computeHash()
 		{
@@ -1803,6 +1962,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			hash = 31*hash + (box == null ? 0 : box.hashCode());
 			hash = 31*hash + dataFormat;
 			hash = 31*hash + (this.wrapText ? 0 : 1);
+			hash = 31*hash + (this.cellLocked ? 0 : 1);
+			hash = 31*hash + (this.cellHidden ? 0 : 1);
 			return hash;
 		}
 
@@ -1838,7 +1999,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					&& s.rotation == rotation
 					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
 					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
-					&& s.rotation == rotation && s.wrapText == wrapText;
+					&& s.rotation == rotation && s.wrapText == wrapText 
+					&& s.cellLocked == cellLocked && s.cellHidden == cellHidden;
 		}
 
 		public String toString()
@@ -1847,7 +2009,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				mode + "," + backcolor + "," +
 				horizontalAlignment + "," + verticalAlignment + "," +
 				rotation + "," + font + "," +
-				box + "," + dataFormat + "," + wrapText + ")";
+				box + "," + dataFormat + "," + wrapText + "," + cellLocked + "," + cellHidden + ")";
 		}
 	}
 

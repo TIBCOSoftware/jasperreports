@@ -342,5 +342,19 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final String PROPERTY_FIT_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.fit.height";
 
+	/**
+	 * This property indicates whether the cell is locked.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CELL_LOCKED = JRProperties.PROPERTY_PREFIX + "export.xls.cell.locked";
+
+	/**
+	 * This property indicates whether the cell content is hidden.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CELL_HIDDEN = JRProperties.PROPERTY_PREFIX + "export.xls.cell.hidden";
+
 
 }

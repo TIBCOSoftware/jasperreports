@@ -107,6 +107,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isIgnoreCellBorder;
 	protected boolean isIgnoreCellBackground;
 	protected boolean wrapText;
+	protected boolean cellLocked;
+	protected boolean cellHidden;
 
 	protected int maxRowsPerSheet;
 
@@ -325,6 +327,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				jasperPrint,
 				JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT,
 				true
+				);
+
+		cellLocked = 
+			JRProperties.getBooleanProperty(
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED,
+				true
+				);
+
+		cellHidden = 
+			JRProperties.getBooleanProperty(
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN,
+				false
 				);
 
 		String[] sheetNamesArray = 
@@ -914,6 +930,41 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, wrapText);
 		}
 		return wrapText;
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isCellLocked(JRPrintElement element)
+	{
+
+		if (
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED, cellLocked);
+			}
+			return cellLocked;
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isCellHidden(JRPrintElement element)
+	{
+		if (
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN, cellHidden);
+			}
+			return cellHidden;
 	}
 
 	protected abstract ExporterNature getNature();
