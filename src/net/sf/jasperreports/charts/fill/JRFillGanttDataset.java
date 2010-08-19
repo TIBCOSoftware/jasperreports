@@ -55,11 +55,11 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	/**
 	 *
 	 */
-	protected JRFillGanttSeries[] ganttSeries = null;
+	protected JRFillGanttSeries[] ganttSeries;
 
-	private List seriesNames = null;
-	private Map seriesMap = null;
-	private Map labelsMap = null;
+	private List seriesNames;
+	private Map seriesMap;
+	private Map labelsMap;
 
 	private Map itemHyperlinks;
 

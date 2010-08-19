@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class JRFillDataRange  implements JRDataRange
 {
-	protected  JRDataRange parent = null;
+	protected  JRDataRange parent;
 
 	/**
 	 *

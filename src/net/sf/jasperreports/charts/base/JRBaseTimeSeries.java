@@ -46,10 +46,10 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRExpression seriesExpression = null;
-	protected JRExpression timePeriodExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
+	protected JRExpression seriesExpression;
+	protected JRExpression timePeriodExpression;
+	protected JRExpression valueExpression;
+	protected JRExpression labelExpression;
 	protected JRHyperlink itemHyperlink;
 
 	

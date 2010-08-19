@@ -55,11 +55,11 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	 * 
 	 * Make sure that all fields are read in readObject().
 	 */
-	protected Boolean circular = null;
-	protected String labelFormat = null;
-	protected String legendLabelFormat = null;
+	protected Boolean circular;
+	protected String labelFormat;
+	protected String legendLabelFormat;
 	
-	protected JRItemLabel itemLabel = null;
+	protected JRItemLabel itemLabel;
 
 	/**
 	 *

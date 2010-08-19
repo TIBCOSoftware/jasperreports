@@ -46,7 +46,7 @@ public class JRBaseXyDataset extends JRBaseChartDataset implements JRXyDataset
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRXySeries[] xySeries = null;
+	protected JRXySeries[] xySeries;
 
 	
 	/**

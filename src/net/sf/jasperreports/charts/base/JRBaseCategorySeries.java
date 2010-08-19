@@ -46,10 +46,10 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRExpression seriesExpression = null;
-	protected JRExpression categoryExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
+	protected JRExpression seriesExpression;
+	protected JRExpression categoryExpression;
+	protected JRExpression valueExpression;
+	protected JRExpression labelExpression;
 	protected JRHyperlink itemHyperlink;
 
 	

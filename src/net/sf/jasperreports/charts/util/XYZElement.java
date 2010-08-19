@@ -38,10 +38,10 @@ public class XYZElement implements Serializable {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Comparable series = null;
-	private List xElements = null;
-	private List yElements = null;
-	private List zElements = null;
+	private Comparable series;
+	private List xElements;
+	private List yElements;
+	private List zElements;
 	
 	public XYZElement(){
 		xElements = new ArrayList();

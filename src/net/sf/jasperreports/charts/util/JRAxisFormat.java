@@ -44,40 +44,40 @@ public class JRAxisFormat implements Serializable
 	/**
 	 * The color to use when writing the label of the axis.
 	 */
-	protected Color labelColor = null;
+	protected Color labelColor;
 
 	/**
 	 * The font to use when writing the label of the axis.
 	 */
-	protected JRFont labelFont = null;
+	protected JRFont labelFont;
 
 	/**
 	 * The color to use when writing the label of each tick mark. Ignored if tick marks are
 	 * disabled.
 	 */
-	protected Color tickLabelColor = null;
+	protected Color tickLabelColor;
 	
 	/**
 	 * The font to use when writing the label of each tick mark. Ignored if tick marks
 	 * are disabled.
 	 */
-	protected JRFont tickLabelFont = null;
+	protected JRFont tickLabelFont;
 
 	/**
 	 * The mask to use for formatting the label of each tick mark. Ignored if tick marks
 	 * are disabled, or if the axis being formatted is not either numeric or a date axis.
 	 */
-	protected String tickLabelMask = null;
+	protected String tickLabelMask;
 
 	/**
 	 * Flag to force rendering the tick labels rotated 90 degrees.
 	 */
-	protected Boolean verticalTickLabels = null;
+	protected Boolean verticalTickLabels;
 
 	/**
 	 * The color to use when drawing the axis line and tick marks, if enabled.
 	 */
-	protected Color lineColor = null;
+	protected Color lineColor;
 	
 	/**
 	 * Constructor.

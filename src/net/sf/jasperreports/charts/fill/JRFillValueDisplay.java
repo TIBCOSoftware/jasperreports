@@ -40,12 +40,12 @@ public class JRFillValueDisplay implements JRValueDisplay
 	/**
 	 *
 	 */
-	protected JRValueDisplay parent = null;
+	protected JRValueDisplay parent;
 
 	/**
 	 *
 	 */
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 	/**
 	 *

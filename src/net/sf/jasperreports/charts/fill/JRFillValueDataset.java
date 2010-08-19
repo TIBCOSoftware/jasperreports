@@ -43,7 +43,7 @@ import org.jfree.data.general.DefaultValueDataset;
 public class JRFillValueDataset extends JRFillChartDataset implements JRValueDataset
 {
 
-	private Number value = null;
+	private Number value;
 
 	/**
 	 *

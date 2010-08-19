@@ -45,15 +45,15 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	/**
 	 *
 	 */
-	protected JRGanttSeries parent = null;
+	protected JRGanttSeries parent;
 
-	private Comparable series = null;
-	private String task = null;
-	private String subtask = null;
-	private Date startDate = null;
-	private Date endDate = null;
-	private Number percent = null;
-	private String label = null;
+	private Comparable series;
+	private String task;
+	private String subtask;
+	private Date startDate;
+	private Date endDate;
+	private Number percent;
+	private String label;
 	private JRPrintHyperlink itemHyperlink;
 
 

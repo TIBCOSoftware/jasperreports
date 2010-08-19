@@ -46,11 +46,11 @@ public class JRFillPieSeries implements JRPieSeries
 	/**
 	 *
 	 */
-	protected JRPieSeries parent = null;
+	protected JRPieSeries parent;
 
-	private Comparable key = null;
-	private Number value = null;
-	private String label = null;
+	private Comparable key;
+	private Number value;
+	private String label;
 	private JRPrintHyperlink sectionHyperlink;
 	
 	

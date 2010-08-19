@@ -55,13 +55,13 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * The range of values that can be displayed by this thermometer.  Specifies
 	 * the upper and lower bounds of the meter itself.
 	 */
-	protected JRDataRange dataRange = null;
+	protected JRDataRange dataRange;
 
 	/**
 	 * Formatting information for the textual display of the value, including
 	 * font, color and a mask.
 	 */
-	protected JRValueDisplay valueDisplay = null;
+	protected JRValueDisplay valueDisplay;
 
 	/**
 	 * Indicates if the boundaries of each range should be shown.
@@ -72,27 +72,27 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	/**
 	 * Specifies where the textual display of the value should be shown.
 	 */
-	protected ValueLocationEnum valueLocationObject = null;
+	protected ValueLocationEnum valueLocationObject;
 
 	/**
 	 * The default color to use for the mercury in the thermometer.
 	 */
-	protected Color mercuryColor = null;
+	protected Color mercuryColor;
 
 	/**
 	 * The boundaries of the low range.
 	 */
-	protected JRDataRange lowRange = null;
+	protected JRDataRange lowRange;
 
 	/**
 	 * The boundaries of the medium range.
 	 */
-	protected JRDataRange mediumRange = null;
+	protected JRDataRange mediumRange;
 
 	/**
 	 * The boundaries of the high range.
 	 */
-	protected JRDataRange highRange = null;
+	protected JRDataRange highRange;
 
 	/**
 	 * Constructs a new thermometer plot that is a copy of an existing one.

@@ -44,13 +44,13 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRExpression seriesExpression = null;
-	protected JRExpression taskExpression = null;
-	protected JRExpression subtaskExpression = null;
-	protected JRExpression startDateExpression = null;
-	protected JRExpression endDateExpression = null;
-	protected JRExpression percentExpression = null;
-	protected JRExpression labelExpression = null;
+	protected JRExpression seriesExpression;
+	protected JRExpression taskExpression;
+	protected JRExpression subtaskExpression;
+	protected JRExpression startDateExpression;
+	protected JRExpression endDateExpression;
+	protected JRExpression percentExpression;
+	protected JRExpression labelExpression;
 	protected JRHyperlink itemHyperlink;
 
 	/**

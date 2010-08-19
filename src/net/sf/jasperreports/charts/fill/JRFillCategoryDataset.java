@@ -52,10 +52,10 @@ public class JRFillCategoryDataset extends JRFillChartDataset implements JRCateg
 	/**
 	 *
 	 */
-	protected JRFillCategorySeries[] categorySeries = null;
+	protected JRFillCategorySeries[] categorySeries;
 
-	private DefaultCategoryDataset dataset = null;
-	private Map labelsMap = null;
+	private DefaultCategoryDataset dataset;
+	private Map labelsMap;
 	
 	private Map itemHyperlinks;
 

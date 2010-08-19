@@ -48,12 +48,12 @@ public class JRFillTimeSeries implements JRTimeSeries
 	/**
 	 *
 	 */
-	protected JRTimeSeries parent = null;
+	protected JRTimeSeries parent;
 
-	private Comparable series = null;
-	private Date timePeriod = null;
-	private Number value = null;
-	private String label = null;
+	private Comparable series;
+	private Date timePeriod;
+	private Number value;
+	private String label;
 	private JRPrintHyperlink itemHyperlink;
 	
 	

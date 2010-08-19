@@ -40,12 +40,12 @@ public class JRFillItemLabel implements JRItemLabel
 	/**
 	 *
 	 */
-	protected JRItemLabel parent = null;
+	protected JRItemLabel parent;
 
 	/**
 	 *
 	 */
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 	/**
 	 *

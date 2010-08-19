@@ -48,7 +48,7 @@ public class JRFillChartAxis implements JRChartAxis
 	 * The filled version of the <code>chart</code> field.  Contains evaluated
 	 * expressions and data.
 	 */
-	protected JRFillChart fillChart = null;
+	protected JRFillChart fillChart;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

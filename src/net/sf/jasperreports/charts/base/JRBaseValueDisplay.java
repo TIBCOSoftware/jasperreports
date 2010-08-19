@@ -52,23 +52,23 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 	/**
 	 * The color to use when writing the value.
 	 */
-	protected Color color = null;
+	protected Color color;
 
 	/**
 	 * The formatting mask to use when writing the value.  Must a pattern
 	 * that is accepted by a code>java.text.DecimalFormat</code> object.
 	 */
-	protected String mask = null;
+	protected String mask;
 
 	/**
 	 * The font to use when writing the value.
 	 */
-	protected JRFont font = null;
+	protected JRFont font;
 
 
 	/**

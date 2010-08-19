@@ -46,7 +46,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRCategorySeries[] categorySeries = null;
+	protected JRCategorySeries[] categorySeries;
 
 	
 	/**

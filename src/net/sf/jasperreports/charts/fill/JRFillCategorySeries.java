@@ -46,12 +46,12 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	protected JRCategorySeries parent = null;
+	protected JRCategorySeries parent;
 
-	private Comparable series = null;
-	private Comparable category = null;
-	private Number value = null;
-	private String label = null;
+	private Comparable series;
+	private Comparable category;
+	private Number value;
+	private String label;
 	private JRPrintHyperlink itemHyperlink;
 	
 	

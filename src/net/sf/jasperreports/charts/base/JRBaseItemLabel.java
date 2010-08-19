@@ -51,28 +51,28 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 	/**
 	 * The item label text color.
 	 */
-	protected Color color = null;
+	protected Color color;
 
 	/**
 	 * The item label background color.
 	 */
-	protected Color backgroundColor = null;
+	protected Color backgroundColor;
 
 	/**
 	 * The formatting mask to use when writing the value.  Must a pattern
 	 * that is accepted by a code>java.text.DecimalFormat</code> object.
 	 */
-//	protected String mask = null;
+//	protected String mask;
 
 	/**
 	 * The item label text font.
 	 */
-	protected JRFont font = null;
+	protected JRFont font;
 
 
 	/**

@@ -40,7 +40,7 @@ public class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labelsMap = null;
+	private Map labelsMap;
 	
 	public TimeSeriesLabelGenerator(Map labelsMap)
 	{
