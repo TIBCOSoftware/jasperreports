@@ -55,7 +55,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	/**
 	 * The expression that returns the single value contained in this dataset.
 	 */
-	protected JRExpression valueExpression = null;
+	protected JRExpression valueExpression;
 
 
 	/**

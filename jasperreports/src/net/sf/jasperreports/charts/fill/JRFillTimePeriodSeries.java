@@ -45,13 +45,13 @@ public class JRFillTimePeriodSeries implements JRTimePeriodSeries {
 	/**
 	 * 
 	 */
-	protected JRTimePeriodSeries parent = null;
+	protected JRTimePeriodSeries parent;
 	
-	private Comparable series = null;
-	private Date startDate = null;
-	private Date endDate = null;
-	private Number value = null;
-	private String label = null;
+	private Comparable series;
+	private Date startDate;
+	private Date endDate;
+	private Number value;
+	private String label;
 	private JRPrintHyperlink itemHyperlink;
 	
 	

@@ -53,7 +53,7 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	/**
 	 * The expression that returns the single value contained in this dataset.
 	 */
-	protected JRExpression valueExpression = null;
+	protected JRExpression valueExpression;
 
 
 	/**

@@ -41,12 +41,12 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  */
 public class JRFillXyzSeries implements JRXyzSeries {
 	
-	JRXyzSeries parent = null;
+	JRXyzSeries parent;
 	
-	private Comparable series = null;
-	private Number xValue = null;
-	private Number yValue = null;
-	private Number zValue = null;
+	private Comparable series;
+	private Number xValue;
+	private Number yValue;
+	private Number zValue;
 	private JRPrintHyperlink itemHyperlink;
 	
 	public JRFillXyzSeries( JRXyzSeries xyzSeries, JRFillObjectFactory factory ){

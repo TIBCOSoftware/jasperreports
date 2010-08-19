@@ -46,9 +46,9 @@ public class JRBasePieSeries implements JRPieSeries, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRExpression keyExpression = null;
-	protected JRExpression valueExpression = null;
-	protected JRExpression labelExpression = null;
+	protected JRExpression keyExpression;
+	protected JRExpression valueExpression;
+	protected JRExpression labelExpression;
 	protected JRHyperlink sectionHyperlink;
 
 	

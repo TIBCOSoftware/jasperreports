@@ -49,12 +49,12 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 	/**
 	 * The expression used to calculate the lower bound of the range.
 	 */
-	protected JRExpression lowExpression = null;
+	protected JRExpression lowExpression;
 
 	/**
 	 * The expression used to calculate the upper bound of the range.
 	 */
-	protected JRExpression highExpression = null;
+	protected JRExpression highExpression;
 
 
 	/**

@@ -44,7 +44,7 @@ public class JRBaseGanttDataset extends JRBaseChartDataset implements JRGanttDat
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRGanttSeries[] ganttSeries = null;
+	protected JRGanttSeries[] ganttSeries;
 
 	/**
 	 *

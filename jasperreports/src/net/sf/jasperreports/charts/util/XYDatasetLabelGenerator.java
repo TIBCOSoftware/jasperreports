@@ -40,7 +40,7 @@ public class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labelsMap = null;
+	private Map labelsMap;
 	
 	public XYDatasetLabelGenerator(Map labelsMap)
 	{

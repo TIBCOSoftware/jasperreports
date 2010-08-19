@@ -51,31 +51,31 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	
 	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
 	
-	protected JRExpression xAxisLabelExpression = null;
-	protected JRFont xAxisLabelFont = null;
-	protected Color xAxisLabelColor = null;
-	protected JRFont xAxisTickLabelFont = null;
-	protected Color xAxisTickLabelColor = null;
-	protected String xAxisTickLabelMask = null;
-	protected Boolean xAxisVerticalTickLabels = null;
-	protected Color xAxisLineColor = null;
+	protected JRExpression xAxisLabelExpression;
+	protected JRFont xAxisLabelFont;
+	protected Color xAxisLabelColor;
+	protected JRFont xAxisTickLabelFont;
+	protected Color xAxisTickLabelColor;
+	protected String xAxisTickLabelMask;
+	protected Boolean xAxisVerticalTickLabels;
+	protected Color xAxisLineColor;
 
-	protected JRExpression yAxisLabelExpression = null;
-	protected JRFont yAxisLabelFont = null;
-	protected Color yAxisLabelColor = null;
-	protected JRFont yAxisTickLabelFont = null;
-	protected Color yAxisTickLabelColor = null;
-	protected String yAxisTickLabelMask = null;
-	protected Boolean yAxisVerticalTickLabels = null;
-	protected Color yAxisLineColor = null;
+	protected JRExpression yAxisLabelExpression;
+	protected JRFont yAxisLabelFont;
+	protected Color yAxisLabelColor;
+	protected JRFont yAxisTickLabelFont;
+	protected Color yAxisTickLabelColor;
+	protected String yAxisTickLabelMask;
+	protected Boolean yAxisVerticalTickLabels;
+	protected Color yAxisLineColor;
 	
-	protected JRExpression domainAxisMinValueExpression = null;
-	protected JRExpression domainAxisMaxValueExpression = null;
-	protected JRExpression rangeAxisMinValueExpression = null;
-	protected JRExpression rangeAxisMaxValueExpression = null;
+	protected JRExpression domainAxisMinValueExpression;
+	protected JRExpression domainAxisMaxValueExpression;
+	protected JRExpression rangeAxisMinValueExpression;
+	protected JRExpression rangeAxisMaxValueExpression;
 	
-	Boolean showShapes = null;
-	Boolean showLines = null;
+	Boolean showShapes;
+	Boolean showLines;
 	
 	
 	/**

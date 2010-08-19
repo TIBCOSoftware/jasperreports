@@ -46,12 +46,12 @@ public class JRFillXySeries implements JRXySeries
 	/**
 	 *
 	 */
-	protected JRXySeries parent = null;
+	protected JRXySeries parent;
 
-	private Comparable series = null;
-	private Number xValue = null;
-	private Number yValue = null;
-	private String label = null;
+	private Comparable series;
+	private Number xValue;
+	private Number yValue;
+	private String label;
 	private JRPrintHyperlink itemHyperlink;
 	
 	

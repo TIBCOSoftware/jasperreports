@@ -55,11 +55,11 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	/**
 	 * 
 	 */
-	protected JRFillTimeSeries[] timeSeries = null;
+	protected JRFillTimeSeries[] timeSeries;
 	
-	private List seriesNames = null;
-	private Map seriesMap = null;
-	private Map labelsMap = null;
+	private List seriesNames;
+	private Map seriesMap;
+	private Map labelsMap;
 	private Map itemHyperlinks;
 	
 	

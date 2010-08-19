@@ -48,7 +48,7 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	/**
 	 * The multiple axis chart that this axis belongs to.
 	 */
-	protected JRDesignChart parentChart = null;
+	protected JRDesignChart parentChart;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

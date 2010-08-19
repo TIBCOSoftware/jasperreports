@@ -47,9 +47,9 @@ import org.jfree.data.general.Dataset;
  */
 public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset {
 
-	protected JRFillXyzSeries[] xyzSeries = null;
+	protected JRFillXyzSeries[] xyzSeries;
 
-	private DefaultXYZDataset dataset = null;
+	private DefaultXYZDataset dataset;
 	
 	private Map itemHyperlinks;
 	

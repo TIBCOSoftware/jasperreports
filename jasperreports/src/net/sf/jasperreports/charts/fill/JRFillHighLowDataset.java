@@ -57,14 +57,14 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	/**
 	 *
 	 */
-	private String series = null;
+	private String series;
 	private List elements = new ArrayList();
-	private Date date = null;
-	private Number high = null;
-	private Number low = null;
-	private Number open = null;
-	private Number close = null;
-	private Number volume = null;
+	private Date date;
+	private Number high;
+	private Number low;
+	private Number open;
+	private Number close;
+	private Number volume;
 	
 	private JRPrintHyperlink itemHyperlink;
 	private List itemHyperlinks;

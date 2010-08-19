@@ -62,17 +62,17 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
-	protected JRFillPieSeries[] pieSeries = null;
+	protected JRFillPieSeries[] pieSeries;
 
 	/**
 	 *
 	 */
-	private Map values = null;
-	private Map labels = null;
+	private Map values;
+	private Map labels;
 	private Map sectionHyperlinks;
 	
-	private Comparable otherKey = null;
-	private String otherLabel = null;
+	private Comparable otherKey;
+	private String otherLabel;
 	private JRPrintHyperlink otherSectionHyperlink;
 	
 	

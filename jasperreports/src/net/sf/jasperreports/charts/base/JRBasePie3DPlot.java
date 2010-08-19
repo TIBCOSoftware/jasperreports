@@ -57,12 +57,12 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 	
-	protected Double depthFactorDouble = null;
-	protected Boolean circular = null;
-	protected String labelFormat = null;
-	protected String legendLabelFormat = null;
+	protected Double depthFactorDouble;
+	protected Boolean circular;
+	protected String labelFormat;
+	protected String legendLabelFormat;
 	
-	protected JRItemLabel itemLabel = null;
+	protected JRItemLabel itemLabel;
 	/**
 	 *
 	 */

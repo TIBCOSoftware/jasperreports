@@ -46,10 +46,10 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	protected JRExpression seriesExpression = null;
-	protected JRExpression xValueExpression = null;
-	protected JRExpression yValueExpression = null;
-	protected JRExpression labelExpression = null;
+	protected JRExpression seriesExpression;
+	protected JRExpression xValueExpression;
+	protected JRExpression yValueExpression;
+	protected JRExpression labelExpression;
 	protected JRHyperlink itemHyperlink;
 
 	

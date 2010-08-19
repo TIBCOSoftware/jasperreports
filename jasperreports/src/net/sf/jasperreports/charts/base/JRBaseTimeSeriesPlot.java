@@ -52,30 +52,30 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	
 	public static final String PROPERTY_SHOW_SHAPES = "showShapes";
 	
-	protected JRExpression timeAxisLabelExpression = null;
-	protected JRFont timeAxisLabelFont = null;
-	protected Color timeAxisLabelColor = null;
-	protected JRFont timeAxisTickLabelFont = null;
-	protected Color timeAxisTickLabelColor = null;
-	protected String timeAxisTickLabelMask = null;
-	protected Boolean timeAxisVerticalTickLabels = null;
-	protected Color timeAxisLineColor = null;
+	protected JRExpression timeAxisLabelExpression;
+	protected JRFont timeAxisLabelFont;
+	protected Color timeAxisLabelColor;
+	protected JRFont timeAxisTickLabelFont;
+	protected Color timeAxisTickLabelColor;
+	protected String timeAxisTickLabelMask;
+	protected Boolean timeAxisVerticalTickLabels;
+	protected Color timeAxisLineColor;
 
-	protected JRExpression valueAxisLabelExpression = null;
-	protected JRExpression rangeAxisMinValueExpression = null;
-	protected JRExpression rangeAxisMaxValueExpression = null;
-	protected JRExpression domainAxisMinValueExpression = null;
-	protected JRExpression domainAxisMaxValueExpression = null;
-	protected JRFont valueAxisLabelFont = null;
-	protected Color valueAxisLabelColor = null;
-	protected JRFont valueAxisTickLabelFont = null;
-	protected Color valueAxisTickLabelColor = null;
-	protected String valueAxisTickLabelMask = null;
-	protected Boolean valueAxisVerticalTickLabels = null;
-	protected Color valueAxisLineColor = null;
+	protected JRExpression valueAxisLabelExpression;
+	protected JRExpression rangeAxisMinValueExpression;
+	protected JRExpression rangeAxisMaxValueExpression;
+	protected JRExpression domainAxisMinValueExpression;
+	protected JRExpression domainAxisMaxValueExpression;
+	protected JRFont valueAxisLabelFont;
+	protected Color valueAxisLabelColor;
+	protected JRFont valueAxisTickLabelFont;
+	protected Color valueAxisTickLabelColor;
+	protected String valueAxisTickLabelMask;
+	protected Boolean valueAxisVerticalTickLabels;
+	protected Color valueAxisLineColor;
 	
-	Boolean showShapes = null;
-	Boolean showLines = null;
+	Boolean showShapes;
+	Boolean showLines;
 	
 	/**
 	 * 

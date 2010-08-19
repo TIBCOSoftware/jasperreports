@@ -44,17 +44,17 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	/**
 	 *
 	 */
-	protected JRFont xAxisLabelFont = null;
-	protected Color xAxisLabelColor = null;
-	protected JRFont xAxisTickLabelFont = null;
-	protected Color xAxisTickLabelColor = null;
-	protected Color xAxisLineColor = null;
+	protected JRFont xAxisLabelFont;
+	protected Color xAxisLabelColor;
+	protected JRFont xAxisTickLabelFont;
+	protected Color xAxisTickLabelColor;
+	protected Color xAxisLineColor;
 
-	protected JRFont yAxisLabelFont = null;
-	protected Color yAxisLabelColor = null;
-	protected JRFont yAxisTickLabelFont = null;
-	protected Color yAxisTickLabelColor = null;
-	protected Color yAxisLineColor = null;
+	protected JRFont yAxisLabelFont;
+	protected Color yAxisLabelColor;
+	protected JRFont yAxisTickLabelFont;
+	protected Color yAxisTickLabelColor;
+	protected Color yAxisLineColor;
 
 	
 	/**

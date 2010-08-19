@@ -46,7 +46,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	
 	public static final String PROPERTY_AXES = "axes";
 	
-	private JRDesignChart chart = null;
+	private JRDesignChart chart;
 	/**
 	 *
 	 */

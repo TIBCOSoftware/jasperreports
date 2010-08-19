@@ -46,17 +46,17 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	/**
 	 *
 	 */
-	protected JRFont categoryAxisLabelFont = null;
-	protected Color categoryAxisLabelColor = null;
-	protected JRFont categoryAxisTickLabelFont = null;
-	protected Color categoryAxisTickLabelColor = null;
-	protected Color categoryAxisLineColor = null;
+	protected JRFont categoryAxisLabelFont;
+	protected Color categoryAxisLabelColor;
+	protected JRFont categoryAxisTickLabelFont;
+	protected Color categoryAxisTickLabelColor;
+	protected Color categoryAxisLineColor;
 
-	protected JRFont valueAxisLabelFont = null;
-	protected Color valueAxisLabelColor = null;
-	protected JRFont valueAxisTickLabelFont = null;
-	protected Color valueAxisTickLabelColor = null;
-	protected Color valueAxisLineColor = null;
+	protected JRFont valueAxisLabelFont;
+	protected Color valueAxisLabelColor;
+	protected JRFont valueAxisTickLabelFont;
+	protected Color valueAxisTickLabelColor;
+	protected Color valueAxisLineColor;
 
 	
 	/**
