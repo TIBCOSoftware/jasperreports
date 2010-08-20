@@ -91,10 +91,10 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected ScaleImageEnum scaleImageValue = null;
+	protected ScaleImageEnum scaleImageValue;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
-	protected Boolean isUsingCache = null;
+	protected Boolean isUsingCache;
 	protected boolean isLazy = false;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
@@ -105,17 +105,17 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRLineBox lineBox = null;
+	protected JRLineBox lineBox;
 
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
-	protected JRExpression expression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
+	protected JRGroup evaluationGroup;
+	protected JRExpression expression;
+	protected JRExpression anchorNameExpression;
+	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkAnchorExpression;
+	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
 
 	/**
@@ -1324,63 +1324,63 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */

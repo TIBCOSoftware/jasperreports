@@ -112,10 +112,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected int maxRowsPerSheet;
 
-	protected String[] sheetNames = null;
+	protected String[] sheetNames;
 
 
-	protected JRExportProgressMonitor progressMonitor = null;
+	protected JRExportProgressMonitor progressMonitor;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
@@ -123,12 +123,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	/**
 	 *
 	 */
-	protected JRFont defaultFont = null;
+	protected JRFont defaultFont;
 
 	/**
 	 * used for counting the total number of sheets
@@ -139,8 +139,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * used when indexing the identical sheet generated names with ordering numbers;
 	 * contains sheet names as keys and the number of occurrences of each sheet name as values
 	 */
-	protected Map sheetNamesMap = null;
-	protected String currentSheetName = null;
+	protected Map sheetNamesMap;
+	protected String currentSheetName;
 
 	protected boolean isIgnorePageMargins;
 

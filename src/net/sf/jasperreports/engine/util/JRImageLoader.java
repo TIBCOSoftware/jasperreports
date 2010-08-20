@@ -92,8 +92,8 @@ public final class JRImageLoader
 	/**
 	 *
 	 */
-	private static JRImageReader imageReader = null;
-	private static JRImageEncoder imageEncoder = null;
+	private static JRImageReader imageReader;
+	private static JRImageEncoder imageEncoder;
 	
 
 	static

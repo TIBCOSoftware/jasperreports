@@ -53,7 +53,7 @@ public class JRFillContext
 	private Map loadedTemplates;
 	private boolean usingVirtualizer = false;
 	private boolean perPageBoundElements = false;
-	private JRPrintPage printPage = null;
+	private JRPrintPage printPage;
 	private boolean ignorePagination = false;
 	private JRQueryExecuter queryExecuter;
 

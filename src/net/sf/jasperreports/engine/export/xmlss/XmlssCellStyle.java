@@ -62,7 +62,7 @@ public class XmlssCellStyle extends XmlssBorderStyle
 	private static final String STYLE_NONE = "None";
 	private static final String UNDERLINE_STYLE_SINGLE = "Single";
 	
-	//private String fill = null;
+	//private String fill;
 	private final String id;
 
 	private String backcolor = XmlssCellStyle.STYLE_AUTOMATIC;

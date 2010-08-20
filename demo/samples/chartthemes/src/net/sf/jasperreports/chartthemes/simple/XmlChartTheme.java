@@ -55,7 +55,7 @@ public class XmlChartTheme extends SimpleChartTheme
 	/**
 	 *
 	 */
-	private String file = null;
+	private String file;
 	
 	/**
 	 *

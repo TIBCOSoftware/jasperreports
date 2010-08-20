@@ -27,7 +27,7 @@
  * 
  * Contributors:
  * Majid Ali Khan - majidkk@users.sourceforge.net
- * Frank Schönheit - Frank.Schoenheit@Sun.COM
+ * Frank Schï¿½nheit - Frank.Schoenheit@Sun.COM
  */
 package net.sf.jasperreports.engine.export.oasis;
 
@@ -54,11 +54,11 @@ public class ContentBuilder
 	/**
 	 * 
 	 */
-	private ExportZipEntry contentEntry = null;
-	private ExportZipEntry styleEntry = null;
-	private ExportZipEntry bodyEntry = null;
+	private ExportZipEntry contentEntry;
+	private ExportZipEntry styleEntry;
+	private ExportZipEntry bodyEntry;
 	
-	private Collection fontFaces = null;
+	private Collection fontFaces;
 	
 	private byte openDocumentNature;
 	

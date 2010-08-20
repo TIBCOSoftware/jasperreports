@@ -102,13 +102,13 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Writer tempBodyWriter = null;
-	protected Writer tempStyleWriter = null;
+	protected Writer tempBodyWriter;
+	protected Writer tempStyleWriter;
 
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
+	protected List imagesToProcess;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
@@ -118,7 +118,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String encoding = null;
+	protected String encoding;
 
 
 	/**
@@ -129,14 +129,14 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	protected StyleCache styleCache = null;
+	protected StyleCache styleCache;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
 	public JROpenDocumentExporter()
 	{

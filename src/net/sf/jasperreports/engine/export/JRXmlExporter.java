@@ -125,22 +125,22 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected JRXmlWriteHelper xmlWriter = null;
-	protected String encoding = null;
+	protected JRXmlWriteHelper xmlWriter;
+	protected String encoding;
 	
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
-	protected Map imageNameToImageDataMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
+	protected Map imageNameToImageDataMap;
 	protected Map fontsMap = new HashMap();
 	protected Map stylesMap = new HashMap();
 
 	/**
 	 *
 	 */
-	protected String dtdLocation = null;
+	protected String dtdLocation;
 	protected boolean isEmbeddingImages = true;
-	protected File destFile = null;
-	protected File imagesDir = null;
+	protected File destFile;
+	protected File imagesDir;
 
 	/**
 	 * 

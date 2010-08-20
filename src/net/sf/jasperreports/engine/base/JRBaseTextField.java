@@ -64,7 +64,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	protected boolean isStretchWithOverflow = false;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String pattern;
-	protected Boolean isBlankWhenNull = null;
+	protected Boolean isBlankWhenNull;
 	protected String linkType;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
@@ -72,12 +72,12 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
-	protected JRExpression expression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
+	protected JRGroup evaluationGroup;
+	protected JRExpression expression;
+	protected JRExpression anchorNameExpression;
+	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkAnchorExpression;
+	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
 
 	/**

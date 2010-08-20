@@ -56,7 +56,7 @@ public class JasperViewer extends javax.swing.JFrame
 	/**
 	 *
 	 */
-	protected JRViewer viewer = null;
+	protected JRViewer viewer;
 
 	/**
 	 *

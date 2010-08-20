@@ -158,26 +158,26 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Writer writer = null;
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected Writer writer;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
+	protected List imagesToProcess;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
-	protected List frameIndexStack = null;
+	protected List frameIndexStack;
 	protected int elementIndex = 0;
 
 	/**
 	 *
 	 */
-	protected File imagesDir = null;
-	protected String imagesURI = null;
+	protected File imagesDir;
+	protected String imagesURI;
 	protected boolean isOutputImagesToDir = false;
 	protected boolean isWhitePageBackground;
 	protected String encoding;
-	protected String sizeUnit = null;
+	protected String sizeUnit;
 	protected float zoom = DEFAULT_ZOOM;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
@@ -185,15 +185,15 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String htmlHeader = null;
-	protected String betweenPagesHtml = null;
-	protected String htmlFooter = null;
+	protected String htmlHeader;
+	protected String betweenPagesHtml;
+	protected String htmlFooter;
 
 
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 

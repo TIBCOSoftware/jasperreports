@@ -52,23 +52,23 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	/**
 	 * The range of this interval.  Must be inside the meter's range.
 	 */
-	protected JRDataRange dataRange = null;
+	protected JRDataRange dataRange;
 
 	/**
 	 * The label of this interval.  Only appears in the meter's legend.
 	 */
-	protected String label = null;
+	protected String label;
 
 	/**
 	 * Color to use to shade in this region on the meter's face.
 	 */
-	protected Color backgroundColor = null;
+	protected Color backgroundColor;
 
 	/**
 	 * Transparency of the interval's color.  1.0 is fully opaque, 0.0 is
 	 * fully transparent.
 	 */
-	protected Double alphaDouble = null;
+	protected Double alphaDouble;
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 

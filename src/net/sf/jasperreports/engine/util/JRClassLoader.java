@@ -37,7 +37,7 @@ import java.security.ProtectionDomain;
 public class JRClassLoader extends ClassLoader
 {
 
-	private static ProtectionDomainFactory protectionDomainFactory = null;
+	private static ProtectionDomainFactory protectionDomainFactory;
 	
 	protected static synchronized ProtectionDomainFactory getProtectionDomainFactory()
 	{

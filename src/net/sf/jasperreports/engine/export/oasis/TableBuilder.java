@@ -42,10 +42,10 @@ import java.io.Writer;
 public class TableBuilder 
 {
 
-	private String tableName = null;
+	private String tableName;
 	private int reportIndex = 0;
-	private Writer bodyWriter = null;
-	private Writer styleWriter = null;
+	private Writer bodyWriter;
+	private Writer styleWriter;
 	private boolean isFrame = false;
 	private boolean isPageBreak = false;
 	

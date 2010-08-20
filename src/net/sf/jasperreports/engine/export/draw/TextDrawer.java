@@ -52,7 +52,7 @@ public class TextDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	protected TextRenderer textRenderer = null;
+	protected TextRenderer textRenderer;
 
 	
 	/**

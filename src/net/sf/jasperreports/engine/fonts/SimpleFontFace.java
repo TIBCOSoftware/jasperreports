@@ -44,8 +44,8 @@ public class SimpleFontFace implements FontFace
 	/**
 	 * 
 	 */
-	private String file = null;
-	private Font font = null;
+	private String file;
+	private Font font;
 	
 	/**
 	 * 

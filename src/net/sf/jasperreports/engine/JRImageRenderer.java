@@ -60,14 +60,14 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private byte[] imageData = null;
-	private String imageLocation = null;
+	private byte[] imageData;
+	private String imageLocation;
 	private byte imageType = IMAGE_TYPE_UNKNOWN;
 
 	/**
 	 *
 	 */
-	private transient SoftReference awtImageRef = null;
+	private transient SoftReference awtImageRef;
 
 
 	/**

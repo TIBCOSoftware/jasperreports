@@ -167,16 +167,16 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Document document = null;
-	protected PdfContentByte pdfContentByte = null;
-	protected PdfWriter pdfWriter = null;
+	protected Document document;
+	protected PdfContentByte pdfContentByte;
+	protected PdfWriter pdfWriter;
 
-	protected Document imageTesterDocument = null;
-	protected PdfContentByte imageTesterPdfContentByte = null;
+	protected Document imageTesterDocument;
+	protected PdfContentByte imageTesterPdfContentByte;
 	
 	protected JRPdfExporterTagHelper tagHelper = new JRPdfExporterTagHelper(this);
 
-	protected JRExportProgressMonitor progressMonitor = null;
+	protected JRExportProgressMonitor progressMonitor;
 
 	protected int reportIndex = 0;
 
@@ -200,15 +200,15 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Map loadedImagesMap = null;
-	protected Image pxImage = null;
+	protected Map loadedImagesMap;
+	protected Image pxImage;
 
-	private BookmarkStack bookmarkStack = null;
+	private BookmarkStack bookmarkStack;
 
 	/**
 	 * @deprecated
 	 */
-	private Map fontMap = null;
+	private Map fontMap;
 
 	private SplitCharacter splitCharacter;
 	

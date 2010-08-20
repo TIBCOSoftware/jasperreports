@@ -76,27 +76,27 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRDefaultFontProvider defaultFontProvider = null;
+	protected JRDefaultFontProvider defaultFontProvider;
 
 	/**
 	 *
 	 */
-	protected JRReportFont reportFont = null;
+	protected JRReportFont reportFont;
 
 	/**
 	 *
 	 */
-	protected JRStyleContainer styleContainer = null;
+	protected JRStyleContainer styleContainer;
 
-	protected String fontName = null;
-	protected Boolean isBold = null;
-	protected Boolean isItalic = null;
-	protected Boolean isUnderline = null;
-	protected Boolean isStrikeThrough = null;
-	protected Integer fontSize = null;
-	protected String pdfFontName = null;
-	protected String pdfEncoding = null;
-	protected Boolean isPdfEmbedded = null;
+	protected String fontName;
+	protected Boolean isBold;
+	protected Boolean isItalic;
+	protected Boolean isUnderline;
+	protected Boolean isStrikeThrough;
+	protected Integer fontSize;
+	protected String pdfFontName;
+	protected String pdfEncoding;
+	protected Boolean isPdfEmbedded;
 
 
 	/**

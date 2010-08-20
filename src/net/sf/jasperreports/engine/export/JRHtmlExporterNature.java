@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class JRHtmlExporterNature implements ExporterNature
 {
 	
-	private ExporterFilter filter = null;
+	private ExporterFilter filter;
 	private final boolean deep;
 	private final boolean ignorePageMargins;
 	

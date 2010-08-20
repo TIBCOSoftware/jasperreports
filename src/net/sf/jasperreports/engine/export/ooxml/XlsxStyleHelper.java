@@ -49,8 +49,8 @@ public class XlsxStyleHelper extends BaseHelper
 	
 	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-	private XlsxFontHelper fontHelper = null;
-	private XlsxBorderHelper borderHelper = null;
+	private XlsxFontHelper fontHelper;
+	private XlsxBorderHelper borderHelper;
 	
 	private boolean isWhitePageBackground = false;
 	private boolean isIgnoreCellBackground = false;

@@ -60,7 +60,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class JRXlsDataSource implements JRRewindableDataSource
 {
-	private Workbook workbook = null;
+	private Workbook workbook;
 
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
@@ -68,7 +68,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 	private boolean useFirstRowAsHeader = false;
 	private int recordIndex = -1;
 
-	private InputStream inputStream = null;
+	private InputStream inputStream;
 	private boolean closeWorkbook = false;
 
 

@@ -45,10 +45,10 @@ public abstract class JRAbstractScriptlet
 	/**
 	 *
 	 */
-	protected Map parametersMap = null;
-	protected Map fieldsMap = null;
-	protected Map variablesMap = null;
-	protected JRFillGroup[] groups = null;
+	protected Map parametersMap;
+	protected Map fieldsMap;
+	protected Map variablesMap;
+	protected JRFillGroup[] groups;
 
 
 	/**

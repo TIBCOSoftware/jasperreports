@@ -49,8 +49,8 @@ public class JRBaseDatasetParameter implements JRDatasetParameter, Serializable
 	/**
 	 *
 	 */
-	protected String name = null;
-	protected JRExpression expression = null;
+	protected String name;
+	protected JRExpression expression;
 
 
 	/**

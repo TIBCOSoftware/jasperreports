@@ -41,9 +41,9 @@ public class JRFillSection implements JRSection, JROriginProvider
 	 */
 	protected JRBaseFiller filler;
 
-	protected JRFillBand[] bands = null;
+	protected JRFillBand[] bands;
 
-	protected JROrigin origin = null;
+	protected JROrigin origin;
 
 	private boolean isEmpty = true;
 	private boolean areAllPrintWhenExprNull = true;

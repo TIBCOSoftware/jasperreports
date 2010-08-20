@@ -61,17 +61,17 @@ public class ChartSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	private PaintProvider backgroundPaint = null;
-	private ImageProvider backgroundImage = null;
-	private Integer backgroundImageAlignment = null;
-	private Float backgroundImageAlpha = null;
+	private PaintProvider backgroundPaint;
+	private ImageProvider backgroundImage;
+	private Integer backgroundImageAlignment;
+	private Float backgroundImageAlpha;
 	private JRFont font = new JRBaseFont();
-	private Boolean borderVisible = null;
-	private PaintProvider borderPaint = null;
-	private Stroke borderStroke = null;
-	private Boolean antiAlias = null;
-	private Boolean textAntiAlias = null;
-	private RectangleInsets padding = null;
+	private Boolean borderVisible;
+	private PaintProvider borderPaint;
+	private Stroke borderStroke;
+	private Boolean antiAlias;
+	private Boolean textAntiAlias;
+	private RectangleInsets padding;
 	
 	/**
 	 *

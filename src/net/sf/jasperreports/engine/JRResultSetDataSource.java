@@ -64,7 +64,7 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
-	private ResultSet resultSet = null;
+	private ResultSet resultSet;
 	private Map columnIndexMap = new HashMap();
 	
 

@@ -50,7 +50,7 @@ public class FillSpiderPlot implements SpiderPlot
 	/**
 	 *
 	 */
-	protected SpiderPlot parent = null;
+	protected SpiderPlot parent;
 
 	/**
 	 *

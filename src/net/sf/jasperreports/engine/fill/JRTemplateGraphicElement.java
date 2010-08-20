@@ -58,8 +58,8 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 	/**
 	 *
 	 */
-	protected JRPen linePen = null;
-	private FillEnum fillValue = null;
+	protected JRPen linePen;
+	private FillEnum fillValue;
 
 
 	/**

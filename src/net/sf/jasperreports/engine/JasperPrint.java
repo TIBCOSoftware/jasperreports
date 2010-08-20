@@ -113,7 +113,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 *
 	 */
-	private String name = null;
+	private String name;
 	private int pageWidth = 0;
 	private int pageHeight = 0;
 	private Integer topMargin = 0;
@@ -131,8 +131,8 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 
 	private List pages = new ArrayList();
 
-	private transient Map anchorIndexes = null;
-	private DefaultStyleProvider defaultStyleProvider = null;
+	private transient Map anchorIndexes;
+	private DefaultStyleProvider defaultStyleProvider;
 	
 	private String formatFactoryClass;
 	private String localeCode;

@@ -41,7 +41,7 @@ public class ViewerFrame extends javax.swing.JFrame implements JRHyperlinkListen
 	/**
 	 *
 	 */
-	private AppletContext appletContext = null;
+	private AppletContext appletContext;
 
 
 	/**

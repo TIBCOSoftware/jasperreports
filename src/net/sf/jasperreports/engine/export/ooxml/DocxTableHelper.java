@@ -38,9 +38,9 @@ public class DocxTableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private CutsInfo xCuts = null;
-	private DocxCellHelper cellHelper = null;
-	private DocxParagraphHelper paragraphHelper = null;
+	private CutsInfo xCuts;
+	private DocxCellHelper cellHelper;
+	private DocxParagraphHelper paragraphHelper;
 
 
 	/**

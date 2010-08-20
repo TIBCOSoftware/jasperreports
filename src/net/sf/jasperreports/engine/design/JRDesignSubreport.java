@@ -71,7 +71,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected Boolean isUsingCache = null;
+	protected Boolean isUsingCache;
 
 	private Boolean runToBottom;
 
@@ -88,10 +88,10 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected JRExpression parametersMapExpression = null;
-	protected JRExpression connectionExpression = null;
-	protected JRExpression dataSourceExpression = null;
-	protected JRExpression expression = null;
+	protected JRExpression parametersMapExpression;
+	protected JRExpression connectionExpression;
+	protected JRExpression dataSourceExpression;
+	protected JRExpression expression;
 
 
 	/**

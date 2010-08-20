@@ -51,8 +51,8 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private Map fontMap = null;
-	private String exporterKey = null;
+	private Map fontMap;
+	private String exporterKey;
 
 
 	/**

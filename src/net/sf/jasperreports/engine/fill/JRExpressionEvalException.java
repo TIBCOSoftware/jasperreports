@@ -40,7 +40,7 @@ public class JRExpressionEvalException extends JRException
 	/**
 	 *
 	 */
-	private JRExpression expression = null;
+	private JRExpression expression;
 
 
 	/**

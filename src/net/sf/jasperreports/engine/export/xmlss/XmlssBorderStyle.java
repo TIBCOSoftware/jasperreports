@@ -47,7 +47,7 @@ public abstract class XmlssBorderStyle extends XmlssStyle
 	protected static final int BOTTOM_BORDER = 2;
 	protected static final int RIGHT_BORDER = 3;
 	
-	protected JRPrintElement element = null;
+	protected JRPrintElement element;
 	
 	private String[] borderColor = new String[4];
 	private String[] borderWidth = new String[4];

@@ -58,7 +58,7 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	 *
 	 */
 	private Map objectsMap = new HashMap();
-	private Object visitResult = null;
+	private Object visitResult;
 
 
 	/**

@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.export.ExporterNature;
  */
 public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 {
-	protected ExporterFilter filter = null;
+	protected ExporterFilter filter;
 
 	/**
 	 * 

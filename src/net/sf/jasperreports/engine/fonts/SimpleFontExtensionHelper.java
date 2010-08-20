@@ -108,7 +108,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private DocumentBuilder documentBuilder = null;
+	private DocumentBuilder documentBuilder;
 
 
 	/**

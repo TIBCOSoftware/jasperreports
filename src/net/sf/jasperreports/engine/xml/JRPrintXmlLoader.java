@@ -62,7 +62,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
+	private JasperPrint jasperPrint;
 	private List errors = new ArrayList();
 
 

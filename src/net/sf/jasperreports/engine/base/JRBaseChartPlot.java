@@ -69,13 +69,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	
 	public static final String PROPERTY_SERIES_COLORS = "seriesColors";
 	
-	protected JRChart chart = null;
-	protected Color backcolor = null;
+	protected JRChart chart;
+	protected Color backcolor;
 	protected PlotOrientation orientation = PlotOrientation.VERTICAL;
-	protected Float backgroundAlphaFloat = null;
-	protected Float foregroundAlphaFloat = null;
-	protected Double labelRotationDouble = null;
-	protected SortedSet  seriesColors = null;
+	protected Float backgroundAlphaFloat;
+	protected Float foregroundAlphaFloat;
+	protected Double labelRotationDouble;
+	protected SortedSet  seriesColors;
 
 
 	/**
@@ -326,7 +326,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		protected int seriesOrder = -1;
-		protected Color color = null;
+		protected Color color;
 		
 		public JRBaseSeriesColor(int seriesOrder, Color color)
 		{

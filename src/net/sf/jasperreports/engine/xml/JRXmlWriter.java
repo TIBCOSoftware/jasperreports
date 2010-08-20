@@ -196,8 +196,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 *
 	 */
-	private JRReport report = null;
-	private String encoding = null;
+	private JRReport report;
+	private String encoding;
 
 	/**
 	 *

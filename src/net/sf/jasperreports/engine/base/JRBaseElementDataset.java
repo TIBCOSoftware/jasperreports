@@ -52,8 +52,8 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 
 	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
 	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRGroup resetGroup;
+	protected JRGroup incrementGroup;
 	
 	protected JRDatasetRun datasetRun;
 	protected JRExpression incrementWhenExpression;

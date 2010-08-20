@@ -58,7 +58,7 @@ public class JCommonDrawableRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */	
-	private Drawable drawable = null;
+	private Drawable drawable;
 
 
 	/**

@@ -63,14 +63,14 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	 *
 	 */
 	private String key;
-	private ModeEnum modeValue = null;
-	private Color forecolor = null;
-	private Color backcolor = null;
+	private ModeEnum modeValue;
+	private Color forecolor;
+	private Color backcolor;
 
-	protected JROrigin origin = null;
+	protected JROrigin origin;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
-	protected JRStyle parentStyle = null;
+	protected JRStyle parentStyle;
 
 	private final String id;
 	

@@ -40,8 +40,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class FileBufferedWriter extends Writer 
 {
-	private FileBufferedOutputStream fbos = null;
-	private Writer osw = null;
+	private FileBufferedOutputStream fbos;
+	private Writer osw;
 	private boolean isEmpty = true;
 
 	/**

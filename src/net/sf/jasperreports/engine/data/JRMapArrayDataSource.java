@@ -40,7 +40,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private Object[] records = null;
+	private Object[] records;
 	private int index = -1;
 	
 

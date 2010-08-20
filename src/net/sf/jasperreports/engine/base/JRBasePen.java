@@ -61,14 +61,14 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	public static final String PROPERTY_LINE_COLOR = "lineColor";
 	
 
-	protected JRPenContainer penContainer = null;
+	protected JRPenContainer penContainer;
 
 	/**
 	 *
 	 */
-	protected Float lineWidth = null;
-	protected LineStyleEnum lineStyleValue = null;
-	protected Color lineColor = null;
+	protected Float lineWidth;
+	protected LineStyleEnum lineStyleValue;
+	protected Color lineColor;
 
 	
 	/**
@@ -257,7 +257,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	/**
 	 * @deprecated
 	 */
-	private Byte lineStyle = null;
+	private Byte lineStyle;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

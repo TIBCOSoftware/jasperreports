@@ -47,8 +47,8 @@ public class JRDesignReportFont extends JRDesignFont implements JRReportFont
 	/**
 	 *
 	 */
-	protected String name = null;
-	protected boolean isDefault = false;
+	protected String name;
+	protected boolean isDefault;
 
 
 	/**

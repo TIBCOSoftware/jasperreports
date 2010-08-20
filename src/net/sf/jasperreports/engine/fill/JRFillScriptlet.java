@@ -40,12 +40,12 @@ public class JRFillScriptlet implements JRScriptlet
 	/**
 	 *
 	 */
-	protected JRScriptlet parent = null;
+	protected JRScriptlet parent;
 
 	/**
 	 *
 	 */
-	private JRAbstractScriptlet scriptlet = null;
+	private JRAbstractScriptlet scriptlet;
 
 
 	/**

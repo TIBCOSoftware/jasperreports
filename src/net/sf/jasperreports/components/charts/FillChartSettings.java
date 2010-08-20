@@ -53,7 +53,7 @@ public class FillChartSettings implements ChartSettings
 	/**
 	 *
 	 */
-	protected ChartSettings parent = null;
+	protected ChartSettings parent;
 
 	/**
 	 *

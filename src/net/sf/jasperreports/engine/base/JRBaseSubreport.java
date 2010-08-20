@@ -54,23 +54,23 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected Boolean isUsingCache = null;
+	protected Boolean isUsingCache;
 
 	private Boolean runToBottom;
 
 	/**
 	 *
 	 */
-	protected JRExpression parametersMapExpression = null;
-	protected JRSubreportParameter[] parameters = null;
-	protected JRExpression connectionExpression = null;
-	protected JRExpression dataSourceExpression = null;
-	protected JRExpression expression = null;
+	protected JRExpression parametersMapExpression;
+	protected JRSubreportParameter[] parameters;
+	protected JRExpression connectionExpression;
+	protected JRExpression dataSourceExpression;
+	protected JRExpression expression;
 	
 	/**
 	 * Values to be copied from the subreport into the master report.
 	 */
-	protected JRSubreportReturnValue[] returnValues = null;
+	protected JRSubreportReturnValue[] returnValues;
 
 
 	/**

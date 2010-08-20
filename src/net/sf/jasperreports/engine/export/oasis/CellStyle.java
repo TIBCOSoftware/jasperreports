@@ -43,8 +43,8 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
  */
 public class CellStyle extends BorderStyle
 {
-	//private String fill = null;
-	private String backcolor = null;
+	//private String fill;
+	private String backcolor;
 	
 	private final String horizontalAlignment;
 	private final String verticalAlignment;

@@ -53,7 +53,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 
 

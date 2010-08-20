@@ -69,13 +69,13 @@ public class JRPdfExporterTagHelper
 	public static final String TAG_END = "end";
 	public static final String TAG_FULL = "full";
 	
-	protected JRPdfExporter exporter = null;
+	protected JRPdfExporter exporter;
 
-	protected PdfContentByte pdfContentByte = null;
-	protected PdfWriter pdfWriter = null;
+	protected PdfContentByte pdfContentByte;
+	protected PdfWriter pdfWriter;
 
-	protected PdfStructureElement allTag = null;
-	protected Stack tagStack = null;
+	protected PdfStructureElement allTag;
+	protected Stack tagStack;
 	protected boolean isTagEmpty = true;
 	protected int crtCrosstabRowY = -1;
 	protected int crosstabFrameDepth = 0;

@@ -42,9 +42,9 @@ public class FileBufferedZipEntry implements ExportZipEntry
 	/**
 	 * 
 	 */
-	private String name = null;
-	private FileBufferedOutputStream fbos = null;
-	private Writer writer = null;
+	private String name;
+	private FileBufferedOutputStream fbos;
+	private Writer writer;
 	
 	/**
 	 * 

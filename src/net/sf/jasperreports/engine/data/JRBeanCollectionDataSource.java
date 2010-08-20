@@ -41,9 +41,9 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	private Collection data = null;
-	private Iterator iterator = null;
-	private Object currentBean = null;
+	private Collection data;
+	private Iterator iterator;
+	private Object currentBean;
 	
 
 	/**

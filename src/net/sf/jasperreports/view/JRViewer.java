@@ -146,14 +146,14 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
-	protected String reportFileName = null;
-	protected SimpleFileResolver fileResolver = null;
-	JasperPrint jasperPrint = null;
+	protected String reportFileName;
+	protected SimpleFileResolver fileResolver;
+	JasperPrint jasperPrint;
 	private int pageIndex = 0;
 	private boolean pageError;
 	protected float zoom = 0f;
 
-	private JRGraphics2DExporter exporter = null;
+	private JRGraphics2DExporter exporter;
 
 	/**
 	 * the screen resolution.
@@ -166,7 +166,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected float realZoom = 0f;
 
 	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
-	private ResourceBundle resourceBundle = null;
+	private ResourceBundle resourceBundle;
 
 	private int downX = 0;
 	private int downY = 0;
@@ -197,8 +197,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		};
 
 	protected List saveContributors = new ArrayList();
-	protected File lastFolder = null;
-	protected JRSaveContributor lastSaveContributor = null;
+	protected File lastFolder;
+	protected JRSaveContributor lastSaveContributor;
 
 	/** Creates new form JRViewer */
 	public JRViewer(String fileName, boolean isXML) throws JRException

@@ -49,12 +49,12 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * The name of the subreport variable to be copied.
 	 */
-	protected String subreportVariable = null;
+	protected String subreportVariable;
 
 	/**
 	 * The name of the master variable where the value should be copied.
 	 */
-	protected String toVariable = null;
+	protected String toVariable;
 	
 	/**
 	 * The calculation type.
@@ -64,7 +64,7 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	/**
 	 * The incrementer factory class name.
 	 */
-	protected String incrementerFactoryClassName = null;
+	protected String incrementerFactoryClassName;
 
 	
 	protected JRBaseSubreportReturnValue()

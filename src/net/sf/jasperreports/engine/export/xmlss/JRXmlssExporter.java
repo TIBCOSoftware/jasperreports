@@ -119,13 +119,13 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Writer tempBodyWriter = null;
-	protected Writer tempStyleWriter = null;
+	protected Writer tempBodyWriter;
+	protected Writer tempStyleWriter;
 
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
+	protected List imagesToProcess;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
@@ -135,7 +135,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String encoding = null;
+	protected String encoding;
 
 
 	/**
@@ -146,16 +146,16 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	private LinkedList backcolorStack;
 	private Color backcolor;
 
-	private XmlssStyleCache styleCache = null;
+	private XmlssStyleCache styleCache;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
-	protected File destFile = null;
+	protected File destFile;
 
 	/**
 	 *
@@ -174,7 +174,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 
 	protected int maxRowsPerSheet;
 
-	protected String[] sheetNames = null;
+	protected String[] sheetNames;
 
 	/**
 	 * used for counting the total number of sheets
@@ -185,15 +185,15 @@ public class JRXmlssExporter extends JRAbstractExporter
 	 * used when indexing the identical sheet generated names with ordering numbers;
 	 * contains sheet names as keys and the number of occurences of each sheet name as values
 	 */
-	protected Map sheetNamesMap = null;
-	protected String currentSheetName = null;
+	protected Map sheetNamesMap;
+	protected String currentSheetName;
 
 	/**
 	 *
 	 */
-	protected JRFont defaultFont = null;
+	protected JRFont defaultFont;
 
-	protected Map formatPatternsMap = null;
+	protected Map formatPatternsMap;
 
 	protected OrientationEnum pageOrientation;
 

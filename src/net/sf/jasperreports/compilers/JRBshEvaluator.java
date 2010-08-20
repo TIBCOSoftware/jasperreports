@@ -49,8 +49,8 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	private String bshScript = null;
-	private Interpreter interpreter = null;
+	private String bshScript;
+	private Interpreter interpreter;
 
 
 	/**

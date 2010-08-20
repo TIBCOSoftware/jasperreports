@@ -79,19 +79,19 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected transient String truncatedText;
 	protected float lineSpacingFactor = 0;
 	protected float leadingOffset = 0;
-	protected HorizontalAlignEnum horizontalAlignmentValue = null;
-	protected VerticalAlignEnum verticalAlignmentValue = null;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight = 0;
-	protected LineSpacingEnum lineSpacingValue = null;
-	protected String markup = null;
-	protected String anchorName = null;
+	protected LineSpacingEnum lineSpacingValue;
+	protected String markup;
+	protected String anchorName;
 	protected String linkType;
 	protected String linkTarget;
-	protected String hyperlinkReference = null;
-	protected String hyperlinkAnchor = null;
-	protected Integer hyperlinkPage = null;
+	protected String hyperlinkReference;
+	protected String hyperlinkAnchor;
+	protected Integer hyperlinkPage;
 	protected String hyperlinkTooltip;
 	protected JRPrintHyperlinkParameters hyperlinkParameters;
 
@@ -106,16 +106,16 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	protected JRLineBox lineBox;
 
-	protected JRReportFont reportFont = null;
-	protected String fontName = null;
-	protected Boolean isBold = null;
-	protected Boolean isItalic = null;
-	protected Boolean isUnderline = null;
-	protected Boolean isStrikeThrough = null;
-	protected Integer fontSize = null;
-	protected String pdfFontName = null;
-	protected String pdfEncoding = null;
-	protected Boolean isPdfEmbedded = null;
+	protected JRReportFont reportFont;
+	protected String fontName;
+	protected Boolean isBold;
+	protected Boolean isItalic;
+	protected Boolean isUnderline;
+	protected Boolean isStrikeThrough;
+	protected Integer fontSize;
+	protected String pdfFontName;
+	protected String pdfEncoding;
+	protected Boolean isPdfEmbedded;
 
 	protected String valueClassName;
 	protected String pattern;
@@ -1746,83 +1746,83 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	/**
 	 * @deprecated
 	 */
-	private Byte horizontalAlignment = null;
+	private Byte horizontalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte verticalAlignment = null;
+	private Byte verticalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte rotation = null;
+	private Byte rotation;
 	/**
 	 * @deprecated
 	 */
-	private Byte lineSpacing = null;
+	private Byte lineSpacing;
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
-	private Boolean isStyledText = null;
+	private Boolean isStyledText;
 	/**
 	 * @deprecated
 	 */

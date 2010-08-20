@@ -36,7 +36,7 @@ public class XlsxDrawingHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private XlsxDrawingRelsHelper drawingRelsHelper = null;
+	private XlsxDrawingRelsHelper drawingRelsHelper;
 
 	/**
 	 * 

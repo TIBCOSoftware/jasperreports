@@ -62,9 +62,9 @@ public class ParagraphStyle extends Style
 	protected static final String ROTATION_ALIGN_CENTER = "center";
 	protected static final String ROTATION_ALIGN_BOTTOM = "bottom";
 
-	private String verticalAlignment = null;
-	private String horizontalAlignment = null;
-	private String runDirection = null;
+	private String verticalAlignment;
+	private String horizontalAlignment;
+	private String runDirection;
 	private String textRotation = "0";
 
 	/**

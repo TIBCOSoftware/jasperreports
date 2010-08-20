@@ -36,7 +36,7 @@ public abstract class Style
 	/**
 	 *
 	 */
-	protected Writer styleWriter = null;
+	protected Writer styleWriter;
 
 	/**
 	 *

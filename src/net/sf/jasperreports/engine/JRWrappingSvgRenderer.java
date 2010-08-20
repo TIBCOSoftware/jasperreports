@@ -45,9 +45,9 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private JRRenderable renderer = null;
-	private Dimension2D elementDimension = null;
-	private Color backcolor = null;
+	private JRRenderable renderer;
+	private Dimension2D elementDimension;
+	private Color backcolor;
 
 	
 	/**

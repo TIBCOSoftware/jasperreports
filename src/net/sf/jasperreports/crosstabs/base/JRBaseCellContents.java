@@ -150,7 +150,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	/**
 	 * @deprecated
 	 */
-	private JRBox box = null;
+	private JRBox box;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

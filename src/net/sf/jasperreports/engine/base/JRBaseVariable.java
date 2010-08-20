@@ -54,26 +54,26 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected String valueClassName = java.lang.String.class.getName();
-	protected String valueClassRealName = null;
-	protected String incrementerFactoryClassName = null;
-	protected String incrementerFactoryClassRealName = null;
+	protected String valueClassRealName;
+	protected String incrementerFactoryClassName;
+	protected String incrementerFactoryClassRealName;
 	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
 	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
 	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
 	protected boolean isSystemDefined = false;
 
-	protected transient Class valueClass = null;
-	protected transient Class incrementerFactoryClass = null;
+	protected transient Class valueClass;
+	protected transient Class incrementerFactoryClass;
 
 	/**
 	 *
 	 */
-	protected JRExpression expression = null;
-	protected JRExpression initialValueExpression = null;
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRExpression expression;
+	protected JRExpression initialValueExpression;
+	protected JRGroup resetGroup;
+	protected JRGroup incrementGroup;
 
 
 	/**

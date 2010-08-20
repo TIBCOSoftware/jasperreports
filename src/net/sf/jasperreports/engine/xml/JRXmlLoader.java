@@ -75,7 +75,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	private JasperDesign jasperDesign = null;
+	private JasperDesign jasperDesign;
 	private LinkedList<XmlLoaderReportContext> contextStack = 
 		new LinkedList<XmlLoaderReportContext>();
 	
@@ -87,7 +87,7 @@ public class JRXmlLoader
 	
 	private List errors = new ArrayList();
 
-	private Digester digester = null;
+	private Digester digester;
 
 	private boolean ignoreConsistencyProblems;
 		

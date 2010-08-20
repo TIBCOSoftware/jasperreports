@@ -45,7 +45,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private XlsxSheetRelsHelper sheetRelsHelper = null;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
+	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
 
 	/**
 	 * 

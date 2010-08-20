@@ -65,22 +65,22 @@ public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, C
 	public static final String PROPERTY_RIGHT_PADDING = "rightPadding";
 	
 
-	protected JRBoxContainer boxContainer = null;
+	protected JRBoxContainer boxContainer;
 
 	/**
 	 *
 	 */
-	protected JRBoxPen pen = null; 
-	protected JRBoxPen topPen = null;
-	protected JRBoxPen leftPen = null;
-	protected JRBoxPen bottomPen = null;
-	protected JRBoxPen rightPen = null;
+	protected JRBoxPen pen; 
+	protected JRBoxPen topPen;
+	protected JRBoxPen leftPen;
+	protected JRBoxPen bottomPen;
+	protected JRBoxPen rightPen;
 
-	protected Integer padding = null;
-	protected Integer topPadding = null;
-	protected Integer leftPadding = null;
-	protected Integer bottomPadding = null;
-	protected Integer rightPadding = null;
+	protected Integer padding;
+	protected Integer topPadding;
+	protected Integer leftPadding;
+	protected Integer bottomPadding;
+	protected Integer rightPadding;
 
 	
 	/**

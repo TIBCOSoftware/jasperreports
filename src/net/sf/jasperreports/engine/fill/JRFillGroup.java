@@ -44,14 +44,14 @@ public class JRFillGroup implements JRGroup
 	/**
 	 *
 	 */
-	protected JRGroup parent = null;
+	protected JRGroup parent;
 
 	/**
 	 *
 	 */
-	private JRFillSection groupHeaderSection = null;
-	private JRFillSection groupFooterSection = null;
-	private JRVariable countVariable = null;
+	private JRFillSection groupHeaderSection;
+	private JRFillSection groupFooterSection;
+	private JRVariable countVariable;
 	
 	private boolean startNewColumn;
 	private boolean startNewPage;

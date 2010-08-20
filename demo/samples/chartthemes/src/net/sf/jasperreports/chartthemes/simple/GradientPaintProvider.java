@@ -44,8 +44,8 @@ public class GradientPaintProvider implements PaintProvider
 	/**
 	 *
 	 */
-	private Color color1 = null;
-	private Color color2 = null;
+	private Color color1;
+	private Color color2;
 
 	
 	/**

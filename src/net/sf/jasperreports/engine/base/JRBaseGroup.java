@@ -69,7 +69,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected boolean isStartNewColumn = false;
 	protected boolean isStartNewPage = false;
 	protected boolean isResetPageNumber = false;
@@ -81,10 +81,10 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRExpression expression = null;
-	protected JRSection groupHeaderSection = null;
-	protected JRSection groupFooterSection = null;
-	protected JRVariable countVariable = null;
+	protected JRExpression expression;
+	protected JRSection groupHeaderSection;
+	protected JRSection groupFooterSection;
+	protected JRVariable countVariable;
 	
 
 	/**
@@ -392,11 +392,11 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
-	private JRBand groupHeader = null;
+	private JRBand groupHeader;
 	/**
 	 * @deprecated
 	 */
-	private JRBand groupFooter = null;
+	private JRBand groupFooter;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

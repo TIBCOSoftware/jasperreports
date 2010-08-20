@@ -39,10 +39,10 @@ public class PptxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
-	private ExportZipEntry presentationEntry = null;
-//	private ExportZipEntry stylesEntry = null;
-	private ExportZipEntry relsEntry = null;
-	private ExportZipEntry contentTypesEntry = null;
+	private ExportZipEntry presentationEntry;
+//	private ExportZipEntry stylesEntry;
+	private ExportZipEntry relsEntry;
+	private ExportZipEntry contentTypesEntry;
 	
 	/**
 	 * 

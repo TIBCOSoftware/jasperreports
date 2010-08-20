@@ -52,7 +52,7 @@ public class JRExporterParameter
 	/**
 	 *
 	 */
-	private String name = null;
+	private String name;
 
 
 	/**

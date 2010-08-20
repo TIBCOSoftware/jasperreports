@@ -278,7 +278,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	/**
 	 * @deprecated
 	 */
-	private JRBox box = null;
+	private JRBox box;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

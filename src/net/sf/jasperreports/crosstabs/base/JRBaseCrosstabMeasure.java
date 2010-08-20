@@ -50,7 +50,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 
 	protected String name;
 	protected String valueClassName;
-	protected String valueClassRealName = null;
+	protected String valueClassRealName;
 	protected Class valueClass;
 	protected JRExpression expression;
 	protected CalculationEnum calculationValue = CalculationEnum.COUNT;

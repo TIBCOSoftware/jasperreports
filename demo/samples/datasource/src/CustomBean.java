@@ -34,10 +34,10 @@ public class CustomBean
 	/**
 	 *
 	 */
-	private String city = null;
-	private Integer id = null;
-	private String name = null;
-	private String street = null;
+	private String city;
+	private Integer id;
+	private String name;
+	private String street;
 
 
 	/**

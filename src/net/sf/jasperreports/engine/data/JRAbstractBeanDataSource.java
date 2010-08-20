@@ -48,7 +48,7 @@ public abstract class JRAbstractBeanDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	protected PropertyNameProvider propertyNameProvider = null;
+	protected PropertyNameProvider propertyNameProvider;
 
 	protected static final PropertyNameProvider FIELD_NAME_PROPERTY_NAME_PROVIDER =
 		new PropertyNameProvider()

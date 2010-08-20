@@ -32,8 +32,8 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
  */
 public class DelegatePropertiesHolder implements JRPropertiesHolder
 {
-	private JRPropertiesHolder propertiesHolder = null;
-	private JRPropertiesHolder parentProperties = null;
+	private JRPropertiesHolder propertiesHolder;
+	private JRPropertiesHolder parentProperties;
 	
 	public DelegatePropertiesHolder(
 		JRPropertiesHolder propertiesHolder, 

@@ -50,7 +50,7 @@ public class JRDesignStaticText extends JRDesignTextElement implements JRStaticT
 	/**
 	 *
 	 */
-	protected String text = null;
+	protected String text;
 
 
 	/**

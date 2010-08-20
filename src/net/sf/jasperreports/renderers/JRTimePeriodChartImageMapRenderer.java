@@ -48,7 +48,7 @@ public class JRTimePeriodChartImageMapRenderer extends JRAbstractChartImageMapRe
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private TimePeriodChartHyperlinkProvider timePeriodChartHyperlinkProvider = null;
+	private TimePeriodChartHyperlinkProvider timePeriodChartHyperlinkProvider;
 	
 	public JRTimePeriodChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
 	{

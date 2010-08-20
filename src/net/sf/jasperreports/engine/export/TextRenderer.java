@@ -46,7 +46,7 @@ public class TextRenderer
 {
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
-	private Graphics2D grx = null;
+	private Graphics2D grx;
 	private int x = 0;
 	private int y = 0;
 	private int topPadding = 0;
@@ -59,13 +59,13 @@ public class TextRenderer
 	private float drawPosY = 0;
 	private float drawPosX = 0;
 	private boolean isMaxHeightReached = false;
-	private HorizontalAlignEnum horizontalAlignment = null;
+	private HorizontalAlignEnum horizontalAlignment;
 	private int fontSize = 0;
 	
 	/**
 	 * 
 	 */
-	private MaxFontSizeFinder maxFontSizeFinder = null;
+	private MaxFontSizeFinder maxFontSizeFinder;
 	
 	/**
 	 * 

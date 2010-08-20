@@ -162,7 +162,7 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	private JRDefaultStyleProvider defaultStyleProvider = null;
+	private JRDefaultStyleProvider defaultStyleProvider;
 
 	/**
 	 * Expression collector used to retrieve generated expression IDs.

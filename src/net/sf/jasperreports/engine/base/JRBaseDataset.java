@@ -57,16 +57,16 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	public static final String PROPERTY_WHEN_RESOURCE_MISSING_TYPE = "whenResourceMissingType";
 
 	protected final boolean isMain;
-	protected String name = null;
-	protected String scriptletClass = null;
-	protected JRScriptlet[] scriptlets = null;
-	protected JRParameter[] parameters = null;
-	protected JRQuery query = null;
-	protected JRField[] fields = null;
-	protected JRSortField[] sortFields = null;
-	protected JRVariable[] variables = null;
-	protected JRGroup[] groups = null;
-	protected String resourceBundle = null;
+	protected String name;
+	protected String scriptletClass;
+	protected JRScriptlet[] scriptlets;
+	protected JRParameter[] parameters;
+	protected JRQuery query;
+	protected JRField[] fields;
+	protected JRSortField[] sortFields;
+	protected JRVariable[] variables;
+	protected JRGroup[] groups;
+	protected String resourceBundle;
 	protected WhenResourceMissingTypeEnum whenResourceMissingTypeValue = WhenResourceMissingTypeEnum.NULL;
 	protected JRPropertiesMap propertiesMap;
 	protected JRExpression filterExpression;

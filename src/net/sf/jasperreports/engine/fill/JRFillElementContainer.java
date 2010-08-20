@@ -60,17 +60,17 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 {
 	protected JRBaseFiller filler;
 	
-	private JRFillElement[] ySortedElements = null;
-	private JRFillElement[] stretchElements = null;
-	private JRFillElement[] bandBottomElements = null;
-	private JRFillElement[] removableElements = null;
+	private JRFillElement[] ySortedElements;
+	private JRFillElement[] stretchElements;
+	private JRFillElement[] bandBottomElements;
+	private JRFillElement[] removableElements;
 	
 	private boolean willOverflow = false;
 	protected boolean isOverflow = false;
 	
 	private int stretchHeight = 0;
 	private int firstY = 0;
-	protected JRFillElement firstYElement = null;
+	protected JRFillElement firstYElement;
 	
 	protected final JRFillExpressionEvaluator expressionEvaluator;
 	

@@ -80,8 +80,8 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	protected boolean isStretchWithOverflow = false;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
-	protected String pattern = null;
-	protected Boolean isBlankWhenNull = null;
+	protected String pattern;
+	protected Boolean isBlankWhenNull;
 	protected String linkType;
 	protected String linkTarget;
 	private List hyperlinkParameters;
@@ -89,12 +89,12 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
-	protected JRExpression expression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
+	protected JRGroup evaluationGroup;
+	protected JRExpression expression;
+	protected JRExpression anchorNameExpression;
+	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkAnchorExpression;
+	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
 
 	/**

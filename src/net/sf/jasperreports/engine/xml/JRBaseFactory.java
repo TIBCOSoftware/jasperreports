@@ -38,7 +38,7 @@ public abstract class JRBaseFactory implements ObjectCreationFactory
 	/**
 	 *
 	 */
-	protected transient Digester digester = null;
+	protected transient Digester digester;
 
 
 	/**

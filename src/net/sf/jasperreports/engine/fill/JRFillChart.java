@@ -137,24 +137,24 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRFont titleFont = null;
-	protected JRFont subtitleFont = null;
-	protected JRFont legendFont = null;
+	protected JRFont titleFont;
+	protected JRFont subtitleFont;
+	protected JRFont legendFont;
 	protected final JRLineBox lineBox;
 
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
+	protected JRGroup evaluationGroup;
 
-	protected JRFillChartDataset dataset = null;
-	protected JRChartPlot plot = null;
+	protected JRFillChartDataset dataset;
+	protected JRChartPlot plot;
 
-	protected JRRenderable renderer = null;
-	private String anchorName = null;
-	private String hyperlinkReference = null;
-	private String hyperlinkAnchor = null;
-	private Integer hyperlinkPage = null;
+	protected JRRenderable renderer;
+	private String anchorName;
+	private String hyperlinkReference;
+	private String hyperlinkAnchor;
+	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 

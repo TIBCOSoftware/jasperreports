@@ -47,7 +47,7 @@ public abstract class JRExporterGridCell
 	/**
 	 *
 	 */
-	private ElementWrapper wrapper = null; 
+	private ElementWrapper wrapper; 
 	
 	private Color backcolor;
 	private Color forecolor;
@@ -58,7 +58,7 @@ public abstract class JRExporterGridCell
 	private int colSpan = 0;
 	private int rowSpan = 0;
 
-	private JRGridLayout layout = null;
+	private JRGridLayout layout;
 
 
 	/**

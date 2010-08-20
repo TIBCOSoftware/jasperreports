@@ -48,7 +48,7 @@ public class JRBaseStaticText extends JRBaseTextElement implements JRStaticText
 	/**
 	 *
 	 */
-	protected String text = null;
+	protected String text;
 
 	/**
 	 * Initializes the element properties. 

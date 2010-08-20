@@ -45,7 +45,7 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 
 	private static final long serialVersionUID = 1L;
 	
-	private Barcode barcode = null;
+	private Barcode barcode;
 
 	public BarbecueRenderer(Barcode barcode) 
 	{

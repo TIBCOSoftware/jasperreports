@@ -96,8 +96,8 @@ public class JROrigin implements JRCloneable, Serializable
 	public static final byte NO_DATA = 12;
 
 	private BandTypeEnum bandTypeValue = BandTypeEnum.UNKNOWN;
-	private String groupName = null;
-	private String reportName = null;
+	private String groupName;
+	private String reportName;
 	
 	private int hashCode = 0;
 	

@@ -74,7 +74,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private boolean isLeftToRight = true;
-	private JRTextMeasurer textMeasurer = null;
+	private JRTextMeasurer textMeasurer;
 	private float lineSpacingFactor = 0;
 	private float leadingOffset = 0;
 	private float textHeight = 0;
@@ -82,8 +82,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private int textEnd = 0;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
-	private String rawText = null;
-	private JRStyledText styledText = null;
+	private String rawText;
+	private JRStyledText styledText;
 	private Map styledTextAttributesMap = new HashMap();
 	
 	protected final JRReportFont reportFont;

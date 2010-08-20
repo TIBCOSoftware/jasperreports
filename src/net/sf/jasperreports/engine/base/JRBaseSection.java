@@ -50,7 +50,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	protected JRBand[] bands = null;
+	protected JRBand[] bands;
 
 
 	/**

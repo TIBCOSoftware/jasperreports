@@ -40,7 +40,7 @@ public abstract class JRAbstractRenderer implements JRRenderable
 	/**
 	 *
 	 */
-	private String id = null;
+	private String id;
 	
 	
 	/**

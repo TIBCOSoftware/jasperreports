@@ -114,23 +114,23 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected byte chartType = 0;
+	protected byte chartType;
 
 	/**
 	 *
 	 */
-	protected Boolean showLegend = null;
+	protected Boolean showLegend;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;
 	protected String linkTarget;
 	private JRHyperlinkParameter[] hyperlinkParameters;
 	
-	protected Color titleColor = null;
-	protected Color subtitleColor = null;
-	protected Color legendColor = null;
-	protected Color legendBackgroundColor = null;
-	protected EdgeEnum legendPositionValue = null;
-	protected EdgeEnum titlePositionValue = null;
+	protected Color titleColor;
+	protected Color subtitleColor;
+	protected Color legendColor;
+	protected Color legendBackgroundColor;
+	protected EdgeEnum legendPositionValue;
+	protected EdgeEnum titlePositionValue;
 
 	protected String renderType;
 	protected String theme;
@@ -138,27 +138,27 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRLineBox lineBox = null;
-	protected JRFont titleFont = null;
-	protected JRFont subtitleFont = null;
-	protected JRFont legendFont = null;
+	protected JRLineBox lineBox;
+	protected JRFont titleFont;
+	protected JRFont subtitleFont;
+	protected JRFont legendFont;
 
 	protected String customizerClass;
 
 	/**
 	 *
 	 */
-	protected JRGroup evaluationGroup = null;
-	protected JRExpression titleExpression = null;
-	protected JRExpression subtitleExpression = null;
-	protected JRExpression anchorNameExpression = null;
-	protected JRExpression hyperlinkReferenceExpression = null;
-	protected JRExpression hyperlinkAnchorExpression = null;
-	protected JRExpression hyperlinkPageExpression = null;
+	protected JRGroup evaluationGroup;
+	protected JRExpression titleExpression;
+	protected JRExpression subtitleExpression;
+	protected JRExpression anchorNameExpression;
+	protected JRExpression hyperlinkReferenceExpression;
+	protected JRExpression hyperlinkAnchorExpression;
+	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
 
-	protected JRChartDataset dataset = null;
-	protected JRChartPlot plot = null;
+	protected JRChartDataset dataset;
+	protected JRChartPlot plot;
 
 	/**
 	 * The bookmark level for the anchor associated with this chart.
@@ -1289,63 +1289,63 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
@@ -1373,11 +1373,11 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * @deprecated
 	 */
-	private Byte legendPositionByte = null;
+	private Byte legendPositionByte;
 	/**
 	 * @deprecated
 	 */
-	private Byte titlePositionByte = null;
+	private Byte titlePositionByte;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

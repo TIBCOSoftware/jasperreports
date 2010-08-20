@@ -79,10 +79,10 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private float leadingOffset = 0;
 	private RunDirectionEnum runDirectionValue;
 	private float textHeight = 0;
-	private String anchorName = null;
-	private String hyperlinkReference = null;
-	private String hyperlinkAnchor = null;
-	private Integer hyperlinkPage = null;
+	private String anchorName;
+	private String hyperlinkReference;
+	private String hyperlinkAnchor;
+	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 

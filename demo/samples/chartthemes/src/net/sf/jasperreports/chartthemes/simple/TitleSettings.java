@@ -62,19 +62,19 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 *
-	private SimpleChartSettings chartSettings = null;
+	private SimpleChartSettings chartSettings;
 
 	/**
 	 *
 	 */
-	private Boolean showTitle = null;
-	private EdgeEnum positionValue = null;
-	private PaintProvider foregroundPaint = null;
-	private PaintProvider backgroundPaint = null;
+	private Boolean showTitle;
+	private EdgeEnum positionValue;
+	private PaintProvider foregroundPaint;
+	private PaintProvider backgroundPaint;
 	private JRFont font = new JRBaseFont();
-	private HorizontalAlignment horizontalAlignment = null;
-	private VerticalAlignment verticalAlignment = null;
-	private RectangleInsets padding = null;
+	private HorizontalAlignment horizontalAlignment;
+	private VerticalAlignment verticalAlignment;
+	private RectangleInsets padding;
 	
 	/**
 	 *
@@ -263,7 +263,7 @@ public class TitleSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @deprecated
 	 */
-	private Byte position = null;
+	private Byte position;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

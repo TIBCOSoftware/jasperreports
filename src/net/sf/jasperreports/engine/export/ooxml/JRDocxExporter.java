@@ -117,14 +117,14 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected DocxDocumentHelper docHelper = null;
-	protected Writer docWriter = null;
+	protected DocxDocumentHelper docHelper;
+	protected Writer docWriter;
 
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
-//	protected Map hyperlinksMap = null;
+	protected List imagesToProcess;
+//	protected Map hyperlinksMap;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
@@ -139,14 +139,14 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private DocxRunHelper runHelper = null;
+	private DocxRunHelper runHelper;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
 	protected boolean deepGrid;
 

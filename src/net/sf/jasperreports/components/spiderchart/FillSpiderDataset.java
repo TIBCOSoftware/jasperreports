@@ -56,10 +56,10 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	/**
 	 *
 	 */
-	protected JRFillCategorySeries[] categorySeries = null;
+	protected JRFillCategorySeries[] categorySeries;
 
-	private DefaultCategoryDataset dataset = null;
-	private Map labelsMap = null;
+	private DefaultCategoryDataset dataset;
+	private Map labelsMap;
 	
 	private Map itemHyperlinks;
 

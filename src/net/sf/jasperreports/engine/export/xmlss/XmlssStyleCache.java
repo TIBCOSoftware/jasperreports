@@ -47,8 +47,8 @@ public class XmlssStyleCache
 	/**
 	 *
 	 */
-	private Writer styleWriter = null;
-//	private Map fontMap = null;
+	private Writer styleWriter;
+//	private Map fontMap;
 	private Set fontFaces = new HashSet();
 
 	/**

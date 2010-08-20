@@ -58,7 +58,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	protected JRTemplateElement template = null;
+	protected JRTemplateElement template;
 
 	private int x = 0;
 	private int y = 0;

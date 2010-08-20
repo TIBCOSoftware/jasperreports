@@ -45,8 +45,8 @@ public class XlsxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private XlsxStyleHelper styleHelper = null;
-//	private XlsxBorderHelper borderHelper = null;
+	private XlsxStyleHelper styleHelper;
+//	private XlsxBorderHelper borderHelper;
 	
 	/**
 	 *

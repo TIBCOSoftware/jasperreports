@@ -38,8 +38,8 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public abstract class JRSaveContributor extends FileFilter
 {
-	private Locale locale = null;
-	private ResourceBundle resourceBundle = null;
+	private Locale locale;
+	private ResourceBundle resourceBundle;
 	
 	/**
 	 * 

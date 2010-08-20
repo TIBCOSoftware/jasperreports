@@ -47,8 +47,8 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private List jasperPrintList = null;
-	private Writer writer = null;
+	private List jasperPrintList;
+	private Writer writer;
 	
 	/**
 	 * 

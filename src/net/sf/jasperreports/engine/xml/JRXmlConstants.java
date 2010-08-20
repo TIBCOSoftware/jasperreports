@@ -816,7 +816,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum}.
 	 */
-	private static Map positionTypeMap = null;
+	private static Map positionTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link PositionTypeEnum}.
@@ -850,7 +850,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ModeEnum}.
 	 */
-	private static Map modeMap = null;
+	private static Map modeMap;
 
 	/**
 	 * @deprecated Replaced by {@link ModeEnum}.
@@ -926,7 +926,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ColorEnum}.
 	 */
-	private static Map colorMap = null;
+	private static Map colorMap;
 
 	/**
 	 * @deprecated Replaced by {@link ColorEnum}.
@@ -988,7 +988,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link HorizontalAlignEnum}.
 	 */
-	private static Map horizontalAlignMap = null;
+	private static Map horizontalAlignMap;
 
 	/**
 	 * @deprecated Replaced by {@link HorizontalAlignEnum}.
@@ -1036,7 +1036,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link VerticalAlignEnum}.
 	 */
-	private static Map verticalAlignMap = null;
+	private static Map verticalAlignMap;
 
 	/**
 	 * @deprecated Replaced by {@link VerticalAlignEnum}.
@@ -1078,7 +1078,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link RotationEnum}.
 	 */
-	private static Map rotationMap = null;
+	private static Map rotationMap;
 
 	/**
 	 * @deprecated Replaced by {@link RotationEnum}.
@@ -1114,7 +1114,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link BreakTypeEnum}.
 	 */
-	private static Map breakTypeMap = null;
+	private static Map breakTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link BreakTypeEnum}.
@@ -1146,7 +1146,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link RunDirectionEnum}.
 	 */
-	private static Map runDirectionMap = null;
+	private static Map runDirectionMap;
 
 	/**
 	 * @deprecated Replaced by {@link RunDirectionEnum}.
@@ -1182,7 +1182,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum}.
 	 */
-	private static Map lineSpacingMap = null;
+	private static Map lineSpacingMap;
 
 	/**
 	 * @deprecated Replaced by {@link LineSpacingEnum}.
@@ -1216,7 +1216,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineDirectionEnum}.
 	 */
-	private static Map directionMap = null;
+	private static Map directionMap;
 
 	/**
 	 * @deprecated Replaced by {@link LineDirectionEnum}.
@@ -1260,7 +1260,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum}.
 	 */
-	private static Map scaleImageMap = null;
+	private static Map scaleImageMap;
 
 	/**
 	 * @deprecated Replaced by {@link ScaleImageEnum}.
@@ -1302,7 +1302,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum}.
 	 */
-	private static Map onErrorTypeMap = null;
+	private static Map onErrorTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link OnErrorTypeEnum}.
@@ -1340,7 +1340,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum}.
 	 */
-	private static Map stretchTypeMap = null;
+	private static Map stretchTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link StretchTypeEnum}.
@@ -1382,7 +1382,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum}.
 	 */
-	private static Map lineStyleMap = null;
+	private static Map lineStyleMap;
 
 	/**
 	 * @deprecated Replaced by {@link LineStyleEnum}.
@@ -1434,7 +1434,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link PenEnum}.
 	 */
-	private static Map penMap = null;
+	private static Map penMap;
 
 	/**
 	 * @deprecated Replaced by {@link PenEnum}.
@@ -1470,7 +1470,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link FillEnum}.
 	 */
-	private static Map fillMap = null;
+	private static Map fillMap;
 
 	/**
 	 * @deprecated Replaced by {@link FillEnum}.
@@ -1512,7 +1512,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum}.
 	 */
-	private static Map resetTypeMap = null;
+	private static Map resetTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link ResetTypeEnum}.
@@ -1586,7 +1586,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum}.
 	 */
-	private static Map calculationMap = null;
+	private static Map calculationMap;
 
 	/**
 	 * @deprecated Replaced by {@link CalculationEnum}.
@@ -1636,7 +1636,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link PrintOrderEnum}.
 	 */
-	private static Map printOrderMap = null;
+	private static Map printOrderMap;
 
 	/**
 	 * @deprecated Replaced by {@link PrintOrderEnum}.
@@ -1668,7 +1668,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link OrientationEnum}.
 	 */
-	private static Map orientationMap = null;
+	private static Map orientationMap;
 
 	/**
 	 * @deprecated Replaced by {@link OrientationEnum}.
@@ -1708,7 +1708,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link WhenNoDataTypeEnum}.
 	 */
-	private static Map whenNoDataTypeMap = null;
+	private static Map whenNoDataTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link WhenNoDataTypeEnum}.
@@ -1764,7 +1764,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link EvaluationTimeEnum}.
 	 */
-	private static Map evaluationTimeMap = null;
+	private static Map evaluationTimeMap;
 
 	/**
 	 * @deprecated Replaced by {@link EvaluationTimeEnum}.
@@ -1822,7 +1822,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link HyperlinkTypeEnum}.
 	 */
-	private static Map hyperlinkTypeMap = null;
+	private static Map hyperlinkTypeMap;
 
 
 	/**
@@ -1871,7 +1871,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link HyperlinkTargetEnum}.
 	 */
-	private static Map hyperlinkTargetMap = null;
+	private static Map hyperlinkTargetMap;
 
 	/**
 	 * @deprecated Replaced by {@link JRHyperlinkHelper#getHyperlinkTarget(String)}.
@@ -1916,7 +1916,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum}.
 	 */
-	private static Map chartEdgeMap = null;
+	private static Map chartEdgeMap;
 
 	/**
 	 * @deprecated Replaced by {@link EdgeEnum}.
@@ -1960,7 +1960,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link PlotOrientationEnum}.
 	 */
-	private static Map plotOrientationMap = null;
+	private static Map plotOrientationMap;
 
 	/**
 	 * @deprecated Replaced by {@link PlotOrientationEnum}.
@@ -1992,7 +1992,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link SortOrderEnum}.
 	 */
-	private static Map sortOrderMap = null;
+	private static Map sortOrderMap;
 
 	/**
 	 * @deprecated Replaced by {@link SortOrderEnum}.
@@ -2029,7 +2029,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum}.
 	 */
-	private static Map scaleTypeMap = null;
+	private static Map scaleTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link ScaleTypeEnum}.
@@ -2176,7 +2176,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum}.
 	 */
-	private static Map whenResourceMissingTypeMap = null;
+	private static Map whenResourceMissingTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum}.
@@ -2221,7 +2221,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link MeterShapeEnum}
 	 */
-	private static Map meterShapeMap = null;
+	private static Map meterShapeMap;
 
 	/**
 	 * @deprecated Replaced by {@link MeterShapeEnum}
@@ -2266,7 +2266,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link ValueLocationEnum}
 	 */
-	private static Map thermometerValueLocationMap = null;
+	private static Map thermometerValueLocationMap;
 
 	/**
 	 * @deprecated Replaced by {@link ValueLocationEnum}
@@ -2303,7 +2303,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link AxisPositionEnum}
 	 */
-	private static Map axisPositionMap = null;
+	private static Map axisPositionMap;
 
 	/**
 	 * @deprecated Replaced by {@link AxisPositionEnum}
@@ -2336,7 +2336,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link SortOrderEnum}.
 	 */
-	private static Map crosstabBucketOrderMap = null;
+	private static Map crosstabBucketOrderMap;
 
 	/**
 	 * @deprecated Replaced by {@link SortOrderEnum}.
@@ -2369,7 +2369,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link CrosstabPercentageEnum}.
 	 */
-	private static Map crosstabPercentageMap = null;
+	private static Map crosstabPercentageMap;
 
 
 	/**
@@ -2407,7 +2407,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum}.
 	 */
-	private static Map crosstabTotalPositionMap = null;
+	private static Map crosstabTotalPositionMap;
 
 
 	/**
@@ -2451,7 +2451,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link CrosstabRowPositionEnum}.
 	 */
-	private static Map crosstabRowPositionMap = null;
+	private static Map crosstabRowPositionMap;
 
 
 	/**
@@ -2497,7 +2497,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link CrosstabColumnPositionEnum}.
 	 */
-	private static Map crosstabColumnPositionMap = null;
+	private static Map crosstabColumnPositionMap;
 
 
 	/**
@@ -2540,7 +2540,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link SplitTypeEnum}.
 	 */
-	private static Map splitTypeMap = null;
+	private static Map splitTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link SplitTypeEnum}.
@@ -2620,7 +2620,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum}.
 	 */
-	private static Map bandTypeMap = null;
+	private static Map bandTypeMap;
 
 	/**
 	 * @deprecated Replaced by {@link BandTypeEnum}.
@@ -2683,7 +2683,7 @@ public final class JRXmlConstants
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum}.
 	 */
-	private static Map footerPositionMap = null;
+	private static Map footerPositionMap;
 
 	/**
 	 * @deprecated Replaced by {@link FooterPositionEnum}.

@@ -43,12 +43,12 @@ public class GraphicStyle extends Style
 	/**
 	 *
 	 */
-	private String backcolor = null;
-	private String forecolor = null;
-	private String style = null;
-	private String width = null;
-	private String hAlign = null;
-	private String vAlign = null;
+	private String backcolor;
+	private String forecolor;
+	private String style;
+	private String width;
+	private String hAlign;
+	private String vAlign;
 
 
 	/**

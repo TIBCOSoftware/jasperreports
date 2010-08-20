@@ -47,7 +47,7 @@ public class JRBaseExpressionChunk implements JRExpressionChunk, Serializable
 	 *
 	 */
 	protected byte type = TYPE_TEXT;
-	protected String text = null;
+	protected String text;
 
 
 	/**

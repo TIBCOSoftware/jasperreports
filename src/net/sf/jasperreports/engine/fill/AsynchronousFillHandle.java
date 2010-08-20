@@ -57,7 +57,7 @@ public class AsynchronousFillHandle
 	protected boolean cancelled = false;
 	protected final Object lock;
 	
-	protected Integer priority = null;
+	protected Integer priority;
 	
 	protected String threadName;
 	

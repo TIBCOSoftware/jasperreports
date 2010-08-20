@@ -39,7 +39,7 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	/**
 	 *
 	 */
-	private JRFillDataset dataset = null;
+	private JRFillDataset dataset;
 
 	/**
 	 *

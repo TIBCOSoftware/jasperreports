@@ -82,27 +82,27 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 *
 	 */
-	protected String key = null;
+	protected String key;
 	protected PositionTypeEnum positionTypeValue;
 	protected StretchTypeEnum stretchTypeValue = StretchTypeEnum.NO_STRETCH;
 	protected boolean isPrintRepeatedValues = true;
 	protected ModeEnum modeValue;
-	protected int x = 0;
-	protected int y = 0;
-	protected int width = 0;
-	protected int height = 0;
+	protected int x;
+	protected int y;
+	protected int width;
+	protected int height;
 	protected boolean isRemoveLineWhenBlank = false;
 	protected boolean isPrintInFirstWholeBand = false;
 	protected boolean isPrintWhenDetailOverflows = false;
-	protected Color forecolor = null;
-	protected Color backcolor = null;
+	protected Color forecolor;
+	protected Color backcolor;
 
 	/**
 	 *
 	 */
-	protected JRExpression printWhenExpression = null;
-	protected JRGroup printWhenGroupChanges = null;
-	protected JRElementGroup elementGroup = null;
+	protected JRExpression printWhenExpression;
+	protected JRGroup printWhenGroupChanges;
+	protected JRElementGroup elementGroup;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	protected JRStyle parentStyle;

@@ -36,7 +36,7 @@ import java.util.List;
 public class SimpleFileResolver implements FileResolver
 {
 
-	private List folders = null;
+	private List folders;
 	private boolean isResolveAbsolutePath = false;
 	
 	/**

@@ -45,7 +45,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 {
 	private static final Log log = LogFactory.getLog(JEditorPaneRtfMarkupProcessor.class);
 
-	private static JEditorPaneRtfMarkupProcessor instance = null;  
+	private static JEditorPaneRtfMarkupProcessor instance;  
 	
 	/**
 	 * 

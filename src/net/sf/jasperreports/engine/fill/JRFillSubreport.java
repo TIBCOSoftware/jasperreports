@@ -82,24 +82,24 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	private Map parameterValues = null;
-	private JRSubreportParameter[] parameters = null;
-	private Connection connection = null;
-	private JRDataSource dataSource = null;
-	private JasperReport jasperReport = null;
+	private Map parameterValues;
+	private JRSubreportParameter[] parameters;
+	private Connection connection;
+	private JRDataSource dataSource;
+	private JasperReport jasperReport;
 
-	private Map loadedEvaluators = null;
+	private Map loadedEvaluators;
 	
 	/**
 	 * Values to be copied from the subreport.
 	 */
-	private JRFillSubreportReturnValue[] returnValues = null;
+	private JRFillSubreportReturnValue[] returnValues;
 
 	/**
 	 *
 	 */
-	protected JRBaseFiller subreportFiller = null;
-	private JRPrintPage printPage = null;
+	protected JRBaseFiller subreportFiller;
+	private JRPrintPage printPage;
 
 	private JRSubreportRunner runner;
 	

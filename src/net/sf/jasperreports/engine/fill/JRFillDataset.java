@@ -97,7 +97,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset query.
 	 */
-	protected JRQuery query = null;
+	protected JRQuery query;
 	
 	private boolean useDatasourceParamValue = false;
 	private boolean useConnectionParamValue = false;
@@ -105,32 +105,32 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset parameters.
 	 */
-	protected JRFillParameter[] parameters = null;
+	protected JRFillParameter[] parameters;
 
 	/**
 	 * The dataset parameters indexed by name.
 	 */
-	protected Map parametersMap = null;
+	protected Map parametersMap;
 
 	/**
 	 * The dataset fields.
 	 */
-	protected JRFillField[] fields = null;
+	protected JRFillField[] fields;
 	
 	/**
 	 * The dataset fields indexed by name.
 	 */
-	protected Map fieldsMap = null;
+	protected Map fieldsMap;
 	
 	/**
 	 * The dataset variables.
 	 */
-	protected JRFillVariable[] variables = null;
+	protected JRFillVariable[] variables;
 	
 	/**
 	 * The dataset variables indexed by name.
 	 */
-	protected Map variablesMap = null;
+	protected Map variablesMap;
 	
 	/**
 	 * Set of {@link VariableCalculationReq VariableCalculationReq} objects.
@@ -151,12 +151,12 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset groups.
 	 */
-	protected JRFillGroup[] groups = null;
+	protected JRFillGroup[] groups;
 
 	/**
 	 * The resource bundle base name.
 	 */
-	protected String resourceBundleBaseName = null;
+	protected String resourceBundleBaseName;
 	
 	/**
 	 * The resource missing handle type.
@@ -166,27 +166,27 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The scriptlet class name.
 	 */
-	protected String scriptletClassName = null;
+	protected String scriptletClassName;
 
 	/**
 	 * The data source. 
 	 */
-	protected JRDataSource dataSource = null;
+	protected JRDataSource dataSource;
 	
 	/**
 	 * The {@link Locale Locale} to be used by the dataset.
 	 */
-	protected Locale locale = null;
+	protected Locale locale;
 	
 	/**
 	 * The loaded resource bundle.
 	 */
-	protected ResourceBundle resourceBundle = null;
+	protected ResourceBundle resourceBundle;
 
 	/**
 	 * The {@link TimeZone TimeZone} to be used by the dataset.
 	 */
-	protected TimeZone timeZone = null;
+	protected TimeZone timeZone;
 	
 	/**
 	 * The cursor used when iterating the data source.
@@ -196,12 +196,12 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The calculator used by the dataset.
 	 */
-	protected JRCalculator calculator = null;
+	protected JRCalculator calculator;
 
 	/**
 	 * The scriptlets used by the dataset.
 	 */
-	protected List scriptlets = null;
+	protected List scriptlets;
 
 	/**
 	 *
@@ -211,7 +211,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The value of the {@link JRParameter#REPORT_MAX_COUNT max count} parameter.
 	 */
-	protected Integer reportMaxCount = null;
+	protected Integer reportMaxCount;
 
 	private JRQueryExecuter queryExecuter;
 

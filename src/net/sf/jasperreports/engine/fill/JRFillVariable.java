@@ -42,22 +42,22 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	protected JRVariable parent = null;
+	protected JRVariable parent;
 
 	/**
 	 *
 	 */
-	private JRGroup resetGroup = null;
-	private JRGroup incrementGroup = null;
+	private JRGroup resetGroup;
+	private JRGroup incrementGroup;
 
 	/**
 	 *
 	 */
-	private Object previousOldValue = null;
-	private Object oldValue = null;
-	private Object estimatedValue = null;
-	private Object incrementedValue = null;
-	private Object value = null;
+	private Object previousOldValue;
+	private Object oldValue;
+	private Object estimatedValue;
+	private Object incrementedValue;
+	private Object value;
 	private boolean isInitialized = false;
 	private Object savedValue;
 	
@@ -66,7 +66,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	private JRIncrementer incrementer = null;
+	private JRIncrementer incrementer;
 
 
 	/**

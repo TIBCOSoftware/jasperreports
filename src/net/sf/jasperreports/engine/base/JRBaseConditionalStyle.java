@@ -43,7 +43,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-	protected JRExpression conditionExpression = null;
+	protected JRExpression conditionExpression;
 
 
 
