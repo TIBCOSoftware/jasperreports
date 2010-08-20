@@ -149,7 +149,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
-	protected static boolean fontsRegistered = false;
+	protected static boolean fontsRegistered;
 
 	protected class ExporterContext extends BaseExporterContext implements JRPdfExporterContext
 	{

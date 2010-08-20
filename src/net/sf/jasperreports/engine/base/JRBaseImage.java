@@ -85,7 +85,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
 	protected Boolean isUsingCache;
-	protected boolean isLazy = false;
+	protected boolean isLazy;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String linkType;

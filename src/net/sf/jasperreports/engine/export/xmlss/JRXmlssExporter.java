@@ -141,7 +141,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isWrapBreakWord = false;
+	protected boolean isWrapBreakWord;
 
 	/**
 	 * @deprecated
@@ -164,7 +164,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	protected boolean isRemoveEmptySpaceBetweenRows;
 	protected boolean isRemoveEmptySpaceBetweenColumns;
 	protected boolean isWhitePageBackground;
-	protected boolean isAutoDetectCellType = false;
+	protected boolean isAutoDetectCellType;
 	protected boolean isDetectCellType;
 	protected boolean isFontSizeFixEnabled;
 	protected boolean isIgnoreGraphics;

@@ -52,7 +52,7 @@ public class JRXmlDigester extends Digester
 	/**
 	 *
 	 */
-	//private static boolean wasWarning = false;
+	//private static boolean wasWarning;
 
 	private Map internalEntityResources;
 

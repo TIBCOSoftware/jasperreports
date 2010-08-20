@@ -174,7 +174,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected File imagesDir;
 	protected String imagesURI;
-	protected boolean isOutputImagesToDir = false;
+	protected boolean isOutputImagesToDir;
 	protected boolean isWhitePageBackground;
 	protected String encoding;
 	protected String sizeUnit;
@@ -197,7 +197,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
-	protected boolean hyperlinkStarted = false;	
+	protected boolean hyperlinkStarted;	
 	
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 

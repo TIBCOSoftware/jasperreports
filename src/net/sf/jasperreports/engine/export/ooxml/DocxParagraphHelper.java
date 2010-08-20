@@ -50,7 +50,7 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private boolean pageBreak = false;
+	private boolean pageBreak;
 
 	/**
 	 *

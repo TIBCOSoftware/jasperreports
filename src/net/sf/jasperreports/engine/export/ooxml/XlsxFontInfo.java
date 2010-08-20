@@ -40,10 +40,10 @@ public class XlsxFontInfo
 	 */
 	protected String fontName;
 	protected int fontSize;
-	protected boolean isBold = false;
-	protected boolean isItalic = false;
-	protected boolean isUnderline = false;
-	protected boolean isStrikeThrough = false;
+	protected boolean isBold;
+	protected boolean isItalic;
+	protected boolean isUnderline;
+	protected boolean isStrikeThrough;
 	protected String color;
 
 	/**

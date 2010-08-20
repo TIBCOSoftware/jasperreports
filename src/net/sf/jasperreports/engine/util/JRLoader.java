@@ -62,7 +62,7 @@ public final class JRLoader
 	/**
 	 *
 	 */
-	//private static boolean wasWarning = false;
+	//private static boolean wasWarning;
 
 
 	/**

@@ -37,7 +37,7 @@ public class SimpleFileResolver implements FileResolver
 {
 
 	private List folders;
-	private boolean isResolveAbsolutePath = false;
+	private boolean isResolveAbsolutePath;
 	
 	/**
 	 *

@@ -51,10 +51,10 @@ public class JRFillContext
 	private Map loadedImages;
 	private Map loadedSubreports;
 	private Map loadedTemplates;
-	private boolean usingVirtualizer = false;
-	private boolean perPageBoundElements = false;
+	private boolean usingVirtualizer;
+	private boolean perPageBoundElements;
 	private JRPrintPage printPage;
-	private boolean ignorePagination = false;
+	private boolean ignorePagination;
 	private JRQueryExecuter queryExecuter;
 
 	private JRVirtualizationContext virtualizationContext;

@@ -532,7 +532,7 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowTickMarks = false;
+	private boolean isShowTickMarks;
 	/**
 	 * @deprecated
 	 */

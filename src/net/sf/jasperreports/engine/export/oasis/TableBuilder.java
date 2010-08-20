@@ -46,8 +46,8 @@ public class TableBuilder
 	private int reportIndex;
 	private Writer bodyWriter;
 	private Writer styleWriter;
-	private boolean isFrame = false;
-	private boolean isPageBreak = false;
+	private boolean isFrame;
+	private boolean isPageBreak;
 	
 
 	protected TableBuilder(

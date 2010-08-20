@@ -52,8 +52,8 @@ public class XlsxStyleHelper extends BaseHelper
 	private XlsxFontHelper fontHelper;
 	private XlsxBorderHelper borderHelper;
 	
-	private boolean isWhitePageBackground = false;
-	private boolean isIgnoreCellBackground = false;
+	private boolean isWhitePageBackground;
+	private boolean isIgnoreCellBackground;
 	
 	/**
 	 * 

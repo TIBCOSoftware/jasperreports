@@ -88,11 +88,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected int rightMargin = 20;
 	protected int topMargin = 30;
 	protected int bottomMargin = 30;
-	protected boolean isTitleNewPage = false;
-	protected boolean isSummaryNewPage = false;
-	protected boolean isSummaryWithPageHeaderAndFooter = false;
-	protected boolean isFloatColumnFooter = false;
-	protected boolean ignorePagination = false;
+	protected boolean isTitleNewPage;
+	protected boolean isSummaryNewPage;
+	protected boolean isSummaryWithPageHeaderAndFooter;
+	protected boolean isFloatColumnFooter;
+	protected boolean ignorePagination;
 
 	/**
 	 *

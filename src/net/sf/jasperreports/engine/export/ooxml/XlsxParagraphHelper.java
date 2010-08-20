@@ -47,7 +47,7 @@ public class XlsxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private boolean pageBreak = false;
+	private boolean pageBreak;
 
 	/**
 	 *

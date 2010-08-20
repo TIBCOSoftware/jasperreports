@@ -40,7 +40,7 @@ public class XmlssTableBuilder
 //	private int reportIndex;
 	private Writer bodyWriter;
 //	private Writer styleWriter;
-//	private boolean isFrame = false;
+//	private boolean isFrame;
 	
 
 	protected XmlssTableBuilder(

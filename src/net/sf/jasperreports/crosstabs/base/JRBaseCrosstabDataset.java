@@ -39,7 +39,7 @@ public class JRBaseCrosstabDataset extends JRBaseElementDataset implements JRCro
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	protected boolean dataPreSorted = false;
+	protected boolean dataPreSorted;
 
 	public JRBaseCrosstabDataset(JRCrosstabDataset dataset, JRBaseObjectFactory factory)
 	{

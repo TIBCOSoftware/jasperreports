@@ -124,7 +124,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	 *
 	 */
 	protected String name;
-	protected boolean isDefault = false;
+	protected boolean isDefault;
 
 	protected Byte positionType;
 	protected Byte stretchType;

@@ -65,8 +65,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	private JRFillElement[] bandBottomElements;
 	private JRFillElement[] removableElements;
 	
-	private boolean willOverflow = false;
-	protected boolean isOverflow = false;
+	private boolean willOverflow;
+	protected boolean isOverflow;
 	
 	private int stretchHeight;
 	private int firstY;

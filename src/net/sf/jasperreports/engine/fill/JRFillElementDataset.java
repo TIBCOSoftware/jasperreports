@@ -64,7 +64,7 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	private boolean isIncremented = true;
 
 	protected JRFillDatasetRun datasetRun;
-	private boolean increment = false;
+	private boolean increment;
 
 	/**
 	 *

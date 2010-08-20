@@ -79,9 +79,9 @@ public class JRPdfExporterTagHelper
 	protected boolean isTagEmpty = true;
 	protected int crtCrosstabRowY = -1;
 	protected int crosstabFrameDepth;
-	protected boolean isDataCellPrinted = false;
+	protected boolean isDataCellPrinted;
 
-	protected boolean isTagged = false;
+	protected boolean isTagged;
 
 	/**
 	 *

@@ -77,7 +77,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	private Boolean isUsingCache = Boolean.TRUE;
 	private HorizontalAlignEnum horizontalAlignmentValue;
 	private VerticalAlignEnum verticalAlignmentValue;
-	protected boolean isLazy = false;
+	protected boolean isLazy;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	private String linkType;
 	private String linkTarget;

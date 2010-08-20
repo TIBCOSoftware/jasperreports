@@ -70,13 +70,13 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	 *
 	 */
 	protected String name;
-	protected boolean isStartNewColumn = false;
-	protected boolean isStartNewPage = false;
-	protected boolean isResetPageNumber = false;
-	protected boolean isReprintHeaderOnEachPage = false;
+	protected boolean isStartNewColumn;
+	protected boolean isStartNewPage;
+	protected boolean isResetPageNumber;
+	protected boolean isReprintHeaderOnEachPage;
 	protected int minHeightToStartNewPage;
 	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
-	protected boolean keepTogether = false;
+	protected boolean keepTogether;
 
 	/**
 	 *

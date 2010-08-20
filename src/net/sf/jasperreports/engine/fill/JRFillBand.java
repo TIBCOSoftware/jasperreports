@@ -61,8 +61,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	/**
 	 *
 	 */
-	private boolean isNewPageColumn = false;
-	private boolean isFirstWholeOnPageColumn = false;
+	private boolean isNewPageColumn;
+	private boolean isFirstWholeOnPageColumn;
 	private Map isNewGroupMap = new HashMap();
 
 	private Set nowEvaluationTimes;

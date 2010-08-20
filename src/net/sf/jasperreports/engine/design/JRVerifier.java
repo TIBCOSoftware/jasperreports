@@ -245,7 +245,7 @@ public class JRVerifier
 
 	private LinkedList currentComponentElementStack = new LinkedList();
 	
-	private boolean allowElementNegativeWidth = false;
+	private boolean allowElementNegativeWidth;
 	private final boolean allowElementNegativeY;
 
 	/**

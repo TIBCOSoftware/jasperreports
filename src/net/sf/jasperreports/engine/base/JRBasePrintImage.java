@@ -72,7 +72,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	protected Boolean isUsingCache = Boolean.TRUE;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
-	protected boolean isLazy = false;
+	protected boolean isLazy;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	protected JRLineBox lineBox;
 	protected String anchorName;

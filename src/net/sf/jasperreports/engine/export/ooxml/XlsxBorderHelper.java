@@ -40,7 +40,7 @@ public class XlsxBorderHelper extends BaseHelper
 {
 	private Map borderCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-	private boolean isIgnoreCellBorder = false;
+	private boolean isIgnoreCellBorder;
 	
 	/**
 	 *
