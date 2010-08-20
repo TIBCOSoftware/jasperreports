@@ -75,11 +75,11 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private boolean isLeftToRight = true;
 	private JRTextMeasurer textMeasurer;
-	private float lineSpacingFactor = 0;
-	private float leadingOffset = 0;
-	private float textHeight = 0;
-	private int textStart = 0;
-	private int textEnd = 0;
+	private float lineSpacingFactor;
+	private float leadingOffset;
+	private float textHeight;
+	private int textStart;
+	private int textEnd;
 	private short[] lineBreakOffsets;
 	private String textTruncateSuffix;
 	private String rawText;

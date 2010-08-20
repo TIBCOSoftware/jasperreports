@@ -111,8 +111,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private JRGraphics2DExporter exporter;
 	private boolean pageError;
 
-	private int downX = 0;
-	private int downY = 0;
+	private int downX;
+	private int downY;
 	
 	private java.util.List hyperlinkListeners = new ArrayList();
 	private Map linksMap = new HashMap();
@@ -125,7 +125,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	/**
 	 * the zoom ratio adjusted to the screen resolution.
 	 */
-	protected float realZoom = 0f;
+	protected float realZoom;
 
 	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()

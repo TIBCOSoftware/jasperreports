@@ -115,7 +115,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	protected Writer rtfWriter;
 	protected File destFile;
 
-	protected int reportIndex = 0;
+	protected int reportIndex;
 
 	protected List colors;
 	protected List fonts;

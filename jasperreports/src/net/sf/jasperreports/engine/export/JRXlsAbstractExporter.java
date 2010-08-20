@@ -117,8 +117,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected JRExportProgressMonitor progressMonitor;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
 
 	/**
 	 * @deprecated
@@ -133,7 +133,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * used for counting the total number of sheets
 	 */
-	protected int sheetIndex = 0;
+	protected int sheetIndex;
 
 	/**
 	 * used when indexing the identical sheet generated names with ordering numbers;

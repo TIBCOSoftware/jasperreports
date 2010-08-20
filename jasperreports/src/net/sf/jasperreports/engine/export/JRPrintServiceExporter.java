@@ -68,7 +68,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	protected boolean displayPrintDialog = false;
 	protected boolean displayPrintDialogOnlyOnce = false;
 
-	protected int reportIndex = 0;
+	protected int reportIndex;
 	
 	private PrintService printService;
 	private Boolean[] printStatus;

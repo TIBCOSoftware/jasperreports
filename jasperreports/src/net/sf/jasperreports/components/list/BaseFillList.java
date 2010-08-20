@@ -160,7 +160,7 @@ public abstract class BaseFillList extends BaseFillComponent
 	{
 		private final JRPrintElementContainer container;
 		private final int initialContainerHeight;
-		private int xOffset = 0;
+		private int xOffset;
 
 		public AppendingPrintElementContainer(JRPrintElementContainer container)
 		{

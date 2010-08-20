@@ -68,8 +68,8 @@ public class FrameDrawer extends ElementDrawer
 	private ExporterFilter filter;
 	private Graphics2D grx;
 	private LinkedList elementOffsetStack = new LinkedList();
-	private int elementOffsetX = 0;
-	private int elementOffsetY = 0;
+	private int elementOffsetX;
+	private int elementOffsetY;
 	private boolean isClip = false;
 	
 	/**

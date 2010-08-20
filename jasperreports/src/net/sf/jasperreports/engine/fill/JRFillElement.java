@@ -103,8 +103,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isReprinted = false;
 	private boolean isAlreadyPrinted = false;
 	private Collection dependantElements = new ArrayList();
-	private int relativeY = 0;
-	private int stretchHeight = 0;
+	private int relativeY;
+	private int stretchHeight;
 
 	private int x;
 	private int y;

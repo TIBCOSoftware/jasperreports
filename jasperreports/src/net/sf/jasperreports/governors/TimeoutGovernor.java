@@ -46,8 +46,8 @@ public class TimeoutGovernor extends JRDefaultScriptlet
 	/**
 	 *
 	 */
-	private long startTime = 0;
-	private long timeout = 0;
+	private long startTime;
+	private long timeout;
 
 	
 	/**

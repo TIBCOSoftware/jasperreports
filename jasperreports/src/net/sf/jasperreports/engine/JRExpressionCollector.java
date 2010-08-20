@@ -125,7 +125,7 @@ public class JRExpressionCollector
 	protected static class GeneratedIds
 	{
 		private final TreeMap ids = new TreeMap();
-		private int nextId = 0;
+		private int nextId;
 		private List expressions;
 
 		public JRExpression put(Integer id, JRExpression expression)

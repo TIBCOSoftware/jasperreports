@@ -41,7 +41,7 @@ public class JRPrintBand implements JRPrintElementContainer
 	/**
 	 *
 	 */
-	private int height = 0;
+	private int height;
 	private List elements = new ArrayList();
 
 	

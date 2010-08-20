@@ -75,16 +75,16 @@ public class TextMeasurer implements JRTextMeasurer
 	 */
 	private MaxFontSizeFinder maxFontSizeFinder;
 	
-	private int width = 0;
-	private int height = 0;
-	private int topPadding = 0;
-	private int leftPadding = 0;
-	private int bottomPadding = 0;
-	private int rightPadding = 0;
-	private float lineSpacing = 0;
+	private int width;
+	private int height;
+	private int topPadding;
+	private int leftPadding;
+	private int bottomPadding;
+	private int rightPadding;
+	private float lineSpacing;
 
-	private float formatWidth = 0;
-	private int maxHeight = 0;
+	private float formatWidth;
+	private int maxHeight;
 	private boolean canOverflow;
 	private Map globalAttributes;
 	private TextMeasuredState measuredState;
@@ -94,16 +94,16 @@ public class TextMeasurer implements JRTextMeasurer
 	{
 		private final boolean saveLineBreakOffsets;
 		
-		protected int textOffset = 0;
-		protected int lines = 0;
-		protected int fontSizeSum = 0;
-		protected int firstLineMaxFontSize = 0;
-		protected float textHeight = 0;
-		protected float firstLineLeading = 0;
+		protected int textOffset;
+		protected int lines;
+		protected int fontSizeSum;
+		protected int firstLineMaxFontSize;
+		protected float textHeight;
+		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
 		protected String textSuffix;
 		
-		protected int lastOffset = 0;
+		protected int lastOffset;
 		protected ArrayList lineBreakOffsets;
 		
 		public TextMeasuredState(boolean saveLineBreakOffsets)

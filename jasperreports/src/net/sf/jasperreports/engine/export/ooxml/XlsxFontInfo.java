@@ -39,7 +39,7 @@ public class XlsxFontInfo
 	 *
 	 */
 	protected String fontName;
-	protected int fontSize = 0;
+	protected int fontSize;
 	protected boolean isBold = false;
 	protected boolean isItalic = false;
 	protected boolean isUnderline = false;

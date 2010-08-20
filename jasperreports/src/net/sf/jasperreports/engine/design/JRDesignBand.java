@@ -54,7 +54,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 *
 	 */
-	protected int height = 0;
+	protected int height;
 	protected SplitTypeEnum splitTypeValue;
 
 	/**

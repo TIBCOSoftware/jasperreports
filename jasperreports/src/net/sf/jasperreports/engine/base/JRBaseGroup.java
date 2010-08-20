@@ -74,7 +74,7 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	protected boolean isStartNewPage = false;
 	protected boolean isResetPageNumber = false;
 	protected boolean isReprintHeaderOnEachPage = false;
-	protected int minHeightToStartNewPage = 0;
+	protected int minHeightToStartNewPage;
 	protected FooterPositionEnum footerPositionValue = FooterPositionEnum.NORMAL;
 	protected boolean keepTogether = false;
 

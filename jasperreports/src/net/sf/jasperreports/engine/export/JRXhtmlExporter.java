@@ -164,10 +164,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected Map imageMaps;
 	protected List imagesToProcess;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
 	protected List frameIndexStack;
-	protected int elementIndex = 0;
+	protected int elementIndex;
 
 	/**
 	 *

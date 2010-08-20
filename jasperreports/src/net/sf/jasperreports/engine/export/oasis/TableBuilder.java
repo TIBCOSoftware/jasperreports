@@ -43,7 +43,7 @@ public class TableBuilder
 {
 
 	private String tableName;
-	private int reportIndex = 0;
+	private int reportIndex;
 	private Writer bodyWriter;
 	private Writer styleWriter;
 	private boolean isFrame = false;

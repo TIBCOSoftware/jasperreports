@@ -47,20 +47,20 @@ public class TextRenderer
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
 	private Graphics2D grx;
-	private int x = 0;
-	private int y = 0;
-	private int topPadding = 0;
-	private int leftPadding = 0;
-	private float formatWidth = 0;
-	private float verticalOffset = 0;
-	private float lineSpacingFactor = 0;
-	private float leadingOffset = 0;
-	private float textHeight = 0;
-	private float drawPosY = 0;
-	private float drawPosX = 0;
+	private int x;
+	private int y;
+	private int topPadding;
+	private int leftPadding;
+	private float formatWidth;
+	private float verticalOffset;
+	private float lineSpacingFactor;
+	private float leadingOffset;
+	private float textHeight;
+	private float drawPosY;
+	private float drawPosX;
 	private boolean isMaxHeightReached = false;
 	private HorizontalAlignEnum horizontalAlignment;
-	private int fontSize = 0;
+	private int fontSize;
 	
 	/**
 	 * 

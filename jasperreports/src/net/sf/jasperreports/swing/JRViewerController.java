@@ -65,8 +65,8 @@ public class JRViewerController
 	protected boolean reloadSupported;
 	
 	private JasperPrint jasperPrint;
-	private int pageIndex = 0;
-	private float zoom = 0f;
+	private int pageIndex;
+	private float zoom;
 	private boolean fitPage;
 	private boolean fitWidth;
 

@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
  */
 public class XlsxSheetHelper extends BaseHelper
 {
-	private int rowIndex = 0;
+	private int rowIndex;
 	
 	private FileBufferedWriter colsWriter = new FileBufferedWriter();
 	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
