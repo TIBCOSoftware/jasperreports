@@ -38,8 +38,8 @@ public class JRPrintElementIndex
 	/**
 	 *
 	 */
-	private int reportIndex = 0;
-	private int pageIndex = 0;
+	private int reportIndex;
+	private int pageIndex;
 	private String address;
 
 

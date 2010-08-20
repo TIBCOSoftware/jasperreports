@@ -191,7 +191,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The cursor used when iterating the data source.
 	 */
-	protected int reportCount = 0;
+	protected int reportCount;
 
 	/**
 	 * The calculator used by the dataset.

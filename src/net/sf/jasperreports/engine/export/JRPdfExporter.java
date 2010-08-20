@@ -178,7 +178,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	protected JRExportProgressMonitor progressMonitor;
 
-	protected int reportIndex = 0;
+	protected int reportIndex;
 
 	/**
 	 *
@@ -190,7 +190,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected boolean is128BitKey;
 	protected String userPassword;
 	protected String ownerPassword;
-	protected int permissions = 0;
+	protected int permissions;
 	protected Character pdfVersion;
 	protected String pdfJavaScript;
 	protected String printScaling;

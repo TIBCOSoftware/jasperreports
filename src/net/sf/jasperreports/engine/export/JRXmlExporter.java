@@ -145,7 +145,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	private static int imageId = 0;
+	private static int imageId;
 
 
 	protected class ExporterContext extends BaseExporterContext implements JRXmlExporterContext

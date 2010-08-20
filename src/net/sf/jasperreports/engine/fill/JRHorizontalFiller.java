@@ -50,8 +50,8 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 	private int lastDetailOffsetX = -1;
 	private int lastDetailOffsetY = -1;
-	private int currentDetailOffsetY = 0;
-	private int maxDetailOffsetY = 0;
+	private int currentDetailOffsetY;
+	private int maxDetailOffsetY;
 	
 
 	/**

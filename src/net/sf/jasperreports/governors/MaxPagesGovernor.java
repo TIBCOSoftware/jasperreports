@@ -46,8 +46,8 @@ public class MaxPagesGovernor extends JRDefaultScriptlet
 	/**
 	 *
 	 */
-	private int pages = 0;
-	private int maxPages = 0;
+	private int pages;
+	private int maxPages;
 
 	
 	/**

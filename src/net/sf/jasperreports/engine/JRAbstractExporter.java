@@ -497,10 +497,10 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected List jasperPrintList;
 	protected JasperPrint jasperPrint;
 	protected boolean isModeBatch = true;
-	protected int startPageIndex = 0;
-	protected int endPageIndex = 0;
-	protected int globalOffsetX = 0;
-	protected int globalOffsetY = 0;
+	protected int startPageIndex;
+	protected int endPageIndex;
+	protected int globalOffsetX;
+	protected int globalOffsetY;
 	protected ClassLoader classLoader;
 	protected boolean classLoaderSet = false;
 	protected URLStreamHandlerFactory urlHandlerFactory;

@@ -67,7 +67,7 @@ public class JRGridLayout
 
 	private Map boxesCache;
 
-	private int virtualFrameIndex = 0;
+	private int virtualFrameIndex;
 
 	private boolean hasTopMargin = true;
 	private boolean hasBottomMargin = true;

@@ -51,7 +51,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	 */
 	protected String valueClassName;
 	protected String valueClassRealName;
-	protected int id = 0;
+	protected int id;
 
 	protected transient Class valueClass;
 
@@ -63,7 +63,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 *
 	 */
-	private static int lastId = 0;
+	private static int lastId;
 
 
 	/**

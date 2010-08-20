@@ -68,8 +68,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	private boolean willOverflow = false;
 	protected boolean isOverflow = false;
 	
-	private int stretchHeight = 0;
-	private int firstY = 0;
+	private int stretchHeight;
+	private int firstY;
 	protected JRFillElement firstYElement;
 	
 	protected final JRFillExpressionEvaluator expressionEvaluator;

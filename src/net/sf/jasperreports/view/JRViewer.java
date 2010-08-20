@@ -149,9 +149,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected String reportFileName;
 	protected SimpleFileResolver fileResolver;
 	JasperPrint jasperPrint;
-	private int pageIndex = 0;
+	private int pageIndex;
 	private boolean pageError;
-	protected float zoom = 0f;
+	protected float zoom;
 
 	private JRGraphics2DExporter exporter;
 
@@ -163,13 +163,13 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	/**
 	 * the zoom ration adjusted to the screen resolution.
 	 */
-	protected float realZoom = 0f;
+	protected float realZoom;
 
 	private DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
 	private ResourceBundle resourceBundle;
 
-	private int downX = 0;
-	private int downY = 0;
+	private int downX;
+	private int downY;
 
 	private java.util.List hyperlinkListeners = new ArrayList();
 	private Map linksMap = new HashMap();

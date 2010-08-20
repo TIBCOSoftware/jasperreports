@@ -57,7 +57,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 */
 	private JRElement topElementInGroup;
 	private JRElement bottomElementInGroup;
-	private int stretchHeightDiff = 0;
+	private int stretchHeightDiff;
 
 
 	/**

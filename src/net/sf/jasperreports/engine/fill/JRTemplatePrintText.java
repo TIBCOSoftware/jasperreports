@@ -75,10 +75,10 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
 	private transient String truncatedText;
-	private float lineSpacingFactor = 0;
-	private float leadingOffset = 0;
+	private float lineSpacingFactor;
+	private float leadingOffset;
 	private RunDirectionEnum runDirectionValue;
-	private float textHeight = 0;
+	private float textHeight;
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;

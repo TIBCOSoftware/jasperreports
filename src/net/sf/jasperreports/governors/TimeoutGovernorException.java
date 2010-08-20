@@ -35,7 +35,7 @@ public class TimeoutGovernorException extends GovernorException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private long timeout = 0;
+	private long timeout;
 	
 	/**
 	 *

@@ -35,7 +35,7 @@ public class MaxPagesGovernorException extends GovernorException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private int maxPages = 0;
+	private int maxPages;
 	
 	/**
 	 *

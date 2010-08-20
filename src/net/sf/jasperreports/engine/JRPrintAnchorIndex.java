@@ -36,7 +36,7 @@ public class JRPrintAnchorIndex
 	/**
 	 *
 	 */
-	private int pageIndex = 0;
+	private int pageIndex;
 	private JRPrintElement element;
 	private final int offsetX;
 	private final int offsetY;

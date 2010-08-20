@@ -39,7 +39,7 @@ public class JREmptyDataSource implements JRRewindableDataSource
 	 *
 	 */
 	private int count = 1;
-	private int index = 0;
+	private int index;
 
 
 	/**

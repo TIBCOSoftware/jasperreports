@@ -180,8 +180,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected List imagesToProcess;
 	protected boolean isPxImageLoaded = false;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
 
 	/**
 	 *
@@ -220,7 +220,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
 	protected boolean hyperlinkStarted = false;
-	protected int thDepth = 0;
+	protected int thDepth;
 	
 	protected ExporterNature nature;
 

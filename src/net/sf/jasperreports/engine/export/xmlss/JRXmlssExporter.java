@@ -127,9 +127,9 @@ public class JRXmlssExporter extends JRAbstractExporter
 	protected Map imageMaps;
 	protected List imagesToProcess;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
-	protected int tableIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
+	protected int tableIndex;
 	protected boolean startPage;
 
 	/**
@@ -179,7 +179,7 @@ public class JRXmlssExporter extends JRAbstractExporter
 	/**
 	 * used for counting the total number of sheets
 	 */
-	protected int sheetIndex = 0;
+	protected int sheetIndex;
 
 	/**
 	 * used when indexing the identical sheet generated names with ordering numbers;

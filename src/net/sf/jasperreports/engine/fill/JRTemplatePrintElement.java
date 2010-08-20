@@ -60,10 +60,10 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	protected JRTemplateElement template;
 
-	private int x = 0;
-	private int y = 0;
-	private int height = 0;
-	private int width = 0;
+	private int x;
+	private int y;
+	private int height;
+	private int width;
 
 	private JRPropertiesMap properties;
 	

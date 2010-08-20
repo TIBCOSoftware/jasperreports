@@ -126,9 +126,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected List imagesToProcess;
 //	protected Map hyperlinksMap;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
-	protected int tableIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
+	protected int tableIndex;
 	protected boolean startPage;
 
 	/**

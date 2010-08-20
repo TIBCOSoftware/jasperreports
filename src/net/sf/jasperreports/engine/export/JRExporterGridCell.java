@@ -53,10 +53,10 @@ public abstract class JRExporterGridCell
 	private Color forecolor;
 	private JRLineBox box;
 	
-	private int width = 0;
-	private int height = 0;
-	private int colSpan = 0;
-	private int rowSpan = 0;
+	private int width;
+	private int height;
+	private int colSpan;
+	private int rowSpan;
 
 	private JRGridLayout layout;
 

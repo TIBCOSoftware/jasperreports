@@ -94,7 +94,7 @@ public class BucketingService
 	private final MeasureValue[] zeroUserMeasureValues;
 
 	private final int bucketMeasureLimit;
-	private int runningBucketMeasureCount = 0;
+	private int runningBucketMeasureCount;
 	
 	/**
 	 * Creates a crosstab bucketing engine.

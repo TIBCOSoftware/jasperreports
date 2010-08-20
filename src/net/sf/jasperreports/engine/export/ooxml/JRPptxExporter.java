@@ -120,16 +120,16 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected List imagesToProcess;
 //	protected Map hyperlinksMap;
 
-	protected int reportIndex = 0;
-	protected int pageIndex = 0;
+	protected int reportIndex;
+	protected int pageIndex;
 	protected List frameIndexStack;
-	protected int elementIndex = 0;
+	protected int elementIndex;
 	protected boolean startPage;
 
 	/**
 	 * used for counting the total number of sheets
 	 */
-	protected int slideIndex = 0;
+	protected int slideIndex;
 	
 	/**
 	 *

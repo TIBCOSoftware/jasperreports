@@ -99,7 +99,7 @@ public class JROrigin implements JRCloneable, Serializable
 	private String groupName;
 	private String reportName;
 	
-	private int hashCode = 0;
+	private int hashCode;
 	
 	/**
 	 * 

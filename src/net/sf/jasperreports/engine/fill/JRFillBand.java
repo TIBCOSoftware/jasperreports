@@ -74,7 +74,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	protected JROrigin origin;
 	
 	private SplitTypeEnum splitType;
-	private int breakHeight = 0;
+	private int breakHeight;
 
 	
 	/**

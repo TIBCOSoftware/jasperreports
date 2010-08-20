@@ -62,15 +62,15 @@ public class StyleCache
 	 *
 	 */
 	private Map frameStyles = new HashMap();//FIXMEODT soft cache?
-	private int frameStylesCounter = 0;
+	private int frameStylesCounter;
 	private Map cellStyles = new HashMap();
-	private int cellStylesCounter = 0;
+	private int cellStylesCounter;
 	private Map graphicStyles = new HashMap();
-	private int graphicStylesCounter = 0;
+	private int graphicStylesCounter;
 	private Map paragraphStyles = new HashMap();
-	private int paragraphStylesCounter = 0;
+	private int paragraphStylesCounter;
 	private Map textSpanStyles = new HashMap();
-	private int textSpanStylesCounter = 0;
+	private int textSpanStylesCounter;
 
 
 	/**

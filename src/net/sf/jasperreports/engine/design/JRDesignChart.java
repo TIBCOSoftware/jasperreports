@@ -126,7 +126,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 *
 	 */
-	protected byte chartType = 0;
+	protected byte chartType;
 
 	/**
 	 *

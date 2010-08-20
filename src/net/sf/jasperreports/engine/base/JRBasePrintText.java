@@ -77,13 +77,13 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected short[] lineBreakOffsets;
 	protected String textTruncateSuffix;
 	protected transient String truncatedText;
-	protected float lineSpacingFactor = 0;
-	protected float leadingOffset = 0;
+	protected float lineSpacingFactor;
+	protected float leadingOffset;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
-	protected float textHeight = 0;
+	protected float textHeight;
 	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
 	protected String anchorName;

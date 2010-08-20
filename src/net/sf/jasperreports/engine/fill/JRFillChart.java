@@ -132,7 +132,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected byte chartType = 0;
+	protected byte chartType;
 
 	/**
 	 *
