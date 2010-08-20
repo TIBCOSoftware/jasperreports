@@ -53,13 +53,21 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public int getFont(JRExporterGridCell gridCell)
 	{
+		return getFont(gridCell, false);
+	}
+
+	/**
+	 *
+	 */
+	public int getFont(JRExporterGridCell gridCell, boolean isFontSizeFixEnabled)
+	{
 		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
 		if (font == null)
 		{
 			return -1;			
 		}
 
-		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell);
+		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell, isFontSizeFixEnabled);
 		Integer fontIndex = (Integer)fontCache.get(fontInfo.getId());
 		if (fontIndex == null)
 		{
