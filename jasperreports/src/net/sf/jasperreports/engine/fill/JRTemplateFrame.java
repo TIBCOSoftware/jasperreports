@@ -596,43 +596,43 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
@@ -640,19 +640,19 @@ public class JRTemplateFrame extends JRTemplateElement implements JRBox, JRBoxCo
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

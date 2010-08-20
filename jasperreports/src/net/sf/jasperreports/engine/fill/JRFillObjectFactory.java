@@ -149,12 +149,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	protected JRBaseFiller filler = null;
+	protected JRBaseFiller filler;
 	private JRFillExpressionEvaluator evaluator;
 
 	private JRFillObjectFactory parentFiller;
 	
-//	private JRFont defaultFont = null;
+//	private JRFont defaultFont;
 
 	private List elementDatasets = new ArrayList();
 	private Map elementDatasetMap = new HashMap();

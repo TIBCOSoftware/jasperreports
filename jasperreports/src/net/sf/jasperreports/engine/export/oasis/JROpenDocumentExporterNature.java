@@ -44,7 +44,7 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	public static final byte ODT_NATURE = 1;
 	public static final byte ODS_NATURE = 2;
 	
-	protected ExporterFilter filter = null;
+	protected ExporterFilter filter;
 
 	/**
 	 * 

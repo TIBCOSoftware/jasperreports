@@ -36,7 +36,7 @@ public abstract class XmlssStyle
 	/**
 	 *
 	 */
-	protected Writer styleWriter = null;
+	protected Writer styleWriter;
 
 	/**
 	 *

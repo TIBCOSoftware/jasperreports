@@ -107,18 +107,18 @@ public class JRRtfExporter extends JRAbstractExporter
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
-	protected JRExportProgressMonitor progressMonitor = null;
+	protected JRExportProgressMonitor progressMonitor;
 
-	protected FileBufferedWriter colorWriter = null;
-	protected FileBufferedWriter fontWriter = null;
-	protected FileBufferedWriter writer = null;
-	protected Writer rtfWriter = null;
-	protected File destFile = null;
+	protected FileBufferedWriter colorWriter;
+	protected FileBufferedWriter fontWriter;
+	protected FileBufferedWriter writer;
+	protected Writer rtfWriter;
+	protected File destFile;
 
 	protected int reportIndex = 0;
 
-	protected List colors = null;
-	protected List fonts = null;
+	protected List colors;
+	protected List fonts;
 
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
@@ -126,7 +126,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	private Map fontMap = null;
+	private Map fontMap;
 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{

@@ -46,12 +46,12 @@ import org.apache.commons.beanutils.locale.LocaleConvertUtilsBean;
 public abstract class JRAbstractTextDataSource implements JRDataSource
 {
 	
-	private LocaleConvertUtilsBean convertBean = null;
+	private LocaleConvertUtilsBean convertBean;
 	
-	private Locale locale = null;
-	private String datePattern = null;
-	private String numberPattern = null;
-	private TimeZone timeZone = null;
+	private Locale locale;
+	private String datePattern;
+	private String numberPattern;
+	private TimeZone timeZone;
 
 	protected Object convertStringValue(String text, Class valueClass)
 	{

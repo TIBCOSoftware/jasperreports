@@ -46,20 +46,20 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	private String name = null;
-	private FontFace normalFace = null;
-	private FontFace boldFace = null;
-	private FontFace italicFace = null;
-	private FontFace boldItalicFace = null;
-	private String normalPdfFont = null;
-	private String boldPdfFont = null;
-	private String italicPdfFont = null;
-	private String boldItalicPdfFont = null;
-	private String pdfEncoding = null;
-	private Boolean isPdfEmbedded = null;
-	private String defaultExportFont = null;
-	private Map exportFonts = null;
-	private Set locales = null;
+	private String name;
+	private FontFace normalFace;
+	private FontFace boldFace;
+	private FontFace italicFace;
+	private FontFace boldItalicFace;
+	private String normalPdfFont;
+	private String boldPdfFont;
+	private String italicPdfFont;
+	private String boldItalicPdfFont;
+	private String pdfEncoding;
+	private Boolean isPdfEmbedded;
+	private String defaultExportFont;
+	private Map exportFonts;
+	private Set locales;
 	
 	/**
 	 * 

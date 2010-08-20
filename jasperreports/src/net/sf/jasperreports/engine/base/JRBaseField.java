@@ -53,12 +53,12 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected String name = null;
-	protected String description = null;
+	protected String name;
+	protected String description;
 	protected String valueClassName = java.lang.String.class.getName();
-	protected String valueClassRealName = null;
+	protected String valueClassRealName;
 
-	protected transient Class valueClass = null;
+	protected transient Class valueClass;
 	
 	protected JRPropertiesMap propertiesMap;
 

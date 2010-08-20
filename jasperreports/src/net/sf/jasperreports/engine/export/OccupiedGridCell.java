@@ -38,7 +38,7 @@ public class OccupiedGridCell extends JRExporterGridCell
 	/**
 	 *
 	 */
-	private JRExporterGridCell occupier = null;
+	private JRExporterGridCell occupier;
 
 
 	/**

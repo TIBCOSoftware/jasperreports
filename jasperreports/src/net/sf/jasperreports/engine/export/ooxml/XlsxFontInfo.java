@@ -38,13 +38,13 @@ public class XlsxFontInfo
 	/**
 	 *
 	 */
-	protected String fontName = null;
+	protected String fontName;
 	protected int fontSize = 0;
 	protected boolean isBold = false;
 	protected boolean isItalic = false;
 	protected boolean isUnderline = false;
 	protected boolean isStrikeThrough = false;
-	protected String color = null;
+	protected String color;
 
 	/**
 	 *

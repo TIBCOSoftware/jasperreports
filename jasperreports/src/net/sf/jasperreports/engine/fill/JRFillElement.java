@@ -70,27 +70,27 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected JRElement parent = null;
+	protected JRElement parent;
 	protected Map templates = new HashMap();
 
 	/**
 	 *
 	 */
-	protected JRBaseFiller filler = null;
-	protected JRFillExpressionEvaluator expressionEvaluator = null;
+	protected JRBaseFiller filler;
+	protected JRFillExpressionEvaluator expressionEvaluator;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
 	
 	/**
 	 *
 	 */
-	protected JRGroup printWhenGroupChanges = null;
-	protected JRFillElementGroup elementGroup = null;
+	protected JRGroup printWhenGroupChanges;
+	protected JRFillElementGroup elementGroup;
 
 	/**
 	 *
 	 */
-	protected JRFillBand band = null;
+	protected JRFillBand band;
 	
 	protected JROriginProvider originProvider;
 
@@ -137,8 +137,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 *
-	private JRElement topElementInGroup = null;
-	private JRElement bottomElementInGroup = null;
+	private JRElement topElementInGroup;
+	private JRElement bottomElementInGroup;
 
 
 	/**

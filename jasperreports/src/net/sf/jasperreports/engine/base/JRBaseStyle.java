@@ -116,49 +116,49 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRDefaultStyleProvider defaultStyleProvider = null;
-	protected JRStyle parentStyle = null;
+	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected boolean isDefault = false;
 
-	protected Byte positionType = null;
-	protected Byte stretchType = null;
-	protected ModeEnum modeValue = null;
-	protected Color forecolor = null;
-	protected Color backcolor = null;
+	protected Byte positionType;
+	protected Byte stretchType;
+	protected ModeEnum modeValue;
+	protected Color forecolor;
+	protected Color backcolor;
 
-	protected JRPen linePen = null;
-	protected FillEnum fillValue = null;
+	protected JRPen linePen;
+	protected FillEnum fillValue;
 
-	protected Integer radius = null;
+	protected Integer radius;
 
 	protected ScaleImageEnum scaleImageValue;
-	protected HorizontalAlignEnum horizontalAlignmentValue = null;
-	protected VerticalAlignEnum verticalAlignmentValue = null;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 
-	protected JRLineBox lineBox = null;
+	protected JRLineBox lineBox;
 
-	protected String fontName = null;
-	protected Boolean isBold = null;
-	protected Boolean isItalic = null;
-	protected Boolean isUnderline = null;
-	protected Boolean isStrikeThrough = null;
-	protected Integer fontSize = null;
-	protected String pdfFontName = null;
-	protected String pdfEncoding = null;
-	protected Boolean isPdfEmbedded = null;
+	protected String fontName;
+	protected Boolean isBold;
+	protected Boolean isItalic;
+	protected Boolean isUnderline;
+	protected Boolean isStrikeThrough;
+	protected Integer fontSize;
+	protected String pdfFontName;
+	protected String pdfEncoding;
+	protected Boolean isPdfEmbedded;
 
-	protected RotationEnum rotationValue = null;
-	protected LineSpacingEnum lineSpacingValue = null;
-	protected String markup = null;
+	protected RotationEnum rotationValue;
+	protected LineSpacingEnum lineSpacingValue;
+	protected String markup;
 
-	protected String pattern = null;
-	protected Boolean isBlankWhenNull = null;
+	protected String pattern;
+	protected Boolean isBlankWhenNull;
 
 	protected JRConditionalStyle[] conditionalStyles;
 
@@ -1648,23 +1648,23 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
-	private Byte mode = null;
+	private Byte mode;
 	/**
 	 * @deprecated
 	 */
-	private Byte horizontalAlignment = null;
+	private Byte horizontalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte verticalAlignment = null;
+	private Byte verticalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte rotation = null;
+	private Byte rotation;
 	/**
 	 * @deprecated
 	 */
-	private Byte lineSpacing = null;
+	private Byte lineSpacing;
 	/**
 	 * @deprecated
 	 */
@@ -1672,75 +1672,75 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
-	private Boolean isStyledText = null;
+	private Boolean isStyledText;
 	/**
 	 * @deprecated
 	 */
-	private Byte scaleImage = null;
+	private Byte scaleImage;
 	/**
 	 * @deprecated
 	 */
-	private Byte fill = null;
+	private Byte fill;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

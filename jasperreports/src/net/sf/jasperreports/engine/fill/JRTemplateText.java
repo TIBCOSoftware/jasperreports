@@ -74,11 +74,11 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 *
 	 */
-	private HorizontalAlignEnum horizontalAlignmentValue = null;
-	private VerticalAlignEnum verticalAlignmentValue = null;
-	private RotationEnum rotationValue = null;
-	private LineSpacingEnum lineSpacingValue = null;
-	private String markup = null;
+	private HorizontalAlignEnum horizontalAlignmentValue;
+	private VerticalAlignEnum verticalAlignmentValue;
+	private RotationEnum rotationValue;
+	private LineSpacingEnum lineSpacingValue;
+	private String markup;
 	private String linkType;
 	private String linkTarget;
 
@@ -87,16 +87,16 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	protected JRLineBox lineBox;
 
-	protected JRReportFont reportFont = null;
-	protected String fontName = null;
-	protected Boolean isBold = null;
-	protected Boolean isItalic = null;
-	protected Boolean isUnderline = null;
-	protected Boolean isStrikeThrough = null;
-	protected Integer fontSize = null;
-	protected String pdfFontName = null;
-	protected String pdfEncoding = null;
-	protected Boolean isPdfEmbedded = null;
+	protected JRReportFont reportFont;
+	protected String fontName;
+	protected Boolean isBold;
+	protected Boolean isItalic;
+	protected Boolean isUnderline;
+	protected Boolean isStrikeThrough;
+	protected Integer fontSize;
+	protected String pdfFontName;
+	protected String pdfEncoding;
+	protected Boolean isPdfEmbedded;
 	protected String valueClassName;
 	protected String pattern;
 	protected String formatFactoryClass;
@@ -1489,59 +1489,59 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated
 	 */
-	private Byte horizontalAlignment = null;
+	private Byte horizontalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte verticalAlignment = null;
+	private Byte verticalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte rotation = null;
+	private Byte rotation;
 	/**
 	 * @deprecated
 	 */
-	private Byte lineSpacing = null;
+	private Byte lineSpacing;
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
@@ -1549,23 +1549,23 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
-	private Boolean isStyledText = null;
+	private Boolean isStyledText;
 	/**
 	 * @deprecated
 	 */

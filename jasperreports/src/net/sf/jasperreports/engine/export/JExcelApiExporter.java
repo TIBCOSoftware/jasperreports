@@ -143,23 +143,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private Map loadedCellStyles = new HashMap();
 
-	private WritableWorkbook workbook = null;
+	private WritableWorkbook workbook;
 
-	private WritableSheet sheet = null;
+	private WritableSheet sheet;
 
 	private Pattern backgroundMode = Pattern.SOLID;
 
 	private Map numberFormats;
 	private Map dateFormats;
 
-	protected Map formatPatternsMap = null;
+	protected Map formatPatternsMap;
 
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
 	protected String password;
 	
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{

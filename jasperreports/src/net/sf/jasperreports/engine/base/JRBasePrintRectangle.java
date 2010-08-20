@@ -44,7 +44,7 @@ public class JRBasePrintRectangle extends JRBasePrintGraphicElement implements J
 	/**
 	 *
 	 */
-	protected Integer radius = null;
+	protected Integer radius;
 
 
 	/**

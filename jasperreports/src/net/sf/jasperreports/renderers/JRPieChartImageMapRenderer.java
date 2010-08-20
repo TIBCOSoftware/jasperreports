@@ -48,7 +48,7 @@ public class JRPieChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private PieChartHyperlinkProvider pieChartHyperlinkProvider = null;
+	private PieChartHyperlinkProvider pieChartHyperlinkProvider;
 	
 	public JRPieChartImageMapRenderer(JFreeChart chart, Map sectionHyperlinks)
 	{

@@ -64,20 +64,20 @@ public class JRCsvExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String delimiter = null;	
+	protected String delimiter;	
 
 	/**
 	 *
 	 */
-	protected String recordDelimiter = null;	
+	protected String recordDelimiter;	
 
 	/**
 	 *
 	 */
-	protected Writer writer = null;
-	protected JRExportProgressMonitor progressMonitor = null;
+	protected Writer writer;
+	protected JRExportProgressMonitor progressMonitor;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
 	
 	/**

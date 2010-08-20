@@ -38,7 +38,7 @@ public abstract class BaseHelper
 	/**
 	 *
 	 */
-	protected Writer writer = null;
+	protected Writer writer;
 
 	/**
 	 *

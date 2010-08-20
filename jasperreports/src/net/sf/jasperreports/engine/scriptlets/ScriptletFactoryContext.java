@@ -40,9 +40,9 @@ public class ScriptletFactoryContext
 	/**
 	 *
 	 */
-	private JasperReport jasperReport = null;
-	private JRDataset dataset = null;
-	private Map parameterValues = null;
+	private JasperReport jasperReport;
+	private JRDataset dataset;
+	private Map parameterValues;
 
 	/**
 	 *

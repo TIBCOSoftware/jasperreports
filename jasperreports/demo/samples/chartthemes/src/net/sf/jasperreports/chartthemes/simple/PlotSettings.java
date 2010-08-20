@@ -77,29 +77,29 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	private PlotOrientation orientation = null;
-	private Float foregroundAlpha = null;
-	private PaintProvider backgroundPaint = null;
-	private Float backgroundAlpha = null;
-	private ImageProvider backgroundImage = null;
-	private Float backgroundImageAlpha = null;
-	private Integer backgroundImageAlignment = null;
-	private Double labelRotation = null;
-	private RectangleInsets padding = null;
-	private Boolean outlineVisible = null;
-	private PaintProvider outlinePaint = null;
-	private Stroke outlineStroke = null;
-	private List seriesColorSequence = null;
-	private List seriesGradientPaintSequence = null;
-	private List seriesOutlinePaintSequence = null;
-	private List seriesStrokeSequence = null;
-	private List seriesOutlineStrokeSequence = null;
-	private Boolean domainGridlineVisible = null;
-	private PaintProvider domainGridlinePaint = null;
-	private Stroke domainGridlineStroke = null;
-	private Boolean rangeGridlineVisible = null;
-	private PaintProvider rangeGridlinePaint = null;
-	private Stroke rangeGridlineStroke = null;
+	private PlotOrientation orientation;
+	private Float foregroundAlpha;
+	private PaintProvider backgroundPaint;
+	private Float backgroundAlpha;
+	private ImageProvider backgroundImage;
+	private Float backgroundImageAlpha;
+	private Integer backgroundImageAlignment;
+	private Double labelRotation;
+	private RectangleInsets padding;
+	private Boolean outlineVisible;
+	private PaintProvider outlinePaint;
+	private Stroke outlineStroke;
+	private List seriesColorSequence;
+	private List seriesGradientPaintSequence;
+	private List seriesOutlinePaintSequence;
+	private List seriesStrokeSequence;
+	private List seriesOutlineStrokeSequence;
+	private Boolean domainGridlineVisible;
+	private PaintProvider domainGridlinePaint;
+	private Stroke domainGridlineStroke;
+	private Boolean rangeGridlineVisible;
+	private PaintProvider rangeGridlinePaint;
+	private Stroke rangeGridlineStroke;
 	private JRFont tickLabelFont = new JRBaseFont();
 	private JRFont displayFont = new JRBaseFont();
 	

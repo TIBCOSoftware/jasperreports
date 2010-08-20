@@ -37,8 +37,8 @@ public class FontInfo
 	/**
 	 * 
 	 */
-	private FontFamily family = null;
-	private FontFace face = null;
+	private FontFamily family;
+	private FontFace face;
 	private int style = Font.PLAIN;
 	
 	/**

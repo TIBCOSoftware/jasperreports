@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 public class JRCsvExporterNature implements ExporterNature
 {
 	
-	private ExporterFilter filter = null;
+	private ExporterFilter filter;
 	
 	/**
 	 * 

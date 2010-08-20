@@ -43,7 +43,7 @@ public class EmbeddedViewerApplet extends javax.swing.JApplet
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
+	private JasperPrint jasperPrint;
 
 
 	/** Creates new form AppletViewer */

@@ -157,7 +157,7 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ChartThemeSettings chartThemeSettings = null;
+	protected ChartThemeSettings chartThemeSettings;
 	
 	/**
 	 *

@@ -45,7 +45,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	public static final String PROPERTY_BREAK_BEFORE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.before.row";
 	public static final String PROPERTY_BREAK_AFTER_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.after.row";
 
-	protected ExporterFilter filter = null;
+	protected ExporterFilter filter;
 	protected boolean isIgnoreGraphics = false;
 	protected boolean isIgnorePageMargins = false;
 

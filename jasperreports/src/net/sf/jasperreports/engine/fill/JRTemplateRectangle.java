@@ -53,7 +53,7 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	/**
 	 *
 	 */
-	private Integer radius = null;
+	private Integer radius;
 
 
 	/**

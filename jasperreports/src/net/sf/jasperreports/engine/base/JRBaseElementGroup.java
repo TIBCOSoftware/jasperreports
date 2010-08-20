@@ -55,7 +55,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	 *
 	 */
 	protected List children = new ArrayList();
-	protected JRElementGroup elementGroup = null;
+	protected JRElementGroup elementGroup;
 
 
 	/**

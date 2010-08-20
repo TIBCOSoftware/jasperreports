@@ -40,9 +40,9 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private Collection records = null;
-	private Iterator iterator = null;
-	private Map currentRecord = null;
+	private Collection records;
+	private Iterator iterator;
+	private Map currentRecord;
 	
 
 	/**

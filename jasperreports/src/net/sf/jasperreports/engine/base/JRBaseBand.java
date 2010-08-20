@@ -63,13 +63,13 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	/**
 	 *
 	 */
-	protected int height = 0;
-	protected SplitTypeEnum splitTypeValue = null;
+	protected int height;
+	protected SplitTypeEnum splitTypeValue;
 
 	/**
 	 *
 	 */
-	protected JRExpression printWhenExpression = null;
+	protected JRExpression printWhenExpression;
 	
 
 	/**
@@ -191,7 +191,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	/**
 	 * @deprecated
 	 */
-	private Byte splitType = null;
+	private Byte splitType;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

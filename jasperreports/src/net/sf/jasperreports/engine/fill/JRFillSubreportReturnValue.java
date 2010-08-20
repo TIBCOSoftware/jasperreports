@@ -41,7 +41,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 {
 	protected final JRSubreportReturnValue parent;
 
-	protected JRIncrementer incrementer = null;
+	protected JRIncrementer incrementer;
 	
 	protected final JRBaseFiller filler;
 

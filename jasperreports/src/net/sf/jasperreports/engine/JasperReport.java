@@ -48,7 +48,7 @@ public class JasperReport extends JRBaseReport
 	 * The name of the compiler class used to compile this report.
 	 * The compiler is used to instantiate expression evaluators.
 	 */
-	private String compilerClass = null;
+	private String compilerClass;
 
 	/**
 	 * Unique string generated at compile time to distinguish between distinct compilations of reports having the same name.
@@ -58,7 +58,7 @@ public class JasperReport extends JRBaseReport
 	/**
 	 * Expression evaluators compiled data.
 	 */
-	private Serializable compileData = null;
+	private Serializable compileData;
 
 
 	/**

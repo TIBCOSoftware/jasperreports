@@ -43,7 +43,7 @@ public class JRBaseReportFont extends JRBaseFont implements JRReportFont
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected boolean isDefault = false;
 
 

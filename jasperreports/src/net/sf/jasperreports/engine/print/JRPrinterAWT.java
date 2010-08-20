@@ -55,7 +55,7 @@ public class JRPrinterAWT implements Printable
 	/**
 	 *
 	 */
-	private JasperPrint jasperPrint = null;
+	private JasperPrint jasperPrint;
 	private int pageOffset = 0;
 
 

@@ -146,7 +146,7 @@ public class ConvertChartContext implements ChartContext
 		return null;
 	}
 	
-	private static DefaultCategoryDataset sampleCategoryDataset = null;
+	private static DefaultCategoryDataset sampleCategoryDataset;
 	
 	private CategoryDataset createCategoryDataset()
 	{
@@ -184,7 +184,7 @@ public class ConvertChartContext implements ChartContext
 		return sampleCategoryDataset;
 	}
 	
-	private static PieDataset samplePieDataset = null;
+	private static PieDataset samplePieDataset;
 	
 	private PieDataset createPieDataset()
 	{
@@ -203,7 +203,7 @@ public class ConvertChartContext implements ChartContext
 		return samplePieDataset;
 	}
 	
-	private static XYSeriesCollection sampleXyDataset = null;
+	private static XYSeriesCollection sampleXyDataset;
 	
 	private XYDataset createXyDataset()
 	{
@@ -253,7 +253,7 @@ public class ConvertChartContext implements ChartContext
 		return sampleXyDataset;
 	}
 	
-	private static TimeSeriesCollection sampleTimeSeriesDataset = null;
+	private static TimeSeriesCollection sampleTimeSeriesDataset;
 	
 	private TimeSeriesCollection createTimeSeriesDataset()
 	{
@@ -325,7 +325,7 @@ public class ConvertChartContext implements ChartContext
 		return sampleTimeSeriesDataset;
 	}
 	
-	private static DefaultXYZDataset sampleXyzDataset = null;
+	private static DefaultXYZDataset sampleXyzDataset;
 	
 	private XYZDataset createXyzDataset()
 	{
@@ -348,7 +348,7 @@ public class ConvertChartContext implements ChartContext
 		return sampleXyzDataset;
 	}
 
-	private static TaskSeriesCollection sampleGanttDataset = null;
+	private static TaskSeriesCollection sampleGanttDataset;
 	
 	private IntervalCategoryDataset createGanttDataset() 
 	{
@@ -385,7 +385,7 @@ public class ConvertChartContext implements ChartContext
 		return calendar.getTime();
 	}
 
-	private static DefaultHighLowDataset sampleHighLowDataset = null;
+	private static DefaultHighLowDataset sampleHighLowDataset;
 	
 	private OHLCDataset createHighLowDataset() 
 	{
@@ -736,7 +736,7 @@ public class ConvertChartContext implements ChartContext
 		return sampleHighLowDataset;
 	}
 	
-	private static TimePeriodValuesCollection sampleTimePeriodDataset = null;
+	private static TimePeriodValuesCollection sampleTimePeriodDataset;
 	
 	private XYDataset createTimePeriodDataset()
 	{

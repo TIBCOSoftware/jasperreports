@@ -53,10 +53,10 @@ public class StyleCache
 	/**
 	 *
 	 */
-	private Writer styleWriter = null;
-	private Map fontMap = null;
+	private Writer styleWriter;
+	private Map fontMap;
 	private Set fontFaces = new HashSet();
-	private String exporterKey = null;
+	private String exporterKey;
 
 	/**
 	 *

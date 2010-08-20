@@ -132,12 +132,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFWorkbook workbook = null;
-	protected HSSFSheet sheet = null;
-	protected HSSFRow row = null;
-	protected HSSFCell cell = null;
-	protected HSSFCellStyle emptyCellStyle = null;
-	protected CreationHelper createHelper = null;
+	protected HSSFWorkbook workbook;
+	protected HSSFSheet sheet;
+	protected HSSFRow row;
+	protected HSSFCell cell;
+	protected HSSFCellStyle emptyCellStyle;
+	protected CreationHelper createHelper;
 
 
 	/**
@@ -148,14 +148,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
-	protected HSSFDataFormat dataFormat = null;
-	protected Map formatPatternsMap = null;
+	protected HSSFDataFormat dataFormat;
+	protected Map formatPatternsMap;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
-	protected HSSFPatriarch patriarch = null;
+	protected HSSFPatriarch patriarch;
 	
-	protected String password = null;
+	protected String password;
 
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{

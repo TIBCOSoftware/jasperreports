@@ -56,15 +56,15 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	private JRGroup evaluationGroup = null;
+	private JRGroup evaluationGroup;
 
 	/**
 	 *
 	 */
-	private String anchorName = null;
-	private String hyperlinkReference = null;
-	private String hyperlinkAnchor = null;
-	private Integer hyperlinkPage = null;
+	private String anchorName;
+	private String hyperlinkReference;
+	private String hyperlinkAnchor;
+	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 

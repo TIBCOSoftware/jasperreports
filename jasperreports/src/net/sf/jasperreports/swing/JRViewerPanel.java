@@ -108,7 +108,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private javax.swing.JScrollPane scrollPane;
 
 	private final JRViewerController viewerContext;
-	private JRGraphics2DExporter exporter = null;
+	private JRGraphics2DExporter exporter;
 	private boolean pageError;
 
 	private int downX = 0;

@@ -64,15 +64,15 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	private Boolean showLegend = null;
-	private EdgeEnum positionValue = null;
-	private PaintProvider foregroundPaint = null;
-	private PaintProvider backgroundPaint = null;
+	private Boolean showLegend;
+	private EdgeEnum positionValue;
+	private PaintProvider foregroundPaint;
+	private PaintProvider backgroundPaint;
 	private JRFont font = new JRBaseFont();
-	private HorizontalAlignment horizontalAlignment = null;
-	private VerticalAlignment verticalAlignment = null;
-	private BlockFrame blockFrame = null;
-	private RectangleInsets padding = null;
+	private HorizontalAlignment horizontalAlignment;
+	private VerticalAlignment verticalAlignment;
+	private BlockFrame blockFrame;
+	private RectangleInsets padding;
 	
 	/**
 	 *
@@ -264,7 +264,7 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @deprecated
 	 */
-	private Byte position = null;
+	private Byte position;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

@@ -124,8 +124,8 @@ class JRDistinctCountIncrementer implements JRIncrementer
  */
 class DistinctCountHolder
 {
-	private Set distinctValues = null;
-	private Object lastValue = null;
+	private Set distinctValues;
+	private Object lastValue;
 
 	public DistinctCountHolder()
 	{

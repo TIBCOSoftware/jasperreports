@@ -43,8 +43,8 @@ public class PrinterApplet extends javax.swing.JApplet
 	/**
 	 *
 	 */
-	private URL url = null;
-	private JasperPrint jasperPrint = null;
+	private URL url;
+	private JasperPrint jasperPrint;
 
 
 	/** Creates new form AppletViewer */

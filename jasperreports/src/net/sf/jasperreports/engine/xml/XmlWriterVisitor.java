@@ -58,7 +58,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 public class XmlWriterVisitor implements JRVisitor
 {
 	
-	private JRXmlWriter xmlWriter = null;
+	private JRXmlWriter xmlWriter;
 	
 	/**
 	 *

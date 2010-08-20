@@ -74,28 +74,28 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 *
 	 */
-	private Boolean visible = null;
-	private AxisLocation location = null;
-	private PaintProvider linePaint = null;
-	private Stroke lineStroke = null;
-	private Boolean lineVisible = null;
-//	private String label = null;
-	private Double labelAngle = null;
-	private PaintProvider labelPaint = null;
+	private Boolean visible;
+	private AxisLocation location;
+	private PaintProvider linePaint;
+	private Stroke lineStroke;
+	private Boolean lineVisible;
+//	private String label;
+	private Double labelAngle;
+	private PaintProvider labelPaint;
 	private JRFont labelFont = new JRBaseFont();
-	private RectangleInsets labelInsets = null;
-	private Boolean labelVisible = null;
-	private PaintProvider tickLabelPaint = null;
+	private RectangleInsets labelInsets;
+	private Boolean labelVisible;
+	private PaintProvider tickLabelPaint;
 	private JRFont tickLabelFont = new JRBaseFont();
-	private RectangleInsets tickLabelInsets = null;
-	private Boolean tickLabelsVisible = null;
-	private Float tickMarksInsideLength = null;
-	private Float tickMarksOutsideLength = null;
-	private PaintProvider tickMarksPaint = null;
-	private Stroke tickMarksStroke = null;
-	private Boolean tickMarksVisible = null;
-	private Integer tickCount = null;
-	private Number tickInterval = null;
+	private RectangleInsets tickLabelInsets;
+	private Boolean tickLabelsVisible;
+	private Float tickMarksInsideLength;
+	private Float tickMarksOutsideLength;
+	private PaintProvider tickMarksPaint;
+	private Stroke tickMarksStroke;
+	private Boolean tickMarksVisible;
+	private Integer tickCount;
+	private Number tickInterval;
 	
 	/**
 	 *

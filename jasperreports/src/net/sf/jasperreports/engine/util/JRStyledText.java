@@ -72,8 +72,8 @@ public class JRStyledText implements Cloneable
 	 */
 	private StringBuffer sbuffer = new StringBuffer();
 	private List runs = new ArrayList();
-	private AttributedString attributedString = null;
-	private AttributedString awtAttributedString = null;
+	private AttributedString attributedString;
+	private AttributedString awtAttributedString;
 	private Map globalAttributes;
 	private Locale locale;
 

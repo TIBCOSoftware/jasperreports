@@ -49,15 +49,15 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	protected Map parsm = null;
-	protected Map fldsm = null;
-	protected Map varsm = null;
-	protected JRFillVariable[] variables = null;
-	protected JRFillGroup[] groups = null;
-	protected JRFillElementDataset[] datasets = null;
+	protected Map parsm;
+	protected Map fldsm;
+	protected Map varsm;
+	protected JRFillVariable[] variables;
+	protected JRFillGroup[] groups;
+	protected JRFillElementDataset[] datasets;
 
-	private JRFillVariable pageNumber = null;
-	private JRFillVariable columnNumber = null;
+	private JRFillVariable pageNumber;
+	private JRFillVariable columnNumber;
 	
 	/**
 	 * The expression evaluator

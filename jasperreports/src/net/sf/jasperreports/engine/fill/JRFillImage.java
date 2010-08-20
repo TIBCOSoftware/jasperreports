@@ -66,20 +66,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private JRGroup evaluationGroup = null;
+	private JRGroup evaluationGroup;
 
 	/**
 	 *
 	 */
-	private JRRenderable renderer = null;
+	private JRRenderable renderer;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
 	private Integer imageWidth;
 	private Integer imageX;
-	private String anchorName = null;
-	private String hyperlinkReference = null;
-	private String hyperlinkAnchor = null;
-	private Integer hyperlinkPage = null;
+	private String anchorName;
+	private String hyperlinkReference;
+	private String hyperlinkAnchor;
+	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
 	protected final JRLineBox lineBox;

@@ -54,7 +54,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	/**
 	 *
 	 */
-	private JRBand parent = null;
+	private JRBand parent;
 
 	private boolean isPrintWhenTrue = true;
 
@@ -71,9 +71,9 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	// so that the values can be restored when the bands gets rewound
 	private Map savedVariableValues = new HashMap();
 
-	protected JROrigin origin = null;
+	protected JROrigin origin;
 	
-	private SplitTypeEnum splitType = null;
+	private SplitTypeEnum splitType;
 	private int breakHeight = 0;
 
 	

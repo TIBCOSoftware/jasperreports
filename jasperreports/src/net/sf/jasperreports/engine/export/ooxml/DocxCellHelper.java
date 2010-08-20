@@ -52,7 +52,7 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private DocxBorderHelper borderHelper = null;
+	private DocxBorderHelper borderHelper;
 	
 	/**
 	 *

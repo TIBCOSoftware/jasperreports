@@ -48,7 +48,7 @@ public class JRXYChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private XYChartHyperlinkProvider xyChartHyperlinkProvider = null;
+	private XYChartHyperlinkProvider xyChartHyperlinkProvider;
 	
 	public JRXYChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
 	{

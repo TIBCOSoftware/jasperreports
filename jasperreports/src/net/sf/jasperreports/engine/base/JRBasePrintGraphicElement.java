@@ -52,8 +52,8 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	/**
 	 *
 	 */
-	protected JRPen linePen = null;
-	protected FillEnum fillValue = null;
+	protected JRPen linePen;
+	protected FillEnum fillValue;
 
 
 	/**
@@ -201,7 +201,7 @@ public abstract class JRBasePrintGraphicElement extends JRBasePrintElement imple
 	/**
 	 * @deprecated
 	 */
-	private Byte fill = null;
+	private Byte fill;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

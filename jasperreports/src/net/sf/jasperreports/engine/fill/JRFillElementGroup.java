@@ -45,18 +45,18 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	 *
 	 */
 	protected List children = new ArrayList();
-	protected JRElementGroup elementGroup = null;
+	protected JRElementGroup elementGroup;
 
 	/**
 	 *
 	 */
-	protected JRFillElement[] elements = null;
+	protected JRFillElement[] elements;
 
 	/**
 	 *
 	 */
-	private JRElement topElementInGroup = null;
-	private JRElement bottomElementInGroup = null;
+	private JRElement topElementInGroup;
+	private JRElement bottomElementInGroup;
 	private int stretchHeightDiff = 0;
 
 

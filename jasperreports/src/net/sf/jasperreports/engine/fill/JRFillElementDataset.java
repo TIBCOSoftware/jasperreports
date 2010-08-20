@@ -55,11 +55,11 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	/**
 	 *
 	 */
-	protected JRElementDataset parent = null;
+	protected JRElementDataset parent;
 	private final JRBaseFiller filler;
 
-	protected JRGroup resetGroup = null;
-	protected JRGroup incrementGroup = null;
+	protected JRGroup resetGroup;
+	protected JRGroup incrementGroup;
 
 	private boolean isIncremented = true;
 

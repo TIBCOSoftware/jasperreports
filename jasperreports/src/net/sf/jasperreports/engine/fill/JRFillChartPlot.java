@@ -47,12 +47,12 @@ public class JRFillChartPlot implements JRChartPlot
 	/**
 	 *
 	 */
-	protected JRChartPlot parent = null;
+	protected JRChartPlot parent;
 
 	/**
 	 *
 	 */
-	protected JRChart chart = null;
+	protected JRChart chart;
 
 
 	/**

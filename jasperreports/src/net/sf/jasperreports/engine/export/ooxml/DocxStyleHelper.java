@@ -43,8 +43,8 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	private DocxParagraphHelper paragraphHelper = null;
-	private DocxRunHelper runHelper = null;
+	private DocxParagraphHelper paragraphHelper;
+	private DocxRunHelper runHelper;
 	
 	/**
 	 * 

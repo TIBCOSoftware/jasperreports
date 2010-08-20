@@ -43,7 +43,7 @@ public class ColorProvider implements PaintProvider
 	/**
 	 *
 	 */
-	private Color color = null;
+	private Color color;
 
 	
 	/**

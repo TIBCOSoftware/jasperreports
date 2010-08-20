@@ -37,10 +37,10 @@ import net.sf.jasperreports.engine.JRPrintElement;
  */
 public class ElementWrapper
 {
-	private JRPrintElement element = null;
-	private String address = null;
-	private ElementWrapper[] wrappers = null;
-	private ElementWrapper parent = null;
+	private JRPrintElement element;
+	private String address;
+	private ElementWrapper[] wrappers;
+	private ElementWrapper parent;
 	
 	public ElementWrapper(
 		ElementWrapper parent,

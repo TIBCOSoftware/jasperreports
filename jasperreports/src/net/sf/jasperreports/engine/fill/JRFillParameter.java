@@ -41,12 +41,12 @@ public class JRFillParameter implements JRValueParameter
 	/**
 	 *
 	 */
-	protected JRParameter parent = null;
+	protected JRParameter parent;
 
 	/**
 	 *
 	 */
-	private Object value = null;
+	private Object value;
 
 
 	/**

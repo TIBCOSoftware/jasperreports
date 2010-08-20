@@ -79,12 +79,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Graphics2D grx = null;
-	protected JRExportProgressMonitor progressMonitor = null;
+	protected Graphics2D grx;
+	protected JRExportProgressMonitor progressMonitor;
 	protected float zoom = DEFAULT_ZOOM;
 
-	protected TextRenderer textRenderer = null;
-	protected FrameDrawer frameDrawer = null;
+	protected TextRenderer textRenderer;
+	protected FrameDrawer frameDrawer;
 
 	/**
 	 *

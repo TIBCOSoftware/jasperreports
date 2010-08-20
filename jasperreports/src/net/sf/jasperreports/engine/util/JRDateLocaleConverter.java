@@ -53,7 +53,7 @@ public class JRDateLocaleConverter extends DateLocaleConverter
 	private static Log log = LogFactory.getLog(DateLocaleConverter.class);
 	
 	// holds the timezone's ID
-	private TimeZone timeZone = null;
+	private TimeZone timeZone;
 
 
 	/**

@@ -74,7 +74,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *
 	 */
-	protected String name = null;
+	protected String name;
 	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
 	protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
@@ -97,22 +97,22 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *
 	 */
-	protected String formatFactoryClass = null;
+	protected String formatFactoryClass;
 
 	/**
 	 *
 	 */
-	protected Set importsSet = null;
+	protected Set importsSet;
 
 	/**
 	 * Report templates.
 	 */
 	protected JRReportTemplate[] templates;
 
-	protected JRReportFont defaultFont = null;
-	protected JRReportFont[] fonts = null;
-	protected JRStyle defaultStyle = null;
-	protected JRStyle[] styles = null;
+	protected JRReportFont defaultFont;
+	protected JRReportFont[] fonts;
+	protected JRStyle defaultStyle;
+	protected JRStyle[] styles;
 
 	/**
 	 * The main dataset of the report.
@@ -124,16 +124,16 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	protected JRDataset[] datasets;
 
-	protected JRBand background = null;
-	protected JRBand title = null;
-	protected JRBand pageHeader = null;
-	protected JRBand columnHeader = null;
-	protected JRSection detailSection = null;
-	protected JRBand columnFooter = null;
-	protected JRBand pageFooter = null;
-	protected JRBand lastPageFooter = null;
-	protected JRBand summary = null;
-	protected JRBand noData = null;
+	protected JRBand background;
+	protected JRBand title;
+	protected JRBand pageHeader;
+	protected JRBand columnHeader;
+	protected JRSection detailSection;
+	protected JRBand columnFooter;
+	protected JRBand pageFooter;
+	protected JRBand lastPageFooter;
+	protected JRBand summary;
+	protected JRBand noData;
 
 
 	/**
@@ -793,7 +793,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 * @deprecated
 	 */
-	private JRBand detail = null;
+	private JRBand detail;
 	/**
 	 * @deprecated
 	 */

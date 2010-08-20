@@ -42,8 +42,8 @@ public abstract class OasisZip extends AbstractZip
 	/**
 	 * 
 	 */
-	private ExportZipEntry contentEntry = null;
-	private ExportZipEntry stylesEntry = null;
+	private ExportZipEntry contentEntry;
+	private ExportZipEntry stylesEntry;
 	
 	/**
 	 * 

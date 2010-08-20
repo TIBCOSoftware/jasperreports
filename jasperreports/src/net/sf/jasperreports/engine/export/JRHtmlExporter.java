@@ -172,12 +172,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Writer writer = null;
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected Writer writer;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected Map imageNameToImageDataMap = null;
-	protected List imagesToProcess = null;
+	protected Map imageNameToImageDataMap;
+	protected List imagesToProcess;
 	protected boolean isPxImageLoaded = false;
 
 	protected int reportIndex = 0;
@@ -186,13 +186,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected File imagesDir = null;
-	protected String imagesURI = null;
+	protected File imagesDir;
+	protected String imagesURI;
 	protected boolean isOutputImagesToDir = false;
 	protected boolean isRemoveEmptySpace;
 	protected boolean isWhitePageBackground;
 	protected String encoding;
-	protected String sizeUnit = null;
+	protected String sizeUnit;
 	protected float zoom = DEFAULT_ZOOM;
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
@@ -202,17 +202,17 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String htmlHeader = null;
-	protected String betweenPagesHtml = null;
-	protected String htmlFooter = null;
+	protected String htmlHeader;
+	protected String betweenPagesHtml;
+	protected String htmlFooter;
 
-	protected StringProvider emptyCellStringProvider = null;
+	protected StringProvider emptyCellStringProvider;
 
 
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
 	private LinkedList backcolorStack;
 	private Color backcolor;
@@ -222,7 +222,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean hyperlinkStarted = false;
 	protected int thDepth = 0;
 	
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 

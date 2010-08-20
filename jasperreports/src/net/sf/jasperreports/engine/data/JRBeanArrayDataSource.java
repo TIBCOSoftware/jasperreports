@@ -38,7 +38,7 @@ public class JRBeanArrayDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	private Object[] data = null;
+	private Object[] data;
 	private int index = -1;
 	
 

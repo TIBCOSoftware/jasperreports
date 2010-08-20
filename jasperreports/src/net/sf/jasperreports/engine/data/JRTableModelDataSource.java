@@ -48,7 +48,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private TableModel tableModel = null;
+	private TableModel tableModel;
 	private int index = -1;
 	private HashMap columnNames = new HashMap();
 	

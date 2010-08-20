@@ -67,20 +67,20 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 *
 	 */
-	protected JRRenderable renderer = null;
-	protected ScaleImageEnum scaleImageValue = null;
+	protected JRRenderable renderer;
+	protected ScaleImageEnum scaleImageValue;
 	protected Boolean isUsingCache = Boolean.TRUE;
-	protected HorizontalAlignEnum horizontalAlignmentValue = null;
-	protected VerticalAlignEnum verticalAlignmentValue = null;
+	protected HorizontalAlignEnum horizontalAlignmentValue;
+	protected VerticalAlignEnum verticalAlignmentValue;
 	protected boolean isLazy = false;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
-	protected JRLineBox lineBox = null;
-	protected String anchorName = null;
+	protected JRLineBox lineBox;
+	protected String anchorName;
 	protected String linkType;
 	protected String linkTarget;
-	protected String hyperlinkReference = null;
-	protected String hyperlinkAnchor = null;
-	protected Integer hyperlinkPage = null;
+	protected String hyperlinkReference;
+	protected String hyperlinkAnchor;
+	protected Integer hyperlinkPage;
 	protected String hyperlinkTooltip;
 	protected JRPrintHyperlinkParameters hyperlinkParameters;
 
@@ -1059,71 +1059,71 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated
 	 */
-	private Byte horizontalAlignment = null;
+	private Byte horizontalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte verticalAlignment = null;
+	private Byte verticalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
@@ -1135,7 +1135,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated
 	 */
-	private Byte scaleImage = null;
+	private Byte scaleImage;
 	/**
 	 * @deprecated
 	 */

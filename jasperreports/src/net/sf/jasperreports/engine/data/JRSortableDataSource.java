@@ -55,11 +55,11 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	 *
 	 */
 	private List records = new ArrayList();
-	private Iterator iterator = null;
-	private Object[] currentRecord = null;
+	private Iterator iterator;
+	private Object[] currentRecord;
 	private Map fieldIndexMap = new HashMap();
 
-	protected Collator collator = null;
+	protected Collator collator;
 
 
 	/**

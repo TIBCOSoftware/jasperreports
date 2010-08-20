@@ -40,8 +40,8 @@ public class FrameStyle extends BorderStyle
 	/**
 	 *
 	 */
-	private String fill = null;
-	private String backcolor = null;
+	private String fill;
+	private String backcolor;
 
 	/**
 	 *

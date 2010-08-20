@@ -44,7 +44,7 @@ public class JRPrintImageSourceObject
 	/**
 	 *
 	 */
-	private JRPrintImage printImage = null;
+	private JRPrintImage printImage;
 
 	/**
 	 *

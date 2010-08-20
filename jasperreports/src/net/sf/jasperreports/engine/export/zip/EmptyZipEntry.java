@@ -39,7 +39,7 @@ public class EmptyZipEntry implements ExportZipEntry
 	/**
 	 * 
 	 */
-	private String name = null;
+	private String name;
 	
 	/**
 	 * 

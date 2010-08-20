@@ -106,23 +106,23 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected PptxZip pptxZip = null;
-	protected PptxPresentationHelper presentationHelper = null;
-	protected PptxPresentationRelsHelper presentationRelsHelper = null;
-	protected PptxContentTypesHelper ctHelper = null;
-	protected PptxSlideHelper slideHelper = null;
-	protected PptxSlideRelsHelper slideRelsHelper = null;
-	protected Writer presentationWriter = null;
+	protected PptxZip pptxZip;
+	protected PptxPresentationHelper presentationHelper;
+	protected PptxPresentationRelsHelper presentationRelsHelper;
+	protected PptxContentTypesHelper ctHelper;
+	protected PptxSlideHelper slideHelper;
+	protected PptxSlideRelsHelper slideRelsHelper;
+	protected Writer presentationWriter;
 
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
-//	protected Map hyperlinksMap = null;
+	protected List imagesToProcess;
+//	protected Map hyperlinksMap;
 
 	protected int reportIndex = 0;
 	protected int pageIndex = 0;
-	protected List frameIndexStack = null;
+	protected List frameIndexStack;
 	protected int elementIndex = 0;
 	protected boolean startPage;
 
@@ -139,9 +139,9 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap = null;
+	protected Map fontMap;
 
-	private PptxRunHelper runHelper = null;
+	private PptxRunHelper runHelper;
 
 
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext

@@ -80,16 +80,16 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	protected JRLineBox lineBox;
 
-	protected JRReportFont reportFont = null;
-	protected String fontName = null;
-	protected Boolean isBold = null;
-	protected Boolean isItalic = null;
-	protected Boolean isUnderline = null;
-	protected Boolean isStrikeThrough = null;
-	protected Integer fontSize = null;
-	protected String pdfFontName = null;
-	protected String pdfEncoding = null;
-	protected Boolean isPdfEmbedded = null;
+	protected JRReportFont reportFont;
+	protected String fontName;
+	protected Boolean isBold;
+	protected Boolean isItalic;
+	protected Boolean isUnderline;
+	protected Boolean isStrikeThrough;
+	protected Integer fontSize;
+	protected String pdfFontName;
+	protected String pdfEncoding;
+	protected Boolean isPdfEmbedded;
 
 
 	/**
@@ -1308,67 +1308,67 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Integer padding = null;
+	private Integer padding;
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
-	private Boolean isStyledText = null;
+	private Boolean isStyledText;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

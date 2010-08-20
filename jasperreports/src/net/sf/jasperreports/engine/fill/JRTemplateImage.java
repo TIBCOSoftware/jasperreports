@@ -73,10 +73,10 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	private ScaleImageEnum scaleImageValue = null;
+	private ScaleImageEnum scaleImageValue;
 	private Boolean isUsingCache = Boolean.TRUE;
-	private HorizontalAlignEnum horizontalAlignmentValue = null;
-	private VerticalAlignEnum verticalAlignmentValue = null;
+	private HorizontalAlignEnum horizontalAlignmentValue;
+	private VerticalAlignEnum verticalAlignmentValue;
 	protected boolean isLazy = false;
 	protected OnErrorTypeEnum onErrorTypeValue = OnErrorTypeEnum.ERROR;
 	private String linkType;
@@ -85,7 +85,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 *
 	 */
-	private JRLineBox lineBox = null;
+	private JRLineBox lineBox;
 	
 
 	/**
@@ -1032,51 +1032,51 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated
 	 */
-	private Byte horizontalAlignment = null;
+	private Byte horizontalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte verticalAlignment = null;
+	private Byte verticalAlignment;
 	/**
 	 * @deprecated
 	 */
-	private Byte border = null;
+	private Byte border;
 	/**
 	 * @deprecated
 	 */
-	private Byte topBorder = null;
+	private Byte topBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte leftBorder = null;
+	private Byte leftBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte bottomBorder = null;
+	private Byte bottomBorder;
 	/**
 	 * @deprecated
 	 */
-	private Byte rightBorder = null;
+	private Byte rightBorder;
 	/**
 	 * @deprecated
 	 */
-	private Color borderColor = null;
+	private Color borderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color topBorderColor = null;
+	private Color topBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color leftBorderColor = null;
+	private Color leftBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color bottomBorderColor = null;
+	private Color bottomBorderColor;
 	/**
 	 * @deprecated
 	 */
-	private Color rightBorderColor = null;
+	private Color rightBorderColor;
 	/**
 	 * @deprecated
 	 */
@@ -1084,19 +1084,19 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated
 	 */
-	private Integer topPadding = null;
+	private Integer topPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer leftPadding = null;
+	private Integer leftPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer bottomPadding = null;
+	private Integer bottomPadding;
 	/**
 	 * @deprecated
 	 */
-	private Integer rightPadding = null;
+	private Integer rightPadding;
 	/**
 	 * @deprecated
 	 */
@@ -1108,7 +1108,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	/**
 	 * @deprecated
 	 */
-	private Byte scaleImage = null;
+	private Byte scaleImage;
 	/**
 	 * @deprecated
 	 */

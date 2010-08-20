@@ -55,12 +55,12 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	 *
 	 */
 	protected int height = 0;
-	protected SplitTypeEnum splitTypeValue = null;
+	protected SplitTypeEnum splitTypeValue;
 
 	/**
 	 *
 	 */
-	protected JRExpression printWhenExpression = null;
+	protected JRExpression printWhenExpression;
 	
 	private JROrigin origin;
 
@@ -201,7 +201,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	/**
 	 * @deprecated
 	 */
-	private Byte splitType = null;
+	private Byte splitType;
 	
 	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

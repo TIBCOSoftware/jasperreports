@@ -46,7 +46,7 @@ public class FileImageProvider implements ImageProvider
 	/**
 	 *
 	 */
-	private String file = null;
+	private String file;
 
 	
 	/**

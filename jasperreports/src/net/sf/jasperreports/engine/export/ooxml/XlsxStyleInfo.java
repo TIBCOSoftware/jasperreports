@@ -41,9 +41,9 @@ public class XlsxStyleInfo
 	 */
 	protected int fontIndex = 0; 
 	protected int borderIndex = 0; 
-	protected String backcolor = null; 
-	protected String horizontalAlign = null;
-	protected String verticalAlign = null;
+	protected String backcolor; 
+	protected String horizontalAlign;
+	protected String verticalAlign;
 
 	/**
 	 *

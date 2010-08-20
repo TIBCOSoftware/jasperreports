@@ -164,7 +164,7 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	private ChartContext chartContext = null;
+	private ChartContext chartContext;
 	
 
 	/**

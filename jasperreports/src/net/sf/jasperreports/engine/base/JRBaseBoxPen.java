@@ -44,7 +44,7 @@ public class JRBaseBoxPen extends JRBasePen implements JRBoxPen
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	protected JRLineBox lineBox = null;
+	protected JRLineBox lineBox;
 	
 	/**
 	 *

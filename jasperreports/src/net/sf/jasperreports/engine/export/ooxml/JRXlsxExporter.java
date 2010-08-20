@@ -109,22 +109,22 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected XlsxZip xlsxZip = null;
-	protected XlsxWorkbookHelper wbHelper = null;
-	protected XlsxRelsHelper relsHelper = null;
-	protected XlsxContentTypesHelper ctHelper = null;
-	protected XlsxSheetHelper sheetHelper = null;
-	protected XlsxSheetRelsHelper sheetRelsHelper = null;
-	protected XlsxDrawingHelper drawingHelper = null;
-	protected XlsxDrawingRelsHelper drawingRelsHelper = null;
-	protected XlsxStyleHelper styleHelper = null;
-	protected XlsxCellHelper cellHelper = null;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
+	protected XlsxZip xlsxZip;
+	protected XlsxWorkbookHelper wbHelper;
+	protected XlsxRelsHelper relsHelper;
+	protected XlsxContentTypesHelper ctHelper;
+	protected XlsxSheetHelper sheetHelper;
+	protected XlsxSheetRelsHelper sheetRelsHelper;
+	protected XlsxDrawingHelper drawingHelper;
+	protected XlsxDrawingRelsHelper drawingRelsHelper;
+	protected XlsxStyleHelper styleHelper;
+	protected XlsxCellHelper cellHelper;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
 
-	protected JRExportProgressMonitor progressMonitor = null;
-	protected Map rendererToImagePathMap = null;
+	protected JRExportProgressMonitor progressMonitor;
+	protected Map rendererToImagePathMap;
 	protected Map imageMaps;
-	protected List imagesToProcess = null;
-//	protected Map hyperlinksMap = null;
+	protected List imagesToProcess;
+//	protected Map hyperlinksMap;
 
 	protected int tableIndex = 0;
 	protected boolean startPage;
@@ -138,9 +138,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
-	private XlsxRunHelper runHelper = null;
+	private XlsxRunHelper runHelper;
 
-	protected ExporterNature nature = null;
+	protected ExporterNature nature;
 
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext

@@ -172,7 +172,7 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	private DocumentBuilder documentBuilder = null;
+	private DocumentBuilder documentBuilder;
 
 
 	/**

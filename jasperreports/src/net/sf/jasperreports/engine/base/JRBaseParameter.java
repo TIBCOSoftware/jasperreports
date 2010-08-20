@@ -54,21 +54,21 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	/**
 	 *
 	 */
-	protected String name = null;
-	protected String description = null;
+	protected String name;
+	protected String description;
 	protected String valueClassName = java.lang.String.class.getName();
-	protected String valueClassRealName = null;
+	protected String valueClassRealName;
 	protected String nestedTypeName;
 	protected boolean isSystemDefined = false;
 	protected boolean isForPrompting = true;
 
-	protected transient Class valueClass = null;
+	protected transient Class valueClass;
 	protected transient Class nestedType;
 
 	/**
 	 *
 	 */
-	protected JRExpression defaultValueExpression = null;
+	protected JRExpression defaultValueExpression;
 	
 	protected JRPropertiesMap propertiesMap;
 

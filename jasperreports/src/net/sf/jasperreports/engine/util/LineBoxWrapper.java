@@ -47,7 +47,7 @@ public class LineBoxWrapper implements JRBox, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	protected JRLineBox lineBox = null;
+	protected JRLineBox lineBox;
 
 	
 	/**

@@ -46,7 +46,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	/**
 	 * The resource bundle parameter.
 	 */
-	private JRFillParameter resourceBundle = null;
+	private JRFillParameter resourceBundle;
 	
 	/**
 	 * The resource missing type.

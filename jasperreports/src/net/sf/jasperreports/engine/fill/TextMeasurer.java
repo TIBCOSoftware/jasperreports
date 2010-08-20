@@ -73,7 +73,7 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	private MaxFontSizeFinder maxFontSizeFinder = null;
+	private MaxFontSizeFinder maxFontSizeFinder;
 	
 	private int width = 0;
 	private int height = 0;
@@ -101,7 +101,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected float textHeight = 0;
 		protected float firstLineLeading = 0;
 		protected boolean isLeftToRight = true;
-		protected String textSuffix = null;
+		protected String textSuffix;
 		
 		protected int lastOffset = 0;
 		protected ArrayList lineBreakOffsets;

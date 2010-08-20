@@ -48,7 +48,7 @@ public class JRBaseQueryChunk implements JRQueryChunk, Serializable
 	 *
 	 */
 	protected byte type = TYPE_TEXT;
-	protected String text = null;
+	protected String text;
 	protected String[] tokens;
 
 

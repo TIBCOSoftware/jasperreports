@@ -52,7 +52,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 {
 	private static final Log log = LogFactory.getLog(JEditorPaneHtmlMarkupProcessor.class);
 
-	private static JEditorPaneHtmlMarkupProcessor instance = null;  
+	private static JEditorPaneHtmlMarkupProcessor instance;  
 	
 	/**
 	 * 

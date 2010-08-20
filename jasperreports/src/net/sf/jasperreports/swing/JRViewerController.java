@@ -54,17 +54,17 @@ public class JRViewerController
 	protected static final int TYPE_INPUT_STREAM = 2;
 	protected static final int TYPE_OBJECT = 3;
 	
-	private ResourceBundle resourceBundle = null;
-	private Locale locale = null;
+	private ResourceBundle resourceBundle;
+	private Locale locale;
 	private final List listeners = new ArrayList();
 	
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML = false;
-	protected String reportFileName = null;
-	protected SimpleFileResolver fileResolver = null;
+	protected String reportFileName;
+	protected SimpleFileResolver fileResolver;
 	protected boolean reloadSupported;
 	
-	private JasperPrint jasperPrint = null;
+	private JasperPrint jasperPrint;
 	private int pageIndex = 0;
 	private float zoom = 0f;
 	private boolean fitPage;

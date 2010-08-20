@@ -39,9 +39,9 @@ public class DocxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
-	private ExportZipEntry documentEntry = null;
-	private ExportZipEntry stylesEntry = null;
-	private ExportZipEntry relsEntry = null;
+	private ExportZipEntry documentEntry;
+	private ExportZipEntry stylesEntry;
+	private ExportZipEntry relsEntry;
 	
 	/**
 	 * 

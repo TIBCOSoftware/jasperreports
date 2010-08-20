@@ -67,8 +67,8 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
 	protected List saveContributors = new ArrayList();
-	protected File lastFolder = null;
-	protected JRSaveContributor lastSaveContributor = null;
+	protected File lastFolder;
+	protected JRSaveContributor lastSaveContributor;
 	protected DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
 	
 	protected javax.swing.JToggleButton btnActualSize;

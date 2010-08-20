@@ -39,10 +39,10 @@ public class XlsxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
-	private ExportZipEntry workbookEntry = null;
-	private ExportZipEntry stylesEntry = null;
-	private ExportZipEntry relsEntry = null;
-	private ExportZipEntry contentTypesEntry = null;
+	private ExportZipEntry workbookEntry;
+	private ExportZipEntry stylesEntry;
+	private ExportZipEntry relsEntry;
+	private ExportZipEntry contentTypesEntry;
 	
 	/**
 	 * 

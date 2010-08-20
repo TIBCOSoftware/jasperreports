@@ -49,16 +49,16 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 *
 	 */
-	protected String valueClassName = null;
-	protected String valueClassRealName = null;
+	protected String valueClassName;
+	protected String valueClassRealName;
 	protected int id = 0;
 
-	protected transient Class valueClass = null;
+	protected transient Class valueClass;
 
 	/**
 	 *
 	 */
-	private JRExpressionChunk[] chunks = null;
+	private JRExpressionChunk[] chunks;
 
 	/**
 	 *

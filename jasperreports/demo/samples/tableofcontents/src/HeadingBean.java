@@ -35,10 +35,10 @@ public class HeadingBean
 	/**
 	 *
 	 */
-	private Integer headingType = null;
-	private String headingText = null;
-	private String reference = null;
-	private Integer pageIndex = null;
+	private Integer headingType;
+	private String headingText;
+	private String reference;
+	private Integer pageIndex;
 
 
 	/**

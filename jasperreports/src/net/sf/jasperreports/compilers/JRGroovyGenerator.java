@@ -61,9 +61,9 @@ public class JRGroovyGenerator
 	 */
 	private static final int EXPR_MAX_COUNT_PER_METHOD = 100;
 
-	private static Map fieldPrefixMap = null;
-	private static Map variablePrefixMap = null;
-	private static Map methodSuffixMap = null;
+	private static Map fieldPrefixMap;
+	private static Map variablePrefixMap;
+	private static Map methodSuffixMap;
 
 	static
 	{

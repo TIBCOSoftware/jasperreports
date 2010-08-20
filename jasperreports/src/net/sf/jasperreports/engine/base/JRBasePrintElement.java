@@ -58,16 +58,16 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
-	protected ModeEnum modeValue = null;
+	protected ModeEnum modeValue;
 	protected int x = 0;
 	protected int y = 0;
 	protected int width = 0;
 	protected int height = 0;
-	protected Color forecolor = null;
-	protected Color backcolor = null;
+	protected Color forecolor;
+	protected Color backcolor;
 
 	protected JRDefaultStyleProvider defaultStyleProvider;
-	protected JRStyle style = null;
+	protected JRStyle style;
 	
 	private JRPropertiesMap propertiesMap;
 

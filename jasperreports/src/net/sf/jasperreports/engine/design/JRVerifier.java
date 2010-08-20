@@ -227,9 +227,9 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private static String[] textFieldClassNames = null;
-	private static String[] imageClassNames = null;
-	private static String[] subreportClassNames = null;
+	private static String[] textFieldClassNames;
+	private static String[] imageClassNames;
+	private static String[] subreportClassNames;
 
 	private static Class[] templateTypes = new Class[] {
 		String.class, java.io.File.class, java.net.URL.class, java.io.InputStream.class,
@@ -238,8 +238,8 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private JasperDesign jasperDesign = null;
-	private Collection brokenRules = null;
+	private JasperDesign jasperDesign;
+	private Collection brokenRules;
 
 	private JRExpressionCollector expressionCollector;
 

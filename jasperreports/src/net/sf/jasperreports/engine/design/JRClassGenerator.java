@@ -66,9 +66,9 @@ public class JRClassGenerator
 	protected static final int SOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
 	protected static final String SOURCE_EXPRESSION_ID_END = "$";
 
-	private static Map fieldPrefixMap = null;
-	private static Map variablePrefixMap = null;
-	private static Map methodSuffixMap = null;
+	private static Map fieldPrefixMap;
+	private static Map variablePrefixMap;
+	private static Map methodSuffixMap;
 	
 	static
 	{

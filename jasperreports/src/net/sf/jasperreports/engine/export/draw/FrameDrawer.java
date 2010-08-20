@@ -65,8 +65,8 @@ public class FrameDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	private ExporterFilter filter = null;
-	private Graphics2D grx = null;
+	private ExporterFilter filter;
+	private Graphics2D grx;
 	private LinkedList elementOffsetStack = new LinkedList();
 	private int elementOffsetX = 0;
 	private int elementOffsetY = 0;
@@ -75,11 +75,11 @@ public class FrameDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	private LineDrawer lineDrawer = null;
-	private RectangleDrawer rectangleDrawer = null;
-	private EllipseDrawer ellipseDrawer = null;
-	private ImageDrawer imageDrawer = null;
-	private TextDrawer textDrawer = null;
+	private LineDrawer lineDrawer;
+	private RectangleDrawer rectangleDrawer;
+	private EllipseDrawer ellipseDrawer;
+	private ImageDrawer imageDrawer;
+	private TextDrawer textDrawer;
 
 	
 	/**

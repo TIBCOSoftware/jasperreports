@@ -494,20 +494,20 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected List jasperPrintList = null;
-	protected JasperPrint jasperPrint = null;
+	protected List jasperPrintList;
+	protected JasperPrint jasperPrint;
 	protected boolean isModeBatch = true;
 	protected int startPageIndex = 0;
 	protected int endPageIndex = 0;
 	protected int globalOffsetX = 0;
 	protected int globalOffsetY = 0;
-	protected ClassLoader classLoader = null;
+	protected ClassLoader classLoader;
 	protected boolean classLoaderSet = false;
-	protected URLStreamHandlerFactory urlHandlerFactory = null;
+	protected URLStreamHandlerFactory urlHandlerFactory;
 	protected boolean urlHandlerFactorySet = false;
-	protected FileResolver fileResolver = null;
+	protected FileResolver fileResolver;
 	protected boolean fileResolverSet = false;
-	protected ExporterFilter filter = null;
+	protected ExporterFilter filter;
 
 	/**
 	 *

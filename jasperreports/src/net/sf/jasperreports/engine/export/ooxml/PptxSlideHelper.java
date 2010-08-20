@@ -37,7 +37,7 @@ public class PptxSlideHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private PptxSlideRelsHelper slideRelsHelper = null;
+	private PptxSlideRelsHelper slideRelsHelper;
 
 	/**
 	 * 

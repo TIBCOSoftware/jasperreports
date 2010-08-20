@@ -40,14 +40,14 @@ public class JRFillField implements JRField
 	/**
 	 *
 	 */
-	protected JRField parent = null;
+	protected JRField parent;
 
 	/**
 	 *
 	 */
-	private Object previousOldValue = null;
-	private Object oldValue = null;
-	private Object value = null;
+	private Object previousOldValue;
+	private Object oldValue;
+	private Object value;
 	private Object savedValue;
 
 

@@ -43,9 +43,9 @@ public class XmlssContentBuilder
 	/**
 	 * 
 	 */
-	private Writer writer = null;
-	private Writer styleWriter = null;
-	private Writer bodyWriter = null;
+	private Writer writer;
+	private Writer styleWriter;
+	private Writer bodyWriter;
 	
 	/**
 	 * 
