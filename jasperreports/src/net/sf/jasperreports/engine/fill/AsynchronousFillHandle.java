@@ -52,9 +52,9 @@ public class AsynchronousFillHandle
 	protected final JRBaseFiller filler;
 	protected final List listeners;
 	protected Thread fillThread;
-	protected boolean started = false;
-	protected boolean running = false;
-	protected boolean cancelled = false;
+	protected boolean started;
+	protected boolean running;
+	protected boolean cancelled;
 	protected final Object lock;
 	
 	protected Integer priority;

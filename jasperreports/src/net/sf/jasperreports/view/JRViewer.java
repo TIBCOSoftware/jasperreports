@@ -145,7 +145,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	protected int defaultZoomIndex = 2;
 
 	protected int type = TYPE_FILE_NAME;
-	protected boolean isXML = false;
+	protected boolean isXML;
 	protected String reportFileName;
 	protected SimpleFileResolver fileResolver;
 	JasperPrint jasperPrint;

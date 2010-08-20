@@ -63,10 +63,10 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	 *
 	 */
 	protected JRGraphics2DExporter exporter;
-	protected boolean displayPageDialog = false;
-	protected boolean displayPageDialogOnlyOnce = false;
-	protected boolean displayPrintDialog = false;
-	protected boolean displayPrintDialogOnlyOnce = false;
+	protected boolean displayPageDialog;
+	protected boolean displayPageDialogOnlyOnce;
+	protected boolean displayPrintDialog;
+	protected boolean displayPrintDialogOnlyOnce;
 
 	protected int reportIndex;
 	

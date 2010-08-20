@@ -40,7 +40,7 @@ public class JRDesignCrosstabDataset extends JRDesignElementDataset implements J
 
 	public static final String PROPERTY_DATA_PRE_SORTED = "dataPreSorted";
 	
-	protected boolean dataPreSorted = false;
+	protected boolean dataPreSorted;
 
 	
 	/**

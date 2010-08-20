@@ -100,8 +100,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isPrintWhenExpressionNull = true;
 	private boolean isPrintWhenTrue = true;
 	private boolean isToPrint = true;
-	private boolean isReprinted = false;
-	private boolean isAlreadyPrinted = false;
+	private boolean isReprinted;
+	private boolean isAlreadyPrinted;
 	private Collection dependantElements = new ArrayList();
 	private int relativeY;
 	private int stretchHeight;
@@ -111,7 +111,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private int width;
 	private int height;
 	
-	private boolean isValueRepeating = false;
+	private boolean isValueRepeating;
 	
 	protected byte currentEvaluation;
 	

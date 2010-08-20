@@ -59,7 +59,7 @@ public class JRViewerController
 	private final List listeners = new ArrayList();
 	
 	protected int type = TYPE_FILE_NAME;
-	protected boolean isXML = false;
+	protected boolean isXML;
 	protected String reportFileName;
 	protected SimpleFileResolver fileResolver;
 	protected boolean reloadSupported;

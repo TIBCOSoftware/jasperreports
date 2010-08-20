@@ -99,8 +99,8 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected JRQuery query;
 	
-	private boolean useDatasourceParamValue = false;
-	private boolean useConnectionParamValue = false;
+	private boolean useDatasourceParamValue;
+	private boolean useConnectionParamValue;
 	
 	/**
 	 * The dataset parameters.

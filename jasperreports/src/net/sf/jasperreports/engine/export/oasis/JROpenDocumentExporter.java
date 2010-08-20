@@ -124,7 +124,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isWrapBreakWord = false;
+	protected boolean isWrapBreakWord;
 
 	/**
 	 * @deprecated

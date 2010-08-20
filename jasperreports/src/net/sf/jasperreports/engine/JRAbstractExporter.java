@@ -502,11 +502,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int globalOffsetX;
 	protected int globalOffsetY;
 	protected ClassLoader classLoader;
-	protected boolean classLoaderSet = false;
+	protected boolean classLoaderSet;
 	protected URLStreamHandlerFactory urlHandlerFactory;
-	protected boolean urlHandlerFactorySet = false;
+	protected boolean urlHandlerFactorySet;
 	protected FileResolver fileResolver;
-	protected boolean fileResolverSet = false;
+	protected boolean fileResolverSet;
 	protected ExporterFilter filter;
 
 	/**

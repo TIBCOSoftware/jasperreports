@@ -67,7 +67,7 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	 * Indicates if the boundaries of each range should be shown.
 	 * @deprecated No longer used.
 	 */
-	protected boolean showValueLines = false;
+	protected boolean showValueLines;
 
 	/**
 	 * Specifies where the textual display of the value should be shown.

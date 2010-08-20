@@ -133,7 +133,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isWrapBreakWord = false;
+	protected boolean isWrapBreakWord;
 
 	protected LinkedList backcolorStack;
 	protected Color backcolor;

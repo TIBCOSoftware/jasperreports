@@ -1685,7 +1685,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowLegend = false;
+	private boolean isShowLegend;
 	/**
 	 * @deprecated
 	 */

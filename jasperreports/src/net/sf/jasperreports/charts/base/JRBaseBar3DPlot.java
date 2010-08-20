@@ -528,7 +528,7 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowLabels = false;
+	private boolean isShowLabels;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

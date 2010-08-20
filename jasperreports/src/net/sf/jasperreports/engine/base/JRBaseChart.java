@@ -1349,7 +1349,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowLegend = false;
+	private boolean isShowLegend;
 	/**
 	 * @deprecated
 	 */

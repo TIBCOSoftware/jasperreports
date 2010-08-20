@@ -134,7 +134,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected boolean isWrapBreakWord = false;
+	protected boolean isWrapBreakWord;
 
 	/**
 	 * @deprecated

@@ -58,7 +58,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	private Object estimatedValue;
 	private Object incrementedValue;
 	private Object value;
-	private boolean isInitialized = false;
+	private boolean isInitialized;
 	private Object savedValue;
 	
 	private JRFillVariable[] helperVariables;

@@ -459,11 +459,11 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowOpenTicks = false;
+	private boolean isShowOpenTicks;
 	/**
 	 * @deprecated
 	 */
-	private boolean isShowCloseTicks = false;
+	private boolean isShowCloseTicks;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

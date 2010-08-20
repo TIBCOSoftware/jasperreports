@@ -65,11 +65,11 @@ public class JRXlsDataSource implements JRRewindableDataSource
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
 	private Map columnNames = new HashMap();
-	private boolean useFirstRowAsHeader = false;
+	private boolean useFirstRowAsHeader;
 	private int recordIndex = -1;
 
 	private InputStream inputStream;
-	private boolean closeWorkbook = false;
+	private boolean closeWorkbook;
 
 
 	/**

@@ -70,7 +70,7 @@ public class FrameDrawer extends ElementDrawer
 	private LinkedList elementOffsetStack = new LinkedList();
 	private int elementOffsetX;
 	private int elementOffsetY;
-	private boolean isClip = false;
+	private boolean isClip;
 	
 	/**
 	 *

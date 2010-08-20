@@ -49,7 +49,7 @@ public class JRPrintImageSourceObject
 	/**
 	 *
 	 */
-	private boolean isEmbedded = false;
+	private boolean isEmbedded;
 
 
 	/**

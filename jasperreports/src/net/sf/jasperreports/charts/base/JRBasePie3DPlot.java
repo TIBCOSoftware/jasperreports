@@ -232,7 +232,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	/**
 	 * @deprecated
 	 */
-	private boolean isCircular = false;
+	private boolean isCircular;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

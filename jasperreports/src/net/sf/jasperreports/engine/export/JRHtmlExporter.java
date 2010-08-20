@@ -178,7 +178,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected Map imageMaps;
 	protected Map imageNameToImageDataMap;
 	protected List imagesToProcess;
-	protected boolean isPxImageLoaded = false;
+	protected boolean isPxImageLoaded;
 
 	protected int reportIndex;
 	protected int pageIndex;
@@ -188,7 +188,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected File imagesDir;
 	protected String imagesURI;
-	protected boolean isOutputImagesToDir = false;
+	protected boolean isOutputImagesToDir;
 	protected boolean isRemoveEmptySpace;
 	protected boolean isWhitePageBackground;
 	protected String encoding;
@@ -219,7 +219,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
-	protected boolean hyperlinkStarted = false;
+	protected boolean hyperlinkStarted;
 	protected int thDepth;
 	
 	protected ExporterNature nature;

@@ -61,7 +61,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected boolean isStretchWithOverflow = false;
+	protected boolean isStretchWithOverflow;
 	protected EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	protected String pattern;
 	protected Boolean isBlankWhenNull;

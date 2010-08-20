@@ -62,7 +62,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected ResetTypeEnum resetTypeValue = ResetTypeEnum.REPORT;
 	protected IncrementTypeEnum incrementTypeValue = IncrementTypeEnum.NONE;
 	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
-	protected boolean isSystemDefined = false;
+	protected boolean isSystemDefined;
 
 	protected transient Class valueClass;
 	protected transient Class incrementerFactoryClass;

@@ -58,7 +58,7 @@ public class TextRenderer
 	private float textHeight;
 	private float drawPosY;
 	private float drawPosX;
-	private boolean isMaxHeightReached = false;
+	private boolean isMaxHeightReached;
 	private HorizontalAlignEnum horizontalAlignment;
 	private int fontSize;
 	
@@ -71,7 +71,7 @@ public class TextRenderer
 	 * 
 	 */
 	private boolean isMinimizePrinterJobSize = true;
-	private boolean ignoreMissingFont = false;
+	private boolean ignoreMissingFont;
 
 	
 	/**

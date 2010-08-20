@@ -91,9 +91,9 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	protected int y;
 	protected int width;
 	protected int height;
-	protected boolean isRemoveLineWhenBlank = false;
-	protected boolean isPrintInFirstWholeBand = false;
-	protected boolean isPrintWhenDetailOverflows = false;
+	protected boolean isRemoveLineWhenBlank;
+	protected boolean isPrintInFirstWholeBand;
+	protected boolean isPrintWhenDetailOverflows;
 	protected Color forecolor;
 	protected Color backcolor;
 
