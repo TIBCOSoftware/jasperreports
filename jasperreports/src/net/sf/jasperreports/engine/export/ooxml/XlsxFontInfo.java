@@ -45,11 +45,20 @@ public class XlsxFontInfo
 	protected boolean isUnderline;
 	protected boolean isStrikeThrough;
 	protected String color;
+	protected boolean isFontSizeFixEnabled;
 
 	/**
 	 *
 	 */
 	public XlsxFontInfo(JRExporterGridCell gridCell)
+	{
+		this(gridCell, false);
+	}
+	
+	/**
+	 *
+	 */
+	public XlsxFontInfo(JRExporterGridCell gridCell, boolean isFontSizeFixEnabled)
 	{
 		JRPrintElement element = gridCell.getElement();
 
@@ -67,6 +76,11 @@ public class XlsxFontInfo
 			this.isItalic = font.isItalic();
 			this.isUnderline = font.isUnderline();
 			this.isStrikeThrough = font.isStrikeThrough();
+			this.isFontSizeFixEnabled = isFontSizeFixEnabled;
+			if(isFontSizeFixEnabled)
+			{
+				this.fontSize -= 1;
+			}
 		}
 	}
 	
@@ -76,6 +90,6 @@ public class XlsxFontInfo
 			fontName + "|" + fontSize
 			+ "|" + isBold + "|"+ isItalic 
 			+ "|" + isUnderline + "|"+ isStrikeThrough
-			+ "|" + color; 
+			+ "|" + color + "|" + isFontSizeFixEnabled; 
 	}
 }

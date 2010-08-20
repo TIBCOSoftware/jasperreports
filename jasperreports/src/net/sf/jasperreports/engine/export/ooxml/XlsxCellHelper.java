@@ -47,6 +47,9 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	private XlsxStyleHelper styleHelper;
 //	private XlsxBorderHelper borderHelper;
+
+	private boolean isFontSizeFixEnabled;
+	private boolean isWrapText = true;
 	
 	/**
 	 *
@@ -56,12 +59,26 @@ public class XlsxCellHelper extends BaseHelper
 		XlsxStyleHelper styleHelper
 		)
 	{
+		this(writer, styleHelper, true, false);
+	}
+		
+	/**
+	 *
+	 */
+	public XlsxCellHelper(
+		Writer writer,
+		XlsxStyleHelper styleHelper,
+		boolean isWrapText,
+		boolean isFontSizeFixEnabled
+		)
+	{
 		super(writer);
 		
 		this.styleHelper = styleHelper;
+		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
+		this.isWrapText = isWrapText;
 //		borderHelper = new XlsxBorderHelper(writer);
 	}
-		
 	/**
 	 * 
 	 *
@@ -79,7 +96,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex
 		) 
 	{
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell) + "\" t=\"inlineStr\">");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, isFontSizeFixEnabled) + "\" t=\"inlineStr\">");
 		
 //		exportPropsHeader();
 //

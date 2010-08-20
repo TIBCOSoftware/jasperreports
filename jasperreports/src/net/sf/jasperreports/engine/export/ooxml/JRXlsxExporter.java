@@ -718,7 +718,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		Writer drawingWriter = drawingEntry.getWriter();
 		drawingHelper = new XlsxDrawingHelper(drawingWriter, drawingRelsHelper);
 		
-		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
+		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper, wrapText, isFontSizeFixEnabled);
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
