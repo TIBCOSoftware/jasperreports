@@ -281,7 +281,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:template match="xsd:complexType/xsd:attribute">
   <tr>
     <td colspan="2"></td>
-	<td colspan="3"><span class="attribute"><br/><xsl:value-of select="@name"/></span></td>
+	<td colspan="3"><br/><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><span class="attribute"><xsl:value-of select="@name"/></span></xsl:element></td>
   </tr>
   <tr>
     <td colspan="3"></td>
