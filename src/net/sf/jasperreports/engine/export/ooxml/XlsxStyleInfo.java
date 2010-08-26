@@ -45,20 +45,19 @@ public class XlsxStyleInfo
 	protected String horizontalAlign;
 	protected String verticalAlign;
 	protected boolean isWrapText = true;
-	protected boolean isFontSizeFixEnabled;
 
 	/**
 	 *
 	 */
 	public XlsxStyleInfo(int fontIndex, int borderIndex, JRExporterGridCell gridCell)
 	{
-		this(fontIndex, borderIndex, gridCell, true, false);
+		this(fontIndex, borderIndex, gridCell, true);
 	}
 	
 	/**
 	 *
 	 */
-	public XlsxStyleInfo(int fontIndex, int borderIndex, JRExporterGridCell gridCell, boolean isWrapText, boolean isFontSizeFixEnabled)
+	public XlsxStyleInfo(int fontIndex, int borderIndex, JRExporterGridCell gridCell, boolean isWrapText)
 	{
 		this.fontIndex = fontIndex;
 		this.borderIndex = borderIndex;
@@ -81,13 +80,12 @@ public class XlsxStyleInfo
 			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalAlignmentValue());//FIXMEXLSX use common util
 		}
 		
-		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
 		this.isWrapText = isWrapText;
 	}
 	
 	public String getId()
 	{
 		return 
-			fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign + "|" + isWrapText + "|" + isFontSizeFixEnabled;
+			fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign + "|" + isWrapText;
 	}
 }

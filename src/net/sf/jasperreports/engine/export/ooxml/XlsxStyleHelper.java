@@ -83,11 +83,10 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
-				fontHelper.getFont(gridCell, isFontSizeFixEnabled) + 1,
+				fontHelper.getFont(gridCell, isFontSizeFixEnabled),
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
-				isWrapText,
-				isFontSizeFixEnabled
+				isWrapText
 				);
 		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
@@ -131,7 +130,7 @@ public class XlsxStyleHelper extends BaseHelper
 				+ "<alignment wrapText=\"" + styleInfo.isWrapText +"\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
-				+ (" shrinkToFit=\"" + styleInfo.isFontSizeFixEnabled + "\"")
+//				+ (" shrinkToFit=\"" + styleInfo.isFontSizeFixEnabled + "\"")
 				+ "/></xf>\n");
 		}
 		catch (IOException e)

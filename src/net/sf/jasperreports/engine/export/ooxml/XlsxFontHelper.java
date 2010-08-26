@@ -72,7 +72,7 @@ public class XlsxFontHelper extends BaseHelper
 		if (fontIndex == null)
 		{
 			fontIndex = Integer.valueOf(fontCache.size());
-			export(fontInfo);
+			export(fontInfo, isFontSizeFixEnabled);
 			fontCache.put(fontInfo.getId(), fontIndex);
 		}
 		return fontIndex.intValue();
@@ -81,10 +81,10 @@ public class XlsxFontHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void export(XlsxFontInfo fontInfo)
+	private void export(XlsxFontInfo fontInfo, boolean isFontSizeFixEnabled)
 	{
 		write(
-			"<font><sz val=\"" + fontInfo.fontSize + "\"/>" 
+			"<font><sz val=\"" + (isFontSizeFixEnabled ? fontInfo.fontSize - 1 : fontInfo.fontSize) + "\"/>" 
 			+ "<color rgb=\"" + fontInfo.color + "\"/>"
 			+ "<name val=\"" + fontInfo.fontName + "\"/>"//FIXMEXLSX use font mappings here
 			+ "<b val=\"" + fontInfo.isBold + "\"/>"
