@@ -67,7 +67,41 @@
 	font-family: Courier New, Courier, serif;
 	font-size: 12px;
 	font-weight: bold;
+	text-decoration: none;
 }
+
+a.attribute:link {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: inherit;
+}
+
+a.attribute:visited {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: inherit;
+}
+
+a.attribute:hover {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: inherit;
+}
+
+a.attribute:active {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: inherit;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -281,7 +315,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:template match="xsd:complexType/xsd:attribute">
   <tr>
     <td colspan="2"></td>
-	<td colspan="3"><br/><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><span class="attribute"><xsl:value-of select="@name"/></span></xsl:element></td>
+	<td colspan="3"><br/><span class="attribute"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="href">#<xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="class">attribute</xsl:attribute><xsl:value-of select="@name"/></xsl:element></span></td>
   </tr>
   <tr>
     <td colspan="3"></td>
