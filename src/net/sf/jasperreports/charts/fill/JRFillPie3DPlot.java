@@ -104,5 +104,13 @@ public class JRFillPie3DPlot extends JRFillChartPlot implements JRPie3DPlot
 	{
 		return ((JRPie3DPlot)parent).getItemLabel();
 	}
-	
+
+	/**
+	 *
+	 */
+	public Boolean getShowLabels()
+	{
+		return ((JRPie3DPlot)parent).getShowLabels();
+	}
+
 }

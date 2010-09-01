@@ -1961,6 +1961,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "PiePlot";
 				write( "JRDesignPiePlot " + plotName + " = (JRDesignPiePlot)" + chartName + ".getPlot();\n");
+				write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
 				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
 				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));
@@ -1990,6 +1991,7 @@ public class JRApiWriter
 			{
 				String plotName = chartName + "Pie3DPlot";
 				write( "JRDesignPie3DPlot " + plotName + " = (JRDesignPie3DPlot)" + chartName + ".getPlot();\n");
+				write( plotName + ".setShowLabels({0});\n", getBooleanText(plot.getShowLabels()));
 				write( plotName + ".setCircular({0});\n", getBooleanText(plot.getCircular()));
 				write( plotName + ".setLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLabelFormat()));
 				write( plotName + ".setLegendLabelFormat(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(plot.getLegendLabelFormat()));

@@ -56,6 +56,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public static final String PROPERTY_LABEL_FORMAT = "labelFormat";
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
+	public static final String PROPERTY_SHOW_LABELS = "showLabels";
 	
 	protected Double depthFactorDouble;
 	protected Boolean circular;
@@ -63,6 +64,8 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	protected String legendLabelFormat;
 	
 	protected JRItemLabel itemLabel;
+	protected Boolean showLabels;
+
 	/**
 	 *
 	 */
@@ -92,6 +95,7 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		labelFormat = pie3DPlot.getLabelFormat();
 		legendLabelFormat = pie3DPlot.getLegendLabelFormat();
 		itemLabel = new JRBaseItemLabel(pie3DPlot.getItemLabel(), factory);
+		showLabels = pie3DPlot.getShowLabels();
 	}
 
 	
@@ -219,6 +223,22 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		JRItemLabel old = this.itemLabel;
 		this.itemLabel = itemLabel;
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
+	}
+
+	/**
+	 *
+	 */
+	public Boolean getShowLabels(){
+		return showLabels;
+	}
+
+	/**
+	 *
+	 */
+	public void setShowLabels( Boolean showLabels ){
+		Boolean old = this.showLabels;
+		this.showLabels = showLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
 
 	/*

@@ -4039,6 +4039,17 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:plot"/>
     <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="isShowLabels" use="optional">
+    <annotation>
+     <documentation>Show labels flag.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="isCircular" use="optional">
     <annotation>
      <documentation>Indicates whether the pie chart is circular, or stretched into an elliptical shape</documentation>
@@ -4277,6 +4288,17 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
     <element ref="jr:plot"/>
     <element ref="jr:itemLabel" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="isShowLabels" use="optional">
+    <annotation>
+     <documentation>Show labels flag.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="depthFactor" type="string" use="optional">
 	<annotation>
  	 <documentation>Depth factor for a pie chart plot.</documentation>

@@ -50,6 +50,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public static final String PROPERTY_LEGEND_LABEL_FORMAT = "legendLabelFormat";
 	public static final String PROPERTY_ITEM_LABEL = "itemLabel";
 
+	public static final String PROPERTY_SHOW_LABELS = "showLabels";
 	/*
 	 * README
 	 * 
@@ -60,6 +61,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	protected String legendLabelFormat;
 	
 	protected JRItemLabel itemLabel;
+	protected Boolean showLabels;
 
 	/**
 	 *
@@ -89,6 +91,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		labelFormat = piePlot.getLabelFormat();
 		legendLabelFormat = piePlot.getLegendLabelFormat();
 		itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), factory);
+		showLabels = piePlot.getShowLabels();
 	}
 	
 	/**
@@ -179,6 +182,22 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		JRItemLabel old = this.itemLabel;
 		this.itemLabel = itemLabel;
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_LABEL, old, this.itemLabel);
+	}
+
+	/**
+	 *
+	 */
+	public Boolean getShowLabels(){
+		return showLabels;
+	}
+
+	/**
+	 *
+	 */
+	public void setShowLabels( Boolean showLabels ){
+		Boolean old = this.showLabels;
+		this.showLabels = showLabels;
+		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
 
 	/**
