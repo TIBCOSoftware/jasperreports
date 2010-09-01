@@ -41,6 +41,7 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 	 *
 	 */
 	private static final String ATTRIBUTE_depthFactor = "depthFactor";
+	private static final String ATTRIBUTE_isShowLabels = "isShowLabels";
 
 	/**
 	 *
@@ -64,6 +65,10 @@ public class JRPie3DPlotFactory extends JRBaseFactory
 		pie3DPlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
 		pie3DPlot.setLegendLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_legendLabelFormat));
 
+		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
+		if( isShowLabels != null && isShowLabels.length() > 0 ){
+			pie3DPlot.setShowLabels(Boolean.valueOf(isShowLabels));
+		}
 		return pie3DPlot;
 	}
 }

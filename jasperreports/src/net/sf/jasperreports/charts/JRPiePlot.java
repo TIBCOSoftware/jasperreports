@@ -42,13 +42,24 @@ public interface JRPiePlot extends JRChartPlot
 	 */
 	public Boolean getCircular();
 	
+	/**
+	 * 
+	 */
 	public String getLabelFormat();
 	
+	/**
+	 * 
+	 */
 	public String getLegendLabelFormat();
 
 	/**
 	 * 
 	 */
 	public JRItemLabel getItemLabel();
+	
+	/**
+	 * 
+	 */
+	public Boolean getShowLabels();
 	
 }

@@ -177,9 +177,12 @@ public class AegeanChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPieChart();
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
-		piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		if(piePlot.getLabelGenerator() != null)
+		{
+			piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		}
 		piePlot.setShadowXOffset(0);
 		piePlot.setShadowYOffset(0);
 		PieDataset pieDataset = piePlot.getDataset();
@@ -206,9 +209,12 @@ public class AegeanChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart();
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		if(piePlot3D.getLabelGenerator() != null)
+		{
+			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		}
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.07);
 //does not work for 3D

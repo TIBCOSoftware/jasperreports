@@ -37,6 +37,7 @@ import org.xml.sax.Attributes;
  */
 public class JRPiePlotFactory extends JRBaseFactory
 {
+	private static final String ATTRIBUTE_isShowLabels = "isShowLabels";
 
 	/**
 	 * 
@@ -53,6 +54,11 @@ public class JRPiePlotFactory extends JRBaseFactory
 		
 		piePlot.setLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_labelFormat));
 		piePlot.setLegendLabelFormat(atts.getValue(JRXmlConstants.ATTRIBUTE_legendLabelFormat));
+
+		String isShowLabels = atts.getValue( ATTRIBUTE_isShowLabels );
+		if( isShowLabels != null && isShowLabels.length() > 0 ){
+			piePlot.setShowLabels(Boolean.valueOf(isShowLabels));
+		}
 
 		return piePlot;	
 	}

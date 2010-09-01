@@ -70,4 +70,9 @@ public interface JRPie3DPlot extends JRChartPlot
 	 */
 	public JRItemLabel getItemLabel();
 	
+	/**
+	 * 
+	 */
+	public Boolean getShowLabels();
+	
 }

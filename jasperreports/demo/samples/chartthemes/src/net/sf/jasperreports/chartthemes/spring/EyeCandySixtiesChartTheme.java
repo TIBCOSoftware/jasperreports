@@ -207,9 +207,12 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPieChart();
 
 		PiePlot piePlot = (PiePlot)jfreeChart.getPlot();
-		piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		if(piePlot.getLabelGenerator() != null)
+		{
+			piePlot.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		}
 		piePlot.setShadowXOffset(5);
 		piePlot.setShadowYOffset(10);
 		piePlot.setShadowPaint(new GradientPaint(0, getChart().getHeight() / 2, new Color(41, 120, 162), 0, getChart().getHeight(), Color.white));
@@ -237,9 +240,12 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		JFreeChart jfreeChart = super.createPie3DChart();
 
 		PiePlot3D piePlot3D = (PiePlot3D) jfreeChart.getPlot();
-		piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-		piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		if(piePlot3D.getLabelGenerator() != null)
+		{
+			piePlot3D.setLabelBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot3D.setLabelShadowPaint(ChartThemesConstants.TRANSPARENT_PAINT);
+			piePlot3D.setLabelOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
+		}
 		piePlot3D.setDarkerSides(true);
 		piePlot3D.setDepthFactor(0.1);
 // does not work for 3D
