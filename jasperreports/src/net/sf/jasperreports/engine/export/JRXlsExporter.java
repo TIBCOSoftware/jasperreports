@@ -234,6 +234,22 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.getPrintSetup().setFitHeight(Short.valueOf(fitHeight));
 			sheet.setAutobreaks(true);
 		}
+		
+		if(sheetHeaderLeft != null)
+		{
+			sheet.getHeader().setLeft(sheetHeaderLeft);
+		}
+		
+		if(sheetHeaderCenter != null)
+		{
+			sheet.getHeader().setCenter(sheetHeaderCenter);
+		}
+		
+		if(sheetHeaderRight != null)
+		{
+			sheet.getHeader().setRight(sheetHeaderRight);
+		}
+		
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException

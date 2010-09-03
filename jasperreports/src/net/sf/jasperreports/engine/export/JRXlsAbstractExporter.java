@@ -113,6 +113,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int maxRowsPerSheet;
 
 	protected String[] sheetNames;
+	
+	protected String sheetHeaderLeft;
+	protected String sheetHeaderCenter;
+	protected String sheetHeaderRight;
 
 
 	protected JRExportProgressMonitor progressMonitor;
@@ -380,6 +384,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				); 
 			
+		sheetHeaderLeft = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_LEFT
+					);
+		
+		sheetHeaderCenter = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_CENTER
+					);
+		
+		sheetHeaderRight = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_RIGHT
+					);
 		
 	}
 
