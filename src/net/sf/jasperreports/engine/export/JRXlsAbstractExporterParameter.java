@@ -356,5 +356,25 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final String PROPERTY_CELL_HIDDEN = JRProperties.PROPERTY_PREFIX + "export.xls.cell.hidden";
 
+	/**
+	 * This property stores the text content of the sheet header's left side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_LEFT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.left";
+
+	/**
+	 * This property stores the text content of the sheet header's center.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_CENTER = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.center";
+
+	/**
+	 * This property stores the text content of the sheet header's right side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_RIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.right";
 
 }
