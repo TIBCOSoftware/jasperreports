@@ -336,6 +336,18 @@ public final class JRProperties
 	}
 	
 	/**
+	 * Returns the value of the property, or a default value if the property is not set.
+	 * 
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value
+	 */
+	public static String getProperty (String key, String defaultValue)
+	{
+		return props.getProperty(key) == null ? defaultValue : props.getProperty(key);
+	}
+	
+	/**
 	 * Returns a property as a boolean value.
 	 * 
 	 * @param key the key
@@ -664,6 +676,20 @@ public final class JRProperties
 	}
 	
 	/**
+	 * Returns the value of a property, looking first in the supplied properties holder,
+	 * then in the system properties and if no property value is found, a default value is returned.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value
+	 */
+	public static String getProperty (JRPropertiesHolder propertiesHolder, String key, String defaultValue)
+	{
+		return getProperty(propertiesHolder, key) == null ? defaultValue : getProperty(propertiesHolder, key);
+	}
+	
+	/**
 	 * Returns the value of a property, looking first in the supplied properties map
 	 * and then in the system properties.
 	 * 
@@ -685,6 +711,20 @@ public final class JRProperties
 		}
 		
 		return value;
+	}
+
+	/**
+	 * Returns the value of a property, looking first in the supplied properties map, 
+	 * then in the system properties and if no property value is found, a default value is returned.
+	 * 
+	 * @param propertiesMap the properties map
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the property value
+	 */
+	public static String getProperty (JRPropertiesMap propertiesMap, String key, String defaultValue)
+	{
+		return getProperty(propertiesMap, key) == null ? defaultValue : getProperty(propertiesMap, key);
 	}
 
 	/**
