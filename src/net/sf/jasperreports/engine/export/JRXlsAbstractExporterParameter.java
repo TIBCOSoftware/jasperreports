@@ -377,4 +377,36 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final String PROPERTY_SHEET_HEADER_RIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.right";
 
+	/**
+	 * This property stores the text content of the sheet footer's left side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_LEFT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.left";
+
+	/**
+	 * This property stores the text content of the sheet footer's center.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_CENTER = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.center";
+
+	/**
+	 * This property stores the text content of the sheet footer's right side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_RIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.right";
+
+	/**
+	 * This property indicates if the sheet is left-to-right or right-to-left oriented. Possible values are:
+	 * <ul>
+	 * <li>LTR - meaning left-to-right</li>
+	 * <li>RTL - meaning right-to-left</li>
+	 * </ul>
+	 * The default value is LTR.
+	 * @see JRProperties, RunDirectionEnum
+	 */
+	public static final String PROPERTY_SHEET_DIRECTION = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.direction";
+
 }

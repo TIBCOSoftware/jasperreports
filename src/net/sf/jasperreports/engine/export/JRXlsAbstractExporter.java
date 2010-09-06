@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -117,6 +118,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected String sheetHeaderLeft;
 	protected String sheetHeaderCenter;
 	protected String sheetHeaderRight;
+	
+	protected String sheetFooterLeft;
+	protected String sheetFooterCenter;
+	protected String sheetFooterRight;
+	
+	protected RunDirectionEnum sheetDirection;
 
 
 	protected JRExportProgressMonitor progressMonitor;
@@ -401,6 +408,32 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					jasperPrint,
 					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_RIGHT
 					);
+		
+		sheetFooterLeft = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_LEFT
+					);
+		
+		sheetFooterCenter = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_CENTER
+					);
+		
+		sheetFooterRight = 
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_RIGHT
+					);
+		
+		sheetDirection = RunDirectionEnum.getByName(
+			JRProperties.getProperty(
+					jasperPrint,
+					JRXlsAbstractExporterParameter.PROPERTY_SHEET_DIRECTION,
+					RunDirectionEnum.LTR.getName()
+					)
+				);
 		
 	}
 

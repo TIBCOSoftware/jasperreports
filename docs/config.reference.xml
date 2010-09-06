@@ -180,6 +180,12 @@
       <property ref="net.sf.jasperreports.export.xls.password"/>
       <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.footer.right"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.header.center"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.header.left"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
       <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
@@ -2179,6 +2185,84 @@ It is very useful especially when displaying each report's group on a separate s
     <default>false</default>
     <scope>Element</scope>
     <since>3.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.center -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.center">
+    <description>
+Custom property storing the text content of the sheet footer's center.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_FOOTER_CENTER</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.left -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.left">
+    <description>
+Custom property storing the text content of the left side of the sheet footer.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_FOOTER_LEFT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.footer.right -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.footer.right">
+    <description>
+Custom property storing the text content of the right side of the sheet footer.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_FOOTER_RIGHT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.header.center -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.center">
+    <description>
+Custom property storing the text content of the sheet header's center.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_HEADER_CENTER</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.header.left -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.left">
+    <description>
+Custom property storing the text content of the left side of the sheet header.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_HEADER_LEFT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.header.right -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.header.right">
+    <description>
+Custom property storing the text content of the right side of the sheet header.             
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_HEADER_RIGHT</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
   </configProperty>
   
   
