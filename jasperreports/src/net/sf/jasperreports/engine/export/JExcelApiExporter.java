@@ -1861,6 +1861,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			sheets.getHeader().getRight().append(sheetHeaderRight);
 		}
 		
+		if(sheetFooterLeft != null)
+		{
+			sheets.getFooter().getLeft().append(sheetFooterLeft);
+		}
+		
+		if(sheetFooterCenter != null)
+		{
+			sheets.getFooter().getCentre().append(sheetFooterCenter);
+		}
+		
+		if(sheetFooterRight != null)
+		{
+			sheets.getFooter().getRight().append(sheetFooterRight);
+		}
 		
 	}
 

@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -248,6 +249,28 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if(sheetHeaderRight != null)
 		{
 			sheet.getHeader().setRight(sheetHeaderRight);
+		}
+		
+		if(sheetFooterLeft != null)
+		{
+			sheet.getFooter().setLeft(sheetFooterLeft);
+		}
+		
+		if(sheetFooterCenter != null)
+		{
+			sheet.getFooter().setCenter(sheetFooterCenter);
+		}
+		
+		if(sheetFooterRight != null)
+		{
+			sheet.getFooter().setRight(sheetFooterRight);
+		}
+		
+		if(sheetDirection != null)
+		{
+			sheet.getPrintSetup().setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
+			//TODO: uncomment after upgrading to POI 3.6
+			//sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
 	}
