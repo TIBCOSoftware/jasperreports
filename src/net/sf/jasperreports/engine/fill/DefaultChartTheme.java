@@ -809,7 +809,7 @@ public class DefaultChartTheme implements ChartTheme
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(), bubblePlot.getXAxisVerticalTickLabels(),
 				bubblePlot.getXAxisLineColor(), false,
 				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
@@ -817,7 +817,7 @@ public class DefaultChartTheme implements ChartTheme
 				bubblePlot.getYAxisTickLabelColor(), bubblePlot.getYAxisTickLabelMask(), bubblePlot.getYAxisVerticalTickLabels(),
 				bubblePlot.getYAxisLineColor(), true,
 				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
