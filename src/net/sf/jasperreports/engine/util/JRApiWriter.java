@@ -336,6 +336,7 @@ public class JRApiWriter
 		write( "jasperDesign.setLanguage(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(report.getLanguage()));
 		write( "jasperDesign.setColumnCount({0, number, #});\n", report.getColumnCount(), 1);
 		write( "jasperDesign.setPrintOrder({0});\n", report.getPrintOrderValue(), PrintOrderEnum.VERTICAL);
+		write( "jasperDesign.setColumnDirection({0});\n", report.getColumnDirection(), RunDirectionEnum.LTR);
 		write( "jasperDesign.setPageWidth({0, number, #});\n", report.getPageWidth());
 		write( "jasperDesign.setPageHeight({0, number, #});\n", report.getPageHeight());
 		write( "jasperDesign.setOrientation({0});\n", report.getOrientationValue(), OrientationEnum.PORTRAIT);

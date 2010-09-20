@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.design.events.PropagationChangeListener;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
 
@@ -133,6 +134,8 @@ public class JasperDesign extends JRBaseReport
 	public static final String PROPERTY_PAGE_WIDTH = "pageWidth";
 
 	public static final String PROPERTY_PRINT_ORDER = "printOrder";
+
+	public static final String PROPERTY_COLUMN_DIRECTION = "columnDirection";
 
 	public static final String PROPERTY_RIGHT_MARGIN = "rightMargin";
 
@@ -237,6 +240,17 @@ public class JasperDesign extends JRBaseReport
 		Object old = this.printOrderValue;
 		this.printOrderValue = printOrderValue;
 		getEventSupport().firePropertyChange(PROPERTY_PRINT_ORDER, old, this.printOrderValue);
+	}
+
+
+	/**
+	 * Sets the column direction.
+	 */
+	public void setColumnDirection(RunDirectionEnum columnDirection)
+	{
+		Object old = this.columnDirection;
+		this.columnDirection = columnDirection;
+		getEventSupport().firePropertyChange(PROPERTY_COLUMN_DIRECTION, old, this.columnDirection);
 	}
 
 

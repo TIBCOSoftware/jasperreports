@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -1022,6 +1023,11 @@ public class TableReport implements JRReport
 	public PrintOrderEnum getPrintOrderValue()
 	{
 		return PrintOrderEnum.VERTICAL;
+	}
+
+	public RunDirectionEnum getColumnDirection()
+	{
+		return RunDirectionEnum.LTR;
 	}
 
 	public String getProperty(String name)
