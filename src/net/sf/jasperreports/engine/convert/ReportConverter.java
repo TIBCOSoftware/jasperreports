@@ -62,6 +62,8 @@ import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
+import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
@@ -85,8 +87,12 @@ public class ReportConverter
 	private JRPrintPage page;
 	int pageWidth;
 	private int offsetY;
-	private int upColumns;
-	private int downColumns;
+	private int upColumnHeader;
+	private int downColumnHeader;
+	private int upDetails;
+	private int downDetails;
+	private int upColumnFooter;
+	private int downColumnFooter;
 	
 	/**
 	 * List containing page elements in a given order 
@@ -152,30 +158,36 @@ public class ReportConverter
 			addBand(report.getBackground());
 			addBand(report.getTitle());
 			addBand(report.getPageHeader());
-			upColumns = offsetY;
-			addBand(report.getColumnHeader());
+			upColumnHeader = offsetY;
+			addBand(report.getColumnHeader(), true);
+			downColumnHeader = offsetY;
 
+			boolean isColumnGroupBands = report.getPrintOrderValue() == PrintOrderEnum.VERTICAL;
+			
 			JRGroup[] groups = report.getGroups();
 			if (groups != null)
 			{
 				for (int i = 0; i < groups.length ; i++)
 				{
-					addSection(groups[i].getGroupHeaderSection());
+					addSection(groups[i].getGroupHeaderSection(), isColumnGroupBands);
 				}
 			}
 			
-			addSection(report.getDetailSection());
+			upDetails = offsetY;
+			addSection(report.getDetailSection(), true);
+			downDetails = offsetY;
 
 			if (groups != null)
 			{
 				for (int i = 0; i < groups.length ; i++)
 				{
-					addSection(groups[i].getGroupFooterSection());
+					addSection(groups[i].getGroupFooterSection(), isColumnGroupBands);
 				}
 			}
 			
-			addBand(report.getColumnFooter());
-			downColumns = offsetY;
+			upColumnFooter = offsetY;
+			addBand(report.getColumnFooter(), true);
+			downColumnFooter = offsetY;
 			addBand(report.getPageFooter());
 			addBand(report.getLastPageFooter());
 			addBand(report.getSummary());
@@ -338,7 +350,7 @@ public class ReportConverter
 	/**
 	 *
 	 */
-	private void addSection(JRSection section)
+	private void addSection(JRSection section, boolean isColumnSection)
 	{
 		if (section != null)
 		{
@@ -347,7 +359,7 @@ public class ReportConverter
 			{
 				for(int i = 0; i< bands.length; i++)
 				{
-					addBand(bands[i]);
+					addBand(bands[i], isColumnSection);
 				}
 			}
 		}
@@ -358,12 +370,28 @@ public class ReportConverter
 	 */
 	private void addBand(JRBand band)
 	{
+		addBand(band, false);
+	}
+
+	/**
+	 *
+	 */
+	private void addBand(JRBand band, boolean isColumnBand)
+	{
 		if (band != null)
 		{
 			JRBasePrintFrame frame = new JRBasePrintFrame(null);
-			frame.setX(report.getLeftMargin());
+			frame.setX(
+				isColumnBand && report.getColumnDirection() == RunDirectionEnum.RTL 
+					? report.getPageWidth() - report.getRightMargin() - report.getColumnWidth() 
+					: report.getLeftMargin()
+				);
 			frame.setY(offsetY);
-			frame.setWidth(report.getPageWidth() - report.getLeftMargin() - report.getRightMargin());
+			frame.setWidth(
+				isColumnBand
+				? report.getColumnWidth()
+				: report.getPageWidth() - report.getLeftMargin() - report.getRightMargin()
+				);
 			frame.setHeight(band.getHeight());
 			
 			band.visit(new ConvertVisitor(this, frame));
@@ -388,9 +416,29 @@ public class ReportConverter
 	 */
 	private void addColumnSeparator(int colX)
 	{
-		if (downColumns > upColumns)
+		if (report.getPrintOrderValue() == PrintOrderEnum.HORIZONTAL)
 		{
-			addVerticalGridLine(colX, upColumns, downColumns - upColumns);
+			if (downColumnHeader > upColumnHeader)
+			{
+				addVerticalGridLine(colX, upColumnHeader, downColumnHeader - upColumnHeader);
+			}
+
+			if (downDetails > upDetails)
+			{
+				addVerticalGridLine(colX, upDetails, downDetails - upDetails);
+			}
+
+			if (downColumnFooter > upColumnFooter)
+			{
+				addVerticalGridLine(colX, upColumnFooter, downColumnFooter - upColumnFooter);
+			}
+		}
+		else //vertical printOrder
+		{
+			if (downColumnFooter > upColumnHeader)
+			{
+				addVerticalGridLine(colX, upColumnHeader, downColumnFooter - upColumnHeader);
+			}
 		}
 	}
 	
