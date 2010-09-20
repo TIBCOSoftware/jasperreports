@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -154,6 +155,12 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
 	 */
 	public PrintOrderEnum getPrintOrderValue();
+	
+	/**
+	 * Specifies whether columns will be filled from left to right or from right to left.
+	 * @return a value representing one of the column direction constants in {@link RunDirectionEnum}
+	 */
+	public RunDirectionEnum getColumnDirection();
 	
 	/**
 	 *

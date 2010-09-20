@@ -52,6 +52,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -78,6 +79,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
 	protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
+	protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
 	protected int pageWidth = 595;
 	protected int pageHeight = 842;
 	protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
@@ -158,6 +160,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		language = report.getLanguage();
 		columnCount = report.getColumnCount();
 		printOrderValue = report.getPrintOrderValue();
+		columnDirection = report.getColumnDirection();
 		pageWidth = report.getPageWidth();
 		pageHeight = report.getPageHeight();
 		orientationValue = report.getOrientationValue();
@@ -303,6 +306,14 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public PrintOrderEnum getPrintOrderValue()
 	{
 		return printOrderValue;
+	}
+
+	/**
+	 *
+	 */
+	public RunDirectionEnum getColumnDirection()
+	{
+		return columnDirection;
 	}
 
 	/**

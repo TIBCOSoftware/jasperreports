@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
@@ -61,6 +62,12 @@ public class JasperDesignFactory extends JRBaseFactory
 		if (printOrder != null)
 		{
 			jasperDesign.setPrintOrder(printOrder);
+		}
+
+		RunDirectionEnum columnDirection = RunDirectionEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_columnDirection));
+		if (columnDirection != null)
+		{
+			jasperDesign.setColumnDirection(columnDirection);
 		}
 
 		String pageWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_pageWidth);

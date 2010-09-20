@@ -171,6 +171,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_language = "language";
 	public static final String ATTRIBUTE_columnCount = "columnCount";
 	public static final String ATTRIBUTE_printOrder = "printOrder";
+	public static final String ATTRIBUTE_columnDirection = "columnDirection";
 	public static final String ATTRIBUTE_pageWidth = "pageWidth";
 	public static final String ATTRIBUTE_pageHeight = "pageHeight";
 	public static final String ATTRIBUTE_orientation = "orientation";

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -521,7 +522,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 					throw new JRRuntimeException("Infinite loop creating new page due to column header size.");
 				}
 
-				offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+				setOffsetX();
 				offsetY = columnHeaderOffsetY;
 
 				fillFixedBand(columnHeader, evaluation, false);
@@ -769,7 +770,9 @@ public class JRHorizontalFiller extends JRBaseFiller
 			{
 				if (columnIndex == columnCount - 1)
 				{
-					setFirstColumn();
+					columnIndex = 0;
+					setOffsetX();
+					setColumnNumberVariable();
 
 					maxDetailOffsetY = 0;
 					currentDetailOffsetY = offsetY;
@@ -777,7 +780,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 				else
 				{
 					columnIndex++;
-					offsetX += columnWidth + columnSpacing;
+					setOffsetX();
 					offsetY = currentDetailOffsetY;
 
 					setColumnNumberVariable();
@@ -785,6 +788,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 			}
 			else
 			{
+				setOffsetX();
 				currentDetailOffsetY = offsetY;
 			}
 
@@ -1039,7 +1043,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 		{
 			setColumnNumberVariable();
 
-			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+			setOffsetX();
 			offsetY = tmpColumnFooterOffsetY;
 
 			columnFooter.evaluatePrintWhenExpression(evaluation);
@@ -2314,4 +2318,21 @@ public class JRHorizontalFiller extends JRBaseFiller
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	private void setOffsetX()
+	{
+		if (columnDirection == RunDirectionEnum.RTL)
+		{
+			offsetX = pageWidth - rightMargin - columnWidth - columnIndex * (columnSpacing + columnWidth);
+		}
+		else
+		{
+			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+		}
+	}
+
+	
 }

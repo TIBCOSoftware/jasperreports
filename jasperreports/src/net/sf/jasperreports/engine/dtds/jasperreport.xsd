@@ -71,6 +71,25 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="columnDirection" use="optional" default="LTR">
+   	<annotation>
+   		<documentation>Columns filling direction.</documentation>
+   	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="LTR">
+	   	<annotation>
+	   		<documentation>Columns on the report are filled from left to right.</documentation>
+	   	</annotation>
+      </enumeration>
+      <enumeration value="RTL">
+	   	<annotation>
+	   		<documentation>Columns on the report are filled from right to left.</documentation>
+	   	</annotation>
+      </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="pageWidth" type="NMTOKEN" use="optional" default="595">
    	<annotation>
    		<documentation>Page width.</documentation>

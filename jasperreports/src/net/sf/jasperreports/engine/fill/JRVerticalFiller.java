@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -478,6 +479,8 @@ public class JRVerticalFiller extends JRBaseFiller
 				--reattempts;
 			}
 
+			setOffsetX();
+
 			boolean filled = fillBandNoOverflow(columnHeader, evaluation);
 
 			for (int i = 0; !filled && i < reattempts; ++i)
@@ -491,7 +494,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					scriptlet.callAfterColumnInit();
 
 					columnIndex += 1;
-					offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+					setOffsetX();
 					offsetY = columnHeaderOffsetY;
 
 					setColumnNumberVar();
@@ -949,6 +952,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": column footer");
 		}
 
+		setOffsetX();
+		
 		/*
 		if (!isSubreport)
 		{
@@ -1019,6 +1024,8 @@ public class JRVerticalFiller extends JRBaseFiller
 			log.debug("Fill " + fillerId + ": summary");
 		}
 
+		offsetX = leftMargin;
+		
 		if (lastPageFooter == missingFillBand)
 		{
 			if (
@@ -1970,7 +1977,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 
 			columnIndex += 1;
-			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+			setOffsetX();
 			offsetY = columnHeaderOffsetY;
 
 			setColumnNumberVar();
@@ -2180,6 +2187,7 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 	}
 
+	
 	/**
 	 *
 	 */
@@ -2241,4 +2249,21 @@ public class JRVerticalFiller extends JRBaseFiller
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	private void setOffsetX()
+	{
+		if (columnDirection == RunDirectionEnum.RTL)
+		{
+			offsetX = pageWidth - rightMargin - columnWidth - columnIndex * (columnSpacing + columnWidth);
+		}
+		else
+		{
+			offsetX = leftMargin + columnIndex * (columnSpacing + columnWidth);
+		}
+	}
+
+	
 }
