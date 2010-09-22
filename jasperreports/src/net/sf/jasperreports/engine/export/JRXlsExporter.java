@@ -222,14 +222,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.protectSheet(password);
 		}
 		
-		String fitWidth = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_FIT_WIDTH);
+		String fitWidth = JRProperties.getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
 		if(fitWidth != null && fitWidth.length() > 0)
 		{
 			sheet.getPrintSetup().setFitWidth(Short.valueOf(fitWidth));
 			sheet.setAutobreaks(true);
 		}
 		
-		String fitHeight = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_FIT_HEIGHT);
+		String fitHeight = JRProperties.getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
 		if(fitHeight != null && fitHeight.length() > 0)
 		{
 			sheet.getPrintSetup().setFitHeight(Short.valueOf(fitHeight));

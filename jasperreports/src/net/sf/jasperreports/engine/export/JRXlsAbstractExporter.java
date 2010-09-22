@@ -72,6 +72,97 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected static final String XLS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.";
 
+	/**
+	 * This property indicates whether text wrapping is allowed in a given cell.
+	 * <p>
+	 * The property itself defaults to <code>true</code>.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_WRAP_TEXT = JRProperties.PROPERTY_PREFIX + "export.xls.wrap.text";
+
+
+	/**
+	 * This property indicates the number of pages wide to fit the sheet in.
+	 * <p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FIT_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.fit.width";
+
+	/**
+	 * This property indicates the number of pages height to fit the sheet in.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_FIT_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.fit.height";
+
+	/**
+	 * This property indicates whether the cell is locked.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CELL_LOCKED = JRProperties.PROPERTY_PREFIX + "export.xls.cell.locked";
+
+	/**
+	 * This property indicates whether the cell content is hidden.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_CELL_HIDDEN = JRProperties.PROPERTY_PREFIX + "export.xls.cell.hidden";
+
+	/**
+	 * This property stores the text content of the sheet header's left side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_LEFT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.left";
+
+	/**
+	 * This property stores the text content of the sheet header's center.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_CENTER = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.center";
+
+	/**
+	 * This property stores the text content of the sheet header's right side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_HEADER_RIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.header.right";
+
+	/**
+	 * This property stores the text content of the sheet footer's left side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_LEFT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.left";
+
+	/**
+	 * This property stores the text content of the sheet footer's center.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_CENTER = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.center";
+
+	/**
+	 * This property stores the text content of the sheet footer's right side.
+	 * </p>
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_FOOTER_RIGHT = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.footer.right";
+
+	/**
+	 * This property indicates if the sheet is left-to-right or right-to-left oriented. Possible values are:
+	 * <ul>
+	 * <li>LTR - meaning left-to-right</li>
+	 * <li>RTL - meaning right-to-left</li>
+	 * </ul>
+	 * The default value is LTR.
+	 * @see JRProperties, RunDirectionEnum
+	 */
+	public static final String PROPERTY_SHEET_DIRECTION = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.direction";
+
 
 	protected static class TextAlignHolder
 	{
@@ -336,21 +427,21 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		wrapText = 
 			JRProperties.getBooleanProperty(
 				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT,
+				PROPERTY_WRAP_TEXT,
 				true
 				);
 
 		cellLocked = 
 			JRProperties.getBooleanProperty(
 				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED,
+				PROPERTY_CELL_LOCKED,
 				true
 				);
 
 		cellHidden = 
 			JRProperties.getBooleanProperty(
 				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN,
+				PROPERTY_CELL_HIDDEN,
 				false
 				);
 
@@ -394,44 +485,44 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		sheetHeaderLeft = 
 			JRProperties.getProperty(
 				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_LEFT
+				PROPERTY_SHEET_HEADER_LEFT
 				);
 		
 		sheetHeaderCenter = 
 			JRProperties.getProperty(
 				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_CENTER
+				PROPERTY_SHEET_HEADER_CENTER
 				);
 		
 		sheetHeaderRight = 
 			JRProperties.getProperty(
-				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_RIGHT
-				);
+					jasperPrint,
+					PROPERTY_SHEET_HEADER_RIGHT
+					);
 		
 		sheetFooterLeft = 
 			JRProperties.getProperty(
-				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_LEFT
-				);
+					jasperPrint,
+					PROPERTY_SHEET_FOOTER_LEFT
+					);
 		
 		sheetFooterCenter = 
 			JRProperties.getProperty(
-				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_CENTER
-				);
+					jasperPrint,
+					PROPERTY_SHEET_FOOTER_CENTER
+					);
 		
 		sheetFooterRight = 
 			JRProperties.getProperty(
-				jasperPrint,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_RIGHT
-				);
+					jasperPrint,
+					PROPERTY_SHEET_FOOTER_RIGHT
+					);
 		
 		sheetDirection = 
 			RunDirectionEnum.getByName(
 				JRProperties.getProperty(
 					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_DIRECTION,
+					PROPERTY_SHEET_DIRECTION,
 					RunDirectionEnum.LTR.getName()
 					)
 				);
@@ -977,12 +1068,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		if (
 			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT)
+			&& element.getPropertiesMap().containsProperty(PROPERTY_WRAP_TEXT)
 			)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_WRAP_TEXT, wrapText);
+			return JRProperties.getBooleanProperty(element, PROPERTY_WRAP_TEXT, wrapText);
 		}
 		return wrapText;
 	}
@@ -995,12 +1086,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_CELL_LOCKED)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_CELL_LOCKED, cellLocked);
+				return JRProperties.getBooleanProperty(element, PROPERTY_CELL_LOCKED, cellLocked);
 			}
 			return cellLocked;
 	}
@@ -1012,12 +1103,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN)
+				&& element.getPropertiesMap().containsProperty(PROPERTY_CELL_HIDDEN)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return JRProperties.getBooleanProperty(element, JRXlsAbstractExporterParameter.PROPERTY_CELL_HIDDEN, cellHidden);
+				return JRProperties.getBooleanProperty(element, PROPERTY_CELL_HIDDEN, cellHidden);
 			}
 			return cellHidden;
 	}
