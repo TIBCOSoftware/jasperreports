@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
@@ -58,5 +59,9 @@ public interface JRSortField extends JRCloneable
 	 */
 	public SortOrderEnum getOrderValue();
 		
+	/**
+	 * Gets the type of the sort field.
+	 */
+	public SortFieldTypeEnum getType();
 
 }

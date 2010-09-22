@@ -1073,6 +1073,17 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="type" use="optional" default="Field">
+  	<annotation>
+   	 <documentation>The type of the sort field.</documentation>
+  	</annotation>  
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Field"/>
+      <enumeration value="Variable"/>
+     </restriction>
+    </simpleType>
+   </attribute>
   </complexType>
  </element>
 

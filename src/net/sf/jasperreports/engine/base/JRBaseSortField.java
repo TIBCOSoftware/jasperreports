@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
@@ -55,6 +56,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	 */
 	protected String name;
 	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
+	protected SortFieldTypeEnum type = SortFieldTypeEnum.FIELD;
 
 
 	/**
@@ -120,6 +122,14 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	}
 	
 	/**
+	 *
+	 */
+	public SortFieldTypeEnum getType()
+	{
+		return type;
+	}
+		
+	/**
 	 * 
 	 */
 	public Object clone() 
@@ -166,6 +176,11 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			orderValue = SortOrderEnum.getByValue((byte)(order + 1));
+		}
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_5)
+		{
+			type = SortFieldTypeEnum.FIELD;
 		}
 	}
 	
