@@ -393,42 +393,43 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			
 		sheetHeaderLeft = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_LEFT
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_LEFT
+				);
 		
 		sheetHeaderCenter = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_CENTER
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_CENTER
+				);
 		
 		sheetHeaderRight = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_RIGHT
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_HEADER_RIGHT
+				);
 		
 		sheetFooterLeft = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_LEFT
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_LEFT
+				);
 		
 		sheetFooterCenter = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_CENTER
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_CENTER
+				);
 		
 		sheetFooterRight = 
 			JRProperties.getProperty(
-					jasperPrint,
-					JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_RIGHT
-					);
+				jasperPrint,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_FOOTER_RIGHT
+				);
 		
-		sheetDirection = RunDirectionEnum.getByName(
-			JRProperties.getProperty(
+		sheetDirection = 
+			RunDirectionEnum.getByName(
+				JRProperties.getProperty(
 					jasperPrint,
 					JRXlsAbstractExporterParameter.PROPERTY_SHEET_DIRECTION,
 					RunDirectionEnum.LTR.getName()
