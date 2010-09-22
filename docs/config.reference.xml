@@ -122,6 +122,7 @@
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
+      <property ref="net.sf.jasperreports.export.html.accessible"/>
       <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.html.id"/>
       <property ref="net.sf.jasperreports.export.html.remove.emtpy.space.between.rows"/>
@@ -1534,6 +1535,19 @@ If set to <code>false</code>, the table rows do not increase in height automatic
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.html.accessible -->
+  
+  <configProperty name="net.sf.jasperreports.export.html.accessible">
+    <description>
+Configuration property that determines the exporter to produce accessible HTML.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRHtmlExporter.html#PROPERTY_ACCESSIBLE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
   </configProperty>
   
   

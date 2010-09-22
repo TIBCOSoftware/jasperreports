@@ -496,36 +496,34 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		sheetHeaderRight = 
 			JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_SHEET_HEADER_RIGHT
-					);
+				jasperPrint,
+				PROPERTY_SHEET_HEADER_RIGHT
+				);
 		
 		sheetFooterLeft = 
 			JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_SHEET_FOOTER_LEFT
-					);
+				jasperPrint,
+				PROPERTY_SHEET_FOOTER_LEFT
+				);
 		
 		sheetFooterCenter = 
 			JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_SHEET_FOOTER_CENTER
-					);
+				jasperPrint,
+				PROPERTY_SHEET_FOOTER_CENTER
+				);
 		
 		sheetFooterRight = 
 			JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_SHEET_FOOTER_RIGHT
-					);
-		
-		sheetDirection = 
-			RunDirectionEnum.getByName(
-				JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_SHEET_DIRECTION,
-					RunDirectionEnum.LTR.getName()
-					)
+				jasperPrint,
+				PROPERTY_SHEET_FOOTER_RIGHT
 				);
+		
+		String sheetDirectionProp = 
+			JRProperties.getProperty(
+				jasperPrint,
+				PROPERTY_SHEET_DIRECTION
+				);
+		sheetDirection = sheetDirectionProp == null ? RunDirectionEnum.LTR : RunDirectionEnum.getByName(sheetDirectionProp);
 		
 	}
 
