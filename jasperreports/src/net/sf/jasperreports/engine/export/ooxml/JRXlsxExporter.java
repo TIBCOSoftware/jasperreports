@@ -607,7 +607,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
 		cellHelper.exportFooter();
 	}
 
@@ -755,7 +755,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
@@ -813,7 +813,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -1127,7 +1127,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1148,7 +1148,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
