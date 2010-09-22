@@ -2,8 +2,21 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.5 (2010-09-xx, SVN xxxx)
+JasperReports 3.7.5 (2010-09-22, SVN xxxx)
 ---------------------------------------------
+
+- support for dynamic sorting which includes sorting on dataset variables 
+(in addition to data source fields) and build in SORT_FIELDS parameter 
+to control sorting criteria at runtime;
+
+- new „columnDirection” attribute at report level to allow filling 
+multi-column reports from right to left;
+
+- various XLS/XLSX export enhancements which include controlling the 
+sheet's direction (RTL), protecting its content, fitting its size for printing, 
+and setting other print related metadata;
+
+- upgrade to POI 3.6 and and JexcelApi 2.6.10;
 
 - minor bug fixes and improvements;
 
