@@ -127,6 +127,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
 
 	/**
+	 * A boolean property enabling Excel to use temporary files for large excel output documents
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_USE_TEMP_FILE = JRProperties.PROPERTY_PREFIX + "export.jxl.use.temp.file";
+
+	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
@@ -161,7 +170,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected String password;
 	
 	protected ExporterNature nature;
-	protected boolean useTemporaryFile;
+	protected boolean useTempFile;
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
@@ -206,10 +215,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		
 		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
 		
-		useTemporaryFile = 
+		useTempFile = 
 			JRProperties.getBooleanProperty(
 				jasperPrint,
-				JExcelApiExporterParameter.PROPERTY_USE_TEMPORARY_FILE,
+				PROPERTY_USE_TEMP_FILE,
 				false
 				);
 
@@ -265,7 +274,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		try
 		{
 			WorkbookSettings settings = new WorkbookSettings();
-			settings.setUseTemporaryFileDuringWrite(useTemporaryFile);
+			settings.setUseTemporaryFileDuringWrite(useTempFile);
 			workbook = Workbook.createWorkbook(os, settings);
 		}
 		catch (IOException e)
@@ -1839,14 +1848,14 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
 
-		String fitWidth = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_FIT_WIDTH);
+		String fitWidth = JRProperties.getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
 		if(fitWidth != null && fitWidth.length() > 0)
 		{
 			sheets.setFitWidth(Integer.valueOf(fitWidth));
 			sheets.setFitToPages(true);
 		}
 		
-		String fitHeight = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_FIT_HEIGHT);
+		String fitHeight = JRProperties.getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
 		if(fitHeight != null && fitHeight.length() > 0)
 		{
 			sheets.setFitHeight(Integer.valueOf(fitHeight));
