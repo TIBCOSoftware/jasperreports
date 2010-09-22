@@ -49,6 +49,7 @@ import jxl.CellView;
 import jxl.JXLException;
 import jxl.SheetSettings;
 import jxl.Workbook;
+import jxl.WorkbookSettings;
 import jxl.biff.DisplayFormat;
 import jxl.format.Alignment;
 import jxl.format.BoldStyle;
@@ -160,6 +161,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected String password;
 	
 	protected ExporterNature nature;
+	protected boolean useTemporaryFile;
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
@@ -203,6 +205,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				);
 		
 		nature = new JExcelApiExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
+		
+		useTemporaryFile = 
+			JRProperties.getBooleanProperty(
+				jasperPrint,
+				JExcelApiExporterParameter.PROPERTY_USE_TEMPORARY_FILE,
+				false
+				);
+
+		
 	}
 
 	protected void initCustomPalette()
@@ -253,7 +264,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		try
 		{
-			workbook = Workbook.createWorkbook(os);
+			WorkbookSettings settings = new WorkbookSettings();
+			settings.setUseTemporaryFileDuringWrite(useTemporaryFile);
+			workbook = Workbook.createWorkbook(os, settings);
 		}
 		catch (IOException e)
 		{

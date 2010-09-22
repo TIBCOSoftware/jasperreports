@@ -80,4 +80,13 @@ public class JExcelApiExporterParameter extends JRXlsAbstractExporterParameter {
 	 */
 	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRProperties.PROPERTY_PREFIX + "export.xls.create.custom.palette";
 
+	/**
+	 * A boolean property enabling Excel to use temporary files for large excel output documents
+	 * <p/>
+	 * This property is by default not set (<code>false</code>).
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_USE_TEMPORARY_FILE = JRProperties.PROPERTY_PREFIX + "export.jexcelapi.use.temporary.file";
+
 }
