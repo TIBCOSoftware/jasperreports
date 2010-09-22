@@ -165,7 +165,9 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_CLASS_LOADER, ClassLoader.class,
 		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
 		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class,
-		JRParameter.REPORT_TEMPLATES, Collection.class};
+		JRParameter.REPORT_TEMPLATES, Collection.class,
+		JRParameter.SORT_FIELDS, List.class
+		};
 
 
 	

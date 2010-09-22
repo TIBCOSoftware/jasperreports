@@ -53,7 +53,6 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRSortableDataSource;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
@@ -606,11 +605,10 @@ public class JRFillDataset implements JRDataset
 			dataSource = createQueryDatasource();
 			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
 		}
-		
-		JRSortField[] sortFields = getSortFields();
-		if (sortFields != null && sortFields.length > 0)
+
+		if (DatasetSortUtil.needSorting(this))
 		{
-			dataSource = new JRSortableDataSource(dataSource, fields, sortFields, locale);
+			dataSource = DatasetSortUtil.getSortedDataSource(filler, this, locale);
 			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
 		}
 	}
