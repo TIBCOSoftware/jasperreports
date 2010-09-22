@@ -159,7 +159,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li>RTL - meaning right-to-left</li>
 	 * </ul>
 	 * The default value is LTR.
-	 * @see JRProperties, RunDirectionEnum
+	 * @see JRProperties
+	 * @see RunDirectionEnum
 	 */
 	public static final String PROPERTY_SHEET_DIRECTION = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.direction";
 

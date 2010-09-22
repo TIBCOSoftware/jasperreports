@@ -51,7 +51,7 @@ public abstract class AbstractChartCustomizer implements ChartCustomizer
 	 * Initializes the chart customizer.
 	 * 
 	 * @param chartFiller the filler instance
-	 * @param chart the fill chart object
+	 * @param dataset the fill dataset object
 	 */
 	public void init(JRBaseFiller chartFiller, JRFillElementDataset dataset)
 	{

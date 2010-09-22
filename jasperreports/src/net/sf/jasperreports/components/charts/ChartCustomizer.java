@@ -48,7 +48,7 @@ public interface ChartCustomizer {
 	/**
 	 * This method is called at fill time, before the chart is rendered.
  	 * @param chart the JFreeChart object, which can be accessed and modified
-	 * @param jasperChart the JasperReports version of the chart, containing data that might be needed in
+	 * @param chartComponent the chart component, containing data that might be needed in
 	 * customization
 	 */
 	public void customize(JFreeChart chart, ChartComponent chartComponent);
