@@ -318,4 +318,11 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 */
 	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.xls.password";
 
+	
+	/**
+	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_WRAP_TEXT}
+	 */
+	public static final String PROPERTY_WRAP_TEXT = JRProperties.PROPERTY_PREFIX + "export.xls.wrap.text";
+
+
 }
