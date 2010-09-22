@@ -119,6 +119,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -1042,6 +1043,7 @@ public class JRVerifier
 	private void verifySortFields(JRDesignDataset dataset)
 	{
 		JRField[] fields = dataset.getFields();
+		JRVariable[] variables = dataset.getVariables();
 		JRSortField[] sortFields = dataset.getSortFields();
 		if (sortFields != null && sortFields.length > 0)
 		{
@@ -1058,16 +1060,34 @@ public class JRVerifier
 				{
 					boolean isFound = false;
 
-					int j = 0;
-					while (!isFound && j < fields.length)
+					if (sortField.getType() == SortFieldTypeEnum.VARIABLE)
 					{
-						isFound = sortFieldName.equals(fields[j].getName());
-						j++;
+						if (variables != null)
+						{
+							int j = 0;
+							while (!isFound && j < variables.length)
+							{
+								isFound = sortFieldName.equals(variables[j].getName());
+								j++;
+							}
+						}
+					}
+					else
+					{
+						if (fields != null)
+						{
+							int j = 0;
+							while (!isFound && j < fields.length)
+							{
+								isFound = sortFieldName.equals(fields[j].getName());
+								j++;
+							}
+						}
 					}
 
 					if (!isFound)
 					{
-						addBrokenRule("Sort field \"" + sortFieldName + "\" not declared.", sortField);
+						addBrokenRule("Sort " + sortField.getType().getName().toLowerCase() + " \'" + sortFieldName + "\' not found in dataset.", sortField);
 					}
 				}
 			}
