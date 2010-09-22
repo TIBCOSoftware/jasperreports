@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseSortField;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 
 
 /**
@@ -41,6 +42,8 @@ public class JRDesignSortField extends JRBaseSortField
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_NAME = "name";
+	public static final String PROPERTY_TYPE = "type";
+
 
 	/**
 	 *
@@ -53,4 +56,15 @@ public class JRDesignSortField extends JRBaseSortField
 	}
 	
 
+	/**
+	 *
+	 */
+	public void setType(SortFieldTypeEnum type)
+	{
+		Object old = this.type;
+		this.type = type;
+		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
+	}
+
+	
 }

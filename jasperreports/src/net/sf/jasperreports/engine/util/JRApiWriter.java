@@ -163,6 +163,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -693,6 +694,7 @@ public class JRApiWriter
 			write( "JRDesignSortField " + sortFieldName + " = new JRDesignSortField();\n");
 			write( sortFieldName + ".setName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(sortField.getName()));
 			write( sortFieldName + ".setOrder({0});\n", sortField.getOrderValue(), SortOrderEnum.ASCENDING);
+			write( sortFieldName + ".setType({0});\n", sortField.getType(), SortFieldTypeEnum.FIELD);
 			flush();
 		}
 	}

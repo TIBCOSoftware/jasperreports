@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.design.JRDesignSortField;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.xml.sax.Attributes;
@@ -49,6 +50,12 @@ public class JRSortFieldFactory extends JRBaseFactory
 		if (order != null)
 		{
 			sortField.setOrder(order);
+		}
+
+		SortFieldTypeEnum type = SortFieldTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_type));
+		if (type != null)
+		{
+			sortField.setType(type);
 		}
 
 		return sortField;
