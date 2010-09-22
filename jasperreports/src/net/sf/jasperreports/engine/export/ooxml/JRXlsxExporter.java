@@ -607,7 +607,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 		cellHelper.exportFooter();
 	}
 
@@ -718,7 +718,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		Writer drawingWriter = drawingEntry.getWriter();
 		drawingHelper = new XlsxDrawingHelper(drawingWriter, drawingRelsHelper);
 		
-		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper, wrapText, isFontSizeFixEnabled);
+		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper, isFontSizeFixEnabled);
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
@@ -755,7 +755,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
@@ -813,7 +813,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -1127,7 +1127,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1148,7 +1148,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1161,7 +1161,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 		JRStyledText styledText = getStyledText(text);
@@ -1323,7 +1323,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex);
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, isWrapText(elementGridCell.getElement()));
 		cellHelper.exportFooter();
 	}
 
@@ -1342,7 +1342,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		sheetHelper.exportRow(rowHeight);
 	}
 
-	/**
+	/**gridCell
 	 *
 	 */
 	protected String getExporterKey()
