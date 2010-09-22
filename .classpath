@@ -40,8 +40,7 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>
-	<classpathentry kind="lib" path="demo/samples/chartthemes/lib/castor-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.6-20091214.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.10.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
