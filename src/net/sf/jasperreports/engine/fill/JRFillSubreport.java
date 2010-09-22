@@ -532,6 +532,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			parameterValues.remove(JRParameter.REPORT_VIRTUALIZER);
 			//parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);
 			parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
+			parameterValues.remove(JRParameter.SORT_FIELDS);
 			parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
 		}
 		

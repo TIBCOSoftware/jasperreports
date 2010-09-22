@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.base.JRBaseSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
 /**
@@ -44,6 +45,29 @@ public class JRDesignSortField extends JRBaseSortField
 	public static final String PROPERTY_NAME = "name";
 	public static final String PROPERTY_TYPE = "type";
 
+
+	/**
+	 *
+	 */
+	public JRDesignSortField()
+	{
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRDesignSortField(
+		String name,
+		SortFieldTypeEnum type,
+		SortOrderEnum order
+		)
+	{
+		this.name = name;
+		this.type = type;
+		this.orderValue = order;
+	}
+	
 
 	/**
 	 *

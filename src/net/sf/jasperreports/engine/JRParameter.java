@@ -146,6 +146,13 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 */
 	public static final String REPORT_TEMPLATES = "REPORT_TEMPLATES";
 
+
+	/**
+	 * 
+	 */
+	public static final String SORT_FIELDS = "SORT_FIELDS";
+
+	
 	/**
 	 *
 	 */
