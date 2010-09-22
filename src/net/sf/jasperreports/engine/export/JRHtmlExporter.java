@@ -130,6 +130,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 *
 	 */
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
+
+	/**
+	 * Configuration property that determines the exporter to produce accessible HTML.
+	 */
+	public static final String PROPERTY_ACCESSIBLE = HTML_EXPORTER_PROPERTIES_PREFIX + "accessible";
 	
 	/**
 	 *
@@ -197,6 +202,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected boolean isUsingImagesToAlign;
 	protected boolean isWrapBreakWord;
 	protected boolean isIgnorePageMargins;
+	protected boolean accessibleHtml;
+
 	protected boolean flushOutput;
 
 	/**
@@ -404,6 +411,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 				getBooleanParameter(
 					JRExporterParameter.IGNORE_PAGE_MARGINS,
 					JRExporterParameter.PROPERTY_IGNORE_PAGE_MARGINS,
+					false
+					);
+			
+			accessibleHtml = 
+				JRProperties.getBooleanProperty(
+					jasperPrint,
+					PROPERTY_ACCESSIBLE,
 					false
 					);
 			
@@ -771,7 +785,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		List elements = null;
 		
-		boolean accessibleHtml = true;//FIXMENOW
 		if (accessibleHtml)
 		{
 			JRBasePrintFrame frame = new JRBasePrintFrame(jasperPrint.getDefaultStyleProvider());
