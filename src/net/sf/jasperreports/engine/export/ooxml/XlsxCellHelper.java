@@ -49,26 +49,13 @@ public class XlsxCellHelper extends BaseHelper
 //	private XlsxBorderHelper borderHelper;
 
 	private boolean isFontSizeFixEnabled;
-	private boolean isWrapText = true;
 	
 	/**
 	 *
 	 */
 	public XlsxCellHelper(
 		Writer writer,
-		XlsxStyleHelper styleHelper
-		)
-	{
-		this(writer, styleHelper, true, false);
-	}
-		
-	/**
-	 *
-	 */
-	public XlsxCellHelper(
-		Writer writer,
 		XlsxStyleHelper styleHelper,
-		boolean isWrapText,
 		boolean isFontSizeFixEnabled
 		)
 	{
@@ -76,7 +63,6 @@ public class XlsxCellHelper extends BaseHelper
 		
 		this.styleHelper = styleHelper;
 		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
-		this.isWrapText = isWrapText;
 //		borderHelper = new XlsxBorderHelper(writer);
 	}
 	/**
@@ -93,7 +79,8 @@ public class XlsxCellHelper extends BaseHelper
 	public void exportHeader(
 		JRExporterGridCell gridCell,
 		int rowIndex,
-		int colIndex
+		int colIndex, 
+		boolean isWrapText
 		) 
 	{
 		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, isFontSizeFixEnabled) + "\" t=\"inlineStr\">");
