@@ -35,12 +35,12 @@ public enum SortFieldTypeEnum implements JREnum
 	/**
 	 * Specifies the sort field name represents a dataset field name.
 	 */
-	FIELD((byte)0, "field"),
+	FIELD((byte)0, "Field"),
 
 	/**
 	 * Specifies the sort field name represents a dataset variable name.
 	 */
-	VARIABLE((byte)1, "variable");
+	VARIABLE((byte)1, "Variable");
 
 
 	/**
