@@ -1066,7 +1066,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isWrapText(JRPrintElement element)
 	{
 		if (
-			element.hasProperties()
+			element != null && element.hasProperties()
 			&& element.getPropertiesMap().containsProperty(PROPERTY_WRAP_TEXT)
 			)
 		{
