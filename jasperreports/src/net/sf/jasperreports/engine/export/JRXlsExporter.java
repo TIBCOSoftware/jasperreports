@@ -269,8 +269,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if(sheetDirection != null)
 		{
 			sheet.getPrintSetup().setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
-			//TODO: uncomment after upgrading to POI 3.6
-			//sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
+			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
 	}
