@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>printservice</name>
+  <title>Print Service Sample</title>
+  <description>Shows how the Java Print Service API could be used to print reports.</description>
+
+  <mainFeature ref="printservice"/>
+  
+  <!-- printservice -->
+  
+  <feature name="printservice" title="Printing Reports Using the Java Print Service API">
+    <description>
+How to print reports to network printers looked-up for based on their name, properties or printing capabilities. 
+    </description>
+    <since>0.4.3</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

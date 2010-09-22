@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- general constants -->
+	<util:constant id="isTrue" static-field="java.lang.Boolean.TRUE"/>
+	<util:constant id="isFalse" static-field="java.lang.Boolean.FALSE"/>
+
+	<util:constant id="fontPlainStyle" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.FONT_PLAIN_STYLE"/>
+	<util:constant id="fontBoldStyle" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.FONT_BOLD_STYLE"/>
+	<util:constant id="fontItalicStyle" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.FONT_ITALIC_STYLE"/>
+
+	<util:constant id="transparentPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TRANSPARENT_PAINT"/>
+
+	<util:constant id="whiteColor" static-field="java.awt.Color.WHITE"/>
+	<util:constant id="blackColor" static-field="java.awt.Color.BLACK"/>
+	<util:constant id="grayColor" static-field="java.awt.Color.GRAY"/>
+	<util:constant id="darkGrayColor" static-field="java.awt.Color.DARK_GRAY"/>
+	<util:constant id="lightGrayColor" static-field="java.awt.Color.LIGHT_GRAY"/>
+
+
+	<util:constant id="grayPaint134" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.GRAY_PAINT_134"/>
+	<util:constant id="grayPaint217" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.GRAY_PAINT_217"/>
+
+	<util:constant id="eyeCandySixtiesSeriesColors" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.EYE_CANDY_SIXTIES_COLORS"/>
+	<util:constant id="eyeCandySixtiesSeriesGradientPaints" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS"/>
+
+	<util:constant id="rectangleEdgeTop" static-field="org.jfree.ui.RectangleEdge.TOP"/>
+	<util:constant id="rectangleEdgeLeft" static-field="org.jfree.ui.RectangleEdge.LEFT"/>
+	<util:constant id="rectangleEdgeBottom" static-field="org.jfree.ui.RectangleEdge.BOTTOM"/>
+	<util:constant id="rectangleEdgeRight" static-field="org.jfree.ui.RectangleEdge.RIGHT"/>
+	
+	<util:constant id="centerHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.CENTER"/>
+	<util:constant id="leftHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.LEFT"/>
+	<util:constant id="rightHorizontalAlignment" static-field="org.jfree.ui.HorizontalAlignment.RIGHT"/>
+	
+	<util:constant id="topVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.TOP"/>
+	<util:constant id="centerVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.CENTER"/>
+	<util:constant id="bottomVerticalAlignment" static-field="org.jfree.ui.VerticalAlignment.BOTTOM"/>
+	
+	<util:constant id="blockBorderNone" static-field="org.jfree.chart.block.BlockBorder.NONE"/>
+	
+	<util:constant id="unitTypeAbsolute" static-field="org.jfree.util.UnitType.ABSOLUTE"/>
+	<util:constant id="unitTypeRelative" static-field="org.jfree.util.UnitType.RELATIVE"/>
+	
+	<util:constant id="plotOrientationHorizontal" static-field="org.jfree.chart.plot.PlotOrientation.HORIZONTAL"/>
+	<util:constant id="plotOrientationVertical" static-field="org.jfree.chart.plot.PlotOrientation.VERTICAL"/>
+	
+	<util:constant id="axisLocationTopOrLeft" static-field="org.jfree.chart.axis.AxisLocation.TOP_OR_LEFT"/>
+	<util:constant id="axisLocationTopOrRight" static-field="org.jfree.chart.axis.AxisLocation.TOP_OR_RIGHT"/>
+	<util:constant id="axisLocationBottomOrLeft" static-field="org.jfree.chart.axis.AxisLocation.BOTTOM_OR_LEFT"/>
+	<util:constant id="axisLocationBottomOrRight" static-field="org.jfree.chart.axis.AxisLocation.BOTTOM_OR_RIGHT"/>
+
+	<bean id="halfPointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="0.5f"/>
+	</bean>
+
+	<bean id="onePointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="1f"/>
+	</bean>
+
+	<bean id="twoPointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="2f"/>
+	</bean>
+
+	<bean id="threePointStroke" class="java.awt.BasicStroke">
+		<constructor-arg index="0" value="3f"/>
+	</bean>
+
+	<!-- chart property names -->
+	
+	<util:constant id="backgroundPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BACKGROUND_PAINT"/>
+	<util:constant id="backgroundImage" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BACKGROUND_IMAGE"/>
+	<util:constant id="backgroundImageAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BACKGROUND_IMAGE_ALIGNMENT"/>
+	<util:constant id="backgroundImageAlpha" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BACKGROUND_IMAGE_ALPHA"/>
+	<util:constant id="baseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BASEFONT_SIZE"/>
+	<util:constant id="seriesColors" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SERIES_COLORS"/>
+	<util:constant id="seriesGradientPaints" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SERIES_GRADIENT_PAINTS"/>
+	<util:constant id="chartBorderPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CHART_BORDER_PAINT"/>
+	<util:constant id="chartBorderStroke" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CHART_BORDER_STROKE"/>
+	<util:constant id="chartBorderVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CHART_BORDER_VISIBLE"/>
+	<util:constant id="chartAntiAlias" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CHART_ANTI_ALIAS"/>
+	<util:constant id="textAntiAlias" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TEXT_ANTI_ALIAS"/>
+	<util:constant id="chartPadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CHART_PADDING"/>
+	<util:constant id="unitType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.UNIT_TYPE"/>
+	<util:constant id="renderingHints" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RENDERING_HINTS"/>
+	<util:constant id="title" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE"/>
+
+	<util:constant id="titleVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_VISIBLE"/>
+	<util:constant id="titlePosition" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_POSITION"/>
+	<util:constant id="titleFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_FONT"/>
+	<util:constant id="titleForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_FORECOLOR"/>
+	<util:constant id="titleBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_BACKCOLOR"/>
+	<util:constant id="titleBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_BASEFONT_SIZE"/>
+	<util:constant id="titleHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_HORIZONTAL_ALIGNMENT"/>
+	<util:constant id="titleVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_VERTICAL_ALIGNMENT"/>
+	<util:constant id="titleHeight" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_HEIGHT"/>
+	<util:constant id="titleWidth" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_WIDTH"/>
+	<util:constant id="titleBounds" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_BOUNDS"/>
+	<util:constant id="titleFrame" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_FRAME"/>
+	<util:constant id="titleMargin" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_MARGIN"/>
+	<util:constant id="titlePadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_PADDING"/>
+	<util:constant id="titleText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_TEXT"/>
+	<util:constant id="titleTextAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_TEXT_ALIGNMENT"/>
+	<util:constant id="titleMaximumLinesToDisplay" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_MAXIMUM_LINES_TO_DISPLAY"/>
+	<util:constant id="titleTooltipText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_TOOLTIP_TEXT"/>
+	<util:constant id="titleURLText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_URL_TEXT"/>
+	<util:constant id="titleExpandToFitSpace" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TITLE_EXPAND_TO_FIT_SPACE"/>
+	
+	<util:constant id="subtitleVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_VISIBLE"/>
+	<util:constant id="subtitlePosition" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_POSITION"/>
+	<util:constant id="subtitleFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_FONT"/>
+	<util:constant id="subtitleForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_FORECOLOR"/>
+	<util:constant id="subtitleBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_BACKCOLOR"/>
+	<util:constant id="subtitleBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_BASEFONT_SIZE"/>
+	<util:constant id="subtitleHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_HORIZONTAL_ALIGNMENT"/>
+	<util:constant id="subtitleVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_VERTICAL_ALIGNMENT"/>
+	<util:constant id="subtitleHeight" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_HEIGHT"/>
+	<util:constant id="subtitleWidth" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_WIDTH"/>
+	<util:constant id="subtitleBounds" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_BOUNDS"/>
+	<util:constant id="subtitleFrame" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_FRAME"/>
+	<util:constant id="subtitleMargin" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_MARGIN"/>
+	<util:constant id="subtitlePadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_PADDING"/>
+	<util:constant id="subtitleText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_TEXT"/>
+	<util:constant id="subtitleTextAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_TEXT_ALIGNMENT"/>
+	<util:constant id="subtitleMaximumLinesToDisplay" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_MAXIMUM_LINES_TO_DISPLAY"/>
+	<util:constant id="subtitleTooltipText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_TOOLTIP_TEXT"/>
+	<util:constant id="subtitleURLText" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_URL_TEXT"/>
+	<util:constant id="subtitleExpandToFitSpace" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SUBTITLE_EXPAND_TO_FIT_SPACE"/>
+	
+	<util:constant id="legendVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_VISIBLE"/>
+	<util:constant id="legendPosition" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_POSITION"/>
+	<util:constant id="legendFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FONT"/>
+	<util:constant id="legendForecolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FORECOLOR"/>
+	<util:constant id="legendBackcolor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_BACKCOLOR"/>
+	<util:constant id="legendBaseFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_BASEFONT_SIZE"/>
+	<util:constant id="legendHorizontalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_HORIZONTAL_ALIGNMENT"/>
+	<util:constant id="legendVerticalAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_VERTICAL_ALIGNMENT"/>
+	<util:constant id="legendFrame" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_FRAME"/>
+	<util:constant id="legendHeight" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_HEIGHT"/>
+	<util:constant id="legendWidth" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_WIDTH"/>
+	<util:constant id="legendBounds" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_BOUNDS"/>
+	<util:constant id="legendMargin" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_MARGIN"/>
+	<util:constant id="legendPadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_PADDING"/>
+	<util:constant id="legendItemGraphicPadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_ITEM_GRAPHIC_PADDING"/>
+	<util:constant id="legendItemGraphicLocation" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_ITEM_GRAPHIC_LOCATION"/>
+	<util:constant id="legendItemGraphicEdge" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_ITEM_GRAPHIC_EDGE"/>
+	<util:constant id="legendItemGraphicAnchor" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_ITEM_GRAPHIC_ANCHOR"/>
+	<util:constant id="legendItemLabelPadding" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LEGEND_ITEM_LABEL_PADDING"/>
+
+	<!-- plot property names -->
+	
+	<util:constant id="plotBackgroundPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_BACKGROUND_PAINT"/>
+	<util:constant id="plotBackgroundAlpha" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_BACKGROUND_ALPHA"/>
+	<util:constant id="plotForegroundAlpha" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_FOREGROUND_ALPHA"/>
+	<util:constant id="plotBackgroundImage" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_BACKGROUND_IMAGE"/>
+	<util:constant id="plotBackgroundImageAlignment" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_BACKGROUND_IMAGE_ALIGNMENT"/>
+	<util:constant id="plotBackgroundImageAlpha" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_BACKGROUND_IMAGE_ALPHA"/>
+	<util:constant id="plotOutlinePaintSequence" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_PAINT_SEQUENCE"/>
+	<util:constant id="plotStrokeSequence" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_STROKE_SEQUENCE"/>
+	<util:constant id="plotOutlineStrokeSequence" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_STROKE_SEQUENCE"/>
+	<util:constant id="plotShapeSequence" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_SHAPE_SEQUENCE"/>
+	<util:constant id="plotLabelRotation" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_LABEL_ROTATION"/>
+	<util:constant id="plotOrientation" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_ORIENTATION"/>
+	<util:constant id="plotInsets" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_INSETS"/>
+	<util:constant id="plotOutlinePaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_PAINT"/>
+	<util:constant id="plotOutlineStroke" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_STROKE"/>
+	<util:constant id="plotOutlineVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_OUTLINE_VISIBLE"/>
+	<util:constant id="plotTickLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_TICK_LABEL_FONT"/>
+	<util:constant id="plotDisplayFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PLOT_DISPLAY_FONT"/>
+	
+	<!-- axis property names -->
+	
+	<util:constant id="axisVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_VISIBLE"/>
+	<util:constant id="axisLocation" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LOCATION"/>
+	<util:constant id="axisLinePaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LINE_PAINT"/>
+	<util:constant id="axisLineStroke" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LINE_STROKE"/>
+	<util:constant id="axisLineVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LINE_VISIBLE"/>
+	<util:constant id="axisFixedDimension" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_FIXED_DIMENSION"/>
+	<util:constant id="axisLabel" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL"/>
+	<util:constant id="axisLabelAngle" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_ANGLE"/>
+	<util:constant id="axisLabelPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_PAINT"/>
+	<util:constant id="axisLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_FONT"/>
+	<util:constant id="axisLabelFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_FONT_SIZE"/>
+	<util:constant id="axisLabelInsets" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_INSETS"/>
+	<util:constant id="axisLabelVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_LABEL_VISIBLE"/>
+	<util:constant id="axisTickLabelPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_PAINT"/>
+	<util:constant id="axisTickLabelFont" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_FONT"/>
+	<util:constant id="axisTickLabelFontSize" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_FONT_SIZE"/>
+	<util:constant id="axisTickLabelInsets" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABEL_INSETS"/>
+	<util:constant id="axisTickLabelsVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_LABELS_VISIBLE"/>
+	<util:constant id="axisTickMarksInsideLength" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_INSIDE_LENGTH"/>
+	<util:constant id="axisTickMarksOutsideLength" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_OUTSIDE_LENGTH"/>
+	<util:constant id="axisTickMarksPaint" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_PAINT"/>
+	<util:constant id="axisTickMarksStroke" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_STROKE"/>
+	<util:constant id="axisTickMarksVisible" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AXIS_TICK_MARKS_VISIBLE"/>
+	<util:constant id="rangeAxisMinValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_MIN_VALUE"/>
+	<util:constant id="rangeAxisMaxValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_MAX_VALUE"/>
+	<util:constant id="rangeAxisTickCount" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TICK_COUNT"/>
+	<util:constant id="rangeAxisTickInterval" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL"/>
+	<util:constant id="rangeAxisTimePeriodUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TIME_PERIOD_UNIT"/>
+	<util:constant id="domainAxisMinValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_MIN_VALUE"/>
+	<util:constant id="domainAxisMaxValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_MAX_VALUE"/>
+	<util:constant id="domainAxisTickCount" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT"/>
+	<util:constant id="domainAxisTickInterval" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL"/>
+	<util:constant id="domainAxisTimePeriodUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TIME_PERIOD_UNIT"/>
+
+	<!-- chart type names -->
+	<util:constant id="areaType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.AREA_TYPE"/>
+	<util:constant id="barType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BAR_TYPE"/>
+	<util:constant id="bar3DType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BAR3D_TYPE"/>
+	<util:constant id="bubbleType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.BUBBLE_TYPE"/>
+	<util:constant id="candlestickType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.CANDLESTICK_TYPE"/>
+	<util:constant id="highLowType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.HIGH_LOW_TYPE"/>
+	<util:constant id="lineType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.LINE_TYPE"/>
+	<util:constant id="meterType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.METER_TYPE"/>
+	<util:constant id="multiAxisType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.MULTI_AXIS_TYPE"/>
+	<util:constant id="pieType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PIE_TYPE"/>
+	<util:constant id="pie3DType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.PIE3D_TYPE"/>
+	<util:constant id="scatterType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.SCATTER_TYPE"/>
+	<util:constant id="stackedBarType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.STACKED_BAR_TYPE"/>
+	<util:constant id="stackedBar3DType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.STACKED_BAR3D_TYPE"/>
+	<util:constant id="thermometerType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.THERMOMETER_TYPE"/>
+	<util:constant id="timeSeriesType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.TIME_SERIES_TYPE"/>
+	<util:constant id="xyAreaType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.XY_AREA_TYPE"/>
+	<util:constant id="xyBarType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.XY_BAR_TYPE"/>
+	<util:constant id="xyLineType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.XY_LINE_TYPE"/>
+	<util:constant id="stackedAreaType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.STACKED_AREA_TYPE"/>
+	<util:constant id="ganttType" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.GANTT_TYPE"/>
+
+</beans>

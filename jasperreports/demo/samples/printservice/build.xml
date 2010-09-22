@@ -1,0 +1,41 @@
+<project name="printservice" default="test" basedir=".">
+
+	<description>Shows how the Java Print Service API could be used to print reports.</description>
+
+	<property name="sample.dir" value="printservice"/>
+	<property name="sample.base.name" value="PrintService" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="fill" description="Creates the .jrprint file using the JR API.">
+		<mkdir dir="build/reports"/> 
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
+	</target>
+
+	<target name="print" description="Sends the report in the .jrprint file to the printer.">
+		<ant dir="../" target="print"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Print Service Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="fill" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

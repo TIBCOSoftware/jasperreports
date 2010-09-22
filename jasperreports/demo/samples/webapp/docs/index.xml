@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>webapp</name>
+  <title>Webapp Sample</title>
+  <description>Shows how reporting functionality could be added to a Web application.</description>
+
+  <mainFeature ref="webapp"/>
+  
+  <!-- webapp -->
+  
+  <feature name="webapp" title="Deploying Reports in Web Applications">
+    <description>
+How to add reporting functionality to a Web application.
+    </description>
+    <since>0.4.4</since>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ShipmentsReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="812" leftMargin="15" rightMargin="15" topMargin="10" bottomMargin="10">
+	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Large" isDefault="false" style="Sans_Normal" fontSize="10"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="Country_Orders">
+		<parameter name="Country" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT ShippedDate, ShipRegion, ShipCity, Freight
+			FROM Orders
+			WHERE
+				ShipCountry = $P{Country} AND
+				ShippedDate IS NOT NULL]]>
+		</queryString>
+		<field name="ShippedDate" class="java.sql.Timestamp"/>
+		<field name="ShipRegion" class="java.lang.String"/>
+		<field name="ShipCity" class="java.lang.String"/>
+		<field name="Freight" class="java.lang.Float"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[SELECT DISTINCT ShipCountry FROM Orders]]>
+	</queryString>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<detail>
+		<band height="50">
+			<textField>
+				<reportElement style="Sans_Bold" x="0" y="0" width="500" height="15"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Shipments to " + $F{ShipCountry}]]></textFieldExpression>
+			</textField>
+			<crosstab isRepeatColumnHeaders="false">
+				<reportElement x="0" y="20" width="812" height="20"/>
+				<crosstabParameter name="Country">
+					<parameterValueExpression><![CDATA[$F{ShipCountry}]]></parameterValueExpression>
+				</crosstabParameter>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="Country_Orders">
+							<datasetParameter name="Country">
+								<datasetParameterExpression><![CDATA[$F{ShipCountry}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<crosstabHeaderCell>
+					<cellContents>
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<staticText>
+							<reportElement style="Sans_Large" x="4" y="4" width="112" height="42"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<text><![CDATA[Shipments total freight]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="Region" width="50" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{ShipRegion}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="5" width="40" height="26"/>
+								<textElement/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{Region} == null ? "No region" : $V{Region}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#60FFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="0" width="110" height="22"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$P{Country} + " Total"]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="City" width="70" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{ShipCity}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="0" width="60" height="16"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{City}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#E0FFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<staticText>
+								<reportElement x="5" y="0" width="60" height="20"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="ShipYear" height="25" totalPosition="End" headerPosition="Stretch">
+					<bucket>
+						<bucketExpression class="java.util.Date"><![CDATA[CrosstabApp.truncateToYear($F{ShippedDate})]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<rectangle radius="10">
+								<reportElement x="4" y="4" width="82" height="17"/>
+								<graphicElement>
+									<pen lineWidth="1.0"/>
+								</graphicElement>
+							</rectangle>
+							<textField pattern="yyyy">
+								<reportElement x="5" y="5" width="80" height="15"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.util.Date"><![CDATA[$V{ShipYear}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#FFFF60" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<staticText>
+								<reportElement x="5" y="5" width="35" height="15"/>
+								<textElement/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="ShipMonth" height="25" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.util.Date"><![CDATA[CrosstabApp.truncateToMonth($F{ShippedDate})]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField pattern="MMM">
+								<reportElement x="5" y="2" width="35" height="21"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression class="java.util.Date"><![CDATA[$V{ShipMonth}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#FFFFC0" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField>
+								<reportElement x="5" y="2" width="35" height="21"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[msg("{0,date,yyyy} Total", $V{ShipYear})]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="FreightSum" class="java.lang.Float" calculation="Sum">
+					<measureExpression><![CDATA[$F{Freight}]]></measureExpression>
+				</measure>
+				<crosstabCell width="45" height="16">
+					<cellContents backcolor="#FFFFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement x="0" y="0" width="40" height="16"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="45" columnTotalGroup="ShipMonth">
+					<cellContents backcolor="#FFFFC0" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="16"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="45" columnTotalGroup="ShipYear">
+					<cellContents backcolor="#FFFF60" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="16"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="20" rowTotalGroup="City">
+					<cellContents backcolor="#E0FFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement x="0" y="0" width="40" height="20"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="City" columnTotalGroup="ShipMonth">
+					<cellContents backcolor="#E0FFC0" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="20"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="City" columnTotalGroup="ShipYear">
+					<cellContents backcolor="#E0FF60" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="20"/>
+							<textElement textAlignment="Right" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="24" rowTotalGroup="Region">
+					<cellContents backcolor="#60FFFF" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="12"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression class="java.lang.String"><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Region" columnTotalGroup="ShipMonth">
+					<cellContents backcolor="#60FFC0" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="12"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression class="java.lang.String"><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Region" columnTotalGroup="ShipYear">
+					<cellContents backcolor="#60FF60" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0"/>
+						</box>
+						<textField pattern="#0.0">
+							<reportElement style="Sans_Bold" x="0" y="0" width="40" height="12"/>
+							<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+							<textFieldExpression class="java.lang.Float"><![CDATA[$V{FreightSum}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="12" width="40" height="12"/>
+							<textElement textAlignment="Right"/>
+							<textFieldExpression class="java.lang.String"><![CDATA[msg("({0,number,percent})", new Float($V{FreightSum}.floatValue() / $V{FreightSum_ShipYear_ALL}.floatValue()))]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</detail>
+</jasperReport>
