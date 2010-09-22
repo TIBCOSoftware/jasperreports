@@ -886,7 +886,7 @@ public class GenericChartTheme implements ChartTheme
 		piePlot3D.setDepthFactor(depthFactor);
 		piePlot3D.setCircular(isCircular);
 
-		boolean isShowLabels = jrPlot.getShowLabels() == null ? false : jrPlot.getShowLabels().booleanValue();
+		boolean isShowLabels = jrPlot.getShowLabels() == null ? true : jrPlot.getShowLabels().booleanValue();
 		
 		if(isShowLabels)
 		{
