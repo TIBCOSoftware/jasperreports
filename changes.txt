@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.5 (2010-09-22, SVN xxxx)
+JasperReports 3.7.5 (2010-09-22, SVN 3978)
 ---------------------------------------------
 
 - support for dynamic sorting which includes sorting on dataset variables 
