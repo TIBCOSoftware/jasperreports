@@ -39,11 +39,16 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.fill.DatasetSortUtil;
 import net.sf.jasperreports.engine.fill.JRFillInterruptedException;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 
 /**
+ * This data source implementation is now deprecated because it does not know about sorting on 
+ * dataset variables and should no longer be used.
+ * It will be removed from the library in future versions.
+ * @deprecated Replaced by {@link ListOfArrayDataSource} and {@link DatasetSortUtil}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
