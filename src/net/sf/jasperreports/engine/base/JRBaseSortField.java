@@ -76,6 +76,7 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		
 		name = sortField.getName();
 		orderValue = sortField.getOrderValue();
+		type = sortField.getType();
 	}
 		
 
