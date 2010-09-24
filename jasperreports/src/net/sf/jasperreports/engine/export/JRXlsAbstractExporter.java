@@ -239,11 +239,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int sheetIndex;
 
 	/**
+	 * used for iterating through sheet names
+	 */
+	protected int sheetNamesIndex;
+
+	/**
 	 * used when indexing the identical sheet generated names with ordering numbers;
 	 * contains sheet names as keys and the number of occurrences of each sheet name as values
 	 */
 	protected Map sheetNamesMap;
-	protected String currentSheetName;
 
 	protected boolean isIgnorePageMargins;
 
@@ -446,25 +450,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		String[] sheetNamesArray = 
-			getStringArrayParameter(
-				JRXlsAbstractExporterParameter.SHEET_NAMES,
-				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
-				);
-		if (sheetNamesArray != null)
-		{
-			List sheetNamesList = new ArrayList();
-			for(int i = 0; i < sheetNamesArray.length; i++)
-			{
-				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
-				for(int j = 0; j < currentSheetNamesArray.length; j++)
-				{
-					sheetNamesList.add(currentSheetNamesArray[j]);
-				}
-			}
-			sheetNames = (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
-		}
-
+		setSheetNames();
+		
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
 		setHyperlinkProducerFactory();
@@ -547,6 +534,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				{
 					startPageIndex = 0;
 					endPageIndex = pages.size() - 1;
+					setSheetNames();
+					if(this.getParameter(JRXlsAbstractExporterParameter.SHEET_NAMES) == null 
+							||(this.getParameterResolver() instanceof ParameterOverriddenResolver
+							&& !JRProperties.getProperties(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX).isEmpty())
+						)
+					{
+						sheetNamesIndex = 0;
+					}
 				}
 
 				if (isOnePagePerSheet)
@@ -560,9 +555,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-						if (sheetNames != null && sheetIndex < sheetNames.length)
+						if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 						{
-							createSheet(getSheetName(sheetNames[sheetIndex]));
+							createSheet(getSheetName(sheetNames[sheetNamesIndex]));
 						}
 						else
 						{
@@ -571,6 +566,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
+						sheetNamesIndex++;
 
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0);
@@ -579,9 +575,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				else
 				{
 					// Create the sheet before looping.
-					if (sheetNames != null && sheetIndex < sheetNames.length)
+					if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 					{
-						createSheet(getSheetName(sheetNames[sheetIndex]));
+						createSheet(getSheetName(sheetNames[sheetNamesIndex]));
 					}
 					else
 					{
@@ -590,6 +586,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
+					sheetNamesIndex++;
 
 					/*
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
@@ -674,11 +671,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| yCuts.isBreak(y) 
 				)
 			{
-				createSheet(getSheetName(currentSheetName));
+				if (sheetNames != null && sheetNamesIndex < sheetNames.length)
+				{
+					createSheet(getSheetName(sheetNames[sheetNamesIndex]));
+				}
+				else
+				{
+					createSheet(getSheetName("Page"));
+				}
 				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
 				skippedRows = y;
+				sheetIndex++;
+				sheetNamesIndex++;
 			}
 			
 			if (
@@ -1003,8 +1009,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	private String getSheetName(String sheetName)
 	{
-		currentSheetName = sheetName;
-
 		// sheet names must be unique
 		if(!sheetNamesMap.containsKey(sheetName))
 		{
@@ -1013,17 +1017,19 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			return sheetName.length() > 31 ? sheetName.substring(0, 31) : sheetName;
 		}
 
-		int currentIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
-		sheetNamesMap.put(sheetName, Integer.valueOf(currentIndex));
+		int currentIndex = sheetIndex + 1;
+		
+		sheetNamesMap.put(sheetName, Integer.valueOf(((Integer)sheetNamesMap.get(sheetName)).intValue() + 1));
 
 		String name = sheetName + " " + currentIndex;
 		
 		if(name.length() > 31)
 		{
 			String crtIndex = String.valueOf(currentIndex);
+			//sheet names must be unique
 			name = (sheetName + " ").substring(0, 31-crtIndex.length()) + crtIndex;
 		}
-			
+
 		return name;
 	}
 
@@ -1095,6 +1101,32 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			return cellLocked;
 	}
 
+	/**
+	 * 
+	 */
+	protected void setSheetNames()
+	{
+		String[] sheetNamesArray = 
+			getStringArrayParameter(
+				JRXlsAbstractExporterParameter.SHEET_NAMES,
+				JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX
+				);
+		if (sheetNamesArray != null)
+		{
+			List sheetNamesList = new ArrayList();
+			for(int i = 0; i < sheetNamesArray.length; i++)
+			{
+				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
+				for(int j = 0; j < currentSheetNamesArray.length; j++)
+				{
+					sheetNamesList.add(currentSheetNamesArray[j]);
+				}
+			}
+			sheetNames = (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
+		}
+		
+	}
+	
 	/**
 	 * 
 	 */
