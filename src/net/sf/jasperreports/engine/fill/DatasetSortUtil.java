@@ -36,6 +36,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.JRSortField;
@@ -67,7 +68,7 @@ public class DatasetSortUtil
 			allSortFields.addAll(Arrays.asList(staticSortFields));
 		}
 
-		List dynamicSortFields = (List)dataset.getParameterValue("SORT_FIELDS");
+		List dynamicSortFields = (List)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		if (dynamicSortFields != null)
 		{
 			allSortFields.addAll(dynamicSortFields);
@@ -83,7 +84,7 @@ public class DatasetSortUtil
 	public static boolean needSorting(JRFillDataset dataset)
 	{
 		JRSortField[] staticSortFields = dataset.getSortFields();
-		List dynamicSortFields = (List)dataset.getParameterValue("SORT_FIELDS");
+		List dynamicSortFields = (List)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		
 		return 
 			(staticSortFields != null
