@@ -602,7 +602,7 @@ public class JRApiWriter
 			write( styleName + ".setUnderline({0});\n", font.isOwnUnderline());
 			write( styleName + ".setStrikeThrough({0});\n", font.isOwnStrikeThrough());
 			write( styleName + ".setPdfFontName(\"{0}", JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfFontName()));
-			write( styleName + ".setPdfEncoding(\"{0}\");\n", font.getOwnPdfEncoding());
+			write( styleName + ".setPdfEncoding(\"{0}\");\n",  JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfEncoding()));
 			write( styleName + ".setPdfEmbedded({0});\n", font.isOwnPdfEmbedded());
 			stylesMap.put(font.getName(), styleName);
 			flush();
@@ -1076,7 +1076,7 @@ public class JRApiWriter
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
 			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
-			write( textElementName + ".setMarkup(\"{0}\");\n", textElement.getMarkup(), "none");
+			write( textElementName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textElement.getOwnMarkup()));
 			writeFont( textElement, textElementName);
 			flush();
 		}
@@ -1200,7 +1200,7 @@ public class JRApiWriter
 			write( textFieldName + ".setEvaluationTime({0});\n", textField.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
 			write( textFieldName + ".setEvaluationGroup({0});\n", getGroupName(textField.getEvaluationGroup()));
 
-			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getPattern()));
+			write( textFieldName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textField.getOwnPattern()));
 			write( textFieldName + ".setBlankWhenNull({0});\n", textField.isOwnBlankWhenNull());
 
 			if(textField.getLinkType() != null)
