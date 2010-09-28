@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 3.7.6 (2010-1x-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 3.7.5 (2010-09-22, SVN 3978)
 ---------------------------------------------
 
@@ -16,7 +25,7 @@ multi-column reports from right to left;
 sheet's direction (RTL), protecting its content, fitting its size for printing, 
 and setting other print related metadata;
 
-- upgrade to POI 3.6 and and JexcelApi 2.6.10;
+- upgrade to POI 3.6 and and JExcelApi 2.6.10;
 
 - minor bug fixes and improvements;
 
