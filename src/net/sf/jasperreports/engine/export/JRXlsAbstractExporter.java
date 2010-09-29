@@ -234,18 +234,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRFont defaultFont;
 
 	/**
-	 * used for counting the total number of sheets
+	 * Used for counting the total number of sheets.
 	 */
 	protected int sheetIndex;
 
 	/**
-	 * used for iterating through sheet names
+	 * Used for iterating through sheet names.
 	 */
 	protected int sheetNamesIndex;
 
 	/**
-	 * used when indexing the identical sheet generated names with ordering numbers;
-	 * contains sheet names as keys and the number of occurrences of each sheet name as values
+	 * Used when indexing the identical sheet name. Contains sheet names as keys and the number of 
+	 * occurrences of each sheet name as values.
 	 */
 	protected Map sheetNamesMap;
 
@@ -450,8 +450,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		setSheetNames();
-		
 		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
 		setHyperlinkProducerFactory();
@@ -521,12 +519,24 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		openWorkbook(os);
 		sheetNamesMap = new HashMap();
-		sheetNamesMap.put("Page", Integer.valueOf(0)); // in order to skip first sheet name that would have no index
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+			
+			setSheetNames();
+
+			if(
+				getParameter(JRXlsAbstractExporterParameter.SHEET_NAMES) == null
+				|| (getParameterResolver() instanceof ParameterOverriddenResolver
+					&& sheetNames != null && sheetNames.length > 0)
+				)
+			{
+				sheetNamesIndex = 0;
+			}
+
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -534,14 +544,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				{
 					startPageIndex = 0;
 					endPageIndex = pages.size() - 1;
-					setSheetNames();
-					if(this.getParameter(JRXlsAbstractExporterParameter.SHEET_NAMES) == null 
-							||(this.getParameterResolver() instanceof ParameterOverriddenResolver
-							&& !JRProperties.getProperties(jasperPrint, JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAMES_PREFIX).isEmpty())
-						)
-					{
-						sheetNamesIndex = 0;
-					}
 				}
 
 				if (isOnePagePerSheet)
@@ -555,14 +557,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 
 						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
-						if (sheetNames != null && sheetNamesIndex < sheetNames.length)
-						{
-							createSheet(getSheetName(sheetNames[sheetNamesIndex]));
-						}
-						else
-						{
-							createSheet(getSheetName("Page"));
-						}
+
+						createSheet(getSheetName(null));
 
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
@@ -575,14 +571,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				else
 				{
 					// Create the sheet before looping.
-					if (sheetNames != null && sheetNamesIndex < sheetNames.length)
-					{
-						createSheet(getSheetName(sheetNames[sheetNamesIndex]));
-					}
-					else
-					{
-						createSheet(getSheetName(jasperPrint.getName()));
-					}
+					createSheet(getSheetName(jasperPrint.getName()));
 
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
@@ -671,14 +660,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| yCuts.isBreak(y) 
 				)
 			{
-				if (sheetNames != null && sheetNamesIndex < sheetNames.length)
-				{
-					createSheet(getSheetName(sheetNames[sheetNamesIndex]));
-				}
-				else
-				{
-					createSheet(getSheetName("Page"));
-				}
+				createSheet(getSheetName(null));
 				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
@@ -1009,27 +991,37 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	private String getSheetName(String sheetName)
 	{
-		// sheet names must be unique
-		if(!sheetNamesMap.containsKey(sheetName))
+		if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 		{
-			// first time this sheet name is found;
-			sheetNamesMap.put(sheetName, Integer.valueOf(1));
-			return sheetName.length() > 31 ? sheetName.substring(0, 31) : sheetName;
+			sheetName = sheetNames[sheetNamesIndex];
+		}
+		
+		if (sheetName == null)
+		{
+			// no sheet name was specified or if it was null
+			return "Page " + (sheetIndex + 1);
 		}
 
-		int currentIndex = sheetIndex + 1;
-		
-		sheetNamesMap.put(sheetName, Integer.valueOf(((Integer)sheetNamesMap.get(sheetName)).intValue() + 1));
+		// sheet name specified; assuming it is first occurrence
+		int crtIndex = Integer.valueOf(1);
+		String txtIndex = "";
 
-		String name = sheetName + " " + currentIndex;
-		
-		if(name.length() > 31)
+		if(sheetNamesMap.containsKey(sheetName))
 		{
-			String crtIndex = String.valueOf(currentIndex);
-			//sheet names must be unique
-			name = (sheetName + " ").substring(0, 31-crtIndex.length()) + crtIndex;
+			// sheet names must be unique; altering sheet name using number of occurrences
+			crtIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
+			txtIndex = String.valueOf(crtIndex);
 		}
 
+		sheetNamesMap.put(sheetName, crtIndex);
+
+		String name = sheetName + " " + txtIndex; 
+		
+		if (name.length() > 31)
+		{
+			name = (sheetName + " ").substring(0, 31 - txtIndex.length()) + txtIndex;
+		}
+		
 		return name;
 	}
 
@@ -1116,10 +1108,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			List sheetNamesList = new ArrayList();
 			for(int i = 0; i < sheetNamesArray.length; i++)
 			{
-				String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
-				for(int j = 0; j < currentSheetNamesArray.length; j++)
+				if (sheetNamesArray[i] == null)
 				{
-					sheetNamesList.add(currentSheetNamesArray[j]);
+					sheetNamesList.add(null);
+				}
+				else
+				{
+					String[] currentSheetNamesArray = sheetNamesArray[i].split("/");
+					for(int j = 0; j < currentSheetNamesArray.length; j++)
+					{
+						sheetNamesList.add(currentSheetNamesArray[j]);
+					}
 				}
 			}
 			sheetNames = (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
