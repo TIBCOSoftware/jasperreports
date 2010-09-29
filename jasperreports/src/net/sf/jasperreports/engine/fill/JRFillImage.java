@@ -1397,10 +1397,14 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		evaluateImage(evaluation);
 
 		JRPrintImage printImage = (JRPrintImage) element;
-		int padding = printImage.getLineBox().getBottomPadding().intValue() 
-				+ printImage.getLineBox().getTopPadding().intValue();
-		fitImage(getHeight() - padding, false, 
-				printImage.getHorizontalAlignmentValue());
+
+		if (getScaleImageValue() == ScaleImageEnum.REAL_SIZE)//to avoid get dimension and thus unnecessarily load the image
+		{
+			int padding = printImage.getLineBox().getBottomPadding().intValue() 
+			+ printImage.getLineBox().getTopPadding().intValue();
+			fitImage(getHeight() - padding, false, 
+					printImage.getHorizontalAlignmentValue());
+		}
 		
 		copy(printImage);
 	}
