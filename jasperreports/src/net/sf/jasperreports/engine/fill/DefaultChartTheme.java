@@ -1170,7 +1170,7 @@ public class DefaultChartTheme implements ChartTheme
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(), scatterPlot.getXAxisVerticalTickLabels(),
 				scatterPlot.getXAxisLineColor(), false,
 				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()));
+				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
@@ -1178,7 +1178,7 @@ public class DefaultChartTheme implements ChartTheme
 				scatterPlot.getYAxisTickLabelColor(), scatterPlot.getYAxisTickLabelMask(), scatterPlot.getYAxisVerticalTickLabels(),
 				scatterPlot.getYAxisLineColor(), true,
 				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()));
+				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
