@@ -36,7 +36,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -48,16 +47,14 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class RectangleDrawer extends ElementDrawer
+public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 {
 
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY)
+	public void draw(Graphics2D grx, JRPrintRectangle rectangle, int offsetX, int offsetY)
 	{
-		JRPrintRectangle rectangle = (JRPrintRectangle)element;
-		
 		int width = rectangle.getWidth();
 		int height = rectangle.getHeight();
 		

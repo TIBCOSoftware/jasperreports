@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -357,6 +358,12 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 			
 			mode = null;
 		}
+	}
+
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -93,5 +93,18 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 * </p>
 	 */
 	public String getKey();
+	
+	/**
+	 * Accepts a print element visitor.
+	 * 
+	 * <p>
+	 * The element calls the method that corresponds to the element type on the visitor. 
+	 * </p>
+	 * 
+	 * @param <T> the type of the argument passed to the visit operation
+	 * @param visitor the visitor objects
+	 * @param arg the argument passed to the visit operation
+	 */
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg);
 
 }

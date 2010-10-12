@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
@@ -84,6 +85,11 @@ public class JRTemplatePrintLine extends JRTemplatePrintGraphicElement implement
 	 */
 	public void setDirection(LineDirectionEnum direction)
 	{
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 }

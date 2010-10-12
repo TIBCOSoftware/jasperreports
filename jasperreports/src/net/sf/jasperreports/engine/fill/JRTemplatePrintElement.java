@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
 
 
@@ -358,5 +359,11 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 		}
 		
 		out.defaultWriteObject();
+	}
+
+	// we need to implement this method because the class is not abstract
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		throw new UnsupportedOperationException();
 	}
 }

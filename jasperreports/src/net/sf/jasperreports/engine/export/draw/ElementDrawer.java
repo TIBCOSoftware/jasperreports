@@ -47,16 +47,18 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
+ * @param <T> the type of the element that the drawer supports
+ * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class ElementDrawer
+public abstract class ElementDrawer<T extends JRPrintElement>
 {
 
 	/**
 	 *
 	 */
-	public abstract void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException;
+	public abstract void draw(Graphics2D grx, T element, int offsetX, int offsetY) throws JRException;
 	
 	
 	/**

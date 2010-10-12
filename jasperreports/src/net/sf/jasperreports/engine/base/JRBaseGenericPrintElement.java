@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 
 /**
  * A basic implementation of {@link JRGenericPrintElement}.
@@ -93,6 +94,11 @@ public class JRBaseGenericPrintElement extends JRBasePrintElement
 	public void setParameterValue(String name, Object value)
 	{
 		parameters.put(name, value);
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 }
