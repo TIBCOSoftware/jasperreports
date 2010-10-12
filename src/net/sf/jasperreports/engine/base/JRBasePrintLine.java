@@ -29,6 +29,7 @@ import java.io.ObjectInputStream;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 
 
@@ -136,6 +137,11 @@ public class JRBasePrintLine extends JRBasePrintGraphicElement implements JRPrin
 			directionValue = LineDirectionEnum.getByValue(direction);
 		}
 		
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 

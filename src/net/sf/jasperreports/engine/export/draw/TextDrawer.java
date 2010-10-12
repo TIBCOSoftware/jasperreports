@@ -34,7 +34,6 @@ package net.sf.jasperreports.engine.export.draw;
 import java.awt.Graphics2D;
 
 import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.export.TextRenderer;
@@ -46,7 +45,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TextDrawer extends ElementDrawer
+public class TextDrawer extends ElementDrawer<JRPrintText>
 {
 
 	/**
@@ -69,10 +68,8 @@ public class TextDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY)
+	public void draw(Graphics2D grx, JRPrintText text, int offsetX, int offsetY)
 	{
-		JRPrintText text = (JRPrintText)element;
-
 		JRStyledText styledText = getStyledText(text);
 		
 		if (styledText == null)

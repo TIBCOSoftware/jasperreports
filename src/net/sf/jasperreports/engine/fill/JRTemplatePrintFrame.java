@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
@@ -533,5 +534,10 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	public Color getDefaultLineColor() 
 	{
 		return getForecolor();
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 }

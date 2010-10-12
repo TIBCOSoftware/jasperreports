@@ -30,6 +30,7 @@ import java.util.Set;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 
 /**
  * Implementation of {@link JRGenericPrintElement} that uses
@@ -86,6 +87,11 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	public void setParameterValue(String name, Object value)
 	{
 		parameters.put(name, value);
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 }

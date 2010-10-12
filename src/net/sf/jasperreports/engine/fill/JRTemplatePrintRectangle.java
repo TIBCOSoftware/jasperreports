@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 
 
 /**
@@ -82,6 +83,11 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	 */
 	public void setRadius(Integer radius)
 	{
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 

@@ -35,7 +35,6 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -46,16 +45,14 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class LineDrawer extends ElementDrawer
+public class LineDrawer extends ElementDrawer<JRPrintLine>
 {
 
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY)
+	public void draw(Graphics2D grx, JRPrintLine line, int offsetX, int offsetY)
 	{
-		JRPrintLine line = (JRPrintLine)element;
-		
 		grx.setColor(line.getLinePen().getLineColor());
 		
 		Stroke stroke = JRPenUtil.getStroke(line.getLinePen(), BasicStroke.CAP_BUTT);

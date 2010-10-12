@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -1907,5 +1908,10 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 		}
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 }

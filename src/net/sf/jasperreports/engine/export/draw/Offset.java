@@ -21,37 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.base;
-
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRPrintEllipse;
-import net.sf.jasperreports.engine.PrintElementVisitor;
-
+package net.sf.jasperreports.engine.export.draw;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * Drawing offset used by the print element draw visitor.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see PrintDrawVisitor
  */
-public class JRBasePrintEllipse extends JRBasePrintGraphicElement implements JRPrintEllipse
+public class Offset
 {
 
+	private final int x;
+	private final int y;
+	
 	/**
-	 *
+	 * Creates an offset object.
+	 * 
+	 * @param x the horizontal offset
+	 * @param y the vertical offset
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	public JRBasePrintEllipse(JRDefaultStyleProvider defaultStyleProvider)
+	public Offset(int x, int y)
 	{
-		super(defaultStyleProvider);
+		this.x = x;
+		this.y = y;
 	}
 
-	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	/**
+	 * Returns the horizontal offset.
+	 * 
+	 * @return the horizontal offset
+	 */
+	public int getX()
 	{
-		visitor.visit(this, arg);
+		return x;
 	}
 
+	/**
+	 * Returns the vertical offset.
+	 * 
+	 * @return the vertical offset
+	 */
+	public int getY()
+	{
+		return y;
+	}
+	
 }

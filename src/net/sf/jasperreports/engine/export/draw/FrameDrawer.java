@@ -40,12 +40,7 @@ import java.util.LinkedList;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRPrintLine;
-import net.sf.jasperreports.engine.JRPrintRectangle;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -55,7 +50,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class FrameDrawer extends ElementDrawer
+public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 {
 	/**
 	 *
@@ -67,19 +62,14 @@ public class FrameDrawer extends ElementDrawer
 	 */
 	private ExporterFilter filter;
 	private Graphics2D grx;
-	private LinkedList elementOffsetStack = new LinkedList();
-	private int elementOffsetX;
-	private int elementOffsetY;
+	private LinkedList<Offset> elementOffsetStack = new LinkedList<Offset>();
+	private Offset elementOffset;
 	private boolean isClip;
 	
 	/**
 	 *
 	 */
-	private LineDrawer lineDrawer;
-	private RectangleDrawer rectangleDrawer;
-	private EllipseDrawer ellipseDrawer;
-	private ImageDrawer imageDrawer;
-	private TextDrawer textDrawer;
+	private PrintDrawVisitor drawVisitor;
 
 	
 	/**
@@ -92,11 +82,9 @@ public class FrameDrawer extends ElementDrawer
 	{
 		this.filter = filter;
 		
-		lineDrawer = new LineDrawer();
-		rectangleDrawer = new RectangleDrawer();
-		ellipseDrawer = new EllipseDrawer();
-		imageDrawer = new ImageDrawer();
-		textDrawer = new TextDrawer(textRenderer);
+		drawVisitor = new PrintDrawVisitor();
+		drawVisitor.setTextDrawer(new TextDrawer(textRenderer));
+		drawVisitor.setFrameDrawer(this);
 	}
 	
 	
@@ -112,11 +100,9 @@ public class FrameDrawer extends ElementDrawer
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException
+	public void draw(Graphics2D grx, JRPrintFrame frame, int offsetX, int offsetY) throws JRException
 	{
-		this.grx = grx;
-		
-		JRPrintFrame frame = (JRPrintFrame)element;
+		setGraphics(grx);
 		
 		Shape oldClipShape = null;
 		if (isClip)
@@ -169,7 +155,7 @@ public class FrameDrawer extends ElementDrawer
 	 */
 	public void draw(Graphics2D grx, Collection elements, int offsetX, int offsetY) throws JRException
 	{
-		this.grx = grx;
+		setGraphics(grx);
 		
 		setElementOffsets(offsetX, offsetY);
 		try
@@ -180,6 +166,13 @@ public class FrameDrawer extends ElementDrawer
 		{
 			restoreElementOffsets();
 		}
+	}
+
+
+	protected void setGraphics(Graphics2D grx)
+	{
+		this.grx = grx;
+		drawVisitor.setGraphics2D(grx);
 	}
 
 
@@ -198,8 +191,8 @@ public class FrameDrawer extends ElementDrawer
 				if (
 					(filter != null && !filter.isToExport(element))
 					|| !clipArea.intersects(
-						element.getX() + getOffsetX() - ELEMENT_RECTANGLE_PADDING, 
-						element.getY() + getOffsetY() - ELEMENT_RECTANGLE_PADDING, 
+						element.getX() + elementOffset.getX() - ELEMENT_RECTANGLE_PADDING, 
+						element.getY() + elementOffset.getY() - ELEMENT_RECTANGLE_PADDING, 
 						element.getWidth() + 2 * ELEMENT_RECTANGLE_PADDING, 
 						element.getHeight() + 2 * ELEMENT_RECTANGLE_PADDING)
 					)
@@ -207,30 +200,7 @@ public class FrameDrawer extends ElementDrawer
 					continue;
 				}
 				
-				if (element instanceof JRPrintLine)
-				{
-					lineDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintRectangle)
-				{
-					rectangleDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintEllipse)
-				{
-					ellipseDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintImage)
-				{
-					imageDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintText)
-				{
-					textDrawer.draw(grx, element, getOffsetX(), getOffsetY());
-				}
-				else if (element instanceof JRPrintFrame)
-				{
-					this.draw(grx, element, getOffsetX(), getOffsetY());
-				}
+				element.accept(drawVisitor, elementOffset);
 			}
 		}
 	}
@@ -253,10 +223,9 @@ public class FrameDrawer extends ElementDrawer
 	 */
 	private void setElementOffsets(int offsetX, int offsetY)
 	{
-		elementOffsetStack.addLast(new int[]{elementOffsetX, elementOffsetY});
+		elementOffsetStack.addLast(elementOffset);
 		
-		elementOffsetX = offsetX;
-		elementOffsetY = offsetY;
+		elementOffset = new Offset(offsetX, offsetY);
 	}
 
 	
@@ -265,27 +234,7 @@ public class FrameDrawer extends ElementDrawer
 	 */
 	private void restoreElementOffsets()
 	{
-		int[] offsets = (int[]) elementOffsetStack.removeLast();
-		elementOffsetX = offsets[0];
-		elementOffsetY = offsets[1];
-	}
-
-	
-	/**
-	 *
-	 */
-	private int getOffsetX()
-	{
-		return elementOffsetX;
-	}
-
-
-	/**
-	 *
-	 */
-	private int getOffsetY()
-	{
-		return elementOffsetY;
+		elementOffset = elementOffsetStack.removeLast();
 	}
 
 

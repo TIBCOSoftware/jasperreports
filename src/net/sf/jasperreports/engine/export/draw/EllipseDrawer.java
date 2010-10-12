@@ -36,7 +36,6 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
@@ -48,16 +47,14 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class EllipseDrawer extends ElementDrawer
+public class EllipseDrawer extends ElementDrawer<JRPrintEllipse>
 {
 
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY)
+	public void draw(Graphics2D grx, JRPrintEllipse ellipse, int offsetX, int offsetY)
 	{
-		JRPrintEllipse ellipse = (JRPrintEllipse)element;
-		
 		int width = ellipse.getWidth();
 		int height = ellipse.getHeight();
 		

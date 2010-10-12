@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 
 
 /**
@@ -51,6 +52,11 @@ public class JRTemplatePrintEllipse extends JRTemplatePrintGraphicElement implem
 	public JRTemplatePrintEllipse(JRTemplateEllipse ellipse)
 	{
 		super(ellipse);
+	}
+
+	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
+	{
+		visitor.visit(this, arg);
 	}
 
 

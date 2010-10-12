@@ -38,7 +38,6 @@ import java.awt.geom.Dimension2D;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -48,16 +47,14 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ImageDrawer extends ElementDrawer
+public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {
 
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, JRPrintElement element, int offsetX, int offsetY) throws JRException
+	public void draw(Graphics2D grx, JRPrintImage printImage, int offsetX, int offsetY) throws JRException
 	{
-		JRPrintImage printImage = (JRPrintImage)element;
-		
 		if (printImage.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(printImage.getBackcolor());
