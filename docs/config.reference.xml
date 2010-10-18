@@ -120,6 +120,7 @@
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
+      <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       <property ref="net.sf.jasperreports.export.html.accessible"/>
@@ -1535,6 +1536,19 @@ If set to <code>false</code>, the table rows do not increase in height automatic
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.docx.hidden.text -->
+  
+  <configProperty name="net.sf.jasperreports.export.docx.hidden.text">
+    <description>
+This property is used to mark text elements as being hidden either for printing or on-screen display.
+    </description>
+    <api>net/sf/jasperreports/engine/export/ooxml/JRDocxExporter.html#PROPERTY_HIDDEN_TEXT</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>3.7.6</since>
   </configProperty>
   
   

@@ -104,6 +104,12 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.docx.";
 
 	/**
+	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_HIDDEN_TEXT = JRProperties.PROPERTY_PREFIX + "export.docx.hidden.text";
+
+	/**
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
@@ -717,7 +723,12 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+			exportStyledText(
+				text.getStyle(), 
+				styledText, 
+				getTextLocale(text),
+				JRProperties.getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false)
+				);
 		}
 
 		if (startedHyperlink)
@@ -735,7 +746,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText)
 	{
 		String text = styledText.getText();
 
@@ -749,7 +760,8 @@ public class JRDocxExporter extends JRAbstractExporter
 				style, 
 				iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
-				locale
+				locale,
+				hiddenText
 				);
 
 			iterator.setIndex(runLimit);
