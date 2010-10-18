@@ -69,13 +69,13 @@ public class DocxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map attributes, String text, Locale locale)
+	public void export(JRStyle style, Map attributes, String text, Locale locale, boolean hiddenText)
 	{
 		if (text != null)
 		{
 			write("      <w:r>\n");
 			
-			exportProps(getAttributes(style), attributes, locale);
+			exportProps(getAttributes(style), attributes, locale, hiddenText);
 			
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
 			while(tkzer.hasMoreTokens())
@@ -111,13 +111,13 @@ public class DocxRunHelper extends BaseHelper
 			styledTextAttributes.put(TextAttribute.BACKGROUND, style.getBackcolor());
 		}
 
-		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale);
+		exportProps(getAttributes(style.getStyle()), getAttributes(style), locale, false);
 	}
 
 	/**
 	 *
 	 */
-	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
+	public void exportProps(Map parentAttrs,  Map attrs, Locale locale, boolean hiddenText)
 	{
 		write("       <w:rPr>\n");
 
@@ -224,6 +224,11 @@ public class DocxRunHelper extends BaseHelper
 		else if (TextAttribute.SUPERSCRIPT_SUB.equals(value))
 		{
 			write("        <w:vertAlign w:val=\"subscript\" />\n");
+		}
+		
+		if (hiddenText)
+		{
+			write("        <w:vanish/>\n");
 		}
 
 		write("       </w:rPr>\n");
