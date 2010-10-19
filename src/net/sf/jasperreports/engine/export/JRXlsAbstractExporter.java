@@ -1096,6 +1096,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
+	protected String getFormula(JRPrintText text)
+	{
+		String formula = text.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
+		if( formula != null)
+		{
+			formula = formula.trim();
+			if(formula.startsWith("="))
+			{
+				formula = formula.substring(1);
+			}
+		}
+		return formula;
+	}
+
+	/**
+	 * 
+	 */
 	protected void setSheetNames()
 	{
 		String[] sheetNamesArray = 

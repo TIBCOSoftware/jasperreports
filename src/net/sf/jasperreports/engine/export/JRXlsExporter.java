@@ -47,7 +47,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
@@ -541,16 +540,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void createTextCell(final JRPrintText textElement, final JRExporterGridCell gridCell, final int colIndex, final int rowIndex, final JRStyledText styledText, final StyleInfo baseStyle, final short forecolor) throws JRException
 	{
-		String formula = textElement.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
+		String formula = getFormula(textElement);
 		String textStr = styledText.getText();
 		
-		if(formula != null)
+		if (formula != null)
 		{	
-			formula = formula.trim();
-			if(formula.startsWith("="))
-			{
-				formula = formula.substring(1);
-			}
 			try
 			{
 				TextValue value = getTextValue(textElement, textStr);
@@ -579,7 +573,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				endCreateCell(cellStyle);
 				return;
 			}
-			catch(Exception e)
+			catch(Exception e)//FIXMENOW what exceptions could we get here?
 			{
 				if(log.isWarnEnabled())
 				{
