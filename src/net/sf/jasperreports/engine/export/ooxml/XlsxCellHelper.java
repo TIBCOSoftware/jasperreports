@@ -48,23 +48,20 @@ public class XlsxCellHelper extends BaseHelper
 	private XlsxStyleHelper styleHelper;
 //	private XlsxBorderHelper borderHelper;
 
-	private boolean isFontSizeFixEnabled;
-	
 	/**
 	 *
 	 */
 	public XlsxCellHelper(
 		Writer writer,
-		XlsxStyleHelper styleHelper,
-		boolean isFontSizeFixEnabled
+		XlsxStyleHelper styleHelper
 		)
 	{
 		super(writer);
 		
 		this.styleHelper = styleHelper;
-		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
 //		borderHelper = new XlsxBorderHelper(writer);
 	}
+
 	/**
 	 * 
 	 *
@@ -83,7 +80,7 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isWrapText
 		) 
 	{
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, isFontSizeFixEnabled) + "\" t=\"inlineStr\">");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText) + "\" t=\"inlineStr\">");
 		
 //		exportPropsHeader();
 //
