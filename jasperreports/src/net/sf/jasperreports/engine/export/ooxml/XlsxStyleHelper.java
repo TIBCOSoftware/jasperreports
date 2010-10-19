@@ -83,7 +83,7 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
-				fontHelper.getFont(gridCell, isFontSizeFixEnabled),
+				fontHelper.getFont(gridCell, isFontSizeFixEnabled) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
 				isWrapText
