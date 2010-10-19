@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -34,6 +37,8 @@ import java.util.TimeZone;
 public final class JRDataUtils
 {
 	
+	public static final double JULIAN_0000 = 1721424.5;
+	public static final double JULIAN_1900 = 2415020.5;	
 	
 	public static String getLocaleCode(Locale locale)
 	{
@@ -83,4 +88,40 @@ public final class JRDataUtils
 	private JRDataUtils()
 	{
 	}
+	
+	public static double getExcelSerialDayNumber(Date date, Locale locale, TimeZone timeZone)
+	{
+		GregorianCalendar calendar = new GregorianCalendar(timeZone,locale);
+		calendar.setTime(date);
+
+		int year = calendar.get(Calendar.YEAR);
+	    int month = calendar.get(Calendar.MONTH); // starts from 0
+	    int day = calendar.get(Calendar.DAY_OF_MONTH);
+	    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+	    int min = calendar.get(Calendar.MINUTE);
+	    int sec = calendar.get(Calendar.SECOND);
+		
+	    double result = getGregorianToJulianDay(year, month + 1, day) +
+	           (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);	
+		return (result - JULIAN_1900) + 1 + ((result > 2415078.5) ? 1 : 0);
+	}
+	
+
+	public static double  getGregorianToJulianDay(int year, int month, int day)
+	{
+	    return JULIAN_0000 +
+	           (365 * (year - 1)) +
+	           Math.floor((year - 1) / 4) -
+	           Math.floor((year - 1) / 100) +
+	           Math.floor((year - 1) / 400) +
+	           Math.floor((((367 * month) - 362) / 12) +
+	           (month <= 2 ? 0 : (isLeapYear(year) ? -1 : -2)) +
+	           day);
+	}
+
+	public static boolean isLeapYear(int year)
+	{
+	    return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+	}
+	
 }
