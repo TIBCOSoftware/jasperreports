@@ -39,13 +39,19 @@ public class XlsxFontHelper extends BaseHelper
 {
 	private Map fontCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
+	private boolean isFontSizeFixEnabled;
 
 	/**
 	 *
 	 */
-	public XlsxFontHelper(Writer writer)
+	public XlsxFontHelper(
+		Writer writer,
+		boolean isFontSizeFixEnabled		
+		)
 	{
 		super(writer);
+
+		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
 	}
 	
 	/**
@@ -53,26 +59,18 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public int getFont(JRExporterGridCell gridCell)
 	{
-		return getFont(gridCell, false);
-	}
-
-	/**
-	 *
-	 */
-	public int getFont(JRExporterGridCell gridCell, boolean isFontSizeFixEnabled)
-	{
 		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
 		if (font == null)
 		{
 			return -1;			
 		}
 
-		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell, isFontSizeFixEnabled);
+		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell);
 		Integer fontIndex = (Integer)fontCache.get(fontInfo.getId());
 		if (fontIndex == null)
 		{
 			fontIndex = Integer.valueOf(fontCache.size());
-			export(fontInfo, isFontSizeFixEnabled);
+			export(fontInfo);
 			fontCache.put(fontInfo.getId(), fontIndex);
 		}
 		return fontIndex.intValue();
@@ -81,7 +79,7 @@ public class XlsxFontHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void export(XlsxFontInfo fontInfo, boolean isFontSizeFixEnabled)
+	private void export(XlsxFontInfo fontInfo)
 	{
 		write(
 			"<font><sz val=\"" + (isFontSizeFixEnabled ? fontInfo.fontSize - 1 : fontInfo.fontSize) + "\"/>" 

@@ -64,7 +64,8 @@ public class XlsxStyleHelper extends BaseHelper
 		String exporterKey,
 		boolean isWhitePageBackground,
 		boolean isIgnoreCellBorder,
-		boolean isIgnoreCellBackground
+		boolean isIgnoreCellBackground,
+		boolean isFontSizeFixEnabled		
 		)
 	{
 		super(writer);
@@ -72,18 +73,18 @@ public class XlsxStyleHelper extends BaseHelper
 		this.isWhitePageBackground = isWhitePageBackground;
 		this.isIgnoreCellBackground = isIgnoreCellBackground;
 		
-		fontHelper = new XlsxFontHelper(fontsWriter);
+		fontHelper = new XlsxFontHelper(fontsWriter, isFontSizeFixEnabled);
 		borderHelper = new XlsxBorderHelper(bordersWriter, isIgnoreCellBorder);
 	}
 
 	/**
 	 * 
 	 */
-	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText, boolean isFontSizeFixEnabled)
+	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
-				fontHelper.getFont(gridCell, isFontSizeFixEnabled) + 1,
+				fontHelper.getFont(gridCell) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
 				isWrapText

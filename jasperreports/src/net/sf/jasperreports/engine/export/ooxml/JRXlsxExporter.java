@@ -718,7 +718,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		Writer drawingWriter = drawingEntry.getWriter();
 		drawingHelper = new XlsxDrawingHelper(drawingWriter, drawingRelsHelper);
 		
-		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper, isFontSizeFixEnabled);
+		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
@@ -1291,7 +1291,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					getExporterKey(),
 					isWhitePageBackground,
 					isIgnoreCellBorder,
-					isIgnoreCellBackground
+					isIgnoreCellBackground,
+					isFontSizeFixEnabled
 					);
 		}
 		catch (IOException e)
@@ -1342,7 +1343,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		sheetHelper.exportRow(rowHeight);
 	}
 
-	/**gridCell
+	/**
 	 *
 	 */
 	protected String getExporterKey()
