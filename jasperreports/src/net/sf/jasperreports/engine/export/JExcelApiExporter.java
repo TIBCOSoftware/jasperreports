@@ -77,7 +77,6 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.CellValue;
 import jxl.write.biff.RowsExceededException;
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -578,73 +577,121 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void addCell(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws WriteException, RowsExceededException, JRException
 	{
-		String textFormula = text.getPropertiesMap().getProperty(JRAbstractExporter.PROPERTY_CELL_FORMULA);
-		if( textFormula != null)
+		CellValue cellValue = null;
+
+		TextValue textValue = null;
+
+		String textFormula = getFormula(text);
+		if( textFormula != null)// if the cell has formula, we try create a formula cell
 		{
-			textFormula = textFormula.trim();
-			if(textFormula.startsWith("="))
+			textValue = getTextValue(text, textStr);
+			cellValue = getFormulaCellValue(x, y, textValue, textFormula, baseStyle);
+		}
+		
+		if (cellValue == null)// if this is null, it means there was no formula, or the formula cell creation failed
+		{
+			if (isDetectCellType)
 			{
-				textFormula = textFormula.substring(1);
-			}
-			
-			Formula formula = null;
-			try
-			{
-				TextValue textValue = getTextValue(text, textStr);
-				if (textValue instanceof NumberTextValue && ((NumberTextValue)textValue).getPattern() != null)
+				if (textFormula == null)
 				{
-					baseStyle.setDisplayFormat(getNumberFormat(((NumberTextValue)textValue).getPattern()));
+					textValue = getTextValue(text, textStr);
 				}
-				if (textValue instanceof DateTextValue && ((DateTextValue)textValue).getPattern() != null)
-				{
-					baseStyle.setDisplayFormat(getDateFormat(((DateTextValue)textValue).getPattern()));
-				}
-				
-				formula = new Formula(x, y, textFormula, getLoadedCellStyle(baseStyle));
+				cellValue = getDetectedCellValue(x, y, textValue, baseStyle);
 			}
-			catch(Exception e)
+			else if (isAutoDetectCellType)
 			{
-				if(log.isWarnEnabled())
-				{
-					log.warn(e.getMessage(), e);
-				}
-			}
-			if(formula != null)
-			{
-				sheet.addCell(formula);
-				return;
+				cellValue = getAutoDetectedCellValue(x, y, textStr, baseStyle);
 			}
 			else
 			{
-				sheet.addCell(new Blank(x, y, getLoadedCellStyle(baseStyle)));
+				cellValue = getLabelCell(x, y, textStr, baseStyle);
 			}
-		}
-		CellValue cellValue;
-		if (isDetectCellType)
-		{
-			cellValue = getDetectedCellValue(x, y, text, textStr, baseStyle);
-		}
-		else if (isAutoDetectCellType)
-		{
-			cellValue = getAutoDetectedCellValue(x, y, textStr, baseStyle);
-		}
-		else
-		{
-			cellValue = getLabelCell(x, y, textStr, baseStyle);
 		}
 
 		sheet.addCell(cellValue);
 	}
 
 
-	protected CellValue getDetectedCellValue(int x, int y, JRPrintText text, String textStr, StyleInfo baseStyle) throws JRException
+	protected CellValue getFormulaCellValue(int x, int y, TextValue textValue, String formula, StyleInfo baseStyle) throws JRException
 	{
-		TextValue textValue = getTextValue(text, textStr);
+		FormulaTextValueHandler handler = new FormulaTextValueHandler(x, y, formula, baseStyle);
+		textValue.handle(handler);
+		return handler.getResult();
+	}
+
+
+	protected CellValue getDetectedCellValue(int x, int y, TextValue textValue, StyleInfo baseStyle) throws JRException
+	{
 		CellTextValueHandler handler = new CellTextValueHandler(x, y, baseStyle);
 		textValue.handle(handler);
 		return handler.getResult();
 	}
 
+
+	protected class FormulaTextValueHandler implements TextValueHandler
+	{
+		private final int x;
+		private final int y;
+		private final String formula;
+		private final StyleInfo baseStyle;
+
+		private CellValue result;
+
+		public FormulaTextValueHandler(int x, int y, String formula, StyleInfo baseStyle)
+		{
+			this.x = x;
+			this.y = y;
+			this.formula = formula;
+			this.baseStyle = baseStyle;
+		}
+
+		public void handle(StringTextValue textValue) throws JRException
+		{
+			result = formula();
+		}
+
+		public void handle(NumberTextValue textValue) throws JRException
+		{
+			if (textValue.getPattern() != null)
+			{
+				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+			}
+
+			result = formula();
+		}
+
+		public void handle(DateTextValue textValue) throws JRException
+		{
+			baseStyle.setDisplayFormat(getDateFormat(textValue.getPattern()));
+			result = formula();
+		}
+
+		public void handle(BooleanTextValue textValue) throws JRException
+		{
+			result = formula();
+		}
+
+		protected Formula formula() throws JRException
+		{
+			try
+			{
+				return new Formula(x, y, formula, getLoadedCellStyle(baseStyle));
+			}
+			catch(Exception e)//FIXMENOW what exceptions could we get here?
+			{
+				if(log.isWarnEnabled())
+				{
+					log.warn(e.getMessage(), e);
+				}
+			}
+			return null;
+		}
+
+		public CellValue getResult()
+		{
+			return result;
+		}
+	}
 
 	protected class CellTextValueHandler implements TextValueHandler
 	{
@@ -1453,8 +1500,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		protected final int rotation;
 		protected final WritableFont font;
 		protected final BoxStyle box;
-		protected final boolean wrapText;
-		protected final boolean cellLocked;
+		protected final boolean isWrapText;
+		protected final boolean isCellLocked;
 		private DisplayFormat displayFormat;
 		private int hashCode;
 
@@ -1594,8 +1641,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				this.font = font;
 				
 				this.box = box;
-				this.wrapText = wrapText;
-				this.cellLocked = cellLocked;
+				this.isWrapText = wrapText;
+				this.isCellLocked = cellLocked;
 				
 				computeHash();
 			}
@@ -1610,8 +1657,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			hash = 31*hash + this.font.hashCode();
 			hash = 31*hash + (this.box == null ? 0 : this.box.hashCode());
 			hash = 31*hash + (this.displayFormat == null ? 0 : this.displayFormat.hashCode());
-			hash = 31*hash + (this.wrapText ? 0 : 1);
-			hash = 31*hash + (this.cellLocked ? 0 : 1);
+			hash = 31*hash + (this.isWrapText ? 0 : 1);
+			hash = 31*hash + (this.isCellLocked ? 0 : 1);
 
 			hashCode = hash;
 		}
@@ -1630,7 +1677,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				k.rotation == rotation && k.font.equals(font) &&
 				(k.box == null ? box == null : (box != null && k.box.equals(box))) &&
 				(k.displayFormat == null ? displayFormat == null : (displayFormat!= null && k.displayFormat.equals(displayFormat)) &&
-				k.wrapText == wrapText && k.cellLocked == cellLocked);
+				k.isWrapText == wrapText && k.isCellLocked == cellLocked);
 		}
 
 		public DisplayFormat getDisplayFormat()
@@ -1741,8 +1788,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				cellStyle.setAlignment(Alignment.getAlignment(styleKey.horizontalAlignment));
 				cellStyle.setVerticalAlignment(VerticalAlignment.getAlignment(styleKey.verticalAlignment));
 				cellStyle.setOrientation(Orientation.getOrientation(styleKey.rotation));
-				cellStyle.setWrap(styleKey.wrapText);
-				cellStyle.setLocked(styleKey.cellLocked);
+				cellStyle.setWrap(styleKey.isWrapText);
+				cellStyle.setLocked(styleKey.isCellLocked);
 
 				if (!isIgnoreCellBorder)
 				{
