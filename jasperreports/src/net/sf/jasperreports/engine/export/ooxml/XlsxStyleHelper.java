@@ -83,11 +83,11 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText)
+	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText, String pattern)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
-				formatHelper.getFormat(gridCell) + 1,
+				formatHelper.getFormat(pattern) + 1,
 				fontHelper.getFont(gridCell) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,

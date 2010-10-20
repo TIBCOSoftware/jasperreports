@@ -161,8 +161,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private Map numberFormats;
 	private Map dateFormats;
 
-	protected Map formatPatternsMap;
-
 	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
@@ -191,8 +189,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected void setParameters()
 	{
 		super.setParameters();
-
-		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
 		createCustomPalette = 
 			getBooleanParameter(
@@ -2203,23 +2199,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						+ element.getGenericType());
 			}
 		}
-	}
-
-
-	/**
-	 * This method is intended to modify a given format pattern so to include
-	 * only the accepted proprietary format characters. The resulted pattern
-	 * will possibly truncate the original pattern
-	 * @param pattern
-	 * @return pattern converted to accepted proprietary formats
-	 */
-	private String getConvertedPattern(String pattern)
-	{
-		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
-		{
-			return (String) formatPatternsMap.get(pattern);
-		}
-		return pattern;
 	}
 
 

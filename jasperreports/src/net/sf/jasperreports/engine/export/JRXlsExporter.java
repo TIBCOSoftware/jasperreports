@@ -149,7 +149,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected short backgroundMode = HSSFCellStyle.SOLID_FOREGROUND;
 
 	protected HSSFDataFormat dataFormat;
-	protected Map formatPatternsMap;
 
 	protected ExporterNature nature;
 
@@ -171,8 +170,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected void setParameters()
 	{
 		super.setParameters();
-
-		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
 		nature = new JRXlsExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
 		
@@ -1435,22 +1432,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected ExporterNature getNature()
 	{
 		return nature;
-	}
-
-	/**
-	 * This method is intended to modify a given format pattern so to include
-	 * only the accepted proprietary format characters. The resulted pattern
-	 * will possibly truncate the original pattern
-	 * @param pattern
-	 * @return pattern converted to accepted proprietary formats
-	 */
-	private String getConvertedPattern(String pattern)
-	{
-		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
-		{
-			return (String) formatPatternsMap.get(pattern);
-		}
-		return pattern;
 	}
 
 	private final short getSuitablePaperSize(JasperPrint jasP)

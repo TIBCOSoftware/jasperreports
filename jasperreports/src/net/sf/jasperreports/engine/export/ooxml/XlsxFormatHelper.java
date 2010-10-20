@@ -27,9 +27,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -50,15 +47,14 @@ public class XlsxFormatHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public int getFormat(JRExporterGridCell gridCell)
+	public int getFormat(String pattern)
 	{
-		JRPrintText text = gridCell.getElement() instanceof JRPrintText ? (JRPrintText)gridCell.getElement() : null;
-		if (text == null)
+		if (pattern == null)
 		{
 			return -1;			
 		}
-
-		XlsxFormatInfo formatInfo = new XlsxFormatInfo(gridCell);
+		
+		XlsxFormatInfo formatInfo = new XlsxFormatInfo(pattern);
 		Integer formatIndex = (Integer)formatCache.get(formatInfo.getId());
 		if (formatIndex == null)
 		{

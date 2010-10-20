@@ -87,7 +87,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, null, true);
+		exportHeader(gridCell, rowIndex, colIndex, null, true, null);
 	}
 
 	/**
@@ -98,7 +98,8 @@ public class XlsxCellHelper extends BaseHelper
 		int rowIndex,
 		int colIndex, 
 		TextValue textValue,
-		boolean isWrapText
+		boolean isWrapText,
+		String pattern
 		) 
 	{
 		String type = null;
@@ -116,7 +117,7 @@ public class XlsxCellHelper extends BaseHelper
 			type = handler.getType();
 		}
 		
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText) + "\"");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, pattern) + "\"");
 		if (type != null)
 		{
 			write(" t=\"" + type + "\"");
