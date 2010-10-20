@@ -582,18 +582,21 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		TextValue textValue = null;
 
 		String textFormula = getFormula(text);
-		if( textFormula != null)// if the cell has formula, we try create a formula cell
+		if( textFormula != null)
 		{
+			// if the cell has formula, we try create a formula cell
 			textValue = getTextValue(text, textStr);
 			cellValue = getFormulaCellValue(x, y, textValue, textFormula, baseStyle);
 		}
 		
-		if (cellValue == null)// if this is null, it means there was no formula, or the formula cell creation failed
+		if (cellValue == null)
 		{
+			// there was no formula, or the formula cell creation failed
 			if (isDetectCellType)
 			{
 				if (textFormula == null)
 				{
+					// there was no formula, so textValue was not created
 					textValue = getTextValue(text, textStr);
 				}
 				cellValue = getDetectedCellValue(x, y, textValue, baseStyle);

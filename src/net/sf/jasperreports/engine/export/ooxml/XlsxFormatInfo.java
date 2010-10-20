@@ -23,63 +23,42 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: BorderHelper.java 3135 2009-10-22 14:20:23Z teodord $
  */
-public class XlsxStyleInfo
+public class XlsxFormatInfo
 {
 	/**
 	 *
 	 */
-	protected int formatIndex; 
-	protected int fontIndex; 
-	protected int borderIndex; 
-	protected String backcolor; 
-	protected String horizontalAlign;
-	protected String verticalAlign;
-	protected boolean isWrapText = true;
+	protected String pattern;
 
 	/**
 	 *
 	 */
-	public XlsxStyleInfo(int formatIndex, int fontIndex, int borderIndex, JRExporterGridCell gridCell, boolean isWrapText)
+	public XlsxFormatInfo(JRExporterGridCell gridCell)
 	{
-		this.formatIndex = formatIndex;
-		this.fontIndex = fontIndex;
-		this.borderIndex = borderIndex;
-		
 		JRPrintElement element = gridCell.getElement();
-		
-		if (element != null && element.getModeValue() == ModeEnum.OPAQUE)
-		{
-			this.backcolor = JRColorUtil.getColorHexa(element.getBackcolor());
-		}
-		else if (gridCell.getBackcolor() != null)
-		{
-			this.backcolor = JRColorUtil.getColorHexa(gridCell.getBackcolor());
-		}
 
-		JRAlignment align = element instanceof JRAlignment ? (JRAlignment)element : null;
-		if (align != null)
+		JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
+		if (text != null)
 		{
-			this.horizontalAlign = XlsxParagraphHelper.getHorizontalAlignment(align.getHorizontalAlignmentValue());//FIXMEXLSX use common util
-			this.verticalAlign = DocxCellHelper.getVerticalAlignment(align.getVerticalAlignmentValue());//FIXMEXLSX use common util
+			this.pattern = text.getPattern();
 		}
-		
-		this.isWrapText = isWrapText;
 	}
 	
 	public String getId()
 	{
 		return 
-		formatIndex + "|" + fontIndex + "|" + borderIndex + "|" + backcolor + "|" + horizontalAlign + "|" + verticalAlign + "|" + isWrapText;
+			pattern;// + "|" + fontSize
+//			+ "|" + isBold + "|"+ isItalic 
+//			+ "|" + isUnderline + "|"+ isStrikeThrough
+//			+ "|" + color; 
 	}
 }

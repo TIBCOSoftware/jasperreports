@@ -42,6 +42,7 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
+	private FileBufferedWriter formatsWriter = new FileBufferedWriter();
 	private FileBufferedWriter fontsWriter = new FileBufferedWriter();
 	private FileBufferedWriter fillsWriter = new FileBufferedWriter();
 	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
@@ -49,6 +50,7 @@ public class XlsxStyleHelper extends BaseHelper
 	
 	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
+	private XlsxFormatHelper formatHelper;
 	private XlsxFontHelper fontHelper;
 	private XlsxBorderHelper borderHelper;
 	
@@ -73,6 +75,7 @@ public class XlsxStyleHelper extends BaseHelper
 		this.isWhitePageBackground = isWhitePageBackground;
 		this.isIgnoreCellBackground = isIgnoreCellBackground;
 		
+		formatHelper = new XlsxFormatHelper(formatsWriter);
 		fontHelper = new XlsxFontHelper(fontsWriter, isFontSizeFixEnabled);
 		borderHelper = new XlsxBorderHelper(bordersWriter, isIgnoreCellBorder);
 	}
@@ -84,6 +87,7 @@ public class XlsxStyleHelper extends BaseHelper
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
+				formatHelper.getFormat(gridCell) + 1,
 				fontHelper.getFont(gridCell) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
@@ -123,7 +127,7 @@ public class XlsxStyleHelper extends BaseHelper
 			}
 			
 			cellXfsWriter.write(
-				"<xf numFmtId=\"" + styleIndex
+				"<xf numFmtId=\"" + styleInfo.formatIndex
 				+ "\" fontId=\"" + styleInfo.fontIndex
 				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
@@ -148,6 +152,11 @@ public class XlsxStyleHelper extends BaseHelper
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">\n");
 		
+		write("<numFmts>\n");// count=\"1\">\n");
+		write("<numFmt numFmtId=\"0\" formatCode=\"General\"/>\n");
+		formatsWriter.writeData(writer);
+		write("</numFmts>\n");
+
 		write("<fonts>\n");// count=\"1\">\n");
 		write("<font><sz val=\"11\"/><color theme=\"1\"/><name val=\"Calibri\"/><family val=\"2\"/><scheme val=\"minor\"/></font>\n");
 		fontsWriter.writeData(writer);
