@@ -23,10 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -42,15 +38,9 @@ public class XlsxFormatInfo
 	/**
 	 *
 	 */
-	public XlsxFormatInfo(JRExporterGridCell gridCell)
+	public XlsxFormatInfo(String pattern)
 	{
-		JRPrintElement element = gridCell.getElement();
-
-		JRPrintText text = element instanceof JRPrintText ? (JRPrintText)element : null;
-		if (text != null)
-		{
-			this.pattern = text.getPattern();
-		}
+		this.pattern = pattern;
 	}
 	
 	public String getId()

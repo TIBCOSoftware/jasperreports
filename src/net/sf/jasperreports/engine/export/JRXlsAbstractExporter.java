@@ -217,6 +217,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected RunDirectionEnum sheetDirection;
 
+	protected Map formatPatternsMap;
 
 	protected JRExportProgressMonitor progressMonitor;
 
@@ -511,6 +512,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				);
 		sheetDirection = sheetDirectionProp == null ? RunDirectionEnum.LTR : RunDirectionEnum.getByName(sheetDirectionProp);
 		
+		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 	}
 
 	protected abstract void setBackground();
@@ -1158,6 +1160,22 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				return JRProperties.getBooleanProperty(element, PROPERTY_CELL_HIDDEN, cellHidden);
 			}
 			return cellHidden;
+	}
+
+	/**
+	 * This method is intended to modify a given format pattern so to include
+	 * only the accepted proprietary format characters. The resulted pattern
+	 * will possibly truncate the original pattern
+	 * @param pattern
+	 * @return pattern converted to accepted proprietary formats
+	 */
+	protected String getConvertedPattern(String pattern)
+	{
+		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
+		{
+			return (String) formatPatternsMap.get(pattern);
+		}
+		return pattern;
 	}
 
 	protected abstract ExporterNature getNature();

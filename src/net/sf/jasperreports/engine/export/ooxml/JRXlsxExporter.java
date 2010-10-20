@@ -172,8 +172,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setParameters()
 	{
 		super.setParameters();
-//
-//		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 
 		nature = new JRXlsxExporterNature(filter);
 //		
@@ -1176,7 +1174,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		TextValue textValue = getTextValue(text, textStr);
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, textValue, isWrapText(gridCell.getElement()));
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, textValue, isWrapText(gridCell.getElement()), getConvertedPattern(text.getPattern()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 		String textFormula = getFormula(text);
@@ -1362,7 +1360,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, null, isWrapText(elementGridCell.getElement()));
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, null, isWrapText(elementGridCell.getElement()), null);//FIXMEXLSX do we need wrap?
 		cellHelper.exportFooter();
 	}
 
