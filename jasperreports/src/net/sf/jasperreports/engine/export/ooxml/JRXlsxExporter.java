@@ -65,10 +65,17 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
@@ -607,7 +614,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 		cellHelper.exportFooter();
 	}
 
@@ -755,7 +762,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int rowIndex
 		) throws JRException 
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 //		boolean appendBackcolor =
@@ -813,7 +820,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		int availableImageHeight = image.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = availableImageHeight < 0 ? 0 : availableImageHeight;
 
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 
 		JRRenderable renderer = image.getRenderer();
 
@@ -1127,7 +1134,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
@@ -1148,29 +1155,34 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, true);
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 		cellHelper.exportFooter();
 	}
 
 
 	public void exportText(
-		JRPrintText text, 
+		final JRPrintText text, 
 		JRExporterGridCell gridCell,
 		int colIndex, 
 		int rowIndex
 		) throws JRException
 	{
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, isWrapText(gridCell.getElement()));
+		final JRStyledText styledText = getStyledText(text);
+
+		final int textLength = styledText == null ? 0 : styledText.length();
+
+		final String textStr = styledText.getText();
+
+		TextValue textValue = getTextValue(text, textStr);
+		
+		cellHelper.exportHeader(gridCell, rowIndex, colIndex, textValue, isWrapText(gridCell.getElement()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
-		JRStyledText styledText = getStyledText(text);
-
-		int textLength = 0;
-
-		if (styledText != null)
+		String textFormula = getFormula(text);
+		if (textFormula != null)
 		{
-			textLength = styledText.length();
+			sheetHelper.write("<f>" + textFormula + "</f>\n");
 		}
 
 //		if (isWrapBreakWord)
@@ -1193,8 +1205,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //
 //		writer.write(">");
 		
-		sheetHelper.write("<is>");//FIXMENOW make writer util
-
 //		tableHelper.getParagraphHelper().exportProps(text);
 		
 //		insertPageAnchor();
@@ -1210,19 +1220,47 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			sheetHelper.exportHyperlink(rowIndex, colIndex, href);
 		}
-//		boolean startedHyperlink = startHyperlink(text, true);
 
-		if (textLength > 0)
-		{
-			exportStyledText(text.getStyle(), styledText, getTextLocale(text));
-		}
+		textValue.handle(
+			new TextValueHandler() 
+			{
+				public void handle(BooleanTextValue textValue) throws JRException {
+					writeText();
+				}
+				
+				public void handle(DateTextValue textValue) throws JRException {
+					sheetHelper.write(
+						"<v>" 
+						+ JRDataUtils.getExcelSerialDayNumber(
+							textValue.getValue(), 
+							getTextLocale(text), 
+							getTextTimeZone(text)
+							) 
+						+ "</v>"
+						);
+				}
+				
+				public void handle(NumberTextValue textValue) throws JRException {
+					sheetHelper.write("<v>" + textStr + "</v>");
+				}
+				
+				public void handle(StringTextValue textValue) throws JRException {
+					writeText();
+				}
+				
+				private void writeText() throws JRException {
+					sheetHelper.write("<is>");//FIXMENOW make writer util; check everywhere
 
-//		if (startedHyperlink)
-//		{
-//			endHyperlink(true);
-//		}
+					if (textLength > 0)
+					{
+						exportStyledText(text.getStyle(), styledText, getTextLocale(text));
+					}
 
-		sheetHelper.write("</is>");
+					sheetHelper.write("</is>");
+				}
+			}
+			);
+		
 		sheetHelper.flush();
 
 		cellHelper.exportFooter();
@@ -1324,7 +1362,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, isWrapText(elementGridCell.getElement()));
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, null, isWrapText(elementGridCell.getElement()));
 		cellHelper.exportFooter();
 	}
 

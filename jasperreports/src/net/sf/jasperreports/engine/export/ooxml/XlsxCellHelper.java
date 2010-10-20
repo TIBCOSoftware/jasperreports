@@ -25,7 +25,15 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -76,11 +84,44 @@ public class XlsxCellHelper extends BaseHelper
 	public void exportHeader(
 		JRExporterGridCell gridCell,
 		int rowIndex,
+		int colIndex 
+		) 
+	{
+		exportHeader(gridCell, rowIndex, colIndex, null, true);
+	}
+
+	/**
+	 *
+	 */
+	public void exportHeader(
+		JRExporterGridCell gridCell,
+		int rowIndex,
 		int colIndex, 
+		TextValue textValue,
 		boolean isWrapText
 		) 
 	{
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText) + "\" t=\"inlineStr\">");
+		String type = null;
+		if (textValue != null)
+		{
+			TypeTextValueHandler handler = new TypeTextValueHandler();
+			try
+			{
+				textValue.handle(handler);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			type = handler.getType();
+		}
+		
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText) + "\"");
+		if (type != null)
+		{
+			write(" t=\"" + type + "\"");
+		}
+		write(">");
 		
 //		exportPropsHeader();
 //
@@ -257,5 +298,32 @@ public class XlsxCellHelper extends BaseHelper
 		char thirdLetter = (char)intThirdLetter;
 		
 		return ("" + firstLetter + secondLetter + thirdLetter).trim();
+	}
+
+
+	protected class TypeTextValueHandler implements TextValueHandler 
+	{
+		private String type;
+		
+		public void handle(BooleanTextValue textValue) throws JRException {
+			type = "b";
+		}
+		
+		public void handle(DateTextValue textValue) throws JRException {
+			type = "d";
+		}
+		
+		public void handle(NumberTextValue textValue) throws JRException {
+			type = "n";
+		}
+		
+		public void handle(StringTextValue textValue) throws JRException {
+			type = "inlineStr";
+		}
+		
+		public String getType()
+		{
+			return type;
+		}
 	}
 }
