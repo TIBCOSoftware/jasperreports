@@ -322,7 +322,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void setColumnWidth(int col, int width)
 	{
-		sheet.setColumnWidth(col, 43 * width);
+		sheet.setColumnWidth(col, Math.min(43 * width, 256*255));
 	}
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight)
