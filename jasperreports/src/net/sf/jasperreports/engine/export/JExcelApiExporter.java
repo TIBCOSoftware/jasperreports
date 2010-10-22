@@ -161,7 +161,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private Map numberFormats;
 	private Map dateFormats;
 
-	protected boolean createCustomPalette;
 	protected Map workbookColours = new HashMap();
 	protected Map usedColours = new HashMap();
 	protected String password;
@@ -190,13 +189,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		super.setParameters();
 
-		createCustomPalette = 
-			getBooleanParameter(
-				JExcelApiExporterParameter.CREATE_CUSTOM_PALETTE, 
-				JExcelApiExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
-				false
-				); 
-			
 		if (createCustomPalette)
 		{
 			initCustomPalette();

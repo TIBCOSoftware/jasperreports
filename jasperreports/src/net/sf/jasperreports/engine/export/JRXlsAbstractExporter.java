@@ -196,6 +196,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isFontSizeFixEnabled;
 	protected boolean isImageBorderFixEnabled;
 	protected boolean isIgnoreGraphics;
+	protected boolean createCustomPalette;
 	protected boolean isCollapseRowSpan;
 	protected boolean isIgnoreCellBorder;
 	protected boolean isIgnoreCellBackground;
@@ -409,6 +410,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
+		createCustomPalette = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.CREATE_CUSTOM_PALETTE, 
+				JRXlsAbstractExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
+				false
+				); 
 		isCollapseRowSpan = 
 			getBooleanParameter(
 				JRXlsAbstractExporterParameter.IS_COLLAPSE_ROW_SPAN,

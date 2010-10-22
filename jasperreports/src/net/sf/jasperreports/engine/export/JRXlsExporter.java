@@ -91,7 +91,6 @@ import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFName;
-import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -139,8 +138,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFCell cell;
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
-	private HSSFPalette palette = null;
-	protected boolean createCustomPalette;
+	//private HSSFPalette palette = null;
 
 	/**
 	 *
@@ -180,13 +178,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				JRXlsExporterParameter.PASSWORD,
 				JRXlsExporterParameter.PROPERTY_PASSWORD
 				);
-		
-		createCustomPalette = 
-			getBooleanParameter(
-				JRXlsAbstractExporterParameter.CREATE_CUSTOM_PALETTE, 
-				JRXlsAbstractExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
-				false
-				); 
 	}
 
 
@@ -207,7 +198,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
 		createHelper = workbook.getCreationHelper();
-		palette =  workbook.getCustomPalette();
+//		palette =  workbook.getCustomPalette();
 	}
 
 
@@ -843,26 +834,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected HSSFColor getWorkbookColor(Color awtColor)
 	{
-		byte red = (byte)awtColor.getRed();
-		byte green = (byte)awtColor.getGreen();
-		byte blue = (byte)awtColor.getBlue();
-		HSSFColor color = null;
-
-		if(createCustomPalette)
-		{
-			try
-			{
-				color = palette.findColor(red,green, blue) != null
-					? palette.findColor(red,green, blue)
-					: palette.addColor(red,green, blue);
-			}
-			catch(Exception e)
-			{
-				color = palette.findSimilarColor(red,green, blue);
-			}
-		}
-		
-		return color == null ? getNearestColor(awtColor) : color;
+		return getNearestColor(awtColor);
+//		byte red = (byte)awtColor.getRed();
+//		byte green = (byte)awtColor.getGreen();
+//		byte blue = (byte)awtColor.getBlue();
+//		HSSFColor color = null;
+//
+//		if(createCustomPalette)
+//		{
+//			try
+//			{
+//				color = palette.findColor(red,green, blue) != null
+//					? palette.findColor(red,green, blue)
+//					: palette.addColor(red,green, blue);
+//			}
+//			catch(Exception e)
+//			{
+//				color = palette.findSimilarColor(red,green, blue);
+//			}
+//		}
+//		
+//		return color == null ? getNearestColor(awtColor) : color;
 	}
 
 	/**
