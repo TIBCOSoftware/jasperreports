@@ -91,6 +91,7 @@ import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFName;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -138,7 +139,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFCell cell;
 	protected HSSFCellStyle emptyCellStyle;
 	protected CreationHelper createHelper;
-
+	private HSSFPalette palette = null;
+	protected boolean createCustomPalette;
 
 	/**
 	 *
@@ -179,6 +181,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				JRXlsExporterParameter.PROPERTY_PASSWORD
 				);
 		
+		createCustomPalette = 
+			getBooleanParameter(
+				JRXlsAbstractExporterParameter.CREATE_CUSTOM_PALETTE, 
+				JRXlsAbstractExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
+				false
+				); 
 	}
 
 
@@ -199,6 +207,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
 		createHelper = workbook.getCreationHelper();
+		palette =  workbook.getCustomPalette();
 	}
 
 
@@ -370,13 +379,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		short forecolor = blackIndex;
 		if (gridCell.getForecolor() != null)
 		{
-			forecolor = getNearestColor(gridCell.getForecolor()).getIndex();
+			forecolor = getWorkbookColor(gridCell.getForecolor()).getIndex();
 		}
 
 		HSSFCellStyle cellStyle =
@@ -402,7 +411,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportLine(JRPrintLine line, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getNearestColor(line.getLinePen().getLineColor()).getIndex();
+		short forecolor = getWorkbookColor(line.getLinePen().getLineColor()).getIndex();
 
 		int side = BoxStyle.TOP;
 		float ratio = line.getWidth() / line.getHeight();
@@ -435,7 +444,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		HSSFCellStyle cellStyle =
@@ -463,14 +472,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex)
 	{
-		short forecolor = getNearestColor(element.getLinePen().getLineColor()).getIndex();
+		short forecolor = getWorkbookColor(element.getLinePen().getLineColor()).getIndex();
 
 		short mode = backgroundMode;
 		short backcolor = whiteIndex;
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		HSSFCellStyle cellStyle =
@@ -503,7 +512,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			return;
 		}
 
-		short forecolor = getNearestColor(textElement.getForecolor()).getIndex();
+		short forecolor = getWorkbookColor(textElement.getForecolor()).getIndex();
 
 		TextAlignHolder textAlignHolder = getTextAlignHolder(textElement);
 		short horizontalAlignment = getHorizontalAlignment(textAlignHolder);
@@ -515,7 +524,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
+			backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 		}
 
 		StyleInfo baseStyle =
@@ -745,7 +754,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			Map attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
 			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
-					getNearestColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
+					getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
 					forecolor;
 			HSSFFont font = getLoadedFont(runFont, runForecolor, attributes, locale);
 			richTextStr.applyFont(iterator.getIndex(), runLimit, font);
@@ -832,10 +841,36 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected static HSSFColor getNearestColor(Color awtColor)
+	protected HSSFColor getWorkbookColor(Color awtColor)
 	{
-		HSSFColor color = (HSSFColor) hssfColorsCache.get(awtColor);
+		byte red = (byte)awtColor.getRed();
+		byte green = (byte)awtColor.getGreen();
+		byte blue = (byte)awtColor.getBlue();
+		HSSFColor color = null;
 
+		if(createCustomPalette)
+		{
+			try
+			{
+				color = palette.findColor(red,green, blue) != null
+					? palette.findColor(red,green, blue)
+					: palette.addColor(red,green, blue);
+			}
+			catch(Exception e)
+			{
+				color = palette.findSimilarColor(red,green, blue);
+			}
+		}
+		
+		return color == null ? getNearestColor(awtColor) : color;
+	}
+
+	/**
+	 *
+	 */
+	protected HSSFColor getNearestColor(Color awtColor)
+	{
+		HSSFColor color = (HSSFColor) hssfColorsCache.get(awtColor);		
 		if (color == null)
 		{
 			Map triplets = HSSFColor.getTripletHash();
@@ -869,10 +904,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 			hssfColorsCache.put(awtColor, color);
 		}
-
 		return color;
 	}
-
 
 	/**
 	 *
@@ -1324,14 +1357,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				if (!isIgnoreCellBackground && gridCell.getCellBackcolor() != null)
 				{
 					mode = HSSFCellStyle.SOLID_FOREGROUND;
-					backcolor = getNearestColor(gridCell.getCellBackcolor()).getIndex();
+					backcolor = getWorkbookColor(gridCell.getCellBackcolor()).getIndex();
 				}
 
-				short forecolor = getNearestColor(element.getLineBox().getPen().getLineColor()).getIndex();
+				short forecolor = getWorkbookColor(element.getLineBox().getPen().getLineColor()).getIndex();
 
 				if(element.getModeValue() == ModeEnum.OPAQUE )
 				{
-					backcolor = getNearestColor(element.getBackcolor()).getIndex();
+					backcolor = getWorkbookColor(element.getBackcolor()).getIndex();
 				}
 
 				HSSFCellStyle cellStyle =
@@ -1383,10 +1416,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if (frame.getModeValue() == ModeEnum.OPAQUE)
 		{
 			mode = HSSFCellStyle.SOLID_FOREGROUND;
-			backcolor = getNearestColor(frame.getBackcolor()).getIndex();
+			backcolor = getWorkbookColor(frame.getBackcolor()).getIndex();
 		}
 
-		short forecolor = getNearestColor(frame.getForecolor()).getIndex();
+		short forecolor = getWorkbookColor(frame.getForecolor()).getIndex();
 
 		HSSFCellStyle cellStyle =
 			getLoadedCellStyle(
@@ -1621,7 +1654,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected static class BoxStyle
+	protected class BoxStyle
 	{
 		protected static final int TOP = 0;
 		protected static final int LEFT = 1;
@@ -1635,7 +1668,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		public BoxStyle(int side, JRPen pen)
 		{
 			borderStyle[side] = getBorderStyle(pen);
-			borderColour[side] = getNearestColor(pen.getLineColor()).getIndex();
+			borderColour[side] = getWorkbookColor(pen.getLineColor()).getIndex();
 
 			hash = computeHash();
 		}
@@ -1659,16 +1692,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		public void setBox(JRLineBox box)
 		{
 			borderStyle[TOP] = getBorderStyle(box.getTopPen());
-			borderColour[TOP] = getNearestColor(box.getTopPen().getLineColor()).getIndex();
+			borderColour[TOP] = getWorkbookColor(box.getTopPen().getLineColor()).getIndex();
 
 			borderStyle[BOTTOM] = getBorderStyle(box.getBottomPen());
-			borderColour[BOTTOM] = getNearestColor(box.getBottomPen().getLineColor()).getIndex();
+			borderColour[BOTTOM] = getWorkbookColor(box.getBottomPen().getLineColor()).getIndex();
 
 			borderStyle[LEFT] = getBorderStyle(box.getLeftPen());
-			borderColour[LEFT] = getNearestColor(box.getLeftPen().getLineColor()).getIndex();
+			borderColour[LEFT] = getWorkbookColor(box.getLeftPen().getLineColor()).getIndex();
 
 			borderStyle[RIGHT] = getBorderStyle(box.getRightPen());
-			borderColour[RIGHT] = getNearestColor(box.getRightPen().getLineColor()).getIndex();
+			borderColour[RIGHT] = getWorkbookColor(box.getRightPen().getLineColor()).getIndex();
 
 			hash = computeHash();
 		}
@@ -1683,7 +1716,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				)
 			{
 				short style = getBorderStyle(pen);
-				short colour = getNearestColor(pen.getLineColor()).getIndex();
+				short colour = getWorkbookColor(pen.getLineColor()).getIndex();
 
 				borderStyle[TOP] = style;
 				borderStyle[BOTTOM] = style;
@@ -1743,7 +1776,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected static class StyleInfo
+	protected class StyleInfo
 	{
 		protected final short mode;
 		protected final short backcolor;
