@@ -85,10 +85,6 @@ public final class JRDataUtils
 	}
 	
 
-	private JRDataUtils()
-	{
-	}
-	
 	public static double getExcelSerialDayNumber(Date date, Locale locale, TimeZone timeZone)
 	{
 		GregorianCalendar calendar = new GregorianCalendar(timeZone,locale);
@@ -119,9 +115,15 @@ public final class JRDataUtils
 	           day);
 	}
 
+
 	public static boolean isLeapYear(int year)
 	{
 	    return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+	}
+	
+
+	private JRDataUtils()
+	{
 	}
 	
 }

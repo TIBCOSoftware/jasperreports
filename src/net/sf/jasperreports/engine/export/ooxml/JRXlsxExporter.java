@@ -31,6 +31,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -1172,7 +1173,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		final String textStr = styledText.getText();
 
-		TextValue textValue = getTextValue(text, textStr);
+		TextValue textValue = null;
+		if (isDetectCellType)
+		{
+			textValue = getTextValue(text, textStr);
+		}
 		
 		cellHelper.exportHeader(gridCell, rowIndex, colIndex, textValue, isWrapText(gridCell.getElement()), getConvertedPattern(text.getPattern()));
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
@@ -1219,7 +1224,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			sheetHelper.exportHyperlink(rowIndex, colIndex, href);
 		}
 
-		textValue.handle(
+		
+		TextValueHandler handler = 
 			new TextValueHandler() 
 			{
 				public void handle(BooleanTextValue textValue) throws JRException {
@@ -1227,13 +1233,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				}
 				
 				public void handle(DateTextValue textValue) throws JRException {
+					Date date = textValue.getValue();
 					sheetHelper.write(
 						"<v>" 
-						+ JRDataUtils.getExcelSerialDayNumber(
-							textValue.getValue(), 
+						+ (date == null ? "" : JRDataUtils.getExcelSerialDayNumber(
+							date, 
 							getTextLocale(text), 
 							getTextTimeZone(text)
-							) 
+							)) 
 						+ "</v>"
 						);
 				}
@@ -1248,16 +1255,25 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				
 				private void writeText() throws JRException {
 					sheetHelper.write("<is>");//FIXMENOW make writer util; check everywhere
-
+	
 					if (textLength > 0)
 					{
 						exportStyledText(text.getStyle(), styledText, getTextLocale(text));
 					}
-
+	
 					sheetHelper.write("</is>");
 				}
-			}
-			);
+			};
+		
+		if (textValue != null)
+		{
+			//detect cell type
+			textValue.handle(handler);
+		}
+		else
+		{
+			handler.handle((StringTextValue)null);
+		}
 		
 		sheetHelper.flush();
 
