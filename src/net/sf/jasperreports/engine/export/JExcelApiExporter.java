@@ -64,10 +64,12 @@ import jxl.format.RGB;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
 import jxl.write.Blank;
+import jxl.write.DateFormat;
 import jxl.write.DateTime;
 import jxl.write.Formula;
 import jxl.write.Label;
 import jxl.write.Number;
+import jxl.write.NumberFormat;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableHyperlink;
@@ -140,6 +142,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	 */
 	public static final String JXL_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "jxl";
 	
+	/**
+	 * Flag property specifying whether the format pattern is user-defined. The engine will assume that this kind of pattern is well defined. 
+	 * If the pattern string represents an invalid pattern, it won't be taken into account by Excel.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_COMPLEX_FORMAT = JRProperties.PROPERTY_PREFIX + "export.xls.complex.format";
+
+
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;
 
@@ -167,6 +178,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 	protected ExporterNature nature;
 	protected boolean useTempFile;
+	protected boolean complexFormat;
 	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
@@ -208,8 +220,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				PROPERTY_USE_TEMP_FILE,
 				false
 				);
-
 		
+		complexFormat = 
+			JRProperties.getBooleanProperty(
+				jasperPrint,
+				PROPERTY_COMPLEX_FORMAT,
+				false
+				);
 	}
 
 	protected void initCustomPalette()
@@ -574,7 +591,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			// if the cell has formula, we try create a formula cell
 			textValue = getTextValue(text, textStr);
-			cellValue = getFormulaCellValue(x, y, textValue, textFormula, baseStyle);
+			cellValue = getFormulaCellValue(x, y, textValue, textFormula, baseStyle, isComplexFormat(text));
 		}
 		
 		if (cellValue == null)
@@ -587,7 +604,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					// there was no formula, so textValue was not created
 					textValue = getTextValue(text, textStr);
 				}
-				cellValue = getDetectedCellValue(x, y, textValue, baseStyle);
+				cellValue = getDetectedCellValue(x, y, textValue, baseStyle, isComplexFormat(text));
 			}
 			else if (isAutoDetectCellType)
 			{
@@ -603,17 +620,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected CellValue getFormulaCellValue(int x, int y, TextValue textValue, String formula, StyleInfo baseStyle) throws JRException
+	protected CellValue getFormulaCellValue(int x, int y, TextValue textValue, String formula, StyleInfo baseStyle, boolean complexFormat) throws JRException
 	{
-		FormulaTextValueHandler handler = new FormulaTextValueHandler(x, y, formula, baseStyle);
+		FormulaTextValueHandler handler = new FormulaTextValueHandler(x, y, formula, baseStyle, complexFormat);
 		textValue.handle(handler);
 		return handler.getResult();
 	}
 
 
-	protected CellValue getDetectedCellValue(int x, int y, TextValue textValue, StyleInfo baseStyle) throws JRException
+	protected CellValue getDetectedCellValue(int x, int y, TextValue textValue, StyleInfo baseStyle, boolean complexFormat) throws JRException
 	{
-		CellTextValueHandler handler = new CellTextValueHandler(x, y, baseStyle);
+		CellTextValueHandler handler = new CellTextValueHandler(x, y, baseStyle, complexFormat);
 		textValue.handle(handler);
 		return handler.getResult();
 	}
@@ -625,15 +642,22 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		private final int y;
 		private final String formula;
 		private final StyleInfo baseStyle;
-
+		private final boolean cellComplexFormat;
+		
 		private CellValue result;
 
-		public FormulaTextValueHandler(int x, int y, String formula, StyleInfo baseStyle)
+//		public FormulaTextValueHandler(int x, int y, String formula, StyleInfo baseStyle)
+//		{
+//			this(x, y, formula, baseStyle, false);
+//		}
+
+		public FormulaTextValueHandler(int x, int y, String formula, StyleInfo baseStyle, boolean cellComplexFormat)
 		{
 			this.x = x;
 			this.y = y;
 			this.formula = formula;
 			this.baseStyle = baseStyle;
+			this.cellComplexFormat = cellComplexFormat;
 		}
 
 		public void handle(StringTextValue textValue) throws JRException
@@ -645,7 +669,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			if (textValue.getPattern() != null)
 			{
-				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern(), cellComplexFormat));
 			}
 
 			result = formula();
@@ -689,14 +713,21 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		private final int x;
 		private final int y;
 		private final StyleInfo baseStyle;
+		private final boolean cellComplexFormat;
 
 		private CellValue result;
 
-		public CellTextValueHandler(int x, int y, StyleInfo baseStyle)
+//		public CellTextValueHandler(int x, int y, StyleInfo baseStyle)
+//		{
+//			this(x, y, baseStyle, false);
+//		}
+
+		public CellTextValueHandler(int x, int y, StyleInfo baseStyle, boolean cellComplexFormat)
 		{
 			this.x = x;
 			this.y = y;
 			this.baseStyle = baseStyle;
+			this.cellComplexFormat = cellComplexFormat;
 		}
 
 		public void handle(StringTextValue textValue) throws JRException
@@ -709,7 +740,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			if (textValue.getPattern() != null)
 			{
-				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern()));
+				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern(), cellComplexFormat));
 			}
 
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
@@ -759,27 +790,41 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			return result;
 		}
+		
+		public boolean isCellComplexFormat()
+		{
+			return cellComplexFormat;
+		}
+		
+		
 	}
 
-	protected jxl.write.NumberFormat getNumberFormat(String pattern)
+	protected NumberFormat getNumberFormat(String pattern, boolean isComplexFormat)
 	{
 		String convertedPattern = getConvertedPattern(pattern);
-		jxl.write.NumberFormat cellFormat = (jxl.write.NumberFormat) numberFormats.get(convertedPattern);
+		NumberFormat cellFormat = (NumberFormat) numberFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new jxl.write.NumberFormat(convertedPattern);
+			if(isComplexFormat)
+			{
+				cellFormat = new NumberFormat(convertedPattern,NumberFormat.COMPLEX_FORMAT);
+			}
+			else
+			{
+				cellFormat = new NumberFormat(convertedPattern);
+			}
 			numberFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
 	}
 
-	protected jxl.write.DateFormat getDateFormat(String pattern)
+	protected DateFormat getDateFormat(String pattern)
 	{
 		String convertedPattern = getConvertedPattern(pattern);
-		jxl.write.DateFormat cellFormat = (jxl.write.DateFormat) dateFormats.get(convertedPattern);
+		DateFormat cellFormat = (DateFormat) dateFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new jxl.write.DateFormat(convertedPattern);
+			cellFormat = new DateFormat(convertedPattern);
 			dateFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
@@ -2203,6 +2248,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected String getExporterKey()
 	{
 		return JXL_EXPORTER_KEY;
+	}
+
+	/**
+	 * 
+	 */
+	protected boolean isComplexFormat(JRPrintElement element)
+	{
+		if (
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(PROPERTY_COMPLEX_FORMAT)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return JRProperties.getBooleanProperty(element, PROPERTY_COMPLEX_FORMAT, complexFormat);
+			}
+		return complexFormat;
 	}
 
 }
