@@ -887,9 +887,7 @@ public final class JRStyleResolver
 	 */
 	public static String getPattern(JRTextField element)
 	{
-		String ownPattern = JRProperties.getProperty(element, JRTextField.TEXT_FIELD_PATTERN) != null 
-			? JRProperties.getProperty(element, JRTextField.TEXT_FIELD_PATTERN) 
-			: element.getOwnPattern();
+		String ownPattern = element.getOwnPattern();
 		if (ownPattern != null)
 		{
 			return ownPattern;

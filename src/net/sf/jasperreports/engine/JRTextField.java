@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 //import java.text.Format;
 
@@ -85,11 +84,6 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	 */
 	public static final String STANDARD_DATE_FORMAT_SEPARATOR = DefaultFormatFactory.STANDARD_DATE_FORMAT_SEPARATOR;
 
-	
-	/**
-	 * Specifies the format pattern for the data in the text field.
-	 */
-	public static final String TEXT_FIELD_PATTERN = JRProperties.PROPERTY_PREFIX + "text.field.pattern";
 	
 	/**
 	 * Specifies whether the text field will stretch vertically if its text does not fit in one line.
