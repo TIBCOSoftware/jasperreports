@@ -362,7 +362,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	public void setSaveContributors(JRSaveContributor[] saveContribs)
 	{
 		this.saveContributors = new ArrayList();
-		if (saveContributors != null)
+		if (saveContribs != null)
 		{
 			this.saveContributors.addAll(Arrays.asList(saveContribs));
 		}
