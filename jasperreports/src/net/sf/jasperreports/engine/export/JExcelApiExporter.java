@@ -128,7 +128,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	private static final Log log = LogFactory.getLog(JExcelApiExporter.class);
 
 	/**
-	 * A boolean property enabling Excel to use temporary files for large excel output documents
+	 * Boolean property enabling the JExcelApiExporter to use temporary files when creating large documents.
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
@@ -137,19 +137,20 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	public static final String PROPERTY_USE_TEMP_FILE = JRProperties.PROPERTY_PREFIX + "export.jxl.use.temp.file";
 
 	/**
+	 * Boolean property specifying whether the cell format pattern is user-defined.
+	 * When set to true, the exporter will assume that the specified pattern is well defined. 
+	 * If the pattern is invalid, it won't be taken into account by the Excel file viewer.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_COMPLEX_FORMAT = JRProperties.PROPERTY_PREFIX + "export.jxl.cell.complex.format";
+
+	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
 	public static final String JXL_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "jxl";
 	
-	/**
-	 * Flag property specifying whether the format pattern is user-defined. The engine will assume that this kind of pattern is well defined. 
-	 * If the pattern string represents an invalid pattern, it won't be taken into account by Excel.
-	 * 
-	 * @see JRProperties
-	 */
-	public static final String PROPERTY_COMPLEX_FORMAT = JRProperties.PROPERTY_PREFIX + "export.xls.complex.format";
-
 
 	protected static final Colour WHITE = Colour.WHITE;
 	protected static final Colour BLACK = Colour.BLACK;

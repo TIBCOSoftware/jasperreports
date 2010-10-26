@@ -132,6 +132,8 @@
       <property ref="net.sf.jasperreports.export.html.white.page.background"/>
       <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
       <property ref="net.sf.jasperreports.export.html.flush.output"/>
+      <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
+      <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
       <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
@@ -1659,6 +1661,34 @@ It specifies whether the export engine should force text wrapping by breaking wo
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.jxl.use.temp.file -->
+  
+  <configProperty name="net.sf.jasperreports.export.jxl.use.temp.file">
+    <description>
+Boolean property enabling the JExcelApiExporter to use temporary files when creating large documents.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JExcelApiExporter.html#PROPERTY_USE_TEMP_FILE</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.jxl.cell.complex.format -->
+  
+  <configProperty name="net.sf.jasperreports.export.jxl.cell.complex.format">
+    <description>
+Boolean property specifying whether the cell format pattern is user-defined. 
+When set to <code>true</code>, the exporter will assume that the specified pattern is well defined. 
+If the pattern is invalid, it won't be taken into account by the Excel file viewer.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JExcelApiExporter.html#PROPERTY_COMPLEX_FORMAT</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>3.7.6</since>
   </configProperty>
   
   
