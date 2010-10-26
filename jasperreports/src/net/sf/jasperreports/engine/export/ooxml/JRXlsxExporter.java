@@ -1246,7 +1246,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				}
 				
 				public void handle(NumberTextValue textValue) throws JRException {
-					sheetHelper.write("<v>" + textStr + "</v>");
+					Number number = textValue.getValue();
+					sheetHelper.write(
+						"<v>" 
+						+ (number == null ? "" : number) 
+						+ "</v>"
+						);
 				}
 				
 				public void handle(StringTextValue textValue) throws JRException {
