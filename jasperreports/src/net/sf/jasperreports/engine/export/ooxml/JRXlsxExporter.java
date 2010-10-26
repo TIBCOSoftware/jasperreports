@@ -1362,8 +1362,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	protected void removeColumn(int col) {
-		// TODO Auto-generated method stub
-		
+		//column width was already set to zero
 	}
 
 
