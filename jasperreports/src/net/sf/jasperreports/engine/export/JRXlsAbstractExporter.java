@@ -669,6 +669,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| yCuts.isBreak(y) 
 				)
 			{
+				if (isRemoveEmptySpaceBetweenColumns)
+				{
+					removeEmptyColumns(xCuts);
+				}
 				createSheet(getSheetName(null));
 				setColumnWidths(xCuts);
 				startRow = 0;
