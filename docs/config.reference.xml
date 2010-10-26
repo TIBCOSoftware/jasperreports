@@ -164,26 +164,27 @@
       <property ref="net.sf.jasperreports.export.text.character.width"/>
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
-      <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
+      <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
+      <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
       <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
       <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
+      <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
+      <property ref="net.sf.jasperreports.export.xls.formula"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
+      <property ref="net.sf.jasperreports.export.xls.image.border.fix.enabled"/>
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
       <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
+      <property ref="net.sf.jasperreports.export.xls.password"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
-      <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
-      <property ref="net.sf.jasperreports.export.xls.formula"/>
-      <property ref="net.sf.jasperreports.export.xls.password"/>
-      <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
-      <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.right"/>
@@ -191,6 +192,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.left"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
       <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
       <property ref="net.sf.jasperreports.export.xml.page.count"/>
@@ -2118,6 +2120,19 @@ Specifies whether graphic elements should be ignored and only text elements be e
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.image.border.fix.enabled -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.image.border.fix.enabled">
+    <description>
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#IS_IMAGE_BORDER_FIX_ENABLED">IS_IMAGE_BORDER_FIX_ENABLED</api> export parameter.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_IMAGE_BORDER_FIX_ENABLED</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>3.0.0</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.max.rows.per.sheet -->
   
   <configProperty name="net.sf.jasperreports.export.xls.max.rows.per.sheet">
@@ -2243,6 +2258,23 @@ It is very useful especially when displaying each report's group on a separate s
     <default>false</default>
     <scope>Element</scope>
     <since>3.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.direction -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.direction">
+    <description>
+This property indicates if the sheet is left-to-right or right-to-left oriented. Possible values are:
+<ul>
+  <li><code>LTR</code></li>
+  <li><code>RTL</code></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_SHEET_DIRECTION</api>
+    <default>LTR</default>
+    <scope>Global | Report</scope>
+    <since>3.7.5</since>
   </configProperty>
   
   
