@@ -823,10 +823,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int width = xCuts.getCut(col + 1) - xCuts.getCut(col);
 				setColumnWidth(col, width);
 			}
-			else
-			{
-				setColumnWidth(col, 0);
-			}
 		}
 	}
 
