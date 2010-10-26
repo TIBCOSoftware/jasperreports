@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
@@ -1361,6 +1362,23 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
+	/**
+	 * @override
+	 */
+	protected void setColumnWidths(CutsInfo xCuts)
+	{
+		for(int col = 0; col < xCuts.size() - 1; col++)
+		{
+			setColumnWidth(
+				col, 
+				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col))) 
+					? xCuts.getCut(col + 1) - xCuts.getCut(col) 
+					: 0
+				);
+		}
+	}
+
+	
 	protected void removeColumn(int col) {
 		//column width was already set to zero
 	}
