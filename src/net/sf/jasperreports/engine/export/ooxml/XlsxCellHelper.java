@@ -55,7 +55,7 @@ public class XlsxCellHelper extends BaseHelper
 	 */
 	private XlsxStyleHelper styleHelper;
 //	private XlsxBorderHelper borderHelper;
-
+	
 	/**
 	 *
 	 */
@@ -102,20 +102,25 @@ public class XlsxCellHelper extends BaseHelper
 		String pattern
 		) 
 	{
-		String type = null;
-		if (textValue != null)
+		TypeTextValueHandler handler = TypeTextValueHandler.getInstance();
+		
+		try
 		{
-			TypeTextValueHandler handler = new TypeTextValueHandler();
-			try
+			if (textValue != null)
 			{
 				textValue.handle(handler);
 			}
-			catch (JRException e)
+			else
 			{
-				throw new JRRuntimeException(e);
+				handler.handle((StringTextValue)null);
 			}
-			type = handler.getType();
 		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+
+		String type = handler.getType();
 		
 		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, pattern) + "\"");
 		if (type != null)
@@ -302,29 +307,39 @@ public class XlsxCellHelper extends BaseHelper
 	}
 
 
-	protected class TypeTextValueHandler implements TextValueHandler 
+}
+
+class TypeTextValueHandler implements TextValueHandler 
+{
+	private static final TypeTextValueHandler INSTANCE = new TypeTextValueHandler();
+
+	private String type;
+	
+	private TypeTextValueHandler(){
+	}
+	
+	public static TypeTextValueHandler getInstance(){
+		return INSTANCE;
+	}
+	
+	public void handle(BooleanTextValue textValue) throws JRException {
+		type = "b";
+	}
+	
+	public void handle(DateTextValue textValue) throws JRException {
+		type = "d";
+	}
+	
+	public void handle(NumberTextValue textValue) throws JRException {
+		type = "n";
+	}
+	
+	public void handle(StringTextValue textValue) throws JRException {
+		type = "inlineStr";
+	}
+	
+	public String getType()
 	{
-		private String type;
-		
-		public void handle(BooleanTextValue textValue) throws JRException {
-			type = "b";
-		}
-		
-		public void handle(DateTextValue textValue) throws JRException {
-			type = "d";
-		}
-		
-		public void handle(NumberTextValue textValue) throws JRException {
-			type = "n";
-		}
-		
-		public void handle(StringTextValue textValue) throws JRException {
-			type = "inlineStr";
-		}
-		
-		public String getType()
-		{
-			return type;
-		}
+		return type;
 	}
 }
