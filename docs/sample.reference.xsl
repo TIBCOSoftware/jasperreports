@@ -68,6 +68,42 @@
 	font-size: 12px;
 	font-weight: bold;
 }
+
+.uncompleted {
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #505050;
+}
+
+a.uncompleted:link {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
+a.uncompleted:visited {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
+a.uncompleted:hover {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
+a.uncompleted:active {
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -166,7 +202,14 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   <tr>
     <td></td>
     <td>
-      <span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+       <xsl:choose>
+         <xsl:when test="@completed = 'false'">
+      		<span class="uncompleted"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">uncompleted</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+         </xsl:when>
+         <xsl:otherwise>
+      		<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+         </xsl:otherwise>
+       </xsl:choose>
     </td>
   </tr>
   </xsl:for-each>
