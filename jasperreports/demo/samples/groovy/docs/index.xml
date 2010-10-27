@@ -16,6 +16,10 @@
 How to implement a custom report compiler and how to register it with a custom defined report expression language.
     </description>
     <since>0.6.6</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>
@@ -333,6 +337,10 @@ to the other related samples enumerated in the <b>Other Samples</b> section.
 How to use Groovy scripting for report expressions.
     </description>
     <since>1.2.2</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="java1.5"/>

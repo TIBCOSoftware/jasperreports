@@ -18,6 +18,10 @@
 How to fill reports using data source objects.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="csvdatasource"/>
   	<otherSample ref="xlsdatasource"/>
   	<otherSample ref="xmldatasource"/>
@@ -141,6 +145,10 @@ inside the data source if possible:
 How to implement a custom data source from scratch.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 <b>Custom Data Sources</b>
 <br/>
@@ -258,6 +266,10 @@ It will generate the sample report in the /build/reports directory, filling it w
 How to fill reports with collections or arrays of JavaBean objects.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 <b><a name="javaBeanDS">JavaBean Data Sources</a></b>
 <br/>
@@ -469,6 +481,10 @@ and then the same report will be generated with data extracted from a <code>JRBe
 How to wrap a custom TableModel implementation into a report data source. 
     </description>
     <since>0.3.3</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 <b><a name="tableModelDS">TableModel Data Sources</a></b>
 <br/>

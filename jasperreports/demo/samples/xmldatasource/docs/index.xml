@@ -19,6 +19,10 @@
 How to fill a report using data from an XML file.
     </description>
     <since>0.6.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 <b>XML Data Sources</b>
 <br/>
