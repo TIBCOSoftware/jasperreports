@@ -2,8 +2,17 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.6 (2010-1x-xx, SVN xxxx)
+JasperReports 3.7.6 (2010-10-27, SVN 4035)
 ---------------------------------------------
+
+- enhancing the XLSX exporter so that it supports more exporter parameters 
+and configuration properties from the ones shared by all the XLS exporters;
+
+- various fixes in the XLS exporters;
+
+- added support for hidden text in the DOCX exporter;
+
+- new chapters added to the Sample Reference documentation;
 
 - minor bug fixes and improvements;
 
