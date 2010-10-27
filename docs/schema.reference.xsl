@@ -68,38 +68,15 @@
 	font-size: 12px;
 	font-weight: bold;
 	text-decoration: none;
+	color: #000000;
 }
 
-a.attribute:link {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: inherit;
-}
-
-a.attribute:visited {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: inherit;
-}
-
-a.attribute:hover {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: inherit;
-}
-
-a.attribute:active {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: inherit;
+.copy {
+	font-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-style: normal;
+	color: #000000;
 }
 
 </style>
@@ -223,7 +200,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <tr>
     <td colspan="5" align="center">
-      <span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+      <span class="copy">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
     </td>
   </tr>
 </table>
