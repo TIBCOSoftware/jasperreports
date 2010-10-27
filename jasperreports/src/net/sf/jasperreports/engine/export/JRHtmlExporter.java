@@ -2058,11 +2058,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 		if (coords != null && coords.length > 0)
 		{
 			StringBuffer coordsEnum = new StringBuffer(coords.length * 4);
-			coordsEnum.append(coords[0]);
+			coordsEnum.append(toZoom(coords[0]));
 			for (int i = 1; i < coords.length; i++)
 			{
 				coordsEnum.append(',');
-				coordsEnum.append(coords[i]);
+				coordsEnum.append(toZoom(coords[i]));
 			}
 			writer.write(" coords=\"" + coordsEnum + "\"");
 		}		
@@ -2379,7 +2379,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	public String toSizeUnit(int size)
 	{
-		return String.valueOf((int)(zoom * size)) + sizeUnit;
+		return String.valueOf(toZoom(size)) + sizeUnit;
+	}
+
+	public int toZoom(int size)
+	{
+		return (int)(zoom * size);
 	}
 
 
