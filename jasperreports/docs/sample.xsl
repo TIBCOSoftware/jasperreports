@@ -204,7 +204,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td><br/></td>
     <td><span class="label">Documented by: </span></td>
    	<td><br/></td>
-    <td colspan="2"><span class="description"><xsl:value-of select="./documentedBy/name"/> (<a href='mailto: &lt;xsl:value-of select="./documentedBy/email"/&gt;'><xsl:value-of select="./documentedBy/email"/></a>)</span></td>
+    <td colspan="2"><span class="description"><xsl:value-of select="./documentedBy/name"/> <xsl:if test="./documentedBy/email != ''">(</xsl:if><a href='mailto: &lt;xsl:value-of select="./documentedBy/email"/&gt;'><xsl:value-of select="./documentedBy/email"/></a><xsl:if test="./documentedBy/email != ''">)</xsl:if></span></td>
   </tr>
   </xsl:if>
   <xsl:if test="count(otherSample) > 0">
