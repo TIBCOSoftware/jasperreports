@@ -49,7 +49,7 @@ public class XlsxFontInfo
 	/**
 	 *
 	 */
-	public XlsxFontInfo(JRExporterGridCell gridCell)
+	public XlsxFontInfo(JRExporterGridCell gridCell, String fontName)
 	{
 		JRPrintElement element = gridCell.getElement();
 
@@ -61,7 +61,7 @@ public class XlsxFontInfo
 		JRFont font = element instanceof JRFont ? (JRFont)element : null;
 		if (font != null)
 		{
-			this.fontName = font.getFontName();
+			this.fontName = fontName;
 			this.fontSize = font.getFontSize();
 			this.isBold = font.isBold();
 			this.isItalic = font.isItalic();

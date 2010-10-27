@@ -256,7 +256,7 @@ public class JRGridLayout
 		xCuts = createXCuts ? new CutsInfo() : xCuts;
 		yCuts = nature.isIgnoreLastRow() ? new CutsInfo(0) : new CutsInfo(height);
 
-		if(!isNested && nature.isIgnorePageMargins())
+		if(!isNested && nature.isIgnorePageMargins()) //FIXMEXLS left and right margins are not ignored when all pages on a single sheet
 		{
 			setMargins(wrappers);
 

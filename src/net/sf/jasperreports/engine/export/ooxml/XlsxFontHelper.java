@@ -25,10 +25,14 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 
 
 /**
@@ -39,6 +43,8 @@ public class XlsxFontHelper extends BaseHelper
 {
 	private Map fontCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
+	private Map fontMap;
+	private String exporterKey;
 	private boolean isFontSizeFixEnabled;
 
 	/**
@@ -46,18 +52,22 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public XlsxFontHelper(
 		Writer writer,
+		Map fontMap,
+		String exporterKey,
 		boolean isFontSizeFixEnabled		
 		)
 	{
 		super(writer);
 
+		this.fontMap = fontMap;
+		this.exporterKey = exporterKey;
 		this.isFontSizeFixEnabled = isFontSizeFixEnabled;
 	}
 	
 	/**
 	 *
 	 */
-	public int getFont(JRExporterGridCell gridCell)
+	public int getFont(JRExporterGridCell gridCell, Locale locale)
 	{
 		JRFont font = gridCell.getElement() instanceof JRFont ? (JRFont)gridCell.getElement() : null;
 		if (font == null)
@@ -65,7 +75,27 @@ public class XlsxFontHelper extends BaseHelper
 			return -1;			
 		}
 
-		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell);
+		String fontName = font.getFontName();
+		if (fontMap != null && fontMap.containsKey(fontName))
+		{
+			fontName = (String) fontMap.get(fontName);
+		}
+		else
+		{
+			FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+			if (fontInfo != null)
+			{
+				//fontName found in font extensions
+				FontFamily family = fontInfo.getFontFamily();
+				String exportFont = family.getExportFont(exporterKey);
+				if (exportFont != null)
+				{
+					fontName = exportFont;
+				}
+			}
+		}
+		
+		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell, fontName);
 		Integer fontIndex = (Integer)fontCache.get(fontInfo.getId());
 		if (fontIndex == null)
 		{
@@ -84,7 +114,7 @@ public class XlsxFontHelper extends BaseHelper
 		write(
 			"<font><sz val=\"" + (isFontSizeFixEnabled ? fontInfo.fontSize - 1 : fontInfo.fontSize) + "\"/>" 
 			+ "<color rgb=\"" + fontInfo.color + "\"/>"
-			+ "<name val=\"" + fontInfo.fontName + "\"/>"//FIXMEXLSX use font mappings here
+			+ "<name val=\"" + fontInfo.fontName + "\"/>"
 			+ "<b val=\"" + fontInfo.isBold + "\"/>"
 			+ "<i val=\"" + fontInfo.isItalic + "\"/>"
 			+ "<u val=\"" + (fontInfo.isUnderline ? "single" : "none") + "\"/>"

@@ -23,38 +23,22 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporterNature;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRDocxExporterNature.java 2964 2009-07-28 07:29:54Z teodord $
  */
-public class JRXlsxExporterNature extends JROfficeOpenXmlExporterNature
+public class JRXlsxExporterNature extends JRXlsAbstractExporterNature
 {
 
 	/**
 	 *
 	 */
-	public JRXlsxExporterNature(ExporterFilter filter)
+	public JRXlsxExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
-		super(filter);
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isDeep(JRPrintFrame frame)
-	{
-		return true;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isIgnoreLastRow()
-	{
-		return false;
+		super(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
 }

@@ -57,9 +57,9 @@ public class XlsxWorkbookHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportSheet(int index)
+	public void exportSheet(int index, String name)
 	{
-		write("  <sheet name=\"Sheet" + index + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
+		write("  <sheet name=\"" + name + "\" sheetId=\"" + index + "\" r:id=\"rId" + index + "\"/>\n");
 	}
 	
 

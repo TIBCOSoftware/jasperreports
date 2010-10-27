@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -87,7 +88,7 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex 
 		) 
 	{
-		exportHeader(gridCell, rowIndex, colIndex, null, true, null);
+		exportHeader(gridCell, rowIndex, colIndex, null, true, null, null);
 	}
 
 	/**
@@ -99,7 +100,8 @@ public class XlsxCellHelper extends BaseHelper
 		int colIndex, 
 		TextValue textValue,
 		boolean isWrapText,
-		String pattern
+		String pattern,
+		Locale locale
 		) 
 	{
 		TypeTextValueHandler handler = TypeTextValueHandler.getInstance();
@@ -122,7 +124,7 @@ public class XlsxCellHelper extends BaseHelper
 
 		String type = handler.getType();
 		
-		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, pattern) + "\"");
+		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, isWrapText, pattern, locale) + "\"");
 		if (type != null)
 		{
 			write(" t=\"" + type + "\"");

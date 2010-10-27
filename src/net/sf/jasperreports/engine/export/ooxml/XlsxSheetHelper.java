@@ -42,6 +42,8 @@ public class XlsxSheetHelper extends BaseHelper
 	private FileBufferedWriter mergedCellsWriter = new FileBufferedWriter();
 	private FileBufferedWriter hyperlinksWriter = new FileBufferedWriter();
 	
+	private boolean isCollapseRowSpan;
+	
 	/**
 	 *
 	 */
@@ -50,11 +52,16 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxSheetHelper(Writer writer, XlsxSheetRelsHelper sheetRelsHelper)
+	public XlsxSheetHelper(
+		Writer writer, 
+		XlsxSheetRelsHelper sheetRelsHelper,
+		boolean isCollapseRowSpan
+		)
 	{
 		super(writer);
 		
 		this.sheetRelsHelper = sheetRelsHelper;
+		this.isCollapseRowSpan = isCollapseRowSpan;
 	}
 
 	/**
@@ -85,7 +92,7 @@ public class XlsxSheetHelper extends BaseHelper
 		{
 			if (!colsWriter.isEmpty())
 			{
-				write("<cols>\n");//FIXMEXLSX check count attribute
+				write("<cols>\n");
 				colsWriter.writeData(writer);
 				write("</cols>\n");
 			}
@@ -94,13 +101,13 @@ public class XlsxSheetHelper extends BaseHelper
 		write("</sheetData>\n");
 		if (!mergedCellsWriter.isEmpty())
 		{
-			write("<mergeCells>\n");//FIXMEXLSX check count attribute
+			write("<mergeCells>\n");
 			mergedCellsWriter.writeData(writer);
 			write("</mergeCells>\n");
 		}
 		if (!hyperlinksWriter.isEmpty())
 		{
-			write("<hyperlinks>\n");//FIXMEXLSX check count attribute
+			write("<hyperlinks>\n");
 			hyperlinksWriter.writeData(writer);
 			write("</hyperlinks>\n");
 		}
@@ -138,7 +145,7 @@ public class XlsxSheetHelper extends BaseHelper
 		{
 			if (!colsWriter.isEmpty())
 			{
-				write("<cols>\n");//FIXMEXLSX check count attribute
+				write("<cols>\n");
 				colsWriter.writeData(writer);
 				write("</cols>\n");
 			}
@@ -153,7 +160,9 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportMergedCells(int row, int col, int rowSpan, int colSpan) 
 	{
-		if (rowSpan > 1 || colSpan > 1)
+		rowSpan = isCollapseRowSpan ? 1 : rowSpan;
+		
+		if (rowSpan > 1	|| colSpan > 1)
 		{
 			String ref = 
 				XlsxCellHelper.getColumIndexLetter(col) + (row + 1)

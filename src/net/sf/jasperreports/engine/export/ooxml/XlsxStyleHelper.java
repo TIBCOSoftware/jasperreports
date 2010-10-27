@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -76,19 +77,19 @@ public class XlsxStyleHelper extends BaseHelper
 		this.isIgnoreCellBackground = isIgnoreCellBackground;
 		
 		formatHelper = new XlsxFormatHelper(formatsWriter);
-		fontHelper = new XlsxFontHelper(fontsWriter, isFontSizeFixEnabled);
+		fontHelper = new XlsxFontHelper(fontsWriter, fontMap, exporterKey, isFontSizeFixEnabled);
 		borderHelper = new XlsxBorderHelper(bordersWriter, isIgnoreCellBorder);
 	}
 
 	/**
 	 * 
 	 */
-	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText, String pattern)
+	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText, String pattern, Locale locale)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
 				formatHelper.getFormat(pattern) + 1,
-				fontHelper.getFont(gridCell) + 1,
+				fontHelper.getFont(gridCell, locale) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
 				isWrapText
