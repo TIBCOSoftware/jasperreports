@@ -122,11 +122,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 
 	/**
-	 *
-	 */
-	protected boolean isWrapBreakWord;
-
-	/**
 	 * @deprecated
 	 */
 	protected Map fontMap;
@@ -647,12 +642,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		{
 			textLength = styledText.length();
 		}
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
 
 //		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 //		{

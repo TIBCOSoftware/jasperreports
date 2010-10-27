@@ -138,11 +138,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected boolean startPage;
 
 	/**
-	 *
-	 */
-	protected boolean isWrapBreakWord;
-
-	/**
 	 * @deprecated
 	 */
 	protected Map fontMap;
@@ -692,12 +687,6 @@ public class JRDocxExporter extends JRAbstractExporter
 		{
 			textLength = styledText.length();
 		}
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
 
 //		if (styleBuffer.length() > 0)
 //		{
