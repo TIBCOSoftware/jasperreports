@@ -1362,8 +1362,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	/**
-	 * @override
+	 *
 	 */
+	@Override
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
 		for(int col = 0; col < xCuts.size() - 1; col++)
