@@ -15,6 +15,10 @@
 How to generate formulas, when exporting the report to XLS. 
     </description>
     <since>3.0.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
     <b>Why to use a formula</b>
     <br/>
