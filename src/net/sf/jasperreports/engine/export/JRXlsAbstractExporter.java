@@ -415,7 +415,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRXlsAbstractExporterParameter.CREATE_CUSTOM_PALETTE, 
 				JRXlsAbstractExporterParameter.PROPERTY_CREATE_CUSTOM_PALETTE, 
 				false
-				); 
+				);
+
 		isCollapseRowSpan = 
 			getBooleanParameter(
 				JRXlsAbstractExporterParameter.IS_COLLAPSE_ROW_SPAN,

@@ -132,11 +132,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected int slideIndex;
 	
 	/**
-	 *
-	 */
-	protected boolean isWrapBreakWord;
-
-	/**
 	 * @deprecated
 	 */
 	protected Map fontMap;
@@ -893,12 +888,6 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		slideHelper.write("\"/>\n");
 		slideHelper.write("    <a:lstStyle/>\n");
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
 
 //		if (styleBuffer.length() > 0)
 //		{
