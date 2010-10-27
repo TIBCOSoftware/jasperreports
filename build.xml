@@ -188,6 +188,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizationHelper.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVisitable.class"/>
+				<include name="**/net/sf/jasperreports/engine/PrintElementVisitor.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox*Pen.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseConditionalStyle.class"/>
@@ -229,6 +230,8 @@
 				<include name="**/net/sf/jasperreports/engine/export/draw/FrameDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/ImageDrawer*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/LineDrawer.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/Offset.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/draw/PrintDrawVisitor.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/RectangleDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/TextDrawer*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/legacy/BorderOffset*.class"/>

@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 3.7.6 (2010-10-27, SVN 4035)
+JasperReports 3.7.6 (2010-10-27, SVN 4037)
 ---------------------------------------------
 
 - enhancing the XLSX exporter so that it supports more exporter parameters 
