@@ -17,6 +17,10 @@
 How to compile all your JRXML report source files at application build time using the Ant build tool.
     </description>
     <since>0.4.6</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>
@@ -162,6 +166,10 @@ This is useful in cases where only the compiled <code>*.jasper</code> files of o
 the initial <code>*.jrxml</code> source files being lost.
     </description>
     <since>3.7.1</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>
