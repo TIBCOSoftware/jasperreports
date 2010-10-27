@@ -16,6 +16,10 @@
 How to create reports in any language using unicode support.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="fonts"/>
   	<otherSample ref="i18n"/>
     <content>

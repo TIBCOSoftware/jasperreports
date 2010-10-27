@@ -16,6 +16,10 @@
 How to implement a custom query executer and how to associate it with a custom report query language.
     </description>
     <since>1.2.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="ejbql"/>
   	<otherSample ref="xmldatasource"/>
   	<otherSample ref="mondrian"/>
@@ -31,6 +35,10 @@ How to implement a custom query executer and how to associate it with a custom r
 How to fill reports using embedded Hibernate (HQL) queries.
     </description>
     <since>1.2.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>

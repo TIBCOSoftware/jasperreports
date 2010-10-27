@@ -15,6 +15,10 @@
 How to implement a custom component to wrap charts rendered by the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library. 
     </description>
     <since>3.1.2</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>

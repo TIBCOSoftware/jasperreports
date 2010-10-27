@@ -16,6 +16,10 @@
 How to fill reports using embedded EJBQL queries.
     </description>
     <since>1.2.3</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="hibernate"/>
   	<otherSample ref="xmldatasource"/>
   	<otherSample ref="mondrian"/>

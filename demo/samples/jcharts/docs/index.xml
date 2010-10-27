@@ -15,6 +15,10 @@
 How to render images using the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
     </description>
     <since>0.6.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="jfreechart"/>
     <content>
 [Under Construction]

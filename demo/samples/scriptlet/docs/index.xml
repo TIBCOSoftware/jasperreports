@@ -15,6 +15,10 @@
 	How to perform custom calculation and tailor the report filling process using report scriptlets implementations.
     </description>
     <since>0.2.5</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
     There are situations when a calculation is required during the report filling stage that is not included in JasperReports provided
     calculations.

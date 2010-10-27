@@ -15,6 +15,10 @@
 How to suppress pagination in generated documents.
     </description>
     <since>1.0.1</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>
