@@ -16,6 +16,10 @@
 How to use Java 1.5 language specific features inside report expressions.
     </description>
     <since>1.1.1</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>

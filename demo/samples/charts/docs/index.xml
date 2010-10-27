@@ -17,6 +17,10 @@
 How to render different types of charts using the built-in chart element.
     </description>
     <since>1.0.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="chartthemes"/>
     <content>
 <b>Charts in JasperReports</b>
@@ -363,6 +367,10 @@ How to make various changes to a generated chart using the <a href="http://jfree
 which is used by JasperReports to draw the charts created with the built-in chart element.
     </description>
     <since>1.1.1</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
   	<otherSample ref="chartthemes"/>
     <content>
 <b>Chart Customizers and Chart Themes</b>

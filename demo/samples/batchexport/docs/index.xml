@@ -15,6 +15,10 @@
 Several reports can be exported together to form a single resulting document.
     </description>
     <since>0.6.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 <b>Exporter Input</b>
 <br/>

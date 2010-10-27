@@ -15,6 +15,10 @@
 How to create landscape orientation reports.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
 This feature is used when a report should be visualized or printed in the <code>Landscape</code> page layout. 
 A page is considered to be in a <code>Landscape</code> orientation when its width and height appear as interchanged.

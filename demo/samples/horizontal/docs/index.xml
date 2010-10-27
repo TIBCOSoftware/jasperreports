@@ -15,6 +15,10 @@
 How to create multi-column, horizontally filled reports.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+    </documentedBy>
     <content>
     <b>Filling Report Templates</b>
     <br/>
