@@ -1407,7 +1407,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public byte getRunDirection()
 	{
-		return getRunDirectionValue().getValue();
+		return getRunDirectionValue() == null ? null : getRunDirectionValue().getValue();
 	}
 
 	

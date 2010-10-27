@@ -283,7 +283,7 @@ public final class CrosstabConverter extends FrameConverter
 							totalHeader, 
 							rowHeadersXOffset + x, 
 							y, 
-							firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.LTR,
+							firstOnRow && crosstab.getRunDirectionValue() != RunDirectionEnum.RTL, //LTR or null
 							firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
 							false
 							));
@@ -301,7 +301,7 @@ public final class CrosstabConverter extends FrameConverter
 						header, 
 						rowHeadersXOffset + x, 
 						y, 
-						firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.LTR,
+						firstOnRow && crosstab.getRunDirectionValue() != RunDirectionEnum.RTL, //LTR or null
 						firstOnRow && crosstab.getRunDirectionValue() == RunDirectionEnum.RTL,
 						false
 						));
