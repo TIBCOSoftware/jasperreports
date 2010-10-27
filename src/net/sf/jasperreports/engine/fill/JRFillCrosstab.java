@@ -2085,7 +2085,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	 */
 	public byte getRunDirection()
 	{
-		return parentCrosstab.getRunDirectionValue().getValue();
+		return getRunDirectionValue() == null ? null : getRunDirectionValue().getValue();
 	}
 
 	/**
