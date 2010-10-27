@@ -16,6 +16,10 @@
 How to format text using a markup language such as HTML and/or RTF.
     </description>
     <since>2.0.5</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>

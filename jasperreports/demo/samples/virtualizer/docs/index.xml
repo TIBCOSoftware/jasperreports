@@ -15,6 +15,10 @@
 How to generate very large documents using report virtualizers that optimize memory consumption.
     </description>
     <since>1.0.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
     <b>What is Virtualization?</b>
 	<br/>

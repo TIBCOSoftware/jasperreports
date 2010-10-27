@@ -15,6 +15,10 @@
 How to use the built-in subreport element to create nested content.
     </description>
     <since>0.3.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="xmldatasource"/>
     <content>
 <b>What is a Subreport</b><br/>

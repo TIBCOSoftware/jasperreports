@@ -15,6 +15,10 @@
 How to make text fields resize dynamically and render all their runtime text content.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>

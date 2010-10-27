@@ -16,6 +16,10 @@
 FIXME
     </description>
     <since>0.5.1</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>

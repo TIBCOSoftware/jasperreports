@@ -15,6 +15,10 @@
 How to pass parameter references to report queries and how to change the report query at runtime.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 One of the most powerful features in the JasperReports API, when running JDBC based reports, is the ability to perform complex manipulations<br/>
 of the report query during the Filling stage of the report life cycle (this is what the JasperReports API executes the query against the <br/>

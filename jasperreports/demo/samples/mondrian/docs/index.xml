@@ -16,6 +16,10 @@
 How to fill reports using embedded MDX queries.
     </description>
     <since>1.2.3</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="ejbql"/>
   	<otherSample ref="hibernate"/>
   	<otherSample ref="xmldatasource"/>

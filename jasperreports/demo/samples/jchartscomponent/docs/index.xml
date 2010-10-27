@@ -15,6 +15,10 @@
 How to implement a custom component to wrap charts rendered by the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
     </description>
     <since>3.1.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="openflashchart"/>
     <content>
 [Under Construction]

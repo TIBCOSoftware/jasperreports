@@ -15,6 +15,10 @@
 How to group data at different levels and perform aggregate calculations using report groups.
     </description>
     <since>0.1.0</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="datasource"/>
     <content>
 [Under Construction]
