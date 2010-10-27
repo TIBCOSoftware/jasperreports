@@ -101,7 +101,7 @@
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF" completed="false"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API" completed="false"/>
       <feature name="textexport" sample="text" title="Exporting to Pure Text Format" completed="false"/>
-      <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas" completed="false"/>
+      <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
     </content>
   </category>
   
