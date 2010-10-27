@@ -139,11 +139,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected boolean startPage;
 
 
-	/**
-	 *
-	 */
-	protected boolean isWrapBreakWord;
-
 	protected LinkedList backcolorStack;
 	protected Color backcolor;
 
@@ -175,15 +170,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		super.setParameters();
 
-		nature = new JRXlsxExporterNature(filter);
-//		
+		nature = new JRXlsxExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
+		
 //		password = 
 //			getStringParameter(
 //				JExcelApiExporterParameter.PASSWORD,
 //				JExcelApiExporterParameter.PROPERTY_PASSWORD
 //				);
-		
-		isCollapseRowSpan = false;//FIXMEXLSX this does not work
 	}
 
 
@@ -705,7 +698,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		closeSheet();
 		
-		wbHelper.exportSheet(sheetIndex + 1);
+		wbHelper.exportSheet(sheetIndex + 1, name);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
 
@@ -715,7 +708,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
 		Writer sheetWriter = sheetEntry.getWriter();
-		sheetHelper = new XlsxSheetHelper(sheetWriter, sheetRelsHelper);
+		sheetHelper = 
+			new XlsxSheetHelper(
+				sheetWriter, 
+				sheetRelsHelper,
+				isCollapseRowSpan
+				);
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
 		Writer drawingRelsWriter = drawingRelsEntry.getWriter();
@@ -1035,7 +1033,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				"</xdr:col><xdr:colOff>" +
 				Utility.emu(-rightPadding) +
 				"</xdr:colOff><xdr:row>" +
-				(rowIndex + gridCell.getRowSpan()) +
+				(rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())) +
 				"</xdr:row><xdr:rowOff>" +
 				Utility.emu(-bottomPadding) +
 				"</xdr:rowOff></xdr:to>\n");
@@ -1180,7 +1178,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			textValue = getTextValue(text, textStr);
 		}
 		
-		cellHelper.exportHeader(gridCell, rowIndex, colIndex, textValue, isWrapText(gridCell.getElement()), getConvertedPattern(text.getPattern()));
+		cellHelper.exportHeader(
+			gridCell, rowIndex, colIndex, textValue, 
+			isWrapText(gridCell.getElement()), getConvertedPattern(text.getPattern()), getTextLocale(text)
+			);
 		sheetHelper.exportMergedCells(rowIndex, colIndex, gridCell.getRowSpan(), gridCell.getColSpan());
 
 		String textFormula = getFormula(text);
@@ -1188,12 +1189,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			sheetHelper.write("<f>" + textFormula + "</f>\n");
 		}
-
-//		if (isWrapBreakWord)
-//		{
-//			styleBuffer.append("width: " + gridCell.width + "; ");
-//			styleBuffer.append("word-wrap: break-word; ");
-//		}
 
 //		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
 //		{
@@ -1398,7 +1393,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) 
 	{
 		ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex, null, isWrapText(elementGridCell.getElement()), null);//FIXMEXLSX do we need wrap?
+		cellHelper.exportHeader(elementGridCell, rowIndex, colIndex);
 		cellHelper.exportFooter();
 	}
 

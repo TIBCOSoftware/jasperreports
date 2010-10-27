@@ -832,7 +832,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFColor getWorkbookColor(Color awtColor)
+	protected static HSSFColor getWorkbookColor(Color awtColor)
 	{
 		return getNearestColor(awtColor);
 //		byte red = (byte)awtColor.getRed();
@@ -860,7 +860,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFColor getNearestColor(Color awtColor)
+	protected static HSSFColor getNearestColor(Color awtColor)
 	{
 		HSSFColor color = (HSSFColor) hssfColorsCache.get(awtColor);		
 		if (color == null)
@@ -1646,410 +1646,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected class BoxStyle
-	{
-		protected static final int TOP = 0;
-		protected static final int LEFT = 1;
-		protected static final int BOTTOM = 2;
-		protected static final int RIGHT = 3;
-
-		protected short[] borderStyle = new short[4];
-		protected short[] borderColour = new short[4];
-		private int hash;
-
-		public BoxStyle(int side, JRPen pen)
-		{
-			borderStyle[side] = getBorderStyle(pen);
-			borderColour[side] = getWorkbookColor(pen.getLineColor()).getIndex();
-
-			hash = computeHash();
-		}
-
-		public BoxStyle(JRExporterGridCell gridCell)
-		{
-			JRLineBox lineBox = gridCell.getBox();
-			if (lineBox != null)
-			{
-				setBox(lineBox);
-			}
-			JRPrintElement element = gridCell.getElement();
-			if (element instanceof JRCommonGraphicElement)
-			{
-				setPen(((JRCommonGraphicElement)element).getLinePen());
-			}
-
-			hash = computeHash();
-		}
-
-		public void setBox(JRLineBox box)
-		{
-			borderStyle[TOP] = getBorderStyle(box.getTopPen());
-			borderColour[TOP] = getWorkbookColor(box.getTopPen().getLineColor()).getIndex();
-
-			borderStyle[BOTTOM] = getBorderStyle(box.getBottomPen());
-			borderColour[BOTTOM] = getWorkbookColor(box.getBottomPen().getLineColor()).getIndex();
-
-			borderStyle[LEFT] = getBorderStyle(box.getLeftPen());
-			borderColour[LEFT] = getWorkbookColor(box.getLeftPen().getLineColor()).getIndex();
-
-			borderStyle[RIGHT] = getBorderStyle(box.getRightPen());
-			borderColour[RIGHT] = getWorkbookColor(box.getRightPen().getLineColor()).getIndex();
-
-			hash = computeHash();
-		}
-
-		public void setPen(JRPen pen)
-		{
-			if (
-				borderStyle[TOP] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[LEFT] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[BOTTOM] == HSSFCellStyle.BORDER_NONE
-				&& borderStyle[RIGHT] == HSSFCellStyle.BORDER_NONE
-				)
-			{
-				short style = getBorderStyle(pen);
-				short colour = getWorkbookColor(pen.getLineColor()).getIndex();
-
-				borderStyle[TOP] = style;
-				borderStyle[BOTTOM] = style;
-				borderStyle[LEFT] = style;
-				borderStyle[RIGHT] = style;
-
-				borderColour[TOP] = colour;
-				borderColour[BOTTOM] = colour;
-				borderColour[LEFT] = colour;
-				borderColour[RIGHT] = colour;
-			}
-
-			hash = computeHash();
-		}
-
-		private int computeHash()
-		{
-			int hashCode = borderStyle[TOP];
-			hashCode = 31*hashCode + borderColour[TOP];
-			hashCode = 31*hashCode + borderStyle[BOTTOM];
-			hashCode = 31*hashCode + borderColour[BOTTOM];
-			hashCode = 31*hashCode + borderStyle[LEFT];
-			hashCode = 31*hashCode + borderColour[LEFT];
-			hashCode = 31*hashCode + borderStyle[RIGHT];
-			hashCode = 31*hashCode + borderColour[RIGHT];
-			return hashCode;
-		}
-
-		public int hashCode()
-		{
-			return hash;
-		}
-
-		public boolean equals(Object o)
-		{
-			BoxStyle b = (BoxStyle) o;
-
-			return
-				b.borderStyle[TOP] == borderStyle[TOP] &&
-				b.borderColour[TOP] == borderColour[TOP] &&
-				b.borderStyle[BOTTOM] == borderStyle[BOTTOM] &&
-				b.borderColour[BOTTOM] == borderColour[BOTTOM] &&
-				b.borderStyle[LEFT] == borderStyle[LEFT] &&
-				b.borderColour[LEFT] == borderColour[LEFT] &&
-				b.borderStyle[RIGHT] == borderStyle[RIGHT] &&
-				b.borderColour[RIGHT] == borderColour[RIGHT];
-		}
-
-		public String toString()
-		{
-			return "(" +
-				borderStyle[TOP] + "/" + borderColour[TOP] + "," +
-				borderStyle[BOTTOM] + "/" + borderColour[BOTTOM] + "," +
-				borderStyle[LEFT] + "/" + borderColour[LEFT] + "," +
-				borderStyle[RIGHT] + "/" + borderColour[RIGHT] + ")";
-		}
-	}
-
-
-	protected class StyleInfo
-	{
-		protected final short mode;
-		protected final short backcolor;
-		protected final short horizontalAlignment;
-		protected final short verticalAlignment;
-		protected final short rotation;
-		protected final HSSFFont font;
-		protected final BoxStyle box;
-		protected final boolean wrapText;
-		protected final boolean cellLocked;
-		protected final boolean cellHidden;
-		private short dataFormat = -1;
-		private int hashCode;
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				JRExporterGridCell gridCell
-				)
-			{
-				this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					new BoxStyle(gridCell),
-					true,
-					true,
-					false
-					);
-			}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				JRExporterGridCell gridCell,
-				boolean wrapText,
-				boolean cellLocked,
-				boolean cellHidden
-				)
-			{
-				this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					new BoxStyle(gridCell),
-					wrapText,
-					cellLocked,
-					cellHidden
-					);
-			}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				JRExporterGridCell gridCell,
-				boolean cellLocked,
-				boolean cellHidden
-				)
-			{
-				this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					new BoxStyle(gridCell),
-					true,
-					cellLocked,
-					cellHidden
-					);
-			}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				JRExporterGridCell gridCell,
-				boolean wrapText
-				)
-			{
-				this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					new BoxStyle(gridCell),
-					wrapText,
-					true,
-					false
-					);
-			}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				BoxStyle box
-				)
-			{
-			this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					box,
-					true,
-					true,
-					false
-					);
-			}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				BoxStyle box,
-				boolean wrapText
-				)
-		{
-			this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					box,
-					wrapText,
-					true,
-					false
-					);
-		}
-
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				BoxStyle box,
-				boolean cellLocked,
-				boolean cellHidden
-				)
-		{
-			this(
-					mode,
-					backcolor,
-					horizontalAlignment,
-					verticalAlignment,
-					rotation,
-					font,
-					box,
-					true,
-					cellLocked,
-					cellHidden
-					);
-		}
-
-		public StyleInfo(
-				short mode,
-				short backcolor,
-				short horizontalAlignment,
-				short verticalAlignment,
-				short rotation,
-				HSSFFont font,
-				BoxStyle box,
-				boolean wrapText,
-				boolean cellLocked,
-				boolean cellHidden
-				)
-		{
-			this.mode = mode;
-			this.backcolor = backcolor;
-			this.horizontalAlignment = horizontalAlignment;
-			this.verticalAlignment = verticalAlignment;
-			this.rotation = rotation;
-			this.font = font;
-
-			this.box = box;
-			this.wrapText = wrapText;
-			this.cellLocked = cellLocked;
-			this.cellHidden = cellHidden;
-
-			hashCode = computeHash();
-		}
-
-		protected int computeHash()
-		{
-			int hash = mode;
-			hash = 31*hash + backcolor;
-			hash = 31*hash + horizontalAlignment;
-			hash = 31*hash + verticalAlignment;
-			hash = 31*hash + rotation;
-			hash = 31*hash + (font == null ? 0 : font.getIndex());
-			hash = 31*hash + (box == null ? 0 : box.hashCode());
-			hash = 31*hash + dataFormat;
-			hash = 31*hash + (this.wrapText ? 0 : 1);
-			hash = 31*hash + (this.cellLocked ? 0 : 1);
-			hash = 31*hash + (this.cellHidden ? 0 : 1);
-			return hash;
-		}
-
-		public void setDataFormat(short dataFormat)
-		{
-			this.dataFormat = dataFormat;
-			hashCode = computeHash();
-		}
-
-		public boolean hasDataFormat()
-		{
-			return dataFormat != -1;
-		}
-
-		public short getDataFormat()
-		{
-			return dataFormat;
-		}
-
-		public int hashCode()
-		{
-			return hashCode;
-		}
-
-		public boolean equals(Object o)
-		{
-			StyleInfo s = (StyleInfo) o;
-
-			return s.mode == mode
-					&& s.backcolor == backcolor
-					&& s.horizontalAlignment == horizontalAlignment
-					&& s.verticalAlignment == verticalAlignment
-					&& s.rotation == rotation
-					&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
-					&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
-					&& s.rotation == rotation && s.wrapText == wrapText 
-					&& s.cellLocked == cellLocked && s.cellHidden == cellHidden;
-		}
-
-		public String toString()
-		{
-			return "(" +
-				mode + "," + backcolor + "," +
-				horizontalAlignment + "," + verticalAlignment + "," +
-				rotation + "," + font + "," +
-				box + "," + dataFormat + "," + wrapText + "," + cellLocked + "," + cellHidden + ")";
-		}
-	}
 
 	/**
 	 *
@@ -2059,4 +1655,416 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return XLS_EXPORTER_KEY;
 	}
 
+}
+
+
+/**
+ * 
+ */
+class BoxStyle
+{
+	protected static final int TOP = 0;
+	protected static final int LEFT = 1;
+	protected static final int BOTTOM = 2;
+	protected static final int RIGHT = 3;
+
+	protected short[] borderStyle = new short[4];
+	protected short[] borderColour = new short[4];
+	private int hash;
+
+	public BoxStyle(int side, JRPen pen)
+	{
+		borderStyle[side] = JRXlsExporter.getBorderStyle(pen);
+		borderColour[side] = JRXlsExporter.getWorkbookColor(pen.getLineColor()).getIndex();
+
+		hash = computeHash();
+	}
+
+	public BoxStyle(JRExporterGridCell gridCell)
+	{
+		JRLineBox lineBox = gridCell.getBox();
+		if (lineBox != null)
+		{
+			setBox(lineBox);
+		}
+		JRPrintElement element = gridCell.getElement();
+		if (element instanceof JRCommonGraphicElement)
+		{
+			setPen(((JRCommonGraphicElement)element).getLinePen());
+		}
+
+		hash = computeHash();
+	}
+
+	public void setBox(JRLineBox box)
+	{
+		borderStyle[TOP] = JRXlsExporter.getBorderStyle(box.getTopPen());
+		borderColour[TOP] = JRXlsExporter.getWorkbookColor(box.getTopPen().getLineColor()).getIndex();
+
+		borderStyle[BOTTOM] = JRXlsExporter.getBorderStyle(box.getBottomPen());
+		borderColour[BOTTOM] = JRXlsExporter.getWorkbookColor(box.getBottomPen().getLineColor()).getIndex();
+
+		borderStyle[LEFT] = JRXlsExporter.getBorderStyle(box.getLeftPen());
+		borderColour[LEFT] = JRXlsExporter.getWorkbookColor(box.getLeftPen().getLineColor()).getIndex();
+
+		borderStyle[RIGHT] = JRXlsExporter.getBorderStyle(box.getRightPen());
+		borderColour[RIGHT] = JRXlsExporter.getWorkbookColor(box.getRightPen().getLineColor()).getIndex();
+
+		hash = computeHash();
+	}
+
+	public void setPen(JRPen pen)
+	{
+		if (
+			borderStyle[TOP] == HSSFCellStyle.BORDER_NONE
+			&& borderStyle[LEFT] == HSSFCellStyle.BORDER_NONE
+			&& borderStyle[BOTTOM] == HSSFCellStyle.BORDER_NONE
+			&& borderStyle[RIGHT] == HSSFCellStyle.BORDER_NONE
+			)
+		{
+			short style = JRXlsExporter.getBorderStyle(pen);
+			short colour = JRXlsExporter.getWorkbookColor(pen.getLineColor()).getIndex();
+
+			borderStyle[TOP] = style;
+			borderStyle[BOTTOM] = style;
+			borderStyle[LEFT] = style;
+			borderStyle[RIGHT] = style;
+
+			borderColour[TOP] = colour;
+			borderColour[BOTTOM] = colour;
+			borderColour[LEFT] = colour;
+			borderColour[RIGHT] = colour;
+		}
+
+		hash = computeHash();
+	}
+
+	private int computeHash()
+	{
+		int hashCode = borderStyle[TOP];
+		hashCode = 31*hashCode + borderColour[TOP];
+		hashCode = 31*hashCode + borderStyle[BOTTOM];
+		hashCode = 31*hashCode + borderColour[BOTTOM];
+		hashCode = 31*hashCode + borderStyle[LEFT];
+		hashCode = 31*hashCode + borderColour[LEFT];
+		hashCode = 31*hashCode + borderStyle[RIGHT];
+		hashCode = 31*hashCode + borderColour[RIGHT];
+		return hashCode;
+	}
+
+	public int hashCode()
+	{
+		return hash;
+	}
+
+	public boolean equals(Object o)
+	{
+		BoxStyle b = (BoxStyle) o;
+
+		return
+			b.borderStyle[TOP] == borderStyle[TOP] &&
+			b.borderColour[TOP] == borderColour[TOP] &&
+			b.borderStyle[BOTTOM] == borderStyle[BOTTOM] &&
+			b.borderColour[BOTTOM] == borderColour[BOTTOM] &&
+			b.borderStyle[LEFT] == borderStyle[LEFT] &&
+			b.borderColour[LEFT] == borderColour[LEFT] &&
+			b.borderStyle[RIGHT] == borderStyle[RIGHT] &&
+			b.borderColour[RIGHT] == borderColour[RIGHT];
+	}
+
+	public String toString()
+	{
+		return "(" +
+			borderStyle[TOP] + "/" + borderColour[TOP] + "," +
+			borderStyle[BOTTOM] + "/" + borderColour[BOTTOM] + "," +
+			borderStyle[LEFT] + "/" + borderColour[LEFT] + "," +
+			borderStyle[RIGHT] + "/" + borderColour[RIGHT] + ")";
+	}
+}
+
+
+/**
+ * 
+ */
+class StyleInfo
+{
+	protected final short mode;
+	protected final short backcolor;
+	protected final short horizontalAlignment;
+	protected final short verticalAlignment;
+	protected final short rotation;
+	protected final HSSFFont font;
+	protected final BoxStyle box;
+	protected final boolean wrapText;
+	protected final boolean cellLocked;
+	protected final boolean cellHidden;
+	private short dataFormat = -1;
+	private int hashCode;
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRExporterGridCell gridCell
+			)
+		{
+			this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				new BoxStyle(gridCell),
+				true,
+				true,
+				false
+				);
+		}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRExporterGridCell gridCell,
+			boolean wrapText,
+			boolean cellLocked,
+			boolean cellHidden
+			)
+		{
+			this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				new BoxStyle(gridCell),
+				wrapText,
+				cellLocked,
+				cellHidden
+				);
+		}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRExporterGridCell gridCell,
+			boolean cellLocked,
+			boolean cellHidden
+			)
+		{
+			this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				new BoxStyle(gridCell),
+				true,
+				cellLocked,
+				cellHidden
+				);
+		}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			JRExporterGridCell gridCell,
+			boolean wrapText
+			)
+		{
+			this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				new BoxStyle(gridCell),
+				wrapText,
+				true,
+				false
+				);
+		}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box
+			)
+		{
+		this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				box,
+				true,
+				true,
+				false
+				);
+		}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box,
+			boolean wrapText
+			)
+	{
+		this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				box,
+				wrapText,
+				true,
+				false
+				);
+	}
+
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box,
+			boolean cellLocked,
+			boolean cellHidden
+			)
+	{
+		this(
+				mode,
+				backcolor,
+				horizontalAlignment,
+				verticalAlignment,
+				rotation,
+				font,
+				box,
+				true,
+				cellLocked,
+				cellHidden
+				);
+	}
+
+	public StyleInfo(
+			short mode,
+			short backcolor,
+			short horizontalAlignment,
+			short verticalAlignment,
+			short rotation,
+			HSSFFont font,
+			BoxStyle box,
+			boolean wrapText,
+			boolean cellLocked,
+			boolean cellHidden
+			)
+	{
+		this.mode = mode;
+		this.backcolor = backcolor;
+		this.horizontalAlignment = horizontalAlignment;
+		this.verticalAlignment = verticalAlignment;
+		this.rotation = rotation;
+		this.font = font;
+
+		this.box = box;
+		this.wrapText = wrapText;
+		this.cellLocked = cellLocked;
+		this.cellHidden = cellHidden;
+
+		hashCode = computeHash();
+	}
+
+	protected int computeHash()
+	{
+		int hash = mode;
+		hash = 31*hash + backcolor;
+		hash = 31*hash + horizontalAlignment;
+		hash = 31*hash + verticalAlignment;
+		hash = 31*hash + rotation;
+		hash = 31*hash + (font == null ? 0 : font.getIndex());
+		hash = 31*hash + (box == null ? 0 : box.hashCode());
+		hash = 31*hash + dataFormat;
+		hash = 31*hash + (this.wrapText ? 0 : 1);
+		hash = 31*hash + (this.cellLocked ? 0 : 1);
+		hash = 31*hash + (this.cellHidden ? 0 : 1);
+		return hash;
+	}
+
+	public void setDataFormat(short dataFormat)
+	{
+		this.dataFormat = dataFormat;
+		hashCode = computeHash();
+	}
+
+	public boolean hasDataFormat()
+	{
+		return dataFormat != -1;
+	}
+
+	public short getDataFormat()
+	{
+		return dataFormat;
+	}
+
+	public int hashCode()
+	{
+		return hashCode;
+	}
+
+	public boolean equals(Object o)
+	{
+		StyleInfo s = (StyleInfo) o;
+
+		return s.mode == mode
+				&& s.backcolor == backcolor
+				&& s.horizontalAlignment == horizontalAlignment
+				&& s.verticalAlignment == verticalAlignment
+				&& s.rotation == rotation
+				&& (s.font == null ? font == null : (font != null && s.font.getIndex() == font.getIndex()))
+				&& (s.box == null ? box == null : (box != null && s.box.equals(box)))
+				&& s.rotation == rotation && s.wrapText == wrapText 
+				&& s.cellLocked == cellLocked && s.cellHidden == cellHidden;
+	}
+
+	public String toString()
+	{
+		return "(" +
+			mode + "," + backcolor + "," +
+			horizontalAlignment + "," + verticalAlignment + "," +
+			rotation + "," + font + "," +
+			box + "," + dataFormat + "," + wrapText + "," + cellLocked + "," + cellHidden + ")";
+	}
 }
