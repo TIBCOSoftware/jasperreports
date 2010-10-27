@@ -84,7 +84,14 @@ public class XlsxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public int getCellStyle(JRExporterGridCell gridCell, boolean isWrapText, String pattern, Locale locale)
+	public int getCellStyle(
+		JRExporterGridCell gridCell, 
+		String pattern, 
+		Locale locale,
+		boolean isWrapText, 
+		boolean isHidden, 
+		boolean isLocked 
+		)
 	{
 		XlsxStyleInfo styleInfo = 
 			new XlsxStyleInfo(
@@ -92,7 +99,9 @@ public class XlsxStyleHelper extends BaseHelper
 				fontHelper.getFont(gridCell, locale) + 1,
 				borderHelper.getBorder(gridCell) + 1,
 				gridCell,
-				isWrapText
+				isWrapText,
+				isHidden,
+				isLocked
 				);
 		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
@@ -133,11 +142,14 @@ public class XlsxStyleHelper extends BaseHelper
 				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
 				+ "\" xfId=\"" + styleIndex + "\">"
-				+ "<alignment wrapText=\"" + styleInfo.isWrapText +"\""
+				+ "<alignment wrapText=\"" + styleInfo.isWrapText + "\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
 //				+ (" shrinkToFit=\"" + styleInfo.isFontSizeFixEnabled + "\"")
-				+ "/></xf>\n");
+				+ "/>"
+				);
+			cellXfsWriter.write("<protection hidden=\"" + styleInfo.isHidden + "\" locked=\"" + styleInfo.isLocked + "\"/>");
+			cellXfsWriter.write("</xf>\n");
 		}
 		catch (IOException e)
 		{
