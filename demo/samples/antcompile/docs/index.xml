@@ -18,8 +18,8 @@ How to compile all your JRXML report source files at application build time usin
     </description>
     <since>0.4.6</since>
     <documentedBy>
-    	<name></name>
-    	<email></email>
+    	<name>Teodor Danciu</name>
+    	<email>teodord@users.sourceforge.net</email>
     </documentedBy>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
