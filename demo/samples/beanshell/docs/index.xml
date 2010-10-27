@@ -16,6 +16,10 @@
 How to use BeanShell scripting for report expressions.
     </description>
     <since>0.6.6</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="groovy"/>
   	<otherSample ref="java1.5"/>

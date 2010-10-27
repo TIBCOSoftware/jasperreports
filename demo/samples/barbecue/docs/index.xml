@@ -16,6 +16,10 @@
 Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barbecue.sourceforge.net/">Barbecue</a> library.
     </description>
     <since>3.5.2</since>
+    <documentedBy>
+    	<name></name>
+    	<email></email>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>
