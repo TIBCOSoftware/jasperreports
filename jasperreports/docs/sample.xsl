@@ -75,6 +75,15 @@
 	font-size: 12px;
 	font-weight: normal;
 }
+
+.copy {
+	font-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-style: normal;
+	color: #000000;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -170,49 +179,57 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
     <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
     <td><img src="../../resources/px.gif" border="0" width="20" height="1"/></td>
-    <td width="100%"><br/></td>
+    <td width="80%"><br/></td>
+    <td width="20%"><br/></td>
   </tr>
   <xsl:for-each select="sample/feature">
   <!-- xsl:sort select="@title"/-->
   <tr>
-    <td colspan="5" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+    <td colspan="6" align="right"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
   <tr>
-    <td colspan="5"><hr size="1"/></td>
+    <td colspan="6"><hr size="1"/></td>
   </tr>
   <tr valign="top">
     <td><img src="../../resources/jr-16x16.png" border="0"/></td>
     <td colspan="4"><span class="name"><xsl:value-of select="@title"/></span></td>
+    <td align="right">
+  <xsl:choose>
+  <xsl:when test="documentedBy">
+    <xsl:choose>
+    <xsl:when test="./documentedBy/email != ''">
+      <span class="copy">Documented by <xsl:element name="a"><xsl:attribute name="href">mailto:<xsl:value-of select="./documentedBy/email"/></xsl:attribute><xsl:attribute name="class">copy</xsl:attribute><xsl:value-of select="./documentedBy/name"/></xsl:element></span>
+    </xsl:when>
+    <xsl:otherwise>
+      <span class="copy">Documented by <xsl:value-of select="./documentedBy/name"/></span>
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:when>
+  <xsl:otherwise><br/></xsl:otherwise>
+  </xsl:choose>
+    </td>
   </tr>
   <tr>
-    <td colspan="5"><br/></td>
+    <td colspan="6"><br/></td>
   </tr>
   <tr valign="top">
     <td><br/></td>
     <td nowrap="true"><span class="label">Description / Goal</span></td>
     <td><br/></td>
-    <td colspan="2"><xsl:apply-templates select="description"/></td>
+    <td colspan="3"><xsl:apply-templates select="description"/></td>
   </tr>
   <tr valign="top">
     <td><br/></td>
     <td colspan="1"><span class="label">Since</span></td>
     <td><br/></td>
-    <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
+    <td colspan="3"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
-  <xsl:if test="documentedBy">
-  <tr valign="top">
-    <td><br/></td>
-    <td><span class="label">Documented by: </span></td>
-   	<td><br/></td>
-    <td colspan="2"><span class="description"><xsl:value-of select="./documentedBy/name"/> <xsl:if test="./documentedBy/email != ''"> (</xsl:if><a href='mailto: &lt;xsl:value-of select="./documentedBy/email"/&gt;'><xsl:value-of select="./documentedBy/email"/></a><xsl:if test="./documentedBy/email != ''">)</xsl:if></span></td>
-  </tr>
-  </xsl:if>
   <xsl:if test="count(otherSample) > 0">
   <tr valign="top">
     <td><br/></td>
     <td nowrap="true"><span class="label">Other Samples</span></td>
     <td><br/></td>
-    <td colspan="2">
+    <td colspan="3">
       <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <xsl:for-each select="otherSample">
         <tr>
@@ -224,14 +241,14 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   </xsl:if>
   <tr>
-    <td colspan="5"><br/></td>
+    <td colspan="6"><br/></td>
   </tr>
   <tr>
     <td><br/></td>
-    <td colspan="4"><xsl:apply-templates select="content"/></td>
+    <td colspan="5"><xsl:apply-templates select="content"/></td>
   </tr>
   <tr>
-    <td colspan="5"><br/></td>
+    <td colspan="6"><br/></td>
   </tr>
   </xsl:for-each>
 </table>
@@ -244,7 +261,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <tr>
     <td align="center">
-<span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+<span class="copy">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
 	</td>
   </tr>
 </table>

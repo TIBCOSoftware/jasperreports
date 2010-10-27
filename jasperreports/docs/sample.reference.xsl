@@ -69,39 +69,26 @@
 	font-weight: bold;
 }
 
-.uncompleted {
+.complete {
 	font-family: Courier New, Courier, serif;
 	font-size: 12px;
 	font-weight: normal;
-	color: #505050;
+	color: #000000;
 }
 
-a.uncompleted:link {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
+.incomplete {
+	font-family: Courier New, Courier, serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #999999;
 }
 
-a.uncompleted:visited {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
-}
-
-a.uncompleted:hover {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
-}
-
-a.uncompleted:active {
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	color: inherit;
+.copy {
+	font-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-style: normal;
+	color: #000000;
 }
 
 </style>
@@ -187,7 +174,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <tr>
     <td align="center">
-      <span style="font-decoration:none;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:8pt;font-style:normal;color:#000000;">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" style="color:#000000;">www.jaspersoft.com</a></span>
+      <span class="copy">&#169; 2001-2010 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
     </td>
   </tr>
 </table>
@@ -203,11 +190,11 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td></td>
     <td>
        <xsl:choose>
-         <xsl:when test="@completed = 'false'">
-      		<span class="uncompleted"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">uncompleted</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+         <xsl:when test="@complete = 'false'">
+      		<span class="incomplete"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">incomplete</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
          </xsl:when>
          <xsl:otherwise>
-      		<span class="element"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
+      		<span class="complete"><xsl:element name="a"><xsl:attribute name="href">sample.reference/<xsl:value-of select="@sample"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:attribute name="class">complete</xsl:attribute><xsl:value-of select="@title"/></xsl:element></span>
          </xsl:otherwise>
        </xsl:choose>
     </td>
