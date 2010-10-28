@@ -17,7 +17,7 @@ How to generate very large documents using report virtualizers that optimize mem
     <since>1.0.0</since>
     <documentedBy>
     	<name>Luke Shannon</name>
-    	<email>ls_toronto@users.sourceforge.net</email>
+    	<email>lshannon@users.sourceforge.net</email>
     </documentedBy>
     <content>
     <b>What is Virtualization?</b>
@@ -28,13 +28,13 @@ How to generate very large documents using report virtualizers that optimize mem
 		<li>Filling</li>
 		<li>Exporting</li>
 	</ol>
-	In each stage objects are generated in memory. During the filling stages espically many objects <br/>
+	In each stage objects are generated in memory. During the filling stages especially many objects <br/>
 	can be generated as data is processed through the report logic populating multiple pages <br/>
 	and the elements within.<br/>
-	In a situation such as this there is always the risk that too many objects will be created resulting <br/>
-	in a Out of Memory error before the Filling of the report has concluded.<br/>
+	In a situation such as this, there is always the risk of an Out of Memory error before the Filling<br/>
+	of the report has concluded.<br/>
 	Virtualization is a feature that allows for some of the objects that would be stored in memory during <br/>
-	the filling to be stored on the file system instead.<br/>
+	the filling stage to be stored on the file system instead.<br/>
 	The virtualizer is a simple interface <api href="net/sf/jasperreports/engine/JRVirtualizer.html">JRVirtualizer</api><br/>
 	There are currently three implementations of this interface:
 	<ol>
@@ -117,35 +117,62 @@ How to generate very large documents using report virtualizers that optimize mem
     <br/>
 	<br/>
 	<b>Configuring Virtualization</b><br/>
-	Virtualization is not configured in the JRXML. The JRXML in this sample is a very simple one. The details<br/>
-	around the implementation of the virtualizer can be seen in the sample Java application that is used <br/>
+	Virtualization is not configured in the JRXML. The details around the implementation of the virtualizer can be seen in the sample Java application that is used <br/>
 	to run the report: VirtualizerApp.java.<br/>
 	In the fillReport() method we can see where the virtualizer is instantiated:<br/>
 	<pre>
 	<![CDATA[
-		// creating the virtualizer
-		JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
+// creating the virtualizer
+JRFileVirtualizer virtualizer = new JRFileVirtualizer(2, "tmp");
 	]]>
 	</pre>
 	The JRFileVirtualizer is created with a maxSize of 2 and "tmp" as the name of the directory to store data.<br/>
-	This means once 2 pages have been created in memory, the virtualizer will begin to store data required <br/>
-	during the filling in the "tmp" directory. A single instance of this object can be shared over multiple <br/>
-	reports.<br/>
+	This means once 2 pages of the filled report have been created in memory, the virtualizer will begin to store <br/>
+	the data required during the filling in the "tmp" directory.<br/>
+	A single instance of this object can be shared over multiple reports. However, this does mean that the max page<br/>
+	number will be respected for all reports that are generated simultaneously.<br/>
 	In the fillReport(JRFileVirtualizer virtualizer) method we can see how the virtualizer is configured for <br/>
 	use during the filling process:<br/>
 	<pre>
 	<![CDATA[
-		//Preparing parameters
-		Map parameters = new HashMap();
-		parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
+//Preparing parameters
+Map parameters = new HashMap();
+parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 	]]>
 	</pre>
 	The virtualizer must be configured as a parameter passed in during filling.<br/>
 	<br/>
+	<br/>
 	<b>Types of Virtualizers</b>
 	<br/>
 	<br/>
-	<b>When to use Virtualization</b>
+	<api href="net/sf/jasperreports/engine/fill/JRFileVirtualizer.html">JRFileVirtualizer</api><br/>
+	As described above the JRFileVirtualizer works with temporary files on disk. It has a built in mechanism <br/>
+	for cleaning up these temp files after they are no longer needed. However when the clean up of these files <br/>
+	occurs may vary (it depends on when the virtualizer reference is garbaged collected by the JVM).<br/>
+	To control when virtualization occurs there is a cleanup() method available that can be called to remove the <br/>
+	files immediatly.<br/>
+	<br/>
+	<api href="net/sf/jasperreports/engine/fill/JRSwapFileVirtualizer.html">JRSwapFileVirtualizer</api><br/>
+	Similar to the JRFileVirtualizer except that rather than creating a file per virtualized page, as the <br/>
+	JRFileVirtualizer does, it shares a single swap file among all report filling processes configured <br/>
+	to use the virtualizer.<br/>
+	A <api href="net/sf/jasperreports/engine/util/JRSwapFile.html">JRSwapFile</api> has to be instantiated and passed into the JRSwapFileVirtualizer.<br/>
+	When creating the <api href="net/sf/jasperreports/engine/util/JRSwapFile.html">JRSwapFile</api> the targer directory, size of the file and rate at<br/>
+	which the file can grow should its current size become insufficient, are all specified.<br/>
+	<br/>
+	<api href="net/sf/jasperreports/engine/fill/JRGzipVirtualizer.html">JRGzipVirtualizer</api><br/>
+	Using this virtualizer the results in the pages created in memory during filling to be compressed <br/>
+	using the GZIP algorithm. Thus greatly reducing the amount of memory required.
+	<br/>
+	<br/>
+	<b>When to use Virtualization</b><br/>
+	Virtualization will result in slowed performance for larger reports. However, using virtualization might mean<br/>
+	the difference between waiting a longer time to get a report or getting a out of memory error after the report<br/>
+	has been executing for some time. Setting the maxPages in memory is key. Setting the value too low will result<br/>
+	in virtualization occuring when it is not necessary. Setting it too high could result in an out of memory<br/>
+	exception occuring before virtualization has a chance to start. Picking the correct value for a given system <br/>
+	will require some trial and error.
 	<br/>
 	<br/>
 	<b>Further Resources:</b>
