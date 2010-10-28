@@ -17,7 +17,7 @@ How to use the built-in subreport element to create nested content.
     <since>0.3.0</since>
     <documentedBy>
     	<name>Luke Shannon</name>
-    	<email>ls_toronto@users.sourceforge.net</email>
+    	<email>lshannon@users.sourceforge.net</email>
     </documentedBy>
   	<otherSample ref="xmldatasource"/>
     <content>

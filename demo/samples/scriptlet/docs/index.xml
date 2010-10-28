@@ -17,7 +17,7 @@
     <since>0.2.5</since>
     <documentedBy>
     	<name>Luke Shannon</name>
-    	<email>ls_toronto@users.sourceforge.net</email>
+    	<email>lshannon@users.sourceforge.net</email>
     </documentedBy>
     <content>
     There are situations when a calculation is required during the report filling stage that is not included in JasperReports provided
