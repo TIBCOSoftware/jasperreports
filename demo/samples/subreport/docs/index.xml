@@ -124,15 +124,15 @@ In this example the Master Report contains the Address and Product reports embed
 Lets begin by review the configuration of the Subreport element for the Products Subreport.
 <pre>
 	<![CDATA[
-			<subreport>
-				<reportElement isPrintRepeatedValues="false" x="5" y="25" width="325" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
-				<subreportParameter name="City">
-					<subreportParameterExpression><![ CDATA[$F{City} ]] ></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
-				<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum"/>
-				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![ CDATA[$P{ProductsSubreport}]] ></subreportExpression>
-			</subreport>
+<subreport>
+	<reportElement isPrintRepeatedValues="false" x="5" y="25" width="325" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
+	<subreportParameter name="City">
+		<subreportParameterExpression><![ CDATA[$F{City} ]] ></subreportParameterExpression>
+	</subreportParameter>
+	<connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+	<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum"/>
+	<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![ CDATA[$P{ProductsSubreport}]] ></subreportExpression>
+</subreport>
 	]]>
 </pre>
 This element is in the Detail band of the Master report. This means this Subreport will be executed with each record in the Master report's Result Set.
@@ -144,14 +144,14 @@ filling the City Parameter of the Product report.<br/>
 If we look at the query of the Product report we see that the value of the City parameter is injected into the Query to constrain the Results:
  <pre>
  	<![CDATA[
- 	SELECT Product.ID AS ID, Product.Name AS Name, 
-		Positions.Quantity AS Quantity, Positions.Price AS Price
-		FROM Positions, Product, Document, Address
-		WHERE Positions.DocumentID = Document.ID AND
-		Document.AddressID = Address.ID AND
-		Positions.ProductID = Product.ID AND
-		Address.City = $P{City}
-		ORDER BY Product.ID
+SELECT Product.ID AS ID, Product.Name AS Name, 
+Positions.Quantity AS Quantity, Positions.Price AS Price
+FROM Positions, Product, Document, Address
+WHERE Positions.DocumentID = Document.ID AND
+Document.AddressID = Address.ID AND
+Positions.ProductID = Product.ID AND
+Address.City = $P{City}
+ORDER BY Product.ID
  	]]>
  </pre>
  What this means is the Product report executes for each row in the Master report's ResultSet and displays results related to the city field in that row <br/>
@@ -168,7 +168,7 @@ If we look at the query of the Product report we see that the value of the City 
 <br/>
 <pre>
 	<![CDATA[
-		<dataSourceExpression><![ CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]] ></dataSourceExpression>
+<dataSourceExpression><![ CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]] ></dataSourceExpression>
 	]]>
 </pre>
  <br/>
@@ -183,37 +183,56 @@ If we look at the query of the Product report we see that the value of the City 
  This tag indicates where the design of the Subreport can be located. Note the class. In this example the expression is returning a JasperReports object.<br/>
  The subreport expression represents a very powerful place for extensions/integratoins. Ternary operators can be used here to load different Subreports based on different <br/>
  conditions in the report. Also external Java classes can be called in this expression, provided they return a JasperReport reference, the subreport design can be obtained <br/>
- or created using Java.
- <br/>
- <br/>
+ or created using Java. In the SubreportApp.java the JasperReport reference is obtained by loading a .jasper (serialized JasperReport object) file from the file system. 
+ <pre>
+ <![CDATA[
+ JasperReport subreport = (JasperReport)JRLoader.loadObjectFromLocation("build/reports/ProductReport.jasper");
+ ]]>
+ </pre>
  Lets review the Address Report configuration.<br/>
  <pre>
  	<![CDATA[
-		<subreport>
-				<reportElement positionType="Float" x="335" y="25" width="175" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
-				<subreportParameter name="City">
-					<subreportParameterExpression><![ CDATA[$F{City}]] ></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
-				<returnValue subreportVariable="REPORT_COUNT" toVariable="CityAddressCount"/>
-				<subreportExpression class="java.lang.String"><![CDATA["AddressReport.jasper"]] ></subreportExpression>
-			</subreport>
+<subreport>
+	 <reportElement positionType="Float" x="335" y="25" width="175" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
+	 <subreportParameter name="City">
+	   <subreportParameterExpression><![ CDATA[$F{City}]] ></subreportParameterExpression>
+	 </subreportParameter>
+	 <connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+	 <returnValue subreportVariable="REPORT_COUNT" toVariable="CityAddressCount"/>
+	 <subreportExpression class="java.lang.String"><![CDATA["AddressReport.jasper"]] ></subreportExpression>
+</subreport>
 	]]>
  </pre>
  The main differences are here:
  <ol>
  	<li>returnValue: No calculation is set. The default is None, which means the variable REPORT_COUNT variable in the subreport will be passed directly to the Master.</li>
-	<li>subreportExpression: In this case the expression class is a String and the expression is the location on the file system for the compiled version of the JRXML</li>
+	<li>subreportExpression: In this case the expression class is a String and the expression is the location on the file system for the compiled version of the JRXML.</li>
 </ol>
 <br/>
 <br/>
 <b>Is there performance concerns with Subreports?</b><br/>
 The answer to this depends on your system, data source and your report design. A few points to note on Subreports:
 <ul>
-<li>Each subreport execution will spawn a new thread.</li>
+<li>Each subreport execution may spawn a new thread (see below).</li>
 <li>As the subreport executes more objects will be created in Heap Memory.</li>
 </ul>
-Other alternatives for processing a different query are usage of the <a href="../list/index.html">List</a> element and <a href="../charts/index.html">Sub Datasets</a>. 
+On the subject of threads. Support for Java continuations has been added as an alternative to threads. This was done using the Jakarta Commons Javaflow library.<br/>
+The JasperReports property: net.sf.jasperreports.subreport.runner.factory can be used with the following two settings:
+<ul>
+	<li>net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory</li>
+	<li>net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory</li>
+</ul>
+By default net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory is used, however if net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory<br/>
+is set, then a Javaflow approach will be used to fill the reports rather than threads. If this option is choosen, then the Jakarta Commons Javaflow jar must be<br/>
+included in the application classpath. This jar can be found in the lib directory of the JasperReport reports project distribution package.<br/>
+The jasperreports-javaflow.properties file illustrates how this property could be set in a actual implementation.<br/>
+Other alternatives for processing different queries in the same report are usage of the <a href="../list/index.html">List</a> element and <a href="../charts/index.html">Sub Datasets</a>.
+<br/>
+	<br/>
+	<b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
     </content>
   </feature>
 
