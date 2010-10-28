@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdersReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="30" bottomMargin="30">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="OrderCountStyle" isDefault="false" style="Sans_Normal">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{OrderCount}.intValue() > 0 && $V{OrderCount}.intValue() % 10 == 0)]]></conditionExpression>
+			<style forecolor="#FF0000" isBold="true"/>
+		</conditionalStyle>
+	</style>
+	<style name="CellStyle" isDefault="false" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{ROW_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style backcolor="#E0E0E0"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT ShipCountry, Freight, OrderDate FROM Orders]]>
+	</queryString>
+	<field name="ShipCountry" class="java.lang.String"/>
+	<field name="Freight" class="java.lang.Float"/>
+	<field name="OrderDate" class="java.sql.Timestamp"/>
+	<title>
+		<band height="35">
+			<staticText>
+				<reportElement style="Sans_Bold" x="0" y="0" width="782" height="35"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Number of orders and latest order date by country and freight range.
+Countries are ordered by number of orders.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="60">
+			<crosstab isRepeatColumnHeaders="false">
+				<reportElement x="0" y="0" width="782" height="60"/>
+				<rowGroup name="CountryRow" width="80" totalPosition="End">
+					<bucket order="Descending">
+						<bucketExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></bucketExpression>
+						<orderByExpression><![CDATA[$V{OrderCount}]]></orderByExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents style="CellStyle">
+							<box>
+								<pen lineWidth="1.0" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{CountryRow}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement style="Sans_Bold" x="5" y="0" width="75" height="20"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="FreightColumn" height="20" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.Integer"><![CDATA[Integer.valueOf($F{Freight}.intValue()/100)]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[String.valueOf($V{FreightColumn}.intValue() * 100) + "-" + String.valueOf(($V{FreightColumn}.intValue() + 1) * 100)]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents>
+							<box>
+								<pen lineWidth="1.0" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement style="Sans_Bold" x="0" y="0" width="60" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="OrderCount" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{Freight}]]></measureExpression>
+				</measure>
+				<measure name="MaxDate" class="java.sql.Timestamp" calculation="Highest">
+					<measureExpression><![CDATA[$F{OrderDate}]]></measureExpression>
+				</measure>
+				<crosstabCell width="60" height="20">
+					<cellContents mode="Transparent" style="CellStyle">
+						<box>
+							<pen lineColor="#000000"/>
+							<bottomPen lineWidth="0.5"/>
+							<rightPen lineWidth="0.5"/>
+						</box>
+						<textField>
+							<reportElement style="OrderCountStyle" x="0" y="0" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement x="0" y="10" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{MaxDate}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow">
+					<cellContents backcolor="#FFFF00" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{MaxDate}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" columnTotalGroup="FreightColumn">
+					<cellContents backcolor="#00FF00" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{MaxDate}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="60" height="20" rowTotalGroup="CountryRow" columnTotalGroup="FreightColumn">
+					<cellContents backcolor="#808080" mode="Opaque">
+						<box>
+							<pen lineWidth="1.0" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Sans_Bold" x="0" y="0" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{OrderCount}]]></textFieldExpression>
+						</textField>
+						<textField pattern="MM/dd/yyyy" isBlankWhenNull="true">
+							<reportElement style="Sans_Bold" x="0" y="10" width="60" height="10"/>
+							<textElement textAlignment="Center" verticalAlignment="Middle"/>
+							<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{MaxDate}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>
