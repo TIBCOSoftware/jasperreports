@@ -167,12 +167,13 @@ parameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 	<br/>
 	<br/>
 	<b>When to use Virtualization</b><br/>
-	Virtualization will result in slowed performance for larger reports. However, using virtualization might mean<br/>
-	the difference between waiting a longer time to get a report or getting a out of memory error after the report<br/>
-	has been executing for some time. Setting the maxPages in memory is key. Setting the value too low will result<br/>
-	in virtualization occuring when it is not necessary. Setting it too high could result in an out of memory<br/>
-	exception occuring before virtualization has a chance to start. Picking the correct value for a given system <br/>
-	will require some trial and error.
+	Virtualization will result in slowed performance for larger reports (the JRGzipVirtualizer doesn't write to the<br/>
+	to the file system so its effect on report filling time will be less than the other virtualizers).<br/>
+	However, using virtualization might mean the difference between waiting a longer time to get a report<br/>
+	or getting a out of memory error and no report.<br/>
+	Setting the maxPages in memory is key. Setting the value too low will result in virtualization occuring when it is not necessary.<br/>
+	Setting it too high could result in an out of memory exception occuring before virtualization has a chance to start. Picking the<br/>
+	correct value for a given system will require some trial and error.
 	<br/>
 	<br/>
 	<b>Further Resources:</b>
