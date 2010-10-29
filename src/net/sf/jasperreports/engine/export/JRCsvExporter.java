@@ -104,7 +104,7 @@ public class JRCsvExporter extends JRAbstractExporter
 			setPageRange();
 		}
 		
-		nature = new JRCsvExporterNature(filter);
+		nature = getExporterNature();
 
 		String encoding = 
 			getStringParameterOrDefault(
@@ -411,6 +411,17 @@ public class JRCsvExporter extends JRAbstractExporter
 		}
 		
 		return str;
+	}
+
+
+	protected ExporterNature getExporterNature()
+	{
+		if (nature == null)
+		{
+			nature = new JRCsvExporterNature(filter);
+		}
+
+		return nature;
 	}
 
 
