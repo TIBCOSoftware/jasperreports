@@ -36,12 +36,12 @@
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
       <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
       <feature name="list" sample="list" title="Using the Built-in List Component" complete="false"/>
-      <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language" complete="false"/>
+      <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
       <feature name="rotation" sample="rotation" title="Rotated Text"/>
       <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
       <feature name="stretch" sample="stretch" title="Stretching Text Fields" complete="false"/>
-      <feature name="styledtext" sample="styledtext" title="Styled Text" complete="false"/>
+      <feature name="styledtext" sample="styledtext" title="Styled Text"/>
       <feature name="subreports" sample="subreport" title="Subreports"/>
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures" complete="false"/>
       <feature name="tabular" sample="tabular" title="Creating Table-like Structures" complete="false"/>
