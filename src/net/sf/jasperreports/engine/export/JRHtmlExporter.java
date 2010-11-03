@@ -1729,6 +1729,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 	{
 		writeCellStart(gridCell);
 
+		StringBuffer styleBuffer = new StringBuffer();
+
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
 		switch (image.getHorizontalAlignmentValue())
@@ -1752,9 +1754,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
 		{
-			writer.write(" align=\"");
-			writer.write(horizontalAlignment);
-			writer.write("\"");
+			styleBuffer.append("text-align: ");
+			styleBuffer.append(horizontalAlignment);
+			styleBuffer.append(";");
 		}
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
@@ -1780,12 +1782,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			writer.write(" valign=\"");
-			writer.write(verticalAlignment);
-			writer.write("\"");
+			styleBuffer.append(" vertical-align: ");
+			styleBuffer.append(verticalAlignment);
+			styleBuffer.append(";");
 		}
 
-		StringBuffer styleBuffer = new StringBuffer();
 		appendBackcolorStyle(gridCell, styleBuffer);
 		
 		boolean addedToStyle = appendBorderStyle(gridCell.getBox(), styleBuffer);
