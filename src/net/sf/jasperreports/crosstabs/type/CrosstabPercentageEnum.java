@@ -38,13 +38,13 @@ public enum CrosstabPercentageEnum implements JREnum
 	 * Percentage type indicating that the value will not be calculated
 	 * as a percentage.
 	 */
-	NONE((byte)0, ""),
+	NONE((byte)0, "None"),
 	
 	/**
 	 * Percentage type indicating that the value will be calculated as percentage
 	 * of the grand total value.
 	 */
-	GRAND_TOTAL((byte)1, "");
+	GRAND_TOTAL((byte)1, "GrandTotal");
 
 	/**
 	 *
