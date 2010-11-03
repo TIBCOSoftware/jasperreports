@@ -775,7 +775,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		else
 		{
 			//it has no effect, but is kept for backward compatibility reasons
-			paint = (Paint)seriesPaints.get(0);
+			paint = (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(0);
 		}
 		
 		chartPlot.setMercuryPaint(paint);
