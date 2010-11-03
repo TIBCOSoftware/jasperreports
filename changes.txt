@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 4.0.0 (2010-1x-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 3.7.6 (2010-10-27, SVN 4037)
 ---------------------------------------------
 
