@@ -1786,6 +1786,7 @@ public class DefaultChartTheme implements ChartTheme
 		if (color != null)
 		{
 			chartPlot.setMercuryPaint(color);
+			chartPlot.setUseSubrangePaint(false);
 		}
 
 		// Set the formatting of the value display

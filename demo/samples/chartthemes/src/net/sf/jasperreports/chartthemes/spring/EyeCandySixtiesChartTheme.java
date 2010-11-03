@@ -769,6 +769,7 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 		// any defined ranges.
 		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)ChartThemesConstants.EYE_CANDY_SIXTIES_GRADIENT_PAINTS.get(0));
 		chartPlot.setMercuryPaint(paint);
+		chartPlot.setUseSubrangePaint(false);
 
 		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
 		chartPlot.setThermometerStroke(new BasicStroke(2f));
