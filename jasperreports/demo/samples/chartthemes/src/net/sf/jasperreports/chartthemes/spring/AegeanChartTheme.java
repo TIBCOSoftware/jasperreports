@@ -571,9 +571,18 @@ public class AegeanChartTheme extends GenericChartTheme
 		// any defined ranges.
 		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 		
-		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)seriesPaints.get(0));
+		Paint paint = jrPlot.getMercuryColor();
+		if(paint != null)
+		{
+			chartPlot.setUseSubrangePaint(false);
+		}
+		else
+		{
+			//it has no effect, but is kept for backward compatibility reasons
+			paint = (Paint)seriesPaints.get(0);
+		}
+		
 		chartPlot.setMercuryPaint(paint);
-		chartPlot.setUseSubrangePaint(false);
 
 		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
 		chartPlot.setThermometerStroke(new BasicStroke(2f));
