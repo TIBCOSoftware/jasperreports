@@ -2826,11 +2826,7 @@ public class JRApiWriter
 				String plotName = chartName + "ThermometerPlot";
 				write( "JRDesignThermometerPlot " + plotName + " = (JRDesignThermometerPlot)" + chartName + ".getPlot();\n");
 				write( plotName + ".setValueLocation({0});\n", plot.getValueLocationValue());
-				if(plot.getMercuryColor() != null)
-				{
-					write( plotName + ".setMercuryColor({0});\n", plot.getMercuryColor());
-					write( plotName + ".setUseSubrangePaint(false);\n");
-				}
+				write( plotName + ".setMercuryColor({0});\n", plot.getMercuryColor());
 				writePlot( plot, plotName);
 				writeValueDisplay( plot.getValueDisplay(), plotName);
 				writeDataRange( plot.getDataRange(), plotName, "DataRange");
