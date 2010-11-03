@@ -573,6 +573,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		
 		Paint paint = (jrPlot.getMercuryColor() != null ? (Paint)jrPlot.getMercuryColor() : (Paint)seriesPaints.get(0));
 		chartPlot.setMercuryPaint(paint);
+		chartPlot.setUseSubrangePaint(false);
 
 		chartPlot.setThermometerPaint(THERMOMETER_COLOR);
 		chartPlot.setThermometerStroke(new BasicStroke(2f));
