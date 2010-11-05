@@ -941,13 +941,14 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
 //			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			
+			int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
 			docHelper.write("<wp:wrapNone/>");
-			docHelper.write("<wp:docPr id=\"" + image.hashCode() + "\" name=\"Picture\"/>\n");
+			docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\"/>\n");
 			docHelper.write("<a:graphic>\n");
 			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
 			docHelper.write("<pic:pic>\n");
-			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
+			docHelper.write("<pic:nvPicPr><pic:cNvPr id=\"" + imageId + "\" name=\"Picture\"/><pic:cNvPicPr/></pic:nvPicPr>\n");
 			docHelper.write("<pic:blipFill>\n");
 			docHelper.write("<a:blip r:embed=\"" + getImagePath(renderer, image.isLazy(), gridCell) + "\"/>");
 			docHelper.write("<a:srcRect");

@@ -1222,7 +1222,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 			slideHelper.write("<p:pic>\n");
 			slideHelper.write("  <p:nvPicPr>\n");
-			slideHelper.write("    <p:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\">\n");
+			slideHelper.write("    <p:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
 
 			String href = getHyperlinkURL(image);
 			if (href != null)
