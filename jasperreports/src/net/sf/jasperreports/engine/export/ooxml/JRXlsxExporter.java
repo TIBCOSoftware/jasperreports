@@ -1039,7 +1039,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				"</xdr:rowOff></xdr:to>\n");
 			
 			drawingHelper.write("<xdr:pic>\n");
-			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + image.hashCode() + "\" name=\"Picture\">\n");
+			drawingHelper.write("<xdr:nvPicPr><xdr:cNvPr id=\"" + (image.hashCode() > 0 ? image.hashCode() : -image.hashCode()) + "\" name=\"Picture\">\n");
 
 			String href = getHyperlinkURL(image);
 			if (href != null)
