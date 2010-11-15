@@ -1098,30 +1098,33 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected String getCellTag(JRExporterGridCell gridCell)
 	{
-		if (thDepth > 0)
+		if (accessibleHtml)
 		{
-			return "th";
-		}
-		else
-		{
-			ElementWrapper wrapper = gridCell.getWrapper();
-
-			OccupiedGridCell occupiedCell = gridCell instanceof OccupiedGridCell ? (OccupiedGridCell)gridCell : null;
-			if (occupiedCell != null)
+			if (thDepth > 0)
 			{
-				wrapper = occupiedCell.getOccupier().getWrapper();
+				return "th"; //FIXMEHTML th tags have center alignment by default
 			}
-			
-			if (wrapper != null)
+			else
 			{
-				String cellContentsType = wrapper.getProperty(JRCellContents.PROPERTY_TYPE);
-				if (
-					JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
-					|| JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType)
-					|| JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType)
-					)
+				ElementWrapper wrapper = gridCell.getWrapper();
+
+				OccupiedGridCell occupiedCell = gridCell instanceof OccupiedGridCell ? (OccupiedGridCell)gridCell : null;
+				if (occupiedCell != null)
 				{
-					return "th";
+					wrapper = occupiedCell.getOccupier().getWrapper();
+				}
+				
+				if (wrapper != null)
+				{
+					String cellContentsType = wrapper.getProperty(JRCellContents.PROPERTY_TYPE);
+					if (
+						JRCellContents.TYPE_CROSSTAB_HEADER.equals(cellContentsType)
+						|| JRCellContents.TYPE_COLUMN_HEADER.equals(cellContentsType)
+						|| JRCellContents.TYPE_ROW_HEADER.equals(cellContentsType)
+						)
+					{
+						return "th";
+					}
 				}
 			}
 		}
@@ -1348,6 +1351,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		writeCellStart(gridCell);//FIXME why dealing with cell style if no text to print (textLength == 0)?
 
+		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
+		{
+			writer.write(" dir=\"rtl\"");
+		}
+
+		StringBuffer styleBuffer = new StringBuffer();
+
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
 		switch (text.getVerticalAlignmentValue())
@@ -1371,17 +1381,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			writer.write(" valign=\"");
-			writer.write(verticalAlignment);
-			writer.write("\"");
+			styleBuffer.append(" vertical-align: ");
+			styleBuffer.append(verticalAlignment);
+			styleBuffer.append(";");
 		}
 
-		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
-		{
-			writer.write(" dir=\"rtl\"");
-		}
-
-		StringBuffer styleBuffer = new StringBuffer();
 		appendBackcolorStyle(gridCell, styleBuffer);
 		appendBorderStyle(gridCell.getBox(), styleBuffer);
 
