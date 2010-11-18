@@ -172,7 +172,7 @@ public final class CrosstabConverter extends FrameConverter
 	{
 		for (Iterator it = elements.iterator(); it.hasNext();)
 		{
-			JRElement element = (JRElement) it.next();
+			JRPrintElement element = (JRPrintElement) it.next();
 			int mirrorX = 2 * x + width - element.getX() - element.getWidth();
 			element.setX(mirrorX);
 		}
