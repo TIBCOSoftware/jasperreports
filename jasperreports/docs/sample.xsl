@@ -395,6 +395,16 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
+<xsl:template match="del">
+<xsl:element name="del"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
+<xsl:template match="u">
+<xsl:element name="u"><xsl:apply-templates/></xsl:element>
+</xsl:template>
+
+
 <xsl:template match="pre">
 <xsl:element name="pre"><xsl:apply-templates/></xsl:element>
 </xsl:template>
