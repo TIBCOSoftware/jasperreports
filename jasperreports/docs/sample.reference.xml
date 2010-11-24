@@ -23,8 +23,8 @@
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
       <feature name="crosstabs" sample="crosstabs" title="Crosstabs" complete="false"/>
-      <feature name="fonts" sample="fonts" title="Fonts" complete="false"/>
-      <feature name="fontextensions" sample="fonts" title="Font Extensions" complete="false"/>
+      <feature name="fonts" sample="fonts" title="Fonts"/>
+      <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
       <feature name="genericelements" sample="genericelement" title="Generic Elements" complete="false"/>
       <feature name="horizontal" sample="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports"/>
       <feature name="hyperlinks" sample="hyperlink" title="Hyperlinks"/>
@@ -46,7 +46,7 @@
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures" complete="false"/>
       <feature name="tabular" sample="tabular" title="Creating Table-like Structures" complete="false"/>
       <feature name="templates" sample="templates" title="Style Templates"/>
-      <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support" complete="false"/>
+      <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
       <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
     </content>
   </category>
