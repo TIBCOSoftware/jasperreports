@@ -23,6 +23,19 @@ How to generate reports in different languages using internationalization suppor
     <b>Internationalization Overview</b>
     <br/>
     <br/>
+Which is the best way to configure a report that need to be run in different places in the world? 
+<br/>
+French customers would prefer to see their data reported in French, 
+Chinese customers would like to see the same data translated into Chinese, and Greek customers would think that reporting the same data in 
+Greek would be the best approach.
+<br/>
+In such cases, writing the same report for each different language implies a lot of redundant work, which is not recommended. Only pieces of text 
+differing from language to language should be written separately, and loaded into text elements at runtime, depending on locale settings. This is 
+the purpose of the report internationalization.
+<br/>
+<br/>
+Internationalized reports once written, can run everywhere. Paragraphs that need to be translated from a language to another 
+are stored in localized resource bundle files, loaded into <code>java.util.ResourceBundle</code> instances. 
 JasperReports lets you associate a <code>java.util.ResourceBundle</code> with the report 
 template, either at design time (by using the <code>resourceBundle</code> attribute) or at 
 runtime (by providing a value for the built-in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_RESOURCE_BUNDLE">REPORT_RESOURCE_BUNDLE</api> parameter). 
@@ -30,7 +43,7 @@ If the report needs to be generated in a locale that is different from the curre
 the built-in <api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_LOCALE">REPORT_LOCALE</api> parameter can be used to specify the runtime locale when filling the 
 report. 
 <br/>
-To facilitate report internationalization, a special syntax is available inside report 
+To facilitate the report internationalization, a special syntax is available inside report 
 expressions to reference <code>java.lang.String</code> resources placed inside a 
 <code>java.util.ResourceBundle</code> object associated with the report. The <code>$R{}</code> syntax is for 
 wrapping resource bundle keys to retrieve the value for that key. 
