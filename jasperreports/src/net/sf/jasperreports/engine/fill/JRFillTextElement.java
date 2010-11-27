@@ -1021,6 +1021,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		textStart = 0;
 		textEnd = 0;
+		textTruncateSuffix = null;
 		lineBreakOffsets = null;
 	}
 	
