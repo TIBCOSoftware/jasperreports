@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseGenericPrintElement;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.apache.commons.logging.Log;
@@ -79,6 +80,13 @@ public final class FlashPrintElement
 	 */
 	public static final String PARAMETER_FLASH_VAR_PREFIX = "FLASH_VAR_";
 
+	/**
+	 * Boolean property used to avoid setting the width and height of the SWFLoader control in the Flash report viewer.
+	 * <p>
+	 * Defaults to <code>false</code>.
+	 */
+	public static final String PROPERTY_IGNORE_SIZE = JRProperties.PROPERTY_PREFIX + "export.swf.ignore.size";
+	
 	private static final GenericElementHandlerBundle HANDLER_BUNDLE = new GenericElementHandlerBundle()
 	{
 		public String getNamespace()
