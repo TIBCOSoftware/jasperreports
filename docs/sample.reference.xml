@@ -40,7 +40,7 @@
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
       <feature name="rotation" sample="rotation" title="Rotated Text"/>
       <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
-      <feature name="stretch" sample="stretch" title="Stretching Text Fields" complete="false"/>
+      <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
       <feature name="styledtext" sample="styledtext" title="Styled Text"/>
       <feature name="subreports" sample="subreport" title="Subreports"/>
       <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures" complete="false"/>
