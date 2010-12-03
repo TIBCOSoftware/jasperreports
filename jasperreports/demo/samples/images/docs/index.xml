@@ -16,8 +16,10 @@ How to render images in reports using the build-in image element.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="horizontal"/>
   	<otherSample ref="jasper"/>

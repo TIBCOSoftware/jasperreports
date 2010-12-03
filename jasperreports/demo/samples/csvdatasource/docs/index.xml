@@ -17,8 +17,10 @@ How to fill a report using data from a CSV file.
     </description>
     <since>1.2.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="datasource"/>
     <content>

@@ -16,8 +16,10 @@ How to add reporting functionality to a Web application.
     </description>
     <since>0.4.4</since>
     <documentedBy>
+      <author>
     	<name>Luke Shannon</name>
     	<email>lshannon@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     Once a report is created the next challenge is to make this available to your report users. This sample <br/>

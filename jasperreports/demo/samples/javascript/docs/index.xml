@@ -17,8 +17,10 @@ How to use JavaScript to write report expressions.
     </description>
     <since>3.1.2</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>

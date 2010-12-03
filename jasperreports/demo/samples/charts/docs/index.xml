@@ -18,8 +18,10 @@ How to render different types of charts using the built-in chart element.
     </description>
     <since>1.0.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="chartthemes"/>
     <content>
@@ -368,8 +370,10 @@ which is used by JasperReports to draw the charts created with the built-in char
     </description>
     <since>1.1.1</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="chartthemes"/>
     <content>

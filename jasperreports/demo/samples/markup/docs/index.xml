@@ -17,8 +17,10 @@ How to format text using a markup language such as HTML and/or RTF.
     </description>
     <since>2.0.5</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>Structured Text Content</b>

@@ -17,8 +17,10 @@ How to format texts using fonts properties.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.org</email>
+      </author>
     </documentedBy>
     <content>
 <b>Characters and Fonts</b>

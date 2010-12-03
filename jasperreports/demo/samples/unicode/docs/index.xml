@@ -17,8 +17,10 @@ How to create reports in any language using unicode support.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="fonts"/>
   	<otherSample ref="i18n"/>

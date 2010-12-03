@@ -16,8 +16,10 @@ How to pass parameter references to report queries and how to change the report 
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Luke Shannon</name>
     	<email>lshannon@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 One of the most powerful features in the JasperReports API, when running JDBC based reports, is the ability to perform complex manipulations<br/>

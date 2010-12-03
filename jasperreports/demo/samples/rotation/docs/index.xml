@@ -16,8 +16,10 @@ How to rotate text elements.
     </description>
     <since>0.5.2</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>Rotating paragraphs</b>

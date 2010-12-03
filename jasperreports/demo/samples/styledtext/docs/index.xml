@@ -17,8 +17,10 @@ How to format text using a styled text tags as markup language.
     </description>
     <since>2.0.5</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>Styled Text</b>

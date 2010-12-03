@@ -18,8 +18,10 @@ Customizing the appearance of all charts created using the chart element, across
     </description>
     <since>3.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>Why are chart themes necessary</b>
