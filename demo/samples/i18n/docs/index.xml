@@ -16,8 +16,10 @@ How to generate reports in different languages using internationalization suppor
     </description>
     <since>0.6.2</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>Internationalization Overview</b>

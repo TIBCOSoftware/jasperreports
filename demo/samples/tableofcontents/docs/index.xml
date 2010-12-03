@@ -17,8 +17,10 @@ How to create an table of contents type of index with hyperlinks at the beginnin
     </description>
     <since>0.4.2</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]
@@ -33,8 +35,10 @@ Shows how to use file resolver implementations in order to locate file resources
     </description>
     <since>2.0.5</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]

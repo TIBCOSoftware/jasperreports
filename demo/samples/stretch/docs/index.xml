@@ -16,8 +16,10 @@ How to make text fields resize dynamically and render all their runtime text con
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>Pixel-Perfect Representation and Report Element Stretch</b>    

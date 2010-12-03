@@ -19,8 +19,10 @@ How to fill reports using data source objects.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="csvdatasource"/>
   	<otherSample ref="xlsdatasource"/>
@@ -146,8 +148,10 @@ How to implement a custom data source from scratch.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>Custom Data Sources</b>
@@ -267,8 +271,10 @@ How to fill reports with collections or arrays of JavaBean objects.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b><a name="javaBeanDS">JavaBean Data Sources</a></b>
@@ -482,8 +488,10 @@ How to wrap a custom TableModel implementation into a report data source.
     </description>
     <since>0.3.3</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b><a name="tableModelDS">TableModel Data Sources</a></b>

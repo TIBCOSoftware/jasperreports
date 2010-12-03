@@ -17,8 +17,10 @@ How to fill reports using embedded EJBQL queries.
     </description>
     <since>1.2.3</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
   	<otherSample ref="hibernate"/>
   	<otherSample ref="xmldatasource"/>

@@ -16,8 +16,10 @@ How to implement a custom component to wrap charts rendered by the <a href="http
     </description>
     <since>3.1.0</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
   	<otherSample ref="openflashchart"/>
     <content>

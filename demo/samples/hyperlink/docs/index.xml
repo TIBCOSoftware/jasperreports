@@ -18,8 +18,10 @@ How to use hyperlinks and anchors for text elements and image elements.
     </description>
     <since>0.3.2</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>Hyperlinks, Anchors and Bookmarks</b>

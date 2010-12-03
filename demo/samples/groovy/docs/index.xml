@@ -17,8 +17,10 @@ How to implement a custom report compiler and how to register it with a custom d
     </description>
     <since>0.6.6</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>
@@ -338,8 +340,10 @@ How to use Groovy scripting for report expressions.
     </description>
     <since>1.2.2</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="antcompile"/>
   	<otherSample ref="beanshell"/>

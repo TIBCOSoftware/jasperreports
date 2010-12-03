@@ -16,8 +16,10 @@ How to group data at different levels and perform aggregate calculations using r
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
   	<otherSample ref="datasource"/>
     <content>

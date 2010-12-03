@@ -17,8 +17,10 @@ How to fill a report using data from an XLS file.
     </description>
     <since>3.6.1</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="datasource"/>
     <content>

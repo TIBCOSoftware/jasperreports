@@ -16,8 +16,10 @@ How to render images using the <a href="http://jfree.org/jfreechart/">JFreeChart
     </description>
     <since>0.6.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="jcharts"/>
     <content>

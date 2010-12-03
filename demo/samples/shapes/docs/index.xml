@@ -16,8 +16,10 @@ How to use shape elements such as rectangles, ellipses and lines.
     </description>
     <since>0.1.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>Common graphic elements</b>

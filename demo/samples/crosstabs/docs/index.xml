@@ -17,8 +17,10 @@ How to use the built-in crosstab element to display aggregated data.
     </description>
     <since>1.1.0</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]
@@ -33,8 +35,10 @@ How to make use of subdatasets for chart elements and crosstab elements.
     </description>
     <since>1.1.0</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
   	<otherSample ref="charts"/>
     <content>

@@ -16,8 +16,10 @@ How to generate very large documents using report virtualizers that optimize mem
     </description>
     <since>1.0.0</since>
     <documentedBy>
+      <author>
     	<name>Luke Shannon</name>
     	<email>lshannon@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>What is Virtualization?</b>

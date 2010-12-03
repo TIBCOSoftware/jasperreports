@@ -19,8 +19,10 @@ or to bring them up-to-date with respect to the JasperReports Schema Reference.
     </description>
     <since>3.7.1</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]

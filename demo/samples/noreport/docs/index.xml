@@ -16,8 +16,10 @@ How to create final in-memory documents without using the report generation proc
     </description>
     <since>0.4.2</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]

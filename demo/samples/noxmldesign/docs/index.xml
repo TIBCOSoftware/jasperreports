@@ -17,8 +17,10 @@ FIXME
     </description>
     <since>0.5.1</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>

@@ -16,8 +16,10 @@ How to suppress pagination in generated documents.
     </description>
     <since>1.0.1</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 <b>The <code>isIgnorePagination</code> Flag</b>

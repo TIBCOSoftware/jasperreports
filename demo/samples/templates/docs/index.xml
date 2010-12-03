@@ -16,8 +16,10 @@ How to reuse report style definitions from external style templates.
     </description>
     <since>2.0.0</since>
     <documentedBy>
+      <author>
     	<name>Sanda Zaharia</name>
     	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
     <b>Styles in JasperReports</b>

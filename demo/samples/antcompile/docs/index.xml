@@ -18,8 +18,10 @@ How to compile all your JRXML report source files at application build time usin
     </description>
     <since>0.4.6</since>
     <documentedBy>
+      <author>
     	<name>Teodor Danciu</name>
     	<email>teodord@users.sourceforge.net</email>
+      </author>
     </documentedBy>
   	<otherSample ref="beanshell"/>
   	<otherSample ref="groovy"/>
@@ -167,8 +169,10 @@ the initial <code>*.jrxml</code> source files being lost.
     </description>
     <since>3.7.1</since>
     <documentedBy>
+      <author>
     	<name></name>
     	<email></email>
+      </author>
     </documentedBy>
     <content>
 [Under Construction]

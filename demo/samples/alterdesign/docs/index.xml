@@ -17,8 +17,10 @@ filling with data and without the need to revalidate or recompile it.
     </description>
     <since>0.4.5</since>
     <documentedBy>
+      <author>
     	<name>Teodor Danciu</name>
     	<email>teodord@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 Not all runtime information can be passed to a report as a report fill-time parameter. 
