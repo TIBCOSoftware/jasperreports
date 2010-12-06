@@ -360,10 +360,10 @@ data range, low range, medium range and high range.</li>
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>:&gt; ant runServer</code> command. 
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
 It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/charts/build/reports</code> directory. 
 <br/>
@@ -438,9 +438,9 @@ the only method which has to be implemented is:
 <code>public void customize(JFreeChart chart, JRChart jasperChart);</code>
 <br/>
 <br/>
-This sample contains a very simple customizer class, which sets specific colors for series in a Bar chart. 
+The <a href="#charts">Charts</a> sample contains a very simple customizer class, which sets specific colors for series in a Bar chart. 
 <br/>
-First, let's take a look at the BarChartCustomizer class:
+First, let's take a look at the BarChartCustomizer class in the <code>src</code> directory:
 <pre>
 <![CDATA[
 import java.awt.Color;
@@ -486,7 +486,7 @@ this class is set as chart customizer:
 </code>
 <br/>
 <br/>
-<b>Note: </b> When running the report you will see that the Bar chart generated reports are the only with their items colored in green and orange. 
+<b>Note: </b> When running the <a href="#charts">Charts</a> sample, one can see that the Bar chart generated reports are the only with their items colored in green and orange. 
 All the other generated reports are sharing another color scheme.
     </content>
   </feature>

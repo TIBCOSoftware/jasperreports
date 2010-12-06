@@ -112,10 +112,10 @@ In order to do that, the only needed steps are:
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>:&gt; ant runServer</code> command. 
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
 It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
 <br/>
-Open a new command prompt/terminal window and set the current folder to <code>demo/samples/horizontal</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/horizontal</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/horizontal/build/reports</code> directory. 
 <br/>
