@@ -980,26 +980,26 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		JRPie3DPlot jrPlot = (JRPie3DPlot)getPlot();
-		double depthFactor = jrPlot.getDepthFactorDouble() == null ? JRPie3DPlot.DEPTH_FACTOR_DEFAULT : jrPlot.getDepthFactorDouble().doubleValue();
-		boolean isCircular =  jrPlot.getCircular() == null ? false : jrPlot.getCircular().booleanValue();
+		JRPie3DPlot jrPie3DPlot = (JRPie3DPlot)getPlot();
+		double depthFactor = jrPie3DPlot.getDepthFactorDouble() == null ? JRPie3DPlot.DEPTH_FACTOR_DEFAULT : jrPie3DPlot.getDepthFactorDouble().doubleValue();
+		boolean isCircular =  jrPie3DPlot.getCircular() == null ? false : jrPie3DPlot.getCircular().booleanValue();
 		piePlot3D.setDepthFactor(depthFactor);
 		piePlot3D.setCircular(isCircular);
 		
-		boolean isShowLabels = jrPlot.getShowLabels() == null ? false : jrPlot.getShowLabels().booleanValue();
+		boolean isShowLabels = jrPie3DPlot.getShowLabels() == null ? true : jrPie3DPlot.getShowLabels().booleanValue();
 
 		if(isShowLabels)
 		{
 			PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
-			JRItemLabel itemLabel = jrPlot.getItemLabel();
+			JRItemLabel itemLabel = jrPie3DPlot.getItemLabel();
 			if (labelGenerator != null)
 			{
 				piePlot3D.setLabelGenerator(labelGenerator);
 			}
-			else if (jrPlot.getLabelFormat() != null)
+			else if (jrPie3DPlot.getLabelFormat() != null)
 			{
 				piePlot3D.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPie3DPlot.getLabelFormat())
 					);
 			}
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
@@ -1041,10 +1041,10 @@ public class DefaultChartTheme implements ChartTheme
 			piePlot3D.setLabelGenerator(null);
 		}
 		
-		if (jrPlot.getLegendLabelFormat() != null)
+		if (jrPie3DPlot.getLegendLabelFormat() != null)
 		{
 			piePlot3D.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(jrPlot.getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPie3DPlot.getLegendLabelFormat())
 				);
 		}
 		
@@ -1072,24 +1072,24 @@ public class DefaultChartTheme implements ChartTheme
 		//plot.setStartAngle(290);
 		//plot.setDirection(Rotation.CLOCKWISE);
 		//plot.setNoDataMessage("No data to display");
-		JRPiePlot jrPlot = (JRPiePlot)getPlot();
-		boolean isCircular = jrPlot.getCircular() == null ? true : jrPlot.getCircular().booleanValue();
+		JRPiePlot jrPiePlot = (JRPiePlot)getPlot();
+		boolean isCircular = jrPiePlot.getCircular() == null ? true : jrPiePlot.getCircular().booleanValue();
 		piePlot.setCircular(isCircular);
 
-		boolean isShowLabels = jrPlot.getShowLabels() == null ? false : jrPlot.getShowLabels().booleanValue();
+		boolean isShowLabels = jrPiePlot.getShowLabels() == null ? true : jrPiePlot.getShowLabels().booleanValue();
 		
 		if(isShowLabels)
 		{
 			PieSectionLabelGenerator labelGenerator = (PieSectionLabelGenerator)getLabelGenerator();
-			JRItemLabel itemLabel = jrPlot.getItemLabel();
+			JRItemLabel itemLabel = jrPiePlot.getItemLabel();
 			if (labelGenerator != null)
 			{
 				piePlot.setLabelGenerator(labelGenerator);
 			}
-			else if (jrPlot.getLabelFormat() != null)
+			else if (jrPiePlot.getLabelFormat() != null)
 			{
 				piePlot.setLabelGenerator(
-					new StandardPieSectionLabelGenerator(jrPlot.getLabelFormat())
+					new StandardPieSectionLabelGenerator(jrPiePlot.getLabelFormat())
 					);
 			}
 	//		else if (itemLabel != null && itemLabel.getMask() != null)
@@ -1130,10 +1130,10 @@ public class DefaultChartTheme implements ChartTheme
 			piePlot.setLabelGenerator(null);
 		}
 		
-		if (jrPlot.getLegendLabelFormat() != null)
+		if (jrPiePlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(jrPlot.getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(jrPiePlot.getLegendLabelFormat())
 				);
 		}
 		
