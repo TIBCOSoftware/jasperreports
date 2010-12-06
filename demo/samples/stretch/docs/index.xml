@@ -215,9 +215,16 @@ or text truncation properties:
         This sentence might not fit fully in the space reserved for the element.
       </text>
   </staticText>]]></pre>
-In order to figure out more on stretch behavior, just test this sample by running from the command line the <code>ant test view</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory, and then the generated report will be open with JasperReports internal viewer.
-
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/stretch</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/stretch/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

@@ -162,8 +162,19 @@ For comparison, the <code>IS_ONE_PAGE_PER_SHEET</code> parameter was set to <cod
 <pre><![CDATA[
   exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
   exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);]]></pre>
-In order to figure out more on report pagination, just test this sample by running from the command line the <code>ant test</code> command. 
-It will generate all supported document types and you can compare their resulting layouts.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>:&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/charts/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
 	</content>
   </feature>
 

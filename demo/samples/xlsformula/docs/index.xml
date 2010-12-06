@@ -211,6 +211,18 @@ Here was used a <code>&lt;propertyExpression /&gt;</code> instead of simple <cod
 In a CDATA section could be used any dynamic expression we need, containing also variable names, parameter names, field names, and any other valid java expression.
 <br/>
 The value of A5 will be calculated by Excel when opening the generated .xls document, and for other output formats the 0 value will be exported.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xlsformula</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xlsformula/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

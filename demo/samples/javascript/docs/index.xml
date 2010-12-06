@@ -107,8 +107,16 @@ The equivalent Java expression would be:
 with a lot more complicated syntax.
 <br/>
 <br/>
-In order to figure out more on scripting with JavaScript, just test this sample by running from the command line the <code>ant test view</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory, and then the report will be loaded and visualized into the built-in viewer.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/javascript</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/javascript/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 
