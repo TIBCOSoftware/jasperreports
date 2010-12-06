@@ -426,7 +426,7 @@ represent major advantages of Groovy scripts.
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
 <br/>
-In a command prompt/terminal window set the current folder to <code>demo/samples/groovy</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+In a command prompt/terminal window set the current folder to <code>demo/samples/groovy</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/groovy/build/reports</code> directory. 
 <br/>
