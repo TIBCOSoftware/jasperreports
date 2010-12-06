@@ -242,11 +242,6 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
-<xsl:template match="code">
-  <xsl:element name="code"><xsl:apply-templates/></xsl:element>
-</xsl:template>
-
-
 <xsl:template match="ul">
   <xsl:element name="ul"><xsl:apply-templates/></xsl:element>
 </xsl:template>
