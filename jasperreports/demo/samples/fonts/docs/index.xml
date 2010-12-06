@@ -120,8 +120,16 @@ One can say that this text will use a monospaced character set, 12 pts sized, un
 PDF format, the equivalent fonts will be Courier-Oblique.
 <br/>
 <br/>
-In order to figure out more on Fonts and font settings, just test the sample by running from the command line the <code>ant clean javac compile fill view</code> command. 
-It will generate the sample report.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/fonts</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/fonts/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

@@ -103,8 +103,16 @@ This sample makes use of the above export parameters in order to generate an enc
     JRPdfExporterParameter.PERMISSIONS, 
     new Integer(PdfWriter.ALLOW_COPY | PdfWriter.ALLOW_PRINTING)
     );]]></pre>
-In order to figure out more on PDF encryption, just test this sample by running from the command line the <code>ant test</code> command. 
-It will generate all supported document types and you can compare their resulting layouts.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/pdfencrypt</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/pdfencrypt/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

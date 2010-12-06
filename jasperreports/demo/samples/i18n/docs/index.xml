@@ -25,7 +25,7 @@ How to generate reports in different languages using internationalization suppor
     <b>Internationalization Overview</b>
     <br/>
     <br/>
-Which is the best way to configure a report that need to be run in different places in the world? 
+This sample illustrates the best way to configure a report that need to be run in different places in the world. 
 <br/>
 French customers would prefer to see their data reported in French, 
 Chinese customers would like to see the same data translated into Chinese, and Greek customers would think that reporting the same data in 
@@ -167,8 +167,16 @@ For example, if you choose first the fr_FR - français (France) from the drop-do
 but all controls in the viewer (buttons, text boxes, drop-down lists) will have Portuguese tooltips.
 <br/>
 <br/>
-In order to figure out more on internationalization, just test this sample by running from the command line the <code>ant test view</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory, and then the report will be loaded and visualized into the built-in viewer.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/i18n</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/i18n/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

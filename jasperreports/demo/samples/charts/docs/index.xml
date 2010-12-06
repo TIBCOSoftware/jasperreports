@@ -355,8 +355,19 @@ data range, low range, medium range and high range.</li>
 <li><code>thermometerChart</code> - displays the single value in a Value dataset using rendering options from a Thermometer plot.</li>
 <li><code>multiAxisChart</code> - contains multiple range axes, all sharing a common domain axis.</li>
 </ul>
-In order to figure out more on charts behavior, just test this sample by running from the command line the <code>ant test</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>:&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/charts/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
   
@@ -475,7 +486,7 @@ this class is set as chart customizer:
 </code>
 <br/>
 <br/>
-After running from the command line the <code>ant test</code> command, you will see that the Bar chart generated reports are the only with their items colored in green and orange. 
+<b>Note: </b> When running the report you will see that the Bar chart generated reports are the only with their items colored in green and orange. 
 All the other generated reports are sharing another color scheme.
     </content>
   </feature>

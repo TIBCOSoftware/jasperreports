@@ -607,8 +607,16 @@ in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFill
   System.err.println("Filling time : " + (System.currentTimeMillis() - start));
  }
 ]]></pre>
-In order to figure out more on TableModel data sources behavior, just test this sample by running from the command line the <code>ant clean javac compile fill2 view</code> command. 
-It will generate the sample report filling it with data extracted from a <code>JRTableModelDataSource</code> data source.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/datasource</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/datasource/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 

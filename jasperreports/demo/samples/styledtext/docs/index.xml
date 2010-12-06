@@ -124,10 +124,19 @@ And the last fragment is obtained by processing the following:
 <pre><![CDATA[
 	<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n
 	<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n]]></pre>
-In order to figure out more on styled text formatting, just test this sample by running from the command line the <code>ant test view</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory, and then the generated report will be open with JasperReports internal viewer. 
-<br/>
 For more information about the recommended text formatting solution, please take a look at the <a href="../markup/index.html">Markup Sample</a>.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/styledtext</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/styledtext/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
 </content>
   </feature>
 

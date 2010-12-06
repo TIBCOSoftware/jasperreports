@@ -266,6 +266,18 @@ The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code
 </textField>
 ]]></pre>
 The hyperlink created using the <code>&lt;hyperlinkReferenceExpression&gt;</code> and <code>&lt;hyperlinkPageExpression&gt;</code> tags points to the second page of the HyperlinkReport.pdf document, saved in the current directory.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/hyperlink</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/hyperlink/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
 
     </content>
   </feature>

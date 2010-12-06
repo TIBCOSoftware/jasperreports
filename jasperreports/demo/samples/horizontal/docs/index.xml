@@ -107,9 +107,19 @@ In order to do that, the only needed steps are:
 <li>set the print (filling) order: <code>printOrder="Horizontal"</code></li>
 <li>set the column width and column spacing, according them to the available page width and margins: <code>pageWidth="595" pageHeight="842" columnWidth="175" columnSpacing="5" leftMargin="30" rightMargin="30"</code></li>
 </ul>
-In order to figure out more on report filling order behavior, just test this sample by running from the command line the <code>ant test</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory.
-
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>:&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/horizontal</code> within the JasperReports source project and run the <code>:&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/horizontal/build/reports</code> directory. 
+<br/>
+Then the report will the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 
