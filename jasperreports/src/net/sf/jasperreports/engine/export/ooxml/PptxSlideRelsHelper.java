@@ -29,6 +29,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.util.JRStringUtil;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -92,7 +94,7 @@ public class PptxSlideRelsHelper extends BaseHelper
 	{
 		write(" <Relationship Id=\"rIdLnk" 
 			+ index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" 
-			+ href + "\" TargetMode=\"External\"/>\n");
+			+ JRStringUtil.xmlEncode(href) + "\" TargetMode=\"External\"/>\n");
 	}
 	
 	/**
