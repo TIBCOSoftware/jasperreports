@@ -51,6 +51,19 @@
 		<servlet-name>Xml4SwfServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.Xml4SwfServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DocxServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.DocxServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>PptxServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.PptxServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>XlsxServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.XlsxServlet</servlet-class>
+	</servlet>
+	
 
 	<servlet-mapping>
 		<servlet-name>CompileServlet</servlet-name>
@@ -95,6 +108,18 @@
 	<servlet-mapping>
 		<servlet-name>Xml4SwfServlet</servlet-name>
 		<url-pattern>/servlets/xml4swf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DocxServlet</servlet-name>
+		<url-pattern>/servlets/docx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PptxServlet</servlet-name>
+		<url-pattern>/servlets/pptx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XlsxServlet</servlet-name>
+		<url-pattern>/servlets/xlsx</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
