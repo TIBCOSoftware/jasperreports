@@ -6,7 +6,6 @@
 	<parameter name="B" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[new Double(5)]]></defaultValueExpression>
 	</parameter>
-	<variable name="Chart" class="net.sf.jasperreports.engine.JRRenderable" calculation="System"/>
 	<title>
 		<band height="742">
 			<line>
