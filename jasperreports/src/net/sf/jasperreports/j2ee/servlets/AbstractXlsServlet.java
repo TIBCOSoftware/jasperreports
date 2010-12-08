@@ -80,8 +80,8 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 
 				if (fbos.size()> 0)
 				{
-					response.setContentType("application/xls");
-					response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
+					response.setContentType(getResponseContentType());
+					setResponseHeader(response);
 					response.setContentLength(fbos.size());
 					ServletOutputStream ouputStream = response.getOutputStream();
 					try
@@ -127,8 +127,8 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 		}
 		else
 		{
-			response.setContentType("application/xls");
-			response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
+			response.setContentType(getResponseContentType());
+			setResponseHeader(response);
 
 			JRXlsAbstractExporter exporter = getXlsExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
@@ -168,6 +168,14 @@ public abstract class AbstractXlsServlet extends BaseHttpServlet
 	 *
 	 */
 	protected abstract JRXlsAbstractExporter getXlsExporter();
-
+	
+	
+	protected String getResponseContentType(){
+		return "application/xls";
+	}
+	
+	protected void setResponseHeader(HttpServletResponse response){
+		response.setHeader("Content-Disposition", "inline; filename=\"file.xls\"");
+	}
 	
 }
