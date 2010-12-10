@@ -44,6 +44,10 @@
 		<servlet-class>net.sf.jasperreports.j2ee.servlets.OdtServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>OdsServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.j2ee.servlets.OdsServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>JasperPrintServlet</servlet-name>
 		<servlet-class>servlets.JasperPrintServlet</servlet-class>
 	</servlet>
@@ -100,6 +104,10 @@
 	<servlet-mapping>
 		<servlet-name>OdtServlet</servlet-name>
 		<url-pattern>/servlets/odt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>OdsServlet</servlet-name>
+		<url-pattern>/servlets/ods</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>JasperPrintServlet</servlet-name>
