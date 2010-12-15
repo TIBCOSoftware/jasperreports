@@ -137,7 +137,7 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/rotation/build/reports</code> directory. 
 <br/>
-Then the report will the report will open in the JasperReports internal viewer.
+Then the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 
