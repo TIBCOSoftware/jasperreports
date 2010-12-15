@@ -88,7 +88,7 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	private static JRStyle getBaseStyle(JRStyleContainer styleContainer)
+	public static JRStyle getBaseStyle(JRStyleContainer styleContainer)
 	{
 		if (styleContainer != null)
 		{

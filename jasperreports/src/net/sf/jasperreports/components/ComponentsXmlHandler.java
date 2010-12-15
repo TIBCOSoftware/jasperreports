@@ -82,6 +82,7 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
@@ -136,12 +137,16 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addObjectCreate(barcodePattern, StandardBarbecueComponent.class);
 		digester.addSetProperties(barcodePattern,
 				//properties to be ignored by this rule
-				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+				new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime, StandardBarbecueComponent.PROPERTY_ROTATION}, 
 				new String[0]);
 		digester.addRule(barcodePattern, 
 				new XmlConstantPropertyRule(
 						JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTimeValue",
 						EvaluationTimeEnum.values()));
+		digester.addRule(barcodePattern, 
+				new XmlConstantPropertyRule(
+						StandardBarbecueComponent.PROPERTY_ROTATION,
+						RotationEnum.values()));
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 

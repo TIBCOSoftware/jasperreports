@@ -23,45 +23,37 @@
  */
 package net.sf.jasperreports.components.barbecue;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.Component;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public interface BarbecueComponent extends Component, JRCloneable
-{
-	//TODO scale type, alignment
-
-	String getType();
-
-	JRExpression getApplicationIdentifierExpression();
+public final class BarbecueStyleResolver {
 	
-	//TODO use Object?
-	JRExpression getCodeExpression();
-
-	boolean isDrawText();
-
-	boolean isChecksumRequired();
-	
-	Integer getBarWidth();
-	
-	Integer getBarHeight();
+	private BarbecueStyleResolver() {
+	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
+	 * 
 	 */
-	byte getEvaluationTime();
-	
-	EvaluationTimeEnum getEvaluationTimeValue();
-	
-	String getEvaluationGroup();
-	
-	RotationEnum getRotation();
-	
+	public static RotationEnum getRotationValue(JRComponentElement element)	{
+		RotationEnum ownRotation = ((BarbecueComponent)element.getComponent()).getRotation();
+		if (ownRotation != null) {
+			return ownRotation;
+		}
+		JRStyle style = JRStyleResolver.getBaseStyle(element);
+		if (style != null) {
+			RotationEnum rotation = style.getRotationValue();
+			if (rotation != null) {
+				return rotation;
+			}
+		}
+		return RotationEnum.NONE;
+	}
+
 }

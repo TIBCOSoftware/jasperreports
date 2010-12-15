@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -55,6 +56,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	public static final String PROPERTY_BAR_HEIGTH = "barHeight";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	public static final String PROPERTY_ROTATION = "rotation";
 
 	private String type;
 	private JRExpression codeExpression;
@@ -63,6 +65,9 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	private boolean checksumRequired;
 	private Integer barWidth;
 	private Integer barHeight;
+	
+//	private RotationEnum rotation = RotationEnum.NONE;
+	private RotationEnum rotation;
 	
 	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
@@ -86,6 +91,7 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.barHeight = barcode.getBarHeight();
 		this.evaluationTimeValue= barcode.getEvaluationTimeValue();
 		this.evaluationGroup = barcode.getEvaluationGroup();
+		this.rotation = barcode.getRotation();
 	}
 	
 	public JRExpression getCodeExpression()
@@ -152,6 +158,17 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.barHeight = barHeight;
 		getEventSupport().firePropertyChange(PROPERTY_BAR_HEIGTH, 
 				old, this.barHeight);
+	}
+	
+	public RotationEnum getRotation(){
+		return rotation;
+	}
+	
+	public void setRotation(RotationEnum rotation){
+		Object old = this.rotation;
+		this.rotation = rotation;
+		getEventSupport().firePropertyChange(PROPERTY_ROTATION, 
+				old, this.rotation);
 	}
 
 	public boolean isChecksumRequired()

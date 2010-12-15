@@ -128,6 +128,37 @@
 					<attribute name="barHeight" use="optional" type="unsignedInt"/>
 					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
 					<attribute name="evaluationGroup" type="string" use="optional"/>
+					
+					<attribute name="rotation" use="optional">
+					    <annotation>
+					     <documentation>Type of orientation for the barcode object.</documentation>
+					    </annotation>
+					    <simpleType>
+					     <restriction base="string">
+					      <enumeration value="None">
+							<annotation>
+							 <documentation>None.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="Left">
+							<annotation>
+							 <documentation>The barcode is rotated with 90 degrees anticlockwise.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="Right">
+							<annotation>
+							 <documentation>The barcode is rotated with 90 degrees clockwise.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="UpsideDown">
+							<annotation>
+							 <documentation>The barcode is rotated with 180 degrees.</documentation>
+							</annotation>
+						  </enumeration>
+					     </restriction>
+					    </simpleType>
+					   </attribute>
+					
 				</extension>
 			</complexContent>
 		</complexType>
