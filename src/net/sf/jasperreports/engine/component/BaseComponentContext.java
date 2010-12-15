@@ -21,39 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.engine.component;
+
+import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
  * 
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: StandardBarbecueComponent.java 4087 2010-12-15 12:57:45Z narcism $
  */
-public final class BarbecueStyleResolver {
+public class BaseComponentContext implements ComponentContext, Serializable
+{
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private BarbecueStyleResolver() {
-	}
-	
-	/**
-	 * 
-	 */
-	public static RotationEnum getRotationValue(JRComponentElement element)	{
-		RotationEnum ownRotation = ((BarbecueComponent)element.getComponent()).getOwnRotation();
-		if (ownRotation != null) {
-			return ownRotation;
-		}
-		JRStyle style = JRStyleResolver.getBaseStyle(element);
-		if (style != null) {
-			RotationEnum rotation = style.getRotationValue();
-			if (rotation != null) {
-				return rotation;
-			}
-		}
-		return RotationEnum.NONE;
+	private JRComponentElement element;
+
+	public BaseComponentContext()
+	{
 	}
 
+	public BaseComponentContext(ComponentContext context, JRBaseObjectFactory objectFactory)
+	{
+		this.element = (JRComponentElement)objectFactory.getVisitResult(context.getComponentElement());
+	}
+	
+	public void setComponentElement(JRComponentElement element)
+	{
+		this.element = element;
+	}
+	
+	public JRComponentElement getComponentElement()
+	{
+		return element;
+	}
+	
 }

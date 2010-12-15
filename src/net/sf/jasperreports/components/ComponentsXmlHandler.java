@@ -88,10 +88,10 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRFontFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 import org.apache.commons.digester.Digester;
 
@@ -385,6 +385,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
+		writer.addAttribute("rotation", barcode.getOwnRotation());
 		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 

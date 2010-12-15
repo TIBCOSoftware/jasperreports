@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.barbecue;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 
@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BarbecueComponent extends Component, JRCloneable
+public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 {
 	//TODO scale type, alignment
 
@@ -63,5 +63,7 @@ public interface BarbecueComponent extends Component, JRCloneable
 	String getEvaluationGroup();
 	
 	RotationEnum getRotation();
+	
+	RotationEnum getOwnRotation();
 	
 }
