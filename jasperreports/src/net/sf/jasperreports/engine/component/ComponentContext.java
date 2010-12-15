@@ -21,39 +21,22 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.barbecue;
+package net.sf.jasperreports.engine.component;
 
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
- * 
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: FillContext.java 3775 2010-05-03 12:11:56Z teodord $
  */
-public final class BarbecueStyleResolver {
-	
-	private BarbecueStyleResolver() {
-	}
+public interface ComponentContext
+{
 	
 	/**
+	 * Returns the component element that wraps the component.
 	 * 
+	 * @return the current component element
 	 */
-	public static RotationEnum getRotationValue(JRComponentElement element)	{
-		RotationEnum ownRotation = ((BarbecueComponent)element.getComponent()).getOwnRotation();
-		if (ownRotation != null) {
-			return ownRotation;
-		}
-		JRStyle style = JRStyleResolver.getBaseStyle(element);
-		if (style != null) {
-			RotationEnum rotation = style.getRotationValue();
-			if (rotation != null) {
-				return rotation;
-			}
-		}
-		return RotationEnum.NONE;
-	}
+	JRComponentElement getComponentElement();
 
 }

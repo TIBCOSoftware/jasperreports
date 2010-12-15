@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.component.BaseComponentContext;
+import net.sf.jasperreports.engine.component.ComponentContext;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -72,6 +74,8 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	
+	private ComponentContext context;
+
 	private transient JRPropertyChangeSupport eventSupport;
 
 	public StandardBarbecueComponent()
@@ -91,9 +95,21 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 		this.barHeight = barcode.getBarHeight();
 		this.evaluationTimeValue= barcode.getEvaluationTimeValue();
 		this.evaluationGroup = barcode.getEvaluationGroup();
-		this.rotation = barcode.getRotation();
+		this.rotation = barcode.getOwnRotation();
+		
+		this.context = new BaseComponentContext(barcode.getContext(), objectFactory);
 	}
 	
+	public void setContext(ComponentContext context)
+	{
+		this.context = context;
+	}
+
+	public ComponentContext getContext()
+	{
+		return context;
+	}
+
 	public JRExpression getCodeExpression()
 	{
 		return codeExpression;
@@ -161,6 +177,10 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	}
 	
 	public RotationEnum getRotation(){
+		return BarbecueStyleResolver.getRotationValue(getContext().getComponentElement());
+	}
+	
+	public RotationEnum getOwnRotation(){
 		return rotation;
 	}
 	

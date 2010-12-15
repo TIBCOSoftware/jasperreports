@@ -29,8 +29,10 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
+import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
 import org.apache.commons.logging.Log;
@@ -113,6 +115,14 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 	 */
 	public void setComponent(Component component)
 	{
+		ContextAwareComponent contextAwareComponent = component instanceof ContextAwareComponent ? (ContextAwareComponent)component : null;
+		if (contextAwareComponent != null)
+		{
+			BaseComponentContext context = new BaseComponentContext();
+			context.setComponentElement(this);
+			contextAwareComponent.setContext(context);
+		}
+		
 		Object old = this.component;
 		this.component = component;
 		getEventSupport().firePropertyChange(PROPERTY_COMPONENT, old, this.component);
