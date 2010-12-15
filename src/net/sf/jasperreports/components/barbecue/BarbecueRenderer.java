@@ -31,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.output.OutputException;
 
@@ -46,15 +47,30 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 	private static final long serialVersionUID = 1L;
 	
 	private Barcode barcode;
+	
+	private RotationEnum rotation;
 
 	public BarbecueRenderer(Barcode barcode) 
 	{
 		this.barcode = barcode;
 	}
-
+	
 	public Dimension2D getDimension()
 	{
-		return barcode.getSize();
+		if(rotation != null) 
+		{
+			switch(rotation)
+			{
+				case LEFT:
+				case RIGHT:
+					return new Dimension((int)barcode.getSize().getHeight(),(int)barcode.getSize().getWidth());
+				default:
+					return barcode.getSize();
+			}
+		} else 
+		{
+			return barcode.getSize();
+		}
 	}
 
 	public void render(Graphics2D grx, Rectangle2D rectangle) 
@@ -63,13 +79,62 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 		try
 		{
 			Dimension size = barcode.getSize();
-			grx.translate(rectangle.getX(), rectangle.getY());
-			
-			if (rectangle.getWidth() != size.getWidth() 
-					|| rectangle.getHeight() != size.getHeight())
+
+			if (rotation != null)
 			{
-				grx.scale(rectangle.getWidth() / size.getWidth(), 
-						rectangle.getHeight() / size.getHeight());
+				switch(rotation)
+				{
+					case LEFT:
+						grx.translate(rectangle.getX(), rectangle.getY() + rectangle.getHeight());
+						grx.rotate((-1) * Math.PI / 2);
+						if (rectangle.getWidth() != size.getHeight() 
+								|| rectangle.getHeight() != size.getWidth())
+						{
+							grx.scale(rectangle.getHeight() / size.getWidth(), 
+									rectangle.getWidth() / size.getHeight());
+							
+						}
+						break;
+					case RIGHT: 
+						grx.translate(rectangle.getX() + rectangle.getWidth(), rectangle.getY());
+						grx.rotate(Math.PI / 2);
+						if (rectangle.getWidth() != size.getHeight() 
+								|| rectangle.getHeight() != size.getWidth())
+						{
+							grx.scale(rectangle.getHeight() / size.getWidth(), 
+									rectangle.getWidth() / size.getHeight());
+							
+						}
+						break;
+					case UPSIDE_DOWN:
+						grx.translate(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight());
+						grx.rotate(Math.PI);
+						if (rectangle.getWidth() != size.getWidth() 
+								|| rectangle.getHeight() != size.getHeight())
+						{
+							grx.scale(rectangle.getWidth() / size.getWidth(), 
+									rectangle.getHeight() / size.getHeight());
+						}
+						break;
+					case NONE:
+						grx.translate(rectangle.getX(), rectangle.getY());
+						if (rectangle.getWidth() != size.getWidth() 
+								|| rectangle.getHeight() != size.getHeight())
+						{
+							grx.scale(rectangle.getWidth() / size.getWidth(), 
+									rectangle.getHeight() / size.getHeight());
+						}
+						break;
+				}
+			} else
+			{
+				grx.translate(rectangle.getX(), rectangle.getY());
+				if (rectangle.getWidth() != size.getWidth() 
+						|| rectangle.getHeight() != size.getHeight())
+				{
+					grx.scale(rectangle.getWidth() / size.getWidth(), 
+							rectangle.getHeight() / size.getHeight());
+				}
 			}
 			
 			barcode.draw(grx, 0, 0);
@@ -82,6 +147,10 @@ public class BarbecueRenderer extends JRAbstractSvgRenderer
 		{
 			grx.setTransform(origTransform);
 		}
+	}
+	
+	public void setRotation(RotationEnum rotation){
+		this.rotation = rotation;
 	}
 	
 }

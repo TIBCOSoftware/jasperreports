@@ -93,7 +93,9 @@ public class BarbecueDesignConverter implements ComponentDesignConverter
 			barcodeInfo.setBarHeight(component.getBarHeight());
 			
 			Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
-			image.setRenderer(new BarbecueRenderer(barcode));
+			BarbecueRenderer renderer = new BarbecueRenderer(barcode);
+			renderer.setRotation(BarbecueStyleResolver.getRotationValue(element));
+			image.setRenderer(renderer);
 			return image;
 		}
 		catch (Exception e)

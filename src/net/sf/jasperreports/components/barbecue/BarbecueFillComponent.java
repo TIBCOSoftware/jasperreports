@@ -137,6 +137,8 @@ public class BarbecueFillComponent extends BaseFillComponent
 		
 		Barcode barcode = BarcodeProviders.createBarcode(barcodeInfo);
 		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
+		renderer.setRotation(BarbecueStyleResolver.getRotationValue(fillContext.getComponentElement()));
+		
 		image.setRenderer(renderer);
 	}
 
