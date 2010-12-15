@@ -84,6 +84,13 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
 				column, columns.size() - 1);
 	}
+	
+	public void addColumn(int index, BaseColumn column)
+	{
+		columns.add(index, column);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
+				column, index);
+	}
 
 	public boolean removeColumn(BaseColumn column)
 	{
