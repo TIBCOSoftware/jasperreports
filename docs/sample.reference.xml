@@ -88,7 +88,7 @@
     <name>Report Filling</name>
     <content>
       <feature name="nopagebreak" sample="nopagebreak" title="Suppress Pagination"/>
-      <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)" complete="false"/>
+      <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)"/>
       <feature name="scriptlet" sample="scriptlet" title="Scriptlets"/>
       <feature name="virtualizer" sample="virtualizer" title="Generating Very Large Documents Using Report Virtualizers"/>
     </content>
