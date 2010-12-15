@@ -128,8 +128,10 @@ Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> 
 In a command prompt/terminal window set the current folder to <code>demo/samples/fonts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
 <br/>
 It will generate all supported document types containing the sample report in the <code>demo/samples/fonts/build/reports</code> directory. 
+A font extension sample xml file named <code>fonts.xml</code> will be also generated in the same directory. It contains all font families 
+available in the already installed font extensions.
 <br/>
-Then the report will the report will open in the JasperReports internal viewer.
+Then the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 
@@ -299,7 +301,10 @@ in order to make the new fonts available to your reports, wherever the applicati
 <br/>
 For more details about deploying fonts as extensions, you can take a look at the 
 <a href="#fonts">Fonts</a> sample provided with the JasperReports project distribution 
-package, which adds one more font extension for another open source font called Gentium.
+package, which adds one more font extension for another open source font called Gentium. Running the 
+sample using the <code>&gt; ant clean javac compile fontsXml</code> command will generate in the 
+<code>demo/samples/fonts/build/reports</code> a font extension xml file named <code>fonts.xml</code>. This file contains all font families 
+available in the already installed font extensions.
     </content>
   </feature>
 
