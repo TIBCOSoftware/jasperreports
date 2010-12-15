@@ -76,6 +76,13 @@ public class StandardColumnGroup extends StandardBaseColumn implements
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
 				column, children.size() - 1);
 	}
+	
+	public void addColumn(int index, BaseColumn column)
+	{
+		children.add(index, column);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMNS, 
+				column, index);
+	}
 
 	public boolean removeColumn(BaseColumn column)
 	{
