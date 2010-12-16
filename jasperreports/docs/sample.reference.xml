@@ -57,6 +57,7 @@
       <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
       <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="xmlwriter" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
+      <feature name="noxmldesign" sample="noxmldesign" title="Creating In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)"/>
       <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
       <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
       <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
