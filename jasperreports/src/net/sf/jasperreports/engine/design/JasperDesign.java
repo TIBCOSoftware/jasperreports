@@ -735,6 +735,24 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
+	public void resetDefaultStyle()
+	{
+		for (int i = stylesList.size() - 1; i >= 0; i--)
+		{
+			JRStyle style = (JRStyle)stylesList.get(i);
+			if (style.isDefault())
+			{
+				setDefaultStyle(style);
+				return;
+			}
+		}
+		setDefaultStyle(null);
+	}
+
+
+	/**
+	 *
+	 */
 	public void setDefaultStyle(JRStyle style)
 	{
 		Object old = this.defaultStyle;
@@ -798,7 +816,7 @@ public class JasperDesign extends JRBaseReport
 
 		if (style.isDefault())
 		{
-			setDefaultStyle(style);
+			resetDefaultStyle();
 		}
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_STYLES, style, index);
@@ -825,7 +843,7 @@ public class JasperDesign extends JRBaseReport
 		{
 			if (style.isDefault())
 			{
-				setDefaultStyle(null);
+				resetDefaultStyle();
 			}
 
 			int idx = stylesList.indexOf(style);
