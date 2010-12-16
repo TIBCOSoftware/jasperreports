@@ -35,14 +35,13 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -61,10 +60,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvDataSource implements JRDataSource
+public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDataSource
 {
-	private DateFormat dateFormat = new SimpleDateFormat();
-	private NumberFormat numberFormat = new DecimalFormat();
+	private DateFormat dateFormat;
+	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
 	private HashMap columnNames = new HashMap();
@@ -140,6 +139,7 @@ public class JRCsvDataSource implements JRDataSource
 				if (useFirstRowAsHeader) 
 				{
 					parseRow();
+					this.columnNames = new HashMap();
 					for (int i = 0; i < fields.size(); i++) {
 						String name = (String) fields.get(i);
 						this.columnNames.put(name, Integer.valueOf(i));
@@ -153,7 +153,6 @@ public class JRCsvDataSource implements JRDataSource
 			throw new JRException(e);
 		}
 	}
-
 
 	/**
 	 *
@@ -190,44 +189,30 @@ public class JRCsvDataSource implements JRDataSource
 			}
 			
 			try {
-				if (valueClass.equals(Boolean.class)) {
+				if (valueClass.equals(Boolean.class)) 
+				{
 					return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
 				}
-				else if (valueClass.equals(Byte.class)) {
-					return new Byte((numberFormat.parse(fieldValue)).byteValue());
+				else if (Number.class.isAssignableFrom(valueClass))
+				{
+					if (numberFormat != null)
+					{
+						return getFormattedNumber(numberFormat, fieldValue, valueClass);
+					}
+					else 
+					{
+						return convertStringValue(fieldValue, valueClass);
+					}
 				}
-				else if (valueClass.equals(Integer.class)) {
-					return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
-				}
-				else if (valueClass.equals(Long.class)) {
-					return new Long((numberFormat.parse(fieldValue)).longValue());
-				}
-				else if (valueClass.equals(Short.class)) {
-					return new Short((numberFormat.parse(fieldValue)).shortValue());
-				}
-				else if (valueClass.equals(Double.class)) {
-					return new Double((numberFormat.parse(fieldValue)).doubleValue());
-				}
-				else if (valueClass.equals(Float.class)) {
-					return new Float((numberFormat.parse(fieldValue)).floatValue());
-				}
-				else if (valueClass.equals(BigDecimal.class)) {
-					return new BigDecimal((numberFormat.parse(fieldValue)).toString());
-				}
-				else if (valueClass.equals(BigInteger.class)) {
-					return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
-				}
-				else if(valueClass.equals(java.lang.Number.class)) {
-					return numberFormat.parse(fieldValue);
-				}
-				else if (valueClass.equals(java.util.Date.class)) {
-					return dateFormat.parse(fieldValue);
-				}
-				else if (valueClass.equals(java.sql.Timestamp.class)) {
-					return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
-				}
-				else if (valueClass.equals(java.sql.Time.class)) {
-					return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+				else if (Date.class.isAssignableFrom(valueClass)){
+					if (dateFormat != null)
+					{
+						return getFormattedDate(dateFormat, fieldValue, valueClass);
+					} 
+					else
+					{
+						return convertStringValue(fieldValue, valueClass);
+					}
 				}
 				else
 				{
@@ -238,7 +223,6 @@ public class JRCsvDataSource implements JRDataSource
 			}
 		}
 
-		//throw new JRException("Unknown column name : " + fieldName);
 		return null;
 	}
 
@@ -514,6 +498,7 @@ public class JRCsvDataSource implements JRDataSource
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		}
+		this.columnNames = new HashMap();
 		for (int i = 0; i < columnNames.length; i++)
 		{
 			this.columnNames.put(columnNames[i], Integer.valueOf(i));
@@ -580,8 +565,69 @@ public class JRCsvDataSource implements JRDataSource
 
 
 	public void setNumberFormat(NumberFormat numberFormat) {
+		if (processingStarted)
+		{
+			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
+		}
 		this.numberFormat = numberFormat;
 	}
+	
+	private Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class valueClass) throws ParseException
+	{
+		if (valueClass.equals(Byte.class)) 
+		{
+			return new Byte((numberFormat.parse(fieldValue)).byteValue());
+		}
+		else if (valueClass.equals(Integer.class)) 
+		{
+			return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
+		}
+		else if (valueClass.equals(Long.class)) 
+		{
+			return new Long((numberFormat.parse(fieldValue)).longValue());
+		}
+		else if (valueClass.equals(Short.class)) 
+		{
+			return new Short((numberFormat.parse(fieldValue)).shortValue());
+		}
+		else if (valueClass.equals(Double.class)) 
+		{
+			return new Double((numberFormat.parse(fieldValue)).doubleValue());
+		}
+		else if (valueClass.equals(Float.class)) 
+		{
+			return new Float((numberFormat.parse(fieldValue)).floatValue());
+		}
+		else if (valueClass.equals(BigDecimal.class)) 
+		{
+			return new BigDecimal((numberFormat.parse(fieldValue)).toString());
+		}
+		else if (valueClass.equals(BigInteger.class)) 
+		{
+			return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
+		}
+		else if(valueClass.equals(java.lang.Number.class)) 
+		{
+			return numberFormat.parse(fieldValue);
+		}
+		return null;
+	}
+	
+	private Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class valueClass) throws ParseException 
+	{
+		if (valueClass.equals(java.util.Date.class)) 
+		{
+			return dateFormat.parse(fieldValue);
+		}
+		else if (valueClass.equals(java.sql.Timestamp.class)) 
+		{
+			return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
+		}
+		else if (valueClass.equals(java.sql.Time.class)) 
+		{
+			return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+		}
+		return null;
+	}
+	
 }
-
-
