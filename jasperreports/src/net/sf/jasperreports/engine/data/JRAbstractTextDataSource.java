@@ -31,6 +31,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRFloatLocaleConverter;
 
@@ -165,6 +166,12 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		this.locale = locale;
 		convertBean = null;
 	}
+	
+	public void setLocale(String locale) {
+		if (locale != null){
+			this.locale = JRDataUtils.getLocale(locale);
+		}
+	}
 
 	public String getDatePattern() {
 		return datePattern;
@@ -192,5 +199,12 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		this.timeZone = timeZone;
 		convertBean = null;
 	}
-
+	
+	public void setTimeZone(String timeZoneId){
+		if (timeZoneId != null) {
+			this.timeZone = JRDataUtils.getTimeZone(timeZoneId);
+			convertBean = null;
+		}
+	}
+	
 }
