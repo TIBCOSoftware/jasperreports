@@ -26,7 +26,7 @@ How to fill a report using data from an XML file.
       </author>
     </documentedBy>
     <content>
-<b>XML Data Sources</b>
+<b><a name="xmlds">XML</a> Data Sources</b>
 <br/>
 <br/>
 XML documents can be used as report data sources based on appropriate 
@@ -75,7 +75,66 @@ localization one have to set the following information in the <code>JRXmlDataSou
 </ul>
 Patterns should be non-localized and in accordance with the 
 <code>java.text.DecimalFormat</code> and <code>java.text.SimpleDateFormat</code> pattern syntax. If 
-specific patterns are not supplied, the defaults for these two format classes apply. 
+specific patterns are not supplied, the defaults for these two format classes apply.
+<br/>
+<br/>
+Before running the sample, please consult the next section regarding the XPath query executer.
+    </content>
+  </feature>
+
+  <!-- xpathqueryexecuter -->
+  
+  <feature name="xpathqueryexecuter" title="XPath Query Executer">
+    <description>
+How to fill reports using embedded XPath queries.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>The XPath Query Executer</b>
+<br/>
+<br/>
+XPath (the <b>X</b>ML <b>Path</b> language) is an expression language with specific syntax 
+used to navigate through nodes in an XML document and retrieve their information, 
+based on a tree representation of XML documents. When using XML data sources, one 
+can specify an XPath expression that produces the list of nodes/records as the report query:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;queryString language="xPath"&gt;&lt;![CDATA[/Northwind/Orders[CustomerID='ALFKI']]]&gt;&lt;/queryString&gt;</code>
+<br/>
+<br/>
+This query returns a list containing only <code>Orders</code> elements with <code>CustomerID</code> set to <code>ALFKI</code>.  
+<br/>
+<br/>
+In the case of the XPath language the query executer factory (see the 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html">JRXPathQueryExecuterFactory</api> class) registers a parameter named 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#PARAMETER_XML_DATA_DOCUMENT">XML_DATA_DOCUMENT</api> 
+of type <code>org.w3c.dom.Document</code>. The XPath query executer (see the 
+<api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuter.html">JRXPathQueryExecuter</api> class) runs the XPath query against this document
+ and stores the result in an in-memory 
+<api href="net/sf/jasperreports/engine/data/JRXmlDataSource.html">JRXmlDataSource</api> object. For more 
+information about XML data sources please consult the <a href="#xmlds">XML Data Sources</a> above section.
+<br/>
+<br/>
+Being an expression language itself, XPath supports parameters. Parameters will be processed and replaced 
+by their <code>java.lang.String</code> values. When creating the JRXmlDataSource instance, the query executer 
+also provides the four additional parameters containing localization settings required by the data source: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_LOCALE">XML_LOCALE</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_NUMBER_PATTERN">XML_NUMBER_PATTERN</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_DATE_PATTERN">XML_DATE_PATTERN</api></li>
+<li><api href="net/sf/jasperreports/engine/query/JRXPathQueryExecuterFactory.html#XML_TIME_ZONE">XML_TIME_ZONE</api></li>
+</ul>
+In the next section you can see how these additional parameters are set in the <a href="#fill">fill()</a> method of the <code>/src/XmlDataSourceApp.java</code> class.
+<br/>
+<br/>
+For more information about the XPath syntax and queries, one can consult the official documentation: 
+<a href="http://www.w3.org/TR/xpath20">http://www.w3.org/TR/xpath20</a>.
 <br/>
 <br/>
 <b>XML Data Source Example</b>
@@ -241,7 +300,7 @@ The only fields required from an <code>Orders</code> record are:
 	<fieldDescription>Freight</fieldDescription>
   </field>
 ]]></pre>
-In the /src/XmlDataSourceApp.java all necessary information is prepared to be sent at fill time: 
+<a name="fill">In</a> the /src/XmlDataSourceApp.java all necessary information is prepared to be sent at fill time: 
 the parsed Northwind document, data formatting parameters and the CustomersReport compiled report:
 <pre><![CDATA[
   public void fill() throws JRException
@@ -269,19 +328,8 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 It will generate all supported document types containing the sample report in the <code>demo/samples/xmldatasource/build/reports</code> directory. 
 <br/>
 Then the report will open in the JasperReports internal viewer.
-    </content>
-  </feature>
 
-  <!-- xpathqueryexecuter -->
-  
-  <feature name="xpathqueryexecuter" title="XPath Query Executer">
-    <description>
-How to fill reports using embedded XPath queries.
-    </description>
-    <since>1.2.0</since>
-    <content>
-[Under Construction]
-    </content>
+</content>
   </feature>
 
 </sample>
