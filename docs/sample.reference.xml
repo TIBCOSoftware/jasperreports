@@ -81,7 +81,7 @@
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
       <feature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
       <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
-      <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer" complete="false"/>
+      <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
     </content>
   </category>
   
