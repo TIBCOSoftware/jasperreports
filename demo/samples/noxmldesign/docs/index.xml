@@ -26,24 +26,25 @@ How to create in-memory JasperDesign objects without processing a JRXML file, us
 <br/>
 <br/>
 Standard in reporting applications use report templates to define the layout of generated documents. 
-Report templates, once created, can be filled with appropriate data and create output document objects 
-during the report generation process. In such a complex process, report templates represent the entry 
-point.
+To start a report generation process a report template is needed. 
+Once created, a report template can be filled with appropriate data and generate output document objects 
+during the report generation. 
 <br/>
-In JasperReports a report template object is compiled and completed into a 
+In JasperReports the report generation relies on creating, compiling and filling report templates. 
+<br/>
+Report templates are stored in 
+<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects. 
+Instances of this class are the raw material that the engine uses to generate reports. 
+<br/>
+During the report generation a report template object is compiled and completed 
+with additional information about the runtime expressions evaluation into a 
 <api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> 
-object, which contains additional information about the runtime expressions evaluation, 
-and then is filled with significant data, and creates a resulting ready-to-print pixel-perfect 
+object, then is filled with significant data creating a ready-to-print pixel-perfect 
 <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object. 
 <br/>
-Therefore, the report generation relies on compiling and filling report templates. 
-In JasperReports report templates are stored in 
-<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects. 
-Instances of this class are the raw material that the engine uses to generate
-reports. 
-<br/>
-One can obtain such instances either by parsing the JRXML report template files, or 
-independently, through API calls, where working with JRXML files is not a possibility. 
+One can obtain <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+instances either by parsing the JRXML report template files, or 
+independently, through API calls, where using JRXML files is not a possibility. 
 The main purpose is to make available an in-memory 
 <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object 
 with all its properties set, in order to generate a valid report. 
@@ -51,7 +52,7 @@ with all its properties set, in order to generate a valid report.
 <br/>
 Taking a look inside the <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
 class, one can see that it extends <api href="net/sf/jasperreports/engine/base/JRBaseReport.html">JRBaseReport</api> 
-and can access all inherited member properties below: 
+and inherits all protected member properties below: 
 <pre><![CDATA[
   protected String name;
   protected String language = LANGUAGE_JAVA;
