@@ -1989,17 +1989,25 @@ public class JRHorizontalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
+		if (
+			keepTogetherSavePoint != null
+			&& !keepTogetherSavePoint.isNewPage 
+			)
+		{
+			keepTogetherSavePoint.removeContent();
+		}
+
 		addPage(isResetPageNumber);
 
 		fillPageHeader(evalNextPage);
 
 		fillColumnHeaders(evalNextPage);
 
-		if (keepTogetherSavePoint != null)
-		{
-			moveKeepTogetherSavePointContent();
-		}
-		else if (isReprintGroupHeaders)
+		boolean savePointContentMoved = moveKeepTogetherSavePointContent();
+		if (
+			!savePointContentMoved
+			&& isReprintGroupHeaders
+			)
 		{
 			fillGroupHeadersReprint(evalNextPage);
 		}

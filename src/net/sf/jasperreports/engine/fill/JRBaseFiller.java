@@ -2157,8 +2157,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected void moveKeepTogetherSavePointContent()
+	protected boolean moveKeepTogetherSavePointContent()
 	{
+		boolean moved = false;
+		
 		if (keepTogetherSavePoint != null)
 		{
 			if (keepTogetherSavePoint.page == getCurrentPage())
@@ -2174,6 +2176,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 						);
 
 					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
+					
+					moved = true;
 				}
 			}
 			else
@@ -2189,11 +2193,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 							);
 
 					offsetY = offsetY + keepTogetherSavePoint.endOffsetY - keepTogetherSavePoint.startOffsetY;
+
+					moved = true;
 				}
 			}
 			
 			keepTogetherSavePoint = null;
 		}
+		
+		return moved;
 	}
 
 }
