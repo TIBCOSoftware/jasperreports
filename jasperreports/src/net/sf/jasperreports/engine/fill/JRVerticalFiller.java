@@ -1920,7 +1920,10 @@ public class JRVerticalFiller extends JRBaseFiller
 		calculator.initializeVariables(ResetTypeEnum.PAGE, IncrementTypeEnum.PAGE);
 		scriptlet.callAfterPageInit();
 
-		if (keepTogetherSavePoint != null)
+		if (
+			keepTogetherSavePoint != null
+			&& !keepTogetherSavePoint.isNewPage 
+			)
 		{
 			keepTogetherSavePoint.removeContent();
 		}
@@ -1931,11 +1934,11 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		fillColumnHeader(evalNextPage);
 
-		if (keepTogetherSavePoint != null)
-		{
-			moveKeepTogetherSavePointContent();
-		}
-		else if (isReprintGroupHeaders)
+		boolean savePointContentMoved = moveKeepTogetherSavePointContent();
+		if (
+			!savePointContentMoved
+			&& isReprintGroupHeaders
+			)
 		{
 			fillGroupHeadersReprint(evalNextPage);
 		}
@@ -1971,7 +1974,10 @@ public class JRVerticalFiller extends JRBaseFiller
 			calculator.initializeVariables(ResetTypeEnum.COLUMN, IncrementTypeEnum.COLUMN);
 			scriptlet.callAfterColumnInit();
 
-			if (keepTogetherSavePoint != null)
+			if (
+				keepTogetherSavePoint != null
+				&& !keepTogetherSavePoint.isNewColumn 
+				)
 			{
 				keepTogetherSavePoint.removeContent();
 			}
@@ -1984,10 +1990,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 			fillColumnHeader(evalNextPage);
 
-			if (keepTogetherSavePoint != null)
-			{
-				moveKeepTogetherSavePointContent();
-			}
+			moveKeepTogetherSavePointContent();
 		}
 	}
 
