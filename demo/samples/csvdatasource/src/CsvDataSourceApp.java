@@ -115,8 +115,8 @@ public class CsvDataSourceApp extends AbstractSampleApp
 		states2.add("Active");
 		states2.add("Trial");
 		params2.put("IncludedStates", states2);
-		JasperFillManager.fillReportToFile("build/reports/CsvQueryExecuterDataSourceReport.jasper", params2);
-		System.err.println("Report : CsvQueryExecuterDataSourceReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+		JasperFillManager.fillReportToFile("build/reports/CsvQueryExecuterReport.jasper", params2);
+		System.err.println("Report : CsvQueryExecuterReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
 	
