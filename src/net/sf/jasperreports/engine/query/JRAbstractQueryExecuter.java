@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
 import net.sf.jasperreports.engine.util.JRQueryParser;
 
@@ -171,7 +172,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	}
 	
 	/**
-	 * Parses the query and replaces the parameter clauses by the paramter values and
+	 * Parses the query and replaces the parameter clauses by the parameter values and
 	 * the parameters by the return value of {@link #getParameterReplacement(String) getParameterReplacement}.
 	 *
 	 */
@@ -375,7 +376,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 
 	
 	/**
-	 * Returns the parsed query string with the paramter clauses replaced by the paramter values and 
+	 * Returns the parsed query string with the parameter clauses replaced by the parameter values and 
 	 * the parameters replaced by {@link #getParameterReplacement(String) getParameterReplacement}.
 	 * 
 	 * @return the parsed query string
@@ -415,8 +416,8 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	
 	/**
-	 * Returns the value of a fill paramter.
-	 * @param parameterName the paramter name
+	 * Returns the value of a fill parameter.
+	 * @param parameterName the parameter name
 	 * @param ignoreMissing if <code>true</code>, the method will return null for non existing parameters;
 	 * 		otherwise, an exception will be thrown if the parameter does not exist
 	 * @return the parameter value
@@ -435,8 +436,8 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	
 	/**
-	 * Returns the value of a fill paramter.
-	 * @param parameterName the paramter name
+	 * Returns the value of a fill parameter.
+	 * @param parameterName the parameter name
 	 * @return the parameter value
 	 */
 	protected Object getParameterValue(String parameterName)
@@ -446,9 +447,76 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	
 	/**
-	 * Return a fill parameter from the paramter map.
 	 * 
-	 * @param parameterName the paramter name
+	 */
+	protected String getStringParameter(String parameter, String property)
+	{
+		if (parametersMap.containsKey(parameter))
+		{
+			return (String)getParameterValue(parameter, true);
+		}
+		else
+		{
+			return 
+				JRProperties.getProperty(
+					dataset.getPropertiesMap(),
+					property
+					);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected String getStringParameterOrProperty(String name)
+	{
+		return getStringParameter(name, name);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected boolean getBooleanParameter(String parameter, String property, boolean defaultValue)
+	{
+		if (parametersMap.containsKey(parameter))
+		{
+			Boolean booleanValue = (Boolean)getParameterValue(parameter, true);
+			if (booleanValue == null)
+			{
+				return JRProperties.getBooleanProperty(property);
+			}
+			else
+			{
+				return booleanValue.booleanValue();
+			}
+		}
+		else
+		{
+			return 
+				JRProperties.getBooleanProperty(
+					dataset.getPropertiesMap(),
+					property,
+					defaultValue
+					);
+		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	protected boolean getBooleanParameterOrProperty(String name, boolean defaultValue)
+	{
+		return getBooleanParameter(name, name, defaultValue);
+	}
+	
+	
+	/**
+	 * Return a fill parameter from the parameter map.
+	 * 
+	 * @param parameterName the parameter name
 	 * @return the parameter
 	 * @deprecated {@link #getValueParameter(String) getValueParameter(String)} should be used instead
 	 */
@@ -475,9 +543,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	
 	
 	/**
-	 * Return a value parameter from the paramters map.
+	 * Return a value parameter from the parameters map.
 	 * 
-	 * @param parameterName the paramter name
+	 * @param parameterName the parameter name
 	 * @param ignoreMissing if <code>true</code>, the method will return null for non existing parameters;
 	 * 		otherwise, an exception will be thrown if the parameter does not exist
 	 * @return the parameter
@@ -508,9 +576,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 
 	
 	/**
-	 * Returns the replacement text for a query paramter.
+	 * Returns the replacement text for a query parameter.
 	 * 
-	 * @param parameterName the paramter name
+	 * @param parameterName the parameter name
 	 * @return the replacement text
 	 * @see JRQueryChunk#TYPE_PARAMETER
 	 */

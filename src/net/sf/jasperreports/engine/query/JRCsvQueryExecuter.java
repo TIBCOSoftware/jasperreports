@@ -24,14 +24,14 @@
 package net.sf.jasperreports.engine.query;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
@@ -51,7 +50,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Csv query executer implementation.
+ * CSV query executer implementation.
  * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
@@ -60,8 +59,6 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 	
 	private static final Log log = LogFactory.getLog(JRCsvQueryExecuter.class);
 	
-	private boolean isCsvStreamCreatedLocally;
-	
 	private JRCsvDataSource datasource;
 	
 	protected JRCsvQueryExecuter(JRDataset dataset, Map parametersMap) {
@@ -69,160 +66,147 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 	}
 
 	public JRDataSource createDatasource() throws JRException {
-		Reader csvReader = (Reader) getParameterValue(JRCsvQueryExecuterFactory.CSV_READER); 
-		InputStream csvInputStream = (InputStream) getParameterValue(JRCsvQueryExecuterFactory.CSV_INPUTSTREAM);
-		File csvFile = (File) getParameterValue(JRCsvQueryExecuterFactory.CSV_FILE);
-		String csvCharset = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_CHARSET);
-		URL csvUrl = (URL) getParameterValue(JRCsvQueryExecuterFactory.CSV_URL);
-		String csvInputStreamSource = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_INPUTSTREAM_SOURCE);
+		String csvCharset = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_ENCODING);
 		
 		try {
+			Reader csvReader = (Reader) getParameterValue(JRCsvQueryExecuterFactory.CSV_READER); 
 			if (csvReader != null) {
-				log.info("Got csv reader");
 				datasource = new JRCsvDataSource(csvReader);
-			} else if (csvInputStream != null) {
-				log.info("Got csv inputstream");
-				if (csvCharset != null) {
-					datasource = new JRCsvDataSource(csvInputStream, csvCharset);
-				} else {
-					datasource = new JRCsvDataSource(csvInputStream);
-				}
-			} else if (csvFile != null) {
-				log.info("Got csv file");
-				if (csvCharset != null) {
-					datasource = new JRCsvDataSource(csvFile, csvCharset);
-				} else {
-					datasource = new JRCsvDataSource(csvFile);
-				}
-			} else if (csvUrl != null) {
-				log.info("Got csv url");
-				csvFile = (File) JRLoader.loadObject(csvUrl);
-				isCsvStreamCreatedLocally = true;
-
-				if (csvCharset != null) {
-					datasource = new JRCsvDataSource(csvFile, csvCharset);
-				} else {
-					datasource = new JRCsvDataSource(csvFile);
-				}				
-			} else if (csvInputStreamSource != null) {
-				log.info("Got csv inputstream source");
-				csvInputStream = JRLoader.getLocationInputStream(csvInputStreamSource);
-				isCsvStreamCreatedLocally = true;
-				
-				if (csvCharset != null) {
-					datasource = new JRCsvDataSource(csvInputStream, csvCharset);
-				} else {
-					datasource = new JRCsvDataSource(csvInputStream);
-				}
 			} else {
-				if (log.isWarnEnabled()){
-					log.warn("No csv source was provided.");
+				InputStream csvInputStream = (InputStream) getParameterValue(JRCsvQueryExecuterFactory.CSV_INPUT_STREAM);
+				if (csvInputStream != null) {
+					if (csvCharset != null) {
+						datasource = new JRCsvDataSource(csvInputStream, csvCharset);
+					} else {
+						datasource = new JRCsvDataSource(csvInputStream);
+					}
+				} else {
+					File csvFile = (File) getParameterValue(JRCsvQueryExecuterFactory.CSV_FILE);
+					if (csvFile != null) {
+						if (csvCharset != null) {
+							datasource = new JRCsvDataSource(csvFile, csvCharset);
+						} else {
+							datasource = new JRCsvDataSource(csvFile);
+						}
+					} else {
+						URL csvUrl = (URL) getParameterValue(JRCsvQueryExecuterFactory.CSV_URL);
+						if (csvUrl != null) {
+							if (csvCharset != null) {
+								datasource = new JRCsvDataSource(csvUrl, csvCharset);
+							} else {
+								datasource = new JRCsvDataSource(csvUrl);
+							}
+						} else {
+							String csvSource = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_SOURCE);
+							if (csvSource != null) {
+								if (csvCharset != null) {
+									datasource = new JRCsvDataSource(csvSource, csvCharset);
+								} else {
+									datasource = new JRCsvDataSource(csvSource);
+								}
+							} else {
+								if (log.isWarnEnabled()){
+									log.warn("No CSV source was provided.");
+								}
+							}
+						}
+					}
 				}
 			}
-		} catch (FileNotFoundException e) {
-			throw new JRException(e);
-		} catch (UnsupportedEncodingException e) {
+		} catch (IOException e) {
 			throw new JRException(e);
 		}
 		
 		if (datasource != null) {
-			String columnNames = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES, true);
+			List columnNamesList = null;
+			String columnNames = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
 			if(columnNames != null) {
-				log.info("setting csv datasource columnNames: " + columnNames);
-				datasource.setColumnNames(columnNames.split(","));
-			}
-			
-			String[] columnNamesArray = (String[]) getParameterValue(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, true);
-			if(columnNamesArray != null) {
-				log.info("setting csv datasource columnNamesArray");
-				datasource.setColumnNames(columnNamesArray);
+				columnNamesList = new ArrayList();
+				columnNamesList.add(columnNames);
 			} else {
-				JRPropertiesMap propsMap = dataset.getPropertiesMap();
-				if (propsMap != null) {
-					List properties = JRProperties.getProperties(propsMap, JRCsvQueryExecuterFactory.PROPERTY_CSV_COLUMN_NAMES_PREFIX);
-					if (properties != null) {
-						List columnNamesList = new LinkedList();
-						int propertiesNo = properties.size();
-						
-						for(int i = 0; i < propertiesNo; i++) {
-							String property = ((PropertySuffix)properties.get(i)).getValue();
-							if(property.indexOf(",") != -1) {
-								for(String token: property.split(",")){
-									columnNamesList.add(token.trim());
-								}
-							} else {
+				String[] columnNamesArray = (String[]) getParameterValue(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, true);
+				if(columnNamesArray != null) {
+					columnNamesList = Arrays.asList(columnNamesArray);
+				} else {
+					JRPropertiesMap propsMap = dataset.getPropertiesMap();
+					if (propsMap != null) {
+						List properties = JRProperties.getProperties(propsMap, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
+						if (properties != null) {
+							columnNamesList = new ArrayList();
+							for(int i = 0; i < properties.size(); i++) {
+								String property = ((PropertySuffix)properties.get(i)).getValue();
 								columnNamesList.add(property);
 							}
 						}
-						
-						if (columnNamesList.size() > 0) {
-							columnNamesArray = (String[]) columnNamesList.toArray(new String[]{});
-						}
 					}
 				}
-				
-				if (columnNamesArray != null && columnNamesArray.length>0) {
-					log.info("setting csv datasource columnNamesArray from properties");
-					datasource.setColumnNames(columnNamesArray);
-				} else {
-					if (log.isWarnEnabled()){
-						log.warn("No columns were specified.");
+			}
+
+			if (columnNamesList != null && columnNamesList.size() > 0) {
+				List splitColumnNamesList = new ArrayList();
+				for(int i = 0; i < columnNamesList.size(); i++) {
+					String names = (String)columnNamesList.get(i);
+					for(String token: names.split(",")){
+						splitColumnNamesList.add(token.trim());
 					}
+				}
+				datasource.setColumnNames((String[]) splitColumnNamesList.toArray(new String[splitColumnNamesList.size()]));
+			} else {
+				if (log.isWarnEnabled()){
+					log.warn("No column names were specified.");
 				}
 			}
 			
 			DateFormat dateFormat = (DateFormat) getParameterValue(JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, true);
-			String dateFormatPattern = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_DATE_PATTERN, true);
 			if (dateFormat!=null) {
-				log.info("setting csv dateFormat");
 				datasource.setDateFormat(dateFormat);
-			} else if(dateFormatPattern != null){
-				log.info("setting csv dateFormat with pattern");
-				datasource.setDatePattern(dateFormatPattern);
+			} else {
+				String dateFormatPattern = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_DATE_PATTERN);
+				if(dateFormatPattern != null){
+					datasource.setDatePattern(dateFormatPattern);
+				}
 			}
 			
 			NumberFormat numberFormat = (NumberFormat) getParameterValue(JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, true);
-			String numberFormatPattern = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_NUMBER_PATTERN, true);
 			if (numberFormat != null) {
-				log.info("setting csv numberFormat");
 				datasource.setNumberFormat(numberFormat);
-			} else if(numberFormatPattern != null){
-				log.info("setting csv numberFormat with pattern");
-				datasource.setNumberPattern(numberFormatPattern);
+			} else {
+				String numberFormatPattern = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_NUMBER_PATTERN);
+				if(numberFormatPattern != null){
+					datasource.setNumberPattern(numberFormatPattern);
+				}
 			}
 
-			Character fieldDelimiter = (Character) getParameterValue(JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER, true);
-			if (fieldDelimiter != null) {
-				log.info("setting csv fieldDelimiter: " + fieldDelimiter);
-				datasource.setFieldDelimiter(fieldDelimiter);
+			String fieldDelimiter = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER);
+			if (fieldDelimiter != null && fieldDelimiter.length() > 0) {
+				datasource.setFieldDelimiter(fieldDelimiter.charAt(0));
 			}
 			
-			String recordDelimiter = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER, true);
+			String recordDelimiter = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER);
 			if (recordDelimiter != null) {
-				log.info("setting csv datasource record delimiter: " + recordDelimiter);
 				datasource.setRecordDelimiter(recordDelimiter);
 			}
 			
-			Boolean useFirstRowAsHeader = (Boolean) getParameterValue(JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, true);
-			if (useFirstRowAsHeader != null) {
-				log.info("setting csv useFirstRowAsHeader: " + useFirstRowAsHeader);
-				datasource.setUseFirstRowAsHeader(useFirstRowAsHeader);
-			}
+			datasource.setUseFirstRowAsHeader(getBooleanParameterOrProperty(JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, false));
 			
 			Locale csvLocale = (Locale) getParameterValue(JRParameter.REPORT_LOCALE, true);
-			String csvLocaleId = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_LOCALE_ID, true);
 			if (csvLocale != null) {
 				datasource.setLocale(csvLocale);
-			} else if (csvLocaleId != null) {
-				datasource.setLocale(csvLocaleId);
+			} else {
+				String csvLocaleCode = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_LOCALE_CODE);
+				if (csvLocaleCode != null) {
+					datasource.setLocale(csvLocaleCode);
+				}
 			}
 			
 			TimeZone csvTimezone = (TimeZone) getParameterValue(JRParameter.REPORT_TIME_ZONE, true);
-			String csvTimezoneId = (String) getParameterValue(JRCsvQueryExecuterFactory.CSV_TIMEZONE_ID, true);
 			if (csvTimezone != null) {
 				datasource.setTimeZone(csvTimezone);
-			} else if (csvTimezoneId != null) {
-				datasource.setTimeZone(csvTimezoneId);
+			} else {
+				String csvTimezoneId = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_TIMEZONE_ID);
+				if (csvTimezoneId != null) {
+					datasource.setTimeZone(csvTimezoneId);
+				}
 			}
 		}
 		
@@ -230,7 +214,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 	}
 
 	public void close() {
-		if(isCsvStreamCreatedLocally && datasource != null){
+		if(datasource != null){
 			datasource.close();
 		}
 	}

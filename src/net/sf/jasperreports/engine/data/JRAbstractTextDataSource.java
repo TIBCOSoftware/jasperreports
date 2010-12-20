@@ -168,9 +168,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 	}
 	
 	public void setLocale(String locale) {
-		if (locale != null){
-			this.locale = JRDataUtils.getLocale(locale);
-		}
+		setLocale(JRDataUtils.getLocale(locale));
 	}
 
 	public String getDatePattern() {
@@ -201,10 +199,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 	}
 	
 	public void setTimeZone(String timeZoneId){
-		if (timeZoneId != null) {
-			this.timeZone = JRDataUtils.getTimeZone(timeZoneId);
-			convertBean = null;
-		}
+		setTimeZone(JRDataUtils.getTimeZone(timeZoneId));
 	}
 	
 }

@@ -34,6 +34,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -45,6 +46,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -75,6 +77,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	private int position;
 	private int bufSize;
 	private boolean processingStarted;
+	private boolean toClose;
 
 
 	/**
@@ -99,12 +102,38 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 
 	/**
+	 * Creates a datasource instance that reads CSV data from a given URL, using the default encoding.
+	 * @param file a file containing CSV data
+	 */
+	public JRCsvDataSource(URL url) throws IOException
+	{
+		this(url.openStream());
+		
+		toClose = true;
+	}
+
+
+	/**
+	 * Creates a datasource instance that reads CSV data from a given URL, using the specified encoding.
+	 * @param file a file containing CSV data
+	 */
+	public JRCsvDataSource(URL url, String charsetName) throws IOException
+	{
+		this(url.openStream(), charsetName);
+		
+		toClose = true;
+	}
+
+
+	/**
 	 * Creates a datasource instance from a CSV file, using the default encoding.
 	 * @param file a file containing CSV data
 	 */
 	public JRCsvDataSource(File file) throws FileNotFoundException
 	{
 		this(new FileInputStream(file));
+		
+		toClose = true;
 	}
 
 
@@ -116,6 +145,32 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	public JRCsvDataSource(File file, String charsetName) throws FileNotFoundException, UnsupportedEncodingException
 	{
 		this(new FileInputStream(file), charsetName);
+		
+		toClose = true;
+	}
+
+
+	/**
+	 * Creates a datasource instance that reads CSV data from a given location, using the default encoding.
+	 * @param file a file containing CSV data
+	 */
+	public JRCsvDataSource(String location) throws JRException
+	{
+		this(JRLoader.getLocationInputStream(location));
+		
+		toClose = true;
+	}
+
+
+	/**
+	 * Creates a datasource instance that reads CSV data from a given location, using the specified encoding.
+	 * @param file a file containing CSV data
+	 */
+	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
+	{
+		this(JRLoader.getLocationInputStream(location), charsetName);
+		
+		toClose = true;
 	}
 
 
@@ -525,13 +580,16 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public void close()
 	{
-		try
+		if (toClose)
 		{
-			reader.close();
-		}
-		catch(IOException e)
-		{
-			//nothing to do
+			try
+			{
+				reader.close();
+			}
+			catch(IOException e)
+			{
+				//nothing to do
+			}
 		}
 	}
 
