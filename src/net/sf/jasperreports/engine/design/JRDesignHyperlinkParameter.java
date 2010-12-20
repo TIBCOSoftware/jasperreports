@@ -56,7 +56,7 @@ public class JRDesignHyperlinkParameter extends JRBaseHyperlinkParameter impleme
 	
 	
 	/**
-	 * Sets the paramter name.
+	 * Sets the parameter name.
 	 * 
 	 * @param name the name
 	 * @see #getName()

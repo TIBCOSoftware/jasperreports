@@ -43,13 +43,13 @@ public final class JRFillHyperlinkHelper
 {
 
 	/**
-	 * Evaluates a list of hyperlink parameters and produces a hyperlink paramters set
+	 * Evaluates a list of hyperlink parameters and produces a hyperlink parameters set
 	 * that can be associated with a print element.
 	 *  
 	 * @param hyperlink the hyperlink instance
 	 * @param expressionEvaluator the expression evaluator to use for evaluation parameter value
 	 * @param evaluationType the evaluation type
-	 * @return a print hyperlink paramters set
+	 * @return a print hyperlink parameters set
 	 * @throws JRException
 	 */
 	public static JRPrintHyperlinkParameters evaluateHyperlinkParameters(

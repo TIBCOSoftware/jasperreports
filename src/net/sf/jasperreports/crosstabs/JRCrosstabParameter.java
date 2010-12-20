@@ -27,7 +27,7 @@ import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRParameter;
 
 /**
- * Crosstab paramters interface.
+ * Crosstab parameters interface.
  * <p>
  * Crosstab parameters are used to use external values inside a crosstab.
  * <p>

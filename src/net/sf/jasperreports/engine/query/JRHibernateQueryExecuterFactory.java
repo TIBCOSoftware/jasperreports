@@ -54,7 +54,7 @@ public class JRHibernateQueryExecuterFactory implements JRQueryExecuterFactory
 	/**
 	 * Built-in parameter used for collection filter queries.
 	 * <p/>
-	 * The value of this paramter will be used as the collection to filter using the query.
+	 * The value of this parameter will be used as the collection to filter using the query.
 	 */
 	public final static String PARAMETER_HIBERNATE_FILTER_COLLECTION = "HIBERNATE_FILTER_COLLECTION";
 	
@@ -123,7 +123,7 @@ public class JRHibernateQueryExecuterFactory implements JRQueryExecuterFactory
 	
 	/**
 	 * Returns an array containing the {@link #PARAMETER_HIBERNATE_SESSION PARAMETER_HIBERNATE_SESSION} and
-	 * {@link #PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} paramters.
+	 * {@link #PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION} parameters.
 	 */
 	public Object[] getBuiltinParameters()
 	{

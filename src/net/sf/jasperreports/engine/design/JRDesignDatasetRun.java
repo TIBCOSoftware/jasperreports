@@ -118,7 +118,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 * Removes a parameter value.
 	 * 
 	 * @param parameter the parameter value
-	 * @return the paramter value
+	 * @return the parameter value
 	 */
 	public JRDatasetParameter removeParameter(JRDatasetParameter parameter)
 	{
