@@ -81,12 +81,20 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	}
 	
 	/**
+	 * @deprecated Replaced by {@link #getParametersList()}.
+	 */
+	public List getParamtersList()
+	{
+		return getParametersList();
+	}
+	
+	/**
 	 * Exposes the internal list of element parameters.
 	 * 
 	 * @return the list of element parameters
 	 * @see #getParameters()
 	 */
-	public List getParamtersList()
+	public List getParametersList()
 	{
 		return parameters;
 	}

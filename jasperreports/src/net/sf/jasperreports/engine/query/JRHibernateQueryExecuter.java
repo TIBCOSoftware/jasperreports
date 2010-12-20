@@ -186,7 +186,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * Creates the Hibernate query object.
 	 * <p/>
 	 * If the value of the {@link JRHibernateQueryExecuterFactory#PARAMETER_HIBERNATE_FILTER_COLLECTION PARAMETER_HIBERNATE_FILTER_COLLECTION}
-	 * is not null, then a filter query is created using the value of the paramter as the collection.
+	 * is not null, then a filter query is created using the value of the parameter as the collection.
 	 * 
 	 * @param queryString the query string
 	 */
@@ -220,7 +220,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 	/**
-	 * Binds values for all the query paramters.
+	 * Binds values for all the query parameters.
 	 */
 	protected void setParameters()
 	{
@@ -244,7 +244,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	
 	
 	/**
-	 * Binds a paramter value to a query paramter.
+	 * Binds a parameter value to a query parameter.
 	 * 
 	 * @param parameter the report parameter
 	 */

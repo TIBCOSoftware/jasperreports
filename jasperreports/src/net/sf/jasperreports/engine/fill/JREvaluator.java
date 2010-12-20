@@ -102,7 +102,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * 
 	 * @param pattern the message pattern
 	 * @param arg0 the first message parameter
-	 * @param arg1 the second message paramter
+	 * @param arg1 the second message parameter
 	 * @return the constructed message
 	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)
 	 */
@@ -117,7 +117,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * 
 	 * @param pattern the message pattern
 	 * @param arg0 the first message parameter
-	 * @param arg1 the second message paramter
+	 * @param arg1 the second message parameter
 	 * @param arg2 the third parameter
 	 * @return the constructed message
 	 * @see MessageFormat#format(java.lang.Object[],java.lang.StringBuffer, java.text.FieldPosition)

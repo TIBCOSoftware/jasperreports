@@ -43,7 +43,7 @@ import org.w3c.dom.Document;
  * {@link net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory#PARAMETER_XML_DATA_DOCUMENT PARAMETER_XML_DATA_DOCUMENT}
  * parameter.
  * <p/>
- * All the paramters in the XPath query are replaced by calling <code>String.valueOf(Object)</code>
+ * All the parameters in the XPath query are replaced by calling <code>String.valueOf(Object)</code>
  * on the parameter value.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
