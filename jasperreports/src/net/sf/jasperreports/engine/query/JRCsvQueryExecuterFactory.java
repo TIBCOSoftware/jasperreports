@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
- * Query executer factory for Csv file type.
+ * Query executer factory for CSV file type.
  * <p/>
  * The factory creates {@link net.sf.jasperreports.engine.query.JRCsvQueryExecuter JRCsvQueryExecuter}
  * query executers.
@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 	
 	/**
-	 * Built-in parameter holding the value of the source for the Csv file. 
+	 * Built-in parameter holding the value of the source for the CSV file. 
 	 * <p/>
 	 * It can be:
 	 * <ul>
@@ -50,43 +50,46 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 	 * 	<li>a url</li>
 	 * </ul>
 	 */
-	public static final String CSV_INPUTSTREAM_SOURCE = "CSV_INPUTSTREAM_SOURCE";
+	public static final String CSV_SOURCE = JRProperties.PROPERTY_PREFIX + "csv.source";
 	
 	/**
-	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the Csv data.
+	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the CSV data.
 	 */
-	public static final String CSV_INPUTSTREAM = "CSV_INPUTSTREAM";
+	public static final String CSV_INPUT_STREAM = "CSV_INPUT_STREAM";
 	
 	/**
-	 * Built-in parameter holding the value of the <code>java.net.URL</code> to be used for obtaining the Csv data.
+	 * Built-in parameter holding the value of the <code>java.net.URL</code> to be used for obtaining the CSV data.
 	 */
 	public static final String CSV_URL = "CSV_URL";
 
 	/**
-	 * Built-in parameter holding the value of the <code>java.io.File</code> to be used for obtaining the Csv data.
+	 * Built-in parameter holding the value of the <code>java.io.File</code> to be used for obtaining the CSV data.
 	 */
 	public static final String CSV_FILE = "CSV_FILE";
 	
 	/**
-	 * Built-in parameter holding the value of the <code>java.io.Reader</code> to be used for obtaining the Csv data.
+	 * Built-in parameter holding the value of the <code>java.io.Reader</code> to be used for obtaining the CSV data.
 	 */
 	public static final String CSV_READER = "CSV_READER";
 	
 	/**
-	 * Built-in parameter holding the value of the charset used to encode the Csv stream. 
+	 * Built-in parameter/property holding the value of the charset used to encode the CSV stream. 
 	 * <p/>
-	 * It is meaningful only in combination
-	 * with {@link #CSV_INPUTSTREAM CSV_INPUTSTREAM} or {@link #CSV_FILE CSV_FILE}.
+	 * It is meaningful only in combination with 
+	 * {@link #CSV_INPUT_STREAM CSV_INPUT_STREAM},  {@link #CSV_URL CSV_URL} or {@link #CSV_FILE CSV_FILE}.
 	 */
-	public static final String CSV_CHARSET = "CSV_CHARSET";
+	public static final String CSV_ENCODING = JRProperties.PROPERTY_PREFIX + "csv.encoding";
 
 	/**
-	 * Built-in parameter holding the value of the columns to be extracted from the Csv source, as a <code>java.lang.String</code> object.
+	 * Built-in parameter/property holding the value of the columns to be extracted from the CSV source.
+	 * When used as report parameter, the value has to be a <code>java.lang.String</code> object containing column names separated by commas.
+	 * It can also be used as the prefix for custom dataset properties specifying the names of the CSV columns in the format:
+	 * <code>net.sf.jasperreports.csv.column.names.{arbitrary_name}=value1[, value2, ...]</code>
 	 */
-	public static final String CSV_COLUMN_NAMES = "CSV_COLUMN_NAMES";
+	public static final String CSV_COLUMN_NAMES = JRProperties.PROPERTY_PREFIX + "csv.column.names";
 
 	/**
-	 * Built-in parameter holding the value of the columns to be extracted from the Csv source, as a <code>java.lang.String[]</code> object. 
+	 * Built-in parameter holding the value of the columns to be extracted from the CSV source, as a <code>java.lang.String[]</code> object. 
 	 * <p/>
 	 * When this parameter is null or missing, its value defaults to the values provided 
 	 * by properties prefixed with {@link #PROPERTY_CSV_COLUMN_NAMES_PREFIX PROPERTY_CSV_COLUMN_NAMES_PREFIX}.
@@ -94,62 +97,73 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 	public static final String CSV_COLUMN_NAMES_ARRAY = "CSV_COLUMN_NAMES_ARRAY";
 	
 	/**
-	 * Built-in parameter holding the <code>java.lang.String</code> value of the locale
+	 * Built-in parameter holding the <code>java.util.Locale</code> value of the locale to be used when parsing the CSV data.
+	 */
+	public static final String CSV_LOCALE = "CSV_LOCALE";
+	
+	/**
+	 * Built-in parameter/property holding the <code>java.lang.String</code> code of the locale to be used when parsing the CSV data.
 	 * <p/>
 	 * The allowed format is: language[_country[_variant]] 
 	 */
-	public static final String CSV_LOCALE_ID = "CSV_LOCALE_ID";
+	public static final String CSV_LOCALE_CODE = JRProperties.PROPERTY_PREFIX + "csv.locale.code";
 	
 	/**
-	 * Built-in parameter holding the <code>java.lang.String</code> value of the time zone id
+	 * Built-in parameter holding the <code>java.util.TimeZone</code> value of the timezone to be used when parsing the CSV data.
 	 */
-	public static final String CSV_TIMEZONE_ID = "CSV_TIMEZONE_ID";
+	public static final String CSV_TIMEZONE = "CSV_TIMEZONE";
 	
 	/**
-	 * Built-in parameter holding the value of the <code>java.text.DateFormat</code> used to format date columns from the Csv source.
+	 * Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the CSV data.
+	 */
+	public static final String CSV_TIMEZONE_ID = JRProperties.PROPERTY_PREFIX + "csv.timezone.id";
+	
+	/**
+	 * Built-in parameter holding the value of the <code>java.text.DateFormat</code> used to format date columns from the CSV source.
 	 */
 	public static final String CSV_DATE_FORMAT = "CSV_DATE_FORMAT";
 	
 	/**
-	 * Built-in parameter holding the value of the date format pattern.
+	 * Built-in parameter/property holding the value of the date format pattern to be used when parsing the CSV data.
 	 */
-	public static final String CSV_DATE_PATTERN = "CSV_DATE_PATTERN";
+	public static final String CSV_DATE_PATTERN = JRProperties.PROPERTY_PREFIX + "csv.date.pattern";
 	
 	/**
-	 * Built-in parameter holding the value of the field delimiter from the Csv source.
+	 * Built-in parameter/property holding the value of the field delimiter from the CSV source.
 	 */
-	public static final String CSV_FIELD_DELIMITER = "CSV_FIELD_DELIMITER";
+	public static final String CSV_FIELD_DELIMITER = JRProperties.PROPERTY_PREFIX + "csv.field.delimiter";
 	
 	/**
-	 * Built-in parameter holding the value of the <code>java.text.NumberFormat</code> used to format numeric columns from the Csv source.
+	 * Built-in parameter holding the value of the <code>java.text.NumberFormat</code> used to format numeric columns from the CSV source.
 	 */
 	public static final String CSV_NUMBER_FORMAT = "CSV_NUMBER_FORMAT";
 	
 	/**
-	 * Built-in parameter holding the value of the number format pattern.
+	 * Built-in parameter holding the value of the number format pattern to be used when parsing the CSV data.
 	 */
-	public static final String CSV_NUMBER_PATTERN = "CSV_NUMBER_PATTERN";
+	public static final String CSV_NUMBER_PATTERN = JRProperties.PROPERTY_PREFIX + "csv.number.pattern";
 	
 	/**
-	 * Build-in parameter holding the value of the record delimiter from the Csv source
+	 * Build-in parameter/property holding the value of the record delimiter from the CSV source
 	 */
-	public static final String CSV_RECORD_DELIMITER = "CSV_RECORD_DELIMITER";
+	public static final String CSV_RECORD_DELIMITER = JRProperties.PROPERTY_PREFIX + "csv.record.delimiter";
 	
 	/**
-	 * Built-in parameter holding the <code>java.lang.Boolean</code> value specifying whether or not the column names should be obtained 
-	 * from the first row in the Csv source.
+	 * Built-in parameter/property specifying whether or not the column names should be obtained 
+	 * from the first row in the CSV source.
+	 * As parameter, it should hold a <code>java.lang.Boolean</code> value, while as custom dataset property, it should be true or false. 
 	 * 
-	 * If this parameter is set to <code>java.lang.Boolean.TRUE</code>, then setting the {@link #CSV_COLUMN_NAMES} or {@link #CSV_COLUMN_NAMES_ARRAY}
+	 * If this parameter is set to true, then setting the {@link #CSV_COLUMN_NAMES} or {@link #CSV_COLUMN_NAMES_ARRAY}
 	 * would have no effect. 
 	 */
 	public static final String CSV_USE_FIRST_ROW_AS_HEADER = "CSV_USE_FIRST_ROW_AS_HEADER";
 
 	private final static Object[] CSV_BUILTIN_PARAMETERS = {
-			CSV_INPUTSTREAM_SOURCE, "java.lang.String",
-			CSV_INPUTSTREAM, "java.io.InputStream",
+			CSV_SOURCE, "java.lang.String",
+			CSV_INPUT_STREAM, "java.io.InputStream",
 			CSV_URL, "java.net.URL",
 			CSV_FILE, "java.io.File",
-			CSV_CHARSET, "java.lang.String",
+			CSV_ENCODING, "java.lang.String",
 			CSV_READER, "java.io.Reader",
 			CSV_COLUMN_NAMES, "java.lang.String",
 			CSV_COLUMN_NAMES_ARRAY, "java.lang.String[]",
@@ -160,15 +174,10 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 			CSV_NUMBER_PATTERN, "java.lang.String",
 			CSV_RECORD_DELIMITER, "java.lang.String",
 			CSV_USE_FIRST_ROW_AS_HEADER, "java.lang.Boolean",
-			CSV_LOCALE_ID, "java.lang.String",
+			CSV_LOCALE_CODE, "java.lang.String",
 			CSV_TIMEZONE_ID, "java.lang.String"
 			};
 	
-	/**
-	 * Prefix for properties specifying the names of the Csv columns in the format: <code>net.sf.jasperreports.csv.column.names.{arbitrary_name}=value1[, value2, ...]</code>
-	 */
-	public static final String PROPERTY_CSV_COLUMN_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "csv.column.names";
-
 	public Object[] getBuiltinParameters() {
 		return CSV_BUILTIN_PARAMETERS;
 	}

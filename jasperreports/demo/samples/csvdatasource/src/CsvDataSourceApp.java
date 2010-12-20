@@ -95,28 +95,42 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		//Preparing parameters
-		Map parameters = new HashMap();
-		parameters.put("ReportTitle", "Address Report");
-		parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
-		Set states = new HashSet();
-		states.add("Active");
-		states.add("Trial");
-		parameters.put("IncludedStates", states);
 
-		JasperFillManager.fillReportToFile("build/reports/CsvDataSourceReport.jasper", parameters, getDataSource());
-		System.err.println("Report : CsvDataSourceReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+		// data source filling
+		{
+			Map parameters = new HashMap();
+			parameters.put("ReportTitle", "Address Report");
+			parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
+			Set states = new HashSet();
+			states.add("Active");
+			states.add("Trial");
+			parameters.put("IncludedStates", states);
 
-		start = System.currentTimeMillis();
-		Map params2 = new HashMap();
-		params2.put("ReportTitle", "Address Report");
-		params2.put("DataFile", "CsvDataSource.txt - CSV data source");
-		Set states2 = new HashSet();
-		states2.add("Active");
-		states2.add("Trial");
-		params2.put("IncludedStates", states2);
-		JasperFillManager.fillReportToFile("build/reports/CsvQueryExecuterReport.jasper", params2);
-		System.err.println("Report : CsvQueryExecuterReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
+			JRCsvDataSource dataSource = new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"));
+			dataSource.setRecordDelimiter("\r\n");
+//				dataSource.setUseFirstRowAsHeader(true);
+			dataSource.setColumnNames(columnNames);
+			
+			JasperFillManager.fillReportToFile("build/reports/CsvDataSourceReport.jasper", parameters, dataSource);
+			System.err.println("Report : CsvDataSourceReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+		}
+
+		
+		// query executer filling
+		{
+			start = System.currentTimeMillis();
+			Map parameters = new HashMap();
+			parameters.put("ReportTitle", "Address Report");
+			parameters.put("DataFile", "CsvDataSource.txt - CSV query executer");
+			Set states = new HashSet();
+			states.add("Active");
+			states.add("Trial");
+			parameters.put("IncludedStates", states);
+
+			JasperFillManager.fillReportToFile("build/reports/CsvQueryExecuterReport.jasper", parameters);
+			System.err.println("Report : CsvQueryExecuterReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+		}
 	}
 	
 	
@@ -474,18 +488,4 @@ public class CsvDataSourceApp extends AbstractSampleApp
 	}
 	
 	
-	/**
-	 *
-	 */
-	private static JRCsvDataSource getDataSource() throws JRException
-	{
-		String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-		JRCsvDataSource ds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"));
-		ds.setRecordDelimiter("\r\n");
-//			ds.setUseFirstRowAsHeader(true);
-		ds.setColumnNames(columnNames);
-		return ds;
-	}
-
-
 }
