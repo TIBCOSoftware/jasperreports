@@ -449,9 +449,19 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	/**
 	 * 
 	 */
+	protected boolean parameterHasValue(String parameter)
+	{
+		JRValueParameter reportParametersMap = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
+		return ((Map)reportParametersMap.getValue()).containsKey(parameter);
+	}
+	
+	
+	/**
+	 * 
+	 */
 	protected String getStringParameter(String parameter, String property)
 	{
-		if (parametersMap.containsKey(parameter))
+		if (parameterHasValue(parameter))
 		{
 			return (String)getParameterValue(parameter, true);
 		}
@@ -480,7 +490,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected boolean getBooleanParameter(String parameter, String property, boolean defaultValue)
 	{
-		if (parametersMap.containsKey(parameter))
+		if (parameterHasValue(parameter))
 		{
 			Boolean booleanValue = (Boolean)getParameterValue(parameter, true);
 			if (booleanValue == null)
