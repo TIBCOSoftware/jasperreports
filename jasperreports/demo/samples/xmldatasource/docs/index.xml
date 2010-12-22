@@ -144,7 +144,7 @@ For more information about the XPath syntax and queries, one can consult the off
 <b>XML Data Source Example</b>
 <br/>
 <br/>
-In our example data records are stored as node elements in the /data/northwind.xml file.
+In our example data records are stored as node elements in the <code>data/northwind.xml</code> file.
 <br/> 
 The <code>&lt;Northwind/&gt;</code> root element contains two children types: <code>&lt;Customers/&gt;</code> and <code>&lt;Orders/&gt;</code>. 
 Below is an example of a <code>&lt;Customers/&gt;</code> entity, completely characterized by the following elements: 
@@ -185,9 +185,9 @@ points to the <code>&lt;CustomerID&gt;</code> element in the <code>&lt;Customers
 a foreign key in a relational database. One can identify a one-to-many relationship between <code>&lt;Customers&gt;</code> 
 and <code>&lt;Orders&gt;</code>.
 <br/>
-In order to navigate through elements in the Northwind.xml document, an XPath query executer implementation should be specified using the 
-<code>net.sf.jasperreports.xpath.executer.factory</code> property. In our case it is set in the 
-/src/jasperreports.properties file:
+In order to navigate through elements in the <code>Northwind.xml</code> document, an XPath query executer implementation should 
+be specified using the <code>net.sf.jasperreports.xpath.executer.factory</code> property. In our case it is set in the 
+<code>src/jasperreports.properties</code> file:
 <br/>
 <br/>
 <code>net.sf.jasperreports.xpath.executer.factory=net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory</code>
@@ -229,14 +229,14 @@ For this record type, field names are:
 As we'll see later, not all fields above are required by the generated report.
 <br/>
 <br/>
-There are two JRXML files in the /reports directory. The CustomersReport.jrxml is the main report 
-template. The OrdersReport.jrxml is used for generate subreports for the main report. The main report 
-iterates through available customers in the XML data source, and prints for each of them the Customer ID,
-the  Company Name and the own list of ship orders. The orders list exposes only the 
+There are two JRXML files in the <code>reports</code> directory. The <code>CustomersReport.jrxml</code> 
+is the main report template. The <code>OrdersReport.jrxml</code> is used for generate subreports for the main report. 
+The main report iterates through available customers in the XML data source, and prints for each of them 
+the Customer ID, the  Company Name and the own list of ship orders. The orders list exposes only the 
 Order ID,  Order Date, Ship City and Freight fields. For each customer 
 are calculated the orders count and the total freight.
 <br/>
-In the CustomersReport.jrxml template the query language and XPath query expression are declared in 
+In the <code>CustomersReport.jrxml</code> template the query language and XPath query expression are declared in 
 the <code>&lt;queryString/&gt;</code> expression:
 <br/>
 <br/>
@@ -281,7 +281,7 @@ The Number pattern, Date pattern, Locale and time zone parameters above are nece
 The <code>CustomerID</code> parameter is required in order to filter data in the subreport.
 <br/>
 <br/>
-The <code>&lt;queryString/&gt;</code> expression in the /reports/OrdersReport.jrxml template is:
+The <code>&lt;queryString/&gt;</code> expression in the <code>reports/OrdersReport.jrxml</code> template is:
 <br/>
 <br/>
 &#160;&#160;&lt;queryString language="xPath"&gt;&lt;![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]&gt;&lt;/queryString&gt;
@@ -304,8 +304,8 @@ The only fields required from an <code>Orders</code> record are:
 	<fieldDescription>Freight</fieldDescription>
   </field>
 ]]></pre>
-<a name="fill">In</a> the /src/XmlDataSourceApp.java all necessary information is prepared to be sent at fill time: 
-the parsed Northwind document, data formatting parameters and the CustomersReport compiled report:
+<a name="fill">In</a> the <code>src/XmlDataSourceApp.java</code> all necessary information is prepared to be sent at fill time: 
+the parsed <code>Northwind</code> document, data formatting parameters and the <code>CustomersReport</code> compiled report:
 <pre><![CDATA[
   public void fill() throws JRException
   {
