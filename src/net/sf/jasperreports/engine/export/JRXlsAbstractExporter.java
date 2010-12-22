@@ -1029,7 +1029,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 		sheetNamesMap.put(sheetName, crtIndex);
 
-		String name = sheetName + " " + txtIndex; 
+		String name = sheetName;
+		if(txtIndex.length() > 0)
+		{
+			name += " " + txtIndex;
+		}
 		
 		if (name.length() > 31)
 		{
