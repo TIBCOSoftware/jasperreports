@@ -71,6 +71,7 @@
       <feature name="datasets" sample="crosstabs" title="Datasets" complete="false"/>
       <feature name="javabeandatasources" sample="datasource" title="JavaBean Data Sources"/>
       <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
+      <feature name="csvqueryexecuter" sample="csvdatasource" title="CSV Query Executer" complete="false"/>
       <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
       <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
       <feature name="datasources" sample="datasource" title="Data Sources"/>
@@ -101,6 +102,7 @@
       <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
       <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
       <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API" complete="false"/>
+      <feature name="csvmetadataexport" sample="tableofcontents" title="Exporting to CSV Format Using Report Metadata" complete="false"/>
       <feature name="textexport" sample="text" title="Exporting to Pure Text Format" complete="false"/>
       <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
     </content>
