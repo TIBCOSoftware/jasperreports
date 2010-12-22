@@ -107,10 +107,6 @@
 		<ant dir="../" target="writeApiXml"/>
 	</target>
 
-	<target name="fontsXml" description="Generates the fonts.xml, a font extension xml file containing all font families found in installed font extensions.">
-		<ant dir="../" target="fontsXml"/>
-	</target>
-
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>
@@ -122,7 +118,6 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 		<antcall target="compile" />
-		<antcall target="fontsXml" />
 		<ant dir="../" target="test"/>
 	</target>
 
