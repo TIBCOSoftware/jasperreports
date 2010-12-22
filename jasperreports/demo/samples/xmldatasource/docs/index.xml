@@ -95,6 +95,10 @@ How to fill reports using embedded XPath queries.
     	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="mondrian"/>
     <content>
     <b>The XPath Query Executer</b>
 <br/>

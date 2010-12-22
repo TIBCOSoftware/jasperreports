@@ -22,6 +22,7 @@ How to fill reports using embedded MDX queries.
     	<email></email>
       </author>
     </documentedBy>
+  	<otherSample ref="csvdatasource"/>
   	<otherSample ref="ejbql"/>
   	<otherSample ref="hibernate"/>
   	<otherSample ref="xmldatasource"/>

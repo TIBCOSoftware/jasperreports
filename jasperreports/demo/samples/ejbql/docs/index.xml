@@ -22,9 +22,10 @@ How to fill reports using embedded EJBQL queries.
     	<email></email>
       </author>
     </documentedBy>
+  	<otherSample ref="csvdatasource"/>
   	<otherSample ref="hibernate"/>
-  	<otherSample ref="xmldatasource"/>
   	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
     <content>
 [Under Construction]
     </content>

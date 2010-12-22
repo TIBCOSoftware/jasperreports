@@ -22,9 +22,10 @@ How to implement a custom query executer and how to associate it with a custom r
     	<email></email>
       </author>
     </documentedBy>
+  	<otherSample ref="csvdatasource"/>
   	<otherSample ref="ejbql"/>
-  	<otherSample ref="xmldatasource"/>
   	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
     <content>
 [Under Construction]
     </content>
