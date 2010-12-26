@@ -37,11 +37,25 @@ public final class JRBoxUtil
 {
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #copyBordersNoPadding(JRLineBox, boolean, boolean, boolean, boolean, JRLineBox)}.
 	 */
 	public static JRLineBox clone(JRLineBox box, boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom, JRLineBox complementaryBox)
 	{
+		return copyBordersNoPadding(box, keepLeft, keepRight, keepTop, keepBottom, complementaryBox);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public static JRLineBox copyBordersNoPadding(JRLineBox box, boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom, JRLineBox complementaryBox)
+	{
 		JRLineBox clone = box.clone(box.getBoxContainer());
+		
+		clone.setTopPadding(0);
+		clone.setLeftPadding(0);
+		clone.setBottomPadding(0);
+		clone.setRightPadding(0);
 		
 		//FIXMEBORDER does not copy padding correctly, if we only test line width
 		if (!keepLeft || box.getLeftPen().getLineWidth().floatValue() <= 0f)
@@ -50,7 +64,7 @@ public final class JRBoxUtil
 			{
 				clone.getLeftPen().setLineWidth(complementaryBox.getLeftPen().getLineWidth());
 				clone.getLeftPen().setLineColor(complementaryBox.getLeftPen().getLineColor());
-				clone.setLeftPadding(complementaryBox.getLeftPadding());
+				//clone.setLeftPadding(complementaryBox.getLeftPadding());
 			}
 			else
 			{
@@ -64,7 +78,7 @@ public final class JRBoxUtil
 			{
 				clone.getRightPen().setLineWidth(complementaryBox.getRightPen().getLineWidth());
 				clone.getRightPen().setLineColor(complementaryBox.getRightPen().getLineColor());
-				clone.setRightPadding(complementaryBox.getRightPadding());
+				//clone.setRightPadding(complementaryBox.getRightPadding());
 			}
 			else
 			{
@@ -78,7 +92,7 @@ public final class JRBoxUtil
 			{
 				clone.getTopPen().setLineWidth(complementaryBox.getTopPen().getLineWidth());
 				clone.getTopPen().setLineColor(complementaryBox.getTopPen().getLineColor());
-				clone.setTopPadding(complementaryBox.getTopPadding());
+				//clone.setTopPadding(complementaryBox.getTopPadding());
 			}
 			else
 			{
@@ -92,7 +106,7 @@ public final class JRBoxUtil
 			{
 				clone.getBottomPen().setLineWidth(complementaryBox.getBottomPen().getLineWidth());
 				clone.getBottomPen().setLineColor(complementaryBox.getBottomPen().getLineColor());
-				clone.setBottomPadding(complementaryBox.getBottomPadding());
+				//clone.setBottomPadding(complementaryBox.getBottomPadding());
 			}
 			else
 			{
