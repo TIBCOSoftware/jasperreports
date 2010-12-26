@@ -1388,6 +1388,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		appendBackcolorStyle(gridCell, styleBuffer);
 		appendBorderStyle(gridCell.getBox(), styleBuffer);
+		appendPaddingStyle(text.getLineBox(), styleBuffer);
 
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
@@ -1669,19 +1670,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 				box.getTopPen(),
 				"top"
 				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getTopPadding(),
-				"top"
-				);
 			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getLeftPen(),
-				"left"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getLeftPadding(),
 				"left"
 				);
 			addedToStyle |= appendPen(
@@ -1689,15 +1680,37 @@ public class JRHtmlExporter extends JRAbstractExporter
 				box.getBottomPen(),
 				"bottom"
 				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getBottomPadding(),
-				"bottom"
-				);
 			addedToStyle |= appendPen(
 				styleBuffer,
 				box.getRightPen(),
 				"right"
+				);
+		}
+		
+		return addedToStyle;
+	}
+
+
+	protected boolean appendPaddingStyle(JRLineBox box, StringBuffer styleBuffer)
+	{
+		boolean addedToStyle = false;
+		
+		if (box != null)
+		{
+			addedToStyle |= appendPadding(
+				styleBuffer,
+				box.getTopPadding(),
+				"top"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
+				box.getLeftPadding(),
+				"left"
+				);
+			addedToStyle |= appendPadding(
+				styleBuffer,
+				box.getBottomPadding(),
+				"bottom"
 				);
 			addedToStyle |= appendPadding(
 				styleBuffer,
@@ -1802,6 +1815,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 				null
 				);
 		}
+
+		appendPaddingStyle(image.getLineBox(), styleBuffer);
 
 		if (styleBuffer.length() > 0)
 		{
@@ -2275,6 +2290,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		StringBuffer styleBuffer = new StringBuffer();
 		Color frameBackcolor = appendBackcolorStyle(gridCell, styleBuffer);
 		appendBorderStyle(gridCell.getBox(), styleBuffer);
+		//no padding style for frames, because padding is in the grid
 
 		if (styleBuffer.length() > 0)
 		{
