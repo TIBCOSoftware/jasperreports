@@ -154,6 +154,13 @@
 			<classpath refid="classpath"/>
 		</java>
 	</target>
+	
+	<target name="metadata">
+			<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+				<arg value="metadata"/>
+				<classpath refid="classpath"/>
+			</java>
+		</target>
 
 	<target name="odt">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
