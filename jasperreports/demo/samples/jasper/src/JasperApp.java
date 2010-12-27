@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.engine.export.JRCsvMetadataExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -82,6 +83,7 @@ public class JasperApp extends AbstractSampleApp
 		xls();
 		jxl();
 		csv();
+		metadata();
 		odt();
 		ods();
 		docx();
@@ -272,6 +274,29 @@ public class JasperApp extends AbstractSampleApp
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".csv");
 		
 		JRCsvExporter exporter = new JRCsvExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("CSV creation time : " + (System.currentTimeMillis() - start));
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void metadata() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/FirstJasper.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + "_metadata.csv");
+		
+		JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
