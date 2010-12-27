@@ -155,9 +155,9 @@
 		</java>
 	</target>
 	
-	<target name="metadata">
+	<target name="csvMetadata">
 			<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
-				<arg value="metadata"/>
+				<arg value="csvMetadata"/>
 				<classpath refid="classpath"/>
 			</java>
 		</target>

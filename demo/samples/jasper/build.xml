@@ -63,8 +63,8 @@
 		<ant dir="../" target="csv"/>
 	</target>
 
-	<target name="metadata" description="Generates a CSV version of the report by converting the .jrprint file.">
-			<ant dir="../" target="metadata"/>
+	<target name="csvMetadata" description="Generates a CSV version of the report by converting the .jrprint file.">
+			<ant dir="../" target="csvMetadata"/>
 		</target>
 	
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
