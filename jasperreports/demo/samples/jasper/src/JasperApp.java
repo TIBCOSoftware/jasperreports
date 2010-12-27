@@ -83,7 +83,7 @@ public class JasperApp extends AbstractSampleApp
 		xls();
 		jxl();
 		csv();
-		metadata();
+		csvMetadata();
 		odt();
 		ods();
 		docx();
@@ -287,14 +287,14 @@ public class JasperApp extends AbstractSampleApp
 	/**
 	 *
 	 */
-	public void metadata() throws JRException
+	public void csvMetadata() throws JRException
 	{
 		long start = System.currentTimeMillis();
 		File sourceFile = new File("build/reports/FirstJasper.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
-		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + "_metadata.csv");
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".metadata.csv");
 		
 		JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
 		

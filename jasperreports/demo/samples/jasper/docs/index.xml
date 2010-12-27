@@ -7,6 +7,7 @@
   <description>Shows how different features of the library could be used to generate a complex document.</description>
 
   <mainFeature ref="groups"/>
+  <mainFeature ref="csvmetadataexport"/>
   
   <!-- groups -->
   
@@ -22,6 +23,24 @@ How to group data at different levels and perform aggregate calculations using r
       </author>
     </documentedBy>
   	<otherSample ref="datasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- csvmetadataexport -->
+  
+  <feature name="csvmetadataexport" title="Exporting to CSV Format Using Report Metadata">
+    <description>
+Shows how to export the report to CSV format using metadata associated with report elements at design time, to mark data columns.
+    </description>
+    <since>4.0.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
     <content>
 [Under Construction]
     </content>
