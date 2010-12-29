@@ -169,6 +169,73 @@ when mapping report fields to values from the Hibernate result.</li>
 <br/>
 <br/>
 This sample shows how to perform queries and retrieve data from a relational database using Hibernate. 
+<br/>
+In the 
+The Hibernate configuration information is kept in the <code>src/hibernate.cfg.xml</code> folder:
+<pre><![CDATA[
+<hibernate-configuration>
+
+  <session-factory>
+    <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="connection.url">jdbc:hsqldb:hsql://localhost</property>
+    <property name="connection.username">sa</property>
+    <property name="connection.password"></property>
+    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="connection.pool_size">1</property>
+    <mapping resource="Address.hbm.xml"/>
+    <mapping resource="Document.hbm.xml"/>
+  </session-factory>
+
+</hibernate-configuration>]]></pre>
+In order to create a Hibernate session one has to specify the properties and mapping resources in the 
+<code>&lt;session-factory&gt;</code> element above.
+<br/>
+In our case there are two mapping resources configurated in the XML files below:
+1.&#160;&#160;&#160;<code>src/Address.hbm.xml</code> mapping the Address entity object 
+(See the <code>src/Address.java</code> file) to the ADDRESS table in the database:
+<pre><![CDATA[
+    <hibernate-mapping>
+	
+    <class name="Address" table="ADDRESS">
+      <id name="id" column="ID">
+        <generator class="increment"/>
+      </id>
+
+      <property name="firstName" column="FIRSTNAME"/>
+      <property name="lastName" column="LASTNAME"/>
+      <property name="street" column="STREET"/>
+      <property name="city" column="CITY"/>
+	
+      <set name="documents" inverse="true">
+        <key column="ADDRESSID"/>
+        <one-to-many class="Document"/>
+      </set>
+    </class>
+	
+    </hibernate-mapping>]]></pre>
+2.&#160;&#160;&#160;<code>src/Document.hbm.xml</code> mapping the Document entity object 
+(See the <code>src/Document.java</code> file) to the DOCUMENT table in the database:
+<pre><![CDATA[
+    <hibernate-mapping>
+	
+    <class name="Address" table="ADDRESS">
+      <id name="id" column="ID">
+        <generator class="increment"/>
+      </id>
+
+      <property name="firstName" column="FIRSTNAME"/>
+      <property name="lastName" column="LASTNAME"/>
+      <property name="street" column="STREET"/>
+      <property name="city" column="CITY"/>
+	
+      <set name="documents" inverse="true">
+        <key column="ADDRESSID"/>
+        <one-to-many class="Document"/>
+      </set>
+    </class>
+	
+    </hibernate-mapping>]]></pre>
+[Under construction]
     </content>
   </feature>
 
