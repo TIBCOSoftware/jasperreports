@@ -7,6 +7,15 @@
   <category>
     <name>Data Source / Query Executer</name>
     <content>
+      <property ref="net.sf.jasperreports.csv.column.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.csv.date.pattern"/>
+      <property ref="net.sf.jasperreports.csv.encoding"/>
+      <property ref="net.sf.jasperreports.csv.field.delimiter"/>
+      <property ref="net.sf.jasperreports.csv.locale.code"/>
+      <property ref="net.sf.jasperreports.csv.number.pattern"/>
+      <property ref="net.sf.jasperreports.csv.record.delimiter"/>
+      <property ref="net.sf.jasperreports.csv.source"/>
+      <property ref="net.sf.jasperreports.csv.timezone.id"/>
       <property ref="net.sf.jasperreports.ejbql.query.hint.{hint}"/>
       <property ref="net.sf.jasperreports.ejbql.query.page.size"/>
       <property ref="net.sf.jasperreports.hql.clear.cache"/>
@@ -116,8 +125,13 @@
       <property ref="net.sf.jasperreports.export.{arbitrary_name}.default.filter.factory"/>
       <property ref="net.sf.jasperreports.export.character.encoding"/>
       <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
+      <property ref="net.sf.jasperreports.export.csv.column.name"/>
+      <property ref="net.sf.jasperreports.export.csv.column.names"/>
+      <property ref="net.sf.jasperreports.export.csv.data"/>
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
+      <property ref="net.sf.jasperreports.export.csv.repeat.value"/>
+      <property ref="net.sf.jasperreports.export.csv.write.header"/>
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
@@ -225,6 +239,117 @@
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
     </content>
   </category>
+  
+  
+  <!-- net.sf.jasperreports.csv.column.names.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.csv.column.names.{arbitrary_name}">
+    <description>
+Property having this prefix hold the comma separated names of the columns to be extracted from the CSV source.
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_COLUMN_NAMES</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.date.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.csv.date.pattern">
+    <description>
+Property holding the value of the date format pattern to be used when parsing the CSV data.
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_DATE_PATTERN</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.encoding -->
+  
+  <configProperty name="net.sf.jasperreports.csv.encoding">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_ENCODING</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.field.delimiter -->
+  
+  <configProperty name="net.sf.jasperreports.csv.field.delimiter">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_FIELD_DELIMITER</api>
+    <default>,</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.locale.code -->
+  
+  <configProperty name="net.sf.jasperreports.csv.locale.code">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_LOCALE_CODE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.number.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.csv.number.pattern">
+    <description>
+Property holding the value of the number format pattern to be used when parsing the CSV data.
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_NUMBER_PATTERN</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.record.delimiter -->
+  
+  <configProperty name="net.sf.jasperreports.csv.record.delimiter">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_RECORD_DELIMITER</api>
+    <default>\n</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.source -->
+  
+  <configProperty name="net.sf.jasperreports.csv.source">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_SOURCE</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.csv.timezone.id -->
+  
+  <configProperty name="net.sf.jasperreports.csv.timezone.id">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_TIMEZONE_ID</api>
+    <default>N/A</default>
+    <scope>Global | Dataset</scope>
+    <since>4.0.0</since>
+  </configProperty>
   
   
   <!-- net.sf.jasperreports.ejbql.query.hint.{hint} -->
@@ -1458,6 +1583,42 @@ technique that that was used in versions prior to the 2.0.3 release.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.csv.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.column.name">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.column.names -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.column.names">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES</api>
+    <default>N/A</default>
+    <scope>Report</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.data -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.data">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.csv.field.delimiter -->
   
   <configProperty name="net.sf.jasperreports.export.csv.field.delimiter">
@@ -1483,6 +1644,30 @@ Contains the character or sequence of characters used to delimit two records.
     <default>\n</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.repeat.value -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.repeat.value">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>4.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.csv.write.header -->
+  
+  <configProperty name="net.sf.jasperreports.export.csv.write.header">
+    <description>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
+    <default></default>
+    <scope>Element</scope>
+    <since>4.0.0</since>
   </configProperty>
   
   

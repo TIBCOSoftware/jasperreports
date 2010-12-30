@@ -68,7 +68,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	{
 		List elements = page.getElements();
 		Map<String, String> currentRow = new HashMap<String, String>();
-		Map<String, String> columnsForAutofill = new HashMap<String, String>();
+		Map<String, String> repeatedValues = new HashMap<String, String>();
 		
 		boolean hasDefinedColumns = columnNames != null; // if columns where passed in as property
 		String currentTextValue = null;
@@ -84,7 +84,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 				{
 					String currentColumnName = textElement.getPropertiesMap().getProperty(JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAME);
 					String currentColumnData = textElement.getPropertiesMap().getProperty(JRCsvMetadataExporterParameter.PROPERTY_DATA);
-					boolean autoFillWhenMissing = JRProperties.getBooleanProperty(textElement, JRCsvMetadataExporterParameter.PROPERTY_AUTOFILL, false);
+					boolean repeatValue = JRProperties.getBooleanProperty(textElement, JRCsvMetadataExporterParameter.PROPERTY_REPEAT_VALUE, false);
 					
 					if (currentColumnData != null)
 					{
@@ -133,14 +133,14 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 							}
 							
 							if (isFirstRow)	isFirstRow = false;
-							writeCurrentRow(currentRow, columnsForAutofill);
+							writeCurrentRow(currentRow, repeatedValues);
 							currentRow = new HashMap<String, String>();
 							currentRow.put(currentColumnName, currentTextValue);
 						}
 						// set auto fill columns
-						if (autoFillWhenMissing && currentColumnName != null && currentColumnName.length() > 0 && currentTextValue.length() > 0)
+						if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && currentTextValue.length() > 0)
 						{
-							columnsForAutofill.put(currentColumnName, currentTextValue);
+							repeatedValues.put(currentColumnName, currentTextValue);
 						}
 					}
 				}
@@ -149,7 +149,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		// write last row
 		if (columnNames != null && columnNames.size() > 0)
 		{
-			writeCurrentRow(currentRow, columnsForAutofill);
+			writeCurrentRow(currentRow, repeatedValues);
 		}
 
 		if (progressMonitor != null)
@@ -166,28 +166,44 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 		writeHeader = getBooleanParameter(
 				JRCsvMetadataExporterParameter.WRITE_HEADER, 
 				JRCsvMetadataExporterParameter.PROPERTY_WRITE_HEADER,
-				true
+				false
 				); 
 		
-		String csvColumnNames =  
-			getStringParameterOrDefault(
-					JRCsvMetadataExporterParameter.COLUMN_NAMES, 
-					JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAMES
-					);
-		
-		if (csvColumnNames != null && csvColumnNames.length() > 0) 
+		setColumnNames();
+	}
+
+	
+	/**
+	 * 
+	 */
+	protected void setColumnNames()
+	{
+		String[] columnNamesArray = 
+			getStringArrayParameter(
+				JRCsvMetadataExporterParameter.COLUMN_NAMES,
+				JRCsvMetadataExporterParameter.PROPERTY_COLUMN_NAMES_PREFIX
+				);
+		if (columnNamesArray != null && columnNamesArray.length > 0)
 		{
 			columnNames = new ArrayList<String>();
-			for(String column: csvColumnNames.split(",")) 
+			for(int i = 0; i < columnNamesArray.length; i++)
 			{
-				if (column.trim().length() > 0)
+				if (columnNamesArray[i] == null)
 				{
-					columnNames.add(column.trim());
+					columnNames.add(null);
+				}
+				else
+				{
+					String[] currentColumnNamesArray = columnNamesArray[i].split(",");
+					for(int j = 0; j < currentColumnNamesArray.length; j++)
+					{
+						columnNames.add(currentColumnNamesArray[j].trim());
+					}
 				}
 			}
 		}
+		
 	}
-
 	
 	/**
 	 * Writes the delimiter-separated column names
@@ -223,10 +239,10 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	 * row and the row will be written only if it was not originally empty. This prevents the export file from having rows just with auto filled data.
 	 * <p/> 
 	 * @param currentRow
-	 * @param columnsForAutofill
+	 * @param repeatedValues
 	 * @throws IOException
 	 */
-	protected void writeCurrentRow(Map<String, String> currentRow, Map<String, String> columnsForAutofill) throws IOException
+	protected void writeCurrentRow(Map<String, String> currentRow, Map<String, String> repeatedValues) throws IOException
 	{
 		// FIXME: the rows that are incomplete (e.g. in case of a group, there are rows that contain only the group columns 
 		// because the report spanned over a new page and it contains only the values for the group columns, as header, and other information
@@ -244,10 +260,10 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 				rowBuffer.append(prepareText(currentTextValue));
 			} else
 			{
-				String autofillValue = columnsForAutofill.get(columnNames.get(i));
-				if (autofillValue != null && autofillValue.length() > 0)
+				String repeatedValue = repeatedValues.get(columnNames.get(i));
+				if (repeatedValue != null && repeatedValue.length() > 0)
 				{
-					rowBuffer.append(prepareText(autofillValue));
+					rowBuffer.append(prepareText(repeatedValue));
 				}
 			}
 			

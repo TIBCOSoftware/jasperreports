@@ -135,7 +135,10 @@
 				<graphicElement/>
 			</line>
 			<textField>
-				<reportElement x="10" y="2" width="150" height="11" style="Sans_Bold"/>
+				<reportElement x="10" y="2" width="150" height="11" style="Sans_Bold">
+					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCountry"/>
+					<property name="net.sf.jasperreports.export.csv.repeat.value" value="true"/>
+				</reportElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
@@ -285,23 +288,30 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="40" y="0" width="110" height="11">
-					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipName_ShipCity"/>
+					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
+					<propertyExpression name="net.sf.jasperreports.export.csv.data">$F{ShipCity}</propertyExpression>
 				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipName} + ", " + $F{ShipCity}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="155" y="0" width="25" height="11"/>
+				<reportElement x="155" y="0" width="25" height="11">
+					<property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
+				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipRegion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="185" y="0" width="50" height="11"/>
+				<reportElement x="185" y="0" width="50" height="11">
+					<property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
+				</reportElement>
 				<textElement/>
 				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{OrderDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="0.00">
-				<reportElement x="235" y="0" width="35" height="11"/>
+				<reportElement x="235" y="0" width="35" height="11">
+					<property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
+				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Double"><![CDATA[$F{Freight}]]></textFieldExpression>
 			</textField>
