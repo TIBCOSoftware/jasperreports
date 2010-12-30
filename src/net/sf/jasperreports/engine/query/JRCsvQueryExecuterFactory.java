@@ -92,7 +92,7 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 	 * Built-in parameter holding the value of the columns to be extracted from the CSV source, as a <code>java.lang.String[]</code> object. 
 	 * <p/>
 	 * When this parameter is null or missing, its value defaults to the values provided 
-	 * by properties prefixed with {@link #PROPERTY_CSV_COLUMN_NAMES_PREFIX PROPERTY_CSV_COLUMN_NAMES_PREFIX}.
+	 * by properties prefixed with {@link #CSV_COLUMN_NAMES CSV_COLUMN_NAMES}.
 	 */
 	public static final String CSV_COLUMN_NAMES_ARRAY = "CSV_COLUMN_NAMES_ARRAY";
 	

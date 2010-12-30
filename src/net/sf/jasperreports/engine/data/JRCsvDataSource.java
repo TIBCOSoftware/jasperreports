@@ -103,7 +103,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given URL, using the default encoding.
-	 * @param file a file containing CSV data
+	 * @param url an URL from where to read CSV data
 	 */
 	public JRCsvDataSource(URL url) throws IOException
 	{
@@ -115,7 +115,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given URL, using the specified encoding.
-	 * @param file a file containing CSV data
+	 * @param url an URL from where to read CSV data
 	 */
 	public JRCsvDataSource(URL url, String charsetName) throws IOException
 	{
@@ -152,7 +152,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given location, using the default encoding.
-	 * @param file a file containing CSV data
+	 * @param location a String representing CSV data source
 	 */
 	public JRCsvDataSource(String location) throws JRException
 	{
@@ -164,7 +164,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given location, using the specified encoding.
-	 * @param file a file containing CSV data
+	 * @param location a String representing CSV data source
 	 */
 	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
