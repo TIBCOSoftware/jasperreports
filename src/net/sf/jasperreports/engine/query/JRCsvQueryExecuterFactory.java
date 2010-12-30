@@ -139,7 +139,7 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 	public static final String CSV_NUMBER_FORMAT = "CSV_NUMBER_FORMAT";
 	
 	/**
-	 * Built-in parameter holding the value of the number format pattern to be used when parsing the CSV data.
+	 * Built-in parameter/property holding the value of the number format pattern to be used when parsing the CSV data.
 	 */
 	public static final String CSV_NUMBER_PATTERN = JRProperties.PROPERTY_PREFIX + "csv.number.pattern";
 	

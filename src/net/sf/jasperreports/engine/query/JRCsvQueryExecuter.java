@@ -40,8 +40,8 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
@@ -128,14 +128,21 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 				if(columnNamesArray != null) {
 					columnNamesList = Arrays.asList(columnNamesArray);
 				} else {
-					JRPropertiesMap propsMap = dataset.getPropertiesMap();
-					if (propsMap != null) {
-						List properties = JRProperties.getProperties(propsMap, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
-						if (properties != null) {
+					List properties = JRProperties.getAllProperties(dataset, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
+					if (properties != null && !properties.isEmpty()) {
+						columnNamesList = new ArrayList();
+						for(int i = 0; i < properties.size(); i++) {
+							String property = ((PropertySuffix)properties.get(i)).getValue();
+							columnNamesList.add(property);
+						}
+					} else {
+						JRField[] fields = dataset.getFields();
+						if (fields != null && fields.length > 0)
+						{
 							columnNamesList = new ArrayList();
-							for(int i = 0; i < properties.size(); i++) {
-								String property = ((PropertySuffix)properties.get(i)).getValue();
-								columnNamesList.add(property);
+							for (int i = 0; i < fields.length; i++)
+							{
+								columnNamesList.add(fields[i].getName());
 							}
 						}
 					}

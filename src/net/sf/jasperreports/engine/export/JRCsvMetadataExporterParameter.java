@@ -45,18 +45,18 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 
 
 	/**
-	 * A string representing the comma-separated names of the columns that should be exported.
+	 * An array of strings representing the comma-separated names of the columns that should be exported.
 	 * NOTE: The order of the columns is important and for accurate results they should be in the same order as the original columns.
 	 */
 	public static final JRCsvMetadataExporterParameter COLUMN_NAMES = new JRCsvMetadataExporterParameter("Column Names");
 	
 	
 	/**
-	 * Property whose value is used as default for the {@link #COLUMN_NAMES COLUMN_NAMES} export parameter.
+	 * Properties having this prefix contain comma-separated column names.
 	 * 
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_COLUMN_NAMES = JRProperties.PROPERTY_PREFIX + "export.csv.column.names";
+	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.column.names";
 	
 	
 	/**
@@ -70,7 +70,7 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #PROPERTY_WRITE_HEADER PROPERTY_WRITE_HEADER} export parameter.
 	 * <p>
-	 * The property itself defaults to <code>true</code>.
+	 * The property itself defaults to <code>false</code>.
 	 * </p>
 	 * 
 	 * @see JRProperties
@@ -88,15 +88,15 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	
 	
 	/**
-	 * Property that specifies whether the value associated with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME} should be filled or not
-	 * when it is empty.
+	 * Property that specifies whether the value associated with {@link #PROPERTY_COLUMN_NAME PROPERTY_COLUMN_NAME} should be repeated or not
+	 * when it is missing.
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
 	 * 
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_AUTOFILL = JRProperties.PROPERTY_PREFIX + "export.csv.autofill";
+	public static final String PROPERTY_REPEAT_VALUE = JRProperties.PROPERTY_PREFIX + "export.csv.repeat.value";
 	
 	
 	/**
