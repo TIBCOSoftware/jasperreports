@@ -5,6 +5,15 @@ JasperReports Change Log
 JasperReports 4.0.0 (2010-12-31, SVN xxxx)
 ---------------------------------------------
 
+- new CSV query executer added to simplify to allow configuring CSV data sources from within report templates
+using built-in paramters and config properties;
+
+- new CSV metadata exporter added to better control the CSV export by marking columns in the report template
+using custom properties;
+
+- new chapters in the Sample Reference documentation have beed completed 
+(http://jasperreports.sf.net/sample.reference.html);
+
 - minor bug fixes and improvements;
 
 
@@ -496,6 +505,7 @@ content while generating the document and thus avoid memory problems with
 very large reports; 
 
 - minor bug fixes and improvements;
+
 
 
 
