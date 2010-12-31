@@ -99,7 +99,7 @@ public class JROrigin implements JRCloneable, Serializable
 	private String groupName;
 	private String reportName;
 	
-	private int hashCode;
+	private transient Integer hashCode;
 	
 	/**
 	 * 
@@ -134,12 +134,6 @@ public class JROrigin implements JRCloneable, Serializable
 		this.reportName = reportName;
 		this.groupName = groupName;
 		this.bandTypeValue = bandTypeValue;
-
-		int hash = 17;
-		hash = 31 * hash + (reportName == null ? 0 : reportName.hashCode());
-		hash = 31 * hash + (groupName == null ? 0 : groupName.hashCode());
-		hash = 31 * hash + bandTypeValue.hashCode();
-		hashCode = hash;
 	}
 
 	/**
@@ -230,7 +224,15 @@ public class JROrigin implements JRCloneable, Serializable
 	 */
 	public int hashCode() 
 	{
-		return hashCode;
+		if (hashCode == null)
+		{
+			int hash = 17;
+			hash = 31 * hash + (reportName == null ? 0 : reportName.hashCode());
+			hash = 31 * hash + (groupName == null ? 0 : groupName.hashCode());
+			hash = 31 * hash + bandTypeValue.hashCode();
+			hashCode = new Integer(hash);
+		}
+		return hashCode.intValue();
 	}
 
 
