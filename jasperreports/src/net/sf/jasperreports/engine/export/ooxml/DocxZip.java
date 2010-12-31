@@ -58,7 +58,7 @@ public class DocxZip extends FileBufferedZip
 		addEntry(relsEntry);
 		
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/docx/_rels/xml.rels");
-		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/[Content_Types].xml");
+		addEntry("[Content_Types].xml", "net/sf/jasperreports/engine/export/ooxml/docx/Content_Types.xml");
 	}
 	
 	/**
