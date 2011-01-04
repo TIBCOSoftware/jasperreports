@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT jasperPrint (property*, origin*, reportFont*, style*, page*)>
+<!ATTLIST jasperPrint
+	name CDATA #REQUIRED
+	pageWidth NMTOKEN "595"
+	pageHeight NMTOKEN "842"
+	topMargin NMTOKEN #IMPLIED
+	leftMargin NMTOKEN #IMPLIED
+	bottomMargin NMTOKEN #IMPLIED
+	rightMargin NMTOKEN #IMPLIED
+	orientation (Portrait | Landscape) "Portrait"
+	formatFactoryClass NMTOKEN #IMPLIED
+	locale CDATA #IMPLIED
+	timezone CDATA #IMPLIED
+>
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+>
+<!ELEMENT origin EMPTY>
+<!ATTLIST origin
+	report CDATA #IMPLIED
+	group CDATA #IMPLIED
+	band (unknown | background | title | pageHeader | columnHeader | groupHeader | detail | groupFooter | columnFooter | pageFooter | lastPageFooter | summary | noData) "unknown"
+>
+<!ELEMENT reportFont EMPTY>
+<!ATTLIST reportFont
+	name CDATA #REQUIRED
+	isDefault (true | false) "false"
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+<!ELEMENT style (pen?, box?)>
+<!ATTLIST style
+	name CDATA #REQUIRED
+	isDefault (true | false) #IMPLIED
+	style CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) #IMPLIED
+	radius NMTOKEN #IMPLIED
+	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
+	hAlign (Left | Center | Right | Justified) #IMPLIED
+	vAlign (Top | Middle | Bottom) #IMPLIED
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
+	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
+	isStyledText (true | false) #IMPLIED
+	markup CDATA #IMPLIED
+	fontName CDATA #IMPLIED
+	fontSize NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+	pattern CDATA #IMPLIED
+	isBlankWhenNull (true | false) #IMPLIED
+>
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT page (line | rectangle | ellipse | image | text | frame | genericElement)*>
+<!ELEMENT line (reportElement?, graphicElement?)>
+<!ATTLIST line
+	direction (TopDown | BottomUp) "TopDown"
+>
+<!ELEMENT reportElement (property*)>
+<!ATTLIST reportElement
+	key CDATA #IMPLIED
+	style CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	x NMTOKEN #REQUIRED
+	y NMTOKEN #REQUIRED
+	width NMTOKEN #REQUIRED
+	height NMTOKEN #REQUIRED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+	origin NMTOKEN #IMPLIED
+>
+<!ELEMENT graphicElement (pen?)>
+<!ATTLIST graphicElement
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) #IMPLIED
+>
+<!ELEMENT rectangle (reportElement?, graphicElement?)>
+<!ATTLIST rectangle
+	radius NMTOKEN #IMPLIED
+>
+<!ELEMENT ellipse (reportElement?, graphicElement?)>
+<!ELEMENT image (reportElement?, box?, graphicElement?, imageSource?, hyperlinkParameter*)>
+<!ATTLIST image
+	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
+	hAlign (Left | Center | Right) #IMPLIED
+	vAlign (Top | Middle | Bottom) #IMPLIED
+	isLazy (true | false) "false"
+	onErrorType (Error | Blank | Icon) "Error"
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+	anchorName CDATA #IMPLIED
+	hyperlinkReference CDATA #IMPLIED
+	hyperlinkAnchor CDATA #IMPLIED
+	hyperlinkPage NMTOKEN #IMPLIED
+	hyperlinkTooltip CDATA #IMPLIED
+	bookmarkLevel NMTOKEN "0"
+>
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
+<!ATTLIST box
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT imageSource (#PCDATA)>
+<!ATTLIST imageSource
+	isEmbedded (true | false) "false"
+>
+<!ELEMENT text (reportElement?, box?, font?, textContent?, textTruncateSuffix?, lineBreakOffsets?, hyperlinkParameter*)>
+<!ATTLIST text
+	textAlignment (Left | Center | Right | Justified) #IMPLIED
+	verticalAlignment (Top | Middle | Bottom) #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
+	runDirection (LTR | RTL) "LTR"
+	textHeight NMTOKEN "0"
+	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
+	isStyledText (true | false) #IMPLIED
+	markup CDATA #IMPLIED
+	lineSpacingFactor NMTOKEN "0"
+	leadingOffset NMTOKEN "0"
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+	anchorName CDATA #IMPLIED
+	hyperlinkReference CDATA #IMPLIED
+	hyperlinkAnchor CDATA #IMPLIED
+	hyperlinkPage NMTOKEN #IMPLIED
+	hyperlinkTooltip CDATA #IMPLIED
+	bookmarkLevel NMTOKEN "0"
+	valueClass NMTOKEN #IMPLIED
+	pattern CDATA #IMPLIED
+	formatFactoryClass NMTOKEN #IMPLIED
+	locale CDATA #IMPLIED
+	timezone CDATA #IMPLIED
+>
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+	reportFont CDATA #IMPLIED
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+<!ELEMENT textContent (#PCDATA)>
+<!ATTLIST textContent
+	truncateIndex NMTOKEN #IMPLIED
+>
+<!ELEMENT textTruncateSuffix (#PCDATA)>
+<!ELEMENT lineBreakOffsets (#PCDATA)>
+
+<!ELEMENT frame (reportElement?, box?, (line | rectangle | ellipse | image | text | frame | genericElement)*)>
+
+<!ELEMENT hyperlinkParameter (hyperlinkParameterValue?)>
+<!ATTLIST hyperlinkParameter
+	name CDATA #REQUIRED
+	class NMTOKEN "java.lang.String"
+>
+<!ELEMENT hyperlinkParameterValue (#PCDATA)>
+
+<!ELEMENT genericElement (reportElement?, genericElementType, genericElementParameter*)>
+<!ELEMENT genericElementType EMPTY>
+<!ATTLIST genericElementType
+	namespace CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!ELEMENT genericElementParameter (genericElementParameterValue?)>
+<!ATTLIST genericElementParameter
+	name CDATA #REQUIRED
+>
+<!ELEMENT genericElementParameterValue (#PCDATA)>
+<!ATTLIST genericElementParameterValue
+	class NMTOKEN #REQUIRED
+>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GenericElementReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+	<parameter name="JRProjectID" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[Integer.valueOf(287)]]></defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="742">
+			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
+				<reportElement x="0" y="30" width="515" height="70"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["JasperReports project information courtesy of http://ohloh.net"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://ohloh.net/projects/jasperreports"]]></hyperlinkReferenceExpression>
+			</textField>
+			<genericElement>
+				<reportElement x="20" y="130" width="200" height="200"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="languages"/>
+				<genericElementParameter name="ProjectID">
+					<valueExpression class="java.lang.Integer"><![CDATA[$P{JRProjectID}]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+			<genericElement>
+				<reportElement x="305" y="130" width="200" height="200"/>
+				<genericElementType namespace="http://jasperreports.sourceforge.net/jasperreports/ohloh" name="stats"/>
+				<genericElementParameter name="ProjectID">
+					<valueExpression class="java.lang.Integer"><![CDATA[$P{JRProjectID}]]></valueExpression>
+				</genericElementParameter>
+			</genericElement>
+		</band>
+	</title>
+</jasperReport>

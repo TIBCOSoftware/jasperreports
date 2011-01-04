@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>table</name>
+  <title>Table Sample</title>
+  <description>Shows how a table structure could be created using simple text elements and their border.</description>
+
+  <mainFeature ref="table"/>
+  
+  <!-- table -->
+  
+  <feature name="table" title="Creating Table-like Structures">
+    <description>
+How to create tables using text elements and their border.
+    </description>
+    <since>0.6.3</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

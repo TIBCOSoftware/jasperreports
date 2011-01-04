@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>beanshell</name>
+  <title>BeanShell Sample</title>
+  <description>Shows how reports could be compiled using a customized compiler that relies on BeanShell for expressions evaluation.</description>
+
+  <mainFeature ref="beanshell"/>
+  <secondaryFeature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+  
+  <!-- beanshell -->
+  
+  <feature name="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)">
+    <description>
+How to use BeanShell scripting for report expressions.
+    </description>
+    <since>0.6.6</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="antcompile"/>
+  	<otherSample ref="groovy"/>
+  	<otherSample ref="java1.5"/>
+  	<otherSample ref="javascript"/>
+    <content>
+<b><a name="bshCompiler">The</a> BeanShell Report Compiler</b>
+<br/>
+<br/>
+In the beginning JasperReports relied on the JDK 1.2-compatible report compiler. Then 
+the JDK 1.3-compatible report compiler was introduced, then the Jikes and JDT-based ones. Both 
+JDK 1.2 and JDK 1.3-based compiler implementations were slow and 
+problematic when compiling reports on-the-fly, especially in a web environment, because they 
+worked only with files on disk and required temporary working directories to store 
+generated Java source files and corresponding class files during the report-compilation process. 
+<br/>
+This is why a new implementation was added based on the BeanShell library for runtime expression 
+evaluation. BeanShell does not produce Java bytecode and can work with in-memory scripts 
+interpreted at runtime. Working with the <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api>
+simplified a lot applications deployment, but the expression evaluation process was slower than before, 
+generating a noticeable loss in performance.
+<br/>
+The later addition of the JDT-based report compiler made the whole process both faster and
+simpler to deploy, as it does not require files on disk and its performance is comparable
+to the Jikes-based compiler performance. Therefore, the <api href="net/sf/jasperreports/compilers/JRBshCompiler.html">JRBshCompiler</api> 
+implementation is shipped with the JasperReports library for historical reasons only. 
+<br/>
+<br/>
+<b>The BeanShell Sample</b>
+<br/>
+<br/>
+The main purpose of this sample is to show how the BeanShell compiler implementation works. Useful information 
+about various compiler implementations can be found <a href="../groovy/index.html#javaCompilers">here</a>.
+<br/>
+In order to compile a report, the engine needs to know which is the report expressions language and 
+which compiler implementation to use. If a BeanShell report compilation is expected, one has to 
+set the <code>language</code> attribute to <code>bsh</code> in the report JRXML file,
+and the default compiler implementation for the BeanShell language in the /src/jasperreports.properties file:
+<br/>
+<br/>
+<code>net.sf.jasperreports.compiler.bsh=net.sf.jasperreports.compilers.JRBshCompiler</code>
+<br/>
+<br/>
+In the report template are included specific BeanShell expressions.
+<br/>
+Having two numbers, 3 and 5, the report will output first their values, and then their calculated sum. The two numbers 
+are declared as follows:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;parameter name="A" class="java.lang.Double"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression&gt;&lt;![CDATA[new Double(3)]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+<br/>
+&#160;&#160;&lt;parameter name="B" class="java.lang.Double"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;defaultValueExpression>&lt;![CDATA[new Double(5)]]&gt;&lt;/defaultValueExpression&gt;
+<br/>
+&#160;&#160;&lt;/parameter&gt;
+</code>
+<br/>
+<br/>
+The next two expressions in the report template read values from parameters declared above and store them in two text fields. 
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{A}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[$P{B}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+Next, the A + B sum is calculated:
+<br/>
+<br/>
+<code>&#160;&#160;&lt;textFieldExpression class="java.lang.Double"&gt;&lt;![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/beanshell</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/beanshell/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>
