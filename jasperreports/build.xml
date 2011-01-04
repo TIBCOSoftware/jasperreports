@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="4.0.0"/>
+	<property name="version" value="4.0.1"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -43,14 +43,19 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
 			<manifest>
-				<attribute name="Built-By" value="Jaspersoft"/>
+				<attribute name="Built-By" value="Jaspersoft Corporation"/>
 				<section name="net/sf/jasperreports/engine/">
 					<attribute name="Specification-Title" value="JasperReports Library"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft Corporation"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Vendor" value="Jaspersoft Corporation"/>
+					<attribute name="Bundle-Name" value="JasperReports Library"/>
+					<attribute name="Bundle-Version" value="${version}"/>
+					<attribute name="Bundle-Vendor" value="Jaspersoft Corporation"/>
+					<attribute name="Bundle-SymbolicName" value="net.sf.jasperreports.engine"/>
+					<attribute name="Bundle-ClassPath" value="."/>
 				</section>
 			</manifest>
 			<fileset dir="./build/classes"/>
@@ -93,14 +98,19 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
 			<manifest>
-				<attribute name="Built-By" value="Jaspersoft"/>
+				<attribute name="Built-By" value="Jaspersoft Corporation"/>
 				<section name="net/sf/jasperreports/engine/">
 					<attribute name="Specification-Title" value="JasperReports Library"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft Corporation"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Vendor" value="Jaspersoft Corporation"/>
+					<attribute name="Bundle-Name" value="JasperReports Library"/>
+					<attribute name="Bundle-Version" value="${version}"/>
+					<attribute name="Bundle-Vendor" value="Jaspersoft Corporation"/>
+					<attribute name="Bundle-SymbolicName" value="net.sf.jasperreports.engine"/>
+					<attribute name="Bundle-ClassPath" value="."/>
 				</section>
 			</manifest>		
 			<fileset dir="./build/javaflow"/>
@@ -115,14 +125,14 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-applet-${version}.jar">
 			<manifest>
-				<attribute name="Built-By" value="Jaspersoft"/>
+				<attribute name="Built-By" value="Jaspersoft Corporation"/>
 				<section name="net/sf/jasperreports/engine/">
 					<attribute name="Specification-Title" value="JasperReports Applet Viewer"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft Corporation"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.engine"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Vendor" value="Jaspersoft Corporation"/>
 				</section>
 			</manifest>		
 			<fileset dir="./build/classes">
@@ -301,14 +311,14 @@
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-fonts-${version}.jar">
 			<manifest>
-				<attribute name="Built-By" value="Jaspersoft"/>
+				<attribute name="Built-By" value="Jaspersoft Corporation"/>
 				<section name="net/sf/jasperreports/fonts/">
 					<attribute name="Specification-Title" value="JasperReports Font Extension"/>
 					<attribute name="Specification-Version" value="${version}"/>
-					<attribute name="Specification-Vendor" value="Jaspersoft"/>
+					<attribute name="Specification-Vendor" value="Jaspersoft Corporation"/>
 					<attribute name="Implementation-Title" value="net.sf.jasperreports.fonts"/>
 					<attribute name="Implementation-Version" value="${version}"/> 
-					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
+					<attribute name="Implementation-Vendor" value="Jaspersoft Corporation"/>
 				</section>
 			</manifest>		
 			<fileset dir="./demo/fonts">
@@ -370,7 +380,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-4-0-0"/>
+	<property name="svn" value="jr-4-0-1"/>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
