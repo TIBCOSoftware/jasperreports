@@ -91,7 +91,7 @@
 		</javaflow>
 
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar">
+		<jar jarfile="./dist/jasperreports-javaflow-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
 			<manifest>
 				<attribute name="Built-By" value="Jaspersoft"/>
 				<section name="net/sf/jasperreports/engine/">
