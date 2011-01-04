@@ -169,8 +169,10 @@ when mapping report fields to values from the Hibernate result.</li>
 <br/>
 <br/>
 This sample shows how to perform queries and retrieve data from a relational database using Hibernate. 
+The output consists in two separate reports: the standalone document <code>AddressesReport</code>, and 
+the <code>HibernateQueryReport</code> which contains a subreport. Two tables in the HSQLDB database are 
+involved: <code>ADDRESS</code> and <code>DOCUMENT</code>.
 <br/>
-In the 
 The Hibernate configuration information is kept in the <code>src/hibernate.cfg.xml</code> folder:
 <pre><![CDATA[
 <hibernate-configuration>
@@ -191,51 +193,154 @@ In order to create a Hibernate session one has to specify the properties and map
 <code>&lt;session-factory&gt;</code> element above.
 <br/>
 In our case there are two mapping resources configurated in the XML files below:
+<br/>
+<br/>
 1.&#160;&#160;&#160;<code>src/Address.hbm.xml</code> mapping the Address entity object 
-(See the <code>src/Address.java</code> file) to the ADDRESS table in the database:
+(See the <code>src/Address.java</code> file) to the <code>ADDRESS</code> table in the database:
 <pre><![CDATA[
-    <hibernate-mapping>
-	
-    <class name="Address" table="ADDRESS">
-      <id name="id" column="ID">
-        <generator class="increment"/>
-      </id>
+  <hibernate-mapping>
 
-      <property name="firstName" column="FIRSTNAME"/>
-      <property name="lastName" column="LASTNAME"/>
-      <property name="street" column="STREET"/>
-      <property name="city" column="CITY"/>
-	
-      <set name="documents" inverse="true">
-        <key column="ADDRESSID"/>
-        <one-to-many class="Document"/>
-      </set>
-    </class>
-	
-    </hibernate-mapping>]]></pre>
+  <class name="Address" table="ADDRESS">
+    <id name="id" column="ID">
+      <generator class="increment"/>
+    </id>
+
+    <property name="firstName" column="FIRSTNAME"/>
+    <property name="lastName" column="LASTNAME"/>
+    <property name="street" column="STREET"/>
+    <property name="city" column="CITY"/>
+
+    <set name="documents" inverse="true">
+      <key column="ADDRESSID"/>
+      <one-to-many class="Document"/>
+    </set>
+  </class>
+
+  </hibernate-mapping>]]></pre>
 2.&#160;&#160;&#160;<code>src/Document.hbm.xml</code> mapping the Document entity object 
-(See the <code>src/Document.java</code> file) to the DOCUMENT table in the database:
+(See the <code>src/Document.java</code> file) to the <code>DOCUMENT</code> table in the database:
 <pre><![CDATA[
-    <hibernate-mapping>
+  <hibernate-mapping>
 	
-    <class name="Address" table="ADDRESS">
+    <class name="Document" table="DOCUMENT">
       <id name="id" column="ID">
         <generator class="increment"/>
       </id>
 
-      <property name="firstName" column="FIRSTNAME"/>
-      <property name="lastName" column="LASTNAME"/>
-      <property name="street" column="STREET"/>
-      <property name="city" column="CITY"/>
-	
-      <set name="documents" inverse="true">
-        <key column="ADDRESSID"/>
-        <one-to-many class="Document"/>
-      </set>
+      <many-to-one name="address" column="ADDRESSID"/>
+
+      <property name="total" column="TOTAL"/>
     </class>
 	
-    </hibernate-mapping>]]></pre>
-[Under construction]
+  </hibernate-mapping>]]></pre>
+One can see above that an <code>Address</code> object contains a set of <code>Document</code> objects, 
+all with the same <code>ADDRESSID</code> value. The one-to-many relationship between the <code>ADDRESS</code> 
+table and <code>DOCUMENT</code> is intermediated by the <code>ADDRESS.ADDRESSID</code> foreign key column.
+<br/>
+<br/>
+The <code>AddressReport</code> enumerates customers with their addresses and related documents and document totals, 
+filtered by their city location (see the <a href="#cityfilter"><code>CityFilter</code></a> parameter). The HQL query 
+string is the following:
+<pre><![CDATA[
+  <parameter name="CityFilter" class="java.util.List"/>
+  <queryString language="hql">
+    <![CDATA[select address as address, document.id as documentId, document.total as documentTotal
+      from Address as address join address.documents as document
+      where city not in ($P{CityFilter})
+      order by address.city, address.lastName, address.firstName, address.id]] >
+  </queryString>]]></pre>
+In the query above, because of the table join, customers with no related documents in the 
+<code>DOCUMENTS</code> table are not included.
+<br/>
+<br/>
+The <code>HibernateQueryReport</code> report retrieves all customer addresses from the <code>ADDRESS</code> table, 
+without taking into account if there are or no customer related documents in the <code>DOCUMENTS</code> table. Customers 
+are also filtered by the <a href="#cityfilter"><code>CityFilter</code></a> parameter. If related documents exist, their 
+data are retrieved using the <code>DocumentsReport</code> subreport (see the <code>reports/DocumentsReport.jrxml</code> file). 
+<br/>
+Here customers with no related documents are included too.
+<br/>
+Customers are also grouped by their city.
+<br/>
+<br/>
+Now it's time to take a look in the <code>reports/HibernateQueryReport.jrxml</code> file at the report HQL query string:
+<pre><![CDATA[
+  <queryString language="hql">
+    <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
+  </queryString>]]></pre>
+And then, at the <code>Documents</code> subreport, for each customer:
+<pre><![CDATA[
+  <subreport>
+    <reportElement x="65" y="21" width="50" height="20" isRemoveLineWhenBlank="true"/>
+    <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
+    <subreportExpression class="java.lang.String"><![CDATA["DocumentsReport.jasper"]] ></subreportExpression>
+  </subreport>]]></pre>
+
+The <code><a name="cityfilter">CityFilter</a></code> parameter and all other report parameters are created 
+in the <code>src/HibernateApp.java</code> class file, via the <code> getParameters(Session session)</code> method:
+<pre><![CDATA[
+  private static Map getParameters(Session session)
+  {
+    Map parameters = new HashMap();
+    parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
+    parameters.put("ReportTitle", "Address Report");
+    List cityFilter = new ArrayList(3);
+    cityFilter.add("Boston");
+    cityFilter.add("Chicago");
+    cityFilter.add("Oslo");
+    parameters.put("CityFilter", cityFilter);
+    parameters.put("OrderClause", "city");
+    return parameters;
+  }]]></pre>
+At fill time, a Hibernate session is created and a transaction gets started. Report parameters are set and then 
+the two compiled reports are filled with data. If all goes ok, the transaction is then rolled back and the session 
+is closed:
+<pre><![CDATA[
+  public void fill() throws JRException
+  {
+    Session session = createSession();
+    Transaction transaction = session.beginTransaction();
+
+    Map params = getParameters(session);
+	
+    File[] files = 
+      new File[]{
+        new File("build/reports/AddressesReport.jasper"),
+        new File("build/reports/HibernateQueryReport.jasper")
+        };
+    for(int i = 0; i < files.length; i++)
+    {
+      File reportFile = files[i];
+      long start = System.currentTimeMillis();
+      JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), params);
+      System.err.println(
+        "Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start)
+        );
+    }
+	
+    transaction.rollback();
+    session.close();
+  }
+  
+  private static Session createSession()
+  {
+    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+	
+    return sessionFactory.openSession();
+  }]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/hibernate</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/hibernate/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
     </content>
   </feature>
 
