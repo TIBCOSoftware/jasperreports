@@ -41,7 +41,7 @@
 
 	<target name="jar" depends="compile, javaflow, applet, fonts" description="Builds the JasperReports JAR files.">
 		<mkdir dir="./dist"/> 
-		<jar jarfile="./dist/jasperreports-${version}.jar">
+		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
 			<manifest>
 				<attribute name="Built-By" value="Jaspersoft"/>
 				<section name="net/sf/jasperreports/engine/">
@@ -52,7 +52,7 @@
 					<attribute name="Implementation-Version" value="${version}"/> 
 					<attribute name="Implementation-Vendor" value="Jaspersoft"/>
 				</section>
-			</manifest>		
+			</manifest>
 			<fileset dir="./build/classes"/>
 			<fileset dir="./">
 				<include name="**/lgpl.txt"/>
