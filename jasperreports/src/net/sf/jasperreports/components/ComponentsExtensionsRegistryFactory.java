@@ -42,6 +42,7 @@ import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
+import net.sf.jasperreports.components.table.TableDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
@@ -106,6 +107,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
 		
 		DefaultComponentManager tableManager = new DefaultComponentManager();
+		tableManager.setDesignConverter(new TableDesignConverter());
 		tableManager.setComponentCompiler(new TableCompiler());
 		tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
