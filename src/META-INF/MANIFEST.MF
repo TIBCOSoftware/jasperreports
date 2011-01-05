@@ -82,6 +82,4 @@ Export-Package: net.sf.jasperreports.ant,
  net.sf.jasperreports.view,
  net.sf.jasperreports.view.images,
  net.sf.jasperreports.view.save
-Import-Package: groovyjarjarasm.asm;resolution:=optional;version="1.7.5",
- org.codehaus.groovy.ast;resolution:=optional;version="1.7.5",
- org.codehaus.groovy.ast.control;resolution:=optional;version="1.7.5"
+DynamicImport-Package: *
