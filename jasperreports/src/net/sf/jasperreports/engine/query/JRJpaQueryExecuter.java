@@ -180,7 +180,9 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		if (queryHintsMap != null) {
 			for (Iterator i = queryHintsMap.entrySet().iterator(); i.hasNext(); ) {
 				Map.Entry pairs = (Map.Entry)i.next();
-				log.debug("EJBQL query hint [" + pairs.getKey() + "] set.");
+				if (log.isDebugEnabled()) {
+					log.debug("EJBQL query hint [" + pairs.getKey() + "] set.");
+				}
 				query.setHint((String)pairs.getKey(), pairs.getValue());
 			}
 		}
@@ -197,7 +199,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 				if (log.isDebugEnabled()) {
 					log.debug("EJBQL query hint [" + queryHint + "] set to: " + value);
 				}
-				query.setHint(queryHint, property);
+				query.setHint(queryHint, value);
 			}
 		}
 	}	
