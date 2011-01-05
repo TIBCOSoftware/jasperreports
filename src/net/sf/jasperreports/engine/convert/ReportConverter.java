@@ -481,7 +481,7 @@ public class ReportConverter
 	/**
 	 * 
 	 */
-	protected JRStyle resolveStyle(JRStyleContainer originalContainer)
+	public JRStyle resolveStyle(JRStyleContainer originalContainer)
 	{
 		JRStyle originalStyle = originalContainer.getStyle();
 		String nameReference = originalContainer.getStyleNameReference();
