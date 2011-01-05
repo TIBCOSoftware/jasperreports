@@ -1,3 +1,15 @@
+Built-By: Jaspersoft Corporation
+Specification-Title: JasperReports Library
+Specification-Version: 4.0.1
+Specification-Vendor: Jaspersoft Corporation
+Implementation-Title: net.sf.jasperreports.engine
+Implementation-Version: 4.0.1 
+Implementation-Vendor: Jaspersoft Corporation
+Bundle-Name: JasperReports Library
+Bundle-Version: 4.0.1
+Bundle-Vendor: Jaspersoft Corporation
+Bundle-SymbolicName: net.sf.jasperreports.engine
+Bundle-ClassPath: .
 Export-Package: net.sf.jasperreports.ant,
  net.sf.jasperreports.charts,
  net.sf.jasperreports.charts.base,
