@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.list;
 
-import java.awt.Rectangle;
-import java.awt.geom.Area;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +30,6 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
-import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ConvertVisitor;
 import net.sf.jasperreports.engine.convert.ReportConverter;
@@ -86,6 +83,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 			
 			frame.addElement(contentsFrame);
 
+			/*
 			Integer width = contents.getWidth();
 			int contentsWidth = width == null ? element.getWidth() 
 					: width.intValue();
@@ -111,6 +109,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 				image.setRenderer(new UnusedSpaceImageRenderer(clip));
 				frame.addElement(image);
 			}
+			*/
 		}
 		
 		return frame;
