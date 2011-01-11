@@ -287,7 +287,7 @@ are used to perform various calculations: <code>DateHighestCountryGroup</code>, 
 <br/>
 <br/>
 At this stage we can represent data in a user-friendly form, well separated by countries and country first letters, in a 
-2-columns layout. What else could be done to separate data more than that?
+2-columns layout. What else could be done to separate data better than that?
 <br/>
 Well, there is one more thing. What if for a given country there are thousands of records? One after one, after one, and so 
 on. Thousands of records looking the same, with nothing special to separate them, increasing a lot the eye's effort... It 
