@@ -95,6 +95,16 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 				xySeries, xySeriesList.size() - 1);
 	}
 	
+	/**
+	 *
+	 */
+	public void addXySeries(int index, JRXySeries xySeries)
+	{
+		xySeriesList.add(index, xySeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_XY_SERIES, 
+				xySeries, index);
+	}
+	
 
 	/**
 	 *

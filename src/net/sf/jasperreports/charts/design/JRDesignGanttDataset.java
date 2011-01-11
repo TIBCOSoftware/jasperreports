@@ -85,6 +85,15 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	public void addGanttSeries(JRGanttSeries ganttSeries)
 	{
 		ganttSeriesList.add(ganttSeries);
+		getEventSupport().fireCollectionElementAddedEvent("ganttSeries", ganttSeries,	ganttSeriesList.size() - 1);
+	}
+	/**
+	 *
+	 */
+	public void addGanttSeries(int index, JRGanttSeries ganttSeries)
+	{
+		ganttSeriesList.add(index, ganttSeries);
+		getEventSupport().fireCollectionElementAddedEvent("ganttSeries", ganttSeries,	index);
 	}
 
 

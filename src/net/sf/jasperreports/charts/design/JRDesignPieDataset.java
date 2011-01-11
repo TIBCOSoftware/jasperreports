@@ -151,6 +151,15 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 				pieSeries, pieSeriesList.size() - 1);
 	}
 	
+	/**
+	 *
+	 */
+	public void addPieSeries(int index, JRPieSeries pieSeries)
+	{
+		pieSeriesList.add(index, pieSeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PIE_SERIES, 
+				pieSeries, index);
+	}
 
 	/**
 	 *

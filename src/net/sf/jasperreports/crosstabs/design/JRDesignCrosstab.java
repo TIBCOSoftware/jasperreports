@@ -328,6 +328,36 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ROW_GROUPS, group, rowGroups.size() - 1);
 	}
+	
+	/**
+	 * Adds a row group.
+	 * <p>
+	 * This group will be a sub group of the last row group, if any.
+	 * 
+	 * @param group the group
+	 * @param index position
+	 * @throws JRException
+	 * @see JRCrosstab#getRowGroups()
+	 */
+	public void addRowGroup(int index, JRDesignCrosstabRowGroup group) throws JRException
+	{
+		String groupName = group.getName();
+		if (rowGroupsMap.containsKey(groupName) ||
+				columnGroupsMap.containsKey(groupName) ||
+				measuresMap.containsKey(groupName))
+		{
+			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+		}
+		
+		rowGroupsMap.put(groupName, Integer.valueOf(rowGroups.size()));
+		rowGroups.add(index, group);
+		
+		addRowGroupVars(group);
+		
+		setParent(group);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_ROW_GROUPS, group, index);
+	}
 
 	
 	protected void addRowGroupVars(JRDesignCrosstabRowGroup rowGroup)
@@ -377,6 +407,35 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMN_GROUPS, group, columnGroups.size() - 1);
 	}
 	
+	/**
+	 * Adds a column group.
+	 * <p>
+	 * This group will be a sub group of the last column group, if any.
+	 * 
+	 * @param group the group
+	 * @throws JRException
+	 * @see JRCrosstab#getColumnGroups()
+	 */
+	public void addColumnGroup(int index, JRDesignCrosstabColumnGroup group) throws JRException
+	{
+		String groupName = group.getName();
+		if (rowGroupsMap.containsKey(groupName) ||
+				columnGroupsMap.containsKey(groupName) ||
+				measuresMap.containsKey(groupName))
+		{
+			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+		}
+		
+		columnGroupsMap.put(groupName, Integer.valueOf(columnGroups.size()));
+		columnGroups.add(index, group);
+		
+		addColGroupVars(group);
+		
+		setParent(group);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_COLUMN_GROUPS, group, index);
+	}
+	
 	
 	protected void addColGroupVars(JRDesignCrosstabColumnGroup colGroup)
 	{
@@ -420,6 +479,33 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		addMeasureVars(measure);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MEASURES, measure, measures.size() - 1);
+	}
+	
+	/**
+	 * Adds a measure to the crosstab.
+	 * 
+	 * @param measure the measure
+	 * @throws JRException
+	 * @see JRCrosstab#getMeasures()
+	 */
+	public void addMeasure(int index, JRDesignCrosstabMeasure measure) throws JRException
+	{
+		String measureName = measure.getName();
+		if (rowGroupsMap.containsKey(measureName) ||
+				columnGroupsMap.containsKey(measureName) ||
+				measuresMap.containsKey(measureName))
+		{
+			throw new JRException("A group or measure having the same name already exists in the crosstab.");
+		}
+		
+		measure.addPropertyChangeListener(JRDesignCrosstabMeasure.PROPERTY_VALUE_CLASS, measureClassChangeListener);
+		
+		measuresMap.put(measureName, Integer.valueOf(measures.size()));
+		measures.add(index, measure);
+		
+		addMeasureVars(measure);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MEASURES, measure, index);
 	}
 
 	protected void addMeasureVars(JRDesignCrosstabMeasure measure)
@@ -889,6 +975,29 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		parametersList.add(parameter);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, parametersList.size() - 1);
+	}
+	
+	/**
+	 * Adds a parameter to the crosstab.
+	 * 
+	 * @param parameter the parameter
+	 * @throws JRException
+	 * @see JRCrosstab#getMeasures()
+	 */
+	public void addParameter(int index, JRCrosstabParameter parameter) throws JRException
+	{
+		if (parametersMap.containsKey(parameter.getName()))
+		{
+			if (parametersMap.containsKey(parameter.getName()))
+			{
+				throw new JRException("Duplicate declaration of parameter : " + parameter.getName());
+			}
+		}
+		
+		parametersMap.put(parameter.getName(), parameter);
+		parametersList.add(index, parameter);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, index);
 	}
 	
 	
