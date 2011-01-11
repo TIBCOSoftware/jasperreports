@@ -95,6 +95,15 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 				categorySeries, categorySeriesList.size() - 1);
 	}
 	
+	/**
+	 *
+	 */
+	public void addCategorySeries(int index, JRCategorySeries categorySeries)
+	{
+		categorySeriesList.add(index, categorySeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CATEGORY_SERIES, 
+				categorySeries, index);
+	}
 
 	/**
 	 *

@@ -78,7 +78,41 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		}
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, axes.size() - 1);
 	}
+	
+	/**
+	 * Adds an axis to the plot.  The axis contains the complete information on
+	 * the data and rendering to use as well as where to draw the axis.
+	 *
+	 * @param axis the axis to add to the plot
+	 */
+	public void addAxis(int index, JRChartAxis axis)
+	{
+		axes.add(index, axis);
+		if (axes.size() == 1)
+		{
+			chart.setDataset(axis.getChart().getDataset());
+		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, index);
+	}
 
+	/**
+	 *
+	 */
+	public JRChartAxis removeAxis(JRChartAxis axis)
+	{
+		if (axis != null)
+		{
+			int idx = axes.indexOf(axis);
+			if (idx >= 0)
+			{
+				axes.remove(idx);
+				chart.setDataset(axis.getChart().getDataset());
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_AXES, axis, idx);
+			}
+		}
+		
+		return axis;
+	}
 	/**
 	 * Removes all the axes from the plot.
 	 */

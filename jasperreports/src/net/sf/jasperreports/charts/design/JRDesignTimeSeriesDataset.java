@@ -93,6 +93,16 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
+	public void addTimeSeries(int index, JRTimeSeries timeSeries ) 
+	{
+		timeSeriesList.add(index, timeSeries );
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TIME_SERIES, 
+				timeSeries, index);
+	}
+	
+	/**
+	 * 
+	 */
 	public JRTimeSeries removeTimeSeries( JRTimeSeries timeSeries ) 
 	{
 		if( timeSeries != null)

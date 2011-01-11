@@ -88,6 +88,16 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	/**
 	 * 
 	 */
+	public void addXyzSeries(int index, JRXyzSeries xyzSeries ) 
+	{
+		xyzSeriesList.add(index, xyzSeries );
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_XYZ_SERIES, 
+				xyzSeries, index);
+	}
+	
+	/**
+	 * 
+	 */
 	public JRXyzSeries removeXyzSeries( JRXyzSeries xyzSeries ) 
 	{
 		if( xyzSeries != null ){

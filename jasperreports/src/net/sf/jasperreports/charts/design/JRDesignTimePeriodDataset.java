@@ -90,6 +90,16 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
+	public void addTimePeriodSeries(int index, JRTimePeriodSeries timePeriodSeries ) 
+	{
+		timePeriodSeriesList.add(index, timePeriodSeries);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TIME_PERIODS_SERIES, 
+				timePeriodSeries, index);
+	}
+	
+	/**
+	 * 
+	 */
 	public JRTimePeriodSeries removeTimePeriodSeries(JRTimePeriodSeries timePeriodSeries)
 	{
 		if( timePeriodSeries != null)
