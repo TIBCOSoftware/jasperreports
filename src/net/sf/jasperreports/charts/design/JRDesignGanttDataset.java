@@ -44,6 +44,8 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	public static final String PROPERTY_GANTT_SERIES = "ganttSeries";
 
 	private List ganttSeriesList = new ArrayList();
 
@@ -85,15 +87,17 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	public void addGanttSeries(JRGanttSeries ganttSeries)
 	{
 		ganttSeriesList.add(ganttSeries);
-		getEventSupport().fireCollectionElementAddedEvent("ganttSeries", ganttSeries,	ganttSeriesList.size() - 1);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GANTT_SERIES, ganttSeries,	ganttSeriesList.size() - 1);
 	}
+	
+	
 	/**
 	 *
 	 */
 	public void addGanttSeries(int index, JRGanttSeries ganttSeries)
 	{
 		ganttSeriesList.add(index, ganttSeries);
-		getEventSupport().fireCollectionElementAddedEvent("ganttSeries", ganttSeries,	index);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_GANTT_SERIES, ganttSeries,	index);
 	}
 
 
@@ -104,9 +108,13 @@ public class JRDesignGanttDataset  extends JRDesignChartDataset implements JRGan
 	{
 		if (ganttSeries != null)
 		{
-			ganttSeriesList.remove(ganttSeries);
+			int idx = ganttSeriesList.indexOf(ganttSeries);
+			if (idx >= 0)
+			{
+				ganttSeriesList.remove(ganttSeries);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_GANTT_SERIES, ganttSeries, idx);
+			}
 		}
-
 		return ganttSeries;
 	}
 

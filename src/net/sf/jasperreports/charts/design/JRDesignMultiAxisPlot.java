@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.charts.design;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.base.JRBaseMultiAxisPlot;
 import net.sf.jasperreports.engine.JRChart;
@@ -118,8 +122,10 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void clearAxes()
 	{
-		//FIXMECHART event?
-		axes.clear();
+		List tmpList =  new ArrayList(axes);
+		for(Iterator it = tmpList.iterator(); it.hasNext();){
+			removeAxis((JRChartAxis) it.next());
+		}
 		chart.setDataset(null);
 	}
 
