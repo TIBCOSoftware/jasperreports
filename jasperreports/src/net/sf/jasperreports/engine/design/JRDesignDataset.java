@@ -576,7 +576,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void setQuery(JRDesignQuery query)
 	{
-		Object old = query;
+		Object old = this.query;
 		String oldLanguage = null;
 		if (this.query != null)
 		{
