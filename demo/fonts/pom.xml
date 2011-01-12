@@ -20,12 +20,6 @@
 		<tag>jr-4-0-1</tag>
 		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
-	<repositories>
-		<repository>
-			<id>jasperreports</id>
-			<url>http://jasperreports.sourceforge.net/maven2</url>
-		</repository>
-	</repositories>
 	<build>
 		<sourceDirectory>./</sourceDirectory>
 		<resources>
@@ -46,7 +40,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Built-By>Jaspersoft</Built-By>
+							<Built-By>Jaspersoft Corporation</Built-By>
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
@@ -54,10 +48,10 @@
 								<manifestEntries>
 									<Specification-Title>JasperReports Library Font Extension</Specification-Title>
 									<Specification-Version>${pom.version}</Specification-Version>
-									<Specification-Vendor>Jaspersoft</Specification-Vendor>
+									<Specification-Vendor>Jaspersoft Corporation</Specification-Vendor>
 									<Implementation-Title>net.sf.jasperreports.fonts</Implementation-Title>
 									<Implementation-Version>${pom.version}</Implementation-Version>
-									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
+									<Implementation-Vendor>Jaspersoft Corporation</Implementation-Vendor>
 								</manifestEntries>
 							</manifestSection>
 						</manifestSections>
@@ -66,4 +60,11 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 </project>
