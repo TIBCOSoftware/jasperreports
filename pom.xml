@@ -110,22 +110,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<manifestEntries>
-							<Built-By>Jaspersoft</Built-By>
-						</manifestEntries>
-						<manifestSections>
-							<manifestSection>
-								<name>net/sf/jasperreports/engine/</name>
-								<manifestEntries>
-									<Specification-Title>JasperReports Library</Specification-Title>
-									<Specification-Version>${pom.version}</Specification-Version>
-									<Specification-Vendor>Jaspersoft</Specification-Vendor>
-									<Implementation-Title>net.sf.jasperreports.engine</Implementation-Title>
-									<Implementation-Version>${pom.version}</Implementation-Version>
-									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
-								</manifestEntries>
-							</manifestSection>
-						</manifestSections>
+						<manifestFile>${basedir}/src/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
