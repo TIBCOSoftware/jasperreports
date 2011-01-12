@@ -20,6 +20,21 @@
 		<tag>jr-4-0-1</tag>
 		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
+	<developers>
+		<developer>
+			<id>teodord</id>
+			<name>Teodor Danciu</name>
+			<email>teodord@users.sourceforge.net</email>
+			<url>http://sourceforge.net/users/teodord</url>
+			<organization>Jaspersoft Corporation</organization>
+			<organizationUrl>http://www.jaspersoft.com</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+	</developers>
 	<build>
 		<sourceDirectory>./</sourceDirectory>
 		<resources>
