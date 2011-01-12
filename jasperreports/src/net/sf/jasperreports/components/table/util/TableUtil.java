@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.table.util;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,8 +41,6 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.design.JasperDesign;
-
-import org.mozilla.javascript.edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
