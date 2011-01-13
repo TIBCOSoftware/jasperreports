@@ -103,7 +103,7 @@ query executer implementation.</li>
 decides whether the query executers created by this factory support a query parameter type.</li>
 </ul>
 Another way to register new query executer factories, without modifying existing application files, is to register them as 
-JasperReports extensions. One ore more query executer implementations can be packaged in a 
+JasperReports extensions. One or more query executer implementations can be packaged in a 
 query executer bundle that can be deployed as a single JAR file. The extension point for query executers 
 is represented by the <api href="net/sf/jasperreports/engine/query/QueryExecuterFactoryBundle.html">QueryExecuterFactoryBundle</api> 
 interface.
