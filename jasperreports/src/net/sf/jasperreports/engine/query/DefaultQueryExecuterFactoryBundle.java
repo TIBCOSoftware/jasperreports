@@ -77,7 +77,7 @@ public final class DefaultQueryExecuterFactoryBundle implements QueryExecuterFac
 		String factoryClassName = JRProperties.getProperty(JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX + language);
 		if (factoryClassName == null)
 		{
-			throw new JRException("No query executer factory class registered for " + language + " queries.");
+			return null;
 		}
 		
 		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
