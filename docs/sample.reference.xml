@@ -68,7 +68,7 @@
   <category>
     <name>Data Source / Query Executer</name>
     <content>
-      <feature name="datasets" sample="crosstabs" title="Datasets" complete="false"/>
+      <feature name="datasets" sample="crosstabs" title="Datasets"/>
       <feature name="javabeandatasources" sample="datasource" title="JavaBean Data Sources"/>
       <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
       <feature name="csvqueryexecuter" sample="csvdatasource" title="CSV Query Executer" complete="false"/>
