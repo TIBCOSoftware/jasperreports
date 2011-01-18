@@ -6907,10 +6907,10 @@ property.
   </complexType>
  </element>
 
+ <!-- Added for documentation purposes only. -->
  <element name="valueExpressionGeneric">
   <annotation>
-   <documentation>Indicates the &lt;valueExpression/&gt; element embedded in a generic element.</documentation>
-   <!-- documentation>Added for documentation purposes only.</documentation-->
+   <documentation>Indicates the &lt;valueExpression/&gt; element embedded in a generic element parameter.</documentation>
   </annotation>
   <complexType mixed="true">
    <attribute name="class" type="string" use="optional" default="java.lang.Object">
