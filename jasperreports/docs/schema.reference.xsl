@@ -2,7 +2,8 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports" 
+	xmlns:ge="http://jasperreports.sourceforge.net/jasperreports">
 
 <xsl:output method = "html" />
 <xsl:param name="sf.net"/>
@@ -141,7 +142,13 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td>
   <xsl:for-each select="xsd:schema/xsd:element">
   <xsl:sort select="@name"/>
-    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span></xsl:element>
+    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc">
+     <xsl:choose>
+      <xsl:when test="@name='valueExpressionGeneric'">valueExpression (2)</xsl:when>
+      <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+     </xsl:choose> 
+     </span>
+    </xsl:element>
     <br/>
 <xsl:if test="position() mod 45 = 0">
     <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
@@ -169,7 +176,13 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td colspan="5"><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span></td>
+    <td colspan="5"><span class="name">
+     <xsl:choose>
+      <xsl:when test="./@name='valueExpressionGeneric'">valueExpression (2)</xsl:when>
+      <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+     </xsl:choose> 
+     </span>
+    </td>
   </tr>
   <!-- 
   <tr>
@@ -365,7 +378,12 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:template match="xsd:element">
   <tr>
   	<td colspan="2"></td>
-    <td colspan="3"><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:element><xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
+    <td colspan="3"><xsl:element name="a">
+     <xsl:choose>
+      <xsl:when test="@name and ../../../@name='genericElementParameter'"><xsl:attribute name="href">#valueExpressionGeneric</xsl:attribute><span class="element">valueExpression</span></xsl:when>
+      <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:otherwise>
+     </xsl:choose>
+    </xsl:element><xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
   </tr>
 </xsl:template>
 
