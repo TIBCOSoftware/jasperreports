@@ -63,6 +63,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected static final String CLAUSE_ID_IN = "IN";
 	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
 	
+	protected static final String CLAUSE_ID_EQUAL = "EQUAL";
+	protected static final String CLAUSE_ID_NOTEQUAL = "NOTEQUAL";
+	
 	protected static final String TYPE_FORWARD_ONLY = "forwardOnly";
 	protected static final String TYPE_SCROLL_INSENSITIVE = "scrollInsensitive";
 	protected static final String TYPE_SCROLL_SENSITIVE = "scrollSensitive";
@@ -112,6 +115,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	{
 		registerClauseFunction(CLAUSE_ID_IN, JRSqlInClause.instance());
 		registerClauseFunction(CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());		
+		registerClauseFunction(CLAUSE_ID_EQUAL, JRSqlEqualClause.instance());		
+		registerClauseFunction(CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
 	}
 
 
