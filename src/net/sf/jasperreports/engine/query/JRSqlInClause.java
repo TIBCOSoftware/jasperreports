@@ -35,6 +35,8 @@ public class JRSqlInClause extends JRSqlAbstractInClause
 {
 
 	protected static final String OPERATOR_IN = "IN";
+	protected static final String OPERATOR_NULL = "IS NULL";
+	protected static final String OPERATOR_AND_OR = " OR ";
 	
 	protected static final JRSqlInClause singleton = new JRSqlInClause();
 	
@@ -53,4 +55,13 @@ public class JRSqlInClause extends JRSqlAbstractInClause
 		sBuffer.append(OPERATOR_IN);
 	}
 
+	protected void appendNullOperator(StringBuffer sBuffer)
+	{
+		sBuffer.append(OPERATOR_NULL);
+	}
+
+	protected void appendAndOrOperator(StringBuffer sBuffer)
+	{
+		sBuffer.append(OPERATOR_AND_OR);
+	}
 }

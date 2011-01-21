@@ -24,7 +24,11 @@
 package net.sf.jasperreports.engine.query;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 
@@ -42,6 +46,8 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	protected static final int POSITION_PARAMETER = 2;
 
 	protected static final String CLAUSE_TRUISM = "0 = 0";
+	protected static final String OPERATOR_IS_NULL = "IS NULL";
+	protected static final String OPERATOR_IS_NOT_NULL = "IS NOT NULL";
 	
 	protected JRSqlAbstractInClause()
 	{
@@ -91,29 +97,71 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		}
 		else
 		{
-			int count = valuesCount(param, paramValue);
+			Collection paramCollection = convert(param, paramValue);
+			int count = paramCollection.size();
+			Iterator<?> it = paramCollection.iterator();
+
 			if (count == 0)
 			{
 				handleNoValues(queryContext);
 			}
 			else
 			{
-				sbuffer.append(col);
-				sbuffer.append(' ');
-				appendInOperator(sbuffer);
-				sbuffer.append(' ');
-				sbuffer.append('(');
-				for (int idx = 0; idx < count; ++idx)
+				StringBuffer nullSbuffer = new StringBuffer();
+				StringBuffer notNullSbuffer = new StringBuffer();
+				boolean nullFound = false;
+				boolean notNullFound = false;
+				int idx = 0;
+				List notNullQueryParameters = new ArrayList();
+				
+				while(it.hasNext())
 				{
-					if (idx > 0)
+					Object element = it.next();
+					if(element == null)
 					{
-						sbuffer.append(", ");
+						if(!nullFound)
+						{
+							nullFound = true;
+							nullSbuffer.append(col);
+							nullSbuffer.append(' ');
+							appendNullOperator(nullSbuffer);
+						}
 					}
-					sbuffer.append('?');
+					else
+					{
+						if(!notNullFound)
+						{
+							notNullFound = true;
+							notNullSbuffer.append(col);
+							notNullSbuffer.append(' ');
+							appendInOperator(notNullSbuffer);
+							notNullSbuffer.append(' ');
+							notNullSbuffer.append('(');
+						}
+					
+						if (idx > 0)
+						{
+							notNullSbuffer.append(", ");
+						}
+						notNullSbuffer.append('?');
+						notNullQueryParameters.add(element);
+						idx++;
+					}
 				}
-				sbuffer.append(')');
-
-				queryContext.addQueryMultiParameters(param, count);
+				if(nullFound)
+				{
+					sbuffer.append(nullSbuffer);
+					if(notNullFound)
+					{
+						appendAndOrOperator(sbuffer);
+					}
+				}
+				if(notNullFound)
+				{
+					notNullSbuffer.append(')');
+					sbuffer.append(notNullSbuffer);
+					queryContext.addQueryMultiParameters(param, count);
+				}
 			}
 		}
 	}
@@ -142,5 +190,26 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		return count;
 	}
 
+	protected Collection convert(String paramName, Object paramValue)
+	{
+		Collection paramCollection;
+		if (paramValue.getClass().isArray())
+		{
+			paramCollection = Arrays.asList(paramValue);
+		}
+		else if (paramValue instanceof Collection)
+		{
+			paramCollection = (Collection) paramValue;
+		}
+		else
+		{
+			throw new JRRuntimeException("Invalid type " + paramValue.getClass().getName() + 
+					" for parameter " + paramName + " used in an IN clause; the value must be an array or a collection.");
+		}
+		return paramCollection;
+	}
+
 	protected abstract void appendInOperator(StringBuffer sBuffer);
+	protected abstract void appendNullOperator(StringBuffer sBuffer);
+	protected abstract void appendAndOrOperator(StringBuffer sBuffer);
 }
