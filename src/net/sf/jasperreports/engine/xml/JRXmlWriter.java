@@ -3045,12 +3045,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeReportElement(element);
 		
-		JRGenericElementType printKey = element.getGenericType();
 		writer.startElement(JRXmlConstants.ELEMENT_genericElementType);
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
-				printKey.getNamespace());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
-				printKey.getName());
+		JRGenericElementType printKey = element.getGenericType();
+		if (printKey != null)
+		{
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_namespace, 
+					printKey.getNamespace());
+			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, 
+					printKey.getName());
+		}
 		writer.closeElement();//genericElementType
 
 		JRGenericElementParameter[] params = element.getParameters();
