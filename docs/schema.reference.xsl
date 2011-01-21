@@ -388,6 +388,22 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
+<xsl:template match="xsd:complexType/xsd:sequence/xsd:choice">
+  <tr>
+  	<td colspan="2"></td>
+    <td colspan="3">
+    <br/>
+    <xsl:for-each select="./xsd:element">
+    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"> <xsl:value-of select="substring(@ref,4)"/></span></xsl:element>
+    <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
+    <xsl:if test="position() &lt; count(../xsd:element)"><span class="description"> | </span></xsl:if>
+    </xsl:for-each> 
+    <br/>&#160;
+    </td>
+  </tr>
+</xsl:template>
+
+
 <xsl:template match="xsd:simpleType/xsd:restriction/xsd:enumeration">
   <xsl:apply-templates select="xsd:restriction/xsd:enumeration"/>
 </xsl:template>
