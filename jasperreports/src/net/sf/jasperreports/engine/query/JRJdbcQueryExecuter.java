@@ -268,13 +268,21 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		Object paramValue = getParameterValue(parameterName);
 		
 		int count;
+		int index = 0;
 		if (paramValue.getClass().isArray())
 		{
 			int arrayCount = Array.getLength(paramValue);
 			for (count = 0; count < arrayCount; ++count)
 			{
 				Object value = Array.get(paramValue, count);
-				setStatementMultiParameter(parameterIndex + count, parameterName, count, value);
+				// Note: only for the IN and NOT IN clauses null values were actually removed
+				// FIXME: to move code into the JRSqlClause implementation
+				if(value == null)
+				{
+					continue;
+				}
+				setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
+				++index;
 			}
 		}
 		else if (paramValue instanceof Collection)
@@ -284,14 +292,21 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			for (Iterator it = values.iterator(); it.hasNext(); ++count)
 			{
 				Object value = it.next();
-				setStatementMultiParameter(parameterIndex + count, parameterName, count, value);
+				
+				// Note: only for the IN and NOT IN clauses null values were actually removed
+				// FIXME: to move code into the JRSqlClause implementation
+				if(value == null)
+				{
+					continue;
+				}
+				setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
+				++index;
 			}
 		}
 		else
 		{
 			throw new JRRuntimeException("Multi parameter value is not array nor collection.");
 		}
-		
 		return count;
 	}
 
