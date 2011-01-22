@@ -43,11 +43,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -257,6 +257,92 @@ public final class JRLoader
 		if (url != null)
 		{
 			return loadObject(url);
+		}
+
+		throw new JRException("Could not load object from location : " + location);
+	}
+
+
+	/**
+	 *
+	 */
+	public static InputStream getInputStream(File file) throws JRException
+	{
+		if (!file.exists() || !file.isFile())
+		{
+			throw new JRException( new FileNotFoundException(String.valueOf(file)) );
+		}
+
+		FileInputStream fis = null;
+
+		try
+		{
+			fis = new FileInputStream(file);
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error opening input stream from file : " + file, e);
+		}
+
+		return fis;
+	}
+
+
+	/**
+	 *
+	 */
+	public static InputStream getInputStream(URL url) throws JRException
+	{
+		InputStream is = null;
+
+		try
+		{
+			is = url.openStream();
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error opening input stream from URL : " + url, e);
+		}
+
+		return is;
+	}
+
+
+	/**
+	 *
+	 */
+	public static InputStream getInputStreamFromLocation(String location) throws JRException
+	{
+		return getInputStreamFromLocation(location, null, null, null);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static InputStream getInputStreamFromLocation(
+		String location, 
+		ClassLoader classLoader,
+		URLStreamHandlerFactory urlHandlerFactory,
+		FileResolver fileResolver
+		) throws JRException
+	{
+		URL url = JRResourcesUtil.createURL(location, urlHandlerFactory);
+		if (url != null)
+		{
+			return getInputStream(url);
+		}
+
+		File file = JRResourcesUtil.resolveFile(location, fileResolver);
+		if (file != null)
+		{
+			return getInputStream(file);
+		}
+
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
+		if (url != null)
+		{
+			return getInputStream(url);
 		}
 
 		throw new JRException("Could not load object from location : " + location);
@@ -490,7 +576,7 @@ public final class JRLoader
 	 * 
 	 * @throws JRException
 	 */
-	public static InputStream getLocationInputStream(String location) throws JRException
+	public static InputStream getLocationInputStream(String location) throws JRException//FIXME deprecate this?
 	{
 		InputStream is = null;
 		

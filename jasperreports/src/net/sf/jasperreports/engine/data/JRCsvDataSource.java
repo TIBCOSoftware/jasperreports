@@ -156,7 +156,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(String location) throws JRException
 	{
-		this(JRLoader.getLocationInputStream(location));
+		this(JRLoader.getInputStreamFromLocation(location));
 		
 		toClose = true;
 	}
@@ -168,7 +168,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
-		this(JRLoader.getLocationInputStream(location), charsetName);
+		this(JRLoader.getInputStreamFromLocation(location), charsetName);
 		
 		toClose = true;
 	}
