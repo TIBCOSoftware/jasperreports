@@ -129,6 +129,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";
+
+	/**
+	 *
+	 */
 	public static final String PROPERTY_HTML_ID = HTML_EXPORTER_PROPERTIES_PREFIX + "id";
 
 	/**
@@ -1078,6 +1083,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 				if (id != null)
 				{
 					writer.write(" id=\"" + id +"\"");
+				}
+				String clazz = JRProperties.getProperty(element, PROPERTY_HTML_CLASS);
+				if (clazz != null)
+				{
+					writer.write(" class=\"" + clazz +"\"");
 				}
 			}
 		}
