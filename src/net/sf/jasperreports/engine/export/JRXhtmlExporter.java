@@ -1969,6 +1969,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			writer.write(" id=\"" + id + "\"");
 		}
+		String clazz = JRProperties.getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
+		if (clazz != null)
+		{
+			writer.write(" class=\"" + clazz + "\"");
+		}
 	}
 	
 		
