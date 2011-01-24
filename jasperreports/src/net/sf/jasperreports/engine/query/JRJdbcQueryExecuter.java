@@ -66,6 +66,16 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected static final String CLAUSE_ID_EQUAL = "EQUAL";
 	protected static final String CLAUSE_ID_NOTEQUAL = "NOTEQUAL";
 	
+	protected static final String CLAUSE_ID_LESS = "LESS";
+	protected static final String CLAUSE_ID_GREATER = "GREATER";
+	protected static final String CLAUSE_ID_LESS_OR_EQUAL = "LESS]";
+	protected static final String CLAUSE_ID_GREATER_OR_EQUAL = "[GREATER";
+	
+	protected static final String CLAUSE_ID_BETWEEN = "BETWEEN";
+	protected static final String CLAUSE_ID_BETWEEN_CLOSED = "[BETWEEN]";
+	protected static final String CLAUSE_ID_BETWEEN_LEFT_CLOSED = "[BETWEEN";
+	protected static final String CLAUSE_ID_BETWEEN_RIGHT_CLOSED = "BETWEEN]";
+	
 	protected static final String TYPE_FORWARD_ONLY = "forwardOnly";
 	protected static final String TYPE_SCROLL_INSENSITIVE = "scrollInsensitive";
 	protected static final String TYPE_SCROLL_SENSITIVE = "scrollSensitive";
@@ -114,9 +124,20 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected void registerFunctions()
 	{
 		registerClauseFunction(CLAUSE_ID_IN, JRSqlInClause.instance());
-		registerClauseFunction(CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());		
+		registerClauseFunction(CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());	
+		
 		registerClauseFunction(CLAUSE_ID_EQUAL, JRSqlEqualClause.instance());		
 		registerClauseFunction(CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
+		
+		registerClauseFunction(CLAUSE_ID_LESS, JRSqlLessOrGreaterClause.instance());		
+		registerClauseFunction(CLAUSE_ID_GREATER, JRSqlLessOrGreaterClause.instance());		
+		registerClauseFunction(CLAUSE_ID_LESS_OR_EQUAL, JRSqlLessOrGreaterClause.instance());		
+		registerClauseFunction(CLAUSE_ID_GREATER_OR_EQUAL, JRSqlLessOrGreaterClause.instance());
+		
+		registerClauseFunction(CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
+		registerClauseFunction(CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
+		registerClauseFunction(CLAUSE_ID_BETWEEN_LEFT_CLOSED, JRSqlBetweenClause.instance());	
+		registerClauseFunction(CLAUSE_ID_BETWEEN_RIGHT_CLOSED, JRSqlBetweenClause.instance());	
 	}
 
 
