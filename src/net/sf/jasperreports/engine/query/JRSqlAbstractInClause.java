@@ -46,8 +46,6 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	protected static final int POSITION_PARAMETER = 2;
 
 	protected static final String CLAUSE_TRUISM = "0 = 0";
-	protected static final String OPERATOR_IS_NULL = "IS NULL";
-	protected static final String OPERATOR_IS_NOT_NULL = "IS NOT NULL";
 	
 	protected JRSqlAbstractInClause()
 	{
@@ -77,7 +75,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	{
 		String col = clauseTokens.getToken(POSITION_DB_COLUMN);
 		String param = clauseTokens.getToken(POSITION_PARAMETER);
-		
+		System.out.println("************** zero token: "+ clauseTokens.getToken(0));
 		if (col == null)
 		{
 			throw new JRRuntimeException("SQL IN clause missing DB column token");
