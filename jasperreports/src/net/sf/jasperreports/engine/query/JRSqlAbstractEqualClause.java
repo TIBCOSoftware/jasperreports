@@ -23,9 +23,6 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
-
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 
@@ -49,13 +46,13 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 	 * Creates a (NOT) EQUAL SQL clause.
 	 * 
 	 * <p>
-	 * The function expects two clause tokens (after the ID token):
+	 * The method expects two clause tokens (after the ID token):
 	 * <ul>
-	 * 	<li>The first token is the SQL column (or column combination) to be used clause.</li>
+	 * 	<li>The first token is the SQL column (or column combination) to be used in the clause.</li>
 	 * 	<li>The second token is the name of the report parameter that contains the value to compare to.</li>
 	 * </p>
 	 * <p>
-	 * The function constructs either a <code>column = ?</code> or an 
+	 * The method constructs either a <code>column = ?</code> or an 
 	 * <code>column IS NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 */

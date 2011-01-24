@@ -48,11 +48,6 @@ public class JRSqlEqualClause extends JRSqlAbstractEqualClause
 	{
 		return singleton;
 	}
-	
-	protected void appendInOperator(StringBuffer sBuffer)
-	{
-		
-	}
 
 	@Override
 	protected void handleEqualOperator(StringBuffer sbuffer, String param, JRQueryClauseContext queryContext)
@@ -65,9 +60,7 @@ public class JRSqlEqualClause extends JRSqlAbstractEqualClause
 		else
 		{
 			sbuffer.append(OPERATOR_EQUAL);
-			sbuffer.append(' ');
-			sbuffer.append('?');
-			queryContext.addQueryParameter(param);
+			finalizeClause(sbuffer, param, queryContext);
 		}
 	}
 

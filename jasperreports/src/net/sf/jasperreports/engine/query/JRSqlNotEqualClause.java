@@ -49,11 +49,6 @@ public class JRSqlNotEqualClause extends JRSqlAbstractEqualClause
 		return singleton;
 	}
 	
-	protected void appendInOperator(StringBuffer sBuffer)
-	{
-		
-	}
-
 	@Override
 	protected void handleEqualOperator(StringBuffer sbuffer, String param, JRQueryClauseContext queryContext)
 	{
