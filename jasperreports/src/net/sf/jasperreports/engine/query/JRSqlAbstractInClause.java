@@ -75,7 +75,6 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	{
 		String col = clauseTokens.getToken(POSITION_DB_COLUMN);
 		String param = clauseTokens.getToken(POSITION_PARAMETER);
-		System.out.println("************** zero token: "+ clauseTokens.getToken(0));
 		if (col == null)
 		{
 			throw new JRRuntimeException("SQL IN clause missing DB column token");
@@ -148,15 +147,26 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 				}
 				if(nullFound)
 				{
-					sbuffer.append(nullSbuffer);
+					
 					if(notNullFound)
 					{
+						sbuffer.append("( ");
+						sbuffer.append(nullSbuffer);
 						appendAndOrOperator(sbuffer);
+					}
+					else
+					{
+						sbuffer.append(nullSbuffer);
 					}
 				}
 				if(notNullFound)
 				{
 					notNullSbuffer.append(')');
+					
+					if(nullFound)
+					{
+						notNullSbuffer.append(" )");
+					}
 					sbuffer.append(notNullSbuffer);
 					queryContext.addQueryMultiParameters(param, count);
 				}
