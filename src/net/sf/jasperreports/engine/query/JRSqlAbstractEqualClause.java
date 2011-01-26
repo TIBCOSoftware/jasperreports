@@ -28,6 +28,14 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * Base (NOT) EQUAL clause function for SQL queries.
+ * <p>
+ * The first token in the $X{...} syntax is the function ID token. Possible values for 
+ * the (NOT) EQUAL clause function ID token are:
+ * <ul>
+ * 	<li>EQUAL</li>
+ * 	<li>NOTEQUAL</li>
+ * </ul>
+ * </p>
  * 
  * @author sanda zaharia (szaharia@users.sourceforge.net)
  * @version $Id$
@@ -50,10 +58,15 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 	 * <ul>
 	 * 	<li>The first token is the SQL column (or column combination) to be used in the clause.</li>
 	 * 	<li>The second token is the name of the report parameter that contains the value to compare to.</li>
+	 * </ul>
 	 * </p>
 	 * <p>
-	 * The method constructs either a <code>column = ?</code> or an 
+	 * The EQUAL function constructs either a <code>column = ?</code> or an 
 	 * <code>column IS NULL</code> clause, depending on the parameter's value.
+	 * </p>
+	 * <p>
+	 * The NOTEQUAL function constructs either a <code>column <> ?</code> or an 
+	 * <code>column IS NOT NULL</code> clause, depending on the parameter's value.
 	 * </p>
 	 */
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)

@@ -36,6 +36,15 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * Base (NOT) IN clause function for SQL queries.
  * 
+ * <p>
+ * The first token in the $X{...} syntax is the function ID token. Possible values for 
+ * the (NOT) IN clause function ID token are:
+ * <ul>
+ * <li><code>IN</code><li>
+ * <li><code>NOTIN</code><li>
+ * </ul>
+ * </p> 
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
@@ -66,10 +75,36 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * </p>
 	 * 
 	 * <p>
-	 * The function constructs a <code>column [NOT] IN (?, ?, .., ?)</code> clause.
-	 * If the values list is null or empty, the function generates a SQL clause that
-	 * will always evaluate to true (e.g. <code>0 = 0</code>).
+	 * The function constructs one of the following clauses:
+	 * <ol>
+	 * <li>When the function ID token is IN:
+	 * <ul>
+	 * <li>If the parameter's value is a collection of not null values, the function constructs 
+	 * a <code>&lt;column_name&gt; IN (?, ?, .., ?)</code> clause</li>
+	 * <li>If the parameter's value is a collection containing both null and not null values, the 
+	 * function constructs a <code>(&lt;column_name&gt; IS NULL OR &lt;column_name&gt; IN (?, ?, .., ?))</code> clause</li>
+	 * <li>If the parameter's value is a collection containing only null values, the function 
+	 * constructs a <code>&lt;column_name&gt; IS NULL</code> clause</li>
+	 * </ul>
+	 * </li>
+	 * <li>When the function ID token is NOTIN:
+	 * <ul>
+	 * <li>If the parameter's value is a collection of not null values, the function constructs 
+	 * a <code>&lt;column_name&gt; NOT IN (?, ?, .., ?)</code> clause</li>
+	 * <li>If the parameter's value is a collection containing both null and not null values, the 
+	 * function constructs a <code>(&lt;column_name&gt; IS NOT NULL AND &lt;column_name&gt; NOT IN (?, ?, .., ?))</code> clause</li>
+	 * <li>If the parameter's value is a collection containing only null values, the function 
+	 * constructs a <code>&lt;column_name&gt; IS NOT NULL</code> clause</li>
+	 * </ul>
+	 * </li>
+	 * <li>If the values list is null or empty, both IN and NOTIN functions generate a SQL clause that
+	 * will always evaluate to true (e.g. <code>0 = 0</code>).</li>
+	 * </ol>
 	 * </p>
+	 * 
+	 * @param clauseTokens
+	 * @param queryContext
+	 * 
 	 */
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
