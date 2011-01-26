@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * </ul>
  * </p> 
  * 
- * @author sanda zaharia (szaharia@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
 public class JRSqlLessOrGreaterClause implements JRClauseFunction
