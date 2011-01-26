@@ -29,13 +29,16 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 /**
  * Base LESS/GREATER clause function for SQL queries.
  * 
- * The clause ID could be one of the following:
+ * <p>
+ * The first token in the $X{...} syntax is the function ID token. Possible values for 
+ * the LESS | GREATER clause function ID token are:
  * <ul>
- * <li><code>LESS</code> - in this case the <code>&lt;</code> operator will be applied.<li>
- * <li><code>LESS]</code> - in this case the <code>&lt;=</code> operator will be applied.<li>
- * <li><code>GREATER</code> - in this case the <code>&gt;</code> operator will be applied.<li>
- * <li><code>[GREATER</code> - in this case the <code>&gt;=</code> operator will be applied.<li>
- * </ul> 
+ * <li><code>LESS</code> - in this case the <code>LESS THAN</code> operator <code>&lt;</code> will be applied.<li>
+ * <li><code>LESS]</code> - in this case the <code>LESS OR EQUAL</code> operator <code>&lt;=</code> will be applied.<li>
+ * <li><code>GREATER</code> - in this case the <code>GREATER THAN</code> operator <code>&gt;</code> will be applied.<li>
+ * <li><code>[GREATER</code> - in this case the <code>GREATER OR EQUAL</code> operator <code>&gt;=</code> will be applied.<li>
+ * </ul>
+ * </p> 
  * 
  * @author sanda zaharia (szaharia@users.sourceforge.net)
  * @version $Id$

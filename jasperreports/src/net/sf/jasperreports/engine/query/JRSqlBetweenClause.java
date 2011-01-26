@@ -28,14 +28,20 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * Base BETWEEN clause function for SQL queries. 
- * 
- * The clause ID could be one of the following:
+ * <p>
+ * The purpose of this clause function is to find that a given 
+ * value can be found in a given A...B interval.
+ * </p>
+ * <p>
+ * The first token in the $X{...} syntax is the function ID token. Possible values for 
+ * the BETWEEN clause function ID token are:
  * <ul>
  * <li><code>BETWEEN</code> - in this case the A...B interval will be considered open: (A,B)<li>
  * <li><code>[BETWEEN</code> - in this case the A...B interval will be considered right-open: [A,B)<li>
  * <li><code>BETWEEN]</code> - in this case the A...B interval will be considered left-open: (A,B]<li>
  * <li><code>[BETWEEN]</code> - in this case the A...B interval will be considered closed: [A,B]<li>
  * </ul> 
+ * </p>
  * 
  * @author sanda zaharia (szaharia@users.sourceforge.net)
  * @version $Id$
