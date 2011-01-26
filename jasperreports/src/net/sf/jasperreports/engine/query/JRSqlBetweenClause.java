@@ -36,10 +36,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * The first token in the $X{...} syntax is the function ID token. Possible values for 
  * the BETWEEN clause function ID token are:
  * <ul>
- * <li><code>BETWEEN</code> - in this case the A...B interval will be considered open: (A,B)<li>
- * <li><code>[BETWEEN</code> - in this case the A...B interval will be considered right-open: [A,B)<li>
- * <li><code>BETWEEN]</code> - in this case the A...B interval will be considered left-open: (A,B]<li>
- * <li><code>[BETWEEN]</code> - in this case the A...B interval will be considered closed: [A,B]<li>
+ * <li><code>BETWEEN</code> - in this case the A...B interval will be considered open: (A,B)</li>
+ * <li><code>[BETWEEN</code> - in this case the A...B interval will be considered right-open: [A,B)</li>
+ * <li><code>BETWEEN]</code> - in this case the A...B interval will be considered left-open: (A,B]</li>
+ * <li><code>[BETWEEN]</code> - in this case the A...B interval will be considered closed: [A,B]</li>
  * </ul> 
  * </p>
  * 
@@ -100,6 +100,8 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	 * If the both left and right member values are null, the method generates a SQL clause that 
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).
 	 * </p>
+	 * @param clauseTokens
+	 * @param queryContext
 	 */
 	public void apply(JRClauseTokens clauseTokens, JRQueryClauseContext queryContext)
 	{
@@ -155,21 +157,37 @@ public class JRSqlBetweenClause implements JRClauseFunction
 		{
 			handleGreaterClause(sbuffer, clauseId, col, leftParam, queryContext);
 		}
-		
-		System.out.println("********** clause ID: "+ clauseId);
-		System.out.println("********** query: " + sbuffer);
 	}
 	
+	/**
+	 * 
+	 * @param clauseId the clause ID
+	 * @return the &gt; or &gt;= sign
+	 */
 	protected String getGreaterOperator(String clauseId)
 	{
 		return clauseId.startsWith("[") ? ">=" : ">";
 	}
 	
+	/**
+	 * 
+	 * @param clauseId the clause ID
+	 * @return the &lt; or &lt;= sign
+	 */
 	protected String getLessOperator(String clauseId)
 	{
 		return clauseId.endsWith("]") ? "<=" : "<";
 	}
 	
+	/**
+	 * Generates either a column &gt; ? or a column &gt;= ? clause
+	 * 
+	 * @param sbuffer the StringBuffer that contains the generated query
+	 * @param clauseId the clause ID
+	 * @param col the name of the column, or a column names combination  
+	 * @param leftParam the name of the parameter that contains the left member value
+	 * @param queryContext the query context
+	 */
 	protected void handleGreaterClause(
 			StringBuffer sbuffer, 
 			String clauseId, 
@@ -188,6 +206,15 @@ public class JRSqlBetweenClause implements JRClauseFunction
 		
 	}
 	
+	/**
+	 * Generates either a column &lt; ? or a column &lt;= ? clause
+	 * 
+	 * @param sbuffer the StringBuffer that contains the generated query
+	 * @param clauseId the clause ID
+	 * @param col the name of the column, or a column names combination  
+	 * @param rightParam the name of the parameter that contains the right member value
+	 * @param queryContext the query context
+	 */
 	protected void handleLessClause(
 			StringBuffer sbuffer, 
 			String clauseId, 

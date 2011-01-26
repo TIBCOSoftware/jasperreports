@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,8 +39,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * The first token in the $X{...} syntax is the function ID token. Possible values for 
  * the (NOT) IN clause function ID token are:
  * <ul>
- * <li><code>IN</code><li>
- * <li><code>NOTIN</code><li>
+ * <li><code>IN</code></li>
+ * <li><code>NOTIN</code></li>
  * </ul>
  * </p> 
  * 
@@ -72,6 +71,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * 		The value of this parameter has to be an array, a <code>java.util.Collection</code>
 	 * 		or <code>null</code>.
 	 * 	</li>
+	 * </ul>
 	 * </p>
 	 * 
 	 * <p>
@@ -209,30 +209,22 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		}
 	}
 	
+	/**
+	 * Generate a SQL clause that will always evaluate to true (e.g. <code>0 = 0</code>).
+	 * 
+	 * @param queryContext the query context
+	 */
 	protected void handleNoValues(JRQueryClauseContext queryContext)
 	{
 		queryContext.queryBuffer().append(CLAUSE_TRUISM);
 	}
 
-	protected int valuesCount(String paramName, Object paramValue)
-	{
-		int count;
-		if (paramValue.getClass().isArray())
-		{
-			count = Array.getLength(paramValue);
-		}
-		else if (paramValue instanceof Collection)
-		{
-			count = ((Collection) paramValue).size();
-		}
-		else
-		{
-			throw new JRRuntimeException("Invalid type " + paramValue.getClass().getName() + 
-					" for parameter " + paramName + " used in an IN clause; the value must be an array or a collection.");
-		}
-		return count;
-	}
-
+	/**
+	 * 
+	 * @param paramName the parameter name
+	 * @param paramValue the parameter value
+	 * @return a java.util.Collection type object obtained either by converting an array to a list or by a cast to java.util.Collection type
+	 */
 	protected Collection convert(String paramName, Object paramValue)
 	{
 		Collection paramCollection;
