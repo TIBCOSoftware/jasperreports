@@ -90,6 +90,13 @@ public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 		handleEqualOperator(sbuffer, param, queryContext);
 	}
 	
+	/**
+	 * Finalizes the query string 
+	 * 
+	 * @param sbuffer
+	 * @param param
+	 * @param queryContext
+	 */
 	protected void finalizeClause(StringBuffer sbuffer, String param, JRQueryClauseContext queryContext)
 	{
 		sbuffer.append(' ');

@@ -33,10 +33,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * The first token in the $X{...} syntax is the function ID token. Possible values for 
  * the LESS | GREATER clause function ID token are:
  * <ul>
- * <li><code>LESS</code> - in this case the <code>LESS THAN</code> operator <code>&lt;</code> will be applied.<li>
- * <li><code>LESS]</code> - in this case the <code>LESS OR EQUAL</code> operator <code>&lt;=</code> will be applied.<li>
- * <li><code>GREATER</code> - in this case the <code>GREATER THAN</code> operator <code>&gt;</code> will be applied.<li>
- * <li><code>[GREATER</code> - in this case the <code>GREATER OR EQUAL</code> operator <code>&gt;=</code> will be applied.<li>
+ * <li><code>LESS</code> - in this case the <code>LESS THAN</code> operator <code>&lt;</code> will be applied.</li>
+ * <li><code>LESS]</code> - in this case the <code>LESS OR EQUAL</code> operator <code>&lt;=</code> will be applied.</li>
+ * <li><code>GREATER</code> - in this case the <code>GREATER THAN</code> operator <code>&gt;</code> will be applied.</li>
+ * <li><code>[GREATER</code> - in this case the <code>GREATER OR EQUAL</code> operator <code>&gt;=</code> will be applied.</li>
  * </ul>
  * </p> 
  * 
@@ -128,6 +128,12 @@ public class JRSqlLessOrGreaterClause implements JRClauseFunction
 		
 	}
 	
+	/**
+	 * Appends the appropriate inequality sign to the query string, depending on the clause ID value
+	 * 
+	 * @param sBuffer the StringBuffer that contains the generated query
+	 * @param clauseId the clause ID
+	 */
 	protected void handleLessOrGreaterOperator(StringBuffer sBuffer, String clauseId)
 	{
 		if(JRJdbcQueryExecuter.CLAUSE_ID_LESS.equals(clauseId))
