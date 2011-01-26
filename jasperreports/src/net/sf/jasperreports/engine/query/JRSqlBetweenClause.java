@@ -78,24 +78,25 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	 * 	<li>The first token is the SQL column (or column combination) to be used in the clause.</li>
 	 * 	<li>The second token is the name of the parameter that contains the left member value.</li>
 	 * 	<li>The second token is the name of the parameter that contains the right member value.</li>
+	 * </ul>
 	 * </p>
 	 * <p>
 	 * The method constructs one of the following clauses:
 	 * <ul>
-	 * <li><code>(column > ? AND column < ?)</code> if the clause ID is <code>BETWEEN</code><li>
-	 * <li><code>(column >= ? AND column < ?)</code> if the clause ID is <code>[BETWEEN</code><li>
-	 * <li><code>(column > ? AND column <= ?)</code> if the clause ID is <code>BETWEEN]</code><li>
-	 * <li><code>(column >= ? AND column <= ?)</code> if the clause ID is <code>[BETWEEN]</code><li>
+	 * <li><code>(column > ? AND column < ?)</code> if the clause ID is <code>BETWEEN</code></li>
+	 * <li><code>(column >= ? AND column < ?)</code> if the clause ID is <code>[BETWEEN</code></li>
+	 * <li><code>(column > ? AND column <= ?)</code> if the clause ID is <code>BETWEEN]</code></li>
+	 * <li><code>(column >= ? AND column <= ?)</code> if the clause ID is <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the left member value is null, one of the following clauses will be generated:
 	 * <ul>
-	 * <li><code>column < ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN</code><li>
-	 * <li><code>column <= ?</code> if the clause ID is <code>BETWEEN]</code> or <code>[BETWEEN]</code><li>
+	 * <li><code>column < ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN</code></li>
+	 * <li><code>column <= ?</code> if the clause ID is <code>BETWEEN]</code> or <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the right member value is null, one of the following clauses will be generated:
 	 * <ul>
-	 * <li><code>column > ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN]</code><li>
-	 * <li><code>column >= ?</code> if the clause ID is <code>[BETWEEN</code> or <code>[BETWEEN]</code><li>
+	 * <li><code>column > ?</code> if the clause ID is <code>BETWEEN</code> or <code>BETWEEN]</code></li>
+	 * <li><code>column >= ?</code> if the clause ID is <code>[BETWEEN</code> or <code>[BETWEEN]</code></li>
 	 * </ul> 
 	 * If the both left and right member values are null, the method generates a SQL clause that 
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).
@@ -162,7 +163,7 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	/**
 	 * 
 	 * @param clauseId the clause ID
-	 * @return the &gt; or &gt;= sign
+	 * @return the '<code>&gt;</code>' or '<code>&gt;=</code>' sign
 	 */
 	protected String getGreaterOperator(String clauseId)
 	{
@@ -172,7 +173,7 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	/**
 	 * 
 	 * @param clauseId the clause ID
-	 * @return the &lt; or &lt;= sign
+	 * @return the '<code>&lt;</code>' or '<code>&lt;=</code>' sign
 	 */
 	protected String getLessOperator(String clauseId)
 	{
@@ -180,7 +181,7 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	}
 	
 	/**
-	 * Generates either a column &gt; ? or a column &gt;= ? clause
+	 * Generates either a '<code>column &gt; ?</code>' or a '<code>column &gt;= ?</code>' clause
 	 * 
 	 * @param sbuffer the StringBuffer that contains the generated query
 	 * @param clauseId the clause ID
@@ -207,7 +208,7 @@ public class JRSqlBetweenClause implements JRClauseFunction
 	}
 	
 	/**
-	 * Generates either a column &lt; ? or a column &lt;= ? clause
+	 * Generates either a '<code>column &lt; ?</code>' or a '<code>column &lt;= ?</code>' clause
 	 * 
 	 * @param sbuffer the StringBuffer that contains the generated query
 	 * @param clauseId the clause ID

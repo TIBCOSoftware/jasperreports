@@ -77,14 +77,15 @@ public class JRSqlLessOrGreaterClause implements JRClauseFunction
 	 * <ul>
 	 * 	<li>The first token is the SQL column (or column combination) to be used in the clause.</li>
 	 * 	<li>The second token is the name of the report parameter that contains the value to compare to.</li>
+	 * </ul>
 	 * </p>
 	 * <p>
 	 * The method constructs one of the following clauses:
 	 * <ul>
-	 * <li><code>column < ?</code> if the clause ID is <code>LESS</code><li>
-	 * <li><code>column <= ?</code> if the clause ID is <code>LESS]</code><li>
-	 * <li><code>column >= ?</code> if the clause ID is <code>GREATER</code><li>
-	 * <li><code>column > ?</code> if the clause ID is <code>[GREATER</code><li>
+	 * <li><code>column < ?</code> if the clause ID is <code>LESS</code></li>
+	 * <li><code>column <= ?</code> if the clause ID is <code>LESS]</code></li>
+	 * <li><code>column >= ?</code> if the clause ID is <code>GREATER</code></li>
+	 * <li><code>column > ?</code> if the clause ID is <code>[GREATER</code></li>
 	 * </ul> 
 	 * If the value to compare to is null, the method generates a SQL clause that
 	 * will always evaluate to true (e.g. <code>0 = 0</code>).
