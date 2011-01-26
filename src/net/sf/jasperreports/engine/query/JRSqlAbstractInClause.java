@@ -210,7 +210,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	}
 	
 	/**
-	 * Generate a SQL clause that will always evaluate to true (e.g. <code>0 = 0</code>).
+	 * Generate a SQL clause that will always evaluate to true (e.g. '<code>0 = 0</code>').
 	 * 
 	 * @param queryContext the query context
 	 */
@@ -223,7 +223,8 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * 
 	 * @param paramName the parameter name
 	 * @param paramValue the parameter value
-	 * @return a java.util.Collection type object obtained either by converting an array to a list or by a cast to java.util.Collection type
+	 * @return a <code>java.util.Collection</code> type object obtained either by converting an array to 
+	 * a list or by a cast to <code>java.util.Collection</code> type.
 	 */
 	protected Collection convert(String paramName, Object paramValue)
 	{
