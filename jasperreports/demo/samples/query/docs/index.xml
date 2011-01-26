@@ -20,6 +20,10 @@ How to pass parameter references to report queries and how to change the report 
     	<name>Luke Shannon</name>
     	<email>lshannon@users.sourceforge.net</email>
       </author>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
     </documentedBy>
     <content>
 One of the most powerful features in the JasperReports API, when running JDBC based reports, is the ability to perform complex manipulations<br/>
@@ -161,12 +165,301 @@ report user (example: A user may provide a start and end date for which they wan
 	<br/>
     <i>$X{}</i>
     <br/>
-    $X takes three arguments:
-    <ol>
-    	<li>Function: Can either be IN or NOT IN</li>
-    	<li>Column you want to apply the function too in the query</li>
-    	<li>The values the function will use</li>
-    </ol>
+    <br/>
+	There are also cases when just using <code>$P{}</code> in the report query is not enough, because 
+	parts of the query need to be dynamically built, depending on one or more report parameter values, 
+	in order to construct a valid query. The most common case is the <code>&lt;column_name&gt; = $P{&lt;param_name&gt;}</code> 
+	equality clause. When the value of the parameter is null, the expression <code>&lt;column_name&gt; = NULL</code> 
+	becomes invalid and it has to be replaced with <code>&lt;column_name&gt; IS NULL</code>. Another case
+	comes with <code>IN</code> and <code>NOT IN</code> query clauses that need to use a collection report parameter as a list of values, 
+	unavailable for the simple <code>$P{}</code> syntax. 
+	<br/>
+	Such complex query clauses are introduced into the query using the $X{} syntax. The general form of a 
+	<code>$X{}</code> clause is <code>$X{functionName, param1, param2,...}</code>. 
+	<br/>
+	Similar to the <code>$P{}</code> explanation above, <code>$X{}</code> results in <code>?</code> being added to the query 
+	before submitting it to the DB. Also submitted are the values collected leaving it to the JDBC driver to add the values 
+	in and ensure the syntax of the query is correct. 
+	<br/>
+	<br/>
+	<b>Built-in SQL Clause Functions</b>
+	<br/>
+	<br/>
+	As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for 
+	several SQL clause functions which require some additional processing: 
+	<ol>
+	<li><b>The <code>${EQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>EQUAL</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; = ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NULL</code> clause. 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${NOTEQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>NOTEQUAL</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt;&gt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NOT NULL</code> clause. 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${LESS, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>LESS</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &lt; $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${LESS], &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>LESS]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &lt;= $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>GREATER</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &gt; $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[GREATER</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &gt;= $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>BETWEEN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where both interval endpoints 
+	are excluded: <code>(&lt;column_name&gt; &gt; ? AND &lt;column_name&gt; &lt; ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[BETWEEN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where the left interval endpoint 
+	is included and the right endpoint is excluded: <code>(&lt;column_name&gt; &gt;= ? AND &lt;column_name&gt; &lt; ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>BETWEEN]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where the left interval endpoint 
+	is excluded and the right endpoint is included: <code>(&lt;column_name&gt; &gt; ? AND &lt;column_name&gt; &lt;= ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[BETWEEN]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where both interval endpoints 
+	are included: <code>(&lt;column_name&gt; &gt;= ? AND &lt;column_name&gt; &lt;= ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>IN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NULL OR &lt;column_name&gt; IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>NOTIN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; NOT IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NOT NULL AND &lt;column_name&gt; NOT IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NOT NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	</li>
+	</ol>
+	In this sample the query string contains a <code>$X{NOTIN, City, ExcludedCities}</code> piece of code:
+    <pre><![CDATA[
+	<parameter name="ExcludedCities" class="java.util.Collection"/>
+	<parameter name="OrderClause" class="java.lang.String"/>
+	<queryString><![CDATA[SELECT * FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}]] ></queryString>]]></pre>
+	
     If we run the report again and pass two values into $P{ExcludedCities}:
     <pre>
     <![CDATA[
@@ -175,12 +468,6 @@ report user (example: A user may provide a start and end date for which they wan
 	2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #2 (ExcludedCities[1] of type java.lang.String): Boston
      ]]>
 	</pre>
-	Similar to the $P{} explanation above, $X{} results in ? being added to the query before submitting it to the DB. Also submitted are the values <br/>
-	collected leaving it to the JDBC driver to add the values in and ensure the syntax of the query is correct. In this case we would only get back <br/>
-	rows that did not contain the city New York or Boston. In we used the IN function of $X, we could have just gotten rows containing New York <br/>
-	and Boston.
-    <br/>
-    <br/>
     <b>Creating Watermarks with the Background Band</b>
     <br/>
     When working with JasperReport templates it is best to avoid overlap of elements otherwise you get unexpected results in many of our exporters. <br/>
