@@ -295,12 +295,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			for (count = 0; count < arrayCount; ++count)
 			{
 				Object value = Array.get(paramValue, count);
-				if(ignoreNulls && value == null)
+				if(!ignoreNulls || value != null)
 				{
-					continue;
+					setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
+					++index;
 				}
-				setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
-				++index;
 			}
 		}
 		else if (paramValue instanceof Collection)
@@ -311,12 +310,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				Object value = it.next();
 				
-				if(ignoreNulls && value == null)
+				if(!ignoreNulls || value != null)
 				{
-					continue;
+					setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
+					++index;
 				}
-				setStatementMultiParameter(parameterIndex + index, parameterName, count, value);
-				++index;
 			}
 		}
 		else
