@@ -62,16 +62,23 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		
 		private final String name;
 		private final int count;
+		private final boolean ignoreNulls;
 		
 		public QueryParameter(String name)
 		{
-			this(name, COUNT_SINGLE);
+			this(name, COUNT_SINGLE, false);
 		}
 		
 		public QueryParameter(String name, int count)
 		{
+			this(name, count, false);
+		}
+		
+		public QueryParameter(String name, int count, boolean ignoreNulls)
+		{
 			this.name = name;
 			this.count = count;
+			this.ignoreNulls = ignoreNulls;
 		}
 		
 		/**
@@ -103,6 +110,16 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		public String getName()
 		{
 			return name;
+		}
+		
+		/**
+		 * 
+		 * @return a flag indicating if the null values in a multiparameter value should be ignored
+		 * 
+		 */
+		public boolean isIgnoreNulls()
+		{
+			return ignoreNulls;
 		}
 	}
 	
@@ -273,6 +290,21 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	}
 
 
+	/**
+	 * Records a multi-valued query parameter which ignore null values.
+	 * 
+	 * @param parameterName the parameter name
+	 * @param count the value count
+	 * @see #getCollectedParameters()
+	 * @see QueryParameter#isMulti()
+	 */
+	protected void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls)
+	{
+		QueryParameter param = new QueryParameter(parameterName, count, ignoreNulls);
+		queryParameters.add(param);
+	}
+
+
 	protected void appendParameterClauseChunk(final StringBuffer sbuffer, String chunkText)
 	{
 		String parameterName = chunkText;
@@ -354,7 +386,12 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		{
 			public void addQueryMultiParameters(String parameterName, int count)
 			{
-				JRAbstractQueryExecuter.this.addQueryMultiParameters(parameterName, count);
+				addQueryMultiParameters(parameterName, count, false);
+			}
+
+			public void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls)
+			{
+				JRAbstractQueryExecuter.this.addQueryMultiParameters(parameterName, count, ignoreNulls);
 			}
 
 			public void addQueryParameter(String parameterName)

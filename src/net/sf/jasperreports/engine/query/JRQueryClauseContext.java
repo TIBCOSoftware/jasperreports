@@ -65,4 +65,13 @@ public interface JRQueryClauseContext
 	 */
 	void addQueryMultiParameters(String parameterName, int count);
 
+	/**
+	 * Records a multi-valued query parameter with null values to be ignored.
+	 * 
+	 * @param parameterName the parameter name
+	 * @param count the value count
+	 * @param ignoreNulls flag that indicates whether the null values should be ignored
+	 */
+	void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls);
+
 }
