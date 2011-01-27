@@ -251,7 +251,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 						QueryParameter queryParameter = (QueryParameter) parameterNames.get(i);
 						if (queryParameter.isMulti())
 						{
-							paramIdx += setStatementMultiParameters(paramIdx, queryParameter.getName());
+							paramIdx += setStatementMultiParameters(paramIdx, queryParameter.getName(), queryParameter.isIgnoreNulls());
 						}
 						else
 						{
@@ -284,10 +284,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
-	protected int setStatementMultiParameters(int parameterIndex, String parameterName) throws SQLException
+	protected int setStatementMultiParameters(int parameterIndex, String parameterName, boolean ignoreNulls) throws SQLException
 	{
 		Object paramValue = getParameterValue(parameterName);
-		
+		System.out.println("******************** parameterIndex: "+parameterIndex);
 		int count;
 		int index = 0;
 		if (paramValue.getClass().isArray())
@@ -296,9 +296,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			for (count = 0; count < arrayCount; ++count)
 			{
 				Object value = Array.get(paramValue, count);
-				// Note: only for the IN and NOT IN clauses null values were actually removed
-				// FIXME: to move code into the JRSqlClause implementation
-				if(value == null)
+				if(ignoreNulls && value == null)
 				{
 					continue;
 				}
@@ -314,9 +312,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			{
 				Object value = it.next();
 				
-				// Note: only for the IN and NOT IN clauses null values were actually removed
-				// FIXME: to move code into the JRSqlClause implementation
-				if(value == null)
+				if(ignoreNulls && value == null)
 				{
 					continue;
 				}
@@ -328,7 +324,15 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			throw new JRRuntimeException("Multi parameter value is not array nor collection.");
 		}
-		return count;
+		System.out.println("******************** index: "+index);
+
+		return index;
+	}
+
+	
+	protected int setStatementMultiParameters(int parameterIndex, String parameterName) throws SQLException
+	{
+		return setStatementMultiParameters(parameterIndex, parameterName, false);
 	}
 
 	

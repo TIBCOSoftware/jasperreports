@@ -203,10 +203,11 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 						notNullSbuffer.append(" )");
 					}
 					sbuffer.append(notNullSbuffer);
-					queryContext.addQueryMultiParameters(param, count);
+					queryContext.addQueryMultiParameters(param, count, nullFound);
 				}
 			}
 		}
+		System.out.println("*************** query: "+ sbuffer);
 	}
 	
 	/**
