@@ -287,7 +287,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected int setStatementMultiParameters(int parameterIndex, String parameterName, boolean ignoreNulls) throws SQLException
 	{
 		Object paramValue = getParameterValue(parameterName);
-		System.out.println("******************** parameterIndex: "+parameterIndex);
 		int count;
 		int index = 0;
 		if (paramValue.getClass().isArray())
@@ -324,8 +323,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			throw new JRRuntimeException("Multi parameter value is not array nor collection.");
 		}
-		System.out.println("******************** index: "+index);
-
 		return index;
 	}
 
