@@ -207,7 +207,6 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 				}
 			}
 		}
-		System.out.println("*************** query: "+ sbuffer);
 	}
 	
 	/**
