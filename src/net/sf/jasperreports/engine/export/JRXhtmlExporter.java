@@ -2047,22 +2047,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		else
 		{
-			writer.write("<div");
-
-			StringBuffer styleBuffer = new StringBuffer();
-
-			appendPositionStyle(element, styleBuffer);
-			appendSizeStyle(element, (JRBoxContainer)null, styleBuffer);
-			appendBackcolorStyle(element, styleBuffer);
-			
-			if (styleBuffer.length() > 0)
-			{
-				writer.write(" style=\"");
-				writer.write(styleBuffer.toString());
-				writer.write("\"");
-			}
-
-			writer.write(">");
+//			writer.write("<div");
+//
+//			StringBuffer styleBuffer = new StringBuffer();
+//
+//			appendPositionStyle(element, styleBuffer);
+//			appendSizeStyle(element, (JRBoxContainer)null, styleBuffer);
+//			appendBackcolorStyle(element, styleBuffer);
+//			
+//			if (styleBuffer.length() > 0)
+//			{
+//				writer.write(" style=\"");
+//				writer.write(styleBuffer.toString());
+//				writer.write("\"");
+//			}
+//
+//			writer.write(">");
 
 			String htmlFragment = handler.getHtmlFragment(exporterContext, element);
 			if (htmlFragment != null)
@@ -2070,7 +2070,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				writer.write(htmlFragment);
 			}
 
-			writer.write("</div>\n");
+//			writer.write("</div>\n");
 		}
 	}
 
