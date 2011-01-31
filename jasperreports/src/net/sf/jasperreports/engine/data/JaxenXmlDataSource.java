@@ -94,8 +94,6 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource {
 	public JaxenXmlDataSource(Document document, String selectExpression)
 			throws JRException {
 		this.document = document;
-		this.xPathExecuter.setDocument(document);
-		
 		this.selectExpression = selectExpression;
 		this.documentProducer = new JRXmlDocumentProducer();
 		
@@ -188,7 +186,6 @@ public class JaxenXmlDataSource extends AbstractXmlDataSource {
 		if (document == null)
 		{
 			document = documentProducer.getDocument();
-			xPathExecuter.setDocument(document);
 			if (document == null)
 			{	
 				throw new JRException("document cannot be null");
