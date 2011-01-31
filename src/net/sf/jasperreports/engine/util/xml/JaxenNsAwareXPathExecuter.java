@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util.xml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,8 @@ import org.jaxen.JaxenException;
 import org.jaxen.NamespaceContext;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -49,22 +50,20 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 
 	private final Map cachedXPaths = new ReferenceMap();//soft cache
 	
-	private Document document;
-
 	private Map<String, String> xmlNamespaceMap;
+	
+	private NamespaceContext context;
 	
 	boolean detectXmlNamespaces;
 	
-	
+	/**
+	 * Default constructor.
+	 */
 	public JaxenNsAwareXPathExecuter()
 	{
 	}
 	
-	public void setDocument(Document document) {
-		this.document = document;
-	}
 
-	
 	public Map<String, String> getXmlNamespaceMap() 
 	{
 		return xmlNamespaceMap;
@@ -88,7 +87,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		this.detectXmlNamespaces = detectXmlNamespaces;
 	}
 	
-	protected XPath getXPath(String expression) throws JRException
+	protected XPath getXPath(Node contextNode, String expression) throws JRException
 	{
 		XPath xPath = (XPath) cachedXPaths.get(expression);
 		if (xPath == null)
@@ -96,7 +95,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			try
 			{
 				xPath = new DOMXPath(expression);
-				addNamespaceContext(xPath, expression);
+				addNamespaceContext(contextNode, xPath, expression);
 			}
 			catch (JaxenException e)
 			{
@@ -107,19 +106,64 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		return xPath;
 	}
 	
-
-	protected static final class JaxenNamespaceContextWrapper implements NamespaceContext {
-
-		private Map<String, String> namespaceMap;
-		
-		public JaxenNamespaceContextWrapper(Map<String, String> namespaceMap) {
-			this.namespaceMap = namespaceMap;
+	
+	public NodeList selectNodeList(Node contextNode, String expression) throws JRException
+	{
+		try
+		{
+			XPath xpath = getXPath(contextNode, expression);
+			Object object = xpath.evaluate(contextNode);
+			List nodes;
+			if (object instanceof List)
+			{
+				nodes = (List) object;
+			}
+			else
+			{
+				nodes = new ArrayList();
+				nodes.add(object);
+			}
+			return new NodeListWrapper(nodes);
 		}
-		
-		public String translateNamespacePrefixToUri(String prefix) {
-			return namespaceMap.get(prefix);
+		catch (JaxenException e)
+		{
+			throw new JRException("XPath selection failed. Expression: " + expression, e);
+		}		
+	}
+
+	public Object selectObject(Node contextNode, String expression) throws JRException
+	{
+		try
+		{
+			XPath xpath = getXPath(contextNode, expression);
+			Object object = xpath.evaluate(contextNode);
+			Object value;
+			if (object instanceof List)
+			{
+				List list = (List) object;
+				if (list.isEmpty())
+				{
+					value = null;
+				}
+				else
+				{
+					value = list.get(0);
+				}
+			}
+			else if (object instanceof Number || object instanceof Boolean)
+			{
+				value = object;
+			}
+			else
+			{
+				value = object.toString();
+			}
+			return value;
 		}
-		
+		catch (JaxenException e)
+		{
+			throw new JRException("XPath selection failed. Expression: " + expression, e);
+		}
 	}
 	
 	protected boolean containsPrefixes(String expression) {
@@ -134,7 +178,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		return false;
 	}
 	
-	private Map<String, String> extractXmlNamespaces(Document document) throws JRException 
+	private Map<String, String> extractXmlNamespaces(Node contextNode) throws JRException 
 	{
 		Map<String, String> namespaces = new HashMap<String, String>();
 		List nlist;
@@ -143,7 +187,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		try
 		{
 			XPath xpath = new DOMXPath(namespaceXPathString);
-			nlist = xpath.selectNodes(document);
+			nlist = xpath.selectNodes(contextNode);
 			
             for (int i = 0; i < nlist.size(); i++) 
             {
@@ -165,15 +209,23 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
         return namespaces;
 	}
 	
-	protected void addNamespaceContext(XPath xPath, String expression) throws JRException {
-		if (xmlNamespaceMap == null && detectXmlNamespaces && containsPrefixes(expression))
+	protected void addNamespaceContext(Node contextNode, XPath xPath, String expression) throws JRException {
+		if (xmlNamespaceMap == null && detectXmlNamespaces && containsPrefixes(expression) && context == null)
 		{
-			xmlNamespaceMap = extractXmlNamespaces(document);
+			xmlNamespaceMap = extractXmlNamespaces(contextNode);
 		}
 		
-		if (xmlNamespaceMap != null)
+		if (xmlNamespaceMap != null && xmlNamespaceMap.size() > 0)
 		{
-			xPath.setNamespaceContext(new JaxenNamespaceContextWrapper(xmlNamespaceMap));
+			if (context == null) {
+				context = new NamespaceContext() {
+					
+					public String translateNamespacePrefixToUri(String prefix) {
+						return xmlNamespaceMap.get(prefix);
+					}
+				};
+			}
+			xPath.setNamespaceContext(context);
 		}
 	}
 	
