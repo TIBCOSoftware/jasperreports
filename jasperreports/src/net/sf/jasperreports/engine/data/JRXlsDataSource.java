@@ -28,12 +28,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -46,6 +45,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -58,7 +58,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRCsvDataSource.java 3033 2009-08-27 11:46:22Z teodord $
  */
-public class JRXlsDataSource implements JRRewindableDataSource
+public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {
 	private Workbook workbook;
 
@@ -70,6 +70,7 @@ public class JRXlsDataSource implements JRRewindableDataSource
 
 	private InputStream inputStream;
 	private boolean closeWorkbook;
+	private boolean closeInputStream;
 
 
 	/**
@@ -91,8 +92,10 @@ public class JRXlsDataSource implements JRRewindableDataSource
 	{
 		try
 		{
+			this.inputStream = is;
 			this.workbook = Workbook.getWorkbook(is);
 			this.closeWorkbook = true;
+			this.closeInputStream = false;
 		}
 		catch (BiffException e)
 		{
@@ -108,8 +111,21 @@ public class JRXlsDataSource implements JRRewindableDataSource
 	public JRXlsDataSource(File file) throws JRException, FileNotFoundException, IOException
 	{
 		this(new FileInputStream(file));
+		this.closeInputStream = true;
 	}
 
+	
+	/**
+	 * Creates a datasource instance that reads XLS data from a given location.
+	 * @param location a String representing XLS data source
+	 * @throws IOException 
+	 */
+	public JRXlsDataSource(String source) throws JRException, IOException
+	{
+		this(JRLoader.getInputStreamFromLocation(source));
+		this.closeInputStream = true;
+	}
+	
 
 	/**
 	 *
@@ -186,41 +202,26 @@ public class JRXlsDataSource implements JRRewindableDataSource
 			if (valueClass.equals(Boolean.class)) {
 				return fieldValue.equalsIgnoreCase("true") ? Boolean.TRUE : Boolean.FALSE;
 			}
-			else if (valueClass.equals(Byte.class)) {
-				return new Byte((numberFormat.parse(fieldValue)).byteValue());
+			else if (Number.class.isAssignableFrom(valueClass))
+			{
+				if (numberFormat != null)
+				{
+					return getFormattedNumber(numberFormat, fieldValue, valueClass);
+				}
+				else 
+				{
+					return convertStringValue(fieldValue, valueClass);
+				}
 			}
-			else if (valueClass.equals(Integer.class)) {
-				return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
-			}
-			else if (valueClass.equals(Long.class)) {
-				return new Long((numberFormat.parse(fieldValue)).longValue());
-			}
-			else if (valueClass.equals(Short.class)) {
-				return new Short((numberFormat.parse(fieldValue)).shortValue());
-			}
-			else if (valueClass.equals(Double.class)) {
-				return new Double((numberFormat.parse(fieldValue)).doubleValue());
-			}
-			else if (valueClass.equals(Float.class)) {
-				return new Float((numberFormat.parse(fieldValue)).floatValue());
-			}
-			else if (valueClass.equals(BigDecimal.class)) {
-				return new BigDecimal((numberFormat.parse(fieldValue)).toString());
-			}
-			else if (valueClass.equals(BigInteger.class)) {
-				return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
-			}
-			else if(valueClass.equals(java.lang.Number.class)) {
-				return numberFormat.parse(fieldValue);
-			}
-			else if (valueClass.equals(java.util.Date.class)) {
-				return dateFormat.parse(fieldValue);
-			}
-			else if (valueClass.equals(java.sql.Timestamp.class)) {
-				return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
-			}
-			else if (valueClass.equals(java.sql.Time.class)) {
-				return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+			else if (Date.class.isAssignableFrom(valueClass)){
+				if (dateFormat != null)
+				{
+					return getFormattedDate(dateFormat, fieldValue, valueClass);
+				} 
+				else
+				{
+					return convertStringValue(fieldValue, valueClass);
+				}
 			}
 			else
 			{
@@ -229,8 +230,6 @@ public class JRXlsDataSource implements JRRewindableDataSource
 		} catch (Exception e) {
 			throw new JRException("Unable to get value for field '" + jrField.getName() + "' of class '" + valueClass.getName() + "'", e);
 		}
-
-		//throw new JRException("Unknown column name : " + fieldName);
 	}
 
 
@@ -376,7 +375,10 @@ public class JRXlsDataSource implements JRRewindableDataSource
 	{
 		try
 		{
-			inputStream.close();
+			if (closeInputStream)
+			{
+				inputStream.close();
+			}
 		}
 		catch(IOException e)
 		{
