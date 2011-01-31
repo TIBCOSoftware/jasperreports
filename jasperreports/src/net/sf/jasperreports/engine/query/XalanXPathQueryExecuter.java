@@ -23,14 +23,20 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.XalanXmlDataSource;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,15 +57,21 @@ import org.w3c.dom.Document;
  */
 public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 {
-	private static final Log log = LogFactory.getLog(JRXPathQueryExecuter.class);
+	private static final Log log = LogFactory.getLog(XalanXPathQueryExecuter.class);
 	
 	private final Document document;
+	
+	private final DocumentBuilderFactory documentBuilderFactory;
+	
+	private Map<String, String> namespacesMap;
 	
 	public XalanXPathQueryExecuter(JRDataset dataset, Map parametersMap)
 	{
 		super(dataset, parametersMap);
 				
 		document = (Document) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT);
+		documentBuilderFactory = (DocumentBuilderFactory) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_DOCUMENT_BUILDER_FACTORY);
+		namespacesMap = (Map<String, String>) getParameterValue(XalanXPathQueryExecuterFactory.PARAMETER_XML_NAMESPACE_MAP);
 
 		if (document == null)
 		{
@@ -87,7 +99,17 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 		
 		if (document != null && xPath != null)
 		{
+			if (namespacesMap == null)
+			{
+				namespacesMap = extractXmlNamespacesFromProperties();
+			}
+			
 			datasource = new XalanXmlDataSource(document, xPath);
+			
+			datasource.setXmlNamespaceMap(namespacesMap);
+			datasource.setDetectXmlNamespaces(getBooleanParameterOrProperty(XalanXPathQueryExecuterFactory.XML_DETECT_NAMESPACES, false));
+			datasource.setDocumentBuilderFactory(documentBuilderFactory);
+			
 			datasource.setLocale((Locale)getParameterValue(XalanXPathQueryExecuterFactory.XML_LOCALE, true));
 			datasource.setDatePattern((String)getParameterValue(XalanXPathQueryExecuterFactory.XML_DATE_PATTERN, true));
 			datasource.setNumberPattern((String)getParameterValue(XalanXPathQueryExecuterFactory.XML_NUMBER_PATTERN, true));
@@ -106,6 +128,26 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 	{
 		//nothing to cancel
 		return false;
+	}
+	
+	private Map<String, String> extractXmlNamespacesFromProperties() throws JRException 
+	{
+		Map<String, String> namespaces = new HashMap<String, String>();
+		
+    	String xmlnsPrefix = XalanXPathQueryExecuterFactory.XML_NAMESPACE_PREFIX;
+        List nsProperties = JRProperties.getProperties(dataset, xmlnsPrefix);
+        
+        for (int i=0; i < nsProperties.size(); ++i) 
+        {
+            PropertySuffix prop = (PropertySuffix)nsProperties.get(i);
+            String nsPrefix = prop.getKey().substring(xmlnsPrefix.length());
+            if (nsPrefix.length() > 0) 
+            {
+            	namespaces.put(nsPrefix, prop.getValue());
+            }
+        }
+		
+        return namespaces.size()>0 ? namespaces : null;
 	}
 	
 }
