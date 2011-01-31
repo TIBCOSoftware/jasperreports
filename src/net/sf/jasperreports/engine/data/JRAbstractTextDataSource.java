@@ -25,6 +25,9 @@ package net.sf.jasperreports.engine.data;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -116,6 +119,64 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 			throw new JRException("Unknown number class " + valueClass.getName());
 		}
 		return value;
+	}
+	
+	protected Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class valueClass) throws ParseException
+	{
+		if (valueClass.equals(Byte.class)) 
+		{
+			return new Byte((numberFormat.parse(fieldValue)).byteValue());
+		}
+		else if (valueClass.equals(Integer.class)) 
+		{
+			return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
+		}
+		else if (valueClass.equals(Long.class)) 
+		{
+			return new Long((numberFormat.parse(fieldValue)).longValue());
+		}
+		else if (valueClass.equals(Short.class)) 
+		{
+			return new Short((numberFormat.parse(fieldValue)).shortValue());
+		}
+		else if (valueClass.equals(Double.class)) 
+		{
+			return new Double((numberFormat.parse(fieldValue)).doubleValue());
+		}
+		else if (valueClass.equals(Float.class)) 
+		{
+			return new Float((numberFormat.parse(fieldValue)).floatValue());
+		}
+		else if (valueClass.equals(BigDecimal.class)) 
+		{
+			return new BigDecimal((numberFormat.parse(fieldValue)).toString());
+		}
+		else if (valueClass.equals(BigInteger.class)) 
+		{
+			return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
+		}
+		else if(valueClass.equals(java.lang.Number.class)) 
+		{
+			return numberFormat.parse(fieldValue);
+		}
+		return null;
+	}
+	
+	protected Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class valueClass) throws ParseException 
+	{
+		if (valueClass.equals(java.util.Date.class)) 
+		{
+			return dateFormat.parse(fieldValue);
+		}
+		else if (valueClass.equals(java.sql.Timestamp.class)) 
+		{
+			return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
+		}
+		else if (valueClass.equals(java.sql.Time.class)) 
+		{
+			return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
+		}
+		return null;
 	}
 
 	protected LocaleConvertUtilsBean getConvertBean() 
