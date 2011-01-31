@@ -25,12 +25,13 @@ package net.sf.jasperreports.engine.data;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.xml.JRXmlDocumentProducer;
-import net.sf.jasperreports.engine.util.xml.XalanXPathExecuter;
+import net.sf.jasperreports.engine.util.xml.XalanNsAwareXPathExecuter;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -60,7 +61,7 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 	// current node index
 	private int currentNodeIndex = - 1;
 
-	private final XalanXPathExecuter xPathExecuter = new XalanXPathExecuter();
+	private final XalanNsAwareXPathExecuter xPathExecuter = new XalanNsAwareXPathExecuter();
 	
 	private final JRXmlDocumentProducer documentProducer;
 	
@@ -236,6 +237,18 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 	}
 	
 	
+	public void setXmlNamespaceMap(Map<String, String> xmlNamespaceMap) throws JRException
+	{
+		this.xPathExecuter.setXmlNamespaceMap(xmlNamespaceMap);
+	}
+	
+	
+	public void setDetectXmlNamespaces(boolean detectXmlNamespaces)
+	{
+		this.xPathExecuter.setDetectXmlNamespaces(detectXmlNamespaces);
+	}
+	
+	
 	public void setDocumentBuilderFactory(DocumentBuilderFactory documentBuilderFactory)
 	{
 		this.documentProducer.setDocumentBuilderFactory(documentBuilderFactory);
@@ -258,6 +271,11 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 		Document doc = subDocument();
 		XalanXmlDataSource subDataSource = new XalanXmlDataSource(doc, selectExpr);
 		subDataSource.setTextAttributes(this);
+		
+		subDataSource.setXmlNamespaceMap(xPathExecuter.getXmlNamespaceMap());
+		subDataSource.setDetectXmlNamespaces(xPathExecuter.getDetectXmlNamespaces());
+		subDataSource.setDocumentBuilderFactory(documentProducer.getDocumentBuilderFactory());
+		
 		return subDataSource;
 	}
 
@@ -266,6 +284,11 @@ public class XalanXmlDataSource extends AbstractXmlDataSource {
 			throws JRException {
 		XalanXmlDataSource subDataSource = new XalanXmlDataSource(document, selectExpr);
 		subDataSource.setTextAttributes(this);
+		
+		subDataSource.setXmlNamespaceMap(xPathExecuter.getXmlNamespaceMap());
+		subDataSource.setDetectXmlNamespaces(xPathExecuter.getDetectXmlNamespaces());
+		subDataSource.setDocumentBuilderFactory(documentProducer.getDocumentBuilderFactory());
+		
 		return subDataSource;
 	}
 	
