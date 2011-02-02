@@ -1395,16 +1395,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				double rightPos = getColumnRelativePosition(layout, colIndex, element.getWidth() - rightOffset);
 				HSSFClientAnchor anchor = 
 					new HSSFClientAnchor(
-						0, //leftOffset, 
-						0, //topOffset / 20, 
-						0, //rightOffset, 
-						0, //bottomOffset / 20, 
-						(short) (colIndex + leftPos), 
-						rowIndex, 
+						(int)((leftPos - (int)leftPos) * 1023), //numbers taken from POI source code
+						(int)((topPos - (int)topPos) * 255), 
+						(int)((rightPos - (int)rightPos) * 1023), 
+						(int)((bottomPos - (int)bottomPos) * 255), 
+						(short)(colIndex + (int)leftPos), 
+						(short)(rowIndex + (int)topPos), 
 						//(short) (colIndex + gridCell.getColSpan()), 
-						(short) (colIndex + 1 + rightPos - leftPos), 
+						(short)(colIndex + (int)rightPos), 
 						//rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())
-						(short)(rowIndex + 1 + bottomPos - topPos)
+						(short)(rowIndex + (int)bottomPos)
 						);
 				anchor.setAnchorType(2);
 				//pngEncoder.setImage(bi);
