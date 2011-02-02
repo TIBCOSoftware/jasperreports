@@ -750,14 +750,21 @@ public class JRGridLayout
 	}
 
 
+	public int getColumnWidth(int col)
+	{
+		return xCuts.getCut(col + 1) - xCuts.getCut(col);
+	}
+
+
 	public int getRowHeight(int row)
 	{
 		return yCuts.getCut(row + 1) - yCuts.getCut(row);
 	}
 
 
-	public static int getMaxRowHeight(JRExporterGridCell[] row)
+	public int getMaxRowHeight(int rowIndex)
 	{
+		JRExporterGridCell[] row = grid[rowIndex];
 		int maxRowHeight = row[0].getHeight();
 		for (int col = 0; col < row.length; col++)
 		{

@@ -697,7 +697,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				setRowHeight(
 					rowIndex,
 					isCollapseRowSpan
-						?  JRGridLayout.getMaxRowHeight(gridRow)
+						?  layout.getMaxRowHeight(y)
 						: JRGridLayout.getRowHeight(gridRow)
 					);
 
@@ -750,7 +750,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 						else if (element instanceof JRPrintImage)
 						{
-							exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex, emptyCols);
+							exportImage((JRPrintImage) element, gridCell, colIndex, rowIndex, emptyCols, y, layout);
 						}
 						else if (element instanceof JRPrintText)
 						{
@@ -1216,7 +1216,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols) throws JRException;
+	protected abstract void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
 	protected abstract void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
