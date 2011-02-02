@@ -1155,7 +1155,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return HSSFCellStyle.BORDER_NONE;
 	}
 
-	protected void exportImage(JRPrintImage element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	protected void exportImage(
+		JRPrintImage element, 
+		JRExporterGridCell gridCell, 
+		int colIndex, 
+		int rowIndex, 
+		int emptyCols,
+		int yCutsRow,
+		JRGridLayout layout
+		) throws JRException
 	{
 		try
 		{
@@ -1254,13 +1262,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					}
 				}
 
-				BufferedImage bi = new BufferedImage(element.getWidth(), element.getHeight(), BufferedImage.TYPE_INT_ARGB);
-				Graphics2D grx = bi.createGraphics();
-
+				byte[] imageData = null;
+				int topOffset = 0;
+				int leftOffset = 0;
+				int bottomOffset = 0;
+				int rightOffset = 0;
+				
 				switch (element.getScaleImageValue())
 				{
 					case CLIP:
 					{
+						BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
+						Graphics2D grx = bi.createGraphics();
+
 						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
@@ -1268,8 +1282,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 						grx.clip(
 							new Rectangle(
-								leftPadding,
-								topPadding,
+								0,
+								0,
 								availableImageWidth,
 								availableImageHeight
 								)
@@ -1280,8 +1294,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 							renderer.render(
 								grx,
 								new Rectangle(
-									xoffset + leftPadding,
-									yoffset + topPadding,
+									xoffset,
+									yoffset,
 									normalWidth,
 									normalHeight
 									)
@@ -1292,19 +1306,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 							grx.setClip(oldClipShape);
 						}
 
+						topOffset = topPadding;
+						leftOffset = leftPadding;
+						bottomOffset = bottomPadding;
+						rightOffset = rightPadding;
+
+						imageData = JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG);
+
 						break;
 					}
 					case FILL_FRAME:
 					{
-						renderer.render(
-							grx,
-							new Rectangle(
-								leftPadding,
-								topPadding,
-								availableImageWidth,
-								availableImageHeight
-								)
-							);
+						topOffset = topPadding;
+						leftOffset = leftPadding;
+						bottomOffset = bottomPadding;
+						rightOffset = rightPadding;
+
+						imageData = renderer.getImageData();
 
 						break;
 					}
@@ -1326,18 +1344,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 								normalHeight = availableImageHeight;
 							}
 
-							int xoffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
-							int yoffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+							topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+							leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
+							bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
+							rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
 
-							renderer.render(
-								grx,
-								new Rectangle(
-									xoffset,
-									yoffset,
-									normalWidth,
-									normalHeight
-									)
-								);
+							imageData = renderer.getImageData();
 						}
 
 						break;
@@ -1377,14 +1389,27 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				cell = row.createCell(colIndex);
 				cell.setCellStyle(cellStyle);
 
-				HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 0, 0, 
-						(short) colIndex, rowIndex, 
-						(short) (colIndex + gridCell.getColSpan()), 
-						rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan()));
+				double topPos = getRowRelativePosition(layout, yCutsRow, topOffset);
+				double leftPos = getColumnRelativePosition(layout, colIndex, leftOffset);
+				double bottomPos = getRowRelativePosition(layout, yCutsRow, element.getHeight() - bottomOffset);
+				double rightPos = getColumnRelativePosition(layout, colIndex, element.getWidth() - rightOffset);
+				HSSFClientAnchor anchor = 
+					new HSSFClientAnchor(
+						0, //leftOffset, 
+						0, //topOffset / 20, 
+						0, //rightOffset, 
+						0, //bottomOffset / 20, 
+						(short) (colIndex + leftPos), 
+						rowIndex, 
+						//(short) (colIndex + gridCell.getColSpan()), 
+						(short) (colIndex + 1 + rightPos - leftPos), 
+						//rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())
+						(short)(rowIndex + 1 + bottomPos - topPos)
+						);
 				anchor.setAnchorType(2);
 				//pngEncoder.setImage(bi);
 				//int imgIndex = workbook.addPicture(pngEncoder.pngEncode(), HSSFWorkbook.PICTURE_TYPE_PNG);
-				int imgIndex = workbook.addPicture(JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG), HSSFWorkbook.PICTURE_TYPE_PNG);
+				int imgIndex = workbook.addPicture(imageData, HSSFWorkbook.PICTURE_TYPE_PNG);
 				patriarch.createPicture(anchor, imgIndex);
 				
 //				setHyperlinkCell(element);
@@ -1399,8 +1424,63 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			throw new JRException("The cell cannot be added", err);
 		}
 	}
+	
+	/**
+	 *
+	 */
+	protected double getColumnRelativePosition(JRGridLayout layout, int col, int offset)
+	{
+		double colRelPos = 0;
+		
+		int cumulativeColWidth = 0;
+		int colIndex = 0;
+		while(cumulativeColWidth < offset)
+		{
+			int colWidth = layout.getColumnWidth(col + colIndex);
+			if (cumulativeColWidth + colWidth < offset)
+			{
+				colIndex++;
+			}
+			else
+			{
+				colRelPos += colIndex + ((offset - cumulativeColWidth) / (double) colWidth);
+			}
+			cumulativeColWidth += colWidth;
+		}
+		
+		return colRelPos;
+	}	
+	
+	/**
+	 *
+	 */
+	protected double getRowRelativePosition(JRGridLayout layout, int row, int offset)
+	{
+		double rowRelPos = 0;
+		
+		//isCollapseRowSpan
+		int cumulativeRowHeight = 0;
+		int rowIndex = 0;
+		while(cumulativeRowHeight < offset)
+		{
+			int rowHeight = isCollapseRowSpan ? layout.getMaxRowHeight(row + rowIndex) : layout.getRowHeight(row + rowIndex);
+			if (cumulativeRowHeight + rowHeight < offset)
+			{
+				rowIndex++;
+			}
+			else
+			{
+				rowRelPos += rowIndex + ((offset - cumulativeRowHeight) / (double) rowHeight);
+			}
+			cumulativeRowHeight += rowHeight;
+		}
+		
+		return rowRelPos;
+	}	
 
-
+	/**
+	 * 
+	 */
 	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell gridCell, int x, int y)
 	{
 		short mode = backgroundMode;

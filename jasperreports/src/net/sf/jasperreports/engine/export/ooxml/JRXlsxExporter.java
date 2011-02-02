@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
@@ -800,7 +801,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		JRExporterGridCell gridCell,
 		int colIndex, 
 		int rowIndex, 
-		int emptyCols
+		int emptyCols,
+		int yCutsRow,
+		JRGridLayout layout
 		) throws JRException 
 	{
 		int topPadding =

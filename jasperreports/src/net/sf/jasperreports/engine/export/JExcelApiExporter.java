@@ -923,7 +923,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportImage(JRPrintImage element, JRExporterGridCell gridCell, int col, int row, int emptyCols) throws JRException
+	protected void exportImage(
+		JRPrintImage element, 
+		JRExporterGridCell gridCell, 
+		int col, 
+		int row, 
+		int emptyCols,
+		int yCutsRow,
+		JRGridLayout layout
+		) throws JRException
 	{
 		addMergeRegion(gridCell, col, row);
 
@@ -1020,13 +1028,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				}
 			}
 			
-			BufferedImage bi = new BufferedImage(element.getWidth(), element.getHeight(), BufferedImage.TYPE_INT_ARGB);
-			Graphics2D grx = bi.createGraphics();
+			byte[] imageData = null;
+			int topOffset = 0;
+			int leftOffset = 0;
+			int bottomOffset = 0;
+			int rightOffset = 0;
 			
 			switch (element.getScaleImageValue())
 			{
 				case CLIP:
 				{
+					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
+					Graphics2D grx = bi.createGraphics();
+					
 					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
 					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
 
@@ -1034,8 +1048,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 					grx.clip(
 						new Rectangle(
-							leftPadding, 
-							topPadding, 
+							0, 
+							0, 
 							availableImageWidth, 
 							availableImageHeight
 							)
@@ -1046,8 +1060,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						renderer.render(
 							grx, 
 							new Rectangle(
-								xoffset + leftPadding, 
-								yoffset + topPadding,
+								xoffset, 
+								yoffset,
 								normalWidth, 
 								normalHeight
 								)
@@ -1058,19 +1072,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 						grx.setClip(oldClipShape);
 					}
 
+					topOffset = topPadding;
+					leftOffset = leftPadding;
+					bottomOffset = bottomPadding;
+					rightOffset = rightPadding;
+
+					imageData = JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG);
+
 					break;
 				}
 				case FILL_FRAME:
 				{
-					renderer.render(
-						grx, 
-						new Rectangle(
-							leftPadding, 
-							topPadding, 
-							availableImageWidth, 
-							availableImageHeight
-							)
-						);
+					topOffset = topPadding;
+					leftOffset = leftPadding;
+					bottomOffset = bottomPadding;
+					rightOffset = rightPadding;
+
+					imageData = renderer.getImageData();
 
 					break;
 				}
@@ -1092,18 +1110,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 							normalHeight = availableImageHeight;
 						}
 
-						int xoffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+						topOffset = topPadding + (int) (yalignFactor * (availableImageHeight - normalHeight));
+						leftOffset = leftPadding + (int) (xalignFactor * (availableImageWidth - normalWidth));
+						bottomOffset = bottomPadding + (int) ((1f - yalignFactor) * (availableImageHeight - normalHeight));
+						rightOffset = rightPadding + (int) ((1f - xalignFactor) * (availableImageWidth - normalWidth));
 
-						renderer.render(
-							grx, 
-							new Rectangle(
-								xoffset, 
-								yoffset,
-								normalWidth, 
-								normalHeight
-								)
-							);
+						imageData = renderer.getImageData();
 					}
 
 					break;
@@ -1140,13 +1152,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			try
 			{
 				sheet.addCell(new Blank(col, row, cellStyle2));
+				double leftPos = getColumnRelativePosition(layout, col, leftOffset);
+				double topPos = getRowRelativePosition(layout, yCutsRow, topOffset);
 				WritableImage image =
 					new WritableImage(
-						col - emptyCols,
-						row,
-						gridCell.getColSpan(),
-						isCollapseRowSpan ? 1 : gridCell.getRowSpan(),
-						JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG)
+						col - emptyCols + leftPos,
+						row + topPos,
+						getColumnRelativePosition(layout, col, element.getWidth() - rightOffset) - leftPos,
+						getRowRelativePosition(layout, yCutsRow, element.getHeight() - bottomOffset) - topPos,
+						imageData
 						);
 				sheet.addImage(image);
 			}
@@ -1160,6 +1174,60 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 		}
 	}
+
+	
+	/**
+	 *
+	 */
+	protected double getColumnRelativePosition(JRGridLayout layout, int col, int offset)
+	{
+		double colRelPos = 0;
+		
+		int cumulativeColWidth = 0;
+		int colIndex = 0;
+		while(cumulativeColWidth < offset)
+		{
+			int colWidth = layout.getColumnWidth(col + colIndex);
+			if (cumulativeColWidth + colWidth < offset)
+			{
+				colIndex++;
+			}
+			else
+			{
+				colRelPos += colIndex + ((offset - cumulativeColWidth) / (double) colWidth);
+			}
+			cumulativeColWidth += colWidth;
+		}
+		
+		return colRelPos;
+	}	
+	
+	/**
+	 *
+	 */
+	protected double getRowRelativePosition(JRGridLayout layout, int row, int offset)
+	{
+		double rowRelPos = 0;
+		
+		//isCollapseRowSpan
+		int cumulativeRowHeight = 0;
+		int rowIndex = 0;
+		while(cumulativeRowHeight < offset)
+		{
+			int rowHeight = isCollapseRowSpan ? layout.getMaxRowHeight(row + rowIndex) : layout.getRowHeight(row + rowIndex);
+			if (cumulativeRowHeight + rowHeight < offset)
+			{
+				rowIndex++;
+			}
+			else
+			{
+				rowRelPos += rowIndex + ((offset - cumulativeRowHeight) / (double) rowHeight);
+			}
+			cumulativeRowHeight += rowHeight;
+		}
+		
+		return rowRelPos;
+	}	
 
 	protected Colour getWorkbookColour(Color awtColor, boolean isBackcolor)
 	{
