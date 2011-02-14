@@ -51,7 +51,7 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 *
 	 */
-	protected JRHtmlExporterParameter(String name)
+	public JRHtmlExporterParameter(String name)
 	{
 		super(name);
 	}
