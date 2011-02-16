@@ -45,8 +45,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.fonts.FontFamily;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.apache.commons.logging.Log;
@@ -99,6 +102,8 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String NODE_font = "font";
 	private static final String NODE_br = "br";
 	private static final String NODE_li = "li";
+	private static final String NODE_a = "a";
+	private static final String NODE_param = "param";
 	private static final String ATTRIBUTE_fontName = "fontName";
 	private static final String ATTRIBUTE_fontFace = "face";
 	private static final String ATTRIBUTE_color = "color";
@@ -112,6 +117,10 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String ATTRIBUTE_pdfFontName = "pdfFontName";
 	private static final String ATTRIBUTE_pdfEncoding = "pdfEncoding";
 	private static final String ATTRIBUTE_isPdfEmbedded = "isPdfEmbedded";
+	private static final String ATTRIBUTE_type = "type";
+	private static final String ATTRIBUTE_href = "href";
+	private static final String ATTRIBUTE_target = "target";
+	private static final String ATTRIBUTE_name = "name";
 
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
@@ -363,21 +372,68 @@ public class JRStyledTextParser implements ErrorHandler
 			isSub=TextAttribute.SUPERSCRIPT_SUB.equals(value);
 		}
 
+		String scriptNode = isSuper?NODE_sup:NODE_sub;
 
 		if (isSuper || isSub)
 		{
-			String node = isSuper?NODE_sup:NODE_sub;
 			sbuffer.append(LESS);
-			sbuffer.append(node);
-			sbuffer.append(GREATER);
-			sbuffer.append(JRStringUtil.xmlEncode(chunk));
-			sbuffer.append(LESS_SLASH);
-			sbuffer.append(node);
+			sbuffer.append(scriptNode);
 			sbuffer.append(GREATER);
 		}
-		else
+
+		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attrs.get(JRTextAttribute.HYPERLINK);
+		if (hyperlink != null)
 		{
-			sbuffer.append(JRStringUtil.xmlEncode(chunk));
+			sbuffer.append(LESS);
+			sbuffer.append(NODE_a);
+
+			String href = hyperlink.getHyperlinkReference();
+			if (href != null && href.trim().length() > 0)
+			{
+				sbuffer.append(SPACE);
+				sbuffer.append(ATTRIBUTE_href);
+				sbuffer.append(EQUAL_QUOTE);
+				sbuffer.append(href);
+				sbuffer.append(QUOTE);
+			}
+			
+			String type = hyperlink.getLinkType();
+			if (type != null && type.trim().length() > 0)
+			{
+				sbuffer.append(SPACE);
+				sbuffer.append(ATTRIBUTE_type);
+				sbuffer.append(EQUAL_QUOTE);
+				sbuffer.append(type);
+				sbuffer.append(QUOTE);
+			}
+			
+			String target = hyperlink.getLinkTarget();
+			if (target != null && target.trim().length() > 0)
+			{
+				sbuffer.append(SPACE);
+				sbuffer.append(ATTRIBUTE_target);
+				sbuffer.append(EQUAL_QUOTE);
+				sbuffer.append(target);
+				sbuffer.append(QUOTE);
+			}
+			
+			sbuffer.append(GREATER);
+		}
+
+		sbuffer.append(JRStringUtil.xmlEncode(chunk));
+
+		if (hyperlink != null)
+		{
+			sbuffer.append(LESS_SLASH);
+			sbuffer.append(NODE_a);
+			sbuffer.append(GREATER);
+		}
+
+		if (isSuper || isSub)
+		{
+			sbuffer.append(LESS_SLASH);
+			sbuffer.append(scriptNode);
+			sbuffer.append(GREATER);
 		}
 	}
 
@@ -659,6 +715,38 @@ public class JRStyledTextParser implements ErrorHandler
 					resizeRuns(styledText.getRuns(), startIndex, 1);
 				}
 			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_a.equalsIgnoreCase(node.getNodeName()))
+			{
+				NamedNodeMap nodeAttrs = node.getAttributes();
+
+				Map styleAttrs = new HashMap();
+
+				JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
+				hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
+				styleAttrs.put(JRTextAttribute.HYPERLINK, hyperlink);
+				
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_href) != null)
+				{
+					hyperlink.setHyperlinkReference( nodeAttrs.getNamedItem(ATTRIBUTE_href).getNodeValue());
+				}
+
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_type) != null)
+				{
+					hyperlink.setLinkType(nodeAttrs.getNamedItem(ATTRIBUTE_type).getNodeValue());
+				}
+
+				if (nodeAttrs.getNamedItem(ATTRIBUTE_target) != null)
+				{
+					hyperlink.setLinkTarget(nodeAttrs.getNamedItem(ATTRIBUTE_target).getNodeValue());
+				}
+
+				int startIndex = styledText.length();
+
+				parseStyle(styledText, node);
+
+				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+
+			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
 				String nodeName = "<" + node.getNodeName() + ">";
@@ -834,7 +922,7 @@ public class JRStyledTextParser implements ErrorHandler
 	}
 	
 	/**
-	 * The method returns the first text occurence in a given node element
+	 * The method returns the first text occurrence in a given node element
 	 * @param node
 	 * @return String
 	 */
