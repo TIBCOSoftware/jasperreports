@@ -31,14 +31,19 @@ import java.util.Map;
 
 import javax.swing.JEditorPane;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTML.Tag;
+import javax.swing.text.html.HTMLDocument.RunElement;
+
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,6 +93,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		int endOffset = 0;
 		int crtOffset = 0;
 		String chunk = null;
+		JRPrintHyperlink hyperlink = null;
 		Element element = null;
 		Element parent = null;
 		boolean bodyOccurred = false;
@@ -106,6 +112,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			{
 				styledText.append(chunk);
 				Map styleAttributes = getAttributes(element.getAttributes());
+				if (hyperlink != null)
+				{
+					styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
+					hyperlink = null;
+				}
 				if (!styleAttributes.isEmpty())
 				{
 					styledText.addRun(new JRStyledText.Run(styleAttributes, 
@@ -189,6 +200,18 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 				}
 				else if (element instanceof LeafElement)
 				{
+					if (element instanceof RunElement)
+					{
+						RunElement runElement = (RunElement)element;
+						AttributeSet attrSet = (AttributeSet)runElement.getAttribute(Tag.A);
+						if (attrSet != null)
+						{
+							hyperlink = new JRBasePrintHyperlink();
+							hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
+							hyperlink.setHyperlinkReference((String)attrSet.getAttribute(HTML.Attribute.HREF));
+							hyperlink.setLinkTarget((String)attrSet.getAttribute(HTML.Attribute.TARGET));
+						}
+					}
 					try
 					{
 						chunk = document.getText(startOffset, endOffset - startOffset);
@@ -208,6 +231,11 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		{
 			styledText.append(chunk);
 			Map styleAttributes = getAttributes(element.getAttributes());
+			if (hyperlink != null)
+			{
+				styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
+				hyperlink = null;
+			}
 			if (!styleAttributes.isEmpty())
 			{
 				styledText.addRun(new JRStyledText.Run(styleAttributes, 

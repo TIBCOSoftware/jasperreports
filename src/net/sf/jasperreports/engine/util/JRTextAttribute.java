@@ -54,6 +54,11 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	/**
 	 *
 	 */
+	public static final JRTextAttribute HYPERLINK = new JRTextAttribute("HYPERLINK");
+
+	/**
+	 *
+	 */
 	private JRTextAttribute(String name)
 	{
 		super(name);

@@ -93,6 +93,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.Pair;
 
 import org.apache.commons.logging.Log;
@@ -861,6 +862,15 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 			}
 		}
+
+		boolean localHyperlink = false;
+		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
+		if (!hyperlinkStarted && hyperlink != null)
+		{
+			startHyperlink(hyperlink);
+			localHyperlink = true;
+		}
+		
 		writer.write("<span style=\"font-family: ");
 		writer.write(fontFamily);
 		writer.write("; ");
@@ -936,6 +946,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			);
 
 		writer.write("</span>");
+
+		if (localHyperlink)
+		{
+			endHyperlink();
+		}
 	}
 
 
@@ -1061,6 +1076,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			//the text only wraps at the explicit positions
 			styleBuffer.append("white-space: nowrap; ");
 		}
+		
+		styleBuffer.append("overflow: hidden;");
 		
 		if (styleBuffer.length() > 0)
 		{
