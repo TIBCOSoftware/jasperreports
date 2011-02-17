@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 
 
 /**
@@ -669,7 +670,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 
 		if (textLength > 0)
 		{
-			exportStyledText(styledText, getTextLocale(text));
+			exportStyledText(styledText, getTextLocale(text), startedHyperlink);
 		}
 
 		if (startedHyperlink)
@@ -686,7 +687,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyledText styledText, Locale locale) throws IOException
+	protected void exportStyledText(JRStyledText styledText, Locale locale, boolean startedHyperlink) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -699,7 +700,8 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			exportStyledTextRun(
 				iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
-				locale
+				locale,
+				startedHyperlink
 				);
 
 			iterator.setIndex(runLimit);
@@ -710,7 +712,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map attributes, String text, Locale locale) throws IOException
+	protected void exportStyledTextRun(Map attributes, String text, Locale locale, boolean startedHyperlink) throws IOException
 	{
 		String textSpanStyleName = styleCache.getTextSpanStyle(attributes, text, locale);
 
@@ -718,9 +720,25 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		tempBodyWriter.write(" text:style-name=\"" + textSpanStyleName + "\"");
 		tempBodyWriter.write(">");
 
+		boolean localHyperlink = false;
+
+		if (!startedHyperlink)
+		{
+			JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
+			if (hyperlink != null)
+			{
+				localHyperlink = startHyperlink(hyperlink, true);
+			}
+		}
+		
 		if (text != null)
 		{
 			tempBodyWriter.write(Utility.replaceNewLineWithLineBreak(JRStringUtil.xmlEncode(text)));//FIXMEODT try something nicer for replace
+		}
+
+		if (localHyperlink)
+		{
+			endHyperlink(true);
 		}
 
 		tempBodyWriter.write("</text:span>");
