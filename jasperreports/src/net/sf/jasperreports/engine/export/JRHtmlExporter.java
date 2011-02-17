@@ -1553,7 +1553,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				case BLANK :
 				{
-					target = "_blank";
+					target = "_blank";//FIXME make reverse for html markup hyperlinks
 					break;
 				}
 				case PARENT :
