@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 import org.apache.commons.logging.Log;
@@ -716,7 +717,8 @@ public class JRDocxExporter extends JRAbstractExporter
 				text.getStyle(), 
 				styledText, 
 				getTextLocale(text),
-				JRProperties.getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false)
+				JRProperties.getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
+				startedHyperlink
 				);
 		}
 
@@ -735,7 +737,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText)
+	protected void exportStyledText(JRStyle style, JRStyledText styledText, Locale locale, boolean hiddenText, boolean startedHyperlink)
 	{
 		String text = styledText.getText();
 
@@ -745,6 +747,19 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
+			Map attributes = iterator.getAttributes();
+			
+			boolean localHyperlink = false;
+
+			if (!startedHyperlink)
+			{
+				JRPrintHyperlink hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
+				if (hyperlink != null)
+				{
+					localHyperlink = startHyperlink(hyperlink, true);
+				}
+			}
+			
 			runHelper.export(
 				style, 
 				iterator.getAttributes(), 
@@ -752,6 +767,11 @@ public class JRDocxExporter extends JRAbstractExporter
 				locale,
 				hiddenText
 				);
+			
+			if (localHyperlink)
+			{
+				endHyperlink(true);
+			}
 
 			iterator.setIndex(runLimit);
 		}
