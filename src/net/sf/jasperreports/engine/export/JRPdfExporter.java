@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -1555,86 +1556,13 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected void setHyperlinkInfo(Chunk chunk, JRPrintHyperlink link)
 	{
-		switch(link.getHyperlinkTypeValue())
+		if (link != null)
 		{
-			case REFERENCE :
+			switch(link.getHyperlinkTypeValue())
 			{
-				if (link.getHyperlinkReference() != null)
+				case REFERENCE :
 				{
-					switch(link.getHyperlinkTargetValue())
-					{
-						case BLANK :
-						{
-							chunk.setAction(
-								PdfAction.javaScript(
-									"if (app.viewerVersion < 7)"
-										+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
-										+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};",
-									pdfWriter
-									)
-								);
-							break;
-						}
-						case SELF :
-						default :
-						{
-							chunk.setAnchor(link.getHyperlinkReference());
-							break;
-						}
-					}
-				}
-				break;
-			}
-			case LOCAL_ANCHOR :
-			{
-				if (link.getHyperlinkAnchor() != null)
-				{
-					chunk.setLocalGoto(link.getHyperlinkAnchor());
-				}
-				break;
-			}
-			case LOCAL_PAGE :
-			{
-				if (link.getHyperlinkPage() != null)
-				{
-					chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString());
-				}
-				break;
-			}
-			case REMOTE_ANCHOR :
-			{
-				if (
-					link.getHyperlinkReference() != null &&
-					link.getHyperlinkAnchor() != null
-					)
-				{
-					chunk.setRemoteGoto(
-						link.getHyperlinkReference(),
-						link.getHyperlinkAnchor()
-						);
-				}
-				break;
-			}
-			case REMOTE_PAGE :
-			{
-				if (
-					link.getHyperlinkReference() != null &&
-					link.getHyperlinkPage() != null
-					)
-				{
-					chunk.setRemoteGoto(
-						link.getHyperlinkReference(),
-						link.getHyperlinkPage().intValue()
-						);
-				}
-				break;
-			}
-			case CUSTOM :
-			{
-				if (hyperlinkProducerFactory != null)
-				{
-					String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
-					if (hyperlink != null)
+					if (link.getHyperlinkReference() != null)
 					{
 						switch(link.getHyperlinkTargetValue())
 						{
@@ -1643,8 +1571,8 @@ public class JRPdfExporter extends JRAbstractExporter
 								chunk.setAction(
 									PdfAction.javaScript(
 										"if (app.viewerVersion < 7)"
-											+ "{this.getURL(\"" + hyperlink + "\");}"
-											+ "else {app.launchURL(\"" + hyperlink + "\", true);};",
+											+ "{this.getURL(\"" + link.getHyperlinkReference() + "\");}"
+											+ "else {app.launchURL(\"" + link.getHyperlinkReference() + "\", true);};",
 										pdfWriter
 										)
 									);
@@ -1653,17 +1581,93 @@ public class JRPdfExporter extends JRAbstractExporter
 							case SELF :
 							default :
 							{
-								chunk.setAnchor(hyperlink);
+								chunk.setAnchor(link.getHyperlinkReference());
 								break;
 							}
 						}
 					}
+					break;
 				}
-			}
-			case NONE :
-			default :
-			{
-				break;
+				case LOCAL_ANCHOR :
+				{
+					if (link.getHyperlinkAnchor() != null)
+					{
+						chunk.setLocalGoto(link.getHyperlinkAnchor());
+					}
+					break;
+				}
+				case LOCAL_PAGE :
+				{
+					if (link.getHyperlinkPage() != null)
+					{
+						chunk.setLocalGoto(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString());
+					}
+					break;
+				}
+				case REMOTE_ANCHOR :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkAnchor() != null
+						)
+					{
+						chunk.setRemoteGoto(
+							link.getHyperlinkReference(),
+							link.getHyperlinkAnchor()
+							);
+					}
+					break;
+				}
+				case REMOTE_PAGE :
+				{
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+					{
+						chunk.setRemoteGoto(
+							link.getHyperlinkReference(),
+							link.getHyperlinkPage().intValue()
+							);
+					}
+					break;
+				}
+				case CUSTOM :
+				{
+					if (hyperlinkProducerFactory != null)
+					{
+						String hyperlink = hyperlinkProducerFactory.produceHyperlink(link);
+						if (hyperlink != null)
+						{
+							switch(link.getHyperlinkTargetValue())
+							{
+								case BLANK :
+								{
+									chunk.setAction(
+										PdfAction.javaScript(
+											"if (app.viewerVersion < 7)"
+												+ "{this.getURL(\"" + hyperlink + "\");}"
+												+ "else {app.launchURL(\"" + hyperlink + "\", true);};",
+											pdfWriter
+											)
+										);
+									break;
+								}
+								case SELF :
+								default :
+								{
+									chunk.setAnchor(hyperlink);
+									break;
+								}
+							}
+						}
+					}
+				}
+				case NONE :
+				default :
+				{
+					break;
+				}
 			}
 		}
 	}
@@ -1686,7 +1690,8 @@ public class JRPdfExporter extends JRAbstractExporter
 		boolean firstChunk = true;
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Chunk chunk = getChunk(iterator.getAttributes(), text.substring(iterator.getIndex(), runLimit), locale);
+			Map attributes = iterator.getAttributes();
+			Chunk chunk = getChunk(attributes, text.substring(iterator.getIndex(), runLimit), locale);
 			
 			if (firstChunk)
 			{
@@ -1694,7 +1699,13 @@ public class JRPdfExporter extends JRAbstractExporter
 				setAnchor(chunk, textElement, textElement);
 			}
 			
-			setHyperlinkInfo(chunk, textElement);
+			JRPrintHyperlink hyperlink = textElement;
+			if (hyperlink.getHyperlinkTypeValue() == HyperlinkTypeEnum.NONE)
+			{
+				hyperlink = (JRPrintHyperlink)attributes.get(JRTextAttribute.HYPERLINK);
+			}
+			
+			setHyperlinkInfo(chunk, hyperlink);
 			phrase.add(chunk);
 
 			iterator.setIndex(runLimit);
