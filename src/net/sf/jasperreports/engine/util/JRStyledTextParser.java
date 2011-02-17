@@ -46,6 +46,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.fonts.FontFamily;
@@ -121,6 +123,7 @@ public class JRStyledTextParser implements ErrorHandler
 	private static final String ATTRIBUTE_href = "href";
 	private static final String ATTRIBUTE_target = "target";
 	private static final String ATTRIBUTE_name = "name";
+	private static final String ATTRIBUTE_valueClass = "valueClass";
 
 	private static final String SPACE = " ";
 	private static final String EQUAL_QUOTE = "=\"";
@@ -182,6 +185,11 @@ public class JRStyledTextParser implements ErrorHandler
 	 *
 	 */
 	private DocumentBuilder documentBuilder;
+	
+	/**
+	 *
+	 */
+	private JRBasePrintHyperlink hyperlink;
 
 
 	/**
@@ -227,6 +235,8 @@ public class JRStyledTextParser implements ErrorHandler
 		{
 			throw new JRRuntimeException(e);
 		}
+		
+		hyperlink = null;
 		
 		parseStyle(styledText, document.getDocumentElement());
 		
@@ -381,13 +391,13 @@ public class JRStyledTextParser implements ErrorHandler
 			sbuffer.append(GREATER);
 		}
 
-		JRPrintHyperlink hyperlink = (JRPrintHyperlink)attrs.get(JRTextAttribute.HYPERLINK);
-		if (hyperlink != null)
+		JRPrintHyperlink hlink = (JRPrintHyperlink)attrs.get(JRTextAttribute.HYPERLINK);
+		if (hlink != null)
 		{
 			sbuffer.append(LESS);
 			sbuffer.append(NODE_a);
 
-			String href = hyperlink.getHyperlinkReference();
+			String href = hlink.getHyperlinkReference();
 			if (href != null && href.trim().length() > 0)
 			{
 				sbuffer.append(SPACE);
@@ -397,7 +407,7 @@ public class JRStyledTextParser implements ErrorHandler
 				sbuffer.append(QUOTE);
 			}
 			
-			String type = hyperlink.getLinkType();
+			String type = hlink.getLinkType();
 			if (type != null && type.trim().length() > 0)
 			{
 				sbuffer.append(SPACE);
@@ -407,7 +417,7 @@ public class JRStyledTextParser implements ErrorHandler
 				sbuffer.append(QUOTE);
 			}
 			
-			String target = hyperlink.getLinkTarget();
+			String target = hlink.getLinkTarget();
 			if (target != null && target.trim().length() > 0)
 			{
 				sbuffer.append(SPACE);
@@ -418,11 +428,37 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			
 			sbuffer.append(GREATER);
+			
+			JRPrintHyperlinkParameters parameters = hlink.getHyperlinkParameters();
+			if (parameters != null && parameters.getParameters() != null)
+			{
+				for (JRPrintHyperlinkParameter parameter:(List<JRPrintHyperlinkParameter>)parameters.getParameters())
+				{
+					sbuffer.append(LESS);
+					sbuffer.append(NODE_param);
+					sbuffer.append(SPACE);
+					sbuffer.append(ATTRIBUTE_name);
+					sbuffer.append(EQUAL_QUOTE);
+					sbuffer.append(parameter.getName());
+					sbuffer.append(QUOTE);
+					sbuffer.append(GREATER);
+					
+					if (parameter.getValue() != null)
+					{
+						String strValue = JRValueStringUtils.serialize(parameter.getValueClass(), parameter.getValue());
+						sbuffer.append(JRStringUtil.xmlEncode(strValue));
+					}
+
+					sbuffer.append(LESS_SLASH);
+					sbuffer.append(NODE_param);
+					sbuffer.append(GREATER);
+				}
+			}
 		}
 
 		sbuffer.append(JRStringUtil.xmlEncode(chunk));
 
-		if (hyperlink != null)
+		if (hlink != null)
 		{
 			sbuffer.append(LESS_SLASH);
 			sbuffer.append(NODE_a);
@@ -717,35 +753,75 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_a.equalsIgnoreCase(node.getNodeName()))
 			{
-				NamedNodeMap nodeAttrs = node.getAttributes();
-
-				Map styleAttrs = new HashMap();
-
-				JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-				hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
-				styleAttrs.put(JRTextAttribute.HYPERLINK, hyperlink);
-				
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_href) != null)
+				if (hyperlink == null)
 				{
-					hyperlink.setHyperlinkReference( nodeAttrs.getNamedItem(ATTRIBUTE_href).getNodeValue());
-				}
+					NamedNodeMap nodeAttrs = node.getAttributes();
 
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_type) != null)
+					Map styleAttrs = new HashMap();
+
+					hyperlink = new JRBasePrintHyperlink();
+					hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
+					styleAttrs.put(JRTextAttribute.HYPERLINK, hyperlink);
+					
+					if (nodeAttrs.getNamedItem(ATTRIBUTE_href) != null)
+					{
+						hyperlink.setHyperlinkReference( nodeAttrs.getNamedItem(ATTRIBUTE_href).getNodeValue());
+					}
+
+					if (nodeAttrs.getNamedItem(ATTRIBUTE_type) != null)
+					{
+						hyperlink.setLinkType(nodeAttrs.getNamedItem(ATTRIBUTE_type).getNodeValue());
+					}
+
+					if (nodeAttrs.getNamedItem(ATTRIBUTE_target) != null)
+					{
+						hyperlink.setLinkTarget(nodeAttrs.getNamedItem(ATTRIBUTE_target).getNodeValue());
+					}
+
+					int startIndex = styledText.length();
+
+					parseStyle(styledText, node);
+
+					styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
+					
+					hyperlink = null;
+				}
+				else
 				{
-					hyperlink.setLinkType(nodeAttrs.getNamedItem(ATTRIBUTE_type).getNodeValue());
+					throw new SAXException("Hyperlink <a> tags cannot be nested.");
 				}
-
-				if (nodeAttrs.getNamedItem(ATTRIBUTE_target) != null)
+			}
+			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_param.equalsIgnoreCase(node.getNodeName()))
+			{
+				if (hyperlink == null)
 				{
-					hyperlink.setLinkTarget(nodeAttrs.getNamedItem(ATTRIBUTE_target).getNodeValue());
+					throw new SAXException("Hyperlink <param> tags must appear inside an <a> tag only.");
 				}
+				else
+				{
+					NamedNodeMap nodeAttrs = node.getAttributes();
 
-				int startIndex = styledText.length();
+					JRPrintHyperlinkParameter parameter = new JRPrintHyperlinkParameter();
+					
+					if (nodeAttrs.getNamedItem(ATTRIBUTE_name) != null)
+					{
+						parameter.setName(nodeAttrs.getNamedItem(ATTRIBUTE_name).getNodeValue());
+					}
 
-				parseStyle(styledText, node);
+					if (nodeAttrs.getNamedItem(ATTRIBUTE_valueClass) != null)
+					{
+						parameter.setValueClass(nodeAttrs.getNamedItem(ATTRIBUTE_valueClass).getNodeValue());
+					}
 
-				styledText.addRun(new JRStyledText.Run(styleAttrs, startIndex, styledText.length()));
-
+					String strValue = node.getTextContent();
+					if (strValue != null)
+					{
+						Object value = JRValueStringUtils.deserialize(parameter.getValueClass(), strValue);
+						parameter.setValue(value);
+					}
+						
+					hyperlink.addHyperlinkParameter(parameter);
+				}
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE)
 			{
