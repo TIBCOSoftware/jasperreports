@@ -40,6 +40,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -61,6 +64,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDataSource
 {
+	protected static final Log log = LogFactory.getLog(JRCsvDataSource.class);
+	
 	private DateFormat dateFormat;
 	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
@@ -286,9 +291,11 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		int pos = 0;
 		int startFieldPos = 0;
+		int addedFields = 0;
 		boolean insideQuotes = false;
-		boolean hadQuotes = false;
+		boolean isQuoted = false;
 		boolean misplacedQuote = false;
+		boolean startPosition = false;
 		char c;
 		fields = new ArrayList();
 
@@ -300,70 +307,102 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 		while (pos < row.length()) {
 			c = row.charAt(pos);
-
+			startPosition = pos == startFieldPos || (!insideQuotes && row.charAt(pos-1) == fieldDelimiter);
 			if (c == '"') {
-				// already inside a text containing quotes
-				if (!insideQuotes) 
+
+				if (startPosition) 
 				{
-					if (!hadQuotes) {
-						insideQuotes = true;
-						hadQuotes = true;
-					}
-					else // the field contains a bad string, like "fo"o", instead of "fo""o"
-					{
-						misplacedQuote = true;
-					}
+					// starting a quoted text
+					insideQuotes = true;
+					isQuoted = true;
 				}
-				// found a quote when already inside quotes, expecting two consecutive quotes, otherwise it means
-				// it's a closing quote
 				else {
-					if (pos+1 < row.length() && row.charAt(pos+1) == '"')
+					if (insideQuotes )
 					{
-						pos++;
-					}
-					else
-					{
-						insideQuotes = false;
+						if(pos+1 < row.length())
+						{
+							// when already inside quotes, expecting two consecutive quotes, otherwise it means
+							// it's a closing quote
+
+							if(row.charAt(pos+1) == '"')
+							{
+								pos++;
+							}
+							else
+							{
+								//TODO: handling misplaced quotes, if necessary; 
+								//at this moment the misplaced quote is allowed to be printed as part of quoted field, 
+								//although it is not doubled; the presence of a misplaced quote inside a field is
+								//logged at logger debug level
+								if(row.charAt(pos+1) != fieldDelimiter)
+								{
+									misplacedQuote = true;
+								}
+								insideQuotes = false;
+							}
+						}
+						else
+						{
+							insideQuotes = false;
+						}
 					}
 				}
 			}
+			
 			// field delimiter found, copy the field contents to the field array
 			if (c == fieldDelimiter && !insideQuotes) 
 			{
 				String field = row.substring(startFieldPos, pos);
-				// if an illegal quote was found, the entire field is considered illegal
+				
+				//cf specs (http://tools.ietf.org/html/rfc4180#page-2), fields shouldn't be trimmed
+//				field = field.trim();
+				
+				if (isQuoted) 
+				{
+					field = field.substring(1);
+					if (field.endsWith("\"")) 
+					{
+						field = field.substring(0, field.length() - 1);
+					}
+					field = replaceAll(field, "\"\"", "\"");
+				}
+					
+				// if an illegal quote was found, the occurrence will be logged
 				if (misplacedQuote) 
 				{
 					misplacedQuote = false;
-					hadQuotes = false;
-					field = "";
-				}
-				// if the field was between quotes, remove them and turn any escaped quotes inside the text into normal quotes
-				else if (hadQuotes) 
-				{
-					field = field.trim();
-					if (field.startsWith("\"") && field.endsWith("\"")) 
+					if (log.isDebugEnabled())
 					{
-						field = field.substring(1, field.length() - 1);
-						field = replaceAll(field, "\"\"", "\"");
+						log.debug("Undoubled quote found in filed");
 					}
-					else
-					{
-						field = "";
-					}
-					hadQuotes = false;
+					
 				}
 
+				isQuoted = false;
+				insideQuotes = false;
 				fields.add(field);
+				++addedFields;
+				
+				// if many rows were concatenated due to misplacing of starting and ending quotes in a multiline field 
+				// is possible to get more fields in the resulting row than the number of columns
+				if(addedFields == columnNames.size())
+				{
+					addedFields = 0;
+				}
 				startFieldPos = pos + 1;
 			}
 
 			pos++;
+			
 			// if the record delimiter was found inside a quoted field, it is not an actual record delimiter,
 			// so another line should be read
 			if ((pos == row.length()) && insideQuotes) 
 			{
-				row = row + recordDelimiter + getRow();
+				String newRow = getRow();
+				if(newRow != null)
+				{
+					row = row + recordDelimiter + newRow;
+				}
 			}
 		}
 
@@ -374,25 +413,31 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			return true;
 		}
 
-		if (misplacedQuote)
-		{
-			field = "";
-		}
-		else if (hadQuotes) 
-		{
-			field = field.trim();
-			if (field.startsWith("\"") && field.endsWith("\"")) 
-			{
-				field = field.substring(1, field.length() - 1);
-				field = replaceAll(field, "\"\"", "\"");
-			}
-			else
-			{
-				field = "";
-			}
-		}
-		fields.add(field);
+//		if (misplacedQuote)
+//		{
+//			field = "";
+//		}
+		
+		field = field.trim();
 
+		if (isQuoted) 
+		{
+			field = field.substring(1);
+			if (field.endsWith("\"")) 
+			{
+				field = field.substring(0, field.length() - 1);
+			}
+			field = replaceAll(field, "\"\"", "\"");
+		}
+		
+		fields.add(field);
+		++addedFields;
+		
+		while(addedFields < columnNames.size())
+		{
+			fields.add("");
+			++addedFields;
+		}
 		return true;
 	}
 
@@ -412,7 +457,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				c = getChar();
 
 				// searches for the first character of the record delimiter
-				if (c == recordDelimiter.charAt(0)) {
+				if (c == recordDelimiter.charAt(0) || c =='\0') {
 					int i;
 					char[] temp = new char[recordDelimiter.length()];
 					temp[0] = c;
@@ -449,7 +494,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 		} // end while
 	}
-
 
 	/**
 	 * Reads a character from the stream.
