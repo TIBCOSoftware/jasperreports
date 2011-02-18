@@ -373,7 +373,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					misplacedQuote = false;
 					if (log.isDebugEnabled())
 					{
-						log.debug("Undoubled quote found in filed");
+						log.debug("Undoubled quote found in field: " + field);
 					}
 					
 				}
@@ -413,10 +413,13 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			return true;
 		}
 
-//		if (misplacedQuote)
-//		{
-//			field = "";
-//		}
+		if (misplacedQuote)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Undoubled quote found in field: " + field);
+			}
+		}
 		
 		field = field.trim();
 
