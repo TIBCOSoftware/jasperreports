@@ -297,6 +297,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean misplacedQuote = false;
 		boolean startPosition = false;
 		char c;
+		int leadingSpaces = 0;
 		fields = new ArrayList();
 
 		String row = getRow();
@@ -307,8 +308,17 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 		while (pos < row.length()) {
 			c = row.charAt(pos);
-			startPosition = pos == startFieldPos || (!insideQuotes && row.charAt(pos-1) == fieldDelimiter);
+			
+			if(pos == startFieldPos)
+			{
+				//for field trimming, where necessary
+				while(pos + leadingSpaces < row.length() && row.charAt(pos + leadingSpaces) == ' ')
+				{
+					++leadingSpaces;
+				}
+			}
 			if (c == '"') {
+				startPosition = pos == startFieldPos + leadingSpaces || (!insideQuotes && row.charAt(pos-1) == fieldDelimiter);
 
 				if (startPosition) 
 				{
@@ -353,9 +363,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			if (c == fieldDelimiter && !insideQuotes) 
 			{
 				String field = row.substring(startFieldPos, pos);
-				
-				//cf specs (http://tools.ietf.org/html/rfc4180#page-2), fields shouldn't be trimmed
-//				field = field.trim();
+				field = field.trim();
 				
 				if (isQuoted) 
 				{
@@ -373,9 +381,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					misplacedQuote = false;
 					if (log.isDebugEnabled())
 					{
-						log.debug("Undoubled quote found in field: " + field);
+						log.debug("Undoubled quote found in quoted field: " + field);
 					}
-					
 				}
 
 				isQuoted = false;
@@ -390,6 +397,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					addedFields = 0;
 				}
 				startFieldPos = pos + 1;
+				leadingSpaces = 0;
 			}
 
 			pos++;
@@ -422,7 +430,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		}
 		
 		field = field.trim();
-
 		if (isQuoted) 
 		{
 			field = field.substring(1);
@@ -435,12 +442,12 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		
 		fields.add(field);
 		++addedFields;
-		
 		while(addedFields < columnNames.size())
 		{
 			fields.add("");
 			++addedFields;
 		}
+		
 		return true;
 	}
 
@@ -460,7 +467,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				c = getChar();
 
 				// searches for the first character of the record delimiter
-				if (c == recordDelimiter.charAt(0) || c =='\0') {
+				if (c == recordDelimiter.charAt(0) || c == Character.MIN_VALUE) {
 					int i;
 					char[] temp = new char[recordDelimiter.length()];
 					temp[0] = c;
