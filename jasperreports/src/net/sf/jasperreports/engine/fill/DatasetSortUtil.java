@@ -56,7 +56,7 @@ public class DatasetSortUtil
 
 
 	/**
-	 *
+	 * Returns all current sort field criteria, including the dynamic ones provided as report parameter.
 	 */
 	public static JRSortField[] getAllSortFields(JRFillDataset dataset)
 	{
@@ -356,7 +356,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 			JRSortField sortField = allSortFields[i];
 			if (sortField.getType() == SortFieldTypeEnum.VARIABLE)
 			{
-				record[fields.length + i] = dataset.getVariableValue(sortField.getName());
+				record[sortInfo.sortFieldInfo[i].index] = dataset.getVariableValue(sortField.getName());
 			}
 		}
 		records.add(record);
