@@ -2287,7 +2287,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
 	{
 		GenericElementJExcelApiHandler handler = (GenericElementJExcelApiHandler) 
 		GenericElementHandlerEnviroment.getHandler(
@@ -2295,7 +2295,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		if (handler != null)
 		{
-			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		else
 		{

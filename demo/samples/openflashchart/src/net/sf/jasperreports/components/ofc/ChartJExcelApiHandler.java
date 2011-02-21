@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.export.GenericElementJExcelApiHandler;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JExcelApiExporterContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -43,7 +44,10 @@ public class ChartJExcelApiHandler extends BaseChartHandler implements GenericEl
 		JRGenericPrintElement element,
 		JRExporterGridCell gridCell,
 		int colIndex,
-		int rowIndex
+		int rowIndex,
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
 		)
 	{
 		JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();

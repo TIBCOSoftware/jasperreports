@@ -762,7 +762,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 						else if (element instanceof JRGenericPrintElement)
 						{
-							exportGenericElement((JRGenericPrintElement) element, gridCell, colIndex, rowIndex, emptyCols);
+							exportGenericElement((JRGenericPrintElement) element, gridCell, colIndex, rowIndex, emptyCols, y, layout);
 						}
 
 						//colIndex += gridCell.getColSpan() - 1;
@@ -1224,5 +1224,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void exportFrame(JRPrintFrame frame, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException;
 
-	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols) throws JRException;
+	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
+
 }

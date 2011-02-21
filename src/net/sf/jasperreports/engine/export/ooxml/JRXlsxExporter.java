@@ -1294,7 +1294,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		JRExporterGridCell gridCell, 
 		int colIndex, 
 		int rowIndex, 
-		int emptyCols
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
 		) throws JRException
 	{
 		GenericElementXlsxHandler handler = (GenericElementXlsxHandler) 
