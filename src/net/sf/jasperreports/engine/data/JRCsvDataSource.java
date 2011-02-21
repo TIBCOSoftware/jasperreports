@@ -296,6 +296,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean isQuoted = false;
 		boolean misplacedQuote = false;
 		boolean startPosition = false;
+		boolean isSpaceDelimiter = fieldDelimiter == ' ';
+		boolean isTabDelimiter = fieldDelimiter == '\t';
 		char c;
 		int leadingSpaces = 0;
 		fields = new ArrayList();
@@ -312,7 +314,9 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			if(pos == startFieldPos)
 			{
 				//for field trimming, where necessary
-				while(pos + leadingSpaces < row.length() && row.charAt(pos + leadingSpaces) == ' ')
+				while( pos + leadingSpaces < row.length() 
+						&& ((!isSpaceDelimiter && row.charAt(pos + leadingSpaces) == ' ') || (!isTabDelimiter && row.charAt(pos + leadingSpaces) == '\t'))
+					)
 				{
 					++leadingSpaces;
 				}
