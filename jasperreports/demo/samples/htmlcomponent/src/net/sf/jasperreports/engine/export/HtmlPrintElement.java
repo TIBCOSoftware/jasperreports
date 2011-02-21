@@ -25,7 +25,7 @@ package net.sf.jasperreports.engine.export;
 
 import javax.swing.JEditorPane;
 
-import net.sf.jasperreports.components.AwtComponentRenderer;
+import net.sf.jasperreports.renderers.AwtComponentRenderer;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
