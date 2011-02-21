@@ -1513,7 +1513,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols) throws JRException
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
 	{
 		GenericElementXlsHandler handler = (GenericElementXlsHandler) 
 		GenericElementHandlerEnviroment.getHandler(
@@ -1521,7 +1521,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		if (handler != null)
 		{
-			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
+			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		else
 		{

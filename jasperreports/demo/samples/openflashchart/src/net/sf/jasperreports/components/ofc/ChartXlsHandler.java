@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.GenericElementXlsHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterContext;
 
@@ -43,7 +44,10 @@ public class ChartXlsHandler extends BaseChartHandler implements GenericElementX
 		JRGenericPrintElement element,
 		JRExporterGridCell gridCell,
 		int colIndex,
-		int rowIndex
+		int rowIndex,
+		int emptyCols,
+		int yCutsRow, 
+		JRGridLayout layout
 		)
 	{
 		JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporter();

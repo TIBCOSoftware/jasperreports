@@ -44,6 +44,6 @@ public interface GenericElementJExcelApiHandler extends GenericElementHandler
 	 * @param exporterContext the exporter context
 	 * @param element the generic element to export
 	 */
-	void exportElement(JExcelApiExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex);
+	void exportElement(JExcelApiExporterContext exporterContext, JRGenericPrintElement element, JRExporterGridCell gridCell, int colIndex, int rowIndex, int emptyCols,	int yCutsRow, JRGridLayout layout);
 	
 }
