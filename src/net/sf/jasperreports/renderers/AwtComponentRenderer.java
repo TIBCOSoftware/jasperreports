@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components;
+package net.sf.jasperreports.renderers;
 
 import java.awt.Component;
 import java.awt.Dimension;
