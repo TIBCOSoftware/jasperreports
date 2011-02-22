@@ -352,7 +352,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 									misplacedQuote = true;
 									if(isStrictCsv)
 									{
-										throw new JRException("Misplaced quote found in row: " + row);
+										throw new JRException("Misplaced quote found at position " + pos + " in row: " + row);
 									}
 								}
 								insideQuotes = false;
@@ -367,7 +367,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					{
 						if(isStrictCsv)
 						{
-							throw new JRException("Misplaced quote found in row: " + row);
+							throw new JRException("Misplaced quote found at position " + pos + " in row: " + row);
 						}
 					}
 				}
