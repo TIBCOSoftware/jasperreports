@@ -81,6 +81,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	private boolean processingStarted;
 	private boolean toClose;
 
+	//TODO: parametrize this value
+	private boolean isStrictCsv = true;
 
 	/**
 	 * Creates a datasource instance from a CSV data input stream, using the default encoding.
@@ -287,7 +289,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	/**
 	 * Parses a row of CSV data and extracts the fields it contains
 	 */
-	private boolean parseRow() throws IOException
+	private boolean parseRow() throws IOException, JRException
 	{
 		int pos = 0;
 		int startFieldPos = 0;
@@ -296,8 +298,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean isQuoted = false;
 		boolean misplacedQuote = false;
 		boolean startPosition = false;
-		boolean isSpaceDelimiter = fieldDelimiter == ' ';
-		boolean isTabDelimiter = fieldDelimiter == '\t';
 		char c;
 		int leadingSpaces = 0;
 		fields = new ArrayList();
@@ -313,13 +313,15 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			
 			if(pos == startFieldPos)
 			{
-				//for field trimming, where necessary
+				//determining the number of white spaces at the beginning of a field
+				//this is necessary in order to determine if a trimmed field is quoted
 				while( pos + leadingSpaces < row.length() 
-						&& ((!isSpaceDelimiter && row.charAt(pos + leadingSpaces) == ' ') || (!isTabDelimiter && row.charAt(pos + leadingSpaces) == '\t'))
-					)
-				{
-					++leadingSpaces;
-				}
+						&& Character.isWhitespace(row.charAt(pos + leadingSpaces))
+						&& row.charAt(pos + leadingSpaces) != fieldDelimiter
+						)
+					{
+						++leadingSpaces;
+					}
 			}
 			if (c == '"') {
 				startPosition = pos == startFieldPos + leadingSpaces || (!insideQuotes && row.charAt(pos-1) == fieldDelimiter);
@@ -335,8 +337,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 					{
 						if(pos+1 < row.length())
 						{
-							// when already inside quotes, expecting two consecutive quotes, otherwise it means
-							// it's a closing quote
+							// when already inside quotes, expecting two consecutive quotes, 
+							// otherwise it should be a closing quote
 
 							if(row.charAt(pos+1) == '"')
 							{
@@ -344,13 +346,14 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 							}
 							else
 							{
-								//TODO: handling misplaced quotes, if necessary; 
-								//at this moment the misplaced quote is allowed to be printed as part of quoted field, 
-								//although it is not doubled; the presence of a misplaced quote inside a field is
-								//logged at logger debug level
+								//TODO: handling misplaced quotes along with parametrized isStrictCsv; 
 								if(row.charAt(pos+1) != fieldDelimiter)
 								{
 									misplacedQuote = true;
+									if(isStrictCsv)
+									{
+										throw new JRException("Misplaced quote found in row: " + row);
+									}
 								}
 								insideQuotes = false;
 							}
@@ -358,6 +361,13 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 						else
 						{
 							insideQuotes = false;
+						}
+					}
+					else
+					{
+						if(isStrictCsv)
+						{
+							throw new JRException("Misplaced quote found in row: " + row);
 						}
 					}
 				}
@@ -371,17 +381,25 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				
 				if (isQuoted) 
 				{
-					field = field.substring(1);
 					if (field.endsWith("\"")) 
 					{
 						field = field.substring(0, field.length() - 1);
 					}
+					else if(isStrictCsv)
+					{
+						throw new JRException("Malformed quoted field: " + field);
+					}
+					field = field.substring(1);
 					field = replaceAll(field, "\"\"", "\"");
 				}
 					
 				// if an illegal quote was found, the occurrence will be logged
 				if (misplacedQuote) 
 				{
+					//TODO: handle misplaced quotes along with parametrized isStrictCsv; 
+					//if !isStrictCsv the misplaced quote is allowed to be printed as part of quoted field, 
+					//although it is not doubled; the presence of a misplaced quote inside a field is
+					//logged at logger debug level
 					misplacedQuote = false;
 					if (log.isDebugEnabled())
 					{
@@ -427,6 +445,15 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 		if (misplacedQuote)
 		{
+			//TODO: handle misplaced quotes along with parametrized isStrictCsv; 
+			//if !isStrictCsv the misplaced quote is allowed to be printed as part of quoted field, 
+			//although it is not doubled; the presence of a misplaced quote inside a field is
+			//logged at logger debug level
+			if(isStrictCsv)
+			{
+				throw new JRException("Misplaced quote found in field: " + field);
+			}
+
 			if (log.isDebugEnabled())
 			{
 				log.debug("Undoubled quote found in field: " + field);
@@ -436,11 +463,15 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		field = field.trim();
 		if (isQuoted) 
 		{
-			field = field.substring(1);
 			if (field.endsWith("\"")) 
 			{
 				field = field.substring(0, field.length() - 1);
 			}
+			else if(isStrictCsv)
+			{
+				throw new JRException("Malformed quoted field: " + field);
+			}
+			field = field.substring(1);
 			field = replaceAll(field, "\"\"", "\"");
 		}
 		
