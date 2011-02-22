@@ -1,4 +1,4 @@
-﻿"id","sales_date_of_close_id","sales_date_of_start_id","sales_person_id","sales_account_id","sales_location_id","sales_state_id","amount","time_to_close","probability","id1","sales_state"
+"id","sales_date_of_close_id","sales_date_of_start_id","sales_person_id","sales_account_id","sales_location_id","sales_state_id","amount","time_to_close","probability","id1","sales_state"
 1712,140,66,7,352,352,6,45210,72,35,6,"Needs Analysis"
 1902,153,72,13,390,390,6,85240,69,25,6,"Needs Analysis"
 555,58,24,10,120,120,6,56090,71,25,6,"Needs Analysis"
