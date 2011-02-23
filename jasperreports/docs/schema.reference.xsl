@@ -140,19 +140,25 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <table width="100%" cellspacing="0" cellpadding="5" border="0">
   <tr valign="top">
     <td>
-  <xsl:for-each select="xsd:schema/xsd:element">
+  <xsl:for-each select="//xsd:element[@name]">
   <xsl:sort select="@name"/>
-    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="@name"/></xsl:attribute><span class="toc">
-     <xsl:choose>
-      <xsl:when test="@name='valueExpressionGeneric'">valueExpression (2)</xsl:when>
-      <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
-     </xsl:choose> 
-     </span>
+    <xsl:element name="a"><xsl:attribute name="href">#<xsl:choose>
+	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute><span class="toc"><xsl:value-of select="@name"/></span>
     </xsl:element>
+    <span class="toc">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name"> (in <xsl:value-of select="../../../../@name"/>)</xsl:when>
+	  <xsl:when test="../../../@name"> (in <xsl:value-of select="../../../@name"/>)</xsl:when>
+    </xsl:choose>
+    </span>
     <br/>
-<xsl:if test="position() mod 45 = 0">
-    <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
-</xsl:if>
+    <xsl:if test="position() mod 45 = 0">
+	  <xsl:text disable-output-escaping="yes">&lt;/td&gt;&lt;td&gt;</xsl:text>
+	</xsl:if>
   </xsl:for-each>
     </td>
   </tr>
@@ -167,21 +173,27 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td style="width: 20px;"><br/></td>
     <td><br/></td>
   </tr>
-  <xsl:for-each select="xsd:schema/xsd:element">
+  <xsl:for-each select="//xsd:element[@name]">
   <xsl:sort select="@name"/>
   <tr>
-    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
   </tr>
   <tr>
     <td colspan="5"><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><span class="name">
-     <xsl:choose>
-      <xsl:when test="./@name='valueExpressionGeneric'">valueExpression (2)</xsl:when>
-      <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
-     </xsl:choose> 
-     </span>
+    <td colspan="5"><span class="name"><xsl:value-of select="@name"/>
+    <xsl:choose>
+	  <xsl:when test="../../../../@name"> (in <xsl:value-of select="../../../../@name"/>)</xsl:when>
+	  <xsl:when test="../../../@name"> (in <xsl:value-of select="../../../@name"/>)</xsl:when>
+    </xsl:choose>
+    </span>
     </td>
   </tr>
   <!-- 
@@ -380,10 +392,16 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   	<td colspan="2"></td>
     <td colspan="3"><xsl:element name="a">
      <xsl:choose>
-      <xsl:when test="@name and ../../../@name='genericElementParameter'"><xsl:attribute name="href">#valueExpressionGeneric</xsl:attribute><span class="element">valueExpression</span></xsl:when>
+      <xsl:when test="@name"><xsl:attribute name="href">#<xsl:choose>
+	    <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
+	    <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
+	    <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+       </xsl:choose>
+      </xsl:attribute><span class="element"><xsl:value-of select="@name"/></span></xsl:when>
       <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:otherwise>
      </xsl:choose>
-    </xsl:element><xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
+    </xsl:element>
+    <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
   </tr>
 </xsl:template>
 
@@ -394,10 +412,30 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td colspan="3">
     <span class="description">( </span>
     <xsl:for-each select="./xsd:element">
-    <xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"> <xsl:value-of select="substring(@ref,4)"/></span></xsl:element>
-    <xsl:if test="position() &lt; count(../xsd:element)"><span class="description"> | </span></xsl:if>
-    </xsl:for-each><span class="description"> )</span>
-    <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
+    <xsl:element name="a">
+     <xsl:choose>
+      <xsl:when test="@name"><xsl:attribute name="href">#<xsl:choose>
+	    <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
+	    <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
+	    <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+       </xsl:choose>
+      </xsl:attribute><span class="element"><xsl:value-of select="@name"/></span></xsl:when>
+      <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:otherwise>
+     </xsl:choose>
+    </xsl:element>
+    <xsl:choose><xsl:when test="@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
+    <xsl:if test="@name">
+    <span class="element">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name"> (in <xsl:value-of select="../../../../@name"/>)</xsl:when>
+	  <xsl:when test="../../../@name"> (in <xsl:value-of select="../../../@name"/>)</xsl:when>
+    </xsl:choose>
+    </span>
+    </xsl:if>  
+    <xsl:if test="position() &lt; count(../xsd:element)"><span class="description">
+     | </span></xsl:if>
+    </xsl:for-each><span class="description"> )<xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
+    </span>
     </td>
   </tr>
 </xsl:template>
