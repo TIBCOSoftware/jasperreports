@@ -308,7 +308,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 			return false;
 		}
 		
-		//removing the unicode BOM which appears only once, at the beginning of the file
+		//removing the unicode BOM which occurs only once, at the beginning of the file
 		if(row.length() > 0 && row.charAt(0) == '\ufeff')
 		{
 			row = row.substring(1);
@@ -322,7 +322,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				//determining the number of white spaces at the beginning of a field
 				//this is necessary in order to determine if a trimmed field is quoted
 				while( pos + leadingSpaces < row.length() 
-						&& row.charAt(pos + leadingSpaces) <= ' '
+						&& row.charAt(pos + leadingSpaces) <= ' '  // this is how trim() works in java sun jdk 1.5; only chars <= ' ' are trimmed
 						&& row.charAt(pos + leadingSpaces) != fieldDelimiter
 						)
 					{
