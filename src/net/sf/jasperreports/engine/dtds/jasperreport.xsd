@@ -6885,6 +6885,9 @@ property.
   <complexType>
    <sequence>
     <element name="valueExpression" minOccurs="0" maxOccurs="1">
+     <annotation>
+      <documentation>Indicates the specific <code>&lt;valueExpression&gt;</code> tag for generic element parameters. Unlike other <code>&lt;valueExpression&gt;</code> elements, it contains a <code>class</code> attribute.</documentation>
+     </annotation>
      <complexType mixed="true">
       <attribute name="class" type="string" use="optional" default="java.lang.Object">
 	   <annotation>
@@ -6902,20 +6905,6 @@ property.
    <attribute name="skipWhenNull" type="boolean" use="optional" default="false">
 	<annotation>
 	 <documentation></documentation>
-	</annotation>
-   </attribute>
-  </complexType>
- </element>
-
- <!-- Added for documentation purposes only. -->
- <element name="valueExpressionGeneric">
-  <annotation>
-   <documentation>Indicates the &lt;valueExpression/&gt; element embedded in a generic element parameter.</documentation>
-  </annotation>
-  <complexType mixed="true">
-   <attribute name="class" type="string" use="optional" default="java.lang.Object">
-    <annotation>
-	 <documentation>The value class of the expression</documentation>
 	</annotation>
    </attribute>
   </complexType>
