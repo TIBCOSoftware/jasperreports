@@ -316,7 +316,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				//determining the number of white spaces at the beginning of a field
 				//this is necessary in order to determine if a trimmed field is quoted
 				while( pos + leadingSpaces < row.length() 
-						&& Character.isWhitespace(row.charAt(pos + leadingSpaces))
+						&& (Character.isWhitespace(row.charAt(pos + leadingSpaces)) || Character.isIdentifierIgnorable(row.charAt(pos + leadingSpaces)))
 						&& row.charAt(pos + leadingSpaces) != fieldDelimiter
 						)
 					{
