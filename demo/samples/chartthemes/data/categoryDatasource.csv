@@ -1,4 +1,4 @@
-"id","sales_date_of_close_id","sales_date_of_start_id","sales_person_id","sales_account_id","sales_location_id","sales_state_id","amount","time_to_close","probability","id1","first_name","last_name","full_name","manager_id","id2","sales_state"
+﻿"id","sales_date_of_close_id","sales_date_of_start_id","sales_person_id","sales_account_id","sales_location_id","sales_state_id","amount","time_to_close","probability","id1","first_name","last_name","full_name","manager_id","id2","sales_state"
 2722,186,98,10,554,554,6,800,12,75,10,"Beth","Sasseen","beth",3,6,"Needs Analysis"
 555,58,24,10,120,120,6,56090,71,25,10,"Beth","Sasseen","beth",3,6,"Needs Analysis"
 3646,250,125,10,739,739,6,6290,36,85,10,"Beth","Sasseen","beth",3,6,"Needs Analysis"
