@@ -197,15 +197,16 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   <xsl:choose>
   <xsl:when test="documentedBy">
   	<span class="copy">Documented by 
-	<xsl:for-each select="./documentedBy/author">  
+	<xsl:for-each select="./documentedBy/author[name]">  
 	    <xsl:choose>
-	    <xsl:when test="./email != ''">
-	      <xsl:element name="a"><xsl:attribute name="href">mailto:<xsl:value-of select="./email"/></xsl:attribute><xsl:attribute name="class">copy</xsl:attribute><xsl:value-of select="./name"/></xsl:element> | 
+	    <xsl:when test="email">
+	      <xsl:element name="a"><xsl:attribute name="href">mailto:<xsl:value-of select="email"/></xsl:attribute><xsl:attribute name="class">copy</xsl:attribute><xsl:value-of select="name"/></xsl:element> 
 	    </xsl:when>
 	    <xsl:otherwise>
-	      <xsl:value-of select="./name"/> | 
+	      <xsl:value-of select="name"/> 
 	    </xsl:otherwise>
 	    </xsl:choose>
+        <xsl:if test="position() &lt; count(../author[name])"><span class="description"> , </span></xsl:if>
 	</xsl:for-each>
 	</span>
   </xsl:when>
