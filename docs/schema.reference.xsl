@@ -2,8 +2,7 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:ge="http://jasperreports.sourceforge.net/jasperreports">
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports">
 
 <xsl:output method = "html" />
 <xsl:param name="sf.net"/>
