@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export;
 
 import javax.swing.JEditorPane;
 
-import net.sf.jasperreports.renderers.AwtComponentRenderer;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
@@ -34,6 +33,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.renderers.AwtComponentRenderer;
 
 
 /**
@@ -61,7 +61,8 @@ public class HtmlPrintElement {
 		editorPane.setContentType("text/html");
 		
 		StringBuffer html = new StringBuffer();
-		html.append("<div style='width:" + (element.getWidth() - 0) + "px; height:" + (element.getHeight() - 0) + "px; overflow:hidden; ");
+
+		html.append("<table style='width:" + (element.getWidth() - 0) + "px; height:" + (element.getHeight() - 0) + "px; overflow:hidden; ");
 		
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -69,7 +70,15 @@ public class HtmlPrintElement {
 			html.append(JRColorUtil.getColorHexa(element.getBackcolor()));
 			html.append("; ");
 		}
-		html.append("'>" + htmlContent + "</div>");
+		html.append("'><tr><td");
+		if (horizontalAlignment != null) {
+			html.append(" align='" + horizontalAlignment.toLowerCase() + "'");
+		}
+		if (verticalAlignment != null) {
+			html.append(" valign='" + verticalAlignment.toLowerCase() + "'");
+		}
+		html.append(" style='padding: 0px'>" + htmlContent + "</td></tr></table>");
+		
 		
 		editorPane.setText(html.toString());
 		editorPane.setBorder(null);
