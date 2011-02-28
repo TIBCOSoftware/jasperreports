@@ -2,27 +2,29 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.0.1 (2011-0x-xx, SVN xxxx)
+JasperReports 4.0.1 (2011-02-28, SVN 4219)
 ---------------------------------------------
 
-- new xalan-based xpath query executer implementation;
+- new Xalan-based and Jaxen-based XPath query executer namespace aware 
+implementations added;
 
-- new jaxen-based and namespace aware xpath query executer implementation;
+- new functions EQUAL, NOTEQUAL, LESS, GREATER and BETWEEN are now available 
+for the $X{} syntax in dynamic SQL queries;
 
-- $X{EQUAL, } and $X{NOTEQUAL, } functions;
-support for LESS or GREATER sql clause added
-support for BETWEEN sql clause added
+- new XSL query executer implementation added;
 
-- custom property "net.sf.jasperreports.export.html.class" added at element level
-to allow specifying the ID attribute for elements when exported to HTML and XHTML/CSS format;
+- support for multiple hyperlinks embedded into styled/markup text;
 
-- XLS image quality;
+- improved image quality in the XLS exporters;
 
-- XSL query executer;
+- experimental JSON data source and query executer added as separate sample 
+under /demo/samples/jsondatasource;
 
-- hyperlinks in styled text;
+- experimental HTML renderer component added as separate sample 
+under /demo/samples/htmlcomponent;
 
-- JSON;
+- custom property "net.sf.jasperreports.export.html.class" added at element level to allow 
+specifying the CSS "class" attribute for elements when exported to HTML and XHTML/CSS format;
 
 - minor bug fixes and improvements;
 
