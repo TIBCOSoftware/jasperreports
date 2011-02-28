@@ -30,6 +30,7 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -63,6 +64,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
@@ -1201,6 +1203,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, element.getOnErrorTypeValue());
 					}
+				}
+				else
+				{
+					renderer =
+						new JRWrappingSvgRenderer(
+							renderer,
+							new Dimension(element.getWidth(), element.getHeight()),
+							ModeEnum.OPAQUE == element.getModeValue() ? element.getBackcolor() : null
+							);
 				}
 			}
 			else
