@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>query</name>
+  <title>Query Sample</title>
+  <description>Shows how the report query can be build dynamically using report parameters.</description>
+
+  <mainFeature ref="query"/>
+  
+  <!-- query -->
+  
+  <feature name="query" title="Parameterized Queries (Dynamic Queries)">
+    <description>
+How to pass parameter references to report queries and how to change the report query at runtime.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Luke Shannon</name>
+    	<email>lshannon@users.sourceforge.net</email>
+      </author>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+One of the most powerful features in the JasperReports API, when running JDBC based reports, is the ability to perform complex manipulations<br/>
+of the report query during the Filling stage of the report life cycle (this is what the JasperReports API executes the query against the <br/>
+datasource getting back the data for the report). The API offers three powerful tools for query manipulation that are reviewed in this sample.<br/>
+We will be discussing each of these in this document. Also demonstrated in this sample is how to use the Background band for adding a watermark <br/>
+style background image.
+<br/>
+<br/>
+Before we go further we should discuss the concept of a DataSet.  A DataSet is an element of the report template and it the combination <br/>
+of a report data source (JDBC in this case), parameters (object references that are passed into the report-filling operations by the parent <br/>
+application), fields (maps data from the data source into the report template), variables (objects built on top of a report expression that <br/>
+perform various calculations) and groups (covered in the groups sample). <br/>
+All report templates (JRXML) implicitly declare and use a main dataset. The main dataset is responsible for <br/>
+iterating through the data source records, calculating variables, filtering out records, and estimating group breaks during the <br/>
+report-filling process. <br/>
+In the case of a JDBC based report, the Fields map to the columns coming back from the query. Modifications to the <br/>
+query allows for fundamentally changes to the data the report works with. <br/>
+Using Parameters to do this allows us to use information gathered from the parent application, which in turn could come from a<br/>
+report user (example: A user may provide a start and end date for which they want the data the report show to occur within).
+<br/>
+<br/>
+    <b>Running the Sample</b>
+    <br/>
+    <i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	<br/>
+    <i>Starting the Data Source</i>
+    <br/>
+    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
+    <br/>
+    Leave window/terminal running (see below for sample output).
+    <br/>
+    <pre>
+    <![CDATA[
+    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
+	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
+
+	runServer:
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
+     [java] [Server@83cc67]: Startup sequence initiated from main() method
+     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
+     [java] [Server@83cc67]: Initiating startup sequence...
+     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
+     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
+     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
+     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
+     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
+     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
+    ]]>
+	</pre>
+    <i>Generating the Report</i>
+    <br/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
+    <br/>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    Each export type will generate a output type in the build/report folder.
+    <br/>
+    By running the command 'ant' the following actions will be performed:
+    <br/>
+    <ul>
+    <li>All java code will be compiled to produce class files.</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
+    <li>All the exporters the sample is configured to test will run.</li>
+    </ul>
+    <br/>
+    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    <br/>
+    Each of the these task can be ran separately as well:
+    <br/>
+    <ul>
+    	<li>ant clean - removes all generated files.</li>
+    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
+    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
+    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
+    	<li>ant view - opens the report in the JasperViewer</li>
+    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
+    </ul>
+    <b>Note:</b> All generated files can be found in build/reports.
+    <br/>
+    You now have a working version of the report you can review.
+    <br/>
+    <br/>
+    <b>Tools for Manipulating the Query</b>
+    <br/>
+    <i>$P{}</i>
+    <br/>
+    Using $P{} in the report query is for situations where the query is fixed at design time and you only wish to inject values into the <br/>
+    query before it is executed. The example does not illustrate this concept, however the $X{} explained shortly works with a similar concept.<br/>
+    When using $P{} you do something like the following:
+    <pre>
+    <![CDATA[
+   SQL query string: SELECT * FROM Address WHERE city = $P{customerId}
+     ]]>
+	</pre>
+	If we changed the query in this way and turned on Debugging for the <api href="net/sf/jasperreports/engine/query/JRJdbcQueryExecuter.html">JRJdbcQueryExecuter</api> in an application running this report, <br/>
+	we would get an output like this (the hosting application also collected the value for the parameter and supplied it to JasperReports <br/>
+	when it was time to Fill the report):
+	<pre>
+	 <![CDATA[
+   	2010-03-11 12:47:53,648 DEBUG JRJdbcQueryExecuter,http-8080-5:155 - SQL query string: SELECT * FROM Address WHERE city = ?
+	2010-03-11 12:47:53,660 DEBUG JRJdbcQueryExecuter,http-8080-5:252 - Parameter #1 (city of type java.lang.String): New York
+     ]]>
+	</pre>
+	In this case the query as seen above and the parameter are passed to the database via the JDBC Driver (MySQL in this example) to be executed.<br/>
+	As report developers we don't have to worry about adding quotes around the String value for city in the query as that will be done for us.<br/>
+	This illustrates one way of injecting values into the query.
+    <br/>
+    <br/>
+    <i>$P!{}</i>
+    <br/>
+    Using $P!{} allows you to modify the query syntax itself. The query in the sample uses this:
+     <pre>
+    <![CDATA[
+    	SELECT * FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}
+     ]]>
+	</pre>
+	If we run the report in an application and collect values for the parameters (OrderBy was given the value 'LastName') we will see an output like this:
+	<pre>
+    <![CDATA[
+    2010-03-11 13:01:05,818 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT * FROM Address WHERE City NOT IN (?) ORDER BY LastName
+	2010-03-11 13:01:05,821 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #1 (ExcludedCities[0] of type java.lang.String): New York
+     ]]>
+	</pre>
+	Here we can see the value of $P!{OrderClause} was added into the query directly by JasperReports. For this reason, when working with $P!{} you must ensure <br/>
+	any values collected will not result in a syntax error in the query as they will be inserted directly into the query. However this does give us the power <br/>
+	to modify the query entirely. For example we could have set the whole 'ORDER BY' clause using $P!{}, or chosen to omit it entirely.
+	<br/>
+	<br/>
+    <i>$X{}</i>
+    <br/>
+    <br/>
+	There are also cases when just using <code>$P{}</code> in the report query is not enough, because 
+	parts of the query need to be dynamically built, depending on one or more report parameter values, 
+	in order to construct a valid query. The most common case is the <code>&lt;column_name&gt; = $P{&lt;param_name&gt;}</code> 
+	equality clause. When the value of the parameter is null, the expression <code>&lt;column_name&gt; = NULL</code> 
+	becomes invalid and it has to be replaced with <code>&lt;column_name&gt; IS NULL</code>. Another case
+	comes with <code>IN</code> and <code>NOT IN</code> query clauses that need to use a collection report parameter as a list of values, 
+	unavailable for the simple <code>$P{}</code> syntax. 
+	<br/>
+	Such complex query clauses are introduced into the query using the $X{} syntax. The general form of a 
+	<code>$X{}</code> clause is <code>$X{functionName, param1, param2,...}</code>. 
+	<br/>
+	Similar to the <code>$P{}</code> explanation above, <code>$X{}</code> results in <code>?</code> being added to the query 
+	before submitting it to the DB. Also submitted are the values collected leaving it to the JDBC driver to add the values 
+	in and ensure the syntax of the query is correct. 
+	<br/>
+	<br/>
+	<b>Built-in SQL Clause Functions</b>
+	<br/>
+	<br/>
+	As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for 
+	several SQL clause functions which require some additional processing: 
+	<ol>
+	<li><b>The <code>${EQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>EQUAL</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; = ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NULL</code> clause. 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${NOTEQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>NOTEQUAL</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt;&gt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NOT NULL</code> clause. 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${LESS, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>LESS</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &lt; $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${LESS], &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>LESS]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &lt;= $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>GREATER</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &gt; $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[GREATER</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value to compare to.</li>
+	</ul>
+	If the 	parameter's value is not null, 
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause. 
+	<br/>
+	If the parameter's value is null, the comparison with null will be 
+	neglected and the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>
+	<br/>
+	<b>Note</b>: If the comparison with null (which always return <code>false</code>) should not be ignored, then one 
+	can use the <code>&lt;column_name&gt; &gt;= $P{&lt;parameter_name&gt;}</code> instead.
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>BETWEEN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where both interval endpoints 
+	are excluded: <code>(&lt;column_name&gt; &gt; ? AND &lt;column_name&gt; &lt; ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[BETWEEN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where the left interval endpoint 
+	is included and the right endpoint is excluded: <code>(&lt;column_name&gt; &gt;= ? AND &lt;column_name&gt; &lt; ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt; ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>BETWEEN]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where the left interval endpoint 
+	is excluded and the right endpoint is included: <code>(&lt;column_name&gt; &gt; ? AND &lt;column_name&gt; &lt;= ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt; ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${[BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects four mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>[BETWEEN]</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the parameter that contains the left member value.</li>
+	<li>The fourth token is the name of the parameter that contains the right member value.</li>
+	</ul>
+	If both parameter values are not null, 
+	the function constructs a double comparison, similar to the BETWEEN SQL clause where both interval endpoints 
+	are included: <code>(&lt;column_name&gt; &gt;= ? AND &lt;column_name&gt; &lt;= ?)</code>
+	<br/>
+	If the left parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &lt;= ?</code> clause, 
+	using the right parameter's value at fill time.
+	<br/>
+	If the right parameter's value is null,  
+	the function constructs a <code>&lt;column_name&gt; &gt;= ?</code> clause, 
+	using the left parameter's value at fill time.
+	<br/>
+	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>IN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NULL OR &lt;column_name&gt; IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>NOTIN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; NOT IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NOT NULL AND &lt;column_name&gt; NOT IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NOT NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	</li>
+	</ol>
+	In this sample the query string contains a <code>$X{NOTIN, City, ExcludedCities}</code> piece of code:
+    <pre><![CDATA[
+	<parameter name="ExcludedCities" class="java.util.Collection"/>
+	<parameter name="OrderClause" class="java.lang.String"/>
+	<queryString><![CDATA[SELECT * FROM Address WHERE $X{NOTIN, City, ExcludedCities} ORDER BY $P!{OrderClause}]] ></queryString>]]></pre>
+	
+    If we run the report again and pass two values into $P{ExcludedCities}:
+    <pre>
+    <![CDATA[
+    2010-03-11 13:25:23,300 DEBUG JRJdbcQueryExecuter,http-8080-4:155 - SQL query string: SELECT * FROM Address WHERE City NOT IN (?, ?) ORDER BY LastName
+	2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #1 (ExcludedCities[0] of type java.lang.String): New York
+	2010-03-11 13:25:23,302 DEBUG JRJdbcQueryExecuter,http-8080-4:303 - Parameter #2 (ExcludedCities[1] of type java.lang.String): Boston
+     ]]>
+	</pre>
+    <b>Creating Watermarks with the Background Band</b>
+    <br/>
+    When working with JasperReport templates it is best to avoid overlap of elements otherwise you get unexpected results in many of our exporters. <br/>
+    An exception to this rule in the Background band. Content of the pages in the filled report will be overlaid on top of elements placed in the <br/>
+    Background band (this will be the case of each page in the generated report).<br/>
+    This is why the band is a full page size in the design and contains an image the same height. The result is to have this image <br/>
+    displayed on each page of the generated report.<br/>
+    TIP: As is the example it is better to have more 'faded' images or text as to not distract the viewer from the main content of the report.<br/>
+    Here we can see how the band can be configured to have an image occur in a specific position on each of the rendered pages of the report:
+    <pre>
+    <![CDATA[
+    <background>
+		<band height="742">
+			<image scaleImage="Clip" hAlign="Left" vAlign="Bottom">
+				<reportElement x="0" y="0" width="150" height="742"/>
+				<imageExpression class="java.lang.String"><![CDATA["jr.watermark.gif" ] ]></imageExpression>
+			</image>
+		</band>
+	</background>
+	  ]]>
+	</pre>
+    <b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
+    </content>
+  </feature>
+
+</sample>

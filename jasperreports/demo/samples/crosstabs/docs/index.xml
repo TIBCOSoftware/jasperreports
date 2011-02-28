@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>crosstabs</name>
+  <title>Crosstabs Sample</title>
+  <description>Crosstab and subdataset sample.</description>
+
+  <mainFeature ref="crosstabs"/>
+  <mainFeature ref="datasets"/>
+  
+  <!-- crosstabs -->
+  
+  <feature name="crosstabs" title="Crosstabs">
+    <description>
+How to use the built-in crosstab element to display aggregated data.
+    </description>
+    <since>1.1.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- datasets -->
+  
+  <feature name="datasets" title="Datasets">
+    <description>
+How to make use of subdatasets for chart elements and crosstab elements.
+    </description>
+    <since>1.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="charts"/>
+    <content>
+<b>Report Datasets</b>
+<br/>
+<br/>
+A dataset is an entity that intermediates data source and subreport characteristics. 
+Datasets allow the engine to iterate through some virtual records, just as data sources do, 
+but they also enable calculations and data grouping during this iteration using variables 
+and groups. A dataset declaration, containing parameters, fields, variables, and 
+groups, is similar to subreport declarations, but datasets are not related to any visual content. 
+There are no sections or layout information at the dataset level. 
+<br/>
+<br/>
+The report data source, along with the parameters, fields, variables, and groups declared 
+at the report level, represent a special dataset declaration, implicitely used in every 
+report template, the so-called main dataset. 
+<br/>
+One can consider the main dataset responsible for iterating through the report data source 
+records, calculating variables, filtering out records, and estimating group breaks during the 
+report-filling process. 
+<br/>
+<br/>
+<b>Subdatasets and Dataset Runs</b>
+<br/>
+<br/>
+User-defined datasets are declared as <code>&lt;subDataset/&gt;</code> elements. To completely 
+characterize a <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#subDataset">subdataset</a> 
+one needs to set:
+<ol>
+<li>Subdataset attributes:
+<ul>
+<li><code>name</code></li>
+<li><code>scriptletClass</code></li>
+<li><code>resourceBundle</code></li>
+<li><code>whenResourceMissingType</code></li>
+</ul>
+</li>
+<li>Subdataset elements:
+<ul>
+<li><code>&lt;property/&gt;</code></li>
+<li><code>&lt;scriptlet/&gt;</code></li>
+<li><code>&lt;parameter/&gt;</code></li>
+<li><code>&lt;queryString/&gt;</code></li>
+<li><code>&lt;field/&gt;</code></li>
+<li><code>&lt;sortField/&gt;</code></li>
+<li><code>&lt;variable/&gt;</code></li>
+<li><code>&lt;filterExpression/&gt;</code></li>
+<li><code>&lt;group/&gt;</code></li>
+</ul>
+</li>
+</ol> 
+Subdatasets are useful only in conjunction with some other complex elements, such as charts and 
+crosstabs, that need to iterate through data not belonging to the main report data source itself, 
+to retrieve specific data for the chart or perform data bucketing for the crosstab. Just simply 
+declaring a dataset at the report level does not have any effect. The dataset has to be further 
+referenced by a chart or crosstab element, in order to be used. 
+<br/>
+<br/>
+Anytime a dataset is referenced by another report element, a 
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/schema.reference.html#datasetRun">dataset run</a> 
+is instantiated. A dataset run supplies additional information about either the appropriate data source to be iterated, or the 
+database connection string. It comes also with its own parameters and/or parameters map. Dataset runs are similar to 
+<a href="../subreport/index.html#subreports">subreports</a> in the way parameters and the data source/connection are passed in: 
+<pre><![CDATA[
+ <element name="datasetRun">
+  <annotation>
+   <documentation>Subdataset instantiation information for a chart/crosstab dataset.</documentation>
+  </annotation>
+  <complexType>
+   <sequence>
+    <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <choice minOccurs="0" maxOccurs="1">
+     <element ref="jr:connectionExpression"/>
+     <element ref="jr:dataSourceExpression"/>
+    </choice>
+   </sequence>
+   <attribute name="subDataset" type="string" use="required">
+	<annotation>
+ 	 <documentation>The name of the <elem>subdataset</elem> to instantiate.</documentation>
+	</annotation>
+   </attribute>
+  </complexType>
+ </element>]]></pre>
+The <code>subDataset</code> attribute is mandatory and contains the name of the subdataset to be used during the 
+chart or crosstab filling process. If no dataset run is specified for a chart or crosstab, the main dataset of 
+the report is used by default.
+    </content>
+  </feature>
+
+</sample>

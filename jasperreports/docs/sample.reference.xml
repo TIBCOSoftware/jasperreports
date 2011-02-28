@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sampleReference>
+
+  <category>
+    <name>General</name>
+    <content>
+      <feature name="webapp" sample="webapp" title="Deploying Reports in Web Applications" complete="false"/>
+      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool" complete="false"/>
+      <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
+      <feature name="fileresolver" sample="tableofcontents" title="File Resolver" complete="false"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Design</name>
+    <content>
+      <feature name="alterdesign" sample="alterdesign" title="Altering Compiled Report Templates"/>
+      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)" complete="false"/>
+      <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)" complete="false"/>
+	  <feature name="barcodes" sample="barcode4j" title="Barcodes" complete="false"/>
+      <feature name="charts" sample="charts" title="Charts"/>
+      <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
+      <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
+      <feature name="conditionalstyles" sample="jasper" title="Conditional Styles"/>
+      <feature name="crosstabs" sample="crosstabs" title="Crosstabs" complete="false"/>
+      <feature name="fonts" sample="fonts" title="Fonts"/>
+      <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
+      <feature name="genericelements" sample="genericelement" title="Generic Elements" complete="false"/>
+      <feature name="horizontal" sample="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports"/>
+      <feature name="hyperlinks" sample="hyperlink" title="Hyperlinks"/>
+      <feature name="i18n" sample="i18n" title="Internationalized Report Templates"/>
+      <feature name="images" sample="images" title="Images"/>
+      <feature name="groups" sample="jasper" title="Data Grouping"/>
+      <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
+      <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)" complete="false"/>
+      <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
+      <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
+      <feature name="list" sample="list" title="Using the Built-in List Component" complete="false"/>
+      <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
+      <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
+      <feature name="rotation" sample="rotation" title="Rotated Text"/>
+      <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
+      <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
+      <feature name="styledtext" sample="styledtext" title="Styled Text"/>
+      <feature name="subreports" sample="subreport" title="Subreports"/>
+      <feature name="tableofcontents" sample="tableofcontents" title="Creating Table-Of-Contents Structures" complete="false"/>
+      <feature name="tabular" sample="tabular" title="Creating Table-like Structures" complete="false"/>
+      <feature name="templates" sample="templates" title="Style Templates"/>
+      <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
+      <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Compilation</name>
+    <content>
+      <feature name="reportcompilers" sample="groovy" title="Report Compilers"/>
+      <feature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
+      <feature name="xmlwriter" sample="hyperlink" title="Generating the JRXML Source File for an In-Memory Report Report Template Object"/>
+      <feature name="noxmldesign" sample="noxmldesign" title="Creating In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)"/>
+      <feature name="beanshell" sample="beanshell" title="Using the BeanShell Scripting Language for Report Expressions (BeanShell Report Compiler)"/>
+      <feature name="groovy" sample="groovy" title="Using the Groovy Scripting Language for Report Expressions (Groovy Report Compiler)"/>
+      <feature name="java1.5" sample="java1.5" title="Using Java 1.5 Syntax in Report Expressions (Java 1.5 Report Compiler)"/>
+      <feature name="javascript" sample="javascript" title="Using the JavaScript Language for Report Expressions (JavaScript Report Compiler)"/>
+    </content>
+  </category>
+
+  <category>
+    <name>Data Source / Query Executer</name>
+    <content>
+      <feature name="datasets" sample="crosstabs" title="Datasets"/>
+      <feature name="javabeandatasources" sample="datasource" title="JavaBean Data Sources"/>
+      <feature name="csvdatasource" sample="csvdatasource" title="CSV Data Source"/>
+      <feature name="csvqueryexecuter" sample="csvdatasource" title="CSV Query Executer" complete="false"/>
+      <feature name="customdatasource" sample="datasource" title="Custom Data Source"/>
+      <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
+      <feature name="datasources" sample="datasource" title="Data Sources"/>
+      <feature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+      <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer" complete="false"/>
+      <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
+      <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer" complete="false"/>
+      <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
+      <feature name="xlsdatasource" sample="xlsdatasource" title="XLS Data Source"/>
+      <feature name="xmldatasource" sample="xmldatasource" title="XML Data Source"/>
+      <feature name="xpathqueryexecuter" sample="xmldatasource" title="XPath Query Executer"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Filling</name>
+    <content>
+      <feature name="nopagebreak" sample="nopagebreak" title="Suppress Pagination"/>
+      <feature name="noreport" sample="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)"/>
+      <feature name="scriptlet" sample="scriptlet" title="Scriptlets"/>
+      <feature name="virtualizer" sample="virtualizer" title="Generating Very Large Documents Using Report Virtualizers"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Report Export</name>
+    <content>
+      <feature name="batchexport" sample="batchexport" title="Exporting Multiple Reports into a Single Output File (Batch Export)"/>
+      <feature name="pdfencrypt" sample="pdfencrypt" title="Encrypted PDF"/>
+      <feature name="printservice" sample="printservice" title="Printing Reports Using the Java Print Service API"/>
+      <feature name="csvmetadataexport" sample="jasper" title="Exporting to CSV Format Using Report Metadata" complete="false"/>
+      <feature name="textexport" sample="text" title="Exporting to Pure Text Format" complete="false"/>
+      <feature name="xlsformula" sample="xlsformula" title="Exporting XLS Formulas"/>
+    </content>
+  </category>
+  
+</sampleReference>

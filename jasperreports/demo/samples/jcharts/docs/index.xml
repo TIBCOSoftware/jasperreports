@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jcharts</name>
+  <title>jCharts Sample</title>
+  <description>Shows how third-party charting APIs could be used for rendering charts as images.</description>
+
+  <mainFeature ref="jcharts"/>
+  
+  <!-- jcharts -->
+  
+  <feature name="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)">
+    <description>
+How to render images using the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
+    </description>
+    <since>0.6.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="jfreechart"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

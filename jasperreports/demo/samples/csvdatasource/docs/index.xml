@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>csvdatasource</name>
+  <title>CSV Data Source Sample</title>
+  <description>Shows how the CSV data source and the CSV query executer implementations could be used to fill reports.</description>
+
+  <mainFeature ref="csvdatasource"/>
+  <mainFeature ref="csvqueryexecuter"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  
+  <!-- csvdatasource -->
+  
+  <feature name="csvdatasource" title="CSV Data Source">
+    <description>
+How to fill a report using data from a CSV file.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="datasource"/>
+    <content>
+<b>CSV Data Sources</b>
+<br/>
+<br/>
+Report filling is one of the basic steps during the report generation. After the report compilation, 
+significant report data are read from the report data source, or calculated from report expressions, 
+and the generated <api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> object 
+is filled section by section. 
+<br/>
+Data sources are very useful when data come as a set of structured records, either extracted from a 
+relational database, or loaded from specific files. In order to become more familiar with data source 
+objects please consult the <a href="../datasources.html#datasources">Data Sources</a> section.
+<br/>
+Sometimes data that users need to fill the report with is found in plain text files, in a 
+certain format, such as the popular CSV (comma-separated value).
+<br/>
+JasperReports provides an implementation for such a data source, by wrapping the CSV 
+data from a text file into a <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api>. 
+The CSV data source usually needs to read a file from disk, or at least from an input stream. 
+<br/>
+CSV is a file format with very few formatting rules: data rows are separated by a record 
+delimiter (text sequence) and fields inside each row are separated by a field delimiter 
+(character). Fields containing delimiter characters can be placed inside quotes. If fields 
+contain quotes themselves, these are duplicated (for example, <code>"John ""Doe"""</code> will be 
+displayed as <code>John "Doe"</code>).
+<br/>
+The most common delimiters for CSV files are:
+<ul>
+<li>comma (<code>,</code>) - as field delimiter</li>
+<li>newline (<code>\n</code>) - as record delimiter</li>
+</ul>
+Users can override these default values by calling <code>setFieldDelimiter(char)</code> and 
+<code>setRecordDelimiter(String)</code> of the <code>JRCsvDataSource</code> class. 
+<br/>
+There are two categories of CSV files:
+<ol>
+<li>files with a header record containing column names, all the other records containing field values;</li>
+<li>files without a header record; all records contain only field values. This is the default category.</li>
+</ol>
+For the files in the first category, column names are read from the first row in the CSV file. 
+But the engine should be informed that the input file belongs to the 
+first category. This can be done by calling the <code>setUseFirstRowAsHeader(true)</code> method of the <code>JRCsvDataSource</code>.
+<br/>
+If files belong to the second category (default), column names have to be provided separately, taking into account that 
+the column names order should be the same as the column order in a data record. If this is not possible, 
+the default naming convention is to use the <code>COLUMN_</code> prefix followed by the zero-based column index.
+<br/>
+For instance, if is known that a particular column is the third column in the record 
+(index=2), then one could name the corresponding field "COLUMN_2" and use the 
+column data without problems.
+<br/> 
+Another problem when working with CSV files is related to data types. Handling data types 
+for fields in CSV data sources is special since the CSV file format 
+does not provide such information. This kind of matter is solved by trying to match each field in 
+the data source to its corresponding report field type. For number and date/time fields, 
+converting text values to <code>java.lang.Number</code> and <code>java.util.Date</code> values respectively 
+requires parsing using format objects. This is controlled by specifying the date and 
+number format objects to be used with the <code>JRCsvDataSource</code> instance by calling its 
+<code>setDateFormat(DateFormat)</code> and <code>setNumberFormat(NumberFormat)</code> methods 
+before passing it to the report-filling process.
+<br/>
+<br/>
+<b>CSV Data Source Example</b>
+<br/>
+<br/>
+In our example data records are stored in the /data/CsvDataSource.txt file. Although the file extension is <code>.txt</code>, 
+it contains structured data according to the CSV rules:
+<pre><![CDATA[
+  "Dallas",47,"Janet Fuller","445 Upland Pl.","Trial"
+  "Lyon",38,"Andrew Heiniger","347 College Av.","Active"
+  "Dallas",43,"Susanne Smith","2 Upland Pl.","Active"
+  "Berne",22,"Bill Ott","250 - 20th Ave.","Active"
+  "Boston",32,"Michael Ott","339 College Av.","Trial"
+  "Dallas",4,"Sylvia Ringer","365 College Av.","Active"
+  "Boston",23,"Julia Heiniger","358 College Av.","Active"
+  "Chicago",39,"Mary Karsen","202 College Av.","Active"
+  "Dallas",40,"Susanne Miller","440 - 20th Ave.","Trial"
+  "Berne",9,"James Schneider","277 Seventh Av.","Active"
+  "Dallas",36,"John Steel","276 Upland Pl.","Suspended"
+  "Chicago",35,"George Karsen","412 College Av.","Suspended"
+  "Dallas",37,"Michael Clancy","19 Seventh Av.","Deleted"
+  "Lyon",2,"Anne Miller","20 Upland Pl.","Active"
+  "Dallas",0,"Laura Steel","429 Seventh Av.","Active"
+  "Lyon",28,"Susanne White","74 - 20th Ave.","Deleted"
+  "Paris",5,"Laura Miller","294 Seventh Av.","Active"
+  "Lyon",17,"Laura Ott","443 Seventh Av.","Active"
+  "New York",46,"Andrew May","172 Seventh Av.","Active"
+  "New York",44,"Sylvia Ott","361 College Av.","Active"
+  "Dallas",19,"Susanne Heiniger","86 - 20th Ave.","Active"
+  "Chicago",11,"Julia White","412 Upland Pl.","Active"
+  "Dallas",10,"Anne Fuller","135 Upland Pl.","Active"
+  "New York",41,"Bill King","546 College Av.","Deleted"
+  "Oslo",45,"Janet May","396 Seventh Av.","Active"
+  "Paris",18,"Sylvia Fuller","158 - 20th Ave.","Trial"
+  "San Francisco",48,"Robert White","549 Seventh Av.","Active"
+  "Paris",25,"Sylvia Steel","269 College Av.","Suspended"
+  "San Francisco",7,"James Peterson","231 Upland Pl.","Active"
+  "Oslo",42,"Robert Ott","503 Seventh Av.","Trial"
+]]></pre>
+The file has no header row with column names. Column names are set independently, as shown in the 
+<code>getDataSource()</code> method in the /src/CsvDataSourceApp.java file: 
+<pre><![CDATA[
+  private static JRCsvDataSource getDataSource() throws JRException
+  {
+    String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
+    JRCsvDataSource ds = new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"));
+    ds.setRecordDelimiter("\r\n");
+    ds.setColumnNames(columnNames);
+    return ds;
+  }
+]]></pre>
+The five column names are: <code>city</code>, <code>id</code>, <code>name</code>, <code>address</code> and <code>state</code>, 
+in this particular order. Field names are identical to the column names defined here.
+<br/>
+The <code>JRCsvDataSource</code> object prepared above is passed to the engine at fill time (see again the /src/CsvDataSourceApp.java file):
+<pre><![CDATA[
+  public void fill() throws JRException
+  {
+    long start = System.currentTimeMillis();
+    //Preparing parameters
+    Map parameters = new HashMap();
+    parameters.put("ReportTitle", "Address Report");
+    parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
+    Set states = new HashSet();
+    states.add("Active");
+    states.add("Trial");
+    parameters.put("IncludedStates", states);
+
+    JasperFillManager.fillReportToFile("build/reports/CsvDataSourceReport.jasper", parameters, getDataSource());
+    System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+  }
+]]></pre>
+The <code>IncludedStates</code> parameter defined above is used for data filtering. Only records with <code>Active</code> 
+or <code>Trial</code> states will be taken into account:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;parameter name="IncludedStates" class="java.util.Set"/&gt;
+<br/>
+<br/>
+&#160;&#160;...
+<br/>
+<br/>
+&#160;&#160;&lt;filterExpression&gt;&lt;![CDATA[$P{IncludedStates}.contains($F{state}) ? Boolean.TRUE : Boolean.FALSE]]&gt;&lt;/filterExpression&gt;
+</code>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/csvdatasource</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/csvdatasource/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+  <!-- csvdatasource -->
+  
+  <feature name="csvqueryexecuter" title="CSV Query Executer">
+    <description>
+How to fill a report using the CSV query executer.
+    </description>
+    <since>4.0.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

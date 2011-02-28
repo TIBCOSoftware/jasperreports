@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>templates</name>
+  <title>Templates Sample</title>
+  <description>Shows how to work with style templates.</description>
+
+  <mainFeature ref="templates"/>
+  
+  <!-- templates -->
+  
+  <feature name="templates" title="Style Templates">
+    <description>
+How to reuse report style definitions from external style templates.
+    </description>
+    <since>2.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Styles in JasperReports</b>
+    <br/>
+    <br/>
+    In a given report, elements can have different appearances. They can have borders, foreground and background colors, 
+alignments, text decorations, etc. JasperReports provides the <code>&lt;style /&gt;</code> element in order to manage all these appearance characteristics. 
+<br/>
+A <code>&lt;style /&gt;</code> element is defined by the following attributes:
+<ul>
+<li><code>isDefault</code> - indicates whether this style is the document's default style</li>
+<li><code>style</code> - a reference to the parent style</li>
+<li><code>mode</code> - sets the element's transparency. Possible values are <code>Opaque</code> and <code>Transparent</code>.</li>
+<li><code>forecolor</code> - the foreground color</li>
+<li><code>backcolor</code> - the background color</li>
+<li><code>fill</code> - sets the fill mode. At the moment the single value allowed is <code>Solid</code>.</li>
+<li><code>radius</code> - sets the radius value, if necessary.</li>
+<li><code>scaleImage</code> - sets the scale for images only. Possible values: <code>Clip</code>, <code>FillFrame</code>, <code>RetainShape</code>, <code>RealHeight</code>, <code>RealSize</code>.</li>
+<li><code>hAlign</code> - sets the horizontal alignment. Possible values: <code>Left</code>, <code>Center</code>, <code>Right</code>, <code>Justified</code>.</li>
+<li><code>vAlign</code> - sets the vertical alignment. Possible values: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
+<li><code>rotation</code> - sets the element's rotation. Possible values: <code>None</code>, <code>Left</code>, <code>Right</code>, <code>UpsideDown</code>.</li>
+<li><code>lineSpacing</code> - sets the line spacing for text elements only. Possible values: <code>Single</code>, <code>1_1_2</code>, <code>Double</code>.</li>
+<li><code>markup</code> - sets the markup style for styled texts</li>
+<li><code>fontName</code> - sets the font name</li>
+<li><code>fontSize</code> - sets the font size</li>
+<li><code>isBold</code> - indicates if the font style is bold</li>
+<li><code>isItalic</code> - indicates if the font style is italic</li>
+<li><code>isUnderline</code> - indicates if the font style is underline</li>
+<li><code>isStrikeThrough</code> - indicates if the font style is strikethrough</li>
+<li><code>pdfFontName</code> - sets the related PDF font name</li>
+<li><code>pdfEncoding</code> - sets the character encoding for the PDF output format</li>
+<li><code>isPdfEmbedded</code> - indicates if the PDF font is embedded</li>
+<li><code>pattern</code> - sets the format pattern for formatted texts</li>
+<li><code>isBlankWhenNull</code> - indicates if a white space should be shown if the text is not present</li>
+</ul>
+In a style element can be set also the element's <code>&lt;box /&gt;</code> and <code>&lt;pen /&gt;</code> styles.
+<br/>
+In some situations, a style should be applied only if a certain condition is met. For example, consecutive rows in a table should alternate their background colors. 
+JasperReports provides conditional styles in order to manage conditions for styles. 
+<br/>
+<br/>
+<b>Style Templates</b>
+<br/>
+<br/>
+Any type of report element can reference a report style definition using its <code>style</code> 
+attribute. By doing so, all the style properties declared by the style definition that are 
+applicable to the current element will be inherited. Style properties specified at the report 
+element level can be used to override the inherited values. 
+<br/>
+But what if there are several reports that require the same report style to be applied? One can write the same report style definition in each report, but this is not an optimized approach. 
+Better than that, and recommended, is to use style templates instead.
+<br/>
+Report styles can also be defined in external style template files that are referenced by 
+report templates. This allows report designers to define in a single place a common look 
+for a set of reports.
+<br/>
+A style template is an XML file that contains one or more style definitions. A template 
+can include references to other style template files, hence one can organize a style library 
+as a hierarchical set of style template files.
+<br/>
+Style template files use by convention the *.jrtx extension, but this is not mandatory.
+<br/>
+The <code>&lt;jasperTemplate /&gt;</code> element is the root of a style template file. The <code>&lt;template /&gt;</code> 
+element is used to include references to other template files; the contents of this element 
+is interpreted as the location of the referred template file.
+<br/>
+The <code>&lt;style /&gt;</code> element is identical to the element with the same name from report design 
+templates (JRXML files), with the exception that a style in a style template cannot 
+contain conditional styles. This limitation is caused by the fact that conditional styles 
+involve report expressions, and expressions can only be interpreted in the context of a 
+single report definition. Each style must specify a name, and the style names have to be 
+unique inside a style template.
+<br/>
+The following is an example of a styles template file which refers a base template file named <code>base_styles.jrtx</code>, overrides 2 parent styles and defines other 3 own styles:
+<pre><![CDATA[
+<?xml version="1.0"?>
+<!DOCTYPE jasperTemplate
+  PUBLIC "-//JasperReports//DTD Template//EN"
+  "http://jasperreports.sourceforge.net/dtds/jaspertemplate.dtd">
+
+<jasperTemplate>
+
+	<template><![CDATA[base_styles.jrtx]]&gt;</template>
+	
+	<!-- Override the default font from base_styles.xml -->
+	<style name="Regular" style="Base" isDefault="true" 
+		fontSize="12"/>
+	
+	<style name="Special Emphasis" style="Emphasis"
+		fontSize="12" forecolor="red"/>
+	
+	<!--
+		Override the Strong style from base_styles.xml.
+		Note that the Very Strong style from base_styles.xml will still inherit the original Strong style.
+	-->
+	<style name="Strong" style="Base"
+		isUnderline="true" fontSize="14"/>
+	
+	<style name="Serif" style="Base"
+		fontSize="12"
+		fontName="DejaVu Serif"/>
+	
+	<style name="Serif Note" style="Serif"
+		isUnderline="true"/>
+	
+</jasperTemplate>
+
+]]></pre>
+A report can use style templates by explicitly referring them in its definition. References 
+to a style templates are included in JRXML reports as <code>&lt;template /&gt;</code> elements. Such an 
+element contains an expression that is resolved at fill time to a style template instance.
+<br/>
+The template expression can only use constants/literals and report parameters. Variables 
+and fields cannot be used because the template expressions are evaluated before the 
+report calculation engine is initialized. If the template expression evaluates to null, the 
+engine ignores the template reference. 
+<br/>
+Below is an example of how to reference a style template in a report:
+<pre><![CDATA[
+<jasperReport ...>
+  <template>”report_styles.jrtx”</template>
+  <!-- parameters can be used in style template expressions -->
+  <template>$P{BaseTemplateLocation} + ”report_styles.jrtx”</template>
+  <template class=”java.net.URL”>$P{StyleTemplateURL}</template>
+  <parameter name=”BaseTemplateLocation”/>
+  <parameter name=”StyleTemplateURL” class=”java.net.URL”/>
+  ...
+]]></pre>
+<br/>
+Style template locations are interpreted in the same manner as image or subreport 
+locations, that is, the engine attempts to load the location as an URL, a disk file or a 
+classpath resource. The <code>class</code> attribute in the <code>&lt;template /&gt;</code> element represents the class for the style template source expression. Possible values are:
+<ul>
+<li><code>java.lang.String</code></li>
+<li><code>java.io.File</code></li>
+<li><code>java.net.URL</code></li>
+<li><code>java.io.InputStream</code></li>
+<li><code>net.sf.jasperreports.engine.JRTemplate</code></li>
+</ul>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/templates</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/templates/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+</sample>

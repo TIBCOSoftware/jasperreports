@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StyledTextReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<title>
+		<band height="782">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#C0C0C0"/>
+				<textElement markup="styled">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for the <style isBold="true" forecolor="magenta">textElement</style> tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="150" width="555" height="60"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["This text field element contains styled text displaying the text-only version of the <style size=\"12\" isBold=\"true\" forecolor=\"black\">^<style forecolor=\"#808080\">Jasper</style><style forecolor=\"#990000\">Reports</style></style> logo and some <font size=\"10\"><sup>superscript</sup></font> text and <font size=\"10\"><sub>subscript</sub></font> text."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="220" width="270" height="370" backcolor="#CCFFCC"/>
+				<textElement markup="styled">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Here is the list with the attributes supported by the <style isBold="true">style</style> tag used to format the text content inside a styled text element:
+
+fontName
+<style size="32">size</style>
+<style isBold="true">isBold</style>
+<style isItalic="true">isItalic</style>
+<style isUnderline="true">isUnderline</style>
+<style isStrikeThrough="true">isStrikeThrough</style>
+pdfFontName
+pdfEncoding
+isPdfEmbedded
+<style forecolor="red">forecolor</style>
+<style backcolor="blue" forecolor="white" isBold="true">backcolor</style>]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="280" y="220" width="270" height="370" backcolor="#CCFFCC"/>
+				<textElement markup="styled">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Here is the list with the supported HTML tags :
+
+<font size="12">&lt;font size=&quot;12&quot;&gt;</font>
+<font color="red">&lt;font color=&quot;red&quot;&gt;</font>
+<font face="DejaVu Serif">&lt;font face=&quot;DejaVu Serif&quot;&gt;</font>
+<b>bold &lt;b&gt;</b> <i>italic &lt;i&gt;</i> <u>underlined &lt;u&gt;</u>
+an empty line follows (&lt;br/&gt;):
+<br/>
+<sup>&lt;sup&gt;</sup> and <sub>&lt;sub&gt;</sub>
+<br/>
+A bulleted list:
+<li>item 1 &lt;li&gt;</li>
+<br/>
+<font size="12" color="blue"><b><a href="http://www.google.com" target="Blank">&lt;a href="http://www.google.com"&gt;</a></b></font>
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="600" width="555" height="20"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="620" width="555" height="20"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[ampersand &amp; less &lt; greater &gt; quote &quot; apostrophe &apos;]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="650" width="555" height="20" forecolor="#0000FF" backcolor="#FFFF00"/>
+				<textElement textAlignment="Center" markup="styled"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["<style size=\"16\">1</style>\n<style size=\"24\">2</style>\n<style size=\"32\">3</style>\n<style size=\"24\">2</style>\n<style size=\"16\">1</style>\n"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

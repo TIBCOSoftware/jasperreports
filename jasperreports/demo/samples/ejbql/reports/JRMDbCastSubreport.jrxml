@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRMDbCastSubreport" pageWidth="245" pageHeight="842" columnWidth="175" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="Cast" class="java.lang.Integer"/>
+	<field name="actor.name" class="java.lang.String"/>
+	<field name="character" class="java.lang.String"/>
+	<title>
+		<band height="14">
+			<staticText>
+				<reportElement style="Sans_Italic" x="0" y="2" width="240" height="10"/>
+				<textElement/>
+				<text><![CDATA[Cast (among others)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="14">
+			<rectangle>
+				<reportElement x="0" y="2" width="240" height="10" forecolor="#CCFFFF" backcolor="#CCFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="2" width="120" height="10" backcolor="#CCFFFF"/>
+				<textElement/>
+				<text><![CDATA[Actor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="125" y="2" width="120" height="10" backcolor="#CCFFFF"/>
+				<textElement/>
+				<text><![CDATA[Character]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="0" y="2" width="120" height="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{actor.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="125" y="2" width="120" height="10"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{character}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

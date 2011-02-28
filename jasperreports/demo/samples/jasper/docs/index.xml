@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jasper</name>
+  <title>Jasper Sample</title>
+  <description>Shows how different features of the library could be used to generate a complex document.</description>
+
+  <mainFeature ref="groups"/>
+  <mainFeature ref="csvmetadataexport"/>
+  <mainFeature ref="conditionalstyles"/>
+  
+  <!-- groups -->
+  
+  <feature name="groups" title="Data Grouping">
+    <description>
+How to group data at different levels and perform aggregate calculations using report groups.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="datasource"/>
+    <content>
+<b>Grouping Data in JasperReports</b>
+<br/>
+<br/>
+A report's content can be better organized if the report data are grouped by meaningful criteria. For instance, 
+a shipping report becomes more relevant when its data are grouped by product type, or by customer's country, etc. 
+<br/>
+And as a bonus, grouped data allow statistic calculations to be performed and additional statistic information 
+to be added to the report at runtime.
+<br/>
+As seen above, there are multiple reasons of grouping and aggregating data before they are represented. In JasperReports 
+there are two ways to accomplish this:
+<ul>
+<li>If a report query is declared, it could be customized to retrieve already aggregated data from the data source 
+(A SQL query could use the <code>GROUP BY</code> clause and statistical functions, for example). The main advantage 
+is that the JR engine needs no more to prepare data before representing it, and the report is running faster in this 
+case. The main disadvantage is that one cannot use the group imbrication, along with group header and footer facilities, 
+so the data presentation can be realized in simplified layouts only.</li>
+<li>If a rich presentation context of data grouping is required, one could use the report <code>&lt;group/&gt;</code> 
+elements. Groups represent a flexible way to organize data on a report. In this case, the engine iterates through 
+records in the data source and retrieves only those according to the grouping criteria.</li>
+</ul>
+A report group has three components: 
+<ul>
+<li>Group expression - contains the data grouping criteria. When the value of the group expression 
+changes during the iteration through the data source at report-filling time, a group rupture occurs 
+and the corresponding &lt;groupFooter&gt; and &lt;groupHeader&gt; sections are inserted into the 
+resulting document.</li>
+<li>Group header section - a multiband section containing header additional information.</li>
+<li>Group footer section - a multiband section containing footer additional information.</li>
+</ul>
+<b>Note</b>:
+<ul>
+<li>The order of groups declared in a report template is important because groups contain each other. 
+One group contains the following group, and so on. When a larger group encounters a rupture, all 
+subsequent groups are reinitialized.</li>
+<li>You can declare as many groups as you want in a report.</li>
+<li>In order to get an accurate data representation, the data in the data source should be 
+already ordered according to the group expressions used in the report. One can either perform data 
+sorting through the report query, or use the <code>&lt;sortField/&gt;</code> element.</li>
+</ul>
+<b>Group Attributes</b>
+<br/>
+<br/>
+Any group in a report can be customized through its attributes:
+<ul>
+<li><code>name</code> - Acts as a group identifier. This attribute is mandatory, and should be unique per report.</li>
+<li><code>isStartNewColumn</code> - Instructs the engine to start a new column when a new group starts. The default 
+value is <code>false</code>.</li>
+<li><code>isStartNewPage</code> - Instructs the engine to start a new page when a new group starts. The default 
+value is <code>false</code>.</li>
+<li><code>isResetPageNumber</code> - If <code>true</code>, when a new group starts, the built-in <code>PAGE_NUMBER</code> 
+variable will be reset. The default value is <code>false</code>.</li>
+<li><code>isReprintHeaderOnEachPage</code> - Instructs the engine to print the group header on each page containing 
+the group data. The default value is <code>false</code>.</li>
+<li><code>minHeightToStartNewPage</code> - Represents the minimum amount of vertical space at 
+the bottom of the page or column, measured in pixels, that prevents the group from starting a 
+new page of its own.</li>
+<li><code>footerPosition</code> - Specifies the rendering position of the group footer on the page. Possible values are: 
+<code>Normal</code>, <code>StackAtBottom</code>, <code>ForceAtBottom</code>, <code>CollateAtBottom</code>. 
+The default value is <code>Normal</code>.</li>
+<li><code>keepTogether</code> - If <code>true</code>, prevents the group from splitting on its first break attempt. 
+The default value is <code>false</code>.</li>
+</ul>
+<b>Data Grouping and Report Variables</b>
+<br/>
+<br/>
+Report variables are special objects built on top of a report expression in order to apply the code 
+reusability during the report design stage. Report templates are a lot simplified when expressions 
+frequently used throughout the report template are declared in a single place as objects that can 
+be referenced by their name as unique identifier.
+<br/>
+Another great advantage of declaring expressions as variables is the ability to perform various 
+calculations based on their corresponding expression. 
+<br/>
+A report variable is characterized by the following attributes:
+<ul>
+<li><code>name</code> - The variable's name used as unique identifier. It is mandatory.</li>
+<li><code>class</code> - The class name of the variable's values. The default class is <code>java.lang.String</code></li>
+<li><code>resetType</code> - Indicates when the variable should be reinitialized during the report-filling process. Possible 
+values are:<code>None</code>, <code>Report</code>, <code>Page</code>, <code>Column</code>, <code>Group</code>. The default 
+value is <code>Report</code>.</li>
+<li><code>resetGroup</code> - If the <code>resetType</code> is set to <code>Group</code>, indicates the name of the group 
+which triggers the variable reinitializing each time it breaks.</li>
+<li><code>incrementType</code> - Indicates when the variable should be incremented during the report-filling process. Possible 
+values are:<code>None</code>, <code>Report</code>, <code>Page</code>, <code>Column</code>, <code>Group</code>. The default 
+value is <code>None</code>.</li>
+<li><code>incrementGroup</code> - If the <code>incrementType</code> is set to <code>Group</code>, indicates the name of the group 
+which triggers the variable increment each time it breaks.</li>
+<li><code>calculation</code> - Indicates the built-in calculation type to be performed on the variable expression value. Possible 
+values are:<code>Nothing</code>, <code>Count</code>, <code>DistinctCount</code>, <code>Sum</code>, <code>Average</code>, <code>Lowest</code>, 
+<code>Highest</code>, <code>StandardDeviation</code>, <code>Variance</code>, <code>System</code>, <code>First</code>. The default 
+value is <code>Nothing</code>.</li>
+<li><code>incrementerFactoryClass</code> - The name of the incrementer factory class.</li>
+</ul>
+<b>Note</b>: With every iteration through the data source, variables are evaluated/incremented in the same order as they are 
+declared. Therefore, the order of variables as they appear in the report template is very important. 
+<br/>
+For more about report variables one can consult also the 
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/tutorial.html#Variables">tutorial</a>.
+<br/>
+<br/>
+Being familiarized with variables, it's time to focus back on data grouping. Report variables are very useful objects in a report, 
+that can operate on any collection of data. Since groups are aggregating data in meaningful collections, variables could be used 
+to perform operations at group level too. As seen above, they can be reset or incremented any time a group breaks, and can be used 
+to perform various built-in calculations over parameters, other variables and/or field values in a group.
+<br/>
+Related to groups, there is a special built-in counting variable, used to count the number of records in a group. This type of variables 
+are always named with the related group's name followed by the <code>_COUNT</code> suffix. In this sample we'll find some usage examples 
+of this group counting variables. 
+<br/>
+<br/>
+<b>The Jasper Sample</b>
+<br/>
+<br/>
+This sample illustrates how groups can be used to produce documents with complex data grouping in a 
+multicolumn layout. The <code>reports/FirstJasper.jrxml</code> file describes a shipping report presented 
+in a 2-column layout, with data organized according to several specific grouping criteria. 
+<br/>
+The 2-column layout is given by the <code>columnCount="2"</code> attribute setting in the 
+<code>&lt;jasperReport/&gt;</code> element.
+<br/>
+<br/>
+Further, one can see the report query retrieving data ordered by the <code>ShipCountry</code> field: 
+<pre><![CDATA[
+  <queryString><![CDATA[SELECT * FROM Orders WHERE OrderID <= $P{MaxOrderID} ORDER BY ShipCountry]] ></queryString>]]></pre>
+Next in the report are defined some variables related to groups:
+<pre><![CDATA[
+  <variable name="FirstLetter" class="java.lang.String" resetType="None">
+    <variableExpression><![CDATA[$F{ShipCountry}.substring(0, 1).toUpperCase()]] ></variableExpression>
+  </variable>
+  <variable name="FreightSumFirstLetterGroup" class="java.lang.Double" resetType="Group" 
+    resetGroup="FirstLetterGroup" calculation="Sum">
+    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
+  </variable>
+  <variable name="FreightSumCountryGroup" class="java.lang.Double" resetType="Group" 
+    resetGroup="CountryGroup" calculation="Sum">
+    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
+  </variable>
+  <variable name="FreightSumColumn" class="java.lang.Double" resetType="Column" calculation="Sum">
+    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
+  </variable>
+  <variable name="FreightSumPage" class="java.lang.Double" resetType="Page" calculation="Sum">
+    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
+  </variable>
+  <variable name="FreightSumReport" class="java.lang.Double" calculation="Sum">
+    <variableExpression><![CDATA[$F{Freight}]] ></variableExpression>
+  </variable>
+  <variable name="DateHighestCountryGroup" class="java.sql.Timestamp" resetType="Group" 
+    resetGroup="CountryGroup" calculation="Highest">
+    <variableExpression><![CDATA[$F{OrderDate}]] ></variableExpression>
+  </variable>
+  <variable name="RegionCountCountryGroup" class="java.lang.Integer" resetType="Group" 
+    resetGroup="CountryGroup" calculation="Count">
+    <variableExpression><![CDATA[$F{ShipRegion}]] ></variableExpression>
+  </variable>]]></pre>
+Now let's take a look at the groups themselves:
+<pre><![CDATA[
+<group name="FirstLetterGroup" isStartNewColumn="true" isReprintHeaderOnEachPage="true" 
+  minHeightToStartNewPage="200">
+  <groupExpression><![CDATA[$V{FirstLetter}]] ></groupExpression>
+  <groupHeader>
+    <band height="25">
+      ...
+      <textField>
+        <reportElement mode="Opaque" x="130" y="14" width="140" height="11" forecolor="#ff0000" 
+          backcolor="#ffdddd" style="Sans_Bold"/>
+        <textFieldExpression class="java.lang.String"><![CDATA[$V{FirstLetter}]] ></textFieldExpression>
+      </textField>
+    </band>
+  </groupHeader>
+  <groupFooter>
+    <band height="15">
+      ...
+      <textField>
+        <reportElement x="45" y="1" width="25" height="11" forecolor="#ff0000" style="Sans_Bold"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression class="java.lang.Integer"><![CDATA[$V{FirstLetterGroup_COUNT}]] ></textFieldExpression>
+      </textField>
+      ...
+      <textField pattern="0.00">
+        <reportElement x="170" y="1" width="60" height="11" forecolor="#ff0000" style="Sans_Bold"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumFirstLetterGroup}]] ></textFieldExpression>
+      </textField>
+      <textField evaluationTime="Auto">
+        <reportElement x="230" y="1" width="40" height="11" forecolor="#ff0000" style="Sans_Bold"/>
+        <textElement textAlignment="Right"/>
+        <textFieldExpression>
+          <![CDATA[
+            msg("{0,number,0.00}%", 
+            new Double(100d * $V{FreightSumFirstLetterGroup}.doubleValue() / $V{FreightSumReport}.doubleValue()))
+          ]] >
+        </textFieldExpression>
+      </textField>
+    </band>
+  </groupFooter>
+</group>]]></pre>
+According to the group expression above, the <code>FirstLetterGroup</code> groups data with the same 
+first letter of the <code>ShipCountry</code> field. All countries starting with the same letter 
+will be grouped together. When the first letter changes, the <code>FirstLetterGroup</code> group 
+will break.
+<br/>
+One can see also, from attribute settings, that this group will start in a new column, each time 
+printing its header too, and requires a minimum 200px amount of vertical space in order to prevent 
+starting on a new page by its own.
+<br/>
+Another interesting element here is the built-in variable <code>FirstLetterGroup_COUNT</code> which 
+counts the number of records in the group. One could notice the variable's name consisting in the 
+related group's name followed by the <code>_COUNT</code> suffix.
+<br/>
+Other report variables, such as <code>FreightSumFirstLetterGroup</code> and <code>FreightSumReport</code> 
+were used too, in order to perform statistic calculations.
+<br/>
+<br/>
+Now let's jump to the next group in the report. The <code>FirstLetterGroup</code> group contains records 
+for all countries starting with the same letter. It means that for groups containing more than one country, records 
+for different countries are mixed together, and this might be not a very good idea. Obviously, a better data grouping 
+procedure is required. For instance, to create a child group inside the <code>FirstLetterGroup</code> for each distinct 
+country starting with that letter. So, the information will become more readable and significant than before.
+<br/>
+This is what the second group in the report does, the <code>CountryGroup</code>: 
+<pre><![CDATA[
+<group name="CountryGroup" isReprintHeaderOnEachPage="true">
+  <groupExpression><![CDATA[$F{ShipCountry}]] ></groupExpression>
+  <groupHeader>
+  <band height="15">
+    ...
+    <textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
+      <reportElement x="170" y="2" width="100" height="11" style="Sans_Bold"/>
+      <textElement textAlignment="Right"/>
+      <textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]] ></textFieldExpression>
+    </textField>
+  </band>
+  </groupHeader>
+  <groupFooter>
+  <band height="15">
+    ...
+    <textField>
+      <reportElement mode="Opaque" x="45" y="0" width="25" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
+      <textElement textAlignment="Right"/>
+      <textFieldExpression class="java.lang.Integer"><![CDATA[$V{CountryGroup_COUNT}]] ></textFieldExpression>
+    </textField>
+    ...
+    <textField pattern="0.00">
+      <reportElement mode="Opaque" x="170" y="0" width="60" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
+      <textElement textAlignment="Right"/>
+      <textFieldExpression class="java.lang.Double"><![CDATA[$V{FreightSumCountryGroup}]] ></textFieldExpression>
+    </textField>
+    <textField evaluationTime="Auto">
+      <reportElement mode="Opaque" x="230" y="0" width="40" height="11" backcolor="#c0c0c0" style="Sans_Bold"/>
+      <textElement textAlignment="Right"/>
+      <textFieldExpression><![CDATA[msg("{0,number,0.00}%", new Double(100d * $V{FreightSumCountryGroup}.doubleValue() / $V{FreightSumFirstLetterGroup}.doubleValue()))]] ></textFieldExpression>
+    </textField>
+  </band>
+  </groupFooter>
+</group>
+]]></pre>
+Here one can observe another built-in counting variable: <code>CountryGroup_COUNT</code>. Again some other report variables 
+are used to perform various calculations: <code>DateHighestCountryGroup</code>, <code>FreightSumCountryGroup</code>, 
+<code>FreightSumFirstLetterGroup</code>. The group header will also be reprinted on each new page.
+<br/>
+<br/>
+At this stage we can represent data in a user-friendly form, well separated by countries and country first letters, in a 
+2-columns layout. What else could be done to separate data better than that?
+<br/>
+Well, there is one more thing. What if for a given country there are thousands of records? One after one, after one, and so 
+on. Thousands of records looking the same, with nothing special to separate them, increasing a lot the eye's effort... It 
+doesn't sound very good, indeed.
+<br/>
+This is why the third group in the report is present. It is an empty dummy group that breaks after every 5 records, introducing 
+a supplementary amount of vertical space between the resulting 5-records groups:
+<pre><![CDATA[
+  <group name="BreakGroup">
+    <groupExpression><![CDATA[new Boolean($V{BreakGroup_COUNT}.intValue() > 5)]] ></groupExpression>
+    <groupHeader>
+    <band height="5">
+    </band>
+    </groupHeader>
+    <groupFooter>
+    <band height="5">
+    </band>
+    </groupFooter>
+  </group>]]></pre>
+Once finished the data grouping work, the report template continues with its usual sections, such as <code>title</code>, 
+<code>title</code>, <code>pageHeader</code>, <code>columnHeader</code>, <code>detail</code>, <code>columnFooter</code>, 
+<code>pageFooter</code> and <code>summary</code>.
+<br/>
+At this moment the sample is ready to be ran.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/jasper</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jasper/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+    </content>
+  </feature>
+
+  <!-- csvmetadataexport -->
+  
+  <feature name="csvmetadataexport" title="Exporting to CSV Format Using Report Metadata">
+    <description>
+Shows how to export the report to CSV format using metadata associated with report elements at design time, to mark data columns.
+    </description>
+    <since>4.0.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- conditionalstyles -->
+  
+  <feature name="conditionalstyles" title="Conditional Styles">
+    <description>
+Shows how to define and use a conditional style in a report template.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="crosstabs"/>
+    <content>
+<b>Conditional Styles</b>
+<br/>
+<br/>
+In JasperReports styles are the bricks used to generate the report elements appearance. 
+Styles mean anything about fonts, but also mean borders, horizontal and vertical alignment, 
+element transparency or opacity, background and foreground colors, format patterns, text markup 
+information, text rotation, and so on... Almost anything needed to set up a complex, 
+elegant and meaningful element look and feel.
+<br/>
+However, there are situations when the L&amp;F depends on certain conditions determined only at runtime. 
+The most common example is the necessity to use alternate row colors in a table with a large number 
+of rows, in order to better distinguish between them. When the total number of rows is unknown at report 
+design time, or if the row is used in the detail section, a tool for setting up different backgrounds 
+for the same cell is definitely required.
+<br/>
+And here come conditional styles to get some help.
+<br/>
+<br/>
+Conditional styles consist in two elements: a <code>Boolean</code> condition expression and a style. When the 
+condition evaluates to <code>true</code>, the corresponding style is applied. In the 
+<a href="#jasper">Jasper</a> sample one can see a conditional style definition:
+<pre><![CDATA[
+  <style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+
+  <style name="OrderIdStyle" style="Sans_Normal">
+    <conditionalStyle>
+      <conditionExpression><![CDATA[new Boolean($F{OrderID}.intValue() % 10 == 0)]] ></conditionExpression>
+      <style forecolor="#ff0000" isBold="true"/>
+    </conditionalStyle>
+  </style>]]></pre>
+The <code>OrderIdStyle</code> defined above derives from the <code>Sans_Normal</code> parent style. 
+Usually, elements with <code>OrderIdStyle</code> will have the default black forecolor and a normal 
+font weight. But when the condition expression evaluates to <code>true</code> (this happens each time  
+the <code>OrderID</code> field value is a multiple of 10) the element's style changes: the forecolor 
+becomes red and the font gets bold.
+<br/>
+Therefore, when applied, a conditional style will override the properties of its parent style. 
+<br/>
+<br/>
+A style definition may contain many conditional styles, any of them inheriting from the parent style. 
+In this case, all conditions that evaluate to <code>true</code> will append their own style properties 
+to the existing style, in the same order they were defined in the report (the second style will be 
+appended to the first one, and so on). If more than one conditional style affect the same style property, 
+the property value will be done by the first conditional style in the styles sequence which evaluates its 
+condition to <code>true</code>.
+<br/>
+Here is a more elaborate example:
+<pre><![CDATA[
+<style name="alternateStyle" fontName="Arial" forecolor="red">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <style forecolor="blue"/>
+  </conditionalStyle>
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($F{AMOUNT}.intValue() > 10000)]] ></conditionExpression>
+    <style isBold="true"/>
+  </conditionalStyle>
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($F{AMOUNT}.intValue() > 20000)]] ></conditionExpression>
+    <style isBold="false" isItalic="true"/>
+  </conditionalStyle>
+</style>]]></pre>
+One can see above that on each even row the element forecolor becomes blue. More than that, if the <code>AMOUNT</code> 
+field value is greater than 10,000, the second conditional style evaluates to <code>true</code>, and the element 
+displays in bold font (this doesn't affect the red color or blue color set by the first conditional style, because the 
+forecolor and font weight properties do not interfere). Further, if the <code>AMOUNT</code> field value is greater than 
+20,000, the font style becomes italic, without affecting the font color. But because any value greater than 
+20,000 is also greater than 10,000, then the <code>isBold="false"</code> font weight is no more applied, because 
+both conditions <code>&gt;10,000</code> and <code>&gt;20,000</code> evaluate to <code>true</code> and <code>isBold="true"</code> 
+style was appended first.
+<br/>
+<br/>
+<b>Note:</b> 
+<ul>
+<li>By default, the style condition expressions are evaluated during the report filling at the moment they are actually used. 
+The conditional expression evaluation is performed with the current values of referenced variables and fields in that moment, 
+regardless of the evaluationTime attribute of the element itself.If the condition expression of the style needs a delayed evaluation, 
+just like the value of the text field or the image element that uses the conditional style, the 
+<code>net.sf.jasperreports.style.evaluation.time.enabled</code> configuration property should be set to <code>true</code>.</li>
+<li>Conditional styles cannot be defined in style templates (see the <a href="../templates/index.html">Templates</a> sample). 
+This is because style templates store styles with properties available for a large group of reports, while conditional styles 
+are styles depending on conditions, variables and parameters specific to each report apart. However, styles defined in style 
+templates can be used as parent styles for conditional styles.</li>
+</ul>
+<b>Alternate Row Colors In The Detail Section</b>
+<br/>
+<br/>
+Conditional styles combined with some specific report built-in variables can be used to generate alternate row colors for the 
+detail section. 
+<br/>
+As known, the detail section is repetitive and contains  common layout information for records in the dataset. 
+For each record in the dataset, a detail section filling process is called at fill time. Being related to records, one of the 
+most common layouts used for the detail section is the table row layout. And like in any other table, alternate row colors 
+might be needed. 
+<br/>
+To solve this problem, two things are necessary:
+<ol>
+<li>to know the current record number in order to determine if it's odd or even</li>
+<li>a conditional style with specific style properties for odd or even rows</li>
+</ol>
+The first requirement is accomplished with the help of report built-in counting variables:
+<ul>
+<li><code>REPORT_COUNT</code> - if the row color alternation does not depend on the page, column or group breaks</li>
+<li><code>PAGE_COUNT</code> - if each new detail page should start with the same row color</li>
+<li><code>COLUMN_COUNT</code> - if each new detail page column should start with the same row color</li>
+<li><code>&lt;group_name&gt;_COUNT</code> - if each new group of records should start with the same row color</li>
+<li><code>ROW_COUNT</code> - available only for crosstabs; the <code>ROW_COUNT</code> variable returns the current row 
+number in a crosstab. An example of conditional styles in a crosstab can be found in the 
+<a href="../crosstabs/index.html">Crosstabs</a> sample.</li>
+</ul>
+The conditional style required at point (2) is illustrated in the example below:
+<pre><![CDATA[
+<style name="alternateStyle" fontName="Arial" backcolor="yellow">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <style backcolor="blue"/>
+  </conditionalStyle>
+</style>]]></pre>
+Here, the odd rows will be rendered with yellow background color, and the even ones will be rendered in blue.
+ </content>
+  </feature>
+
+</sample>

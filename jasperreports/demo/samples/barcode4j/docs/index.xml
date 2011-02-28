@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>barcode4j</name>
+  <title>Barcode4J Sample</title>
+  <description>Shows how barcodes could be included in reports using the Barcode4J component.</description>
+
+  <mainFeature ref="barcodes"/>
+  <mainFeature ref="barcode4j"/>
+  
+  <!-- barcodes -->
+  
+  <feature name="barcodes" title="Barcodes">
+    <description>
+Shows how to render barcodes in a report, using the barcode components that are shipped with the JasperReports library.
+    </description>
+    <since>3.5.2</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="barbecue"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+  <!-- barcode4j -->
+  
+  <feature name="barcode4j" title="Barcodes (Barcode4J Custom Component)">
+    <description>
+Shows how to render barcodes in a report, using the barcode component based on the <a href="http://barcode4j.sourceforge.net/">Barcode4J</a> library.
+    </description>
+    <since>3.5.2</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

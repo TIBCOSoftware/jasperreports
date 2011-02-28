@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>hibernate</name>
+  <title>Hibernate Sample</title>
+  <description>Shows how HQL could be used in reports.</description>
+
+  <mainFeature ref="hibernate"/>
+  <mainFeature ref="queryexecuters"/>
+  
+  <!-- queryexecuters -->
+  
+  <feature name="queryexecuters" title="Query Executers">
+    <description>
+How to implement a custom query executer and how to associate it with a custom report query language.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="ejbql"/>
+  	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+<b>Data Sources and Report Queries</b>
+<br/>
+<br/>
+Report generation relies on creating report templates, compiling and filling them with data. 
+At fill time, the data necessary to populate the compiled report should be provided to the 
+engine. Usually the engine expects to receive these data already stored in a 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> object as the 
+report data source (see the <a href="../datasource/index.html">Data Source</a> sample for 
+a complete reference). 
+<br/>
+There are situations when creating from scratch a filled 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
+object is quite impossible (for instance, data are stored in relational databases with thousands 
+of records, or in huge XML files. In this case, automatic generation of filled 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> 
+objects is required.
+<br/>
+One possibility is to instruct the engine how to retrieve the necessary data and then create a 
+related <api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api>. 
+The most common way to get relevant data is to filter them by running a query and picking up 
+filtered data from the data container. For more information about report queries, please consult the 
+<a href="../query/index.html">Query</a> sample.
+<br/>
+<br/>
+<b>Query Executers</b>
+<br/>
+<br/>
+Query executers are part of the JasperReports API dedicated to collect and organize data into 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> objects used by the 
+engine at report filling time.
+<br/>
+A query executer should be able to perform three main tasks, exposed by the 
+<api href="net/sf/jasperreports/engine/query/JRQueryExecuter.html">JRQueryExecuter</api> interface:
+<ul>
+<li>To execute queries and organize retrieved data into a 
+<api href="net/sf/jasperreports/engine/JRDataSource.html">JRDataSource</api> implementation. 
+This happens when the <code>createDatasource()</code> is called.</li>
+<li>To cancel a running query, if the user decides to interrupt that query. For doing this, 
+the <code>cancelQuery()</code> method should be called.</li>
+<li>To close resources kept open during the data source iteration, if they are no more necessary. 
+Resource closing is handled via the <code>close()</code> method.</li>
+</ul>
+Query executer implementations can benefit from using 
+<api href="net/sf/jasperreports/engine/query/JRAbstractQueryExecuter.html">JRAbstractQueryExecuter</api> as 
+a base. The abstract base provides query parameter processing functionality and other utility methods.
+<br/>
+<br/>
+There are several query languages, related to the data storage type. One can use <code>SQL</code> 
+for retrieving data from relational databases, <code>XPath</code> or <code>XQuery</code> for navigating through XML 
+elements in a document, <code>HQL</code> when performing queries using hibernate, etc. Depending on the 
+query language, at fill time the engine calls a specific query executer class to execute the query, 
+retrieve the data and finally create the data source object.
+<br/>
+Anytime a report query is defined one has to specify the query language using the <code>language</code> attribute 
+in the <code>&lt;queryString/&gt;</code> element. If no language is specified, the <code>SQL</code> is considered 
+by default, for backward compatibility reasons. Below is defined a query written using the <code>HQL</code> language:
+<pre><![CDATA[
+  <queryString language="hql">
+    <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
+  </queryString>]]></pre>
+Query executer implementations are produced in query executer factories. To register a query executer 
+factory for a query language, you have to define a global property named 
+<code>net.sf.jasperreports.query.executer.factory.&lt;language&gt;</code> in the 
+<code>/src/default.jasperreports.properties</code> file. The same mechanism can be used to override the 
+built-in query executers for a query language, for instance to use a custom query executer for SQL queries. 
+<br/>
+A query executer factory should implement the <api href="net/sf/jasperreports/engine/query/JRQueryExecuterFactory.html">JRQueryExecuterFactory</api> 
+interface with the following methods:
+<ul>
+<li><code>public Object[] getBuiltinParameters();</code> - retrieves the built-in parameters associated with the query type.</li>
+<li><code>public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException;</code> - creates the 
+query executer implementation.</li>
+<li><code>public boolean supportsQueryParameterType(String className);</code> - 
+decides whether the query executers created by this factory support a query parameter type.</li>
+</ul>
+Another way to register new query executer factories, without modifying existing application files, is to register them as 
+JasperReports extensions. One or more query executer implementations can be packaged in a 
+query executer bundle that can be deployed as a single JAR file. The extension point for query executers 
+is represented by the <api href="net/sf/jasperreports/engine/query/QueryExecuterFactoryBundle.html">QueryExecuterFactoryBundle</api> 
+interface.
+    </content>
+  </feature>
+
+  <!-- hibernate -->
+  
+  <feature name="hibernate" title="Hibernate (HQL) Query Executer">
+    <description>
+How to fill reports using embedded Hibernate (HQL) queries.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The Hibernate Query Executer</b>
+<br/>
+<br/>
+A large variety of multi-tier applications rely on database interrogations. In these applications accessing data represents a 
+well-delimited layer with specific processing tools, able to create/close connections to a database, to access/modify/retrieve 
+data or metadata, to commit/rollback transactions, etc.
+<br/>
+One of these middle-tier tools dedicated to data access is Hibernate (today: Hibernate 3.3): a collection of correlated projects 
+using POJO-style domain models that extend the Object/Relational mapping the initial Hibernate releases relied on.
+<br/>
+In order to perform queries, Hibernate uses HQL (the <b>H</b>ibernate <b>Q</b>uery <b>L</b>anguage), its specific query language 
+with a syntax almost similar to SQL (one can find the HQL basics <a href="http://docs.jboss.org/hibernate/core/3.3/reference/en/html/queryhql.html">here</a>). 
+<br/>
+So, we have a dedicated tool to interrogate a database, and a related query language. Now it's time to register a new query 
+executer factory: 
+<br/>
+<br/>
+&#160;&#160;<code>net.sf.jasperreports.query.executer.factory.hql=net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory</code>
+<br/>
+<br/>
+The <api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> creates 
+<api href="net/sf/jasperreports/engine/query/JRHibernateQueryExecuterFactory.html">JRHibernateQueryExecuterFactory</api> instances to
+handle data access through Hibernate APIs. The factory automatically defines a parameter named <code>HIBERNATE_SESSION</code> of type 
+<code>org.hibernate.Session</code>, used by the query executer to create the query.
+<br/>
+HQL queries can embed two types of parameters:
+<ul>
+<li>Query parameters: embedded using the <code>$P{..}</code> syntax.</li>
+<li>Statement substitution parameters: embedded using the <code>$P!{..}</code> syntax.</li>
+</ul>
+The HQL query execution can be configured via the following properties:
+<ul>
+<li><code>net.sf.jasperreports.hql.query.run.type</code> - configures how the query result is fetched. It can take the following 
+possible values: <code>list</code>, <code>scroll</code>, <code>iterate</code>.</li>
+<li><code>net.sf.jasperreports.jdbc.fetch.size</code> - specifies the fetch size.</li>
+<li><code>net.sf.jasperreports.hql.clear.cache</code> - flag used to clear the Hibernate’s first-level cache after each page fetching 
+when working with a large amount of data.</li>
+<li><code>net.sf.jasperreports.hql.query.list.page.size</code> - enables paginated result retrieval and specifies the page size.</li>
+<li><code>net.sf.jasperreports.hql.field.mapping.descriptions</code> - instructs the engine to use rather field descriptions than names 
+when mapping report fields to values from the Hibernate result.</li>
+</ul>
+<b>The Hibernate Sample</b>
+<br/>
+<br/>
+This sample shows how to perform queries and retrieve data from a relational database using Hibernate. 
+The output consists in two separate reports: the standalone document <code>AddressesReport</code>, and 
+the <code>HibernateQueryReport</code> which contains a subreport. Two tables in the HSQLDB database are 
+involved: <code>ADDRESS</code> and <code>DOCUMENT</code>.
+<br/>
+The Hibernate configuration information is kept in the <code>src/hibernate.cfg.xml</code> folder:
+<pre><![CDATA[
+<hibernate-configuration>
+
+  <session-factory>
+    <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="connection.url">jdbc:hsqldb:hsql://localhost</property>
+    <property name="connection.username">sa</property>
+    <property name="connection.password"></property>
+    <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+    <property name="connection.pool_size">1</property>
+    <mapping resource="Address.hbm.xml"/>
+    <mapping resource="Document.hbm.xml"/>
+  </session-factory>
+
+</hibernate-configuration>]]></pre>
+In order to create a Hibernate session one has to specify the properties and mapping resources in the 
+<code>&lt;session-factory&gt;</code> element above.
+<br/>
+In our case there are two mapping resources configurated in the XML files below:
+<br/>
+<br/>
+1.&#160;&#160;&#160;<code>src/Address.hbm.xml</code> mapping the Address entity object 
+(See the <code>src/Address.java</code> file) to the <code>ADDRESS</code> table in the database:
+<pre><![CDATA[
+  <hibernate-mapping>
+
+  <class name="Address" table="ADDRESS">
+    <id name="id" column="ID">
+      <generator class="increment"/>
+    </id>
+
+    <property name="firstName" column="FIRSTNAME"/>
+    <property name="lastName" column="LASTNAME"/>
+    <property name="street" column="STREET"/>
+    <property name="city" column="CITY"/>
+
+    <set name="documents" inverse="true">
+      <key column="ADDRESSID"/>
+      <one-to-many class="Document"/>
+    </set>
+  </class>
+
+  </hibernate-mapping>]]></pre>
+2.&#160;&#160;&#160;<code>src/Document.hbm.xml</code> mapping the Document entity object 
+(See the <code>src/Document.java</code> file) to the <code>DOCUMENT</code> table in the database:
+<pre><![CDATA[
+  <hibernate-mapping>
+	
+    <class name="Document" table="DOCUMENT">
+      <id name="id" column="ID">
+        <generator class="increment"/>
+      </id>
+
+      <many-to-one name="address" column="ADDRESSID"/>
+
+      <property name="total" column="TOTAL"/>
+    </class>
+	
+  </hibernate-mapping>]]></pre>
+One can see above that an <code>Address</code> object contains a set of <code>Document</code> objects, 
+all with the same <code>ADDRESSID</code> value. The one-to-many relationship between the <code>ADDRESS</code> 
+table and <code>DOCUMENT</code> is intermediated by the <code>ADDRESS.ADDRESSID</code> foreign key column.
+<br/>
+<br/>
+The <code>AddressReport</code> enumerates customers with their addresses and related documents and document totals, 
+filtered by their city location (see the <a href="#cityfilter"><code>CityFilter</code></a> parameter). The HQL query 
+string is the following:
+<pre><![CDATA[
+  <parameter name="CityFilter" class="java.util.List"/>
+  <queryString language="hql">
+    <![CDATA[select address as address, document.id as documentId, document.total as documentTotal
+      from Address as address join address.documents as document
+      where city not in ($P{CityFilter})
+      order by address.city, address.lastName, address.firstName, address.id]] >
+  </queryString>]]></pre>
+In the query above, because of the table join, customers with no related documents in the 
+<code>DOCUMENTS</code> table are not included.
+<br/>
+<br/>
+The <code>HibernateQueryReport</code> report retrieves all customer addresses from the <code>ADDRESS</code> table, 
+without taking into account if there are or no customer related documents in the <code>DOCUMENTS</code> table. Customers 
+are also filtered by the <a href="#cityfilter"><code>CityFilter</code></a> parameter. If related documents exist, their 
+data are retrieved using the <code>DocumentsReport</code> subreport (see the <code>reports/DocumentsReport.jrxml</code> file). 
+<br/>
+Here customers with no related documents are included too.
+<br/>
+Customers are also grouped by their city.
+<br/>
+<br/>
+Now it's time to take a look in the <code>reports/HibernateQueryReport.jrxml</code> file at the report HQL query string:
+<pre><![CDATA[
+  <queryString language="hql">
+    <![CDATA[from Address address where city not in ($P{CityFilter}) order by $P!{OrderClause}]] >
+  </queryString>]]></pre>
+And then, at the <code>Documents</code> subreport, for each customer:
+<pre><![CDATA[
+  <subreport>
+    <reportElement x="65" y="21" width="50" height="20" isRemoveLineWhenBlank="true"/>
+    <dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{documents})]] ></dataSourceExpression>
+    <subreportExpression class="java.lang.String"><![CDATA["DocumentsReport.jasper"]] ></subreportExpression>
+  </subreport>]]></pre>
+
+The <code><a name="cityfilter">CityFilter</a></code> parameter and all other report parameters are created 
+in the <code>src/HibernateApp.java</code> class file, via the <code> getParameters(Session session)</code> method:
+<pre><![CDATA[
+  private static Map getParameters(Session session)
+  {
+    Map parameters = new HashMap();
+    parameters.put(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION, session);
+    parameters.put("ReportTitle", "Address Report");
+    List cityFilter = new ArrayList(3);
+    cityFilter.add("Boston");
+    cityFilter.add("Chicago");
+    cityFilter.add("Oslo");
+    parameters.put("CityFilter", cityFilter);
+    parameters.put("OrderClause", "city");
+    return parameters;
+  }]]></pre>
+At fill time, a Hibernate session is created and a transaction gets started. Report parameters are set and then 
+the two compiled reports are filled with data. If all goes ok, the transaction is then rolled back and the session 
+is closed:
+<pre><![CDATA[
+  public void fill() throws JRException
+  {
+    Session session = createSession();
+    Transaction transaction = session.beginTransaction();
+
+    Map params = getParameters(session);
+	
+    File[] files = 
+      new File[]{
+        new File("build/reports/AddressesReport.jasper"),
+        new File("build/reports/HibernateQueryReport.jasper")
+        };
+    for(int i = 0; i < files.length; i++)
+    {
+      File reportFile = files[i];
+      long start = System.currentTimeMillis();
+      JasperFillManager.fillReportToFile(reportFile.getAbsolutePath(), params);
+      System.err.println(
+        "Report : " + reportFile + ". Filling time : " + (System.currentTimeMillis() - start)
+        );
+    }
+	
+    transaction.rollback();
+    session.close();
+  }
+  
+  private static Session createSession()
+  {
+    SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+	
+    return sessionFactory.openSession();
+  }]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/hibernate</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/hibernate/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

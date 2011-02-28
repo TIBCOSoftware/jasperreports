@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>charts</name>
+  <title>Charts Sample</title>
+  <description>Shows how the chart element could be used to render different types of charts.</description>
+
+  <mainFeature ref="charts"/>
+  <mainFeature ref="chartcustomizers"/>
+  <secondaryFeature name="datasets" sample="crosstabs" title="Datasets"/>
+  
+  <!-- charts -->
+  
+  <feature name="charts" title="Charts">
+    <description>
+How to render different types of charts using the built-in chart element.
+    </description>
+    <since>1.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="chartthemes"/>
+    <content>
+<b>Charts in JasperReports</b>
+<br/>
+<br/>
+The JasperReports library does not produce charts and graphics itself. However, it can easily integrate charts, 
+barcodes, and graphics produced by other more specialized Java libraries.
+<br/>
+The great majority of available Java libraries that produce charts and graphics can output 
+to image files or in-memory Java image objects. And such image objects can be integrated into a JasperReports document 
+using a normal image element.
+<br/>
+To simplify the integration of charts inside reports, JasperReports provides a specialized <code>&lt;chart&gt;</code> element. 
+<br/>
+<br/>
+<b>Chart Properties</b>
+<br/>
+<br/>
+When including and configuring a chart component, three entities are involved:
+<ul>
+<li>The overall chart component</li>
+<li>The chart dataset (which groups chart data–related settings)</li>
+<li>The chart plot (which groups visual settings related to the way the chart items are rendered)</li>
+</ul>
+JasperReports currently supports the following types of charts: <code>Pie, Pie 3D, Bar, Bar 3D, 
+XY Bar, Stacked Bar, Stacked Bar 3D, Line, XY Line, Area, XY Area, Stacked Area, Scatter, 
+Bubble, Time Series, High-Low-Open-Close, Candlestick, Multiple Axis, Meter, Thermometer and Gantt.</code>
+<br/>
+All chart types have a common set of properties. Charts are normal report elements, so 
+they share some of their properties with all the other report elements. Charts are also box 
+elements and can have hyperlinks associated with them.
+<br/>
+Chart-specific settings that apply to all types of charts are grouped under a special 
+JRXML tag called <code>&lt;chart&gt;</code>. It contains the following elements:
+<ul>
+<li><code>&lt;reportElement /&gt;</code></li>
+<li><code>&lt;box /&gt;</code></li>
+<li><code>&lt;chartTitle /&gt;</code></li>
+<li><code>&lt;chartSubtitle /&gt;</code></li>
+<li><code>&lt;chartLegend /&gt;</code></li>
+<li><code>&lt;anchorNameExpression /&gt;</code></li>
+<li><code>&lt;hyperlinkReferenceExpression /&gt;</code></li>
+<li><code>&lt;hyperlinkAnchorExpression /&gt;</code></li>
+<li><code>&lt;hyperlinkPageExpression /&gt;</code></li>
+<li><code>&lt;hyperlinkTooltipExpression /&gt;</code></li>
+<li><code>&lt;hyperlinkParameter /&gt;</code></li>
+</ul>
+Attributes available for all chart types are:
+<ul>
+<li><code>isShowLegend</code> - indicates whether the legend will be rendered visible</li>
+<li><code>evaluationTime</code> - indicates the moment when chart goes rendered. Default value is <code>Now</code></li>
+<li><code>evaluationGroup</code> - used to specify the group at which to render the chart, when <code>evaluationTime</code> is <code>Group</code></li>
+<li><code>hyperlinkType</code> - indicates the type of the hyperlink element.</li>
+<li><code>hyperlinkTarget</code> - indicates the target of the hyperlink.</li>
+<li><code>bookmarkLevel</code> - the level of the bookmark corresponding to the anchor.</li>
+<li><code>customizerClass</code> - the name of the chart customizer class.</li>
+<li><code>renderType</code> - represents the specified format used to render the chart.</li>
+<li><code>theme</code> - the name of the chart theme used to draw the chart.</li>
+</ul>
+<br/>
+<b>Chart Rendering</b>
+<br/>
+<br/>
+In generated reports, the output produced by a chart element is an image element. Image elements are drawn using 
+implementations of the <api href="net/sf/jasperreports/engine/JRRenderable.html">JRRenderable</api> interface. 
+Charts have an attribute called <code>renderType</code> which specifies the renderer 
+implementation that will be used to render the chart during export or report display. By 
+default, JasperReports recognizes the following values for this attribute: 
+<ul>
+<li><code>draw</code> - the chart is drawn directly on the target graphic context using the 
+      JFreeChart API.</li>
+<li><code>image</code> - an image is first produced from the chart and this image in turn gets 
+      rendered onto the target graphic context.</li>
+<li><code>svg</code> - the chart is transformed into the Scalable Vector Graphics format and 
+      from that format is then rendered onto the target graphic context.</li>
+</ul>
+<br/>
+<b>Chart Title, Subtitle and Legend</b>
+<br/>
+<br/>
+All charts can have one title and one subtitle. All chart types can display a legend that explains the values represented by the chart. 
+By default all charts display the legend, but one can suppress this display by setting the
+<code>isShowLegend</code> flag to <code>false</code>.
+<br/>
+Chart titles, subtitles and legends are optional and can be customized 
+for color, font, and position. 
+They can be placed at the top of the chart, at the bottom of the chart, or on 
+the left or right side of the chart, depending on the value of the <code>position</code> attribute. 
+<br/>
+<br/>
+<b>Chart Datasets</b>
+<br/>
+<br/>
+Charts rely on a data-oriented component called the chart dataset for mapping report 
+data and retrieving chart data at runtime.
+<br/> 
+A chart dataset is an entity which can get 
+initialized and incremented at specified moments during the report-filling process and 
+iteration through the report data source. Like a report variable, at any moment a chart 
+dataset holds a certain value, which is a complex data structure that gets incremented and 
+will be used for rendering the chart at the appropriate moment. 
+<br/>
+Several types of chart datasets are available in JasperReports because each type of chart 
+works with certain datasets: <code>Pie, Category, XY, Time Series, Time Period, XYZ,  
+High-Low, Value and Gantt</code>. 
+<br/>
+The JasperReports object model uses the <api href="net/sf/jasperreports/engine/JRChartDataset.html">JRChartDataset</api> 
+interface to define chart datasets. 
+There are implementations of this interface for each of the aforementioned dataset types. 
+All chart datasets initialize and increment in the same way, and differ only in the type of 
+data or data series they map. The increment or reset type and increment or reset groups can be specified by setting the 
+dataset common attributes below:
+<ul>
+<li><code>resetType</code></li>
+<li><code>resetGroup</code></li>
+<li><code>incrementType</code></li>
+<li><code>incrementGroup</code></li>
+</ul>
+Specific dataset types are:
+<br/>
+<br/>
+<b>Pie Dataset</b>
+<br/>
+<br/>
+A pie dataset is characterized by the following expressions:
+<ul>
+<li><code>&lt;keyExpression /&gt;</code> - represent the categories that will make up the slices in the pie 
+chart. This expression can return any <code>java.lang.Comparable object</code>.</li>
+<li><code>&lt;valueExpression /&gt;</code> - produces the values that correspond to each category/key in the dataset. 
+Values are always <code>java.lang.Number</code> objects.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each slice in the pie 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the pie chart.</li>
+<li><code>&lt;sectionHyperlink /&gt;</code> - sets hyperlinks associated with pie sections</li>
+</ul>
+<br/>
+<b>Category Dataset</b>
+<br/>
+<br/>
+A category dataset is characterized by the <code>&lt;categorySeries /&gt;</code> element, which contains:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - indicates the name of the series. This expression can return any <code>java.lang.Comparable</code> object.</li>
+<li><code>&lt;categoryExpression /&gt;</code> - returns the name of the category for each value inside the series 
+specified by the series expression. Categories are <code>java.lang.Comparable</code> objects.</li>
+<li><code>&lt;valueExpression /&gt;</code> - produces the values that correspond to each category in the dataset. 
+Values are always <code>java.lang.Number</code> objects.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each item in the 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the chart.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>XY Dataset</b>
+<br/>
+<br/>
+An XY dataset is characterized by the <code>&lt;xySeries /&gt;</code> element, which contains:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - indicates the name of the series. This expression can return any <code>java.lang.Comparable</code> object.</li>
+<li><code>&lt;xValueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value representing the X value from the 
+(x, y) pair that will be added to the current data series.</li>
+<li><code>&lt;yValueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value representing the Y value from the 
+(x, y) pair that will be added to the current data series.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each item in the 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the chart.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>XYZ Dataset</b>
+<br/>
+<br/>
+An XYZ dataset is characterized by the <code>&lt;xyzSeries /&gt;</code> element, which contains:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - indicates the name of the series. This expression can return any <code>java.lang.Comparable</code> object.</li>
+<li><code>&lt;xValueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value representing the X value from the 
+(x, y, z) item that will be added to the current data series.</li>
+<li><code>&lt;yValueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value representing the Y value from the 
+(x, y, z) item that will be added to the current data series.</li>
+<li><code>&lt;zValueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value representing the Z value from the 
+(x, y, z) item that will be added to the current data series.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each item in the 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the chart.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>Time Series Dataset</b>
+<br/>
+<br/>
+A time series dataset is characterized by the <code>timePeriod</code> attribute, and the <code>&lt;timeSeries /&gt;</code> element.
+<br/>
+The <code>timePeriod</code> attribute specifies the type of the data series inside the dataset. Time series can contain numeric 
+values associated with days, months, years, or other predefined time periods. Possible values are:
+<ul>
+<li><code>Year</code></li>
+<li><code>Quarter</code></li>
+<li><code>Month</code></li>
+<li><code>Week</code></li>
+<li><code>Day</code> - this is the default value</li>
+<li><code>Hour</code></li>
+<li><code>Minute</code></li>
+<li><code>Second</code></li>
+<li><code>Millisecond</code></li>
+</ul>
+The <code>&lt;timeSeries /&gt;</code> element contains:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - indicates the name of the series. This expression can return any <code>java.lang.Comparable</code> object.</li>
+<li><code>&lt;timePeriodExpression /&gt;</code> - returns a <code>java.util.Date</code> value from which the engine will extract the 
+corresponding time period depending on the value set for the <code>timePeriod</code> attribute 
+mentioned above.</li>
+<li><code>&lt;valueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value to associate with the 
+corresponding time period value when incrementing the current series of the dataset.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each item in the 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the chart.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>Time Period Dataset</b>
+<br/>
+<br/>
+An time period dataset is characterized by the <code>&lt;timePeriodSeries /&gt;</code> element which contains:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - indicates the name of the series. This expression can return any <code>java.lang.Comparable</code> object.</li>
+<li><code>&lt;startDateExpression /&gt;</code> - specifies the beginning of the date interval with which the numeric value will be 
+associated when it is added to the time period series.</li>
+<li><code>&lt;endDateExpression /&gt;</code> - specifies the end of the date interval with which the numeric value will be 
+associated when it is added to the time period series.</li>
+<li><code>&lt;valueExpression /&gt;</code> - returns the <code>java.lang.Number</code> value to associate with the current date 
+interval specified by the start date and end date expressions.</li>
+<li><code>&lt;labelExpression /&gt;</code> - if this expression is missing, the chart will display default labels for each item in the 
+chart. Use this expression, which returns <code>java.lang.String</code> values, to customize the item labels for the chart.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>High Low Dataset</b>
+<br/>
+<br/>
+An high low dataset is characterized by the following expressions:
+<ul>
+<li><code>&lt;seriesExpression /&gt;</code> - currently only one series is supported inside a High-Low or Candlestick chart. 
+However, this single series must be identified by a <code>java.lang.Comparable</code> 
+value returned by this expression, and it must also be used as the series name in the 
+chart’s legend.</li>
+<li><code>&lt;dateExpression /&gt;</code> - returns the date to which the current (high, low, open, close, volume) item refers.</li>
+<li><code>&lt;highExpression /&gt;</code> - returns a <code>java.lang.Number</code> value, which will be part of 
+the data item added to the series when the dataset gets incremented.</li>
+<li><code>&lt;lowExpression /&gt;</code> - returns a <code>java.lang.Number</code> value, which will be part of 
+the data item added to the series when the dataset gets incremented.</li>
+<li><code>&lt;openExpression /&gt;</code> - returns a <code>java.lang.Number</code> value, which will be part of 
+the data item added to the series when the dataset gets incremented.</li>
+<li><code>&lt;closeExpression /&gt;</code> - returns a <code>java.lang.Number</code> value, which will be part of 
+the data item added to the series when the dataset gets incremented.</li>
+<li><code>&lt;volumeExpression /&gt;</code> - a numeric expression that returns the volume value to use for the current data 
+item. It is used only for Candlestick charts.</li>
+<li><code>&lt;itemHyperlink /&gt;</code> - sets hyperlinks associated with chart items</li>
+</ul>
+<br/>
+<b>Value Dataset</b>
+<br/>
+<br/>
+This is a special chart dataset implementation that contains a single value and is used for
+rendering Meter and Thermometer charts. The value is collected using the <code>&lt;valueExpression /&gt;</code> expression.
+<br/>
+<br/>
+<b>Common Settings for Chart Plots</b>
+<br/>
+<br/>
+The chart plot is the area of the chart on which the axes and items are rendered. Plots 
+differ based on the type of chart. Some plots specialize in drawing pies; others specialize 
+in drawing bar items or lines. 
+<br/>
+Each type of plot comes with its own set of properties or attributes for customizing the 
+chart’s appearance and behavior.
+<br/>
+There is, however, a subset of plot properties common to all plot types. They are grouped 
+under the &lt;plot /&gt; element in JRXML and can be part of any chart/plot definition in the report 
+template. Common plot attributes are: 
+<ul>
+<li><code>backcolor</code> - specifies the background color for the plot.</li>
+<li><code>orientation</code> - specifies whether plot items will be rendered horizontally or vertically. Possible values are <code>Horizontal</code> and <code>Vertical</code>. 
+The default is <code>Vertical</code>.</li>
+<li><code>backgroundAlpha</code> - specifies the background transparency for the plot.</li>
+<li><code>foregroundAlpha</code> - specifies the foreground transparency for the plot.</li>
+</ul>
+A plot contains also a &lt;seriesColor /&gt; element which customize colors for series, and their position within in the color sequence. 
+<br/>
+<br/>
+<b>Specific Settings for Chart Plots</b>
+<br/>
+<br/>
+<ul>
+<li><code>piePlot</code> - it has no specific settings</li>
+<li><code>pie3DPlot</code> - contains the <code>depthFactor</code> attribute, a numeric value 
+ranging from 0 to 1 that represents the depth of the pie as a percentage of the height of 
+the plot area.</li>
+<li><code>barPlot</code> - one can show or hide tick labels, tick marks or item labels, and provides settings for both axis.</li>
+<li><code>bar3DPlot</code> - provides the same settings as the <code>barPlot</code>, and generates a 3D effect using the <code>xOffset</code> and <code>yOffset</code> attributes.</li>
+<li><code>linePlot</code> - one can show or hide lines connecting item points, can show or hide shapes associated with item points, and provides settings for both axis.</li>
+<li><code>scatterPlot</code> - like the <code>linePlot</code>, it can show or hide lines connecting item points, can show or hide shapes associated with item points, and provides settings for both axis.</li>
+<li><code>areaPlot</code> - provides settings for both axis.</li>
+<li><code>bubblePlot</code> - one can set the bubble dimensions by setting the <code>scaleType</code> attribute, and provides settings for both axis. </li>
+<li><code>timeSeriesPlot</code> - one can show or hide lines connecting item points, can show or hide shapes associated with item points, and provides settings for both axis. </li>
+<li><code>highLowPlot</code> - one can show or hide open ticks, can show or hide close ticks, and provides settings for both axis.</li>
+<li><code>candlestickPlot</code> - one can show or hide the volume, and provides settings for both axis.</li>
+<li><code>meterPlot</code> - contains specific settings for the dial shape, scale angle, measurement units, tick interval, dial color, needle color, tick color, 
+value display font, color and format pattern, data range and meter intervals.</li>
+<li><code>thermometerPlot</code> - contains specific settings for the value location, mercury color, show/hide value lines, value display font, color and format pattern, 
+data range, low range, medium range and high range.</li>
+<li><code>multiAxisPlot</code> - contains specific settings for axis included in the plot</li>
+</ul>
+<br/>
+<b>Chart Types</b>
+<br/>
+<br/>
+<ul>
+<li><code>pieChart</code> - a combination of a Pie dataset and a Pie plot.</li>
+<li><code>pie3DChart</code> - groups a Pie dataset and a Pie 3D plot.</li>
+<li><code>barChart</code> - a basic combination of a Category dataset and a Bar plot.</li>
+<li><code>bar3DChart</code> - wraps a Category dataset and a Bar 3D plot.</li>
+<li><code>xyBarChart</code> - supports Time Period datasets, Time Series datasets, and XY datasets, and uses a Bar plot to render the axis and the items.</li>
+<li><code>stackedBarChart</code> - uses data from a Category dataset and renders its content using a Bar plot.</li>
+<li><code>stackedBar3DChart</code> - uses data from a Category dataset and renders its content using a Bar 3D plot.</li>
+<li><code>lineChart</code> - groups a Category dataset and a Line plot.</li>
+<li><code>xyLineChart</code> - groups an XY dataset and a Line plot.</li>
+<li><code>areaChart</code> - items from a Category dataset are rendered using an Area plot.</li>
+<li><code>stackedAreaChart</code> - items from a Category dataset are rendered using an Area plot.</li>
+<li><code>xyAreaChart</code> - uses data from an XY dataset and renders it through an Area plot.</li>
+<li><code>scatterChart</code> - wraps an XY dataset with a Scatter plot.</li>
+<li><code>bubbleChart</code> - combines an XYZ dataset with a Bubble plot.</li>
+<li><code>timeSeriesChart</code> - groups a Time Series dataset and a Time Series plot.</li>
+<li><code>highLowChart</code> -  a combination of a High-Low dataset and a High-Low plot.</li>
+<li><code>candlestickChart</code> - uses data from a High-Low dataset but with a special Candlestick plot.</li>
+<li><code>meterChart</code> - displays a single value from a Value dataset on a dial, using rendering options from a Meter plot.</li>
+<li><code>thermometerChart</code> - displays the single value in a Value dataset using rendering options from a Thermometer plot.</li>
+<li><code>multiAxisChart</code> - contains multiple range axes, all sharing a common domain axis.</li>
+</ul>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/charts</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/charts/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+  
+
+  <!-- chartcustomizers -->
+  
+  <feature name="chartcustomizers" title="Altering Charts (Chart Customizers)">
+    <description>
+How to make various changes to a generated chart using the <a href="http://jfree.org/jfreechart/">JFreeChart API</a>,
+which is used by JasperReports to draw the charts created with the built-in chart element.
+    </description>
+    <since>1.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="chartthemes"/>
+    <content>
+<b>Chart Customizers and Chart Themes</b>
+<br/>
+<br/>
+Although the JFreeChart library is a fairly complete charting package that offers great 
+flexibility and a comprehensive range of settings to fully customize the appearance and 
+the content of the charts it renders, the built-in chart component offered by JasperReports 
+exposes only a subset of the library’s original charting functionality. This ensures that 
+JasperReports charts are easily embeddable into reports and that the basic set of 
+properties exposed through JRXML and the object model is enough for the majority of 
+use cases. 
+<br/>
+In time, other JFreeChart settings will be exposed through the built-in chart component, 
+but certainly JasperReports will never be able to expose all the JFreeChart settings 
+through JRXML tags or the API. 
+<br/>
+To provide full control over chart customization even when using the built-in chart 
+component, JasperReports can make use of either a chart theme implementation, or of a 
+chart customizer implementation associated with the chart element, or both. 
+<br/>
+Chart themes are a more recent addition to the library and in a way they deprecate the 
+chart customizers because they bring enhanced capabilities in controlling chart output. 
+<br/>
+A chart customizer is an implementation of the <api href="net/sf/jasperreports/engine/JRChartCustomizer.html">JRChartCustomizer</api> 
+interface that is associated 
+with the chart element using the <code>customizerClass</code> attribute. The easiest way to 
+implement this interface is by extending the 
+<api href="net/sf/jasperreports/engine/JRAbstractChartCustomizer.html">JRAbstractChartCustomizer</api> 
+having access to parameters, fields, and variables, for more flexible chart customization 
+based on report data. 
+<br/>
+However, it is recommended to implement and work with chart themes instead of 
+chart customizers, because chart themes give more control over chart output, including 
+the creation of the JFreeChart object itself. Chart customizer only allow modifying the 
+JFreeChart object that is created externally and passed in to them. Also, chart themes 
+affect a whole range of chart types across multiple reports and are not necessarily tied to 
+a specific chart element within a report. They can even apply globally to all charts within 
+a given JasperReports deployment, applying a new look and feel to all charts created 
+within that environment. 
+<br/>
+<br/>
+<b>A Simple Chart Customizer Class Example</b>
+<br/>
+<br/>
+When one implements the <api href="net/sf/jasperreports/engine/JRChartCustomizer.html">JRChartCustomizer</api> interface, 
+the only method which has to be implemented is:
+<br/>
+<br/>
+<code>public void customize(JFreeChart chart, JRChart jasperChart);</code>
+<br/>
+<br/>
+The <a href="#charts">Charts</a> sample contains a very simple customizer class, which sets specific colors for series in a Bar chart. 
+<br/>
+First, let's take a look at the BarChartCustomizer class in the <code>src</code> directory:
+<pre>
+<![CDATA[
+import java.awt.Color;
+
+import net.sf.jasperreports.engine.JRChart;
+import net.sf.jasperreports.engine.JRChartCustomizer;
+
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.renderer.category.BarRenderer;
+
+public class BarChartCustomizer implements JRChartCustomizer
+{
+
+	public void customize(JFreeChart chart, JRChart jasperChart)
+	{
+		BarRenderer renderer = (BarRenderer) chart.getCategoryPlot().getRenderer();
+		renderer.setSeriesPaint(0, Color.green);
+		renderer.setSeriesPaint(1, Color.orange);
+	}
+}
+]]></pre>
+The <code>customize()</code> method gets applied after the JFreeChart object is already created. 
+Then, the only thing one have to do is to take this JFreeChart object and modify its characteristics according to some more specific needs.
+<br/>
+In the example above, two older series colors were replaced with new ones in the bar renderer, and so, the color scheme was altered for the Bar chart.
+<br/>
+Now, one have to tell to the JasperReports engine that a given chart should be customized using this customizer class. In the <code>reports/BarChartReport.jrxml</code> file 
+this class is set as chart customizer:
+<br/>
+<br/>
+<code>
+&lt;barChart&gt;
+<br/>
+&#160;&#160;&lt;chart evaluationTime="Group" evaluationGroup="ChartGroup" customizerClass="BarChartCustomizer"&gt;
+<br/>
+&#160;&#160;&#160;...
+<br/>
+&#160;&#160;&lt;/chart&gt;
+<br/>
+&#160;&#160;...
+<br/>
+&lt;/barChart&gt;
+</code>
+<br/>
+<br/>
+<b>Note: </b> When running the <a href="#charts">Charts</a> sample, one can see that the Bar chart generated reports are the only with their items colored in green and orange. 
+All the other generated reports are sharing another color scheme.
+    </content>
+  </feature>
+
+</sample>

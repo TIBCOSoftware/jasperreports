@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>landscape</name>
+  <title>Landscape Sample</title>
+  <description>Shows how reports can be generated and printed in "Landscape" page format.</description>
+
+  <mainFeature ref="landscape"/>
+  
+  <!-- landscape -->
+  
+  <feature name="landscape" title="Creating Landscape Orientation Report Templates">
+    <description>
+How to create landscape orientation reports.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+This feature is used when a report should be visualized or printed in the <code>Landscape</code> page layout. 
+A page is considered to be in a <code>Landscape</code> orientation when its width and height appear as interchanged.
+<br/>
+In order to manage its pages layout, the <code>&lt;jasperReport /&gt;</code> element contains the <code>orientation</code> attribute.
+<br/>
+Values allowed for this attribute are:
+<ul>
+<li><code>Portrait</code></li>
+<li><code>Landscape</code></li>
+</ul>
+By default, in JasperReports pages are visualized as <code>Portrait</code>. The <code>orientation</code> being an attribute at report level, its value applies to all pages in the generated document. 
+<br/>
+Below is a code snippet showing how to set in a report the <code>Landscape</code> orientation:
+<pre><![CDATA[
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="LandscapeReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+]]></pre>
+Here one can observe that <code>pageWidth</code> and <code>pageHeight</code> values were interchanged and the <code>orientation</code> attribute takes the <code>Landscape</code> value.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/landscape</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/landscape/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>
