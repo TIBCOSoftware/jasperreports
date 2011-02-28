@@ -120,9 +120,9 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param location a String representing XLS data source
 	 * @throws IOException 
 	 */
-	public JRXlsDataSource(String source) throws JRException, IOException
+	public JRXlsDataSource(String location) throws JRException, IOException
 	{
-		this(JRLoader.getInputStreamFromLocation(source));
+		this(JRLoader.getInputStreamFromLocation(location));
 		this.closeInputStream = true;
 	}
 	
