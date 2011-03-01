@@ -84,6 +84,29 @@
 	color: #000000;
 }
 
+.local {
+	text-decoration: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	color: inherit;
+}
+
+a.local:link {
+	text-decoration: none;
+}
+a.local:visited {
+	text-decoration: none;
+}
+a.local:active {
+	text-decoration: none;
+}
+a.local:hover {
+	text-decoration: none;
+	color: #303030;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -346,16 +369,21 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="a">
-  <xsl:element name="a">
+  
   <xsl:choose>
-   	<xsl:when test="@name">  
-  	  <xsl:attribute name="name"><xsl:value-of select="./@name"/></xsl:attribute><xsl:value-of select="."/>
+   	<xsl:when test="@name">
+   	<xsl:element name="a"> 
+  	  <xsl:attribute name="class">local</xsl:attribute>
+  	  <xsl:attribute name="name"><xsl:value-of select="./@name"/></xsl:attribute>
+  	  <xsl:attribute name="href">../../sample.reference/<xsl:value-of select="/sample/name"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="."/>
+  	</xsl:element>
   	</xsl:when>  
-  	<xsl:otherwise> 
+  	<xsl:otherwise>
+  	<xsl:element name="a"> 
       <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><span class="element"><xsl:value-of select="."/></span>
+  	</xsl:element>
   	</xsl:otherwise>
   </xsl:choose>
-  </xsl:element>
 </xsl:template>
 
 
@@ -421,7 +449,10 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="ol">
-  <xsl:element name="ol"><xsl:apply-templates/></xsl:element>
+  <xsl:element name="ol">
+  <xsl:if test="@start"><xsl:attribute name="start"><xsl:value-of select="@start"/></xsl:attribute></xsl:if>
+  <xsl:apply-templates/>
+  </xsl:element>
 </xsl:template>
 
 
