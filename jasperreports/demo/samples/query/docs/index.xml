@@ -182,12 +182,62 @@ report user (example: A user may provide a start and end date for which they wan
 	in and ensure the syntax of the query is correct. 
 	<br/>
 	<br/>
-	<b>Built-in SQL Clause Functions</b>
+	<b><a name="clause_functions">Built-in SQL Clause Functions</a></b>
 	<br/>
 	<br/>
 	As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for 
 	several SQL clause functions which require some additional processing: 
 	<ol>
+	<li><b>The <code>${IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>IN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NULL OR &lt;column_name&gt; IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	<br/>&#160;
+	</li>
+	<li><b>The <code>${NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<br/>
+	<br/>
+	The function expects three mandatory clause tokens: 
+	<ul>
+	<li>The first token represents the function ID and always takes the fixed value <code>NOTIN</code>.</li>
+	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
+	<li>The third token is the name of the report parameter that contains the value list. The value of this 
+	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
+	</li>
+	</ul>
+	If the parameter's value is a collection of not null values,  
+	the function constructs a <code>&lt;column_name&gt; NOT IN (?, ?, .., ?)</code> clause
+	<br/>
+	If the parameter's value is a collection containing both null and not null values,  
+	the function constructs a <code>(&lt;column_name&gt; IS NOT NULL AND &lt;column_name&gt; NOT IN (?, ?, .., ?))</code> clause
+	<br/>
+	If the parameter's value is a collection containing only null values,  
+	the function constructs a <code>&lt;column_name&gt; IS NOT NULL</code> clause
+	<br/>
+	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
+	(e.g. <code>0 = 0</code>). 
+	</li>
+	</ol>
+	Since JasperReports v4.0.1, the following built-in clause functions are also available:
+	<ol start="3">
 	<li><b>The <code>${EQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
@@ -405,53 +455,6 @@ report user (example: A user may provide a start and end date for which they wan
 	If both parameter values are null, the function generates a SQL clause that will always evaluate to <code>true</code> 
 	(e.g. <code>0 = 0</code>). 
 	<br/>&#160;
-	</li>
-	<li><b>The <code>${IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
-	<br/>
-	<br/>
-	The function expects three mandatory clause tokens: 
-	<ul>
-	<li>The first token represents the function ID and always takes the fixed value <code>IN</code>.</li>
-	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
-	<li>The third token is the name of the report parameter that contains the value list. The value of this 
-	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
-	</li>
-	</ul>
-	If the parameter's value is a collection of not null values,  
-	the function constructs a <code>&lt;column_name&gt; IN (?, ?, .., ?)</code> clause
-	<br/>
-	If the parameter's value is a collection containing both null and not null values,  
-	the function constructs a <code>(&lt;column_name&gt; IS NULL OR &lt;column_name&gt; IN (?, ?, .., ?))</code> clause
-	<br/>
-	If the parameter's value is a collection containing only null values,  
-	the function constructs a <code>&lt;column_name&gt; IS NULL</code> clause
-	<br/>
-	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
-	(e.g. <code>0 = 0</code>). 
-	<br/>&#160;
-	</li>
-	<li><b>The <code>${NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
-	<br/>
-	<br/>
-	The function expects three mandatory clause tokens: 
-	<ul>
-	<li>The first token represents the function ID and always takes the fixed value <code>NOTIN</code>.</li>
-	<li>The second token is the SQL column (or column combination) to be used in the clause.</li>
-	<li>The third token is the name of the report parameter that contains the value list. The value of this 
-	parameter has to be an array, a <code>java.util.Collection</code> or <code>null</code>.
-	</li>
-	</ul>
-	If the parameter's value is a collection of not null values,  
-	the function constructs a <code>&lt;column_name&gt; NOT IN (?, ?, .., ?)</code> clause
-	<br/>
-	If the parameter's value is a collection containing both null and not null values,  
-	the function constructs a <code>(&lt;column_name&gt; IS NOT NULL AND &lt;column_name&gt; NOT IN (?, ?, .., ?))</code> clause
-	<br/>
-	If the parameter's value is a collection containing only null values,  
-	the function constructs a <code>&lt;column_name&gt; IS NOT NULL</code> clause
-	<br/>
-	If the parameter's value is null, the function generates a SQL clause that will always evaluate to <code>true</code> 
-	(e.g. <code>0 = 0</code>). 
 	</li>
 	</ol>
 	In this sample the query string contains a <code>$X{NOTIN, City, ExcludedCities}</code> piece of code:
