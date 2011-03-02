@@ -287,32 +287,27 @@ public class TextRenderer
 	
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{
-			//eugene fix - start
 			int startIndex = lineMeasurer.getPosition();
-			//eugene fix - end
 
 			TextLayout layout = lineMeasurer.nextLayout(formatWidth);
+
+			AttributedString tmpText = 
+				new AttributedString(
+					paragraph, 
+					startIndex, 
+					startIndex + layout.getCharacterCount()
+					);
 
 			if (isMinimizePrinterJobSize)
 			{
 				//eugene fix - start
-				AttributedString tmpText = 
-					new AttributedString(
-						paragraph, 
-						startIndex, 
-						startIndex + layout.getCharacterCount()
-						);
 				layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
 				//eugene fix - end
 			}
 
 			float lineHeight = lineSpacingFactor * 
 				maxFontSizeFinder.findMaxFontSize(
-					new AttributedString(
-						paragraph, 
-						startIndex, 
-						startIndex + layout.getCharacterCount()
-						).getIterator(),
+					tmpText.getIterator(),
 					fontSize
 					);
 
