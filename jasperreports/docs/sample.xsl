@@ -84,27 +84,13 @@
 	color: #000000;
 }
 
-.local {
-	text-decoration: inherit;
+.subtitle {
 	font-family: inherit;
 	font-size: inherit;
 	font-style: inherit;
-	font-weight: inherit;
+	font-weight: bold;
+	text-decoration: none;
 	color: inherit;
-}
-
-a.local:link {
-	text-decoration: none;
-}
-a.local:visited {
-	text-decoration: none;
-}
-a.local:active {
-	text-decoration: none;
-}
-a.local:hover {
-	text-decoration: none;
-	color: #303030;
 }
 
 </style>
@@ -369,19 +355,30 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="a">
-  
+  <xsl:element name="a">
+   	<xsl:if test="@name">  
+  	  <xsl:attribute name="name"><xsl:value-of select="./@name"/></xsl:attribute>
+  	</xsl:if>  
+  	<xsl:if test="@href"> 
+      <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><xsl:attribute name="class">element</xsl:attribute>
+  	</xsl:if>
+  	<xsl:value-of select="."/>
+  </xsl:element>
+</xsl:template>
+
+
+<xsl:template match="subtitle">
   <xsl:choose>
    	<xsl:when test="@name">
-   	<xsl:element name="a"> 
-  	  <xsl:attribute name="class">local</xsl:attribute>
+   	<xsl:element name="a">
   	  <xsl:attribute name="name"><xsl:value-of select="./@name"/></xsl:attribute>
-  	  <xsl:attribute name="href">../../sample.reference/<xsl:value-of select="/sample/name"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute><xsl:value-of select="."/>
+  	  <xsl:attribute name="href">../../sample.reference/<xsl:value-of select="/sample/name"/>/index.html#<xsl:value-of select="@name"/></xsl:attribute>
+   	  <xsl:attribute name="class">subtitle</xsl:attribute>
+  	  <xsl:value-of select="."/>
   	</xsl:element>
   	</xsl:when>  
   	<xsl:otherwise>
-  	<xsl:element name="a"> 
-      <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><span class="element"><xsl:value-of select="."/></span>
-  	</xsl:element>
+  	  <xsl:value-of select="."/>
   	</xsl:otherwise>
   </xsl:choose>
 </xsl:template>

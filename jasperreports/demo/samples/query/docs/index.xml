@@ -182,7 +182,7 @@ report user (example: A user may provide a start and end date for which they wan
 	in and ensure the syntax of the query is correct. 
 	<br/>
 	<br/>
-	<b><a name="clause_functions">Built-in SQL Clause Functions</a></b>
+	<subtitle name="clause_functions">Built-in SQL Clause Functions</subtitle>
 	<br/>
 	<br/>
 	As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for 
