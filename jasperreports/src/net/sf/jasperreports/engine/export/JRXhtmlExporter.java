@@ -990,6 +990,27 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		appendBackcolorStyle(text, styleBuffer);
 		appendBorderStyle(text.getLineBox(), styleBuffer);
 
+		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+
+		switch (text.getVerticalAlignmentValue())
+		{
+			case BOTTOM :
+			{
+				verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
+				break;
+			}
+			case MIDDLE :
+			{
+				verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
+				break;
+			}
+			case TOP :
+			default :
+			{
+				verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
+			}
+		}
+
 		String horizontalAlignment = CSS_TEXT_ALIGN_LEFT;
 
 		if (textLength > 0)
@@ -1030,32 +1051,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				styleBuffer.append(";");
 //			}
 
-			String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-
-			switch (text.getVerticalAlignmentValue())
-			{
-				case BOTTOM :
-				{
-					verticalAlignment = HTML_VERTICAL_ALIGN_BOTTOM;
-					break;
-				}
-				case MIDDLE :
-				{
-					verticalAlignment = HTML_VERTICAL_ALIGN_MIDDLE;
-					break;
-				}
-				case TOP :
-				default :
-				{
-					verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
-				}
-			}
-
 			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 			{
-				styleBuffer.append(" vertical-align: ");
-				styleBuffer.append(verticalAlignment);
-				styleBuffer.append(";");
+				styleBuffer.append(" display:table;");
 			}
 		}
 
@@ -1087,6 +1085,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		
 		writer.write(">");
+		
+		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+		{
+			writer.write("<span style=\"display:table-cell;vertical-align:");
+			writer.write(verticalAlignment);
+			writer.write(";\">");
+		}
 
 		startHyperlink(text);
 
@@ -1102,6 +1107,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 //		}
 
 		endHyperlink();
+
+		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+		{
+			writer.write("</span>");//FIXMENOW move tooltip span here
+		}
 
 		writer.write("</span>\n");
 	}
