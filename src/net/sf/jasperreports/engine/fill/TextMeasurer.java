@@ -252,9 +252,12 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	protected void initialize(JRStyledText styledText,
-			int remainingTextStart,
-			int availableStretchHeight, boolean canOverflow)
+	protected void initialize(
+		JRStyledText styledText,
+		int remainingTextStart,
+		int availableStretchHeight, 
+		boolean canOverflow
+		)
 	{
 		width = textElement.getWidth();
 		height = textElement.getHeight();
@@ -456,9 +459,12 @@ public class TextMeasurer implements JRTextMeasurer
 		return rendered;
 	}
 	
-	protected void processLastTruncatedRow(AttributedCharacterIterator allParagraphs,
-			String paragraphText, int paragraphOffset,
-			boolean lineTruncated)
+	protected void processLastTruncatedRow(
+		AttributedCharacterIterator allParagraphs,
+		String paragraphText, 
+		int paragraphOffset,
+		boolean lineTruncated
+		)
 	{
 		if (lineTruncated && isToTruncateAtChar())
 		{
@@ -468,18 +474,26 @@ public class TextMeasurer implements JRTextMeasurer
 		appendTruncateSuffix(allParagraphs);
 	}
 
-	protected void truncateLastLineAtChar(AttributedCharacterIterator allParagraphs, String paragraphText, int paragraphOffset)
+	protected void truncateLastLineAtChar(
+		AttributedCharacterIterator allParagraphs, 
+		String paragraphText, 
+		int paragraphOffset
+		)
 	{
 		//truncate the original line at char
 		measuredState = prevMeasuredState.cloneState();
-		AttributedCharacterIterator lineParagraph = new AttributedString(
+		AttributedCharacterIterator lineParagraph = 
+			new AttributedString(
 				allParagraphs, 
 				measuredState.textOffset,
-				paragraphOffset + paragraphText.length()).getIterator();
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
+				paragraphOffset + paragraphText.length()
+				).getIterator();
+		LineBreakMeasurer lineMeasurer = 
+			new LineBreakMeasurer(
 				lineParagraph, 
 				BreakIterator.getCharacterInstance(), 
-				FONT_RENDER_CONTEXT);
+				FONT_RENDER_CONTEXT
+				);
 		//render again the last line
 		//if the line does not fit now, it will remain empty
 		renderNextLine(lineMeasurer, lineParagraph);
@@ -516,15 +530,21 @@ public class TextMeasurer implements JRTextMeasurer
 			AttributedString attributedText = new AttributedString(text);
 			
 			//set original attributes for the text part
-			AttributedCharacterIterator lineAttributes = new AttributedString(
+			AttributedCharacterIterator lineAttributes = 
+				new AttributedString(
 					allParagraphs, 
 					measuredState.textOffset,
-					measuredState.textOffset + linePosition).getIterator();
+					measuredState.textOffset + linePosition
+					).getIterator();
 			setAttributes(attributedText, lineAttributes, 0);
 			
 			//set global attributes for the suffix part
-			setAttributes(attributedText, globalAttributes, 
-					text.length() - truncateSuffx.length(), text.length());
+			setAttributes(
+				attributedText, 
+				globalAttributes, 
+				text.length() - truncateSuffx.length(), 
+				text.length()
+				);
 			
 			AttributedCharacterIterator lineParagraph = attributedText.getIterator();
 			
@@ -532,10 +552,12 @@ public class TextMeasurer implements JRTextMeasurer
 				isToTruncateAtChar() 
 				? BreakIterator.getCharacterInstance() 
 				: BreakIterator.getLineInstance();
-			LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(
+			LineBreakMeasurer lineMeasurer = 
+				new LineBreakMeasurer(
 					lineParagraph,
 					breakIterator,
-					FONT_RENDER_CONTEXT);
+					FONT_RENDER_CONTEXT
+					);
 
 			if (renderNextLine(lineMeasurer, lineParagraph))
 			{
@@ -659,9 +681,10 @@ public class TextMeasurer implements JRTextMeasurer
 	}
 	
 	protected void setAttributes(
-			AttributedString string,
-			AttributedCharacterIterator attributes, 
-			int stringOffset)
+		AttributedString string,
+		AttributedCharacterIterator attributes, 
+		int stringOffset
+		)
 	{
 		for (char c = attributes.first(); c != CharacterIterator.DONE; c = attributes.next())
 		{
@@ -672,18 +695,23 @@ public class TextMeasurer implements JRTextMeasurer
 				if (attributes.getRunStart(attribute) == attributes.getIndex())
 				{
 					Object attributeValue = attributeEntry.getValue();
-					string.addAttribute(attribute, attributeValue, 
-							attributes.getIndex() + stringOffset,
-							attributes.getRunLimit(attribute) + stringOffset);
+					string.addAttribute(
+						attribute, 
+						attributeValue, 
+						attributes.getIndex() + stringOffset,
+						attributes.getRunLimit(attribute) + stringOffset
+						);
 				}
 			}
 		}
 	}
 	
 	protected void setAttributes(
-			AttributedString string,
-			Map attributes, 
-			int startIndex, int endIndex)
+		AttributedString string,
+		Map attributes, 
+		int startIndex, 
+		int endIndex
+		)
 	{
 		for (Iterator it = attributes.entrySet().iterator(); it.hasNext();)
 		{
