@@ -30,12 +30,12 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
-import net.sf.jasperreports.engine.export.HtmlPrintElement;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.HtmlPrintElement;
 import net.sf.jasperreports.extensions.HtmlElementHandlerBundle;
 
 /**
@@ -136,9 +136,11 @@ public class HtmlComponentFill extends BaseFillComponent {
 	protected void copy(JRGenericPrintElement printElement)
 	{
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT, htmlContent);
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getScaleType().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getHtmlScaleType().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN, htmlComponent.getVerticalAlign().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_WIDTH, htmlComponent.getHtmlWidth());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HEIGHT, htmlComponent.getHtmlHeight());
 	}
 
 }

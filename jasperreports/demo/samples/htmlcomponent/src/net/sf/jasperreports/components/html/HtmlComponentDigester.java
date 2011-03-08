@@ -43,17 +43,24 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 
 	public void configureDigester(Digester digester)
 	{
-		setBarChartRules(digester);
+		setHtmlComponentRules(digester);
 	}
 
-	protected void setBarChartRules(Digester digester)
+	protected void setHtmlComponentRules(Digester digester)
 	{
 		String htmlComponentPattern = "*/componentElement/html";
 		digester.addObjectCreate(htmlComponentPattern, HtmlComponent.class.getName());
 		
+		digester.addSetProperties(htmlComponentPattern, new String[] {
+				HtmlComponent.PROPERTY_HTML_SCALE_TYPE,
+				HtmlComponent.PROPERTY_HORIZONTAL_ALIGN,
+				HtmlComponent.PROPERTY_VERTICAL_ALIGN,
+				HtmlComponent.PROPERTY_EVALUATION_TIME }, 
+				new String[0]);
+				
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(
-						HtmlComponent.PROPERTY_SCALE_TYPE,
+						HtmlComponent.PROPERTY_HTML_SCALE_TYPE,
 						ScaleImageEnum.values()));
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(

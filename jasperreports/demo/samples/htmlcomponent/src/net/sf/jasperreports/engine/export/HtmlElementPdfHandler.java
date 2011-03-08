@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.util.HtmlPrintElement;
+import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -35,7 +37,8 @@ public class HtmlElementPdfHandler implements GenericElementPdfHandler
 			JRGenericPrintElement element) {
 		try
 		{
-	        ((JRPdfExporter)exporterContext.getExporter()).exportImage(HtmlPrintElement.createImageFromElement(element));
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+	        ((JRPdfExporter)exporterContext.getExporter()).exportImage(htmlPrintElement.createImageFromElement(element));
 		}
 		catch (Exception e)
 		{

@@ -68,7 +68,17 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
+		<delete dir="./build"/>
 		<ant dir="../" target="clean-sample"/>
+	</target>
+	
+	<target name="jar" depends="clean, javac" description="Builds the HtmlComponent JAR file.">
+		<mkdir dir="./dist"/>
+		<jar jarfile="./dist/htmlcomponent.jar">
+			<fileset dir="./build/classes">
+				<exclude name="**/${sample.app.name}.class"/>
+			</fileset>
+		</jar>
 	</target>
 
 	<target name="test" description="Runs the sample.">

@@ -19,7 +19,7 @@
 						</element>
 					</sequence>
 					
-					<attribute name="scaleType" use="optional">
+					<attribute name="htmlScaleType" use="optional">
 						<annotation>
 							<documentation>Image displaying type.</documentation>
 						</annotation>
@@ -106,8 +106,11 @@
 						</simpleType>
 					</attribute>
 					
+					<attribute name="htmlWidth" use="optional" type="unsignedInt"/>
+					<attribute name="htmlHeight" use="optional" type="unsignedInt"/>
+
 					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
-					
+					<attribute name="evaluationGroup" type="string" use="optional"/>
 				</extension>
 			</complexContent>
 		</complexType>

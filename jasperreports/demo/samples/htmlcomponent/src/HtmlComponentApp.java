@@ -75,7 +75,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperFillManager.fillReportToFile("build/reports/HtmlElementReport.jasper", null, new JREmptyDataSource());
+		JasperFillManager.fillReportToFile("build/reports/HtmlComponentReport.jasper", null, new JREmptyDataSource());
 		System.err.println("Filling time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -86,7 +86,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void pdf() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToPdfFile("build/reports/HtmlElementReport.jrprint");
+		JasperExportManager.exportReportToPdfFile("build/reports/HtmlComponentReport.jrprint");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -97,7 +97,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void xls() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HtmlElementReport.jrprint");
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -121,7 +121,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void jxl() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HtmlElementReport.jrprint");
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
@@ -145,7 +145,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void html() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperExportManager.exportReportToHtmlFile("build/reports/HtmlElementReport.jrprint");
+		JasperExportManager.exportReportToHtmlFile("build/reports/HtmlComponentReport.jrprint");
 		System.err.println("HTML creation time : " + (System.currentTimeMillis() - start));
 	}
 	
@@ -156,7 +156,7 @@ public class HtmlComponentApp extends AbstractSampleApp
 	public void xhtml() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		File sourceFile = new File("build/reports/HtmlElementReport.jrprint");
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
 
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
 
