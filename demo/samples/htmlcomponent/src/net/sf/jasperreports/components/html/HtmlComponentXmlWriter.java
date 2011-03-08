@@ -28,19 +28,48 @@ import java.io.IOException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlComponentXmlWriter implements ComponentXmlWriter
-{
+public class HtmlComponentXmlWriter implements ComponentXmlWriter {
 
 	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException
-	{
-		//TODO
+			JRXmlWriter reportWriter) throws IOException {
+		if (component instanceof HtmlComponent) {
+			HtmlComponent htmlComponent = (HtmlComponent) component;
+			writeHtmlComponent(htmlComponent, componentKey, reportWriter);
+		}
 	}
+	
+	protected void writeHtmlComponent(HtmlComponent htmlComponent, ComponentKey componentKey,
+			JRXmlWriter reportWriter) throws IOException {
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		
+		XmlNamespace namespace = new XmlNamespace(
+				HtmlComponentExtensionsRegistryFactory.NAMESPACE, 
+				componentKey.getNamespacePrefix(),
+				HtmlComponentExtensionsRegistryFactory.XSD_LOCATION);
+		
+		writer.startElement("html", namespace);
+		
+		writer.addAttribute(HtmlComponent.PROPERTY_HTML_SCALE_TYPE, htmlComponent.getHtmlScaleType());
+		writer.addAttribute(HtmlComponent.PROPERTY_HEIGHT, htmlComponent.getHtmlHeight());
+		writer.addAttribute(HtmlComponent.PROPERTY_WIDTH, htmlComponent.getHtmlWidth());
+		writer.addAttribute(HtmlComponent.PROPERTY_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign());
+		writer.addAttribute(HtmlComponent.PROPERTY_VERTICAL_ALIGN, htmlComponent.getVerticalAlign());
+		writer.writeExpression(HtmlComponent.PROPERTY_HTMLCONTENT_EXPRESSION, htmlComponent.getHtmlContentExpression(), false);
+		
+		if (htmlComponent.getEvaluationTime() != EvaluationTimeEnum.NOW) {
+			writer.addAttribute(HtmlComponent.PROPERTY_EVALUATION_TIME, htmlComponent.getEvaluationTime());
+		}
+		writer.addAttribute(HtmlComponent.PROPERTY_EVALUATION_GROUP, htmlComponent.getEvaluationGroup());
 
+		writer.closeElement();
+	}
 }

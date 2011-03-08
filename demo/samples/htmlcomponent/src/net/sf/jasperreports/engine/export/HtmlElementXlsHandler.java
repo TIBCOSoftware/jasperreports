@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.util.HtmlPrintElement;
+import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -45,7 +47,8 @@ public class HtmlElementXlsHandler implements GenericElementXlsHandler
 		try
 		{
 			JRXlsExporter exporter = (JRXlsExporter)exporterContext.getExporter();
-	        exporter.exportImage(HtmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+	        exporter.exportImage(htmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		catch (Exception e)
 		{

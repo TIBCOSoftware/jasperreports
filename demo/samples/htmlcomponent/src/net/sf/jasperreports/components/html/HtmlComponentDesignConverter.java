@@ -21,43 +21,40 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.components.html;
 
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.component.ComponentDesignConverter;
+import net.sf.jasperreports.engine.convert.ReportConverter;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
-import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 
 /**
+ * 
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
+public class HtmlComponentDesignConverter implements ComponentDesignConverter
 {
-	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
-			JRGenericPrintElement element)
-	{
-		StringBuffer script = new StringBuffer(128);
-		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
-		
-		script.append("<div style='width:" + (element.getWidth() - 0) + "px;height:" + (element.getHeight() - 0) + "px;");
-		
-		if (element.getModeValue() == ModeEnum.OPAQUE)
-		{
-			script.append("background-color: #");
-			script.append(JRColorUtil.getColorHexa(element.getBackcolor()));
-			script.append("; ");
-		}
-		script.append("overflow:hidden;'>");
-		script.append(htmlContent);
-		script.append("</div>");
-
-		return script.toString();
-	}
-
-	public boolean toExport(JRGenericPrintElement element)
-	{
-		return true;
-	}
 	
+	public JRPrintElement convert(ReportConverter reportConverter, JRComponentElement element)
+	{
+		if (element.getComponent() == null)
+		{
+			return null;
+		}
+		
+		try
+		{
+			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+			return htmlPrintElement.createImageFromComponentElement(element);
+		}
+		catch (Exception e)
+		{ 
+			return null;
+		}
+		
+	}
+
 }

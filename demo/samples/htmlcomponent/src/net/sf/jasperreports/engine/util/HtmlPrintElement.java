@@ -21,43 +21,32 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.HtmlPrintElement;
-import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.JRPrintImage;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlElementHtmlHandler implements GenericElementHtmlHandler
-{
-	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
-			JRGenericPrintElement element)
-	{
-		StringBuffer script = new StringBuffer(128);
-		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
-		
-		script.append("<div style='width:" + (element.getWidth() - 0) + "px;height:" + (element.getHeight() - 0) + "px;");
-		
-		if (element.getModeValue() == ModeEnum.OPAQUE)
-		{
-			script.append("background-color: #");
-			script.append(JRColorUtil.getColorHexa(element.getBackcolor()));
-			script.append("; ");
-		}
-		script.append("overflow:hidden;'>");
-		script.append(htmlContent);
-		script.append("</div>");
-
-		return script.toString();
-	}
-
-	public boolean toExport(JRGenericPrintElement element)
-	{
-		return true;
-	}
+public interface HtmlPrintElement {
 	
+	public static final String PARAMETER_HTML_CONTENT = "htmlContent";
+
+	public static final String PARAMETER_SCALE_TYPE = "htmlScaleType";
+	
+	public static final String PARAMETER_HORIZONTAL_ALIGN = "horizontalAlign";
+	
+	public static final String PARAMETER_VERTICAL_ALIGN = "verticalAlign";
+	
+	public static final String PARAMETER_WIDTH = "htmlWidth";
+	
+	public static final String PARAMETER_HEIGHT = "htmlHeight";
+
+	JRPrintImage createImageFromElement(JRGenericPrintElement element)  throws JRException;
+
+	JRPrintImage createImageFromComponentElement(JRComponentElement componentElement)  throws JRException;
 }
