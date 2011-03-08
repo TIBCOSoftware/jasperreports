@@ -80,7 +80,7 @@ public class OFCApp
 	private static final String TASK_PPTX = "pptx";
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_XML4SWF = "xml4swf";
-	private static final String TASK_VIEW_HTML = "viewHTML";
+	private static final String TASK_VIEW_HTML = "viewHtml";
 	
 	
 	/**
@@ -415,7 +415,7 @@ public class OFCApp
 	{
 		System.out.println( "OFCApp usage:" );
 		System.out.println( "\tjava OFCApp task file" );
-		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHTML" );
+		System.out.println( "\tTasks : fill | print | pdf | xml | xmlEmbed | html | rtf | xls | jxl | csv | odt | ods | docx | xlsx | pptx | xhtml | xml4swf | viewHtml" );
 	}
 
 

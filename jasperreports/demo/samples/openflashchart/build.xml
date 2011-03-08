@@ -215,7 +215,7 @@
 		</java>
 	</target>
 
-	<target name="viewHTML" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser.">
+	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser.">
 		<mkdir dir="${web.dir}"/>
 		<copy todir="${web.dir}">
 			<fileset dir="./web"/>
@@ -225,7 +225,7 @@
 			</fileset>
 		</copy>
 		<java classname="${class.name}" fork="true" dir="${web.dir}">
-			<arg value="viewHTML"/>
+			<arg value="viewHtml"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
