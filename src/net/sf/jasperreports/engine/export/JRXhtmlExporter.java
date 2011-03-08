@@ -1011,12 +1011,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			
 			int rotationIE = 0;
 			int rotationAngle = 0;
+			int translateX = 0;
+			int translateY = 0;
 			switch (text.getRotationValue())
 			{
 				case LEFT : 
 				{
-					rotatedText.setX(text.getX() - (text.getHeight() - text.getWidth()) / 2);
-					rotatedText.setY(text.getY() + (text.getHeight() - text.getWidth()) / 2);
+					translateX = - (text.getHeight() - text.getWidth()) / 2;
+					translateY = (text.getHeight() - text.getWidth()) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
 					rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getRightPen().getLineWidth());
@@ -1027,14 +1029,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					rotatedText.getLineBox().setBottomPadding(text.getLineBox().getLeftPadding());
 					rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getBottomPen().getLineWidth());
 					rotatedText.getLineBox().setRightPadding(text.getLineBox().getBottomPadding());
-					rotationIE = 1;
+					rotationIE = 3;
 					rotationAngle = -90;
 					break;
 				}
 				case RIGHT : 
 				{
-					rotatedText.setX(text.getX() - (text.getHeight() - text.getWidth()) / 2);
-					rotatedText.setY(text.getY() + (text.getHeight() - text.getWidth()) / 2);
+					translateX = - (text.getHeight() - text.getWidth()) / 2;
+					translateY = (text.getHeight() - text.getWidth()) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
 					rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getLeftPen().getLineWidth());
@@ -1045,7 +1047,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					rotatedText.getLineBox().setBottomPadding(text.getLineBox().getRightPadding());
 					rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getTopPen().getLineWidth());
 					rotatedText.getLineBox().setRightPadding(text.getLineBox().getTopPadding());
-					rotationIE = -3;
+					rotationIE = 1;
 					rotationAngle = 90;
 					break;
 				}
@@ -1072,8 +1074,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			appendPositionStyle(rotatedText, styleBuffer);
 			appendSizeStyle(rotatedText, rotatedText, styleBuffer);
 
-			styleBuffer.append("-webkit-transform: rotate(" + rotationAngle + "deg); ");
-			styleBuffer.append("-moz-transform: rotate(" + rotationAngle + "deg); ");
+			styleBuffer.append("-webkit-transform: translate(" + translateX + "px," + translateY + "px) ");
+			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
+			styleBuffer.append("-moz-transform: translate(" + translateX + "px," + translateY + "px) ");
+			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		}
 
@@ -1178,7 +1182,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
 		{
-			writer.write("<span style=\"display:table-cell;vertical-align:");
+			writer.write("<span style=\"display:table-cell;vertical-align:"); //display:table-cell conflicts with overflow: hidden;
 			writer.write(verticalAlignment);
 			writer.write(";\">");
 		}
