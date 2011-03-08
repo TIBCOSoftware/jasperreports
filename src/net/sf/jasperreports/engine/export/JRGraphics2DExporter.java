@@ -77,6 +77,12 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.graphics2d.";
 
 	/**
+	 * The exporter key, as used in
+	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
+	 */
+	public static final String GRAPHICS2D_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "graphics2d";
+	
+	/**
 	 *
 	 */
 	protected Graphics2D grx;
@@ -252,6 +258,6 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 */
 	protected String getExporterKey()
 	{
-		return null;		
+		return GRAPHICS2D_EXPORTER_KEY;
 	}
 }

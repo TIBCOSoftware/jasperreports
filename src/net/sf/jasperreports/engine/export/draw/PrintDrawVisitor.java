@@ -36,10 +36,15 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.TextRenderer;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Print element draw visitor.
@@ -49,6 +54,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 {
+	private static final Log log = LogFactory.getLog(PrintDrawVisitor.class);
 	
 	private Graphics2D grx;
 	private LineDrawer lineDrawer = new LineDrawer();
@@ -170,7 +176,26 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 
 	public void visit(JRGenericPrintElement printElement, Offset offset)
 	{
-		// not drawing anything because there are no Graphics2D generic element handlers
+		GenericElementGraphics2DHandler handler = 
+			(GenericElementGraphics2DHandler)GenericElementHandlerEnviroment.getHandler(
+					printElement.getGenericType(), 
+					JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY
+					);
+
+		if (handler != null)
+		{
+			Graphics2D grx2 = (Graphics2D)grx.create();
+			grx2.translate(offset.getX(), offset.getY());
+			handler.exportElement(grx2, printElement);
+		}
+		else
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("No Graphics2D generic element handler for " 
+						+ printElement.getGenericType());
+			}
+		}
 	}
 
 }
