@@ -26,6 +26,7 @@ package net.sf.jasperreports.renderers;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
@@ -58,6 +59,7 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 
 	public void render(Graphics2D grx, Rectangle2D rectangle) 
 	{
+		AffineTransform origTransform = grx.getTransform();
 		try
 		{
 			Dimension size = component.getSize();
@@ -74,6 +76,10 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 		catch (Exception e)
 		{
 			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			grx.setTransform(origTransform);
 		}
 	}
 	
