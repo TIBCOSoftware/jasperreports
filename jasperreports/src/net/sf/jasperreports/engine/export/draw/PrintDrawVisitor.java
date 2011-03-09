@@ -184,9 +184,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 
 		if (handler != null)
 		{
-			Graphics2D grx2 = (Graphics2D)grx.create();
-			grx2.translate(offset.getX(), offset.getY());
-			handler.exportElement(grx2, printElement);
+			handler.exportElement(printElement, grx, offset);
 		}
 		else
 		{
