@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Graphics2D;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.export.draw.Offset;
 
 /**
  * A generic print element Graphics2D export handler.
@@ -42,6 +43,6 @@ public interface GenericElementGraphics2DHandler extends GenericElementHandler
 	 * @param grx the graphic context
 	 * @param element the generic element to export
 	 */
-	void exportElement(Graphics2D grx, JRGenericPrintElement element);
+	void exportElement(JRGenericPrintElement element, Graphics2D grx, Offset offset);
 	
 }
