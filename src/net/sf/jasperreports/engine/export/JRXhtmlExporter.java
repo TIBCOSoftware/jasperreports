@@ -625,7 +625,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		writer.write("<div style=\"position:relative;width:" + toSizeUnit(jasperPrint.getPageWidth()) + ";height:" + toSizeUnit(jasperPrint.getPageHeight()) + ";\">\n");
+		writer.write(
+			"<div style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
+			+ "position:relative;width:" + toSizeUnit(jasperPrint.getPageWidth()) 
+			+ ";height:" + toSizeUnit(jasperPrint.getPageHeight()) + ";\">\n"
+			);
 
 		frameIndexStack = new ArrayList();
 		
