@@ -45,20 +45,19 @@ public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 {
 
 	private static final long serialVersionUID = 1L;
-	
-	private Document document;
-	
-	private Dimension size;
+	private int width, height;
+	private CustomJava2DRenderer renderer;
 	
 	public FlyingSaucerXhtmlToImageRenderer(Document document, int width, int height) 
 	{
-		this.document = document;
-		this.size = new Dimension(width, height);
+		this.width = width;
+		renderer = new CustomJava2DRenderer(document, width, height);
+		this.height = renderer.getComputedHeight();
 	}
 	
 	public Dimension2D getDimension()
 	{
-		return size;
+		return new Dimension(width, height);
 	}
 
 	public void render(Graphics2D grx, Rectangle2D rectangle) 
@@ -67,14 +66,13 @@ public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 		try
 		{
 			grx.translate(rectangle.getX(), rectangle.getY());
-			if (rectangle.getWidth() != size.getWidth() 
-					|| rectangle.getHeight() != size.getHeight())
+			if (rectangle.getWidth() != width 
+					|| rectangle.getHeight() != height)
 			{
-				grx.scale(rectangle.getWidth() / size.getWidth(), 
-						rectangle.getHeight() / size.getHeight());
+				grx.scale(rectangle.getWidth() / width, 
+						rectangle.getHeight() / height);
 			}
-			CustomJava2DRenderer renderer = new CustomJava2DRenderer(document, size.width, size.height);
-			renderer.getImage(grx);
+			renderer.paint(grx);
 		}
 		catch (Exception e)
 		{

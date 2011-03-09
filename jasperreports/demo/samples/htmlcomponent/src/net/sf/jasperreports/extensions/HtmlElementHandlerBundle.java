@@ -25,12 +25,14 @@ package net.sf.jasperreports.extensions;
 
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.HtmlElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.HtmlElementHtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementJExcelHandler;
 import net.sf.jasperreports.engine.export.HtmlElementPdfHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
@@ -85,6 +87,11 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 				&& JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementJExcelHandler();
+		}		
+		else if (NAME.equals(elementName)
+				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementGraphics2DHandler();
 		}		
 		return null;
 	}

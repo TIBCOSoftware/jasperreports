@@ -41,7 +41,7 @@
 			</textField>
 			<componentElement>
 				<reportElement x="0" y="100" width="230" height="110" backcolor="#ADD8E6"/>
-				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" htmlScaleType="FillFrame" horizontalAlign="Left" verticalAlign="Middle">
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" htmlScaleType="FillFrame" horizontalAlign="Left" verticalAlign="Top">
 					<hc:htmlContentExpression><![CDATA[$P{htmlTable}]]></hc:htmlContentExpression>
 				</hc:html>
 			</componentElement>
@@ -57,12 +57,12 @@
 				<genericElementParameter name="horizontalAlign">
 					<valueExpression class="java.lang.String"><![CDATA["Right"]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlWidth">
+				<!--genericElementParameter name="htmlWidth">
 					<valueExpression class="java.lang.Integer"><![CDATA[200]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="htmlHeight">
 					<valueExpression class="java.lang.Integer"><![CDATA[134]]></valueExpression>
-				</genericElementParameter>
+				</genericElementParameter-->
 			</genericElement>
 			<genericElement>
 				<reportElement x="0" y="370" width="190" height="140" backcolor="#ADD8E6"/>
@@ -103,10 +103,10 @@
 					<valueExpression class="java.lang.String"><![CDATA["Left"]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="htmlWidth">
-					<valueExpression class="java.lang.Integer"><![CDATA[50]]></valueExpression>
+					<valueExpression class="java.lang.Integer"><![CDATA[350]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="htmlHeight">
-					<valueExpression class="java.lang.Integer"><![CDATA[50]]></valueExpression>
+					<valueExpression class="java.lang.Integer"><![CDATA[150]]></valueExpression>
 				</genericElementParameter>
 			</genericElement>
 			<staticText>

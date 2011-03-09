@@ -42,7 +42,6 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 	 * Whether we've completed rendering; image will only be rendered once.
 	 */
 	private int width;
-	private int height;
 	private Map renderingHints;
 
 
@@ -58,7 +57,7 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
     	super(doc, width, height);
         this.doc = doc;
         this.width = width;
-        this.height = height;
+        prepareLayout();
     }
 
 	/**
@@ -74,17 +73,20 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 		super.setRenderingHints(hints);
 	}
 
-	public void getImage(Graphics2D newG) {
+	private void prepareLayout() {
 		outputImage = ImageUtil.createCompatibleBufferedImage(DEFAULT_DOTS_PER_POINT, DEFAULT_DOTS_PER_POINT);
 		outputDevice = new Java2DOutputDevice(outputImage);
 		sharedContext = getSharedContext();
 	
 		setDocument(doc, null, new XhtmlNamespaceHandler());
-		
 		layout(this.width);
-		
-		height = this.height == -1 ? root.getHeight() : this.height;
-		
+	}
+	
+	public int getComputedHeight(){
+		return root.getHeight();
+	}
+	
+	public void paint(Graphics2D newG) {
 		outputDevice = new Java2DOutputDevice(newG);
 		if ( renderingHints != null ) {
 			newG.getRenderingHints().putAll(renderingHints);
@@ -96,6 +98,7 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 		sharedContext.getTextRenderer().setup(rc.getFontContext());
 		root.getLayer().paint(rc);
 	}
+	
 
 	private void setDocument(Document doc, String url, NamespaceHandler nsh) {
 		sharedContext.reset();
