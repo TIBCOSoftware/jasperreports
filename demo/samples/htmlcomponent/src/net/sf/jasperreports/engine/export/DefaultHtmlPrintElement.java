@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.awt.Dimension;
-
 import javax.swing.JEditorPane;
 
 import net.sf.jasperreports.components.html.HtmlComponent;
@@ -67,7 +65,11 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		
 		StringBuffer html = new StringBuffer();
 
-		html.append("<table style='width:" + (element.getWidth() - 0) + "px; height:" + (element.getHeight() - 0) + "px;");
+		if (width != null && height != null) {
+			html.append("<table style='width:" + width + "px; height:" + height + "px;");
+		} else {
+			html.append("<table style='width:" + (element.getWidth() - 0) + "px; height:" + (element.getHeight() - 0) + "px;");
+		}
 		
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -88,14 +90,9 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		
 		editorPane.setText(html.toString());
 		editorPane.setBorder(null);
-		
-		if (width != null && height != null) {
-			editorPane.setSize(new Dimension(width, height));
-		} else {
-			editorPane.setSize(editorPane.getPreferredSize());
-		}
-		
-        JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
+		editorPane.setSize(editorPane.getPreferredSize());
+
+		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 
         printImage.setX(element.getX());
         printImage.setY(element.getY());
@@ -123,13 +120,21 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		String verticalAlignment = html.getVerticalAlign().getName();
 		String htmlContent = "";
 		
+		Integer width = html.getHtmlWidth();
+		Integer height = html.getHtmlHeight();
+
 		if (html.getHtmlContentExpression() != null) {
 			htmlContent = JRExpressionUtil.getExpressionText(html.getHtmlContentExpression());
 		}
 		
 		
 		StringBuffer htmlString = new StringBuffer();
-		htmlString.append("<table border='0' style='width:" + (componentElement.getWidth() - 0) + "px; height:" + (componentElement.getHeight() - 0) + "px; ");
+		
+		if (width != null && height != null) {
+			htmlString.append("<table border='0' style='width:" + width + "px; height:" + height + "px; ");
+		} else {
+			htmlString.append("<table border='0' style='width:" + (componentElement.getWidth() - 0) + "px; height:" + (componentElement.getHeight() - 0) + "px; ");
+		}
 		
 		if (componentElement.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -149,14 +154,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		
 		editorPane.setText(htmlString.toString());
 		editorPane.setBorder(null);
-		
-		Integer width = html.getHtmlWidth();
-		Integer height = html.getHtmlHeight();
-		if (width != null && height != null) {
-			editorPane.setSize(new Dimension(width, height));
-		} else {
-			editorPane.setSize(editorPane.getPreferredSize());
-		}
+		editorPane.setSize(editorPane.getPreferredSize());
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(componentElement.getDefaultStyleProvider());
 		printImage.setX(componentElement.getX());
