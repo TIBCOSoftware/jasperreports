@@ -86,7 +86,6 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -1462,10 +1461,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
-		if (text.getLineSpacingValue() != LineSpacingEnum.SINGLE)
-		{
+//		if (text.getLineSpacingValue() != LineSpacingEnum.SINGLE)
+//		{
 			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-		}
+//		}
 
 		if (text.getLineBreakOffsets() != null)
 		{
