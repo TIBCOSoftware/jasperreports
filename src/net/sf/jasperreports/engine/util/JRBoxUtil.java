@@ -27,6 +27,8 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.base.JRBoxPen;
+import net.sf.jasperreports.engine.type.RotationEnum;
 
 
 /**
@@ -184,6 +186,81 @@ public final class JRBoxUtil
 		box.setLeftPadding(leftPadding);
 		box.setBottomPadding(bottomPadding);
 		box.setRightPadding(rightPadding);
+	}
+	
+
+	/**
+	 * 
+	 */
+	public static void rotate(JRLineBox box, RotationEnum rotation)
+	{
+		switch (rotation)
+		{
+			case LEFT : 
+			{
+				JRBoxPen topPen = box.getTopPen();
+				Integer topPadding = box.getTopPadding();
+				
+				box.copyTopPen(box.getLeftPen());
+				box.setTopPadding(box.getLeftPadding());
+
+				box.copyLeftPen(box.getBottomPen());
+				box.setLeftPadding(box.getBottomPadding());
+				
+				box.copyBottomPen(box.getRightPen());
+				box.setBottomPadding(box.getRightPadding());
+				
+				box.copyRightPen(topPen);
+				box.setRightPadding(topPadding);
+
+				break;
+			}
+			case RIGHT : 
+			{
+				JRBoxPen topPen = box.getTopPen();
+				Integer topPadding = box.getTopPadding();
+				
+				box.copyTopPen(box.getRightPen());
+				box.setTopPadding(box.getRightPadding());
+
+				box.copyRightPen(box.getBottomPen());
+				box.setRightPadding(box.getBottomPadding());
+
+				box.copyBottomPen(box.getLeftPen());
+				box.setBottomPadding(box.getLeftPadding());
+
+				box.copyLeftPen(topPen);
+				box.setLeftPadding(topPadding);
+				
+				break;
+			}
+			case UPSIDE_DOWN : 
+			{
+				JRBoxPen topPen = box.getTopPen();
+				Integer topPadding = box.getTopPadding();
+				
+				box.copyTopPen(box.getBottomPen());
+				box.setTopPadding(box.getBottomPadding());
+
+				box.copyBottomPen(topPen);
+				box.setBottomPadding(topPadding);
+				
+				JRBoxPen leftPen = box.getLeftPen();
+				Integer leftPadding = box.getLeftPadding();
+				
+				box.copyLeftPen(box.getRightPen());
+				box.setLeftPadding(box.getRightPadding());
+
+				box.copyRightPen(leftPen);
+				box.setRightPadding(leftPadding);
+
+				break;
+			}
+			case NONE :
+			default :
+			{
+			}
+		}
 	}
 	
 
