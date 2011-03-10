@@ -89,6 +89,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -995,22 +996,18 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			appendPositionStyle(text, styleBuffer);
 			appendSizeStyle(text, text, styleBuffer);
+			appendBorderStyle(text.getLineBox(), styleBuffer);
 		}
 		else
 		{
-			JRPrintText rotatedText = new JRBasePrintText(text.getDefaultStyleProvider());
+			JRBasePrintText rotatedText = new JRBasePrintText(text.getDefaultStyleProvider());
 			rotatedText.setX(text.getX());
 			rotatedText.setY(text.getY());
 			rotatedText.setWidth(text.getWidth());
 			rotatedText.setHeight(text.getHeight());
-			rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getTopPen().getLineWidth());
-			rotatedText.getLineBox().setTopPadding(text.getLineBox().getTopPadding());
-			rotatedText.getLineBox().getLeftPen().setLineWidth(text.getLineBox().getLeftPen().getLineWidth());
-			rotatedText.getLineBox().setLeftPadding(text.getLineBox().getLeftPadding());
-			rotatedText.getLineBox().getBottomPen().setLineWidth(text.getLineBox().getBottomPen().getLineWidth());
-			rotatedText.getLineBox().setBottomPadding(text.getLineBox().getBottomPadding());
-			rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getRightPen().getLineWidth());
-			rotatedText.getLineBox().setRightPadding(text.getLineBox().getRightPadding());
+			rotatedText.copyBox(text.getLineBox());
+			
+			JRBoxUtil.rotate(rotatedText.getLineBox(), text.getRotationValue());
 			
 			int rotationIE = 0;
 			int rotationAngle = 0;
@@ -1024,14 +1021,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					translateY = (text.getHeight() - text.getWidth()) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
-					rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getRightPen().getLineWidth());
-					rotatedText.getLineBox().setTopPadding(text.getLineBox().getRightPadding());
-					rotatedText.getLineBox().getLeftPen().setLineWidth(text.getLineBox().getTopPen().getLineWidth());
-					rotatedText.getLineBox().setLeftPadding(text.getLineBox().getTopPadding());
-					rotatedText.getLineBox().getBottomPen().setLineWidth(text.getLineBox().getLeftPen().getLineWidth());
-					rotatedText.getLineBox().setBottomPadding(text.getLineBox().getLeftPadding());
-					rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getBottomPen().getLineWidth());
-					rotatedText.getLineBox().setRightPadding(text.getLineBox().getBottomPadding());
 					rotationIE = 3;
 					rotationAngle = -90;
 					break;
@@ -1042,28 +1031,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					translateY = (text.getHeight() - text.getWidth()) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
-					rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getLeftPen().getLineWidth());
-					rotatedText.getLineBox().setTopPadding(text.getLineBox().getLeftPadding());
-					rotatedText.getLineBox().getLeftPen().setLineWidth(text.getLineBox().getBottomPen().getLineWidth());
-					rotatedText.getLineBox().setLeftPadding(text.getLineBox().getBottomPadding());
-					rotatedText.getLineBox().getBottomPen().setLineWidth(text.getLineBox().getRightPen().getLineWidth());
-					rotatedText.getLineBox().setBottomPadding(text.getLineBox().getRightPadding());
-					rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getTopPen().getLineWidth());
-					rotatedText.getLineBox().setRightPadding(text.getLineBox().getTopPadding());
 					rotationIE = 1;
 					rotationAngle = 90;
 					break;
 				}
 				case UPSIDE_DOWN : 
 				{
-					rotatedText.getLineBox().getTopPen().setLineWidth(text.getLineBox().getBottomPen().getLineWidth());
-					rotatedText.getLineBox().setTopPadding(text.getLineBox().getBottomPadding());
-					rotatedText.getLineBox().getLeftPen().setLineWidth(text.getLineBox().getRightPen().getLineWidth());
-					rotatedText.getLineBox().setLeftPadding(text.getLineBox().getRightPadding());
-					rotatedText.getLineBox().getBottomPen().setLineWidth(text.getLineBox().getTopPen().getLineWidth());
-					rotatedText.getLineBox().setBottomPadding(text.getLineBox().getTopPadding());
-					rotatedText.getLineBox().getRightPen().setLineWidth(text.getLineBox().getLeftPen().getLineWidth());
-					rotatedText.getLineBox().setRightPadding(text.getLineBox().getLeftPadding());
 					rotationIE = 2;
 					rotationAngle = 180;
 					break;
@@ -1076,6 +1049,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			
 			appendPositionStyle(rotatedText, styleBuffer);
 			appendSizeStyle(rotatedText, rotatedText, styleBuffer);
+			appendBorderStyle(rotatedText.getLineBox(), styleBuffer);
 
 			styleBuffer.append("-webkit-transform: translate(" + translateX + "px," + translateY + "px) ");
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
@@ -1085,7 +1059,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		appendBackcolorStyle(text, styleBuffer);
-		appendBorderStyle(text.getLineBox(), styleBuffer);
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
@@ -1156,7 +1129,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (isWrapBreakWord)
 		{
-			styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
+			//styleBuffer.append("width: " + toSizeUnit(text.getWidth()) + "; ");
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
