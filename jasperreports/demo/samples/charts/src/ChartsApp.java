@@ -28,9 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -58,6 +63,7 @@ public class ChartsApp extends AbstractSampleApp
 		fill();
 		pdf();
 		html();//FIXMESAMPLES move to xhtml everywhere
+		xhtml();
 	}
 
 
@@ -115,7 +121,35 @@ public class ChartsApp extends AbstractSampleApp
 			JasperExportManager.exportReportToHtmlFile(
 				reportFile.getAbsolutePath()
 				);
-			System.err.println("Report : " + reportFile + ". Html export time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + reportFile + ". HTML export time : " + (System.currentTimeMillis() - start));
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public void xhtml() throws JRException
+	{
+		File[] files = getFiles(new File("build/reports"), "jrprint");
+		for(int i = 0; i < files.length; i++)
+		{
+			File sourceFile = files[i];
+			long start = System.currentTimeMillis();
+
+			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".x.html");
+			
+			JRXhtmlExporter exporter = new JRXhtmlExporter();
+
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+			//exporter.setParameter(JRHtmlExporterParameter.ZOOM_RATIO, new Float(3f));
+
+			exporter.exportReport();
+
+			System.err.println("Report : " + sourceFile + ". XHTML export time : " + (System.currentTimeMillis() - start));
 		}
 	}
 
