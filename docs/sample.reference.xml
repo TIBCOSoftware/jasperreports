@@ -16,6 +16,7 @@
     <name>Report Design</name>
     <content>
       <feature name="alterdesign" sample="alterdesign" title="Altering Compiled Report Templates"/>
+      <feature name="alternaterowcolor" sample="scriptlet" title="Alternate Row Colors In The Detail Section"/>
       <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)" complete="false"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)" complete="false"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes" complete="false"/>
@@ -23,7 +24,7 @@
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
       <feature name="conditionalstyles" sample="jasper" title="Conditional Styles"/>
-      <feature name="crosstabs" sample="crosstabs" title="Crosstabs" complete="false"/>
+      <feature name="crosstabs" sample="crosstabs" title="Crosstabs"/>
       <feature name="fonts" sample="fonts" title="Fonts"/>
       <feature name="fontextensions" sample="fonts" title="Font Extensions"/>
       <feature name="genericelements" sample="genericelement" title="Generic Elements" complete="false"/>
