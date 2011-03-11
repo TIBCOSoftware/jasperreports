@@ -363,9 +363,11 @@ Shows how to define and use a conditional style in a report template.
     	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
+  	<otherSample ref="scriptlet"/>
   	<otherSample ref="crosstabs"/>
+  	<otherSample ref="list"/>
     <content>
-<b>Conditional Styles</b>
+<subtitle>Conditional Styles</subtitle>
 <br/>
 <br/>
 In JasperReports styles are the bricks used to generate the report elements appearance. 
@@ -448,42 +450,9 @@ just like the value of the text field or the image element that uses the conditi
 This is because style templates store styles with properties available for a large group of reports, while conditional styles 
 are styles depending on conditions, variables and parameters specific to each report apart. However, styles defined in style 
 templates can be used as parent styles for conditional styles.</li>
+<li>Other examples of conditional styles can be found in <a href="../scriptlet/index.html">Scriptlet</a>, <a href="../list/index.html">List</a> and 
+<a href="../crosstabs/index.html">Crosstabs</a> samples.</li>
 </ul>
-<b>Alternate Row Colors In The Detail Section</b>
-<br/>
-<br/>
-Conditional styles combined with some specific report built-in variables can be used to generate alternate row colors for the 
-detail section. 
-<br/>
-As known, the detail section is repetitive and contains  common layout information for records in the dataset. 
-For each record in the dataset, a detail section filling process is called at fill time. Being related to records, one of the 
-most common layouts used for the detail section is the table row layout. And like in any other table, alternate row colors 
-might be needed. 
-<br/>
-To solve this problem, two things are necessary:
-<ol>
-<li>to know the current record number in order to determine if it's odd or even</li>
-<li>a conditional style with specific style properties for odd or even rows</li>
-</ol>
-The first requirement is accomplished with the help of report built-in counting variables:
-<ul>
-<li><code>REPORT_COUNT</code> - if the row color alternation does not depend on the page, column or group breaks</li>
-<li><code>PAGE_COUNT</code> - if each new detail page should start with the same row color</li>
-<li><code>COLUMN_COUNT</code> - if each new detail page column should start with the same row color</li>
-<li><code>&lt;group_name&gt;_COUNT</code> - if each new group of records should start with the same row color</li>
-<li><code>ROW_COUNT</code> - available only for crosstabs; the <code>ROW_COUNT</code> variable returns the current row 
-number in a crosstab. An example of conditional styles in a crosstab can be found in the 
-<a href="../crosstabs/index.html">Crosstabs</a> sample.</li>
-</ul>
-The conditional style required at point (2) is illustrated in the example below:
-<pre><![CDATA[
-<style name="alternateStyle" fontName="Arial" backcolor="yellow">
-  <conditionalStyle>
-    <conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
-    <style backcolor="blue"/>
-  </conditionalStyle>
-</style>]]></pre>
-Here, the odd rows will be rendered with yellow background color, and the even ones will be rendered in blue.
  </content>
   </feature>
 
