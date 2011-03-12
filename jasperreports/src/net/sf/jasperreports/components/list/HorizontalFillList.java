@@ -227,6 +227,9 @@ public class HorizontalFillList extends BaseFillList
 				if (columnIndex > 0)
 				{
 					fillRow(columnIndex);
+					
+					// reset overflow column index
+					overflowColumnIndex = 0;
 				}
 				
 				if (log.isDebugEnabled())
