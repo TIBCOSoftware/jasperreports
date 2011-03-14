@@ -50,21 +50,17 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
-	public static final String PROPERTY_HTML_SCALE_TYPE = "htmlScaleType";
+	public static final String PROPERTY_SCALE_TYPE = "scaleType";
 	public static final String PROPERTY_HORIZONTAL_ALIGN = "horizontalAlign";
 	public static final String PROPERTY_VERTICAL_ALIGN = "verticalAlign";
 	public static final String PROPERTY_HTMLCONTENT_EXPRESSION = "htmlContentExpression";
-	public static final String PROPERTY_WIDTH = "htmlWidth";
-	public static final String PROPERTY_HEIGHT = "htmlHeight";
 	
 	private JRExpression htmlContentExpression;
-	private ScaleImageEnum htmlScaleType = ScaleImageEnum.RETAIN_SHAPE;
+	private ScaleImageEnum scaleType = ScaleImageEnum.RETAIN_SHAPE;
 	private HorizontalAlignEnum horizontalAlign = HorizontalAlignEnum.LEFT;
 	private VerticalAlignEnum verticalAlign = VerticalAlignEnum.MIDDLE;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
-	private Integer htmlWidth;
-	private Integer htmlHeight;
 	private ComponentContext context;
 
 	private transient JRPropertyChangeSupport eventSupport;
@@ -73,12 +69,10 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 	
 	public HtmlComponent(HtmlComponent component, JRBaseObjectFactory objectFactory) {
-		this.htmlScaleType = component.getHtmlScaleType();
+		this.scaleType = component.getScaleType();
 		this.horizontalAlign = component.getHorizontalAlign();
 		this.verticalAlign = component.getVerticalAlign();
 		this.htmlContentExpression = objectFactory.getExpression(component.getHtmlContentExpression());
-		this.htmlWidth = component.getHtmlWidth();
-		this.htmlHeight = component.getHtmlHeight();
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 		this.evaluationTime= component.getEvaluationTime();
 		this.evaluationGroup = component.getEvaluationGroup();
@@ -114,18 +108,18 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the scaleType
 	 */
-	public ScaleImageEnum getHtmlScaleType() {
-		return htmlScaleType;
+	public ScaleImageEnum getScaleType() {
+		return scaleType;
 	}
 
 	/**
 	 * @param scaleType the scaleType to set
 	 */
-	public void setHtmlScaleType(ScaleImageEnum htmlScaleType) {
-		Object old = this.htmlScaleType;
-		this.htmlScaleType = htmlScaleType;
-		getEventSupport().firePropertyChange(PROPERTY_HTML_SCALE_TYPE, 
-				old, this.htmlScaleType);
+	public void setScaleType(ScaleImageEnum scaleType) {
+		Object old = this.scaleType;
+		this.scaleType = scaleType;
+		getEventSupport().firePropertyChange(PROPERTY_SCALE_TYPE, 
+				old, this.scaleType);
 	}
 
 	/**
@@ -179,40 +173,6 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 				old, this.evaluationTime);
 	}
 
-	/**
-	 * @return the width
-	 */
-	public Integer getHtmlWidth() {
-		return htmlWidth;
-	}
-
-	/**
-	 * @param width the width to set
-	 */
-	public void setHtmlWidth(Integer htmlWidth) {
-		Object old = this.htmlWidth;
-		this.htmlWidth = htmlWidth;
-		getEventSupport().firePropertyChange(PROPERTY_WIDTH, 
-				old, this.htmlWidth);
-	}
-
-	/**
-	 * @return the height
-	 */
-	public Integer getHtmlHeight() {
-		return htmlHeight;
-	}
-
-	/**
-	 * @param height the height to set
-	 */
-	public void setHtmlHeight(Integer htmlHeight) {
-		Object old = this.htmlHeight;
-		this.htmlHeight = htmlHeight;
-		getEventSupport().firePropertyChange(PROPERTY_HEIGHT, 
-				old, this.htmlHeight);
-	}
-	
 	public String getEvaluationGroup()
 	{
 		return evaluationGroup;

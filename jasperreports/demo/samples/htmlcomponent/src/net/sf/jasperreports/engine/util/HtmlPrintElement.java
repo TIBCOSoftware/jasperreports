@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.awt.Dimension;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -36,17 +38,15 @@ public interface HtmlPrintElement {
 	
 	public static final String PARAMETER_HTML_CONTENT = "htmlContent";
 
-	public static final String PARAMETER_SCALE_TYPE = "htmlScaleType";
+	public static final String PARAMETER_SCALE_TYPE = "scaleType";
 	
 	public static final String PARAMETER_HORIZONTAL_ALIGN = "horizontalAlign";
 	
 	public static final String PARAMETER_VERTICAL_ALIGN = "verticalAlign";
 	
-	public static final String PARAMETER_WIDTH = "htmlWidth";
-	
-	public static final String PARAMETER_HEIGHT = "htmlHeight";
-
 	JRPrintImage createImageFromElement(JRGenericPrintElement element)  throws JRException;
 
 	JRPrintImage createImageFromComponentElement(JRComponentElement componentElement)  throws JRException;
+	
+	public Dimension getComputedSize(JRGenericPrintElement element);
 }

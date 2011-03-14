@@ -41,7 +41,7 @@
 			</textField>
 			<componentElement>
 				<reportElement x="0" y="100" width="230" height="110" backcolor="#ADD8E6"/>
-				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" htmlScaleType="FillFrame" horizontalAlign="Left" verticalAlign="Top">
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="FillFrame" horizontalAlign="Left" verticalAlign="Top">
 					<hc:htmlContentExpression><![CDATA[$P{htmlTable}]]></hc:htmlContentExpression>
 				</hc:html>
 			</componentElement>
@@ -51,18 +51,12 @@
 				<genericElementParameter name="htmlContent">
 					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlScaleType">
+				<genericElementParameter name="scaleType">
 					<valueExpression class="java.lang.String"><![CDATA["RetainShape"]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="horizontalAlign">
 					<valueExpression class="java.lang.String"><![CDATA["Right"]]></valueExpression>
 				</genericElementParameter>
-				<!--genericElementParameter name="htmlWidth">
-					<valueExpression class="java.lang.Integer"><![CDATA[200]]></valueExpression>
-				</genericElementParameter>
-				<genericElementParameter name="htmlHeight">
-					<valueExpression class="java.lang.Integer"><![CDATA[134]]></valueExpression>
-				</genericElementParameter-->
 			</genericElement>
 			<genericElement>
 				<reportElement x="0" y="370" width="190" height="140" backcolor="#ADD8E6"/>
@@ -70,7 +64,7 @@
 				<genericElementParameter name="htmlContent">
 					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlScaleType">
+				<genericElementParameter name="scaleType">
 					<valueExpression class="java.lang.String"><![CDATA["RealHeight"]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="horizontalAlign">
@@ -83,7 +77,7 @@
 				<genericElementParameter name="htmlContent">
 					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlScaleType">
+				<genericElementParameter name="scaleType">
 					<valueExpression class="java.lang.String"><![CDATA["RealSize"]]></valueExpression>
 				</genericElementParameter>
 			</genericElement>
@@ -93,7 +87,7 @@
 				<genericElementParameter name="htmlContent">
 					<valueExpression class="java.lang.String"><![CDATA[$P{htmlTable}]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlScaleType">
+				<genericElementParameter name="scaleType">
 					<valueExpression class="java.lang.String"><![CDATA["Clip"]]></valueExpression>
 				</genericElementParameter>
 				<genericElementParameter name="verticalAlign">
@@ -102,12 +96,6 @@
 				<genericElementParameter name="horizontalAlign">
 					<valueExpression class="java.lang.String"><![CDATA["Left"]]></valueExpression>
 				</genericElementParameter>
-				<genericElementParameter name="htmlWidth">
-					<valueExpression class="java.lang.Integer"><![CDATA[350]]></valueExpression>
-				</genericElementParameter>
-				<genericElementParameter name="htmlHeight">
-					<valueExpression class="java.lang.Integer"><![CDATA[150]]></valueExpression>
-				</genericElementParameter>
 			</genericElement>
 			<staticText>
 				<reportElement mode="Opaque" x="240" y="100" width="201" height="31" forecolor="#000000"/>
@@ -115,7 +103,7 @@
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[htmlScaleType=FillFrame]]></text>
+				<text><![CDATA[scaleType=FillFrame]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="240" y="230" width="201" height="60" forecolor="#000000"/>
@@ -123,7 +111,7 @@
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[htmlScaleType=RetainShape
+				<text><![CDATA[scaleType=RetainShape
 horizontalAlign=Right
 htmlWidth=200
 htmlHeight=134]]></text>
@@ -134,7 +122,7 @@ htmlHeight=134]]></text>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[htmlScaleType=RealHeight
+				<text><![CDATA[scaleType=RealHeight
 horizontalAlign=Center]]></text>
 			</staticText>
 			<staticText>
@@ -143,7 +131,7 @@ horizontalAlign=Center]]></text>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[htmlScaleType=RealSize]]></text>
+				<text><![CDATA[scaleType=RealSize]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="239" y="661" width="201" height="49" forecolor="#000000"/>
@@ -151,7 +139,7 @@ horizontalAlign=Center]]></text>
 					<pen lineWidth="0.0" lineColor="#000000"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[htmlScaleType=Clip
+				<text><![CDATA[scaleType=Clip
 verticalAlign=Bottom
 horizontalAlign=Left]]></text>
 			</staticText>

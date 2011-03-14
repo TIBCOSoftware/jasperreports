@@ -58,9 +58,7 @@ public class HtmlComponentXmlWriter implements ComponentXmlWriter {
 		
 		writer.startElement("html", namespace);
 		
-		writer.addAttribute(HtmlComponent.PROPERTY_HTML_SCALE_TYPE, htmlComponent.getHtmlScaleType());
-		writer.addAttribute(HtmlComponent.PROPERTY_HEIGHT, htmlComponent.getHtmlHeight());
-		writer.addAttribute(HtmlComponent.PROPERTY_WIDTH, htmlComponent.getHtmlWidth());
+		writer.addAttribute(HtmlComponent.PROPERTY_SCALE_TYPE, htmlComponent.getScaleType());
 		writer.addAttribute(HtmlComponent.PROPERTY_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign());
 		writer.addAttribute(HtmlComponent.PROPERTY_VERTICAL_ALIGN, htmlComponent.getVerticalAlign());
 		writer.writeExpression(HtmlComponent.PROPERTY_HTMLCONTENT_EXPRESSION, htmlComponent.getHtmlContentExpression(), false);
