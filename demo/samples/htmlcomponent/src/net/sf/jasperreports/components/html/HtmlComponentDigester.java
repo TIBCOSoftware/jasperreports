@@ -52,7 +52,7 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 		digester.addObjectCreate(htmlComponentPattern, HtmlComponent.class.getName());
 		
 		digester.addSetProperties(htmlComponentPattern, new String[] {
-				HtmlComponent.PROPERTY_HTML_SCALE_TYPE,
+				HtmlComponent.PROPERTY_SCALE_TYPE,
 				HtmlComponent.PROPERTY_HORIZONTAL_ALIGN,
 				HtmlComponent.PROPERTY_VERTICAL_ALIGN,
 				HtmlComponent.PROPERTY_EVALUATION_TIME }, 
@@ -60,7 +60,7 @@ public class HtmlComponentDigester implements XmlDigesterConfigurer
 				
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(
-						HtmlComponent.PROPERTY_HTML_SCALE_TYPE,
+						HtmlComponent.PROPERTY_SCALE_TYPE,
 						ScaleImageEnum.values()));
 		digester.addRule(htmlComponentPattern, 
 				new XmlConstantPropertyRule(

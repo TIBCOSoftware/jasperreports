@@ -55,6 +55,10 @@ public class FlyingSaucerXhtmlToImageRenderer extends JRAbstractSvgRenderer
 		this.height = renderer.getComputedHeight();
 	}
 	
+	public Dimension getComputedSize() {
+		return new Dimension(width, height);
+	}
+	
 	public Dimension2D getDimension()
 	{
 		return new Dimension(width, height);

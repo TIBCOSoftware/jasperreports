@@ -23,11 +23,14 @@
  */
 package net.sf.jasperreports.components.html;
 
+import java.awt.Dimension;
+
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -35,7 +38,9 @@ import net.sf.jasperreports.engine.fill.JRFillCloneable;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
+import net.sf.jasperreports.engine.util.HtmlPrintElementUtils;
 import net.sf.jasperreports.extensions.HtmlElementHandlerBundle;
 
 /**
@@ -52,8 +57,11 @@ public class HtmlComponentFill extends BaseFillComponent {
 	
 	private String htmlContent;
 	
-	JRTemplateGenericElement template;
+	private	JRTemplateGenericElement template;
+	
+	private JRTemplateGenericPrintElement printElement;
 
+	
 	public HtmlComponentFill(HtmlComponent htmlComponent)
 	{
 		this.htmlComponent = htmlComponent;
@@ -82,10 +90,17 @@ public class HtmlComponentFill extends BaseFillComponent {
 		htmlContent = (String) fillContext.evaluate( htmlComponent.getHtmlContentExpression(), evaluation);
 	}
 	
+	
 	public JRPrintElement fill()
 	{
-		JRComponentElement element = fillContext.getComponentElement();
+		return printElement;
+	}
+
+	public FillPrepareResult prepare(int availableHeight)
+	{
+		FillPrepareResult result = null;
 		
+		JRComponentElement element = fillContext.getComponentElement();
 		if (template == null) {
 			template = new JRTemplateGenericElement(
 					fillContext.getElementOrigin(), 
@@ -97,11 +112,11 @@ public class HtmlComponentFill extends BaseFillComponent {
 			template.setForecolor(htmlComponent.getContext().getComponentElement().getForecolor());
 		}
 		
-		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template);
+		printElement = new JRTemplateGenericPrintElement(template);
 		printElement.setX(element.getX());
 		printElement.setY(fillContext.getElementPrintY());
+
 		printElement.setWidth(element.getWidth());
-		printElement.setHeight(element.getHeight());
 		
 		if (isEvaluateNow())
 		{
@@ -113,13 +128,38 @@ public class HtmlComponentFill extends BaseFillComponent {
 					htmlComponent.getEvaluationTime(), null);
 		}
 		
-		return printElement;
+		Dimension computedSize = computeSizeOfPrintElement(printElement);
+		int computedHeight = computedSize.height;
 		
+		if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_HEIGHT || htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
+			if (computedHeight <= availableHeight) {
+				printElement.setHeight(computedHeight);
+				result = FillPrepareResult.printStretch(computedHeight, false);
+			} else {
+				printElement.setHeight(availableHeight);
+				result = FillPrepareResult.printStretch(availableHeight, false);
+			}
+			
+			if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE || element.getWidth() < computedSize.width) {
+				printElement.setWidth(computedSize.width);
+			} 
+			
+		} else {
+			printElement.setHeight(element.getHeight());
+			result = FillPrepareResult.PRINT_NO_STRETCH;
+		}
+		
+		return result;
 	}
-
-	public FillPrepareResult prepare(int availableHeight)
-	{
-		return FillPrepareResult.PRINT_NO_STRETCH;
+	
+	private Dimension computeSizeOfPrintElement(JRTemplateGenericPrintElement printElement) {
+		HtmlPrintElement htmlPrintElement = null; 
+		try{
+			htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
+		} catch (JRException e) {
+			throw new JRRuntimeException(e);
+		}
+		return htmlPrintElement.getComputedSize(printElement);
 	}
 
 	public JRFillCloneable createClone(JRFillCloneFactory factory)
@@ -136,11 +176,9 @@ public class HtmlComponentFill extends BaseFillComponent {
 	protected void copy(JRGenericPrintElement printElement)
 	{
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT, htmlContent);
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getHtmlScaleType().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getScaleType().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN, htmlComponent.getVerticalAlign().getName());
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_WIDTH, htmlComponent.getHtmlWidth());
-		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HEIGHT, htmlComponent.getHtmlHeight());
 	}
 
 }

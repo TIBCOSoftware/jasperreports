@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.awt.Dimension;
+
 import javax.swing.JEditorPane;
 
 import net.sf.jasperreports.components.html.HtmlComponent;
@@ -32,11 +34,9 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.HtmlPrintElement;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
 import net.sf.jasperreports.renderers.AwtComponentRenderer;
 
@@ -56,44 +56,14 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		String horizontalAlignment = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN);
 		String verticalAlignment = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN);
 		
-		Integer width = (Integer) element.getParameterValue(HtmlPrintElement.PARAMETER_WIDTH);
-		Integer height = (Integer) element.getParameterValue(HtmlPrintElement.PARAMETER_HEIGHT);
-		
 		JEditorPane editorPane = new JEditorPane();
-
 		editorPane.setContentType("text/html");
 		
-		StringBuffer html = new StringBuffer();
-
-		if (width != null && height != null) {
-			html.append("<table style='width:" + width + "px; height:" + height + "px;");
-		} else {
-			html.append("<table style='width:" + (element.getWidth() - 0) + "px; height:" + (element.getHeight() - 0) + "px;");
-		}
-		
-		if (element.getModeValue() == ModeEnum.OPAQUE)
-		{
-			html.append("background-color: #");
-			html.append(JRColorUtil.getColorHexa(element.getBackcolor()));
-			html.append("; ");
-			editorPane.setBackground(element.getBackcolor());
-		}
-		html.append("'><tr><td");
-		if (horizontalAlignment != null) {
-			html.append(" align='" + horizontalAlignment.toLowerCase() + "'");
-		}
-		if (verticalAlignment != null) {
-			html.append(" valign='" + verticalAlignment.toLowerCase() + "'");
-		}
-		html.append(" style='padding: 0px'>" + htmlContent + "</td></tr></table>");
-		
-		
-		editorPane.setText(html.toString());
+		editorPane.setText(htmlContent);
 		editorPane.setBorder(null);
 		editorPane.setSize(editorPane.getPreferredSize());
 
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
-
         printImage.setX(element.getX());
         printImage.setY(element.getY());
         printImage.setWidth(element.getWidth());
@@ -106,7 +76,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
         printImage.setBackcolor(element.getBackcolor());
         printImage.setForecolor(element.getForecolor());
         printImage.setRenderer(new AwtComponentRenderer(editorPane));
-        
+
         return printImage;
 	}
 
@@ -116,43 +86,13 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setContentType("text/html");
 		
-		String horizontalAlignment = html.getHorizontalAlign().getName();
-		String verticalAlignment = html.getVerticalAlign().getName();
 		String htmlContent = "";
 		
-		Integer width = html.getHtmlWidth();
-		Integer height = html.getHtmlHeight();
-
 		if (html.getHtmlContentExpression() != null) {
 			htmlContent = JRExpressionUtil.getExpressionText(html.getHtmlContentExpression());
 		}
 		
-		
-		StringBuffer htmlString = new StringBuffer();
-		
-		if (width != null && height != null) {
-			htmlString.append("<table border='0' style='width:" + width + "px; height:" + height + "px; ");
-		} else {
-			htmlString.append("<table border='0' style='width:" + (componentElement.getWidth() - 0) + "px; height:" + (componentElement.getHeight() - 0) + "px; ");
-		}
-		
-		if (componentElement.getModeValue() == ModeEnum.OPAQUE)
-		{
-			htmlString.append("background-color: #");
-			htmlString.append(JRColorUtil.getColorHexa(componentElement.getBackcolor()));
-			htmlString.append("; ");
-			editorPane.setBackground(componentElement.getBackcolor());
-		}
-		htmlString.append("'><tr><td");
-		if (horizontalAlignment != null) {
-			htmlString.append(" align='" + horizontalAlignment.toLowerCase() + "'");
-		}
-		if (verticalAlignment != null) {
-			htmlString.append(" valign='" + verticalAlignment.toLowerCase() + "'");
-		}
-		htmlString.append(" style='padding: 0px'>" + htmlContent + "</td></tr></table>");
-		
-		editorPane.setText(htmlString.toString());
+		editorPane.setText(htmlContent);
 		editorPane.setBorder(null);
 		editorPane.setSize(editorPane.getPreferredSize());
 		
@@ -161,7 +101,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
         printImage.setY(componentElement.getY());
         printImage.setWidth(componentElement.getWidth());
         printImage.setHeight(componentElement.getHeight());
-        printImage.setScaleImage(html.getHtmlScaleType());
+        printImage.setScaleImage(html.getScaleType());
         printImage.setHorizontalAlignment(html.getHorizontalAlign());
         printImage.setVerticalAlignment(html.getVerticalAlign());
         printImage.setStyle(componentElement.getStyle());
@@ -174,4 +114,13 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
         return printImage;
 	}
 
+	public Dimension getComputedSize(JRGenericPrintElement element) {
+		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
+		JEditorPane editorPane = new JEditorPane();
+		editorPane.setContentType("text/html");
+		editorPane.setText(htmlContent);
+		editorPane.setBorder(null);
+		return editorPane.getPreferredSize();
+	}
+	
 }
