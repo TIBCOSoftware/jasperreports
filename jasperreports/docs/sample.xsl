@@ -378,7 +378,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   	</xsl:element>
   	</xsl:when>  
   	<xsl:otherwise>
-  	  <b><xsl:value-of select="."/></b>
+  	  <span class="subtitle"><xsl:value-of select="."/></span>
   	</xsl:otherwise>
   </xsl:choose>
 </xsl:template>

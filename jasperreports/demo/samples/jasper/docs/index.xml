@@ -25,7 +25,7 @@ How to group data at different levels and perform aggregate calculations using r
     </documentedBy>
   	<otherSample ref="datasource"/>
     <content>
-<b>Grouping Data in JasperReports</b>
+<subtitle name="grouping_overview">Grouping Data in JasperReports</subtitle>
 <br/>
 <br/>
 A report's content can be better organized if the report data are grouped by meaningful criteria. For instance, 
@@ -65,7 +65,7 @@ subsequent groups are reinitialized.</li>
 already ordered according to the group expressions used in the report. One can either perform data 
 sorting through the report query, or use the <code>&lt;sortField/&gt;</code> element.</li>
 </ul>
-<b>Group Attributes</b>
+<subtitle name="attributes">Group Attributes</subtitle>
 <br/>
 <br/>
 Any group in a report can be customized through its attributes:
@@ -88,7 +88,7 @@ The default value is <code>Normal</code>.</li>
 <li><code>keepTogether</code> - If <code>true</code>, prevents the group from splitting on its first break attempt. 
 The default value is <code>false</code>.</li>
 </ul>
-<b>Data Grouping and Report Variables</b>
+<subtitle name="variables">Data Grouping and Report Variables</subtitle>
 <br/>
 <br/>
 Report variables are special objects built on top of a report expression in order to apply the code 
@@ -136,7 +136,7 @@ are always named with the related group's name followed by the <code>_COUNT</cod
 of this group counting variables. 
 <br/>
 <br/>
-<b>The Jasper Sample</b>
+<subtitle name="jasper_sample">The Jasper Sample</subtitle>
 <br/>
 <br/>
 This sample illustrates how groups can be used to produce documents with complex data grouping in a 
@@ -315,7 +315,7 @@ Once finished the data grouping work, the report template continues with its usu
 At this moment the sample is ready to be ran.
 <br/>
 <br/>
-<b>Running the Sample</b>
+<subtitle name="running_sample">Running the Sample</subtitle>
 <br/>
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
@@ -367,7 +367,7 @@ Shows how to define and use a conditional style in a report template.
   	<otherSample ref="crosstabs"/>
   	<otherSample ref="list"/>
     <content>
-<subtitle>Conditional Styles</subtitle>
+<subtitle  name="styles_overview">Conditional Styles</subtitle>
 <br/>
 <br/>
 In JasperReports styles are the bricks used to generate the report elements appearance. 
@@ -401,7 +401,7 @@ The <code>OrderIdStyle</code> defined above derives from the <code>Sans_Normal</
 Usually, elements with <code>OrderIdStyle</code> will have the default black forecolor and a normal 
 font weight. But when the condition expression evaluates to <code>true</code> (this happens each time  
 the <code>OrderID</code> field value is a multiple of 10) the element's style changes: the forecolor 
-becomes red and the font gets bold.
+becomes red and the font is displayed in bold style.
 <br/>
 Therefore, when applied, a conditional style will override the properties of its parent style. 
 <br/>
