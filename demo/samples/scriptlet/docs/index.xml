@@ -32,7 +32,8 @@
     Luckily JasperReports provides us with a simple and powerful means of doing this with Scriptlets.
     <br/>
     <br/>
-    <b>What is a Scriptlet?</b>
+    <subtitle name="definition">What is a Scriptlet?</subtitle>
+    <br/>
     <br/>
     A Script is a Java Class that extends one of the two following classes:
     <br/>
@@ -54,7 +55,8 @@
     Before we discuss more what these methods do lets discuss how to run this sample.
     <br/>
     <br/>
-    <b>Running the Sample</b>
+    <subtitle name="running_sample">Running the Sample</subtitle>
+    <br/>
     <br/>
     <i>Prerequisites</i><br/>
     Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
@@ -125,7 +127,8 @@
     You now have a working version of the report you can review and tweak to learn more about Scriptlets.
     <br/>
     <br/>
-    <b>What does a Scriptlet do?</b>
+    <subtitle name="usage">What does a Scriptlet do?</subtitle>
+    <br/>
     <br/>
     A Scriptlet allows the developer to obtain the values of Fields, Variables and Parameters from the report during specific events in the Filling
     stage of the Report Life Cycle.
@@ -247,7 +250,7 @@ Shows how to get alternate row colors in a detail section using <a href="../jasp
   	<otherSample ref="crosstabs"/>
   	<otherSample ref="list"/>
     <content>
-<b>Alternate Row Colors In The Detail Section</b>
+<subtitle name="alternate_colors_overview">Alternate Row Colors In The Detail Section</subtitle>
 <br/>
 <br/>
 <a href="../jasper/index.html#conditionalstyles">Conditional styles</a> combined with some specific report built-in variables can 

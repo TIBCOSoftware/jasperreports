@@ -282,7 +282,7 @@ How to make use of subdatasets for chart elements and crosstab elements.
     </documentedBy>
   	<otherSample ref="charts"/>
     <content>
-<b>Report Datasets</b>
+<subtitle name="datasets_overview">Report Datasets</subtitle>
 <br/>
 <br/>
 A dataset is an entity that intermediates data source and subreport characteristics. 
@@ -302,7 +302,7 @@ records, calculating variables, filtering out records, and estimating group brea
 report-filling process. 
 <br/>
 <br/>
-<b>Subdatasets and Dataset Runs</b>
+<subtitle name="subdatasets">Subdatasets and Dataset Runs</subtitle>
 <br/>
 <br/>
 User-defined datasets are declared as <code>&lt;subDataset/&gt;</code> elements. To completely 
