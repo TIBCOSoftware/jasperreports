@@ -52,14 +52,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
-import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
-import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
@@ -73,7 +70,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
 public class ReportConverter 
@@ -99,18 +96,15 @@ public class ReportConverter
 	 */
 	private List pageElements = new ArrayList();
 	
-	private StyleFactory styleFactory;
 	protected Map stylesMap;
-	protected final boolean cacheStyles;
 
 	
 	/**
 	 *
 	 */
-	public ReportConverter(JRReport report, boolean ignoreContent, boolean cacheStyles)
+	public ReportConverter(JRReport report, boolean ignoreContent)
 	{
 		this.report = report;
-		this.cacheStyles = cacheStyles;
 		
 		if (report instanceof JasperDesign)
 		{
@@ -218,7 +212,7 @@ public class ReportConverter
 
 	protected void setStyles(JRReport report)
 	{
-		styleFactory = new StyleFactory();
+		//styleFactory = new StyleFactory();
 		stylesMap = new SequencedHashMap();
 		
 		loadReportStyles(report);
@@ -341,8 +335,7 @@ public class ReportConverter
 			for (int i = 0; i < styles.length; i++)
 			{
 				JRStyle style = styles[i];
-				JRStyle copy = styleFactory.getStyle(style);
-				stylesMap.put(copy.getName(), copy);
+				stylesMap.put(style.getName(), style);
 			}
 		}
 	}
@@ -488,7 +481,7 @@ public class ReportConverter
 		JRStyle style;
 		if (originalStyle != null)
 		{
-			style = styleFactory.getStyle(originalStyle);
+			style = originalStyle;
 		}
 		else if (nameReference != null)
 		{
@@ -534,55 +527,6 @@ public class ReportConverter
 	}
 
 	
-	/**
-	 * 
-	 */	
-	protected class StyleFactory extends JRBaseObjectFactory
-	{
-		public StyleFactory()
-		{
-			super(ReportConverter.this.getDefaultStyleProvider());
-		}
-
-		public JRExpression getExpression(JRExpression expression, boolean assignNotUsedId)
-		{
-			return expression;
-		}
-
-		public JRStyle getStyle(JRStyle style)
-		{
-			JRBaseStyle baseStyle = null;
-
-			if (style != null)
-			{
-				baseStyle = (JRBaseStyle)get(style);
-				if (
-					baseStyle == null
-					|| !ReportConverter.this.cacheStyles
-					)
-				{
-					baseStyle = new JRBaseStyle(style, this);
-					put(style, baseStyle);
-				}
-			}
-
-			return baseStyle;
-		}
-
-		protected void handleStyleNameReference(JRStyleSetter setter, String nameReference)
-		{
-			JRStyle style = (JRStyle) stylesMap.get(nameReference);
-			if (style == null)
-			{
-				log.warn("Style " + nameReference + " could not be resolved.");
-			}
-			else
-			{
-				setter.setStyle(style);
-			}
-		}
-	}
-
 	public void copyBaseAttributes(JRElement source, JRPrintElement converted)
 	{
 		converted.setX(source.getX());
