@@ -58,7 +58,7 @@ public class DrawVisitor extends UniformElementVisitor
 	 */
 	public DrawVisitor(JRReport report, Graphics2D grx)
 	{
-		this(new ReportConverter(report, true, true), grx);
+		this(new ReportConverter(report, true), grx);
 
 		setTextRenderer(report);
 	}
