@@ -1194,6 +1194,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return pattern;
 	}
 
+	/**
+	 * 
+	 * @param pageMargin
+	 * @return page margin converted from pixels to inches, based on the default 72dpi screen resolution
+	 */
+	protected double getPageMarginInInches(double pageMargin)
+	{
+		return isIgnorePageMargins ? 0 : pageMargin/72.0;
+	}
+
+
+	
 	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;

@@ -220,6 +220,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.protectSheet(password);
 		}
 		
+		sheet.setMargin((short)0, getPageMarginInInches(jasperPrint.getLeftMargin()));
+		sheet.setMargin((short)1, getPageMarginInInches(jasperPrint.getRightMargin()));
+		sheet.setMargin((short)2, getPageMarginInInches(jasperPrint.getTopMargin()));
+		sheet.setMargin((short)3, getPageMarginInInches(jasperPrint.getBottomMargin()));
+
 		String fitWidth = JRProperties.getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
 		if(fitWidth != null && fitWidth.length() > 0)
 		{

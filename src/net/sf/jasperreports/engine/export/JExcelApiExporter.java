@@ -2002,11 +2002,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			sheet.setPageSetup(po);
 		}
 		SheetSettings sheets = sheet.getSettings();
-
-		sheets.setTopMargin(0.0);
-		sheets.setLeftMargin(0.0);
-		sheets.setRightMargin(0.0);
-		sheets.setBottomMargin(0.0);
+		
+		sheets.setTopMargin(getPageMarginInInches(jasperPrint.getTopMargin()));
+		sheets.setLeftMargin(getPageMarginInInches(jasperPrint.getLeftMargin()));
+		sheets.setRightMargin(getPageMarginInInches(jasperPrint.getRightMargin()));
+		sheets.setBottomMargin(getPageMarginInInches(jasperPrint.getBottomMargin()));
 
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);
