@@ -116,6 +116,52 @@ public class XlsxSheetHelper extends BaseHelper
 		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
 	}
 
+	/**
+	 *
+	 */
+	public void exportFooter(int index, double leftMargin, double rightMargin, double topMargin, double bottomMargin)
+	{
+		if (rowIndex > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
+			write("<sheetData>\n");
+		}
+		write("</sheetData>\n");
+		if (!mergedCellsWriter.isEmpty())
+		{
+			write("<mergeCells>\n");
+			mergedCellsWriter.writeData(writer);
+			write("</mergeCells>\n");
+		}
+		if (!hyperlinksWriter.isEmpty())
+		{
+			write("<hyperlinks>\n");
+			hyperlinksWriter.writeData(writer);
+			write("</hyperlinks>\n");
+		}
+
+		write("<pageMargins left=\"");
+		write(String.valueOf(leftMargin)); 
+		write("\" right=\"");   
+		write(String.valueOf(rightMargin)); 
+		write("\" top=\"");
+		write(String.valueOf(topMargin)); 
+		write("\" bottom=\"");
+		write(String.valueOf(bottomMargin)); 
+		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
+		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
+		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
+	}
+
 
 	/**
 	 *

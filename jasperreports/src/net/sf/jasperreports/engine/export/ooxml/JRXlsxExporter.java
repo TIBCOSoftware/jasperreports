@@ -739,7 +739,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		if (sheetHelper != null)
 		{
-			sheetHelper.exportFooter(sheetIndex);
+			sheetHelper.exportFooter(
+					sheetIndex, 
+					getPageMarginInInches(jasperPrint.getLeftMargin()), 
+					getPageMarginInInches(jasperPrint.getRightMargin()), 
+					getPageMarginInInches(jasperPrint.getTopMargin()), 
+					getPageMarginInInches(jasperPrint.getBottomMargin())
+					);
 			sheetHelper.close();
 
 			sheetRelsHelper.exportFooter();
