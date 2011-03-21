@@ -93,6 +93,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 	
 	public JRPrintElement fill()
 	{
+		printElement.setY(fillContext.getElementPrintY());
 		return printElement;
 	}
 
@@ -114,9 +115,9 @@ public class HtmlComponentFill extends BaseFillComponent {
 		
 		printElement = new JRTemplateGenericPrintElement(template);
 		printElement.setX(element.getX());
-		printElement.setY(fillContext.getElementPrintY());
 
 		printElement.setWidth(element.getWidth());
+		printElement.setHeight(element.getHeight());
 		
 		if (isEvaluateNow())
 		{
@@ -128,27 +129,37 @@ public class HtmlComponentFill extends BaseFillComponent {
 					htmlComponent.getEvaluationTime(), null);
 		}
 		
-		Dimension computedSize = computeSizeOfPrintElement(printElement);
-		int computedHeight = computedSize.height;
+		Dimension realSize = computeSizeOfPrintElement(printElement);
+		int realHeight = realSize.height;
+		int realWidth = realSize.width;
+		int imageWidth = realWidth;
+		int imageHeight = realHeight;
 		
-		if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_HEIGHT || htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
-			if (computedHeight <= availableHeight) {
-				printElement.setHeight(computedHeight);
-				result = FillPrepareResult.printStretch(computedHeight, false);
+		if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE || htmlComponent.getScaleType() == ScaleImageEnum.REAL_HEIGHT) {
+			
+			if (realWidth >  element.getWidth()) {
+				double wRatio = ((double) element.getWidth()) / realWidth;
+				imageHeight = (int) (wRatio * realHeight);
+				imageWidth = element.getWidth();
+			}
+			int printElementHeight = Math.max(imageHeight, element.getHeight());
+			
+			if (imageHeight <= availableHeight) {
+				result = FillPrepareResult.printStretch(printElementHeight, false);
 			} else {
-				printElement.setHeight(availableHeight);
-				result = FillPrepareResult.printStretch(availableHeight, false);
+				result = FillPrepareResult.noPrintOverflow(printElementHeight);
 			}
 			
-			if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE || element.getWidth() < computedSize.width) {
-				printElement.setWidth(computedSize.width);
-			} 
+			if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
+				printElement.setWidth(imageWidth);
+			} else {
+				printElement.setWidth(element.getWidth());
+			}
+			printElement.setHeight(printElementHeight);
 			
 		} else {
-			printElement.setHeight(element.getHeight());
 			result = FillPrepareResult.PRINT_NO_STRETCH;
 		}
-		
 		return result;
 	}
 	
