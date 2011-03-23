@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 
@@ -82,44 +83,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportFooter(int index)
-	{
-		if (rowIndex > 0)
-		{
-			write("</row>\n");
-		}
-		else
-		{
-			if (!colsWriter.isEmpty())
-			{
-				write("<cols>\n");
-				colsWriter.writeData(writer);
-				write("</cols>\n");
-			}
-			write("<sheetData>\n");
-		}
-		write("</sheetData>\n");
-		if (!mergedCellsWriter.isEmpty())
-		{
-			write("<mergeCells>\n");
-			mergedCellsWriter.writeData(writer);
-			write("</mergeCells>\n");
-		}
-		if (!hyperlinksWriter.isEmpty())
-		{
-			write("<hyperlinks>\n");
-			hyperlinksWriter.writeData(writer);
-			write("</hyperlinks>\n");
-		}
-		write("<pageMargins left=\"0.7\" right=\"0.7\" top=\"0.75\" bottom=\"0.75\" header=\"0.3\" footer=\"0.3\"/>\n");
-		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
-		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
-	}
-
-	/**
-	 *
-	 */
-	public void exportFooter(int index, double leftMargin, double rightMargin, double topMargin, double bottomMargin)
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins)
 	{
 		if (rowIndex > 0)
 		{
@@ -150,13 +114,13 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 
 		write("<pageMargins left=\"");
-		write(String.valueOf(leftMargin)); 
+		write(String.valueOf(getPageMarginInInches(jasperPrint.getLeftMargin(), isIgnorePageMargins))); 
 		write("\" right=\"");   
-		write(String.valueOf(rightMargin)); 
+		write(String.valueOf(getPageMarginInInches(jasperPrint.getRightMargin(), isIgnorePageMargins))); 
 		write("\" top=\"");
-		write(String.valueOf(topMargin)); 
+		write(String.valueOf(getPageMarginInInches(jasperPrint.getTopMargin(), isIgnorePageMargins))); 
 		write("\" bottom=\"");
-		write(String.valueOf(bottomMargin)); 
+		write(String.valueOf(getPageMarginInInches(jasperPrint.getBottomMargin(), isIgnorePageMargins))); 
 		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
 		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
 		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
@@ -242,5 +206,15 @@ public class XlsxSheetHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param pageMargin
+	 * @param isIgnorePageMargins
+	 * @return page margin converted from pixels to inches, based on the default 72dpi screen resolution
+	 */
+	public double getPageMarginInInches(Integer pageMargin, boolean isIgnorePageMargins)
+	{
+		return isIgnorePageMargins ? 0 : pageMargin/72.0;
+	}
 }
