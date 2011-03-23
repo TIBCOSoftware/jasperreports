@@ -1199,7 +1199,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * @param pageMargin
 	 * @return page margin converted from pixels to inches, based on the default 72dpi screen resolution
 	 */
-	protected double getPageMarginInInches(double pageMargin)
+	protected double getPageMarginInInches(Integer pageMargin)
 	{
 		return isIgnorePageMargins ? 0 : pageMargin/72.0;
 	}
