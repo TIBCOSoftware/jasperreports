@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 
 
@@ -71,7 +72,7 @@ public class DocxDocumentHelper extends BaseHelper
 	public void exportFooter(JasperPrint jasperPrint)
 	{
 		write("  <w:sectPr>\n");
-		write("   <w:pgSz w:w=\"" + Utility.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + Utility.twip(jasperPrint.getPageHeight()) + "\"");
+		write("   <w:pgSz w:w=\"" + LengthUtil.twip(jasperPrint.getPageWidth()) + "\" w:h=\"" + LengthUtil.twip(jasperPrint.getPageHeight()) + "\"");
 		write(" w:orient=\"" + (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE ? "landscape" : "portrait") + "\"");
 		write("/>\n");
 		write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");

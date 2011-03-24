@@ -38,34 +38,17 @@ import java.util.StringTokenizer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public final class Utility {
+public final class Utility 
+{
 
-	public static String getIndent(int i) {
-		String indent = "";
-		for (int j=0; j<i; j++) {
-			indent += " ";
-		}
-		return indent;
-	}
-	
-	public static double translatePixelsToInches(double pixels){
-		double inches = 0.0;
-		inches = pixels/72.0;
-		inches = (Math.floor(inches * 100.0))/100.0;
-		return inches;
-	}
-	public static double translatePixelsToInchesRound(double pixels){
-		double inches = 0.0;
-		inches = pixels/72.0;
-		inches = (Math.round(inches * 100.0))/100.0;
-		return inches;
-	}
-
-	public static double translatePixelsToInchesWithNoRoundOff(double pixels){
-		double inches = 0.0;
-		inches = pixels/72.0;
-		return inches;
-	}
+//	public static String getIndent(int i) 
+//	{
+//		String indent = "";
+//		for (int j=0; j<i; j++) {
+//			indent += " ";
+//		}
+//		return indent;
+//	}
 	
 	protected static String replaceNewLineWithLineBreak(String source)
 	{
@@ -94,9 +77,9 @@ public final class Utility {
 		
 		return str;
 	}
-
 	
 	private Utility()
 	{
 	}
+
 }

@@ -21,70 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.export.ooxml;
+package net.sf.jasperreports.engine.export;
 
-import java.util.StringTokenizer;
 
 
 /**
- * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: Utility.java 3713 2010-04-08 11:06:05Z teodord $
  */
-public final class Utility {
+public final class LengthUtil 
+{
 
-	public static String getIndent(int i) {
-		String indent = "";
-		for (int j=0; j<i; j++) {
-			indent += " ";
-		}
-		return indent;
-	}
-	
-	public static double translatePixelsToInches(double pixels){
+	/**
+	 * 
+	 */
+	public static double inch(double pixels)
+	{
 		double inches = 0.0;
 		inches = pixels/72.0;
 		inches = (Math.floor(inches * 100.0))/100.0;
 		return inches;
 	}
-	public static double translatePixelsToInchesRound(double pixels){
+	
+	/**
+	 * 
+	 */
+	public static double inchRound(double pixels)
+	{
 		double inches = 0.0;
 		inches = pixels/72.0;
 		inches = (Math.round(inches * 100.0))/100.0;
 		return inches;
 	}
 
-	public static double translatePixelsToInchesWithNoRoundOff(double pixels){
+	/**
+	 * 
+	 */
+	public static double inchNoRound(double pixels)
+	{
 		double inches = 0.0;
 		inches = pixels/72.0;
 		return inches;
-	}
-	
-	protected static String replaceNewLineWithLineBreak(String source)
-	{
-		String str = null;
-		
-		if (source != null)
-		{
-			StringBuffer sbuffer = new StringBuffer();
-			StringTokenizer tkzer = new StringTokenizer(source, "\n", true);
-			String token = null;
-			while(tkzer.hasMoreTokens())
-			{
-				token = tkzer.nextToken();
-				if ("\n".equals(token))
-				{
-					sbuffer.append("<text:line-break/>");
-				}
-				else
-				{
-					sbuffer.append(token);
-				}
-			}
-			
-			str = sbuffer.toString();
-		}
-		
-		return str;
 	}
 	
 	/**
@@ -92,7 +69,8 @@ public final class Utility {
 	 * @param points value that need to be converted
 	 * @return converted value in twips
 	 */
-	public static int twip(float points) {//FIXMEDOCX move this utility
+	public static int twip(float points) 
+	{
 		return (int)(points * 20);
 	}
 
@@ -115,7 +93,8 @@ public final class Utility {
 	}
 
 	
-	private Utility()
+	private LengthUtil()
 	{
 	}
+
 }

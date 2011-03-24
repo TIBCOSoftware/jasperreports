@@ -28,6 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 
@@ -114,13 +115,13 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 
 		write("<pageMargins left=\"");
-		write(String.valueOf(getPageMarginInInches(jasperPrint.getLeftMargin(), isIgnorePageMargins))); 
+		write(String.valueOf(jasperPrint.getLeftMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()))); 
 		write("\" right=\"");   
-		write(String.valueOf(getPageMarginInInches(jasperPrint.getRightMargin(), isIgnorePageMargins))); 
+		write(String.valueOf(jasperPrint.getRightMargin() == null ? 0.7f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()))); 
 		write("\" top=\"");
-		write(String.valueOf(getPageMarginInInches(jasperPrint.getTopMargin(), isIgnorePageMargins))); 
+		write(String.valueOf(jasperPrint.getTopMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()))); 
 		write("\" bottom=\"");
-		write(String.valueOf(getPageMarginInInches(jasperPrint.getBottomMargin(), isIgnorePageMargins))); 
+		write(String.valueOf(jasperPrint.getBottomMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()))); 
 		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
 		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
 		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
@@ -207,14 +208,4 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 	}
 	
-	/**
-	 * 
-	 * @param pageMargin
-	 * @param isIgnorePageMargins
-	 * @return page margin converted from pixels to inches, based on the default 72dpi screen resolution
-	 */
-	public double getPageMarginInInches(Integer pageMargin, boolean isIgnorePageMargins)
-	{
-		return isIgnorePageMargins ? 0 : pageMargin/72.0;
-	}
 }

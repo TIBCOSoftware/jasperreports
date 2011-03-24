@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -119,17 +120,17 @@ public class JROdtExporter extends JROpenDocumentExporter
 
 		if (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN)
 		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(0);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(line.getHeight() - 1);
+			x1 = LengthUtil.inch(0);
+			y1 = LengthUtil.inch(0);
+			x2 = LengthUtil.inch(line.getWidth() - 1);
+			y2 = LengthUtil.inch(line.getHeight() - 1);
 		}
 		else
 		{
-			x1 = Utility.translatePixelsToInches(0);
-			y1 = Utility.translatePixelsToInches(line.getHeight() - 1);
-			x2 = Utility.translatePixelsToInches(line.getWidth() - 1);
-			y2 = Utility.translatePixelsToInches(0);
+			x1 = LengthUtil.inch(0);
+			y1 = LengthUtil.inch(line.getHeight() - 1);
+			x2 = LengthUtil.inch(line.getWidth() - 1);
+			y2 = LengthUtil.inch(0);
 		}
 
 		tempBodyWriter.write("<text:p>");
@@ -160,8 +161,8 @@ public class JROdtExporter extends JROpenDocumentExporter
 		tempBodyWriter.write(
 			"<draw:ellipse text:anchor-type=\"paragraph\" "
 			+ "draw:style-name=\"" + styleCache.getGraphicStyle(ellipse) + "\" "
-			+ "svg:width=\"" + Utility.translatePixelsToInches(ellipse.getWidth()) + "in\" "
-			+ "svg:height=\"" + Utility.translatePixelsToInches(ellipse.getHeight()) + "in\" "
+			+ "svg:width=\"" + LengthUtil.inch(ellipse.getWidth()) + "in\" "
+			+ "svg:height=\"" + LengthUtil.inch(ellipse.getHeight()) + "in\" "
 			+ "svg:x=\"0in\" "
 			+ "svg:y=\"0in\">"
 			+ "<text:p/></draw:ellipse></text:p>"
@@ -288,10 +289,10 @@ public class JROdtExporter extends JROpenDocumentExporter
 
 			tempBodyWriter.write("<draw:frame text:anchor-type=\"paragraph\" "
 					+ "draw:style-name=\"" + styleCache.getGraphicStyle(image) + "\" "
-					+ "svg:x=\"" + Utility.translatePixelsToInches(leftPadding + xoffset) + "in\" "
-					+ "svg:y=\"" + Utility.translatePixelsToInches(topPadding + yoffset) + "in\" "
-					+ "svg:width=\"" + Utility.translatePixelsToInches(width) + "in\" "
-					+ "svg:height=\"" + Utility.translatePixelsToInches(height) + "in\">"
+					+ "svg:x=\"" + LengthUtil.inch(leftPadding + xoffset) + "in\" "
+					+ "svg:y=\"" + LengthUtil.inch(topPadding + yoffset) + "in\" "
+					+ "svg:width=\"" + LengthUtil.inch(width) + "in\" "
+					+ "svg:height=\"" + LengthUtil.inch(height) + "in\">"
 					);
 			tempBodyWriter.write("<draw:image ");
 			String imagePath = getImagePath(renderer, image.isLazy(), gridCell);

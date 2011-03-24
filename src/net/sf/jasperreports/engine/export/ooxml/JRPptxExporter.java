@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.io.File;
@@ -62,6 +61,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -554,8 +554,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
 		slideHelper.write("    <a:xfrm" + (line.getDirectionValue() == LineDirectionEnum.TOP_DOWN ? " flipV=\"1\"" : "") + ">\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(x) + "\" y=\"" + Utility.emu(y) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(x) + "\" y=\"" + LengthUtil.emu(y) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"line\"><a:avLst/></a:prstGeom>\n");
 		if (line.getModeValue() == ModeEnum.OPAQUE && line.getBackcolor() != null)
 		{
@@ -563,7 +563,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		if (line.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + Utility.emu(line.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(line.getLinePen().getLineWidth()) + "\">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(line.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (line.getLinePen().getLineStyleValue())
@@ -616,8 +616,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
 		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(rectangle.getWidth()) + "\" cy=\"" + Utility.emu(rectangle.getHeight()) + "\"/>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(rectangle.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(rectangle.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(rectangle.getWidth()) + "\" cy=\"" + LengthUtil.emu(rectangle.getHeight()) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"" + (rectangle.getRadius() == 0 ? "rect" : "roundRect") + "\"><a:avLst/></a:prstGeom>\n"); //FIXMEPPTX radius
 		if (rectangle.getModeValue() == ModeEnum.OPAQUE && rectangle.getBackcolor() != null)
 		{
@@ -625,7 +625,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		if (rectangle.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + Utility.emu(rectangle.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(rectangle.getLinePen().getLineWidth()) + "\">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(rectangle.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (rectangle.getLinePen().getLineStyleValue())
@@ -678,8 +678,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
 		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(ellipse.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(ellipse.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(ellipse.getWidth()) + "\" cy=\"" + Utility.emu(ellipse.getHeight()) + "\"/>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(ellipse.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(ellipse.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(ellipse.getWidth()) + "\" cy=\"" + LengthUtil.emu(ellipse.getHeight()) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"ellipse\"><a:avLst/></a:prstGeom>\n");
 		if (ellipse.getModeValue() == ModeEnum.OPAQUE && ellipse.getBackcolor() != null)
 		{
@@ -687,7 +687,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		if (ellipse.getLinePen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + Utility.emu(ellipse.getLinePen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(ellipse.getLinePen().getLineWidth()) + "\">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(ellipse.getLinePen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (ellipse.getLinePen().getLineStyleValue())
@@ -825,8 +825,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
 		slideHelper.write("    <a:xfrm rot=\"" + rotation + "\">\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(x) + "\" y=\"" + Utility.emu(y) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(x) + "\" y=\"" + LengthUtil.emu(y) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 		if (text.getModeValue() == ModeEnum.OPAQUE && text.getBackcolor() != null)
 		{
@@ -834,7 +834,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		if (text.getLineBox().getPen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + Utility.emu(text.getLineBox().getPen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(text.getLineBox().getPen().getLineWidth()) + "\">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(text.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (text.getLineBox().getPen().getLineStyleValue())
@@ -863,13 +863,13 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:spPr>\n");
 		slideHelper.write("  <p:txBody>\n");
 		slideHelper.write("    <a:bodyPr wrap=\"square\" lIns=\"" +
-				Utility.emu(leftPadding) +
+				LengthUtil.emu(leftPadding) +
 				"\" tIns=\"" +
-				Utility.emu(topPadding) +
+				LengthUtil.emu(topPadding) +
 				"\" rIns=\"" +
-				Utility.emu(rightPadding) +
+				LengthUtil.emu(rightPadding) +
 				"\" bIns=\"" +
-				Utility.emu(bottomPadding) +
+				LengthUtil.emu(bottomPadding) +
 				"\" rtlCol=\"0\" anchor=\"");
 		switch (text.getVerticalAlignmentValue())
 		{
@@ -1277,8 +1277,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			slideHelper.write("</p:blipFill>\n");
 			slideHelper.write("  <p:spPr>\n");
 			slideHelper.write("    <a:xfrm>\n");
-			slideHelper.write("      <a:off x=\"" + Utility.emu(image.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(image.getY() + getOffsetY()) + "\"/>\n");
-			slideHelper.write("      <a:ext cx=\"" + Utility.emu(image.getWidth()) + "\" cy=\"" + Utility.emu(image.getHeight()) + "\"/>\n");
+			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY()) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(image.getWidth()) + "\" cy=\"" + LengthUtil.emu(image.getHeight()) + "\"/>\n");
 			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 			{
@@ -1286,7 +1286,7 @@ public class JRPptxExporter extends JRAbstractExporter
 			}
 			if (image.getLineBox().getPen().getLineWidth() > 0)
 			{
-				slideHelper.write("  <a:ln w=\"" + Utility.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
+				slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(image.getLineBox().getPen().getLineWidth()) + "\">\n");
 				slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(image.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
 				slideHelper.write("<a:prstDash val=\"");
 				switch (image.getLineBox().getPen().getLineStyleValue())
@@ -1494,8 +1494,8 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("  </p:nvSpPr>\n");
 		slideHelper.write("  <p:spPr>\n");
 		slideHelper.write("    <a:xfrm>\n");
-		slideHelper.write("      <a:off x=\"" + Utility.emu(frame.getX() + getOffsetX()) + "\" y=\"" + Utility.emu(frame.getY() + getOffsetY()) + "\"/>\n");
-		slideHelper.write("      <a:ext cx=\"" + Utility.emu(frame.getWidth()) + "\" cy=\"" + Utility.emu(frame.getHeight()) + "\"/>\n");
+		slideHelper.write("      <a:off x=\"" + LengthUtil.emu(frame.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(frame.getY() + getOffsetY()) + "\"/>\n");
+		slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(frame.getWidth()) + "\" cy=\"" + LengthUtil.emu(frame.getHeight()) + "\"/>\n");
 		slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 		if (frame.getModeValue() == ModeEnum.OPAQUE && frame.getBackcolor() != null)
 		{
@@ -1503,7 +1503,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		}
 		if (frame.getLineBox().getPen().getLineWidth() > 0)
 		{
-			slideHelper.write("  <a:ln w=\"" + Utility.emu(frame.getLineBox().getPen().getLineWidth()) + "\">\n");
+			slideHelper.write("  <a:ln w=\"" + LengthUtil.emu(frame.getLineBox().getPen().getLineWidth()) + "\">\n");
 			slideHelper.write("<a:solidFill><a:srgbClr val=\"" + JRColorUtil.getColorHexa(frame.getLineBox().getPen().getLineColor()) + "\"/></a:solidFill>\n");
 			slideHelper.write("<a:prstDash val=\"");
 			switch (frame.getLineBox().getPen().getLineStyleValue())
