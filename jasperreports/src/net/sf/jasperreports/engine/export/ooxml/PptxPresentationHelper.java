@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.LengthUtil;
 
 
 /**
@@ -72,7 +73,7 @@ public class PptxPresentationHelper extends BaseHelper
 	public void exportFooter(JasperPrint jasperPrint)
 	{
 		write("</p:sldIdLst>\n");
-		write("<p:sldSz cx=\"" + Utility.emu(jasperPrint.getPageWidth()) + "\" cy=\"" + Utility.emu(jasperPrint.getPageHeight()) + "\" type=\"custom\"/>\n");
+		write("<p:sldSz cx=\"" + LengthUtil.emu(jasperPrint.getPageWidth()) + "\" cy=\"" + LengthUtil.emu(jasperPrint.getPageHeight()) + "\" type=\"custom\"/>\n");
 		write("<p:notesSz cx=\"6858000\" cy=\"9144000\"/>\n");
 		write("</p:presentation>\n");
 	}

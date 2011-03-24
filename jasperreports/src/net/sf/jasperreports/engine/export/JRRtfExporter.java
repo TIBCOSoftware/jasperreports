@@ -273,18 +273,18 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write("}}\n");
 
 				writer.write("\\viewkind1\\paperw");
-				writer.write(String.valueOf(twip(jasperPrint.getPageWidth())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageWidth())));
 				writer.write("\\paperh");
-				writer.write(String.valueOf(twip(jasperPrint.getPageHeight())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getPageHeight())));
 
 				writer.write("\\marglsxn");
-				writer.write(String.valueOf(twip(jasperPrint.getLeftMargin() == null ? 0 : jasperPrint.getLeftMargin())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getLeftMargin() == null ? 0 : jasperPrint.getLeftMargin())));
 				writer.write("\\margrsxn");
-				writer.write(String.valueOf(twip(jasperPrint.getRightMargin() == null ? 0 : jasperPrint.getRightMargin())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getRightMargin() == null ? 0 : jasperPrint.getRightMargin())));
 				writer.write("\\margtsxn");
-				writer.write(String.valueOf(twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
 				writer.write("\\margbsxn");
-				writer.write(String.valueOf(twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
+				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
 
 				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
 					writer.write("\\lndscpsxn");
@@ -425,25 +425,6 @@ public class JRRtfExporter extends JRAbstractExporter
 		return fontIndex;
 	}
 
-	/**
-	 * Convert a int value from points to EMU (multiply with 12700)
-	 * @param points value that needs to be converted
-	 * @return converted value in EMU
-	 */
-	private int emu(float points) {
-		return (int)(points * 12700);
-	}
-
-
-	/**
-	 * Convert a float value to twips (multiply with 20)
-	 * @param points value that need to be converted
-	 * @return converted value in twips
-	 */
-	private int twip(float points) {
-		return (int)(points * 20);
-	}
-
 
 	/**
 	 * Exports a report page
@@ -468,13 +449,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
 		writer.write(String.valueOf(zorder++));
 		writer.write("\\shpleft");
-		writer.write(String.valueOf(twip(element.getX() + getOffsetX())));
+		writer.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX())));
 		writer.write("\\shpright");
-		writer.write(String.valueOf(twip(element.getX() + getOffsetX() + element.getWidth())));
+		writer.write(String.valueOf(LengthUtil.twip(element.getX() + getOffsetX() + element.getWidth())));
 		writer.write("\\shptop");
-		writer.write(String.valueOf(twip(element.getY() + getOffsetY())));
+		writer.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY())));
 		writer.write("\\shpbottom");
-		writer.write(String.valueOf(twip(element.getY() + getOffsetY() + element.getHeight())));
+		writer.write(String.valueOf(LengthUtil.twip(element.getY() + getOffsetY() + element.getHeight())));
 
 		Color bgcolor = element.getBackcolor();
 
@@ -545,7 +526,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 
 		writer.write("{\\sp{\\sn lineWidth}{\\sv ");
-		writer.write(String.valueOf(emu(lineWidth)));
+		writer.write(String.valueOf(LengthUtil.emu(lineWidth)));
 		writer.write("}}");
 	}
 
@@ -590,13 +571,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
 		writer.write("\\shpleft");
-		writer.write(String.valueOf(twip(x)));
+		writer.write(String.valueOf(LengthUtil.twip(x)));
 		writer.write("\\shpright");
-		writer.write(String.valueOf(twip(x + width)));
+		writer.write(String.valueOf(LengthUtil.twip(x + width)));
 		writer.write("\\shptop");
-		writer.write(String.valueOf(twip(y)));
+		writer.write(String.valueOf(LengthUtil.twip(y)));
 		writer.write("\\shpbottom");
-		writer.write(String.valueOf(twip(y + height)));
+		writer.write(String.valueOf(LengthUtil.twip(y + height)));
 
 		writer.write("{\\shpinst");
 		
@@ -625,13 +606,13 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\shp\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpz");
 		writer.write(String.valueOf(zorder++));
 		writer.write("\\shpleft");
-		writer.write(String.valueOf(twip(x)));//FIXMEBORDER starting point of borders seem to have CAP_SQUARE-like appearence at least for Thin
+		writer.write(String.valueOf(LengthUtil.twip(x)));//FIXMEBORDER starting point of borders seem to have CAP_SQUARE-like appearence at least for Thin
 		writer.write("\\shpright");
-		writer.write(String.valueOf(twip(x + width)));
+		writer.write(String.valueOf(LengthUtil.twip(x + width)));
 		writer.write("\\shptop");
-		writer.write(String.valueOf(twip(y)));
+		writer.write(String.valueOf(LengthUtil.twip(y)));
 		writer.write("\\shpbottom");
-		writer.write(String.valueOf(twip(y + height)));
+		writer.write(String.valueOf(LengthUtil.twip(y + height)));
 
 		writer.write("{\\shpinst");
 		
@@ -814,16 +795,16 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		writer.write(rotation);
 		writer.write("{\\sp{\\sn dyTextTop}{\\sv ");
-		writer.write(String.valueOf(emu(topPadding)));
+		writer.write(String.valueOf(LengthUtil.emu(topPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn dxTextLeft}{\\sv ");
-		writer.write(String.valueOf(emu(leftPadding)));
+		writer.write(String.valueOf(LengthUtil.emu(leftPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn dyTextBottom}{\\sv ");
-		writer.write(String.valueOf(emu(bottomPadding)));
+		writer.write(String.valueOf(LengthUtil.emu(bottomPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn dxTextRight}{\\sv ");
-		writer.write(String.valueOf(emu(rightPadding)));
+		writer.write(String.valueOf(LengthUtil.emu(rightPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		writer.write("{\\shptxt{\\pard");
@@ -872,7 +853,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 
 		writer.write("\\sl");
-		writer.write(String.valueOf(twip(text.getLineSpacingFactor() * font.getFontSize())));
+		writer.write(String.valueOf(LengthUtil.twip(text.getLineSpacingFactor() * font.getFontSize())));
 		writer.write(" ");
 
 		if (text.getAnchorName() != null)
@@ -1165,13 +1146,13 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\shpleft");
-			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX())));
 			writer.write("\\shpright");
-			writer.write(String.valueOf(twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getX() + leftPadding + xoffset + getOffsetX() + imageWidth)));
 			writer.write("\\shptop");
-			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY())));
 			writer.write("\\shpbottom");
-			writer.write(String.valueOf(twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
+			writer.write(String.valueOf(LengthUtil.twip(printImage.getY() + topPadding + yoffset + getOffsetY() + imageHeight)));
 			writer.write("{\\sp{\\sn shapeType}{\\sv 75}}");
 			writer.write("{\\sp{\\sn fFilled}{\\sv 0}}");
 			writer.write("{\\sp{\\sn fLockAspectRatio}{\\sv 0}}");

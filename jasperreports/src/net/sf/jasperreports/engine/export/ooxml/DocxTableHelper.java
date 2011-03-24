@@ -27,6 +27,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.LengthUtil;
 
 
 /**
@@ -90,7 +91,7 @@ public class DocxTableHelper extends BaseHelper
 		write("   <w:tblGrid>\n");
 		for(int col = 1; col < xCuts.size(); col++)
 		{
-			write("    <w:gridCol w:w=\"" + Utility.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
+			write("    <w:gridCol w:w=\"" + LengthUtil.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
 		}
 		write("   </w:tblGrid>\n");
 	}
@@ -103,7 +104,7 @@ public class DocxTableHelper extends BaseHelper
 			write("    <w:p>\n");
 			write("    <w:pPr>\n");
 			write("  <w:sectPr>\n");
-			write("   <w:pgSz w:w=\"" + Utility.twip(pageWidth) + "\" w:h=\"" + Utility.twip(pageHeight) + "\" />\n");
+			write("   <w:pgSz w:w=\"" + LengthUtil.twip(pageWidth) + "\" w:h=\"" + LengthUtil.twip(pageHeight) + "\" />\n");
 			write("   <w:pgMar w:top=\"0\" w:right=\"0\" w:bottom=\"0\" w:left=\"0\" w:header=\"0\" w:footer=\"0\" w:gutter=\"0\" />\n");
 			write("   <w:docGrid w:linePitch=\"360\" />\n");
 			write("  </w:sectPr>\n");
@@ -116,7 +117,7 @@ public class DocxTableHelper extends BaseHelper
 	{
 		write("   <w:tr>\n");
 		write("    <w:trPr>\n");
-		write("     <w:trHeight w:hRule=\"" + (allowRowResize ? "atLeast" : "exact")  + "\" w:val=\"" +  + Utility.twip(rowHeight) + "\" />\n");
+		write("     <w:trHeight w:hRule=\"" + (allowRowResize ? "atLeast" : "exact")  + "\" w:val=\"" +  + LengthUtil.twip(rowHeight) + "\" />\n");
 		write("    </w:trPr>\n");
 	}
 	

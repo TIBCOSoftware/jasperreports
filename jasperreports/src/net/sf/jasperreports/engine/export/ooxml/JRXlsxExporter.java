@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -1025,20 +1026,20 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			drawingHelper.write("<xdr:from><xdr:col>" +
 				colIndex +
 				"</xdr:col><xdr:colOff>" +
-				Utility.emu(leftPadding) +
+				LengthUtil.emu(leftPadding) +
 				"</xdr:colOff><xdr:row>" +
 				rowIndex +
 				"</xdr:row><xdr:rowOff>" +
-				Utility.emu(topPadding) +
+				LengthUtil.emu(topPadding) +
 				"</xdr:rowOff></xdr:from>\n");
 			drawingHelper.write("<xdr:to><xdr:col>" +
 				(colIndex + gridCell.getColSpan()) +
 				"</xdr:col><xdr:colOff>" +
-				Utility.emu(-rightPadding) +
+				LengthUtil.emu(-rightPadding) +
 				"</xdr:colOff><xdr:row>" +
 				(rowIndex + (isCollapseRowSpan ? 1 : gridCell.getRowSpan())) +
 				"</xdr:row><xdr:rowOff>" +
-				Utility.emu(-bottomPadding) +
+				LengthUtil.emu(-bottomPadding) +
 				"</xdr:rowOff></xdr:to>\n");
 			
 			drawingHelper.write("<xdr:pic>\n");
@@ -1074,7 +1075,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				drawingHelper.write(" b=\"" + (int)cropBottom + "\"");
 			drawingHelper.write("/></a:stretch>\n");
 			drawingHelper.write("</xdr:blipFill>\n");
-			drawingHelper.write("<xdr:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(0) + "\" cy=\"" + Utility.emu(0) + "\"/>");
+			drawingHelper.write("<xdr:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(0) + "\" cy=\"" + LengthUtil.emu(0) + "\"/>");
 			drawingHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom>\n");
 //			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 //			{

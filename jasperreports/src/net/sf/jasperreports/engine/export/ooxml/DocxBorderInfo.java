@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.export.LengthUtil;
 
 
 /**
@@ -55,13 +56,13 @@ public class DocxBorderInfo
 	public DocxBorderInfo(JRLineBox box)
 	{
 		setBorder(box.getTopPen(), TOP_BORDER);
-		borderPadding[TOP_BORDER] = String.valueOf(Utility.twip(box.getTopPadding().intValue()));
+		borderPadding[TOP_BORDER] = String.valueOf(LengthUtil.twip(box.getTopPadding().intValue()));
 		setBorder(box.getLeftPen(), LEFT_BORDER);
-		borderPadding[LEFT_BORDER] = String.valueOf(Utility.twip(box.getLeftPadding().intValue()));
+		borderPadding[LEFT_BORDER] = String.valueOf(LengthUtil.twip(box.getLeftPadding().intValue()));
 		setBorder(box.getBottomPen(), BOTTOM_BORDER);
-		borderPadding[BOTTOM_BORDER] = String.valueOf(Utility.twip(box.getBottomPadding().intValue()));
+		borderPadding[BOTTOM_BORDER] = String.valueOf(LengthUtil.twip(box.getBottomPadding().intValue()));
 		setBorder(box.getRightPen(), RIGHT_BORDER);
-		borderPadding[RIGHT_BORDER] = String.valueOf(Utility.twip(box.getRightPadding().intValue()));
+		borderPadding[RIGHT_BORDER] = String.valueOf(LengthUtil.twip(box.getRightPadding().intValue()));
 	}
 	
 	/**
@@ -125,7 +126,7 @@ public class DocxBorderInfo
 				}
 			}
 
-			borderWidth[side] = String.valueOf(Utility.halfPoint(width));
+			borderWidth[side] = String.valueOf(LengthUtil.halfPoint(width));
 		}
 		else
 		{

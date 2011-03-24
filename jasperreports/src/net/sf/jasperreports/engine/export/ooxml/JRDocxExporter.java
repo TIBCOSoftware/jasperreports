@@ -72,6 +72,7 @@ import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -962,7 +963,7 @@ public class JRDocxExporter extends JRAbstractExporter
 //			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
 			
 			int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
-			docHelper.write("<wp:extent cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>\n");
+			docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 			docHelper.write("<wp:wrapNone/>");
 			docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\"/>\n");
 			docHelper.write("<a:graphic>\n");
@@ -991,7 +992,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("/>");
 			docHelper.write("<a:stretch><a:fillRect/></a:stretch>\n");
 			docHelper.write("</pic:blipFill>\n");
-			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + Utility.emu(width) + "\" cy=\"" + Utility.emu(height) + "\"/>");
+			docHelper.write("<pic:spPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>");
 			docHelper.write("</a:xfrm><a:prstGeom prst=\"rect\"></a:prstGeom></pic:spPr>\n");
 			docHelper.write("</pic:pic>\n");
 			docHelper.write("</a:graphicData>\n");

@@ -36,6 +36,7 @@ import java.io.Writer;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.LengthUtil;
 
 
 /**
@@ -155,8 +156,8 @@ public class StyleBuilder
 			writer.write(" style:name=\"page_" + reportIndex + "\">\n");
 			
 			writer.write("<style:page-layout-properties");
-			writer.write(" fo:page-width=\"" + Utility.translatePixelsToInchesRound(jasperPrint.getPageWidth()) +"in\"");
-			writer.write(" fo:page-height=\"" + Utility.translatePixelsToInchesRound(jasperPrint.getPageHeight()) +"in\"");//FIXMEODT we probably need some actualHeight trick
+			writer.write(" fo:page-width=\"" + LengthUtil.inchRound(jasperPrint.getPageWidth()) +"in\"");
+			writer.write(" fo:page-height=\"" + LengthUtil.inchRound(jasperPrint.getPageHeight()) +"in\"");//FIXMEODT we probably need some actualHeight trick
 			writer.write(" fo:margin-top=\"0in\"");//FIXMEODT if first cell on page is for frame (nested table), this forcing of margins to zero does not work
 			writer.write(" fo:margin-bottom=\"0in\"");
 			writer.write(" fo:margin-left=\"0in\"");

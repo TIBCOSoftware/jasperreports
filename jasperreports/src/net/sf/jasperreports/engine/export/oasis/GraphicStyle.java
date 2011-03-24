@@ -28,6 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -94,7 +95,7 @@ public class GraphicStyle extends Style
 			}
 		}
 
-		width = String.valueOf(Utility.translatePixelsToInchesWithNoRoundOff(doubleWidth));
+		width = String.valueOf(LengthUtil.inchNoRound(doubleWidth));
 		HorizontalAlignEnum horizontalAlignment = HorizontalAlignEnum.LEFT;
 		VerticalAlignEnum verticalAlignment = VerticalAlignEnum.TOP;
 

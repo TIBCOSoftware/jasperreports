@@ -330,7 +330,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		try
 		{
-			sheet.setRowView(y, (lastRowHeight * 20)); // twips
+			sheet.setRowView(y, LengthUtil.twip(lastRowHeight));
 		}
 		catch (RowsExceededException e)
 		{
@@ -2003,10 +2003,25 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 		SheetSettings sheets = sheet.getSettings();
 		
-		sheets.setTopMargin(getPageMarginInInches(jasperPrint.getTopMargin()));
-		sheets.setLeftMargin(getPageMarginInInches(jasperPrint.getLeftMargin()));
-		sheets.setRightMargin(getPageMarginInInches(jasperPrint.getRightMargin()));
-		sheets.setBottomMargin(getPageMarginInInches(jasperPrint.getBottomMargin()));
+		if (jasperPrint.getTopMargin() != null)
+		{
+			sheets.setTopMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getTopMargin()));
+		}
+
+		if (jasperPrint.getLeftMargin() != null)
+		{
+			sheets.setLeftMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getLeftMargin()));
+		}
+		
+		if (jasperPrint.getRightMargin() != null)
+		{
+			sheets.setRightMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getRightMargin()));
+		}
+
+		if (jasperPrint.getBottomMargin() != null)
+		{
+			sheets.setBottomMargin(LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()));
+		}
 
 		sheets.setHeaderMargin(0.0);
 		sheets.setFooterMargin(0.0);

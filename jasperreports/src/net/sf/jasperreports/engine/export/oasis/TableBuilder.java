@@ -34,6 +34,8 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.export.LengthUtil;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -92,7 +94,7 @@ public class TableBuilder
 		}
 		styleWriter.write(" style:family=\"table\">\n");
 		styleWriter.write("   <style:table-properties");		
-		styleWriter.write(" table:align=\"left\" style:width=\"" + Utility.translatePixelsToInches(width) + "in\"");
+		styleWriter.write(" table:align=\"left\" style:width=\"" + LengthUtil.inch(width) + "in\"");
 		if (isPageBreak)
 		{
 			styleWriter.write(" fo:break-before=\"page\"");
@@ -147,7 +149,7 @@ public class TableBuilder
 		styleWriter.write("   <style:table-row-properties");		
 		styleWriter.write(" style:use-optimal-row-height=\"false\""); 
 //FIXMEODT check this		styleWriter.write(" style:use-optimal-row-height=\"true\""); 
-		styleWriter.write(" style:row-height=\"" + Utility.translatePixelsToInches(rowHeight) + "in\"");
+		styleWriter.write(" style:row-height=\"" + LengthUtil.inch(rowHeight) + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
 	}
@@ -171,7 +173,7 @@ public class TableBuilder
 		styleWriter.write(" <style:style style:name=\"" + columnName + "\"");
 		styleWriter.write(" style:family=\"table-column\">\n");
 		styleWriter.write("   <style:table-column-properties");		
-		styleWriter.write(" style:column-width=\"" + Utility.translatePixelsToInches(colWidth) + "in\"");
+		styleWriter.write(" style:column-width=\"" + LengthUtil.inch(colWidth) + "in\"");
 		styleWriter.write("/>\n");
 		styleWriter.write(" </style:style>\n");
 	}
