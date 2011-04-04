@@ -76,6 +76,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	private HorizontalAlignEnum horizontalAlignmentValue;
 	private VerticalAlignEnum verticalAlignmentValue;
+	private Integer tabStop;
 	private RotationEnum rotationValue;
 	private LineSpacingEnum lineSpacingValue;
 	private String markup;
@@ -181,6 +182,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
+		tabStop = textElement.getOwnTabStop();
 		rotationValue = textElement.getOwnRotationValue();
 		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
@@ -339,6 +341,30 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
 		this.verticalAlignmentValue = verticalAlignmentValue;
+	}
+
+	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return JRStyleResolver.getTabStop(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTabStop()
+	{
+		return this.tabStop;
+	}
+
+	/**
+	 * 
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		this.tabStop = tabStop;
 	}
 
 	/**

@@ -66,6 +66,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	 */
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
+	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	
 	protected LineSpacingEnum lineSpacingValue;
@@ -102,6 +103,7 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
+		tabStop = textElement.getOwnTabStop();
 		rotationValue = textElement.getOwnRotationValue();
 		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
@@ -260,6 +262,32 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		Object old = this.verticalAlignmentValue;
 		this.verticalAlignmentValue = verticalAlignmentValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return JRStyleResolver.getTabStop(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTabStop()
+	{
+		return this.tabStop;
+	}
+
+	/**
+	 *
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		Object old = this.tabStop;
+		this.tabStop = tabStop;
+		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_TAB_STOP, old, this.tabStop);
 	}
 
 	/**

@@ -71,6 +71,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 
 		lineBox = style.getLineBox().clone(this);
 
+		tabStop = style.getOwnTabStop();
 		rotationValue = style.getOwnRotationValue();
 		lineSpacingValue = style.getOwnLineSpacingValue();
 		markup = style.getOwnMarkup();

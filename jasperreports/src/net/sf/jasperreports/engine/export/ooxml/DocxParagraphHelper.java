@@ -27,6 +27,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
@@ -75,6 +76,10 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 
+		exportTabStop(
+			style.getOwnTabStop() 
+			);
+
 		exportLineSpacing(
 			getLineSpacing(
 				style.getOwnLineSpacingValue() 
@@ -97,6 +102,10 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 		
+		exportTabStop(
+				text.getTabStop()//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
+				);
+
 		exportLineSpacing(
 			getLineSpacing(
 				text.getOwnLineSpacingValue() 
@@ -134,6 +143,22 @@ public class DocxParagraphHelper extends BaseHelper
 		if (horizontalAlignment != null)
 		{
 			write("   <w:jc w:val=\"" + horizontalAlignment + "\" />\n");
+		}
+	}
+	
+	/**
+	 *
+	 */
+	private void exportTabStop(Integer tabStop)
+	{
+		if (tabStop != null && tabStop > 0)
+		{
+			write("   <w:tabs>\n");
+			for (int i = 0; i < 4; i++)
+			{
+				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStop) + "\" w:val=\"left\"/>\n");
+			}
+			write("   </w:tabs>\n");
 		}
 	}
 	

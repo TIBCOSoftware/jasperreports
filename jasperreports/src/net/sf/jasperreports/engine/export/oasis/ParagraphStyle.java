@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -66,6 +67,7 @@ public class ParagraphStyle extends Style
 	private String horizontalAlignment;
 	private String runDirection;
 	private String textRotation = "0";
+	private Integer tabStop;
 
 	/**
 	 *
@@ -102,6 +104,8 @@ public class ParagraphStyle extends Style
 		{
 			runDirection = "rl";
 		}
+		
+		tabStop = text.getTabStop();
 	}
 	
 	/**
@@ -252,16 +256,25 @@ public class ParagraphStyle extends Style
 			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 		}
 		styleWriter.write(">\n");
+		if (tabStop != null && tabStop.intValue() > 0)
+		{
+			styleWriter.write("<style:tab-stops>");
+			for (int i = 0; i < 4; i++)
+			{
+				styleWriter.write("<style:tab-stop style:position=\"" + LengthUtil.inch((i + 1) * tabStop) + "in\"/>");
+			}
+			styleWriter.write("</style:tab-stops>");
+		}
 		styleWriter.write("</style:paragraph-properties>\n");
 		styleWriter.write("<style:text-properties");
 		styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
 		styleWriter.write(">\n");
 		styleWriter.write("</style:text-properties>\n");
 		
-//        styleWriter.write("<style:properties");
-//        styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
-//        styleWriter.write(">\n");
-//        styleWriter.write("</style:properties>\n");
+//       styleWriter.write("<style:properties");
+//       styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
+//       styleWriter.write(">\n");
+//       styleWriter.write("</style:properties>\n");
 //
 
 		styleWriter.write("</style:style>\n");

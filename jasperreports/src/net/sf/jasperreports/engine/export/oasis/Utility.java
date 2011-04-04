@@ -57,7 +57,7 @@ public final class Utility
 		if (source != null)
 		{
 			StringBuffer sbuffer = new StringBuffer();
-			StringTokenizer tkzer = new StringTokenizer(source, "\n", true);
+			StringTokenizer tkzer = new StringTokenizer(source, "\n\t", true);
 			String token = null;
 			while(tkzer.hasMoreTokens())
 			{
@@ -65,6 +65,10 @@ public final class Utility
 				if ("\n".equals(token))
 				{
 					sbuffer.append("<text:line-break/>");
+				}
+				else if ("\t".equals(token))
+				{
+					sbuffer.append("<text:tab/>");
 				}
 				else
 				{

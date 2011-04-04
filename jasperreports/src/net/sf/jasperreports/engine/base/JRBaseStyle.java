@@ -95,6 +95,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_RADIUS = "radius";
 	
+	public static final String PROPERTY_TAB_STOP = "tabStop";
+	
 	public static final String PROPERTY_ROTATION = "rotation";
 	
 	public static final String PROPERTY_SCALE_IMAGE = "scaleImage";
@@ -153,6 +155,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
 
+	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
@@ -220,6 +223,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 		lineBox = style.getLineBox().clone(this);
 		
+		tabStop = style.getOwnTabStop();
 		rotationValue = style.getOwnRotationValue();
 		lineSpacingValue = style.getOwnLineSpacingValue();
 		markup = style.getOwnMarkup();
@@ -739,6 +743,32 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public Integer getOwnRightPadding()
 	{
 		return lineBox.getOwnRightPadding();
+	}
+
+	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return JRStyleResolver.getTabStop(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnTabStop()
+	{
+		return this.tabStop;
+	}
+
+	/**
+	 *
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		Object old = this.tabStop;
+		this.tabStop = tabStop;
+		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP, old, this.tabStop);
 	}
 
 	/**

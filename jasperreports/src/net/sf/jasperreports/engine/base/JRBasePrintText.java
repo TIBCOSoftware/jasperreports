@@ -82,6 +82,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected float leadingOffset;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
+	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight;
@@ -416,6 +417,27 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
 		this.verticalAlignmentValue = verticalAlignmentValue;
+	}
+
+	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return JRStyleResolver.getTabStop(this);
+	}
+		
+	public Integer getOwnTabStop()
+	{
+		return tabStop;
+	}
+
+	/**
+	 *
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		this.tabStop = tabStop;
 	}
 
 	/**

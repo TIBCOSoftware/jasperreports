@@ -28,6 +28,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 
@@ -399,6 +401,30 @@ public final class JRStringUtil
 		}
 		
 		return sbuffer.toString();
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public static List<Integer> getTabIndexes(String text)
+	{
+		List<Integer> tabIndexes = null;
+		
+		if (text != null)
+		{
+			tabIndexes = new ArrayList<Integer>();
+			
+			for (int i = 0; i < text.length(); i++)
+			{
+				if (text.charAt(i) == '\t') 
+				{
+					tabIndexes.add(Integer.valueOf(i));
+				}
+			}
+		}
+		
+		return tabIndexes;
 	}
 	
 

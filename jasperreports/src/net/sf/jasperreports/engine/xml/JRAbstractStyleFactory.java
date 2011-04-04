@@ -296,6 +296,11 @@ public abstract class JRAbstractStyleFactory extends JRBaseFactory
 		}
 
 
+		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
+		if (tabStop != null && tabStop.length() > 0)
+		{
+			style.setTabStop(Integer.parseInt(tabStop));
+		}
 
 		RotationEnum rotation = RotationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)

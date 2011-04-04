@@ -729,6 +729,46 @@ public final class JRStyleResolver
 	}
 
 	/**
+	 *
+	 */
+	public static Integer getTabStop(JRCommonText element)
+	{
+		Integer ownTabStop = element.getOwnTabStop();
+		if (ownTabStop != null)
+		{
+			return ownTabStop;
+		}
+		JRStyle style = getBaseStyle(element);
+		if (style != null)
+		{
+			Integer tabStop = style.getTabStop();
+			if (tabStop != null)
+			{
+				return tabStop;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRCommonText.DEFAULT_TAB_STOP);
+	}
+
+	/**
+	 *
+	 */
+	public static Integer getTabStop(JRStyle style)
+	{
+		Integer ownTabStop = style.getOwnTabStop();
+		if (ownTabStop != null)
+		{
+			return ownTabStop;
+		}
+		JRStyle baseStyle = getBaseStyle(style);
+		if (baseStyle != null)
+		{
+			return baseStyle.getTabStop();
+		}
+		return null;
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #getRotationValue(JRCommonText)}.
 	 */
 	public static byte getRotation(JRCommonText element)

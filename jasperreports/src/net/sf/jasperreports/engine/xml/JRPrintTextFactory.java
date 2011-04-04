@@ -66,6 +66,12 @@ public class JRPrintTextFactory extends JRBaseFactory
 			text.setVerticalAlignment(verticalAlignment);
 		}
 
+		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
+		if (tabStop != null && tabStop.length() > 0)
+		{
+			text.setTabStop(Integer.parseInt(tabStop));
+		}
+
 		RotationEnum rotation = RotationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_rotation));
 		if (rotation != null)
 		{
