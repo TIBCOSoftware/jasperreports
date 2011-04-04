@@ -807,7 +807,15 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write(String.valueOf(LengthUtil.emu(rightPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
-		writer.write("{\\shptxt{\\pard \\tx400  \\tx800  \\tx1200  \\tx1600 ");
+		writer.write("{\\shptxt{\\pard ");
+		Integer tabStop = text.getTabStop(); 
+		if (tabStop != null && tabStop > 0)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				writer.write("\\tx" + LengthUtil.twip((i + 1) * tabStop) + " ");//FIXMETAB use defaulttabstop when possible
+			}
+		}
 
 		JRFont font = text;
 		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
