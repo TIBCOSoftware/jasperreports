@@ -807,7 +807,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write(String.valueOf(LengthUtil.emu(rightPadding)));
 		writer.write("}}");
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
-		writer.write("{\\shptxt{\\pard");
+		writer.write("{\\shptxt{\\pard \\tx400  \\tx800  \\tx1200  \\tx1600 ");
 
 		JRFont font = text;
 		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)

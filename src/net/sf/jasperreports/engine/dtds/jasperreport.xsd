@@ -710,6 +710,11 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
+   <attribute name="tabStop" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>Tab stop width.</documentation>
+	</annotation>
+   </attribute>
    <attribute name="rotation" use="optional">
     <simpleType>
      <restriction base="string">
@@ -2925,6 +2930,11 @@ This can be useful when, for instance, a border has to be drawn around the image
 	  </enumeration>
      </restriction>
     </simpleType>
+   </attribute>
+   <attribute name="tabStop" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>Tab stop width.</documentation>
+	</annotation>
    </attribute>
    <attribute name="rotation" use="optional">
     <annotation>

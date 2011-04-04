@@ -174,6 +174,16 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextAlignment(byte horizontalAlignment);
 		
 	/**
+	 * Gets the text own tab stop width.
+	 */
+	public Integer getOwnTabStop();
+	
+	/**
+	 * Sets the text tab stop width.
+	 */
+	public void setTabStop(Integer tabStop);
+	
+	/**
 	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
 	 */
 	public Byte getOwnRotation();

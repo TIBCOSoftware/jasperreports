@@ -434,6 +434,7 @@ public final class JRXmlConstants
 
 	// these are inherited by both images and texts.
 
+	public static final String ATTRIBUTE_tabStop = "tabStop";
 	public static final String ATTRIBUTE_rotation = "rotation";
 	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	public static final String ATTRIBUTE_isStyledText = "isStyledText";

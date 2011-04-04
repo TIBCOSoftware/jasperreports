@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Common interface of design and print text elements.
@@ -34,11 +35,31 @@ import net.sf.jasperreports.engine.type.RotationEnum;
  */
 public interface JRCommonText extends JRCommonElement, JRBoxContainer
 {
+	/**
+	 * 
+	 */
+	public static final String DEFAULT_TAB_STOP = JRProperties.PROPERTY_PREFIX + "default.tab.stop";
+	
 	public static final String MARKUP_NONE = "none";
 	public static final String MARKUP_STYLED_TEXT = "styled";
 	public static final String MARKUP_HTML = "html";
 	public static final String MARKUP_RTF = "rtf";
 
+	/**
+	 * Gets the text tab stop width.
+	 */
+	public Integer getTabStop();
+	
+	/**
+	 * Gets the text own tab stop width.
+	 */
+	public Integer getOwnTabStop();
+	
+	/**
+	 * Sets the text tab stop width.
+	 */
+	public void setTabStop(Integer tabStop);
+	
 	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */

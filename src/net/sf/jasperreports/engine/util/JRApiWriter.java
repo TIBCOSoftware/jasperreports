@@ -97,6 +97,7 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -147,7 +148,6 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -1074,6 +1074,7 @@ public class JRApiWriter
 		{
 			write( textElementName + ".setHorizontalAlignment({0});\n", textElement.getOwnHorizontalAlignmentValue());
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
+			write( textElementName + ".setTabStop({0, number, #});\n", textElement.getOwnTabStop());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
 			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
 			write( textElementName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textElement.getOwnMarkup()));
@@ -1145,6 +1146,7 @@ public class JRApiWriter
 		write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 		write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 		write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
+		write( styleName + ".setTabStop({0});\n", style.getOwnTabStop());
 		write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
 		write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
 

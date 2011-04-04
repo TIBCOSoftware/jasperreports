@@ -355,6 +355,16 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 
 	/**
+	 * Gets the text tab stop width.
+	 */
+	public Integer getTabStop();
+	
+	/**
+	 * Gets the text own tab stop width.
+	 */
+	public Integer getOwnTabStop();
+	
+	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public Byte getRotation();
@@ -751,6 +761,8 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 *
 	 */
 	public void setRightPadding(Integer rightPadding);
+
+	public void setTabStop(Integer tabStop);
 
 	/**
 	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.

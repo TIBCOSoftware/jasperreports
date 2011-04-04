@@ -29,11 +29,14 @@ import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 
@@ -53,6 +56,7 @@ public class TextRenderer
 	private int leftPadding;
 	private float formatWidth;
 	private float verticalOffset;
+	private int tabStop;
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private float textHeight;
@@ -116,6 +120,7 @@ public class TextRenderer
 		float initTextHeight,
 		HorizontalAlignEnum initHorizontalAlignment,
 		VerticalAlignEnum initVerticalAlignment,
+		int initTabStop,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -138,6 +143,7 @@ public class TextRenderer
 			initTextHeight, 
 			initHorizontalAlignment, 
 			initVerticalAlignment, 
+			initTabStop,
 			initLineSpacingFactor,
 			initLeadingOffset,
 			initFontSize,
@@ -153,6 +159,7 @@ public class TextRenderer
 
 		StringTokenizer tkzer = new StringTokenizer(allText, "\n", true);
 
+		// text is split into paragraphs, using the newline character as delimiter
 		while(tkzer.hasMoreTokens() && !isMaxHeightReached) 
 		{
 			String token = tkzer.nextToken();
@@ -196,6 +203,7 @@ public class TextRenderer
 		float initTextHeight,
 		HorizontalAlignEnum initHorizontalAlignment,
 		VerticalAlignEnum initVerticalAlignment,
+		int initTabStop,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -230,6 +238,7 @@ public class TextRenderer
 			}
 		}
 
+		this.tabStop = initTabStop;
 		this.lineSpacingFactor = initLineSpacingFactor;
 		this.leadingOffset = initLeadingOffset;
 
@@ -283,75 +292,174 @@ public class TextRenderer
 					).getIterator();
 		}
 
+		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
+		
+		int currentTab = 0;
+		
 		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
+		float horizontalPos = 0;
 	
+		// the paragraph is rendered one line at a time
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{
-			int startIndex = lineMeasurer.getPosition();
+			boolean lineContainsText = false;
+			boolean lineComplete = false;
+			float maxAscent = 0;
+			float maxDescent = 0;
+			float maxLeading = 0;
+			int maxFontSize = 0;
+			int characterCount = 0;
+			
+			// each line is split into chunks, using the tab character as delimiter
+			List<TabChunk> chunks = new ArrayList<TabChunk>(1);
 
-			TextLayout layout = lineMeasurer.nextLayout(formatWidth);
-
-			AttributedString tmpText = 
-				new AttributedString(
-					paragraph, 
-					startIndex, 
-					startIndex + layout.getCharacterCount()
-					);
-
-			if (isMinimizePrinterJobSize)
+			// splitting the current line into chunks
+			while (!lineComplete)
 			{
-				//eugene fix - start
-				layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
-				//eugene fix - end
+				// the current chunk limit is either the next tab character or the paragraph end 
+				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
+				
+				int startIndex = lineMeasurer.getPosition();
+
+				// creating a text layout object for each tab chunk 
+				TextLayout layout = 
+					lineMeasurer.nextLayout(
+						formatWidth - horizontalPos,//FIXMETAB check what happens when tab stop is bigger than available width
+						tabIndexOrEndIndex,
+						lineContainsText
+						);
+				
+				if (layout != null)
+				{
+		 			AttributedString tmpText = 
+						new AttributedString(
+							paragraph, 
+							startIndex, 
+							startIndex + layout.getCharacterCount()
+							);
+
+					if (isMinimizePrinterJobSize)
+					{
+						//eugene fix - start
+						layout = new TextLayout(tmpText.getIterator(), grx.getFontRenderContext());
+						//eugene fix - end
+					}
+		
+					maxFontSize = 
+						Math.max(
+							maxFontSize, 
+							maxFontSizeFinder.findMaxFontSize(
+								tmpText.getIterator(),
+								fontSize
+								)
+							);
+
+					//creating the current chunk
+					TabChunk chunk = new TabChunk();
+					chunk.layout = layout;
+					chunk.x = horizontalPos;
+					chunks.add(chunk);
+
+					horizontalPos += layout.getAdvance();
+					maxAscent = Math.max(maxAscent, layout.getAscent());
+					maxDescent = Math.max(maxDescent, layout.getDescent());
+					maxLeading = Math.max(maxLeading, layout.getLeading());
+					characterCount += layout.getCharacterCount();
+				}
+				else
+				{
+					// we are at the end of the text or no text has fit in remaining space
+					lineComplete = true;
+					horizontalPos = 0;
+				}
+				
+				lineContainsText = true;
+
+				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
+				{
+					// the chunk limit was a tab; going to the next tab
+					currentTab++;
+				}
+
+				if (lineMeasurer.getPosition() == paragraph.getEndIndex())
+				{
+					// the chunk limit was the paragraph end; line completed and next line should start at normal zero x offset
+					lineComplete = true;
+					horizontalPos = 0;
+				}
+				else if (horizontalPos >= tabStop * (int)(formatWidth / tabStop))
+				{
+					// current chunk stretches out beyond the last tab stop; line complete
+					lineComplete = true;
+
+					if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
+					{
+						// the chunk limit was a tab; next line should should start at first tab stop indent
+						horizontalPos = tabStop;
+					}
+					else
+					{
+						// the chunk limit was normal word break character; next line should start at normal zero x offset
+						horizontalPos = 0;
+					}
+				}
+
+				if (!lineComplete) 
+				{
+					// move to next tab stop
+					horizontalPos = ((int)(horizontalPos / tabStop) + 1) * tabStop;
+				}
 			}
 
-			float lineHeight = lineSpacingFactor * 
-				maxFontSizeFinder.findMaxFontSize(
-					tmpText.getIterator(),
-					fontSize
-					);
+			float lineHeight = lineSpacingFactor * maxFontSize; 
 
 			if (drawPosY + lineHeight <= textHeight)
 			{
 				drawPosY += lineHeight;
 				
-				switch (horizontalAlignment)
+				// now iterate through chunks and draw their layouts
+				for (TabChunk chunk : chunks)
 				{
-					case JUSTIFIED :
+					TextLayout layout = chunk.layout;
+					switch (horizontalAlignment)
 					{
-						if (layout.isLeftToRight())
+						case JUSTIFIED :
+						{
+							if (layout.isLeftToRight())
+							{
+								drawPosX = 0;
+							}
+							else
+							{
+								drawPosX = formatWidth - layout.getAdvance();
+							}
+							if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+							{
+								layout = layout.getJustifiedLayout(formatWidth);
+							}
+
+							break;
+						}
+						case RIGHT ://FIXMETAB RTL writings
+						{
+							drawPosX = formatWidth - layout.getAdvance();
+							break;
+						}
+						case CENTER :
+						{
+							drawPosX = (formatWidth - layout.getAdvance()) / 2;
+							break;
+						}
+						case LEFT :
+						default :
 						{
 							drawPosX = 0;
 						}
-						else
-						{
-							drawPosX = formatWidth - layout.getAdvance();
-						}
-						if (lineMeasurer.getPosition() < paragraph.getEndIndex())
-						{
-							layout = layout.getJustifiedLayout(formatWidth);
-						}
+					}
 
-						break;
-					}
-					case RIGHT :
-					{
-						drawPosX = formatWidth - layout.getAdvance();
-						break;
-					}
-					case CENTER :
-					{
-						drawPosX = (formatWidth - layout.getAdvance()) / 2;
-						break;
-					}
-					case LEFT :
-					default :
-					{
-						drawPosX = 0;
-					}
+					drawPosX += chunk.x;
+					draw(layout);
 				}
-
-				draw(layout);
 			}
 			else
 			{
@@ -372,4 +480,10 @@ public class TextRenderer
 			);
 	}
 	
+}
+
+class TabChunk
+{
+	public TextLayout layout;
+	public float x;
 }

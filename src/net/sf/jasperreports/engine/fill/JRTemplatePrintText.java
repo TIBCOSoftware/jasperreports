@@ -384,6 +384,30 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return ((JRTemplateText)this.template).getTabStop();
+	}
+		
+	/**
+	 *
+	 */
+	public Integer getOwnTabStop()
+	{
+		return ((JRTemplateText)this.template).getOwnTabStop();
+	}
+		
+	/**
+	 *
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		throw new UnsupportedOperationException();
+	}
+		
+	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()

@@ -261,6 +261,27 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
+	 *
+	 */
+	public Integer getTabStop()
+	{
+		return JRStyleResolver.getTabStop(this);
+	}
+		
+	public Integer getOwnTabStop()
+	{
+		return ((JRTextElement)this.parent).getOwnTabStop();
+	}
+
+	/**
+	 *
+	 */
+	public void setTabStop(Integer tabStop)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
