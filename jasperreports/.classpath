@@ -42,5 +42,6 @@
 	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.10.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.6.jar"/>
+	<classpathentry kind="lib" path="lib/iText-5.0.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
