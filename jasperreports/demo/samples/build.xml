@@ -106,6 +106,13 @@
 		</java>
 	</target>
 
+	<target name="itext">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="itext"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="xml">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="xml"/>
