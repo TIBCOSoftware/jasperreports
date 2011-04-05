@@ -39,9 +39,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
@@ -158,6 +160,138 @@ public class PDFiTextExporter extends JRAbstractExporter
 	 *
 	 */
 	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+
+
+	/**
+	 * Exports the generated report file specified by the parameter into PDF format.
+	 * The resulting PDF file has the same name as the report object inside the source file,
+	 * plus the <code>*.pdf</code> extension and it is located in the same directory as the source file.
+	 *  
+	 * @param sourceFileName source file containing the generated report
+	 * @return resulting PDF file name
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static String exportToFile(String sourceFileName) throws JRException
+	{
+		File sourceFile = new File(sourceFileName);
+
+		/* We need the report name. */
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
+		String destFileName = destFile.toString();
+		
+		exportToFile(jasperPrint, destFileName);
+		
+		return destFileName;
+	}
+
+
+	/**
+	 * Exports the generated report file specified by the first parameter into PDF format,
+	 * the result being placed in the second file parameter.
+	 *  
+	 * @param sourceFileName source file containing the generated report
+	 * @param destFileName   file name to place the PDF content into
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static void exportToFile(
+		String sourceFileName, 
+		String destFileName
+		) throws JRException
+	{
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+
+		exportToFile(jasperPrint, destFileName);
+	}
+
+	
+	/**
+	 * Exports the generated report file specified by the first parameter into PDF format,
+	 * the result being placed in the second file parameter.
+	 *
+	 * @param jasperPrint  report object to export 
+	 * @param destFileName file name to place the PDF content into
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static void exportToFile(
+		JasperPrint jasperPrint, 
+		String destFileName
+		) throws JRException
+	{
+		/*   */
+		PDFiTextExporter exporter = new PDFiTextExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
+		
+		exporter.exportReport();
+	}
+
+
+	/**
+	 * Exports the generated report read from the supplied input stream into PDF format and
+	 * writes the results to the output stream specified by the second parameter.
+	 *
+	 * @param inputStream  input stream to read the generated report object from
+	 * @param outputStream output stream to write the resulting PDF content to
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static void exportToStream(
+		InputStream inputStream, 
+		OutputStream outputStream
+		) throws JRException
+	{
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
+
+		exportToStream(jasperPrint, outputStream);
+	}
+
+	
+	/**
+	 * Exports the generated report object received as first parameter into PDF format and
+	 * writes the results to the output stream specified by the second parameter.
+	 * 
+	 * @param jasperPrint  report object to export 
+	 * @param outputStream output stream to write the resulting PDF content to
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static void exportToStream(
+		JasperPrint jasperPrint, 
+		OutputStream outputStream
+		) throws JRException
+	{
+		PDFiTextExporter exporter = new PDFiTextExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
+		
+		exporter.exportReport();
+	}
+
+
+	/**
+	 * Exports the generated report object received as parameter into PDF format and
+	 * returns the binary content as a byte array.
+	 * 
+	 * @param jasperPrint report object to export 
+	 * @return byte array representing the resulting PDF content 
+	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
+	 */
+	public static byte[] exportToByteArray(JasperPrint jasperPrint) throws JRException
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		PDFiTextExporter exporter = new PDFiTextExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+		
+		exporter.exportReport();
+		
+		return baos.toByteArray();
+	}
+
 
 	protected static boolean fontsRegistered;
 

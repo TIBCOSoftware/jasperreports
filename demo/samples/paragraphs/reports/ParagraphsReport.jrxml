@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ParagraphsReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="dede" fontName="DejaVu Sans" isDefault="true"/>
+	<title>
+		<band height="782">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="0" width="270" height="15" backcolor="#FFFF88"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["This is a stretching text field element that uses the default tab stop width of 40 pixels. You can see the following names being tab stop aligned to the left:\n\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="280" y="0" width="270" height="15" backcolor="#88FFFF"/>
+				<textElement textAlignment="Right" tabStop="80"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["This is a stretching text field element that uses a locally specified tab stop width of 80 pixels. You can see the following names being tab stop aligned to the right:\n\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+<!--			
+			<textField evaluationTime="Report">
+				<reportElement x="255" y="55" width="100" height="40"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["There are 253 orders on this report, with a total freight of 16500.25"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="255" y="100" width="100" height="140"/>
+				<textElement textAlignment="Justified" markup="styled"/>
+				<text><![CDATA[<style forecolor="blue">There are 253 orders on this rep</style>A<style forecolor="red">ort, with a total freight of 16500.25</style>]]></text>
+			</staticText>
+
+
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="500" width="500" height="200" backcolor="#FFFF00"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\tB\tB2\tB3 uiteuiteuiteasahahahaha blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blahZ blah blah blah blah blahX\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+-->
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="160" y="550" width="150" height="15" backcolor="#FFFF00"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\n\tB\t\tB2\tB3 uiteuiteuiteasahahahaha\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+<!--
+
+				<textFieldExpression class="java.lang.String"><![CDATA["A\tB\tB2\tB3 uiteuiteuiteasahahahaha\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+
+
+
+
+
+
+
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="360" y="50" width="150" height="15" backcolor="#FFFF00"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["AAAAA\n\tBBBBB\tBBBB2 BBBB3\n\t\tCCCCC\tCCCC2\nDDDD\tDDDD2\tDDDD3"]]></textFieldExpression>
+			</textField>
+-->
+		</band>
+	</title>
+</jasperReport>
