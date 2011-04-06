@@ -310,18 +310,18 @@ public class TextRenderer
 			int maxFontSize = 0;
 			int characterCount = 0;
 			
-			// each line is split into chunks, using the tab character as delimiter
-			List<TabChunk> chunks = new ArrayList<TabChunk>(1);
+			// each line is split into segments, using the tab character as delimiter
+			List<TabSegment> segments = new ArrayList<TabSegment>(1);
 
-			// splitting the current line into chunks
+			// splitting the current line into tab segments
 			while (!lineComplete)
 			{
-				// the current chunk limit is either the next tab character or the paragraph end 
+				// the current segment limit is either the next tab character or the paragraph end 
 				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
 				
 				int startIndex = lineMeasurer.getPosition();
 
-				// creating a text layout object for each tab chunk 
+				// creating a text layout object for each tab segment 
 				TextLayout layout = 
 					lineMeasurer.nextLayout(
 						formatWidth - horizontalPos,//FIXMETAB check what happens when tab stop is bigger than available width
@@ -354,11 +354,11 @@ public class TextRenderer
 								)
 							);
 
-					//creating the current chunk
-					TabChunk chunk = new TabChunk();
-					chunk.layout = layout;
-					chunk.x = horizontalPos;
-					chunks.add(chunk);
+					//creating the current segment
+					TabSegment segment = new TabSegment();
+					segment.layout = layout;
+					segment.tabPos = (int)horizontalPos;
+					segments.add(segment);
 
 					horizontalPos += layout.getAdvance();
 					maxAscent = Math.max(maxAscent, layout.getAscent());
@@ -366,41 +366,59 @@ public class TextRenderer
 					maxLeading = Math.max(maxLeading, layout.getLeading());
 					characterCount += layout.getCharacterCount();
 				}
-				else
-				{
-					// we are at the end of the text or no text has fit in remaining space
-					lineComplete = true;
-					horizontalPos = 0;
-				}
+//				else
+//				{
+//					// we are at the end of the text or no text has fit in remaining space
+//					lineComplete = true;
+//					horizontalPos = 0;
+//				}
 				
 				lineContainsText = true;
 
 				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 				{
-					// the chunk limit was a tab; going to the next tab
+					// the segment limit was a tab; going to the next tab
 					currentTab++;
 				}
 
 				if (lineMeasurer.getPosition() == paragraph.getEndIndex())
 				{
-					// the chunk limit was the paragraph end; line completed and next line should start at normal zero x offset
+					// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 					lineComplete = true;
 					horizontalPos = 0;
 				}
-				else if (horizontalPos >= tabStop * (int)(formatWidth / tabStop))
+				else
 				{
-					// current chunk stretches out beyond the last tab stop; line complete
-					lineComplete = true;
-
+					// there is paragraph text remaining 
 					if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 					{
-						// the chunk limit was a tab; next line should should start at first tab stop indent
-						horizontalPos = tabStop;
+						// the segment limit was a tab
+						if (horizontalPos >= tabStop * (int)(formatWidth / tabStop))
+						{
+							// current segment stretches out beyond the last tab stop; line complete
+							lineComplete = true;
+							// next line should should start at first tab stop indent
+							horizontalPos = tabStop;
+						}
+						else
+						{
+							//nothing?
+						}
 					}
 					else
 					{
-						// the chunk limit was normal word break character; next line should start at normal zero x offset
-						horizontalPos = 0;
+						// the segment did not fit entirely
+						lineComplete = true;
+						if (layout == null)
+						{
+							// nothing fitted; next line should start at first tab stop indent
+							horizontalPos = tabStop;
+						}
+						else
+						{
+							// something fitted
+							horizontalPos = 0;
+						}
 					}
 				}
 
@@ -417,21 +435,21 @@ public class TextRenderer
 			{
 				drawPosY += lineHeight;
 				
-				// now iterate through chunks and draw their layouts
-				for (TabChunk chunk : chunks)
+				// now iterate through segments and draw their layouts
+				for (TabSegment segment : segments)
 				{
-					TextLayout layout = chunk.layout;
+					TextLayout layout = segment.layout;
 					switch (horizontalAlignment)
 					{
 						case JUSTIFIED :
 						{
 							if (layout.isLeftToRight())
 							{
-								drawPosX = 0;
+								drawPosX = segment.tabPos;
 							}
 							else
 							{
-								drawPosX = formatWidth - layout.getAdvance();
+								drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
 							}
 							if (lineMeasurer.getPosition() < paragraph.getEndIndex())
 							{
@@ -442,22 +460,23 @@ public class TextRenderer
 						}
 						case RIGHT ://FIXMETAB RTL writings
 						{
-							drawPosX = formatWidth - layout.getAdvance();
+							//drawPosX = formatWidth - layout.getAdvance();
+							drawPosX = Math.min(formatWidth, ((int)(segment.tabPos + layout.getAdvance()) / tabStop + 1) * tabStop) - layout.getAdvance();
 							break;
 						}
 						case CENTER :
 						{
-							drawPosX = (formatWidth - layout.getAdvance()) / 2;
+							drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
 							break;
 						}
 						case LEFT :
 						default :
 						{
-							drawPosX = 0;
+							drawPosX = segment.tabPos;
 						}
 					}
 
-					drawPosX += chunk.x;
+					//drawPosX += segment.x;
 					draw(layout);
 				}
 			}
@@ -482,8 +501,8 @@ public class TextRenderer
 	
 }
 
-class TabChunk
+class TabSegment
 {
 	public TextLayout layout;
-	public float x;
+	public int tabPos;
 }

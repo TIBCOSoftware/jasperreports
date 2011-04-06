@@ -259,7 +259,7 @@ public class ParagraphStyle extends Style
 		if (tabStop != null && tabStop.intValue() > 0)
 		{
 			styleWriter.write("<style:tab-stops>");
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				styleWriter.write("<style:tab-stop style:position=\"" + LengthUtil.inch((i + 1) * tabStop) + "in\"/>");
 			}

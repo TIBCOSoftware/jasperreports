@@ -154,7 +154,7 @@ public class DocxParagraphHelper extends BaseHelper
 		if (tabStop != null && tabStop > 0)
 		{
 			write("   <w:tabs>\n");
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStop) + "\" w:val=\"left\"/>\n");
 			}
