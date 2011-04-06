@@ -651,13 +651,13 @@ public class TextMeasurer implements JRTextMeasurer
 		int characterCount = 0;
 		boolean isLeftToRight = true;
 		
-		// splitting the current line into chunks
+		// splitting the current line into segments
 		while (!lineComplete)
 		{
-			// the current chunk limit is either the next tab character or the paragraph end 
+			// the current segment limit is either the next tab character or the paragraph end 
 			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
-			// creating a text layout object for each tab chunk 
+			// creating a text layout object for each tab segment 
 			TextLayout layout = 
 				lineMeasurer.nextLayout(
 					formatWidth - horizontalPosHolder[0],
@@ -674,41 +674,59 @@ public class TextMeasurer implements JRTextMeasurer
 				characterCount += layout.getCharacterCount();
 				isLeftToRight = isLeftToRight && layout.isLeftToRight();
 			}
-			else
-			{
-				// we are at the end of the text or no text has fit in remaining space
-				lineComplete = true;
-				horizontalPosHolder[0] = 0;
-			}
+//			else
+//			{
+//				// we are at the end of the text or no text has fit in remaining space
+//				lineComplete = true;
+//				horizontalPosHolder[0] = 0;
+//			}
 			
 			lineContainsText = true;
 
 			if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 			{
-				// the chunk limit was a tab; going to the next tab
+				// the segment limit was a tab; going to the next tab
 				currentTabHolder[0] = currentTabHolder[0] + 1;
 			}
 			
 			if (lineMeasurer.getPosition() == paragraph.getEndIndex())
 			{
-				// the chunk limit was the paragraph end; line completed and next line should start at normal zero x offset
+				// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 				lineComplete = true;
 				horizontalPosHolder[0] = 0;
 			}
-			else if (horizontalPosHolder[0] >= tabStop * (int)(formatWidth / tabStop))
+			else
 			{
-				// current chunk stretches out beyond the last tab stop; line complete
-				lineComplete = true;
-
+				// there is paragraph text remaining 
 				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 				{
-					// the chunk limit was a tab; next line should should start at first tab stop indent
-					horizontalPosHolder[0] = tabStop;
+					// the segment limit was a tab
+					if (horizontalPosHolder[0] >= tabStop * (int)(formatWidth / tabStop))
+					{
+						// current segment stretches out beyond the last tab stop; line complete
+						lineComplete = true;
+						// next line should should start at first tab stop indent
+						horizontalPosHolder[0] = tabStop;
+					}
+					else
+					{
+						//nothing?
+					}
 				}
 				else
 				{
-					// the chunk limit was normal word break character; next line should start at normal zero x offset
-					horizontalPosHolder[0] = 0;
+					// the segment did not fit entirely
+					lineComplete = true;
+					if (layout == null)
+					{
+						// nothing fitted; next line should start at first tab stop indent
+						horizontalPosHolder[0] = tabStop;
+					}
+					else
+					{
+						// something fitted
+						horizontalPosHolder[0] = 0;
+					}
 				}
 			}
 			

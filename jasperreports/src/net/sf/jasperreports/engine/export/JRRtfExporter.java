@@ -811,7 +811,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		Integer tabStop = text.getTabStop(); 
 		if (tabStop != null && tabStop > 0)
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				writer.write("\\tx" + LengthUtil.twip((i + 1) * tabStop) + " ");//FIXMETAB use defaulttabstop when possible
 			}
