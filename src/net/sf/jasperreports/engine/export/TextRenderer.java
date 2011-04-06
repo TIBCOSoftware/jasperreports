@@ -402,7 +402,7 @@ public class TextRenderer
 						}
 						else
 						{
-							//nothing?
+							//nothing; this leaves lineComplete=false
 						}
 					}
 					else

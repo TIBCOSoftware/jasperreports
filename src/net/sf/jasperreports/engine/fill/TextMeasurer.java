@@ -710,7 +710,7 @@ public class TextMeasurer implements JRTextMeasurer
 					}
 					else
 					{
-						//nothing?
+						//nothing; this leaves lineComplete=false
 					}
 				}
 				else
