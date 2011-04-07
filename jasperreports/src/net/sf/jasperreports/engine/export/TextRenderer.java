@@ -296,22 +296,23 @@ public class TextRenderer
 		
 		int currentTab = 0;
 		
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
-		float horizontalPos = 0;
+		int nextTabStop = 0;
+		boolean requireNextWord = false;
 	
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
+
 		// the paragraph is rendered one line at a time
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{
-			boolean lineContainsText = false;
 			boolean lineComplete = false;
-			float maxAscent = 0;
-			float maxDescent = 0;
-			float maxLeading = 0;
+
 			int maxFontSize = 0;
-			int characterCount = 0;
 			
 			// each line is split into segments, using the tab character as delimiter
 			List<TabSegment> segments = new ArrayList<TabSegment>(1);
+
+			TabSegment oldSegment = null;
+			TabSegment crtSegment = null;
 
 			// splitting the current line into tab segments
 			while (!lineComplete)
@@ -321,12 +322,28 @@ public class TextRenderer
 				
 				int startIndex = lineMeasurer.getPosition();
 
+				int rightX = 0;
+				float availableWidth = 0;
+
+				if (segments.size() == 0)
+				{
+					rightX = 0;
+					//nextTabStop = nextTabStop;
+				}
+				else
+				{
+					rightX = oldSegment.rightX;
+					nextTabStop = (rightX / tabStop + 1) * tabStop;
+				}
+
+				availableWidth = formatWidth - getAvailableWidth(horizontalAlignment, rightX, nextTabStop);
+				
 				// creating a text layout object for each tab segment 
 				TextLayout layout = 
 					lineMeasurer.nextLayout(
-						formatWidth - horizontalPos,//FIXMETAB check what happens when tab stop is bigger than available width
+						availableWidth,
 						tabIndexOrEndIndex,
-						lineContainsText
+						requireNextWord
 						);
 				
 				if (layout != null)
@@ -337,7 +354,7 @@ public class TextRenderer
 							startIndex, 
 							startIndex + layout.getCharacterCount()
 							);
-
+		 			
 					if (isMinimizePrinterJobSize)
 					{
 						//eugene fix - start
@@ -355,25 +372,25 @@ public class TextRenderer
 							);
 
 					//creating the current segment
-					TabSegment segment = new TabSegment();
-					segment.layout = layout;
-					segment.tabPos = (int)horizontalPos;
-					segments.add(segment);
+					crtSegment = new TabSegment();
+					crtSegment.layout = layout;
 
-					horizontalPos += layout.getAdvance();
-					maxAscent = Math.max(maxAscent, layout.getAscent());
-					maxDescent = Math.max(maxDescent, layout.getDescent());
-					maxLeading = Math.max(maxLeading, layout.getLeading());
-					characterCount += layout.getCharacterCount();
+					int leftX = getLeftX(nextTabStop, layout.getAdvance(), horizontalAlignment);
+					if (rightX > leftX)
+					{
+						crtSegment.leftX = rightX;
+						crtSegment.rightX = (int)(rightX + layout.getAdvance());//FIXMETAB some rounding issues here
+					}
+					else
+					{
+						crtSegment.leftX = leftX;
+						crtSegment.rightX = getRightX(nextTabStop, layout, horizontalAlignment);
+					}
+
+					segments.add(crtSegment);
 				}
-//				else
-//				{
-//					// we are at the end of the text or no text has fit in remaining space
-//					lineComplete = true;
-//					horizontalPos = 0;
-//				}
 				
-				lineContainsText = true;
+				requireNextWord = true;
 
 				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 				{
@@ -385,7 +402,7 @@ public class TextRenderer
 				{
 					// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 					lineComplete = true;
-					horizontalPos = 0;
+					nextTabStop = 0;
 				}
 				else
 				{
@@ -393,12 +410,12 @@ public class TextRenderer
 					if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 					{
 						// the segment limit was a tab
-						if (horizontalPos >= tabStop * (int)(formatWidth / tabStop))
+						if (crtSegment.rightX >= tabStop * (int)(formatWidth / tabStop))
 						{
 							// current segment stretches out beyond the last tab stop; line complete
 							lineComplete = true;
 							// next line should should start at first tab stop indent
-							horizontalPos = tabStop;
+							nextTabStop = tabStop;
 						}
 						else
 						{
@@ -412,21 +429,41 @@ public class TextRenderer
 						if (layout == null)
 						{
 							// nothing fitted; next line should start at first tab stop indent
-							horizontalPos = tabStop;
+							if (nextTabStop == tabStop)//FIXMETAB check based on segments.size()
+							{
+								// at second attempt we give up to avoid infinite loop
+								nextTabStop = 0;
+								requireNextWord = false;
+								
+								//provide dummy maxFontSize because it is used for the line height of this empty line when attempting drawing below
+					 			AttributedString tmpText = 
+									new AttributedString(
+										paragraph, 
+										startIndex, 
+										startIndex + 1
+										);
+					 			
+								maxFontSize = 
+									maxFontSizeFinder.findMaxFontSize(
+										tmpText.getIterator(),
+										fontSize
+										);
+							}
+							else
+							{
+								nextTabStop = tabStop;
+							}
 						}
 						else
 						{
 							// something fitted
-							horizontalPos = 0;
+							nextTabStop = 0;
+							requireNextWord = false;
 						}
 					}
 				}
 
-				if (!lineComplete) 
-				{
-					// move to next tab stop
-					horizontalPos = ((int)(horizontalPos / tabStop) + 1) * tabStop;
-				}
+				oldSegment = crtSegment;
 			}
 
 			float lineHeight = lineSpacingFactor * maxFontSize; 
@@ -439,44 +476,47 @@ public class TextRenderer
 				for (TabSegment segment : segments)
 				{
 					TextLayout layout = segment.layout;
-					switch (horizontalAlignment)
-					{
-						case JUSTIFIED :
-						{
-							if (layout.isLeftToRight())
-							{
-								drawPosX = segment.tabPos;
-							}
-							else
-							{
-								drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
-							}
-							if (lineMeasurer.getPosition() < paragraph.getEndIndex())
-							{
-								layout = layout.getJustifiedLayout(formatWidth);
-							}
+//					switch (horizontalAlignment)
+//					{
+//						case JUSTIFIED :
+//						{
+//							if (layout.isLeftToRight())
+//							{
+//								drawPosX = segment.tabPos;
+//							}
+//							else
+//							{
+//								drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
+//							}
+//							if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+//							{
+//								layout = layout.getJustifiedLayout(formatWidth);
+//							}
+//
+//							break;
+//						}
+//						case RIGHT ://FIXMETAB RTL writings
+//						{
+////							//drawPosX = formatWidth - layout.getAdvance();
+////							drawPosX = Math.min(formatWidth, ((int)(segment.tabPos + layout.getAdvance()) / tabStop + 1) * tabStop) - layout.getAdvance();
+//							drawPosX = formatWidth + segment.getLeftX(horizontalAlignment);
+//							break;
+//						}
+//						case CENTER :
+//						{
+//							drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
+//							break;
+//						}
+//						case LEFT :
+//						default :
+//						{
+//							drawPosX = segment.getLeftX(horizontalAlignment);
+////							drawPosX = segment.tabPos;
+//						}
+//					}
 
-							break;
-						}
-						case RIGHT ://FIXMETAB RTL writings
-						{
-							//drawPosX = formatWidth - layout.getAdvance();
-							drawPosX = Math.min(formatWidth, ((int)(segment.tabPos + layout.getAdvance()) / tabStop + 1) * tabStop) - layout.getAdvance();
-							break;
-						}
-						case CENTER :
-						{
-							drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
-							break;
-						}
-						case LEFT :
-						default :
-						{
-							drawPosX = segment.tabPos;
-						}
-					}
-
-					//drawPosX += segment.x;
+					drawPosX = segment.leftX;
+					
 					draw(layout);
 				}
 			}
@@ -499,10 +539,133 @@ public class TextRenderer
 			);
 	}
 	
+	public static int getRightX(int tabPos, TextLayout layout, HorizontalAlignEnum horizontalAlignment)
+	{
+		int rightX = 0;
+		switch (horizontalAlignment)
+		{
+			case JUSTIFIED :
+//			{
+//				if (layout.isLeftToRight())
+//				{
+//					drawPosX = segment.tabPos;
+//				}
+//				else
+//				{
+//					drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
+//				}
+//				if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+//				{
+//					layout = layout.getJustifiedLayout(formatWidth);
+//				}
+//
+//				break;
+//			}
+			case RIGHT ://FIXMETAB RTL writings
+			{
+				rightX = tabPos;
+				break;
+			}
+			case CENTER :
+//			{
+//				drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
+//				break;
+//			}
+			case LEFT :
+			default :
+			{
+				rightX = (int)(tabPos + layout.getAdvance());
+			}
+		}
+		return rightX;
+	}
+	
+	public static int getLeftX(int tabPos, float advance, HorizontalAlignEnum horizontalAlignment)
+	{
+		int leftX = 0;
+		switch (horizontalAlignment)
+		{
+			case JUSTIFIED :
+//			{
+//				if (layout.isLeftToRight())
+//				{
+//					drawPosX = segment.tabPos;
+//				}
+//				else
+//				{
+//					drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
+//				}
+//				if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+//				{
+//					layout = layout.getJustifiedLayout(formatWidth);
+//				}
+//
+//				break;
+//			}
+			case RIGHT ://FIXMETAB RTL writings
+			{
+				leftX = (int)(tabPos - advance);
+				break;
+			}
+			case CENTER :
+//			{
+//				drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
+//				break;
+//			}
+			case LEFT :
+			default :
+			{
+				leftX = tabPos;
+			}
+		}
+		return leftX;
+	}
+
+	public static int getAvailableWidth(HorizontalAlignEnum horizontalAlignment, int rightX, int nextTabStop)//FIXMETAB move these
+	{
+		int availableWidth = 0;
+		switch (horizontalAlignment)
+		{
+			case JUSTIFIED :
+//			{
+//				if (layout.isLeftToRight())
+//				{
+//					drawPosX = segment.tabPos;
+//				}
+//				else
+//				{
+//					drawPosX = segment.tabPos + formatWidth - layout.getAdvance();
+//				}
+//				if (lineMeasurer.getPosition() < paragraph.getEndIndex())
+//				{
+//					layout = layout.getJustifiedLayout(formatWidth);
+//				}
+//
+//				break;
+//			}
+			case RIGHT ://FIXMETAB RTL writings
+			{
+				availableWidth = rightX;
+				break;
+			}
+			case CENTER :
+//			{
+//				drawPosX = segment.tabPos + (formatWidth - layout.getAdvance()) / 2;
+//				break;
+//			}
+			case LEFT :
+			default :
+			{
+				availableWidth = nextTabStop;
+			}
+		}
+		return availableWidth;
+	}
 }
 
 class TabSegment
 {
 	public TextLayout layout;
-	public int tabPos;
+	public int leftX;
+	public int rightX;
 }
