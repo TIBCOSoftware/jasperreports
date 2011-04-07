@@ -46,6 +46,13 @@ public class DocxParagraphHelper extends BaseHelper
 	private static final String HORIZONTAL_ALIGN_CENTER = "center";
 	private static final String HORIZONTAL_ALIGN_BOTH = "both";
 
+	/**
+	 *
+	 */
+	private static final String TAB_STOP_ALIGN_LEFT = "left";
+	private static final String TAB_STOP_ALIGN_RIGHT = "right";
+	private static final String TAB_STOP_ALIGN_CENTER = "center";
+	
 	protected static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
@@ -77,7 +84,10 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 
 		exportTabStop(
-			style.getOwnTabStop() 
+			style.getOwnTabStop(),
+			getTabStopAlignment(
+				style.getOwnHorizontalAlignmentValue() 
+				)
 			);
 
 		exportLineSpacing(
@@ -103,7 +113,10 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 		
 		exportTabStop(
-				text.getTabStop()//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
+				text.getTabStop(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
+				getTabStopAlignment(
+					text.getHorizontalAlignmentValue()//FIXMETAB own
+					)
 				);
 
 		exportLineSpacing(
@@ -149,14 +162,14 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportTabStop(Integer tabStop)
+	private void exportTabStop(Integer tabStop, String tabStopAlignment)
 	{
 		if (tabStop != null && tabStop > 0)
 		{
 			write("   <w:tabs>\n");
 			for (int i = 0; i < 10; i++)
 			{
-				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStop) + "\" w:val=\"left\"/>\n");
+				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStop) + "\" w:val=\"" + tabStopAlignment + "\"/>\n");
 			}
 			write("   </w:tabs>\n");
 		}
@@ -218,6 +231,28 @@ public class DocxParagraphHelper extends BaseHelper
 		return null;
 	}
 
+
+	/**
+	 *
+	 */
+	public static String getTabStopAlignment(HorizontalAlignEnum horizontalAlignment)
+	{
+		if (horizontalAlignment != null)
+		{
+			switch (horizontalAlignment)
+			{
+				case RIGHT :
+					return TAB_STOP_ALIGN_RIGHT;
+				case CENTER :
+					return TAB_STOP_ALIGN_CENTER;
+				case JUSTIFIED :
+				case LEFT :
+				default :
+					return TAB_STOP_ALIGN_LEFT;
+			}
+		}
+		return null;
+	}
 	/**
 	 *
 	 */

@@ -56,6 +56,13 @@ public class ParagraphStyle extends Style
 	private static final String VERTICAL_ALIGN_BOTTOM = "bottom";
 
 	/**
+	 *
+	 */
+	protected static final String TAB_STOP_ALIGN_LEFT = "left";
+	protected static final String TAB_STOP_ALIGN_RIGHT = "right";
+	protected static final String TAB_STOP_ALIGN_CENTER = "center";
+
+	/**
 	*
 	*/
 	protected static final String ROTATION_ALIGN_NONE = "none";
@@ -65,6 +72,7 @@ public class ParagraphStyle extends Style
 
 	private String verticalAlignment;
 	private String horizontalAlignment;
+	private String tabStopAlignment;
 	private String runDirection;
 	private String textRotation = "0";
 	private Integer tabStop;
@@ -78,6 +86,7 @@ public class ParagraphStyle extends Style
 		
 		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
 		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
+		tabStopAlignment = getTabStopAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
 		
 		switch(text.getRotationValue())
 		{
@@ -227,9 +236,65 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
+	public static String getTabStopAlignment(
+		HorizontalAlignEnum horizontalAlignment, 
+		VerticalAlignEnum verticalAlignment, 
+		RotationEnum rotation
+		)
+	{
+		switch(rotation)
+		{
+			case LEFT:
+			{
+				switch (verticalAlignment)
+				{
+					case BOTTOM :
+						return TAB_STOP_ALIGN_RIGHT;
+					case MIDDLE :
+						return TAB_STOP_ALIGN_CENTER;
+					case TOP :
+					default :
+						return TAB_STOP_ALIGN_LEFT;
+				}
+			}
+			case RIGHT:
+			{
+				switch (verticalAlignment)
+				{
+					case BOTTOM :
+						return TAB_STOP_ALIGN_LEFT;
+					case MIDDLE :
+						return TAB_STOP_ALIGN_CENTER;
+					case TOP :
+					default :
+						return TAB_STOP_ALIGN_RIGHT;
+				}
+			}
+			case UPSIDE_DOWN://FIXMEODT possible?
+			case NONE:
+			default:
+			{
+				switch (horizontalAlignment)
+				{
+					case RIGHT :
+						return TAB_STOP_ALIGN_RIGHT;
+					case CENTER :
+						return TAB_STOP_ALIGN_CENTER;
+					case JUSTIFIED :
+					case LEFT :
+					default :
+						return TAB_STOP_ALIGN_LEFT;
+				}
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
 	public String getId()
 	{
-		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation;
+		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation + "|" + tabStop;
 	}
 
 	/**
@@ -261,7 +326,7 @@ public class ParagraphStyle extends Style
 			styleWriter.write("<style:tab-stops>");
 			for (int i = 0; i < 10; i++)
 			{
-				styleWriter.write("<style:tab-stop style:position=\"" + LengthUtil.inch((i + 1) * tabStop) + "in\"/>");
+				styleWriter.write("<style:tab-stop style:type=\"" + tabStopAlignment + "\" style:position=\"" + LengthUtil.inch((i + 1) * tabStop) + "in\"/>");
 			}
 			styleWriter.write("</style:tab-stops>");
 		}

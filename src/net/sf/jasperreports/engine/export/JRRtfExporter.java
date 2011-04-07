@@ -808,12 +808,30 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("}}");
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		writer.write("{\\shptxt{\\pard ");
+
+		String tabStopAlign = "";
+		
+		switch (text.getHorizontalAlignmentValue())//FIXMETAB optimize by reusing below switch
+		{
+			case CENTER:
+				tabStopAlign = "\\tqc";
+				break;
+			case RIGHT:
+				tabStopAlign = "\\tqr";
+				break;
+			case JUSTIFIED:
+			case LEFT:
+			default:
+				tabStopAlign = "";
+				break;
+		}
+
 		Integer tabStop = text.getTabStop(); 
 		if (tabStop != null && tabStop > 0)
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				writer.write("\\tx" + LengthUtil.twip((i + 1) * tabStop) + " ");//FIXMETAB use defaulttabstop when possible
+				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip((i + 1) * tabStop) + " ");//FIXMETAB use defaulttabstop when possible
 			}
 		}
 
