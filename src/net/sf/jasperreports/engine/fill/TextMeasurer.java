@@ -37,12 +37,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -84,6 +86,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private int bottomPadding;
 	private int rightPadding;
 	private int tabStop;
+	private HorizontalAlignEnum horizontalAlignment;
 	private float lineSpacing;
 
 	private float formatWidth;
@@ -271,6 +274,7 @@ public class TextMeasurer implements JRTextMeasurer
 		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 		
 		tabStop = textElement.getTabStop();
+		horizontalAlignment = ((JRAlignment)textElement).getHorizontalAlignmentValue();//FIXMENOW why common text is not alignment?
 
 		switch (textElement.getRotationValue())
 		{
@@ -445,8 +449,9 @@ public class TextMeasurer implements JRTextMeasurer
 		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
 		
 		int[] currentTabHolder = new int[]{0};
-		float[] horizontalPosHolder = new float[]{0};
-  
+		int[] nextTabStopHolder = new int[]{0};
+		boolean[] requireNextWordHolder = new boolean[]{false};
+
 		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, FONT_RENDER_CONTEXT);
 		
 		measuredState.textOffset = lastParagraphStart;
@@ -457,7 +462,7 @@ public class TextMeasurer implements JRTextMeasurer
 		// the paragraph is measured one line at a time
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && rendered)
 		{
-			rendered = renderNextLine(lineMeasurer, paragraph, tabIndexes, currentTabHolder, horizontalPosHolder);
+			rendered = renderNextLine(lineMeasurer, paragraph, tabIndexes, currentTabHolder, nextTabStopHolder, requireNextWordHolder);
 			renderedLine = renderedLine || rendered;
 		}
 		
@@ -509,7 +514,7 @@ public class TextMeasurer implements JRTextMeasurer
 				);
 		//render again the last line
 		//if the line does not fit now, it will remain empty
-		renderNextLine(lineMeasurer, lineParagraph, null, new int[]{0}, new float[]{0});
+		renderNextLine(lineMeasurer, lineParagraph, null, new int[]{0}, new int[]{0}, new boolean[]{false});
 	}
 
 	protected void appendTruncateSuffix(AttributedCharacterIterator allParagraphs)
@@ -572,7 +577,7 @@ public class TextMeasurer implements JRTextMeasurer
 					FONT_RENDER_CONTEXT
 					);
 
-			if (renderNextLine(lineMeasurer, lineParagraph, null, new int[]{0}, new float[]{0}))
+			if (renderNextLine(lineMeasurer, lineParagraph, null, new int[]{0}, new int[]{0}, new boolean[]{false}))
 			{
 				int lastPos = lineMeasurer.getPosition();
 				//test if the entire suffix fit
@@ -639,49 +644,84 @@ public class TextMeasurer implements JRTextMeasurer
 		return truncateSuffx;
 	}
 	
-	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph, List<Integer> tabIndexes, int[] currentTabHolder, float[] horizontalPosHolder)
+	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph, List<Integer> tabIndexes, int[] currentTabHolder, int[] nextTabStopHolder, boolean[] requireNextWordHolder)
 	{
+		boolean lineComplete = false;
+
 		int lineStartPosition = lineMeasurer.getPosition();
 		
-		boolean lineContainsText = false;
-		boolean lineComplete = false;
 		float maxAscent = 0;
 		float maxDescent = 0;
 		float maxLeading = 0;
 		int characterCount = 0;
 		boolean isLeftToRight = true;
 		
-		// splitting the current line into segments
+		// each line is split into segments, using the tab character as delimiter
+		List<TabSegment> segments = new ArrayList<TabSegment>(1);
+
+		TabSegment oldSegment = null;
+		TabSegment crtSegment = null;
+
+		// splitting the current line into tab segments
 		while (!lineComplete)
 		{
 			// the current segment limit is either the next tab character or the paragraph end 
 			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
+			int startIndex = lineMeasurer.getPosition();
+
+			int rightX = 0;
+			float availableWidth = 0;
+
+			if (segments.size() == 0)
+			{
+				rightX = 0;
+				//nextTabStop = nextTabStop;
+			}
+			else
+			{
+				rightX = oldSegment.rightX;
+				nextTabStopHolder[0] = (rightX / tabStop + 1) * tabStop;
+			}
+
+			availableWidth = formatWidth - TextRenderer.getAvailableWidth(horizontalAlignment, rightX, nextTabStopHolder[0]);
+			
 			// creating a text layout object for each tab segment 
 			TextLayout layout = 
 				lineMeasurer.nextLayout(
-					formatWidth - horizontalPosHolder[0],
+					availableWidth,
 					tabIndexOrEndIndex,
-					lineContainsText
+					requireNextWordHolder[0]
 					);
 			
 			if (layout != null)
 			{
-				horizontalPosHolder[0] += layout.getAdvance();
 				maxAscent = Math.max(maxAscent, layout.getAscent());
 				maxDescent = Math.max(maxDescent, layout.getDescent());
 				maxLeading = Math.max(maxLeading, layout.getLeading());
 				characterCount += layout.getCharacterCount();
 				isLeftToRight = isLeftToRight && layout.isLeftToRight();
+
+				//creating the current segment
+				crtSegment = new TabSegment();
+				crtSegment.layout = layout;
+
+				int leftX = TextRenderer.getLeftX(nextTabStopHolder[0], layout.getAdvance(), horizontalAlignment);
+				if (rightX > leftX)
+				{
+					crtSegment.leftX = rightX;
+					crtSegment.rightX = (int)(rightX + layout.getAdvance());//FIXMETAB some rounding issues here
+				}
+				else
+				{
+					crtSegment.leftX = leftX;
+					crtSegment.rightX = TextRenderer.getRightX(nextTabStopHolder[0], layout, horizontalAlignment);
+				}
+
+				segments.add(crtSegment);
 			}
-//			else
-//			{
-//				// we are at the end of the text or no text has fit in remaining space
-//				lineComplete = true;
-//				horizontalPosHolder[0] = 0;
-//			}
 			
-			lineContainsText = true;
+			requireNextWordHolder[0] = true;
 
 			if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 			{
@@ -693,7 +733,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 				lineComplete = true;
-				horizontalPosHolder[0] = 0;
+				nextTabStopHolder[0] = 0;
 			}
 			else
 			{
@@ -701,12 +741,12 @@ public class TextMeasurer implements JRTextMeasurer
 				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 				{
 					// the segment limit was a tab
-					if (horizontalPosHolder[0] >= tabStop * (int)(formatWidth / tabStop))
+					if (crtSegment.rightX >= tabStop * (int)(formatWidth / tabStop))
 					{
 						// current segment stretches out beyond the last tab stop; line complete
 						lineComplete = true;
 						// next line should should start at first tab stop indent
-						horizontalPosHolder[0] = tabStop;
+						nextTabStopHolder[0] = tabStop;
 					}
 					else
 					{
@@ -720,21 +760,35 @@ public class TextMeasurer implements JRTextMeasurer
 					if (layout == null)
 					{
 						// nothing fitted; next line should start at first tab stop indent
-						horizontalPosHolder[0] = tabStop;
+						if (nextTabStopHolder[0] == tabStop)//FIXMETAB check based on segments.size()
+						{
+							// at second attempt we give up to avoid infinite loop
+							nextTabStopHolder[0] = 0;
+							requireNextWordHolder[0] = false;
+							
+							//provide dummy maxLeading, maxAscent and maxDescent because it is used for the line height of this empty line when attempting measurements below
+							if (oldSegment != null)//FIXMETAB this is not accurate enough
+							{
+								maxAscent = oldSegment.layout.getAscent();
+								maxDescent = oldSegment.layout.getDescent();
+								maxLeading = oldSegment.layout.getLeading();
+							}
+						}
+						else
+						{
+							nextTabStopHolder[0] = tabStop;
+						}
 					}
 					else
 					{
 						// something fitted
-						horizontalPosHolder[0] = 0;
+						nextTabStopHolder[0] = 0;
+						requireNextWordHolder[0] = false;
 					}
 				}
 			}
-			
-			if (!lineComplete) 
-			{
-				// move to next tab stop
-				horizontalPosHolder[0] = ((int)(horizontalPosHolder[0] / tabStop) + 1) * tabStop;
-			}
+
+			oldSegment = crtSegment;
 		}
 		
 
@@ -827,4 +881,11 @@ public class TextMeasurer implements JRTextMeasurer
 			string.addAttribute(attribute, attributeValue, startIndex, endIndex);
 		}
 	}
+}
+
+class TabSegment
+{
+	public TextLayout layout;
+	public int leftX;
+	public int rightX;
 }
