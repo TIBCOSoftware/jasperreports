@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
@@ -384,30 +385,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return ((JRTemplateText)this.template).getTabStop();
-	}
-		
-	/**
-	 *
-	 */
-	public Integer getOwnTabStop()
-	{
-		return ((JRTemplateText)this.template).getOwnTabStop();
-	}
-		
-	/**
-	 *
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
@@ -635,6 +612,14 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public JRLineBox getLineBox()
 	{
 		return ((JRTemplateText)template).getLineBox();
+	}
+		
+	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return ((JRTemplateText)template).getParagraph();
 	}
 		
 	/**

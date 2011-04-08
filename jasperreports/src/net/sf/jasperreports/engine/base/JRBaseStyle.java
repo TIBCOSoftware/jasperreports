@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -95,8 +96,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_RADIUS = "radius";
 	
-	public static final String PROPERTY_TAB_STOP = "tabStop";
-	
 	public static final String PROPERTY_ROTATION = "rotation";
 	
 	public static final String PROPERTY_SCALE_IMAGE = "scaleImage";
@@ -144,6 +143,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected VerticalAlignEnum verticalAlignmentValue;
 
 	protected JRLineBox lineBox;
+	protected JRParagraph paragraph;
 
 	protected String fontName;
 	protected Boolean isBold;
@@ -155,7 +155,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected String pdfEncoding;
 	protected Boolean isPdfEmbedded;
 
-	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
@@ -173,6 +172,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	{
 		linePen = new JRBasePen(this);
 		lineBox = new JRBaseLineBox(this);
+		paragraph = new JRBaseParagraph(this);
 	}
 
 	/**
@@ -184,6 +184,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 
 		linePen = new JRBasePen(this);
 		lineBox = new JRBaseLineBox(this);
+		paragraph = new JRBaseParagraph(this);
 	}
 
 	/**
@@ -222,8 +223,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		verticalAlignmentValue = style.getOwnVerticalAlignmentValue();
 
 		lineBox = style.getLineBox().clone(this);
-		
-		tabStop = style.getOwnTabStop();
+		paragraph = style.getParagraph().clone(this);
+
 		rotationValue = style.getOwnRotationValue();
 		lineSpacingValue = style.getOwnLineSpacingValue();
 		markup = style.getOwnMarkup();
@@ -506,6 +507,14 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return paragraph;
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #getLineBox()}
 	 */
 	public Byte getBorder()
@@ -743,32 +752,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public Integer getOwnRightPadding()
 	{
 		return lineBox.getOwnRightPadding();
-	}
-
-	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return JRStyleResolver.getTabStop(this);
-	}
-
-	/**
-	 *
-	 */
-	public Integer getOwnTabStop()
-	{
-		return this.tabStop;
-	}
-
-	/**
-	 *
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		Object old = this.tabStop;
-		this.tabStop = tabStop;
-		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP, old, this.tabStop);
 	}
 
 	/**
@@ -1845,6 +1828,11 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
 			isStyledText = null;
 		}
+
+		if (paragraph == null)
+		{
+			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
+		}
 	}
 	
 	public Object clone()
@@ -1854,6 +1842,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 			JRBaseStyle clone = (JRBaseStyle) super.clone();
 			clone.lineBox = lineBox == null ? null : lineBox.clone(clone);
 			clone.linePen = linePen == null ? null : linePen.clone(clone);
+			clone.paragraph = paragraph == null ? null : paragraph.clone(clone);
 			
 			if (conditionalStyles != null)
 			{

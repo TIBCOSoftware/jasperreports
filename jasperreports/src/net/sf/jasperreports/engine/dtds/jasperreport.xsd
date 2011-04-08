@@ -499,6 +499,7 @@
    <sequence>
     <element ref="jr:pen" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:paragraph" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:conditionalStyle" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="name" type="string" use="optional">
@@ -710,11 +711,6 @@
 	 <documentation><i>Deprecated</i>. Replaced by tag <elem>box</elem>.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="tabStop" type="NMTOKEN" use="optional">
-	<annotation>
-	 <documentation>Tab stop width.</documentation>
-	</annotation>
-   </attribute>
    <attribute name="rotation" use="optional">
     <simpleType>
      <restriction base="string">
@@ -845,6 +841,19 @@
   	<annotation>
    	 <documentation>The line color of the pen.</documentation>
   	</annotation>  
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="paragraph">
+  <annotation>
+   <documentation>Paragraph properties for text elements.</documentation>
+  </annotation>
+  <complexType>
+   <attribute name="tabStop" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The line width of the pen.</documentation>
+	</annotation>
    </attribute>
   </complexType>
  </element>
@@ -2333,7 +2342,7 @@ This can be useful when, for instance, a border has to be drawn around the image
 
  <element name="box">
   <annotation>
-   <documentation>Definition of an image object.</documentation>
+   <documentation>Tag used to specify the border and padding properties of a report element.</documentation>
   </annotation>
   <complexType>
    <sequence>
@@ -2877,6 +2886,7 @@ This can be useful when, for instance, a border has to be drawn around the image
   <complexType>
    <sequence>
     <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:paragraph" minOccurs="0" maxOccurs="1"/>
    </sequence>
    <attribute name="textAlignment" use="optional">
     <annotation>
@@ -2930,11 +2940,6 @@ This can be useful when, for instance, a border has to be drawn around the image
 	  </enumeration>
      </restriction>
     </simpleType>
-   </attribute>
-   <attribute name="tabStop" type="NMTOKEN" use="optional">
-	<annotation>
-	 <documentation>Tab stop width.</documentation>
-	</annotation>
    </attribute>
    <attribute name="rotation" use="optional">
     <annotation>

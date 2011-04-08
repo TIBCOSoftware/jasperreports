@@ -382,6 +382,9 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/box/rightPen", JRPenFactory.Right.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("*/paragraph", JRParagraphFactory.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/image/imageExpression", JRStringExpressionFactory.class.getName());
 		digester.addSetNext("*/image/imageExpression", "setExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/image/imageExpression", "setText", 0);

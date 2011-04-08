@@ -124,6 +124,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -1074,11 +1075,11 @@ public class JRApiWriter
 		{
 			write( textElementName + ".setHorizontalAlignment({0});\n", textElement.getOwnHorizontalAlignmentValue());
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
-			write( textElementName + ".setTabStop({0, number, #});\n", textElement.getOwnTabStop());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
 			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
 			write( textElementName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textElement.getOwnMarkup()));
 			writeFont( textElement, textElementName);
+			writeParagraph( textElement.getParagraph(), textElementName + ".getParagraph()");
 			flush();
 		}
 	}
@@ -1146,7 +1147,6 @@ public class JRApiWriter
 		write( styleName + ".setScaleImage({0});\n", style.getOwnScaleImageValue());
 		write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 		write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
-		write( styleName + ".setTabStop({0});\n", style.getOwnTabStop());
 		write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
 		write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
 
@@ -1155,7 +1155,8 @@ public class JRApiWriter
 		write( styleName + ".setBlankWhenNull({0});\n", style.isOwnBlankWhenNull());
 
 		writePen( style.getLinePen(), styleName + ".getLinePen()");
-		writeBox( style.getLineBox(),styleName + ".getLineBox()");
+		writeBox( style.getLineBox(), styleName + ".getLineBox()");
+		writeParagraph( style.getParagraph(), styleName + ".getParagraph()");
 	}
 
 	
@@ -3741,6 +3742,19 @@ public class JRApiWriter
 			writePen( box.getLeftPen(), boxHolder + ".getLeftPen()");
 			writePen( box.getBottomPen(), boxHolder + ".getBottomPen()");
 			writePen( box.getRightPen(), boxHolder + ".getRightPen()");
+
+			flush();
+		}
+	}
+
+	/**
+	 *
+	 */
+	protected void writeParagraph(JRParagraph paragraph, String paragraphHolder)
+	{
+		if (paragraph != null)
+		{
+			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());
 
 			flush();
 		}

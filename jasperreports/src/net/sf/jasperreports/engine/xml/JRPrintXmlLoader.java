@@ -257,6 +257,9 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addFactoryCreate("*/box/rightPen", JRPenFactory.Right.class.getName());
 
 		/*   */
+		digester.addFactoryCreate("*/paragraph", JRParagraphFactory.class.getName());
+
+		/*   */
 		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());
 		digester.addCallMethod("*/image/imageSource", "setImageSource", 0);
 

@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCommonText extends JRCommonElement, JRBoxContainer
+public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagraphContainer
 {
 	/**
 	 * 
@@ -45,21 +45,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer
 	public static final String MARKUP_HTML = "html";
 	public static final String MARKUP_RTF = "rtf";
 
-	/**
-	 * Gets the text tab stop width.
-	 */
-	public Integer getTabStop();
-	
-	/**
-	 * Gets the text own tab stop width.
-	 */
-	public Integer getOwnTabStop();
-	
-	/**
-	 * Sets the text tab stop width.
-	 */
-	public void setTabStop(Integer tabStop);
-	
 	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */

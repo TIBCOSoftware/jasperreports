@@ -33,10 +33,12 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -71,7 +73,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
-	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
@@ -80,6 +81,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 *
 	 */
 	protected JRLineBox lineBox;
+	protected JRParagraph paragraph;
 
 	protected JRReportFont reportFont;
 	protected String fontName;
@@ -101,6 +103,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		super(defaultStyleProvider);
 		
 		lineBox = new JRBaseLineBox(this);
+		paragraph = new JRBaseParagraph(this);
 	}
 
 
@@ -251,32 +254,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		Object old = this.verticalAlignmentValue;
 		this.verticalAlignmentValue = verticalAlignmentValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
-	}
-
-	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return JRStyleResolver.getTabStop(this);
-	}
-
-	/**
-	 *
-	 */
-	public Integer getOwnTabStop()
-	{
-		return this.tabStop;
-	}
-
-	/**
-	 *
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		Object old = this.tabStop;
-		this.tabStop = tabStop;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_TAB_STOP, old, this.tabStop);
 	}
 
 	/**
@@ -472,6 +449,14 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
+	}
+
+	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return paragraph;
 	}
 
 	/**
@@ -1307,6 +1292,7 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		JRDesignTextElement clone = (JRDesignTextElement)super.clone();
 		
 		clone.lineBox = lineBox.clone(clone);
+		clone.paragraph = paragraph.clone(clone);
 		
 		return clone;
 	}
@@ -1456,6 +1442,11 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		{
 			markup = isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE;
 			isStyledText = null;
+		}
+
+		if (paragraph == null)
+		{
+			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
 		}
 	}
 }

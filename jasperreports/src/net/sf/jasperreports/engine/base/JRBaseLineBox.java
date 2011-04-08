@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRPenContainer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -45,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseLineBox implements JRLineBox, JRPenContainer, Serializable, Cloneable, JRChangeEventsSupport
+public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChangeEventsSupport
 {
 
 
