@@ -93,6 +93,10 @@
 <!ATTLIST paragraph
 	lineSpacing (Single | 1_1_2 | Double | AtLeast | Fixed | Proportional) #IMPLIED
 	lineSpacingSize NMTOKEN #IMPLIED
+	leftIndent NMTOKEN #IMPLIED
+	rightIndent NMTOKEN #IMPLIED
+	spacingBefore NMTOKEN #IMPLIED
+	spacingAfter NMTOKEN #IMPLIED
 	tabStop NMTOKEN #IMPLIED
 >
 <!ELEMENT page (line | rectangle | ellipse | image | text | frame | genericElement)*>

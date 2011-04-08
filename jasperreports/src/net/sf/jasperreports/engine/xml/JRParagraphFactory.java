@@ -63,6 +63,30 @@ public class JRParagraphFactory extends JRBaseFactory
 			paragraph.setLineSpacingSize(Float.parseFloat(lineSpacingSize));
 		}
 
+		String leftIndent = atts.getValue(JRXmlConstants.ATTRIBUTE_leftIndent);
+		if (leftIndent != null && leftIndent.length() > 0)
+		{
+			paragraph.setLeftIndent(Integer.parseInt(leftIndent));
+		}
+
+		String rightIndent = atts.getValue(JRXmlConstants.ATTRIBUTE_rightIndent);
+		if (rightIndent != null && rightIndent.length() > 0)
+		{
+			paragraph.setRightIndent(Integer.parseInt(rightIndent));
+		}
+
+		String spacingBefore = atts.getValue(JRXmlConstants.ATTRIBUTE_spacingBefore);
+		if (spacingBefore != null && spacingBefore.length() > 0)
+		{
+			paragraph.setSpacingBefore(Integer.parseInt(spacingBefore));
+		}
+
+		String spacingAfter = atts.getValue(JRXmlConstants.ATTRIBUTE_spacingAfter);
+		if (spacingAfter != null && spacingAfter.length() > 0)
+		{
+			paragraph.setSpacingAfter(Integer.parseInt(spacingAfter));
+		}
+
 		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
 		if (tabStop != null && tabStop.length() > 0)
 		{

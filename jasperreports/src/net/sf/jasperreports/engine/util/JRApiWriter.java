@@ -3754,6 +3754,10 @@ public class JRApiWriter
 		{
 			write( paragraphHolder + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
 			write( paragraphHolder + ".setLineSpacingSize({0});\n", paragraph.getOwnLineSpacingSize());
+			write( paragraphHolder + ".setLeftIndent({0});\n", paragraph.getOwnLeftIndent());
+			write( paragraphHolder + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
+			write( paragraphHolder + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());
+			write( paragraphHolder + ".setSpacingAfter({0});\n", paragraph.getOwnSpacingAfter());
 			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());//FIXMENOW is this pattern needed?
 
 			flush();

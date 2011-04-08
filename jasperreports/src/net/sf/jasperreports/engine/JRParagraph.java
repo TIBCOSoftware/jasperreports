@@ -37,6 +37,10 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * 
 	 */
+	public static final String DEFAULT_LEFT_INDENT = JRProperties.PROPERTY_PREFIX + "default.left.indent";
+	public static final String DEFAULT_RIGHT_INDENT = JRProperties.PROPERTY_PREFIX + "default.right.indent";
+	public static final String DEFAULT_SPACING_BEFORE = JRProperties.PROPERTY_PREFIX + "default.spacing.before";
+	public static final String DEFAULT_SPACING_AFTER = JRProperties.PROPERTY_PREFIX + "default.spacing.after";
 	public static final String DEFAULT_TAB_STOP = JRProperties.PROPERTY_PREFIX + "default.tab.stop";
 
 	/**
@@ -76,6 +80,66 @@ public interface JRParagraph extends JRStyleContainer
 	 * Sets the text line spacing size to be used in combination with the line spacing type.
 	 */
 	public void setLineSpacingSize(Float lineSpacingSize);
+	
+	/**
+	 * Gets the text left indent.
+	 */
+	public Integer getLeftIndent();
+	
+	/**
+	 * Gets the text own left indent.
+	 */
+	public Integer getOwnLeftIndent();
+	
+	/**
+	 * Sets the text own left indent.
+	 */
+	public void setLeftIndent(Integer leftIndent);
+	
+	/**
+	 * Gets the text right indent.
+	 */
+	public Integer getRightIndent();
+	
+	/**
+	 * Gets the text own right indent.
+	 */
+	public Integer getOwnRightIndent();
+	
+	/**
+	 * Sets the text own right indent.
+	 */
+	public void setRightIndent(Integer rightIndent);
+
+	/**
+	 * Gets the text spacing before.
+	 */
+	public Integer getSpacingBefore();
+	
+	/**
+	 * Gets the text own spacing before.
+	 */
+	public Integer getOwnSpacingBefore();
+	
+	/**
+	 * Sets the text own spacing before.
+	 */
+	public void setSpacingBefore(Integer spacingBefore);
+	
+	/**
+	 * Gets the text spacing after.
+	 */
+	public Integer getSpacingAfter();
+	
+	/**
+	 * Gets the text own spacing after.
+	 */
+	public Integer getOwnSpacingAfter();
+	
+	/**
+	 * Sets the text own spacing after.
+	 */
+	public void setSpacingAfter(Integer spacingAfter);
 	
 	/**
 	 * Gets the text tab stop width.

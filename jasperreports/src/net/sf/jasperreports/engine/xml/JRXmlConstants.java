@@ -275,6 +275,10 @@ public final class JRXmlConstants
 	public static final String ELEMENT_paragraph = "paragraph";
 	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	public static final String ATTRIBUTE_lineSpacingSize = "lineSpacingSize";
+	public static final String ATTRIBUTE_leftIndent = "leftIndent";
+	public static final String ATTRIBUTE_rightIndent = "rightIndent";
+	public static final String ATTRIBUTE_spacingBefore = "spacingBefore";
+	public static final String ATTRIBUTE_spacingAfter = "spacingAfter";
 	public static final String ATTRIBUTE_tabStop = "tabStop";
 
 	/**

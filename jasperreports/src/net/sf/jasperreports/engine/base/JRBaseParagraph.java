@@ -52,6 +52,10 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	
 	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
 	public static final String PROPERTY_LINE_SPACING_SIZE = "lineSpacingSize";
+	public static final String PROPERTY_LEFT_INDENT = "leftIndent";
+	public static final String PROPERTY_RIGHT_INDENT = "rightIndent";
+	public static final String PROPERTY_SPACING_BEFORE = "spacingBefore";
+	public static final String PROPERTY_SPACING_AFTER = "spacingAfter";
 	public static final String PROPERTY_TAB_STOP = "tabStop";
 
 
@@ -62,6 +66,10 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	protected LineSpacingEnum lineSpacing;
 	protected Float lineSpacingSize;
+	protected Integer leftIndent;
+	protected Integer rightIndent;
+	protected Integer spacingBefore;
+	protected Integer spacingAfter;
 	protected Integer tabStop;
 
 	
@@ -168,6 +176,110 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		Object old = this.lineSpacingSize;
 		this.lineSpacingSize = lineSpacingSize;
 		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING_SIZE, old, this.lineSpacingSize);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getLeftIndent()
+	{
+		return JRStyleResolver.getLeftIndent(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnLeftIndent()
+	{
+		return leftIndent;
+	}
+	
+	/**
+	 *
+	 */
+	public void setLeftIndent(Integer leftIndent)
+	{
+		Object old = this.leftIndent;
+		this.leftIndent = leftIndent;
+		getEventSupport().firePropertyChange(PROPERTY_LEFT_INDENT, old, this.leftIndent);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getRightIndent()
+	{
+		return JRStyleResolver.getRightIndent(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnRightIndent()
+	{
+		return rightIndent;
+	}
+	
+	/**
+	 *
+	 */
+	public void setRightIndent(Integer rightIndent)
+	{
+		Object old = this.rightIndent;
+		this.rightIndent = rightIndent;
+		getEventSupport().firePropertyChange(PROPERTY_RIGHT_INDENT, old, this.rightIndent);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getSpacingBefore()
+	{
+		return JRStyleResolver.getSpacingBefore(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnSpacingBefore()
+	{
+		return spacingBefore;
+	}
+	
+	/**
+	 *
+	 */
+	public void setSpacingBefore(Integer spacingBefore)
+	{
+		Object old = this.spacingBefore;
+		this.spacingBefore = spacingBefore;
+		getEventSupport().firePropertyChange(PROPERTY_SPACING_BEFORE, old, this.spacingBefore);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getSpacingAfter()
+	{
+		return JRStyleResolver.getSpacingAfter(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnSpacingAfter()
+	{
+		return spacingAfter;
+	}
+	
+	/**
+	 *
+	 */
+	public void setSpacingAfter(Integer spacingAfter)
+	{
+		Object old = this.spacingAfter;
+		this.spacingAfter = spacingAfter;
+		getEventSupport().firePropertyChange(PROPERTY_SPACING_AFTER, old, this.spacingAfter);
 	}
 
 	/**

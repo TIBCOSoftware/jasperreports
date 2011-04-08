@@ -754,6 +754,94 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
+	public static Integer getLeftIndent(JRParagraph paragraph)
+	{
+		Integer ownLeftIndent = paragraph.getOwnLeftIndent();
+		if (ownLeftIndent != null)
+		{
+			return ownLeftIndent;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Integer leftIndent = style.getParagraph().getLeftIndent();
+			if (leftIndent != null)
+			{
+				return leftIndent;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
+	}
+
+	/**
+	 *
+	 */
+	public static Integer getRightIndent(JRParagraph paragraph)
+	{
+		Integer ownRightIndent = paragraph.getOwnRightIndent();
+		if (ownRightIndent != null)
+		{
+			return ownRightIndent;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Integer rightIndent = style.getParagraph().getRightIndent();
+			if (rightIndent != null)
+			{
+				return rightIndent;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
+	}
+
+	/**
+	 *
+	 */
+	public static Integer getSpacingBefore(JRParagraph paragraph)
+	{
+		Integer ownSpacingBefore = paragraph.getOwnSpacingBefore();
+		if (ownSpacingBefore != null)
+		{
+			return ownSpacingBefore;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Integer spacingBefore = style.getParagraph().getSpacingBefore();
+			if (spacingBefore != null)
+			{
+				return spacingBefore;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
+	}
+
+	/**
+	 *
+	 */
+	public static Integer getSpacingAfter(JRParagraph paragraph)
+	{
+		Integer ownSpacingAfter = paragraph.getOwnSpacingAfter();
+		if (ownSpacingAfter != null)
+		{
+			return ownSpacingAfter;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Integer spacingAfter = style.getParagraph().getSpacingAfter();
+			if (spacingAfter != null)
+			{
+				return spacingAfter;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
+	}
+
+	/**
+	 *
+	 */
 	public static Integer getTabStop(JRParagraph paragraph)
 	{
 		Integer ownTabStop = paragraph.getOwnTabStop();
