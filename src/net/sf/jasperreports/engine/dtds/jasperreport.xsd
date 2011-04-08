@@ -894,9 +894,29 @@
 	 <documentation>The line spacing size to be used in combination with the line spacing type.</documentation>
 	</annotation>
    </attribute>
+   <attribute name="leftIndent" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The left indent of text.</documentation>
+	</annotation>
+   </attribute>
+   <attribute name="rightIndent" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The right indent of text.</documentation>
+	</annotation>
+   </attribute>
+   <attribute name="spacingBefore" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The spacing before text.</documentation>
+	</annotation>
+   </attribute>
+   <attribute name="spacingAfter" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The spacing after text.</documentation>
+	</annotation>
+   </attribute>
    <attribute name="tabStop" type="NMTOKEN" use="optional">
 	<annotation>
-	 <documentation>The line width of the pen.</documentation>
+	 <documentation>The tab stop width of the text.</documentation>
 	</annotation>
    </attribute>
   </complexType>
