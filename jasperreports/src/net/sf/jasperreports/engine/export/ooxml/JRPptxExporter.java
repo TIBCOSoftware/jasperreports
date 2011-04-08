@@ -922,7 +922,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		slideHelper.write("\">\n");
 		slideHelper.write("<a:lnSpc><a:spcPct");
 		slideHelper.write(" val=\"");
-		switch (text.getLineSpacingValue())
+		switch (text.getParagraph().getLineSpacing())
 		{
 			case DOUBLE:
 				slideHelper.write("200");

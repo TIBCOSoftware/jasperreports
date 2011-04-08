@@ -65,7 +65,6 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setFontSize(textElement.getOwnFontSize());
 		printText.setHorizontalAlignment(textElement.getOwnHorizontalAlignmentValue());
 		printText.setItalic(textElement.isOwnItalic());
-		printText.setLineSpacing(textElement.getOwnLineSpacingValue());
 		printText.setPdfEmbedded(textElement.isOwnPdfEmbedded());
 		printText.setPdfEncoding(textElement.getOwnPdfEncoding());
 		printText.setPdfFontName(textElement.getOwnPdfFontName());

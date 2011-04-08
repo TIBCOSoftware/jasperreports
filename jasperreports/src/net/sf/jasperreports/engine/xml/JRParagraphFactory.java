@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRParagraphContainer;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 
 import org.xml.sax.Attributes;
 
@@ -50,6 +51,12 @@ public class JRParagraphFactory extends JRBaseFactory
 
 	public static void setParagraphAttributes(Attributes atts, JRParagraph paragraph)
 	{
+		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
+		if (lineSpacing != null)
+		{
+			paragraph.setLineSpacing(lineSpacing);
+		}
+
 		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
 		if (tabStop != null && tabStop.length() > 0)
 		{

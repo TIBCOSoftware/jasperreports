@@ -71,7 +71,11 @@ public class JRTextElementFactory extends JRBaseFactory
 		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
-			textElement.setLineSpacing(lineSpacing);
+			if (log.isWarnEnabled())
+			{
+				log.warn("The 'lineSpacing' attribute is deprecated. Use the <paragraph> tag instead.");
+			}
+			textElement.getParagraph().setLineSpacing(lineSpacing);
 		}
 
 		textElement.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));

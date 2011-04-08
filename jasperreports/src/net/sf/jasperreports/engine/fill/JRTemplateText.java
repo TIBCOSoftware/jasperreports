@@ -79,7 +79,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	private HorizontalAlignEnum horizontalAlignmentValue;
 	private VerticalAlignEnum verticalAlignmentValue;
 	private RotationEnum rotationValue;
-	private LineSpacingEnum lineSpacingValue;
 	private String markup;
 	private String linkType;
 	private String linkTarget;
@@ -187,7 +186,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotationValue = textElement.getOwnRotationValue();
-		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
 	}
 
@@ -423,51 +421,51 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return getLineSpacingValue().getValue();
+		return getParagraph().getLineSpacing().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
-		return getOwnLineSpacingValue() == null? null : getOwnLineSpacingValue().getValueByte();
+		return getParagraph().getOwnLineSpacing() == null? null : getParagraph().getOwnLineSpacing().getValueByte();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
-		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
-		return JRStyleResolver.getLineSpacingValue(this);
+		return getParagraph().getLineSpacing();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
-		return this.lineSpacingValue;
+		return getParagraph().getOwnLineSpacing();
 	}
 
 	/**
@@ -477,16 +475,17 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 * to be set.  In this case, the line spacing is inherited from the report
 	 * style associated with the template. 
 	 * 
-	 * @param lineSpacingValue a <code>null</code> value or one of 
+	 * @param lineSpacing a <code>null</code> value or one of 
 	 * 	<ul>
 	 * 		<li>{@link LineSpacingEnum#SINGLE}</li>
 	 * 		<li>{@link LineSpacingEnum#ONE_AND_HALF}</li>
 	 * 		<li>{@link LineSpacingEnum#DOUBLE}</li>
 	 * 	</ul>
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
-	public void setLineSpacing(LineSpacingEnum lineSpacingValue)
+	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
-		this.lineSpacingValue = lineSpacingValue;
+		getParagraph().setLineSpacing(lineSpacing);
 	}
 
 	/**
@@ -1528,6 +1527,10 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	/**
 	 * @deprecated
 	 */
+	private LineSpacingEnum lineSpacingValue;
+	/**
+	 * @deprecated
+	 */
 	private Byte border;
 	/**
 	 * @deprecated
@@ -1671,7 +1674,9 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 
 		if (paragraph == null)
 		{
-			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
+			paragraph = new JRBaseParagraph(this);
+			paragraph.setLineSpacing(lineSpacingValue);
+			lineSpacingValue = null;
 		}
 	}
 }

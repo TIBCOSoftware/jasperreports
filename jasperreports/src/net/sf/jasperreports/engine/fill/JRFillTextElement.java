@@ -318,23 +318,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return JRStyleResolver.getLineSpacing(this);
+		return getParagraph().getLineSpacing().getValue();
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
-		return ((JRTextElement)parent).getOwnLineSpacing();
+		return getParagraph().getOwnLineSpacing().getValueByte();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
@@ -342,7 +342,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
@@ -350,23 +350,23 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
-		return JRStyleResolver.getLineSpacingValue(this);
+		return getParagraph().getLineSpacing();
 	}
 		
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
-		return ((JRTextElement)parent).getOwnLineSpacingValue();
+		return getParagraph().getOwnLineSpacing();
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
@@ -395,6 +395,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setStyledText(boolean isStyledText)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
@@ -402,6 +403,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setStyledText(Boolean isStyledText)
 	{
+		throw new UnsupportedOperationException();
 	}
 		
 	/**
@@ -425,6 +427,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setMarkup(String markup)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -472,7 +475,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBorder(byte border)
 	{
-		JRPenUtil.setLinePenFromPen(border, getLineBox().getPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -480,7 +483,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBorder(Byte border)
 	{
-		JRPenUtil.setLinePenFromPen(border, getLineBox().getPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -504,7 +507,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBorderColor(Color borderColor)
 	{
-		getLineBox().getPen().setLineColor(borderColor);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -528,7 +531,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPadding(int padding)
 	{
-		getLineBox().setPadding(padding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -536,7 +539,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPadding(Integer padding)
 	{
-		getLineBox().setPadding(padding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -560,7 +563,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setTopBorder(byte topBorder)
 	{
-		JRPenUtil.setLinePenFromPen(topBorder, getLineBox().getTopPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -568,7 +571,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setTopBorder(Byte topBorder)
 	{
-		JRPenUtil.setLinePenFromPen(topBorder, getLineBox().getTopPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -592,7 +595,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setTopBorderColor(Color topBorderColor)
 	{
-		getLineBox().getTopPen().setLineColor(topBorderColor);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -616,7 +619,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setTopPadding(int topPadding)
 	{
-		getLineBox().setTopPadding(topPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -624,7 +627,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setTopPadding(Integer topPadding)
 	{
-		getLineBox().setTopPadding(topPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -648,7 +651,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setLeftBorder(byte leftBorder)
 	{
-		JRPenUtil.setLinePenFromPen(leftBorder, getLineBox().getLeftPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -656,7 +659,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setLeftBorder(Byte leftBorder)
 	{
-		JRPenUtil.setLinePenFromPen(leftBorder, getLineBox().getLeftPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -680,7 +683,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setLeftBorderColor(Color leftBorderColor)
 	{
-		getLineBox().getLeftPen().setLineColor(leftBorderColor);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -704,7 +707,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setLeftPadding(int leftPadding)
 	{
-		getLineBox().setLeftPadding(leftPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -712,7 +715,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setLeftPadding(Integer leftPadding)
 	{
-		getLineBox().setLeftPadding(leftPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -736,7 +739,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBottomBorder(byte bottomBorder)
 	{
-		JRPenUtil.setLinePenFromPen(bottomBorder, getLineBox().getBottomPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -744,7 +747,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBottomBorder(Byte bottomBorder)
 	{
-		JRPenUtil.setLinePenFromPen(bottomBorder, getLineBox().getBottomPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -768,7 +771,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBottomBorderColor(Color bottomBorderColor)
 	{
-		getLineBox().getBottomPen().setLineColor(bottomBorderColor);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -792,7 +795,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBottomPadding(int bottomPadding)
 	{
-		getLineBox().setBottomPadding(bottomPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -800,7 +803,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBottomPadding(Integer bottomPadding)
 	{
-		getLineBox().setBottomPadding(bottomPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -824,7 +827,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setRightBorder(byte rightBorder)
 	{
-		JRPenUtil.setLinePenFromPen(rightBorder, getLineBox().getRightPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -832,7 +835,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setRightBorder(Byte rightBorder)
 	{
-		JRPenUtil.setLinePenFromPen(rightBorder, getLineBox().getRightPen());
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -856,7 +859,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setRightBorderColor(Color rightBorderColor)
 	{
-		getLineBox().getRightPen().setLineColor(rightBorderColor);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -880,7 +883,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setRightPadding(int rightPadding)
 	{
-		getLineBox().setRightPadding(rightPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -888,7 +891,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setRightPadding(Integer rightPadding)
 	{
-		getLineBox().setRightPadding(rightPadding);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1177,6 +1180,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	public void setReportFont(JRReportFont reportFont)
 	{
+		throw new UnsupportedOperationException();
 	}
 	
 	/**
@@ -1200,6 +1204,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setFontName(String fontName)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -1224,6 +1229,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBold(boolean isBold)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1232,6 +1238,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setBold(Boolean isBold)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -1256,6 +1263,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setItalic(boolean isItalic)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1264,6 +1272,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setItalic(Boolean isItalic)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1287,6 +1296,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setUnderline(boolean isUnderline)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1295,6 +1305,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setUnderline(Boolean isUnderline)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1318,6 +1329,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setStrikeThrough(boolean isStrikeThrough)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1326,6 +1338,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setStrikeThrough(Boolean isStrikeThrough)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1349,6 +1362,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setFontSize(int size)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1357,6 +1371,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setFontSize(Integer size)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1380,6 +1395,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setSize(int size)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1387,6 +1403,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setSize(Integer size)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1410,6 +1427,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPdfFontName(String pdfFontName)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -1434,6 +1452,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPdfEncoding(String pdfEncoding)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 
@@ -1458,7 +1477,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPdfEmbedded(boolean isPdfEmbedded)
 	{
-		setPdfEmbedded(isPdfEmbedded ? Boolean.TRUE : Boolean.FALSE);
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -1467,6 +1486,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public void setPdfEmbedded(Boolean isPdfEmbedded)
 	{
+		throw new UnsupportedOperationException();
 	}
 
 	

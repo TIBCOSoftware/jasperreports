@@ -84,40 +84,37 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	byte getLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 	
 	/**
-	 * Gets the text line spacing.
-	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue();
 	
 	/**
-	 * Gets the text own line spacing.
-	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
 	
 	/**
-	 * Sets the text line spacing.
-	 * @param lineSpacingEnum a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
 	

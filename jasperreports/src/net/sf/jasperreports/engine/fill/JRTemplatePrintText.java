@@ -489,23 +489,23 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return getLineSpacingValue().getValue();
+		return getParagraph().getLineSpacing().getValue();//FIXMENOW consider this technique for lineBox as well
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
-		return getOwnLineSpacingValue() == null ? null : getOwnLineSpacingValue().getValueByte();
+		return getParagraph().getOwnLineSpacing() == null ? null : getParagraph().getOwnLineSpacing().getValueByte();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
@@ -513,7 +513,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
@@ -521,23 +521,23 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
-		return ((JRTemplateText)template).getLineSpacingValue();
+		return getParagraph().getLineSpacing();
 	}
 		
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
-		return ((JRTemplateText)template).getOwnLineSpacingValue();
+		return getParagraph().getOwnLineSpacing();
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacing))}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{

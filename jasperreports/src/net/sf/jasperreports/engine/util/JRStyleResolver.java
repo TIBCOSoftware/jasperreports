@@ -809,60 +809,57 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue(JRCommonText)}.
+	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
 	 */
 	public static byte getLineSpacing(JRCommonText element)
 	{
-		return getLineSpacingValue(element).getValue();
+		return getLineSpacing(element.getParagraph()).getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue(JRStyle)}.
+	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
 	 */
 	public static Byte getLineSpacing(JRStyle style)
 	{
-		LineSpacingEnum lineSpacing = getLineSpacingValue(style);
-		return lineSpacing == null ? null : lineSpacing.getValueByte();
+		return getLineSpacing(style.getParagraph()).getValueByte();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
+	 */
+	public static LineSpacingEnum getLineSpacingValue(JRCommonText element)
+	{
+		return getLineSpacing(element.getParagraph());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
+	 */
+	public static LineSpacingEnum getLineSpacingValue(JRStyle style)
+	{
+		return getLineSpacing(style.getParagraph());
 	}
 
 	/**
 	 * 
 	 */
-	public static LineSpacingEnum getLineSpacingValue(JRCommonText element)
+	public static LineSpacingEnum getLineSpacing(JRParagraph paragraph)
 	{
-		LineSpacingEnum ownLineSpacing = element.getOwnLineSpacingValue();
+		LineSpacingEnum ownLineSpacing = paragraph.getOwnLineSpacing();
 		if (ownLineSpacing != null)
 		{
 			return ownLineSpacing;
 		}
-		JRStyle baseStyle = getBaseStyle(element);
+		JRStyle baseStyle = getBaseStyle(paragraph);
 		if (baseStyle != null)
 		{
-			LineSpacingEnum lineSpacing = baseStyle.getLineSpacingValue();
+			LineSpacingEnum lineSpacing = baseStyle.getParagraph().getLineSpacing();
 			if (lineSpacing != null)
 			{
 				return lineSpacing;
 			}
 		}
-		return LineSpacingEnum.SINGLE;
-	}
-
-	/**
-	 * 
-	 */
-	public static LineSpacingEnum getLineSpacingValue(JRStyle style)
-	{
-		LineSpacingEnum ownLineSpacing = style.getOwnLineSpacingValue();
-		if (ownLineSpacing != null)
-		{
-			return ownLineSpacing;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			return baseStyle.getLineSpacingValue();
-		}
-		return null;
+		return LineSpacingEnum.SINGLE;//FIXMENOW could we make all enums in default props?
 	}
 
 	/**
@@ -1580,14 +1577,11 @@ public final class JRStyleResolver
 			destStyle.setVerticalAlignment(srcStyle.getOwnVerticalAlignmentValue());
 		}
 		appendBox(destStyle.getLineBox(), srcStyle.getLineBox());
+		appendParagraph(destStyle.getParagraph(), srcStyle.getParagraph());
 
 		if (srcStyle.getOwnRotationValue() != null)
 		{
 			destStyle.setRotation(srcStyle.getOwnRotationValue());
-		}
-		if (srcStyle.getOwnLineSpacingValue() != null)
-		{
-			destStyle.setLineSpacing(srcStyle.getOwnLineSpacingValue());
 		}
 		if (srcStyle.getOwnMarkup() != null)
 		{
@@ -1684,6 +1678,21 @@ public final class JRStyleResolver
 		if (srcBox.getOwnRightPadding() != null)
 		{
 			destBox.setRightPadding(srcBox.getOwnRightPadding());
+		}
+	}
+
+	/**
+	 * Merges two paragraphs, by appending the properties of the source paragraph to the ones of the destination paragraph.
+	 */
+	private static void appendParagraph(JRParagraph destParagraph, JRParagraph srcParagraph)
+	{
+		if (srcParagraph.getOwnLineSpacing() != null)
+		{
+			destParagraph.setLineSpacing(srcParagraph.getOwnLineSpacing());
+		}
+		if (srcParagraph.getOwnTabStop() != null)
+		{
+			destParagraph.setTabStop(srcParagraph.getOwnTabStop());
 		}
 	}
 
