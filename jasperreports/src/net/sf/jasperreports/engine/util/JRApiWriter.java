@@ -3753,7 +3753,8 @@ public class JRApiWriter
 		if (paragraph != null)
 		{
 			write( paragraphHolder + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
-			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());
+			write( paragraphHolder + ".setLineSpacingSize({0});\n", paragraph.getOwnLineSpacingSize());
+			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());//FIXMENOW is this pattern needed?
 
 			flush();
 		}
