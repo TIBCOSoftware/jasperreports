@@ -889,6 +889,11 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="lineSpacingSize" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The line spacing size to be used in combination with the line spacing type.</documentation>
+	</annotation>
+   </attribute>
    <attribute name="tabStop" type="NMTOKEN" use="optional">
 	<annotation>
 	 <documentation>The line width of the pen.</documentation>
