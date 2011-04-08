@@ -56,7 +56,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	public static final String PROPERTY_RIGHT_INDENT = "rightIndent";
 	public static final String PROPERTY_SPACING_BEFORE = "spacingBefore";
 	public static final String PROPERTY_SPACING_AFTER = "spacingAfter";
-	public static final String PROPERTY_TAB_STOP = "tabStop";
+	public static final String PROPERTY_TAB_STOP_WIDTH = "tabStopWidth";
 
 
 	protected JRParagraphContainer paragraphContainer;
@@ -70,7 +70,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	protected Integer rightIndent;
 	protected Integer spacingBefore;
 	protected Integer spacingAfter;
-	protected Integer tabStop;
+	protected Integer tabStopWidth;
 
 	
 	/**
@@ -285,27 +285,27 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	/**
 	 *
 	 */
-	public Integer getTabStop()
+	public Integer getTabStopWidth()
 	{
-		return JRStyleResolver.getTabStop(this);
+		return JRStyleResolver.getTabStopWidth(this);
 	}
 
 	/**
 	 *
 	 */
-	public Integer getOwnTabStop()
+	public Integer getOwnTabStopWidth()
 	{
-		return tabStop;
+		return tabStopWidth;
 	}
 	
 	/**
 	 *
 	 */
-	public void setTabStop(Integer tabStop)
+	public void setTabStopWidth(Integer tabStopWidth)
 	{
-		Object old = this.tabStop;
-		this.tabStop = tabStop;
-		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP, old, this.tabStop);
+		Object old = this.tabStopWidth;
+		this.tabStopWidth = tabStopWidth;
+		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP_WIDTH, old, this.tabStopWidth);
 	}
 
 

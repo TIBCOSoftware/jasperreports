@@ -826,12 +826,12 @@ public class JRRtfExporter extends JRAbstractExporter
 				break;
 		}
 
-		Integer tabStop = text.getParagraph().getTabStop(); 
-		if (tabStop != null && tabStop > 0)
+		Integer tabStopWidth = text.getParagraph().getTabStopWidth(); 
+		if (tabStopWidth != null && tabStopWidth > 0)
 		{
 			for (int i = 0; i < 10; i++)
 			{
-				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip((i + 1) * tabStop) + " ");//FIXMETAB use defaulttabstop when possible
+				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip((i + 1) * tabStopWidth) + " ");//FIXMETAB use defaulttabstop when possible
 			}
 		}
 

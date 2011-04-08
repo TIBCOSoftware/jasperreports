@@ -3758,7 +3758,7 @@ public class JRApiWriter
 			write( paragraphHolder + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
 			write( paragraphHolder + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());
 			write( paragraphHolder + ".setSpacingAfter({0});\n", paragraph.getOwnSpacingAfter());
-			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());//FIXMENOW is this pattern needed?
+			write( paragraphHolder + ".setTabStopWidth(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStopWidth());//FIXMENOW is this pattern needed?
 
 			flush();
 		}

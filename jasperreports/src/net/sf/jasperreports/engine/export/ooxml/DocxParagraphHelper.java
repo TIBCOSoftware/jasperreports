@@ -84,7 +84,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 
 		exportTabStop(
-			style.getParagraph().getOwnTabStop(),
+			style.getParagraph().getOwnTabStopWidth(),
 			getTabStopAlignment(
 				style.getOwnHorizontalAlignmentValue() 
 				)
@@ -113,7 +113,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 		
 		exportTabStop(
-				text.getParagraph().getTabStop(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
+				text.getParagraph().getTabStopWidth(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
 				getTabStopAlignment(
 					text.getHorizontalAlignmentValue()//FIXMETAB own
 					)
@@ -162,14 +162,14 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportTabStop(Integer tabStop, String tabStopAlignment)
+	private void exportTabStop(Integer tabStopWidth, String tabStopAlignment)
 	{
-		if (tabStop != null && tabStop > 0)
+		if (tabStopWidth != null && tabStopWidth > 0)
 		{
 			write("   <w:tabs>\n");
 			for (int i = 0; i < 10; i++)
 			{
-				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStop) + "\" w:val=\"" + tabStopAlignment + "\"/>\n");
+				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStopWidth) + "\" w:val=\"" + tabStopAlignment + "\"/>\n");
 			}
 			write("   </w:tabs>\n");
 		}

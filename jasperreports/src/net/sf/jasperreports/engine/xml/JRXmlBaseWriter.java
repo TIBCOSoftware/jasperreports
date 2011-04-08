@@ -216,7 +216,7 @@ public abstract class JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_rightIndent, paragraph.getOwnRightIndent());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_spacingBefore, paragraph.getOwnSpacingBefore());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_spacingAfter, paragraph.getOwnSpacingAfter());
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, paragraph.getOwnTabStop());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStopWidth, paragraph.getOwnTabStopWidth());
 
 			writer.closeElement(true);
 		}

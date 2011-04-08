@@ -97,7 +97,7 @@
 	rightIndent NMTOKEN #IMPLIED
 	spacingBefore NMTOKEN #IMPLIED
 	spacingAfter NMTOKEN #IMPLIED
-	tabStop NMTOKEN #IMPLIED
+	tabStopWidth NMTOKEN #IMPLIED
 >
 <!ELEMENT page (line | rectangle | ellipse | image | text | frame | genericElement)*>
 <!ELEMENT line (reportElement?, graphicElement?)>

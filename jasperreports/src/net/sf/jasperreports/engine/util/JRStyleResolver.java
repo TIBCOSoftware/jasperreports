@@ -842,23 +842,23 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Integer getTabStop(JRParagraph paragraph)
+	public static Integer getTabStopWidth(JRParagraph paragraph)
 	{
-		Integer ownTabStop = paragraph.getOwnTabStop();
-		if (ownTabStop != null)
+		Integer ownTabStopWidth = paragraph.getOwnTabStopWidth();
+		if (ownTabStopWidth != null)
 		{
-			return ownTabStop;
+			return ownTabStopWidth;
 		}
 		JRStyle style = getBaseStyle(paragraph);
 		if (style != null)
 		{
-			Integer tabStop = style.getParagraph().getTabStop();
-			if (tabStop != null)
+			Integer tabStopWidth = style.getParagraph().getTabStopWidth();
+			if (tabStopWidth != null)
 			{
-				return tabStop;
+				return tabStopWidth;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP);
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
 	}
 
 	/**
@@ -1800,9 +1800,25 @@ public final class JRStyleResolver
 		{
 			destParagraph.setLineSpacing(srcParagraph.getOwnLineSpacing());
 		}
-		if (srcParagraph.getOwnTabStop() != null)
+		if (srcParagraph.getOwnLeftIndent() != null)
 		{
-			destParagraph.setTabStop(srcParagraph.getOwnTabStop());
+			destParagraph.setLeftIndent(srcParagraph.getOwnLeftIndent());
+		}
+		if (srcParagraph.getOwnRightIndent() != null)
+		{
+			destParagraph.setRightIndent(srcParagraph.getOwnRightIndent());
+		}
+		if (srcParagraph.getOwnSpacingBefore() != null)
+		{
+			destParagraph.setSpacingBefore(srcParagraph.getOwnSpacingBefore());
+		}
+		if (srcParagraph.getOwnSpacingAfter() != null)
+		{
+			destParagraph.setSpacingAfter(srcParagraph.getOwnSpacingAfter());
+		}
+		if (srcParagraph.getOwnTabStopWidth() != null)
+		{
+			destParagraph.setTabStopWidth(srcParagraph.getOwnTabStopWidth());
 		}
 	}
 

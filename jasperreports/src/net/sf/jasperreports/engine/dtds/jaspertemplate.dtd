@@ -99,5 +99,5 @@
 	rightIndent NMTOKEN #IMPLIED
 	spacingBefore NMTOKEN #IMPLIED
 	spacingAfter NMTOKEN #IMPLIED
-	tabStop NMTOKEN #IMPLIED
+	tabStopWidth NMTOKEN #IMPLIED
 >

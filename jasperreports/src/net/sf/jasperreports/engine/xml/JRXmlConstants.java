@@ -279,7 +279,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_rightIndent = "rightIndent";
 	public static final String ATTRIBUTE_spacingBefore = "spacingBefore";
 	public static final String ATTRIBUTE_spacingAfter = "spacingAfter";
-	public static final String ATTRIBUTE_tabStop = "tabStop";
+	public static final String ATTRIBUTE_tabStopWidth = "tabStopWidth";
 
 	/**
 	 * JRBreakFactory associated constants
