@@ -732,6 +732,28 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
+	public static Float getLineSpacingSize(JRParagraph paragraph)
+	{
+		Float ownLineSpacingSize = paragraph.getOwnLineSpacingSize();
+		if (ownLineSpacingSize != null)
+		{
+			return ownLineSpacingSize;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Float lineSpacingSize = style.getParagraph().getLineSpacingSize();
+			if (lineSpacingSize != null)
+			{
+				return lineSpacingSize;
+			}
+		}
+		return null;//FIXMETAB some default?
+	}
+
+	/**
+	 *
+	 */
 	public static Integer getTabStop(JRParagraph paragraph)
 	{
 		Integer ownTabStop = paragraph.getOwnTabStop();
@@ -748,7 +770,7 @@ public final class JRStyleResolver
 				return tabStop;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRCommonText.DEFAULT_TAB_STOP);
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP);
 	}
 
 	/**

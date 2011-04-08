@@ -57,6 +57,12 @@ public class JRParagraphFactory extends JRBaseFactory
 			paragraph.setLineSpacing(lineSpacing);
 		}
 
+		String lineSpacingSize = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
+		if (lineSpacingSize != null && lineSpacingSize.length() > 0)
+		{
+			paragraph.setLineSpacingSize(Float.parseFloat(lineSpacingSize));
+		}
+
 		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
 		if (tabStop != null && tabStop.length() > 0)
 		{

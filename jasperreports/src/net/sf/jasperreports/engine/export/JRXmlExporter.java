@@ -1012,6 +1012,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_paragraph);
 
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, paragraph.getOwnLineSpacing());
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacingSize, paragraph.getOwnLineSpacingSize());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, paragraph.getOwnTabStop());
 			
 			xmlWriter.closeElement(true);
