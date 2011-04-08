@@ -59,6 +59,7 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	protected static final String PATTERN_BOX_LEFT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_leftPen;
 	protected static final String PATTERN_BOX_BOTTOM_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_bottomPen;
 	protected static final String PATTERN_BOX_RIGHT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_rightPen;
+	protected static final String PATTERN_PARAGRAPH = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_paragraph;
 	
 	private static final JRXmlTemplateDigesterFactory instance = new JRXmlTemplateDigesterFactory();
 	
@@ -100,6 +101,8 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 				digester.addFactoryCreate(PATTERN_BOX_LEFT_PEN, JRPenFactory.Left.class.getName());
 				digester.addFactoryCreate(PATTERN_BOX_BOTTOM_PEN, JRPenFactory.Bottom.class.getName());
 				digester.addFactoryCreate(PATTERN_BOX_RIGHT_PEN, JRPenFactory.Right.class.getName());
+
+				digester.addFactoryCreate(PATTERN_PARAGRAPH, JRParagraphFactory.class.getName());
 			}
 		};
 	}

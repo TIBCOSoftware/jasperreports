@@ -2400,7 +2400,7 @@ public class PDFiTextExporter extends JRAbstractExporter
 			
 			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 			
-			int tabStop = text.getTabStop();
+			int tabStop = text.getParagraph().getTabStop();
 			float verticalPos = 
 				jasperPrint.getPageHeight()
 				- y

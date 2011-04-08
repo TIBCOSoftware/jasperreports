@@ -826,7 +826,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				break;
 		}
 
-		Integer tabStop = text.getTabStop(); 
+		Integer tabStop = text.getParagraph().getTabStop(); 
 		if (tabStop != null && tabStop > 0)
 		{
 			for (int i = 0; i < 10; i++)

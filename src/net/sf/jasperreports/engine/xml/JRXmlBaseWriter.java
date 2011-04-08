@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
@@ -75,7 +76,6 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, style.getOwnTabStop());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacingValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
@@ -94,6 +94,7 @@ public abstract class JRXmlBaseWriter
 
 		writePen(style.getLinePen());
 		writeBox(style.getLineBox());
+		writeParagraph(style.getParagraph());
 		
 		if (toWriteConditionalStyles())
 		{
@@ -191,6 +192,26 @@ public abstract class JRXmlBaseWriter
 			writePen(JRXmlConstants.ELEMENT_leftPen, box.getLeftPen());
 			writePen(JRXmlConstants.ELEMENT_bottomPen, box.getBottomPen());
 			writePen(JRXmlConstants.ELEMENT_rightPen, box.getRightPen());
+
+			writer.closeElement(true);
+		}
+	}
+
+	public void writeParagraph(JRParagraph paragraph) throws IOException
+	{
+		writeParagraph(paragraph, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void writeParagraph(JRParagraph paragraph, XmlNamespace namespace) throws IOException
+	{
+		if (paragraph != null)
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_paragraph, namespace);
+			
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, paragraph.getOwnTabStop());
 
 			writer.closeElement(true);
 		}

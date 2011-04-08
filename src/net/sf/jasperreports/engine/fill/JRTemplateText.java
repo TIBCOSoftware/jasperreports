@@ -36,12 +36,14 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -76,7 +78,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 */
 	private HorizontalAlignEnum horizontalAlignmentValue;
 	private VerticalAlignEnum verticalAlignmentValue;
-	private Integer tabStop;
 	private RotationEnum rotationValue;
 	private LineSpacingEnum lineSpacingValue;
 	private String markup;
@@ -87,6 +88,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 *
 	 */
 	protected JRLineBox lineBox;
+	protected JRParagraph paragraph;
 
 	protected JRReportFont reportFont;
 	protected String fontName;
@@ -138,6 +140,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		super(origin, defaultStyleProvider);
 		
 		lineBox = new JRBaseLineBox(this);
+		paragraph = new JRBaseParagraph(this);
 	}
 	
 	/**
@@ -167,6 +170,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		super.setElement(textElement);
 
 		copyLineBox(textElement.getLineBox());
+		copyParagraph(textElement.getParagraph());
 		
 		reportFont = textElement.getReportFont();
 
@@ -182,7 +186,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
-		tabStop = textElement.getOwnTabStop();
 		rotationValue = textElement.getOwnRotationValue();
 		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
@@ -196,6 +199,16 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void copyLineBox(JRLineBox box)
 	{
 		lineBox = box.clone(this);
+	}
+
+	/**
+	 * Copies paragraph attributes.
+	 * 
+	 * @param paragraph the object to copy attributes from
+	 */
+	public void copyParagraph(JRParagraph prg)
+	{
+		paragraph = prg.clone(this);
 	}
 
 	
@@ -341,30 +354,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
 		this.verticalAlignmentValue = verticalAlignmentValue;
-	}
-
-	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return JRStyleResolver.getTabStop(this);
-	}
-
-	/**
-	 *
-	 */
-	public Integer getOwnTabStop()
-	{
-		return this.tabStop;
-	}
-
-	/**
-	 * 
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		this.tabStop = tabStop;
 	}
 
 	/**
@@ -555,6 +544,14 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
+	}
+		
+	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return paragraph;
 	}
 		
 	/**
@@ -1670,6 +1667,11 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		if (linkTarget == null)
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
+
+		if (paragraph == null)
+		{
+			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
 		}
 	}
 }

@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
@@ -731,41 +732,23 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
-	public static Integer getTabStop(JRCommonText element)
+	public static Integer getTabStop(JRParagraph paragraph)
 	{
-		Integer ownTabStop = element.getOwnTabStop();
+		Integer ownTabStop = paragraph.getOwnTabStop();
 		if (ownTabStop != null)
 		{
 			return ownTabStop;
 		}
-		JRStyle style = getBaseStyle(element);
+		JRStyle style = getBaseStyle(paragraph);
 		if (style != null)
 		{
-			Integer tabStop = style.getTabStop();
+			Integer tabStop = style.getParagraph().getTabStop();
 			if (tabStop != null)
 			{
 				return tabStop;
 			}
 		}
 		return JRProperties.getIntegerProperty(JRCommonText.DEFAULT_TAB_STOP);
-	}
-
-	/**
-	 *
-	 */
-	public static Integer getTabStop(JRStyle style)
-	{
-		Integer ownTabStop = style.getOwnTabStop();
-		if (ownTabStop != null)
-		{
-			return ownTabStop;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null)
-		{
-			return baseStyle.getTabStop();
-		}
-		return null;
 	}
 
 	/**

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -88,6 +89,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 	protected final JRReportFont reportFont;
 	protected final JRLineBox lineBox;
+	protected final JRParagraph paragraph;
 
 	/**
 	 *
@@ -103,6 +105,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		reportFont = factory.getReportFont(textElement.getReportFont());
 		
 		lineBox = textElement.getLineBox().clone(this);
+		paragraph = textElement.getParagraph().clone(this);
 	}
 	
 
@@ -113,6 +116,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		reportFont = textElement.reportFont;
 		
 		lineBox = textElement.getLineBox().clone(this);
+		paragraph = textElement.getParagraph().clone(this);
 	}
 
 
@@ -260,27 +264,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return JRStyleResolver.getTabStop(this);
-	}
-		
-	public Integer getOwnTabStop()
-	{
-		return ((JRTextElement)this.parent).getOwnTabStop();
-	}
-
-	/**
-	 *
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
@@ -458,6 +441,14 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
+	}
+
+	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return paragraph;
 	}
 
 	/**

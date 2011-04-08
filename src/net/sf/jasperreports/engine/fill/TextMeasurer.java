@@ -273,7 +273,7 @@ public class TextMeasurer implements JRTextMeasurer
 		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
 		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 		
-		tabStop = textElement.getTabStop();
+		tabStop = textElement.getParagraph().getTabStop();
 		horizontalAlignment = ((JRAlignment)textElement).getHorizontalAlignmentValue();//FIXMENOW why common text is not alignment?
 
 		switch (textElement.getRotationValue())

@@ -114,7 +114,7 @@ public class ParagraphStyle extends Style
 			runDirection = "rl";
 		}
 		
-		tabStop = text.getTabStop();
+		tabStop = text.getParagraph().getTabStop();
 	}
 	
 	/**

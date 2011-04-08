@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -555,7 +556,6 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, style.getOwnScaleImageValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, style.getOwnTabStop());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getOwnLineSpacingValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
@@ -574,6 +574,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		exportPen(style.getLinePen());
 		exportBox(style.getLineBox());
+		exportParagraph(style.getParagraph());
 		
 		xmlWriter.closeElement();
 	}
@@ -894,7 +895,6 @@ public class JRXmlExporter extends JRAbstractExporter
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, text.getOwnHorizontalAlignmentValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, text.getOwnVerticalAlignmentValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_textHeight, text.getTextHeight());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, text.getOwnTabStop());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, text.getOwnRotationValue());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_runDirection, text.getRunDirectionValue(), RunDirectionEnum.LTR);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, text.getOwnLineSpacingValue());
@@ -934,6 +934,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		exportBox(text.getLineBox());
 
 		exportFont(text);
+		exportParagraph(text.getParagraph());
 
 		if (text.getOriginalText() != null)
 		{
@@ -996,6 +997,23 @@ public class JRXmlExporter extends JRAbstractExporter
 			exportPen(JRXmlConstants.ELEMENT_leftPen, box.getLeftPen());
 			exportPen(JRXmlConstants.ELEMENT_bottomPen, box.getBottomPen());
 			exportPen(JRXmlConstants.ELEMENT_rightPen, box.getRightPen());
+			
+			xmlWriter.closeElement(true);
+		}
+	}
+
+
+	/**
+	 * @throws IOException 
+	 *
+	 */
+	private void exportParagraph(JRParagraph paragraph) throws IOException
+	{
+		if (paragraph != null)
+		{
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_paragraph);
+
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, paragraph.getOwnTabStop());
 			
 			xmlWriter.closeElement(true);
 		}

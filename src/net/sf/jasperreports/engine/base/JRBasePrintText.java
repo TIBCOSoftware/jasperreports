@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -82,7 +83,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected float leadingOffset;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
-	protected Integer tabStop;
 	protected RotationEnum rotationValue;
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight;
@@ -107,6 +107,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 *
 	 */
 	protected JRLineBox lineBox;
+	protected JRParagraph paragraph;
 
 	protected JRReportFont reportFont;
 	protected String fontName;
@@ -133,6 +134,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		super(defaultStyleProvider);
 		
 		lineBox = new JRBaseLineBox(this);
+		paragraph = new JRBaseParagraph(this);
 	}
 
 
@@ -420,27 +422,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
-	 */
-	public Integer getTabStop()
-	{
-		return JRStyleResolver.getTabStop(this);
-	}
-		
-	public Integer getOwnTabStop()
-	{
-		return tabStop;
-	}
-
-	/**
-	 *
-	 */
-	public void setTabStop(Integer tabStop)
-	{
-		this.tabStop = tabStop;
-	}
-
-	/**
 	 * @deprecated Replaced by {@link #getRotationValue()}.
 	 */
 	public byte getRotation()
@@ -675,6 +656,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
+	 *
+	 */
+	public JRParagraph getParagraph()
+	{
+		return paragraph;
+	}
+
+	/**
 	 * @deprecated Replaced by {@link #copyBox(JRLineBox)}
 	 */
 	public void setBox(JRBox box)
@@ -688,6 +677,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void copyBox(JRLineBox lineBox)
 	{
 		this.lineBox = lineBox.clone(this);
+	}
+
+	/**
+	 *
+	 */
+	public void copyParagraph(JRParagraph paragraph)
+	{
+		this.paragraph = paragraph.clone(this);
 	}
 
 	/**
@@ -1929,6 +1926,11 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		if (linkTarget == null)
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
+		}
+
+		if (paragraph == null)
+		{
+			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
 		}
 	}
 

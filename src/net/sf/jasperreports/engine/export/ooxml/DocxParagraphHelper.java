@@ -84,7 +84,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 
 		exportTabStop(
-			style.getOwnTabStop(),
+			style.getParagraph().getOwnTabStop(),
 			getTabStopAlignment(
 				style.getOwnHorizontalAlignmentValue() 
 				)
@@ -113,7 +113,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 		
 		exportTabStop(
-				text.getTabStop(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
+				text.getParagraph().getTabStop(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
 				getTabStopAlignment(
 					text.getHorizontalAlignmentValue()//FIXMETAB own
 					)

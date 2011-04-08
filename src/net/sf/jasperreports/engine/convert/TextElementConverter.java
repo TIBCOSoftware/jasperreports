@@ -58,6 +58,7 @@ public abstract class TextElementConverter extends ElementConverter
 		copyElement(reportConverter, textElement, printText);
 		
 		printText.copyBox(textElement.getLineBox());
+		printText.copyParagraph(textElement.getParagraph());
 		
 		printText.setBold(textElement.isOwnBold());
 		printText.setFontName(textElement.getOwnFontName());
@@ -69,7 +70,6 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setPdfEncoding(textElement.getOwnPdfEncoding());
 		printText.setPdfFontName(textElement.getOwnPdfFontName());
 		printText.setReportFont(textElement.getReportFont());
-		printText.setTabStop(textElement.getOwnTabStop());
 		printText.setRotation(textElement.getOwnRotationValue());
 		printText.setStrikeThrough(textElement.isOwnStrikeThrough());
 		printText.setMarkup(textElement.getOwnMarkup());
