@@ -69,7 +69,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected VerticalAlignEnum verticalAlignmentValue;
 	protected RotationEnum rotationValue;
 	
-	protected LineSpacingEnum lineSpacingValue;
 	protected String markup;
 
 	/**
@@ -105,7 +104,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		horizontalAlignmentValue = textElement.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = textElement.getOwnVerticalAlignmentValue();
 		rotationValue = textElement.getOwnRotationValue();
-		lineSpacingValue = textElement.getOwnLineSpacingValue();
 		markup = textElement.getOwnMarkup();
 
 		lineBox = textElement.getLineBox().clone(this);
@@ -324,61 +322,59 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
-		return getLineSpacingValue().getValue();
+		return getParagraph().getLineSpacing().getValue();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
-		return getOwnLineSpacingValue() == null? null : getOwnLineSpacingValue().getValueByte();
+		return getParagraph().getOwnLineSpacing() == null ? null : getParagraph().getOwnLineSpacing().getValueByte();
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link  #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
-		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
-		setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
+		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
-		return JRStyleResolver.getLineSpacingValue(this);
+		return getParagraph().getLineSpacing();
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
-		return this.lineSpacingValue;
+		return getParagraph().getOwnLineSpacing();
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
 	 */
-	public void setLineSpacing(LineSpacingEnum lineSpacingValue)
+	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
-		Object old = this.lineSpacingValue;
-		this.lineSpacingValue = lineSpacingValue;
-		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_LINE_SPACING, old, this.lineSpacingValue);
+		getParagraph().setLineSpacing(lineSpacing);
 	}
 
 	/**
@@ -1311,6 +1307,10 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated
 	 */
+	private LineSpacingEnum lineSpacingValue;
+	/**
+	 * @deprecated
+	 */
 	private Byte border;
 	/**
 	 * @deprecated
@@ -1436,7 +1436,9 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 
 		if (paragraph == null)
 		{
-			paragraph = new JRBaseParagraph(this);//FIXMETAB move lineSpacing to paragraph
+			paragraph = new JRBaseParagraph(this);
+			paragraph.setLineSpacing(lineSpacingValue);
+			lineSpacingValue = null;
 		}
 	}
 }

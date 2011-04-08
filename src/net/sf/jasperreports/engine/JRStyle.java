@@ -377,21 +377,23 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public RotationEnum getOwnRotationValue();
 	
 	/**
-	 * @deprecated Replaced by {@link #getLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public Byte getLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link #getOwnLineSpacingValue()}.
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing();
 
 	/**
-	 * Gets the line spacing.
-	 * @return a value representing one of the line spacing constants in the {@link LineSpacingEnum}.
+	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue();
 
+	/**
+	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
 
 	/**
@@ -835,17 +837,17 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setUnderline(Boolean underline);
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}
 	 */
 	public void setLineSpacing(byte lineSpacing);
 
 	/**
-	 * @deprecated Replaced by {@link #setLineSpacing(LineSpacingEnum)}
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
 

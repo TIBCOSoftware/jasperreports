@@ -1076,7 +1076,6 @@ public class JRApiWriter
 			write( textElementName + ".setHorizontalAlignment({0});\n", textElement.getOwnHorizontalAlignmentValue());
 			write( textElementName + ".setVerticalAlignment({0});\n", textElement.getOwnVerticalAlignmentValue());
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
-			write( textElementName + ".setLineSpacing({0});\n", textElement.getOwnLineSpacingValue());
 			write( textElementName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textElement.getOwnMarkup()));
 			writeFont( textElement, textElementName);
 			writeParagraph( textElement.getParagraph(), textElementName + ".getParagraph()");
@@ -1148,7 +1147,6 @@ public class JRApiWriter
 		write( styleName + ".setHorizontalAlignment({0});\n", style.getOwnHorizontalAlignmentValue());
 		write( styleName + ".setVerticalAlignment({0});\n", style.getOwnVerticalAlignmentValue());
 		write( styleName + ".setRotation({0});\n", style.getOwnRotationValue());
-		write( styleName + ".setLineSpacing({0});\n", style.getOwnLineSpacingValue());
 
 		write( styleName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnMarkup()));
 		write( styleName + ".setPattern(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(style.getOwnPattern()));
@@ -3754,6 +3752,7 @@ public class JRApiWriter
 	{
 		if (paragraph != null)
 		{
+			write( paragraphHolder + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
 			write( paragraphHolder + ".setTabStop(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStop());
 
 			flush();

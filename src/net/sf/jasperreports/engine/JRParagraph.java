@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
+
 
 
 /**
@@ -37,6 +39,24 @@ public interface JRParagraph extends JRStyleContainer
 	 */
 	public JRParagraph clone(JRParagraphContainer paragraphContainer);
 
+	/**
+	 * Gets the text line spacing.
+	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public LineSpacingEnum getLineSpacing();
+	
+	/**
+	 * Gets the text own line spacing.
+	 * @return a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public LineSpacingEnum getOwnLineSpacing();
+	
+	/**
+	 * Sets the text line spacing.
+	 * @param lineSpacing a value representing one of the line spacing constants in {@link LineSpacingEnum}
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacing);
+	
 	/**
 	 * Gets the text tab stop width.
 	 */

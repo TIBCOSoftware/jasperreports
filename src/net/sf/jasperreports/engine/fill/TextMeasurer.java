@@ -317,7 +317,7 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 		
 		/*   */
-		switch (textElement.getLineSpacingValue())
+		switch (textElement.getParagraph().getLineSpacing())
 		{
 			case SINGLE : 
 			{

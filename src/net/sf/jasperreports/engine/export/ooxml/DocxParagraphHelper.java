@@ -92,7 +92,7 @@ public class DocxParagraphHelper extends BaseHelper
 
 		exportLineSpacing(
 			getLineSpacing(
-				style.getOwnLineSpacingValue() 
+				style.getParagraph().getOwnLineSpacing() 
 				)
 			);
 
@@ -121,7 +121,7 @@ public class DocxParagraphHelper extends BaseHelper
 
 		exportLineSpacing(
 			getLineSpacing(
-				text.getOwnLineSpacingValue() 
+				text.getParagraph().getOwnLineSpacing() 
 				)
 			);
 

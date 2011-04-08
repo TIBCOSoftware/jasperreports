@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -50,13 +51,15 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_TAB_STOP = "tabStop";
-	
+	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
+
 
 	protected JRParagraphContainer paragraphContainer;
 
 	/**
 	 *
 	 */
+	protected LineSpacingEnum lineSpacing;
 	protected Integer tabStop;
 
 	
@@ -111,6 +114,32 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	public JRParagraphContainer getParagraphContainer()
 	{
 		return paragraphContainer;
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getLineSpacing()
+	{
+		return JRStyleResolver.getLineSpacing(this);
+	}
+
+	/**
+	 *
+	 */
+	public LineSpacingEnum getOwnLineSpacing()
+	{
+		return lineSpacing;
+	}
+	
+	/**
+	 *
+	 */
+	public void setLineSpacing(LineSpacingEnum lineSpacing)
+	{
+		Object old = this.lineSpacing;
+		this.lineSpacing = lineSpacing;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
 	}
 
 	/**

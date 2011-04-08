@@ -87,7 +87,11 @@ public class JRPrintTextFactory extends JRBaseFactory
 		LineSpacingEnum lineSpacing = LineSpacingEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_lineSpacing));
 		if (lineSpacing != null)
 		{
-			text.setLineSpacing(lineSpacing);
+			if (log.isWarnEnabled())
+			{
+				log.warn("The 'lineSpacing' attribute is deprecated. Use the <paragraph> tag instead.");
+			}
+			text.getParagraph().setLineSpacing(lineSpacing);
 		}
 
 		text.setMarkup(atts.getValue(JRXmlConstants.ATTRIBUTE_markup));
