@@ -850,6 +850,45 @@
    <documentation>Paragraph properties for text elements.</documentation>
   </annotation>
   <complexType>
+   <attribute name="lineSpacing" use="optional">
+    <annotation>
+     <documentation>Type of line spacing for the text object.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Single">
+		<annotation>
+		 <documentation>Normal line spacing</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="1_1_2">
+		<annotation>
+		 <documentation>Medium line spacing.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Double">
+		<annotation>
+		 <documentation>Double line spacing</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="AtLeast">
+		<annotation>
+		 <documentation>Line spacing is at least the amount specified by lineSpacingSize.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Fixed">
+		<annotation>
+		 <documentation>Line spacing is exactly as specified bye lineSpacingSize.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Proportional">
+		<annotation>
+		 <documentation>Line spacing is normal line spacing multiplied by lineSpacingSize.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
    <attribute name="tabStop" type="NMTOKEN" use="optional">
 	<annotation>
 	 <documentation>The line width of the pen.</documentation>

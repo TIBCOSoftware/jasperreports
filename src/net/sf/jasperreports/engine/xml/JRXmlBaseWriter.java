@@ -211,6 +211,7 @@ public abstract class JRXmlBaseWriter
 			writer.startElement(JRXmlConstants.ELEMENT_paragraph, namespace);
 			
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, paragraph.getOwnLineSpacing());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacingSize, paragraph.getOwnLineSpacingSize());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStop, paragraph.getOwnTabStop());
 
 			writer.closeElement(true);

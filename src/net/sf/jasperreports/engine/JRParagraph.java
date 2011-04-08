@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 
@@ -33,6 +34,10 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
  */
 public interface JRParagraph extends JRStyleContainer
 {
+	/**
+	 * 
+	 */
+	public static final String DEFAULT_TAB_STOP = JRProperties.PROPERTY_PREFIX + "default.tab.stop";
 
 	/**
 	 * 
@@ -56,6 +61,21 @@ public interface JRParagraph extends JRStyleContainer
 	 * @param lineSpacing a value representing one of the line spacing constants in {@link LineSpacingEnum}
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
+	
+	/**
+	 * Gets the text line spacing size to be used in combination with the line spacing type.
+	 */
+	public Float getLineSpacingSize();
+	
+	/**
+	 * Gets the text own line spacing size to be used in combination with the line spacing type.
+	 */
+	public Float getOwnLineSpacingSize();
+	
+	/**
+	 * Sets the text line spacing size to be used in combination with the line spacing type.
+	 */
+	public void setLineSpacingSize(Float lineSpacingSize);
 	
 	/**
 	 * Gets the text tab stop width.

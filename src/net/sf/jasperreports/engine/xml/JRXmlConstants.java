@@ -273,6 +273,8 @@ public final class JRXmlConstants
 	 * JRParagraphFactory associated constants
 	 */
 	public static final String ELEMENT_paragraph = "paragraph";
+	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
+	public static final String ATTRIBUTE_lineSpacingSize = "lineSpacingSize";
 	public static final String ATTRIBUTE_tabStop = "tabStop";
 
 	/**
@@ -441,7 +443,6 @@ public final class JRXmlConstants
 	// these are inherited by both images and texts.
 
 	public static final String ATTRIBUTE_rotation = "rotation";
-	public static final String ATTRIBUTE_lineSpacing = "lineSpacing";
 	public static final String ATTRIBUTE_isStyledText = "isStyledText";
 	public static final String ATTRIBUTE_markup = "markup";
 	public static final String ATTRIBUTE_pattern = "pattern";

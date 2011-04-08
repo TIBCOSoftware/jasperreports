@@ -50,8 +50,9 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public static final String PROPERTY_TAB_STOP = "tabStop";
 	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
+	public static final String PROPERTY_LINE_SPACING_SIZE = "lineSpacingSize";
+	public static final String PROPERTY_TAB_STOP = "tabStop";
 
 
 	protected JRParagraphContainer paragraphContainer;
@@ -60,6 +61,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 *
 	 */
 	protected LineSpacingEnum lineSpacing;
+	protected Float lineSpacingSize;
 	protected Integer tabStop;
 
 	
@@ -140,6 +142,32 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		Object old = this.lineSpacing;
 		this.lineSpacing = lineSpacing;
 		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING, old, this.lineSpacing);
+	}
+
+	/**
+	 *
+	 */
+	public Float getLineSpacingSize()
+	{
+		return JRStyleResolver.getLineSpacingSize(this);
+	}
+
+	/**
+	 *
+	 */
+	public Float getOwnLineSpacingSize()
+	{
+		return lineSpacingSize;
+	}
+	
+	/**
+	 *
+	 */
+	public void setLineSpacingSize(Float lineSpacingSize)
+	{
+		Object old = this.lineSpacingSize;
+		this.lineSpacingSize = lineSpacingSize;
+		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING_SIZE, old, this.lineSpacingSize);
 	}
 
 	/**

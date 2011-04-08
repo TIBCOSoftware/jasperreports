@@ -45,7 +45,22 @@ public enum LineSpacingEnum implements JREnum
 	/**
 	 * Constant for setting spacing between lines to double size.
 	 */
-	DOUBLE((byte)2, "Double");
+	DOUBLE((byte)2, "Double"),
+	
+	/**
+	 * Constant for setting spacing between lines to at least a specified size.
+	 */
+	AT_LEAST((byte)3, "AtLeast"),
+	
+	/**
+	 * Constant for setting spacing between lines to a specified size.
+	 */
+	FIXED((byte)4, "Fixed"),
+	
+	/**
+	 * Constant for setting spacing between lines to a specified proportion of the normal line spacing.
+	 */
+	PROPORTIONAL((byte)5, "Proportional");
 	
 	
 	/**

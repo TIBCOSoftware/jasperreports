@@ -38,8 +38,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	/**
 	 * 
 	 */
-	public static final String DEFAULT_TAB_STOP = JRProperties.PROPERTY_PREFIX + "default.tab.stop";
-	
 	public static final String MARKUP_NONE = "none";
 	public static final String MARKUP_STYLED_TEXT = "styled";
 	public static final String MARKUP_HTML = "html";
