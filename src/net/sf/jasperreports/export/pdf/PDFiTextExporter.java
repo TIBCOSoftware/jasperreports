@@ -2400,7 +2400,7 @@ public class PDFiTextExporter extends JRAbstractExporter
 			
 			AttributedCharacterIterator allParagraphs = styledText.getAttributedString().getIterator();
 			
-			int tabStop = text.getParagraph().getTabStop();
+			int tabStopWidth = text.getParagraph().getTabStopWidth();
 			float verticalPos = 
 				jasperPrint.getPageHeight()
 				- y
@@ -2484,7 +2484,7 @@ public class PDFiTextExporter extends JRAbstractExporter
 
 						horizontalPos = colText.getLastX() - x - leftPadding;
 						
-						if (horizontalPos >= tabStop * ((width - leftPadding - rightPadding) / tabStop))
+						if (horizontalPos >= tabStopWidth * ((width - leftPadding - rightPadding) / tabStopWidth))
 						{
 							horizontalPos = 0;
 							lcVerticalPos = colText.getYLine();
@@ -2513,7 +2513,7 @@ public class PDFiTextExporter extends JRAbstractExporter
 					
 					startIndex = tabIndexOrEndIndex + 1;
 					
-					horizontalPos = ((int)(horizontalPos / tabStop) + 1) * tabStop;
+					horizontalPos = ((int)(horizontalPos / tabStopWidth) + 1) * tabStopWidth;
 				}
 				
 				parStartIndex = parEndIndex;

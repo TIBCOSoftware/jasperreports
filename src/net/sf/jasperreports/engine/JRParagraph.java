@@ -41,7 +41,7 @@ public interface JRParagraph extends JRStyleContainer
 	public static final String DEFAULT_RIGHT_INDENT = JRProperties.PROPERTY_PREFIX + "default.right.indent";
 	public static final String DEFAULT_SPACING_BEFORE = JRProperties.PROPERTY_PREFIX + "default.spacing.before";
 	public static final String DEFAULT_SPACING_AFTER = JRProperties.PROPERTY_PREFIX + "default.spacing.after";
-	public static final String DEFAULT_TAB_STOP = JRProperties.PROPERTY_PREFIX + "default.tab.stop";
+	public static final String DEFAULT_TAB_STOP_WIDTH = JRProperties.PROPERTY_PREFIX + "default.tab.stop.width";
 
 	/**
 	 * 
@@ -144,16 +144,16 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * Gets the text tab stop width.
 	 */
-	public Integer getTabStop();
+	public Integer getTabStopWidth();
 	
 	/**
 	 * Gets the text own tab stop width.
 	 */
-	public Integer getOwnTabStop();
+	public Integer getOwnTabStopWidth();
 	
 	/**
 	 * Sets the text own tab stop width.
 	 */
-	public void setTabStop(Integer tabStop);
+	public void setTabStopWidth(Integer tabStopWidth);
 
 }

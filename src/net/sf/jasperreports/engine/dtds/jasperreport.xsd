@@ -914,7 +914,7 @@
 	 <documentation>The spacing after text.</documentation>
 	</annotation>
    </attribute>
-   <attribute name="tabStop" type="NMTOKEN" use="optional">
+   <attribute name="tabStopWidth" type="NMTOKEN" use="optional">
 	<annotation>
 	 <documentation>The tab stop width of the text.</documentation>
 	</annotation>

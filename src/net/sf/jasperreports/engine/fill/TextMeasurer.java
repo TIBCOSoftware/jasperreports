@@ -85,7 +85,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private int leftPadding;
 	private int bottomPadding;
 	private int rightPadding;
-	private int tabStop;
+	private int tabStopWidth;
 	private HorizontalAlignEnum horizontalAlignment;
 	private float lineSpacing;
 
@@ -273,7 +273,7 @@ public class TextMeasurer implements JRTextMeasurer
 		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
 		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 		
-		tabStop = textElement.getParagraph().getTabStop();
+		tabStopWidth = textElement.getParagraph().getTabStopWidth();
 		horizontalAlignment = ((JRAlignment)textElement).getHorizontalAlignmentValue();//FIXMENOW why common text is not alignment?
 
 		switch (textElement.getRotationValue())
@@ -681,7 +681,7 @@ public class TextMeasurer implements JRTextMeasurer
 			else
 			{
 				rightX = oldSegment.rightX;
-				nextTabStopHolder[0] = (rightX / tabStop + 1) * tabStop;
+				nextTabStopHolder[0] = (rightX / tabStopWidth + 1) * tabStopWidth;
 			}
 
 			availableWidth = formatWidth - TextRenderer.getAvailableWidth(horizontalAlignment, rightX, nextTabStopHolder[0]);
@@ -741,12 +741,12 @@ public class TextMeasurer implements JRTextMeasurer
 				if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 				{
 					// the segment limit was a tab
-					if (crtSegment.rightX >= tabStop * (int)(formatWidth / tabStop))
+					if (crtSegment.rightX >= tabStopWidth * (int)(formatWidth / tabStopWidth))
 					{
 						// current segment stretches out beyond the last tab stop; line complete
 						lineComplete = true;
 						// next line should should start at first tab stop indent
-						nextTabStopHolder[0] = tabStop;
+						nextTabStopHolder[0] = tabStopWidth;
 					}
 					else
 					{
@@ -760,7 +760,7 @@ public class TextMeasurer implements JRTextMeasurer
 					if (layout == null)
 					{
 						// nothing fitted; next line should start at first tab stop indent
-						if (nextTabStopHolder[0] == tabStop)//FIXMETAB check based on segments.size()
+						if (nextTabStopHolder[0] == tabStopWidth)//FIXMETAB check based on segments.size()
 						{
 							// at second attempt we give up to avoid infinite loop
 							nextTabStopHolder[0] = 0;
@@ -776,7 +776,7 @@ public class TextMeasurer implements JRTextMeasurer
 						}
 						else
 						{
-							nextTabStopHolder[0] = tabStop;
+							nextTabStopHolder[0] = tabStopWidth;
 						}
 					}
 					else

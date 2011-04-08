@@ -87,10 +87,10 @@ public class JRParagraphFactory extends JRBaseFactory
 			paragraph.setSpacingAfter(Integer.parseInt(spacingAfter));
 		}
 
-		String tabStop = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStop);
-		if (tabStop != null && tabStop.length() > 0)
+		String tabStopWidth = atts.getValue(JRXmlConstants.ATTRIBUTE_tabStopWidth);
+		if (tabStopWidth != null && tabStopWidth.length() > 0)
 		{
-			paragraph.setTabStop(Integer.parseInt(tabStop));
+			paragraph.setTabStopWidth(Integer.parseInt(tabStopWidth));
 		}
 	}
 

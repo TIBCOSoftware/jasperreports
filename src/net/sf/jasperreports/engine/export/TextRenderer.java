@@ -56,7 +56,7 @@ public class TextRenderer
 	private int leftPadding;
 	private float formatWidth;
 	private float verticalOffset;
-	private int tabStop;
+	private int tabStopWidth;
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private float textHeight;
@@ -120,7 +120,7 @@ public class TextRenderer
 		float initTextHeight,
 		HorizontalAlignEnum initHorizontalAlignment,
 		VerticalAlignEnum initVerticalAlignment,
-		int initTabStop,
+		int initTabStopWidth,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -143,7 +143,7 @@ public class TextRenderer
 			initTextHeight, 
 			initHorizontalAlignment, 
 			initVerticalAlignment, 
-			initTabStop,
+			initTabStopWidth,
 			initLineSpacingFactor,
 			initLeadingOffset,
 			initFontSize,
@@ -203,7 +203,7 @@ public class TextRenderer
 		float initTextHeight,
 		HorizontalAlignEnum initHorizontalAlignment,
 		VerticalAlignEnum initVerticalAlignment,
-		int initTabStop,
+		int initTabStopWidth,
 		float initLineSpacingFactor,
 		float initLeadingOffset,
 		int initFontSize,
@@ -238,7 +238,7 @@ public class TextRenderer
 			}
 		}
 
-		this.tabStop = initTabStop;
+		this.tabStopWidth = initTabStopWidth;
 		this.lineSpacingFactor = initLineSpacingFactor;
 		this.leadingOffset = initLeadingOffset;
 
@@ -333,7 +333,7 @@ public class TextRenderer
 				else
 				{
 					rightX = oldSegment.rightX;
-					nextTabStop = (rightX / tabStop + 1) * tabStop;
+					nextTabStop = (rightX / tabStopWidth + 1) * tabStopWidth;
 				}
 
 				availableWidth = formatWidth - getAvailableWidth(horizontalAlignment, rightX, nextTabStop);
@@ -410,12 +410,12 @@ public class TextRenderer
 					if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 					{
 						// the segment limit was a tab
-						if (crtSegment.rightX >= tabStop * (int)(formatWidth / tabStop))
+						if (crtSegment.rightX >= tabStopWidth * (int)(formatWidth / tabStopWidth))
 						{
 							// current segment stretches out beyond the last tab stop; line complete
 							lineComplete = true;
 							// next line should should start at first tab stop indent
-							nextTabStop = tabStop;
+							nextTabStop = tabStopWidth;
 						}
 						else
 						{
@@ -429,7 +429,7 @@ public class TextRenderer
 						if (layout == null)
 						{
 							// nothing fitted; next line should start at first tab stop indent
-							if (nextTabStop == tabStop)//FIXMETAB check based on segments.size()
+							if (nextTabStop == tabStopWidth)//FIXMETAB check based on segments.size()
 							{
 								// at second attempt we give up to avoid infinite loop
 								nextTabStop = 0;
@@ -451,7 +451,7 @@ public class TextRenderer
 							}
 							else
 							{
-								nextTabStop = tabStop;
+								nextTabStop = tabStopWidth;
 							}
 						}
 						else

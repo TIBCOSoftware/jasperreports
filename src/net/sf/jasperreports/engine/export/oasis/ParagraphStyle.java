@@ -75,7 +75,7 @@ public class ParagraphStyle extends Style
 	private String tabStopAlignment;
 	private String runDirection;
 	private String textRotation = "0";
-	private Integer tabStop;
+	private Integer tabStopWidth;
 
 	/**
 	 *
@@ -114,7 +114,7 @@ public class ParagraphStyle extends Style
 			runDirection = "rl";
 		}
 		
-		tabStop = text.getParagraph().getTabStop();
+		tabStopWidth = text.getParagraph().getTabStopWidth();
 	}
 	
 	/**
@@ -294,7 +294,7 @@ public class ParagraphStyle extends Style
 	 */
 	public String getId()
 	{
-		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation + "|" + tabStop;
+		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation + "|" + tabStopWidth;
 	}
 
 	/**
@@ -321,12 +321,12 @@ public class ParagraphStyle extends Style
 			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 		}
 		styleWriter.write(">\n");
-		if (tabStop != null && tabStop.intValue() > 0)
+		if (tabStopWidth != null && tabStopWidth.intValue() > 0)
 		{
 			styleWriter.write("<style:tab-stops>");
 			for (int i = 0; i < 10; i++)
 			{
-				styleWriter.write("<style:tab-stop style:type=\"" + tabStopAlignment + "\" style:position=\"" + LengthUtil.inch((i + 1) * tabStop) + "in\"/>");
+				styleWriter.write("<style:tab-stop style:type=\"" + tabStopAlignment + "\" style:position=\"" + LengthUtil.inch((i + 1) * tabStopWidth) + "in\"/>");
 			}
 			styleWriter.write("</style:tab-stops>");
 		}
