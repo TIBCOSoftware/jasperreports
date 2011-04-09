@@ -280,6 +280,8 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_spacingBefore = "spacingBefore";
 	public static final String ATTRIBUTE_spacingAfter = "spacingAfter";
 	public static final String ATTRIBUTE_tabStopWidth = "tabStopWidth";
+	public static final String ELEMENT_tabStop = "tabStop";
+	public static final String ATTRIBUTE_alignment = "alignment";
 
 	/**
 	 * JRBreakFactory associated constants

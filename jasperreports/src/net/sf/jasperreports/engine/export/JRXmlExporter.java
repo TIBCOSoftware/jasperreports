@@ -77,6 +77,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -1019,10 +1020,37 @@ public class JRXmlExporter extends JRAbstractExporter
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_spacingAfter, paragraph.getOwnSpacingAfter());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_tabStopWidth, paragraph.getOwnTabStopWidth());
 			
+			/*   */
+			TabStop[] tabStops = paragraph.getTabStops();
+			if (tabStops != null && tabStops.length > 0)
+			{
+				for(int i = 0; i < tabStops.length; i++)
+				{
+					exportTabStop(tabStops[i]);
+				}
+			}
+
 			xmlWriter.closeElement(true);
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	public void exportTabStop(TabStop tabStop) throws IOException
+	{
+		if (tabStop != null)
+		{
+			xmlWriter.startElement(JRXmlConstants.ELEMENT_tabStop);
+			
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_position, tabStop.getPosition());
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_alignment, tabStop.getAlignment());
+
+			xmlWriter.closeElement(true);
+		}
+	}
+	
 
 	/**
 	 *

@@ -149,6 +149,7 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -167,6 +168,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -1078,7 +1080,7 @@ public class JRApiWriter
 			write( textElementName + ".setRotation({0});\n", textElement.getOwnRotationValue());
 			write( textElementName + ".setMarkup(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(textElement.getOwnMarkup()));
 			writeFont( textElement, textElementName);
-			writeParagraph( textElement.getParagraph(), textElementName + ".getParagraph()");
+			writeParagraph( textElement.getParagraph(), textElementName);
 			flush();
 		}
 	}
@@ -1154,7 +1156,7 @@ public class JRApiWriter
 
 		writePen( style.getLinePen(), styleName + ".getLinePen()");
 		writeBox( style.getLineBox(), styleName + ".getLineBox()");
-		writeParagraph( style.getParagraph(), styleName + ".getParagraph()");
+		writeParagraph( style.getParagraph(), styleName);
 	}
 
 	
@@ -3752,18 +3754,46 @@ public class JRApiWriter
 	{
 		if (paragraph != null)
 		{
-			write( paragraphHolder + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
-			write( paragraphHolder + ".setLineSpacingSize({0});\n", paragraph.getOwnLineSpacingSize());
-			write( paragraphHolder + ".setLeftIndent({0});\n", paragraph.getOwnLeftIndent());
-			write( paragraphHolder + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
-			write( paragraphHolder + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());
-			write( paragraphHolder + ".setSpacingAfter({0});\n", paragraph.getOwnSpacingAfter());
-			write( paragraphHolder + ".setTabStopWidth(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStopWidth());//FIXMENOW is this pattern needed?
+			String paragraphName = paragraphHolder + "Paragraph";
+			write( "JRParagraph " + paragraphName + " = " + paragraphHolder + ".getParagraph();\n");
+			write( paragraphName + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
+			write( paragraphName + ".setLineSpacingSize({0});\n", paragraph.getOwnLineSpacingSize());
+			write( paragraphName + ".setLeftIndent({0});\n", paragraph.getOwnLeftIndent());
+			write( paragraphName + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
+			write( paragraphName + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());
+			write( paragraphName + ".setSpacingAfter({0});\n", paragraph.getOwnSpacingAfter());
+			write( paragraphName + ".setTabStopWidth(Integer.valueOf({0, number, #}));\n", paragraph.getOwnTabStopWidth());//FIXMENOW is this pattern needed?
+
+			TabStop[] tabStops = paragraph.getTabStops();
+			if (tabStops != null && tabStops.length > 0)
+			{
+				for(int i = 0; i < tabStops.length; i++)
+				{
+					writeTabStop( tabStops[i], paragraphName + "TabStop" + i);
+					write( paragraphName +".addTabStop(" + paragraphName + "TabStop" + i + ");\n");
+				}
+			}
 
 			flush();
 		}
 	}
 
+	
+	/**
+	 *
+	 */
+	private void writeTabStop(TabStop tabStop, String tabStopName)
+	{
+		if (tabStop != null)
+		{
+			write( "TabStop " + tabStopName + " = new TabStop();\n");
+			write( tabStopName + ".setAlignment({0});\n", tabStop.getAlignment(), TabStopAlignEnum.LEFT);
+			write( tabStopName + ".setPosition({0});\n", tabStop.getPosition());
+			flush();
+		}
+	}
+
+	
 	public void writeExpression( JRExpression expression, String parentName, String expressionSuffix)
 	{
 		writeExpression( expression, parentName, expressionSuffix, null);

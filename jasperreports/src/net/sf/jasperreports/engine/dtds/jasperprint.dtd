@@ -89,7 +89,7 @@
 	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
 	lineColor CDATA #IMPLIED
 >
-<!ELEMENT paragraph EMPTY>
+<!ELEMENT paragraph (tabStop*)>
 <!ATTLIST paragraph
 	lineSpacing (Single | 1_1_2 | Double | AtLeast | Fixed | Proportional) #IMPLIED
 	lineSpacingSize NMTOKEN #IMPLIED
@@ -98,6 +98,11 @@
 	spacingBefore NMTOKEN #IMPLIED
 	spacingAfter NMTOKEN #IMPLIED
 	tabStopWidth NMTOKEN #IMPLIED
+>
+<!ELEMENT tabStop EMPTY>
+<!ATTLIST tabStop
+	alignment (Left | Center | Right) #IMPLIED
+	position NMTOKEN #REQUIRED
 >
 <!ELEMENT page (line | rectangle | ellipse | image | text | frame | genericElement)*>
 <!ELEMENT line (reportElement?, graphicElement?)>
