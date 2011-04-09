@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
@@ -258,6 +259,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 		/*   */
 		digester.addFactoryCreate("*/paragraph", JRParagraphFactory.class.getName());
+		digester.addFactoryCreate("*/paragraph/tabStop", TabStopFactory.class.getName());
+		digester.addSetNext("*/paragraph/tabStop", "addTabStop", TabStop.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageSource", JRPrintImageSourceFactory.class.getName());

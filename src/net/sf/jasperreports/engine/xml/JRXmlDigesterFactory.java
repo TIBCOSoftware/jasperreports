@@ -139,6 +139,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
@@ -383,6 +384,8 @@ public final class JRXmlDigesterFactory
 
 		/*   */
 		digester.addFactoryCreate("*/paragraph", JRParagraphFactory.class.getName());
+		digester.addFactoryCreate("*/paragraph/tabStop", TabStopFactory.class.getName());
+		digester.addSetNext("*/paragraph/tabStop", "addTabStop", TabStop.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("*/image/imageExpression", JRStringExpressionFactory.class.getName());

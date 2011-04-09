@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -217,6 +218,33 @@ public abstract class JRXmlBaseWriter
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_spacingBefore, paragraph.getOwnSpacingBefore());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_spacingAfter, paragraph.getOwnSpacingAfter());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_tabStopWidth, paragraph.getOwnTabStopWidth());
+
+			/*   */
+			TabStop[] tabStops = paragraph.getTabStops();
+			if (tabStops != null && tabStops.length > 0)
+			{
+				for(int i = 0; i < tabStops.length; i++)
+				{
+					writeTabStop(tabStops[i]);
+				}
+			}
+
+			writer.closeElement(true);
+		}
+	}
+
+	
+	/**
+	 *
+	 */
+	public void writeTabStop(TabStop tabStop) throws IOException
+	{
+		if (tabStop != null)
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_tabStop);
+			
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_position, tabStop.getPosition());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_alignment, tabStop.getAlignment());
 
 			writer.closeElement(true);
 		}

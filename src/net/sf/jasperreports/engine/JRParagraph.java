@@ -156,4 +156,29 @@ public interface JRParagraph extends JRStyleContainer
 	 */
 	public void setTabStopWidth(Integer tabStopWidth);
 
+	/**
+	 * Gets the custom tab stops.
+	 */
+	public TabStop[] getTabStops();
+	
+	/**
+	 *
+	 */
+	public void addTabStop(TabStop tabStop);
+	
+	/**
+	 *
+	 */
+	public void addTabStop(int index, TabStop tabStop);
+
+	/**
+	 *
+	 */
+	public void removeTabStop(int index);
+
+	/**
+	 *
+	 */
+	public void removeTabStop(TabStop tabStop);
+
 }

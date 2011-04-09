@@ -850,6 +850,9 @@
    <documentation>Paragraph properties for text elements.</documentation>
   </annotation>
   <complexType>
+   <sequence>
+    <element ref="jr:tabStop" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
    <attribute name="lineSpacing" use="optional">
     <annotation>
      <documentation>Type of line spacing for the text object.</documentation>
@@ -917,6 +920,43 @@
    <attribute name="tabStopWidth" type="NMTOKEN" use="optional">
 	<annotation>
 	 <documentation>The tab stop width of the text.</documentation>
+	</annotation>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="tabStop">
+  <annotation>
+   <documentation>Custom tab stop definition.</documentation>
+  </annotation>
+  <complexType>
+   <attribute name="alignment" use="optional">
+    <annotation>
+	 <documentation>The alignment of the custom tab stop.</documentation>
+    </annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Left">
+		<annotation>
+		 <documentation>Left aligned tab stop.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Center">
+		<annotation>
+		 <documentation>Center aligned tab stop.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Right">
+		<annotation>
+		 <documentation>Right aligned tab stop.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="position" type="NMTOKEN" use="required">
+	<annotation>
+	 <documentation>The position of the custom tab stop.</documentation>
 	</annotation>
    </attribute>
   </complexType>

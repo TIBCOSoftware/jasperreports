@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -31,6 +33,7 @@ import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRParagraphContainer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -57,6 +60,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	public static final String PROPERTY_SPACING_BEFORE = "spacingBefore";
 	public static final String PROPERTY_SPACING_AFTER = "spacingAfter";
 	public static final String PROPERTY_TAB_STOP_WIDTH = "tabStopWidth";
+	public static final String PROPERTY_TAB_STOPS = "tabStops";
 
 
 	protected JRParagraphContainer paragraphContainer;
@@ -71,6 +75,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	protected Integer spacingBefore;
 	protected Integer spacingAfter;
 	protected Integer tabStopWidth;
+	protected List<TabStop> tabStops;
 
 	
 	/**
@@ -307,6 +312,80 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		this.tabStopWidth = tabStopWidth;
 		getEventSupport().firePropertyChange(PROPERTY_TAB_STOP_WIDTH, old, this.tabStopWidth);
 	}
+	
+	/**
+	 *
+	 */
+	public TabStop[] getTabStops()
+	{
+		if (tabStops == null)
+		{
+			return null;
+		}
+		
+		return tabStops.toArray(new TabStop[tabStops.size()]);
+	}
+	
+	/**
+	 *
+	 */
+	public void addTabStop(TabStop tabStop)
+	{
+		if (tabStops == null)
+		{
+			tabStops = new ArrayList<TabStop>();
+		}
+		
+		tabStops.add(tabStop);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, tabStops.size() - 1);
+	}
+	
+	/**
+	 *
+	 */
+	public void addTabStop(int index, TabStop tabStop)
+	{
+		if (tabStops == null)
+		{
+			tabStops = new ArrayList<TabStop>();
+		}
+		
+		tabStops.add(index, tabStop);
+		
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_TAB_STOPS, tabStop, index);
+	}
+	
+	/**
+	 *
+	 */
+	public void removeTabStop(TabStop tabStop)
+	{
+		if (tabStops != null)
+		{
+			int index = tabStops.indexOf(tabStop);
+			if (index >= 0)
+			{
+				tabStops.remove(index);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TAB_STOPS, tabStop, index);
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public void removeTabStop(int index)
+	{
+		if (tabStops != null)
+		{
+			if (index >= 0 && index < tabStops.size())
+			{
+				TabStop tabStop = tabStops.remove(index);
+				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_TAB_STOPS, tabStop, index);
+			}
+		}
+	}
 
 
 	/**
@@ -327,6 +406,16 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		
 		clone.paragraphContainer = paragraphContainer;
 		
+		if (tabStops != null)
+		{
+			clone.tabStops = new ArrayList<TabStop>(tabStops.size());
+			for(int i = 0; i < tabStops.size(); i++)
+			{
+				TabStop tabStop = (TabStop)tabStops.get(i).clone();
+				clone.tabStops.add(tabStop);
+			}
+		}
+
 		return clone;
 	}
 	
