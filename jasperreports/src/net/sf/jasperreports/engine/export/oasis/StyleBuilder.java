@@ -36,6 +36,7 @@ import java.io.Writer;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.LengthUtil;
 
 
@@ -129,7 +130,7 @@ public class StyleBuilder
 			"draw:style=\"rect\" draw:dots1=\"1\" draw:dots1-length=\"0.05cm\" draw:dots2=\"1\" " +
 			"draw:dots2-length=\"0.05cm\" draw:distance=\"0.05cm\"/>");
 		writer.write(" <style:default-style style:family=\"paragraph\"><style:paragraph-properties style:tab-stop-distance=\"" +
-				LengthUtil.inch(jasperPrint.getDefaultStyle().getParagraph().getTabStopWidth()) +
+				LengthUtil.inch(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth()) +
 				"in\"/></style:default-style>\n");	
 		writer.write(" </office:styles>\n");	
 		writer.write(" <office:automatic-styles>\n");	
