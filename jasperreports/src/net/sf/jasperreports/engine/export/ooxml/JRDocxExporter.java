@@ -334,6 +334,13 @@ public class JRDocxExporter extends JRAbstractExporter
 		styleHelper.export(jasperPrintList);
 		styleHelper.close();
 
+		DocxSettingsHelper settingsHelper = 
+			new DocxSettingsHelper(
+				docxZip.getSettingsEntry().getWriter()
+				);
+		settingsHelper.export(jasperPrint);
+		settingsHelper.close();
+
 		runHelper = new DocxRunHelper(docWriter, fontMap, getExporterKey());
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
