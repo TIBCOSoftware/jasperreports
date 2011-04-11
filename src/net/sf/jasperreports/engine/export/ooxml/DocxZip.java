@@ -41,6 +41,7 @@ public class DocxZip extends FileBufferedZip
 	 */
 	private ExportZipEntry documentEntry;
 	private ExportZipEntry stylesEntry;
+	private ExportZipEntry settingsEntry;
 	private ExportZipEntry relsEntry;
 	
 	/**
@@ -53,6 +54,9 @@ public class DocxZip extends FileBufferedZip
 		
 		stylesEntry = createEntry("word/styles.xml");
 		addEntry(stylesEntry);
+		
+		settingsEntry = createEntry("word/settings.xml");
+		addEntry(settingsEntry);
 		
 		relsEntry = createEntry("word/_rels/document.xml.rels");
 		addEntry(relsEntry);
@@ -75,6 +79,14 @@ public class DocxZip extends FileBufferedZip
 	public ExportZipEntry getStylesEntry()
 	{
 		return stylesEntry;
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry getSettingsEntry()
+	{
+		return settingsEntry;
 	}
 	
 	/**
