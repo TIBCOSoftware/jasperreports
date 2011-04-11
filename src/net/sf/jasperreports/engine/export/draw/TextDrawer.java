@@ -171,7 +171,7 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 				text.getTextHeight(), 
 				text.getHorizontalAlignmentValue(), 
 				text.getVerticalAlignmentValue(), 
-				text.getParagraph().getTabStopWidth(),
+				text.getParagraph(),
 				text.getLineSpacingFactor(),
 				text.getLeadingOffset(),
 				text.getFontSize(),
