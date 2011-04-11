@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -859,6 +860,28 @@ public final class JRStyleResolver
 			}
 		}
 		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
+	}
+
+	/**
+	 *
+	 */
+	public static TabStop[] getTabStops(JRParagraph paragraph)
+	{
+		TabStop[] ownTabStops = paragraph.getOwnTabStops();
+		if (ownTabStops != null)
+		{
+			return ownTabStops;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			TabStop[] tabStops = style.getParagraph().getTabStops();
+			if (tabStops != null)
+			{
+				return tabStops;
+			}
+		}
+		return null;
 	}
 
 	/**

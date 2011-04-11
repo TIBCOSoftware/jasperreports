@@ -25,11 +25,14 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 
 
 /**
@@ -83,11 +86,8 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 
-		exportTabStop(
-			style.getParagraph().getOwnTabStopWidth(),
-			getTabStopAlignment(
-				style.getOwnHorizontalAlignmentValue() 
-				)
+		exportTabStops(
+			style.getParagraph()
 			);
 
 		exportLineSpacing(
@@ -112,12 +112,9 @@ public class DocxParagraphHelper extends BaseHelper
 				)
 			);
 		
-		exportTabStop(
-				text.getParagraph().getTabStopWidth(),//FIXMETAB use defaulttabStop in settings.xml and do the same for ODT if possible 
-				getTabStopAlignment(
-					text.getHorizontalAlignmentValue()//FIXMETAB own
-					)
-				);
+		exportTabStops(
+			text.getParagraph() 
+			);
 
 		exportLineSpacing(
 			getLineSpacing(
@@ -162,14 +159,16 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportTabStop(Integer tabStopWidth, String tabStopAlignment)
+	private void exportTabStops(JRParagraph paragraph)
 	{
-		if (tabStopWidth != null && tabStopWidth > 0)
+		TabStop[] tabStops = paragraph.getTabStops();
+		if (tabStops != null && tabStops.length > 0)
 		{
 			write("   <w:tabs>\n");
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < tabStops.length; i++)
 			{
-				write("   <w:tab w:pos=\"" + LengthUtil.twip((i + 1) * tabStopWidth) + "\" w:val=\"" + tabStopAlignment + "\"/>\n");
+				TabStop tabStop = tabStops[i];
+				write("   <w:tab w:pos=\"" + LengthUtil.twip(tabStop.getPosition()) + "\" w:val=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\"/>\n");
 			}
 			write("   </w:tabs>\n");
 		}
@@ -235,17 +234,16 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public static String getTabStopAlignment(HorizontalAlignEnum horizontalAlignment)
+	public static String getTabStopAlignment(TabStopAlignEnum alignment)
 	{
-		if (horizontalAlignment != null)
+		if (alignment != null)
 		{
-			switch (horizontalAlignment)
+			switch (alignment)
 			{
 				case RIGHT :
 					return TAB_STOP_ALIGN_RIGHT;
 				case CENTER :
 					return TAB_STOP_ALIGN_CENTER;
-				case JUSTIFIED :
 				case LEFT :
 				default :
 					return TAB_STOP_ALIGN_LEFT;

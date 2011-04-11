@@ -65,11 +65,14 @@ public class StyleBuilder
 	 */
 	public void build() throws IOException
 	{
-		buildBeforeAutomaticStyles();
-		
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+
+			if (reportIndex == 0)
+			{
+				buildBeforeAutomaticStyles(jasperPrint);
+			}
 			
 			buildPageLayout(reportIndex, jasperPrint);
 		}
@@ -89,7 +92,7 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private void buildBeforeAutomaticStyles() throws IOException
+	private void buildBeforeAutomaticStyles(JasperPrint jasperPrint) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 
@@ -125,6 +128,9 @@ public class StyleBuilder
 		writer.write("<draw:stroke-dash draw:name=\"Dashed\" draw:display-name=\"Dashed\" " +
 			"draw:style=\"rect\" draw:dots1=\"1\" draw:dots1-length=\"0.05cm\" draw:dots2=\"1\" " +
 			"draw:dots2-length=\"0.05cm\" draw:distance=\"0.05cm\"/>");
+		writer.write(" <style:default-style style:family=\"paragraph\"><style:paragraph-properties style:tab-stop-distance=\"" +
+				LengthUtil.inch(jasperPrint.getDefaultStyle().getParagraph().getTabStopWidth()) +
+				"in\"/></style:default-style>\n");	
 		writer.write(" </office:styles>\n");	
 		writer.write(" <office:automatic-styles>\n");	
 	}

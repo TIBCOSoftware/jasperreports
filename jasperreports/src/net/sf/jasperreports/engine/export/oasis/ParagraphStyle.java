@@ -26,11 +26,14 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 
@@ -72,10 +75,9 @@ public class ParagraphStyle extends Style
 
 	private String verticalAlignment;
 	private String horizontalAlignment;
-	private String tabStopAlignment;
 	private String runDirection;
 	private String textRotation = "0";
-	private Integer tabStopWidth;
+	private JRParagraph paragraph;
 
 	/**
 	 *
@@ -86,7 +88,6 @@ public class ParagraphStyle extends Style
 		
 		horizontalAlignment = getHorizontalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
 		verticalAlignment = getVerticalAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
-		tabStopAlignment = getTabStopAlignment(text.getHorizontalAlignmentValue(), text.getVerticalAlignmentValue(), text.getRotationValue());
 		
 		switch(text.getRotationValue())
 		{
@@ -114,7 +115,7 @@ public class ParagraphStyle extends Style
 			runDirection = "rl";
 		}
 		
-		tabStopWidth = text.getParagraph().getTabStopWidth();
+		paragraph = text.getParagraph();
 	}
 	
 	/**
@@ -236,56 +237,17 @@ public class ParagraphStyle extends Style
 	/**
 	 *
 	 */
-	public static String getTabStopAlignment(
-		HorizontalAlignEnum horizontalAlignment, 
-		VerticalAlignEnum verticalAlignment, 
-		RotationEnum rotation
-		)
+	public static String getTabStopAlignment(TabStopAlignEnum tabStopAlignment)
 	{
-		switch(rotation)
+		switch (tabStopAlignment)
 		{
-			case LEFT:
-			{
-				switch (verticalAlignment)
-				{
-					case BOTTOM :
-						return TAB_STOP_ALIGN_RIGHT;
-					case MIDDLE :
-						return TAB_STOP_ALIGN_CENTER;
-					case TOP :
-					default :
-						return TAB_STOP_ALIGN_LEFT;
-				}
-			}
-			case RIGHT:
-			{
-				switch (verticalAlignment)
-				{
-					case BOTTOM :
-						return TAB_STOP_ALIGN_LEFT;
-					case MIDDLE :
-						return TAB_STOP_ALIGN_CENTER;
-					case TOP :
-					default :
-						return TAB_STOP_ALIGN_RIGHT;
-				}
-			}
-			case UPSIDE_DOWN://FIXMEODT possible?
-			case NONE:
-			default:
-			{
-				switch (horizontalAlignment)
-				{
-					case RIGHT :
-						return TAB_STOP_ALIGN_RIGHT;
-					case CENTER :
-						return TAB_STOP_ALIGN_CENTER;
-					case JUSTIFIED :
-					case LEFT :
-					default :
-						return TAB_STOP_ALIGN_LEFT;
-				}
-			}
+			case RIGHT :
+				return TAB_STOP_ALIGN_RIGHT;
+			case CENTER :
+				return TAB_STOP_ALIGN_CENTER;
+			case LEFT :
+			default :
+				return TAB_STOP_ALIGN_LEFT;
 		}
 	}
 	
@@ -294,7 +256,19 @@ public class ParagraphStyle extends Style
 	 */
 	public String getId()
 	{
-		return verticalAlignment + "|" + horizontalAlignment + "|" + runDirection + "|" + textRotation + "|" + tabStopWidth;
+		StringBuffer sbuffer = new StringBuffer();
+		sbuffer.append(verticalAlignment).append("|").append(horizontalAlignment).append("|").append(runDirection).append("|").append(textRotation); // + "|" + tabStopWidth;// tabStopWidth can only be set in default-style
+		TabStop[] tabStops = paragraph.getTabStops();
+		if (tabStops != null && tabStops.length > 0)
+		{
+			for (int i = 0; i < tabStops.length; i++)
+			{
+				TabStop tabStop = tabStops[i];
+				sbuffer.append("|").append(tabStop.getPosition()).append("|").append(tabStop.getAlignment().getName());
+			}
+		}
+		
+		return sbuffer.toString();
 	}
 
 	/**
@@ -321,12 +295,15 @@ public class ParagraphStyle extends Style
 			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 		}
 		styleWriter.write(">\n");
-		if (tabStopWidth != null && tabStopWidth.intValue() > 0)
+		//TabStop[] tabStops = ParagraphUtil.getTabStops(paragraph, 400);//FIXMETAB harcoded value
+		TabStop[] tabStops = paragraph.getTabStops();
+		if (tabStops != null && tabStops.length > 0)
 		{
 			styleWriter.write("<style:tab-stops>");
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < tabStops.length; i++)
 			{
-				styleWriter.write("<style:tab-stop style:type=\"" + tabStopAlignment + "\" style:position=\"" + LengthUtil.inch((i + 1) * tabStopWidth) + "in\"/>");
+				TabStop tabStop = tabStops[i];
+				styleWriter.write("<style:tab-stop style:type=\"" + getTabStopAlignment(tabStop.getAlignment()) + "\" style:position=\"" + LengthUtil.inch(tabStop.getPosition()) + "in\"/>");
 			}
 			styleWriter.write("</style:tab-stops>");
 		}

@@ -318,6 +318,15 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public TabStop[] getTabStops()
 	{
+		return JRStyleResolver.getTabStops(this);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public TabStop[] getOwnTabStops()
+	{
 		if (tabStops == null)
 		{
 			return null;

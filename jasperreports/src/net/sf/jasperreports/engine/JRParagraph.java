@@ -160,6 +160,11 @@ public interface JRParagraph extends JRStyleContainer
 	 * Gets the custom tab stops.
 	 */
 	public TabStop[] getTabStops();
+
+	/**
+	 * Gets the custom tab stops.
+	 */
+	public TabStop[] getOwnTabStops();
 	
 	/**
 	 *
