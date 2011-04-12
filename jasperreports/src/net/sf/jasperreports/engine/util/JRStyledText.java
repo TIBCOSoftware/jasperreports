@@ -179,24 +179,29 @@ public class JRStyledText implements Cloneable
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
 				Run run = (Run)runs.get(i);
-				if (
-					run.startIndex != run.endIndex 
-					&& run.attributes != null 
-					&& !run.attributes.isEmpty()
-					)
+				if (run.startIndex != run.endIndex && run.attributes != null)
 				{
-					for (Iterator it = run.attributes.entrySet().iterator(); it.hasNext();)
-					{
-						Map.Entry entry = (Map.Entry) it.next();
-						AttributedCharacterIterator.Attribute attribute = 
-							(AttributedCharacterIterator.Attribute) entry.getKey();
-						if (!(attribute instanceof JRTextAttribute))
-						{
-							Object value = entry.getValue();
-							awtAttributedString.addAttribute(attribute, value, run.startIndex, run.endIndex);
-						}
-					}
+					awtAttributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
 				}
+				//FIXMETAB this should change javadoc
+//				if (
+//					run.startIndex != run.endIndex 
+//					&& run.attributes != null 
+//					&& !run.attributes.isEmpty()
+//					)
+//				{
+//					for (Iterator it = run.attributes.entrySet().iterator(); it.hasNext();)
+//					{
+//						Map.Entry entry = (Map.Entry) it.next();
+//						AttributedCharacterIterator.Attribute attribute = 
+//							(AttributedCharacterIterator.Attribute) entry.getKey();
+//						if (!(attribute instanceof JRTextAttribute))
+//						{
+//							Object value = entry.getValue();
+//							awtAttributedString.addAttribute(attribute, value, run.startIndex, run.endIndex);
+//						}
+//					}
+//				}
 			}
 			
 			AttributedCharacterIterator iterator = awtAttributedString.getIterator();

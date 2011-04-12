@@ -44,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -85,7 +86,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -1678,17 +1678,27 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement)
 	{
-		Phrase phrase = new Phrase();
-
 		String text = styledText.getText();
 		Locale locale = getTextLocale(textElement);
 
+		AttributedString as = styledText.getAttributedString();
+
+		return getPhrase(as, text, locale, textElement);
+	}
+
+
+	/**
+	 *
+	 */
+	protected Phrase getPhrase(AttributedString as, String text, Locale locale, JRPrintText textElement)
+	{
+		Phrase phrase = new Phrase();
 		int runLimit = 0;
 
-		AttributedCharacterIterator iterator = styledText.getAttributedString().getIterator();
+		AttributedCharacterIterator iterator = as.getIterator();
 
 		boolean firstChunk = true;
-		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
+		while(runLimit < text.length() && (runLimit = iterator.getRunLimit()) <= text.length())
 		{
 			Map attributes = iterator.getAttributes();
 			Chunk chunk = getChunk(attributes, text.substring(iterator.getIndex(), runLimit), locale);
@@ -2009,69 +2019,37 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public void exportText(JRPrintText text) throws DocumentException
 	{
-		JRStyledText styledText = getStyledText(text, false);
+		PdfTextRenderer textRenderer = new PdfTextRenderer(false);//FIXMETAB optimize this
+		
+		textRenderer.initialize(this, pdfContentByte, text, getOffsetX(), getOffsetY());
+		
+		JRStyledText styledText = textRenderer.getStyledText();
 
 		if (styledText == null)
 		{
 			return;
 		}
 
-		int textLength = styledText.length();
-
-		int x = text.getX() + getOffsetX();
-		int y = text.getY() + getOffsetY();
-		int width = text.getWidth();
-		int height = text.getHeight();
-		int topPadding = text.getLineBox().getTopPadding().intValue();
-		int leftPadding = text.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
-		int rightPadding = text.getLineBox().getRightPadding().intValue();
-
 		int xFillCorrection = 0;
 		int yFillCorrection = 0;
-
 		double angle = 0;
 
 		switch (text.getRotationValue())
 		{
 			case LEFT :
 			{
-				y = text.getY() + getOffsetY() + text.getHeight();
 				xFillCorrection = 1;
-				width = text.getHeight();
-				height = text.getWidth();
-				int tmpPadding = topPadding;
-				topPadding = leftPadding;
-				leftPadding = bottomPadding;
-				bottomPadding = rightPadding;
-				rightPadding = tmpPadding;
 				angle = Math.PI / 2;
 				break;
 			}
 			case RIGHT :
 			{
-				x = text.getX() + getOffsetX() + text.getWidth();
 				yFillCorrection = -1;
-				width = text.getHeight();
-				height = text.getWidth();
-				int tmpPadding = topPadding;
-				topPadding = rightPadding;
-				rightPadding = bottomPadding;
-				bottomPadding = leftPadding;
-				leftPadding = tmpPadding;
 				angle = - Math.PI / 2;
 				break;
 			}
 			case UPSIDE_DOWN :
 			{
-				x = text.getX() + getOffsetX() + text.getWidth();
-				y = text.getY() + getOffsetY() + text.getHeight();
-				int tmpPadding = topPadding;
-				topPadding = bottomPadding;
-				bottomPadding = tmpPadding;
-				tmpPadding = leftPadding;
-				leftPadding = rightPadding;
-				rightPadding = tmpPadding;
 				angle = Math.PI;
 				break;
 			}
@@ -2082,7 +2060,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 
 		AffineTransform atrans = new AffineTransform();
-		atrans.rotate(angle, x, jasperPrint.getPageHeight() - y);
+		atrans.rotate(angle, textRenderer.getX(), jasperPrint.getPageHeight() - textRenderer.getY());
 		pdfContentByte.transform(atrans);
 
 		if (text.getModeValue() == ModeEnum.OPAQUE)
@@ -2094,117 +2072,26 @@ public class JRPdfExporter extends JRAbstractExporter
 				backcolor.getBlue()
 				);
 			pdfContentByte.rectangle(
-				x + xFillCorrection,
-				jasperPrint.getPageHeight() - y + yFillCorrection,
-				width,
-				- height
+				textRenderer.getX() + xFillCorrection,
+				jasperPrint.getPageHeight() - textRenderer.getY() + yFillCorrection,
+				textRenderer.getWidth(),
+				- textRenderer.getHeight()
 				);
 			pdfContentByte.fill();
 		}
 
-		if (textLength > 0)
+		if (styledText.length() > 0)
 		{
-			int horizontalAlignment = Element.ALIGN_LEFT;
-			switch (text.getHorizontalAlignmentValue())
-			{
-				case LEFT :
-				{
-					if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
-					{
-						horizontalAlignment = Element.ALIGN_LEFT;
-					}
-					else
-					{
-						horizontalAlignment = Element.ALIGN_RIGHT;
-					}
-					break;
-				}
-				case CENTER :
-				{
-					horizontalAlignment = Element.ALIGN_CENTER;
-					break;
-				}
-				case RIGHT :
-				{
-					if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
-					{
-						horizontalAlignment = Element.ALIGN_RIGHT;
-					}
-					else
-					{
-						horizontalAlignment = Element.ALIGN_LEFT;
-					}
-					break;
-				}
-				case JUSTIFIED :
-				{
-					horizontalAlignment = Element.ALIGN_JUSTIFIED;
-					break;
-				}
-				default :
-				{
-					horizontalAlignment = Element.ALIGN_LEFT;
-				}
-			}
-
-			float verticalOffset = 0f;
-			switch (text.getVerticalAlignmentValue())
-			{
-				case TOP :
-				{
-					verticalOffset = 0f;
-					break;
-				}
-				case MIDDLE :
-				{
-					verticalOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
-					break;
-				}
-				case BOTTOM :
-				{
-					verticalOffset = height - topPadding - bottomPadding - text.getTextHeight();
-					break;
-				}
-				default :
-				{
-					verticalOffset = 0f;
-				}
-			}
-
 			tagHelper.startText();
 			
-			ColumnText colText = new ColumnText(pdfContentByte);
-			colText.setSimpleColumn(
-				getPhrase(styledText, text),
-				x + leftPadding,
-				jasperPrint.getPageHeight()
-					- y
-					- topPadding
-					- verticalOffset
-					- text.getLeadingOffset(),
-					//+ text.getLineSpacingFactor() * text.getFont().getSize(),
-				x + width - rightPadding,
-				jasperPrint.getPageHeight()
-					- y
-					- height
-					+ bottomPadding,
-				0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
-				horizontalAlignment
-				);
+			/*   */
+			textRenderer.render();
 
-			colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
-			colText.setRunDirection(
-				text.getRunDirectionValue() == RunDirectionEnum.LTR
-				? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
-				);
-
-			colText.go();
-			
 			tagHelper.endText();
 		}
 
 		atrans = new AffineTransform();
-		atrans.rotate(-angle, x, jasperPrint.getPageHeight() - y);
+		atrans.rotate(-angle, textRenderer.getX(), jasperPrint.getPageHeight() - textRenderer.getY());
 		pdfContentByte.transform(atrans);
 
 		/*   */

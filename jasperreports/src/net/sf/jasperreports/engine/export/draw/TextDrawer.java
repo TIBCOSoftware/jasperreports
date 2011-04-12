@@ -33,10 +33,8 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
-import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -51,14 +49,14 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 	/**
 	 *
 	 */
-	protected TextRenderer textRenderer;
+	protected AwtTextRenderer textRenderer;
 
 	
 	/**
 	 *
 	 */
 	public TextDrawer(
-		TextRenderer textRenderer
+		AwtTextRenderer textRenderer
 		)
 	{
 		this.textRenderer = textRenderer;
@@ -70,64 +68,31 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 	 */
 	public void draw(Graphics2D grx, JRPrintText text, int offsetX, int offsetY)
 	{
-		JRStyledText styledText = getStyledText(text);
+		textRenderer.initialize(grx, text, offsetX, offsetY);
+		
+		JRStyledText styledText = textRenderer.getStyledText();
 		
 		if (styledText == null)
 		{
 			return;
 		}
 
-		String allText = styledText.getText();
-		
-		int x = text.getX() + offsetX;
-		int y = text.getY() + offsetY;
-		int width = text.getWidth();
-		int height = text.getHeight();
-		int topPadding = text.getLineBox().getTopPadding().intValue();
-		int leftPadding = text.getLineBox().getLeftPadding().intValue();
-		int bottomPadding = text.getLineBox().getBottomPadding().intValue();
-		int rightPadding = text.getLineBox().getRightPadding().intValue();
-		
 		double angle = 0;
 		
 		switch (text.getRotationValue())
 		{
 			case LEFT :
 			{
-				y = text.getY() + offsetY + text.getHeight();
-				width = text.getHeight();
-				height = text.getWidth();
-				int tmpPadding = topPadding;
-				topPadding = leftPadding;
-				leftPadding = bottomPadding;
-				bottomPadding = rightPadding;
-				rightPadding = tmpPadding;
 				angle = - Math.PI / 2;
 				break;
 			}
 			case RIGHT :
 			{
-				x = text.getX() + offsetX + text.getWidth();
-				width = text.getHeight();
-				height = text.getWidth();
-				int tmpPadding = topPadding;
-				topPadding = rightPadding;
-				rightPadding = bottomPadding;
-				bottomPadding = leftPadding;
-				leftPadding = tmpPadding;
 				angle = Math.PI / 2;
 				break;
 			}
 			case UPSIDE_DOWN :
 			{
-				int tmpPadding = topPadding;
-				x = text.getX() + offsetX + text.getWidth();
-				y = text.getY() + offsetY + text.getHeight();
-				topPadding = bottomPadding;
-				bottomPadding = tmpPadding;
-				tmpPadding = leftPadding;
-				leftPadding = rightPadding;
-				rightPadding = tmpPadding;
 				angle = Math.PI;
 				break;
 			}
@@ -137,12 +102,12 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 			}
 		}
 		
-		grx.rotate(angle, x, y);
+		grx.rotate(angle, textRenderer.getX(), textRenderer.getY());
 
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{
 			grx.setColor(text.getBackcolor());
-			grx.fillRect(x, y, width, height); 
+			grx.fillRect(textRenderer.getX(), textRenderer.getY(), textRenderer.getWidth(), textRenderer.getHeight()); 
 		}
 //		else
 //		{
@@ -153,48 +118,19 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 //			*/
 //		}
 
+		String allText = textRenderer.getPlainText();
 		if (allText.length() > 0)
 		{
 			grx.setColor(text.getForecolor());
 
 			/*   */
-			textRenderer.render(
-				grx, 
-				x, 
-				y, 
-				width, 
-				height, 
-				topPadding,
-				leftPadding,
-				bottomPadding,
-				rightPadding,
-				text.getTextHeight(), 
-				text.getHorizontalAlignmentValue(), 
-				text.getVerticalAlignmentValue(), 
-				text.getParagraph(),
-				text.getLineSpacingFactor(),
-				text.getLeadingOffset(),
-				text.getFontSize(),
-				!JRCommonText.MARKUP_NONE.equals(text.getMarkup()),
-				styledText, 
-				allText
-				);
-			
+			textRenderer.render();
 		}
 		
-		grx.rotate(-angle, x, y);
+		grx.rotate(-angle, textRenderer.getX(), textRenderer.getY());
 
 		/*   */
 		drawBox(grx, text.getLineBox(), text, offsetX, offsetY);
-	}
-
-	
-	/**
-	 *
-	 */
-	protected JRStyledText getStyledText(JRPrintText textElement)
-	{
-		return textElement.getStyledText(JRStyledTextAttributeSelector.NO_BACKCOLOR);
 	}
 
 	

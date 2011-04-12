@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.TabStop;
-import net.sf.jasperreports.engine.export.TextRenderer;
+import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -70,7 +70,7 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 *
 	 */
-	private static final FontRenderContext FONT_RENDER_CONTEXT = TextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
+	private static final FontRenderContext FONT_RENDER_CONTEXT = AbstractTextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 
 	private JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
@@ -87,7 +87,6 @@ public class TextMeasurer implements JRTextMeasurer
 	private int bottomPadding;
 	private int rightPadding;
 	private JRParagraph jrParagraph;
-	private float lineSpacing;//FIXMETAB this is in paragraph now
 
 	private float formatWidth;
 	private int maxHeight;
@@ -315,30 +314,6 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 		
-		/*   */
-		switch (textElement.getParagraph().getLineSpacing())
-		{
-			case SINGLE : 
-			{
-				lineSpacing = 1f;
-				break;
-			}
-			case ONE_AND_HALF : 
-			{
-				lineSpacing = 1.5f;
-				break;
-			}
-			case DOUBLE : 
-			{
-				lineSpacing = 2f;
-				break;
-			}
-			default : 
-			{
-				lineSpacing = 1f;
-			}
-		}
-
 		maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
 
 		formatWidth = width - leftPadding - rightPadding;
@@ -679,16 +654,15 @@ public class TextMeasurer implements JRTextMeasurer
 			else
 			{
 				rightX = oldSegment.rightX;
-				//nextTabStopHolder[0] = (rightX / tabStopWidth + 1) * tabStopWidth;
 				nextTabStopHolder[0] = ParagraphUtil.getNextTabStop(jrParagraph, rightX);
 			}
 
-			float segmentOffset = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX);
+			float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX);
 			
 			// creating a text layout object for each tab segment 
 			TextLayout layout = 
 				lineMeasurer.nextLayout(
-					segmentOffset,
+					availableWidth,
 					tabIndexOrEndIndex,
 					requireNextWordHolder[0]
 					);
@@ -732,7 +706,6 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 				lineComplete = true;
-				//nextTabStopHolder[0] = 0;
 				nextTabStopHolder[0] = new TabStop();
 			}
 			else
@@ -742,13 +715,11 @@ public class TextMeasurer implements JRTextMeasurer
 				{
 					// the segment limit was a tab
 					if (crtSegment.rightX >= ParagraphUtil.getLastTabStop(jrParagraph, formatWidth).getPosition())
-					//if (crtSegment.rightX >= tabStopWidth * (int)(formatWidth / tabStopWidth))
 					{
 						// current segment stretches out beyond the last tab stop; line complete
 						lineComplete = true;
 						// next line should should start at first tab stop indent
 						nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph);
-						//nextTabStopHolder[0] = tabStopWidth;
 					}
 					else
 					{
@@ -763,12 +734,9 @@ public class TextMeasurer implements JRTextMeasurer
 					{
 						// nothing fitted; next line should start at first tab stop indent
 						if (nextTabStopHolder[0].getPosition() == ParagraphUtil.getFirstTabStop(jrParagraph).getPosition())//FIXMETAB check based on segments.size()
-						//if (nextTabStopHolder[0] == tabStopWidth)//FIXMETAB check based on segments.size()
-						//if (segments.size() == 0)
 						{
 							// at second attempt we give up to avoid infinite loop
 							nextTabStopHolder[0] = new TabStop();
-							//nextTabStopHolder[0] = 0;
 							requireNextWordHolder[0] = false;
 							
 							//provide dummy maxFontSize because it is used for the line height of this empty line when attempting drawing below
@@ -786,7 +754,6 @@ public class TextMeasurer implements JRTextMeasurer
 						}
 						else
 						{
-							//nextTabStopHolder[0] = tabStopWidth;
 							nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph);
 						}
 					}
@@ -794,7 +761,6 @@ public class TextMeasurer implements JRTextMeasurer
 					{
 						// something fitted
 						nextTabStopHolder[0] = new TabStop();
-						//nextTabStopHolder[0] = 0;
 						requireNextWordHolder[0] = false;
 					}
 				}
@@ -803,8 +769,9 @@ public class TextMeasurer implements JRTextMeasurer
 			oldSegment = crtSegment;
 		}
 		
-
-		float newTextHeight = measuredState.textHeight + maxLeading + lineSpacing * maxAscent;
+		float lineHeight = getLineHeight(jrParagraph, maxLeading, maxAscent);
+		
+		float newTextHeight = measuredState.textHeight + lineHeight;
 		boolean fits = newTextHeight + maxDescent <= maxHeight;
 		if (fits)
 		{
@@ -893,6 +860,55 @@ public class TextMeasurer implements JRTextMeasurer
 			string.addAttribute(attribute, attributeValue, startIndex, endIndex);
 		}
 	}
+
+	/**
+	 * 
+	 */
+	public static float getLineHeight(JRParagraph paragraph, float maxLeading, float maxAscent)
+	{
+		float lineHeight = 0;
+
+		switch(paragraph.getLineSpacing())
+		{
+			case SINGLE:
+			{
+				lineHeight = maxLeading + 1f * maxAscent;
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				lineHeight = maxLeading + 1.5f * maxAscent;
+				break;
+			}
+			case DOUBLE:
+			{
+				lineHeight = maxLeading + 2f * maxAscent;
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;//FIXMETAB this could be null?
+				break;
+			}
+			case AT_LEAST:
+			{
+				lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());//FIXMETAB this could be null?
+				break;
+			}
+			case FIXED:
+			{
+				lineHeight = paragraph.getLineSpacingSize().floatValue();//FIXMETAB this could be null?
+				break;
+			}
+			default :
+			{
+				throw new JRRuntimeException("Invalid line space type: " + paragraph.getLineSpacing());
+			}
+		}
+		
+		return lineHeight;
+	}
+
 }
 
 class TabSegment
