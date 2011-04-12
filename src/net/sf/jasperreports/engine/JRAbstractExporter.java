@@ -926,7 +926,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
+	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)//FIXMETAB is this used?
 	{
 		return textElement.getStyledText(
 				setBackcolor ? JRStyledTextAttributeSelector.ALL : JRStyledTextAttributeSelector.NO_BACKCOLOR);

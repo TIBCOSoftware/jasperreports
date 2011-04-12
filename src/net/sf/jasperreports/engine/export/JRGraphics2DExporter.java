@@ -89,7 +89,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected JRExportProgressMonitor progressMonitor;
 	protected float zoom = DEFAULT_ZOOM;
 
-	protected TextRenderer textRenderer;
+	protected AwtTextRenderer textRenderer;
 	protected FrameDrawer frameDrawer;
 
 	/**
@@ -180,7 +180,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		}
 		
 		textRenderer = 
-			new TextRenderer(
+			new AwtTextRenderer(
 				isMinimizePrinterJobSize,
 				JRProperties.getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
