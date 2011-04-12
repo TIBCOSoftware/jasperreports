@@ -53,10 +53,6 @@
 			<id>jasperreports</id>
 			<url>http://jasperreports.sourceforge.net/maven2</url>
 		</repository>
-		<repository>
-			<id>itextpdf</id>
-			<url>http://maven.itextpdf.com/</url>
-		</repository>
 	</repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -184,12 +180,6 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.7</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.0.6</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
