@@ -3758,6 +3758,7 @@ public class JRApiWriter
 			write( "JRParagraph " + paragraphName + " = " + paragraphHolder + ".getParagraph();\n");
 			write( paragraphName + ".setLineSpacing({0});\n", paragraph.getOwnLineSpacing());
 			write( paragraphName + ".setLineSpacingSize({0});\n", paragraph.getOwnLineSpacingSize());
+			write( paragraphName + ".setFirstLineIndent({0});\n", paragraph.getOwnFirstLineIndent());
 			write( paragraphName + ".setLeftIndent({0});\n", paragraph.getOwnLeftIndent());
 			write( paragraphName + ".setRightIndent({0});\n", paragraph.getOwnRightIndent());
 			write( paragraphName + ".setSpacingBefore({0});\n", paragraph.getOwnSpacingBefore());

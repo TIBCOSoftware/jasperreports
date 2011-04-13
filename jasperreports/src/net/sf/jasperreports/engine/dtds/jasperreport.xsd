@@ -897,6 +897,11 @@
 	 <documentation>The line spacing size to be used in combination with the line spacing type.</documentation>
 	</annotation>
    </attribute>
+   <attribute name="firstLineIndent" type="NMTOKEN" use="optional">
+	<annotation>
+	 <documentation>The indent of the first line of text.</documentation>
+	</annotation>
+   </attribute>
    <attribute name="leftIndent" type="NMTOKEN" use="optional">
 	<annotation>
 	 <documentation>The left indent of text.</documentation>
