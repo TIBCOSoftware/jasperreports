@@ -526,7 +526,7 @@ public abstract class AbstractTextRenderer
 				int lastRightX = (segments == null || segments.size() == 0 ? 0 : segments.get(segments.size() - 1).rightX);
 				
 				// now iterate through segments and draw their layouts
-				for (int segmentIndex = 0; segmentIndex < segments.size(); segmentIndex++)
+				for (segmentIndex = 0; segmentIndex < segments.size(); segmentIndex++)
 				{
 					TabSegment segment = segments.get(segmentIndex);
 					TextLayout layout = segment.layout;
