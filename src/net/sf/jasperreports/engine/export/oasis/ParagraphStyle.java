@@ -295,7 +295,7 @@ public class ParagraphStyle extends Style
 			styleWriter.write(" style:writing-mode=\"" + runDirection + "\"");
 		}
 		styleWriter.write(">\n");
-		//TabStop[] tabStops = ParagraphUtil.getTabStops(paragraph, 400);//FIXMETAB harcoded value
+
 		TabStop[] tabStops = paragraph.getTabStops();
 		if (tabStops != null && tabStops.length > 0)
 		{
@@ -307,6 +307,7 @@ public class ParagraphStyle extends Style
 			}
 			styleWriter.write("</style:tab-stops>");
 		}
+		
 		styleWriter.write("</style:paragraph-properties>\n");
 		styleWriter.write("<style:text-properties");
 		styleWriter.write(" style:text-rotation-angle=\"" + textRotation + "\"");
