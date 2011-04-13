@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.export.pdf.PDFiTextExporter;
 
 
 /**
@@ -70,7 +69,6 @@ public class ParagraphsApp extends AbstractSampleApp
 	{
 		fill();
 		pdf();
-		itext();
 		xmlEmbed();
 		xml();
 		html();
@@ -116,17 +114,6 @@ public class ParagraphsApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		JasperExportManager.exportReportToPdfFile("build/reports/ParagraphsReport.jrprint");
-		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
-	}
-	
-	
-	/**
-	 *
-	 */
-	public void itext() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		PDFiTextExporter.exportToFile("build/reports/ParagraphsReport.jrprint", "build/reports/ParagraphsReport.itext.pdf");
 		System.err.println("PDF creation time : " + (System.currentTimeMillis() - start));
 	}
 	
