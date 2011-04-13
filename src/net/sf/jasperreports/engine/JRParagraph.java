@@ -37,6 +37,7 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * 
 	 */
+	public static final String DEFAULT_LINE_SPACING_SIZE = JRProperties.PROPERTY_PREFIX + "default.line.spacing.size";
 	public static final String DEFAULT_LEFT_INDENT = JRProperties.PROPERTY_PREFIX + "default.left.indent";
 	public static final String DEFAULT_RIGHT_INDENT = JRProperties.PROPERTY_PREFIX + "default.right.indent";
 	public static final String DEFAULT_SPACING_BEFORE = JRProperties.PROPERTY_PREFIX + "default.spacing.before";

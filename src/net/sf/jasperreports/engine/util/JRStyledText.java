@@ -163,12 +163,7 @@ public class JRStyledText implements Cloneable
 	}
 
 	/**
-	 * Returns an attributed string that only contains standard Java text
-	 * attributes; JasperReports specific text attributes of the styled text
-	 * are ignored.
-	 * 
-	 * @return an attributed string that only contains standard Java text
-	 * attributes
+	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
 	 */
 	public AttributedString getAwtAttributedString(boolean ignoreMissingFont)
 	{
@@ -183,7 +178,6 @@ public class JRStyledText implements Cloneable
 				{
 					awtAttributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
 				}
-				//FIXMETAB this should change javadoc
 //				if (
 //					run.startIndex != run.endIndex 
 //					&& run.attributes != null 

@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.export;
 
 import java.awt.font.FontRenderContext;
-import java.text.AttributedString;
-import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -145,7 +143,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 		
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
-			pdfExporter.getPhrase(segment.as, segment.text, Locale.ENGLISH, text),//FIXMETAB  hardcoded locale
+			pdfExporter.getPhrase(segment.as, segment.text, text),
 			x + leftPadding + drawPosX,
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
@@ -160,9 +158,8 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				- topPadding
 				- verticalOffset
 				- text.getLeadingOffset()
-				+ lineHeight
-				- drawPosY
-				- 400,//FIXMETAB hardcoded value
+				//+ lineHeight
+				- drawPosY,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			horizontalAlignment
 			);

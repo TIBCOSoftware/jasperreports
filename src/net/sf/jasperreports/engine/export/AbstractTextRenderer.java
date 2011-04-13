@@ -374,7 +374,7 @@ public abstract class AbstractTextRenderer
 				else
 				{
 					rightX = oldSegment.rightX;
-					nextTabStop = ParagraphUtil.getNextTabStop(text.getParagraph(), rightX);
+					nextTabStop = ParagraphUtil.getNextTabStop(text.getParagraph(), formatWidth, rightX);
 				}
 
 				float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStop, rightX);
@@ -466,7 +466,7 @@ public abstract class AbstractTextRenderer
 							// current segment stretches out beyond the last tab stop; line complete
 							lineComplete = true;
 							// next line should should start at first tab stop indent
-							nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph());
+							nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth);
 						}
 						else
 						{
@@ -480,7 +480,7 @@ public abstract class AbstractTextRenderer
 						if (layout == null)
 						{
 							// nothing fitted; next line should start at first tab stop indent
-							if (nextTabStop.getPosition() == ParagraphUtil.getFirstTabStop(text.getParagraph()).getPosition())//FIXMETAB check based on segments.size()
+							if (nextTabStop.getPosition() == ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth).getPosition())//FIXMETAB check based on segments.size()
 							{
 								// at second attempt we give up to avoid infinite loop
 								nextTabStop = new TabStop();
@@ -502,7 +502,7 @@ public abstract class AbstractTextRenderer
 							}
 							else
 							{
-								nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph());
+								nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth);
 							}
 						}
 						else
@@ -598,12 +598,12 @@ public abstract class AbstractTextRenderer
 			}
 			case AT_LEAST:
 			{
-				lineHeight = Math.max(lineSpacingFactor * maxFontSize, paragraph.getLineSpacingSize().floatValue());//FIXMETAB this could be null?
+				lineHeight = Math.max(lineSpacingFactor * maxFontSize, paragraph.getLineSpacingSize().floatValue());
 				break;
 			}
 			case FIXED:
 			{
-				lineHeight = paragraph.getLineSpacingSize().floatValue();//FIXMETAB this could be null?
+				lineHeight = paragraph.getLineSpacingSize().floatValue();
 				break;
 			}
 			default :

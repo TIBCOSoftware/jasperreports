@@ -27,10 +27,10 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
-import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.text.BreakIterator;
 import java.text.CharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -654,7 +654,7 @@ public class TextMeasurer implements JRTextMeasurer
 			else
 			{
 				rightX = oldSegment.rightX;
-				nextTabStopHolder[0] = ParagraphUtil.getNextTabStop(jrParagraph, rightX);
+				nextTabStopHolder[0] = ParagraphUtil.getNextTabStop(jrParagraph, formatWidth, rightX);
 			}
 
 			float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStopHolder[0], rightX);
@@ -719,7 +719,7 @@ public class TextMeasurer implements JRTextMeasurer
 						// current segment stretches out beyond the last tab stop; line complete
 						lineComplete = true;
 						// next line should should start at first tab stop indent
-						nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph);
+						nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph, formatWidth);
 					}
 					else
 					{
@@ -733,7 +733,7 @@ public class TextMeasurer implements JRTextMeasurer
 					if (layout == null)
 					{
 						// nothing fitted; next line should start at first tab stop indent
-						if (nextTabStopHolder[0].getPosition() == ParagraphUtil.getFirstTabStop(jrParagraph).getPosition())//FIXMETAB check based on segments.size()
+						if (nextTabStopHolder[0].getPosition() == ParagraphUtil.getFirstTabStop(jrParagraph, formatWidth).getPosition())//FIXMETAB check based on segments.size()
 						{
 							// at second attempt we give up to avoid infinite loop
 							nextTabStopHolder[0] = new TabStop();
@@ -754,7 +754,7 @@ public class TextMeasurer implements JRTextMeasurer
 						}
 						else
 						{
-							nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph);
+							nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph, formatWidth);
 						}
 					}
 					else
@@ -887,17 +887,17 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 			case PROPORTIONAL:
 			{
-				lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;//FIXMETAB this could be null?
+				lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
 				break;
 			}
 			case AT_LEAST:
 			{
-				lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());//FIXMETAB this could be null?
+				lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
 				break;
 			}
 			case FIXED:
 			{
-				lineHeight = paragraph.getLineSpacingSize().floatValue();//FIXMETAB this could be null?
+				lineHeight = paragraph.getLineSpacingSize().floatValue();
 				break;
 			}
 			default :
