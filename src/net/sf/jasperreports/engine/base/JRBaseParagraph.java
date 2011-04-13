@@ -55,6 +55,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	
 	public static final String PROPERTY_LINE_SPACING = "lineSpacing";
 	public static final String PROPERTY_LINE_SPACING_SIZE = "lineSpacingSize";
+	public static final String PROPERTY_FIRST_LINE_INDENT = "firstLineIndent";
 	public static final String PROPERTY_LEFT_INDENT = "leftIndent";
 	public static final String PROPERTY_RIGHT_INDENT = "rightIndent";
 	public static final String PROPERTY_SPACING_BEFORE = "spacingBefore";
@@ -70,6 +71,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	protected LineSpacingEnum lineSpacing;
 	protected Float lineSpacingSize;
+	protected Integer firstLineIndent;
 	protected Integer leftIndent;
 	protected Integer rightIndent;
 	protected Integer spacingBefore;
@@ -181,6 +183,32 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		Object old = this.lineSpacingSize;
 		this.lineSpacingSize = lineSpacingSize;
 		getEventSupport().firePropertyChange(PROPERTY_LINE_SPACING_SIZE, old, this.lineSpacingSize);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getFirstLineIndent()
+	{
+		return JRStyleResolver.getFirstLineIndent(this);
+	}
+
+	/**
+	 *
+	 */
+	public Integer getOwnFirstLineIndent()
+	{
+		return firstLineIndent;
+	}
+	
+	/**
+	 *
+	 */
+	public void setFirstLineIndent(Integer firstLineIndent)
+	{
+		Object old = this.firstLineIndent;
+		this.firstLineIndent = firstLineIndent;
+		getEventSupport().firePropertyChange(PROPERTY_FIRST_LINE_INDENT, old, this.firstLineIndent);
 	}
 
 	/**

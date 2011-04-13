@@ -755,6 +755,28 @@ public final class JRStyleResolver
 	/**
 	 *
 	 */
+	public static Integer getFirstLineIndent(JRParagraph paragraph)
+	{
+		Integer ownFirstLineIndent = paragraph.getOwnFirstLineIndent();
+		if (ownFirstLineIndent != null)
+		{
+			return ownFirstLineIndent;
+		}
+		JRStyle style = getBaseStyle(paragraph);
+		if (style != null)
+		{
+			Integer firstLineIndent = style.getParagraph().getFirstLineIndent();
+			if (firstLineIndent != null)
+			{
+				return firstLineIndent;
+			}
+		}
+		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
+	}
+
+	/**
+	 *
+	 */
 	public static Integer getLeftIndent(JRParagraph paragraph)
 	{
 		Integer ownLeftIndent = paragraph.getOwnLeftIndent();

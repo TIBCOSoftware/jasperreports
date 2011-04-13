@@ -63,6 +63,12 @@ public class JRParagraphFactory extends JRBaseFactory
 			paragraph.setLineSpacingSize(Float.parseFloat(lineSpacingSize));
 		}
 
+		String firstLineIndent = atts.getValue(JRXmlConstants.ATTRIBUTE_firstLineIndent);
+		if (firstLineIndent != null && firstLineIndent.length() > 0)
+		{
+			paragraph.setFirstLineIndent(Integer.parseInt(firstLineIndent));
+		}
+
 		String leftIndent = atts.getValue(JRXmlConstants.ATTRIBUTE_leftIndent);
 		if (leftIndent != null && leftIndent.length() > 0)
 		{
