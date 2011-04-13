@@ -44,31 +44,8 @@ public final class ParagraphUtil
 	
 	/**
 	 * 
-	 *
-	public static TabStop[] getTabStops(JRParagraph paragraph, int width)
-	{
-		TabStop[] tabStops = paragraph.getTabStops();
-		if (tabStops == null || tabStops.length == 0)
-		{
-			List<TabStop> tabStopList = new ArrayList<TabStop>();
-
-			//FIXMETAB check what happens when tab stop width is zero; everywhere
-			for (int position = paragraph.getTabStopWidth(); position < width; position += paragraph.getTabStopWidth())
-			{
-				tabStopList.add(new TabStop(position, TabStopAlignEnum.LEFT));
-			}
-
-			tabStops = tabStopList.toArray(new TabStop[tabStopList.size()]);
-		}
-		
-		return tabStops;
-	}
-	
-	
-	/**
-	 * 
 	 */
-	public static TabStop[] getTabStops(JRParagraph paragraph, int width)
+	public static TabStop[] getTabStops(JRParagraph paragraph, float width)
 	{
 		List<TabStop> tabStopList = new ArrayList<TabStop>();
 
@@ -177,44 +154,11 @@ public final class ParagraphUtil
 
 	/**
 	 * 
-	 *
-	public static TabStop getNextTabStop(JRParagraph paragraph, int rightX)
-	{
-		TabStop nextTabStop = new TabStop();
-		TabStop[] tabStops = paragraph.getTabStops();
-		if (tabStops == null || tabStops.length == 0)
-		{
-			nextTabStop.setPosition((rightX / paragraph.getTabStopWidth() + 1) * paragraph.getTabStopWidth());
-		}
-		else
-		{
-			int i = 0;
-			for (; i < tabStops.length; i++)
-			{
-				TabStop tabStop = tabStops[i];
-				if (tabStop.getPosition() > rightX)//FIXMETAB assumes tab stops are sorted by position
-				{
-					nextTabStop = tabStop;
-					break;
-				}
-			}
-			if (i == tabStops.length)
-			{
-				//FIXMETAB what to do here?
-				nextTabStop.setPosition((rightX / paragraph.getTabStopWidth() + 1) * paragraph.getTabStopWidth());
-			}
-		}
-		return nextTabStop;
-	}
-
-
-	/**
-	 * 
 	 */
-	public static TabStop getNextTabStop(JRParagraph paragraph, int rightX)
+	public static TabStop getNextTabStop(JRParagraph paragraph, float formatWidth, int rightX)
 	{
 		TabStop nextTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, 400);//FIXMETAB hardcoded value
+		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
 		int i = 0;
 		for (; i < tabStops.length; i++)
 		{
@@ -236,30 +180,11 @@ public final class ParagraphUtil
 
 	/**
 	 * 
-	 *
-	public static TabStop getFirstTabStop(JRParagraph paragraph)
-	{
-		TabStop firstTabStop = new TabStop();
-		TabStop[] tabStops = paragraph.getTabStops();
-		if (tabStops == null || tabStops.length == 0)
-		{
-			firstTabStop.setPosition(paragraph.getTabStopWidth());
-		}
-		else
-		{
-			firstTabStop = tabStops[0];
-		}
-		return firstTabStop;
-	}
-
-
-	/**
-	 * 
 	 */
-	public static TabStop getFirstTabStop(JRParagraph paragraph)
+	public static TabStop getFirstTabStop(JRParagraph paragraph, float formatWidth)
 	{
 		TabStop firstTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, 400);//FIXMETAB 400?
+		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
 		firstTabStop = tabStops[0];
 		return firstTabStop;
 	}
@@ -267,44 +192,11 @@ public final class ParagraphUtil
 
 	/**
 	 * 
-	 *
-	public static TabStop getLastTabStop(JRParagraph paragraph, float formatWidth)
-	{
-		TabStop lastTabStop = new TabStop();
-		TabStop[] tabStops = paragraph.getTabStops();
-		if (tabStops == null || tabStops.length == 0)
-		{
-			lastTabStop.setPosition(paragraph.getTabStopWidth() * (int)(formatWidth / paragraph.getTabStopWidth()));
-		}
-		else
-		{
-			int i = tabStops.length - 1;
-			for (; i >= 0; i--)
-			{
-				TabStop tabStop = tabStops[i];
-				if (tabStop.getPosition() < formatWidth)//FIXMETAB assumes tab stops are sorted by position
-				{
-					lastTabStop = tabStop;
-					break;
-				}
-			}
-			if (i < 0)
-			{
-				//FIXMETAB what to do here?
-				lastTabStop.setPosition((int)formatWidth);
-			}
-		}
-		return lastTabStop;
-	}
-	
-
-	/**
-	 * 
 	 */
 	public static TabStop getLastTabStop(JRParagraph paragraph, float formatWidth)
 	{
 		TabStop lastTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, 400);//FIXMETAB 400?
+		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
 		int i = tabStops.length - 1;
 		for (; i >= 0; i--)
 		{

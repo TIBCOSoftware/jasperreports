@@ -749,7 +749,7 @@ public final class JRStyleResolver
 				return lineSpacingSize;
 			}
 		}
-		return null;//FIXMETAB some default?
+		return JRProperties.getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
 	}
 
 	/**

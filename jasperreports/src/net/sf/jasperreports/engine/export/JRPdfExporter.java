@@ -1676,27 +1676,14 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement)
-	{
-		String text = styledText.getText();
-		Locale locale = getTextLocale(textElement);
-
-		AttributedString as = styledText.getAttributedString();
-
-		return getPhrase(as, text, locale, textElement);
-	}
-
-
-	/**
-	 *
-	 */
-	protected Phrase getPhrase(AttributedString as, String text, Locale locale, JRPrintText textElement)
+	protected Phrase getPhrase(AttributedString as, String text, JRPrintText textElement)
 	{
 		Phrase phrase = new Phrase();
 		int runLimit = 0;
 
 		AttributedCharacterIterator iterator = as.getIterator();
-
+		Locale locale = getTextLocale(textElement);
+		 
 		boolean firstChunk = true;
 		while(runLimit < text.length() && (runLimit = iterator.getRunLimit()) <= text.length())
 		{
