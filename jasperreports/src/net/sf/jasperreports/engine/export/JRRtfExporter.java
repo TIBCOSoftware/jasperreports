@@ -69,7 +69,9 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -285,6 +287,8 @@ public class JRRtfExporter extends JRAbstractExporter
 				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getTopMargin() == null ? 0 : jasperPrint.getTopMargin())));
 				writer.write("\\margbsxn");
 				writer.write(String.valueOf(LengthUtil.twip(jasperPrint.getBottomMargin() == null ? 0 : jasperPrint.getBottomMargin())));
+				writer.write("\\deftab");
+				writer.write(String.valueOf(LengthUtil.twip(new JRBasePrintText(jasperPrint.getDefaultStyleProvider()).getParagraph().getTabStopWidth())));
 
 				if (jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE) {
 					writer.write("\\lndscpsxn");
@@ -809,29 +813,30 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		writer.write("{\\shptxt{\\pard ");
 
-		String tabStopAlign = "";
-		
-		switch (text.getHorizontalAlignmentValue())//FIXMETAB optimize by reusing below switch
+		TabStop[] tabStops = text.getParagraph().getTabStops();
+		if (tabStops != null && tabStops.length > 0)
 		{
-			case CENTER:
-				tabStopAlign = "\\tqc";
-				break;
-			case RIGHT:
-				tabStopAlign = "\\tqr";
-				break;
-			case JUSTIFIED:
-			case LEFT:
-			default:
-				tabStopAlign = "";
-				break;
-		}
-
-		Integer tabStopWidth = text.getParagraph().getTabStopWidth(); 
-		if (tabStopWidth != null && tabStopWidth > 0)
-		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < tabStops.length; i++)
 			{
-				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip((i + 1) * tabStopWidth) + " ");//FIXMETAB use defaulttabstop when possible
+				TabStop tabStop = tabStops[i];
+
+				String tabStopAlign = "";
+				
+				switch (tabStop.getAlignment())
+				{
+					case CENTER:
+						tabStopAlign = "\\tqc";
+						break;
+					case RIGHT:
+						tabStopAlign = "\\tqr";
+						break;
+					case LEFT:
+					default:
+						tabStopAlign = "";
+						break;
+				}
+
+				writer.write(tabStopAlign + "\\tx" + LengthUtil.twip(tabStop.getPosition()) + " ");
 			}
 		}
 
