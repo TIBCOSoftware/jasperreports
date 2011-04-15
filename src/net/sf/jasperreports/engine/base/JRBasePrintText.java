@@ -79,6 +79,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected short[] lineBreakOffsets;
 	protected String textTruncateSuffix;
 	protected transient String truncatedText;
+	/**
+	 * @deprecated No longer used.
+	 */
 	protected float lineSpacingFactor;
 	protected float leadingOffset;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
@@ -267,7 +270,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLineSpacingFactor()
 	{
@@ -275,7 +278,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLineSpacingFactor(float lineSpacingFactor)
 	{

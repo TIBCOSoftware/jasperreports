@@ -27,6 +27,7 @@ import java.awt.font.FontRenderContext;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -152,7 +153,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				- text.getLeadingOffset()
 				+ lineHeight//FIXMETAB check this; should not be in leading offset?
 				- drawPosY,
-			x + segment.layout.getAdvance() + drawPosX,
+			x + leftPadding + drawPosX  + segment.layout.getAdvance(),
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
@@ -164,7 +165,8 @@ public class PdfTextRenderer extends AbstractTextRenderer
 			horizontalAlignment
 			);
 
-		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+		//colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
+		colText.setLeading(lineHeight);
 		colText.setRunDirection(
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
@@ -211,7 +213,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 	 */
 	public FontRenderContext getFontRenderContext()
 	{
-		return LINE_BREAK_FONT_RENDER_CONTEXT;
+		return TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT;
 	}
 	
 }

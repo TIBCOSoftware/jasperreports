@@ -144,12 +144,12 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector);
 	
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLineSpacingFactor();
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLineSpacingFactor(float lineSpacingFactor);
 

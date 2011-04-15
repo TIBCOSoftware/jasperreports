@@ -1463,7 +1463,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 //		if (text.getLineSpacingValue() != LineSpacingEnum.SINGLE)
 //		{
-			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
+			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");//FIXMETAB
 //		}
 
 		if (text.getLineBreakOffsets() != null)

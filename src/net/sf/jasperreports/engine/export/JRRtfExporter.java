@@ -884,7 +884,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		}
 
 		writer.write("\\sl");
-		writer.write(String.valueOf(LengthUtil.twip(text.getLineSpacingFactor() * font.getFontSize())));
+		writer.write(String.valueOf(LengthUtil.twip(text.getLineSpacingFactor() * font.getFontSize())));//FIXMETAB
 		writer.write(" ");
 
 		if (text.getAnchorName() != null)
