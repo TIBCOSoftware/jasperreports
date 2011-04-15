@@ -700,6 +700,9 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_verticalAlignment = "verticalAlignment";
 	public static final String ATTRIBUTE_runDirection = "runDirection";
 	public static final String ATTRIBUTE_textHeight = "textHeight";
+	/**
+	 * @deprecated No longer used.
+	 */
 	public static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
 	public static final String ATTRIBUTE_leadingOffset = "leadingOffset";
 	public static final String ATTRIBUTE_valueClass = "valueClass";

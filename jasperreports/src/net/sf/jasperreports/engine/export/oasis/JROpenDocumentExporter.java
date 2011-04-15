@@ -644,19 +644,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			textLength = styledText.length();
 		}
 
-//		if (text.getLineSpacing() != JRTextElement.LINE_SPACING_SINGLE)
-//		{
-//			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");
-//		}
-
-//		if (styleBuffer.length() > 0)
-//		{
-//			writer.write(" style=\"");
-//			writer.write(styleBuffer.toString());
-//			writer.write("\"");
-//		}
-//
-//		writer.write(">");
 		tempBodyWriter.write("<text:p text:style-name=\"");
 		tempBodyWriter.write(styleCache.getParagraphStyle(text));
 		tempBodyWriter.write("\">");

@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -51,8 +52,6 @@ import net.sf.jasperreports.engine.util.ParagraphUtil;
  */
 public abstract class AbstractTextRenderer
 {
-	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
-
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -246,8 +245,8 @@ public abstract class AbstractTextRenderer
 			}
 		}
 
-		formatWidth = width - leftPadding - rightPadding;
-		formatWidth = formatWidth < 0 ? 0 : formatWidth;
+//		formatWidth = width - leftPadding - rightPadding;
+//		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 
 		drawPosY = 0;
 		drawPosX = 0;
@@ -338,17 +337,19 @@ public abstract class AbstractTextRenderer
 		
 		int currentTab = 0;
 		
-		TabStop nextTabStop = new TabStop();
+		TabStop nextTabStop = null;
 		boolean requireNextWord = false;
 	
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
 
 		// the paragraph is rendered one line at a time
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
 		{
 			boolean lineComplete = false;
 
-			int maxFontSize = 0;
+			float maxAscent = 0;
+			float maxDescent = 0;
+			float maxLeading = 0;
 			
 			// each line is split into segments, using the tab character as delimiter
 			segments = new ArrayList<TabSegment>(1);
@@ -362,22 +363,29 @@ public abstract class AbstractTextRenderer
 				// the current segment limit is either the next tab character or the paragraph end 
 				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
 				
+				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0);
+				float endX = width - text.getParagraph().getRightIndent() - rightPadding;
+				endX = endX < startX ? startX : endX;
+				//formatWidth = endX - startX;
+				formatWidth = endX;
+
 				int startIndex = lineMeasurer.getPosition();
 
 				int rightX = 0;
 
 				if (segments.size() == 0)
 				{
-					rightX = 0;
+					rightX = (int)startX;
 					//nextTabStop = nextTabStop;
 				}
 				else
 				{
 					rightX = oldSegment.rightX;
-					nextTabStop = ParagraphUtil.getNextTabStop(text.getParagraph(), formatWidth, rightX);
+					nextTabStop = ParagraphUtil.getNextTabStop(text.getParagraph(), endX, rightX);
 				}
 
-				float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStop, rightX);
+				//float availableWidth = formatWidth - ParagraphUtil.getSegmentOffset(nextTabStop, rightX); // nextTabStop can be null here; and that's OK
+				float availableWidth = endX - text.getParagraph().getLeftIndent() - ParagraphUtil.getSegmentOffset(nextTabStop, rightX); // nextTabStop can be null here; and that's OK
 				
 				// creating a text layout object for each tab segment 
 				TextLayout layout = 
@@ -411,14 +419,9 @@ public abstract class AbstractTextRenderer
 						layout = layout.getJustifiedLayout(availableWidth);
 					}
 					
-					maxFontSize = 
-						Math.max(
-							maxFontSize, 
-							maxFontSizeFinder.findMaxFontSize(
-								tmpText.getIterator(),
-								text.getFontSize()
-								)
-							);
+					maxAscent = Math.max(maxAscent, layout.getAscent());
+					maxDescent = Math.max(maxDescent, layout.getDescent());
+					maxLeading = Math.max(maxLeading, layout.getLeading());
 
 					//creating the current segment
 					crtSegment = new TabSegment();
@@ -426,7 +429,7 @@ public abstract class AbstractTextRenderer
 					crtSegment.as = tmpText;
 					crtSegment.text = lastParagraphText.substring(startIndex, startIndex + layout.getCharacterCount());
 
-					int leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance());
+					int leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
 					if (rightX > leftX)
 					{
 						crtSegment.leftX = rightX;
@@ -435,7 +438,8 @@ public abstract class AbstractTextRenderer
 					else
 					{
 						crtSegment.leftX = leftX;
-						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, layout);
+						// we need this special tab stop based utility call because adding the advance to leftX causes rounding issues
+						crtSegment.rightX = ParagraphUtil.getRightX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
 					}
 
 					segments.add(crtSegment);
@@ -453,7 +457,7 @@ public abstract class AbstractTextRenderer
 				{
 					// the segment limit was the paragraph end; line completed and next line should start at normal zero x offset
 					lineComplete = true;
-					nextTabStop = new TabStop();
+					nextTabStop = null;
 				}
 				else
 				{
@@ -461,12 +465,12 @@ public abstract class AbstractTextRenderer
 					if (lineMeasurer.getPosition() == tabIndexOrEndIndex)
 					{
 						// the segment limit was a tab
-						if (crtSegment.rightX >= ParagraphUtil.getLastTabStop(text.getParagraph(), formatWidth).getPosition())
+						if (crtSegment.rightX >= ParagraphUtil.getLastTabStop(text.getParagraph(), endX).getPosition())
 						{
 							// current segment stretches out beyond the last tab stop; line complete
 							lineComplete = true;
 							// next line should should start at first tab stop indent
-							nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth);
+							nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), endX);
 						}
 						else
 						{
@@ -480,10 +484,10 @@ public abstract class AbstractTextRenderer
 						if (layout == null)
 						{
 							// nothing fitted; next line should start at first tab stop indent
-							if (nextTabStop.getPosition() == ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth).getPosition())//FIXMETAB check based on segments.size()
+							if (nextTabStop.getPosition() == ParagraphUtil.getFirstTabStop(text.getParagraph(), endX).getPosition())//FIXMETAB check based on segments.size()
 							{
 								// at second attempt we give up to avoid infinite loop
-								nextTabStop = new TabStop();
+								nextTabStop = null;
 								requireNextWord = false;
 								
 								//provide dummy maxFontSize because it is used for the line height of this empty line when attempting drawing below
@@ -493,22 +497,21 @@ public abstract class AbstractTextRenderer
 										startIndex, 
 										startIndex + 1
 										);
-					 			
-								maxFontSize = 
-									maxFontSizeFinder.findMaxFontSize(
-										tmpText.getIterator(),
-										text.getFontSize()
-										);
+					 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT);
+					 			TextLayout tlyt = lbm.nextLayout(100);
+								maxAscent = tlyt.getAscent();
+								maxDescent = tlyt.getDescent();
+								maxLeading = tlyt.getLeading();
 							}
 							else
 							{
-								nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), formatWidth);
+								nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), endX);
 							}
 						}
 						else
 						{
 							// something fitted
-							nextTabStop = new TabStop();
+							nextTabStop = null;
 							requireNextWord = false;
 						}
 					}
@@ -517,7 +520,7 @@ public abstract class AbstractTextRenderer
 				oldSegment = crtSegment;
 			}
 
-			lineHeight = getLineHeight(text.getParagraph(), text.getLineSpacingFactor(), maxFontSize); 
+			lineHeight = TextMeasurer.getLineHeight(text.getParagraph(), maxLeading, maxAscent) + maxDescent;
 
 			if (drawPosY + lineHeight <= text.getTextHeight())
 			{
@@ -537,7 +540,7 @@ public abstract class AbstractTextRenderer
 						{
 							if (layout.isLeftToRight())
 							{
-								drawPosX = segment.leftX;
+								drawPosX = text.getParagraph().getLeftIndent() + segment.leftX;
 							}
 							else
 							{
@@ -559,7 +562,7 @@ public abstract class AbstractTextRenderer
 						case LEFT :
 						default :
 						{
-							drawPosX = segment.leftX;
+							drawPosX = text.getParagraph().getLeftIndent() + segment.leftX;
 						}
 					}
 

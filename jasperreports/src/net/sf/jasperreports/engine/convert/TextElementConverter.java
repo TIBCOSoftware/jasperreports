@@ -106,7 +106,7 @@ public abstract class TextElementConverter extends ElementConverter
 				);
 		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
 		printText.setLeadingOffset(measuredText.getLeadingOffset());
-		printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
+		//printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		
 		int textEnd = measuredText.getTextOffset();
 		String printedText;

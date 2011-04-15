@@ -257,7 +257,15 @@ public class ParagraphStyle extends Style
 	public String getId()
 	{
 		StringBuffer sbuffer = new StringBuffer();
-		sbuffer.append(verticalAlignment).append("|").append(horizontalAlignment).append("|").append(runDirection).append("|").append(textRotation); // + "|" + tabStopWidth;// tabStopWidth can only be set in default-style
+		sbuffer.append(verticalAlignment).append("|").append(horizontalAlignment)
+			.append("|").append(runDirection).append("|").append(textRotation)
+			.append("|").append(paragraph.getLineSpacing().getName())
+			.append("|").append(paragraph.getLineSpacingSize())
+			.append("|").append(paragraph.getFirstLineIndent())
+			.append("|").append(paragraph.getLeftIndent())
+			.append("|").append(paragraph.getRightIndent())
+			.append("|").append(paragraph.getSpacingBefore())
+			.append("|").append(paragraph.getSpacingAfter()); // + "|" + tabStopWidth;// tabStopWidth can only be set in default-style
 		TabStop[] tabStops = paragraph.getTabStops();
 		if (tabStops != null && tabStops.length > 0)
 		{
@@ -279,13 +287,48 @@ public class ParagraphStyle extends Style
 		styleWriter.write("<style:style style:name=\"" + paragraphStyleName + "\"");
 		styleWriter.write(" style:family=\"paragraph\">\n");
 		styleWriter.write("<style:paragraph-properties");
+		switch (paragraph.getLineSpacing())
+		{
+			case SINGLE:
+			default:
+			{
+				styleWriter.write(" fo:line-height=\"100%\"");
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				styleWriter.write(" fo:line-height=\"150%\"");
+				break;
+			}
+			case DOUBLE:
+			{
+				styleWriter.write(" fo:line-height=\"200%\"");
+				break;
+			}
+			case AT_LEAST:
+			{
+				styleWriter.write(" style:line-height-at-least=\"" + LengthUtil.inch(paragraph.getLineSpacingSize()) + "in\"");
+				break;
+			}
+			case FIXED:
+			{
+				styleWriter.write(" fo:line-height=\"" + LengthUtil.inch(paragraph.getLineSpacingSize()) + "in\"");
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				styleWriter.write(" fo:line-height=\"" + (100 * paragraph.getLineSpacingSize()) + "%\"");
+				break;
+			}
+		}
 //		styleWriter.write(" fo:line-height=\"" + pLineHeight + "\"");
 //		styleWriter.write(" style:line-spacing=\"" + pLineSpacing + "\"");
 		styleWriter.write(" fo:text-align=\"" + horizontalAlignment + "\"");
 
 //		styleWriter.write(" fo:keep-together=\"" + pKeepTogether + "\"");
-//		styleWriter.write(" fo:margin-left=\"" + pMarginLeft + "\"");
-//		styleWriter.write(" fo:margin-right=\"" + pMarginRight + "\"");
+		styleWriter.write(" fo:text-indent=\"" + LengthUtil.inch(paragraph.getFirstLineIndent()) + "in\"");
+		styleWriter.write(" fo:margin-left=\"" + LengthUtil.inch(paragraph.getLeftIndent()) + "in\"");
+		styleWriter.write(" fo:margin-right=\"" + LengthUtil.inch(paragraph.getRightIndent()) + "in\"");
 //		styleWriter.write(" fo:margin-top=\"" + pMarginTop + "\"");
 //		styleWriter.write(" fo:margin-bottom=\"" + pMarginBottom + "\"");
 //		styleWriter.write(" fo:background-color=\"#" + pBackGroundColor + "\"");

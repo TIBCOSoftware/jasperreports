@@ -77,6 +77,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
 	private transient String truncatedText;
+	/**
+	 * @deprecated No longer used.
+	 */
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private RunDirectionEnum runDirectionValue;
@@ -226,7 +229,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 	
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLineSpacingFactor()
 	{
@@ -234,7 +237,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLineSpacingFactor(float lineSpacingFactor)
 	{

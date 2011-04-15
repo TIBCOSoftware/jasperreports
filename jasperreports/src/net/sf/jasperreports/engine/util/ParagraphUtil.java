@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.awt.font.TextLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRParagraph;
@@ -45,7 +43,7 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static TabStop[] getTabStops(JRParagraph paragraph, float width)
+	public static TabStop[] getTabStops(JRParagraph paragraph, float endX)
 	{
 		List<TabStop> tabStopList = new ArrayList<TabStop>();
 
@@ -54,11 +52,23 @@ public final class ParagraphUtil
 		TabStop[] tabStops = paragraph.getTabStops();
 		if (tabStops != null && tabStops.length > 0)
 		{
-			tabStopList.addAll(Arrays.asList(tabStops));
-			lastTabStop = tabStopList.get(tabStopList.size() - 1);
+			for (int i = 0; i < tabStops.length; i++)
+			{
+				lastTabStop = tabStops[i];
+				if (
+					//startX <= lastTabStop.getPosition() &&
+					lastTabStop.getPosition() <= endX
+					)
+				{
+					tabStopList.add(lastTabStop);
+				}
+			}
 		}
 		
-		while (lastTabStop.getPosition() + paragraph.getTabStopWidth() < width)
+		while (
+			//startX <= lastTabStop.getPosition() + paragraph.getTabStopWidth() &&
+			lastTabStop.getPosition() + paragraph.getTabStopWidth() <= endX
+			)
 		{
 			lastTabStop = new TabStop((lastTabStop.getPosition() / paragraph.getTabStopWidth() + 1) * paragraph.getTabStopWidth(), TabStopAlignEnum.LEFT);
 			tabStopList.add(lastTabStop);
@@ -71,25 +81,28 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static int getRightX(TabStop tabStop, TextLayout layout)
+	public static int getRightX(TabStop tabStop, float advance)
 	{
-		int rightX = 0;
-		switch (tabStop.getAlignment())
+		int rightX = (int)advance;
+		if (tabStop != null)
 		{
-			case RIGHT ://FIXMETAB RTL writings
+			switch (tabStop.getAlignment())
 			{
-				rightX = tabStop.getPosition();
-				break;
-			}
-			case CENTER :
-			{
-				rightX = (int)(tabStop.getPosition() + layout.getAdvance() / 2);
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				rightX = (int)(tabStop.getPosition() + layout.getAdvance());
+				case RIGHT ://FIXMETAB RTL writings
+				{
+					rightX = tabStop.getPosition();
+					break;
+				}
+				case CENTER :
+				{
+					rightX = (int)(tabStop.getPosition() + advance / 2);
+					break;
+				}
+				case LEFT :
+				default :
+				{
+					rightX = (int)(tabStop.getPosition() + advance);
+				}
 			}
 		}
 		return rightX;
@@ -102,22 +115,25 @@ public final class ParagraphUtil
 	public static int getLeftX(TabStop tabStop, float advance)
 	{
 		int leftX = 0;
-		switch (tabStop.getAlignment())
+		if (tabStop != null)
 		{
-			case RIGHT ://FIXMETAB RTL writings
+			switch (tabStop.getAlignment())
 			{
-				leftX = (int)(tabStop.getPosition() - advance);
-				break;
-			}
-			case CENTER :
-			{
-				leftX = (int)(tabStop.getPosition() - advance / 2);
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				leftX = tabStop.getPosition();
+				case RIGHT ://FIXMETAB RTL writings
+				{
+					leftX = (int)(tabStop.getPosition() - advance);
+					break;
+				}
+				case CENTER :
+				{
+					leftX = (int)(tabStop.getPosition() - advance / 2);
+					break;
+				}
+				case LEFT :
+				default :
+				{
+					leftX = tabStop.getPosition();
+				}
 			}
 		}
 		return leftX;
@@ -129,23 +145,26 @@ public final class ParagraphUtil
 	 */
 	public static int getSegmentOffset(TabStop tabStop, int rightX)
 	{
-		int segmentOffset = 0;
-		switch (tabStop.getAlignment())
+		int segmentOffset = rightX;
+		if (tabStop != null)
 		{
-			case RIGHT ://FIXMETAB RTL writings
+			switch (tabStop.getAlignment())
 			{
-				segmentOffset = rightX;
-				break;
-			}
-			case CENTER :
-			{
-				segmentOffset = rightX;
-				break;
-			}
-			case LEFT :
-			default :
-			{
-				segmentOffset = tabStop.getPosition();
+				case RIGHT ://FIXMETAB RTL writings
+				{
+					segmentOffset = rightX;
+					break;
+				}
+				case CENTER :
+				{
+					segmentOffset = rightX;
+					break;
+				}
+				case LEFT :
+				default :
+				{
+					segmentOffset = tabStop.getPosition();
+				}
 			}
 		}
 		return segmentOffset;
@@ -155,10 +174,10 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static TabStop getNextTabStop(JRParagraph paragraph, float formatWidth, int rightX)
+	public static TabStop getNextTabStop(JRParagraph paragraph, float endX, float rightX)
 	{
-		TabStop nextTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
+		TabStop nextTabStop = null;
+		TabStop[] tabStops = getTabStops(paragraph, endX);
 		int i = 0;
 		for (; i < tabStops.length; i++)
 		{
@@ -172,7 +191,8 @@ public final class ParagraphUtil
 		if (i == tabStops.length)
 		{
 			//FIXMETAB what to do here?
-			nextTabStop.setPosition((rightX / paragraph.getTabStopWidth() + 1) * paragraph.getTabStopWidth());
+			nextTabStop = new TabStop();
+			nextTabStop.setPosition((int)((rightX / paragraph.getTabStopWidth() + 1) * paragraph.getTabStopWidth()));
 		}
 		return nextTabStop;
 	}
@@ -181,10 +201,10 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static TabStop getFirstTabStop(JRParagraph paragraph, float formatWidth)
+	public static TabStop getFirstTabStop(JRParagraph paragraph, float endX)
 	{
 		TabStop firstTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
+		TabStop[] tabStops = getTabStops(paragraph, endX);
 		firstTabStop = tabStops[0];
 		return firstTabStop;
 	}
@@ -193,15 +213,15 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static TabStop getLastTabStop(JRParagraph paragraph, float formatWidth)
+	public static TabStop getLastTabStop(JRParagraph paragraph, float endX)
 	{
 		TabStop lastTabStop = new TabStop();
-		TabStop[] tabStops = getTabStops(paragraph, formatWidth);
+		TabStop[] tabStops = getTabStops(paragraph, endX);
 		int i = tabStops.length - 1;
 		for (; i >= 0; i--)
 		{
 			TabStop tabStop = tabStops[i];
-			if (tabStop.getPosition() < formatWidth)//FIXMETAB assumes tab stops are sorted by position
+			if (tabStop.getPosition() < endX)//FIXMETAB assumes tab stops are sorted by position
 			{
 				lastTabStop = tabStop;
 				break;
@@ -210,7 +230,7 @@ public final class ParagraphUtil
 		if (i < 0)
 		{
 			//FIXMETAB what to do here?
-			lastTabStop.setPosition((int)formatWidth);
+			lastTabStop.setPosition((int)endX);
 		}
 		return lastTabStop;
 	}

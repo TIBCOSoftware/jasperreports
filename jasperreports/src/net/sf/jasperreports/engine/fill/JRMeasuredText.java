@@ -43,9 +43,7 @@ public interface JRMeasuredText
 	float getLeadingOffset();
 
 	/**
-	 * Return the line spacing factor for the text.
-	 * 
-	 * @return the line spacing factor
+	 * @deprecated No longer used.
 	 */
 	float getLineSpacingFactor();
 

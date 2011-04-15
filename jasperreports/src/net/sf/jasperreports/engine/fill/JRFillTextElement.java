@@ -76,6 +76,9 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	private boolean isLeftToRight = true;
 	private JRTextMeasurer textMeasurer;
+	/**
+	 * @deprecated No longer used.
+	 */
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private float textHeight;
@@ -927,7 +930,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	protected float getLineSpacingFactor()
 	{
@@ -935,7 +938,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	protected void setLineSpacingFactor(float lineSpacingFactor)
 	{
@@ -1163,7 +1166,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		setTextEnd(measuredText.getTextOffset());
 		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
-		setLineSpacingFactor(measuredText.getLineSpacingFactor());
+		//setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		setLeadingOffset(measuredText.getLeadingOffset());
 	}
 	
