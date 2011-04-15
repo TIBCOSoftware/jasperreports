@@ -213,18 +213,6 @@ public class JRGridLayout
 				row2 - row1
 				);
 
-		gridCell.setLayout(
-			new JRGridLayout(
-				nature,
-				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]),
-				frame.getWidth(),
-				frame.getHeight(),
-				offsetX -xCuts.getCut(col1),
-				offsetY -yCuts.getCut(row1),
-				virtualAddress
-				)
-			);
-
 		OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
 		for(int row = row1; row < row2; row++)
 		{
@@ -240,6 +228,18 @@ public class JRGridLayout
 				}
 			}
 		}
+
+		gridCell.setLayout(
+			new JRGridLayout(
+				nature,
+				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]),
+				frame.getWidth(),
+				frame.getHeight(),
+				offsetX -xCuts.getCut(col1),
+				offsetY -yCuts.getCut(row1),
+				virtualAddress
+				)
+			);
 
 		grid[row1][col1] = gridCell;
 	}
@@ -505,22 +505,41 @@ public class JRGridLayout
 		yCuts.addUsage(row1, CutsInfo.USAGE_NOT_EMPTY);
 		xCuts.addUsage(col1, CutsInfo.USAGE_NOT_EMPTY);
 
+		JRPrintElement element = wrapper.getElement();
+		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
+
+		int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
+		int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
+
+		JRExporterGridCell gridCell =
+			new ElementGridCell(
+				wrapper,
+				element.getWidth(),
+				element.getHeight(),
+				colSpan,
+				rowSpan
+				);
+
+		if (nature.isSpanCells())
+		{
+			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
+			for (int row = row1; row < row2; row++)
+			{
+				for (int col = col1; col < col2; col++)
+				{
+					grid[row][col] = occupiedGridCell;
+				}
+				yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
+			}
+
+			for (int col = col1; col < col2; col++)
+			{
+				xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
+			}
+		}
+
 		if (col2 - col1 != 0 && row2 - row1 != 0)
 		{
-			JRPrintElement element = wrapper.getElement();
-			JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
-
-			int rowSpan = nature.isSpanCells() ? row2 - row1 : 1;
-			int colSpan = nature.isSpanCells() ? col2 - col1 : 1;
-			JRExporterGridCell gridCell =
-				new ElementGridCell(
-					wrapper,
-					element.getWidth(),
-					element.getHeight(),
-					colSpan,
-					rowSpan
-					);
-
 			if (frame != null)//FIXMEODT if deep, does this make sense?
 			{
 				gridCell.setLayout(
@@ -545,24 +564,6 @@ public class JRGridLayout
 			if (nature.isBreakAfterRow(element))
 			{
 				yCuts.addUsage(row1 + rowSpan,  CutsInfo.USAGE_BREAK);
-			}
-
-			if (nature.isSpanCells())
-			{
-				OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
-				for (int row = row1; row < row2; row++)
-				{
-					for (int col = col1; col < col2; col++)
-					{
-						grid[row][col] = occupiedGridCell;
-					}
-					yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
-				}
-
-				for (int col = col1; col < col2; col++)
-				{
-					xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
-				}
 			}
 
 			grid[row1][col1] = gridCell;
