@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
 
 
@@ -78,7 +77,7 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRStyle style)
 	{
-		exportPropsHeader(null);
+		exportPropsHeader(null, style.getParagraph());
 
 		exportAlignment(
 			getHorizontalAlignment(
@@ -91,9 +90,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 
 		exportLineSpacing(
-			getLineSpacing(
-				style.getParagraph().getOwnLineSpacing() 
-				)
+			style.getParagraph() 
 			);
 
 		exportPropsFooter();
@@ -104,7 +101,7 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportProps(JRPrintText text)
 	{
-		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName());//FIXMEDOCX why getStyleNameReference is not working?
+		exportPropsHeader(text.getStyle() == null ? null : text.getStyle().getName(), text.getParagraph());//FIXMEDOCX why getStyleNameReference is not working?
 
 		exportAlignment(
 			getHorizontalAlignment(
@@ -117,9 +114,7 @@ public class DocxParagraphHelper extends BaseHelper
 			);
 
 		exportLineSpacing(
-			getLineSpacing(
-				text.getParagraph().getOwnLineSpacing() 
-				)
+			text.getParagraph() 
 			);
 
 //		exportRunDirection(text.getRunDirection() == JRPrintText.RUN_DIRECTION_RTL ? "rl" : null);
@@ -131,13 +126,27 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportPropsHeader(String styleNameReference)
+	private void exportPropsHeader(String styleNameReference, JRParagraph paragraph)
 	{
 		write("      <w:pPr>\n");
 		if (styleNameReference != null)
 		{
 			write("        <w:pStyle w:val=\"" + styleNameReference + "\"/>\n");
 		}
+		write("      <w:ind");
+		if (paragraph.getOwnFirstLineIndent() != null)
+		{
+			write(" w:firstLine=\"" + LengthUtil.twip(paragraph.getOwnFirstLineIndent().intValue()) + "\"");
+		}
+		if (paragraph.getOwnLeftIndent() != null)
+		{
+			write(" w:left=\"" + LengthUtil.twip(paragraph.getOwnLeftIndent().intValue()) + "\"");
+		}
+		if (paragraph.getOwnRightIndent() != null)
+		{
+			write(" w:right=\"" + LengthUtil.twip(paragraph.getOwnRightIndent().intValue()) + "\"");
+		}
+		write("/>\n");
 		if (pageBreak)
 		{
 			write("        <w:pageBreakBefore/>\n");
@@ -177,11 +186,57 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private void exportLineSpacing(String lineSpacing)
+	private void exportLineSpacing(JRParagraph paragraph)
 	{
-		if (lineSpacing != null)
+		if (
+			paragraph.getOwnLineSpacing() != null
+			|| paragraph.getOwnLineSpacingSize() != null
+			)
 		{
-			write("   <w:spacing w:line=\"" + lineSpacing + "\" w:after=\"0\" w:before=\"0\"/>\n");
+			String lineRule; 
+			String lineSpacing; 
+
+			switch (paragraph.getLineSpacing())
+			{
+				case AT_LEAST :
+				{
+					lineRule = "atLeast";
+					lineSpacing = String.valueOf(LengthUtil.twip(paragraph.getLineSpacingSize().floatValue())); 
+					break;
+				}
+				case FIXED :
+				{
+					lineRule = "exact";
+					lineSpacing = String.valueOf(LengthUtil.twip(paragraph.getLineSpacingSize().floatValue())); 
+					break;
+				}
+				case PROPORTIONAL :
+				{
+					lineRule = "auto";
+					lineSpacing = String.valueOf((int)(paragraph.getLineSpacingSize().floatValue() * LINE_SPACING_FACTOR)); 
+					break;
+				}
+				case DOUBLE :
+				{
+					lineRule = "auto";
+					lineSpacing = String.valueOf((int)(2f * LINE_SPACING_FACTOR)); 
+					break;
+				}
+				case ONE_AND_HALF :
+				{
+					lineRule = "auto";
+					lineSpacing = String.valueOf((int)(1.5f * LINE_SPACING_FACTOR)); 
+					break;
+				}
+				case SINGLE :
+				default :
+				{
+					lineRule = "auto";
+					lineSpacing = String.valueOf((int)(1f * LINE_SPACING_FACTOR));
+				}
+			}
+			
+			write("   <w:spacing w:lineRule=\"" + lineRule + "\" w:line=\"" + lineSpacing + "\" w:after=\"0\" w:before=\"0\"/>\n");
 		}
 	}
 	
@@ -248,31 +303,6 @@ public class DocxParagraphHelper extends BaseHelper
 				default :
 					return TAB_STOP_ALIGN_LEFT;
 			}
-		}
-		return null;
-	}
-	/**
-	 *
-	 */
-	public static String getLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		if (lineSpacing != null)
-		{
-			float lnsp = 0;
-			switch (lineSpacing)
-			{
-				case DOUBLE :
-					lnsp = 2;
-					break;
-				case ONE_AND_HALF :
-					lnsp = 1.5f;
-					break;
-				case SINGLE :
-				default :
-					lnsp = 1;
-			}
-			
-			return String.valueOf((int)(lnsp * LINE_SPACING_FACTOR)); 
 		}
 		return null;
 	}

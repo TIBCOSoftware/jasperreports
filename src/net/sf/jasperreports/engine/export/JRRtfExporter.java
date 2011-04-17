@@ -98,6 +98,8 @@ public class JRRtfExporter extends JRAbstractExporter
 	private static final Log log = LogFactory.getLog(JRRtfExporter.class);
 	
 	private static final String RTF_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.rtf.";
+	
+	private static final int LINE_SPACING_FACTOR = 240; //(int)(240 * 2/3f);
 
 	/**
 	 * The exporter key, as used in
@@ -813,6 +815,12 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("{\\sp{\\sn fLine}{\\sv 0}}");
 		writer.write("{\\shptxt{\\pard ");
 
+		writer.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent().intValue()) + " ");
+		writer.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent().intValue()) + " ");
+		writer.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent().intValue()) + " ");
+		//writer.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
+		//writer.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
+
 		TabStop[] tabStops = text.getParagraph().getTabStops();
 		if (tabStops != null && tabStops.length > 0)
 		{
@@ -883,9 +891,46 @@ public class JRRtfExporter extends JRAbstractExporter
 				break;
 		}
 
-		writer.write("\\sl");
-		writer.write(String.valueOf(LengthUtil.twip(text.getLineSpacingFactor() * font.getFontSize())));//FIXMETAB
-		writer.write(" ");
+		switch (text.getParagraph().getLineSpacing())
+		{
+			case AT_LEAST:
+			{
+				writer.write("\\sl" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				writer.write(" \\slmult0 ");
+				break;
+			}
+			case FIXED:
+			{
+				writer.write("\\sl-" + LengthUtil.twip(text.getParagraph().getLineSpacingSize().floatValue()));
+				writer.write(" \\slmult0 ");
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				writer.write("\\sl" + (int)(text.getParagraph().getLineSpacingSize().floatValue() * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
+				break;
+			}
+			case DOUBLE:
+			{
+				writer.write("\\sl" + (int)(2f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				writer.write("\\sl" + (int)(1.5f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
+				break;
+			}
+			case SINGLE:
+			default:
+			{
+				writer.write("\\sl" + (int)(1f * LINE_SPACING_FACTOR));
+				writer.write(" \\slmult1 ");
+				break;
+			}
+		}
 
 		if (text.getAnchorName() != null)
 		{
