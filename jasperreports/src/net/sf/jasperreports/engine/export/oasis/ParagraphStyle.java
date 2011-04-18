@@ -329,8 +329,8 @@ public class ParagraphStyle extends Style
 		styleWriter.write(" fo:text-indent=\"" + LengthUtil.inch(paragraph.getFirstLineIndent()) + "in\"");
 		styleWriter.write(" fo:margin-left=\"" + LengthUtil.inch(paragraph.getLeftIndent()) + "in\"");
 		styleWriter.write(" fo:margin-right=\"" + LengthUtil.inch(paragraph.getRightIndent()) + "in\"");
-//		styleWriter.write(" fo:margin-top=\"" + pMarginTop + "\"");
-//		styleWriter.write(" fo:margin-bottom=\"" + pMarginBottom + "\"");
+		styleWriter.write(" fo:margin-top=\"" + LengthUtil.inch(paragraph.getSpacingBefore()) + "in\"");
+		styleWriter.write(" fo:margin-bottom=\"" + LengthUtil.inch(paragraph.getSpacingAfter()) + "in\"");
 //		styleWriter.write(" fo:background-color=\"#" + pBackGroundColor + "\"");
 		styleWriter.write(" style:vertical-align=\"" + verticalAlignment + "\"");
 		if (runDirection != null)

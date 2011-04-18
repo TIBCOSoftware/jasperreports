@@ -32,17 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.JRCommonText;
-import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 
@@ -64,8 +60,8 @@ public abstract class AbstractTextRenderer
 	protected int bottomPadding;
 	protected int rightPadding;
 	
-	protected float formatWidth;
-	protected float verticalOffset;
+	//protected float formatWidth;
+	protected float verticalAlignOffset;
 	protected float drawPosY;
 	protected float drawPosX;
 	protected float lineHeight;
@@ -75,7 +71,7 @@ public abstract class AbstractTextRenderer
 	
 	/**
 	 * 
-	 */
+	 *
 	private MaxFontSizeFinder maxFontSizeFinder;
 	
 	/**
@@ -221,27 +217,27 @@ public abstract class AbstractTextRenderer
 		
 		this.text = text;
 
-		verticalOffset = 0f;
+		verticalAlignOffset = 0f;
 		switch (text.getVerticalAlignmentValue())
 		{
 			case TOP :
 			{
-				verticalOffset = 0f;
+				verticalAlignOffset = 0f;
 				break;
 			}
 			case MIDDLE :
 			{
-				verticalOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
+				verticalAlignOffset = (height - topPadding - bottomPadding - text.getTextHeight()) / 2f;
 				break;
 			}
 			case BOTTOM :
 			{
-				verticalOffset = height - topPadding - bottomPadding - text.getTextHeight();
+				verticalAlignOffset = height - topPadding - bottomPadding - text.getTextHeight();
 				break;
 			}
 			default :
 			{
-				verticalOffset = 0f;
+				verticalAlignOffset = 0f;
 			}
 		}
 
@@ -253,7 +249,7 @@ public abstract class AbstractTextRenderer
 	
 		isMaxHeightReached = false;
 		
-		maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(text.getMarkup()));
+		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(text.getMarkup()));
 	}
 	
 
@@ -333,9 +329,13 @@ public abstract class AbstractTextRenderer
 					).getIterator();
 		}
 
+		//drawPosY += text.getParagraph().getSpacingBefore().intValue();
+
 		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
 		
 		int currentTab = 0;
+		int lines = 0;
+		float endX = 0;
 		
 		TabStop nextTabStop = null;
 		boolean requireNextWord = false;
@@ -364,11 +364,11 @@ public abstract class AbstractTextRenderer
 				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
 				
 				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0);
-				float endX = width - text.getParagraph().getRightIndent() - rightPadding;
+				endX = width - text.getParagraph().getRightIndent() - rightPadding;
 				endX = endX < startX ? startX : endX;
 				//formatWidth = endX - startX;
-				formatWidth = endX;
-
+				//formatWidth = endX;
+				
 				int startIndex = lineMeasurer.getPosition();
 
 				int rightX = 0;
@@ -520,10 +520,17 @@ public abstract class AbstractTextRenderer
 				oldSegment = crtSegment;
 			}
 
-			lineHeight = TextMeasurer.getLineHeight(text.getParagraph(), maxLeading, maxAscent) + maxDescent;
+			lineHeight = TextMeasurer.getLineHeight(lastParagraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
+			
+			if (lines == 0)
+			{
+				lineHeight +=  text.getParagraph().getSpacingBefore().intValue();
+			}
 
 			if (drawPosY + lineHeight <= text.getTextHeight())
 			{
+				lines++;
+				
 				drawPosY += lineHeight;
 				
 				int lastRightX = (segments == null || segments.size() == 0 ? 0 : segments.get(segments.size() - 1).rightX);
@@ -544,19 +551,19 @@ public abstract class AbstractTextRenderer
 							}
 							else
 							{
-								drawPosX = (int)(formatWidth - lastRightX + segment.leftX);
+								drawPosX = (int)(endX - lastRightX + segment.leftX);
 							}
 	
 							break;
 						}
 						case RIGHT ://FIXMETAB RTL writings
 						{
-							drawPosX = (int)(formatWidth - lastRightX + segment.leftX);
+							drawPosX = (int)(endX - lastRightX + segment.leftX);
 							break;
 						}
 						case CENTER :
 						{
-							drawPosX = (int)((formatWidth - lastRightX) / 2) + segment.leftX; 
+							drawPosX = (int)((endX - lastRightX) / 2) + segment.leftX; 
 							break;
 						}
 						case LEFT :
@@ -568,6 +575,13 @@ public abstract class AbstractTextRenderer
 
 					/*   */
 					draw();
+				}
+				
+				drawPosY += maxDescent;
+				
+				if (lineMeasurer.getPosition() == paragraph.getEndIndex())
+				{
+					drawPosY += text.getParagraph().getSpacingAfter().intValue();
 				}
 			}
 			else
@@ -584,7 +598,7 @@ public abstract class AbstractTextRenderer
 
 	/**
 	 * 
-	 */
+	 *
 	public static float getLineHeight(JRParagraph paragraph, float lineSpacingFactor, int maxFontSize)
 	{
 		float lineHeight = 0;

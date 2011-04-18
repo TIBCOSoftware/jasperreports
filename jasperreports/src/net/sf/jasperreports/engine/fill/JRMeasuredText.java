@@ -36,18 +36,6 @@ public interface JRMeasuredText
 {
 
 	/**
-	 * Returns the text leading offset.
-	 * 
-	 * @return the text leading offset
-	 */
-	float getLeadingOffset();
-
-	/**
-	 * @deprecated No longer used.
-	 */
-	float getLineSpacingFactor();
-
-	/**
 	 * Returns the text's measure height.
 	 * 
 	 * @return the text's measure height

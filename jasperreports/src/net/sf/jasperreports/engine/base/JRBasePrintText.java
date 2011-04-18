@@ -83,6 +83,9 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 * @deprecated No longer used.
 	 */
 	protected float lineSpacingFactor;
+	/**
+	 * @deprecated No longer used.
+	 */
 	protected float leadingOffset;
 	protected HorizontalAlignEnum horizontalAlignmentValue;
 	protected VerticalAlignEnum verticalAlignmentValue;
@@ -286,7 +289,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLeadingOffset()
 	{
@@ -294,7 +297,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	}
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLeadingOffset(float leadingOffset)
 	{

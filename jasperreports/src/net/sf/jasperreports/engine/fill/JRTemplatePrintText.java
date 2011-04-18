@@ -81,6 +81,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * @deprecated No longer used.
 	 */
 	private float lineSpacingFactor;
+	/**
+	 * @deprecated No longer used.
+	 */
 	private float leadingOffset;
 	private RunDirectionEnum runDirectionValue;
 	private float textHeight;
@@ -245,7 +248,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLeadingOffset()
 	{
@@ -253,7 +256,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLeadingOffset(float leadingOffset)
 	{

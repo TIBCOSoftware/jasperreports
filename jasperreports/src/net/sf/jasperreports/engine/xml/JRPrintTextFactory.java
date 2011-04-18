@@ -113,11 +113,11 @@ public class JRPrintTextFactory extends JRBaseFactory
 //			text.setLineSpacingFactor(Float.parseFloat(lineSpacingFactor));
 //		}
 
-		String leadingOffset = atts.getValue(JRXmlConstants.ATTRIBUTE_leadingOffset);
-		if (leadingOffset != null && leadingOffset.length() > 0)
-		{
-			text.setLeadingOffset(Float.parseFloat(leadingOffset));
-		}
+//		String leadingOffset = atts.getValue(JRXmlConstants.ATTRIBUTE_leadingOffset);
+//		if (leadingOffset != null && leadingOffset.length() > 0)
+//		{
+//			text.setLeadingOffset(Float.parseFloat(leadingOffset));
+//		}
 
 		text.setLinkType(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkType));
 		text.setLinkTarget(atts.getValue(JRXmlConstants.ATTRIBUTE_hyperlinkTarget));

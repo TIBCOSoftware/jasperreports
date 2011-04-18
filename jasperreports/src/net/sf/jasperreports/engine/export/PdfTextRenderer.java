@@ -149,17 +149,17 @@ public class PdfTextRenderer extends AbstractTextRenderer
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
-				- verticalOffset
-				- text.getLeadingOffset()
-				+ lineHeight//FIXMETAB check this; should not be in leading offset?
+				- verticalAlignOffset
+				//- text.getLeadingOffset()
+				+ lineHeight
 				- drawPosY,
 			x + leftPadding + drawPosX  + segment.layout.getAdvance(),
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
-				- verticalOffset
-				- text.getLeadingOffset()
-				//+ lineHeight
+				- verticalAlignOffset
+				//- text.getLeadingOffset()
+				-400//+ lineHeight//FIXMETAB
 				- drawPosY,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
 			horizontalAlignment

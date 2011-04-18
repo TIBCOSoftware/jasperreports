@@ -154,12 +154,12 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setLineSpacingFactor(float lineSpacingFactor);
 
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public float getLeadingOffset();
 		
 	/**
-	 *
+	 * @deprecated No longer used.
 	 */
 	public void setLeadingOffset(float leadingOffset);
 
