@@ -675,7 +675,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	protected void copy(JRPrintText text)
 	{
 		//text.setLineSpacingFactor(getLineSpacingFactor());
-		text.setLeadingOffset(getLeadingOffset());
+		//text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
 		//FIXME rotation and run direction?
 

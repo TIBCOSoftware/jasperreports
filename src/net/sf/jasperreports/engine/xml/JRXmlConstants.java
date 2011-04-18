@@ -704,6 +704,9 @@ public final class JRXmlConstants
 	 * @deprecated No longer used.
 	 */
 	public static final String ATTRIBUTE_lineSpacingFactor = "lineSpacingFactor";
+	/**
+	 * @deprecated No longer used.
+	 */
 	public static final String ATTRIBUTE_leadingOffset = "leadingOffset";
 	public static final String ATTRIBUTE_valueClass = "valueClass";
 

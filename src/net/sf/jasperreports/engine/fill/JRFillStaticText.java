@@ -209,7 +209,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 //		}
 		text.setRunDirection(getRunDirectionValue());
 		//text.setLineSpacingFactor(getLineSpacingFactor());
-		text.setLeadingOffset(getLeadingOffset());
+		//text.setLeadingOffset(getLeadingOffset());
 		text.setTextHeight(getTextHeight());
 		transferProperties(text);
 

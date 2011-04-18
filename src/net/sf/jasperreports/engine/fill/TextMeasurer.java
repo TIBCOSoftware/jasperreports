@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 import org.apache.commons.logging.Log;
@@ -73,7 +72,7 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	private MaxFontSizeFinder maxFontSizeFinder;
+	//private MaxFontSizeFinder maxFontSizeFinder;
 	
 	private int width;
 	private int height;
@@ -83,7 +82,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private int rightPadding;
 	private JRParagraph jrParagraph;
 
-	private float formatWidth;
+	//private float formatWidth;
 	private int maxHeight;
 	private boolean canOverflow;
 	private Map globalAttributes;
@@ -96,10 +95,8 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		protected int textOffset;
 		protected int lines;
-		protected int fontSizeSum;
-		protected int firstLineMaxFontSize;
+		protected int paragraphStartLine;
 		protected float textHeight;
-		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
 		protected String textSuffix;
 		
@@ -126,23 +123,6 @@ public class TextMeasurer implements JRTextMeasurer
 			return textHeight;
 		}
 		
-		/**
-		 * @deprecated No longer used.
-		 */
-		public float getLineSpacingFactor()
-		{
-			if (lines > 0)
-			{
-				return textHeight / fontSizeSum;
-			}
-			return 0;
-		}
-		
-		public float getLeadingOffset()
-		{
-			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
-		}
-
 		public String getTextSuffix()
 		{
 			return textSuffix;
@@ -312,7 +292,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 		
-		maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
+		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
 
 //		formatWidth = width - leftPadding - rightPadding;
 //		formatWidth = formatWidth < 0 ? 0 : formatWidth;
@@ -426,6 +406,7 @@ public class TextMeasurer implements JRTextMeasurer
 
 		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);
 		
+		measuredState.paragraphStartLine = measuredState.lines;
 		measuredState.textOffset = lastParagraphStart;
 		
 		boolean rendered = true;
@@ -644,7 +625,7 @@ public class TextMeasurer implements JRTextMeasurer
 			float endX = width - textElement.getParagraph().getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;
-			formatWidth = endX;
+			//formatWidth = endX;
 
 			int startIndex = lineMeasurer.getPosition();
 
@@ -775,7 +756,12 @@ public class TextMeasurer implements JRTextMeasurer
 			oldSegment = crtSegment;
 		}
 		
-		float lineHeight = getLineHeight(jrParagraph, maxLeading, maxAscent);
+		float lineHeight = getLineHeight(measuredState.lines == 0, jrParagraph, maxLeading, maxAscent);
+		
+		if (measuredState.paragraphStartLine == measuredState.lines)
+		{
+			lineHeight += jrParagraph.getSpacingBefore().intValue();
+		}
 		
 		float newTextHeight = measuredState.textHeight + lineHeight;
 		boolean fits = newTextHeight + maxDescent <= maxHeight;
@@ -787,21 +773,21 @@ public class TextMeasurer implements JRTextMeasurer
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 
-			measuredState.fontSizeSum += 
-				maxFontSizeFinder.findMaxFontSize(
-					new AttributedString(
-						paragraph, 
-						lineStartPosition, 
-						lineStartPosition + characterCount
-						).getIterator(),
-					textElement.getFontSize()
-					);
+//			measuredState.fontSizeSum += 
+//				maxFontSizeFinder.findMaxFontSize(
+//					new AttributedString(
+//						paragraph, 
+//						lineStartPosition, 
+//						lineStartPosition + characterCount
+//						).getIterator(),
+//					textElement.getFontSize()
+//					);
 
-			if (measuredState.lines == 1)
-			{
-				measuredState.firstLineLeading = measuredState.textHeight;
-				measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
-			}
+//			if (measuredState.lines == 1)
+//			{
+//				measuredState.firstLineLeading = measuredState.textHeight;
+//				measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
+//			}
 
 			// here is the Y offset where we would draw the line
 			//lastDrawPosY = drawPosY;
@@ -814,6 +800,10 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				//if not the last line in a paragraph, save the line break position
 				measuredState.addLineBreak();
+			}
+			else
+			{
+				measuredState.textHeight += jrParagraph.getSpacingAfter().intValue();
 			}
 		}
 		
@@ -870,45 +860,77 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	public static float getLineHeight(JRParagraph paragraph, float maxLeading, float maxAscent)
+	public static float getLineHeight(boolean isFirstLine, JRParagraph paragraph, float maxLeading, float maxAscent)
 	{
 		float lineHeight = 0;
 
 		switch(paragraph.getLineSpacing())
 		{
 			case SINGLE:
+			default :
 			{
 				lineHeight = maxLeading + 1f * maxAscent;
 				break;
 			}
 			case ONE_AND_HALF:
 			{
-				lineHeight = maxLeading + 1.5f * maxAscent;
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + 1.5f * maxAscent;
+				}
 				break;
 			}
 			case DOUBLE:
 			{
-				lineHeight = maxLeading + 2f * maxAscent;
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + 2f * maxAscent;
+				}
 				break;
 			}
 			case PROPORTIONAL:
 			{
-				lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
+				}
 				break;
 			}
 			case AT_LEAST:
 			{
-				lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
+				}
 				break;
 			}
 			case FIXED:
 			{
-				lineHeight = paragraph.getLineSpacingSize().floatValue();
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = paragraph.getLineSpacingSize().floatValue();
+				}
 				break;
-			}
-			default :
-			{
-				throw new JRRuntimeException("Invalid line space type: " + paragraph.getLineSpacing());
 			}
 		}
 		
