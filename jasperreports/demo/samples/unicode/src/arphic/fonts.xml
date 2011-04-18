@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+	<fontFamily name="AR PL KaitiM GB">
+		<normal>arphic/gkai00mp.ttf</normal>
+		<pdfEncoding>Identity-H</pdfEncoding>
+		<pdfEmbedded>true</pdfEmbedded>
+		<exportFonts>
+			<export key="net.sf.jasperreports.html">'AR PL KaitiM GB', 'Times New Roman', Times, serif</export>
+			<export key="net.sf.jasperreports.xhtml">'AR PL KaitiM GB', 'Times New Roman', Times, serif</export>
+		</exportFonts>
+	</fontFamily>
+
+</fontFamilies>

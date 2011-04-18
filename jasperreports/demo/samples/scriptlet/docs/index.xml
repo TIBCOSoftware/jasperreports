@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>scriptlet</name>
+  <title>Scriptlet Sample</title>
+  <description>Shows how the scriptlets could be used to manipulate data during report filling.</description>
+
+  <mainFeature ref="scriptlet"/>
+  <mainFeature ref="alternaterowcolor"/>
+  
+  <!-- scriptlet -->
+  
+  <feature name="scriptlet" title="Scriptlets">
+    <description>
+	How to perform custom calculation and tailor the report filling process using report scriptlets implementations.
+    </description>
+    <since>0.2.5</since>
+    <documentedBy>
+      <author>
+    	<name>Luke Shannon</name>
+    	<email>lshannon@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    There are situations when a calculation is required during the report filling stage that is not included in JasperReports provided
+    calculations.
+    <br/>
+    Examples of this may be complex String manipulations, building of Maps or Lists of objects in memory or manipulations 
+    of dates using 3rd party Java APIs.
+    <br/>
+    Luckily JasperReports provides us with a simple and powerful means of doing this with Scriptlets.
+    <br/>
+    <br/>
+    <subtitle name="definition">What is a Scriptlet?</subtitle>
+    <br/>
+    <br/>
+    A Script is a Java Class that extends one of the two following classes:
+    <br/>
+    <ul>
+    <li><api href="net/sf/jasperreports/engine/JRDefaultScriptlet.html">JRDefaultScriptlet</api></li>
+    <li><api href="net/sf/jasperreports/engine/JRAbstractScriptlet.html">JRAbstractScriptlet</api></li>
+    </ul>
+    <br/>
+    The sample extends the JRDefaultScriptlet. The difference between the two is with JRAbstractScriptlet a developer must implement
+    all the abstract methods.
+    <br/>
+    By extending JRDefaultScriptlet a developer is only required to implement that methods he/she needs for 
+    their project.
+    <br/>
+    Once the Scriptlet has been referenced in the report, during the Filling stage of the Report Life Cycle, the JasperReports API will ensure to call the appropriate methods within the Scriptlet.
+    <br/>
+    It is within these methods you will place your own logic to manipulate data in the report.
+    <br/>
+    Before we discuss more what these methods do lets discuss how to run this sample.
+    <br/>
+    <br/>
+    <subtitle name="running_sample">Running the Sample</subtitle>
+    <br/>
+    <br/>
+    <i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	<br/>
+    <i>Starting the Data Source</i>
+    <br/>
+    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
+    <br/>
+    Leave window/terminal running (see below for sample output).
+    <br/>
+    <pre>
+    <![CDATA[
+    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
+	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
+
+	runServer:
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
+     [java] [Server@83cc67]: Startup sequence initiated from main() method
+     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
+     [java] [Server@83cc67]: Initiating startup sequence...
+     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
+     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
+     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
+     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
+     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
+     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
+    ]]>
+	</pre>
+    <i>Generating the Report</i>
+    <br/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
+    <br/>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    Each export type will generate a output type in the build/report folder.
+    <br/>
+    By running the command 'ant' the following actions will be performed:
+    <br/>
+    <ul>
+    <li>All java code will be compiled to produce class files.</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
+    <li>All the exporters the sample is configured to test will run.</li>
+    </ul>
+    <br/>
+    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    <br/>
+    Each of the these task can be ran separately as well:
+    <br/>
+    <ul>
+    	<li>ant clean - removes all generated files.</li>
+    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
+    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
+    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
+    	<li>ant view - opens the report in the JasperViewer</li>
+    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
+    </ul>
+    <b>Note:</b> All generated files can be found in build/reports.
+    <br/>
+    You now have a working version of the report you can review and tweak to learn more about Scriptlets.
+    <br/>
+    <br/>
+    <subtitle name="usage">What does a Scriptlet do?</subtitle>
+    <br/>
+    <br/>
+    A Scriptlet allows the developer to obtain the values of Fields, Variables and Parameters from the report during specific events in the Filling
+    stage of the Report Life Cycle.
+    <br/>
+    It also allows you to set data in the report as it executes its Fill Cycle. We will discuss this more in the sections 
+    below.
+    <br/>
+    If you look at Scriptlet.java within this sample you will see all possible methods have been implemented. Most contain output statements.
+    <br/>
+    By running the sample from the command line or in iReport you will see the outputs of these statements along with the generated report itself.
+    <br/>
+    The method afterGroupInit contains all the most interesting logic and will be the main focus of our discussion.
+    <br/>
+    <br/>
+    <i>Working with Report Data</i>
+    <br/>
+    A developer can read the values from Fields (which map to the data source), Values and Parameters from the report into variables within the Scriptlet.
+    <br/>
+    Examples of this can be seen in afterGroupInit method. In this method we obtain the value of a variable and a field from the report as it is filling:
+   	 <pre>
+    <![CDATA[
+    String allCities = (String)this.getVariableValue("AllCities");
+	String city = (String)this.getFieldValue("City");
+    ]]>
+	</pre>
+	In the first line of code we get the value of the AllCities variable, the second we get the value of the Field "City".
+	<br/>
+	It is important to note we get these values at the time of the event this method in the Scriptlet corresponds with.
+	<br/>
+	In this case, after a JasperReports group has been initalized, the logic in this report will be executed (provided the check on the group name performed at the start of the method is successful).
+	<br/>
+	In the same method we see an example of how to write to a variable in the report:
+	 <pre>
+    <![CDATA[
+	this.setVariableValue("AllCities", sbuffer.toString());
+	]]>
+	</pre>
+	<br />
+	The important part when ensuring a variable in your report template is filled by a Scriptlet (or subreport) is to ensure the Variable has a calculation type of 'System' in 
+	the report design:<br/>
+	<pre>
+	<![CDATA[
+	<variable name="AllCities" class="java.lang.String" calculation="System"/>
+	]]>
+	</pre>
+	Also notice that there is *no* Variable Expression.
+	<br/>
+	Make sure you remember these two points when creating Variables in your own report with values supplied by Scriptlets.
+	<br/>
+	<br/>
+	<i>Creating Helper Methods</i>
+	<br/>
+	At the end of the class a extra method called hello has been defined:
+	<pre>
+	<![CDATA[
+	public String hello() throws JRScriptletException
+	{
+		return "Hello! I'm the report's scriptlet object.";
+	}
+	]]>
+	</pre>
+	This is an example of a method that can added to the Scriptlet that actually returns a value, rather than setting a Variable.<br/>
+	The ScripletReport.jrxml has a method in the Summary band that illustrates how to use such a method. The expression is:
+	<pre>
+	<![CDATA[
+	$P{REPORT_SCRIPTLET}.hello()
+	]]>
+	</pre>
+	The Parameter referenced is a built-in Parameter managed by the JasperReports API and contains a reference to the Scriptlet.
+	<br/>
+	As can be seen the hello() method is called. The Type of the TextField containing this expression is String.
+	<br/>
+	This corresponds to the type returned by the method in the Scriptlet.
+	<br/> 
+    <em>How do you use a Scriptlet in a report?</em>
+    A Scriptlet can be associated with a Report by adding a scriptletClass property to the JasperReports tag:
+    <pre>
+    <![CDATA[
+    <jasperReport 
+    xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+    name="ListReport" 
+    columnCount="2" 
+    pageWidth="595" 
+    pageHeight="842" 
+    columnWidth="250" 
+    columnSpacing="15" 
+    leftMargin="40" 
+    rightMargin="40" 
+    topMargin="50" 
+    bottomMargin="50" 
+    scriptletClass="com.myproject.reporting.MyScriptlet">
+    ]]>
+	</pre>
+    <b>Note:</b> The fully qualified reference is used for the Scriptlet class.
+    <br/>
+    <br/>
+    <b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
+    </content>
+  </feature>
+
+  <!-- alternaterowcolor -->
+  
+  <feature name="alternaterowcolor" title="Alternate Row Colors In The Detail Section">
+    <description>
+Shows how to get alternate row colors in a detail section using <a href="../jasper/index.html#conditionalstyles">conditional styles</a>.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="crosstabs"/>
+  	<otherSample ref="list"/>
+    <content>
+<subtitle name="alternate_colors_overview">Alternate Row Colors In The Detail Section</subtitle>
+<br/>
+<br/>
+<a href="../jasper/index.html#conditionalstyles">Conditional styles</a> combined with some specific report built-in variables can 
+be used to generate alternate row colors in the detail section. 
+<br/>
+As known, the detail section is repetitive and contains  common layout information for records in the dataset. 
+For each record in the dataset, a detail section filling process is called at fill time. Being related to records, one of the 
+most common layouts used for the detail section is the table row layout. And like in any other table, alternate row colors 
+might be needed. 
+<br/>
+To obtain alternate row colors, two things are necessary:
+<ol>
+<li>to know the current record number in order to determine if it's odd or even</li>
+<li>a <a href="../jasper/index.html#conditionalstyles">conditional style</a> with specific style properties for odd or even rows</li>
+</ol>
+The first requirement is accomplished with the help of report built-in counting variables:
+<ul>
+<li><code>REPORT_COUNT</code> - if the row color alternation does not depend on the page, column or group breaks</li>
+<li><code>PAGE_COUNT</code> - if each new detail page should start with the same row color</li>
+<li><code>COLUMN_COUNT</code> - if each new detail page column should start with the same row color</li>
+<li><code>&lt;group_name&gt;_COUNT</code> - if each new group of records should start with the same row color</li>
+<li><code>ROW_COUNT</code> - available only for crosstabs; the <code>ROW_COUNT</code> variable returns the current row 
+number in a crosstab. An example of conditional styles in a crosstab can be found in the 
+<a href="../crosstabs/index.html">Crosstabs</a> sample.</li>
+</ul>
+The conditional style required at point (2) is illustrated in the scriptlet sample like below:
+<pre><![CDATA[
+<style name="AlternateDetail">
+  <conditionalStyle>
+    <conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]] ></conditionExpression>
+    <style mode="Opaque" backcolor="#C0C0C0"/>
+  </conditionalStyle>
+</style>]]></pre>
+Here, the odd rows in the CityGroup will be rendered in the default background color (usually white), and the even ones will be rendered in gray.
+<br/>
+<br/>
+Other examples of generating alternate rows can be found in:
+<ul>
+<li><a href="../crosstabs/index.html#builtin_variables">Crosstabs</a> sample, 
+based on the built-in <code>ROW_COUNT</code> and <code>COLUMN_COUNT</code> variables.</li>
+<li><a href="../list/index.html">Crosstabs</a> sample, 
+based on the built-in <code>REPORT_COUNT</code> variable.</li>
+</ul>
+ </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>noreport</name>
+  <title>No Report Sample</title>
+  <description>Shows how final documents can be created without using the reporting engine, but only the API directly.</description>
+
+  <mainFeature ref="noreport"/>
+  
+  <!-- noreport -->
+  
+  <feature name="noreport" title="Creating Final Documents Using the API Directly (No Report Filling)">
+    <description>
+How to create final in-memory documents without using the report generation process, but rather the object model of the JasperReports API.
+    </description>
+    <since>0.4.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The JasperPrint Object</b>
+<br/>
+<br/>
+When generating reports, the main purpose is to create a pixel-perfect document, ready for
+viewing, printing, or exporting to other formats. These documents are stored in serializable 
+<api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> objects, that can 
+be saved on the disk, or transfered over the network if needed. 
+<br/>
+Usually, one can obtain a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> 
+object by compiling and filling a report template, following the steps below:
+<ol>
+<li>Create a report template containing all information needed for the report design. Usually, report templates are stored in JRXML source files.</li>
+<li>Parse the report template source file using the <api href="net/sf/jasperreports/engine/xml/JRXmlLoader.html">JRXmlLoader</api> in order to 
+obtain a <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> design template object.</li>
+<li>Compile the design template object using a <api href="net/sf/jasperreports/engine/design/JRCompiler.html">JRCompiler</api> in order to complete all 
+consistency validations and create a <api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> object.</li>
+<li>Fill the <api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> object with all its data and generate the pixel-perfect document 
+stored in a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object.</li>
+</ol>
+This is the most common way to generate documents in JasperReports. But there are situations when the steps above cannot be all performed. 
+Even in this case, a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object can be generated from scratch as 
+in-memory document. Once generated, it can be serialized and stored on disk, either in a <code>*.jrprint</code> file, or in a specific XML file 
+with the <code>.jrpxml</code> extension. Or it can be then exported to various other output formats.
+<br/>
+<br/>
+Taking a look inside the <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object, one can see that it has a 
+series of member properties that can be set: 
+<pre><![CDATA[
+  private String name;
+  private int pageWidth;
+  private int pageHeight;
+  private Integer topMargin;
+  private Integer leftMargin;
+  private Integer bottomMargin;
+  private Integer rightMargin;
+  private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
+
+  private Map fontsMap = new HashMap();
+  private List fontsList = new ArrayList();
+  private Map stylesMap = new HashMap();
+  private List stylesList = new ArrayList();
+  private Map originsMap = new HashMap();
+  private List originsList = new ArrayList();
+
+  private List pages = new ArrayList();
+
+  private transient Map anchorIndexes;
+  private DefaultStyleProvider defaultStyleProvider;
+
+  private String formatFactoryClass;
+  private String localeCode;
+  private String timeZoneId;
+
+  private JRPropertiesMap propertiesMap;
+
+
+  /**
+   * Creates a new empty document. 
+   */
+  public JasperPrint()
+  {
+    defaultStyleProvider = new DefaultStyleProvider(null, null);
+
+    propertiesMap = new JRPropertiesMap();
+  }]]></pre>
+Therefore, creating a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> 
+object may be accomplished by creating an empty <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> instance 
+using the default constructor, and then setting its members with appropriate values. 
+<br/>
+<br/>
+<b>The No Report Sample</b>
+<br/>
+<br/>
+This sample shows how to create an in-memory <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object. 
+The sample doesn't contain any JRXML template file. The <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> 
+object is hardcoded in the <code>src/NoReportApp.java</code> file (see the getJasperPrint() method). 
+<br/>
+Report compilation and filling are no more necessary.
+<pre><![CDATA[
+  private static JasperPrint getJasperPrint() throws JRException
+  {
+    //JasperPrint
+    JasperPrint jasperPrint = new JasperPrint();
+    jasperPrint.setName("NoReport");
+    jasperPrint.setPageWidth(595);
+    jasperPrint.setPageHeight(842);
+    
+    //Fonts
+    JRDesignStyle normalStyle = new JRDesignStyle();
+    normalStyle.setName("Sans_Normal");
+    normalStyle.setDefault(true);
+    normalStyle.setFontName("DejaVu Sans");
+    normalStyle.setFontSize(8);
+    normalStyle.setPdfFontName("Helvetica");
+    normalStyle.setPdfEncoding("Cp1252");
+    normalStyle.setPdfEmbedded(false);
+    jasperPrint.addStyle(normalStyle);
+
+    JRDesignStyle boldStyle = new JRDesignStyle();
+    boldStyle.setName("Sans_Bold");
+    boldStyle.setFontName("DejaVu Sans");
+    boldStyle.setFontSize(8);
+    boldStyle.setBold(true);
+    boldStyle.setPdfFontName("Helvetica-Bold");
+    boldStyle.setPdfEncoding("Cp1252");
+    boldStyle.setPdfEmbedded(false);
+    jasperPrint.addStyle(boldStyle);
+
+    JRDesignStyle italicStyle = new JRDesignStyle();
+    italicStyle.setName("Sans_Italic");
+    italicStyle.setFontName("DejaVu Sans");
+    italicStyle.setFontSize(8);
+    italicStyle.setItalic(true);
+    italicStyle.setPdfFontName("Helvetica-Oblique");
+    italicStyle.setPdfEncoding("Cp1252");
+    italicStyle.setPdfEmbedded(false);
+    jasperPrint.addStyle(italicStyle);
+    
+    JRPrintPage page = new JRBasePrintPage();
+
+    JRPrintLine line = new JRBasePrintLine(jasperPrint.getDefaultStyleProvider());
+    line.setX(40);
+    line.setY(50);
+    line.setWidth(515);
+    line.setHeight(0);
+    page.addElement(line);
+    
+    JRPrintImage image = new JRBasePrintImage(jasperPrint.getDefaultStyleProvider());
+    image.setX(45);
+    image.setY(55);
+    image.setWidth(165);
+    image.setHeight(40);
+    image.setScaleImage(ScaleImageEnum.CLIP);
+    image.setRenderer(
+      JRImageRenderer.getInstance(
+        JRLoader.loadBytesFromLocation("jasperreports.png")
+      )
+    );
+    page.addElement(image);
+
+    JRPrintText text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+    text.setX(210);
+    text.setY(55);
+    text.setWidth(345);
+    text.setHeight(30);
+    text.setTextHeight(text.getHeight());
+    text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    text.setLineSpacingFactor(1.3133681f);
+    text.setLeadingOffset(-4.955078f);
+    text.setStyle(boldStyle);
+    text.setFontSize(18);
+    text.setText("JasperReports Project Description");
+    page.addElement(text);
+
+    text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+    text.setX(210);
+    text.setY(85);
+    text.setWidth(325);
+    text.setHeight(15);
+    text.setTextHeight(text.getHeight());
+    text.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    text.setLineSpacingFactor(1.329241f);
+    text.setLeadingOffset(-4.076172f);
+    text.setStyle(italicStyle);
+    text.setFontSize(12);
+    text.setText((new SimpleDateFormat("EEE, MMM d, yyyy")).format(new Date()));
+    page.addElement(text);
+
+    text = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
+    text.setX(40);
+    text.setY(150);
+    text.setWidth(515);
+    text.setHeight(200);
+    text.setTextHeight(text.getHeight());
+    text.setHorizontalAlignment(HorizontalAlignEnum.JUSTIFIED);
+    text.setLineSpacingFactor(1.329241f);
+    text.setLeadingOffset(-4.076172f);
+    text.setStyle(normalStyle);
+    text.setFontSize(14);
+    text.setText(
+      "JasperReports is a powerful report-generating tool that has the ability to deliver rich " +
+      "content onto the screen, to the printer or into PDF, HTML, XLS, CSV or XML files.\n\n" +
+      "It is entirely written in Java and can be used in a variety of Java enabled applications, " + 
+      "including J2EE or Web applications, to generate dynamic content.\n\n" +
+      "Its main purpose is to help creating page oriented, ready to print documents in a simple and flexible manner."
+      );
+    page.addElement(text);
+
+    jasperPrint.addPage(page);
+
+    return jasperPrint;
+  }]]></pre>
+The ant <code>compile</code> task is no more necessary. When the ant <code>fill</code> task is performed, the only things it has 
+to perform is to call the <code>getJasperPrint()</code> method, 
+which produces an already filled <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object, and to save this 
+in-memory object in a <code>*.jrprint</code> file:
+<pre><![CDATA[
+  public void fill() throws JRException
+  {
+    long start = System.currentTimeMillis();
+    JasperPrint jasperPrint = getJasperPrint();
+    JRSaver.saveObject(jasperPrint, "build/reports/NoReport.jrprint");
+    System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+  }]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/noreport</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/noreport/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+	</content>
+  </feature>
+
+</sample>

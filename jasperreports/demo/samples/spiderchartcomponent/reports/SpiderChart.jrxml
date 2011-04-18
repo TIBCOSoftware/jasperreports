@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jasperReport
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd
+				http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/jasperreports/components.xsd"
+		name="SpiderChart">
+	
+	<import value="net.sf.jasperreports.engine.data.JRCsvDataSource"/>
+	
+	<field name="value" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="series" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="category" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="category">
+		<groupExpression><![CDATA[$F{category}]]></groupExpression>
+	</group>
+	
+	<summary>
+		<band height="550">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="10" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Spider Chart Component Report]]></text>
+			</staticText>
+			<textField hyperlinkType="Reference">
+				<reportElement x="0" y="40" width="515" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["http://www.jfree.org/jfreechart"]]></textFieldExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart"]]></hyperlinkReferenceExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="60" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<line>
+				<reportElement x="0" y="63" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<componentElement>
+				<reportElement x="50" y="90" width="400" height="400" mode="Opaque"/>
+				<c:spiderChart xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" evaluationTime="Now">
+					<c:chartSettings isShowLegend="true" backcolor="green" customizerClass="SpiderChartCustomizer">
+						<chartTitle position="Top">
+							<font isItalic="true" size="12"/>
+							<titleExpression><![CDATA["Spider Chart"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle color="blue">
+							<font isBold="true" size="6"/>
+							<subtitleExpression><![CDATA["Chart Displaying Spider Web Contours"]]></subtitleExpression>
+						</chartSubtitle>
+						<chartLegend backgroundColor="#eeffee">
+							<font size="6"/>
+						</chartLegend>
+						<hyperlinkTooltipExpression><![CDATA["Spider Chart"]]></hyperlinkTooltipExpression>
+					</c:chartSettings>
+					<c:spiderDataset>
+						<dataset incrementType="Group" incrementGroup="category"/>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{series}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{category}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{value}]]></valueExpression>
+							<itemHyperlink hyperlinkType="Reference" hyperlinkTarget="Blank">
+								<hyperlinkReferenceExpression><![CDATA["http://www.jfree.org/jfreechart/api/javadoc/org/jfree/chart/plot/SpiderWebPlot.html"]]></hyperlinkReferenceExpression>
+							</itemHyperlink>
+						</categorySeries>
+					</c:spiderDataset>
+					<c:spiderPlot rotation="Anticlockwise" startAngle="39" interiorGap="0.2" labelGap="0.05" headPercent="0.01" axisLineColor="#ff0000" backcolor="yellow" axisLineWidth="2.0" tableOrder="Row">
+						<labelFont>
+							<font isBold="true" isItalic="true" size="6"/>
+						</labelFont>
+						<c:maxValueExpression><![CDATA[Double.valueOf(10)]]></c:maxValueExpression>
+					</c:spiderPlot>
+				</c:spiderChart>
+			</componentElement>
+		</band>
+	</summary>
+
+</jasperReport>

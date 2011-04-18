@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>noxmldesign</name>
+  <title>No XML Design Sample</title>
+  <description>Shows how in-memory JasperDesign objects can be created without using the JRXML design template, but only the API directly.</description>
+
+  <mainFeature ref="noxmldesign"/>
+  
+  <!-- noxmldesign -->
+  
+  <feature name="noxmldesign" title="Creating In-Memory JasperDesign Objects Using the API Directly (Without JRXML Report Templates)">
+    <description>
+How to create in-memory JasperDesign objects without processing a JRXML file, using the object model of the JasperReports API.
+    </description>
+    <since>0.4.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>The JasperDesign Object</b>
+<br/>
+<br/>
+Standard in reporting applications use report templates to define the layout of generated documents. 
+To start a report generation process a report template is needed. 
+Once created, a report template can be filled with appropriate data and generate output document objects 
+during the report generation. 
+<br/>
+In JasperReports the report generation relies on creating, compiling and filling report templates. 
+<br/>
+Report templates are stored in 
+<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects. 
+Instances of this class are the raw material that the engine uses to generate reports. 
+<br/>
+During the report generation a report template object is compiled and completed 
+with additional information about the runtime expressions evaluation into a 
+<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> 
+object, then is filled with significant data creating a ready-to-print pixel-perfect 
+<api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object. 
+<br/>
+One can obtain <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+instances either by parsing the JRXML report template files, or 
+independently, through API calls, where using JRXML files is not a possibility. 
+The main purpose is to make available an in-memory 
+<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object 
+with all its properties set, in order to generate a valid report. 
+<br/>
+<br/>
+Taking a look inside the <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+class, one can see that it extends <api href="net/sf/jasperreports/engine/base/JRBaseReport.html">JRBaseReport</api> 
+and inherits all protected member properties below: 
+<pre><![CDATA[
+  protected String name;
+  protected String language = LANGUAGE_JAVA;
+  protected int columnCount = 1;
+  protected PrintOrderEnum printOrderValue = PrintOrderEnum.VERTICAL;
+  protected RunDirectionEnum columnDirection = RunDirectionEnum.LTR;
+  protected int pageWidth = 595;
+  protected int pageHeight = 842;
+  protected OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
+  protected WhenNoDataTypeEnum whenNoDataTypeValue = WhenNoDataTypeEnum.NO_PAGES;
+  protected int columnWidth = 555;
+  protected int columnSpacing;
+  protected int leftMargin = 20;
+  protected int rightMargin = 20;
+  protected int topMargin = 30;
+  protected int bottomMargin = 30;
+  protected boolean isTitleNewPage;
+  protected boolean isSummaryNewPage;
+  protected boolean isSummaryWithPageHeaderAndFooter;
+  protected boolean isFloatColumnFooter;
+  protected boolean ignorePagination;
+
+  /**
+   *
+   */
+  protected String formatFactoryClass;
+
+  /**
+   *
+   */
+  protected Set importsSet;
+
+  /**
+   * Report templates.
+   */
+  protected JRReportTemplate[] templates;
+
+  protected JRReportFont defaultFont;
+  protected JRReportFont[] fonts;
+  protected JRStyle defaultStyle;
+  protected JRStyle[] styles;
+
+  /**
+   * The main dataset of the report.
+   */
+  protected JRDataset mainDataset;
+
+  /**
+   * Sub datasets of the report.
+   */
+  protected JRDataset[] datasets;
+
+  protected JRBand background;
+  protected JRBand title;
+  protected JRBand pageHeader;
+  protected JRBand columnHeader;
+  protected JRSection detailSection;
+  protected JRBand columnFooter;
+  protected JRBand pageFooter;
+  protected JRBand lastPageFooter;
+  protected JRBand summary;
+  protected JRBand noData;]]></pre>
+Therefore, creating a <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+instance may be accomplished by creating an empty 
+<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> object by 
+calling the default constructor, and then applying setter methods to its members with relevance in the given report. 
+<br/>
+<br/>
+<b>The No XML Design Sample</b>
+<br/>
+<br/>
+This sample shows how to create an in-memory <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> instance. 
+The sample doesn't contain any JRXML template file. The <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+object is hardcoded in the <code>src/NoXmlDesignApp.java</code> file (see the <code>getJasperDesign()</code> method). 
+<pre><![CDATA[
+  private static JasperDesign getJasperDesign() throws JRException
+  {
+    //JasperDesign
+    JasperDesign jasperDesign = new JasperDesign();
+    jasperDesign.setName("NoXmlDesignReport");
+    jasperDesign.setPageWidth(595);
+    jasperDesign.setPageHeight(842);
+    jasperDesign.setColumnWidth(515);
+    jasperDesign.setColumnSpacing(0);
+    jasperDesign.setLeftMargin(40);
+    jasperDesign.setRightMargin(40);
+    jasperDesign.setTopMargin(50);
+    jasperDesign.setBottomMargin(50);
+    
+    //Fonts
+    JRDesignStyle normalStyle = new JRDesignStyle();
+    normalStyle.setName("Sans_Normal");
+    normalStyle.setDefault(true);
+    normalStyle.setFontName("DejaVu Sans");
+    normalStyle.setFontSize(12);
+    normalStyle.setPdfFontName("Helvetica");
+    normalStyle.setPdfEncoding("Cp1252");
+    normalStyle.setPdfEmbedded(false);
+    jasperDesign.addStyle(normalStyle);
+
+    JRDesignStyle boldStyle = new JRDesignStyle();
+    boldStyle.setName("Sans_Bold");
+    boldStyle.setFontName("DejaVu Sans");
+    boldStyle.setFontSize(12);
+    boldStyle.setBold(true);
+    boldStyle.setPdfFontName("Helvetica-Bold");
+    boldStyle.setPdfEncoding("Cp1252");
+    boldStyle.setPdfEmbedded(false);
+    jasperDesign.addStyle(boldStyle);
+
+    JRDesignStyle italicStyle = new JRDesignStyle();
+    italicStyle.setName("Sans_Italic");
+    italicStyle.setFontName("DejaVu Sans");
+    italicStyle.setFontSize(12);
+    italicStyle.setItalic(true);
+    italicStyle.setPdfFontName("Helvetica-Oblique");
+    italicStyle.setPdfEncoding("Cp1252");
+    italicStyle.setPdfEmbedded(false);
+    jasperDesign.addStyle(italicStyle);
+    
+    //Parameters
+    JRDesignParameter parameter = new JRDesignParameter();
+    parameter.setName("ReportTitle");
+    parameter.setValueClass(java.lang.String.class);
+    jasperDesign.addParameter(parameter);
+
+    parameter = new JRDesignParameter();
+    parameter.setName("OrderByClause");
+    parameter.setValueClass(java.lang.String.class);
+    jasperDesign.addParameter(parameter);
+
+    //Query
+    JRDesignQuery query = new JRDesignQuery();
+    query.setText("SELECT * FROM Address $P!{OrderByClause}");
+    jasperDesign.setQuery(query);
+
+    //Fields
+    JRDesignField field = new JRDesignField();
+    field.setName("Id");
+    field.setValueClass(java.lang.Integer.class);
+    jasperDesign.addField(field);
+
+    field = new JRDesignField();
+    field.setName("FirstName");
+    field.setValueClass(java.lang.String.class);
+    jasperDesign.addField(field);
+
+    field = new JRDesignField();
+    field.setName("LastName");
+    field.setValueClass(java.lang.String.class);
+    jasperDesign.addField(field);
+
+    field = new JRDesignField();
+    field.setName("Street");
+    field.setValueClass(java.lang.String.class);
+    jasperDesign.addField(field);
+
+    field = new JRDesignField();
+    field.setName("City");
+    field.setValueClass(java.lang.String.class);
+    jasperDesign.addField(field);
+
+    //Variables
+    JRDesignVariable variable = new JRDesignVariable();
+    variable.setName("CityNumber");
+    variable.setValueClass(java.lang.Integer.class);
+    variable.setResetType(ResetTypeEnum.GROUP);
+    JRDesignGroup group = new JRDesignGroup();
+    group.setName("CityGroup");
+    variable.setResetGroup(group);
+    variable.setCalculation(CalculationEnum.SYSTEM);
+    JRDesignExpression expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.Integer.class);
+    expression.setText("($V{CityNumber} != null)?(new Integer($V{CityNumber}.intValue() + 1)):(new Integer(1))");
+    variable.setInitialValueExpression(expression);
+    jasperDesign.addVariable(variable);
+
+    variable = new JRDesignVariable();
+    variable.setName("AllCities");
+    variable.setValueClass(java.lang.String.class);
+    variable.setResetType(ResetTypeEnum.REPORT);
+    variable.setCalculation(CalculationEnum.SYSTEM);
+    jasperDesign.addVariable(variable);
+
+    //Groups
+    group.setMinHeightToStartNewPage(60);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.String.class);
+    expression.setText("$F{City}");
+    group.setExpression(expression);
+
+    JRDesignBand band = new JRDesignBand();
+    band.setHeight(20);
+    JRDesignTextField textField = new JRDesignTextField();
+    textField.setX(0);
+    textField.setY(4);
+    textField.setWidth(515);
+    textField.setHeight(15);
+    textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
+    textField.setMode(ModeEnum.OPAQUE);
+    textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
+    textField.setStyle(boldStyle);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.String.class);
+    expression.setText("\"  \" + String.valueOf($V{CityNumber}) + \". \" + String.valueOf($F{City})");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    JRDesignLine line = new JRDesignLine();
+    line.setX(0);
+    line.setY(19);
+    line.setWidth(515);
+    line.setHeight(0);
+    band.addElement(line);
+    ((JRDesignSection)group.getGroupHeaderSection()).addBand(band);
+
+    band = new JRDesignBand();
+    band.setHeight(20);
+    line = new JRDesignLine();
+    line.setX(0);
+    line.setY(-1);
+    line.setWidth(515);
+    line.setHeight(0);
+    band.addElement(line);
+    JRDesignStaticText staticText = new JRDesignStaticText();
+    staticText.setX(400);
+    staticText.setY(0);
+    staticText.setWidth(60);
+    staticText.setHeight(15);
+    staticText.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    staticText.setStyle(boldStyle);
+    staticText.setText("Count : ");
+    band.addElement(staticText);
+    textField = new JRDesignTextField();
+    textField.setX(460);
+    textField.setY(0);
+    textField.setWidth(30);
+    textField.setHeight(15);
+    textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    textField.setStyle(boldStyle);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.Integer.class);
+    expression.setText("$V{CityGroup_COUNT}");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    ((JRDesignSection)group.getGroupFooterSection()).addBand(band);
+
+    jasperDesign.addGroup(group);
+
+    //Title
+    band = new JRDesignBand();
+    band.setHeight(50);
+    line = new JRDesignLine();
+    line.setX(0);
+    line.setY(0);
+    line.setWidth(515);
+    line.setHeight(0);
+    band.addElement(line);
+    textField = new JRDesignTextField();
+    textField.setBlankWhenNull(true);
+    textField.setX(0);
+    textField.setY(10);
+    textField.setWidth(515);
+    textField.setHeight(30);
+    textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+    textField.setStyle(normalStyle);
+    textField.setFontSize(22);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.String.class);
+    expression.setText("$P{ReportTitle}");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    jasperDesign.setTitle(band);
+    
+    //Page header
+    band = new JRDesignBand();
+    band.setHeight(20);
+    JRDesignFrame frame = new JRDesignFrame();
+    frame.setX(0);
+    frame.setY(5);
+    frame.setWidth(515);
+    frame.setHeight(15);
+    frame.setForecolor(new Color(0x33, 0x33, 0x33));
+    frame.setBackcolor(new Color(0x33, 0x33, 0x33));
+    frame.setMode(ModeEnum.OPAQUE);
+    band.addElement(frame);
+    staticText = new JRDesignStaticText();
+    staticText.setX(0);
+    staticText.setY(0);
+    staticText.setWidth(55);
+    staticText.setHeight(15);
+    staticText.setForecolor(Color.white);
+    staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
+    staticText.setMode(ModeEnum.OPAQUE);
+    staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+    staticText.setStyle(boldStyle);
+    staticText.setText("ID");
+    frame.addElement(staticText);
+    staticText = new JRDesignStaticText();
+    staticText.setX(55);
+    staticText.setY(0);
+    staticText.setWidth(205);
+    staticText.setHeight(15);
+    staticText.setForecolor(Color.white);
+    staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
+    staticText.setMode(ModeEnum.OPAQUE);
+    staticText.setStyle(boldStyle);
+    staticText.setText("Name");
+    frame.addElement(staticText);
+    staticText = new JRDesignStaticText();
+    staticText.setX(260);
+    staticText.setY(0);
+    staticText.setWidth(255);
+    staticText.setHeight(15);
+    staticText.setForecolor(Color.white);
+    staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
+    staticText.setMode(ModeEnum.OPAQUE);
+    staticText.setStyle(boldStyle);
+    staticText.setText("Street");
+    frame.addElement(staticText);
+    jasperDesign.setPageHeader(band);
+
+    //Column header
+    band = new JRDesignBand();
+    jasperDesign.setColumnHeader(band);
+
+    //Detail
+    band = new JRDesignBand();
+    band.setHeight(20);
+    textField = new JRDesignTextField();
+    textField.setX(0);
+    textField.setY(4);
+    textField.setWidth(50);
+    textField.setHeight(15);
+    textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
+    textField.setStyle(normalStyle);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.Integer.class);
+    expression.setText("$F{Id}");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    textField = new JRDesignTextField();
+    textField.setStretchWithOverflow(true);
+    textField.setX(55);
+    textField.setY(4);
+    textField.setWidth(200);
+    textField.setHeight(15);
+    textField.setPositionType(PositionTypeEnum.FLOAT);
+    textField.setStyle(normalStyle);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.String.class);
+    expression.setText("$F{FirstName} + \" \" + $F{LastName}");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    textField = new JRDesignTextField();
+    textField.setStretchWithOverflow(true);
+    textField.setX(260);
+    textField.setY(4);
+    textField.setWidth(255);
+    textField.setHeight(15);
+    textField.setPositionType(PositionTypeEnum.FLOAT);
+    textField.setStyle(normalStyle);
+    expression = new JRDesignExpression();
+    expression.setValueClass(java.lang.String.class);
+    expression.setText("$F{Street}");
+    textField.setExpression(expression);
+    band.addElement(textField);
+    line = new JRDesignLine();
+    line.setX(0);
+    line.setY(19);
+    line.setWidth(515);
+    line.setHeight(0);
+    line.setForecolor(new Color(0x80, 0x80, 0x80));
+    line.setPositionType(PositionTypeEnum.FLOAT);
+    band.addElement(line);
+    ((JRDesignSection)jasperDesign.getDetailSection()).addBand(band);
+
+    //Column footer
+    band = new JRDesignBand();
+    jasperDesign.setColumnFooter(band);
+
+    //Page footer
+    band = new JRDesignBand();
+    jasperDesign.setPageFooter(band);
+
+    //Summary
+    band = new JRDesignBand();
+    jasperDesign.setSummary(band);
+    
+	return jasperDesign;
+  }]]></pre>
+The ant <code>compile</code> task only calls the <code>getJasperDesign()</code> method to load the 
+<api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> 
+object created above, and compiles it into a <code>.jasper</code> file, which is further used at 
+report filling time:
+<pre><![CDATA[
+  public void compile() throws JRException
+  {
+    long start = System.currentTimeMillis();
+    JasperDesign jasperDesign = getJasperDesign();
+    JasperCompileManager.compileReportToFile(jasperDesign, "build/reports/NoXmlDesignReport.jasper");
+    System.err.println("Compile time : " + (System.currentTimeMillis() - start));
+  }]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/noxmldesign</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/noxmldesign/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
+	</content>
+  </feature>
+
+</sample>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="componentsBundle" class="net.sf.jasperreports.engine.component.DefaultComponentsBundle">
+		<property name="xmlParser">
+			<ref local="xmlParser"/>
+		</property>
+		<property name="componentManagers">
+			<map>
+				<entry key="pieChart">
+					<ref local="pieChartManager"/>
+				</entry>
+				<entry key="barChart">
+					<ref local="barChartManager"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="xmlParser" class="net.sf.jasperreports.engine.component.DefaultComponentXmlParser">
+		<property name="namespace">
+			<value>http://jasperreports.sourceforge.net/openflashchart</value>
+		</property>
+		<property name="publicSchemaLocation">
+			<value>http://jasperreports.sourceforge.net/xsd/openflashchart.xsd</value>
+		</property>
+		<property name="internalSchemaResource">
+			<value>net/sf/jasperreports/components/ofc/openflashchart.xsd</value>
+		</property>
+		<property name="digesterConfigurer">
+			<bean class="net.sf.jasperreports.components.ofc.ChartsDigester"/>
+		</property>
+	</bean>
+
+	<bean id="pieChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="net.sf.jasperreports.components.ofc.PieChartCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="net.sf.jasperreports.components.ofc.PieChartXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="net.sf.jasperreports.components.ofc.PieChartFillFactory"/>
+		</property>
+	</bean>
+
+	<bean id="barChartManager" class="net.sf.jasperreports.engine.component.DefaultComponentManager">
+		<property name="componentCompiler">
+			<bean class="net.sf.jasperreports.components.ofc.BarChartCompiler"/>
+		</property>
+		<property name="componentXmlWriter">
+			<bean class="net.sf.jasperreports.components.ofc.BarChartXmlWriter"/>
+		</property>
+		<property name="componentFillFactory">
+			<bean class="net.sf.jasperreports.components.ofc.BarChartFillFactory"/>
+		</property>
+	</bean>
+
+	<bean id="chartsExportHandlerBundle" 
+			class="net.sf.jasperreports.engine.export.DefaultElementHandlerBundle">
+		<property name="namespace" value="http://jasperreports.sourceforge.net/openflashchart"/>
+		<property name="elementHandlers">
+			<map>
+				<entry key="chart">
+					<map>
+						<entry key="net.sf.jasperreports.html">
+							<bean class="net.sf.jasperreports.components.ofc.ChartHtmlHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.pdf">
+							<bean class="net.sf.jasperreports.components.ofc.ChartNoPdfHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xls">
+							<bean class="net.sf.jasperreports.components.ofc.ChartXlsHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.jxl">
+							<bean class="net.sf.jasperreports.components.ofc.ChartJExcelApiHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.rtf">
+							<bean class="net.sf.jasperreports.components.ofc.ChartRtfHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xhtml">
+							<bean class="net.sf.jasperreports.components.ofc.ChartXhtmlHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.odt">
+							<bean class="net.sf.jasperreports.components.ofc.ChartOdtHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.ods">
+							<bean class="net.sf.jasperreports.components.ofc.ChartOdsHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.docx">
+							<bean class="net.sf.jasperreports.components.ofc.ChartDocxHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xlsx">
+							<bean class="net.sf.jasperreports.components.ofc.ChartXlsxHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.pptx">
+							<bean class="net.sf.jasperreports.components.ofc.ChartPptxHandler"/>
+						</entry>
+						<entry key="net.sf.jasperreports.xml4swf">
+							<bean class="net.sf.jasperreports.components.ofc.ChartXml4SwfHandler"/>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>
