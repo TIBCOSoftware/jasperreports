@@ -758,7 +758,8 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		float lineHeight = getLineHeight(measuredState.lines == 0, jrParagraph, maxLeading, maxAscent);
 		
-		if (measuredState.paragraphStartLine == measuredState.lines)
+		if (measuredState.lines == 0) //FIXMEPARA
+		//if (measuredState.paragraphStartLine == measuredState.lines)
 		{
 			lineHeight += jrParagraph.getSpacingBefore().intValue();
 		}
@@ -801,10 +802,10 @@ public class TextMeasurer implements JRTextMeasurer
 				//if not the last line in a paragraph, save the line break position
 				measuredState.addLineBreak();
 			}
-			else
-			{
-				measuredState.textHeight += jrParagraph.getSpacingAfter().intValue();
-			}
+//			else //FIXMEPARA
+//			{
+//				measuredState.textHeight += jrParagraph.getSpacingAfter().intValue();
+//			}
 		}
 		
 		return fits;
