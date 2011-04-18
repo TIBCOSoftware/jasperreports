@@ -329,8 +329,6 @@ public abstract class AbstractTextRenderer
 					).getIterator();
 		}
 
-		//drawPosY += text.getParagraph().getSpacingBefore().intValue();
-
 		List<Integer> tabIndexes = JRStringUtil.getTabIndexes(lastParagraphText);
 		
 		int currentTab = 0;
@@ -522,7 +520,8 @@ public abstract class AbstractTextRenderer
 
 			lineHeight = TextMeasurer.getLineHeight(lastParagraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
 			
-			if (lines == 0)
+			if (lastParagraphStart == 0 && lines == 0)
+			//if (lines == 0) //FIXMEPARA
 			{
 				lineHeight +=  text.getParagraph().getSpacingBefore().intValue();
 			}
@@ -579,10 +578,10 @@ public abstract class AbstractTextRenderer
 				
 				drawPosY += maxDescent;
 				
-				if (lineMeasurer.getPosition() == paragraph.getEndIndex())
-				{
-					drawPosY += text.getParagraph().getSpacingAfter().intValue();
-				}
+//				if (lineMeasurer.getPosition() == paragraph.getEndIndex()) //FIXMEPARA
+//				{
+//					drawPosY += text.getParagraph().getSpacingAfter().intValue();
+//				}
 			}
 			else
 			{
