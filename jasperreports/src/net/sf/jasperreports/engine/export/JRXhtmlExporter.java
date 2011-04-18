@@ -1133,10 +1133,43 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
-//		if (text.getLineSpacingValue() != LineSpacingEnum.SINGLE)
-//		{
-			styleBuffer.append("line-height: " + text.getLineSpacingFactor() + "; ");//FIXMETAB
-//		}
+		switch (text.getParagraph().getLineSpacing())
+		{
+			case SINGLE:
+			default:
+			{
+				styleBuffer.append("line-height: 1.0; ");
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				styleBuffer.append("line-height: 1.5; ");
+				break;
+			}
+			case DOUBLE:
+			{
+				styleBuffer.append("line-height: 2.0; ");
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				//styleBuffer.append("line-height: " + (int)(100 * text.getParagraph().getLineSpacingSize().floatValue()) + "%; ");
+				styleBuffer.append("line-height: " + text.getParagraph().getLineSpacingSize().floatValue() + "; ");
+				break;
+			}
+			case AT_LEAST:
+			case FIXED:
+			{
+				styleBuffer.append("line-height: " + text.getParagraph().getLineSpacingSize().floatValue() + "px; ");
+				break;
+			}
+		}
+
+		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
+//		styleBuffer.append("margin-left: " + text.getParagraph().getLeftIndent().intValue() + "px; ");
+//		styleBuffer.append("margin-right: " + text.getParagraph().getRightIndent().intValue() + "px; ");
+//		styleBuffer.append("margin-top: " + text.getParagraph().getSpacingBefore().intValue() + "px; ");
+//		styleBuffer.append("margin-bottom: " + text.getParagraph().getSpacingAfter().intValue() + "px; ");
 
 		if (text.getLineBreakOffsets() != null)
 		{
