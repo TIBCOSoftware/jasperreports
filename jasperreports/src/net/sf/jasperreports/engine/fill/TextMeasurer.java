@@ -44,6 +44,8 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.export.AbstractTextRenderer;
+import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -62,8 +64,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TextMeasurer implements JRTextMeasurer
 {
-	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
-
 	private static final Log log = LogFactory.getLog(TextMeasurer.class);
 
 	private JRCommonText textElement;
@@ -404,7 +404,7 @@ public class TextMeasurer implements JRTextMeasurer
 		TabStop[] nextTabStopHolder = new TabStop[]{null};
 		boolean[] requireNextWordHolder = new boolean[]{false};
 
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, LINE_BREAK_FONT_RENDER_CONTEXT);
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, getFontRenderContext());
 		
 		measuredState.paragraphStartLine = measuredState.lines;
 		measuredState.textOffset = lastParagraphStart;
@@ -463,7 +463,7 @@ public class TextMeasurer implements JRTextMeasurer
 			new LineBreakMeasurer(
 				lineParagraph, 
 				BreakIterator.getCharacterInstance(), 
-				LINE_BREAK_FONT_RENDER_CONTEXT
+				getFontRenderContext()
 				);
 		//render again the last line
 		//if the line does not fit now, it will remain empty
@@ -527,7 +527,7 @@ public class TextMeasurer implements JRTextMeasurer
 				new LineBreakMeasurer(
 					lineParagraph,
 					breakIterator,
-					LINE_BREAK_FONT_RENDER_CONTEXT
+					getFontRenderContext()
 					);
 
 			if (renderNextLine(lineMeasurer, lineParagraph, null, new int[]{0}, new TabStop[]{null}, new boolean[]{false}))
@@ -733,7 +733,7 @@ public class TextMeasurer implements JRTextMeasurer
 									startIndex, 
 									startIndex + 1
 									);
-				 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), LINE_BREAK_FONT_RENDER_CONTEXT);
+				 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), getFontRenderContext());
 				 			TextLayout tlyt = lbm.nextLayout(100);
 							maxAscent = tlyt.getAscent();
 							maxDescent = tlyt.getDescent();
@@ -756,7 +756,7 @@ public class TextMeasurer implements JRTextMeasurer
 			oldSegment = crtSegment;
 		}
 		
-		float lineHeight = getLineHeight(measuredState.lines == 0, jrParagraph, maxLeading, maxAscent);
+		float lineHeight = AbstractTextRenderer.getLineHeight(measuredState.lines == 0, jrParagraph, maxLeading, maxAscent);
 		
 		if (measuredState.lines == 0) //FIXMEPARA
 		//if (measuredState.paragraphStartLine == measuredState.lines)
@@ -858,86 +858,17 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 	}
 
+	
+
 	/**
 	 * 
 	 */
-	public static float getLineHeight(boolean isFirstLine, JRParagraph paragraph, float maxLeading, float maxAscent)
+	public FontRenderContext getFontRenderContext()
 	{
-		float lineHeight = 0;
-
-		switch(paragraph.getLineSpacing())
-		{
-			case SINGLE:
-			default :
-			{
-				lineHeight = maxLeading + 1f * maxAscent;
-				break;
-			}
-			case ONE_AND_HALF:
-			{
-				if (isFirstLine)
-				{
-					lineHeight = maxLeading + 1f * maxAscent;
-				}
-				else
-				{
-					lineHeight = maxLeading + 1.5f * maxAscent;
-				}
-				break;
-			}
-			case DOUBLE:
-			{
-				if (isFirstLine)
-				{
-					lineHeight = maxLeading + 1f * maxAscent;
-				}
-				else
-				{
-					lineHeight = maxLeading + 2f * maxAscent;
-				}
-				break;
-			}
-			case PROPORTIONAL:
-			{
-				if (isFirstLine)
-				{
-					lineHeight = maxLeading + 1f * maxAscent;
-				}
-				else
-				{
-					lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
-				}
-				break;
-			}
-			case AT_LEAST:
-			{
-				if (isFirstLine)
-				{
-					lineHeight = maxLeading + 1f * maxAscent;
-				}
-				else
-				{
-					lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
-				}
-				break;
-			}
-			case FIXED:
-			{
-				if (isFirstLine)
-				{
-					lineHeight = maxLeading + 1f * maxAscent;
-				}
-				else
-				{
-					lineHeight = paragraph.getLineSpacingSize().floatValue();
-				}
-				break;
-			}
-		}
-		
-		return lineHeight;
+		return AwtTextRenderer.LINE_BREAK_FONT_RENDER_CONTEXT;
 	}
 
+	
 }
 
 class TabSegment

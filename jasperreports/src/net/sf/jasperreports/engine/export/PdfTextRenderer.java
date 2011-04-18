@@ -23,11 +23,8 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.awt.font.FontRenderContext;
-
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -208,12 +205,4 @@ public class PdfTextRenderer extends AbstractTextRenderer
 	}
 	
 
-	/**
-	 * 
-	 */
-	public FontRenderContext getFontRenderContext()
-	{
-		return TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT;
-	}
-	
 }

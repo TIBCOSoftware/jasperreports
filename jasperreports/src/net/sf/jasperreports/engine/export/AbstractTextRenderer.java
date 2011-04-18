@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.TabStop;
@@ -48,6 +49,8 @@ import net.sf.jasperreports.engine.util.ParagraphUtil;
  */
 public abstract class AbstractTextRenderer
 {
+	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
+
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -338,7 +341,7 @@ public abstract class AbstractTextRenderer
 		TabStop nextTabStop = null;
 		boolean requireNextWord = false;
 	
-		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT);//grx.getFontRenderContext()
+		LineBreakMeasurer lineMeasurer = new LineBreakMeasurer(paragraph, getFontRenderContext());//grx.getFontRenderContext()
 
 		// the paragraph is rendered one line at a time
 		while (lineMeasurer.getPosition() < paragraph.getEndIndex() && !isMaxHeightReached)
@@ -495,7 +498,7 @@ public abstract class AbstractTextRenderer
 										startIndex, 
 										startIndex + 1
 										);
-					 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), TextMeasurer.LINE_BREAK_FONT_RENDER_CONTEXT);
+					 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), getFontRenderContext());
 					 			TextLayout tlyt = lbm.nextLayout(100);
 								maxAscent = tlyt.getAscent();
 								maxDescent = tlyt.getDescent();
@@ -518,7 +521,7 @@ public abstract class AbstractTextRenderer
 				oldSegment = crtSegment;
 			}
 
-			lineHeight = TextMeasurer.getLineHeight(lastParagraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
+			lineHeight = getLineHeight(lastParagraphStart == 0 && lines == 0, text.getParagraph(), maxLeading, maxAscent);// + maxDescent;
 			
 			if (lastParagraphStart == 0 && lines == 0)
 			//if (lines == 0) //FIXMEPARA
@@ -597,6 +600,86 @@ public abstract class AbstractTextRenderer
 
 	/**
 	 * 
+	 */
+	public static float getLineHeight(boolean isFirstLine, JRParagraph paragraph, float maxLeading, float maxAscent)
+	{
+		float lineHeight = 0;
+
+		switch(paragraph.getLineSpacing())
+		{
+			case SINGLE:
+			default :
+			{
+				lineHeight = maxLeading + 1f * maxAscent;
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + 1.5f * maxAscent;
+				}
+				break;
+			}
+			case DOUBLE:
+			{
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + 2f * maxAscent;
+				}
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = maxLeading + paragraph.getLineSpacingSize().floatValue() * maxAscent;
+				}
+				break;
+			}
+			case AT_LEAST:
+			{
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = Math.max(maxLeading + 1f * maxAscent, paragraph.getLineSpacingSize().floatValue());
+				}
+				break;
+			}
+			case FIXED:
+			{
+				if (isFirstLine)
+				{
+					lineHeight = maxLeading + 1f * maxAscent;
+				}
+				else
+				{
+					lineHeight = paragraph.getLineSpacingSize().floatValue();
+				}
+				break;
+			}
+		}
+		
+		return lineHeight;
+	}
+
+	/**
+	 * 
 	 *
 	public static float getLineHeight(JRParagraph paragraph, float lineSpacingFactor, int maxFontSize)
 	{
@@ -635,7 +718,10 @@ public abstract class AbstractTextRenderer
 	/**
 	 * 
 	 */
-	public abstract FontRenderContext getFontRenderContext();
+	public FontRenderContext getFontRenderContext()
+	{
+		return LINE_BREAK_FONT_RENDER_CONTEXT;
+	}
 
 }
 
