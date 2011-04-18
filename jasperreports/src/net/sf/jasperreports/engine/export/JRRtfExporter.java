@@ -818,8 +818,8 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer.write("\\fi" + LengthUtil.twip(text.getParagraph().getFirstLineIndent().intValue()) + " ");
 		writer.write("\\li" + LengthUtil.twip(text.getParagraph().getLeftIndent().intValue()) + " ");
 		writer.write("\\ri" + LengthUtil.twip(text.getParagraph().getRightIndent().intValue()) + " ");
-		//writer.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
-		//writer.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
+		writer.write("\\sb" + LengthUtil.twip(text.getParagraph().getSpacingBefore().intValue()) + " ");
+		writer.write("\\sa" + LengthUtil.twip(text.getParagraph().getSpacingAfter().intValue()) + " ");
 
 		TabStop[] tabStops = text.getParagraph().getTabStops();
 		if (tabStops != null && tabStops.length > 0)

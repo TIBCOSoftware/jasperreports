@@ -191,6 +191,8 @@ public class DocxParagraphHelper extends BaseHelper
 		if (
 			paragraph.getOwnLineSpacing() != null
 			|| paragraph.getOwnLineSpacingSize() != null
+			|| paragraph.getOwnSpacingBefore() != null
+			|| paragraph.getOwnSpacingAfter() != null
 			)
 		{
 			String lineRule; 
@@ -236,7 +238,9 @@ public class DocxParagraphHelper extends BaseHelper
 				}
 			}
 			
-			write("   <w:spacing w:lineRule=\"" + lineRule + "\" w:line=\"" + lineSpacing + "\" w:after=\"0\" w:before=\"0\"/>\n");
+			write("   <w:spacing w:lineRule=\"" + lineRule + "\" w:line=\"" + lineSpacing + "\"");
+			write(" w:after=\"" + LengthUtil.twip(paragraph.getSpacingAfter().intValue()) + "\"");
+			write(" w:before=\"" + LengthUtil.twip(paragraph.getSpacingBefore().intValue()) + "\"/>\n");
 		}
 	}
 	
