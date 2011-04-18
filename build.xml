@@ -145,6 +145,8 @@
 				<include name="**/net/sf/jasperreports/engine/JRLine.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRLineBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/JROrigin.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRParagraph.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRParagraphContainer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPen.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPenContainer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
@@ -167,6 +169,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVisitable.class"/>
 				<include name="**/net/sf/jasperreports/engine/PrintElementVisitor.class"/>
+				<include name="**/net/sf/jasperreports/engine/TabStop.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox*Pen.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseConditionalStyle.class"/>
@@ -176,6 +179,7 @@
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseLineBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePen.class"/>
+				<include name="**/net/sf/jasperreports/engine/base/JRBaseParagraph.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseStyle.class"/>
@@ -184,6 +188,8 @@
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/events/*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/AbstractTextRenderer*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/AwtTextRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/DefaultExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/DefaultHyperlinkProducerFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/ElementKeyExporterFilterFactory.class"/>
@@ -200,7 +206,8 @@
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilterFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRPrintServiceExporter.class"/>
-				<include name="**/net/sf/jasperreports/engine/export/TextRenderer*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/PdfTextRenderer*.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/TabSegment.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/data/*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/BoxDrawer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/draw/ElementDrawer.class"/>
@@ -253,6 +260,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTypeSniffer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/ParagraphUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ProtectionDomainFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/SimpleFileResolver.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ThreadLocalStack.class"/>
