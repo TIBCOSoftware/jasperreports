@@ -233,27 +233,27 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setTextHeight(float textHeight);
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing();
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
 		

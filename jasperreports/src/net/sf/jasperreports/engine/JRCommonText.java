@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Common interface of design and print text elements.
@@ -82,37 +81,37 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	public void setRotation(RotationEnum rotationEnum);
 	
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	byte getLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing();
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing);
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing);
 	
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue();
 	
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
 	
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
 	
