@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxContainer
+public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContainer
 {
 
 	/**
@@ -155,12 +155,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBox, JRBoxC
 	 * Gets the evaluation group for this chart (only applies when evaluation time is group).
 	 */
 	public JRGroup getEvaluationGroup();
-
-	/**
-	 * Gets the box around the element.
-	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
-	 */
-	public JRBox getBox();
 
 	/**
 	 * Gets the expression whose evaluation will form the title.

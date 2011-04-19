@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlignment, JRBox, JRCommonImage
+public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlignment, JRCommonImage
 {
 
 
@@ -174,11 +174,5 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 * 
 	 */
 	public JRExpression getExpression();
-
-	/**
-	 * Returns an object containing all border and padding properties for this text element
-	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
-	 */
-	public JRBox getBox();
 
 }

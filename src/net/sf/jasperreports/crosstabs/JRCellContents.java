@@ -25,7 +25,6 @@ package net.sf.jasperreports.crosstabs;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRStyleContainer;
@@ -183,15 +182,6 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	 * @return the cell backcolor
 	 */
 	public Color getBackcolor();
-	
-	
-	/**
-	 * Returns the cell border.
-	 * 
-	 * @return the cell border
-	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
-	 */
-	public JRBox getBox();
 	
 	
 	/**
