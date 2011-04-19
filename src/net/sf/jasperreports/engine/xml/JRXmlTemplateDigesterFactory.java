@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSimpleTemplate;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.Digester;
@@ -60,6 +61,7 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	protected static final String PATTERN_BOX_BOTTOM_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_bottomPen;
 	protected static final String PATTERN_BOX_RIGHT_PEN = PATTERN_BOX + "/" + JRXmlConstants.ELEMENT_rightPen;
 	protected static final String PATTERN_PARAGRAPH = PATTERN_STYLE + "/" + JRXmlConstants.ELEMENT_paragraph;
+	protected static final String PATTERN_TAB_STOP = PATTERN_PARAGRAPH + "/" + JRXmlConstants.ELEMENT_tabStop;
 	
 	private static final JRXmlTemplateDigesterFactory instance = new JRXmlTemplateDigesterFactory();
 	
@@ -103,6 +105,8 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 				digester.addFactoryCreate(PATTERN_BOX_RIGHT_PEN, JRPenFactory.Right.class.getName());
 
 				digester.addFactoryCreate(PATTERN_PARAGRAPH, JRParagraphFactory.class.getName());
+				digester.addFactoryCreate(PATTERN_TAB_STOP, TabStopFactory.class.getName());
+				digester.addSetNext(PATTERN_TAB_STOP, "addTabStop", TabStop.class.getName());
 			}
 		};
 	}
