@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -71,36 +70,6 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 		return ((JRGraphicElement)parent).getLinePen();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public byte getPen()
-	{
-		return JRPenUtil.getPenFromLinePen(getLinePen());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen()
-	{
-		return JRPenUtil.getOwnPenFromLinePen(getLinePen());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen)
-	{
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen)
-	{
-	}
-	
 	/**
 	 * @deprecated Replaced by {@link #getFillValue()}
 	 */

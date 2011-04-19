@@ -94,38 +94,6 @@ public abstract class JRBaseGraphicElement extends JRBaseElement implements JRGr
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public byte getPen()
-	{
-		return JRPenUtil.getPenFromLinePen(linePen);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen()
-	{
-		return JRPenUtil.getOwnPenFromLinePen(linePen);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen)
-	{
-		setPen(new Byte(pen));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen)
-	{
-		JRPenUtil.setLinePenFromPen(pen, linePen);
-	}
-		
-	/**
 	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public byte getFill()
