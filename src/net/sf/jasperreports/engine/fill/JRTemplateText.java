@@ -202,7 +202,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * Copies paragraph attributes.
 	 * 
-	 * @param paragraph the object to copy attributes from
+	 * @param prg the object to copy attributes from
 	 */
 	public void copyParagraph(JRParagraph prg)
 	{
@@ -421,7 +421,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
@@ -429,7 +429,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
@@ -437,7 +437,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
@@ -445,7 +445,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
@@ -453,7 +453,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
@@ -461,7 +461,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
@@ -481,7 +481,7 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	 * 		<li>{@link LineSpacingEnum#ONE_AND_HALF}</li>
 	 * 		<li>{@link LineSpacingEnum#DOUBLE}</li>
 	 * 	</ul>
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{

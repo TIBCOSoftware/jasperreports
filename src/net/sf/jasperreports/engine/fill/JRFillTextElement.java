@@ -324,7 +324,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	public byte getLineSpacing()
 	{
@@ -332,7 +332,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public Byte getOwnLineSpacing()
 	{
@@ -340,7 +340,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(byte lineSpacing)
 	{
@@ -348,7 +348,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(Byte lineSpacing)
 	{
@@ -356,7 +356,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
@@ -364,7 +364,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#getOwnLineSpacing()}.
+	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
@@ -372,7 +372,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getParagraph()#setLineSpacing(LineSpacingEnum)}.
+	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
