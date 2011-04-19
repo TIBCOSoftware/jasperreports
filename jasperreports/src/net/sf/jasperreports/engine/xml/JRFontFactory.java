@@ -26,9 +26,9 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRReportFont;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignFont;
-import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
 import org.xml.sax.Attributes;
@@ -53,20 +53,32 @@ public abstract class JRFontFactory extends JRBaseFactory
 	public Object createObject(Attributes atts)
 	{
 		JRFont font = getFont();
-		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont) != null)
+		JRDesignElement element = (JRDesignElement)digester.peek();
+
+		if (
+			element.getStyle() == null
+			&& element.getStyleNameReference() == null
+			)
 		{
-			Map fontsMap = jasperDesign.getFontsMap();
-
-			if ( !fontsMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)) )
+			String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
+			if (styleName != null)
 			{
-				xmlLoader.addError(new JRValidationException("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont), font));
-			}
+				JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+				Map stylesMap = jasperDesign.getStylesMap();
 
-			font.setReportFont((JRReportFont)fontsMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
+				if (stylesMap.containsKey(styleName))
+				{
+					JRStyle style = (JRStyle) stylesMap.get(styleName);
+					element.setStyle(style);
+				}
+				else
+				{
+					element.setStyleNameReference(styleName);
+				}
+			}
 		}
+
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
 		{

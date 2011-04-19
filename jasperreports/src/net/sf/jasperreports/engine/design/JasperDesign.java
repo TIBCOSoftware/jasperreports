@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
@@ -160,8 +159,6 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private List<JRReportTemplate> templateList = new ArrayList<JRReportTemplate>();
 
-	private Map fontsMap = new HashMap();
-	private List fontsList = new ArrayList();
 	private Map stylesMap = new HashMap();
 	private List stylesList = new ArrayList();
 
@@ -624,111 +621,6 @@ public class JasperDesign extends JRBaseReport
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_IMPORTS, value, -1);
 			}
 		}
-	}
-
-
-	/**
-	 * @deprecated
-	 */
-	public void setDefaultFont(JRReportFont font)
-	{
-		Object old = this.defaultFont;
-		this.defaultFont = font;
-		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_FONT, old, this.defaultFont);
-	}
-
-
-	/**
-	 * Gets an array of report level fonts. These fonts can be referenced by text elements.
-	 * @deprecated
-	 */
-	public JRReportFont[] getFonts()
-	{
-		JRReportFont[] fontsArray = new JRReportFont[fontsList.size()];
-
-		fontsList.toArray(fontsArray);
-
-		return fontsArray;
-	}
-
-
-	/**
-	 * Gets a list of report level fonts. These fonts can be referenced by text elements.
-	 * @deprecated
-	 */
-	public List getFontsList()
-	{
-		return fontsList;
-	}
-
-
-	/**
-	 * @deprecated
-	 */
-	public Map getFontsMap()
-	{
-		return fontsMap;
-	}
-
-
-	/**
-	 * Adds a report font, that can be referenced by text elements.
-	 * @deprecated
-	 */
-	public void addFont(JRReportFont reportFont) throws JRException
-	{
-		if (fontsMap.containsKey(reportFont.getName()))
-		{
-			throw new JRException("Duplicate declaration of report font : " + reportFont.getName());
-		}
-
-		fontsList.add(reportFont);
-		fontsMap.put(reportFont.getName(), reportFont);
-
-		if (reportFont.isDefault())
-		{
-			setDefaultFont(reportFont);
-		}
-		
-		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_FONTS, reportFont, fontsList.size() - 1);
-	}
-
-
-	/**
-	 * Removes a report font from the list, based on the font name.
-	 * @deprecated
-	 */
-	public JRReportFont removeFont(String propName)
-	{
-		return removeFont(
-			(JRReportFont)fontsMap.get(propName)
-			);
-	}
-
-
-	/**
-	 * Removes a report font from the list.
-	 * @deprecated
-	 */
-	public JRReportFont removeFont(JRReportFont reportFont)
-	{
-		if (reportFont != null)
-		{
-			if (reportFont.isDefault())
-			{
-				setDefaultFont(null);
-			}
-
-			int idx = fontsList.indexOf(reportFont);
-			if (idx >= 0)
-			{
-				fontsList.remove(idx);
-				fontsMap.remove(reportFont.getName());
-				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_FONTS, reportFont, idx);
-			}
-		}
-
-		return reportFont;
 	}
 
 

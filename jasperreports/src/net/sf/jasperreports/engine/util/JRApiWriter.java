@@ -97,7 +97,6 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -133,7 +132,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -150,6 +148,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -382,18 +381,6 @@ public class JRApiWriter
 
 		write("\n");
 		
-		JRReportFont[] fonts = report.getFonts();
-		if (fonts != null && fonts.length > 0)
-		{	
-			write( "//report fonts\n\n");
-			for(int i = 0; i < fonts.length; i++)
-			{
-				writeReportFont( fonts[i], "reportFontStyle"+i);
-				write( "jasperDesign.addStyle(reportFontStyle" + i + ");\n\n");
-				flush();
-			}
-		}
-
 		JRStyle[] styles = report.getStyles();
 		if (styles != null && styles.length > 0)
 		{	
@@ -586,30 +573,6 @@ public class JRApiWriter
 		write( "JRDesignReportTemplate " + templateName + " = new JRDesignReportTemplate();\n");
 		writeExpression( template.getSourceExpression(), templateName, "SourceExpression", String.class.getName());
 		flush();
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeReportFont( JRReportFont font, String styleName)
-	{
-		if (font != null && stylesMap.get(font.getName()) == null)
-		{
-			write( styleName + ".setName(\"" + JRStringUtil.escapeJavaStringLiteral(font.getName()) + "\");\n");
-			write( styleName + ".setDefault({0});\n", font.isDefault(), false);
-			write( styleName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
-			write( styleName + ".setFontSize({0, number, #});\n", font.getOwnFontSize());
-			write( styleName + ".setBold({0});\n", font.isOwnBold());
-			write( styleName + ".setItalic({0});\n", font.isOwnItalic());
-			write( styleName + ".setUnderline({0});\n", font.isOwnUnderline());
-			write( styleName + ".setStrikeThrough({0});\n", font.isOwnStrikeThrough());
-			write( styleName + ".setPdfFontName(\"{0}", JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfFontName()));
-			write( styleName + ".setPdfEncoding(\"{0}\");\n",  JRStringUtil.escapeJavaStringLiteral(font.getOwnPdfEncoding()));
-			write( styleName + ".setPdfEmbedded({0});\n", font.isOwnPdfEmbedded());
-			stylesMap.put(font.getName(), styleName);
-			flush();
-		}
 	}
 
 
@@ -1093,25 +1056,6 @@ public class JRApiWriter
 	{
 		if (font != null)
 		{
-			String reportFontStyle = null;
-			
-			if (font.getReportFont() != null)
-			{
-				reportFontStyle =	(String)stylesMap.get(font.getReportFont().getName());
-				if(reportFontStyle != null)
-				{
-					write( fontHolderName + ".setStyle(" + reportFontStyle + ");\n");
-				}
-				else
-				{
-					throw
-						new JRRuntimeException(
-							"Referenced report font not found : "
-							+ font.getReportFont().getName()
-							);
-				}
-			}
-			
 			write( fontHolderName + ".setFontName(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(font.getOwnFontName()));
 			write( fontHolderName + ".setFontSize({0, number, #});\n", font.getOwnFontSize());
 			write( fontHolderName + ".setBold({0});\n", font.isOwnBold());

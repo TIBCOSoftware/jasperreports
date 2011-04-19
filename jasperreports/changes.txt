@@ -4,6 +4,7 @@ JasperReports Change Log
 
 JasperReports 4.0.3 (2011-0x-xx, SVN xxxx)
 ---------------------------------------------
+- deprecated report font code removed from the library's API;
 
 - minor bug fixes and improvements;
 

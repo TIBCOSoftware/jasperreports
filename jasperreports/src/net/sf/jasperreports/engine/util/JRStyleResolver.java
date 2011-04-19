@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextField;
@@ -69,24 +68,6 @@ public final class JRStyleResolver
 
 	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
 
-	/**
-	 *
-	 */
-	private static JRFont getBaseFont(JRFont font)
-	{
-		JRReportFont reportFont = font.getReportFont();
-		if (reportFont != null)
-		{
-			return reportFont;
-		}
-		JRDefaultStyleProvider defaultStyleProvider = font.getDefaultStyleProvider();
-		if (defaultStyleProvider != null)
-		{
-			return defaultStyleProvider.getDefaultFont();
-		}
-		return null;
-	}
-	
 	/**
 	 *
 	 */
@@ -1143,15 +1124,6 @@ public final class JRStyleResolver
 		{
 			return ownFontName;
 		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			String fontName = baseFont.getFontName();
-			if (fontName != null)
-			{
-				return fontName;
-			}
-		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1196,11 +1168,6 @@ public final class JRStyleResolver
 		{
 			return ownBold.booleanValue();
 		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.isBold();
-		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1240,11 +1207,6 @@ public final class JRStyleResolver
 		if (ownItalic != null)
 		{
 			return ownItalic.booleanValue();
-		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.isItalic();
 		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
@@ -1286,11 +1248,6 @@ public final class JRStyleResolver
 		{
 			return ownUnderline.booleanValue();
 		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.isUnderline();
-		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1331,11 +1288,6 @@ public final class JRStyleResolver
 		{
 			return ownStrikeThrough.booleanValue();
 		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.isStrikeThrough();
-		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1374,11 +1326,6 @@ public final class JRStyleResolver
 		if (ownFontSize != null)
 		{
 			return ownFontSize.intValue();
-		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.getFontSize();
 		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
@@ -1419,15 +1366,6 @@ public final class JRStyleResolver
 		if (ownPdfFontName != null)
 		{
 			return ownPdfFontName;
-		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			String pdfFontName = baseFont.getPdfFontName();
-			if (pdfFontName != null)
-			{
-				return pdfFontName;
-			}
 		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
@@ -1473,15 +1411,6 @@ public final class JRStyleResolver
 		{
 			return ownPdfEncoding;
 		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			String pdfEncoding = baseFont.getPdfEncoding();
-			if (pdfEncoding != null)
-			{
-				return pdfEncoding;
-			}
-		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)
 		{
@@ -1525,11 +1454,6 @@ public final class JRStyleResolver
 		if (ownPdfEmbedded != null)
 		{
 			return ownPdfEmbedded.booleanValue();
-		}
-		JRFont baseFont = getBaseFont(font);
-		if (baseFont != null)
-		{
-			return baseFont.isPdfEmbedded();
 		}
 		JRStyle baseStyle = getBaseStyle(font);
 		if (baseStyle != null)

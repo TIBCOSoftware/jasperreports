@@ -28,10 +28,8 @@ import java.io.Serializable;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDefaultFontProvider;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -72,16 +70,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
 	
 	public static final String PROPERTY_UNDERLINE = "underline";
-
-	/**
-	 *
-	 */
-	protected JRDefaultFontProvider defaultFontProvider;
-
-	/**
-	 *
-	 */
-	protected JRReportFont reportFont;
 
 	/**
 	 *
@@ -169,33 +157,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 		
 
 	/**
-	 * @deprecated To be removed in future versions.
-	 */
-	protected JRBaseFont(JRDefaultFontProvider defaultFontProvider)
-	{
-		this.defaultFontProvider = defaultFontProvider;
-	}
-		
-
-	/**
-	 * @deprecated To be removed in future versions.
-	 */
-	public JRBaseFont(
-		JRDefaultFontProvider defaultFontProvider, 
-		JRReportFont reportFont,
-		JRFont font
-		)
-	{
-		this(
-			defaultFontProvider, 
-			reportFont,
-			null,
-			font
-			);
-	}
-		
-
-	/**
 	 * 
 	 */
 	public JRBaseFont(
@@ -203,29 +164,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 		JRFont font
 		)
 	{
-		this(
-			null, 
-			null,
-			styleContainer,
-			font
-			);
-	}
-		
-
-	/**
-	 * @deprecated To be removed in future versions.
-	 */
-	public JRBaseFont(
-		JRDefaultFontProvider defaultFontProvider, 
-		JRReportFont reportFont,
-		JRStyleContainer styleContainer,
-		JRFont font
-		)
-	{
-		this.defaultFontProvider = defaultFontProvider;
-		
-		this.reportFont = reportFont;
-
 		this.styleContainer = styleContainer;
 		
 		if (font != null)
@@ -246,14 +184,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public JRDefaultFontProvider getDefaultFontProvider()
-	{
-		return defaultFontProvider;
-	}
-
-	/**
-	 *
-	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return styleContainer == null ? null : styleContainer.getDefaultStyleProvider();
@@ -265,24 +195,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	public JRStyle getStyle()
 	{
 		return styleContainer == null ? null : styleContainer.getStyle();
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-	
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
-		Object old = this.reportFont;
-		this.reportFont = reportFont;
-		getEventSupport().firePropertyChange(PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**

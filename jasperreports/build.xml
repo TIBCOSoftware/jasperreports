@@ -125,7 +125,6 @@
 				<include name="**/net/sf/jasperreports/engine/JRCommon*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRCloneable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRConditionalStyle.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRDefaultFontProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRDefaultStyleProvider.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JREllipse.class"/>
@@ -154,7 +153,6 @@
 				<include name="**/net/sf/jasperreports/engine/JRPropertiesMap.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRenderable.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRuntimeException.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStaticText.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRStyle.class"/>
@@ -181,12 +179,10 @@
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePen.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseParagraph.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBasePrintPage.class"/>
-				<include name="**/net/sf/jasperreports/engine/base/JRBaseReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseStyle.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBoxPen.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRVirtualPrintPage*.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/JRDesignFont.class"/>
-				<include name="**/net/sf/jasperreports/engine/design/JRDesignReportFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/design/events/*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/AbstractTextRenderer*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/AwtTextRenderer.class"/>

@@ -49,16 +49,6 @@ public interface JRFont extends JRStyleContainer
 	/**
 	 *
 	 */
-	public JRReportFont getReportFont();
-	
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont);
-
-	/**
-	 *
-	 */
 	public String getFontName();
 	
 	/**

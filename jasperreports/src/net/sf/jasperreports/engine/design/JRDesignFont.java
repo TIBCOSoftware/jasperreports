@@ -24,8 +24,6 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRDefaultFontProvider;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
@@ -41,8 +39,6 @@ public class JRDesignFont extends JRBaseFont
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	public static final String PROPERTY_DEFAULT_FONT_PROVIDER = "defaultFontProvider";
 
 
 	/**
@@ -52,36 +48,5 @@ public class JRDesignFont extends JRBaseFont
 	{
 	}
 		
-
-	/**
-	 * @deprecated To be removed in future versions.
-	 */
-	public JRDesignFont(JRDefaultFontProvider defaultFontProvider)
-	{
-		super(defaultFontProvider);
-	}
-		
-
-	/**
-	 *
-	 */
-	public void setDefaultFontProvider(JRDefaultFontProvider defaultFontProvider)
-	{
-		Object old = this.defaultFontProvider;
-		this.defaultFontProvider = defaultFontProvider;
-		getEventSupport().firePropertyChange(PROPERTY_DEFAULT_FONT_PROVIDER, old, this.defaultFontProvider);
-	}
-
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)//FIXME remove?
-	{
-		Object old = this.reportFont;
-		this.reportFont = reportFont;
-		getEventSupport().firePropertyChange(PROPERTY_REPORT_FONT, old, this.reportFont);
-	}
-
 
 }

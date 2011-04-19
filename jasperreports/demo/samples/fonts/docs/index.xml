@@ -34,7 +34,7 @@ we strongly encourage people to group them in report styles defined in style tem
 <br/>
 <br/>
 <b>Note:</b> Report fonts are now deprecated. Do not use <code>&lt;reportFont/&gt;</code> elements declared 
-within the document itself. Such font declarations may have impact on generated document performance.
+within the document itself. Use the <code>&lt;style/&gt;</code> instead.
 <br/>
 <br/>
 The main font settings available in JasperReports are:

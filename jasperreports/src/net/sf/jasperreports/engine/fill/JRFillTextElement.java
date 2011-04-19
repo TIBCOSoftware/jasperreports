@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -93,7 +92,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private JRStyledText styledText;
 	private Map styledTextAttributesMap = new HashMap();
 	
-	protected final JRReportFont reportFont;
 	protected final JRLineBox lineBox;
 	protected final JRParagraph paragraph;
 
@@ -108,8 +106,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	{
 		super(filler, textElement, factory);
 
-		reportFont = factory.getReportFont(textElement.getReportFont());
-		
 		lineBox = textElement.getLineBox().clone(this);
 		paragraph = textElement.getParagraph().clone(this);
 	}
@@ -118,8 +114,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	protected JRFillTextElement(JRFillTextElement textElement, JRFillCloneFactory factory)
 	{
 		super(textElement, factory);
-		
-		reportFont = textElement.reportFont;
 		
 		lineBox = textElement.getLineBox().clone(this);
 		paragraph = textElement.getParagraph().clone(this);
@@ -1176,19 +1170,6 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	protected abstract boolean canOverflow();
 
 
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-
-	public void setReportFont(JRReportFont reportFont)
-	{
-		throw new UnsupportedOperationException();
-	}
-	
 	/**
 	 *
 	 */

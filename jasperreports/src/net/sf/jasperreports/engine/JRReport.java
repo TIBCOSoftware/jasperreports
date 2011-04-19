@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider, JRPropertiesHolder
+public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 {
 
 
@@ -296,11 +296,6 @@ public interface JRReport extends JRDefaultFontProvider, JRDefaultStyleProvider,
 	 * Gets an array of imports (needed if report expression require additional classes in order to compile).
 	 */
 	public String[] getImports();
-
-	/**
-	 * Gets an array of report fonts.
-	 */
-	public JRReportFont[] getFonts();
 
 	/**
 	 * Gets an array of report styles.

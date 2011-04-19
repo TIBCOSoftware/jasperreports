@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -114,7 +113,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
-	protected JRReportFont reportFont;
 	protected String fontName;
 	protected Boolean isBold;
 	protected Boolean isItalic;
@@ -705,8 +703,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	 */
 	public void setFont(JRFont font)
 	{
-		reportFont = font.getReportFont();
-		
 		fontName = font.getOwnFontName();
 		isBold = font.isOwnBold();
 		isItalic = font.isOwnItalic();
@@ -1304,22 +1300,6 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	public void setRightPadding(Integer rightPadding)
 	{
 		lineBox.setRightPadding(rightPadding);
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
-		this.reportFont = reportFont;
 	}
 
 	/**

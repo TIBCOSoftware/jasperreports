@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
@@ -77,7 +76,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
-	protected JRReportFont reportFont;
 	protected String fontName;
 	protected Boolean isBold;
 	protected Boolean isItalic;
@@ -109,8 +107,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		lineBox = textElement.getLineBox().clone(this);
 		paragraph = textElement.getParagraph().clone(this);
 
-		reportFont = factory.getReportFont(textElement.getReportFont());
-		
 		fontName = textElement.getOwnFontName();
 		isBold = textElement.isOwnBold();
 		isItalic = textElement.isOwnItalic();
@@ -120,23 +116,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		pdfFontName = textElement.getOwnPdfFontName();
 		pdfEncoding = textElement.getOwnPdfEncoding();
 		isPdfEmbedded = textElement.isOwnPdfEmbedded();
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRFont getBaseFont()
-	{
-		if (reportFont != null)
-		{
-			return reportFont;
-		}
-		if (defaultStyleProvider != null)
-		{
-			return defaultStyleProvider.getDefaultFont();
-		}
-		return null;
 	}
 
 
@@ -918,24 +897,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	public void setRightPadding(Integer rightPadding)
 	{
 		lineBox.setRightPadding(rightPadding);
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
-		Object old = this.reportFont;
-		this.reportFont = reportFont;
-		getEventSupport().firePropertyChange(JRBaseFont.PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**
