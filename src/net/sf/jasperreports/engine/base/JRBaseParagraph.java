@@ -355,7 +355,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 	 */
 	public TabStop[] getOwnTabStops()
 	{
-		if (tabStops == null)
+		if (tabStops == null || tabStops.size() == 0)
 		{
 			return null;
 		}
