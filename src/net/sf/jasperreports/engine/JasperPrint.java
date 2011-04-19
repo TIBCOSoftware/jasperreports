@@ -74,23 +74,11 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
-		private JRReportFont defaultFont;
 		private JRStyle defaultStyle;
 
-		DefaultStyleProvider(JRReportFont font, JRStyle style)
+		DefaultStyleProvider(JRStyle style)
 		{
-			this.defaultFont = font;
 			this.defaultStyle = style;
-		}
-
-		public JRReportFont getDefaultFont()
-		{
-			return defaultFont;
-		}
-
-		void setDefaultFont(JRReportFont font)
-		{
-			this.defaultFont = font;
 		}
 
 		public JRStyle getDefaultStyle()
@@ -122,8 +110,6 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private Integer rightMargin;
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 
-	private Map fontsMap = new HashMap();
-	private List fontsList = new ArrayList();
 	private Map stylesMap = new HashMap();
 	private List stylesList = new ArrayList();
 	private Map originsMap = new HashMap();
@@ -146,7 +132,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public JasperPrint()
 	{
-		defaultStyleProvider = new DefaultStyleProvider(null, null);
+		defaultStyleProvider = new DefaultStyleProvider(null);
 
 		propertiesMap = new JRPropertiesMap();
 	}
@@ -361,125 +347,6 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	public void removeProperty(String propName)
 	{
 		propertiesMap.removeProperty(propName);
-	}
-
-	/**
-	 * Returns the default report font.
-	 */
-	public JRReportFont getDefaultFont()
-	{
-		return defaultStyleProvider.getDefaultFont();
-	}
-
-	/**
-	 * Sets the default report font.
-	 */
-	public void setDefaultFont(JRReportFont font)
-	{
-		defaultStyleProvider.setDefaultFont(font);
-	}
-
-	/**
-	 * When we want to virtualize pages, we want a font provider that
-	 * is <i>not</i> the print object itself.
-	 */
-	public JRDefaultFontProvider getDefaultFontProvider()
-	{
-		return defaultStyleProvider;
-	}
-		
-	/**
-	 * Gets an array of report fonts.
-	 * @deprecated
-	 */
-	public JRReportFont[] getFonts()
-	{
-		JRReportFont[] fontsArray = new JRReportFont[fontsList.size()];
-		
-		fontsList.toArray(fontsArray);
-
-		return fontsArray;
-	}
-
-	/**
-	 * Gets a list of report fonts.
-	 * @deprecated
-	 */
-	public List getFontsList()
-	{
-		return fontsList;
-	}
-
-	/**
-	 * Gets a map of report fonts.
-	 * @deprecated
-	 */
-	public Map getFontsMap()
-	{
-		return fontsMap;
-	}
-
-	/**
-	 * Adds a new font to the report fonts.
-	 * @deprecated
-	 */
-	public synchronized void addFont(JRReportFont reportFont) throws JRException
-	{
-		addFont(reportFont, false);
-	}
-
-	/**
-	 * Adds a new font to the report fonts.
-	 * @deprecated
-	 */
-	public synchronized void addFont(JRReportFont reportFont, boolean isIgnoreDuplicate) throws JRException
-	{
-		if (fontsMap.containsKey(reportFont.getName()))
-		{
-			if (!isIgnoreDuplicate)
-			{
-				throw new JRException("Duplicate declaration of report font : "	+ reportFont.getName());
-			}
-		}
-		else
-		{
-			fontsList.add(reportFont);
-			fontsMap.put(reportFont.getName(), reportFont);
-			
-			if (reportFont.isDefault())
-			{
-				setDefaultFont(reportFont);
-			}
-		}
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public synchronized JRReportFont removeFont(String fontName)
-	{
-		return removeFont(
-			(JRReportFont)fontsMap.get(fontName)
-			);
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public synchronized JRReportFont removeFont(JRReportFont reportFont)
-	{
-		if (reportFont != null)
-		{
-			if (reportFont.isDefault())
-			{
-				setDefaultFont(null);
-			}
-
-			fontsList.remove(reportFont);
-			fontsMap.remove(reportFont.getName());
-		}
-		
-		return reportFont;
 	}
 
 	/**

@@ -34,9 +34,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseParagraph;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
@@ -82,7 +80,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
-	protected JRReportFont reportFont;
 	protected String fontName;
 	protected Boolean isBold;
 	protected Boolean isItalic;
@@ -103,23 +100,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 		
 		lineBox = new JRBaseLineBox(this);
 		paragraph = new JRBaseParagraph(this);
-	}
-
-
-	/**
-	 *
-	 */
-	protected JRFont getBaseFont()
-	{
-		if (reportFont != null)
-		{
-			return reportFont;
-		}
-		if (defaultStyleProvider != null)
-		{
-			return defaultStyleProvider.getDefaultFont();
-		}
-		return null;
 	}
 
 
@@ -478,8 +458,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	 */
 	public void setFont(JRFont font)
 	{
-		setReportFont(font.getReportFont());
-		
 		setFontName(font.getOwnFontName());
 		setBold(font.isOwnBold());
 		setItalic(font.isOwnItalic());
@@ -929,24 +907,6 @@ public abstract class JRDesignTextElement extends JRDesignElement implements JRT
 	public void setRightPadding(Integer rightPadding)
 	{
 		lineBox.setRightPadding(rightPadding);
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
-		Object old = this.reportFont;
-		this.reportFont = reportFont;
-		getEventSupport().firePropertyChange(JRBaseFont.PROPERTY_REPORT_FONT, old, this.reportFont);
 	}
 
 	/**

@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.TabStop;
@@ -208,8 +207,8 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addSetNext("jasperPrint/origin", "addOrigin", JROrigin.class.getName());
 
 		/*   */
-		digester.addFactoryCreate("jasperPrint/reportFont", JRReportFontFactory.class.getName());
-		digester.addSetNext("jasperPrint/reportFont", "addFont", JRReportFont.class.getName());
+		digester.addFactoryCreate("jasperPrint/reportFont", JRStyleFactory.class.getName());
+		digester.addSetNext("jasperPrint/reportFont", "addStyle", JRStyle.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperPrint/style", JRPrintStyleFactory.class.getName());

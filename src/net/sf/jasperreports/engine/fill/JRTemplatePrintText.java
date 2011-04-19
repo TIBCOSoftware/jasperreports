@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -1250,21 +1249,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setRightPadding(Integer rightPadding)
 	{
 		getBox().setRightPadding(rightPadding);
-	}
-
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return ((JRTemplateText)template).getReportFont();
-	}
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
 	}
 
 	/**

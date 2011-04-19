@@ -182,10 +182,6 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 		return defaultStyle;
 	}
 
-	public JRReportFont getDefaultFont() {
-		return null;
-	}
-
 	/**
 	 * Adds an included template.
 	 * 

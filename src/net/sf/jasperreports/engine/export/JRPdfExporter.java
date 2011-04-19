@@ -73,7 +73,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -699,7 +698,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 	protected Map getDefaultPdfFontAttributes() {
-		Map attrs;
+		Map attrs = null;
 		JRStyle style = jasperPrint.getDefaultStyle();
 		if (style != null) 
 		{
@@ -709,21 +708,6 @@ public class JRPdfExporter extends JRAbstractExporter
 			attrs.put(JRTextAttribute.PDF_ENCODING, style.getPdfEncoding());
 			attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, style.isPdfEmbedded());
 		} 
-		else 
-		{
-			JRReportFont font = jasperPrint.getDefaultFont();
-			if (font != null) 
-			{
-				attrs = new HashMap();
-				attrs.put(JRTextAttribute.PDF_FONT_NAME, font.getPdfFontName());
-				attrs.put(JRTextAttribute.PDF_ENCODING, font.getPdfEncoding());
-				attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, font.isPdfEmbedded() ? Boolean.TRUE : Boolean.FALSE);
-			} 
-			else 
-			{
-				attrs = null;
-			}
-		}
 		return attrs;
 	}
 

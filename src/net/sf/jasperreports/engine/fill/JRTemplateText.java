@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRHyperlinkHelper;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParagraph;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -89,7 +88,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
-	protected JRReportFont reportFont;
 	protected String fontName;
 	protected Boolean isBold;
 	protected Boolean isItalic;
@@ -171,8 +169,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		copyLineBox(textElement.getLineBox());
 		copyParagraph(textElement.getParagraph());
 		
-		reportFont = textElement.getReportFont();
-
 		fontName = textElement.getOwnFontName();
 		isBold = textElement.isOwnBold();
 		isItalic = textElement.isOwnItalic();
@@ -209,22 +205,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 		paragraph = prg.clone(this);
 	}
 
-	
-	/**
-	 * 
-	 */
-	protected JRFont getBaseFont()
-	{
-		if (reportFont != null)
-		{
-			return reportFont;
-		}
-		if (defaultStyleProvider != null)
-		{
-			return defaultStyleProvider.getDefaultFont();
-		}
-		return null;
-	}
 	
 	/**
 	 *
@@ -610,22 +590,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 	
-	/**
-	 *
-	 */
-	public JRReportFont getReportFont()
-	{
-		return reportFont;
-	}
-
-	/**
-	 *
-	 */
-	public void setReportFont(JRReportFont reportFont)
-	{
-		this.reportFont = reportFont;
-	}
-
 	/**
 	 *
 	 */

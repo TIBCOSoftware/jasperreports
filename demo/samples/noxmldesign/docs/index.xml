@@ -90,8 +90,6 @@ and inherits all protected member properties below:
    */
   protected JRReportTemplate[] templates;
 
-  protected JRReportFont defaultFont;
-  protected JRReportFont[] fonts;
   protected JRStyle defaultStyle;
   protected JRStyle[] styles;
 

@@ -131,7 +131,6 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertyExpression;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -230,8 +229,8 @@ public final class JRXmlDigesterFactory
 		addTemplateRules(digester);
 
 		/*   */
-		digester.addFactoryCreate("jasperReport/reportFont", JRReportFontFactory.class.getName());
-		digester.addSetNext("jasperReport/reportFont", "addFont", JRReportFont.class.getName());
+		digester.addFactoryCreate("jasperReport/reportFont", JRStyleFactory.class.getName());
+		digester.addSetNext("jasperReport/reportFont", "addStyle", JRStyle.class.getName());
 
 		/*   */
 		digester.addFactoryCreate("jasperReport/style", JRStyleFactory.class.getName());

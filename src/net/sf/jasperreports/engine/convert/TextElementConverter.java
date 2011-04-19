@@ -68,7 +68,6 @@ public abstract class TextElementConverter extends ElementConverter
 		printText.setPdfEmbedded(textElement.isOwnPdfEmbedded());
 		printText.setPdfEncoding(textElement.getOwnPdfEncoding());
 		printText.setPdfFontName(textElement.getOwnPdfFontName());
-		printText.setReportFont(textElement.getReportFont());
 		printText.setRotation(textElement.getOwnRotationValue());
 		printText.setStrikeThrough(textElement.isOwnStrikeThrough());
 		printText.setMarkup(textElement.getOwnMarkup());

@@ -203,27 +203,6 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		if (font != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_font, JRXmlWriter.JASPERREPORTS_NAMESPACE);
-			//FIXME: report fonts
-//			if (font.getReportFont() != null)
-//			{
-//				JRFont baseFont =
-//					(JRFont)fontsMap.get(
-//						font.getReportFont().getName()
-//						);
-//				if(baseFont != null)
-//				{
-//					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_reportFont, font.getReportFont().getName());
-//				}
-//				else
-//				{
-//					throw
-//						new JRRuntimeException(
-//							"Referenced report font not found : "
-//							+ font.getReportFont().getName()
-//							);
-//				}
-//			}
-
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());

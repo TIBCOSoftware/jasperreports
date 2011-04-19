@@ -26,8 +26,8 @@ package net.sf.jasperreports.engine.xml;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 
 import org.xml.sax.Attributes;
@@ -49,16 +49,23 @@ public class JRPrintFontFactory extends JRBaseFactory
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader)digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint)digester.peek(digester.getCount() - 2);
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont) != null)
+		if (
+			element.getStyle() == null
+			&& element.getStyleNameReference() == null
+			)
 		{
-			Map fontsMap = jasperPrint.getFontsMap();
-
-			if ( !fontsMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)) )
+			String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
+			if (styleName != null)
 			{
-				printXmlLoader.addError(new JRRuntimeException("Unknown report font : " + atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
-			}
+				Map stylesMap = jasperPrint.getStylesMap();
 
-			element.setReportFont((JRReportFont)fontsMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont)));
+				if (!stylesMap.containsKey(styleName))
+				{
+					printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + styleName));
+				}
+
+				element.setStyle((JRStyle) stylesMap.get(styleName));
+			}
 		}
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)

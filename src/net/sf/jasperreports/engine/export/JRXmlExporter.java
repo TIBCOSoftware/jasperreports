@@ -73,7 +73,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRenderable;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
@@ -429,16 +428,6 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 		}
 
-		JRReportFont[] fonts = jasperPrint.getFonts();
-		if (fonts != null && fonts.length > 0)
-		{
-			for(int i = 0; i < fonts.length; i++)
-			{
-				fontsMap.put(fonts[i].getName(), fonts[i]);
-				exportReportFont(fonts[i]);
-			}
-		}
-		
 		JRStyle[] styles = jasperPrint.getStyles();
 		if (styles != null && styles.length > 0)
 		{
@@ -495,28 +484,6 @@ public class JRXmlExporter extends JRAbstractExporter
 				}
 			}
 		}
-	}
-
-
-	/**
-	 * @throws IOException 
-	 *
-	 */
-	protected void exportReportFont(JRReportFont font) throws IOException
-	{
-		xmlWriter.startElement(JRXmlConstants.ELEMENT_reportFont);
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, font.getName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, font.isDefault());
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getFontName());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getFontSize());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isBold());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isItalic());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isUnderline());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isStrikeThrough());
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getPdfFontName());
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getPdfEncoding());
-		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isPdfEmbedded());
-		xmlWriter.closeElement();
 	}
 
 
@@ -1061,27 +1028,6 @@ public class JRXmlExporter extends JRAbstractExporter
 		if (font != null)
 		{
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_font);
-
-			if(font.getReportFont() != null)
-			{
-				JRFont baseFont = 
-					(JRFont)fontsMap.get(
-						font.getReportFont().getName()
-						);
-				if(baseFont != null)
-				{
-					xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_reportFont, font.getReportFont().getName());
-				}
-				else
-				{
-					throw 
-						new JRRuntimeException(
-							"Referenced report font not found : " 
-							+ font.getReportFont().getName()
-							);
-				}
-			}
-		
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());

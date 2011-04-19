@@ -80,7 +80,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGenericElementParameter;
@@ -96,7 +95,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSection;
@@ -358,9 +356,6 @@ public class JRVerifier
 		verifyDesignAttributes();
 
 		verifyReportTemplates();
-
-		/*   */
-		verifyReportFonts();
 
 		verifyDataset(jasperDesign.getMainDesignDataset());
 
@@ -805,27 +800,6 @@ public class JRVerifier
 				dataset.getParametersMap(),
 				dataset.getFieldsMap(),
 				dataset.getVariablesMap());
-	}
-
-
-	/**
-	 *
-	 */
-	private void verifyReportFonts()
-	{
-		JRReportFont[] fonts = jasperDesign.getFonts();
-		if (fonts != null && fonts.length > 0)
-		{
-			for(int index = 0; index < fonts.length; index++)
-			{
-				JRReportFont font = fonts[index];
-
-				if (font.getName() == null || font.getName().trim().length() == 0)
-				{
-					addBrokenRule("Report font name missing.", font);
-				}
-			}
-		}
 	}
 
 
@@ -1654,7 +1628,6 @@ public class JRVerifier
 	private void verifyStaticText(JRStaticText staticText)
 	{
 		verifyReportElement(staticText);
-		verifyFont(staticText);
 	}
 
 
@@ -1664,7 +1637,6 @@ public class JRVerifier
 	private void verifyTextField(JRTextField textField)
 	{
 		verifyReportElement(textField);
-		verifyFont(textField);
 		verifyAnchor(textField);
 		verifyHyperlink(textField);
 
@@ -1690,25 +1662,6 @@ public class JRVerifier
 				{
 					addBrokenRule(e, expression);
 				}
-			}
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private void verifyFont(JRFont font)
-	{
-		JRReportFont reportFont = font.getReportFont();
-
-		if (reportFont != null && reportFont.getName() != null)
-		{
-			Map fontsMap = jasperDesign.getFontsMap();
-
-			if (!fontsMap.containsKey(reportFont.getName()))
-			{
-				addBrokenRule("Report font not found : " + reportFont.getName(), font);
 			}
 		}
 	}

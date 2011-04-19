@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
@@ -111,8 +110,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	protected JRReportTemplate[] templates;
 
-	protected JRReportFont defaultFont;
-	protected JRReportFont[] fonts;
 	protected JRStyle defaultStyle;
 	protected JRStyle[] styles;
 
@@ -191,20 +188,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		factory.setDefaultStyleProvider(this);
 
 		copyTemplates(report, factory);
-
-		/*   */
-		defaultFont = factory.getReportFont(report.getDefaultFont());
-
-		/*   */
-		JRReportFont[] jrFonts = report.getFonts();
-		if (jrFonts != null && jrFonts.length > 0)
-		{
-			fonts = new JRReportFont[jrFonts.length];
-			for(int i = 0; i < fonts.length; i++)
-			{
-				fonts[i] = factory.getReportFont(jrFonts[i]);
-			}
-		}
 
 		/*   */
 		defaultStyle = factory.getStyle(report.getDefaultStyle());
@@ -528,22 +511,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 			return (String[])importsSet.toArray(new String[importsSet.size()]);
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public JRReportFont getDefaultFont()
-	{
-		return defaultFont;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public JRReportFont[] getFonts()
-	{
-		return fonts;
 	}
 
 	/**

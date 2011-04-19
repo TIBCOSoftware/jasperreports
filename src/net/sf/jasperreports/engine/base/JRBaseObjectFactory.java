@@ -132,7 +132,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -213,28 +212,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public JRReportFont getReportFont(JRReportFont font)
-	{
-		JRBaseReportFont baseFont = null;
-
-		if (font != null)
-		{
-			baseFont = (JRBaseReportFont)get(font);
-			if (baseFont == null)
-			{
-				baseFont = new JRBaseReportFont(font);
-				put(font, baseFont);
-			}
-		}
-
-		return baseFont;
-	}
-
-
-	/**
-	 *
-	 */
 	public JRStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle baseStyle = null;
@@ -276,32 +253,6 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 	protected void handleStyleNameReference(JRStyleSetter setter, String nameReference)
 	{
 		setter.setStyleNameReference(nameReference);
-	}
-
-
-	/**
-	 *
-	 *
-	public JRFont getFont(JRFont font)
-	{
-		JRBaseFont baseFont = null;
-
-		if (font != null)
-		{
-			baseFont = (JRBaseFont)get(font);
-			if (baseFont == null)
-			{
-				baseFont =
-					new JRBaseFont(
-						defaultStyleProvider,
-						getReportFont(font.getReportFont()),
-						font
-						);
-				put(font, baseFont);
-			}
-		}
-
-		return baseFont;
 	}
 
 

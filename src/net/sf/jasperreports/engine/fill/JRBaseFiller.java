@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -95,7 +94,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualPrintPage.IdentityDataProvider//, JRDefaultFontProvider
+public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualPrintPage.IdentityDataProvider
 {
 
 	private static final Log log = LogFactory.getLog(JRBaseFiller.class);
@@ -233,10 +232,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected JRFillReportTemplate[] reportTemplates;
 	
 	protected List<JRTemplate> templates;
-
-	protected JRReportFont defaultFont;
-
-	protected JRReportFont[] fonts;
 
 	protected JRStyle defaultStyle;
 
@@ -442,20 +437,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		/*   */
 		missingFillBand = new JRFillBand(this, null, factory);
 		missingFillSection = new JRFillSection(this, null, factory);
-
-		/*   */
-		defaultFont = factory.getReportFont(jasperReport.getDefaultFont());
-
-		/*   */
-		JRReportFont[] jrFonts = jasperReport.getFonts();
-		if (jrFonts != null && jrFonts.length > 0)
-		{
-			fonts = new JRReportFont[jrFonts.length];
-			for (int i = 0; i < fonts.length; i++)
-			{
-				fonts[i] = factory.getReportFont(jrFonts[i]);
-			}
-		}
 
 		createDatasets();
 		mainDataset = factory.getDataset(jasperReport.getMainDataset());
@@ -760,14 +741,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	public JRReportFont getDefaultFont()
-	{
-		return defaultFont;
-	}
-
-	/**
-	 *
-	 */
 	public JRStyle getDefaultStyle()
 	{
 		return defaultStyle;
@@ -809,14 +782,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected JRPrintPage getCurrentPage()
 	{
 		return printPage;
-	}
-
-	/**
-	 *
-	 */
-	protected JRReportFont[] getFonts()
-	{
-		return fonts;
 	}
 
 	/**
@@ -911,20 +876,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			jasperPrint.setRightMargin(rightMargin);
 			jasperPrint.setOrientation(orientation);
 
-			jasperPrint.setDefaultFont(defaultFont);
-
 			jasperPrint.setFormatFactoryClass(jasperReport.getFormatFactoryClass());
 			jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(getLocale()));
 			jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(getTimeZone()));
-
-			/*   */
-			if (fonts != null && fonts.length > 0)
-			{
-				for (int i = 0; i < fonts.length; i++)
-				{
-					jasperPrint.addFont(fonts[i], true);
-				}
-			}
 
 			jasperPrint.setDefaultStyle(defaultStyle);
 

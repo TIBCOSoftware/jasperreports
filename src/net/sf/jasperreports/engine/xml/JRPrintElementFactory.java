@@ -100,16 +100,17 @@ public class JRPrintElementFactory extends JRBaseFactory
 			element.setBackcolor(JRColorUtil.getColor(backcolor, null));
 		}
 
-		if (atts.getValue(JRXmlConstants.ATTRIBUTE_style) != null)
+		String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_style);
+		if (styleName != null)
 		{
 			Map stylesMap = jasperPrint.getStylesMap();
 
-			if ( !stylesMap.containsKey(atts.getValue(JRXmlConstants.ATTRIBUTE_style)) )
+			if ( !stylesMap.containsKey(styleName) )
 			{
-				printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+				printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + styleName));
 			}
 
-			element.setStyle((JRStyle) stylesMap.get(atts.getValue(JRXmlConstants.ATTRIBUTE_style)));
+			element.setStyle((JRStyle) stylesMap.get(styleName));
 		}
 
 		String origin = atts.getValue(JRXmlConstants.ATTRIBUTE_origin); 

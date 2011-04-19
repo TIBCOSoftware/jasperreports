@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintElementContainer;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -584,12 +583,6 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 						if (element instanceof JRFillSubreport)
 						{
 							JRFillSubreport subreport = (JRFillSubreport)element;
-							
-							List fonts = subreport.subreportFiller.getJasperPrint().getFontsList();
-							for(int j = 0; j < fonts.size(); j++)
-							{
-								filler.getJasperPrint().addFont((JRReportFont)fonts.get(j), true);
-							}
 							
 							List styles = subreport.subreportFiller.getJasperPrint().getStylesList();
 							for(int j = 0; j < styles.size(); j++)

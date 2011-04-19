@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -927,12 +926,6 @@ public class TableReport implements JRReport
 		return mainDataset.getFields();
 	}
 
-	@SuppressWarnings("deprecation")
-	public JRReportFont[] getFonts()
-	{
-		return parentReport.getFonts();
-	}
-
 	public String getFormatFactoryClass()
 	{
 		return parentReport.getFormatFactoryClass();
@@ -1179,12 +1172,6 @@ public class TableReport implements JRReport
 			WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		throw new UnsupportedOperationException();
-	}
-
-	@SuppressWarnings("deprecation")
-	public JRReportFont getDefaultFont()
-	{
-		return parentReport.getDefaultFont();
 	}
 
 	public JRStyle getDefaultStyle()

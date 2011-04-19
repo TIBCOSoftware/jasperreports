@@ -104,11 +104,6 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	/**
 	 *
 	 */
-	public abstract JRReportFont getReportFont(JRReportFont font);
-
-	/**
-	 *
-	 */
 	public abstract JRStyle getStyle(JRStyle style);
 
 	/**

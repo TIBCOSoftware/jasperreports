@@ -117,7 +117,6 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRectangle;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSection;
@@ -130,7 +129,6 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
-import net.sf.jasperreports.engine.base.JRBaseReportFont;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
 import org.apache.commons.collections.SequencedHashMap;
@@ -268,27 +266,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	}
 
 
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public JRReportFont getReportFont(JRReportFont font)
-	{
-		JRBaseReportFont fillFont = null;
-
-		if (font != null)
-		{
-			fillFont = (JRBaseReportFont)get(font);
-			if (fillFont == null)
-			{
-				fillFont = new JRBaseReportFont(font);
-				put(font, fillFont);
-			}
-		}
-
-		return fillFont;
-	}
-	
 	protected void registerDelayedStyleSetter(JRStyleSetter delayedSetter, String styleName)
 	{
 		if (parentFiller == null)
@@ -389,40 +366,6 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			JRStyle externalStyle = (JRStyle) get(originalStyle);
 			setter.setStyle(externalStyle);
 		}
-	}
-
-
-	/**
-	 *
-	 *
-	protected JRBaseFont getFont(JRFont font)
-	{
-		JRBaseFont fillFont = null;
-
-		if (font != null)
-		{
-			fillFont = (JRBaseFont)get(font);
-			if (fillFont == null)
-			{
-				fillFont =
-					new JRBaseFont(
-						filler.getJasperPrint().getDefaultStyleProvider(),
-						getReportFont(font.getReportFont()),
-						font
-						);
-				put(font, fillFont);
-			}
-		}
-		else
-		{
-			if (defaultFont == null)
-			{
-				defaultFont = new JRBaseFont();
-			}
-			fillFont = getFont(defaultFont);
-		}
-
-		return fillFont;
 	}
 
 

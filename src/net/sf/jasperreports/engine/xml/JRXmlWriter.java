@@ -108,7 +108,6 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRDataset;
@@ -139,7 +138,6 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRectangle;
 import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JRReportFont;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -153,6 +151,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -354,17 +353,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeTemplates();
 
 		/*   */
-		JRReportFont[] fonts = report.getFonts();
-		if (fonts != null && fonts.length > 0)
-		{
-			for(int i = 0; i < fonts.length; i++)
-			{
-				fontsMap.put(fonts[i].getName(), fonts[i]);
-				writeReportFont(fonts[i]);
-			}
-		}
-
-		/*   */
 		JRStyle[] styles = report.getStyles();
 		if (styles != null && styles.length > 0)
 		{
@@ -504,27 +492,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		writer.writeExpression(JRXmlConstants.ELEMENT_template, template.getSourceExpression(),
 				true, String.class.getName());
-	}
-
-
-	/**
-	 *
-	 */
-	private void writeReportFont(JRReportFont font) throws IOException
-	{
-		writer.startElement(JRXmlConstants.ELEMENT_reportFont);
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, font.getName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, font.isDefault());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isItalic, font.isOwnItalic());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isUnderline, font.isOwnUnderline());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isStrikeThrough, font.isOwnStrikeThrough());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfFontName, font.getOwnPdfFontName());
-		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pdfEncoding, font.getOwnPdfEncoding());
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isPdfEmbedded, font.isOwnPdfEmbedded());
-		writer.closeElement();
 	}
 
 
@@ -951,26 +918,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		if (font != null)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_font);
-			if (font.getReportFont() != null)
-			{
-				JRFont baseFont =
-					(JRFont)fontsMap.get(
-						font.getReportFont().getName()
-						);
-				if(baseFont != null)
-				{
-					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_reportFont, font.getReportFont().getName());
-				}
-				else
-				{
-					throw
-						new JRRuntimeException(
-							"Referenced report font not found : "
-							+ font.getReportFont().getName()
-							);
-				}
-			}
-
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_fontName, font.getOwnFontName());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_size, font.getOwnFontSize());
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBold, font.isOwnBold());
