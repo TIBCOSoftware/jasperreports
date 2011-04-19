@@ -348,38 +348,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getPen()
-	{
-		return new Byte(JRPenUtil.getPenFromLinePen(linePen));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen()
-	{
-		return JRPenUtil.getOwnPenFromLinePen(linePen);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen)
-	{
-		setPen(new Byte(pen));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen)
-	{
-		JRPenUtil.setLinePenFromPen(pen, linePen);
-	}
-
-	/**
 	 * @deprecated Replaced by {@link #getFillValue()}
 	 */
 	public Byte getFill()

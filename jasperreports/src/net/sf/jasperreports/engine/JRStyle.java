@@ -104,18 +104,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public JRPen getLinePen();
 
 	/**
-	 * Indicates the pen type used for this element.
-	 * @return one of the pen constants in this class
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getPen();
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen();
-
-	/**
 	 * @deprecated Replaced by {@link #getFillValue()}.
 	 */
 	public Byte getFill();
@@ -398,16 +386,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 *
 	 */
 	public void setMode(ModeEnum mode);
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen);
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen);
 
 	/**
 	 * @deprecated Replaced by {@link #setFill(FillEnum)}

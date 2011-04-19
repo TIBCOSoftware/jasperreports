@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRPenUtil;
 
 
 /**
@@ -64,38 +63,6 @@ public class JRTemplatePrintGraphicElement extends JRTemplatePrintElement implem
 	public JRPen getLinePen()
 	{
 		return ((JRTemplateGraphicElement)template).getLinePen();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public byte getPen()
-	{
-		return JRPenUtil.getPenFromLinePen(getLinePen());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen()
-	{
-		return JRPenUtil.getOwnPenFromLinePen(getLinePen());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen)
-	{
-		setPen(new Byte(pen));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen)
-	{
-		JRPenUtil.setLinePenFromPen(pen, getLinePen());
 	}
 		
 

@@ -34,30 +34,6 @@ public interface JRPrintGraphicElement extends JRPrintElement, JRCommonGraphicEl
 {
 
 	/**
-	 * Indicates the pen type used for this element.
-	 * @return one of the pen constants in this class
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public byte getPen();
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public Byte getOwnPen();
-
-	/**
-	 * Sets the pen type that will used for this element.
-	 * @param pen one of the pen constants in this class
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(byte pen);
-
-	/**
-	 * @deprecated Replaced by {@link #getLinePen()}
-	 */
-	public void setPen(Byte pen);
-		
-	/**
 	 * @deprecated Replaced by {@link #setFill(FillEnum)}
 	 */
 	public void setFill(byte fill);
