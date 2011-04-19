@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRBox, JRFont, JRCommonText
+public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText
 {
 
 	/**
@@ -277,16 +277,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 */
 	public void setMarkup(String markup);
 		
-	/**
-	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
-	 */
-	public JRBox getBox();
-
-	/**
-	 * @deprecated
-	 */
-	public void setBox(JRBox box);
-
 	/**
 	 * @deprecated
 	 */

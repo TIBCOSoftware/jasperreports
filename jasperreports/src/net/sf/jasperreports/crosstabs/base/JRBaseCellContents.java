@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents}.
@@ -77,14 +76,6 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	public Color getBackcolor()
 	{
 		return backcolor;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineBox()}
-	 */
-	public JRBox getBox()
-	{
-		return new LineBoxWrapper(getLineBox());
 	}
 
 	public JRLineBox getLineBox()

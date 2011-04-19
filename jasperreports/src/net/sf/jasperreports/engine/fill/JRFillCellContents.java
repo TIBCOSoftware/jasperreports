@@ -33,7 +33,6 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabRowPositionEnum;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
@@ -45,7 +44,6 @@ import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 import org.apache.commons.collections.ReferenceMap;
 
@@ -154,14 +152,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	public Color getBackcolor()
 	{
 		return parentCell.getBackcolor();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineBox()}
-	 */
-	public JRBox getBox()
-	{
-		return new LineBoxWrapper(getLineBox());
 	}
 
 	/**

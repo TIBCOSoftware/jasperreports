@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.LineBoxWrapper;
 
 /**
  * Implementation of {@link net.sf.jasperreports.crosstabs.JRCellContents JRCellContents} used for
@@ -98,28 +97,12 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_BACKCOLOR, old, this.backcolor);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getLineBox()}
-	 */
-	public JRBox getBox()
-	{
-		return new LineBoxWrapper(getLineBox());
-	}
-	
 	public JRLineBox getLineBox()
 	{
 		return lineBox;
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #getLineBox()}
-	 */
-	public void setBox(JRBox box)
-	{
-		JRBoxUtil.setBoxToLineBox(box, lineBox);
-	}
-
 	public int getHeight()
 	{
 		return height;

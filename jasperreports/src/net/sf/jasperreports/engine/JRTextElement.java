@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JRCommonText
+public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonText
 {
 
 	/**
@@ -201,18 +201,6 @@ public interface JRTextElement extends JRElement, JRAlignment, JRBox, JRFont, JR
 	 * @deprecated Replaced by {@link #setMarkup(String)}.
 	 */
 	public void setStyledText(Boolean isStyledText);
-	
-	/**
-	 * Returns an object containing all border and padding properties for this text element
-	 * @deprecated Replaced by {@link JRBoxContainer#getLineBox()}
-	 */
-	public JRBox getBox();
-
-	/**
-	 * Returns an object containing all font properties for this text element
-	 * @deprecated
-	 */
-	public JRFont getFont();
 
 	
 }
