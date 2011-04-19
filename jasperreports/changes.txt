@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 4.0.3 (2011-0x-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.0.2 (2011-04-18, SVN 4298)
 ---------------------------------------------
 - improved XHTML exporter to bring it at feature parity with the former HTML exporter;
