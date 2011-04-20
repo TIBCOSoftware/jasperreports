@@ -51,84 +51,6 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 	 */
 	public static final String LANGUAGE_GROOVY = "groovy";
 
-	/**
-	 * @deprecated Replaced by {@link PrintOrderEnum#VERTICAL}.
-	 */
-	public static final byte PRINT_ORDER_VERTICAL = 1;
-
-
-	/**
-	 * @deprecated Replaced by {@link PrintOrderEnum#HORIZONTAL}.
-	 */
-	public static final byte PRINT_ORDER_HORIZONTAL = 2;
-
-
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#PORTRAIT}.
-	 */
-	public static final byte ORIENTATION_PORTRAIT = 1;
-
-
-	/**
-	 * @deprecated Replaced by {@link OrientationEnum#LANDSCAPE}.
-	 */
-	public static final byte ORIENTATION_LANDSCAPE = 2;
-
-	
-	/**
-	 * Specifies that in case of empty datasources, there will be an empty report.
-	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_PAGES}.
-	 */
-	public static final byte WHEN_NO_DATA_TYPE_NO_PAGES = 1;
-
-
-	/**
-	 * Specifies that in case of empty datasources, there will be a report with just one blank page.
-	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#BLANK_PAGE}.
-	 */
-	public static final byte WHEN_NO_DATA_TYPE_BLANK_PAGE = 2;
-
-
-	/**
-	 * Specifies that in case of empty datasources, all sections except detail will displayed.
-	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#ALL_SECTIONS_NO_DETAIL}.
-	 */
-	public static final byte WHEN_NO_DATA_TYPE_ALL_SECTIONS_NO_DETAIL = 3;
-
-	/**
-	 * Specifies that in case of empty datasources, the NoData section will be displayed.
-	 * @deprecated Replaced by {@link WhenNoDataTypeEnum#NO_DATA_SECTION}.
-	 */
-	public static final byte WHEN_NO_DATA_TYPE_NO_DATA_SECTION = 4;
-
-
-	/**
-	 * Return NULL when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#NULL}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = JRDataset.WHEN_RESOURCE_MISSING_TYPE_NULL;
-
-
-	/**
-	 * Return empty string when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#EMPTY}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_EMPTY;
-
-
-	/**
-	 * Return the key when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#KEY}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = JRDataset.WHEN_RESOURCE_MISSING_TYPE_KEY;
-
-
-	/**
-	 * Throw an exception when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#ERROR}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = JRDataset.WHEN_RESOURCE_MISSING_TYPE_ERROR;
-
 
 	/**
 	 * Gets the report name.
@@ -145,11 +67,6 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 	 */
 	public int getColumnCount();
 
-	/**
-	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
-	 */
-	public byte getPrintOrder();
-	
 	/**
 	 * Specifies whether columns will be filled horizontally or vertically.
 	 * @return a value representing one of the print order constants in {@link PrintOrderEnum}
@@ -173,30 +90,15 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 	public int getPageHeight();
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	public byte getOrientation();
-
-	/**
 	 * Specifies whether document pages will be rendered in a portrait or landscape layout.
 	 * @return a value representing one of the orientation constants in {@link OrientationEnum}
 	 */
 	public OrientationEnum getOrientationValue();
 
 	/**
-	 * @deprecated Replaced by {@link #getWhenNoDataTypeValue()}.
-	 */
-	public byte getWhenNoDataType();
-
-	/**
 	 * Specifies the report behavior in case of empty datasources.
 	 */
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue();
-
-	/**
-	 * @deprecated Replaced by {@link #setWhenNoDataType(WhenNoDataTypeEnum)}.
-	 */
-	public void setWhenNoDataType(byte whenNoDataType);
 
 	/**
 	 * Sets the report behavior in case of empty datasources.
@@ -358,11 +260,6 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 	public JRBand getColumnHeader();
 
 	/**
-	 * @deprecated Replaced by {@link #getDetailSection()}.
-	 */
-	public JRBand getDetail();
-
-	/**
 	 *
 	 */
 	public JRSection getDetailSection();
@@ -393,19 +290,9 @@ public interface JRReport extends JRDefaultStyleProvider, JRPropertiesHolder
 	public JRBand getNoData();
 
 	/**
-	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
-	 */
-	public byte getWhenResourceMissingType();
-
-	/**
 	 * Returns the resource missing handling type.
 	 */
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue();
-
-	/**
-	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}
-	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType);
 
 	/**
 	 * Sets the resource missing handling type.

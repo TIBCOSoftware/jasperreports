@@ -373,13 +373,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLabels()}
-	 */
-	public boolean isShowLabels(){
-		return showLabels == null ? false : showLabels.booleanValue();
-	}
-
-	/**
 	 *
 	 */
 	public Boolean getShowLabels(){
@@ -395,13 +388,6 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}
-	 */
-	public void setShowLabels( boolean isShowLabels ){
-		setShowLabels(Boolean.valueOf(isShowLabels));
-	}
-
-	/**
 	 *
 	 */
 	public void setShowLabels( Boolean showLabels ){
@@ -412,27 +398,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 
 
 	/**
-	 * @deprecated Replaced by {@link #getShowTickMarks()}
-	 */
-	public boolean isShowTickMarks()
-	{
-		return showTickMarks == null ? true : showTickMarks.booleanValue();
-	}
-
-	/**
 	 *
 	 */
 	public Boolean getShowTickMarks()
 	{
 		return showTickMarks;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}
-	 */
-	public void setShowTickMarks(boolean isShowTickMarks)
-	{
-		setShowTickMarks(Boolean.valueOf(isShowTickMarks));
 	}
 
 	/**
@@ -446,27 +416,11 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowTickLabels()}
-	 */
-	public boolean isShowTickLabels()
-	{
-		return showTickLabels == null ? true : showTickLabels.booleanValue();
-	}
-
-	/**
 	 *
 	 */
 	public Boolean getShowTickLabels()
 	{
 		return showTickLabels;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}
-	 */
-	public void setShowTickLabels(boolean isShowTickLabels)
-	{
-		setShowTickLabels(Boolean.valueOf(isShowTickLabels));
 	}
 
 	/**

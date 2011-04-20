@@ -1105,12 +1105,6 @@ public class TableReport implements JRReport
 		return WhenNoDataTypeEnum.NO_PAGES;
 	}
 
-	@Deprecated
-	public byte getWhenResourceMissingType()
-	{
-		return mainDataset.getWhenResourceMissingType();
-	}
-
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return mainDataset.getWhenResourceMissingTypeValue();

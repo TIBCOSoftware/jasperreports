@@ -35,26 +35,6 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 public interface JRPen
 {
 
-	/**
-	 * @deprecated Replaced by {@link LineStyleEnum#SOLID}.
-	 */
-	public static final byte LINE_STYLE_SOLID = 0;
-
-	/**
-	 * @deprecated Replaced by {@link LineStyleEnum#DASHED}.
-	 */
-	public static final byte LINE_STYLE_DASHED = 1;
-
-	/**
-	 * @deprecated Replaced by {@link LineStyleEnum#DOTTED}.
-	 */
-	public static final byte LINE_STYLE_DOTTED = 2;
-
-	/**
-	 * @deprecated Replaced by {@link LineStyleEnum#DOUBLE}.
-	 */
-	public static final byte LINE_STYLE_DOUBLE = 3;
-
 	public static final Float LINE_WIDTH_0 = new Float(0f);
 	public static final Float LINE_WIDTH_1 = new Float(1f);
 
@@ -85,26 +65,6 @@ public interface JRPen
 	public void setLineWidth(float lineWidth);
 
 	public void setLineWidth(Float lineWidth);
-
-	/**
-	 * @deprecated Replaced by {@link #getLineStyleValue()}.
-	 */
-	public Byte getLineStyle();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnLineStyleValue()}.
-	 */
-	public Byte getOwnLineStyle();
-
-	/**
-	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
-	 */
-	public void setLineStyle(byte lineStyle);
-
-	/**
-	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
-	 */
-	public void setLineStyle(Byte lineStyle);
 
 	/**
 	 * Indicates the line style used for this pen.

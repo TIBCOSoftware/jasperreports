@@ -138,38 +138,6 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getKeyExpression()
-	{
-		return ((JRPieDataset)parent).getKeyExpression();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getValueExpression()
-	{
-		return ((JRPieDataset)parent).getValueExpression();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return ((JRPieDataset)parent).getLabelExpression();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRHyperlink getSectionHyperlink()
-	{
-		return ((JRPieDataset) parent).getSectionHyperlink();
-	}
-
-	/**
 	 *
 	 */
 	public JRExpression getOtherKeyExpression()
@@ -355,8 +323,10 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 
-	public Object getLabelGenerator(){
-		return (getLabelExpression() == null) ? null : new PieLabelGenerator( labels );
+	public Object getLabelGenerator()//FIXMECHART is this OK?
+	{
+		JRExpression labelExpression = (pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getLabelExpression() : null);
+		return (labelExpression == null) ? null : new PieLabelGenerator( labels );
 	}
 	
 	/**

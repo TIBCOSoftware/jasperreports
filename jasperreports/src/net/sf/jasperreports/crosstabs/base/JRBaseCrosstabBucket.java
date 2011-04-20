@@ -64,14 +64,6 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getOrderValue()}.
-	 */
-	public byte getOrder()
-	{
-		return getOrderValue().getValue();
-	}
-
 	public SortOrderEnum getOrderValue()
 	{
 		return orderValue;

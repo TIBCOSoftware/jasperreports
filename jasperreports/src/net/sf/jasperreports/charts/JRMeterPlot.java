@@ -42,26 +42,6 @@ import net.sf.jasperreports.engine.JRFont;
 public interface JRMeterPlot extends JRChartPlot
 {
 	/**
-	 * @deprecated Replaced by {@link MeterShapeEnum#CHORD}
-	 */
-	public static final byte SHAPE_CHORD = 0;
-
-	/**
-	 * @deprecated Replaced by {@link MeterShapeEnum#CIRCLE}
-	 */
-	public static final byte SHAPE_CIRCLE = 1;
-
-	/**
-	 * @deprecated Replaced by {@link MeterShapeEnum#PIE}
-	 */
-	public static final byte SHAPE_PIE = 2;
-
-	/**
-	 * @deprecated Replaced by {@link MeterShapeEnum#DIAL}
-	 */
-	public static final byte SHAPE_DIAL = 3;
-
-	/**
 	 * Returns the range of values that the Meter can display.
 	 *
 	 * @return the range of values that the Meter can display
@@ -76,16 +56,6 @@ public interface JRMeterPlot extends JRChartPlot
 	 * @return a description of how the value of the Meter is displayed.
 	 */
 	public JRValueDisplay getValueDisplay();
-
-	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public byte getShape();
-
-	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public Byte getShapeByte();
 
 	/**
 	 * Returns the shape of the Meter.  The shape is only relevant if the Meter face is
@@ -109,11 +79,6 @@ public interface JRMeterPlot extends JRChartPlot
 	public List getIntervals();
 
 	/**
-	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
-	 */
-	public int getMeterAngle();
-
-	/**
 	 * Returns the size of the Meter face in degrees.
 	 *
 	 * @return the size of the Meter face in degrees
@@ -127,11 +92,6 @@ public interface JRMeterPlot extends JRChartPlot
 	 * @return the name of the units that the Meter is displaying
 	 */
 	public String getUnits();
-
-	/**
-	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
-	 */
-	public double getTickInterval();
 
 	/**
 	 * Returns the spacing between the ticks on the face of the meter.  The spacing is relative

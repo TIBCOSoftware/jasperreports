@@ -117,22 +117,6 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setShape(MeterShapeEnum)}
-	 */
-	public void setShape(byte shape) throws JRException
-	{
-		setShape(MeterShapeEnum.getByValue(shape));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setShape(MeterShapeEnum)}
-	 */
-	public void setShape(Byte shape) throws JRException
-	{
-		setShape(MeterShapeEnum.getByValue(shape));
-	}
-
-	/**
 	 * Sets the shape of the meter.  Must be one of
 	 * <code>MeterShapeEnum.CHORD</code>, <code>MeterShapeEnum.CIRCLE</code>,
 	 * <code>MeterShapeEnum.PIE</code> or <code>MeterShapeEnum.DIAL</code>.
@@ -190,14 +174,6 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setMeterAngle(Integer)}
-	 */
-	public void setMeterAngle(int meterAngle)
-	{
-		setMeterAngle(Integer.valueOf(meterAngle));
-	}
-
-	/**
 	 * Sets the size of the meter face in degrees.
 	 *
 	 * @param meterAngle the size of the meter in degrees
@@ -220,14 +196,6 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 		Object old = this.units;
 		this.units = units;
 		getEventSupport().firePropertyChange(PROPERTY_UNITS, old, this.units);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTickInterval(Double)}
-	 */
-	public void setTickInterval(double tickInterval)
-	{
-		setTickInterval(new Double(tickInterval));
 	}
 
 	/**

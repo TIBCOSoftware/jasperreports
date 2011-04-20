@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.type.PenEnum;
 
 
 /**
@@ -35,46 +33,4 @@ import net.sf.jasperreports.engine.type.PenEnum;
  */
 public interface JRGraphicElement extends JRElement, JRCommonGraphicElement
 {
-	/**
-	 * Contant useful for specifying that the element border will not be drawn.
-	 * @deprecated Replaced by {@link PenEnum#NONE}.
-	 */
-	public static final byte PEN_NONE = 0;
-
-	/**
-	 * Contant useful for specifying that an element border of 1 pixel.
-	 * @deprecated Replaced by {@link PenEnum#ONE_POINT}.
-	 */
-	public static final byte PEN_1_POINT = 1;
-
-	/**
-	 * Contant useful for specifying that an element border of 2 pixels.
-	 * @deprecated Replaced by {@link PenEnum#TWO_POINT}.
-	 */
-	public static final byte PEN_2_POINT = 2;
-
-	/**
-	 * Contant useful for specifying that an element border of 4 pixels.
-	 * @deprecated Replaced by {@link PenEnum#FOUR_POINT}.
-	 */
-	public static final byte PEN_4_POINT = 3;
-
-	/**
-	 * Contant useful for specifying that an element has a dashed border.
-	 * @deprecated Replaced by {@link PenEnum#DOTTED}.
-	 */
-	public static final byte PEN_DOTTED = 4;
-
-	/**
-	 * Contant useful for specifying that an element has a thin border (0.5 pixels)
-	 * @deprecated Replaced by {@link PenEnum#THIN}.
-	 */
-	public static final byte PEN_THIN = 5;
-
-	/**
-	 * @deprecated Replaced by {@link FillEnum#SOLID}.
-	 */
-	public static final byte FILL_SOLID = 1;
-	
-
 }

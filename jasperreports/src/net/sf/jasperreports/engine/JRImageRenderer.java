@@ -95,26 +95,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated replaced by
-	 * {@link JRResourcesUtil#getThreadClassLoader() JRResourcesUtil.getThreadClassLoader()}
-	 */
-	public static ClassLoader getClassLoader()
-	{
-		return JRResourcesUtil.getThreadClassLoader();
-	}
-
-
-	/**
-	 * @deprecated replace by
-	 * {@link JRResourcesUtil#setThreadClassLoader(ClassLoader) JRResourcesUtil.setThreadClassLoader(ClassLoader)}
-	 */
-	public static void setClassLoader(ClassLoader classLoader)
-	{
-		JRResourcesUtil.setThreadClassLoader(classLoader);
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRImageRenderer getInstance(byte[] imageData)
@@ -133,15 +113,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance(String, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(String imageLocation, byte onErrorType) throws JRException
-	{
-		return getInstance(imageLocation, OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-
-	/**
 	 * 
 	 */
 	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType) throws JRException
@@ -151,15 +122,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance(String, OnErrorTypeEnum, boolean)}.
-	 */
-	public static JRRenderable getInstance(String imageLocation, byte onErrorType, boolean isLazy) throws JRException
-	{
-		return getInstance(imageLocation, OnErrorTypeEnum.getByValue(onErrorType), isLazy);
-	}
-
-	
-	/**
 	 * 
 	 */
 	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
@@ -168,28 +130,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link #getInstance(String, OnErrorTypeEnum, boolean, ClassLoader, URLStreamHandlerFactory, FileResolver)}.
-	 */
-	public static JRRenderable getInstance(
-		String imageLocation, 
-		byte onErrorType, 
-		boolean isLazy, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory,
-		FileResolver fileResolver
-		) throws JRException
-	{
-		return getInstance(
-				imageLocation, 
-				OnErrorTypeEnum.getByValue(onErrorType), 
-				isLazy, 
-				classLoader, 
-				urlHandlerFactory, 
-				fileResolver
-				);
-	}
-
 	/**
 	 * 
 	 */
@@ -225,15 +165,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance(Image, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(Image img, byte onErrorType) throws JRException
-	{
-		return getInstance(img, OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRRenderable getInstance(Image img, OnErrorTypeEnum onErrorType) throws JRException
@@ -251,15 +182,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 		}
 		
 		return getInstance(img, type, onErrorType);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getInstance(Image, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(Image image, byte imageType, byte onErrorType) throws JRException
-	{
-		return getInstance(image, imageType, OnErrorTypeEnum.getByValue(onErrorType));
 	}
 
 
@@ -286,15 +208,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance(InputStream, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(InputStream is, byte onErrorType) throws JRException
-	{
-		return getInstance(is, OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRRenderable getInstance(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
@@ -309,14 +222,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 		}
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #getInstance(URL, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(URL url, byte onErrorType) throws JRException
-	{
-		return getInstance(url, OnErrorTypeEnum.getByValue(onErrorType));
-	}
 
 	/**
 	 *
@@ -335,15 +240,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance(File, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getInstance(File file, byte onErrorType) throws JRException
-	{
-		return getInstance(file, OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRRenderable getInstance(File file, OnErrorTypeEnum onErrorType) throws JRException
@@ -356,15 +252,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 		{
 			return getOnErrorRenderer(onErrorType, e); 
 		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorRendererForDimension(JRRenderable, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getOnErrorRendererForDimension(JRRenderable renderer, byte onErrorType) throws JRException
-	{
-		return getOnErrorRendererForDimension(renderer, OnErrorTypeEnum.getByValue(onErrorType));
 	}
 
 
@@ -386,15 +273,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorRendererForImageData(JRRenderable, OnErrorTypeEnum)}.
-	 */
-	public static JRRenderable getOnErrorRendererForImageData(JRRenderable renderer, byte onErrorType) throws JRException
-	{
-		return getOnErrorRendererForImageData(renderer, OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-
-	/**
 	 *
 	 */
 	public static JRRenderable getOnErrorRendererForImageData(JRRenderable renderer, OnErrorTypeEnum onErrorType) throws JRException
@@ -410,14 +288,6 @@ public class JRImageRenderer extends JRAbstractRenderer
 		}
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorRendererForImage(JRImageRenderer, OnErrorTypeEnum)}.
-	 */
-	public static JRImageRenderer getOnErrorRendererForImage(JRImageRenderer renderer, byte onErrorType) throws JRException
-	{
-		return getOnErrorRendererForImage(renderer, OnErrorTypeEnum.getByValue(onErrorType));
-	}
 
 	/**
 	 *

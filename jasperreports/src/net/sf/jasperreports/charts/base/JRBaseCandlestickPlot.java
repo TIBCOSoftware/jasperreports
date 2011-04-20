@@ -338,14 +338,6 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowVolume()}
-	 */
-	public boolean isShowVolume()
-	{
-		return showVolume == null ? true : showVolume.booleanValue();
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getShowVolume()
@@ -353,14 +345,6 @@ public class JRBaseCandlestickPlot extends JRBaseChartPlot implements JRCandlest
 		return showVolume;
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #setShowVolume(Boolean)}
-	 */
-	public void setShowVolume(boolean isShowVolume)
-	{
-		setShowVolume(Boolean.valueOf(isShowVolume));
-	}
 
 	/**
 	 * 

@@ -343,14 +343,6 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowOpenTicks()}
-	 */
-	public boolean isShowOpenTicks()
-	{
-		return showOpenTicks == null ? false : showOpenTicks.booleanValue();
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getShowOpenTicks()
@@ -358,14 +350,6 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 		return showOpenTicks;
 	}
 
-
-	/**
-	 * @deprecated Replaced by {@link #setShowOpenTicks(Boolean)}
-	 */
-	public void setShowOpenTicks(boolean showOpenTicks)
-	{
-		setShowOpenTicks(Boolean.valueOf(showOpenTicks));
-	}
 
 	/**
 	 * 
@@ -378,27 +362,11 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowCloseTicks()}
-	 */
-	public boolean isShowCloseTicks()
-	{
-		return showCloseTicks == null ? false : showCloseTicks.booleanValue();
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getShowCloseTicks()
 	{
 		return showCloseTicks;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setShowCloseTicks(Boolean)}
-	 */
-	public void setShowCloseTicks(boolean showCloseTicks)
-	{
-		setShowCloseTicks(Boolean.valueOf(showCloseTicks));
 	}
 
 	/**

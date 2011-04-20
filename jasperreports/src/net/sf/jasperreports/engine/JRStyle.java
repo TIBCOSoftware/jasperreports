@@ -71,16 +71,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public boolean isDefault();
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public Byte getMode();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode();
-
-	/**
 	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
@@ -104,16 +94,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public JRPen getLinePen();
 
 	/**
-	 * @deprecated Replaced by {@link #getFillValue()}.
-	 */
-	public Byte getFill();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFillValue()}.
-	 */
-	public Byte getOwnFill();
-
-	/**
 	 * Indicates the fill type used for this element.
 	 * @return one of the fill constants in {@link FillEnum}.
 	 */
@@ -129,16 +109,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public Integer getOwnRadius();
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public Byte getScaleImage();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage();
-
-	/**
 	 * Gets the image scale type.
 	 * @return one of the scale types defined in {@link ScaleImageEnum}
 	 */
@@ -151,32 +121,12 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public ScaleImageEnum getOwnScaleImageValue();
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public Byte getHorizontalAlignment();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment();
-
-	/**
 	 * Gets the horizontal alignment of the element.
 	 * @return one of the alignment values defined in {@link HorizontalAlignEnum}
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue();
 
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public Byte getVerticalAlignment();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment();
 
 	/**
 	 * Gets the vertical alignment of the element.
@@ -193,16 +143,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 
 
 	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	public Byte getRotation();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation();
-
-	/**
 	 * Gets the text rotation.
 	 * @return a value representing one of the rotation values in the {@link RotationEnum}.
 	 */
@@ -217,33 +157,12 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	public Byte getLineSpacing();
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing();
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue();
 
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
-
-	/**
-	 * Returns true if the text can contain style tags.
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	public Boolean isStyledText();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText();
 
 	/**
 	 * Returns the markup language used to format the text.
@@ -373,29 +292,9 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setBackcolor(Color backcolor);
 
 	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}
-	 */
-	public void setMode(byte mode);
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}
-	 */
-	public void setMode(Byte mode);
-
-	/**
 	 *
 	 */
 	public void setMode(ModeEnum mode);
-
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(byte fill);
-
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(Byte fill);
 
 	/**
 	 * 
@@ -413,29 +312,9 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setRadius(Integer radius);
 
 	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage);
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage);
-
-	/**
 	 *
 	 */
 	public void setScaleImage(ScaleImageEnum scaleImage);
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment);
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment);
 
 	/**
 	 *
@@ -443,29 +322,9 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
 
 	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment);
-
-	/**
 	 *
 	 */
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment);
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation);
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation);
 
 	public void setRotation(RotationEnum rotation);
 
@@ -515,16 +374,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	public void setStrikeThrough(Boolean strikeThrough);
 
 	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(boolean styledText);
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(Boolean styledText);
-
-	/**
 	 *
 	 */
 	public void setMarkup(String markup);
@@ -538,16 +387,6 @@ public interface JRStyle extends JRStyleContainer, JRBoxContainer, JRPenContaine
 	 *
 	 */
 	public void setUnderline(Boolean underline);
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}
-	 */
-	public void setLineSpacing(byte lineSpacing);
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}
-	 */
-	public void setLineSpacing(Byte lineSpacing);
 
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}

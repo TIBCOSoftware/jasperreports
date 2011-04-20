@@ -35,11 +35,6 @@ public interface JRPrintHyperlink
 {
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType();
-
-	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
 	 * The actual hyperlink type is determined by {@link #getLinkType() getLinkType()}.
@@ -53,11 +48,6 @@ public interface JRPrintHyperlink
 	public HyperlinkTypeEnum getHyperlinkTypeValue();
 
 	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType);
-
-	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
 	 * @param hyperlinkType the built-in hyperlink type
@@ -66,20 +56,10 @@ public interface JRPrintHyperlink
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType);
 		
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget();
-	
-	/**
 	 *
 	 */
 	public HyperlinkTargetEnum getHyperlinkTargetValue();
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget);
-	
 	/**
 	 *
 	 */

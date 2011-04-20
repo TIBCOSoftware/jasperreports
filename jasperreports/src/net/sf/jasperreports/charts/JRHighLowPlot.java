@@ -65,20 +65,10 @@ public interface JRHighLowPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxi
 	public JRExpression getRangeAxisMaxValueExpression();
 
 	/**
-	 * @deprecated Replaced by {@link #getShowOpenTicks()}
-	 */
-	public boolean isShowOpenTicks();
-
-	/**
 	 *
 	 */
 	public Boolean getShowOpenTicks();
 
-	/**
-	 * @deprecated Replaced by {@link #getShowCloseTicks()}
-	 */
-	public boolean isShowCloseTicks();
-	
 	/**
 	 *
 	 */

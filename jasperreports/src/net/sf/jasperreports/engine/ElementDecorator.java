@@ -73,12 +73,6 @@ public abstract class ElementDecorator implements JRElement
 		return element.getKey();
 	}
 
-	@Deprecated
-	public byte getPositionType()
-	{
-		return element.getPositionType();
-	}
-
 	public PositionTypeEnum getPositionTypeValue()
 	{
 		return element.getPositionTypeValue();
@@ -97,12 +91,6 @@ public abstract class ElementDecorator implements JRElement
 	public JRPropertyExpression[] getPropertyExpressions()
 	{
 		return element.getPropertyExpressions();
-	}
-
-	@Deprecated
-	public byte getStretchType()
-	{
-		return element.getStretchType();
 	}
 
 	public StretchTypeEnum getStretchTypeValue()
@@ -217,12 +205,6 @@ public abstract class ElementDecorator implements JRElement
 		return element.getHeight();
 	}
 
-	@Deprecated
-	public byte getMode()
-	{
-		return element.getMode();
-	}
-
 	public ModeEnum getModeValue()
 	{
 		return element.getModeValue();
@@ -236,12 +218,6 @@ public abstract class ElementDecorator implements JRElement
 	public Color getOwnForecolor()
 	{
 		return element.getOwnForecolor();
-	}
-
-	@Deprecated
-	public Byte getOwnMode()
-	{
-		return element.getOwnMode();
 	}
 
 	public ModeEnum getOwnModeValue()

@@ -40,20 +40,6 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
  */
 public interface JRCrosstabMeasure extends JRCloneable
 {
-	/**
-	 * Percentage type indicating that the value will not be calculated
-	 * as a percentage.
-	 * @deprecated Replaced by {@link CrosstabPercentageEnum#NONE}.
-	 */
-	public static final byte PERCENTAGE_TYPE_NONE = 0;
-	
-	/**
-	 * Percentage type indicating that the value will be calculated as percentage
-	 * of the grand total value.
-	 * @deprecated Replaced by {@link CrosstabPercentageEnum#GRAND_TOTAL}.
-	 */
-	public static final byte PERCENTAGE_TYPE_GRAND_TOTAL = 1;
-
 	
 	/**
 	 * Returns the name of the measure.
@@ -86,12 +72,6 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @return the measure expression
 	 */
 	public JRExpression getValueExpression();
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}.
-	 */
-	public byte getCalculation();
 	
 	
 	/**
@@ -132,12 +112,6 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 */
 	public Class getIncrementerFactoryClass();
 
-	
-	/**
-	 * @deprecated Replaced by {@link #getPercentageType()}.
-	 */
-	public byte getPercentageOfType();
-	
 	
 	/**
 	 * Returns the percentage calculation type performed on this measure.

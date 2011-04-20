@@ -38,11 +38,6 @@ public interface JRElementDataset extends JRCloneable
 {
 
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}.
-	 */
-	public byte getResetType();
-
-	/**
 	 * Gets the reset type. This specifies the range of report data used for filling the dataset.
 	 * @return one of the reset constants in {@link ResetTypeEnum}
 	 */
@@ -52,11 +47,6 @@ public interface JRElementDataset extends JRCloneable
 	 * Gets the selected reset group in case of reset type group.
 	 */
 	public JRGroup getResetGroup();
-
-	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}.
-	 */
-	public byte getIncrementType();
 
 	/**
 	 * Returns the increment type. This specifies dataset values increment step.

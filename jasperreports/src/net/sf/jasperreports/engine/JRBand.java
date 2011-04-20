@@ -43,27 +43,6 @@ public interface JRBand extends JRElementGroup
 	 */
 	public static final String PROPERTY_SPLIT_TYPE = JRProperties.PROPERTY_PREFIX + "band.split.type";
 
-	/**
-	 * The band is allowed to split, but never within its declared height. 
-	 * This means the band splits only when its content stretches.
-	 * @deprecated Replaced by {@link SplitTypeEnum#STRETCH}.
-	 */
-	public static final Byte SPLIT_TYPE_STRETCH = new Byte((byte)1);
-
-	/**
-	 * Prevents the band from splitting on first break attempt. 
-	 * On subsequent pages/columns, the band is allowed to split, to avoid infinite loops.
-	 * @deprecated Replaced by {@link SplitTypeEnum#PREVENT}.
-	 */
-	public static final Byte SPLIT_TYPE_PREVENT = new Byte((byte)2);
-
-	/**
-	 * The band is allowed to split anywhere, as early as needed, 
-	 * but not before at least one element being printed on the current page/column.
-	 * @deprecated Replaced by {@link SplitTypeEnum#IMMEDIATE}.
-	 */
-	public static final Byte SPLIT_TYPE_IMMEDIATE = new Byte((byte)3);
-
 
 	/**
 	 *
@@ -71,31 +50,9 @@ public interface JRBand extends JRElementGroup
 	public int getHeight();
 
 	/**
-	 * Specifies if the band can be split between two pages.
-	 * @deprecated Replaced by {@link #getSplitType()}.
-	 */
-	public boolean isSplitAllowed();
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
-	 */
-	public void setSplitAllowed(boolean isSplitAllowed);
-
-	/**
-	 * Specifies the band split behavior.
-	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
-	 */
-	public Byte getSplitType();
-
-	/**
 	 * Specifies the band split behavior.
 	 */
 	public SplitTypeEnum getSplitTypeValue();
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
-	 */
-	public void setSplitType(Byte splitType);
 
 	/**
 	 *

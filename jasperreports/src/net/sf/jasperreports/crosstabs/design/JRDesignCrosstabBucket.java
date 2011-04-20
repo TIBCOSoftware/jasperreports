@@ -107,14 +107,6 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 
 	
 	/**
-	 * @deprecated Replaced by {@link #setOrder(SortOrderEnum)}.
-	 */
-	public void setOrder(byte order)
-	{
-		setOrder(SortOrderEnum.getByValue(order));
-	}
-	
-	/**
 	 * Sets the sorting type.
 	 * 
 	 * @param orderValue one of

@@ -40,48 +40,6 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 
 
 	/**
-	 * @deprecated Replaced by {@link ScaleImageEnum#CLIP}.
-	 */
-	public static final byte SCALE_IMAGE_CLIP = 1;
-
-	/**
-	 * @deprecated Replaced by {@link ScaleImageEnum#FILL_FRAME}.
-	 */
-	public static final byte SCALE_IMAGE_FILL_FRAME = 2;
-
-	/**
-	 * @deprecated Replaced by {@link ScaleImageEnum#RETAIN_SHAPE}.
-	 */
-	public static final byte SCALE_IMAGE_RETAIN_SHAPE = 3;
-	
-	/**
-	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_HEIGHT}.
-	 */
-	public static final byte SCALE_IMAGE_REAL_HEIGHT = 4;
-	
-	/**
-	 * @deprecated Replaced by {@link ScaleImageEnum#REAL_SIZE}.
-	 */
-	public static final byte SCALE_IMAGE_REAL_SIZE = 5;
-
-
-	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#ERROR}.
-	 */
-	public static final byte ON_ERROR_TYPE_ERROR = 1;
-
-	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#BLANK}.
-	 */
-	public static final byte ON_ERROR_TYPE_BLANK = 2;
-
-	/**
-	 * @deprecated Replaced by {@link OnErrorTypeEnum#ICON}.
-	 */
-	public static final byte ON_ERROR_TYPE_ICON = 3;
-	
-
-	/**
 	 * Indicates if the engine is loading the current image from cache.
 	 * Implementations of this method rely on default values that depend on the type of the image expression
 	 * if a value was not explicitly set of this flag.
@@ -132,16 +90,6 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	public void setLazy(boolean isLazy);
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
-	 */
-	public byte getOnErrorType();
-
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
-	 */
-	public void setOnErrorType(byte onErrorType);
-
-	/**
 	 * Indicates how the engine will treat a missing image.
 	 * @return a value representing one of the missing image handling constants in {@link OnErrorTypeEnum}
 	 */
@@ -153,11 +101,6 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 */
 	public void setOnErrorType(OnErrorTypeEnum onErrorTypeEnum);
 	
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime();
-		
 	/**
 	 * Indicates the evaluation time for this image.
 	 * @return one of the evaluation time constants in {@link EvaluationTimeEnum}

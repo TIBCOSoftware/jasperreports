@@ -38,73 +38,10 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 {
 
-
-	/**
-	 * The element will float in its parent section if it is pushed downwards by other elements fount above it.
-	 * It will try to conserve the distance between it and the neighboring elements placed immediately above.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#FLOAT}.
-	 */
-	public static final byte POSITION_TYPE_FLOAT = 1;
-
-
-	/**
-	 * The element will simply ignore what happens to the other section elements and tries to
-	 * conserve the y offset measured from the top of its parent report section.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#FIX_RELATIVE_TO_TOP}.
-	 */
-	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_TOP = 2;
-
-
-	/**
-	 * If the height of the parent report section is affected by elements that stretch, the current element will try to
-	 * conserve the original distance between its bottom margin and the bottom of the band.
-	 * @deprecated Replaced by {@link  PositionTypeEnum#FIX_RELATIVE_TO_BOTTOM}.
-	 */
-	public static final byte POSITION_TYPE_FIX_RELATIVE_TO_BOTTOM = 3;
-
-	/**
-	 * Specifies that the element is opaque.
-	 * @deprecated Replaced by {@link  ModeEnum#OPAQUE}.
-	 */
-	public static final byte MODE_OPAQUE = 1;
-
-
-	/**
-	 * Specifies that the element is transparent.
-	 * @deprecated Replaced by {@link  ModeEnum#TRANSPARENT}.
-	 */
-	public static final byte MODE_TRANSPARENT = 2;
-
-	/**
-	 * The element preserves its original specified height.
-	 * @deprecated Replaced by {@link  StretchTypeEnum#NO_STRETCH}.
-	 */
-	public static final byte STRETCH_TYPE_NO_STRETCH = 0;
-
-	/**
-	 * Users have the possibility to group the elements of a report section in multiple imbricate groups. The only
-	 * reason one might have for grouping your report elements is to be able to stretch them to fit the tallest object.
-	 * @deprecated Replaced by {@link  StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT}.
-	 */
-	public static final byte STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT = 1;
-
-	/**
-	 * The graphic element will adapt its height to match the new height of the report section it placed on, which
-	 * has been affected by stretch.
-	 * @deprecated Replaced by {@link  StretchTypeEnum#RELATIVE_TO_BAND_HEIGHT}.
-	 */
-	public static final byte STRETCH_TYPE_RELATIVE_TO_BAND_HEIGHT = 2;
-
-
 	/**
 	 * Returns the string value that uniquely identifies the element.
 	 */
 	public String getKey();
-
-	/**
-	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
-	 */
-	public byte getPositionType();
 
 	/**
 	 * Returns the position type for the element
@@ -113,25 +50,10 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	public PositionTypeEnum getPositionTypeValue();
 
 	/**
-	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
-	 */
-	public void setPositionType(byte positionType);
-
-	/**
 	 * Sets the position type for the element.
 	 * @param positionType the position type
 	 */
 	public void setPositionType(PositionTypeEnum positionType);
-
-	/**
-	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
-	 */
-	public byte getStretchType();
-
-	/**
-	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
-	 */
-	public void setStretchType(byte stretchType);
 
 	/**
 	 * Indicates the stretch type for the element

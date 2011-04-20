@@ -34,26 +34,12 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 public interface JRSortField extends JRCloneable
 {
 
-	/**
-	 * @deprecated Replaced by {@link SortOrderEnum#ASCENDING}.
-	 */
-	public byte SORT_ORDER_ASCENDING = 0;
-	/**
-	 * @deprecated Replaced by {@link SortOrderEnum#DESCENDING}.
-	 */
-	public byte SORT_ORDER_DESCENDING = 1;
-
 
 	/**
 	 * Gets the sort field name.
 	 */
 	public String getName();
 		
-	/**
-	 * @deprecated Replaced by {@link #getOrderValue()}.
-	 */
-	public byte getOrder();
-	
 	/**
 	 * Gets the sort order for the field.
 	 */

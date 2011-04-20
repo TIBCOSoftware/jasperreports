@@ -311,13 +311,6 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes(){
-		return showShapes == null ? true : showShapes.booleanValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowShapes(){
@@ -325,24 +318,10 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines(){
-		return showLines == null ? true : showLines.booleanValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowLines(){
 		return showLines;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
-	 */
-	public void setShowShapes( boolean value ){
-		setShowShapes(Boolean.valueOf(value));
 	}
 	
 	/**
@@ -382,13 +361,6 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_SHAPES, old, this.showShapes);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
-	 */
-	public void setShowLines( boolean value ){
-		setShowLines(Boolean.valueOf(value));
-	}
-
 	/**
 	 * 
 	 */

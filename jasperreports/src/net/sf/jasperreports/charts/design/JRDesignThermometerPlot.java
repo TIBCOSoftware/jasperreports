@@ -117,22 +117,6 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setValueLocation(ValueLocationEnum)}
-	 */
-	public void setValueLocation(byte valueLocation)
-	{
-		setValueLocation(ValueLocationEnum.getByValue(valueLocation));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setValueLocation(ValueLocationEnum)}
-	 */
-	public void setValueLocation(Byte valueLocation)
-	{
-		setValueLocation(ValueLocationEnum.getByValue(valueLocation));
-	}
-
-	/**
 	 * Sets where to show the textual display of the value.
 	 *
 	 * @param valueLocationObject where to show the textual display of the value

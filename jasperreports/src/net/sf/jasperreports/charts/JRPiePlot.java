@@ -33,11 +33,6 @@ import net.sf.jasperreports.engine.JRChartPlot;
 public interface JRPiePlot extends JRChartPlot
 {
 	/**
-	 * @deprecated Replaced by {@link #getCircular()}
-	 */
-	public boolean isCircular();
-	
-	/**
 	 * 
 	 */
 	public Boolean getCircular();

@@ -64,19 +64,9 @@ public interface JRLinePlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAx
 	public JRExpression getRangeAxisMaxValueExpression();
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines();
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowLines();
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
-	 */
-	public void setShowLines(boolean isShowLines);
 	
 	/**
 	 * 
@@ -84,20 +74,10 @@ public interface JRLinePlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAx
 	public void setShowLines(Boolean isShowLines);
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes();
-
-	/**
 	 * 
 	 */
 	public Boolean getShowShapes();
 
-	/**
-	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
-	 */
-	public void setShowShapes(boolean isShowShapes);
-	
 	/**
 	 * 
 	 */

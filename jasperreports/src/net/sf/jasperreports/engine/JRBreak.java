@@ -36,27 +36,6 @@ public interface JRBreak extends JRElement
 
 
 	/**
-	 * @deprecated Replaced by {@link BreakTypeEnum#PAGE}.
-	 */
-	public static final byte TYPE_PAGE = 1;
-
-	/**
-	 * @deprecated Replaced by {@link BreakTypeEnum#COLUMN}.
-	 */
-	public static final byte TYPE_COLUMN = 2;
-
-
-	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
-	 */
-	public byte getType();
-
-	/**
-	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
-	 */
-	public void setType(byte type);
-
-	/**
 	 * Gets the break type.
 	 * @return a value representing one of the break type constants in {@link BreakTypeEnum}
 	 */

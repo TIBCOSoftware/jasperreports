@@ -50,27 +50,11 @@ public class JRFillPie3DPlot extends JRFillChartPlot implements JRPie3DPlot
 		
 
 	/**
-	 * @deprecated Replaced by {@link #getDepthFactorDouble()}
-	 */
-	public double getDepthFactor()
-	{
-		return ((JRPie3DPlot)parent).getDepthFactor();
-	}
-	
-	/**
 	 *
 	 */
 	public Double getDepthFactorDouble()
 	{
 		return ((JRPie3DPlot)parent).getDepthFactorDouble();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getCircular()}
-	 */
-	public boolean isCircular()
-	{
-		return ((JRPie3DPlot)parent).isCircular();
 	}
 	
 	/**

@@ -87,14 +87,6 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 		return bucket;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
-	 */
-	public byte getTotalPosition()
-	{
-		return getTotalPositionValue().getValue();
-	}
-
 	public CrosstabTotalPositionEnum getTotalPositionValue()
 	{
 		return totalPositionValue;

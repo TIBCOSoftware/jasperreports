@@ -77,14 +77,6 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getValueExpression();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}.
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
-	}
-
 	public CalculationEnum getCalculationValue()
 	{
 		return parentMeasure.getCalculationValue();
@@ -98,14 +90,6 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 	public Class getIncrementerFactoryClass()
 	{
 		return parentMeasure.getIncrementerFactoryClass();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getPercentageType()}.
-	 */
-	public byte getPercentageOfType()
-	{
-		return getPercentageType().getValue();
 	}
 
 	public CrosstabPercentageEnum getPercentageType()

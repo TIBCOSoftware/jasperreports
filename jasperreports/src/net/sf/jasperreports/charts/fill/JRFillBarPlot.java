@@ -363,14 +363,6 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowTickMarks()} 
-	 */
-	public boolean isShowTickMarks()
-	{
-		return ((JRBarPlot)parent).isShowTickMarks();
-	}
-		
-	/**
 	 *
 	 */
 	public Boolean getShowTickMarks()
@@ -379,25 +371,10 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}.
-	 */
-	public void setShowTickMarks(boolean isShowTickMarks)
-	{
-	}
-		
-	/**
 	 *
 	 */
 	public void setShowTickMarks(Boolean isShowTickMarks)
 	{
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getShowTickLabels()}
-	 */
-	public boolean isShowTickLabels()
-	{
-		return ((JRBarPlot)parent).isShowTickLabels();
 	}
 		
 	/**
@@ -409,13 +386,6 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}.
-	 */
-	public void setShowTickLabels(boolean isShowTickLabels)
-	{
-	}
-
-	/**
 	 *
 	 */
 	public void setShowTickLabels(Boolean isShowTickLabels)
@@ -423,24 +393,12 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLabels()}
-	 */
-	public boolean isShowLabels(){
-		return ((JRBarPlot)parent).isShowLabels();
-	}
-	
-	/**
 	 *
 	 */
 	public Boolean getShowLabels(){
 		return ((JRBarPlot)parent).getShowLabels();
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}.
-	 */
-	public void setShowLabels( boolean isShowLabels ){
-	}
 	/**
 	 *
 	 */

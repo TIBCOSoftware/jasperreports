@@ -41,18 +41,6 @@ public interface JRSubreport extends JRElement
 	public boolean isUsingCache();
 
 	/**
-	 * Specifies if the engine should be loading the current subreport from cache. If set to true, the reporting engine
-	 * will try to recognize previously loaded subreports using their specified source. For example, it will recognize
-	 * a subreport if the subreport source is a file name that it has already loaded, or if it is the same URL.
-	 * <p>
-	 * For subreports that have expressions returning <tt>java.lang.String</tt> objects as the subreport source, 
-	 * representing file names, URLs or classpath resources, the default value for this flag is true.
-	 * 
-	 * @deprecated use {@link #setUsingCache(Boolean) setUsingCache(Boolean)} instead.
-	 */
-	public void setUsingCache(boolean isUsingCache);
-
-	/**
 	 *
 	 */
 	public JRExpression getParametersMapExpression();

@@ -52,28 +52,12 @@ public class JRDesignCrosstabRowGroup extends JRDesignCrosstabGroup implements J
 		super();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}.
-	 */
-	public byte getPosition()
-	{
-		return getPositionValue().getValue();
-	}
-
 	public CrosstabRowPositionEnum getPositionValue()
 	{
 		return positionValue;
 	}
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #setPosition(CrosstabRowPositionEnum)}.
-	 */
-	public void setPosition(byte position)
-	{
-		setPosition(CrosstabRowPositionEnum.getByValue(position));
-	}
-
 	/**
 	 * Sets the header contents stretch position.
 	 * 

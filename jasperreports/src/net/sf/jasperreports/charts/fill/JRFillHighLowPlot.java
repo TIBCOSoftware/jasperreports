@@ -331,14 +331,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowOpenTicks()}
-	 */
-	public boolean isShowOpenTicks()
-	{
-		return ((JRHighLowPlot)parent).isShowOpenTicks();
-	}
-
-	/**
 	 *
 	 */
 	public Boolean getShowOpenTicks()
@@ -346,13 +338,6 @@ public class JRFillHighLowPlot extends JRFillChartPlot implements JRHighLowPlot
 		return ((JRHighLowPlot)parent).getShowOpenTicks();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getShowCloseTicks()}
-	 */
-	public boolean isShowCloseTicks()
-	{
-		return ((JRHighLowPlot)parent).isShowCloseTicks();
-	}
 	/**
 	 *
 	 */

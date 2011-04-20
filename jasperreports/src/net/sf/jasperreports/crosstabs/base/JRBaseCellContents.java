@@ -103,14 +103,6 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		return style;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public Byte getMode()
-	{
-		return getModeValue() == null ? null : getModeValue().getValueByte() ;
-	}
-
 	public ModeEnum getModeValue()
 	{
 		return modeValue;

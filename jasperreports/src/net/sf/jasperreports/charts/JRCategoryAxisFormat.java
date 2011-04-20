@@ -87,12 +87,16 @@ public interface JRCategoryAxisFormat
 	public Color getOwnCategoryAxisLineColor();
 	
 	/**
-	 * 
+	 * Gets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
 	public Double getCategoryAxisTickLabelRotation();
 	
 	/**
-	 * 
+	 * Sets the angle in degrees to rotate the data axis labels.  The range is -360 to 360.  A positive value angles
+	 * the label so it reads downwards wile a negative value angles the label so it reads upwards.  Only charts that
+	 * use a category based axis (such as line or bar charts) support label rotation.
 	 */
 	public void setCategoryAxisTickLabelRotation(Double labelRotation);
 	

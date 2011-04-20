@@ -71,22 +71,6 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public byte getPosition()
-	{
-		return getPositionValue() == null ? AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public Byte getPositionByte()
-	{
-		return getPositionValue() == null ? null : getPositionValue().getValueByte();
-	}
-
-	/**
 	 * Returns the position of this axis.
 	 *
 	 * @return the position of this axis

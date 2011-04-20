@@ -76,102 +76,6 @@ public interface JRVariable extends JRCloneable
 
 
 	/**
-	 * @deprecated Replaced by {@link ResetTypeEnum#REPORT}.
-	 */
-	public static final byte RESET_TYPE_REPORT = 1;
-
-
-	/**
-	 * @deprecated Replaced by {@link ResetTypeEnum#PAGE}.
-	 */
-	public static final byte RESET_TYPE_PAGE = 2;
-
-
-	/**
-	 * @deprecated Replaced by {@link ResetTypeEnum#COLUMN}.
-	 */
-	public static final byte RESET_TYPE_COLUMN = 3;
-
-
-	/**
-	 * @deprecated Replaced by {@link ResetTypeEnum#GROUP}.
-	 */
-	public static final byte RESET_TYPE_GROUP = 4;
-
-
-	/**
-	 * @deprecated Replaced by {@link ResetTypeEnum#NONE}.
-	 */
-	public static final byte RESET_TYPE_NONE = 5;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#NOTHING}.
-	 */
-	public static final byte CALCULATION_NOTHING = 0;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#COUNT}.
-	 */
-	public static final byte CALCULATION_COUNT = 1;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#SUM}.
-	 */
-	public static final byte CALCULATION_SUM = 2;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#AVERAGE}.
-	 */
-	public static final byte CALCULATION_AVERAGE = 3;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#LOWEST}.
-	 */
-	public static final byte CALCULATION_LOWEST = 4;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#HIGHEST}.
-	 */
-	public static final byte CALCULATION_HIGHEST = 5;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#STANDARD_DEVIATION}.
-	 */
-	public static final byte CALCULATION_STANDARD_DEVIATION = 6;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#VARIANCE}.
-	 */
-	public static final byte CALCULATION_VARIANCE = 7;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#SYSTEM}.
-	 */
-	public static final byte CALCULATION_SYSTEM = 8;
-	
-	
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#FIRST}.
-	 */
-	public static final byte CALCULATION_FIRST = 9;
-
-
-	/**
-	 * @deprecated Replaced by {@link CalculationEnum#DISTINCT_COUNT}.
-	 */
-	public static final byte CALCULATION_DISTINCT_COUNT = 10;
-
-
-	/**
 	 * Returns the name of the variable. Since all variables are stored in a map, the variable names are the keys in the map.
 	 * @return a string containing the variable name
 	 */
@@ -203,16 +107,6 @@ public interface JRVariable extends JRCloneable
 	public String getIncrementerFactoryClassName();
 		
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}.
-	 */
-	public byte getResetType();
-		
-	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}.
-	 */
-	public byte getIncrementType();
-	
-	/**
 	 * Gets the variable reset type.
 	 * @return a value representing one of the reset type constants in {@link ResetTypeEnum}
 	 */
@@ -223,11 +117,6 @@ public interface JRVariable extends JRCloneable
 	 * @return a value representing one of the reset type constants in {@link IncrementTypeEnum}
 	 */
 	public IncrementTypeEnum getIncrementTypeValue();
-	
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}.
-	 */
-	public byte getCalculation();
 	
 	/**
 	 * Gets the variable calculation type.

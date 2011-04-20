@@ -39,51 +39,6 @@ public interface JRAlignment extends JRStyleContainer
 {
 
 	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#LEFT}.
-	 */
-	public static final byte HORIZONTAL_ALIGN_LEFT = 1;
-	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#CENTER}.
-	 */
-	public static final byte HORIZONTAL_ALIGN_CENTER = 2;
-	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#RIGHT}.
-	 */
-	public static final byte HORIZONTAL_ALIGN_RIGHT = 3;
-	/**
-	 * @deprecated Replaced by {@link HorizontalAlignEnum#JUSTIFIED}.
-	 */
-	public static final byte HORIZONTAL_ALIGN_JUSTIFIED = 4;
-
-	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#TOP}.
-	 */
-	public static final byte VERTICAL_ALIGN_TOP = 1;
-	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#MIDDLE}.
-	 */
-	public static final byte VERTICAL_ALIGN_MIDDLE = 2;
-	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#BOTTOM}.
-	 */
-	public static final byte VERTICAL_ALIGN_BOTTOM = 3;
-	/**
-	 * @deprecated Replaced by {@link VerticalAlignEnum#JUSTIFIED}.
-	 */
-	public static final byte VERTICAL_ALIGN_JUSTIFIED = 4;
-
-
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment();
-
-	/**
 	 * Gets the text horizontal alignment.
 	 * @return a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
 	 */
@@ -92,30 +47,10 @@ public interface JRAlignment extends JRStyleContainer
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue();
 
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment);
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment);
-
-	/**
 	 * Sets the text horizontal alignment.
 	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link HorizontalAlignEnum}
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment);
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment();
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment();
 
 	/**
 	 * Gets the text vertical alignment.
@@ -125,16 +60,6 @@ public interface JRAlignment extends JRStyleContainer
 	
 	public VerticalAlignEnum getOwnVerticalAlignmentValue();
 
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment);
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment);
-	
 	/**
 	 * Gets the text vertical alignment.
 	 * @param verticalAlignment a value representing one of the vertical alignment constants in {@link VerticalAlignEnum}

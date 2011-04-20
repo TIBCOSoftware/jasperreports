@@ -52,14 +52,6 @@ public class JRBaseCrosstabColumnGroup extends JRBaseCrosstabGroup implements JR
 		positionValue = group.getPositionValue();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}.
-	 */
-	public byte getPosition()
-	{
-		return getPositionValue().getValue();
-	}
-
 	public CrosstabColumnPositionEnum getPositionValue()
 	{
 		return positionValue;

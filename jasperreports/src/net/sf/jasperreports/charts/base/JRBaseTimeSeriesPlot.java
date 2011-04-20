@@ -337,34 +337,6 @@ public class JRBaseTimeSeriesPlot extends JRBaseChartPlot implements JRTimeSerie
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines(){
-		return showLines == null ? true : showLines.booleanValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes(){
-		return showShapes == null ? true : showShapes.booleanValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
-	 */
-	public void setShowLines( boolean val ){
-		setShowLines(Boolean.valueOf(val));
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
-	 */
-	public void setShowShapes( boolean val ){
-		setShowShapes(Boolean.valueOf(val));
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getShowLines(){

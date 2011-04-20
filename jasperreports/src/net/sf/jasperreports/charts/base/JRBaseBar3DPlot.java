@@ -369,24 +369,10 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getXOffsetDouble()}
-	 */
-	public double getXOffset(){
-		return getXOffsetDouble() == null ? BarRenderer3D.DEFAULT_X_OFFSET : getXOffsetDouble().doubleValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Double getXOffsetDouble(){
 		return xOffsetDouble;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setXOffset(Double)}
-	 */
-	public void setXOffset( double xOffset ){
-		setXOffset(new Double(xOffset));
 	}
 	
 	/**
@@ -407,24 +393,10 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getYOffsetDouble()}
-	 */
-	public double getYOffset(){
-		return getYOffsetDouble() == null ? BarRenderer3D.DEFAULT_Y_OFFSET : getYOffsetDouble().doubleValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Double getYOffsetDouble(){
 		return yOffsetDouble;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setYOffset(Double)}
-	 */
-	public void setYOffset( double yOffset ){
-		setYOffset(new Double(yOffset));
 	}
 	
 	/**
@@ -437,26 +409,12 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowLabels()} 
-	 */
-	public boolean isShowLabels(){
-		return showLabels == null ? false : showLabels.booleanValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowLabels(){
 		return showLabels;
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)} 
-	 */
-	public void setShowLabels( boolean isShowLabels ){
-		setShowLabels(Boolean.valueOf(isShowLabels));
-	}
-
 	/**
 	 * 
 	 */
