@@ -157,13 +157,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return ((JRSubreport)parent).isUsingCache();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	public void setUsingCache(boolean isUsingCache)
-	{
-	}
-
 	public Boolean isRunToBottom()
 	{
 		return ((JRSubreport) parent).isRunToBottom();

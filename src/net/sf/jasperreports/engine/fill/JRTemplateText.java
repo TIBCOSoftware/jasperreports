@@ -212,30 +212,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
-	 */
-	public byte getTextAlignment()
-	{
-		return getHorizontalAlignment();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-		
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -252,43 +228,11 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-		
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
@@ -308,59 +252,11 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-		
-	/**
 	 *
 	 */
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
 	{
 		this.verticalAlignmentValue = verticalAlignmentValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	public byte getRotation()
-	{
-		return getRotationValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation()
-	{
-		return getOwnRotationValue() == null? null : getOwnRotationValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
 	}
 
 	/**
@@ -400,38 +296,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	public byte getLineSpacing()
-	{
-		return getParagraph().getLineSpacing().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing()
-	{
-		return getParagraph().getOwnLineSpacing() == null? null : getParagraph().getOwnLineSpacing().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -446,40 +310,11 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	/**
-	 * Sets the text line spacing.
-	 * 
-	 * This methods allows <code>null</code>
-	 * to be set.  In this case, the line spacing is inherited from the report
-	 * style associated with the template. 
-	 * 
-	 * @param lineSpacing a <code>null</code> value or one of 
-	 * 	<ul>
-	 * 		<li>{@link LineSpacingEnum#SINGLE}</li>
-	 * 		<li>{@link LineSpacingEnum#ONE_AND_HALF}</li>
-	 * 		<li>{@link LineSpacingEnum#DOUBLE}</li>
-	 * 	</ul>
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		getParagraph().setLineSpacing(lineSpacing);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	public boolean isStyledText()
-	{
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText()
-	{
-		String mkp = getOwnMarkup();
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	/**
@@ -531,14 +366,6 @@ public class JRTemplateText extends JRTemplateElement implements JRAlignment, JR
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-
 	/**
 	 * Retrieves the hyperlink type for the element.
 	 * <p>
@@ -768,38 +595,6 @@ O	 * When hyperlink is of custom type, {@link HyperlinkTypeEnum#CUSTOM CUSTOM} i
 	public void setFontSize(Integer fontSize)
 	{
 		this.fontSize = fontSize;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontSize()}.
-	 */
-	public int getSize()
-	{
-		return getFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontSize()}.
-	 */
-	public Integer getOwnSize()
-	{
-		return getOwnFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(int)}.
-	 */
-	public void setSize(int size)
-	{
-		setFontSize(size);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
-	 */
-	public void setSize(Integer size)
-	{
-		setFontSize(size);
 	}
 
 	/**

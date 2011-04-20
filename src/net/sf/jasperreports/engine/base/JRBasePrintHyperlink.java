@@ -83,25 +83,9 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		return hyperlinkReference;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
 	{
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
 	}
 
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
@@ -139,14 +123,6 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 		this.hyperlinkReference = hyperlinkReference;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-
 	public void setHyperlinkTarget(HyperlinkTargetEnum hyperlinkTarget)
 	{
 		setLinkTarget(JRHyperlinkHelper.getLinkTarget(hyperlinkTarget));
@@ -155,14 +131,6 @@ public class JRBasePrintHyperlink implements JRPrintHyperlink, Serializable
 	public void setLinkTarget(String linkTarget)
 	{
 		this.linkTarget = linkTarget;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setLinkType(JRHyperlinkHelper.getLinkType(hyperlinkType));
 	}
 
 	public void setHyperlinkType(HyperlinkTypeEnum hyperlinkType)

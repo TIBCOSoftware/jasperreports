@@ -183,25 +183,9 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		visitor.visitGenericElement(this);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
-	 */
-	public void setEvaluationTime(byte evaluationTime)
-	{
-		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
 	}
 
 	/**

@@ -103,14 +103,6 @@ public class JRBaseSubreportReturnValue implements JRSubreportReturnValue, Seria
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation()
-	{
-		return calculation;
-	}
-
-	/**
 	 * Returns the calculation type.
 	 * <p>
 	 * When copying the value from the subreport, a formula can be applied such that sum,

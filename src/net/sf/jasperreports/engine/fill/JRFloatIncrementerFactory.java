@@ -61,16 +61,6 @@ public final class JRFloatIncrementerFactory extends JRAbstractExtendedIncrement
 	{
 		return mainInstance;
 	}
-	
-
-	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
-	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
-	{
-		
-		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
-	}
 
 
 	/**

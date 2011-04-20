@@ -58,15 +58,6 @@ public final class JRComparableIncrementerFactory extends JRAbstractExtendedIncr
 
 
 	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
-	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
-	{
-		
-		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
-	}
-
-	/**
 	 *
 	 */
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)

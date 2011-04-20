@@ -64,15 +64,6 @@ public final class JRDoubleIncrementerFactory extends JRAbstractExtendedIncremen
 
 
 	/**
-	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}
-	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
-	{
-		
-		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
-	}
-
-	/**
 	 *
 	 */
 	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)

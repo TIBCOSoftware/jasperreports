@@ -32,7 +32,6 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import net.sf.jasperreports.charts.JRCategoryAxisFormat;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
@@ -171,54 +170,6 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		getEventSupport().firePropertyChange(PROPERTY_ORIENTATION, old, this.orientation);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
-	 */
-	public float getBackgroundAlpha()
-	{
-		return backgroundAlphaFloat == null ? 1f : backgroundAlphaFloat.floatValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
-	 */
-	public void setBackgroundAlpha(float backgroundAlpha)
-	{
-		setBackgroundAlpha(new Float(backgroundAlpha));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
-	 */
-	public float getForegroundAlpha()
-	{
-		return foregroundAlphaFloat == null ? 1f : foregroundAlphaFloat.floatValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
-	 */
-	public void setForegroundAlpha(float foregroundAlpha)
-	{
-		setForegroundAlpha(new Float(foregroundAlpha));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
-	 */
-	public double getLabelRotation()
-	{
-		return labelRotationDouble == null ? 0d : labelRotationDouble.doubleValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
-	 */
-	public void setLabelRotation(double labelRotation)
-	{
-		setLabelRotation(new Double(labelRotation));
-	}
-	
 	/**
 	 *
 	 */

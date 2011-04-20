@@ -55,26 +55,6 @@ public final class JRImageLoader
 	 */
 	public static final String PROPERTY_IMAGE_ENCODER = JRProperties.PROPERTY_PREFIX + "image.encoder";
 
-	/**
-	 * @deprecated Replaced by {@link #NO_IMAGE_RESOURCE}.
-	 */
-	public static final byte NO_IMAGE = 0;
-	
-	/**
-	 * @deprecated Replaced by {@link #SUBREPORT_IMAGE_RESOURCE}.
-	 */
-	public static final byte SUBREPORT_IMAGE = 1;
-	
-	/**
-	 * @deprecated Replaced by {@link #CHART_IMAGE_RESOURCE}.
-	 */
-	public static final byte CHART_IMAGE = 2;
-
-	/**
-	 * @deprecated Replaced by {@link #CROSSTAB_IMAGE_RESOURCE}.
-	 */
-	public static final byte CROSSTAB_IMAGE = 3;
-
 	public static final String NO_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/image-16.png";
 	public static final String SUBREPORT_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/subreport-16.png";
 	public static final String CHART_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/chart-16.png";
@@ -138,62 +118,6 @@ public final class JRImageLoader
 
 
 	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytes(File)}.
-	 */
-	public static byte[] loadImageDataFromFile(File file) throws JRException
-	{
-		return JRLoader.loadBytes(file);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytes(URL)}.
-	 */
-	public static byte[] loadImageDataFromURL(URL url) throws JRException
-	{
-		return JRLoader.loadBytes(url);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytes(InputStream)}.
-	 */
-	public static byte[] loadImageDataFromInputStream(InputStream is) throws JRException
-	{
-		return JRLoader.loadBytes(is);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String)}.
-	 */
-	public static byte[] loadImageDataFromLocation(String location) throws JRException
-	{
-		return JRLoader.loadBytesFromLocation(location);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String, ClassLoader)}.
-	 */
-	public static byte[] loadImageDataFromLocation(String location, ClassLoader classLoader) throws JRException
-	{
-		return JRLoader.loadBytesFromLocation(location, classLoader);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link JRLoader#loadBytesFromLocation(String, ClassLoader, URLStreamHandlerFactory)}.
-	 */
-	public static byte[] loadImageDataFromLocation(
-		String location, 
-		ClassLoader classLoader,
-		URLStreamHandlerFactory urlHandlerFactory
-		) throws JRException
-	{
-		return JRLoader.loadBytesFromLocation(location, classLoader, urlHandlerFactory);
-	}
-
-
-	/**
 	 * Encoding the image object using an image encoder that supports the supplied image type.
 	 * 
 	 * @param image the java.awt.Image object to encode
@@ -203,37 +127,6 @@ public final class JRImageLoader
 	public static byte[] loadImageDataFromAWTImage(Image image, byte imageType) throws JRException
 	{
 		return imageEncoder.encode(image, imageType);
-	}
-
-
-	/**
-	 * Encodes the image object using an image encoder that supports the JRRenderable.IMAGE_TYPE_JPEG image type.
-	 * 
-	 * @deprecated Replaced by {@link JRImageLoader#loadImageDataFromAWTImage(Image, byte)}.
-	 */
-	public static byte[] loadImageDataFromAWTImage(BufferedImage bi) throws JRException
-	{
-		return loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_JPEG);
-	}
-
-
-	/**
-	 * Encodes the image object using an image encoder that supports the JRRenderable.IMAGE_TYPE_JPEG image type.
-	 * 
-	 * @deprecated Replaced by {@link JRImageLoader#loadImageDataFromAWTImage(Image, byte)}.
-	 */
-	public static byte[] loadImageDataFromAWTImage(Image image) throws JRException
-	{
-		return loadImageDataFromAWTImage(image, JRRenderable.IMAGE_TYPE_JPEG);
-	}
-
-
-	/**
-	 * @deprecated To be removed in future releases.
-	 */
-	public static Image getImage(byte index) throws JRException
-	{
-		return loadImage(IMAGE_LOCATION[index]);
 	}
 
 

@@ -76,22 +76,6 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		return width;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
-	 */
-	public byte getType()
-	{
-		return ((JRBreak)parent).getTypeValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
-	 */
-	public void setType(byte type)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	public BreakTypeEnum getTypeValue()
 	{
 		return ((JRBreak)parent).getTypeValue();

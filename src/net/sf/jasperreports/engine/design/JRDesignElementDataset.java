@@ -87,22 +87,6 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset implem
 
 
 	/**
-	 * @deprecated Replaced by {@link #setResetType(ResetTypeEnum)}
-	 */
-	public void setResetType(byte resetType)
-	{
-		setResetType(ResetTypeEnum.getByValue(resetType));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setIncrementType(IncrementTypeEnum)}
-	 */
-	public void setIncrementType(byte incrementType)
-	{
-		setIncrementType(IncrementTypeEnum.getByValue(incrementType));
-	}
-		
-	/**
 	 *
 	 */
 	public void setResetType(ResetTypeEnum resetTypeValue)

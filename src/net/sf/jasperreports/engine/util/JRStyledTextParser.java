@@ -193,32 +193,6 @@ public class JRStyledTextParser implements ErrorHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInstance()}.
-	 */
-	public JRStyledTextParser()
-	{
-		try
-		{
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			documentBuilder = factory.newDocumentBuilder();
-			documentBuilder.setErrorHandler(this);
-		}
-		catch (ParserConfigurationException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #parse(Map, String, Locale)}.
-	 */
-	public JRStyledText parse(Map attributes, String text) throws SAXException
-	{
-		return parse(attributes, text, null);
-	}
-	
-	/**
 	 *
 	 */
 	public JRStyledText parse(Map attributes, String text, Locale locale) throws SAXException
@@ -245,14 +219,6 @@ public class JRStyledTextParser implements ErrorHandler
 		return styledText;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getStyledText(Map, String, boolean, Locale)}.
-	 */
-	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText)
-	{
-		return getStyledText(parentAttributes, text, isStyledText, null);
-	}
-	
 	/**
 	 * Creates a styled text object by either parsing a styled text String or
 	 * by wrapping an unstyled String.

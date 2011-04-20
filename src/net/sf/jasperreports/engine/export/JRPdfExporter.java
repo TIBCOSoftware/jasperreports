@@ -129,11 +129,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private static final Log log = LogFactory.getLog(JRPdfExporter.class);
 	
-	/**
-	 * @deprecated Replaced by {@link JRPdfExporterParameter#PROPERTY_FORCE_SVG_SHAPES}.
-	 */
-	public static final String PDF_FORCE_SVG_SHAPES = JRPdfExporterParameter.PROPERTY_FORCE_SVG_SHAPES;
-
 	public static final String PDF_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.pdf.";
 
 	/**

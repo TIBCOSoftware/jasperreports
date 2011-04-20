@@ -91,23 +91,6 @@ public final class JRStyleResolver
 
 
 	/**
-	 * @deprecated Replaced by {@link #getMode(JRCommonElement, ModeEnum)}.
-	 */
-	public static byte getMode(JRCommonElement element, byte defaultMode)
-	{
-		return getMode(element, ModeEnum.getByValue(defaultMode)).getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getModeValue(JRStyle)}.
-	 */
-	public static Byte getMode(JRStyle style)
-	{
-		ModeEnum mode = getModeValue(style);
-		return mode == null ? null : mode.getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public static ModeEnum getMode(JRCommonElement element, ModeEnum defaultMode)
@@ -308,14 +291,6 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineStyleValue(JRPen)}.
-	 */
-	public static Byte getLineStyle(JRPen pen)
-	{
-		return getLineStyleValue(pen).getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public static LineStyleEnum getLineStyleValue(JRPen pen)
@@ -335,14 +310,6 @@ public final class JRStyleResolver
 			}
 		}
 		return LineStyleEnum.SOLID;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineStyleValue(JRBoxPen)}
-	 */
-	public static Byte getLineStyle(JRBoxPen boxPen)
-	{
-		return getLineStyleValue(boxPen).getValueByte();
 	}
 
 	/**
@@ -419,22 +386,6 @@ public final class JRStyleResolver
 			}
 		}
 		return defaultColor;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFillValue(JRCommonGraphicElement)}.
-	 */
-	public static byte getFill(JRCommonGraphicElement element)
-	{
-		return getFillValue(element).getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFillValue(JRStyle)}.
-	 */
-	public static Byte getFill(JRStyle style)
-	{
-		return getFillValue(style).getValueByte();
 	}
 
 	/**
@@ -518,46 +469,6 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue(JRCommonImage)}
-	 */
-	public static byte getScaleImage(JRCommonImage image)
-	{
-		Byte ownScaleImage = image.getOwnScaleImage();
-		if (ownScaleImage != null)
-		{
-			return ownScaleImage.byteValue();
-		}
-		JRStyle baseStyle = getBaseStyle(image);
-		if (baseStyle != null)
-		{
-			Byte scaleImage = baseStyle.getScaleImage();
-			if (scaleImage != null)
-			{
-				return scaleImage.byteValue();
-			}
-		}
-		return JRImage.SCALE_IMAGE_RETAIN_SHAPE;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue(JRStyle)}
-	 */
-	public static Byte getScaleImage(JRStyle style)
-	{
-		Byte ownScaleImage = style.getOwnScaleImage();
-		if (ownScaleImage != null)
-		{
-			return ownScaleImage;
-		}
-		JRStyle baseStyle = getBaseStyle(style);
-		if (baseStyle != null )
-		{
-			return baseStyle.getScaleImage();
-		}
-		return null;
-	}
-
-	/**
 	 *
 	 */
 	public static ScaleImageEnum getScaleImageValue(JRCommonImage image)
@@ -598,14 +509,6 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue(JRAlignment)}.
-	 */
-	public static byte getHorizontalAlignment(JRAlignment alignment)
-	{
-		return getHorizontalAlignmentValue(alignment).getValue();
-	}
-
-	/**
 	 *
 	 */
 	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRAlignment alignment)
@@ -628,15 +531,6 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue(JRStyle)}.
-	 */
-	public static Byte getHorizontalAlignment(JRStyle style)
-	{
-		HorizontalAlignEnum horizontalAlign = getHorizontalAlignmentValue(style); 
-		return horizontalAlign == null ? null : horizontalAlign.getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public static HorizontalAlignEnum getHorizontalAlignmentValue(JRStyle style)
@@ -652,14 +546,6 @@ public final class JRStyleResolver
 			return baseStyle.getHorizontalAlignmentValue();
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue(JRAlignment)}.
-	 */
-	public static byte getVerticalAlignment(JRAlignment alignment)
-	{
-		return getVerticalAlignmentValue(alignment).getValue();
 	}
 
 	/**
@@ -888,23 +774,6 @@ public final class JRStyleResolver
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getRotationValue(JRCommonText)}.
-	 */
-	public static byte getRotation(JRCommonText element)
-	{
-		return getRotationValue(element).getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getRotationValue(JRStyle)}.
-	 */
-	public static Byte getRotation(JRStyle style)
-	{
-		RotationEnum rotation = getRotationValue(style);
-		return rotation == null ? null : rotation.getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public static RotationEnum getRotationValue(JRCommonText element)
@@ -942,22 +811,6 @@ public final class JRStyleResolver
 			return baseStyle.getRotationValue();
 		}
 		return null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
-	 */
-	public static byte getLineSpacing(JRCommonText element)
-	{
-		return getLineSpacing(element.getParagraph()).getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLineSpacing(JRParagraph)}.
-	 */
-	public static Byte getLineSpacing(JRStyle style)
-	{
-		return getLineSpacing(style.getParagraph()).getValueByte();
 	}
 
 	/**

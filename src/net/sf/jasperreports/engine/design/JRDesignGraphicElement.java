@@ -82,38 +82,6 @@ public abstract class JRDesignGraphicElement extends JRDesignElement implements 
 
 
 	/**
-	 * @deprecated Replaced by {@link #getFillValue()}
-	 */
-	public byte getFill()
-	{
-		return getFillValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFillValue()}
-	 */
-	public Byte getOwnFill()
-	{
-		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(byte fill)
-	{
-		setFill(FillEnum.getByValue(fill));
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(Byte fill)
-	{
-		setFill(FillEnum.getByValue(fill));
-	}
-
-	/**
 	 *
 	 */
 	public FillEnum getFillValue()

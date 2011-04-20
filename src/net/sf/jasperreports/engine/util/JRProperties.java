@@ -131,16 +131,6 @@ public final class JRProperties
 	 */
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
 	
-	/**
-	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.fill.JRSubreportRunnerFactory#SUBREPORT_RUNNER_FACTORY}.
-	 */
-	public static final String SUBREPORT_RUNNER_FACTORY = PROPERTY_PREFIX + "subreport.runner.factory";
-	
-	/**
-	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.export.JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY}.
-	 */
-	public static final String PDF_FORCE_LINEBREAK_POLICY = PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
-	
 	protected static Properties props;
 	
 	protected static Properties savedProps;

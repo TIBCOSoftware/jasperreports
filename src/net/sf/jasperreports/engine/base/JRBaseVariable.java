@@ -206,27 +206,11 @@ public class JRBaseVariable implements JRVariable, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}
-	 */
-	public byte getResetType()
-	{
-		return getResetTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public ResetTypeEnum getResetTypeValue()
 	{
 		return this.resetTypeValue;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}
-	 */
-	public byte getIncrementType()
-	{
-		return getIncrementTypeValue().getValue();
 	}
 		
 	/**
@@ -237,14 +221,6 @@ public class JRBaseVariable implements JRVariable, Serializable
 		return this.incrementTypeValue;
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
-	}
-
 	/**
 	 * 
 	 */

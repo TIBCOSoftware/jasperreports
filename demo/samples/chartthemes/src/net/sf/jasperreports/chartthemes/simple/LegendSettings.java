@@ -164,20 +164,6 @@ public class LegendSettings implements JRChangeEventsSupport, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public Byte getPosition() {
-		return getPositionValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPosition(EdgeEnum)}
-	 */
-	public void setPosition(Byte position) {
-		setPosition(EdgeEnum.getByValue(position));
-	}
-
-	/**
 	 * @return the position
 	 */
 	public EdgeEnum getPositionValue() {

@@ -49,11 +49,6 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_SPLIT_TYPE}.
-	 */
-	public static final String PROPERTY_SPLIT_ALLOWED = "splitAllowed";
 
 	/**
 	 *
@@ -95,43 +90,11 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getSplitType()}.
-	 */
-	public boolean isSplitAllowed()
-	{
-		return !JRBand.SPLIT_TYPE_PREVENT.equals(getSplitType());
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
-	 */
-	public void setSplitAllowed(boolean isSplitAllowed)
-	{
-		setSplitType(isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
-	 */
-	public Byte getSplitType()
-	{
-		return getSplitTypeValue() == null ? null : getSplitTypeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public SplitTypeEnum getSplitTypeValue()
 	{
 		return splitTypeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
-	 */
-	public void setSplitType(Byte splitType)
-	{
-		setSplitType(SplitTypeEnum.getByValue(splitType));
 	}
 
 	/**
@@ -200,7 +163,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 		
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_5_2)
 		{
-			splitType = isSplitAllowed ? JRBand.SPLIT_TYPE_STRETCH : JRBand.SPLIT_TYPE_PREVENT;
+			splitType = isSplitAllowed ? SplitTypeEnum.STRETCH.getValueByte() : SplitTypeEnum.PREVENT.getValueByte();
 		}
 
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)//FIXMEENUM check order of ifs for all

@@ -73,14 +73,6 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 		return parent.getIncrementerFactoryClassName();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
-	}
-
 	public CalculationEnum getCalculationValue()
 	{
 		return parent.getCalculationValue();
@@ -115,7 +107,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 				}
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculation());
+			incrementer = incrementerFactory.getIncrementer(getCalculationValue().getValue());
 		}
 		
 		return incrementer;

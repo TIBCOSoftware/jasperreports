@@ -87,22 +87,6 @@ public abstract class JRFillElementDataset implements JRElementDataset
 
 
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}
-	 */
-	public byte getResetType()
-	{
-		return parent.getResetType();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}
-	 */
-	public byte getIncrementType()
-	{
-		return parent.getIncrementType();
-	}
-		
-	/**
 	 *
 	 */
 	public ResetTypeEnum getResetTypeValue()

@@ -606,7 +606,7 @@ public class JRGridLayout
 					JRLineBox modBox = (JRLineBox) boxesCache.get(key);
 					if (modBox == null)
 					{
-						modBox = JRBoxUtil.clone(frame.getLineBox(), keepLeft, keepRight, keepTop, keepBottom, cellBox);
+						modBox = JRBoxUtil.copyBordersNoPadding(frame.getLineBox(), keepLeft, keepRight, keepTop, keepBottom, cellBox);
 						boxesCache.put(key, modBox);
 					}
 

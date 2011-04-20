@@ -276,14 +276,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
-	 */
-	public byte getPrintOrder()
-	{
-		return getPrintOrderValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public PrintOrderEnum getPrintOrderValue()
@@ -316,14 +308,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	public byte getOrientation()
-	{
-		return getOrientationValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public OrientationEnum getOrientationValue()
@@ -332,27 +316,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getWhenNoDataTypeValue()}.
-	 */
-	public byte getWhenNoDataType()
-	{
-		return getWhenNoDataTypeValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
 		return whenNoDataTypeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setWhenNoDataType(WhenNoDataTypeEnum)}.
-	 */
-	public void setWhenNoDataType(byte whenNoDataType)
-	{
-		setWhenNoDataType(WhenNoDataTypeEnum.getByValue(whenNoDataType));
 	}
 
 	/**
@@ -618,19 +586,6 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getDetailSection()}.
-	 */
-	public JRBand getDetail()
-	{
-		return 
-			detailSection == null 
-			|| detailSection.getBands() == null 
-			|| detailSection.getBands().length == 0 
-				? null 
-				: (JRBand)detailSection.getBands()[0];
-	}
-
-	/**
 	 *
 	 */
 	public JRSection getDetailSection()
@@ -672,27 +627,11 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 
 
 	/**
-	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
-	 */
-	public byte getWhenResourceMissingType()
-	{
-		return getWhenResourceMissingTypeValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return mainDataset.getWhenResourceMissingTypeValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
-	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
-	{
-		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
 	}
 
 	/**

@@ -131,14 +131,6 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public EvaluationTimeEnum getEvaluationTimeValue()

@@ -478,12 +478,4 @@ public abstract class ElementDrawer<T extends JRPrintElement>
 		}
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link JRPenUtil#getStroke(JRPen, int)}
-	 */
-	protected static Stroke getStroke(JRPen pen, int lineCap)
-	{
-		return JRPenUtil.getStroke(pen, lineCap);
-	}
-	
 }

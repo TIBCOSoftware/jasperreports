@@ -89,14 +89,6 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getOrderValue()}.
-	 */
-	public byte getOrder()
-	{
-		return getOrderValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public SortOrderEnum getOrderValue()
@@ -104,14 +96,6 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 		return orderValue;
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setOrder(SortOrderEnum)}.
-	 */
-	public void setOrder(byte order)
-	{
-		setOrder(SortOrderEnum.getByValue((byte)(order + 1)));
-	}
-	
 	/**
 	 *
 	 */

@@ -219,42 +219,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getSplitType()}.
-	 */
-	public boolean isSplitAllowed()
-	{
-		return parent.isSplitAllowed();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(Byte)}.
-	 */
-	public void setSplitAllowed(boolean isSplitAllowed)
-	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSplitTypeValue()}.
-	 */
-	public Byte getSplitType()
-	{
-		return getSplitTypeValue() == null ? null : getSplitTypeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public SplitTypeEnum getSplitTypeValue()
 	{
 		return splitType;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setSplitType(SplitTypeEnum)}.
-	 */
-	public void setSplitType(Byte splitType)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**

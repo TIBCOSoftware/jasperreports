@@ -120,14 +120,6 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	}
 		
 	/**
-	 *  @deprecated Replaced by {@link #setResetType(ResetTypeEnum)}
-	 */
-	public void setResetType(byte resetType)
-	{
-		setResetType(ResetTypeEnum.getByValue(resetType));
-	}
-		
-	/**
 	 *
 	 */
 	public void setResetType(ResetTypeEnum resetTypeValue)
@@ -135,14 +127,6 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 		Object old = this.resetTypeValue;
 		this.resetTypeValue = resetTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_RESET_TYPE, old, this.resetTypeValue);
-	}
-		
-	/**
-	 *  @deprecated Replaced by {@link #setIncrementType(IncrementTypeEnum)}
-	 */
-	public void setIncrementType(byte incrementType)
-	{
-		setIncrementType(IncrementTypeEnum.getByValue(incrementType));
 	}
 		
 	/**
@@ -155,14 +139,6 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_TYPE, old, this.incrementTypeValue);
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
-	 */
-	public void setCalculation(byte calculation)
-	{
-		setCalculation(CalculationEnum.getByValue(calculation));
-	}
-
 	/**
 	 *
 	 */

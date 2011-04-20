@@ -324,21 +324,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLegend()}
-	 */
-	public boolean isShowLegend()
-	{
-		return ((JRChart)parent).isShowLegend();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
-	 */
-	public void setShowLegend(boolean isShowLegend)
-	{
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getShowLegend()
@@ -384,14 +369,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}. 
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public EvaluationTimeEnum getEvaluationTimeValue()
@@ -421,38 +398,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 	public JRFont getTitleFont()
 	{
 		return titleFont;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getTitlePositionValue()}
-	 */
-	public byte getTitlePosition()
-	{
-		return getTitlePositionValue() == null ? EdgeEnum.TOP.getValue() : getTitlePositionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
-	 */
-	public void setTitlePosition(byte titlePosition)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getTitlePositionValue()}
-	 */
-	public Byte getTitlePositionByte()
-	{
-		return getTitlePositionValue() == null ? null : getTitlePositionValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
-	 */
-	public void setTitlePosition(Byte titlePosition)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -593,37 +538,6 @@ public class JRFillChart extends JRFillElement implements JRChart
 		return legendFont;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getLegendPositionValue()}
-	 */
-	public byte getLegendPosition()
-	{
-		return getLegendPositionValue() == null ? EdgeEnum.BOTTOM.getValue() : getLegendPositionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
-	 */
-	public void setLegendPosition(byte legendPosition)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getLegendPositionValue()}
-	 */
-	public Byte getLegendPositionByte()
-	{
-		return getLegendPositionValue() == null ? null : getLegendPositionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
-	 */
-	public void setLegendPosition(Byte legendPosition)
-	{
-		throw new UnsupportedOperationException();
-	}
 	/**
 	 *
 	 */

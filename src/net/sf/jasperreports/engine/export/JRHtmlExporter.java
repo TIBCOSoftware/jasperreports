@@ -122,11 +122,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 	public static final String HTML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "html";
 	
 	/**
-	 * @deprecated Replaced by  {@link JRHtmlExporterParameter#PROPERTY_FRAMES_AS_NESTED_TABLES}.
-	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRHtmlExporterParameter.PROPERTY_FRAMES_AS_NESTED_TABLES;
-	
-	/**
 	 *
 	 */
 	public static final String PROPERTY_HTML_CLASS = HTML_EXPORTER_PROPERTIES_PREFIX + "class";

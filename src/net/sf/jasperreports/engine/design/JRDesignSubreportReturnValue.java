@@ -79,14 +79,6 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
-	 */
-	public void setCalculation(byte calculation)
-	{
-		setCalculation(CalculationEnum.getByValue(calculation));
-	}
-	
-	/**
 	 * Sets the calculation type.
 	 * 
 	 * @param calculationValue the calculation type

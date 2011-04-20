@@ -246,25 +246,9 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		return resourceBundle;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
-	 */
-	public byte getWhenResourceMissingType()
-	{
-		return getWhenResourceMissingTypeValue().getValue();
-	}
-
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return whenResourceMissingTypeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
-	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
-	{
-		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
 	}
 
 	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingTypeValue)

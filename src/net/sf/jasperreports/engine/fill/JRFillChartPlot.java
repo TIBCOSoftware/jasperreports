@@ -119,51 +119,6 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
-	 */
-	public float getBackgroundAlpha()
-	{
-		return parent.getBackgroundAlpha();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
-	 */
-	public void setBackgroundAlpha(float BackgroundAlpha)
-	{
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
-	 */
-	public float getForegroundAlpha()
-	{
-		return parent.getForegroundAlpha();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
-	 */
-	public void setForegroundAlpha(float foregroundAlpha)
-	{
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
-	 */
-	public double getLabelRotation()
-	{
-		return parent.getLabelRotation();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
-	 */
-	public void setLabelRotation(double labelRotation)
-	{
-	}
-	
-	/**
 	 *
 	 */
 	public Float getBackgroundAlphaFloat()

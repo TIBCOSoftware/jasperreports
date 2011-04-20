@@ -401,38 +401,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getFontSize()}.
-	 */
-	public int getSize()
-	{
-		return getFontSize();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontSize()}.
-	 */
-	public Integer getOwnSize()
-	{
-		return getOwnFontSize();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(int)}.
-	 */
-	public void setSize(int size)
-	{
-		setFontSize(size);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
-	 */
-	public void setSize(Integer size) 
-	{
-		setFontSize(size)
-;	}
-
-	/**
 	 *
 	 */
 	public String getPdfFontName()
