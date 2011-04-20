@@ -42,26 +42,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  */
 public interface JRDataset extends JRPropertiesHolder, JRCloneable
 {
-	/**
-	 * Return NULL when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#NULL}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_NULL = 1;
-	/**
-	 * Return empty string when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#EMPTY}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_EMPTY = 2;
-	/**
-	 * Return the key when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#KEY}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_KEY = 3;
-	/**
-	 * Throw an exception when a resource is missing.
-	 * @deprecated Replaced by {@link WhenResourceMissingTypeEnum#ERROR}.
-	 */
-	public static final byte WHEN_RESOURCE_MISSING_TYPE_ERROR = 4;
 
 	
 	/**
@@ -157,23 +137,11 @@ public interface JRDataset extends JRPropertiesHolder, JRCloneable
 
 
 	/**
-	 * @deprecated Replaced by {@link #getWhenResourceMissingTypeValue()}.
-	 */
-	public byte getWhenResourceMissingType();
-	
-	
-	/**
 	 * Returns the resource missing handling type.
 	 * 
 	 * @return the resource missing handling type
 	 */
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue();
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
-	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType);
 	
 	
 	/**

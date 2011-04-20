@@ -41,26 +41,6 @@ import net.sf.jasperreports.engine.JRCloneable;
 public interface JRChartAxis extends JRCloneable
 {
 	/**
-	 * @deprecated Replaced by {@link AxisPositionEnum#LEFT_OR_TOP}
-	 */
-	public static final byte POSITION_LEFT_OR_TOP = 1;
-
-	/**
-	 * @deprecated Replaced by {@link AxisPositionEnum#LEFT_OR_TOP}
-	 */
-	public static final byte POSITION_RIGHT_OR_BOTTOM = 2;
-
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public byte getPosition();
-
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public Byte getPositionByte();
-
-	/**
 	 * Gets the position of this axis.
 	 *
 	 * @return the position of this axis

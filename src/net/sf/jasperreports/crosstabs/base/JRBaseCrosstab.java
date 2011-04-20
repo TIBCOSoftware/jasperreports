@@ -362,23 +362,6 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 
 	
 	/**
-	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
-	 */
-	public byte getRunDirection()
-	{
-		return getRunDirectionValue().getValue();
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
-	 */
-	public void setRunDirection(byte runDirection)
-	{
-		setRunDirection(RunDirectionEnum.getByValue(runDirection));
-	}
-
-	/**
 	 *
 	 */
 	public RunDirectionEnum getRunDirectionValue()

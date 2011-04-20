@@ -100,14 +100,6 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 
 	
 	/**
-	 * @deprecated Replaced by {@link #getDepthFactorDouble()}
-	 */
-	public double getDepthFactor()
-	{
-		return depthFactorDouble == null ? DEPTH_FACTOR_DEFAULT : depthFactorDouble.doubleValue();
-	}
-	
-	/**
 	 * 
 	 */
 	public Double getDepthFactorDouble()
@@ -121,14 +113,6 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public JRItemLabel getItemLabel()
 	{
 		return itemLabel;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setDepthFactor(Double)}
-	 */
-	public void setDepthFactor(double depthFactor)
-	{
-		setDepthFactor(new Double(depthFactor));
 	}
 	
 	/**
@@ -150,26 +134,10 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 
 
 	/**
-	 * @deprecated Replaced by {@link #getCircular()}
-	 */
-	public boolean isCircular() {
-		return circular == null ? false : circular.booleanValue();
-	}
-
-	/**
 	 * 
 	 */
 	public Boolean getCircular() {
 		return circular;
-	}
-
-
-	/**
-	 * @param isCircular the isCircular to set
-	 * @deprecated Replaced by {@link #setCircular(Boolean)}
-	 */
-	public void setCircular(boolean isCircular) {
-		setCircular(Boolean.valueOf(isCircular));
 	}
 
 	/**

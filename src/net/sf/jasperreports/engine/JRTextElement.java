@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.LineSpacingEnum;
-import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 
@@ -123,84 +121,5 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 */
 	public static final String PROPERTY_SAVE_LINE_BREAKS = JRProperties.PROPERTY_PREFIX 
 			+ "text.save.line.breaks";
-	
-	/**
-	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_LEFT}.
-	 */
-	public static final byte TEXT_ALIGN_LEFT = HORIZONTAL_ALIGN_LEFT;
-	/**
-	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_CENTER}.
-	 */
-	public static final byte TEXT_ALIGN_CENTER = HORIZONTAL_ALIGN_CENTER;
-	/**
-	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_RIGHT}.
-	 */
-	public static final byte TEXT_ALIGN_RIGHT = HORIZONTAL_ALIGN_RIGHT;
-	/**
-	 * @deprecated Replaced by {@link JRAlignment#HORIZONTAL_ALIGN_JUSTIFIED}.
-	 */
-	public static final byte TEXT_ALIGN_JUSTIFIED = HORIZONTAL_ALIGN_JUSTIFIED;
-
-	/**
-	 * @deprecated Replaced by {@link RotationEnum#NONE}.
-	 */
-	public static final byte ROTATION_NONE = 0;
-
-	/**
-	 * @deprecated Replaced by {@link RotationEnum#LEFT}.
-	 */
-	public static final byte ROTATION_LEFT = 1;
-
-	/**
-	 * @deprecated Replaced by {@link RotationEnum#RIGHT}.
-	 */
-	public static final byte ROTATION_RIGHT = 2;
-
-	/**
-	 * @deprecated Replaced by {@link RotationEnum#UPSIDE_DOWN}.
-	 */
-	public static final byte ROTATION_UPSIDE_DOWN = 3;
-
-	/**
-	 * @deprecated Replaced by {@link LineSpacingEnum#SINGLE}.
-	 */
-	public static final byte LINE_SPACING_SINGLE = 0;
-
-	/**
-	 * @deprecated Replaced by {@link LineSpacingEnum#ONE_AND_HALF}.
-	 */
-	public static final byte LINE_SPACING_1_1_2 = 1;
-
-	/**
-	 * @deprecated Replaced by {@link LineSpacingEnum#DOUBLE}.
-	 */
-	public static final byte LINE_SPACING_DOUBLE = 2;
-
-
-	/**
-	 * Gets the text horizontal alignment.
-	 * @return a value representing one of the horizontal alignment constants in {@link JRAlignment}
-	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
-	 */
-	public byte getTextAlignment();
-
-	/**
-	 * Sets the text horizontal alignment.
-	 * @param horizontalAlignment a value representing one of the horizontal alignment constants in {@link JRAlignment}
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-
-	/**
-	 * Specifies whether the text can contain style tags.
-	 * @deprecated Replaced by {@link #setMarkup(String)}.
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}.
-	 */
-	public void setStyledText(Boolean isStyledText);
-
 	
 }

@@ -53,16 +53,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	public void setRenderer(JRRenderable renderer);
 		
 	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage);
-	
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage);
-	
-	/**
 	 * 
 	 */
 	public void setScaleImage(ScaleImageEnum scaleImage);
@@ -86,16 +76,6 @@ public interface JRPrintImage extends JRPrintGraphicElement, JRPrintAnchor, JRPr
 	 *
 	 */
 	public void setLazy(boolean isLazy);
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}
-	 */
-	public byte getOnErrorType();
-
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}
-	 */
-	public void setOnErrorType(byte onErrorType);
 
 	/**
 	 * 

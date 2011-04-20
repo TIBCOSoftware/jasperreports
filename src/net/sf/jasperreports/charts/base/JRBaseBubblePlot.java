@@ -310,20 +310,6 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getScaleTypeValue()}
-	 */
-	public int getScaleType(){
-		return getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS.getValue() : getScaleTypeValue().getValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getScaleTypeValue()}
-	 */
-	public Integer getScaleTypeInteger(){
-		return getScaleTypeValue() == null ? null : Integer.valueOf(getScaleTypeValue().getValue());
-	}
-	
-	/**
 	 * 
 	 */
 	public ScaleTypeEnum getScaleTypeValue(){
@@ -356,20 +342,6 @@ public class JRBaseBubblePlot extends JRBaseChartPlot implements JRBubblePlot {
 	 */
 	public JRExpression getRangeAxisMaxValueExpression(){
 		return rangeAxisMaxValueExpression;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
-	 */
-	public void setScaleType( int scaleType ){
-		setScaleType(ScaleTypeEnum.getByValue((byte)scaleType));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}
-	 */
-	public void setScaleType( Integer scaleType ){
-		setScaleType(ScaleTypeEnum.getByValue(scaleType));
 	}
 
 	/**

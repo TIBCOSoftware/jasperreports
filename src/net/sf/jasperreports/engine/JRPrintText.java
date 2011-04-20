@@ -42,15 +42,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 */
 	public static final short[] ZERO_LINE_BREAK_OFFSETS = new short[0];
 
-	/**
-	 * @deprecated Replaced by {@link RunDirectionEnum#LTR}.
-	 */
-	public static final byte RUN_DIRECTION_LTR = 0;
-	/**
-	 * @deprecated Replaced by {@link RunDirectionEnum#RTL}.
-	 */
-	public static final byte RUN_DIRECTION_RTL = 1;
-
 	
 	/**
 	 * Returns the possibly truncated (when {@link #getTextTruncateIndex()} is not null) text of this object.
@@ -164,31 +155,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setLeadingOffset(float leadingOffset);
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
-	 */
-	public byte getTextAlignment();
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
-	 */
-	public void setTextAlignment(byte horizontalAlignment);
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation();
-	
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation);
-	
-	/**
 	 * Gets the text own rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
@@ -200,16 +166,6 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 */
 	public void setRotation(RotationEnum rotationEnum);
 	
-	/**
-	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
-	 */
-	public byte getRunDirection();
-		
-	/**
-	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
-	 */
-	public void setRunDirection(byte rotation);
-		
 	/**
 	 * Gets the text run direction.
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}
@@ -235,37 +191,12 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
 	 */
-	public Byte getOwnLineSpacing();
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing);
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
 	public LineSpacingEnum getOwnLineSpacingValue();
 		
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing);
-		
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(boolean isStyledText);
-		
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(Boolean isStyledText);
 		
 	/**
 	 *

@@ -61,14 +61,6 @@ public abstract class JRFillCrosstabGroup implements JRCrosstabGroup
 		return parentGroup.getName();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
-	 */
-	public byte getTotalPosition()
-	{
-		return getTotalPositionValue().getValue();
-	}
-
 	public CrosstabTotalPositionEnum getTotalPositionValue()
 	{
 		return parentGroup.getTotalPositionValue();

@@ -42,15 +42,6 @@ public class JRFillCrosstabColumnGroup extends JRFillCrosstabGroup implements JR
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}.
-	 */
-	public byte getPosition()
-	{
-		return getPositionValue().getValue();
-	}
-
-
 	public CrosstabColumnPositionEnum getPositionValue()
 	{
 		return ((JRCrosstabColumnGroup) parentGroup).getPositionValue();

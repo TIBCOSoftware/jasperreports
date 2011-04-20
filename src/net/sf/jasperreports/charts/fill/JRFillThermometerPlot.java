@@ -75,22 +75,6 @@ public class JRFillThermometerPlot extends JRFillChartPlot implements JRThermome
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getValueLocationValue()}
-	 */
-	public byte getValueLocation()
-	{
-		return getValueLocationValue() == null ? ValueLocationEnum.BULB.getValue() : getValueLocationValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getValueLocationValue()}
-	 */
-	public Byte getValueLocationByte()
-	{
-		return getValueLocationValue() == null ? null : getValueLocationValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public ValueLocationEnum getValueLocationValue()

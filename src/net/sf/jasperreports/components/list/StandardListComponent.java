@@ -116,14 +116,6 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
-	 */
-	public Byte getPrintOrder()
-	{
-		return getPrintOrderValue().getValueByte();
-	}
-
-	/**
 	 * 
 	 */
 	public PrintOrderEnum getPrintOrderValue()
@@ -131,22 +123,6 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 		return printOrderValue;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setPrintOrderValue(PrintOrderEnum)}.
-	 */
-	public void setPrintOrder(Byte printOrder)
-	{
-		setPrintOrderValue(PrintOrderEnum.getByValue(printOrder));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPrintOrderValue(PrintOrderEnum)}.
-	 */
-	public void setPrintOrder(byte printOrder)
-	{
-		setPrintOrderValue(PrintOrderEnum.getByValue(printOrder));
-	}
-	
 	/**
 	 * Sets the list cell print order.
 	 * 

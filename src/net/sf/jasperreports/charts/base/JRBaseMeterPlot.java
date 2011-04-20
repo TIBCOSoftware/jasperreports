@@ -197,22 +197,6 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public byte getShape()
-	{
-		return getShapeValue() == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public Byte getShapeByte()
-	{
-		return getShapeValue() == null ? null : getShapeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public MeterShapeEnum getShapeValue()
@@ -225,14 +209,6 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 */
 	public List getIntervals(){
 		return intervals;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
-	 */
-	public int getMeterAngle()
-	{
-		return meterAngleInteger == null ? 180 : meterAngleInteger.intValue();
 	}
 
 	/**
@@ -249,14 +225,6 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	public String getUnits()
 	{
 		return units;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
-	 */
-	public double getTickInterval()
-	{
-		return tickIntervalDouble == null ? 10.0 : tickIntervalDouble.doubleValue();
 	}
 
 	/**

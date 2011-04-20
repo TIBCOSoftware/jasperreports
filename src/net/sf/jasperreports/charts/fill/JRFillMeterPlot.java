@@ -66,22 +66,6 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public byte getShape()
-	{
-		return getShapeValue() == null ? MeterShapeEnum.PIE.getValue() : getShapeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getShapeValue()}
-	 */
-	public Byte getShapeByte()
-	{
-		return getShapeValue() == null ? null : getShapeValue().getValueByte();
-	}
-
-	/**
 	 * 
 	 */
 	public MeterShapeEnum getShapeValue()
@@ -94,14 +78,6 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	 */
 	public List getIntervals(){
 		return ((JRMeterPlot)parent).getIntervals();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMeterAngleInteger()}
-	 */
-	public int getMeterAngle()
-	{
-		return ((JRMeterPlot)parent).getMeterAngle();
 	}
 
 	/**
@@ -118,14 +94,6 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	public String getUnits()
 	{
 		return ((JRMeterPlot)parent).getUnits();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getTickIntervalDouble()}
-	 */
-	public double getTickInterval()
-	{
-		return ((JRMeterPlot)parent).getTickInterval();
 	}
 
 	/**

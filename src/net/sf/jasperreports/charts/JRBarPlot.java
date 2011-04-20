@@ -65,30 +65,15 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	public JRExpression getRangeAxisMaxValueExpression();
 
 	/**
-	 * @deprecated Replaced by {@link #getShowTickMarks()}  
-	 */
-	public boolean isShowTickMarks();
-
-	/**
 	 * 
 	 */
 	public Boolean getShowTickMarks();
 
 	/**
-	 * @deprecated Replaced by {@link #setShowTickMarks(Boolean)}  
-	 */
-	public void setShowTickMarks(boolean isShowTickMarks);
-		
-	/**
 	 *
 	 */
 	public void setShowTickMarks(Boolean isShowTickMarks);
 		
-	/**
-	 * @deprecated Replaced by {@link #getShowTickLabels()}
-	 */
-	public boolean isShowTickLabels();
-	
 	/**
 	 * 
 	 */
@@ -100,30 +85,15 @@ public interface JRBarPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxi
 	public JRItemLabel getItemLabel();
 	
 	/**
-	 * @deprecated Replaced by {@link #setShowTickLabels(Boolean)}
-	 */
-	public void setShowTickLabels(boolean isShowTickLabels);
-
-	/**
 	 *
 	 */
 	public void setShowTickLabels(Boolean isShowTickLabels);
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLabels()}
-	 */
-	public boolean isShowLabels();
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowLabels();
 	
-	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}
-	 */
-	public void setShowLabels( boolean isShowLabels );
-
 	/**
 	 *
 	 */

@@ -331,14 +331,6 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowVolume()}
-	 */
-	public boolean isShowVolume()
-	{
-		return ((JRCandlestickPlot)parent).isShowVolume();
-	}
-	
-	/**
 	 *
 	 */
 	public Boolean getShowVolume()

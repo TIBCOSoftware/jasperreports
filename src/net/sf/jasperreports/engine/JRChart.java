@@ -54,40 +54,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	 */
 	public static final String PROPERTY_CHART_THEME = JRProperties.PROPERTY_PREFIX + "chart.theme";
 
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#TOP}.
-	 */
-	public static final byte EDGE_TOP = 1;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM}.
-	 */
-	public static final byte EDGE_BOTTOM = 2;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#LEFT}.
-	 */
-	public static final byte EDGE_LEFT = 3;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#RIGHT}.
-	 */
-	public static final byte EDGE_RIGHT = 4;
-
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#TOP}.
-	 */
-	public static final byte TITLE_POSITION_TOP = EDGE_TOP;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#BOTTOM}.
-	 */
-	public static final byte TITLE_POSITION_BOTTOM = EDGE_BOTTOM;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#LEFT}.
-	 */
-	public static final byte TITLE_POSITION_LEFT = EDGE_LEFT;
-	/**
-	 * @deprecated Replaced by {@link EdgeEnum#RIGHT}.
-	 */
-	public static final byte TITLE_POSITION_RIGHT = EDGE_RIGHT;
-
 
 	/**
 	 *
@@ -122,29 +88,14 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	public static final String RENDER_TYPE_SVG = "svg";
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLegend()}
-	 */
-	public boolean isShowLegend();
-
-	/**
 	 * 
 	 */
 	public Boolean getShowLegend();
 
 	/**
-	 * @deprecated Replaced by {@link #setShowLegend(Boolean)}
-	 */
-	public void setShowLegend(boolean isShowLegend);
-
-	/**
 	 *
 	 */
 	public void setShowLegend(Boolean isShowLegend);
-
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime();
 
 	/**
 	 * Returns the evaluation time for this chart.
@@ -167,29 +118,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	 */
 	public JRFont getTitleFont();
 
-
-	/**
-	 * @deprecated Replaced by {@link #getTitlePositionValue()}
-	 */
-	public byte getTitlePosition();
-
-
-	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
-	 */
-	public void setTitlePosition(byte titlePosition);
-	
-	/**
-	 * @deprecated Replaced by {@link #getTitlePositionValue()}
-	 */
-	public Byte getTitlePositionByte();
-
-
-	/**
-	 * @deprecated Replaced by {@link #setTitlePosition(EdgeEnum)}
-	 */
-	public void setTitlePosition(Byte titlePosition);
-	
 
 	/**
 	 * Gets the title position relative to the chart.
@@ -283,28 +211,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	 * 
 	 */
 	public JRFont getLegendFont();
-	
-	/**
-	 * @deprecated Replaced by {@link #getLegendPositionValue()}
-	 */
-	public byte getLegendPosition();
-
-
-	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
-	 */
-	public void setLegendPosition(byte legendPosition);
-	
-	/**
-	 * @deprecated Replaced by {@link #getLegendPositionValue()}
-	 */
-	public Byte getLegendPositionByte();
-
-
-	/**
-	 * @deprecated Replaced by {@link #setLegendPosition(EdgeEnum)}
-	 */
-	public void setLegendPosition(Byte legendPosition);
 	
 
 	/**

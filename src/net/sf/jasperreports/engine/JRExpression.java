@@ -35,65 +35,6 @@ public interface JRExpression extends JRCloneable
 
 
 	/**
-	 * A constant specifying that an expression should be evaluated at the exact moment in the filling process
-	 * when it is encountered.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#NOW}.
-	 */
-	public static final byte EVALUATION_TIME_NOW = 1;
-
-
-	/**
-	 * A constant specifying that an expression should be evaluated at the end of the filling process.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#REPORT}.
-	 */
-	public static final byte EVALUATION_TIME_REPORT = 2;
-
-
-	/**
-	 * A constant specifying that an expression should be evaluated after each page is filled.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#PAGE}.
-	 */
-	public static final byte EVALUATION_TIME_PAGE = 3;
-
-
-	/**
-	 * A constant specifying that an expression should be evaluated after each column is filled.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#COLUMN}.
-	 */
-	public static final byte EVALUATION_TIME_COLUMN = 4;
-
-
-	/**
-	 * A constant specifying that an expression should be evaluated after each group break.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#GROUP}.
-	 */
-	public static final byte EVALUATION_TIME_GROUP = 5;
-
-
-	/**
-	 * The element will be evaluated at band end.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#BAND}.
-	 */
-	public static final byte EVALUATION_TIME_BAND = 6;
-
-	
-	/**
-	 * Evaluation time indicating that each variable participating in the expression
-	 * should be evaluated at a time decided by the engine.
-	 * <p/>
-	 * Variables will be evaluated at a time corresponding to their reset type.
-	 * Fields are evaluated "now", i.e. at the time the band the element lies on gets filled.
-	 * <p/>
-	 * This evaluation type should be used when report elements having expressions that combine 
-	 * values evaluated at different times are required (e.g. percentage out of a total).
-	 * <p/>
-	 * NB: avoid using this evaluation type when other types suffice as it can lead
-	 * to performance loss.
-	 * @deprecated Replaced by {@link EvaluationTimeEnum#AUTO}.
-	 */
-	public static final byte EVALUATION_TIME_AUTO = 7;
-
-	/**
 	 *
 	 */
 	public static final byte EVALUATION_OLD = 1;

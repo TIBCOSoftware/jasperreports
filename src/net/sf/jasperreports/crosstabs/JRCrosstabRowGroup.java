@@ -45,12 +45,6 @@ public interface JRCrosstabRowGroup extends JRCrosstabGroup
 	
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}.
-	 */
-	public byte getPosition();
-	
-
-	/**
 	 * Returns the position of the header contents for header stretching.
 	 * <p>
 	 * The row group headers stretch vertically when there are multiple sub group entries.

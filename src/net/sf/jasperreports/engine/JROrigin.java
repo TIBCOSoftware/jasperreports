@@ -42,59 +42,6 @@ public class JROrigin implements JRCloneable, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN}.
-	 */
-	public static final byte UNKNOWN = 0;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#BACKGROUND}.
-	 */
-	public static final byte BACKGROUND = 1;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#UNKNOWN}.
-	 */
-	public static final byte TITLE = 2;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_HEADER}.
-	 */
-	public static final byte PAGE_HEADER = 3;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_HEADER}.
-	 */
-	public static final byte COLUMN_HEADER = 4;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_HEADER}.
-	 */
-	public static final byte GROUP_HEADER = 5;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#DETAIL}.
-	 */
-	public static final byte DETAIL = 6;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#GROUP_FOOTER}.
-	 */
-	public static final byte GROUP_FOOTER = 7;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#COLUMN_FOOTER}.
-	 */
-	public static final byte COLUMN_FOOTER = 8;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#PAGE_FOOTER}.
-	 */
-	public static final byte PAGE_FOOTER = 9;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#LAST_PAGE_FOOTER}.
-	 */
-	public static final byte LAST_PAGE_FOOTER = 10;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#SUMMARY}.
-	 */
-	public static final byte SUMMARY = 11;
-	/**
-	 * @deprecated Replaced by {@link BandTypeEnum#NO_DATA}.
-	 */
-	public static final byte NO_DATA = 12;
-
 	private BandTypeEnum bandTypeValue = BandTypeEnum.UNKNOWN;
 	private String groupName;
 	private String reportName;
@@ -137,39 +84,6 @@ public class JROrigin implements JRCloneable, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JROrigin(BandTypeEnum)}.
-	 */
-	public JROrigin(
-		byte bandType
-		)
-	{
-		this(null, null, BandTypeEnum.getByValue(bandType));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JROrigin(String, BandTypeEnum)}.
-	 */
-	public JROrigin(
-		String reportName,
-		byte bandType
-		)
-	{
-		this(reportName, null, BandTypeEnum.getByValue(bandType));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #JROrigin(String, String, BandTypeEnum)}.
-	 */
-	public JROrigin(
-		String reportName,
-		String groupName,
-		byte bandType
-		)
-	{
-		this(reportName, groupName, BandTypeEnum.getByValue(bandType));
-	}
-
-	/**
 	 * 
 	 */
 	public String getReportName()
@@ -185,14 +99,6 @@ public class JROrigin implements JRCloneable, Serializable
 		return groupName;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getBandTypeValue()}. 
-	 */
-	public byte getBandType()
-	{
-		return getBandTypeValue().getValue();
-	}
-	
 	/**
 	 * 
 	 */

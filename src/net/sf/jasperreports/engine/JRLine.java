@@ -36,27 +36,6 @@ public interface JRLine extends JRGraphicElement
 
 
 	/**
-	 * @deprecated Replaced by {@link LineDirectionEnum#TOP_DOWN}.
-	 */
-	public static final byte DIRECTION_TOP_DOWN = 1;
-
-	/**
-	 * @deprecated Replaced by {@link LineDirectionEnum#BOTTOM_UP}.
-	 */
-	public static final byte DIRECTION_BOTTOM_UP = 2;
-
-
-	/**
-	 * @deprecated Replaced by {@link #getDirectionValue()}.
-	 */
-	public byte getDirection();
-
-	/**
-	 * @deprecated Replaced by {@link #setDirection(LineDirectionEnum)}.
-	 */
-	public void setDirection(byte direction);
-
-	/**
 	 * Gets the line direction.
 	 * @return a value representing one of the line direction constants in {@link LineDirectionEnum}
 	 */

@@ -78,22 +78,6 @@ public class JRFillChartAxis implements JRChartAxis
 		return parent.getChart();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public byte getPosition()
-	{
-		return getPositionValue() == null ? AxisPositionEnum.LEFT_OR_TOP.getValue() : getPositionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getPositionValue()}
-	 */
-	public Byte getPositionByte()
-	{
-		return getPositionValue() == null ? null : getPositionValue().getValueByte();
-	}
-
 	public AxisPositionEnum getPositionValue()
 	{
 		return parent.getPositionValue();

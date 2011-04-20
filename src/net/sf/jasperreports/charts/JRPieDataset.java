@@ -61,26 +61,6 @@ public interface JRPieDataset extends JRChartDataset
 	public JRPieSeries[] getSeries();
 
 	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getKeyExpression();
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getValueExpression();
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getLabelExpression();
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRHyperlink getSectionHyperlink();
-
-	/**
 	 * 
 	 */
 	public JRExpression getOtherKeyExpression();

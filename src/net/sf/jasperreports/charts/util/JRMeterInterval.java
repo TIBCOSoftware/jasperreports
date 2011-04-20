@@ -157,14 +157,6 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getAlphaDouble()}
-	 */
-	public double getAlpha()
-	{
-		return alphaDouble == null ? DEFAULT_TRANSPARENCY : alphaDouble.doubleValue();
-	}
-
-	/**
 	 * Returns the transparency of the interval color, with 0.0 being fully
 	 * transparent and 1.0 being fully opaque.
 	 *
@@ -173,14 +165,6 @@ public class JRMeterInterval implements JRCloneable, Serializable
 	public Double getAlphaDouble()
 	{
 		return alphaDouble;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setAlpha(Double)}
-	 */
-	public void setAlpha(double alpha)
-	{
-		setAlpha(new Double(alpha));
 	}
 
 	/**

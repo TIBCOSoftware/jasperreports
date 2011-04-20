@@ -53,11 +53,6 @@ public interface BarbecueComponent extends ContextAwareComponent, JRCloneable
 	
 	Integer getBarHeight();
 	
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	byte getEvaluationTime();
-	
 	EvaluationTimeEnum getEvaluationTimeValue();
 	
 	String getEvaluationGroup();

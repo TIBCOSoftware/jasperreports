@@ -251,23 +251,10 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes(){
-		return ((JRScatterPlot)parent).isShowShapes();
-	}
-	
-	/**
 	 *
 	 */
 	public Boolean getShowShapes(){
 		return ((JRScatterPlot)parent).getShowShapes();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
-	 */
-	public void setShowShapes( boolean value ){
 	}
 	
 	/**
@@ -277,23 +264,10 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines(){
-		return ((JRScatterPlot)parent).isShowLines();
-	}
-	
-	/**
 	 *
 	 */
 	public Boolean getShowLines(){
 		return ((JRScatterPlot)parent).getShowLines();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
-	 */
-	public void setShowLines( boolean value ){
 	}
 	
 	/**

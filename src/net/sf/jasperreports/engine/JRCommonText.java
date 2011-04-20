@@ -43,26 +43,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	public static final String MARKUP_RTF = "rtf";
 
 	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	byte getRotation();
-	
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation();
-	
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation);
-		
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation);
-
-	/**
 	 * Gets the text rotation.
 	 * @return a value representing one of the text rotation constants in {@link RotationEnum}
 	 */
@@ -83,26 +63,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	byte getLineSpacing();
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing();
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing);
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing);
-	
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue();
 	
 	/**
@@ -114,17 +74,6 @@ public interface JRCommonText extends JRCommonElement, JRBoxContainer, JRParagra
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacingEnum);
-	
-	/**
-	 * Returns true if the text can contain style tags.
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	boolean isStyledText();
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText();
 	
 	/**
 	 * Returns the text markup.

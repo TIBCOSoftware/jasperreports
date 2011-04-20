@@ -96,14 +96,6 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 		return expression;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}.
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
-	}
-
 	public CalculationEnum getCalculationValue()
 	{
 		return calculationValue;
@@ -112,14 +104,6 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	public String getIncrementerFactoryClassName()
 	{
 		return incrementerFactoryClassName;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getPercentageType()}.
-	 */
-	public byte getPercentageOfType()
-	{
-		return getPercentageType().getValue();
 	}
 
 	public CrosstabPercentageEnum getPercentageType()

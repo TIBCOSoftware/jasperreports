@@ -264,22 +264,6 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOrientationValue()}.
-	 */
-	public byte getOrientation()
-	{
-		return getOrientationValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
-	 */
-	public void setOrientation(byte orientation)
-	{
-		this.orientation = orientation;
-	}
-
-	/**
 	 * Returns the page orientation.
 	 * @see OrientationEnum PORTRAIT,
 	 * @see OrientationEnum LANDSCAPE

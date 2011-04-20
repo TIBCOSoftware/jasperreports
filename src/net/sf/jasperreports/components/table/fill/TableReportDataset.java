@@ -164,12 +164,6 @@ public class TableReportDataset implements JRDataset
 		return tableSubdataset.getVariables();
 	}
 
-	@Deprecated
-	public byte getWhenResourceMissingType()
-	{
-		return tableSubdataset.getWhenResourceMissingType();
-	}
-
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return tableSubdataset.getWhenResourceMissingTypeValue();

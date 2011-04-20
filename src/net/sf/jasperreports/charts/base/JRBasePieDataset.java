@@ -146,39 +146,6 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getKeyExpression()
-	{
-		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getKeyExpression() : null;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getValueExpression()
-	{
-		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getValueExpression() : null;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRExpression getLabelExpression()
-	{
-		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getLabelExpression() : null;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getSeries()}.
-	 */
-	public JRHyperlink getSectionHyperlink()
-	{
-		return pieSeries != null && pieSeries.length > 0 ? pieSeries[0].getSectionHyperlink() : null;
-	}
-
-
-	/**
 	 *
 	 */
 	public JRExpression getOtherKeyExpression()

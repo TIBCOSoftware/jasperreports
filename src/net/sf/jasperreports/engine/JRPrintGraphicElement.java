@@ -34,16 +34,6 @@ public interface JRPrintGraphicElement extends JRPrintElement, JRCommonGraphicEl
 {
 
 	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(byte fill);
-	
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}
-	 */
-	public void setFill(Byte fill);
-		
-	/**
 	 * Sets the fill type used for this element.
 	 * @param fill one of the pen constants in {@link FillEnum}.
 	 */

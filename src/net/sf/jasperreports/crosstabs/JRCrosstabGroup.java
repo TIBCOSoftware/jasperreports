@@ -45,12 +45,6 @@ public interface JRCrosstabGroup extends JRCloneable
 	public String getName();
 	
 	/**
-	 * @deprecated Replaced by {@link #getTotalPositionValue()}.
-	 */
-	public byte getTotalPosition();
-	
-	
-	/**
 	 * Returns the position of the total row/column for this group.
 	 * <p>
 	 * A group can have a total row/column summing the values for all the

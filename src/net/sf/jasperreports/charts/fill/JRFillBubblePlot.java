@@ -253,43 +253,11 @@ public class JRFillBubblePlot extends JRFillChartPlot implements JRBubblePlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getScaleTypeValue()}
-	 */
-	public int getScaleType()
-	{
-		return getScaleTypeValue() == null ? ScaleTypeEnum.ON_RANGE_AXIS.getValue() : getScaleTypeValue().getValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getScaleTypeValue()}
-	 */
-	public Integer getScaleTypeInteger()
-	{
-		return getScaleTypeValue() == null ? null : Integer.valueOf(getScaleTypeValue().getValue());
-	}
-	
-	/**
 	 * 
 	 */
 	public ScaleTypeEnum getScaleTypeValue()
 	{
 		return ((JRBubblePlot)parent).getScaleTypeValue();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}.
-	 */
-	public void setScaleType( int scaleType )
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setScaleType(ScaleTypeEnum)}.
-	 */
-	public void setScaleType( Integer scaleType )
-	{
-		throw new UnsupportedOperationException();
 	}
 	
 	/**

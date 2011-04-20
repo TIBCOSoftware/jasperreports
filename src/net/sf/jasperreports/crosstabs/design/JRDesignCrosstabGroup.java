@@ -87,15 +87,6 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #setTotalPosition(CrosstabTotalPositionEnum)}.
-	 */
-	public void setTotalPosition(byte totalPosition)
-	{
-		setTotalPosition(CrosstabTotalPositionEnum.getByValue(totalPosition));
-	}
-	
-	
-	/**
 	 * Sets the position of the total row/column.
 	 * 
 	 * @param totalPositionValue the position of the total row/column

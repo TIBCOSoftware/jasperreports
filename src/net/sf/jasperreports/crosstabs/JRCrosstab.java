@@ -55,23 +55,6 @@ public interface JRCrosstab extends JRElement
 	public static final String VARIABLE_COLUMN_COUNT = "COLUMN_COUNT";
 
 	/**
-	 * Crosstab left to right run direction.
-	 * @deprecated Replaced by {@link RunDirectionEnum#LTR}.
-	 */
-	public static final byte RUN_DIRECTION_LTR = JRPrintText.RUN_DIRECTION_LTR;
-
-	/**
-	 * Crosstab right to left run direction.
-	 * 
-	 * <p>
-	 * When a crosstab is filled from right to left, the crosstab contents will start
-	 * from the right extremity of the crosstab element area and grow towards the left.
-	 * </p>
-	 * @deprecated Replaced by {@link RunDirectionEnum#RTL}.
-	 */
-	public static final byte RUN_DIRECTION_RTL = JRPrintText.RUN_DIRECTION_RTL;
-
-	/**
 	 * A property that provides a default value for the ignore width crosstab flag.
 	 * 
 	 * <p>
@@ -284,17 +267,6 @@ public interface JRCrosstab extends JRElement
 	public JRVariable[] getVariables();
 	
 	
-	/**
-	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
-	 */
-	public byte getRunDirection();
-	
-	
-	/**
-	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
-	 */
-	public void setRunDirection(byte direction);
-
 	/**
 	 * Retrieves the run direction of this crosstab
 	 * @return a value representing one of the run direction constants in {@link RunDirectionEnum}

@@ -103,24 +103,10 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 
 
 	/**
-	 * @deprecated Replaced by {@link #getCircular()}
-	 */
-	public boolean isCircular() {
-		return circular == null ? true : circular.booleanValue();
-	}
-
-	/**
 	 * @return the circular
 	 */
 	public Boolean getCircular() {
 		return circular;
-	}
-
-	/**
-	 * @param isCircular the isCircular to set
-	 */
-	public void setCircular(boolean isCircular) {
-		setCircular(Boolean.valueOf(isCircular));
 	}
 
 	/**

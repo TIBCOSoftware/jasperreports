@@ -49,11 +49,6 @@ public interface JRSubreportReturnValue extends JRCloneable
 	public String getToVariable();
 
 	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation();
-	
-	/**
 	 * Returns the calculation type.
 	 * <p>
 	 * When copying the value from the subreport, a formula can be applied such that sum,

@@ -319,31 +319,6 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines(){
-		return ((JRTimeSeriesPlot)parent).isShowLines();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowLines(Boolean)}
-	 */
-	public void setShowLines(){
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes(){
-		return ((JRTimeSeriesPlot)parent).isShowShapes();
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowShapes(Boolean)}
-	 */
-	public void setShowShapes(){
-	}
-	/**
 	 * 
 	 */
 	public Boolean getShowLines(){

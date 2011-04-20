@@ -48,16 +48,6 @@ public interface JRCommonElement extends JRStyleContainer
 	public String getKey();
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public byte getMode();
-	
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode();
-	
-	/**
 	 * Returns the element transparency mode.
 	 * The default value depends on the type of the report element. Graphic elements like rectangles and lines are
 	 * opaque by default, but the images are transparent. Both static texts and text fields are transparent
@@ -67,16 +57,6 @@ public interface JRCommonElement extends JRStyleContainer
 	
 	public ModeEnum getOwnModeValue();
 
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(byte mode);
-	
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(Byte mode);
-	
 	/**
 	 * Sets the element transparency mode.
 	 */

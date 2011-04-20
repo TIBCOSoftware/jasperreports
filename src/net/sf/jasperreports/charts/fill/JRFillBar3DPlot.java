@@ -342,13 +342,6 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getXOffsetDouble()}
-	 */
-	public double getXOffset(){
-		return ((JRBar3DPlot)parent).getXOffset();
-	}
-	
-	/**
 	 *
 	 */
 	public Double getXOffsetDouble(){
@@ -356,22 +349,9 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setXOffset(Double)}.
-	 */
-	public void setXOffset( double xOffset ){
-	}
-	
-	/**
 	 *
 	 */
 	public void setXOffset( Double xOffset ){
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getYOffsetDouble()}
-	 */
-	public double getYOffset(){
-		return ((JRBar3DPlot)parent).getYOffset();
 	}
 	
 	/**
@@ -382,22 +362,9 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #setYOffset(Double)}.
-	 */
-	public void setYOffset( double yOffset ){
-	}
-	
-	/**
 	 *
 	 */
 	public void setYOffset( Double yOffset ){
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getShowLabels()}
-	 */
-	public boolean isShowLabels(){
-		return ((JRBar3DPlot)parent).isShowLabels();
 	}
 	
 	/**
@@ -414,16 +381,11 @@ public class JRFillBar3DPlot extends JRFillChartPlot implements JRBar3DPlot
 	{
 		return ((JRBar3DPlot)parent).getItemLabel();
 	}
+
 	/**
 	 *
 	 */
 	public void setItemLabel( JRItemLabel itemLabel ){
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setShowLabels(Boolean)}.
-	 */
-	public void setShowLabels( boolean isShowLabels ){
 	}
 	
 	/**

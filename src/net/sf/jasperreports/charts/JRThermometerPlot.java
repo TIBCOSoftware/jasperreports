@@ -40,26 +40,6 @@ import net.sf.jasperreports.engine.JRChartPlot;
 public interface JRThermometerPlot extends JRChartPlot
 {
 	/**
-	 * @deprecated Replaced by {@link ValueLocationEnum#NONE}
-	 */
-	public static final byte LOCATION_NONE = 0;
-
-	/**
-	 * @deprecated Replaced by {@link ValueLocationEnum#LEFT}
-	 */
-	public static final byte LOCATION_LEFT = 1;
-
-	/**
-	 * @deprecated Replaced by {@link ValueLocationEnum#RIGHT}
-	 */
-	public static final byte LOCATION_RIGHT = 2;
-
-	/**
-	 * @deprecated Replaced by {@link ValueLocationEnum#BULB}
-	 */
-	public static final byte LOCATION_BULB = 3;
-
-	/**
 	 * Returns the range of values displayed by this thermometer.  This range
 	 * corresponds with the scale on the thermometer.
 	 *
@@ -78,16 +58,6 @@ public interface JRThermometerPlot extends JRChartPlot
 	 * @deprecated No longer used.
 	 */
 	public boolean isShowValueLines();
-
-	/**
-	 * @deprecated Replaced by {@link #getValueLocationValue()}
-	 */
-	public byte getValueLocation();
-
-	/**
-	 * @deprecated Replaced by {@link #getValueLocationValue()}
-	 */
-	public Byte getValueLocationByte();
 
 	/**
 	 * Returns the location where the value of the thermometer will be shown.  The

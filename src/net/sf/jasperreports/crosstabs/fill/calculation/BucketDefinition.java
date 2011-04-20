@@ -47,36 +47,6 @@ public class BucketDefinition
 	private static final Log log = LogFactory.getLog(BucketDefinition.class);
 	
 	/**
-	 * Ascending order constant.
-	 * @deprecated Replaced by {@link SortOrderEnum#ASCENDING}.
-	 */
-	public static final byte ORDER_ASCENDING = 1;
-	
-	/**
-	 * Descending order constant.
-	 * @deprecated Replaced by {@link SortOrderEnum#DESCENDING}.
-	 */
-	public static final byte ORDER_DESCENDING = 2;
-	
-	/**
-	 * Constant indicating that total are not required for this bucket.
-	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#NONE}.
-	 */
-	public static final byte TOTAL_POSITION_NONE = 0;
-	
-	/**
-	 * Constants indicating that totals are to be positioned before the other buckets.
-	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#START}.
-	 */
-	public static final byte TOTAL_POSITION_START = 1;
-	
-	/**
-	 * Constants indicating that totals are to be positioned at the end of the other buckets.
-	 * @deprecated Replaced by {@link CrosstabTotalPositionEnum#END}.
-	 */
-	public static final byte TOTAL_POSITION_END = 2;
-	
-	/**
 	 * Value type used for non-null values.
 	 */
 	protected static final byte VALUE_TYPE_VALUE = 0;

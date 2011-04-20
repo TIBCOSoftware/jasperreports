@@ -24,7 +24,6 @@
 package net.sf.jasperreports.charts.fill;
 
 import net.sf.jasperreports.charts.JRItemLabel;
-import net.sf.jasperreports.charts.JRPie3DPlot;
 import net.sf.jasperreports.charts.JRPiePlot;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -47,14 +46,6 @@ public class JRFillPiePlot extends JRFillChartPlot implements JRPiePlot
 		)
 	{
 		super(piePlot, factory);
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #getCircular()}
-	 */
-	public boolean isCircular()
-	{
-		return ((JRPiePlot)parent).isCircular();
 	}
 	
 	/**

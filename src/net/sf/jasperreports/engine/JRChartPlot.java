@@ -78,36 +78,6 @@ public interface JRChartPlot extends JRCloneable
 	public void setOrientation(PlotOrientation orientation);
 
 	/**
-	 * @deprecated Replaced by {@link #getBackgroundAlphaFloat()}
-	 */
-	public float getBackgroundAlpha();
-	
-	/**
-	 * @deprecated Replaced by {@link #setBackgroundAlpha(Float)}
-	 */
-	public void setBackgroundAlpha(float backgroundAlpha);
-
-	/**
-	 * @deprecated Replaced by {@link #getForegroundAlphaFloat()}
-	 */
-	public float getForegroundAlpha();
-	
-	/**
-	 * @deprecated Replaced by {@link #setForegroundAlpha(Float)}
-	 */
-	public void setForegroundAlpha(float foregroundAlpha);
-
-	/**
-	 * @deprecated Replaced by {@link #getLabelRotationDouble()}
-	 */
-	public double getLabelRotation();
-	
-	/**
-	 * @deprecated Replaced by {@link #setLabelRotation(Double)}
-	 */
-	public void setLabelRotation(double labelRotation);
-	
-	/**
 	 * Gets the transparency factor for this plot background. The range is from 0 to 1, where 0 means transparent and 1
 	 * opaque. The default is 1.
 	 * @return a float value between 0 and 1.

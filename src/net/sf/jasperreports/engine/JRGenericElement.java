@@ -67,11 +67,6 @@ public interface JRGenericElement extends JRElement
 	JRGenericElementParameter[] getParameters();
 	
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	byte getEvaluationTime();
-	
-	/**
 	 * Returns the evaluation time of this element.
 	 * 
 	 * <p>

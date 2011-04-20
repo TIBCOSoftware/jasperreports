@@ -41,12 +41,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 public interface JRCrosstabBucket extends JRCloneable
 {
 	/**
-	 * @deprecated Replaced by {@link #getOrderValue()}.
-	 */
-	public byte getOrder();
-	
-	
-	/**
 	 * Returns the bucket sorting type.
 	 * <p>
 	 * The possible values are:

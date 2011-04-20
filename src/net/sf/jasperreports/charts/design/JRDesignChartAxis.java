@@ -63,22 +63,6 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setPosition(AxisPositionEnum)}
-	 */
-	public void setPosition(byte position)
-	{
-		setPosition(AxisPositionEnum.getByValue(position));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPosition(AxisPositionEnum)}
-	 */
-	public void setPosition(Byte position)
-	{
-		setPosition(AxisPositionEnum.getByValue(position));
-	}
-
-	/**
 	 * Sets the position of this axis' value line relative to the multiple
 	 * axis chart.
 	 *

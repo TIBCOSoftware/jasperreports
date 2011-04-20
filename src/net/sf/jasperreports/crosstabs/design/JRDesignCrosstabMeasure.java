@@ -76,14 +76,6 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 
 	
 	/**
-	 * @deprecated Replaced by {@link #setCalculation(CalculationEnum)}
-	 */
-	public void setCalculation(byte calculation)
-	{
-		setCalculation(CalculationEnum.getByValue(calculation));
-	}
-
-	/**
 	 * Sets the calculation type.
 	 * 
 	 * @param calculationValue the calculation type
@@ -139,15 +131,6 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		this.name = name;
 		designVariable.setName(name);
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link #setPercentageType(CrosstabPercentageEnum)}.
-	 */
-	public void setPercentageOfType(byte percentageOfType)
-	{
-		setPercentageType(CrosstabPercentageEnum.getByValue(percentageOfType));
 	}
 
 	

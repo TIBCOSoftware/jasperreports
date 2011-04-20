@@ -61,11 +61,6 @@ public interface ListComponent extends Component, JRCloneable
 	ListContents getContents();
 
 	/**
-	 * @deprecated Replaced by {@link #getPrintOrderValue()}.
-	 */
-	public Byte getPrintOrder();
-	
-	/**
 	 * Returns the print order of the list cells.
 	 * 
 	 * <p>

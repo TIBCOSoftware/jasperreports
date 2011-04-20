@@ -64,16 +64,6 @@ public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValue
 	public JRExpression getRangeAxisMaxValueExpression();
 
 	/**
-	 * @deprecated Replaced by {@link #getShowLines()}
-	 */
-	public boolean isShowLines();
-	
-	/**
-	 * @deprecated Replaced by {@link #getShowShapes()}
-	 */
-	public boolean isShowShapes();
-	
-	/**
 	 * 
 	 */
 	public Boolean getShowLines();

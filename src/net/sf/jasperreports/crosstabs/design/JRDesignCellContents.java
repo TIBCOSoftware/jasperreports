@@ -163,28 +163,11 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 		getEventSupport().firePropertyChange(PROPERTY_STYLE, old, this.style);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public Byte getMode()
-	{
-		return getModeValue() == null ? null : getModeValue().getValueByte();
-	}
-
 	public ModeEnum getModeValue()
 	{
 		return modeValue;
 	}
-
 	
-	/**
-	 * @deprecated Replaced by
-	 */
-	public void setMode(Byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
-	}
-
 	/**
 	 * Sets the cell transparency mode.
 	 * 
