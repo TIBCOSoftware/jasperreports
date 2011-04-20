@@ -142,15 +142,6 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 
 
 	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	public void setUsingCache(boolean isUsingCache)
-	{
-		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
-	}
-
-
-	/**
 	 *
 	 */
 	public JRExpression getParametersMapExpression()

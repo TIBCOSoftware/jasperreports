@@ -123,22 +123,6 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public byte getMode()
-	{
-		return getModeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode()
-	{
-		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public ModeEnum getModeValue()
@@ -152,22 +136,6 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	public ModeEnum getOwnModeValue()
 	{
 		return modeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(Byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
 	}
 
 	/**

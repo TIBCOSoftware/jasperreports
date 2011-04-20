@@ -1177,30 +1177,12 @@ public class JRFillDataset implements JRDataset
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #getWhenResourceMissingType()}.
-	 */
-	public byte getWhenResourceMissingType()
-	{
-		return getWhenResourceMissingTypeValue().getValue();
-	}
-
-
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()
 	{
 		return whenResourceMissingType;
 	}
 
 
-	/**
-	 * @deprecated Replaced by {@link #setWhenResourceMissingType(WhenResourceMissingTypeEnum)}.
-	 */
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
-	{
-		setWhenResourceMissingType(WhenResourceMissingTypeEnum.getByValue(whenResourceMissingType));
-	}
-
-	
 	public void setWhenResourceMissingType(WhenResourceMissingTypeEnum whenResourceMissingType)
 	{
 		this.whenResourceMissingType = whenResourceMissingType;

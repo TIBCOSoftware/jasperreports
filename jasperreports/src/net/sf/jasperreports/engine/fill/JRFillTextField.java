@@ -107,14 +107,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public EvaluationTimeEnum getEvaluationTimeValue()

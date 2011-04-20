@@ -145,14 +145,6 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}
-	 */
-	public byte getResetType()
-	{
-		return getResetTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public ResetTypeEnum getResetTypeValue()
@@ -161,27 +153,11 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}
-	 */
-	public byte getIncrementType()
-	{
-		return getIncrementTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public IncrementTypeEnum getIncrementTypeValue()
 	{
 		return parent.getIncrementTypeValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getCalculationValue()}
-	 */
-	public byte getCalculation()
-	{
-		return getCalculationValue().getValue();
 	}
 		
 	/**
@@ -316,7 +292,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 				incrementerFactory = JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
 			}
 			
-			incrementer = incrementerFactory.getIncrementer(getCalculation());
+			incrementer = incrementerFactory.getIncrementer(getCalculationValue().getValue());
 		}
 		
 		return incrementer;

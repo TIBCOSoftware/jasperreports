@@ -118,38 +118,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public byte getScaleImage()
-	{
-		return getScaleImageValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -171,22 +139,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -200,22 +152,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
@@ -223,22 +159,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
-	}
-
 	/**
 	 *
 	 */
@@ -252,22 +172,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		return ((JRImage)this.parent).getOwnVerticalAlignmentValue();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
 	/**
 	 *
 	 */
@@ -322,22 +226,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
-	 */
-	public byte getOnErrorType()
-	{
-		return getOnErrorTypeValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
-	 */
-	public void setOnErrorType(byte onErrorType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 *
 	 */
 	public OnErrorTypeEnum getOnErrorTypeValue()
@@ -353,14 +241,6 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-		
 	/**
 	 *
 	 */

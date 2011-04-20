@@ -278,15 +278,6 @@ public final class JRStringUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getJavaIdentifier(String)}.
-	 */
-	public static String getLiteral(String name)
-	{
-		return getJavaIdentifier(name);
-	}
-	
-	
-	/**
 	 * Takes a name and returns the same if it is a Java identifier;
 	 * else it substitutes the illegal characters so that it can be an identifier
 	 *

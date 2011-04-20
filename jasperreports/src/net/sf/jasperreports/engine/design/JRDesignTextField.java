@@ -134,14 +134,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public EvaluationTimeEnum getEvaluationTimeValue()
@@ -258,14 +250,6 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		boolean old = this.isStretchWithOverflow;
 		this.isStretchWithOverflow = isStretch;
 		getEventSupport().firePropertyChange(JRBaseTextField.PROPERTY_STRETCH_WITH_OVERFLOW, old, this.isStretchWithOverflow);
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
-	 */
-	public void setEvaluationTime(byte evaluationTime)
-	{
-		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
 	}
 		
 	/**

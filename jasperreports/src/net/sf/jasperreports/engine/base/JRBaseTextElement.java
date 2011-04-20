@@ -117,38 +117,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
-	 */
-	public byte getTextAlignment()
-	{
-		return getHorizontalAlignment();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
-	 */
-	public void setTextAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(new Byte(horizontalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -162,22 +130,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
@@ -185,22 +137,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		Object old = this.horizontalAlignmentValue;
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 
 	public VerticalAlignEnum getVerticalAlignmentValue()
@@ -214,22 +150,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
-	/**
 	 *
 	 */
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignmentValue)
@@ -237,38 +157,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		Object old = this.verticalAlignmentValue;
 		this.verticalAlignmentValue = verticalAlignmentValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_VERTICAL_ALIGNMENT, old, this.verticalAlignmentValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	public byte getRotation()
-	{
-		return getRotationValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation()
-	{
-		return getOwnRotationValue() == null? null : getOwnRotationValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
 	}
 
 	/**
@@ -300,38 +188,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	public byte getLineSpacing()
-	{
-		return getParagraph().getLineSpacing().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing()
-	{
-		return getParagraph().getOwnLineSpacing() == null ? null : getParagraph().getOwnLineSpacing().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link  JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -351,46 +207,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
 	{
 		getParagraph().setLineSpacing(lineSpacing);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	public boolean isStyledText()
-	{
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText()
-	{
-		String mkp = getOwnMarkup();
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(boolean isStyledText)
-	{
-		setStyledText(isStyledText ? Boolean.TRUE : Boolean.FALSE);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(Boolean isStyledText)
-	{
-		if (isStyledText == null)
-		{
-			setMarkup(null);
-		}
-		else
-		{
-			setMarkup(isStyledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
-		}
 	}
 
 	/**
@@ -649,38 +465,6 @@ public abstract class JRBaseTextElement extends JRBaseElement implements JRTextE
 		Object old = this.fontSize;
 		this.fontSize = fontSize;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_FONT_SIZE, old, this.fontSize);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontSize()}.
-	 */
-	public int getSize()
-	{
-		return getFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontSize()}.
-	 */
-	public Integer getOwnSize()
-	{
-		return getOwnFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(int)}.
-	 */
-	public void setSize(int size)
-	{
-		setFontSize(size);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
-	 */
-	public void setSize(Integer size)
-	{
-		setFontSize(size);
 	}
 
 	/**

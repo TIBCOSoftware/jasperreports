@@ -125,38 +125,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public byte getScaleImage()
-	{
-		return getScaleImageValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -197,22 +165,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-		
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -229,22 +181,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
@@ -252,22 +188,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
-	}
-		
 	/**
 	 *
 	 */
@@ -284,22 +204,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		return verticalAlignmentValue;
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
 	/**
 	 *
 	 */
@@ -322,22 +226,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	public void setLazy(boolean isLazy)
 	{
 		this.isLazy = isLazy;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}
-	 */
-	public byte getOnErrorType()
-	{
-		return getOnErrorTypeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}
-	 */
-	public void setOnErrorType(byte onErrorType)
-	{
-		setOnErrorType(OnErrorTypeEnum.getByValue(onErrorType));
 	}
 
 	/**
@@ -397,14 +285,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
@@ -412,14 +292,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		return JRHyperlinkHelper.getHyperlinkTypeValue(getLinkType());
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-
 	/**
 	 *
 	 */
@@ -429,14 +301,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
@@ -444,14 +308,6 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-
 	/**
 	 *
 	 */

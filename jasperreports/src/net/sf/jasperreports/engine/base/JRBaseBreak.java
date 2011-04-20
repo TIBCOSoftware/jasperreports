@@ -85,22 +85,6 @@ public class JRBaseBreak extends JRBaseElement implements JRBreak
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getTypeValue()}.
-	 */
-	public byte getType()
-	{
-		return getTypeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setType(BreakTypeEnum)}.
-	 */
-	public void setType(byte type)
-	{
-		setType(BreakTypeEnum.getByValue(type));
-	}
-
-	/**
 	 *
 	 */
 	public BreakTypeEnum getTypeValue()

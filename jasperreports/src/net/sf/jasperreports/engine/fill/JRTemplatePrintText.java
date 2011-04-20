@@ -259,37 +259,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignment()}.
-	 */
-	public byte getTextAlignment()
-	{
-		return getHorizontalAlignment();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(byte)}.
-	 */
-	public void setTextAlignment(byte horizontalAlignment)
-	{
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-		
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -306,43 +275,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
@@ -362,57 +299,9 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
 	 *
 	 */
 	public void setVerticalAlignment(VerticalAlignEnum verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	public byte getRotation()
-	{
-		return getRotationValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation()
-	{
-		return getOwnRotationValue() == null ? null : getOwnRotationValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -441,23 +330,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		throw new UnsupportedOperationException();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
-	 */
-	public byte getRunDirection()
-	{
-		return getRunDirectionValue().getValue();
-	}
-
 	
-	/**
-	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
-	 */
-	public void setRunDirection(byte runDirection)
-	{
-		setRunDirection(RunDirectionEnum.getByValue(runDirection));
-	}
-
 	/**
 	 *
 	 */
@@ -492,38 +365,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	public byte getLineSpacing()
-	{
-		return getParagraph().getLineSpacing().getValue();//FIXMENOW consider this technique for lineBox as well
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing()
-	{
-		return getParagraph().getOwnLineSpacing() == null ? null : getParagraph().getOwnLineSpacing().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -541,39 +382,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
 	 */
 	public void setLineSpacing(LineSpacingEnum lineSpacing)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	public boolean isStyledText()
-	{
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(getMarkup());
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText()
-	{
-		String mkp = getOwnMarkup();
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}.
-	 */
-	public void setStyledText(boolean isStyledText)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}.
-	 */
-	public void setStyledText(Boolean isStyledText)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -647,14 +455,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
@@ -662,14 +462,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)this.template).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-
 	/**
 	 *
 	 */
@@ -679,14 +471,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
@@ -694,14 +478,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return ((JRTemplateText)this.template).getHyperlinkTargetValue();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-
 	/**
 	 *
 	 */
@@ -969,36 +745,6 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	 * the "own" size property.
 	 */
 	public void setFontSize(Integer fontSize)
-	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getFontSize()}.
-	 */
-	public int getSize()
-	{
-		return getFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFontSize()}.
-	 */
-	public Integer getOwnSize()
-	{
-		return getOwnFontSize();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(int)}.
-	 */
-	public void setSize(int size)
-	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFontSize(Integer)}.
-	 */
-	public void setSize(Integer size)
 	{
 	}
 

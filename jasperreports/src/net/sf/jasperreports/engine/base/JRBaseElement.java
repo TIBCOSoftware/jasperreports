@@ -209,27 +209,11 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
-	 */
-	public byte getPositionType()
-	{
-		return getPositionTypeValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public PositionTypeEnum getPositionTypeValue()
 	{
 		return positionTypeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
-	 */
-	public void setPositionType(byte positionType)
-	{
-		setPositionType(PositionTypeEnum.getByValue(positionType));
 	}
 
 	/**
@@ -240,22 +224,6 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		PositionTypeEnum old = this.positionTypeValue;
 		this.positionTypeValue = positionTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_POSITION_TYPE, old, this.positionTypeValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
-	 */
-	public byte getStretchType()
-	{
-		return getStretchTypeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
-	 */
-	public void setStretchType(byte stretchType)
-	{
-		setStretchType(StretchTypeEnum.getByValue(stretchType));
 	}
 
 	/**
@@ -295,22 +263,6 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public byte getMode()
-	{
-		return getModeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode()
-	{
-		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public ModeEnum getModeValue()
@@ -324,22 +276,6 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	public ModeEnum getOwnModeValue()
 	{
 		return modeValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(Byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
 	}
 
 	/**

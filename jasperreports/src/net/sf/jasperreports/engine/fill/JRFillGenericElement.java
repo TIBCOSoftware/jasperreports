@@ -254,14 +254,6 @@ public class JRFillGenericElement extends JRFillElement implements
 		return new JRFillGenericElement(this, factory);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-	
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return ((JRGenericElement) parent).getEvaluationTimeValue();

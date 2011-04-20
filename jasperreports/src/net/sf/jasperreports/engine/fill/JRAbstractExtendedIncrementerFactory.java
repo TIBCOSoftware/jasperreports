@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
+
 /**
  * Base abstract implementation of {@link net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory JRExtendedIncrementerFactory}.
  * 
@@ -32,10 +34,26 @@ package net.sf.jasperreports.engine.fill;
 public abstract class JRAbstractExtendedIncrementerFactory implements JRExtendedIncrementerFactory
 {
 	/**
-	 * This implementation simply calls {@link JRExtendedIncrementerFactory#getExtendedIncrementer(byte) getExtendedIncrementer}.
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
 	 */
 	public JRIncrementer getIncrementer(byte calculation)
 	{
+		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
+	}
+
+	/**
+	 * This implementation simply calls {@link JRExtendedIncrementerFactory#getExtendedIncrementer(byte) getExtendedIncrementer}.
+	 */
+	public JRIncrementer getIncrementer(CalculationEnum calculation)
+	{
 		return getExtendedIncrementer(calculation);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
+	 */
+	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	{
+		return getExtendedIncrementer(CalculationEnum.getByValue(calculation));
 	}
 }

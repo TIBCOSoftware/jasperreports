@@ -100,38 +100,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public byte getScaleImage()
-	{
-		return getScaleImageValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 *
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -171,22 +139,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-		
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -203,43 +155,11 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignment)
 	{
 		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
@@ -256,22 +176,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return ((JRTemplateImage)this.template).getOwnVerticalAlignmentValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		throw new UnsupportedOperationException();
 	}
 		
 	/**
@@ -295,22 +199,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public void setLazy(boolean isLazy)
 	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
-	 */
-	public byte getOnErrorType()
-	{
-		return getOnErrorTypeValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
-	 */
-	public void setOnErrorType(byte onErrorType)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -354,14 +242,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTypeEnum getHyperlinkTypeValue()
@@ -369,14 +249,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		return ((JRTemplateImage)this.template).getHyperlinkTypeValue();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-
 	/**
 	 *
 	 */
@@ -386,14 +258,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
@@ -401,14 +265,6 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 		return ((JRTemplateImage)this.template).getHyperlinkTargetValue();
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-
 	/**
 	 *
 	 */

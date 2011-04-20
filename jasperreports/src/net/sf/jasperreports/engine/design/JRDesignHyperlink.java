@@ -76,15 +76,6 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 
 	
 	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	public void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-
-	
-	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
 	 * @param hyperlinkType the built-in hyperlink type
@@ -96,15 +87,6 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	}
 
 	
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	public void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-
-
 	/**
 	 * Sets the hyperlink target.
 	 * 

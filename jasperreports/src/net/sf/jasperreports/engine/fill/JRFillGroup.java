@@ -206,27 +206,11 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getFooterPositionValue()}.
-	 */
-	public byte getFooterPosition()
-	{
-		return getFooterPositionValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return parent.getFooterPositionValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setFooterPosition(FooterPositionEnum)}.
-	 */
-	public void setFooterPosition(byte footerPosition)
-	{
-		throw new UnsupportedOperationException();
 	}
 		
 	/**
@@ -253,37 +237,11 @@ public class JRFillGroup implements JRGroup
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
-	 */
-	public JRBand getGroupHeader()
-	{
-		return 
-			groupHeaderSection == null 
-			|| groupHeaderSection.getBands() == null 
-			|| groupHeaderSection.getBands().length == 0 
-				? null 
-				: (JRBand)groupHeaderSection.getBands()[0];
-	}
-		
-	/**
 	 *
 	 */
 	public JRSection getGroupHeaderSection()
 	{
 		return groupHeaderSection;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
-	 */
-	public JRBand getGroupFooter()
-	{
-		return 
-			groupFooterSection == null 
-			|| groupFooterSection.getBands() == null 
-			|| groupFooterSection.getBands().length == 0 
-				? null 
-				: (JRBand)groupFooterSection.getBands()[0];
 	}
 		
 	/**

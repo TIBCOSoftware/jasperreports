@@ -39,15 +39,6 @@ public final class JRBoxUtil
 {
 
 	/**
-	 * @deprecated Replaced by {@link #copyBordersNoPadding(JRLineBox, boolean, boolean, boolean, boolean, JRLineBox)}.
-	 */
-	public static JRLineBox clone(JRLineBox box, boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom, JRLineBox complementaryBox)
-	{
-		return copyBordersNoPadding(box, keepLeft, keepRight, keepTop, keepBottom, complementaryBox);
-	}
-	
-	
-	/**
 	 * 
 	 */
 	public static JRLineBox copyBordersNoPadding(JRLineBox box, boolean keepLeft, boolean keepRight, boolean keepTop, boolean keepBottom, JRLineBox complementaryBox)

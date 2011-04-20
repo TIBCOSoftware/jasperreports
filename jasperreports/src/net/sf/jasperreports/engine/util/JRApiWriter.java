@@ -1888,7 +1888,7 @@ public class JRApiWriter
 
 			write( plotName + ".setBackgroundAlpha({0});\n", plot.getBackgroundAlphaFloat());
 			write( plotName + ".setForegroundAlpha({0});\n", plot.getForegroundAlphaFloat());
-			write( plotName + ".setLabelRotation({0});\n", plot.getLabelRotationDouble());//FIXMECHART check the deprecation of this method; looks incomplete
+			//write( plotName + ".setLabelRotation({0});\n", plot.getLabelRotationDouble());//FIXMECHART check the deprecation of this method; looks incomplete
 			writeSeriesColors( plot.getSeriesColors(), plotName);
 			flush();
 		}

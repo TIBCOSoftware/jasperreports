@@ -99,22 +99,6 @@ public class JRDesignLine extends JRDesignGraphicElement implements JRLine
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getDirectionValue()}.
-	 */
-	public byte getDirection()
-	{
-		return getDirectionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setDirection(LineDirectionEnum)}.
-	 */
-	public void setDirection(byte direction)
-	{
-		setDirection(LineDirectionEnum.getByValue(direction));
-	}
-
-	/**
 	 * 
 	 */
 	public LineDirectionEnum getDirectionValue()

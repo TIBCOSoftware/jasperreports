@@ -221,14 +221,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getPositionTypeValue()}.
-	 */
-	public byte getPositionType()
-	{
-		return getPositionTypeValue().getValue();
-	}
-
-	/**
 	 *
 	 */
 	public PositionTypeEnum getPositionTypeValue()
@@ -237,33 +229,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setPositionType(PositionTypeEnum)}.
-	 */
-	public void setPositionType(byte positionType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 *
 	 */
 	public void setPositionType(PositionTypeEnum positionType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getStretchTypeValue()}.
-	 */
-	public byte getStretchType()
-	{
-		return parent.getStretchType();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setStretchType(StretchTypeEnum)}.
-	 */
-	public void setStretchType(byte stretchType)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -300,22 +268,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public byte getMode()
-	{
-		return getModeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode()
-	{
-		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public ModeEnum getModeValue()
@@ -329,20 +281,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	public ModeEnum getOwnModeValue()
 	{
 		return parent.getOwnModeValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(byte mode)
-	{
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(Byte mode)
-	{
 	}
 
 	/**

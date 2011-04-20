@@ -39,14 +39,6 @@ public final class JRPenUtil
 {
 
 	/**
-	 * @deprecated Replaced by {@link #setLinePenFromPen(PenEnum, JRPen)}. 
-	 */
-	public static void setLinePenFromPen(byte pen, JRPen linePen)
-	{
-		setLinePenFromPen(PenEnum.getByValue(pen), linePen);
-	}
-	
-	/**
 	 * 
 	 */
 	public static void setLinePenFromPen(Byte pen, JRPen linePen)

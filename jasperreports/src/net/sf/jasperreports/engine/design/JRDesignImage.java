@@ -145,38 +145,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public byte getScaleImage()
-	{
-		return getScaleImageValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -203,22 +171,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -232,22 +184,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
@@ -255,22 +191,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		Object old = this.horizontalAlignmentValue;
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 
 	public VerticalAlignEnum getVerticalAlignmentValue()
@@ -281,22 +201,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return verticalAlignmentValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
@@ -333,14 +237,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		return isUsingCache;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-		
 	/**
 	 *
 	 */
@@ -467,22 +363,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}
-	 */
-	public byte getOnErrorType()
-	{
-		return getOnErrorTypeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}
-	 */
-	public void setOnErrorType(byte onErrorType)
-	{
-		setOnErrorType(OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-	/**
 	 * 
 	 */
 	public OnErrorTypeEnum getOnErrorTypeValue()
@@ -500,15 +380,6 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 		getEventSupport().firePropertyChange(JRBaseImage.PROPERTY_ON_ERROR_TYPE, old, this.onErrorTypeValue);
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #setEvaluationTime(EvaluationTimeEnum)}.
-	 * 
-	 */
-	public void setEvaluationTime(byte evaluationTime)
-	{
-		setEvaluationTime(EvaluationTimeEnum.getByValue(evaluationTime));
-	}
-		
 	/**
 	 * Sets the evaluation time for this image.
 	 * 

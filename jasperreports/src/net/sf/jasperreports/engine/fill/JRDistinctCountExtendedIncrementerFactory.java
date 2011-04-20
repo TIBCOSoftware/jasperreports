@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -61,7 +63,7 @@ public class JRDistinctCountExtendedIncrementerFactory extends JRAbstractExtende
 	/**
 	 *
 	 */
-	public JRExtendedIncrementer getExtendedIncrementer(byte calculation)
+	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation)
 	{
 		return new JRDistinctCountExtendedIncrementer();
 	}

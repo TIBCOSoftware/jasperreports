@@ -220,14 +220,6 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 * @deprecated Replaced by {@link #setPrintOrder(PrintOrderEnum)}.
-	 */
-	public void setPrintOrder(byte printOrder)
-	{
-		setPrintOrder(PrintOrderEnum.getByValue(printOrder));
-	}
-
-	/**
 	 * Sets the print order. In case of multiple column reports, the engine can perform vertical or horizontal fill.
 	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum VERTICAL,
 	 * @see net.sf.jasperreports.engine.type.PrintOrderEnum HORIZONTAL
@@ -270,15 +262,6 @@ public class JasperDesign extends JRBaseReport
 		int old = this.pageHeight;
 		this.pageHeight = pageHeight;
 		getEventSupport().firePropertyChange(PROPERTY_PAGE_HEIGHT, old, this.pageHeight);
-	}
-
-
-	/**
-	 * @deprecated Replaced by {@link #setOrientation(OrientationEnum)}.
-	 */
-	public void setOrientation(byte orientation)
-	{
-		setOrientation(OrientationEnum.getByValue(orientation));
 	}
 
 
@@ -519,47 +502,6 @@ public class JasperDesign extends JRBaseReport
 		this.columnFooter = columnFooter;
 		setBandOrigin(this.columnFooter, BandTypeEnum.COLUMN_FOOTER);
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_FOOTER, old, this.columnFooter);
-	}
-
-
-	/**
-	 * Sets the detail band.
-	 * @deprecated Replaced by {@link #getDetailSection()}.
-	 */
-	public void setDetail(JRBand detail)
-	{
-		Object old = getDetail();
-
-//		if (detailSection == null)
-//		{
-//			detailSection = new JRDesignSection();
-//		}
-		
-		JRBand[] bands = detailSection.getBands(); 
-		if (bands == null || bands.length == 0)
-		{
-			((JRDesignSection)detailSection).addBand(detail);
-		}
-		else
-		{
-			((JRDesignSection)detailSection).removeBand(0);
-			((JRDesignSection)detailSection).addBand(0, detail);
-		}
-		
-//		setBandOrigin(detail, JROrigin.DETAIL);
-		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, detail);
-	}
-
-
-	/**
-	 * Sets the detail section.
-	 *
-	public void setDetail(JRSection detailSection)
-	{
-		Object old = this.detailSection;
-		this.detailSection = detailSection;
-		setSectionOrigin(this.detailSection, JROrigin.DETAIL);
-		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detailSection);
 	}
 
 
@@ -1281,22 +1223,6 @@ public class JasperDesign extends JRBaseReport
 	public List<JRReportTemplate> getTemplatesList()
 	{
 		return templateList;
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setBandOrigin(JRBand, BandTypeEnum)}.
-	 */
-	protected void setBandOrigin(JRBand band, byte type)
-	{
-		setBandOrigin(band, BandTypeEnum.getByValue(type));
-	}
-	
-	/**
-	 * @deprecated Replaced by {@link #setSectionOrigin(JRSection, BandTypeEnum)}.
-	 */
-	protected void setSectionOrigin(JRSection section, byte type)
-	{
-		setSectionOrigin(section, BandTypeEnum.getByValue(type));
 	}
 	
 	protected void setBandOrigin(JRBand band, BandTypeEnum type)

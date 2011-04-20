@@ -98,22 +98,6 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 
 	
 	/**
-	 * @deprecated Replaced by {@link #getResetTypeValue()}.
-	 */
-	public byte getResetType()
-	{
-		return getResetTypeValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getIncrementTypeValue()}.
-	 */
-	public byte getIncrementType()
-	{
-		return getIncrementTypeValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public ResetTypeEnum getResetTypeValue()

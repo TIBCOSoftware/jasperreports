@@ -130,14 +130,6 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setUsingCache(Boolean)}.
-	 */
-	public void setUsingCache(boolean isUsingCache)
-	{
-		setUsingCache(isUsingCache ? Boolean.TRUE : Boolean.FALSE);
-	}
-
-	/**
 	 *
 	 */
 	public JRExpression getParametersMapExpression()

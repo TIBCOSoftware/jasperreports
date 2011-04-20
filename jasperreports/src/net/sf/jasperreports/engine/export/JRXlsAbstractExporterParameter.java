@@ -320,11 +320,6 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 	
 	/**
-	 * @deprecated Replaced by {@link JRXlsAbstractExporter#PROPERTY_WRAP_TEXT}.
-	 */
-	public static final String PROPERTY_WRAP_TEXT = JRProperties.PROPERTY_PREFIX + "export.xls.wrap.text";
-
-	/**
 	 * A boolean value specifying whether the standard color palette should be customized
 	 * so that the XLS result uses the original report colors.
 	 * <p/>

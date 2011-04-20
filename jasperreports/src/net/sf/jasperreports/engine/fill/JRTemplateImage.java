@@ -186,38 +186,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public byte getScaleImage()
-	{
-		return getScaleImageValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -258,22 +226,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-		
-	/**
 	 *
 	 */
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
@@ -290,43 +242,11 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 		
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-		
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
 	{
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue().getValue();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 		
 	/**
@@ -343,22 +263,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
 		return verticalAlignmentValue;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 		
 	/**
@@ -386,22 +290,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getOnErrorTypeValue()}.
-	 */
-	public byte getOnErrorType()
-	{
-		return getOnErrorTypeValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setOnErrorType(OnErrorTypeEnum)}.
-	 */
-	public void setOnErrorType(byte onErrorType)
-	{
-		setOnErrorType(OnErrorTypeEnum.getByValue(onErrorType));
-	}
-
-	/**
 	 *
 	 */
 	public OnErrorTypeEnum getOnErrorTypeValue()
@@ -415,15 +303,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	public void setOnErrorType(OnErrorTypeEnum onErrorTypeValue)
 	{
 		this.onErrorTypeValue = onErrorTypeValue;
-	}
-
-	
-	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTypeValue()}.
-	 */
-	public byte getHyperlinkType()
-	{
-		return getHyperlinkTypeValue().getValue();
 	}
 
 	
@@ -445,15 +324,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 
 	
 	/**
-	 * @deprecated Replaced by {@link #setHyperlinkType(HyperlinkTypeEnum)}.
-	 */
-	protected void setHyperlinkType(byte hyperlinkType)
-	{
-		setHyperlinkType(HyperlinkTypeEnum.getByValue(hyperlinkType));
-	}
-		
-	
-	/**
 	 * Sets the link type as a built-in hyperlink type.
 	 * 
 	 * @param hyperlinkType the built-in hyperlink type
@@ -466,14 +336,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		
 	
 	/**
-	 * @deprecated Replaced by {@link #getHyperlinkTargetValue()}.
-	 */
-	public byte getHyperlinkTarget()
-	{
-		return getHyperlinkTargetValue().getValue();
-	}
-		
-	/**
 	 *
 	 */
 	public HyperlinkTargetEnum getHyperlinkTargetValue()
@@ -481,14 +343,6 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		return JRHyperlinkHelper.getHyperlinkTargetValue(getLinkTarget());
 	}
 		
-	/**
-	 * @deprecated Replaced by {@link #setHyperlinkTarget(HyperlinkTargetEnum)}.
-	 */
-	protected void setHyperlinkTarget(byte hyperlinkTarget)
-	{
-		setHyperlinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
-	}
-	
 	/**
 	 *
 	 */

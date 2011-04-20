@@ -2081,22 +2081,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getRunDirectionValue()}.
-	 */
-	public byte getRunDirection()
-	{
-		return getRunDirectionValue() == null ? null : getRunDirectionValue().getValue();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRunDirection(RunDirectionEnum)}.
-	 */
-	public void setRunDirection(byte direction)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 *
 	 */
 	public RunDirectionEnum getRunDirectionValue()

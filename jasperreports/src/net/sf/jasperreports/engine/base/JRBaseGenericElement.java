@@ -106,14 +106,6 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		return evaluationGroupName;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getEvaluationTimeValue()}.
-	 */
-	public byte getEvaluationTime()
-	{
-		return getEvaluationTimeValue().getValue();
-	}
-
 	public EvaluationTimeEnum getEvaluationTimeValue()
 	{
 		return evaluationTimeValue;

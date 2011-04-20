@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.type.CalculationEnum;
+
 /**
  * Extended incrementer factory interface.
  * <p>
@@ -33,5 +35,10 @@ package net.sf.jasperreports.engine.fill;
  */
 public interface JRExtendedIncrementerFactory extends JRIncrementerFactory
 {
+	/**
+	 * @deprecated Replaced by {@link #getExtendedIncrementer(CalculationEnum)}.
+	 */
 	public JRExtendedIncrementer getExtendedIncrementer(byte calculation);
+
+	public JRExtendedIncrementer getExtendedIncrementer(CalculationEnum calculation);
 }

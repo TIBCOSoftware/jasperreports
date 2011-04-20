@@ -59,22 +59,6 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 
 
 	/**
-	 * @deprecated Replaced by {@link #getDirectionValue()}.
-	 */
-	public byte getDirection()
-	{
-		return ((JRLine)this.parent).getDirection();
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #setDirection(LineDirectionEnum)}.
-	 */
-	public void setDirection(byte direction)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * 
 	 */
 	public LineDirectionEnum getDirectionValue()

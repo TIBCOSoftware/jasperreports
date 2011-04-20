@@ -125,22 +125,6 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getLineStyleValue()}.
-	 */
-	public Byte getLineStyle()
-	{
-		return getLineStyleValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnLineStyleValue()}.
-	 */
-	public Byte getOwnLineStyle()
-	{
-		return getOwnLineStyleValue() == null ? null : getOwnLineStyleValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public LineStyleEnum getLineStyleValue()
@@ -154,22 +138,6 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 	public LineStyleEnum getOwnLineStyleValue()
 	{
 		return lineStyleValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
-	 */
-	public void setLineStyle(byte lineStyle)
-	{
-		setLineStyle(LineStyleEnum.getByValue(lineStyle));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setLineStyle(LineStyleEnum)}.
-	 */
-	public void setLineStyle(Byte lineStyle)
-	{
-		setLineStyle(LineStyleEnum.getByValue(lineStyle));
 	}
 
 	/**

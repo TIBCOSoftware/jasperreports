@@ -216,14 +216,6 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		this.minHeightToStartNewPage = minHeight;
 		getEventSupport().firePropertyChange(PROPERTY_MIN_HEIGHT_TO_START_NEW_PAGE, old, this.minHeightToStartNewPage);
 	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getFooterPositionValue()}.
-	 */
-	public byte getFooterPosition()
-	{
-		return getFooterPositionValue().getValue();
-	}
 
 	/**
 	 *
@@ -231,14 +223,6 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return this.footerPositionValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFooterPosition(FooterPositionEnum)}.
-	 */
-	public void setFooterPosition(byte footerPosition)
-	{
-		setFooterPosition(FooterPositionEnum.getByValue(footerPosition));
 	}
 		
 	/**
@@ -278,37 +262,11 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #getGroupHeaderSection()}.
-	 */
-	public JRBand getGroupHeader()
-	{
-		return 
-			groupHeaderSection == null 
-			|| groupHeaderSection.getBands() == null 
-			|| groupHeaderSection.getBands().length == 0 
-				? null 
-				: (JRBand)groupHeaderSection.getBands()[0];
-	}
-		
-	/**
 	 *
 	 */
 	public JRSection getGroupHeaderSection()
 	{
 		return this.groupHeaderSection;
-	}
-		
-	/**
-	 * @deprecated Replaced by {@link #getGroupFooterSection()}.
-	 */
-	public JRBand getGroupFooter()
-	{
-		return 
-			groupFooterSection == null 
-			|| groupFooterSection.getBands() == null 
-			|| groupFooterSection.getBands().length == 0 
-				? null 
-				: (JRBand)groupFooterSection.getBands()[0];
 	}
 		
 	/**

@@ -105,11 +105,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public static final String PROPERTY_STRIKE_THROUGH = "strikeThrough";
 	
-	/**
-	 * @deprecated Replaced by {@link #PROPERTY_MARKUP}
-	 */
-	public static final String PROPERTY_IS_STYLED_TEXT = "isStyledText";
-	
 	public static final String PROPERTY_MARKUP = "markup";
 	
 	public static final String PROPERTY_UNDERLINE = "underline";
@@ -347,22 +342,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return linePen;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getFillValue()}
-	 */
-	public Byte getFill()
-	{
-		return getFillValue() == null ? null : getFillValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnFillValue()}
-	 */
-	public Byte getOwnFill()
-	{
-		return getOwnFillValue() == null ? null : getOwnFillValue().getValueByte();
-	}
-
 	public FillEnum getFillValue()
 	{
 		return JRStyleResolver.getFillValue(this);
@@ -384,22 +363,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getScaleImageValue()}.
-	 */
-	public Byte getScaleImage()
-	{
-		return getScaleImageValue() == null ? null : getScaleImageValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnScaleImageValue()}.
-	 */
-	public Byte getOwnScaleImage()
-	{
-		return getOwnScaleImageValue() == null ? null : getOwnScaleImageValue().getValueByte();
-	}
-
-	/**
 	 * 
 	 */
 	public ScaleImageEnum getScaleImageValue()
@@ -415,22 +378,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		return this.scaleImageValue;
 	}
 
-	/**
-	 * @deprecated Replaced by {@link #getHorizontalAlignmentValue()}.
-	 */
-	public Byte getHorizontalAlignment()
-	{
-		return getHorizontalAlignmentValue() == null ? null : getHorizontalAlignmentValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnHorizontalAlignmentValue()}.
-	 */
-	public Byte getOwnHorizontalAlignment()
-	{
-		return getOwnHorizontalAlignmentValue() == null ? null : getOwnHorizontalAlignmentValue().getValueByte();
-	}
-
 	public HorizontalAlignEnum getHorizontalAlignmentValue()
 	{
 		return JRStyleResolver.getHorizontalAlignmentValue(this);
@@ -439,22 +386,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
 		return horizontalAlignmentValue;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getVerticalAlignmentValue()}.
-	 */
-	public Byte getVerticalAlignment()
-	{
-		return getVerticalAlignmentValue() == null ? null : getVerticalAlignmentValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnVerticalAlignmentValue()}.
-	 */
-	public Byte getOwnVerticalAlignment()
-	{
-		return getOwnVerticalAlignmentValue() == null ? null : getOwnVerticalAlignmentValue().getValueByte();
 	}
 
 	public VerticalAlignEnum getVerticalAlignmentValue()
@@ -481,38 +412,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public JRParagraph getParagraph()
 	{
 		return paragraph;
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getRotationValue()}.
-	 */
-	public Byte getRotation()
-	{
-		return getRotationValue() == null ? null : getRotationValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnRotationValue()}.
-	 */
-	public Byte getOwnRotation()
-	{
-		return getOwnRotationValue() == null? null : getOwnRotationValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setRotation(RotationEnum)}.
-	 */
-	public void setRotation(Byte rotation)
-	{
-		setRotation(RotationEnum.getByValue(rotation));
 	}
 
 	/**
@@ -544,22 +443,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
 	 */
-	public Byte getLineSpacing()
-	{
-		return getParagraph().getLineSpacing() == null ? null : getParagraph().getLineSpacing().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getOwnLineSpacing()}.
-	 */
-	public Byte getOwnLineSpacing()
-	{
-		return getParagraph().getOwnLineSpacing() == null ? null : getParagraph().getOwnLineSpacing().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#getLineSpacing()}.
-	 */
 	public LineSpacingEnum getLineSpacingValue()
 	{
 		return getParagraph().getLineSpacing();
@@ -571,24 +454,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	public LineSpacingEnum getOwnLineSpacingValue()
 	{
 		return getParagraph().getOwnLineSpacing();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMarkup()}
-	 */
-	public Boolean isStyledText()
-	{
-		String mkp = getMarkup();
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnMarkup()}
-	 */
-	public Boolean isOwnStyledText()
-	{
-		String mkp = getOwnMarkup();
-		return JRCommonText.MARKUP_STYLED_TEXT.equals(mkp) ? Boolean.TRUE : (mkp == null ? null : Boolean.FALSE);
 	}
 
 	public String getMarkup()
@@ -713,22 +578,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #getModeValue()}.
-	 */
-	public Byte getMode()
-	{
-		return getModeValue() == null ? null : getModeValue().getValueByte();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getOwnModeValue()}.
-	 */
-	public Byte getOwnMode()
-	{
-		return getOwnModeValue() == null ? null : getOwnModeValue().getValueByte();
-	}
-
-	/**
 	 *
 	 */
 	public ModeEnum getModeValue()
@@ -765,22 +614,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMode(ModeEnum)}.
-	 */
-	public void setMode(Byte mode)
-	{
-		setMode(ModeEnum.getByValue(mode));
-	}
-
-	/**
 	 *
 	 */
 	public void setMode(ModeEnum modeValue)
@@ -788,22 +621,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.modeValue;
 		this.modeValue = modeValue;
 		getEventSupport().firePropertyChange(JRBaseStyle.PROPERTY_MODE, old, this.modeValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
-	 */
-	public void setFill(byte fill)
-	{
-		setFill(FillEnum.getByValue(fill));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setFill(FillEnum)}.
-	 */
-	public void setFill(Byte fill)
-	{
-		setFill(FillEnum.getByValue(fill));
 	}
 
 	/**
@@ -835,22 +652,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setScaleImage(ScaleImageEnum)}.
-	 */
-	public void setScaleImage(Byte scaleImage)
-	{
-		setScaleImage(ScaleImageEnum.getByValue(scaleImage));
-	}
-
-	/**
 	 *
 	 */
 	public void setScaleImage(ScaleImageEnum scaleImageValue)
@@ -861,22 +662,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setHorizontalAlignment(HorizontalAlignEnum)}.
-	 */
-	public void setHorizontalAlignment(Byte horizontalAlignment)
-	{
-		setHorizontalAlignment(HorizontalAlignEnum.getByValue(horizontalAlignment));
-	}
-
-	/**
 	 *
 	 */
 	public void setHorizontalAlignment(HorizontalAlignEnum horizontalAlignmentValue)
@@ -884,22 +669,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.horizontalAlignmentValue;
 		this.horizontalAlignmentValue = horizontalAlignmentValue;
 		getEventSupport().firePropertyChange(PROPERTY_HORIZONTAL_ALIGNMENT, old, this.horizontalAlignmentValue);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setVerticalAlignment(VerticalAlignEnum)}.
-	 */
-	public void setVerticalAlignment(Byte verticalAlignment)
-	{
-		setVerticalAlignment(VerticalAlignEnum.getByValue(verticalAlignment));
 	}
 
 	/**
@@ -995,29 +764,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(boolean styledText)
-	{
-		setStyledText(styledText ? Boolean.TRUE : Boolean.FALSE);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #setMarkup(String)}
-	 */
-	public void setStyledText(Boolean styledText)
-	{
-		if (styledText == null)
-		{
-			setMarkup(null);
-		}
-		else
-		{
-			setMarkup(styledText.booleanValue() ? JRCommonText.MARKUP_STYLED_TEXT : JRCommonText.MARKUP_NONE);
-		}
-	}
-
-	/**
 	 *
 	 */
 	public void setMarkup(String markup)
@@ -1061,22 +807,6 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		Object old = this.isUnderline;
 		this.isUnderline = underline;
 		getEventSupport().firePropertyChange(PROPERTY_UNDERLINE, old, this.isUnderline);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
-	}
-
-	/**
-	 * @deprecated Replaced by {@link JRParagraph#setLineSpacing(LineSpacingEnum)}.
-	 */
-	public void setLineSpacing(Byte lineSpacing)
-	{
-		getParagraph().setLineSpacing(LineSpacingEnum.getByValue(lineSpacing));
 	}
 
 	/**
