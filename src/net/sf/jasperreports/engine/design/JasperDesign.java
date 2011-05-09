@@ -283,7 +283,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setColumnWidth(int columnWidth)
 	{
-		int old = columnWidth;
+		int old = this.columnWidth;
 		this.columnWidth = columnWidth;
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_WIDTH, old, this.columnWidth);
 	}
