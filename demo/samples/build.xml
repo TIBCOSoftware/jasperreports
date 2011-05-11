@@ -218,6 +218,13 @@
 		</java>
 	</target>
 
+	<target name="fontsXml">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="fontsXml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
 	<target name="viewDesignXml">
 		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
 			<arg value="${sample.dir}/reports/${sample.report.name}.jrxml"/>

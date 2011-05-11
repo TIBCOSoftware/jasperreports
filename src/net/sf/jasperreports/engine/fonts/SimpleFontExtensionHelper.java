@@ -23,9 +23,13 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +65,12 @@ import org.xml.sax.SAXParseException;
 public final class SimpleFontExtensionHelper implements ErrorHandler
 {
 	private static final Log log = LogFactory.getLog(SimpleFontExtensionHelper.class);
+	
+	/**
+	 * Default XML output encoding.
+	 */
+	public static final String DEFAULT_ENCODING = "UTF-8";
+	
 
 	/**
 	 *
@@ -293,6 +303,253 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		return exportFonts;
 	}
+
+	/**
+	 *
+	 */
+	public static String getFontsXml(List<FontFamily> fontFamilies)
+	{
+		StringBuffer buffer = null;
+		
+		if(fontFamilies != null)
+		{
+			buffer = new StringBuffer();
+			buffer.append("<?xml version=\"1.0\" encoding=\"" + DEFAULT_ENCODING + "\"?>\n");
+			buffer.append("<fontFamilies>\n");
+			for (FontFamily fontFamily : fontFamilies)
+			{
+				addFontFamily(buffer, fontFamily);
+			}
+			buffer.append("</fontFamilies>\n");
+			return buffer.toString();
+		}
+		else
+		{
+			log.error("There are no font families in the list.");
+			return null;
+		}
+	}
+
+	/**
+	 *
+	 */
+	private static void addFontFamily(StringBuffer buffer, FontFamily fontFamily) 
+	{
+		if(fontFamily != null)
+		{
+			if(fontFamily.getName() == null)
+			{
+				log.error("Font family name is required.");
+				return;
+			}
+			
+			String indent = "  ";
+			buffer.append(indent + "<fontFamily name=\"" + fontFamily.getName() + "\">\n");
+			indent = "    ";
+			
+			if(fontFamily.getNormalFace() != null)
+			{
+				buffer.append(indent + "<normal>" + fontFamily.getNormalFace().getFile() +"</normal>\n");
+			}
+			if(fontFamily.getBoldFace() != null)
+			{
+				buffer.append(indent + "<bold>" + fontFamily.getBoldFace().getFile() +"</bold>\n");
+				
+			}
+			if(fontFamily.getItalicFace() != null)
+			{
+				buffer.append(indent + "<italic>" + fontFamily.getItalicFace().getFile() +"</italic>\n");
+				
+			}
+			if(fontFamily.getBoldItalicFace() != null)
+			{
+				buffer.append(indent + "<boldItalic>" + fontFamily.getBoldItalicFace().getFile() +"</boldItalic>\n");
+				
+			}
+			if(fontFamily.getPdfEncoding() != null)
+			{
+				buffer.append(indent + "<pdfEncoding>" + fontFamily.getPdfEncoding() +"</pdfEncoding>\n");
+				
+			}
+			if(fontFamily.isPdfEmbedded() != null)
+			{
+				buffer.append(indent + "<pdfEmbedded>" + fontFamily.isPdfEmbedded() +"</pdfEmbedded>\n");
+				
+			}
+			
+			Map<String, String> exportFonts = fontFamily.getExportFonts();
+			
+			if(exportFonts != null)
+			{
+				buffer.append(indent + "<exportFonts>\n");
+				indent = "      ";
+				for(String key : exportFonts.keySet())
+				{
+					buffer.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
+				}
+				indent = "    ";
+				buffer.append(indent + "</exportFonts>\n");
+			}
+			
+			Set<String> locales = fontFamily.getLocales();
+			
+			if(locales != null)
+			{
+				buffer.append(indent + "<locales>\n");
+				indent = "      ";
+				for(String locale : locales)
+				{
+					buffer.append(indent + "<locale>" + locale + "</locale>\n");
+				}
+				indent = "    ";
+				buffer.append(indent + "</locales>\n");
+			}
+			
+			indent = "  ";
+			buffer.append(indent + "</fontFamily>\n\n");
+		}		
+		else
+		{
+			log.info("Null font family encountered.");
+		}
+	}
+	
+
+	/**
+	 *
+	 */
+	public static void writeFontsXml(
+		String destFileName,
+		List<FontFamily> fontFamilies
+		) throws JRException
+	{
+		FileOutputStream fos = null;
+
+		try
+		{
+			writeFontsXml(new FileOutputStream(destFileName), fontFamilies);
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error writing to file : " + destFileName, e);
+		}
+		finally
+		{
+			if (fos != null)
+			{
+				try
+				{
+					fos.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static void writeFontsXml(
+		OutputStream outputStream,
+		List<FontFamily> fontFamilies
+		) throws JRException
+	{
+		Writer out = null;
+		try
+		{
+			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
+			out.write(getFontsXml(fontFamilies));
+			out.flush();
+		}
+		catch (Exception e)
+		{
+			throw new JRException("Error writing to OutputStream : ", e);
+		}
+		finally
+		{
+			if (out != null)
+			{
+				try
+				{
+					out.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static void writeFontExtensionsProperties(String fontsXmlLocation, String destFileName) throws JRException
+	{
+		FileOutputStream fos = null;
+
+		try
+		{
+			writeFontExtensionsProperties(fontsXmlLocation, new FileOutputStream(destFileName, false));
+		}
+		catch (IOException e)
+		{
+			throw new JRException("Error writing to file : " + destFileName, e);
+		}
+		finally
+		{
+			if (fos != null)
+			{
+				try
+				{
+					fos.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	public static void writeFontExtensionsProperties(String fontsXmlLocation, OutputStream outputStream) throws JRException
+	{
+		Writer out = null;
+		try
+		{
+			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
+			out.write(
+					"net.sf.jasperreports.extension.registry.factory.simple.font.families=" + 
+					"net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory\n"
+					);
+			out.write("net.sf.jasperreports.extension.simple.font.families.location=" + fontsXmlLocation + "\n");
+			out.flush();
+		}
+		catch (Exception e)
+		{
+			throw new JRException("Error writing to OutputStream : ", e);
+		}
+		finally
+		{
+			if (out != null)
+			{
+				try
+				{
+					out.close();
+				}
+				catch(IOException e)
+				{
+				}
+			}
+		}
+	}
+
 
 	/**
 	 *
