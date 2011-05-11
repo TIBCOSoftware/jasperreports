@@ -45,6 +45,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -518,17 +519,44 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	public static void writeFontExtensionsProperties(String fontsXmlLocation, OutputStream outputStream) throws JRException
+	public static void writeFontExtensionsProperties(String fontFamiliesPropertyValue, OutputStream outputStream) throws JRException
+	{
+		writeFontExtensionsProperties(
+				SimpleFontExtensionsRegistryFactory.PROPERTY_SIMPLE_FONT_FAMILIES_REGISTRY_FACTORY,
+				SimpleFontExtensionsRegistryFactory.class.getName(),
+				SimpleFontExtensionsRegistryFactory.SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX +	"location", 
+				fontFamiliesPropertyValue,
+				outputStream);
+	}
+
+
+	/**
+	 *
+	 */
+	public static void writeFontExtensionsProperties(
+			String fontRegistryFactoryPropertyName, 
+			String fontRegistryFactoryPropertyValue, 
+			String fontFamiliesPropertyName, 
+			String fontFamiliesPropertyValue, 
+			OutputStream outputStream
+			) throws JRException
 	{
 		Writer out = null;
 		try
 		{
 			out = new OutputStreamWriter(outputStream, DEFAULT_ENCODING);
 			out.write(
-					"net.sf.jasperreports.extension.registry.factory.simple.font.families=" + 
-					"net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory\n"
+					fontRegistryFactoryPropertyName + 
+					"=" + 
+					fontRegistryFactoryPropertyValue + 
+					"\n"
 					);
-			out.write("net.sf.jasperreports.extension.simple.font.families.location=" + fontsXmlLocation + "\n");
+			out.write(
+					fontFamiliesPropertyName +
+					"=" + 
+					fontFamiliesPropertyValue + 
+					"\n"
+					);
 			out.flush();
 		}
 		catch (Exception e)
