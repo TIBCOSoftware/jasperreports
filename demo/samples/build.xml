@@ -219,6 +219,7 @@
 	</target>
 
 	<target name="fontsXml">
+		<mkdir dir="${sample.dir}/build/reports"/> 
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="fontsXml"/>
 			<classpath refid="classpath"/>
