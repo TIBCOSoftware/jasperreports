@@ -428,7 +428,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 		try
 		{
-			writeFontsXml(new FileOutputStream(destFileName), fontFamilies);
+			fos = new FileOutputStream(destFileName);
+			writeFontsXml(fos, fontFamilies);
 		}
 		catch (IOException e)
 		{
@@ -494,7 +495,8 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 		try
 		{
-			writeFontExtensionsProperties(fontsXmlLocation, new FileOutputStream(destFileName, false));
+			fos = new FileOutputStream(destFileName, false);
+			writeFontExtensionsProperties(fontsXmlLocation, fos);
 		}
 		catch (IOException e)
 		{
