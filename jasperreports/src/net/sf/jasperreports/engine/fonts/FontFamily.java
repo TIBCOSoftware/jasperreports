@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.fonts;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 
 
@@ -97,6 +99,16 @@ public interface FontFamily
 	/**
 	 * 
 	 */
+	public Map<String,String> getExportFonts();
+	
+	/**
+	 * 
+	 */
 	public boolean supportsLocale(Locale locale);
+
+	/**
+	 * 
+	 */
+	public Set<String> getLocales();
 	
 }

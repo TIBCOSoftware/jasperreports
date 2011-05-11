@@ -58,8 +58,8 @@ public class SimpleFontFamily implements FontFamily
 	private String pdfEncoding;
 	private Boolean isPdfEmbedded;
 	private String defaultExportFont;
-	private Map exportFonts;
-	private Set locales;
+	private Map<String,String> exportFonts;
+	private Set<String> locales;
 	
 	/**
 	 * 
@@ -256,7 +256,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public Map getExportFonts()
+	public Map<String,String> getExportFonts()
 	{
 		return exportFonts;
 	}
@@ -264,7 +264,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public void setExportFonts(Map exportFonts)
+	public void setExportFonts(Map<String,String> exportFonts)
 	{
 		this.exportFonts = exportFonts;
 	}
@@ -281,7 +281,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public Set getLocales()
+	public Set<String> getLocales()
 	{
 		return locales;
 	}
@@ -289,7 +289,7 @@ public class SimpleFontFamily implements FontFamily
 	/**
 	 * 
 	 */
-	public void setLocales(Set locales)
+	public void setLocales(Set<String> locales)
 	{
 		this.locales = locales;
 	}

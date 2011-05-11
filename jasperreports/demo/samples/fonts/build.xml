@@ -107,6 +107,10 @@
 		<ant dir="../" target="writeApiXml"/>
 	</target>
 
+	<target name="fontsXml">
+		<ant dir="../" target="fontsXml"/>
+	</target>
+	
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>
