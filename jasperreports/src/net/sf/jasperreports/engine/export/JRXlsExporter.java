@@ -1177,7 +1177,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return HSSFCellStyle.BORDER_NONE;
 	}
 
-	protected void exportImage(
+	public void exportImage(
 		JRPrintImage element, 
 		JRExporterGridCell gridCell, 
 		int colIndex, 

@@ -925,7 +925,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void exportImage(
+	public void exportImage(
 		JRPrintImage element, 
 		JRExporterGridCell gridCell, 
 		int col, 
