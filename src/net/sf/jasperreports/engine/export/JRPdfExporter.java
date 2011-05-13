@@ -1094,7 +1094,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
+	public void exportImage(JRPrintImage printImage) throws DocumentException, IOException,  JRException
 	{
 		if (printImage.getModeValue() == ModeEnum.OPAQUE)
 		{
