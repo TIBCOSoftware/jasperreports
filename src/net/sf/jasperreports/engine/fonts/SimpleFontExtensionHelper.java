@@ -45,7 +45,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -365,7 +364,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 			if(fontFamily.getBoldItalicFace() != null)
 			{
 				buffer.append(indent + "<boldItalic>" + fontFamily.getBoldItalicFace().getFile() +"</boldItalic>\n");
-				
 			}
 			if(fontFamily.getPdfEncoding() != null)
 			{
@@ -378,34 +376,38 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				
 			}
 			
-			Map<String, String> exportFonts = fontFamily.getExportFonts();
-			
-			if(exportFonts != null)
+			if(fontFamily instanceof SimpleFontFamily)
 			{
-				buffer.append(indent + "<exportFonts>\n");
-				indent = "      ";
-				for(String key : exportFonts.keySet())
+				SimpleFontFamily simpleFontFamily = (SimpleFontFamily)fontFamily;
+				
+				Map<String, String> exportFonts = simpleFontFamily.getExportFonts();
+				
+				if(exportFonts != null)
 				{
-					buffer.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
+					buffer.append(indent + "<exportFonts>\n");
+					indent = "      ";
+					for(String key : exportFonts.keySet())
+					{
+						buffer.append(indent + "<export key=\"" + key +"\">" + exportFonts.get(key) + "</export>\n");
+					}
+					indent = "    ";
+					buffer.append(indent + "</exportFonts>\n");
 				}
-				indent = "    ";
-				buffer.append(indent + "</exportFonts>\n");
-			}
-			
-			Set<String> locales = fontFamily.getLocales();
-			
-			if(locales != null)
-			{
-				buffer.append(indent + "<locales>\n");
-				indent = "      ";
-				for(String locale : locales)
+				
+				Set<String> locales = simpleFontFamily.getLocales();
+				
+				if(locales != null)
 				{
-					buffer.append(indent + "<locale>" + locale + "</locale>\n");
+					buffer.append(indent + "<locales>\n");
+					indent = "      ";
+					for(String locale : locales)
+					{
+						buffer.append(indent + "<locale>" + locale + "</locale>\n");
+					}
+					indent = "    ";
+					buffer.append(indent + "</locales>\n");
 				}
-				indent = "    ";
-				buffer.append(indent + "</locales>\n");
 			}
-			
 			indent = "  ";
 			buffer.append(indent + "</fontFamily>\n\n");
 		}		

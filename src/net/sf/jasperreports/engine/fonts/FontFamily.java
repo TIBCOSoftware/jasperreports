@@ -99,16 +99,6 @@ public interface FontFamily
 	/**
 	 * 
 	 */
-	public Map<String,String> getExportFonts();
-	
-	/**
-	 * 
-	 */
 	public boolean supportsLocale(Locale locale);
 
-	/**
-	 * 
-	 */
-	public Set<String> getLocales();
-	
 }
