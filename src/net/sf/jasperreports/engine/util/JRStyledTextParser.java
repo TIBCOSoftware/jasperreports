@@ -195,6 +195,24 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
+	private JRStyledTextParser()
+	{
+		try
+		{
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			documentBuilder = factory.newDocumentBuilder();
+			documentBuilder.setErrorHandler(this);
+		}
+		catch (ParserConfigurationException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	public JRStyledText parse(Map attributes, String text, Locale locale) throws SAXException
 	{
 		JRStyledText styledText = new JRStyledText(locale);
