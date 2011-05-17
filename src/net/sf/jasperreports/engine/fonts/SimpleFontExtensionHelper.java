@@ -472,19 +472,6 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		{
 			throw new JRException("Error writing to OutputStream : ", e);
 		}
-		finally
-		{
-			if (out != null)
-			{
-				try
-				{
-					out.close();
-				}
-				catch(IOException e)
-				{
-				}
-			}
-		}
 	}
 
 
