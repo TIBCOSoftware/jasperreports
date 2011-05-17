@@ -971,12 +971,6 @@ public class TableReport implements JRReport
 		return null;
 	}
 
-	@Deprecated
-	public byte getOrientation()
-	{
-		return OrientationEnum.PORTRAIT.getValue();
-	}
-
 	public OrientationEnum getOrientationValue()
 	{
 		return OrientationEnum.PORTRAIT;
@@ -1005,12 +999,6 @@ public class TableReport implements JRReport
 	public JRParameter[] getParameters()
 	{
 		return mainDataset.getParameters();
-	}
-
-	@Deprecated
-	public byte getPrintOrder()
-	{
-		return PrintOrderEnum.VERTICAL.getValue();
 	}
 
 	public PrintOrderEnum getPrintOrderValue()
@@ -1094,12 +1082,6 @@ public class TableReport implements JRReport
 		return mainDataset.getVariables();
 	}
 
-	@Deprecated
-	public byte getWhenNoDataType()
-	{
-		return WhenNoDataTypeEnum.NO_PAGES.getValue();
-	}
-
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
 		return WhenNoDataTypeEnum.NO_PAGES;
@@ -1145,19 +1127,7 @@ public class TableReport implements JRReport
 		throw new UnsupportedOperationException();
 	}
 
-	@Deprecated
-	public void setWhenNoDataType(byte whenNoDataType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Deprecated
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
 	{
 		throw new UnsupportedOperationException();
 	}
