@@ -44,6 +44,7 @@ import net.sf.jasperreports.charts.JRTimeSeries;
 import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.JRXyzDataset;
 import net.sf.jasperreports.charts.JRXyzSeries;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
 /**
@@ -121,6 +122,27 @@ public abstract class JRAbstractObjectFactory implements JRVisitor
 	 * @see #getStyle(JRStyle)
 	 */
 	public abstract void setStyle(JRStyleSetter setter, JRStyleContainer styleContainer);
+	
+	
+	/**
+	 *
+	 */
+	public JRFont getFont(JRStyleContainer styleContainer, JRFont font)
+	{
+		JRBaseFont baseFont = null;
+
+		if (font != null)
+		{
+			baseFont = (JRBaseFont)get(font);
+			if (baseFont == null)
+			{
+				baseFont = new JRBaseFont(styleContainer, font, this);
+			}
+		}
+
+		return baseFont;
+	}
+
 	
 	/**
 	 *

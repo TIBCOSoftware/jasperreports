@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -77,19 +76,15 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 	 * @param valueDisplay the value formatting object to copy
 	 * @param chart the parent chart
 	 */
-	public JRBaseValueDisplay(JRValueDisplay valueDisplay, JRChart chart)
+	public JRBaseValueDisplay(JRValueDisplay valueDisplay, JRChart chart)//FIXMECHART these two parameters are no longer used; first one is always null
 	{
 		this.chart = chart;
 		
-		if (valueDisplay == null)
-		{
-			font = new JRBaseFont(chart, null);
-		}
-		else
+		if (valueDisplay != null)
 		{
 			color = valueDisplay.getColor();
 			mask = valueDisplay.getMask();
-			font = new JRBaseFont(valueDisplay.getChart(), valueDisplay.getFont());
+			font = valueDisplay.getFont();
 		}
 	}
 
@@ -108,7 +103,7 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 
 		color = valueDisplay.getColor();
 		mask = valueDisplay.getMask();
-		font = new JRBaseFont(valueDisplay.getChart(), valueDisplay.getFont());
+		font = factory.getFont(valueDisplay.getChart(), valueDisplay.getFont());
 	}
 
 

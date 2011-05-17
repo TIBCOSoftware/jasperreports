@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRTimeSeriesPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -59,18 +58,19 @@ public class JRFillTimeSeriesPlot extends JRFillChartPlot implements JRTimeSerie
 	/**
 	 *
 	 */
-	public JRFillTimeSeriesPlot( JRTimeSeriesPlot plot, JRFillObjectFactory factory ){
-		super( plot, factory );
+	public JRFillTimeSeriesPlot( JRTimeSeriesPlot plot, JRFillObjectFactory factory )
+	{
+		super(plot, factory);
 
-		timeAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisLabelFont());
+		timeAxisLabelFont = factory.getFont(plot.getChart(), plot.getTimeAxisLabelFont());
 		timeAxisLabelColor = plot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = factory.getFont(plot.getChart(), plot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = plot.getOwnTimeAxisTickLabelColor();
 		timeAxisLineColor = plot.getOwnTimeAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisLabelFont());
+		valueAxisLabelFont = factory.getFont(plot.getChart(), plot.getValueAxisLabelFont());
 		valueAxisLabelColor = plot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = factory.getFont(plot.getChart(), plot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = plot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = plot.getOwnValueAxisTickLabelColor();
 	}

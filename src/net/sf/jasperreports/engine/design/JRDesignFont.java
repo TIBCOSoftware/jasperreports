@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.design;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
@@ -42,11 +44,37 @@ public class JRDesignFont extends JRBaseFont
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public JRDesignFont()
 	{
 	}
 		
+
+	/**
+	 *
+	 */
+	public JRDesignFont(JRStyleContainer styleContainer)
+	{
+		super(styleContainer);
+	}
+		
+
+	/**
+	 *
+	 */
+	public void setStyle(JRStyle style)
+	{
+		this.style = style;
+	}
+
+	
+	/**
+	 *
+	 */
+	public void setStyleNameReference(String styleNameReference)
+	{
+		this.styleNameReference = styleNameReference;
+	}
 
 }

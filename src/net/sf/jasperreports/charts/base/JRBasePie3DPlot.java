@@ -72,13 +72,10 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 	public JRBasePie3DPlot(JRChartPlot pie3DPlot, JRChart chart)
 	{
 		super(pie3DPlot, chart);
-		if (pie3DPlot == null)
+		
+		if (pie3DPlot != null)
 		{
-			itemLabel = new JRBaseItemLabel(null, chart);
-		}
-		else
-		{
-			itemLabel = new JRBaseItemLabel(((JRPie3DPlot)pie3DPlot).getItemLabel(), chart);
+			itemLabel = ((JRPie3DPlot)pie3DPlot).getItemLabel();
 		}
 	}
 

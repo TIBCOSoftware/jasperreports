@@ -74,9 +74,9 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	 *
 	 * @param thermoPlot the plot to copy
 	 */
-	public JRDesignThermometerPlot(JRChartPlot thermoPlot, JRChart chart)
+	public JRDesignThermometerPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(thermoPlot, chart);
+		super(plot, chart);
 	}
 
 	/**

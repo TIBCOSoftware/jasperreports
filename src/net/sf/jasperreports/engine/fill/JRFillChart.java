@@ -83,6 +83,7 @@ import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -96,8 +97,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -278,9 +277,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 				throw new JRRuntimeException("Chart type not supported.");
 		}
 
-		titleFont = new JRBaseFont(chart, chart.getTitleFont());
-		subtitleFont = new JRBaseFont(chart, chart.getSubtitleFont());
-		legendFont = new JRBaseFont(chart, chart.getLegendFont());
+		titleFont = factory.getFont(chart, chart.getTitleFont());
+		subtitleFont = factory.getFont(chart, chart.getSubtitleFont());
+		legendFont =  factory.getFont(this, chart.getLegendFont());
 		
 		lineBox = chart.getLineBox().clone(this);
 

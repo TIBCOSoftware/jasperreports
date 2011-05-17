@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -67,15 +66,15 @@ public class JRFillCandlestickPlot extends JRFillChartPlot implements JRCandlest
 	{
 		super(candlestickPlot, factory);
 
-		timeAxisLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
+		timeAxisLabelFont = factory.getFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisLabelFont());
 		timeAxisLabelColor = candlestickPlot.getOwnTimeAxisLabelColor();
-		timeAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
+		timeAxisTickLabelFont = factory.getFont(candlestickPlot.getChart(), candlestickPlot.getTimeAxisTickLabelFont());
 		timeAxisTickLabelColor = candlestickPlot.getOwnTimeAxisTickLabelColor();
 		timeAxisLineColor = candlestickPlot.getOwnTimeAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = factory.getFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = candlestickPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = factory.getFont(candlestickPlot.getChart(), candlestickPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = candlestickPlot.getOwnValueAxisTickLabelColor();
 	}

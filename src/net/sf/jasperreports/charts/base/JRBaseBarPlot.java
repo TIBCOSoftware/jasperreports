@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -97,21 +96,13 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		super(plot, chart);
 		
 		JRBarPlot barPlot = plot instanceof JRBarPlot ? (JRBarPlot)plot : null;
-		if (barPlot == null)
+		if (barPlot != null)
 		{
-			categoryAxisLabelFont = new JRBaseFont(chart, null);
-			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
-			valueAxisLabelFont = new JRBaseFont(chart, null);
-			valueAxisTickLabelFont = new JRBaseFont(chart, null);
-			itemLabel = new JRBaseItemLabel(null, chart);
-		}
-		else
-		{
-			categoryAxisLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisLabelFont());
-			categoryAxisTickLabelFont = new JRBaseFont(chart, barPlot.getCategoryAxisTickLabelFont());
-			valueAxisLabelFont = new JRBaseFont(chart, barPlot.getValueAxisLabelFont());
-			valueAxisTickLabelFont = new JRBaseFont(chart, barPlot.getValueAxisTickLabelFont());
-			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
+			categoryAxisLabelFont = barPlot.getCategoryAxisLabelFont();
+			categoryAxisTickLabelFont = barPlot.getCategoryAxisTickLabelFont();
+			valueAxisLabelFont = barPlot.getValueAxisLabelFont();
+			valueAxisTickLabelFont = barPlot.getValueAxisTickLabelFont();
+			itemLabel = barPlot.getItemLabel();
 		}
 	}
 
@@ -127,9 +118,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		showLabels = barPlot.getShowLabels();
 
 		categoryAxisLabelExpression = factory.getExpression( barPlot.getCategoryAxisLabelExpression() );
-		categoryAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont());
+		categoryAxisLabelFont = factory.getFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont());
 		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelFont = factory.getFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = barPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = barPlot.getCategoryAxisVerticalTickLabels();
@@ -141,9 +132,9 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		domainAxisMaxValueExpression = factory.getExpression( barPlot.getDomainAxisMaxValueExpression() );
 		rangeAxisMinValueExpression = factory.getExpression( barPlot.getRangeAxisMinValueExpression() );
 		rangeAxisMaxValueExpression = factory.getExpression( barPlot.getRangeAxisMaxValueExpression() );
-		valueAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = factory.getFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = factory.getFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = barPlot.getValueAxisTickLabelMask();
 		valueAxisVerticalTickLabels = barPlot.getValueAxisVerticalTickLabels();

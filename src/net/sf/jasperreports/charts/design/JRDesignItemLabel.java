@@ -30,7 +30,6 @@ import net.sf.jasperreports.charts.base.JRBaseItemLabel;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -112,7 +111,7 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 	public void setFont(JRFont font)
 	{
 		Object old = this.font;
-		this.font = new JRBaseFont(getChart(), font);
+		this.font = font;
 		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
 	}
 	

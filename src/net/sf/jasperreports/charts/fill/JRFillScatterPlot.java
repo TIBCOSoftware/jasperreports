@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.charts.JRScatterPlot;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -61,15 +60,15 @@ public class JRFillScatterPlot extends JRFillChartPlot implements JRScatterPlot 
 	public JRFillScatterPlot( JRScatterPlot plot, JRFillObjectFactory factory ){
 		super( plot, factory );
 		
-		xAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getXAxisLabelFont());
+		xAxisLabelFont = factory.getFont(plot.getChart(), plot.getXAxisLabelFont());
 		xAxisLabelColor = plot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = factory.getFont(plot.getChart(), plot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = plot.getOwnXAxisTickLabelColor();
 		xAxisLineColor = plot.getOwnXAxisLineColor();
 		
-		yAxisLabelFont = new JRBaseFont(plot.getChart(), plot.getYAxisLabelFont());
+		yAxisLabelFont = factory.getFont(plot.getChart(), plot.getYAxisLabelFont());
 		yAxisLabelColor = plot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(plot.getChart(), plot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = factory.getFont(plot.getChart(), plot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = plot.getOwnYAxisTickLabelColor();
 		yAxisLineColor = plot.getOwnYAxisLineColor();
 	}

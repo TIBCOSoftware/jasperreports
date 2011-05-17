@@ -156,7 +156,6 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	 */
 	private Byte splitType;
 	
-	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
