@@ -63,12 +63,6 @@ public class TableReportGroup implements JRGroup
 		return datasetGroup.getExpression();
 	}
 
-	@Deprecated
-	public byte getFooterPosition()
-	{
-		return FooterPositionEnum.NORMAL.getValue();
-	}
-
 	public FooterPositionEnum getFooterPositionValue()
 	{
 		return FooterPositionEnum.NORMAL;
@@ -154,12 +148,6 @@ public class TableReportGroup implements JRGroup
 	public boolean isStartNewPage()
 	{
 		return false;
-	}
-
-	@Deprecated
-	public void setFooterPosition(byte footerPosition)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	public void setFooterPosition(FooterPositionEnum footerPosition)

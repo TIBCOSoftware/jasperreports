@@ -175,12 +175,6 @@ public class TableReportDataset implements JRDataset
 		return true;
 	}
 
-	@Deprecated
-	public void setWhenResourceMissingType(byte whenResourceMissingType)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	public void setWhenResourceMissingType(
 			WhenResourceMissingTypeEnum whenResourceMissingType)
 	{

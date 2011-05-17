@@ -120,12 +120,6 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 		throw new UnsupportedOperationException();
 	}
 
-	@Deprecated
-	public void setUsingCache(boolean isUsingCache)
-	{
-		throw new UnsupportedOperationException();
-	}
-
 	public void setUsingCache(Boolean isUsingCache)
 	{
 		throw new UnsupportedOperationException();
