@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -85,18 +84,12 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 	{
 		this.chart = chart;
 		
-		if (itemLabel == null)
-		{
-			font = new JRBaseFont(chart, null);
-			color = chart.getForecolor();
-			backgroundColor = chart.getBackcolor();
-		}
-		else
+		if (itemLabel != null)
 		{
 			color = itemLabel.getColor();
 			backgroundColor = itemLabel.getBackgroundColor();
 //			mask = itemLabel.getMask();
-			font = new JRBaseFont(itemLabel.getChart(), itemLabel.getFont());
+			font = itemLabel.getFont();
 		}
 	}
 
@@ -116,7 +109,7 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 		color = itemLabel.getColor();
 		backgroundColor = itemLabel.getBackgroundColor();
 //		mask = itemLabel.getMask();
-		font = new JRBaseFont(itemLabel.getChart(), itemLabel.getFont());
+		font = factory.getFont(itemLabel.getChart(), itemLabel.getFont());
 	}
 
 

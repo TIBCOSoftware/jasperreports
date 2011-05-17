@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -76,19 +75,12 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 		super(plot, chart);
 		
 		JRAreaPlot areaPlot = plot instanceof JRAreaPlot ? (JRAreaPlot)plot : null;
-		if (areaPlot == null)//FIXMECHART make a common interface and try copy props that are common to different plots
+		if (areaPlot != null)//FIXMECHART make a common interface and try copy props that are common to different plots
 		{
-			categoryAxisLabelFont = new JRBaseFont(chart, null); 
-			categoryAxisTickLabelFont = new JRBaseFont(chart, null);
-			valueAxisLabelFont = new JRBaseFont(chart, null);
-			valueAxisTickLabelFont = new JRBaseFont(chart, null);
-		}
-		else
-		{
-			categoryAxisLabelFont = new JRBaseFont(chart, areaPlot.getCategoryAxisLabelFont()); 
-			categoryAxisTickLabelFont = new JRBaseFont(chart, areaPlot.getCategoryAxisTickLabelFont());
-			valueAxisLabelFont = new JRBaseFont(chart, areaPlot.getValueAxisLabelFont());
-			valueAxisTickLabelFont = new JRBaseFont(chart, areaPlot.getValueAxisTickLabelFont());
+			categoryAxisLabelFont = areaPlot.getCategoryAxisLabelFont(); 
+			categoryAxisTickLabelFont = areaPlot.getCategoryAxisTickLabelFont();
+			valueAxisLabelFont = areaPlot.getValueAxisLabelFont();
+			valueAxisTickLabelFont = areaPlot.getValueAxisTickLabelFont();
 		}
 	}
 
@@ -101,9 +93,9 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 		super( areaPlot, factory );
 		
 		categoryAxisLabelExpression = factory.getExpression( areaPlot.getCategoryAxisLabelExpression() );
-		categoryAxisLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getCategoryAxisLabelFont()); 
+		categoryAxisLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getCategoryAxisLabelFont()); 
 		categoryAxisLabelColor = areaPlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = areaPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisTickLabelMask = areaPlot.getCategoryAxisTickLabelMask();
 		categoryAxisVerticalTickLabels = areaPlot.getCategoryAxisVerticalTickLabels();
@@ -115,9 +107,9 @@ public class JRBaseAreaPlot extends JRBaseChartPlot implements JRAreaPlot
 		domainAxisMaxValueExpression = factory.getExpression( areaPlot.getDomainAxisMaxValueExpression() );
 		rangeAxisMinValueExpression = factory.getExpression( areaPlot.getRangeAxisMinValueExpression() );
 		rangeAxisMaxValueExpression = factory.getExpression( areaPlot.getRangeAxisMaxValueExpression() );
-		valueAxisLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = areaPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(areaPlot.getChart(), areaPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = factory.getFont(areaPlot.getChart(), areaPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = areaPlot.getOwnValueAxisTickLabelColor();
 		valueAxisTickLabelMask = areaPlot.getValueAxisTickLabelMask();
 		valueAxisVerticalTickLabels = areaPlot.getValueAxisVerticalTickLabels();

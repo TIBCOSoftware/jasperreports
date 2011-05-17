@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 
 
 /**
@@ -91,9 +90,9 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	/**
 	 *
 	 */
-	public JRDesignHighLowPlot(JRChartPlot highLowPlot, JRChart chart)
+	public JRDesignHighLowPlot(JRChartPlot plot, JRChart chart)
 	{
-		super(highLowPlot, chart);
+		super(plot, chart);
 	}
 
 
@@ -113,7 +112,7 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	public void setTimeAxisLabelFont(JRFont timeAxisLabelFont)
 	{
 		Object old = this.timeAxisLabelFont;
-		this.timeAxisLabelFont = new JRBaseFont(this.getChart(), timeAxisLabelFont);
+		this.timeAxisLabelFont = timeAxisLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_LABEL_FONT, old, this.timeAxisLabelFont);
 	}
 
@@ -133,7 +132,7 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	public void setTimeAxisTickLabelFont(JRFont timeAxisTickLabelFont)
 	{
 		Object old = this.timeAxisTickLabelFont;
-		this.timeAxisTickLabelFont = new JRBaseFont(this.getChart(), timeAxisTickLabelFont);
+		this.timeAxisTickLabelFont = timeAxisTickLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_TIME_AXIS_TICK_LABEL_FONT, old, this.timeAxisTickLabelFont);
 	}
 
@@ -233,7 +232,7 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	public void setValueAxisLabelFont(JRFont valueAxisLabelFont)
 	{
 		Object old = this.valueAxisLabelFont;
-		this.valueAxisLabelFont = new JRBaseFont(this.getChart(), valueAxisLabelFont);
+		this.valueAxisLabelFont = valueAxisLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_LABEL_FONT, old, this.valueAxisLabelFont);
 	}
 
@@ -253,7 +252,7 @@ public class JRDesignHighLowPlot extends JRBaseHighLowPlot
 	public void setValueAxisTickLabelFont(JRFont valueAxisTickLabelFont)
 	{
 		Object old = this.valueAxisTickLabelFont;
-		this.valueAxisTickLabelFont = new JRBaseFont(this.getChart(), valueAxisTickLabelFont);
+		this.valueAxisTickLabelFont = valueAxisTickLabelFont;
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_AXIS_TICK_LABEL_FONT, old, this.valueAxisTickLabelFont);
 	}
 

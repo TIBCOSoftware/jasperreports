@@ -21,13 +21,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.*;
-
-import java.awt.BorderLayout;
 import java.applet.AppletContext;
-import java.net.*;
+import java.awt.BorderLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.JOptionPane;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRHyperlinkListener;
 
 
 /**
@@ -64,9 +68,9 @@ public class ViewerFrame extends javax.swing.JFrame implements JRHyperlinkListen
 	 */
 	public void gotoHyperlink(JRPrintHyperlink hyperlink)
 	{
-		switch(hyperlink.getHyperlinkType())
+		switch(hyperlink.getHyperlinkTypeValue())
 		{
-			case JRHyperlink.HYPERLINK_TYPE_REFERENCE :
+			case REFERENCE :
 			{
 				try
 				{
@@ -78,18 +82,18 @@ public class ViewerFrame extends javax.swing.JFrame implements JRHyperlinkListen
 				}
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR :
-			case JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE :
+			case LOCAL_ANCHOR :
+			case LOCAL_PAGE :
 			{
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR :
-			case JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE :
+			case REMOTE_ANCHOR :
+			case REMOTE_PAGE :
 			{
 				JOptionPane.showMessageDialog(this, "Implement your own JRHyperlinkListener to manage this type of event.");
 				break;
 			}
-			case JRHyperlink.HYPERLINK_TYPE_NONE :
+			case NONE :
 			default :
 			{
 				break;

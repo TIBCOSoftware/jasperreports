@@ -29,7 +29,6 @@ import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRItemLabel;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -69,15 +68,15 @@ public class JRFillBarPlot extends JRFillChartPlot implements JRBarPlot
 	{
 		super(barPlot, factory);
 
-		categoryAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
+		categoryAxisLabelFont = factory.getFont(barPlot.getChart(), barPlot.getCategoryAxisLabelFont()); 
 		categoryAxisLabelColor = barPlot.getOwnCategoryAxisLabelColor();
-		categoryAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
+		categoryAxisTickLabelFont = factory.getFont(barPlot.getChart(), barPlot.getCategoryAxisTickLabelFont());
 		categoryAxisTickLabelColor = barPlot.getOwnCategoryAxisTickLabelColor();
 		categoryAxisLineColor = barPlot.getOwnCategoryAxisLineColor();
 		
-		valueAxisLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
+		valueAxisLabelFont = factory.getFont(barPlot.getChart(), barPlot.getValueAxisLabelFont());
 		valueAxisLabelColor = barPlot.getOwnValueAxisLabelColor();
-		valueAxisTickLabelFont = new JRBaseFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
+		valueAxisTickLabelFont = factory.getFont(barPlot.getChart(), barPlot.getValueAxisTickLabelFont());
 		valueAxisTickLabelColor = barPlot.getOwnValueAxisTickLabelColor();
 		valueAxisLineColor = barPlot.getOwnValueAxisLineColor();
 		

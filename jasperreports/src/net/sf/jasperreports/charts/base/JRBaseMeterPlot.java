@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
@@ -132,15 +131,10 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		super(plot, chart);
 		
 		JRMeterPlot meterPlot = plot instanceof JRMeterPlot ? (JRMeterPlot)plot : null;
-		if (meterPlot == null)
+		if (meterPlot != null)
 		{
-			valueDisplay = new JRBaseValueDisplay(null, chart);
-			tickLabelFont = new JRBaseFont(chart, null);
-		}
-		else
-		{
-			valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), chart);
-			tickLabelFont = new JRBaseFont(chart, meterPlot.getTickLabelFont());
+			valueDisplay = meterPlot.getValueDisplay();
+			tickLabelFont = meterPlot.getTickLabelFont();
 		}
 	}
 
@@ -177,7 +171,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		meterBackgroundColor = meterPlot.getMeterBackgroundColor();
 		needleColor = meterPlot.getNeedleColor();
 		tickColor = meterPlot.getTickColor();
-		tickLabelFont = new JRBaseFont(this.getChart(), meterPlot.getTickLabelFont());
+		tickLabelFont = factory.getFont(this.getChart(), meterPlot.getTickLabelFont());
 	}
 
 	/**

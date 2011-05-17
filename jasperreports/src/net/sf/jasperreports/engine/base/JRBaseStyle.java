@@ -115,7 +115,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected JRDefaultStyleProvider defaultStyleProvider;
+	protected JRDefaultStyleProvider defaultStyleProvider;//FIXME this is never set; it has been like that for a long time; trying to solve causes a stack overflow
 	protected JRStyle parentStyle;
 	protected String parentStyleNameReference;
 

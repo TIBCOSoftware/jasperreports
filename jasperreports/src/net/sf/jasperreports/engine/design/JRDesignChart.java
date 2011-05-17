@@ -69,7 +69,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseChart;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
@@ -187,10 +186,6 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		
 		setChartType(chartType);
 		
-		titleFont = new JRBaseFont(this, null);
-		subtitleFont = new JRBaseFont(this, null);
-		legendFont = new JRBaseFont(this, null);
-
 		hyperlinkParameters = new ArrayList();
 		
 		lineBox = new JRBaseLineBox(this);
@@ -309,7 +304,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setTitleFont(JRFont font)//FIXMEFONT embedded fonts should never be null so these font setting methods should be deprecated; check iR impact
 	{
 		Object old = this.titleFont;
-		this.titleFont = new JRBaseFont(this, font);
+		this.titleFont = font;
 		getEventSupport().firePropertyChange(PROPERTY_TITLE_FONT, old, this.titleFont);
 	}
 	
@@ -371,7 +366,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setSubtitleFont(JRFont font)
 	{
 		Object old = this.subtitleFont;
-		this.subtitleFont = new JRBaseFont(this, font);
+		this.subtitleFont = font;
 		getEventSupport().firePropertyChange(PROPERTY_SUBTITLE_FONT, old, this.subtitleFont);
 	}
 	
@@ -467,7 +462,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	public void setLegendFont(JRFont legendFont)
 	{
 		Object old = this.legendFont;
-		this.legendFont = new JRBaseFont(this, legendFont);
+		this.legendFont = legendFont;
 		getEventSupport().firePropertyChange(PROPERTY_LEGEND_FONT, old, this.legendFont);
 	}
 	
@@ -721,8 +716,8 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 				plot = new JRDesignMeterPlot(plot, this);
 				break;
 			case CHART_TYPE_MULTI_AXIS:
-				plot = new JRDesignMultiAxisPlot(plot, this);
 				dataset = null;
+				plot = new JRDesignMultiAxisPlot(plot, this);
 				break;
 			case CHART_TYPE_PIE:
 				dataset = new JRDesignPieDataset(dataset);

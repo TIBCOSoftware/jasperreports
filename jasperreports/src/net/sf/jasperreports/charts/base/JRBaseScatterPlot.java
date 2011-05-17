@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
-import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -86,19 +85,12 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		super(plot, chart);
 		
 		JRScatterPlot scatterPlot = plot instanceof JRScatterPlot ? (JRScatterPlot)plot : null;
-		if (scatterPlot == null)
+		if (scatterPlot != null)
 		{
-			xAxisLabelFont = new JRBaseFont(chart, null);
-			xAxisTickLabelFont = new JRBaseFont(chart, null);
-			yAxisLabelFont = new JRBaseFont(chart, null);
-			yAxisTickLabelFont = new JRBaseFont(chart, null);
-		}
-		else
-		{
-			xAxisLabelFont = new JRBaseFont(chart, scatterPlot.getXAxisLabelFont());
-			xAxisTickLabelFont = new JRBaseFont(chart, scatterPlot.getXAxisTickLabelFont());
-			yAxisLabelFont = new JRBaseFont(chart, scatterPlot.getYAxisLabelFont());
-			yAxisTickLabelFont = new JRBaseFont(chart, scatterPlot.getYAxisTickLabelFont());
+			xAxisLabelFont = scatterPlot.getXAxisLabelFont();
+			xAxisTickLabelFont = scatterPlot.getXAxisTickLabelFont();
+			yAxisLabelFont = scatterPlot.getYAxisLabelFont();
+			yAxisTickLabelFont = scatterPlot.getYAxisTickLabelFont();
 		}
 	}
 
@@ -113,18 +105,18 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 		showLines = scatterPlot.getShowLines();
 		
 		xAxisLabelExpression = factory.getExpression( scatterPlot.getXAxisLabelExpression() );
-		xAxisLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getXAxisLabelFont());
+		xAxisLabelFont = factory.getFont(scatterPlot.getChart(), scatterPlot.getXAxisLabelFont());
 		xAxisLabelColor = scatterPlot.getOwnXAxisLabelColor();
-		xAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getXAxisTickLabelFont());
+		xAxisTickLabelFont = factory.getFont(scatterPlot.getChart(), scatterPlot.getXAxisTickLabelFont());
 		xAxisTickLabelColor = scatterPlot.getOwnXAxisTickLabelColor();
 		xAxisTickLabelMask = scatterPlot.getXAxisTickLabelMask();
 		xAxisVerticalTickLabels = scatterPlot.getXAxisVerticalTickLabels();
 		xAxisLineColor = scatterPlot.getOwnXAxisLineColor();
 		
 		yAxisLabelExpression = factory.getExpression( scatterPlot.getYAxisLabelExpression() );
-		yAxisLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getYAxisLabelFont());
+		yAxisLabelFont = factory.getFont(scatterPlot.getChart(), scatterPlot.getYAxisLabelFont());
 		yAxisLabelColor = scatterPlot.getOwnYAxisLabelColor();
-		yAxisTickLabelFont = new JRBaseFont(scatterPlot.getChart(), scatterPlot.getYAxisTickLabelFont());
+		yAxisTickLabelFont = factory.getFont(scatterPlot.getChart(), scatterPlot.getYAxisTickLabelFont());
 		yAxisTickLabelColor = scatterPlot.getOwnYAxisTickLabelColor();
 		yAxisTickLabelMask = scatterPlot.getYAxisTickLabelMask();
 		yAxisVerticalTickLabels = scatterPlot.getYAxisVerticalTickLabels();

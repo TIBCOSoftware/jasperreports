@@ -27,6 +27,7 @@ import java.awt.font.TextAttribute;
 import java.io.Serializable;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
@@ -75,6 +76,8 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	 *
 	 */
 	protected JRStyleContainer styleContainer;
+	protected JRStyle style;
+	protected String styleNameReference;
 
 	protected String fontName;
 	protected Boolean isBold;
@@ -159,12 +162,21 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	/**
 	 * 
 	 */
+	public JRBaseFont(JRStyleContainer styleContainer)
+	{
+		this.styleContainer = styleContainer;
+	}
+		
+
+	/**
+	 * @deprecated To be removed.
+	 */
 	public JRBaseFont(
 		JRStyleContainer styleContainer,
 		JRFont font
 		)
 	{
-		this.styleContainer = styleContainer;
+		this(styleContainer);
 		
 		if (font != null)
 		{
@@ -184,6 +196,30 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
+	public JRBaseFont(JRStyleContainer styleContainer, JRFont font, JRAbstractObjectFactory factory)
+	{
+		factory.put(font, this);
+
+		this.styleContainer = styleContainer;
+
+		style = factory.getStyle(font.getStyle());
+		styleNameReference = font.getStyleNameReference();
+
+		fontName = font.getOwnFontName();
+		isBold = font.isOwnBold();
+		isItalic = font.isOwnItalic();
+		isUnderline = font.isOwnUnderline();
+		isStrikeThrough = font.isOwnStrikeThrough();
+		fontSize = font.getOwnFontSize();
+		pdfFontName = font.getOwnPdfFontName();
+		pdfEncoding = font.getOwnPdfEncoding();
+		isPdfEmbedded = font.isOwnPdfEmbedded();
+	}
+
+	
+	/**
+	 *
+	 */
 	public JRDefaultStyleProvider getDefaultStyleProvider()
 	{
 		return styleContainer == null ? null : styleContainer.getDefaultStyleProvider();
@@ -194,7 +230,15 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	 */
 	public JRStyle getStyle()
 	{
-		return styleContainer == null ? null : styleContainer.getStyle();
+		return style == null ? (styleContainer == null ? null : styleContainer.getStyle()) : style;
+	}
+
+	/**
+	 *
+	 */
+	public String getStyleNameReference()
+	{
+		return styleNameReference == null ? (styleContainer == null ? null : styleContainer.getStyleNameReference()) : styleNameReference;
 	}
 
 	/**
@@ -490,12 +534,6 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	}
 
 
-	public String getStyleNameReference()
-	{
-		return styleContainer == null ? null : styleContainer.getStyleNameReference();
-	}
-
-	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

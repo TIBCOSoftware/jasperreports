@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.JRDesignElement;
@@ -50,35 +51,15 @@ public abstract class JRFontFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	public abstract void setStyle(JRFont font, Attributes atts);
+	
+	
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		JRFont font = getFont();
-
-		JRDesignElement element = (JRDesignElement)digester.peek();
-
-		if (
-			element.getStyle() == null
-			&& element.getStyleNameReference() == null
-			)
-		{
-			String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
-			if (styleName != null)
-			{
-				JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-				Map stylesMap = jasperDesign.getStylesMap();
-
-				if (stylesMap.containsKey(styleName))
-				{
-					JRStyle style = (JRStyle) stylesMap.get(styleName);
-					element.setStyle(style);
-				}
-				else
-				{
-					element.setStyleNameReference(styleName);
-				}
-			}
-		}
-
 
 		if (atts.getValue(JRXmlConstants.ATTRIBUTE_fontName) != null)
 		{
@@ -117,6 +98,9 @@ public abstract class JRFontFactory extends JRBaseFactory
 		{
 			font.setPdfEmbedded(Boolean.valueOf(atts.getValue(JRXmlConstants.ATTRIBUTE_isPdfEmbedded)));
 		}
+		
+		setStyle(font, atts);
+		
 		return font;
 	}
 	
@@ -130,6 +114,34 @@ public abstract class JRFontFactory extends JRBaseFactory
 		{
 			return (JRFont)digester.peek();
 		}
+
+		public void setStyle(JRFont font, Attributes atts)
+		{
+			JRDesignElement element = (JRDesignElement)font;
+
+			if (
+				element.getStyle() == null
+				&& element.getStyleNameReference() == null
+				)
+			{
+				String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
+				if (styleName != null)
+				{
+					JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+					Map stylesMap = jasperDesign.getStylesMap();
+
+					if (stylesMap.containsKey(styleName))
+					{
+						JRStyle style = (JRStyle) stylesMap.get(styleName);
+						element.setStyle(style);
+					}
+					else
+					{
+						element.setStyleNameReference(styleName);
+					}
+				}
+			}
+		}
 	}
 	
 
@@ -140,7 +152,44 @@ public abstract class JRFontFactory extends JRBaseFactory
 	{
 		public JRFont getFont()
 		{
-			return new JRDesignFont();
+			int i = 0;
+			JRChart chart = null;
+			while (chart == null && i < digester.getCount())
+			{
+				Object obj = digester.peek(i);
+				chart = obj instanceof JRChart ? (JRChart)obj : null;
+				i++;
+			}
+			
+			return new JRDesignFont(chart);
+		}
+		
+		public void setStyle(JRFont font, Attributes atts)
+		{
+			JRDesignFont designFont = (JRDesignFont)font;
+
+//			if (
+//				designFont.getStyle() == null
+//				&& designFont.getStyleNameReference() == null
+//				)
+//			{
+				String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
+				if (styleName != null)
+				{
+					JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
+					Map stylesMap = jasperDesign.getStylesMap();
+
+					if (stylesMap.containsKey(styleName))
+					{
+						JRStyle style = (JRStyle) stylesMap.get(styleName);
+						designFont.setStyle(style);
+					}
+					else
+					{
+						designFont.setStyleNameReference(styleName);
+					}
+				}
+//			}
 		}
 	}
 	
