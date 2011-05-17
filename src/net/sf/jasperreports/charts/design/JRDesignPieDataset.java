@@ -182,6 +182,88 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 
 
 	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRExpression getKeyExpression()
+	{
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getKeyExpression() : null;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public void setKeyExpression(JRExpression keyExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setKeyExpression(keyExpression);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRExpression getValueExpression()
+	{
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getValueExpression() : null;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public void setValueExpression(JRExpression valueExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setValueExpression(valueExpression);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRExpression getLabelExpression()
+	{
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getLabelExpression() : null;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public void setLabelExpression(JRExpression labelExpression)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setLabelExpression(labelExpression);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public JRHyperlink getSectionHyperlink()
+	{
+		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getSectionHyperlink() : null;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getSeries()}.
+	 */
+	public void setSectionHyperlink(JRHyperlink sectionHyperlink)
+	{
+		if (pieSeriesList.size() == 0)
+		{
+			addPieSeries(new JRDesignPieSeries());
+		}
+		((JRDesignPieSeries)pieSeriesList.get(0)).setSectionHyperlink(sectionHyperlink);
+	}
+	
+	
+	/**
 	 *
 	 */
 	public JRExpression getOtherKeyExpression()
