@@ -45,14 +45,12 @@ import org.apache.commons.digester.Digester;
  */
 public class SpiderChartDigester implements XmlDigesterConfigurer
 {
-
 	public void configureDigester(Digester digester)
 	{
 		addSpiderChartRules(digester);
 	}
 	
-	
-	protected void addSpiderChartRules(Digester digester)
+	public static void addSpiderChartRules(Digester digester)
 	{
 		String componentNamespace = digester.getRuleNamespaceURI();
 		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
@@ -132,4 +130,5 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addSetNext(maxValueExpressionPattern, "setMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(maxValueExpressionPattern, "setText", 0 );
 	}
+	
 }
