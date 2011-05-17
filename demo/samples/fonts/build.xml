@@ -7,6 +7,15 @@
 	<property name="sample.app.name" value="${sample.base.name}App" />
 	<property name="sample.report.name" value="${sample.base.name}Report" />
 	
+	<path id="classpath">
+		<pathelement location="./build/classes"/>
+		<pathelement location="../../../build/classes" />
+		<pathelement location="../../fonts" />
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
 	<target name="javac" description="Compiles the java source files of the test application.">
 		<ant dir="../" target="javac"/>
 	</target>
@@ -108,7 +117,11 @@
 	</target>
 
 	<target name="fontsXml">
-		<ant dir="../" target="fontsXml"/>
+		<mkdir dir="./build/reports"/> 
+		<java classname="${sample.app.name}" fork="true">
+			<arg value="fontsXml"/>
+			<classpath refid="classpath"/>
+		</java>
 	</target>
 	
 	<target name="clean" description="Deletes all the generated files.">
