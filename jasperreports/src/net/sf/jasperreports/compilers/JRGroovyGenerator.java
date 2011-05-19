@@ -567,15 +567,17 @@ public class JRGroovyGenerator
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
 						JRParameter jrParameter = (JRParameter)parametersMap.get(chunkText);
-						
-						appendReferenceChunk(
-							sb, 
-							jrParameter.getValueClassName(), 
-							"parameter", 
-							JRStringUtil.getJavaIdentifier(chunkText), 
-							null, 
-							chunks.length > 1
-							);
+	
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrParameter.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrParameter.getValueClassName());
+							sb.append(")");
+						}
+						sb.append("parameter_");
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText));
+						sb.append(".getValue())");
 	
 						break;
 					}
@@ -583,14 +585,18 @@ public class JRGroovyGenerator
 					{
 						JRField jrField = (JRField)fieldsMap.get(chunkText);
 
-						appendReferenceChunk(
-							sb, 
-							jrField.getValueClassName(), 
-							"field", 
-							JRStringUtil.getJavaIdentifier(chunkText), 
-							(String)fieldPrefixMap.get(new Byte(evaluationType)), 
-							chunks.length > 1
-							);
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrField.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrField.getValueClassName());
+							sb.append(")");
+						}
+						sb.append("field_");
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
+						sb.append(".get");
+						sb.append((String)fieldPrefixMap.get(new Byte(evaluationType))); 
+						sb.append("Value())");
 	
 						break;
 					}
@@ -598,14 +604,18 @@ public class JRGroovyGenerator
 					{
 						JRVariable jrVariable = (JRVariable)variablesMap.get(chunkText);
 	
-						appendReferenceChunk(
-							sb, 
-							jrVariable.getValueClassName(), 
-							"variable", 
-							JRStringUtil.getJavaIdentifier(chunkText), 
-							(String)variablePrefixMap.get(new Byte(evaluationType)), 
-							chunks.length > 1
-							);
+						sb.append("(");
+						if (!"java.lang.Object".equals(jrVariable.getValueClassName()))
+						{
+							sb.append("(");
+							sb.append(jrVariable.getValueClassName());
+							sb.append(")"); 
+						}
+						sb.append("variable_"); 
+						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
+						sb.append(".get");
+						sb.append((String)variablePrefixMap.get(new Byte(evaluationType))); 
+						sb.append("Value())");
 	
 						break;
 					}
@@ -627,69 +637,5 @@ public class JRGroovyGenerator
 		}
 
 		return sb.toString();
-	}
-
-
-	/**
-	 *
-	 */
-	private void appendReferenceChunk(
-		StringBuffer sb,
-		String valueClassName,
-		String referencePrefix,
-		String referenceSuffix,
-		String getterPrefix,
-		boolean multipleChunks
-		)
-	{
-		sb.append("(");
-		if (!"java.lang.Object".equals(valueClassName))
-		{
-			sb.append("(");
-			sb.append(valueClassName);
-			sb.append(")");
-		}
-		sb.append(referencePrefix);
-		sb.append("_");
-		sb.append(referenceSuffix);
-		sb.append(".get");
-		if (getterPrefix != null)
-		{
-			sb.append(getterPrefix);
-		}
-		sb.append("Value())");
-
-		// append additional method call to avoid string concatenation of null values by groovy
-		if (multipleChunks)
-		{
-			if ("java.lang.Long".equals(valueClassName))
-			{
-				sb.append(".toLong()");
-			}
-			else if (
-				"java.lang.Integer".equals(valueClassName)
-				|| "java.lang.Short".equals(valueClassName)
-				|| "java.lang.Byte".equals(valueClassName)
-				)
-			{
-				sb.append(".toInteger()");
-			}
-			else if ("java.lang.Double".equals(valueClassName))
-			{
-				sb.append(".toDouble()");
-			}
-			else if ("java.lang.Float".equals(valueClassName))
-			{
-				sb.append(".toFloat()");
-			}
-			else if ("java.math.BigDecimal".equals(valueClassName))
-			{
-				sb.append(".toBigDecimal()");
-			}
-			else if ("java.math.BigInteger".equals(valueClassName))
-			{
-				sb.append(".toBigInteger()");
-			}
-		}
 	}
 }
