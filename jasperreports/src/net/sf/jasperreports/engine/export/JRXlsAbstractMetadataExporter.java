@@ -616,6 +616,42 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 		return indexOfLastFilledColumn < columnNames.indexOf(currentColumnName);
 	}
 	
+	protected void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	public void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
+	{
+	}
+
+	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	protected void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
+	{
+	}
+	
+	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) throws JRException
+	{
+	}
+
+	protected void setCell(JRExporterGridCell gridCell, int x, int y)
+	{
+	}
+	
 	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
@@ -630,11 +666,9 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 
-	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
-
 	protected abstract void exportText(JRPrintText textElement) throws JRException;
 
-	protected abstract void exportImage(JRPrintImage image) throws JRException;
+	public abstract void exportImage(JRPrintImage image) throws JRException;
 
 	protected abstract void exportRectangle(JRPrintGraphicElement element) throws JRException;
 

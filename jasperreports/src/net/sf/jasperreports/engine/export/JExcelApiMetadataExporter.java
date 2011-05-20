@@ -982,7 +982,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 	}
 
-	protected void exportImage(JRPrintImage element) throws JRException
+	public void exportImage(JRPrintImage element) throws JRException
 	{
 
 		String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
@@ -2318,7 +2318,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			{
 				CellValue cellValue = getLabelCell(i, 0, columnNames.get(i), null);
 				sheet.addCell(cellValue);
-				setRowHeight(0, 50);//FIXME: arbitrary row height in row header
 			}
 		}
 		catch (RowsExceededException e)
@@ -2329,43 +2328,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		{
 			throw new JRException(e);
 		}
-	}
-	
-	
-	protected void exportText(JRPrintText text, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void exportImage(JRPrintImage image, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
-	{
-	}
-
-	protected void exportRectangle(JRPrintGraphicElement element, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void exportLine(JRPrintLine line, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void exportFrame(JRPrintFrame frame, JRExporterGridCell cell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException
-	{
-	}
-	
-	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void addOccupiedCell(OccupiedGridCell occupiedGridCell, int colIndex, int rowIndex) throws JRException
-	{
-	}
-
-	protected void setCell(JRExporterGridCell gridCell, int x, int y)
-	{
 	}
 
 }
