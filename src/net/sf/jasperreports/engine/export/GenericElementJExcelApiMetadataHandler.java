@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -47,6 +48,8 @@ public interface GenericElementJExcelApiMetadataHandler extends GenericElementHa
 	 * @param element the generic element to export
 	 * @param currentRow the map with column names as keys and exported CellValue objects as values 
 	 * @param repeatedValues the map containing CellValue objects to be placed instead in the currentRow map when the exported object is null
+	 * @param columnNames the list of column names
+	 * @param columnNamesMap the map containing the mapping between column names and column indexes
 	 * @param currentColumnName the current column's name
 	 * @param colIndex the current column index
 	 * @param rowIndex the current row index
@@ -58,11 +61,13 @@ public interface GenericElementJExcelApiMetadataHandler extends GenericElementHa
 			JExcelApiExporterContext exporterContext, 
 			JRGenericPrintElement element, 
 			Map<String, Object> currentRow, 
-			Map<String, Object> repeatedValues, 
+			Map<String, Object> repeatedValues,
+			List<String> columnNames,
+			Map<String, Integer> columnNamesMap,
 			String currentColumnName, 
 			int colIndex, 
 			int rowIndex,
 			boolean repeatValue
 			);
-	
+
 }

@@ -2246,6 +2246,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 						element, 
 						currentRow, 
 						repeatedValues, 
+						columnNames,
+						columnNamesMap,
 						currentColumnName, 
 						colIndex, 
 						rowIndex, 
