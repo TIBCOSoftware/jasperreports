@@ -156,12 +156,19 @@
 	</target>
 	
 	<target name="csvMetadata">
-			<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
-				<arg value="csvMetadata"/>
-				<classpath refid="classpath"/>
-			</java>
-		</target>
-
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="csvMetadata"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="jxlMetadata">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="jxlMetadata"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
 	<target name="odt">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="odt"/>

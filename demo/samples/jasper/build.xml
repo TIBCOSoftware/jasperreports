@@ -64,8 +64,12 @@
 	</target>
 
 	<target name="csvMetadata" description="Generates a CSV version of the report by converting the .jrprint file.">
-			<ant dir="../" target="csvMetadata"/>
-		</target>
+		<ant dir="../" target="csvMetadata"/>
+	</target>
+	
+	<target name="jxlMetadata" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxlMetadata"/>
+	</target>
 	
 	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
 		<ant dir="../" target="odt"/>
