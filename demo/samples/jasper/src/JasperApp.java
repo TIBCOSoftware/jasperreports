@@ -85,6 +85,7 @@ public class JasperApp extends AbstractSampleApp
 		jxl();
 		csv();
 		csvMetadata();
+		jxlMetadata();
 		odt();
 		ods();
 		docx();
