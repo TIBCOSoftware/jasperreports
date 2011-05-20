@@ -379,15 +379,6 @@
 	<annotation>
 	 <documentation>Class for the style template source expression.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="java.lang.String"/>
-      <enumeration value="java.io.File"/>
-      <enumeration value="java.net.URL"/>
-      <enumeration value="java.io.InputStream"/>
-      <enumeration value="net.sf.jasperreports.engine.JRTemplate"/>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -2411,40 +2402,6 @@ This can be useful when, for instance, a border has to be drawn around the image
 	<annotation>
 	 <documentation>Class of the image source.</documentation>
 	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="java.lang.String">
-		<annotation>
-		 <documentation>Image location. First, the report engine tries to see whether the String represents an URL. If not, it tries to find the file on disk and finally, if the String does not represent a path file, it searches in the CLASSPATH to find the image as a resource.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.io.File">
-		<annotation>
-		 <documentation>Image loaded by opening an <code>java.io.InputStream</code> from this <code>java.io.File</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.net.URL">
-		<annotation>
-		 <documentation>Image loaded by opening an <code>java.io.InputStream</code> from this <code>java.net.URL</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.io.InputStream">
-		<annotation>
-		 <documentation>Image loaded from an <code>java.io.InputStream</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.awt.Image">
-		<annotation>
-		 <documentation>Image loaded from a <code>java.awt.Image</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="net.sf.jasperreports.engine.JRRenderable">
-		<annotation>
-		 <documentation>The image will be drawn directly on the target graphic context by a serializable instance of this interface.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>
@@ -3271,6 +3228,7 @@ This can be useful when, for instance, a border has to be drawn around the image
     <element ref="jr:box" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:textElement" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:textFieldExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:patternExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
@@ -3385,81 +3343,18 @@ This can be useful when, for instance, a border has to be drawn around the image
    <documentation>Defines the expression to use for this textField.</documentation>
   </annotation>
   <complexType mixed="true">
-   <attribute name="class" use="optional" default="java.lang.String">
+   <attribute name="class" use="optional">
     <annotation>
      <documentation>Class for the text field values.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="java.lang.Boolean">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Byte">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.util.Date">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.sql.Timestamp">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.sql.Time">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Double">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Float">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Integer">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Long">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Short">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.math.BigDecimal">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.Number">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.lang.String">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
+ </element>
+
+ <element name="patternExpression">
+  <annotation>
+   <documentation>Defines the pattern expression to use for this textField.</documentation>
+  </annotation>
  </element>
 
  <element name="subreport">
@@ -3654,44 +3549,10 @@ This can be useful when, for instance, a border has to be drawn around the image
    <documentation>Definition of the expression that will be used to determine the report object that will be loaded as a subreport.</documentation>
   </annotation>
   <complexType mixed="true">
-   <attribute name="class" use="optional" default="java.lang.String">
+   <attribute name="class" use="optional">
     <annotation>
      <documentation>Class of the image source.</documentation>
     </annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="java.lang.String">
-		<annotation>
-		 <documentation>Subreport location. First, the report engine tries to see whether the String represents an URL. If not, it tries to find the file on disk and finally, if the String does not represent a path file, it searches in the CLASSPATH to find the report definition as a resource.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.io.File">
-		<annotation>
-		 <documentation>Subreport loaded by opening an <code>java.io.InputStream</code> from this <code>java.io.File</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.net.URL">
-		<annotation>
-		 <documentation>Subreport loaded by opening an <code>java.io.InputStream</code> from this <code>java.net.URL</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="java.io.InputStream">
-		<annotation>
-		 <documentation>Subreport loaded from an <code>java.io.InputStream</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="net.sf.jasperreports.engine.JasperReport">
-		<annotation>
-		 <documentation>Subreport supplied directly as a <code>net.sf.jasperreports.engine.JasperReport</code> object.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="dori.jasper.engine.JasperReport">
-		<annotation>
-		 <documentation></documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
   </complexType>
  </element>

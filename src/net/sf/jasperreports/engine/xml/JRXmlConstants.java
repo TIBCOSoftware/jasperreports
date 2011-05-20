@@ -688,6 +688,7 @@ public final class JRXmlConstants
 	 * JRTextFieldExpressionFactory associated constants
 	 */
 	public static final String ELEMENT_textFieldExpression = "textFieldExpression";
+	public static final String ELEMENT_patternExpression = "patternExpression";
 
 	/**
 	 * JRTextFieldFactory  associated constants

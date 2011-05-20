@@ -74,6 +74,8 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	
 	public static final String PROPERTY_EXPRESSION = "expression";
+	
+	public static final String PROPERTY_PATTERN_EXPRESSION = "patternExpression";
 
 	/**
 	 *
@@ -91,6 +93,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	protected JRGroup evaluationGroup;
 	protected JRExpression expression;
+	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -208,6 +211,14 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public JRExpression getExpression()
 	{
 		return this.expression;
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getPatternExpression()
+	{
+		return this.patternExpression;
 	}
 
 	/**
@@ -342,6 +353,16 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		Object old = this.expression;
 		this.expression = expression;
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
+	}
+
+	/**
+	 *
+	 */
+	public void setPatternExpression(JRExpression patternExpression)
+	{
+		Object old = this.patternExpression;
+		this.patternExpression = patternExpression;
+		getEventSupport().firePropertyChange(PROPERTY_PATTERN_EXPRESSION, old, this.patternExpression);
 	}
 
 	/**

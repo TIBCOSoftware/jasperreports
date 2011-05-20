@@ -64,6 +64,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	private TextFormat textFormat;
 
 	/**
+	 * 
+	 */
+	private String pattern;
+
+	/**
 	 *
 	 */
 	private String anchorName;
@@ -132,7 +137,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public String getPattern()
 	{
-		return JRStyleResolver.getPattern(this);
+		if (getPatternExpression() == null)
+		{
+			return JRStyleResolver.getPattern(this);
+		}
+		return pattern;
 	}
 		
 	public String getOwnPattern()
@@ -223,6 +232,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	public JRExpression getExpression()
 	{
 		return ((JRTextField)parent).getExpression();
+	}
+
+	/**
+	 *
+	 */
+	public JRExpression getPatternExpression()
+	{
+		return ((JRTextField)parent).getPatternExpression();
 	}
 
 	/**
@@ -389,6 +406,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		evaluateProperties(evaluation);
 		
 		Object textFieldValue = evaluateExpression(getExpression(), evaluation);
+		
+		pattern = (String) evaluateExpression(getPatternExpression(), evaluation);
 
 		Format format = getFormat(textFieldValue);
 
@@ -799,6 +818,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		super.collectDelayedEvaluations();
 		
 		collectDelayedEvaluations(getExpression());
+		collectDelayedEvaluations(getPatternExpression());
 		collectDelayedEvaluations(getAnchorNameExpression());
 		collectDelayedEvaluations(getHyperlinkReferenceExpression());
 		collectDelayedEvaluations(getHyperlinkAnchorExpression());

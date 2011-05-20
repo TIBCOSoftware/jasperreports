@@ -414,6 +414,11 @@ public final class JRXmlDigesterFactory
 		digester.addCallMethod("*/textField/textFieldExpression", "setText", 0);
 
 		/*   */
+		digester.addFactoryCreate("*/textField/patternExpression", JRExpressionFactory.class.getName());
+		digester.addSetNext("*/textField/patternExpression", "setPatternExpression", JRExpression.class.getName());
+		digester.addCallMethod("*/textField/patternExpression", "setText", 0);
+
+		/*   */
 		digester.addFactoryCreate("*/anchorNameExpression", JRExpressionFactory.class.getName());
 		digester.addSetNext("*/anchorNameExpression", "setAnchorNameExpression", JRExpression.class.getName());
 		digester.addCallMethod("*/anchorNameExpression", "setText", 0);
