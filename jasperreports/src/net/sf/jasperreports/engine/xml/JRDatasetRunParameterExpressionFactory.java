@@ -37,13 +37,11 @@ import org.xml.sax.Attributes;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory
+public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory//FIXMENOW should this be moved into JRVerifier?
 {
 	
 	public Object createObject(Attributes attributes)
 	{
-		String valueClassName = Object.class.getName();
-		
 		JRXmlLoader xmlLoader = (JRXmlLoader) digester.peek(digester.getCount() - 1);
 		JasperDesign design = (JasperDesign) digester.peek(digester.getCount() - 2);
 		JRDatasetRun datasetRun = (JRDatasetRun) digester.peek(1);
@@ -62,14 +60,9 @@ public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory
 			{
 				xmlLoader.addError(new JRValidationException("Unknown parameter " + runParameter.getName() + " in sub dataset " + datasetRun.getDatasetName(), runParameter));
 			}
-			else
-			{
-				valueClassName = param.getValueClassName();
-			}
 		}
 
 		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClassName(valueClassName);
 		
 		return expression;
 	}

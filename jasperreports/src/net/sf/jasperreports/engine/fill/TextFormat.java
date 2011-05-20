@@ -21,35 +21,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-import net.sf.jasperreports.engine.design.JRDesignVariable;
-
-import org.xml.sax.Attributes;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
- * @deprecated To be removed.
+ * @version $Id: TextMeasurer.java 4298 2011-04-18 16:51:58Z teodord $
  */
-public class JRInitialValueExpressionFactory extends JRBaseFactory
+public interface TextFormat
 {
-
+	/**
+	 * 
+	 */
+	public String getValueClassName();
 
 	/**
-	 *
+	 * 
 	 */
-	public Object createObject(Attributes atts)
-	{
-		JRDesignVariable variable = (JRDesignVariable)digester.peek();
+	public String getPattern();
 
-		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClassName(variable.getValueClassName());
+	/**
+	 * 
+	 */
+	public String getFormatFactoryClass();
 
-		return expression;
-	}
+	/**
+	 * 
+	 */
+	public String getLocaleCode();
 
-
+	/**
+	 * 
+	 */
+	public String getTimeZoneId();
 }

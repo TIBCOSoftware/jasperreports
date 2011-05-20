@@ -131,7 +131,7 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		lineBox = image.getLineBox().clone(this);
 
 		setScaleImage(image.getScaleImageValue());
-		setUsingCache(image.isUsingCache());
+		setUsingCache(image.getUsingCache());
 		setHorizontalAlignment(image.getHorizontalAlignmentValue());
 		setVerticalAlignment(image.getVerticalAlignmentValue());
 		setLazy(image.isLazy());
@@ -223,6 +223,14 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 	public void setUsingCache(boolean isUsingCache)
 	{
 		this.isUsingCache = (isUsingCache ? Boolean.TRUE : Boolean.FALSE);
+	}
+
+	/**
+	 *
+	 */
+	public void setUsingCache(Boolean isUsingCache)
+	{
+		this.isUsingCache = isUsingCache;
 	}
 
 	/**

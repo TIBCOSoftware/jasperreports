@@ -94,9 +94,9 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	protected void writeBaseContents(BarcodeComponent barcode) throws IOException
 	{
 		xmlWriteHelper.writeExpression("codeExpression", 
-				barcode.getCodeExpression(), false);
+				barcode.getCodeExpression());
 		xmlWriteHelper.writeExpression("patternExpression", 
-				barcode.getPatternExpression(), false);
+				barcode.getPatternExpression());
 	}
 	
 	public void visitCodabar(CodabarComponent codabar)

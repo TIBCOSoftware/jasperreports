@@ -67,7 +67,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addFactoryCreate(chartTitlePattern, ChartSettingsXmlFactory.ChartTitleFactory.class.getName());
 		digester.addFactoryCreate(chartTitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(chartTitlePattern + "/font", "setTitleFont", JRFont.class.getName());
-		digester.addFactoryCreate(chartTitlePattern + "/titleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate(chartTitlePattern + "/titleExpression", JRExpressionFactory.class);
 		digester.addSetNext(chartTitlePattern + "/titleExpression", "setTitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(chartTitlePattern + "/titleExpression", "setText", 0);
 		
@@ -75,7 +75,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addFactoryCreate(chartSubtitlePattern, ChartSettingsXmlFactory.ChartSubtitleFactory.class.getName());
 		digester.addFactoryCreate(chartSubtitlePattern + "/font", JRFontFactory.ChartFontFactory.class.getName());
 		digester.addSetNext(chartSubtitlePattern + "/font", "setSubtitleFont", JRFont.class.getName());
-		digester.addFactoryCreate(chartSubtitlePattern + "/subtitleExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate(chartSubtitlePattern + "/subtitleExpression", JRExpressionFactory.class);
 		digester.addSetNext(chartSubtitlePattern + "/subtitleExpression", "setSubtitleExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(chartSubtitlePattern + "/subtitleExpression", "setText", 0);
 		
@@ -93,7 +93,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addFactoryCreate(datasetPattern, JRElementDatasetFactory.class.getName());
 
 		String datasetIncrementWhenExpressionPath = datasetPattern + JRXmlConstants.ELEMENT_incrementWhenExpression;
-		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.BooleanExpressionFactory.class.getName());
+		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.class.getName());
 		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
 		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
 
@@ -101,16 +101,16 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		digester.addFactoryCreate(seriesPattern, JRCategorySeriesFactory.class.getName());
 		digester.addSetNext(seriesPattern, "addCategorySeries", JRDesignCategorySeries.class.getName());
 
-		digester.addFactoryCreate(seriesPattern + "/seriesExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate(seriesPattern + "/seriesExpression", JRExpressionFactory.class);
 		digester.addSetNext(seriesPattern + "/seriesExpression", "setSeriesExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/seriesExpression", "setText", 0);
-		digester.addFactoryCreate(seriesPattern + "/categoryExpression", JRExpressionFactory.ComparableExpressionFactory.class);
+		digester.addFactoryCreate(seriesPattern + "/categoryExpression", JRExpressionFactory.class);
 		digester.addSetNext(seriesPattern + "/categoryExpression", "setCategoryExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/categoryExpression", "setText", 0);
-		digester.addFactoryCreate(seriesPattern + "/labelExpression", JRExpressionFactory.StringExpressionFactory.class);
+		digester.addFactoryCreate(seriesPattern + "/labelExpression", JRExpressionFactory.class);
 		digester.addSetNext(seriesPattern + "/labelExpression", "setLabelExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/labelExpression", "setText", 0);
-		digester.addFactoryCreate(seriesPattern + "/valueExpression", JRExpressionFactory.NumberExpressionFactory.class);
+		digester.addFactoryCreate(seriesPattern + "/valueExpression", JRExpressionFactory.class);
 		digester.addSetNext(seriesPattern + "/valueExpression", "setValueExpression", JRDesignExpression.class.getName());
 		digester.addCallMethod(seriesPattern + "/valueExpression", "setText", 0);
 		
@@ -126,7 +126,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 
 		digester.setRuleNamespaceURI(componentNamespace);
 		String maxValueExpressionPattern = plotPattern + "/maxValueExpression";
-		digester.addFactoryCreate(maxValueExpressionPattern, JRExpressionFactory.DoubleExpressionFactory.class);
+		digester.addFactoryCreate(maxValueExpressionPattern, JRExpressionFactory.class);
 		digester.addSetNext(maxValueExpressionPattern, "setMaxValueExpression", JRDesignExpression.class.getName() );
 		digester.addCallMethod(maxValueExpressionPattern, "setText", 0 );
 	}

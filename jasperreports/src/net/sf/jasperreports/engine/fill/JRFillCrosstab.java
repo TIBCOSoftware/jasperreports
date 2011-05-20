@@ -53,11 +53,11 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabObjectFactory;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabColumnPositionEnum;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
@@ -378,7 +378,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			comparator = (Comparator) evaluateExpression(comparatorExpression, evaluation);
 		}
 
-		return new BucketDefinition(bucket.getExpression().getValueClass(),
+		return new BucketDefinition(bucket.getValueClass(),
 				bucket.getOrderByExpression(), comparator, bucket.getOrderValue(), 
 				group.getTotalPositionValue());
 	}

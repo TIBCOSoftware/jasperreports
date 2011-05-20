@@ -54,37 +54,6 @@ public class BarcodeVerifier implements BarcodeVisitor
 		{
 			verifier.addBrokenRule("Barcode expression is null", barcode);
 		}
-		else
-		{
-			String valueClass = codeExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("Barcode expression value class not set", codeExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for barcode expression. Use java.lang.String instead.",
-						codeExpression);
-			}
-		}
-		
-		JRExpression patternExpression = barcode.getPatternExpression();
-		if (patternExpression != null)
-		{
-			String valueClass = patternExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("Barcode pattern expression value class not set", 
-						patternExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for barcode pattern expression. Use java.lang.String instead.",
-						patternExpression);
-			}
-		}
 		
 		verifyTextPosition(barcode);
 		verifyOrientation(barcode);

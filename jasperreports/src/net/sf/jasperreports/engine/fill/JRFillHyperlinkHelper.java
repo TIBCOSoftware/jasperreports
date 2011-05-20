@@ -80,7 +80,7 @@ public final class JRFillHyperlinkHelper
 				else
 				{
 					value = expressionEvaluator.evaluate(valueExpression, evaluationType);
-					valueClass = valueExpression.getValueClass();
+					valueClass = value == null ? Object.class : value.getClass();
 				}
 				
 				JRPrintHyperlinkParameter printParam = new JRPrintHyperlinkParameter(hyperlinkParameter.getName(), valueClass.getName(), value);

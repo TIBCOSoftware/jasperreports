@@ -25,7 +25,6 @@ package net.sf.jasperreports.components.spiderchart;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.charts.ChartSettings;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -189,22 +188,6 @@ public class SpiderChartCompiler implements ComponentCompiler
 
 	protected void verify(JRVerifier verifier, SpiderPlot spiderPlot)
 	{
-		JRExpression maxValueExpression = spiderPlot.getMaxValueExpression();
-		if (maxValueExpression != null)
-		{
-			String valueClass = maxValueExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for spider plot max value expression", 
-						maxValueExpression);
-			}
-			else if (!"java.lang.Double".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for spider plot max value expression. Use java.lang.Double instead.",
-						maxValueExpression);
-			}
-		}
 	}
 
 	public Component toCompiledComponent(Component component,

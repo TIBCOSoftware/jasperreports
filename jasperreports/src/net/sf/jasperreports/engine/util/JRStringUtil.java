@@ -419,6 +419,15 @@ public final class JRStringUtil
 	}
 	
 
+	/**
+	 * 
+	 */
+	public static String getString(Object value)
+	{
+		return value == null ? null : value.toString();
+	}
+	
+
 	private JRStringUtil()
 	{
 	}

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -44,6 +45,10 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	protected String valueClassName;
+	protected String valueClassRealName;
+	protected Class valueClass;
 
 	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 	protected JRExpression expression;
@@ -58,10 +63,16 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	{
 		factory.put(bucket, this);
 		
+		this.valueClassName = bucket.getValueClassName();
 		this.orderValue = bucket.getOrderValue();
 		this.expression = factory.getExpression(bucket.getExpression());
 		this.orderByExpression = factory.getExpression(bucket.getOrderByExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
+	}
+
+	public String getValueClassName()
+	{
+		return valueClassName;
 	}
 
 	public SortOrderEnum getOrderValue()
@@ -84,6 +95,40 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		return comparatorExpression;
 	}
 	
+	public Class getValueClass()
+	{
+		if (valueClass == null)
+		{
+			String className = getValueClassRealName();
+			if (className != null)
+			{
+				try
+				{
+					valueClass = JRClassLoader.loadClassForName(className);
+				}
+				catch (ClassNotFoundException e)
+				{
+					throw new JRRuntimeException("Could not load bucket value class", e);
+				}
+			}
+		}
+		
+		return valueClass;
+	}
+
+	/**
+	 *
+	 */
+	private String getValueClassRealName()
+	{
+		if (valueClassRealName == null)
+		{
+			valueClassRealName = JRClassLoader.getClassRealName(valueClassName);
+		}
+		
+		return valueClassRealName;
+	}
+
 	public Object clone()
 	{
 		try
@@ -118,6 +163,12 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			orderValue = SortOrderEnum.getByValue(order);
+		}
+
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_0_3)
+		{
+			//expression can never be null due to verifier
+			valueClassName = getExpression().getValueClassName();//we probably can never remove this method from expression, if we want to preserve backward compatibility
 		}
 	}
 	

@@ -60,7 +60,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @version $Id$
  * @see JRTemplatePrintText
  */
-public class JRTemplateText extends JRTemplateElement implements JRAlignment, JRFont, JRCommonText
+public class JRTemplateText extends JRTemplateElement implements JRAlignment, JRFont, JRCommonText, TextFormat
 {
 
 

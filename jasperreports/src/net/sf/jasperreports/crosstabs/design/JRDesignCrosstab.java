@@ -1130,7 +1130,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRExpression expression = bucket.getExpression();
 				if (expression != null)
 				{
-					group.designVariable.setValueClassName(expression.getValueClassName());
+					group.designVariable.setValueClassName(bucket.getValueClassName());
 				}
 			}
 		}

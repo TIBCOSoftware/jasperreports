@@ -72,7 +72,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public void setValueClass(Class clazz)
 	{
@@ -80,7 +80,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	}
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public void setValueClassName(String className)
 	{

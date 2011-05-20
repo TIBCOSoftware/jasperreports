@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.FillContext;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * 
@@ -50,11 +51,9 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 	
 	protected void evaluateBaseBarcode(BarcodeComponent barcodeComponent)
 	{
-		message = (String) evaluateExpression(
-				barcodeComponent.getCodeExpression());
+		message = JRStringUtil.getString(evaluateExpression(barcodeComponent.getCodeExpression()));
 		
-		String pattern = (String) evaluateExpression(
-				barcodeComponent.getPatternExpression());
+		String pattern = JRStringUtil.getString(evaluateExpression(barcodeComponent.getPatternExpression()));
 		if (pattern != null) 
 		{
 			barcode.setPattern(pattern);

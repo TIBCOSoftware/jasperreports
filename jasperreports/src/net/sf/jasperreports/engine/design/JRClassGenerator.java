@@ -499,11 +499,9 @@ public class JRClassGenerator
 			sb.append(sourceTask.getExpressionId(expression)); 
 			sb.append(" : \n");
 			sb.append("            {\n");
-			sb.append("                value = (");
-			sb.append(expression.getValueClassName());
-			sb.append(")(");
+			sb.append("                value = ");
 			sb.append(this.generateExpression(expression, evaluationType));
-			sb.append(");");
+			sb.append(";");
 			appendExpressionComment(sb, expression);
 			sb.append("\n");
 			sb.append("                break;\n");

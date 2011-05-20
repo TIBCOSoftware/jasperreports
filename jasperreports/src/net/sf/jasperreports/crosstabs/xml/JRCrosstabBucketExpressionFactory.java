@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs.xml;
 
+import net.sf.jasperreports.crosstabs.design.JRDesignCrosstabBucket;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
@@ -38,9 +39,14 @@ public class JRCrosstabBucketExpressionFactory extends JRBaseFactory
 	
 	public Object createObject(Attributes attributes)
 	{
-		JRDesignExpression expression = new JRDesignExpression();
-		expression.setValueClassName(attributes.getValue(ATTRIBUTE_class));
+		JRDesignCrosstabBucket bucket = (JRDesignCrosstabBucket)digester.peek();
+		
+		String className = attributes.getValue(ATTRIBUTE_class);
+		if (className != null)
+		{
+			bucket.setValueClassName(className);
+		}
 
-		return expression;
+		return new JRDesignExpression();
 	}
 }

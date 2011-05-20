@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sourceforge.barbecue.Barcode;
 
 /**
@@ -73,11 +74,9 @@ public class BarbecueFillComponent extends BaseFillComponent
 	
 	protected void evaluateBarcode(byte evaluation) throws JRException
 	{
-		code = (String) fillContext.evaluate(
-				barcodeComponent.getCodeExpression(), evaluation);
+		code = JRStringUtil.getString(fillContext.evaluate(barcodeComponent.getCodeExpression(), evaluation));
 		
-		applicationIdentifier = (String) fillContext.evaluate(
-				barcodeComponent.getApplicationIdentifierExpression(), evaluation);
+		applicationIdentifier = JRStringUtil.getString(fillContext.evaluate(barcodeComponent.getApplicationIdentifierExpression(), evaluation));
 	}
 	
 	protected boolean isEvaluateNow()

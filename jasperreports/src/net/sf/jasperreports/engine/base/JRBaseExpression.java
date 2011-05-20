@@ -47,12 +47,18 @@ public class JRBaseExpression implements JRExpression, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	protected String valueClassName;
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected String valueClassRealName;
 	protected int id;
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected transient Class valueClass;
 
 	/**
@@ -86,7 +92,6 @@ public class JRBaseExpression implements JRExpression, Serializable
 	{
 		factory.put(expression, this);
 		
-		valueClassName = expression.getValueClassName();
 		if (expressionId == null)
 		{
 			id = expression.getId();
@@ -140,7 +145,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public Class getValueClass()
 	{
@@ -164,7 +169,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	}
 	
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public String getValueClassName()
 	{
@@ -172,7 +177,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	}
 	
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	private String getValueClassRealName()
 	{

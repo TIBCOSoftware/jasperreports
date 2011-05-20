@@ -113,7 +113,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
@@ -332,7 +332,19 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
 	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+
+	/**
+	 *
+	 */
+	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
-import net.sf.jasperreports.engine.type.ScaleImageEnum;
 
 
 /**
@@ -44,8 +43,14 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 * Implementations of this method rely on default values that depend on the type of the image expression
 	 * if a value was not explicitly set of this flag.
 	 * @return true if the image should be loaded from cache, false otherwise
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache();
+
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
+	public Boolean isOwnUsingCache();
 
 	/**
 	 * Indicates if the engine is loading the current image from cache.
@@ -54,7 +59,7 @@ public interface JRImage extends JRGraphicElement, JRAnchor, JRHyperlink, JRAlig
 	 * @return Boolean.TRUE if the image should be loaded from cache, Boolean.FALSE otherwise 
 	 * or null in case the flag was never explicitly set on this image element
 	 */
-	public Boolean isOwnUsingCache();
+	public Boolean getUsingCache();
 
 	/**
 	 * Specifies if the engine should be loading the current image from cache. If set to true, the reporting engine

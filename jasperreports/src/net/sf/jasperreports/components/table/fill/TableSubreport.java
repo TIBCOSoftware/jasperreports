@@ -100,9 +100,17 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 		return null;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
 	public Boolean isOwnUsingCache()
 	{
 		return false;
+	}
+
+	public Boolean getUsingCache()
+	{
+		return Boolean.FALSE;
 	}
 
 	public Boolean isRunToBottom()
@@ -110,6 +118,9 @@ public class TableSubreport extends ElementDecorator implements JRSubreport
 		return false;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
 	public boolean isUsingCache()
 	{
 		return false;

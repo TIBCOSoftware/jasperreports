@@ -309,7 +309,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 * 
 	 */
-	private static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
+	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
 	{
 		JRImageRenderer renderer = null;
 		

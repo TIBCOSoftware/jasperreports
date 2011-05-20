@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 /**
  * Crosstab groups bucketing information interface.
  * <p>
- * The bucketing informartion consists of the grouping expression
+ * The bucketing information consists of the grouping expression
  * and sorting information.
  * The buckets can be sorted according to the natural sorting (if the values
  * implement {@link java.lang.Comparable Comparable}) or using a comparator.
@@ -40,6 +40,17 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
  */
 public interface JRCrosstabBucket extends JRCloneable
 {
+	/**
+	 * Returns the class of the bucket value. Any class is allowed as long as it is in the classpath at compile and run time.
+	 * @return a <tt>Class</tt> instance representing the bucket value class
+	 */
+	public Class getValueClass();
+		
+	/**
+	 * Returns the string name of the bucket value class.
+	 */
+	public String getValueClassName();
+		
 	/**
 	 * Returns the bucket sorting type.
 	 * <p>

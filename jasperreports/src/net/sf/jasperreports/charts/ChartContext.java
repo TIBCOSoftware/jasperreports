@@ -64,6 +64,10 @@ public interface ChartContext
 	/**
 	 * 
 	 */
-	public Object evaluateExpression(JRExpression expression) throws JRException;
+	public String evaluateTextExpression(JRExpression expression) throws JRException;
 
+	/**
+	 *
+	 */
+	public Object evaluateExpression(JRExpression expression) throws JRException;
 }

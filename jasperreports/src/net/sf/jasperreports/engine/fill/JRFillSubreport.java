@@ -87,6 +87,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	private Connection connection;
 	private JRDataSource dataSource;
 	private JasperReport jasperReport;
+	private Object source;
 
 	private Map loadedEvaluators;
 	
@@ -150,11 +151,24 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
 		return ((JRSubreport)parent).isUsingCache();
+	}
+		
+	/**
+	 *
+	 */
+	public boolean usingCache()
+	{
+		Boolean isUsingCache = getUsingCache();
+		if (isUsingCache == null)
+		{
+			return source instanceof String;
+		}
+		return isUsingCache.booleanValue();
 	}
 		
 	public Boolean isRunToBottom()
@@ -262,34 +276,38 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		JasperReport report = null;
 		
 		JRExpression expression = getExpression();
-		Object source = evaluateExpression(expression, evaluation);
+		source = evaluateExpression(expression, evaluation);
 		if (source != null) // FIXME put some default broken image like in browsers
 		{
-			if (isUsingCache() && filler.fillContext.hasLoadedSubreport(source))
+			Boolean isUsingCache = getUsingCache();
+			if (isUsingCache == null)
+			{
+				isUsingCache = source instanceof String;
+			}
+			
+			if (isUsingCache && filler.fillContext.hasLoadedSubreport(source))
 			{
 				report = filler.fillContext.getLoadedSubreport(source);
 			}
 			else
 			{
-				Class expressionClass = expression.getValueClass();
-				
-				if (expressionClass.equals(net.sf.jasperreports.engine.JasperReport.class))
+				if (source instanceof net.sf.jasperreports.engine.JasperReport)
 				{
 					report = (JasperReport)source;
 				}
-				else if (expressionClass.equals(java.io.InputStream.class))
+				else if (source instanceof java.io.InputStream)
 				{
 					report = (JasperReport)JRLoader.loadObject((InputStream)source);
 				}
-				else if (expressionClass.equals(java.net.URL.class))
+				else if (source instanceof java.net.URL)
 				{
 					report = (JasperReport)JRLoader.loadObject((URL)source);
 				}
-				else if (expressionClass.equals(java.io.File.class))
+				else if (source instanceof java.io.File)
 				{
 					report = (JasperReport)JRLoader.loadObject((File)source);
 				}
-				else if (expressionClass.equals(java.lang.String.class))
+				else if (source instanceof java.lang.String)
 				{
 					report = 
 						(JasperReport)JRLoader.loadObjectFromLocation(
@@ -299,8 +317,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 							filler.fileResolver
 							);
 				}
+				else
+				{
+					throw new JRRuntimeException("Unknown subreport source class " + source.getClass().getName());
+				}
 				
-				if (isUsingCache())
+				if (isUsingCache)
 				{
 					filler.fillContext.registerLoadedSubreport(source, report);
 				}
@@ -1064,9 +1086,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
 	public Boolean isOwnUsingCache()
 	{
 		return ((JRSubreport)parent).isOwnUsingCache();
+	}
+
+
+	public Boolean getUsingCache()
+	{
+		return ((JRSubreport)parent).getUsingCache();
 	}
 
 

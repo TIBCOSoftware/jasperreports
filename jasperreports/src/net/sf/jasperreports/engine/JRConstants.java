@@ -48,6 +48,8 @@ public interface JRConstants
 	
 	public static final int PSEUDO_SERIAL_VERSION_UID_4_0_2 = 40002;
 	
-	public static final int PSEUDO_SERIAL_VERSION_UID = PSEUDO_SERIAL_VERSION_UID_4_0_2;
+	public static final int PSEUDO_SERIAL_VERSION_UID_4_0_3 = 40003;
+	
+	public static final int PSEUDO_SERIAL_VERSION_UID = PSEUDO_SERIAL_VERSION_UID_4_0_3;
 	
 }

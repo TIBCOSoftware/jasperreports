@@ -89,7 +89,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	{
 		super(subreport, factory);
 		
-		isUsingCache = subreport.isOwnUsingCache();
+		isUsingCache = subreport.getUsingCache();
 		
 		runToBottom = subreport.isRunToBottom();
 
@@ -124,7 +124,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 		
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
@@ -213,7 +213,16 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	}
 
 
+	/**
+	 * @deprecated Replaced by {@link #getUsingCache()}.
+	 */
 	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+
+	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}

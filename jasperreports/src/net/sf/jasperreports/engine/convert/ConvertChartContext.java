@@ -84,14 +84,20 @@ public class ConvertChartContext implements ChartContext
 		this.chart = chart;
 	}
 	
-	public Object evaluateExpression(JRExpression expression) throws JRException {
+	public String evaluateTextExpression(JRExpression expression) throws JRException 
+	{
 		if (expression != null)
 		{
-			if (String.class.getName().equals(expression.getValueClassName()))
-			{
-				return expression.getText();
-			}
+			return expression.getText();
 		}
+		return null;
+	}
+
+	/**
+	 *
+	 */
+	public Object evaluateExpression(JRExpression expression) throws JRException 
+	{
 		return null;
 	}
 

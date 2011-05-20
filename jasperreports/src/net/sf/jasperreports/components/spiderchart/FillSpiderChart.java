@@ -47,6 +47,7 @@ import net.sf.jasperreports.engine.fill.JRTemplateImage;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintImage;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
 /**
@@ -110,13 +111,13 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	protected void evaluateRenderer(byte evaluation) throws JRException
 	{
 		maxValue = (Double) fillContext.evaluate(getPlot().getMaxValueExpression(), evaluation);
-        titleText = (String) fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation);
-		subtitleText = (String)fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation);
-		anchorName = (String) fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation);
-		hyperlinkReference = (String) fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation);
-		hyperlinkAnchor = (String) fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation);
+        titleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation));
+		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
+		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
+		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));
+		hyperlinkAnchor = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkAnchorExpression(), evaluation));
 		hyperlinkPage = (Integer) fillContext.evaluate(getChartSettings().getHyperlinkPageExpression(), evaluation);
-		hyperlinkTooltip = (String) fillContext.evaluate(getChartSettings().getHyperlinkTooltipExpression(), evaluation);
+		hyperlinkTooltip = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkTooltipExpression(), evaluation));
 		hyperlinkParameters = JRFillHyperlinkHelper.evaluateHyperlinkParameters(getChartSettings(), expressionEvaluator, evaluation);
 
 		dataset.evaluateDatasetRun(evaluation);

@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.fill.TextFormat;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -89,6 +90,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected RunDirectionEnum runDirectionValue = RunDirectionEnum.LTR;
 	protected float textHeight;
 	protected String markup;
+	protected TextFormat textFormat;
 	protected String anchorName;
 	protected String linkType;
 	protected String linkTarget;
@@ -494,6 +496,14 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 		isPdfEmbedded = font.isOwnPdfEmbedded();
 	}
 
+	/**
+	 *
+	 */
+	public void setTextFormat(TextFormat textFormat)
+	{
+		this.textFormat = textFormat;
+	}
+		
 	/**
 	 *
 	 */
