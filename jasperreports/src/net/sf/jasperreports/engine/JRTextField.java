@@ -99,5 +99,10 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	 */
 	public JRExpression getExpression();
 		
+	/**
+	 * Gets the pattern expression, in case the patter needs to be dynamic.
+	 * @see #getPattern()
+	 */
+	public JRExpression getPatternExpression();
 
 }

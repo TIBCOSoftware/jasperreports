@@ -74,6 +74,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	 */
 	protected JRGroup evaluationGroup;
 	protected JRExpression expression;
+	protected JRExpression patternExpression;
 	protected JRExpression anchorNameExpression;
 	protected JRExpression hyperlinkReferenceExpression;
 	protected JRExpression hyperlinkAnchorExpression;
@@ -103,6 +104,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 
 		evaluationGroup = factory.getGroup(textField.getEvaluationGroup());
 		expression = factory.getExpression(textField.getExpression());
+		patternExpression = factory.getExpression(textField.getPatternExpression());
 		anchorNameExpression = factory.getExpression(textField.getAnchorNameExpression());
 		hyperlinkReferenceExpression = factory.getExpression(textField.getHyperlinkReferenceExpression());
 		hyperlinkAnchorExpression = factory.getExpression(textField.getHyperlinkAnchorExpression());
@@ -238,6 +240,14 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 	/**
 	 *
 	 */
+	public JRExpression getPatternExpression()
+	{
+		return this.patternExpression;
+	}
+		
+	/**
+	 *
+	 */
 	public JRExpression getAnchorNameExpression()
 	{
 		return this.anchorNameExpression;
@@ -331,6 +341,10 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 		if (expression != null)
 		{
 			clone.expression = (JRExpression)expression.clone();
+		}
+		if (patternExpression != null)
+		{
+			clone.patternExpression = (JRExpression)patternExpression.clone();
 		}
 		if (anchorNameExpression != null)
 		{

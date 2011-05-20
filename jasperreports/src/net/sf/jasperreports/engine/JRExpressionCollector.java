@@ -694,6 +694,7 @@ public class JRExpressionCollector
 	{
 		collectElement(textField);
 		addExpression(textField.getExpression());
+		addExpression(textField.getPatternExpression());
 		collectAnchor(textField);
 		collectHyperlink(textField);
 	}

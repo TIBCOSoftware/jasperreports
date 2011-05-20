@@ -1166,6 +1166,8 @@ public class JRApiWriter
 	
 			writeExpression( textField.getExpression(), textFieldName, "Expression");
 	
+			writeExpression( textField.getPatternExpression(), textFieldName, "PatternExpression");
+			
 			writeExpression( textField.getAnchorNameExpression(), textFieldName, "AnchorNameExpression");
 	
 			writeExpression( textField.getHyperlinkReferenceExpression(), textFieldName, "HyperlinkReferenceExpression");

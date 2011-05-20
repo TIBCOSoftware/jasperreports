@@ -950,6 +950,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeTextElement(textField);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_textFieldExpression, textField.getExpression());
+		writer.writeExpression(JRXmlConstants.ELEMENT_patternExpression, textField.getPatternExpression());
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression());
 		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression());
