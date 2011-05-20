@@ -142,10 +142,11 @@
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{ShipCountry}]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="CountryGroup" pattern="EEE, MMM d, yyyy">
+				<textField evaluationTime="Group" evaluationGroup="CountryGroup">
 					<reportElement style="Sans_Bold" x="170" y="2" width="100" height="11"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression class="java.sql.Timestamp"><![CDATA[$V{DateHighestCountryGroup}]]></textFieldExpression>
+					<patternExpression>"EEE, MMM d, yyyy"</patternExpression>
 				</textField>
 			</band>
 		</groupHeader>
