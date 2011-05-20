@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.fill.TextFormat;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -33,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText
+public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor, JRPrintHyperlink, JRFont, JRCommonText, TextFormat
 {
 
 	/**
@@ -133,6 +134,11 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	 * @see #getFullText()
 	 */
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector);
+	
+	/**
+	 * 
+	 */
+	public void setTextFormat(TextFormat textFormat);
 	
 	/**
 	 * @deprecated No longer used.

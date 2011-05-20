@@ -40,12 +40,15 @@ public class JRCrosstabBucketFactory extends JRBaseFactory
 	public static final String ELEMENT_orderByExpression = "orderByExpression";
 	public static final String ELEMENT_comparatorExpression = "comparatorExpression";
 	
+	public static final String ATTRIBUTE_class = "class";
 	public static final String ATTRIBUTE_order = "order";
 	
 	public Object createObject(Attributes attributes)
 	{
 		JRDesignCrosstabBucket bucket = new JRDesignCrosstabBucket();
 		
+		bucket.setValueClassName(attributes.getValue(ATTRIBUTE_class));
+
 		SortOrderEnum order = SortOrderEnum.getByName(attributes.getValue(ATTRIBUTE_order));
 		if (order != null)
 		{

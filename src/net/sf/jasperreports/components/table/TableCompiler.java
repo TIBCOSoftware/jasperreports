@@ -220,12 +220,6 @@ public class TableCompiler implements ComponentCompiler
 			verifyCell(column.getColumnHeader(), width, "column header", verifier);
 			verifyCell(column.getColumnFooter(), width, "column footer", verifier);
 		}
-		
-		verifier.verifyExpression(column.getPrintWhenExpression(), column, null, 
-				"No type set for the column print when expression", 
-				Boolean.class, 
-				"Class {0} not supported for column print when expression. Use java.lang.Boolean instead.");
-		
 	}
 	
 	protected void verifyGroupCells(TableComponent table, List<GroupCell> cells, int width, 

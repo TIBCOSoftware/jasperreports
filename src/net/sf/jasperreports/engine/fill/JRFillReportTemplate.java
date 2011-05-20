@@ -78,20 +78,19 @@ public class JRFillReportTemplate implements JRReportTemplate
 		}
 		else
 		{
-			Class sourceType = sourceExpression.getValueClass();
-			if (JRTemplate.class.isAssignableFrom(sourceType))
+			if (source instanceof JRTemplate)
 			{
 				template = (JRTemplate) source;
 			}
 			else
 			{
-				template = loadTemplate(source, sourceType, filler.fillContext);
+				template = loadTemplate(source, filler.fillContext);
 			}
 		}
 		return template;
 	}
 
-	protected static JRTemplate loadTemplate(Object source, Class sourceType, JRFillContext fillContext) throws JRException
+	protected static JRTemplate loadTemplate(Object source, JRFillContext fillContext) throws JRException
 	{
 		JRTemplate template;
 		if (fillContext.hasLoadedTemplate(source))
@@ -105,25 +104,25 @@ public class JRFillReportTemplate implements JRReportTemplate
 				log.debug("Loading styles template from " + source);
 			}
 			
-			if (String.class.equals(sourceType))
+			if (source instanceof String)
 			{
 				template = JRXmlTemplateLoader.load((String) source);
 			}
-			else if (File.class.isAssignableFrom(sourceType))
+			else if (source instanceof File)
 			{
 				template = JRXmlTemplateLoader.load((File) source);
 			}
-			else if (URL.class.isAssignableFrom(sourceType))
+			else if (source instanceof URL)
 			{
 				template = JRXmlTemplateLoader.load((URL) source);
 			}
-			else if (InputStream.class.isAssignableFrom(sourceType))
+			else if (source instanceof InputStream)
 			{
 				template = JRXmlTemplateLoader.load((InputStream) source);
 			}
 			else
 			{
-				throw new JRRuntimeException("Unknown template source class " + sourceType.getName());
+				throw new JRRuntimeException("Unknown template source class " + source.getClass().getName());
 			}
 			
 			fillContext.registerLoadedTemplate(source, template);

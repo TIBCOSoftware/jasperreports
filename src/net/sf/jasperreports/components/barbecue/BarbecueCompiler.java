@@ -68,38 +68,6 @@ public class BarbecueCompiler implements ComponentCompiler
 		{
 			verifier.addBrokenRule("Barcode expression is null", barcode);
 		}
-		else
-		{
-			String valueClass = codeExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("Barcode expression value class not set", codeExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for barcode expression. Use java.lang.String instead.",
-						codeExpression);
-			}
-		}
-		
-		JRExpression applicationIdentifierExpression = 
-			barcode.getApplicationIdentifierExpression();
-		if (applicationIdentifierExpression != null)
-		{
-			String valueClass = applicationIdentifierExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("Barcode application identifier expression value class not set", 
-						applicationIdentifierExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for barcode application identifier expression. Use java.lang.String instead.",
-						applicationIdentifierExpression);
-			}
-		}
 		
 		EvaluationTimeEnum evaluationTime = barcode.getEvaluationTimeValue();
 		if (evaluationTime == EvaluationTimeEnum.AUTO)

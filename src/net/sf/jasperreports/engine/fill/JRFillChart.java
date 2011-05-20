@@ -102,6 +102,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.JFreeChart;
@@ -1385,6 +1386,10 @@ public class JRFillChart extends JRFillElement implements JRChart
 			this.evaluation = evaluation;
 		}
 		
+		public String evaluateTextExpression(JRExpression expression) throws JRException {
+			return JRStringUtil.getString(JRFillChart.this.evaluateExpression(expression, evaluation));
+		}
+
 		public Object evaluateExpression(JRExpression expression) throws JRException {
 			return JRFillChart.this.evaluateExpression(expression, evaluation);
 		}

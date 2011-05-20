@@ -142,7 +142,7 @@ public abstract class JRXmlBaseWriter
 	protected void writeConditionalStyle(JRConditionalStyle style) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
-		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
+		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
 		writeStyle(style);
 		writer.closeElement();
 	}

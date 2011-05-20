@@ -415,18 +415,40 @@ public class JRXmlWriteHelper
 	}
 	
 
+	/**
+	 * @deprecated Replaced by {@link #writeExpression(String, JRExpression)}.
+	 */
 	public void writeExpression(String name, JRExpression expression, boolean writeClass) throws IOException
 	{
 		writeExpression(name, expression, writeClass, null);
 	}
 	
 
+	public void writeExpression(String name, XmlNamespace namespace, JRExpression expression) throws IOException
+	{
+		if (expression != null)
+		{
+			writeCDATAElement(name, namespace, expression.getText());
+		}
+	}
+
+	public void writeExpression(String name, JRExpression expression) throws IOException
+	{
+		writeExpression(name, getParentNamespace(), expression);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #writeExpression(String, XmlNamespace, JRExpression)}.
+	 */
 	public void writeExpression(String name, XmlNamespace namespace, 
 			JRExpression expression, boolean writeClass) throws IOException
 	{
 		writeExpression(name, namespace, expression, writeClass, null);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #writeExpression(String, JRExpression)}.
+	 */
 	public void writeExpression(String name, 
 			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
 	{
@@ -434,6 +456,9 @@ public class JRXmlWriteHelper
 	}
 	
 
+	/**
+	 * @deprecated Replaced by {@link #writeExpression(String, XmlNamespace, JRExpression)}.
+	 */
 	public void writeExpression(String name, XmlNamespace namespace,
 			JRExpression expression, boolean writeClass, String defaultClassName) throws IOException
 	{

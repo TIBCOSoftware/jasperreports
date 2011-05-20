@@ -138,7 +138,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
 		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
@@ -146,7 +146,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		String applicationIdentifierExpressionPattern = barcodePattern 
 				+ "/applicationIdentifierExpression";
 		digester.addFactoryCreate(applicationIdentifierExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(applicationIdentifierExpressionPattern, "setText", 0);
 		digester.addSetNext(applicationIdentifierExpressionPattern, 
 				"setApplicationIdentifierExpression", 
@@ -207,14 +207,14 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(codeExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(codeExpressionPattern, "setText", 0);
 		digester.addSetNext(codeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
 		
 		String patternExpressionPattern = barcodePattern + "/patternExpression";
 		digester.addFactoryCreate(patternExpressionPattern, 
-				JRExpressionFactory.StringExpressionFactory.class.getName());
+				JRExpressionFactory.class.getName());
 		digester.addCallMethod(patternExpressionPattern, "setText", 0);
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
 				JRExpression.class.getName());
@@ -230,7 +230,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnPattern, "addColumn");
 		digester.addSetProperties(columnPattern);
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
@@ -245,7 +245,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnGroupPattern, "addColumn");
 		digester.addSetProperties(columnGroupPattern);
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
-				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
@@ -383,9 +383,9 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				barcode.getEvaluationGroup());
 
 		writer.writeExpression("codeExpression", 
-				barcode.getCodeExpression(), false);
+				barcode.getCodeExpression());
 		writer.writeExpression("applicationIdentifierExpression", 
-				barcode.getApplicationIdentifierExpression(), false);
+				barcode.getApplicationIdentifierExpression());
 		
 		writer.closeElement();
 	}
@@ -413,7 +413,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.addAttribute("width", column.getWidth());
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
-							column.getPrintWhenExpression(), false);
+							column.getPrintWhenExpression());
 					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter);
 					writeGroupCells(column.getGroupHeaders(), "groupHeader", reportWriter);
@@ -439,7 +439,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.addAttribute("width", columnGroup.getWidth());
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
-							columnGroup.getPrintWhenExpression(), false);
+							columnGroup.getPrintWhenExpression());
 					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter);
 					writeGroupCells(columnGroup.getGroupHeaders(), "groupHeader", reportWriter);

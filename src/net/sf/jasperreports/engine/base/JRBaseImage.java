@@ -135,7 +135,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 		scaleImageValue = image.getOwnScaleImageValue();
 		horizontalAlignmentValue = image.getOwnHorizontalAlignmentValue();
 		verticalAlignmentValue = image.getOwnVerticalAlignmentValue();
-		isUsingCache = image.isOwnUsingCache();
+		isUsingCache = image.getUsingCache();
 		isLazy = image.isLazy();
 		onErrorTypeValue = image.getOnErrorTypeValue();
 		evaluationTimeValue = image.getEvaluationTimeValue();
@@ -238,7 +238,7 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
@@ -254,9 +254,17 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+	/**
+	 *
+	 */
+	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}

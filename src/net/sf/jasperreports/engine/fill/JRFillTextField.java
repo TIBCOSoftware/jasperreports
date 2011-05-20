@@ -61,6 +61,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	private TextFormat textFormat;
+
+	/**
+	 *
+	 */
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
@@ -114,6 +119,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		return ((JRTextField)parent).getEvaluationTimeValue();
 	}
 		
+	/**
+	 *
+	 */
+	protected TextFormat getTextFormat()
+	{
+		return textFormat;
+	}
+
 	/**
 	 *
 	 */
@@ -301,40 +314,43 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 				filler.getJasperPrint().getDefaultStyleProvider(), 
 				this
 				);
-		setTemplatePattern(template);
 		return template;
 	}
 
 
-	protected void setTemplatePattern(JRTemplateText template)
+	protected void evaluateTextFormat(Format format, Object value)
 	{
-		if (getExpression() != null)
+		if (value != null)
+//		if (getExpression() != null)
 		{
-			Class valueClass = getExpression().getValueClass();
-			if (!String.class.equals(valueClass))
+			if (!(value instanceof String))
 			{
-				template.setValueClassName(valueClass.getName());
+				SimpleTextFormat simpleTextFormat = new SimpleTextFormat();
+				
+				simpleTextFormat.setValueClassName(value.getClass().getName());
 
-				String pattern = getTemplatePattern();
+				String pattern = getTemplatePattern(format, value);
 				if (pattern != null)
 				{
-					template.setPattern(pattern);
+					simpleTextFormat.setPattern(pattern);
 				}
 				
 				if (!filler.hasMasterFormatFactory())
 				{
-					template.setFormatFactoryClass(filler.getFormatFactory().getClass().getName());
+					simpleTextFormat.setFormatFactoryClass(filler.getFormatFactory().getClass().getName());
 				}
 				
 				if (!filler.hasMasterLocale())
 				{
-					template.setLocaleCode(JRDataUtils.getLocaleCode(filler.getLocale()));
+					simpleTextFormat.setLocaleCode(JRDataUtils.getLocaleCode(filler.getLocale()));
 				}
 
-				if (!filler.hasMasterTimeZone() && java.util.Date.class.isAssignableFrom(valueClass))
+				if (!filler.hasMasterTimeZone() && value instanceof java.util.Date)
 				{
-					template.setTimeZoneId(JRDataUtils.getTimeZoneId(filler.getTimeZone()));
+					simpleTextFormat.setTimeZoneId(JRDataUtils.getTimeZoneId(filler.getTimeZone()));
 				}
+				
+				textFormat = simpleTextFormat;
 			}
 		}
 	}
@@ -374,6 +390,10 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 		Object textFieldValue = evaluateExpression(getExpression(), evaluation);
 
+		Format format = getFormat(textFieldValue);
+
+		evaluateTextFormat(format, textFieldValue);
+		
 		if (textFieldValue == null)
 		{
 			if (isBlankWhenNull())
@@ -383,7 +403,6 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		}
 		else
 		{
-			Format format = getFormat();
 			if (format != null)
 			{
 				textFieldValue = format.format(textFieldValue);
@@ -672,6 +691,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		//FIXME rotation and run direction?
 
 		setPrintText(text);
+		
+		text.setTextFormat(getTextFormat());
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());
@@ -687,22 +708,17 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected Format getFormat()//FIXMEFORMAT optimize this with an interface
+	protected Format getFormat(Object value)//FIXMEFORMAT optimize this with an interface
 	{
 		Format format = null;
 
-		JRExpression valueExpression = getExpression();
-		if (valueExpression != null)
+		if (value instanceof java.util.Date)
 		{
-			Class valueClass = valueExpression.getValueClass();
-			if (java.util.Date.class.isAssignableFrom(valueClass))
-			{
-				format = filler.getDateFormat(getPattern());
-			}
-			else if (java.lang.Number.class.isAssignableFrom(valueClass))
-			{
-				format = filler.getNumberFormat(getPattern());
-			}
+			format = filler.getDateFormat(getPattern());
+		}
+		else if (value instanceof java.lang.Number)
+		{
+			format = filler.getNumberFormat(getPattern());
 		}
 		
 		return format;
@@ -711,28 +727,23 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
-	protected String getTemplatePattern()//FIXMEFORMAT optimize this with an interface
+	protected String getTemplatePattern(Format format, Object value)//FIXMEFORMAT optimize this with an interface
 	{
 		String pattern = null;
 		String originalPattern = getPattern();
-		Format format = getFormat();
-		JRExpression valueExpression = getExpression();
-		if (format != null && valueExpression != null)
+
+		if (value instanceof java.util.Date)
 		{
-			Class valueClass = valueExpression.getValueClass();
-			if (java.util.Date.class.isAssignableFrom(valueClass))
+			if (format instanceof SimpleDateFormat)
 			{
-				if (format instanceof SimpleDateFormat)
-				{
-					pattern = ((SimpleDateFormat) format).toPattern();
-				}
+				pattern = ((SimpleDateFormat) format).toPattern();
 			}
-			else if (Number.class.isAssignableFrom(valueClass))
+		}
+		else if (value instanceof Number)
+		{
+			if (format instanceof DecimalFormat)
 			{
-				if (format instanceof DecimalFormat)
-				{
-					pattern = ((DecimalFormat) format).toPattern();
-				}
+				pattern = ((DecimalFormat) format).toPattern();
 			}
 		}
 		

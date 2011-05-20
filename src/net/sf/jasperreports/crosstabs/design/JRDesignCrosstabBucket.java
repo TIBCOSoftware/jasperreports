@@ -50,6 +50,8 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 
 	public static final String PROPERTY_ORDER = "order";
 
+	public static final String PROPERTY_VALUE_CLASS = "valueClassName";
+
 	
 	/**
 	 * Creates a crosstab group bucket.
@@ -123,6 +125,26 @@ public class JRDesignCrosstabBucket extends JRBaseCrosstabBucket implements JRCh
 		getEventSupport().firePropertyChange(PROPERTY_ORDER, old, this.orderValue);
 	}
 	
+
+	/**
+	 * Sets the bucket value class name.
+	 * 
+	 * @param valueClassName the bucket value class name
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabBucket#getValueClassName()
+	 */
+	public void setValueClassName(String valueClassName)
+	{
+		String old = this.valueClassName;
+		
+		this.valueClassName = valueClassName;
+		this.valueClass = null;
+		this.valueClassRealName = null;
+		
+		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS, old,
+				this.valueClassName);
+	}
+	
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

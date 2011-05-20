@@ -6441,6 +6441,11 @@ property.
     <element ref="jr:orderByExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="class" type="string" use="optional" default="java.lang.String">
+  	<annotation>
+   	 <documentation>Class of the bucket values.</documentation>
+  	</annotation>  
+   </attribute>   
    <attribute name="order" use="optional" default="Ascending">
   	<annotation>
    	 <documentation>The bucket order type.</documentation>
@@ -6468,7 +6473,7 @@ property.
    <documentation>Crosstab group bucketing expression.</documentation>
   </annotation>
   <complexType mixed="true">
-   <attribute name="class" type="string" use="required"/>
+   <attribute name="class" type="string" use="optional"/>
   </complexType>
  </element>
 

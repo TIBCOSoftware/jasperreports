@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
@@ -48,11 +47,13 @@ public interface JRExpression extends JRCloneable
 
 	/**
 	 * Returns the expression return value class.
+	 * @deprecated To be removed.
 	 */
 	public Class getValueClass();
 	
 	/**
 	 * Returns the expression return value class.
+	 * @deprecated To be removed.
 	 */
 	public String getValueClassName();
 	

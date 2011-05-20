@@ -97,6 +97,7 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -148,7 +149,6 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.TabStop;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -981,7 +981,7 @@ public class JRApiWriter
 			write( imageName + ".setScaleImage({0});\n", image.getOwnScaleImageValue());
 			write( imageName + ".setHorizontalAlignment({0});\n", image.getOwnHorizontalAlignmentValue());
 			write( imageName + ".setVerticalAlignment({0});\n", image.getOwnVerticalAlignmentValue());
-			write( imageName + ".setUsingCache({0});\n", image.isOwnUsingCache());
+			write( imageName + ".setUsingCache({0});\n", image.getUsingCache());
 			write( imageName + ".setLazy({0});\n", image.isLazy(), false);
 			write( imageName + ".setOnErrorType({0});\n",image.getOnErrorTypeValue(),  OnErrorTypeEnum.ERROR);
 			write( imageName + ".setEvaluationTime({0});\n", image.getEvaluationTimeValue(), EvaluationTimeEnum.NOW);
@@ -1191,7 +1191,7 @@ public class JRApiWriter
 		if(subreport != null)
 		{
 			write( "JRDesignSubreport " + subreportName + " = new JRDesignSubreport(jasperDesign);\n");
-			write( subreportName + ".setUsingCache({0});\n", subreport.isOwnUsingCache());
+			write( subreportName + ".setUsingCache({0});\n", subreport.getUsingCache());
 			write( subreportName + ".setRunToBottom({0});\n", subreport.isRunToBottom());
 			writeReportElement( subreport, subreportName);
 	
@@ -3156,7 +3156,7 @@ public class JRApiWriter
 		{
 			String bucketName = parentName + "Bucket";
 			write( "JRDesignCrosstabBucket " + bucketName + " = new JRDesignCrosstabBucket();\n");
-			write( bucketName + ".setOrder({0});\n", bucket.getOrderValue(), SortOrderEnum.ASCENDING);
+			write( bucketName + ".setValueClassName(\"{0}\");\n", bucket.getValueClassName());
 
 			writeExpression( bucket.getExpression(), bucketName, "Expression");
 
@@ -3754,7 +3754,6 @@ public class JRApiWriter
 			write( "JRDesignExpression " + expressionName + " = new JRDesignExpression();\n");
 			write( expressionName + ".setId({0, number, #});\n", expression.getId());
 			write( expressionName + ".setText(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(expression.getText()));
-			write( expressionName + ".setValueClassName(\"{0}\");\n", expression.getValueClassName(), defaultClassName);
 
 			write( parentName + ".set" + expressionSuffix + "(" + expressionName + ");\n");
 			

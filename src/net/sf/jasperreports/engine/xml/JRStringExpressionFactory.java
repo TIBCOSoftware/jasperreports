@@ -31,6 +31,7 @@ import org.xml.sax.Attributes;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed.
  */
 public class JRStringExpressionFactory extends JRBaseFactory
 {

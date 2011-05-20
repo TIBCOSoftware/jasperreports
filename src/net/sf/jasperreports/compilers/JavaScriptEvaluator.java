@@ -199,8 +199,7 @@ public class JavaScriptEvaluator extends JREvaluator
 			}
 		}
 		
-		return new JavaScriptCompileData.Expression(expression.getValueClassName(),
-				defaultExpr.toString(), estimatedExpr.toString(), oldExpr.toString());
+		return new JavaScriptCompileData.Expression(defaultExpr.toString(), estimatedExpr.toString(), oldExpr.toString());
 	}
 
 	protected static String getParameterVar(String name)
@@ -275,22 +274,19 @@ public class JavaScriptEvaluator extends JREvaluator
 	protected Object evaluate(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
-		return evaluateExpression(expression.getJavaType(), 
-				expression.getDefaultExpression());
+		return evaluateExpression(expression.getDefaultExpression());
 	}
 
 	protected Object evaluateEstimated(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
-		return evaluateExpression(expression.getJavaType(), 
-				expression.getEstimatedExpression());
+		return evaluateExpression(expression.getEstimatedExpression());
 	}
 
 	protected Object evaluateOld(int id) throws Throwable //NOSONAR
 	{
 		JavaScriptCompileData.Expression expression = getExpression(id);
-		return evaluateExpression(expression.getJavaType(), 
-				expression.getOldExpression());
+		return evaluateExpression(expression.getOldExpression());
 	}
 
 	protected JavaScriptCompileData.Expression getExpression(int id)
@@ -298,16 +294,23 @@ public class JavaScriptEvaluator extends JREvaluator
 		return compileData.getExpression(id);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #evaluateExpression(String)}.
+	 */
 	protected Object evaluateExpression(String type, String expression)
+	{
+		return evaluateExpression(expression);
+	}
+	
+	protected Object evaluateExpression(String expression)
 	{
 		Script compiledExpression = getCompiledExpression(expression);
 		Object value = compiledExpression.exec(context, scope);
 		
-		Class typeClass = getTypeClass(type);
 		Object javaValue;
 		try
 		{
-			javaValue = Context.jsToJava(value, typeClass);
+			javaValue = Context.jsToJava(value, Object.class);
 		}
 		catch (EvaluatorException e)
 		{
@@ -327,6 +330,9 @@ public class JavaScriptEvaluator extends JREvaluator
 		return compiledExpression;
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	protected Class getTypeClass(String type)
 	{
 		Class typeClass = (Class) loadedTypes.get(type);

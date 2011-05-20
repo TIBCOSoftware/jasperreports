@@ -214,7 +214,7 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
@@ -230,9 +230,17 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public Boolean isOwnUsingCache()
+	{
+		return isUsingCache;
+	}
+
+	/**
+	 *
+	 */
+	public Boolean getUsingCache()
 	{
 		return isUsingCache;
 	}

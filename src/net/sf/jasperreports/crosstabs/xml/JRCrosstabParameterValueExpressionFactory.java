@@ -23,15 +23,16 @@
  */
 package net.sf.jasperreports.crosstabs.xml;
 
-import org.xml.sax.Attributes;
-
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
+import org.xml.sax.Attributes;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed.
  */
 public class JRCrosstabParameterValueExpressionFactory extends JRBaseFactory
 {

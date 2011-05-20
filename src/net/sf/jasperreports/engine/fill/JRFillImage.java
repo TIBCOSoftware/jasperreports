@@ -181,7 +181,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public boolean isUsingCache()
 	{
@@ -189,11 +189,19 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	}
 		
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getUsingCache()}.
 	 */
 	public Boolean isOwnUsingCache()
 	{
 		return ((JRImage)this.parent).isOwnUsingCache();
+	}
+		
+	/**
+	 *
+	 */
+	public Boolean getUsingCache()
+	{
+		return ((JRImage)this.parent).getUsingCache();
 	}
 		
 	/**
@@ -452,35 +460,39 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		Object source = evaluateExpression(expression, evaluation);
 		if (source != null)
 		{
-			if (isUsingCache() && filler.fillContext.hasLoadedImage(source))
+			Boolean isUsingCache = getUsingCache();
+			if (isUsingCache == null)
+			{
+				isUsingCache = source instanceof String;
+			}
+			
+			if (isUsingCache && filler.fillContext.hasLoadedImage(source))
 			{
 				newRenderer = filler.fillContext.getLoadedImage(source).getRenderer();
 			}
 			else
 			{
-				Class expressionClass = expression.getValueClass();
-				
-				if (Image.class.getName().equals(expressionClass.getName()))
+				if (source instanceof Image)
 				{
 					Image img = (Image) source;
 					newRenderer = JRImageRenderer.getInstance(img, getOnErrorTypeValue());
 				}
-				else if (InputStream.class.getName().equals(expressionClass.getName()))
+				else if (source instanceof InputStream)
 				{
 					InputStream is = (InputStream) source;
 					newRenderer = JRImageRenderer.getInstance(is, getOnErrorTypeValue());
 				}
-				else if (URL.class.getName().equals(expressionClass.getName()))
+				else if (source instanceof URL)
 				{
 					URL url = (URL) source;
 					newRenderer = JRImageRenderer.getInstance(url, getOnErrorTypeValue());
 				}
-				else if (File.class.getName().equals(expressionClass.getName()))
+				else if (source instanceof File)
 				{
 					File file = (File) source;
 					newRenderer = JRImageRenderer.getInstance(file, getOnErrorTypeValue());
 				}
-				else if (String.class.getName().equals(expressionClass.getName()))
+				else if (source instanceof String)
 				{
 					String location = (String) source;
 					newRenderer = 
@@ -493,12 +505,20 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 							filler.fileResolver
 							);
 				}
-				else if (JRRenderable.class.getName().equals(expressionClass.getName()))
+				else if (source instanceof JRRenderable)
 				{
 					newRenderer = (JRRenderable) source;
 				}
+				else
+				{
+					newRenderer = 
+						JRImageRenderer.getOnErrorRenderer(
+							getOnErrorTypeValue(), 
+							new JRException("Unknown image source class " + source.getClass().getName())
+							);
+				}
 
-				if (isUsingCache())
+				if (isUsingCache)
 				{
 					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage());
 					img.setRenderer(newRenderer);

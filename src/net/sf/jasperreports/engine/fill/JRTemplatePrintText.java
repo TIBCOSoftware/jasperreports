@@ -82,6 +82,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private float leadingOffset;
 	private RunDirectionEnum runDirectionValue;
 	private float textHeight;
+	private TextFormat textFormat;
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
@@ -438,6 +439,14 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	{
 	}
 
+	/**
+	 *
+	 */
+	public void setTextFormat(TextFormat textFormat)
+	{
+		this.textFormat = textFormat;
+	}
+		
 	/**
 	 *
 	 */
@@ -830,27 +839,27 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 
 	public String getValueClassName()
 	{
-		return ((JRTemplateText) template).getValueClassName();
+		return  textFormat == null ? ((JRTemplateText) template).getValueClassName() : textFormat.getValueClassName();
 	}
 
 	public String getPattern()
 	{
-		return ((JRTemplateText) template).getPattern();
+		return textFormat == null ? ((JRTemplateText) template).getPattern() : textFormat.getPattern();
 	}
 
 	public String getFormatFactoryClass()
 	{
-		return ((JRTemplateText) template).getFormatFactoryClass();
+		return textFormat == null ? ((JRTemplateText) template).getFormatFactoryClass() : textFormat.getFormatFactoryClass();
 	}
 
 	public String getLocaleCode()
 	{
-		return ((JRTemplateText) template).getLocaleCode();
+		return textFormat == null ? ((JRTemplateText) template).getLocaleCode() : textFormat.getLocaleCode();
 	}
 
 	public String getTimeZoneId()
 	{
-		return ((JRTemplateText) template).getTimeZoneId();
+		return textFormat == null ? ((JRTemplateText) template).getTimeZoneId() : textFormat.getTimeZoneId();
 	}
 
 	

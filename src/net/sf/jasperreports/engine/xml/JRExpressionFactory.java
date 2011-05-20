@@ -38,11 +38,16 @@ import org.xml.sax.Attributes;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRExpressionFactory 
+public class JRExpressionFactory extends JRBaseFactory
 {
 	
+	public Object createObject( Attributes attrs )
+	{
+		return new JRDesignExpression();
+	}
+
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class ObjectExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -53,7 +58,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class ConnectionExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -64,7 +69,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class DataSourceExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -75,7 +80,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class StringExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -86,7 +91,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class DateExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -97,7 +102,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class ComparableExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -108,7 +113,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class IntegerExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -119,7 +124,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class DoubleExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -130,7 +135,7 @@ public class JRExpressionFactory
 	}
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class NumberExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -141,7 +146,7 @@ public class JRExpressionFactory
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class BooleanExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -152,7 +157,7 @@ public class JRExpressionFactory
 	}
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static class MapExpressionFactory extends JRBaseFactory {
 		public Object createObject( Attributes attrs ){
@@ -162,6 +167,9 @@ public class JRExpressionFactory
 		}
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static class ComparatorExpressionFactory extends JRBaseFactory
 	{
 		public Object createObject(Attributes attrs)
@@ -177,6 +185,7 @@ public class JRExpressionFactory
 	 * <code>class</code> to determine the expression value class.
 	 * 
 	 * @author Lucian Chirita (lucianc@users.sourceforge.net)
+	 * @deprecated To be removed.
 	 */
 	public static class ArbitraryExpressionFactory extends JRBaseFactory
 	{
