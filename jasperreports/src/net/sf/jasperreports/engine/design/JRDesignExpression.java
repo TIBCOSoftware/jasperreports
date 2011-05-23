@@ -52,6 +52,9 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	
 	public static final String PROPERTY_TEXT = "text";
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public static final String PROPERTY_VALUE_CLASS_NAME = "valueClassName";
 
 	/**
