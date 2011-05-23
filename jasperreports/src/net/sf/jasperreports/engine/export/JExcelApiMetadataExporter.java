@@ -366,14 +366,16 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 	{
 		for(int i = 0; i< columnNames.size(); i++)
 		{
-			CellValue cell = (CellValue)currentRow.get(columnNames.get(i)) == null 
-				? (CellValue)repeatedValues.get(columnNames.get(i)) 
+			CellValue cellValue = (CellValue)currentRow.get(columnNames.get(i)) == null 
+				? (repeatedValues.get(columnNames.get(i)) != null 
+						? (CellValue)(((CellValue)repeatedValues.get(columnNames.get(i))).copyTo(i, rowIndex)) 
+						: null)
 				: (CellValue)currentRow.get(columnNames.get(i));
-			if(cell != null)
+			if(cellValue != null)
 			{
 				try
 				{
-					sheet.addCell(cell.copyTo(i, rowIndex));
+					sheet.addCell(cellValue);
 				}
 				catch (RowsExceededException e)
 				{
@@ -629,9 +631,16 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				addCell(textElement, textStr, baseStyle, currentRow, currentColumnName);
 			}
 			// set auto fill columns
-			if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && textStr.length() > 0)
+			if(repeatValue)
 			{
-				addCell(textElement, textStr, baseStyle, repeatedValues, currentColumnName);
+				if ( currentColumnName != null && currentColumnName.length() > 0 && textStr.length() > 0)
+				{
+					addCell(textElement, textStr, baseStyle, repeatedValues, currentColumnName);
+				}
+			}
+			else
+			{
+				repeatedValues.remove(currentColumnName);
 			}
 		}
 	}
@@ -657,9 +666,16 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				addBlankCell(baseCellFormat, currentRow, currentColumnName);
 			}
 			// set auto fill columns
-			if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && baseCellFormat != null)
+			if(repeatValue)
 			{
-				addBlankCell(baseCellFormat, repeatedValues, currentColumnName);
+				if (repeatValue && currentColumnName != null && currentColumnName.length() > 0 && baseCellFormat != null)
+				{
+					addBlankCell(baseCellFormat, repeatedValues, currentColumnName);
+				}
+			}
+			else
+			{
+				repeatedValues.remove(currentColumnName);
 			}
 		}
 	}
