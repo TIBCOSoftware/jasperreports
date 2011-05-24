@@ -84,7 +84,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	private Path classpath;
 	private boolean runApi;
 
-	private Map reportFilesMap;
+	private Map<String, String> reportFilesMap;
 
 
 	/**
@@ -164,7 +164,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap();
+		reportFilesMap = new HashMap<String, String>();
 
 		JRProperties.backupProperties();
 		
@@ -244,9 +244,9 @@ public class JRAntApiWriteTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(Iterator it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
-			Resource resource = (Resource)it.next();
+			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
 			if (fileResource != null)
 			{
@@ -316,7 +316,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	 */
 	protected void writeApi() throws BuildException
 	{
-		Collection files = reportFilesMap.keySet();
+		Collection<String> files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
@@ -324,10 +324,10 @@ public class JRAntApiWriteTask extends MatchingTask
 		
 			System.out.println("Processing " + files.size() + " report design files.");
 
-			for (Iterator it = files.iterator(); it.hasNext();)
+			for (Iterator<String> it = files.iterator(); it.hasNext();)
 			{
-				String srcFileName = (String)it.next();
-				String destFileName = (String)reportFilesMap.get(srcFileName);
+				String srcFileName = it.next();
+				String destFileName = reportFilesMap.get(srcFileName);
 				File destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
@@ -393,7 +393,7 @@ public class JRAntApiWriteTask extends MatchingTask
 	 */
 	protected void runApi() throws BuildException
 	{
-		Collection files = reportFilesMap.keySet();
+		Collection<String> files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
@@ -401,10 +401,10 @@ public class JRAntApiWriteTask extends MatchingTask
 		
 			System.out.println("Running " + files.size() + " API report design files.");
 
-			for (Iterator it = files.iterator(); it.hasNext();)
+			for (Iterator<String> it = files.iterator(); it.hasNext();)
 			{
-				String srcFileName = (String)it.next();
-				String destFileName = (String)reportFilesMap.get(srcFileName);
+				String srcFileName = it.next();
+				String destFileName = reportFilesMap.get(srcFileName);
 				File destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
@@ -415,7 +415,7 @@ public class JRAntApiWriteTask extends MatchingTask
 				{
 					System.out.print("File : " + srcFileName + " ... ");
 
-					Class reportCreatorClass = JRClassLoader.loadClassFromFile(null, new File(srcFileName));
+					Class<?> reportCreatorClass = JRClassLoader.loadClassFromFile(null, new File(srcFileName));
 					ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
 					JasperDesign jasperDesign = reportCreator.create();
 					JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");

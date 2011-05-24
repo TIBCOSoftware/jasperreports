@@ -76,7 +76,7 @@ public class JRAntXmlExportTask extends MatchingTask
 	private File destdir;
 	private Path classpath;
 
-	private Map reportFilesMap;
+	private Map<String, String> reportFilesMap;
 
 
 	/**
@@ -147,7 +147,7 @@ public class JRAntXmlExportTask extends MatchingTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap();
+		reportFilesMap = new HashMap<String, String>();
 
 		JRProperties.backupProperties();
 		
@@ -220,9 +220,9 @@ public class JRAntXmlExportTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(Iterator it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
-			Resource resource = (Resource)it.next();
+			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
 			if (fileResource != null)
 			{
@@ -284,7 +284,7 @@ public class JRAntXmlExportTask extends MatchingTask
 	 */
 	protected void export() throws BuildException
 	{
-		Collection files = reportFilesMap.keySet();
+		Collection<String> files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
@@ -296,10 +296,10 @@ public class JRAntXmlExportTask extends MatchingTask
 			String destFileName = null;
 			File destFileParent = null;
 
-			for (Iterator it = files.iterator(); it.hasNext();)
+			for (Iterator<String> it = files.iterator(); it.hasNext();)
 			{
-				srcFileName = (String)it.next();
-				destFileName = (String)reportFilesMap.get(srcFileName);
+				srcFileName = it.next();
+				destFileName = reportFilesMap.get(srcFileName);
 				destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
