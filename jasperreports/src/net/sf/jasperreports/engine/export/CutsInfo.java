@@ -47,7 +47,7 @@ public class CutsInfo
 	public static final int USAGE_SPANNED = 2;
 	public static final int USAGE_BREAK = 4;
 	
-	private final List cuts = new ArrayList();
+	private final List<Integer> cuts = new ArrayList<Integer>();
 	private int[] cutUsage;
 	
 	public CutsInfo()
@@ -61,7 +61,7 @@ public class CutsInfo
 		addCut(Integer.valueOf(lastCut));
 	}
 	
-	public List getCuts()
+	public List<Integer> getCuts()
 	{
 		return cuts;
 	}
@@ -81,7 +81,7 @@ public class CutsInfo
 	
 	public int getCut(int index)
 	{
-		return ((Integer)cuts.get(index)).intValue();
+		return cuts.get(index).intValue();
 	}
 	
 	public void addXCuts(JRPrintElement element, int offset)

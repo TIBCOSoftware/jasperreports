@@ -57,7 +57,7 @@ public abstract class BaseHttpServlet extends HttpServlet
 	/**
 	 *
 	 */
-	public static List getJasperPrintList(HttpServletRequest request)
+	public static List<JasperPrint> getJasperPrintList(HttpServletRequest request)
 	{
 		String jasperPrintListSessionAttr = request.getParameter(JASPER_PRINT_LIST_REQUEST_PARAMETER);
 		if (jasperPrintListSessionAttr == null)
@@ -71,13 +71,13 @@ public abstract class BaseHttpServlet extends HttpServlet
 			jasperPrintSessionAttr = DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE;
 		}
 		
-		List jasperPrintList = (List)request.getSession().getAttribute(jasperPrintListSessionAttr);
+		List<JasperPrint> jasperPrintList = (List<JasperPrint>)request.getSession().getAttribute(jasperPrintListSessionAttr);
 		if (jasperPrintList == null)
 		{
 			JasperPrint jasperPrint = (JasperPrint)request.getSession().getAttribute(jasperPrintSessionAttr);
 			if (jasperPrint != null)
 			{
-				jasperPrintList = new ArrayList();
+				jasperPrintList = new ArrayList<JasperPrint>();
 				jasperPrintList.add(jasperPrint);
 			}
 		}

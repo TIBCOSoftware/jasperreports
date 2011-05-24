@@ -113,7 +113,7 @@ public abstract class AbstractSampleApp
 	 */
 	protected File[] getFiles(File parentFile, String extension)
 	{
-		List fileList = new ArrayList();
+		List<File> fileList = new ArrayList<File>();
 		String[] files = parentFile.list();
 		if (files != null)
 		{
@@ -126,7 +126,7 @@ public abstract class AbstractSampleApp
 				}
 			}
 		}
-		return (File[])fileList.toArray(new File[fileList.size()]);
+		return fileList.toArray(new File[fileList.size()]);
 	}
 	
 	

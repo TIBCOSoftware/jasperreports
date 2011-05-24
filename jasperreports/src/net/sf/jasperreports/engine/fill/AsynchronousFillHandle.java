@@ -50,7 +50,7 @@ public class AsynchronousFillHandle
 	protected final JRDataSource dataSource;
 	protected final Connection conn;
 	protected final JRBaseFiller filler;
-	protected final List listeners;
+	protected final List<AsynchronousFilllListener> listeners;
 	protected Thread fillThread;
 	protected boolean started;
 	protected boolean running;
