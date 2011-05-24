@@ -47,7 +47,7 @@ public class JRDesignSection extends JRBaseSection
 
 	public static final String PROPERTY_BANDS = "bands";
 	
-	protected List bandsList = new ArrayList();
+	protected List<JRBand> bandsList = new ArrayList<JRBand>();
 
 	private JROrigin origin;
 
@@ -84,7 +84,7 @@ public class JRDesignSection extends JRBaseSection
 
 		if (bandsList != null && bandsList.size() > 0)
 		{
-			for (Iterator it = bandsList.iterator(); it.hasNext();)
+			for (Iterator<JRBand> it = bandsList.iterator(); it.hasNext();)
 			{
 				JRDesignBand band = (JRDesignBand)it.next();
 				band.setOrigin(origin);
@@ -107,7 +107,7 @@ public class JRDesignSection extends JRBaseSection
 	/**
 	 * Gets a list of all bands within the current section.
 	 */
-	public List getBandsList()
+	public List<JRBand> getBandsList()
 	{
 		return bandsList;
 	}
@@ -170,7 +170,7 @@ public class JRDesignSection extends JRBaseSection
 	 */
 	public JRBand removeBand(int index)
 	{
-		JRBand band = (JRBand)bandsList.remove(index);
+		JRBand band = bandsList.remove(index);
 
 		getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_BANDS, band, index);
 

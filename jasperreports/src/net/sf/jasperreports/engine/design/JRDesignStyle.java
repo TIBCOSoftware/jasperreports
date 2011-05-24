@@ -54,7 +54,7 @@ public class JRDesignStyle extends JRBaseStyle
 	
 	public static final String PROPERTY_CONDITIONAL_STYLES = "conditionalStyles";
 
-	private List conditionalStylesList = new ArrayList();
+	private List<JRConditionalStyle> conditionalStylesList = new ArrayList<JRConditionalStyle>();
 
 
 	/**
@@ -134,13 +134,13 @@ public class JRDesignStyle extends JRBaseStyle
 	 */
 	public JRConditionalStyle[] getConditionalStyles()
 	{
-		return (JRConditionalStyle[]) conditionalStylesList.toArray(new JRDesignConditionalStyle[conditionalStylesList.size()]);
+		return conditionalStylesList.toArray(new JRDesignConditionalStyle[conditionalStylesList.size()]);
 	}
 
 	/**
 	 *
 	 */
-	public List getConditionalStyleList()
+	public List<JRConditionalStyle> getConditionalStyleList()
 	{
 		return conditionalStylesList;
 	}
@@ -168,10 +168,10 @@ public class JRDesignStyle extends JRBaseStyle
 		
 		if (conditionalStylesList != null)
 		{
-			clone.conditionalStylesList = new ArrayList(conditionalStylesList.size());
-			for (Iterator it = conditionalStylesList.iterator(); it.hasNext();)
+			clone.conditionalStylesList = new ArrayList<JRConditionalStyle>(conditionalStylesList.size());
+			for (Iterator<JRConditionalStyle> it = conditionalStylesList.iterator(); it.hasNext();)
 			{
-				JRConditionalStyle style = (JRConditionalStyle) it.next();
+				JRConditionalStyle style = it.next();
 				JRConditionalStyle styleClone = (JRConditionalStyle) style.clone();
 				clone.conditionalStylesList.add(styleClone);
 			}

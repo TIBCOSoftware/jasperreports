@@ -78,12 +78,12 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected Map parametersMap = new LinkedHashMap();
+	protected Map<String, JRSubreportParameter> parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
 	
 	/**
 	 * Values to be copied from the subreport into the master report.
 	 */
-	protected List returnValues = new ArrayList();
+	protected List<JRSubreportReturnValue> returnValues = new ArrayList<JRSubreportReturnValue>();
 
 	/**
 	 *
@@ -162,7 +162,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	/**
 	 *
 	 */
-	public Map getParametersMap()
+	public Map<String, JRSubreportParameter> getParametersMap()
 	{
 		return this.parametersMap;
 	}
@@ -187,7 +187,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 */
 	public JRSubreportParameter removeParameter(String name)
 	{
-		JRSubreportParameter removed = (JRSubreportParameter)this.parametersMap.remove(name);
+		JRSubreportParameter removed = this.parametersMap.remove(name);
 		if (removed != null)
 		{
 			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_PARAMETERS, removed, -1);
@@ -307,7 +307,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 	 * 
 	 * @return list of {@link JRSubreportReturnValue JRSubreportReturnValue} objects
 	 */
-	public List getReturnValuesList()
+	public List<JRSubreportReturnValue> getReturnValuesList()
 	{
 		return returnValues;
 	}
@@ -381,21 +381,21 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 		
 		if (parametersMap != null)
 		{
-			clone.parametersMap = new LinkedHashMap();
-			for(Iterator it = parametersMap.keySet().iterator(); it.hasNext();)
+			clone.parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
+			for(Iterator<String> it = parametersMap.keySet().iterator(); it.hasNext();)
 			{
-				String key = (String)it.next();
-				JRSubreportParameter parameter = (JRSubreportParameter)parametersMap.get(key);
-				clone.parametersMap.put(key, parameter.clone());
+				String key = it.next();
+				JRSubreportParameter parameter = parametersMap.get(key);
+				clone.parametersMap.put(key, (JRSubreportParameter)parameter.clone());
 			}
 		}
 
 		if (returnValues != null)
 		{
-			clone.returnValues = new ArrayList(returnValues.size());
+			clone.returnValues = new ArrayList<JRSubreportReturnValue>(returnValues.size());
 			for(int i = 0; i < returnValues.size(); i++)
 			{
-				clone.returnValues.add(((JRSubreportReturnValue)returnValues.get(i)).clone());
+				clone.returnValues.add((JRSubreportReturnValue)returnValues.get(i).clone());
 			}
 		}
 
