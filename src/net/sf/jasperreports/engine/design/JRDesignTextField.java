@@ -86,7 +86,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	protected Boolean isBlankWhenNull;
 	protected String linkType;
 	protected String linkTarget;
-	private List hyperlinkParameters;
+	private List<JRHyperlinkParameter> hyperlinkParameters;
 
 	/**
 	 *
@@ -114,7 +114,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(null);
 		
-		hyperlinkParameters = new ArrayList();
+		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
 	}
 		
 	/**
@@ -124,7 +124,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	{
 		super(defaultStyleProvider);
 		
-		hyperlinkParameters = new ArrayList();
+		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
 	}
 		
 
@@ -508,7 +508,7 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
-	public List getHyperlinkParametersList()
+	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;
 	}
@@ -555,9 +555,9 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
-			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			JRHyperlinkParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();
@@ -596,10 +596,10 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		
 		if (hyperlinkParameters != null)
 		{
-			clone.hyperlinkParameters = new ArrayList(hyperlinkParameters.size());
+			clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>(hyperlinkParameters.size());
 			for(int i = 0; i < hyperlinkParameters.size(); i++)
 			{
-				clone.hyperlinkParameters.add(((JRHyperlinkParameter)hyperlinkParameters.get(i)).clone());
+				clone.hyperlinkParameters.add((JRHyperlinkParameter)hyperlinkParameters.get(i).clone());
 			}
 		}
 
