@@ -60,7 +60,7 @@ public class DatasetSortUtil
 	 */
 	public static JRSortField[] getAllSortFields(JRFillDataset dataset)
 	{
-		List allSortFields = new ArrayList();
+		List<JRSortField> allSortFields = new ArrayList<JRSortField>();
 		
 		JRSortField[] staticSortFields = dataset.getSortFields();
 		if (staticSortFields != null)
@@ -68,13 +68,13 @@ public class DatasetSortUtil
 			allSortFields.addAll(Arrays.asList(staticSortFields));
 		}
 
-		List dynamicSortFields = (List)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
+		List<JRSortField> dynamicSortFields = (List<JRSortField>)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		if (dynamicSortFields != null)
 		{
 			allSortFields.addAll(dynamicSortFields);
 		}
 
-		return (JRSortField[]) allSortFields.toArray(new JRSortField[allSortFields.size()]);
+		return allSortFields.toArray(new JRSortField[allSortFields.size()]);
 	}
 
 
@@ -84,7 +84,7 @@ public class DatasetSortUtil
 	public static boolean needSorting(JRFillDataset dataset)
 	{
 		JRSortField[] staticSortFields = dataset.getSortFields();
-		List dynamicSortFields = (List)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
+		List<JRSortField> dynamicSortFields = (List<JRSortField>)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		
 		return 
 			(staticSortFields != null
@@ -107,7 +107,7 @@ public class DatasetSortUtil
 		
 		SortFillDatasetRun sortDatasetRun = new SortFillDatasetRun(filler, dataset, sortInfo);
 		
-		List records = sortDatasetRun.sort();
+		List<Object[]> records = sortDatasetRun.sort();
 		
 		/*   */
 		Collections.sort(
@@ -118,7 +118,7 @@ public class DatasetSortUtil
 				)
 			);
 		
-		return new ListOfArrayDataSource(records, (String[]) sortInfo.fieldNames.toArray(new String[sortInfo.fieldNames.size()]));
+		return new ListOfArrayDataSource(records, sortInfo.fieldNames.toArray(new String[sortInfo.fieldNames.size()]));
 	}
 
 
@@ -129,8 +129,8 @@ public class DatasetSortUtil
 	{
 		SortInfo sortInfo = new SortInfo();
 
-		Map fieldsMap = new HashMap();
-		Map fieldIndexMap = new HashMap();
+		Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
+		Map<String, Integer> fieldIndexMap = new HashMap<String, Integer>();
 		JRField[] fields = dataset.getFields();
 		if (fields != null)
 		{
@@ -143,7 +143,7 @@ public class DatasetSortUtil
 			}
 		}
 
-		Map variablesMap = new HashMap();
+		Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null)
 		{
@@ -173,7 +173,7 @@ public class DatasetSortUtil
 				Integer index;
 				if (info.isVariable)
 				{
-					JRVariable variable = (JRVariable)variablesMap.get(sortFieldName);
+					JRVariable variable = variablesMap.get(sortFieldName);
 					if (variable == null)
 					{
 						throw new JRRuntimeException("Sort variable \"" + sortFieldName + "\" not found in dataset.");
@@ -186,13 +186,13 @@ public class DatasetSortUtil
 				}
 				else
 				{
-					JRField field = (JRField)fieldsMap.get(sortFieldName);
+					JRField field = fieldsMap.get(sortFieldName);
 					if (field == null)
 					{
 						throw new JRRuntimeException("Sort field \"" + sortFieldName + "\" not found in dataset.");
 					}
 					
-					index = (Integer)fieldIndexMap.get(sortField.getName());
+					index = fieldIndexMap.get(sortField.getName());
 
 					info.collatorFlag = String.class.getName().equals(field.getValueClassName());
 				}
@@ -275,7 +275,7 @@ class DataSourceComparator implements Comparator
  */
 class SortInfo
 {
-	public List fieldNames = new ArrayList();
+	public List<String> fieldNames = new ArrayList<String>();
 	public SortFieldInfo[] sortFieldInfo;
 }
 
@@ -304,7 +304,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 
 	private JRSortField[] allSortFields;
 	private SortInfo sortInfo;
-	private List records;
+	private List<Object[]> records;
 
 	
 	public SortFillDatasetRun(JRBaseFiller filler, JRFillDataset dataset, SortInfo sortInfo) throws JRException
@@ -321,9 +321,9 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	}
 
 	
-	public List sort() throws JRException
+	public List<Object[]> sort() throws JRException
 	{
-		records = new ArrayList();
+		records = new ArrayList<Object[]>();
 
 		try
 		{
