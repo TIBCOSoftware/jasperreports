@@ -80,9 +80,9 @@ public class JRAntUpdateTask extends MatchingTask
 	private Path classpath;
 	private boolean xmlvalidation = true;
 	
-	private List updaters;
+	private List<UpdaterElement> updaters;
 
-	private Map reportFilesMap;
+	private Map<String, String> reportFilesMap;
 
 
 	/**
@@ -166,7 +166,7 @@ public class JRAntUpdateTask extends MatchingTask
 
 		if (updaters == null)
 		{
-			updaters = new ArrayList();
+			updaters = new ArrayList<UpdaterElement>();
 		}
 		
 		updaters.add(updaterElement);
@@ -182,7 +182,7 @@ public class JRAntUpdateTask extends MatchingTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap();
+		reportFilesMap = new HashMap<String, String>();
 
 		JRProperties.backupProperties();
 		
@@ -255,9 +255,9 @@ public class JRAntUpdateTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(Iterator it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
-			Resource resource = (Resource)it.next();
+			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
 			if (fileResource != null)
 			{
@@ -319,7 +319,7 @@ public class JRAntUpdateTask extends MatchingTask
 	 */
 	protected void update() throws BuildException
 	{
-		Collection files = reportFilesMap.keySet();
+		Collection<String> files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
@@ -331,10 +331,10 @@ public class JRAntUpdateTask extends MatchingTask
 			String destFileName = null;
 			File destFileParent = null;
 
-			for (Iterator it = files.iterator(); it.hasNext();)
+			for (Iterator<String> it = files.iterator(); it.hasNext();)
 			{
-				srcFileName = (String)it.next();
-				destFileName = (String)reportFilesMap.get(srcFileName);
+				srcFileName = it.next();
+				destFileName = reportFilesMap.get(srcFileName);
 				destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{
@@ -351,7 +351,7 @@ public class JRAntUpdateTask extends MatchingTask
 					{
 						for(int i = 0; i < updaters.size(); i++)
 						{
-							ReportUpdater updater = ((UpdaterElement)updaters.get(i)).getUpdater();
+							ReportUpdater updater = updaters.get(i).getUpdater();
 							if (updater != null)
 							{
 								jasperDesign = updater.update(jasperDesign);

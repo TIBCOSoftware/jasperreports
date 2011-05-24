@@ -89,7 +89,7 @@ public class JRAntCompileTask extends MatchingTask
 	private Path classpath;
 	private boolean xmlvalidation = true;
 
-	private Map reportFilesMap;
+	private Map<String, String> reportFilesMap;
 
 
 	/**
@@ -219,7 +219,7 @@ public class JRAntCompileTask extends MatchingTask
 	{
 		checkParameters();
 
-		reportFilesMap = new HashMap();
+		reportFilesMap = new HashMap<String, String>();
 
 		JRProperties.backupProperties();
 		
@@ -323,9 +323,9 @@ public class JRAntCompileTask extends MatchingTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(Iterator it = src.iterator(); it.hasNext();)
+		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
-			Resource resource = (Resource)it.next();
+			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;
 			if (fileResource != null)
 			{
@@ -387,7 +387,7 @@ public class JRAntCompileTask extends MatchingTask
 	 */
 	protected void compile() throws BuildException
 	{
-		Collection files = reportFilesMap.keySet();
+		Collection<String> files = reportFilesMap.keySet();
 
 		if (files != null && files.size() > 0)
 		{
@@ -395,10 +395,10 @@ public class JRAntCompileTask extends MatchingTask
 		
 			System.out.println("Compiling " + files.size() + " report design files.");
 
-			for (Iterator it = files.iterator(); it.hasNext();)
+			for (Iterator<String> it = files.iterator(); it.hasNext();)
 			{
-				String srcFileName = (String)it.next();
-				String destFileName = (String)reportFilesMap.get(srcFileName);
+				String srcFileName = it.next();
+				String destFileName = reportFilesMap.get(srcFileName);
 				File destFileParent = new File(destFileName).getParentFile();
 				if(!destFileParent.exists())
 				{

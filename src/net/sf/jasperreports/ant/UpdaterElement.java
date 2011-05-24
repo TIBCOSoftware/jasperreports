@@ -55,7 +55,7 @@ public class UpdaterElement
 		{
 			try
 			{
-				Class clazz = JRAntCompileTask.class.getClassLoader().loadClass(className);
+				Class<?> clazz = JRAntCompileTask.class.getClassLoader().loadClass(className);
 				updater = (ReportUpdater)clazz.newInstance();
 			}
 			catch (ClassNotFoundException e)
