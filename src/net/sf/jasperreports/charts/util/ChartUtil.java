@@ -63,14 +63,14 @@ public final class ChartUtil
 	/**
 	 * 
 	 */
-	public static List getImageAreaHyperlinks(
+	public static List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(
 		JFreeChart chart,
 		ChartHyperlinkProvider chartHyperlinkProvider,
 		Graphics2D grx,
 		Rectangle2D renderingArea
 		)// throws JRException
 	{
-		List areaHyperlinks = null;
+		List<JRPrintImageAreaHyperlink> areaHyperlinks = null;
 		
 		if (chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks())
 		{
@@ -88,11 +88,11 @@ public final class ChartUtil
 			EntityCollection entityCollection = renderingInfo.getEntityCollection();
 			if (entityCollection != null && entityCollection.getEntityCount() > 0)
 			{
-				areaHyperlinks = new ArrayList(entityCollection.getEntityCount());
+				areaHyperlinks = new ArrayList<JRPrintImageAreaHyperlink>(entityCollection.getEntityCount());
 				
-				for (Iterator it = entityCollection.iterator(); it.hasNext();)
+				for (Iterator<ChartEntity> it = entityCollection.iterator(); it.hasNext();)
 				{
-					ChartEntity entity = (ChartEntity) it.next();
+					ChartEntity entity = it.next();
 					JRPrintHyperlink printHyperlink = chartHyperlinkProvider.getEntityHyperlink(entity);
 					if (printHyperlink != null)
 					{
