@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.renderers.JRSimpleImageMapRenderer;
 
 import org.jfree.chart.JFreeChart;
@@ -51,12 +52,18 @@ public class ImageChartRendererFactory implements ChartRendererFactory
 		Rectangle2D rectangle
 		)
 	{
+		int dpi = JRProperties.getIntegerProperty(JRRenderable.PROPERTY_IMAGE_DPI, 72);
+		double scale = dpi/72d;
+		
 		BufferedImage bi = 
 			new BufferedImage(
-				(int)rectangle.getWidth(),
-				(int)rectangle.getHeight(),
+				(int) (scale * (int)rectangle.getWidth()),
+				(int) (scale * rectangle.getHeight()),
 				BufferedImage.TYPE_INT_ARGB
 				);
+
+		Graphics2D grx = bi.createGraphics();
+		grx.scale(scale, scale);
 
 		List<JRPrintImageAreaHyperlink> areaHyperlinks = null;
 
@@ -66,7 +73,7 @@ public class ImageChartRendererFactory implements ChartRendererFactory
 		}
 		else
 		{
-			chart.draw((Graphics2D)bi.getGraphics(), rectangle);
+			chart.draw(grx, rectangle);
 		}
 
 		try
