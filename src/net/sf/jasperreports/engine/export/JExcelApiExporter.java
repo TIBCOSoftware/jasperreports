@@ -35,7 +35,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -1049,14 +1048,18 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				case CLIP:
 				{
-					BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
-					Graphics2D grx = bi.createGraphics();
+					int dpi = JRProperties.getIntegerProperty(JRRenderable.PROPERTY_IMAGE_DPI, 72);
+					double scale = dpi/72d;
 					
-					int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-					int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
+					BufferedImage bi = 
+						new BufferedImage(
+							(int)(scale * availableImageWidth), 
+							(int)(scale * availableImageHeight), 
+							BufferedImage.TYPE_INT_ARGB
+							);
 
-					Shape oldClipShape = grx.getClip();
-
+					Graphics2D grx = bi.createGraphics();
+					grx.scale(scale, scale);
 					grx.clip(
 						new Rectangle(
 							0, 
@@ -1066,22 +1069,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 							)
 						);
 					
-					try
-					{
-						renderer.render(
-							grx, 
-							new Rectangle(
-								xoffset, 
-								yoffset,
-								normalWidth, 
-								normalHeight
-								)
-							);
-					}
-					finally
-					{
-						grx.setClip(oldClipShape);
-					}
+					renderer.render(
+						grx, 
+						new Rectangle(
+							(int) (xalignFactor * (availableImageWidth - normalWidth)),
+							(int) (yalignFactor * (availableImageHeight - normalHeight)),
+							normalWidth, 
+							normalHeight
+							)
+						);
 
 					topOffset = topPadding;
 					leftOffset = leftPadding;

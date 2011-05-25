@@ -1118,14 +1118,18 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				{
 					case CLIP:
 					{
-						BufferedImage bi = new BufferedImage(availableImageWidth, availableImageHeight, BufferedImage.TYPE_INT_ARGB);
-						Graphics2D grx = bi.createGraphics();
+						int dpi = JRProperties.getIntegerProperty(JRRenderable.PROPERTY_IMAGE_DPI, 72);
+						double scale = dpi/72d;
 						
-						int xoffset = (int) (xalignFactor * (availableImageWidth - normalWidth));
-						int yoffset = (int) (yalignFactor * (availableImageHeight - normalHeight));
-	
-						Shape oldClipShape = grx.getClip();
-	
+						BufferedImage bi = 
+							new BufferedImage(
+								(int)(scale * availableImageWidth), 
+								(int)(scale * availableImageHeight), 
+								BufferedImage.TYPE_INT_ARGB
+								);
+
+						Graphics2D grx = bi.createGraphics();
+						grx.scale(scale, scale);
 						grx.clip(
 							new Rectangle(
 								0, 
@@ -1135,22 +1139,15 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 								)
 							);
 						
-						try
-						{
-							renderer.render(
-								grx, 
-								new Rectangle(
-									xoffset, 
-									yoffset,
-									normalWidth, 
-									normalHeight
-									)
-								);
-						}
-						finally
-						{
-							grx.setClip(oldClipShape);
-						}
+						renderer.render(
+							grx, 
+							new Rectangle(
+								(int) (xalignFactor * (availableImageWidth - normalWidth)),
+								(int) (yalignFactor * (availableImageHeight - normalHeight)),
+								normalWidth, 
+								normalHeight
+								)
+							);
 	
 						imageData = JRImageLoader.loadImageDataFromAWTImage(bi, JRRenderable.IMAGE_TYPE_PNG);
 	

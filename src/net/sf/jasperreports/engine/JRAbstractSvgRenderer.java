@@ -30,6 +30,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -86,14 +87,17 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	 */
 	public byte[] getImageData() throws JRException
 	{
+		int dpi = JRProperties.getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
+		double scale = dpi/72d;
+		
 		Dimension2D dimension = getDimension();
 		if (dimension != null)
 		{
 			byte imageType = getImageType();
 			BufferedImage bi =
 				new BufferedImage(
-					(int)dimension.getWidth(),
-					(int)dimension.getHeight(),
+					(int) (scale * dimension.getWidth()),
+					(int) (scale * dimension.getHeight()),
 					// avoid creating JPEG images with transparency that would result 
 					// in invalid image files for some viewers (browsers)
 					(imageType == JRRenderable.IMAGE_TYPE_GIF || imageType == JRRenderable.IMAGE_TYPE_PNG)  
@@ -101,6 +105,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 					);
 
 			Graphics2D g = createGraphics(bi);
+			g.scale(scale, scale);
 			Color backcolor = getBackcolor();
 			if (backcolor != null)
 			{
