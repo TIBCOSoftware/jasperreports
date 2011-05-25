@@ -269,6 +269,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 
+	public ResultSet getResultSet() {
+		return resultSet;
+	}
+
+
 	protected void setStatementParameter(int parameterIndex, String parameterName) throws SQLException
 	{
 		JRValueParameter parameter = getValueParameter(parameterName);
