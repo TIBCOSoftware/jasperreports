@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRImageLoader;
@@ -57,7 +58,7 @@ public class ImageChartRendererFactory implements ChartRendererFactory
 				BufferedImage.TYPE_INT_ARGB
 				);
 
-		List areaHyperlinks = null;
+		List<JRPrintImageAreaHyperlink> areaHyperlinks = null;
 
 		if (chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks())
 		{

@@ -40,9 +40,9 @@ public class CategoryChartHyperlinkProvider implements ChartHyperlinkProvider
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map itemHyperlinks;
+	private Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> itemHyperlinks;
 	
-	public CategoryChartHyperlinkProvider(Map itemHyperlinks)
+	public CategoryChartHyperlinkProvider(Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> itemHyperlinks)
 	{
 		this.itemHyperlinks = itemHyperlinks;
 	}
@@ -54,12 +54,12 @@ public class CategoryChartHyperlinkProvider implements ChartHyperlinkProvider
 		if (hasHyperlinks() && entity instanceof CategoryItemEntity)
 		{
 			CategoryItemEntity itemEntity = (CategoryItemEntity) entity;
-			Comparable serie = itemEntity.getRowKey();
-			Map serieHyperlinks = (Map) itemHyperlinks.get(serie);
+			Comparable<?> serie = itemEntity.getRowKey();
+			Map<Comparable<?>,JRPrintHyperlink> serieHyperlinks = itemHyperlinks.get(serie);
 			if (serieHyperlinks != null)
 			{
-				Object category = itemEntity.getColumnKey();
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(category);
+				Comparable<?> category = itemEntity.getColumnKey();
+				printHyperlink = serieHyperlinks.get(category);
 			}
 		}
 		return printHyperlink;

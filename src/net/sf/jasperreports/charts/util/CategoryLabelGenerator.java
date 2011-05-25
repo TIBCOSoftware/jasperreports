@@ -39,20 +39,20 @@ public class CategoryLabelGenerator extends StandardCategoryItemLabelGenerator
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labelsMap;
+	private Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap;
 	
-	public CategoryLabelGenerator(Map labelsMap)
+	public CategoryLabelGenerator(Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap)
 	{
 		this.labelsMap = labelsMap;
 	}
 
 	public String generateLabel(CategoryDataset dataset, int series, int category) 
 	{
-		Comparable seriesName = dataset.getRowKey(series);
-		Map labels = (Map)labelsMap.get(seriesName);
+		Comparable<?> seriesName = dataset.getRowKey(series);
+		Map<Comparable<?>, String> labels = labelsMap.get(seriesName);
 		if(labels != null)
 		{
-			return (String)labels.get(dataset.getColumnKey(category));
+			return labels.get(dataset.getColumnKey(category));
 		}
 		return super.generateLabel(dataset, series, category);
 	}

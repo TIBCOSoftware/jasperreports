@@ -57,7 +57,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 * axis.  All entries in the list are of the type
 	 * <code>{@link JRChartAxis}</code>
 	 */
-	protected List axes = new java.util.ArrayList();
+	protected List<JRChartAxis> axes = new java.util.ArrayList<JRChartAxis>();
 
 
 
@@ -84,14 +84,14 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	{
 		super(multiAxisPlot, factory);
 
-		List origAxes = multiAxisPlot.getAxes();
+		List<JRChartAxis> origAxes = multiAxisPlot.getAxes();
 		axes.clear();
 		if (origAxes != null)
 		{
-			Iterator iter = origAxes.iterator();
+			Iterator<JRChartAxis> iter = origAxes.iterator();
 			while (iter.hasNext())
 			{
-				JRChartAxis axis = (JRChartAxis)iter.next();
+				JRChartAxis axis = iter.next();
 				axes.add(factory.getChartAxis(axis));
 			}
 		}
@@ -102,7 +102,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	/**
 	 *
 	 */
-	public List getAxes()
+	public List<JRChartAxis> getAxes()
 	{
 		return axes;
 	}
@@ -116,10 +116,10 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	 */
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		Iterator iter = axes.iterator();
+		Iterator<JRChartAxis> iter = axes.iterator();
 		while (iter.hasNext())
 		{
-			JRChartAxis axis = (JRChartAxis)iter.next();
+			JRChartAxis axis = iter.next();
 			collector.collect(axis.getChart());
 		}
 	}
@@ -133,10 +133,10 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 		
 		if (axes != null)
 		{
-			clone.axes = new ArrayList(axes.size());
+			clone.axes = new ArrayList<JRChartAxis>(axes.size());
 			for(int i = 0; i < axes.size(); i++)
 			{
-				clone.axes.add(((JRChartAxis)axes.get(i)).clone());
+				clone.axes.add((JRChartAxis)(axes.get(i).clone()));
 			}
 		}
 

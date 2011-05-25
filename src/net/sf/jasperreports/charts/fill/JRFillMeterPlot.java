@@ -27,6 +27,7 @@ import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRMeterPlot;
 import net.sf.jasperreports.charts.JRValueDisplay;
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.fill.JRFillChartPlot;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
@@ -76,7 +77,7 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	/**
 	 *
 	 */
-	public List getIntervals(){
+	public List<JRMeterInterval> getIntervals(){
 		return ((JRMeterPlot)parent).getIntervals();
 	}
 

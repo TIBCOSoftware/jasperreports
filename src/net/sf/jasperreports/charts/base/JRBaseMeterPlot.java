@@ -79,7 +79,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	 * The defined intervals for the Meter.  Each interval indicates a
 	 * subsection of the meter and a color to use for that section.
 	 */
-	protected List intervals = new java.util.ArrayList();
+	protected List<JRMeterInterval> intervals = new java.util.ArrayList<JRMeterInterval>();
 
 	/**
 	 * The extend of the meter face in degrees.  It will always be centered
@@ -152,14 +152,14 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		dataRange = new JRBaseDataRange(meterPlot.getDataRange(), factory);
 		valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), factory);
 		shapeValue = meterPlot.getShapeValue();
-		List origIntervals = meterPlot.getIntervals();
+		List<JRMeterInterval> origIntervals = meterPlot.getIntervals();
 		intervals.clear();
 		if (origIntervals != null)
 		{
-			Iterator iter = origIntervals.iterator();
+			Iterator<JRMeterInterval> iter = origIntervals.iterator();
 			while (iter.hasNext())
 			{
-				JRMeterInterval interval = (JRMeterInterval)iter.next();
+				JRMeterInterval interval = iter.next();
 				intervals.add(new JRMeterInterval(interval, factory));
 			}
 		}
@@ -201,7 +201,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	/**
 	 *
 	 */
-	public List getIntervals(){
+	public List<JRMeterInterval> getIntervals(){
 		return intervals;
 	}
 
@@ -291,10 +291,10 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		
 		if (intervals != null)
 		{
-			clone.intervals = new ArrayList(intervals.size());
+			clone.intervals = new ArrayList<JRMeterInterval>(intervals.size());
 			for(int i = 0; i < intervals.size(); i++)
 			{
-				clone.intervals.add(((JRMeterInterval)intervals.get(i)).clone());
+				clone.intervals.add((JRMeterInterval)(intervals.get(i).clone()));
 			}
 		}
 		

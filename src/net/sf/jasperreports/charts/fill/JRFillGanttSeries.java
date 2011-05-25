@@ -47,7 +47,7 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	 */
 	protected JRGanttSeries parent;
 
-	private Comparable series;
+	private Comparable<?> series;
 	private String task;
 	private String subtask;
 	private Date startDate;
@@ -123,7 +123,7 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	/**
 	 *
 	 */
-	protected Comparable getSeries()
+	protected Comparable<?> getSeries()
 	{
 		return series;
 	}
@@ -179,7 +179,7 @@ public class JRFillGanttSeries implements JRGanttSeries {
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		series = (Comparable)calculator.evaluate(getSeriesExpression());
+		series = (Comparable<?>)calculator.evaluate(getSeriesExpression());
 		startDate = (Date)calculator.evaluate( getStartDateExpression() );
 		endDate = (Date)calculator.evaluate( getEndDateExpression() );
 		task = (String)calculator.evaluate(getTaskExpression());

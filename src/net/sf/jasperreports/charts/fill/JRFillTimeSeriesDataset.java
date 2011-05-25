@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRTimeSeriesDataset;
 import net.sf.jasperreports.charts.util.TimeSeriesLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -57,10 +58,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	 */
 	protected JRFillTimeSeries[] timeSeries;
 	
-	private List seriesNames;
-	private Map seriesMap;
-	private Map labelsMap;
-	private Map itemHyperlinks;
+	private List<Comparable<?>> seriesNames;
+	private Map<Comparable<?>, TimeSeries> seriesMap;
+	private Map<Comparable<?>, Map<RegularTimePeriod, String>> labelsMap;
+	private Map<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>> itemHyperlinks;
 	
 	
 	public JRFillTimeSeriesDataset(
@@ -112,23 +113,23 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		{
 			if (seriesNames == null)
 			{
-				seriesNames = new ArrayList();
-				seriesMap = new HashMap();
-				labelsMap = new HashMap();
-				itemHyperlinks = new HashMap();
+				seriesNames = new ArrayList<Comparable<?>>();
+				seriesMap = new HashMap<Comparable<?>, TimeSeries>();
+				labelsMap = new HashMap<Comparable<?>, Map<RegularTimePeriod, String>>();
+				itemHyperlinks = new HashMap<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>>();
 			}
 
 			for (int i = 0; i < timeSeries.length; i++)
 			{
 				JRFillTimeSeries crtTimeSeries = timeSeries[i];
 				
-				Comparable seriesName = crtTimeSeries.getSeries();
+				Comparable<?> seriesName = crtTimeSeries.getSeries();
 				if (seriesName == null)
 				{
 					throw new JRRuntimeException("Time series name is null.");
 				}
 
-				TimeSeries series = (TimeSeries)seriesMap.get(seriesName);
+				TimeSeries series = seriesMap.get(seriesName);
 				if(series == null)
 				{
 					series = new TimeSeries(seriesName.toString(), getTimePeriod());
@@ -147,10 +148,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 
 				if (crtTimeSeries.getLabelExpression() != null)
 				{
-					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					Map<RegularTimePeriod, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap();
+						seriesLabels = new HashMap<RegularTimePeriod, String>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -159,10 +160,10 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 				
 				if (crtTimeSeries.hasItemHyperlink())
 				{
-					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					Map<RegularTimePeriod, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap();
+						seriesLinks = new HashMap<RegularTimePeriod, JRPrintHyperlink>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					seriesLinks.put(tp, crtTimeSeries.getPrintItemHyperlink());
@@ -178,19 +179,19 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 		{
 			for(int i = 0; i < seriesNames.size(); i++)
 			{
-				Comparable seriesName = (Comparable)seriesNames.get(i);
-				dataset.addSeries((TimeSeries)seriesMap.get(seriesName));
+				Comparable<?> seriesName = seriesNames.get(i);
+				dataset.addSeries(seriesMap.get(seriesName));
 			}
 		}
 		return dataset;
 	}
 
 
-	public Class getTimePeriod() {
+	public Class<?> getTimePeriod() {
 		return ((JRTimeSeriesDataset)parent).getTimePeriod();
 	}
 
-	public void setTimePeriod(Class timePeriod) {	
+	public void setTimePeriod(Class<?> timePeriod) {	
 	}
 
 	/** 
@@ -215,7 +216,7 @@ public class JRFillTimeSeriesDataset extends JRFillChartDataset implements JRTim
 	}
 
 	
-	public Map getItemHyperlinks()
+	public Map<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>> getItemHyperlinks()
 	{
 		return itemHyperlinks;
 	}

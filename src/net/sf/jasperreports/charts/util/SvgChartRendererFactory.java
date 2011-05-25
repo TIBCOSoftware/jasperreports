@@ -27,6 +27,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.StringWriter;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.renderers.BatikRenderer;
@@ -61,7 +62,7 @@ public class SvgChartRendererFactory implements ChartRendererFactory
 		
 		grx.setSVGCanvasSize(rectangle.getBounds().getSize());
 
-		List areaHyperlinks = null;
+		List<JRPrintImageAreaHyperlink> areaHyperlinks = null;
 
 		if (chartHyperlinkProvider != null && chartHyperlinkProvider.hasHyperlinks())
 		{

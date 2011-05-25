@@ -40,9 +40,9 @@ public class PieChartHyperlinkProvider implements ChartHyperlinkProvider
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map sectionHyperlinks;
+	private Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks;
 	
-	public PieChartHyperlinkProvider(Map sectionHyperlinks)
+	public PieChartHyperlinkProvider(Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks)
 	{
 		this.sectionHyperlinks = sectionHyperlinks;
 	}
@@ -54,7 +54,7 @@ public class PieChartHyperlinkProvider implements ChartHyperlinkProvider
 		if (hasHyperlinks() && entity instanceof PieSectionEntity)
 		{
 			PieSectionEntity pieEntity = (PieSectionEntity) entity;
-			printHyperlink = (JRPrintHyperlink) sectionHyperlinks.get(pieEntity.getSectionKey());
+			printHyperlink = sectionHyperlinks.get(pieEntity.getSectionKey());
 		}
 		return printHyperlink;
 	}

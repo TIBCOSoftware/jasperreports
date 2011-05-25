@@ -42,5 +42,5 @@ public interface JRMultiAxisPlot extends JRChartPlot
 	 * Returns a List of all the children axis.  Each element is of type
 	 * <code>net.sf.jasperreports.charts.util.JRChartAxis</code>.
 	 */
-	public List getAxes();
+	public List<JRChartAxis> getAxes();
 }

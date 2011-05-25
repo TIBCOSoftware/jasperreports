@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.JRXyzSeries;
 import net.sf.jasperreports.charts.util.DefaultXYZDataset;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
@@ -51,7 +52,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 
 	private DefaultXYZDataset dataset;
 	
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> itemHyperlinks;
 	
 	
 	public JRFillXyzDataset(JRXyzDataset xyzDataset, JRFillObjectFactory factory)
@@ -76,7 +77,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	protected void customInitialize()
 	{
 		dataset = new DefaultXYZDataset();
-		itemHyperlinks = new HashMap();
+		itemHyperlinks = new HashMap<Comparable<?>, Map<Pair, JRPrintHyperlink>>();
 	}
 	
 	protected void customEvaluate( JRCalculator calculator ) throws JRExpressionEvalException 
@@ -98,7 +99,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 			{
 				JRFillXyzSeries crtXyzSeries = xyzSeries[i];
 				
-				Comparable seriesName = crtXyzSeries.getSeries();
+				Comparable<?> seriesName = crtXyzSeries.getSeries();
 				if (seriesName == null)
 				{
 					throw new JRRuntimeException("XYZ series name is null.");
@@ -113,10 +114,10 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 				
 				if (crtXyzSeries.hasItemHyperlinks())
 				{
-					Map seriesLinks = (Map) itemHyperlinks.get(crtXyzSeries.getSeries());
+					Map<Pair, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(crtXyzSeries.getSeries());
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap();
+						seriesLinks = new HashMap<Pair, JRPrintHyperlink>();
 						itemHyperlinks.put(crtXyzSeries.getSeries(), seriesLinks);
 					}
 					Pair xyKey = new Pair(crtXyzSeries.getXValue(), crtXyzSeries.getYValue());
@@ -170,7 +171,7 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	}
 
 	
-	public Map getItemHyperlinks()
+	public Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> getItemHyperlinks()
 	{
 		return itemHyperlinks;
 	}
@@ -180,6 +181,5 @@ public class JRFillXyzDataset extends JRFillChartDataset implements JRXyzDataset
 	{
 		verifier.verify(this);
 	}
-
 
 }

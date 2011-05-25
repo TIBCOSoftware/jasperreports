@@ -51,7 +51,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	
 	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
 
-	private List categorySeriesList = new ArrayList();
+	private List<JRCategorySeries> categorySeriesList = new ArrayList<JRCategorySeries>();
 
 
 	/**
@@ -79,7 +79,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRCategorySeries> getSeriesList()
 	{
 		return categorySeriesList;
 	}
@@ -157,10 +157,10 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 		
 		if (categorySeriesList != null)
 		{
-			clone.categorySeriesList = new ArrayList(categorySeriesList.size());
+			clone.categorySeriesList = new ArrayList<JRCategorySeries>(categorySeriesList.size());
 			for(int i = 0; i < categorySeriesList.size(); i++)
 			{
-				clone.categorySeriesList.add(((JRCategorySeries)categorySeriesList.get(i)).clone());
+				clone.categorySeriesList.add((JRCategorySeries)(categorySeriesList.get(i).clone()));
 			}
 		}
 

@@ -58,7 +58,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	 *
 	 */
 	private String series;
-	private List elements = new ArrayList();
+	private List<HighLowElement> elements = new ArrayList<HighLowElement>();
 	private Date date;
 	private Number high;
 	private Number low;
@@ -67,7 +67,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	private Number volume;
 	
 	private JRPrintHyperlink itemHyperlink;
-	private List itemHyperlinks;
+	private List<JRPrintHyperlink> itemHyperlinks;
 
 	
 	/**
@@ -81,8 +81,8 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 
 	protected void customInitialize()
 	{
-		elements = new ArrayList();
-		itemHyperlinks = new ArrayList();
+		elements = new ArrayList<HighLowElement>();
+		itemHyperlinks = new ArrayList<JRPrintHyperlink>();
 	}
 
 
@@ -144,7 +144,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 			double[] volumeArray = new double[size];
 
 			for (int i = 0; i < elements.size(); i++) {
-				HighLowElement bean = (HighLowElement) elements.get(i);
+				HighLowElement bean = elements.get(i);
 				dateArray[i] = new Date(bean.getDate().getTime());
 				highArray[i] = bean.getHigh().doubleValue();
 				lowArray[i] = bean.getLow().doubleValue();
@@ -327,7 +327,7 @@ public class JRFillHighLowDataset extends JRFillChartDataset implements JRHighLo
 	}
 
 	
-	public List getItemHyperlinks()
+	public List<JRPrintHyperlink> getItemHyperlinks()
 	{
 		return itemHyperlinks;
 	}

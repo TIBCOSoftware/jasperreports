@@ -49,8 +49,8 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	
 	public static final String PROPERTY_TIME_SERIES = "timeSeries";
 	
-	private List timeSeriesList = new ArrayList();
-	private Class timePeriod;
+	private List<JRTimeSeries> timeSeriesList = new ArrayList<JRTimeSeries>();
+	private Class<?> timePeriod;
 	
 
 	/**
@@ -75,7 +75,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRTimeSeries> getSeriesList()
 	{
 		return timeSeriesList;
 	}
@@ -121,7 +121,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public Class getTimePeriod() 
+	public Class<?> getTimePeriod() 
 	{
 		return timePeriod;
 	}
@@ -129,7 +129,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public void setTimePeriod( Class timePeriod )
+	public void setTimePeriod( Class<?> timePeriod )
 	{
 		Object old = this.timePeriod;
 		this.timePeriod = timePeriod;
@@ -167,10 +167,10 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 		
 		if (timeSeriesList != null)
 		{
-			clone.timeSeriesList = new ArrayList(timeSeriesList.size());
+			clone.timeSeriesList = new ArrayList<JRTimeSeries>(timeSeriesList.size());
 			for(int i = 0; i < timeSeriesList.size(); i++)
 			{
-				clone.timeSeriesList.add(((JRTimeSeries)timeSeriesList.get(i)).clone());
+				clone.timeSeriesList.add((JRTimeSeries)(timeSeriesList.get(i).clone()));
 			}
 		}
 

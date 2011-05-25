@@ -60,7 +60,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 		}
 	}
 	
-	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 
+	public List<?> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 
 	{
 		render(grx, rectangle);
 		
@@ -70,7 +70,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
+	public List<?> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, null, renderingArea);
 	}

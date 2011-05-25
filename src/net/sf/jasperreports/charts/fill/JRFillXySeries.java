@@ -48,7 +48,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	protected JRXySeries parent;
 
-	private Comparable series;
+	private Comparable<?> series;
 	private Number xValue;
 	private Number yValue;
 	private String label;
@@ -105,7 +105,7 @@ public class JRFillXySeries implements JRXySeries
 	/**
 	 *
 	 */
-	protected Comparable getSeries()
+	protected Comparable<?> getSeries()
 	{
 		return series;
 	}
@@ -145,7 +145,7 @@ public class JRFillXySeries implements JRXySeries
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
+		series = (Comparable<?>)calculator.evaluate(getSeriesExpression()); 
 		xValue = (Number)calculator.evaluate(getXValueExpression()); 
 		yValue = (Number)calculator.evaluate(getYValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());

@@ -40,20 +40,20 @@ public class XYDatasetLabelGenerator extends StandardXYItemLabelGenerator
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labelsMap;
+	private Map<Comparable<?>, Map<Number,String>> labelsMap;
 	
-	public XYDatasetLabelGenerator(Map labelsMap)
+	public XYDatasetLabelGenerator(Map<Comparable<?>, Map<Number,String>> labelsMap)
 	{
 		this.labelsMap = labelsMap;
 	}
 	
 	public String generateLabel(XYDataset dataset, int series, int item)
 	{
-		Comparable seriesName = dataset.getSeriesKey(series);
-		Map labels = (Map)labelsMap.get(seriesName);
+		Comparable<?> seriesName = dataset.getSeriesKey(series);
+		Map<Number,String> labels = labelsMap.get(seriesName);
 		if(labels != null)
 		{
-			return (String)labels.get(((XYSeriesCollection)dataset).getX(series, item));
+			return labels.get(((XYSeriesCollection)dataset).getX(series, item));
 		}
 		return super.generateLabel( dataset, series, item );
 	}

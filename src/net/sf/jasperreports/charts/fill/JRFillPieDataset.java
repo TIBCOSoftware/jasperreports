@@ -67,11 +67,11 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	/**
 	 *
 	 */
-	private Map values;
-	private Map labels;
-	private Map sectionHyperlinks;
+	private Map<Comparable<?>, Number> values;
+	private Map<Comparable<?>, String> labels;
+	private Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks;
 	
-	private Comparable otherKey;
+	private Comparable<?> otherKey;
 	private String otherLabel;
 	private JRPrintHyperlink otherSectionHyperlink;
 	
@@ -167,9 +167,9 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	 */
 	protected void customInitialize()
 	{
-		values = new LinkedHashMap();
-		labels = new HashMap();
-		sectionHyperlinks = new HashMap();
+		values = new LinkedHashMap<Comparable<?>, Number>();
+		labels = new HashMap<Comparable<?>, String>();
+		sectionHyperlinks = new HashMap<Comparable<?>, JRPrintHyperlink>();
 	}
 
 	/**
@@ -222,7 +222,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 			{
 				JRFillPieSeries crtPieSeries = pieSeries[i];
 				
-				Comparable key = crtPieSeries.getKey();
+				Comparable<?> key = crtPieSeries.getKey();
 				if (key == null)
 				{
 					throw new JRRuntimeException("Key is null in pie dataset.");
@@ -270,15 +270,15 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		}
 		
 		int otherCount = 0;
-		Comparable lastOtherKey = null;
+		Comparable<?> lastOtherKey = null;
 		Number lastOtherValue = null;
 		double otherTotal = 0;
 		
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(Iterator it = values.keySet().iterator(); it.hasNext();)
+		for(Iterator<Comparable<?>> it = values.keySet().iterator(); it.hasNext();)
 		{
-			Comparable key = (Comparable)it.next();
-			Number value = (Number)values.get(key);
+			Comparable<?> key = it.next();
+			Number value = values.get(key);
 			
 			if (
 				minValue == null
@@ -338,7 +338,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	}
 
 
-	public Map getSectionHyperlinks()
+	public Map<Comparable<?>, JRPrintHyperlink> getSectionHyperlinks()
 	{
 		return sectionHyperlinks;
 	}

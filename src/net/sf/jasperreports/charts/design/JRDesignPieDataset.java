@@ -67,7 +67,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	private Float minPercentage;
 	private Integer maxCount;
 	
-	private List pieSeriesList = new ArrayList();
+	private List<JRPieSeries> pieSeriesList = new ArrayList<JRPieSeries>();
 
 	protected JRExpression otherKeyExpression;
 	protected JRExpression otherLabelExpression;
@@ -135,7 +135,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRPieSeries> getSeriesList()
 	{
 		return pieSeriesList;
 	}
@@ -186,7 +186,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public JRExpression getKeyExpression()
 	{
-		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getKeyExpression() : null;
+		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getKeyExpression() : null;
 	}
 		
 	/**
@@ -206,7 +206,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public JRExpression getValueExpression()
 	{
-		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getValueExpression() : null;
+		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getValueExpression() : null;
 	}
 		
 	/**
@@ -226,7 +226,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public JRExpression getLabelExpression()
 	{
-		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getLabelExpression() : null;
+		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getLabelExpression() : null;
 	}
 		
 	/**
@@ -246,7 +246,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	 */
 	public JRHyperlink getSectionHyperlink()
 	{
-		return pieSeriesList.size() > 0 ? ((JRPieSeries)pieSeriesList.get(0)).getSectionHyperlink() : null;
+		return pieSeriesList.size() > 0 ? (pieSeriesList.get(0)).getSectionHyperlink() : null;
 	}
 
 
@@ -350,10 +350,10 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		
 		if (pieSeriesList != null)
 		{
-			clone.pieSeriesList = new ArrayList(pieSeriesList.size());
+			clone.pieSeriesList = new ArrayList<JRPieSeries>(pieSeriesList.size());
 			for(int i = 0; i < pieSeriesList.size(); i++)
 			{
-				clone.pieSeriesList.add(((JRPieSeries)pieSeriesList.get(i)).clone());
+				clone.pieSeriesList.add((JRPieSeries)(pieSeriesList.get(i).clone()));
 			}
 		}
 		
@@ -399,7 +399,7 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 		
 		if (pieSeriesList == null)
 		{
-			pieSeriesList = new ArrayList();
+			pieSeriesList = new ArrayList<JRPieSeries>();
 			
 			JRDesignPieSeries ps = new JRDesignPieSeries();
 			ps.setKeyExpression(keyExpression);

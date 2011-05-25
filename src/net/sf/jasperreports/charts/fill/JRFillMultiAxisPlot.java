@@ -40,23 +40,23 @@ import java.util.List;
 public class JRFillMultiAxisPlot extends JRFillChartPlot implements JRMultiAxisPlot
 {
 
-	private List axes;
+	private List<JRChartAxis> axes;
 
 	public JRFillMultiAxisPlot(JRMultiAxisPlot multiAxisPlot, JRFillObjectFactory factory)
 	{
 		super(multiAxisPlot, factory);
 
-		List parentAxes = multiAxisPlot.getAxes();
-		this.axes = new ArrayList(parentAxes.size());
-		Iterator iter = parentAxes.iterator();
+		List<JRChartAxis> parentAxes = multiAxisPlot.getAxes();
+		this.axes = new ArrayList<JRChartAxis>(parentAxes.size());
+		Iterator<JRChartAxis> iter = parentAxes.iterator();
 		while (iter.hasNext())
 		{
-			JRChartAxis axis = (JRChartAxis)iter.next();
+			JRChartAxis axis = iter.next();
 			this.axes.add(factory.getChartAxis(axis));
 		}
 	}
 
-	public List getAxes()
+	public List<JRChartAxis> getAxes()
 	{
 		return axes;
 	}

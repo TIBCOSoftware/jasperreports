@@ -48,8 +48,8 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	protected JRCategorySeries parent;
 
-	private Comparable series;
-	private Comparable category;
+	private Comparable<?> series;
+	private Comparable<?> category;
 	private Number value;
 	private String label;
 	private JRPrintHyperlink itemHyperlink;
@@ -105,7 +105,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	public Comparable getSeries()
+	public Comparable<?> getSeries()
 	{
 		return series;
 	}
@@ -113,7 +113,7 @@ public class JRFillCategorySeries implements JRCategorySeries
 	/**
 	 *
 	 */
-	public Comparable getCategory()
+	public Comparable<?> getCategory()
 	{
 		return category;
 	}
@@ -145,8 +145,8 @@ public class JRFillCategorySeries implements JRCategorySeries
 	 */
 	public void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
-		category = (Comparable)calculator.evaluate(getCategoryExpression()); 
+		series = (Comparable<?>)calculator.evaluate(getSeriesExpression()); 
+		category = (Comparable<?>)calculator.evaluate(getCategoryExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
 		

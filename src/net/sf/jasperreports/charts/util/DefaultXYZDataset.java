@@ -42,23 +42,23 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 	/**
 	 * 
 	 */
-	List dataset = null;
+	List<XYZElement> dataset = null;
 	
 	/**
 	 * 
 	 */
 	public DefaultXYZDataset()
 	{
-		dataset = new ArrayList();
+		dataset = new ArrayList<XYZElement>();
 	}
 	
 	/**
 	 * 
 	 */
-	public void addValue( Comparable series, Number xValue, Number yValue, Number zValue ){
+	public void addValue( Comparable<?> series, Number xValue, Number yValue, Number zValue ){
 		boolean found = false;
-		for( Iterator it = dataset.iterator(); it.hasNext(); ){
-			XYZElement element = (XYZElement)it.next();
+		for( Iterator<XYZElement> it = dataset.iterator(); it.hasNext(); ){
+			XYZElement element = it.next();
 			if( element.getSeries().equals( series )){
 				element.addElement( xValue, yValue, zValue );
 				found = true;
@@ -93,7 +93,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		Number retVal = null;
 		if( dataset != null ){
 			if( series < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( series );
+				XYZElement element = dataset.get( series );
 				retVal = element.getZElement( index );
 			}
 		}
@@ -107,7 +107,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		int retVal = 0;
 		if( dataset != null ){
 			if( series < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( series );
+				XYZElement element = dataset.get( series );
 				retVal = element.getCount();
 			}
 		}
@@ -121,7 +121,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		Number retVal = null;
 		if( dataset != null ){
 			if( series < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( series );
+				XYZElement element = dataset.get( series );
 				retVal = element.getXElement( index );
 			}
 		}
@@ -135,7 +135,7 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 		Number retVal = null;
 		if( dataset != null ){
 			if( series < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( series );
+				XYZElement element = dataset.get( series );
 				retVal = element.getYElement( index );
 			}
 		}
@@ -145,11 +145,11 @@ public class DefaultXYZDataset extends AbstractXYZDataset
 	/**
 	 * 
 	 */
-	public Comparable getSeriesKey(int index) {
+	public Comparable<?> getSeriesKey(int index) {
 		String retVal = null;
 		if( dataset != null ){
 			if( index < getSeriesCount() ){
-				XYZElement element = (XYZElement)dataset.get( index );
+				XYZElement element = dataset.get( index );
 				retVal = element.getSeries().toString();
 			}
 		}

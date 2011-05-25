@@ -161,9 +161,9 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	 * @param intervals the list of meter intervals ({@link JRMeterInterval} instances)
 	 * @see #addInterval(JRMeterInterval)
 	 */
-	public void setIntervals(Collection intervals)
+	public void setIntervals(Collection<JRMeterInterval> intervals)
 	{
-		Object old = new ArrayList(this.intervals);
+		Object old = new ArrayList<JRMeterInterval>(this.intervals);
 		this.intervals.clear();
 		if (intervals != null)
 		{

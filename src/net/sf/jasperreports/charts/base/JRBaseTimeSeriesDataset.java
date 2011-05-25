@@ -48,7 +48,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 	public static final String PROPERTY_TIME_PERIOD = "timePeriod";
 	
 	private JRTimeSeries[] timeSeries;
-	private Class timePeriod;
+	private Class<?> timePeriod;
 	
 	protected JRBaseTimeSeriesDataset( JRTimeSeriesDataset dataset ){
 		super( dataset );
@@ -72,11 +72,11 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 		return timeSeries;
 	}
 	
-	public Class getTimePeriod(){
+	public Class<?> getTimePeriod(){
 		return timePeriod;
 	}
 	
-	public void setTimePeriod( Class timePeriod ){
+	public void setTimePeriod( Class<?> timePeriod ){
 		Object old = this.timePeriod;
 		this.timePeriod = timePeriod;
 		getEventSupport().firePropertyChange(PROPERTY_TIME_PERIOD, old, this.timePeriod);

@@ -40,9 +40,9 @@ public class HighLowChartHyperlinkProvider implements ChartHyperlinkProvider
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private List itemHyperlinks;
+	private List<JRPrintHyperlink> itemHyperlinks;
 	
-	public HighLowChartHyperlinkProvider(List itemHyperlinks)
+	public HighLowChartHyperlinkProvider(List<JRPrintHyperlink> itemHyperlinks)
 	{
 		this.itemHyperlinks = itemHyperlinks;
 	}
@@ -57,7 +57,7 @@ public class HighLowChartHyperlinkProvider implements ChartHyperlinkProvider
 			int item = itemEntity.getItem();
 			if (item >= 0 && item < itemHyperlinks.size())
 			{
-				printHyperlink = (JRPrintHyperlink) itemHyperlinks.get(item);
+				printHyperlink = itemHyperlinks.get(item);
 			}
 		}
 		return printHyperlink;
