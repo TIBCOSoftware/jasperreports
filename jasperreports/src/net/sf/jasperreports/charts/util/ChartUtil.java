@@ -152,10 +152,10 @@ public final class ChartUtil
 			return new DefaultChartTheme();
 		}
 
-		List themeBundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
-		for (Iterator it = themeBundles.iterator(); it.hasNext();)
+		List<ChartThemeBundle> themeBundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
+		for (Iterator<ChartThemeBundle> it = themeBundles.iterator(); it.hasNext();)
 		{
-			ChartThemeBundle bundle = (ChartThemeBundle) it.next();
+			ChartThemeBundle bundle = it.next();
 			ChartTheme chartTheme = bundle.getChartTheme(themeName);
 			if (chartTheme != null)
 			{

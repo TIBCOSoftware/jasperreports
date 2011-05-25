@@ -50,7 +50,7 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map datasetProviders = new HashMap();
+	private Map<Dataset, ChartHyperlinkProvider> datasetProviders = new HashMap<Dataset, ChartHyperlinkProvider>();
 	
 	/**
 	 * Creates a multiple axis chart hyperlink provider.
@@ -80,9 +80,9 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 		boolean hasHyperlinks = false;
 		if (!datasetProviders.isEmpty())
 		{
-			for (Iterator it = datasetProviders.values().iterator(); it.hasNext();)
+			for (Iterator<ChartHyperlinkProvider> it = datasetProviders.values().iterator(); it.hasNext();)
 			{
-				ChartHyperlinkProvider provider = (ChartHyperlinkProvider) it.next();
+				ChartHyperlinkProvider provider = it.next();
 				if (provider.hasHyperlinks())
 				{
 					hasHyperlinks = true;
@@ -114,7 +114,7 @@ public class MultiAxisChartHyperlinkProvider implements ChartHyperlinkProvider
 		Dataset dataset = getEntityDataset(entity);
 		if (dataset != null)
 		{
-			provider = (ChartHyperlinkProvider) datasetProviders.get(dataset);
+			provider = datasetProviders.get(dataset);
 		}
 		return provider;
 	}

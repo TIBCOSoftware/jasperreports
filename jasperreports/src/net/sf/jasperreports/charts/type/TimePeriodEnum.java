@@ -94,10 +94,10 @@ public enum TimePeriodEnum implements JREnum
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	private final transient Class value;
+	private final transient Class<?> value;
 	private final transient String name;
 
-	private TimePeriodEnum(Class clazz, String name)
+	private TimePeriodEnum(Class<?> clazz, String name)
 	{
 		this.value = clazz;
 		this.name = name;
@@ -130,7 +130,7 @@ public enum TimePeriodEnum implements JREnum
 	/**
 	 *
 	 */
-	public final Class getTimePeriod()
+	public final Class<?> getTimePeriod()
 	{
 		return this.value;
 	}
@@ -146,7 +146,7 @@ public enum TimePeriodEnum implements JREnum
 	/**
 	 *
 	 */
-	public static TimePeriodEnum getByValue(Class clazz)
+	public static TimePeriodEnum getByValue(Class<?> clazz)
 	{
 		TimePeriodEnum[] values = values();
 		if (values != null && clazz != null)

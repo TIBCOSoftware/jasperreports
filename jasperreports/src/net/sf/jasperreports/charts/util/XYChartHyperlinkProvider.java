@@ -43,9 +43,9 @@ public class XYChartHyperlinkProvider implements ChartHyperlinkProvider
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> itemHyperlinks;
 	
-	public XYChartHyperlinkProvider(Map itemHyperlinks)
+	public XYChartHyperlinkProvider(Map<Comparable<?>, Map<Pair, JRPrintHyperlink>>  itemHyperlinks)
 	{
 		this.itemHyperlinks = itemHyperlinks;
 	}
@@ -58,14 +58,14 @@ public class XYChartHyperlinkProvider implements ChartHyperlinkProvider
 		{
 			XYItemEntity itemEntity = (XYItemEntity) entity;
 			XYDataset dataset = itemEntity.getDataset();
-			Comparable serie = dataset.getSeriesKey(itemEntity.getSeriesIndex());
-			Map serieHyperlinks = (Map) itemHyperlinks.get(serie);
+			Comparable<?> serie = dataset.getSeriesKey(itemEntity.getSeriesIndex());
+			Map<Pair, JRPrintHyperlink> serieHyperlinks = itemHyperlinks.get(serie);
 			if (serieHyperlinks != null)
 			{
 				Number x = dataset.getX(itemEntity.getSeriesIndex(), itemEntity.getItem());
 				Number y = dataset.getY(itemEntity.getSeriesIndex(), itemEntity.getItem());
-				Object xyKey = new Pair(x, y);
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(xyKey);
+				Pair xyKey = new Pair(x, y);
+				printHyperlink = serieHyperlinks.get(xyKey);
 			}
 		}
 		return printHyperlink;

@@ -38,6 +38,7 @@ import net.sf.jasperreports.charts.JRBarPlot;
 import net.sf.jasperreports.charts.JRBubblePlot;
 import net.sf.jasperreports.charts.JRCandlestickPlot;
 import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.JRDataRange;
 import net.sf.jasperreports.charts.JRGanttDataset;
 import net.sf.jasperreports.charts.JRHighLowDataset;
@@ -289,7 +290,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		customizerClass = chart.getCustomizerClass();
 		if (customizerClass != null && customizerClass.length() > 0) {
 			try {
-				Class myClass = JRClassLoader.loadClassForName(customizerClass);
+				Class<?> myClass = JRClassLoader.loadClassForName(customizerClass);
 				chartCustomizer = (JRChartCustomizer) myClass.newInstance();
 			} catch (Exception e) {
 				throw new JRRuntimeException("Could not create chart customizer instance.", e);
@@ -1039,7 +1040,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 				}
 				break;
 			case JRChart.CHART_TYPE_GANTT:
-				chartHyperlinkProvider = new CategoryChartHyperlinkProvider(((JRFillGanttDataset)getDataset()).getItemHyperlinks());
+				chartHyperlinkProvider = new XYChartHyperlinkProvider(((JRFillGanttDataset)getDataset()).getItemHyperlinks());
 				break;
 			case JRChart.CHART_TYPE_METER:
 			case JRChart.CHART_TYPE_THERMOMETER:
@@ -1086,7 +1087,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		MultiAxisChartHyperlinkProvider multiHyperlinkProvider = new MultiAxisChartHyperlinkProvider();
 		
 		// Generate the main plot from the first axes specified.
-		Iterator iter = jrPlot.getAxes().iterator();
+		Iterator<JRChartAxis> iter = jrPlot.getAxes().iterator();
 		if (iter.hasNext())
 		{
 			JRFillChartAxis axis = (JRFillChartAxis)iter.next();
@@ -1224,14 +1225,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	private void configureAxisSeriesColors(CategoryItemRenderer renderer, JRChartPlot jrPlot)
 	{
-		SortedSet seriesColors = jrPlot.getSeriesColors();
+		SortedSet<JRSeriesColor> seriesColors = jrPlot.getSeriesColors();
 
 		if (seriesColors != null)
 		{
-			Iterator iter = seriesColors.iterator();
+			Iterator<JRSeriesColor> iter = seriesColors.iterator();
 			while (iter.hasNext())
 			{
-				JRSeriesColor seriesColor = (JRSeriesColor)iter.next();
+				JRSeriesColor seriesColor = iter.next();
 				renderer.setSeriesPaint(seriesColor.getSeriesOrder(), seriesColor.getColor());
 			}
 		}
@@ -1252,14 +1253,14 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	private void configureAxisSeriesColors(XYItemRenderer renderer, JRChartPlot jrPlot)
 	{
-		SortedSet seriesColors = jrPlot.getSeriesColors();
+		SortedSet<JRSeriesColor> seriesColors = jrPlot.getSeriesColors();
 
 		if (seriesColors != null)
 		{
-			Iterator iter = seriesColors.iterator();
+			Iterator<JRSeriesColor> iter = seriesColors.iterator();
 			while (iter.hasNext())
 			{
-				JRSeriesColor seriesColor = (JRSeriesColor)iter.next();
+				JRSeriesColor seriesColor = iter.next();
 				renderer.setSeriesPaint(seriesColor.getSeriesOrder(), seriesColor.getColor());
 			}
 		}

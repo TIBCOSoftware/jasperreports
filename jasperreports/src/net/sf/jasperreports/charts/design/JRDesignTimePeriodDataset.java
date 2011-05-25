@@ -47,7 +47,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	
 	public static final String PROPERTY_TIME_PERIODS_SERIES = "timePeriodSeries";
 	
-	private List timePeriodSeriesList = new ArrayList();
+	private List<JRTimePeriodSeries> timePeriodSeriesList = new ArrayList<JRTimePeriodSeries>();
 	
 
 	/**
@@ -72,7 +72,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRTimePeriodSeries> getSeriesList()
 	{
 		return timePeriodSeriesList;
 	}
@@ -147,10 +147,10 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 		
 		if (timePeriodSeriesList != null)
 		{
-			clone.timePeriodSeriesList = new ArrayList(timePeriodSeriesList.size());
+			clone.timePeriodSeriesList = new ArrayList<JRTimePeriodSeries>(timePeriodSeriesList.size());
 			for(int i = 0; i < timePeriodSeriesList.size(); i++)
 			{
-				clone.timePeriodSeriesList.add(((JRTimePeriodSeries)timePeriodSeriesList.get(i)).clone());
+				clone.timePeriodSeriesList.add((JRTimePeriodSeries)(timePeriodSeriesList.get(i).clone()));
 			}
 		}
 

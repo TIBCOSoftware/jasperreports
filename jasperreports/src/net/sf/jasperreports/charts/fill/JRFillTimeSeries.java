@@ -50,7 +50,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	protected JRTimeSeries parent;
 
-	private Comparable series;
+	private Comparable<?> series;
 	private Date timePeriod;
 	private Number value;
 	private String label;
@@ -107,7 +107,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	/**
 	 *
 	 */
-	protected Comparable getSeries()
+	protected Comparable<?> getSeries()
 	{
 		return series;
 	}
@@ -142,7 +142,7 @@ public class JRFillTimeSeries implements JRTimeSeries
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		series = (Comparable)calculator.evaluate(getSeriesExpression()); 
+		series = (Comparable<?>)calculator.evaluate(getSeriesExpression()); 
 		timePeriod = (Date)calculator.evaluate(getTimePeriodExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());

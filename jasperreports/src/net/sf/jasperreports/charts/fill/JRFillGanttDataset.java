@@ -33,6 +33,7 @@ import net.sf.jasperreports.charts.JRGanttSeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -57,11 +58,11 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	 */
 	protected JRFillGanttSeries[] ganttSeries;
 
-	private List seriesNames;
-	private Map seriesMap;
-	private Map labelsMap;
+	private List<Comparable<?>> seriesNames;
+	private Map<Comparable<?>, TaskSeries> seriesMap;
+	private Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap;
 
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> itemHyperlinks;
 
 
 	/**
@@ -132,18 +133,18 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 		{
 			if (seriesNames == null)
 			{
-				seriesNames = new ArrayList();
-				seriesMap = new HashMap();
-				labelsMap = new HashMap();
-				itemHyperlinks = new HashMap();
+				seriesNames = new ArrayList<Comparable<?>>();
+				seriesMap = new HashMap<Comparable<?>, TaskSeries>();
+				labelsMap = new HashMap<Comparable<?>, Map<Comparable<?>, String>>();
+				itemHyperlinks = new HashMap<Comparable<?>, Map<Pair, JRPrintHyperlink>>();
 			}
 
 			for(int i = 0; i < ganttSeries.length; i++)
 			{
 				JRFillGanttSeries crtGanttSeries = ganttSeries[i];
 
-				Comparable seriesName = crtGanttSeries.getSeries();
-				TaskSeries taskSrs = (TaskSeries)seriesMap.get(seriesName);
+				Comparable<?> seriesName = crtGanttSeries.getSeries();
+				TaskSeries taskSrs = seriesMap.get(seriesName);
 				if (taskSrs == null)
 				{
 					taskSrs =  new TaskSeries((String)seriesName);
@@ -184,10 +185,10 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 
 				if (crtGanttSeries.getLabelExpression() != null)
 				{
-					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					Map<Comparable<?>, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap();
+						seriesLabels = new HashMap<Comparable<?>, String>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 
@@ -198,10 +199,10 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 
 				if (crtGanttSeries.hasItemHyperlinks())
 				{
-					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					Map<Pair, JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap();
+						seriesLinks = new HashMap<Pair, JRPrintHyperlink>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					// TODO: ?? not sure how to do
@@ -225,8 +226,8 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 		{
 			for(int i = 0; i < seriesNames.size(); i++)
 			{
-				Comparable seriesName = (Comparable)seriesNames.get(i);
-				dataset.add((TaskSeries)seriesMap.get(seriesName));
+				Comparable<?> seriesName = seriesNames.get(i);
+				dataset.add(seriesMap.get(seriesName));
 			}
 		}
 		return dataset;
@@ -258,7 +259,7 @@ public class JRFillGanttDataset extends JRFillChartDataset implements JRGanttDat
 	}
 
 
-	public Map getItemHyperlinks()
+	public Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> getItemHyperlinks()
 	{
 		return itemHyperlinks;
 	}

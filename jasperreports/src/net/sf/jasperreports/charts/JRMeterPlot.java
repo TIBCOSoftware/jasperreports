@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.util.List;
 
 import net.sf.jasperreports.charts.type.MeterShapeEnum;
+import net.sf.jasperreports.charts.util.JRMeterInterval;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRFont;
 
@@ -76,7 +77,7 @@ public interface JRMeterPlot extends JRChartPlot
 	 *
 	 * @return a list of all the intervals contained in this Meter
 	 */
-	public List getIntervals();
+	public List<JRMeterInterval> getIntervals();
 
 	/**
 	 * Returns the size of the Meter face in degrees.

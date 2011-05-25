@@ -28,6 +28,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRConstants;
 
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
@@ -40,20 +41,20 @@ public class TimeSeriesLabelGenerator extends StandardXYItemLabelGenerator
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labelsMap;
+	private Map<Comparable<?>, Map<RegularTimePeriod, String>> labelsMap;
 	
-	public TimeSeriesLabelGenerator(Map labelsMap)
+	public TimeSeriesLabelGenerator(Map<Comparable<?>, Map<RegularTimePeriod, String>> labelsMap)
 	{
 		this.labelsMap = labelsMap;
 	}
 	
 	public String generateLabel(XYDataset dataset, int series, int item)
 	{
-		Comparable seriesName = dataset.getSeriesKey(series);
-		Map labels = (Map)labelsMap.get(seriesName);
+		Comparable<?> seriesName = dataset.getSeriesKey(series);
+		Map<RegularTimePeriod, String> labels = labelsMap.get(seriesName);
 		if(labels != null)
 		{
-			return (String)labels.get(((TimeSeriesCollection)dataset).getSeries(series).getTimePeriod(item));
+			return labels.get(((TimeSeriesCollection)dataset).getSeries(series).getTimePeriod(item));
 		}
 		return super.generateLabel( dataset, series, item );
 	}

@@ -44,7 +44,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	
 	public static final String PROPERTY_XYZ_SERIES = "xyzSeries";
 	
-	private List xyzSeriesList = new ArrayList();
+	private List<JRXyzSeries> xyzSeriesList = new ArrayList<JRXyzSeries>();
 
 
 	/**
@@ -70,7 +70,7 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRXyzSeries> getSeriesList()
 	{
 		return xyzSeriesList;
 	}
@@ -142,10 +142,10 @@ public class JRDesignXyzDataset extends JRDesignChartDataset implements JRXyzDat
 		
 		if (xyzSeriesList != null)
 		{
-			clone.xyzSeriesList = new ArrayList(xyzSeriesList.size());
+			clone.xyzSeriesList = new ArrayList<JRXyzSeries>(xyzSeriesList.size());
 			for(int i = 0; i < xyzSeriesList.size(); i++)
 			{
-				clone.xyzSeriesList.add(((JRXyzSeries)xyzSeriesList.get(i)).clone());
+				clone.xyzSeriesList.add((JRXyzSeries)(xyzSeriesList.get(i).clone()));
 			}
 		}
 

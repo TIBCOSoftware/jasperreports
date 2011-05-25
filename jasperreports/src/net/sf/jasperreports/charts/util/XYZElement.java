@@ -38,22 +38,22 @@ public class XYZElement implements Serializable {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Comparable series;
-	private List xElements;
-	private List yElements;
-	private List zElements;
+	private Comparable<?> series;
+	private List<Number> xElements;
+	private List<Number> yElements;
+	private List<Number> zElements;
 	
 	public XYZElement(){
-		xElements = new ArrayList();
-		yElements = new ArrayList();
-		zElements = new ArrayList();
+		xElements = new ArrayList<Number>();
+		yElements = new ArrayList<Number>();
+		zElements = new ArrayList<Number>();
 	}
 
-	public void setSeries( Comparable series ){
+	public void setSeries( Comparable<?> series ){
 		this.series = series;
 	}
 
-	public Comparable getSeries(){
+	public Comparable<?> getSeries(){
 		return series;
 	}
 	
@@ -66,15 +66,15 @@ public class XYZElement implements Serializable {
 
 	
 	public Number getXElement( int index ){
-		return (Number)xElements.get( index );
+		return xElements.get( index );
 	}
 	
 	public Number getYElement( int index ){
-		return (Number)yElements.get( index );
+		return yElements.get( index );
 	}
 	
 	public Number getZElement( int index ){
-		return (Number)zElements.get( index );
+		return zElements.get( index );
 	}
 	
 	

@@ -43,9 +43,9 @@ public class TimePeriodChartHyperlinkProvider implements ChartHyperlinkProvider
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<TimePeriod, JRPrintHyperlink>> itemHyperlinks;
 	
-	public TimePeriodChartHyperlinkProvider(Map itemHyperlinks)
+	public TimePeriodChartHyperlinkProvider(Map<Comparable<?>, Map<TimePeriod, JRPrintHyperlink>> itemHyperlinks)
 	{
 		this.itemHyperlinks = itemHyperlinks;
 	}
@@ -59,11 +59,11 @@ public class TimePeriodChartHyperlinkProvider implements ChartHyperlinkProvider
 			XYItemEntity itemEntity = (XYItemEntity) entity;
 			TimePeriodValuesCollection dataset = (TimePeriodValuesCollection) itemEntity.getDataset();
 			TimePeriodValues series = dataset.getSeries(itemEntity.getSeriesIndex());
-			Map serieHyperlinks = (Map) itemHyperlinks.get(series.getKey());
+			Map<TimePeriod, JRPrintHyperlink> serieHyperlinks = itemHyperlinks.get(series.getKey());
 			if (serieHyperlinks != null)
 			{
 				TimePeriod timePeriod = series.getTimePeriod(itemEntity.getItem());
-				printHyperlink = (JRPrintHyperlink) serieHyperlinks.get(timePeriod);
+				printHyperlink = serieHyperlinks.get(timePeriod);
 			}
 		}
 		return printHyperlink;

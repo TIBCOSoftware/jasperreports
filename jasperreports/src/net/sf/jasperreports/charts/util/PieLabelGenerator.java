@@ -41,16 +41,16 @@ public class PieLabelGenerator implements PieSectionLabelGenerator, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private Map labels;
+	private Map<Comparable<?>, String> labels;
 	
-	public PieLabelGenerator( Map labels )
+	public PieLabelGenerator( Map<Comparable<?>, String> labels )
 	{
 		this.labels = labels;
 	}
 	
 	public String generateSectionLabel(PieDataset arg0, Comparable arg1)
 	{
-		return (String)labels.get( arg1 );
+		return labels.get( arg1 );
 	}
 
 	public AttributedString generateAttributedSectionLabel(PieDataset arg0, Comparable arg1)

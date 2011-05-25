@@ -122,9 +122,9 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 */
 	public void clearAxes()
 	{
-		List tmpList =  new ArrayList(axes);
-		for(Iterator it = tmpList.iterator(); it.hasNext();){
-			removeAxis((JRChartAxis) it.next());
+		List<JRChartAxis> tmpList =  new ArrayList<JRChartAxis>(axes);
+		for(Iterator<JRChartAxis> it = tmpList.iterator(); it.hasNext();){
+			removeAxis(it.next());
 		}
 		chart.setDataset(null);
 	}

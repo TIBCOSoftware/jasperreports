@@ -48,7 +48,7 @@ public class JRFillPieSeries implements JRPieSeries
 	 */
 	protected JRPieSeries parent;
 
-	private Comparable key;
+	private Comparable<?> key;
 	private Number value;
 	private String label;
 	private JRPrintHyperlink sectionHyperlink;
@@ -96,7 +96,7 @@ public class JRFillPieSeries implements JRPieSeries
 	/**
 	 *
 	 */
-	protected Comparable getKey()
+	protected Comparable<?> getKey()
 	{
 		return key;
 	}
@@ -131,7 +131,7 @@ public class JRFillPieSeries implements JRPieSeries
 	 */
 	protected void evaluate(JRCalculator calculator) throws JRExpressionEvalException
 	{
-		key = (Comparable)calculator.evaluate(getKeyExpression()); 
+		key = (Comparable<?>)calculator.evaluate(getKeyExpression()); 
 		value = (Number)calculator.evaluate(getValueExpression());
 		label = (String)calculator.evaluate(getLabelExpression());
 		
