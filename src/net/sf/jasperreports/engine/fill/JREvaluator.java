@@ -65,7 +65,7 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	{
 	}
 
-	
+
 	/**
 	 * Initializes the evaluator by setting the parameter, field and variable objects.
 	 * 
@@ -75,7 +75,12 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @param resourceMissingType the resource missing type
 	 * @throws JRException
 	 */
-	public void init(Map parametersMap, Map fieldsMap, Map variablesMap, WhenResourceMissingTypeEnum resourceMissingType) throws JRException
+	public <T,U,V> void init(
+			Map<String, T> parametersMap, 
+			Map<String, U> fieldsMap, 
+			Map<String, V> variablesMap, 
+			WhenResourceMissingTypeEnum resourceMissingType
+			) throws JRException
 	{
 		this.whenResourceMissingType = resourceMissingType;
 		this.resourceBundle = (JRFillParameter)parametersMap.get(JRParameter.REPORT_RESOURCE_BUNDLE);
@@ -83,6 +88,9 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 		customizedInit(parametersMap, fieldsMap, variablesMap);
 	}
 
+	
+	
+	
 	
 	/**
 	 * Constructs a message using a pattern with one parameter.
@@ -314,7 +322,11 @@ public abstract class JREvaluator implements DatasetExpressionEvaluator
 	 * @param variablesMap the variables indexed by name
 	 * @throws JRException
 	 */
-	protected abstract void customizedInit(Map parametersMap, Map fieldsMap, Map variablesMap) throws JRException;
+	protected abstract <T,U,V> void customizedInit(
+			Map<String, T> parametersMap, 
+			Map<String, U> fieldsMap, 
+			Map<String, V> variablesMap
+			) throws JRException;
 
 
 	/**

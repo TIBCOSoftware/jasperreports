@@ -29,6 +29,8 @@ import java.util.Map;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -42,15 +44,24 @@ public class JRSourceCompileTask
 	private JasperDesign jasperDesign;
 	private String unitName;
 	private JRExpressionCollector expressionCollector;
-	private Map parametersMap;
-	private Map fieldsMap;
-	private Map variablesMap;
+	private Map<String, JRParameter> parametersMap;
+	private Map<String, JRField> fieldsMap;
+	private Map<String, JRVariable> variablesMap;
 	private JRVariable[] variables;
-	private List expressions;
+	private List<JRExpression> expressions;
 	private boolean onlyDefaultEvaluation;
 	
 	
-	protected JRSourceCompileTask(JasperDesign jasperDesign, String unitName, JRExpressionCollector expressionCollector, Map parametersMap, Map fieldsMap, Map variablesMap, JRVariable[] variables, boolean onlyDefaultEvaluation)
+	protected JRSourceCompileTask(
+			JasperDesign jasperDesign, 
+			String unitName, 
+			JRExpressionCollector expressionCollector, 
+			Map<String, JRParameter> parametersMap, 
+			Map<String, JRField> fieldsMap, 
+			Map<String, JRVariable> variablesMap, 
+			JRVariable[] variables, 
+			boolean onlyDefaultEvaluation
+			)
 	{
 		this.jasperDesign = jasperDesign;
 		this.unitName = unitName;
@@ -96,13 +107,13 @@ public class JRSourceCompileTask
 	}
 
 
-	public List getExpressions()
+	public List<JRExpression> getExpressions()
 	{
 		return expressions;
 	}
 
 
-	public Map getFieldsMap()
+	public Map<String, JRField> getFieldsMap()
 	{
 		return fieldsMap;
 	}
@@ -126,7 +137,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -144,7 +155,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map getVariablesMap()
+	public Map<String, JRVariable> getVariablesMap()
 	{
 		return variablesMap;
 	}
