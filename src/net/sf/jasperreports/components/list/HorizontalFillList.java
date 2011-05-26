@@ -47,7 +47,7 @@ public class HorizontalFillList extends BaseFillList
 	
 	private final int contentsWidth;
 	private final boolean ignoreWidth;
-	private final List contentsList;
+	private final List<FillListContents> contentsList;
 
 	private int overflowStartPage;
 	private int overflowColumnIndex;
@@ -66,7 +66,7 @@ public class HorizontalFillList extends BaseFillList
 				createDatasetExpressionEvaluator());
 		FillListContents fillContents = new FillListContents(
 				listContents, datasetFactory);
-		this.contentsList = new ArrayList();
+		this.contentsList = new ArrayList<FillListContents>();
 		this.contentsList.add(fillContents);
 	}
 
@@ -272,8 +272,7 @@ public class HorizontalFillList extends BaseFillList
 		int rowHeight = 0;
 		for (int idx = 0; idx < columnCount; ++idx)
 		{
-			FillListContents contents = 
-				(FillListContents) contentsList.get(idx);
+			FillListContents contents = contentsList.get(idx);
 			int cellHeight = contents.getStretchHeight();
 			if (cellHeight > rowHeight)
 			{
@@ -283,8 +282,7 @@ public class HorizontalFillList extends BaseFillList
 		
 		for (int idx = 0; idx < columnCount; ++idx)
 		{
-			FillListContents contents = 
-				(FillListContents) contentsList.get(idx);
+			FillListContents contents = contentsList.get(idx);
 			// stretch all cells to row height
 			contents.stretchTo(rowHeight);
 			contents.finalizeElementPositions();
@@ -299,7 +297,7 @@ public class HorizontalFillList extends BaseFillList
 	{
 		if (columnIndex > 0 && columnIndex >= contentsList.size())
 		{
-			FillListContents template = (FillListContents) contentsList.get(0);
+			FillListContents template = contentsList.get(0);
 			for (int idx = contentsList.size(); idx <= columnIndex; idx++)
 			{
 				if (log.isDebugEnabled())
@@ -311,7 +309,7 @@ public class HorizontalFillList extends BaseFillList
 				contentsList.add(clone);
 			}
 		}
-		return (FillListContents) contentsList.get(columnIndex);
+		return contentsList.get(columnIndex);
 	}
 
 	public void rewind()

@@ -67,10 +67,10 @@ public class TableDesignConverter implements ComponentDesignConverter
 		
 		Map<Cell, Rectangle> cellBounds = tableManager.getCellBounds();
 		
-		for (Map.Entry pair : cellBounds.entrySet()) 
+		for (Map.Entry<Cell, Rectangle> pair : cellBounds.entrySet()) 
 		{
-			Cell cell = (Cell)pair.getKey();
-			Rectangle rectangle = (Rectangle)pair.getValue(); 
+			Cell cell = pair.getKey();
+			Rectangle rectangle = pair.getValue(); 
 			
 			JRBasePrintFrame cellFrame = 
 				new JRBasePrintFrame(
@@ -87,13 +87,13 @@ public class TableDesignConverter implements ComponentDesignConverter
 				cellFrame.copyBox(cell.getLineBox());
 			}
 
-			List children = cell.getChildren();
+			List<JRChild> children = cell.getChildren();
 			if (children != null && children.size() > 0)
 			{
 				ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, cellFrame);
 				for(int i = 0; i < children.size(); i++)
 				{
-					((JRChild)children.get(i)).visit(convertVisitor);
+					(children.get(i)).visit(convertVisitor);
 				}
 			}
 

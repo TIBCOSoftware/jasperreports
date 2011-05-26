@@ -40,7 +40,7 @@ import net.sourceforge.barbecue.linear.ean.UCCEAN128Barcode;
 public final class BarcodeProviders
 {
 
-	private static Map providers;
+	private static Map<String, BarcodeProvider> providers;
 
 	private static synchronized void initProviders()
 	{
@@ -49,7 +49,7 @@ public final class BarcodeProviders
 			return;
 		}
 
-		providers = new HashMap();
+		providers = new HashMap<String, BarcodeProvider>();
         providers.put("2of7", new Barcode2of7Provider());
         providers.put("3of9", new Barcode3of9Provider());
         providers.put("Bookland", new BooklandProvider());
@@ -95,7 +95,7 @@ public final class BarcodeProviders
 	{
 		initProviders();
 		
-		BarcodeProvider provider = (BarcodeProvider) providers.get(
+		BarcodeProvider provider = providers.get(
 				barcodeInfo.getType());
 		if (provider == null)
 		{

@@ -58,20 +58,20 @@ public final class JRCloneUtils
 	 * @param items the list to clone
 	 * @return a new list which contains clones of the elements in the original list
 	 */
-	public static List cloneList(List items)
+	public static <T> List<T> cloneList(List<T> items)
 	{
-		List clone;
+		List<T> clone;
 		if (items == null)
 		{
 			clone = null;
 		}
 		else
 		{
-			clone = new ArrayList(items.size());
-			for (Iterator it = items.iterator(); it.hasNext();)
+			clone = new ArrayList<T>(items.size());
+			for (Iterator<T> it = items.iterator(); it.hasNext();)
 			{
-				JRCloneable item = (JRCloneable) it.next();
-				clone.add(item.clone());
+				T item = it.next();
+				clone.add((T)((JRCloneable)item).clone());
 			}
 		}
 		return clone;

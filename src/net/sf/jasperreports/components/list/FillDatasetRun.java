@@ -56,7 +56,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 	
 	private final JRFillExpressionEvaluator expressionEvaluator;
 	
-	private Map parameterValues;
+	private Map<String, Object> parameterValues;
 	private JRDataSource dataSource;
 	private Connection connection;
 	private boolean first;

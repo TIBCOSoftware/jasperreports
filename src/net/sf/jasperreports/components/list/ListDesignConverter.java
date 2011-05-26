@@ -68,15 +68,15 @@ public class ListDesignConverter implements ComponentDesignConverter
 			contentsFrame.setHeight(contents.getHeight());
 			contentsFrame.setMode(ModeEnum.TRANSPARENT);
 			
-			List children = contents.getChildren();
+			List<JRChild> children = contents.getChildren();
 			if (children != null)
 			{
 				ConvertVisitor contentsVisitor = new ConvertVisitor(reportConverter, 
 						contentsFrame);
-				for (Iterator it = children.iterator(); it
+				for (Iterator<JRChild> it = children.iterator(); it
 						.hasNext();)
 				{
-					JRChild child = (JRChild) it.next();
+					JRChild child = it.next();
 					child.visit(contentsVisitor);
 				}
 			}

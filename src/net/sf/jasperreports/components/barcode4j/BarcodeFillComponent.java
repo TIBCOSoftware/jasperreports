@@ -50,7 +50,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 
 	private final BarcodeComponent barcodeComponent;
 	
-	private final Map printTemplates = new HashMap();
+	private final Map<JRStyle, JRTemplateImage> printTemplates = new HashMap<JRStyle, JRTemplateImage>();
 	private AbstractBarcodeBean barcode;
 	private String message;
 	
@@ -125,7 +125,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 	protected JRTemplateImage getTemplateImage()
 	{
 		JRStyle elementStyle = fillContext.getElementStyle();
-		JRTemplateImage templateImage = (JRTemplateImage) printTemplates.get(elementStyle);
+		JRTemplateImage templateImage = printTemplates.get(elementStyle);
 		if (templateImage == null)
 		{
 			templateImage = new JRTemplateImage(

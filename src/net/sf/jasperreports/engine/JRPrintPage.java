@@ -37,12 +37,12 @@ public interface JRPrintPage
 	/**
 	 *
 	 */
-	public List getElements();
+	public List<JRPrintElement> getElements();
 		
 	/**
 	 *
 	 */
-	public void setElements(List elements);
+	public void setElements(List<JRPrintElement> elements);
 		
 	/**
 	 *

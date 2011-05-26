@@ -191,8 +191,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				"*/componentElement/PDF417", PDF417Component.class);
 	}
 	
-	protected void addBaseBarcode4jRules(Digester digester, 
-			String barcodePattern, Class barcodeComponentClass)
+	protected <T> void addBaseBarcode4jRules(Digester digester, 
+			String barcodePattern, Class<T> barcodeComponentClass)
 	{
 		digester.addObjectCreate(barcodePattern, barcodeComponentClass);
 		digester.addSetProperties(barcodePattern,
@@ -278,8 +278,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(pattern, setNextMethod);
 	}
 
-	protected void addExpressionRules(Digester digester, String expressionPattern,
-			Class factoryClass, String setterMethod, boolean jrNamespace)
+	protected <T> void addExpressionRules(Digester digester, String expressionPattern,
+			Class<T> factoryClass, String setterMethod, boolean jrNamespace)
 	{
 		String originalNamespace = digester.getRuleNamespaceURI();
 		if (jrNamespace)

@@ -690,7 +690,7 @@ public class TableReport implements JRReport
 		private JRValueParameter tableScriptletParam;
 		private TableReportScriptlet tableScriptlet;
 		
-		public void init(Map parametersMap, Map fieldsMap, Map variablesMap,
+		public <T,U,V> void init(Map<String, T> parametersMap, Map<String, U> fieldsMap, Map<String, V> variablesMap, 
 				WhenResourceMissingTypeEnum resourceMissingType)
 				throws JRException
 		{
@@ -765,11 +765,11 @@ public class TableReport implements JRReport
 		footerFrame.setPrintWhenExpression(footerPrintWhen);
 		
 		// clone the contents of the page footer in the frame
-		List footerElements = pageFooter.getChildren();
-		for (Iterator iterator = footerElements.iterator(); iterator
+		List<JRChild> footerElements = pageFooter.getChildren();
+		for (Iterator<JRChild> iterator = footerElements.iterator(); iterator
 				.hasNext();)
 		{
-			JRChild child = (JRChild) iterator.next();
+			JRChild child = iterator.next();
 			JRChild childClone = (JRChild) child.clone(footerFrame);
 			if (childClone instanceof JRElement)
 			{
@@ -808,9 +808,9 @@ public class TableReport implements JRReport
 		frame.setStyleNameReference(cell.getStyleNameReference());
 		frame.copyBox(cell.getLineBox());
 		
-		for (Iterator it = cell.getChildren().iterator(); it.hasNext();)
+		for (Iterator<JRChild> it = cell.getChildren().iterator(); it.hasNext();)
 		{
-			JRChild child = (JRChild) it.next();
+			JRChild child = it.next();
 			if (child instanceof JRElement)
 			{
 				JRElement element = (JRElement) child;

@@ -140,7 +140,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		customizerClass = chartSettings.getCustomizerClass();
 		if (customizerClass != null && customizerClass.length() > 0) {
 			try {
-				Class myClass = JRClassLoader.loadClassForName(customizerClass);
+				Class<?> myClass = JRClassLoader.loadClassForName(customizerClass);
 				chartCustomizer = (ChartCustomizer) myClass.newInstance();
 			} catch (Exception e) {
 				throw new JRRuntimeException("Could not create chart customizer instance.", e);

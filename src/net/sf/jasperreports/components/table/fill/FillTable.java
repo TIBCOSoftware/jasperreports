@@ -77,7 +77,7 @@ public class FillTable extends BaseFillComponent
 	private boolean filling;
 	private List<FillColumn> fillColumns;
 	private int fillWidth;
-	private Map printFrameTemplates = new HashMap();
+	private Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<JRStyle, JRTemplateFrame>();
 
 	public FillTable(TableComponent table, JRFillObjectFactory factory)
 	{
@@ -322,10 +322,10 @@ public class FillTable extends BaseFillComponent
 		printFrame.setWidth(fillWidth);
 		printFrame.setHeight(fillSubreport.getContentsStretchHeight());
 		
-		List styles = fillSubreport.getSubreportStyles();
-		for (Iterator it = styles.iterator(); it.hasNext();)
+		List<JRStyle> styles = fillSubreport.getSubreportStyles();
+		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
 		{
-			JRStyle style = (JRStyle) it.next();
+			JRStyle style = it.next();
 			try
 			{
 				fillContext.getFiller().addPrintStyle(style);
@@ -336,19 +336,19 @@ public class FillTable extends BaseFillComponent
 			}
 		}
 		
-		List origins = fillSubreport.getSubreportOrigins();
-		for (Iterator it = origins.iterator(); it.hasNext();)
+		List<JROrigin> origins = fillSubreport.getSubreportOrigins();
+		for (Iterator<JROrigin> it = origins.iterator(); it.hasNext();)
 		{
-			JROrigin origin = (JROrigin) it.next();
+			JROrigin origin = it.next();
 			fillContext.getFiller().getJasperPrint().addOrigin(origin);
 		}
 		
-		Collection elements = fillSubreport.getPrintElements();
+		Collection<JRPrintElement> elements = fillSubreport.getPrintElements();
 		if (elements != null)
 		{
-			for (Iterator it = elements.iterator(); it.hasNext();)
+			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement) it.next();
+				JRPrintElement element = it.next();
 				printFrame.addElement(element);
 			}
 		}
@@ -359,7 +359,7 @@ public class FillTable extends BaseFillComponent
 	protected JRTemplateFrame getFrameTemplate()
 	{
 		JRStyle style = fillContext.getElementStyle();
-		JRTemplateFrame frameTemplate = (JRTemplateFrame) printFrameTemplates.get(style);
+		JRTemplateFrame frameTemplate = printFrameTemplates.get(style);
 		if (frameTemplate == null)
 		{
 			frameTemplate = new JRTemplateFrame(

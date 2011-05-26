@@ -213,9 +213,9 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	protected int findGroupCellIndex(List<GroupCell> groupCells, String groupName)
 	{
 		int idx = -1;
-		for (ListIterator it = groupCells.listIterator(); it.hasNext();)
+		for (ListIterator<GroupCell> it = groupCells.listIterator(); it.hasNext();)
 		{
-			GroupCell groupCell = (GroupCell) it.next();
+			GroupCell groupCell = it.next();
 			if (groupName.equals(groupCell.getGroupName()))
 			{
 				idx = it.previousIndex();

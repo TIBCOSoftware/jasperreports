@@ -44,6 +44,7 @@ import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
@@ -97,7 +98,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		parser.setDigesterConfigurer(xmlHandler);
 		bundle.setXmlParser(parser);
 		
-		HashMap componentManagers = new HashMap();
+		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
 		
 		DefaultComponentManager listManager = new DefaultComponentManager();
 		listManager.setDesignConverter(new ListDesignConverter());

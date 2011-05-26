@@ -31,8 +31,11 @@ import java.util.ResourceBundle;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRQuery;
+import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
@@ -93,9 +96,9 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 
 	@Override
-	protected Map evaluateParameterValues(byte evaluation) throws JRException
+	protected Map<String, Object> evaluateParameterValues(byte evaluation) throws JRException
 	{
-		Map values = super.evaluateParameterValues(evaluation);
+		Map<String, Object> values = super.evaluateParameterValues(evaluation);
 		copyConnectionParameter(values);
 		copyResourceBundleParameter(values);
 		copyTemplatesParameter(values);
@@ -103,7 +106,7 @@ public class FillTableSubreport extends JRFillSubreport
 		return values;
 	}
 
-	protected void copyConnectionParameter(Map parameterValues)
+	protected void copyConnectionParameter(Map<String, Object> parameterValues)
 	{
 		// copy the main report's connection parameter to the table subreport
 		// this is done for consistency with subdataset runs
@@ -127,7 +130,7 @@ public class FillTableSubreport extends JRFillSubreport
 		}
 	}
 
-	protected void copyResourceBundleParameter(Map parameterValues)
+	protected void copyResourceBundleParameter(Map<String, Object> parameterValues)
 	{
 		// copy the main report's resource bundle if the subdataset has no
 		// resource bundle of its own
@@ -143,7 +146,7 @@ public class FillTableSubreport extends JRFillSubreport
 		}
 	}
 
-	protected void copyTemplatesParameter(Map parameterValues)
+	protected void copyTemplatesParameter(Map<String, Object> parameterValues)
 	{
 		// copy the main report's templates
 		List<JRTemplate> templates = filler.getTemplates();
@@ -158,7 +161,7 @@ public class FillTableSubreport extends JRFillSubreport
 	}
 	
 	@Override
-	protected Collection getPrintElements()
+	protected Collection<JRPrintElement> getPrintElements()
 	{
 		// overriding this for package access
 		return super.getPrintElements();
@@ -171,12 +174,12 @@ public class FillTableSubreport extends JRFillSubreport
 		return super.getContentsStretchHeight();
 	}
 
-	protected List getSubreportStyles()
+	protected List<JRStyle> getSubreportStyles()
 	{
 		return subreportFiller.getJasperPrint().getStylesList();
 	}
 
-	protected List getSubreportOrigins()
+	protected List<JROrigin> getSubreportOrigins()
 	{
 		return subreportFiller.getJasperPrint().getOriginsList();
 	}
