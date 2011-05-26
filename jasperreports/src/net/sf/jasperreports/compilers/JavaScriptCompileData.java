@@ -99,7 +99,7 @@ public class JavaScriptCompileData implements Serializable
 		}
 	}
 	
-	private final List expressions = new ArrayList();
+	private final List<Expression> expressions = new ArrayList<Expression>();
 	
 	public void addExpression(int expressionId, Expression expression)
 	{
@@ -116,7 +116,7 @@ public class JavaScriptCompileData implements Serializable
 		{
 			throw new JRRuntimeException("No expression for id " + id);
 		}
-		Expression expr = (Expression) expressions.get(id);
+		Expression expr = expressions.get(id);
 		if (expr == null)
 		{
 			throw new JRRuntimeException("No expression for id " + id);

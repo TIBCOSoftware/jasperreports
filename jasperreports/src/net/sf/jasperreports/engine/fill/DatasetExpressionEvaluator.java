@@ -25,8 +25,11 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -38,8 +41,13 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public interface DatasetExpressionEvaluator
 {
 
-	void init(Map parametersMap, Map fieldsMap, Map variablesMap, 
-			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
+
+	<T,U,V> void init(
+			Map<String, T> parametersMap, 
+			Map<String, U> fieldsMap, 
+			Map<String, V> variablesMap, 
+			WhenResourceMissingTypeEnum resourceMissingType
+			) throws JRException;
 	
 	Object evaluate(JRExpression expression) throws JRExpressionEvalException;
 	

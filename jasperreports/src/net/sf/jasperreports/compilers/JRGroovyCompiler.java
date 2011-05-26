@@ -33,7 +33,6 @@ import groovyjarjarasm.asm.ClassWriter;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -119,7 +118,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 		
 		for (int i = 0; i < units.length; i++)
 		{
-			units[i].setCompileData((Serializable) collector.classes.get(units[i].getName()));
+			units[i].setCompileData(collector.classes.get(units[i].getName()));
 		}
 		
 		return null;
@@ -131,7 +130,7 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 	 */
 	private static class ClassCollector extends CompilationUnit.ClassgenCallback 
 	{
-		public Map classes = new HashMap();
+		public Map<String, byte[]> classes = new HashMap<String, byte[]>();
 		public int classCount;
 	
 		/**

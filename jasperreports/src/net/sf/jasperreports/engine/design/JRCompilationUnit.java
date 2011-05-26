@@ -27,6 +27,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRExpression;
+
 /**
  * Expression evaluator compilation unit used by report compilers.
  * 
@@ -53,7 +55,7 @@ public class JRCompilationUnit
 	/**
 	 * The list of expressions.
 	 */
-	private final List expressions;
+	private final List<JRExpression> expressions;
 
 	private final JRSourceCompileTask compileTask;
 
@@ -73,7 +75,7 @@ public class JRCompilationUnit
 	 * @param compileTask the compile task for the unit
 	 */
 	public JRCompilationUnit(String name, JRCompilationSourceCode sourceCode, File sourceFile, 
-			List expressions, JRSourceCompileTask compileTask)
+			List<JRExpression> expressions, JRSourceCompileTask compileTask)
 	{
 		this.name = name;
 		this.source = sourceCode;
@@ -128,7 +130,7 @@ public class JRCompilationUnit
 	 * Returns the list of expressions.
 	 * @return the list of expressions
 	 */
-	public List getExpressions()
+	public List<JRExpression> getExpressions()
 	{
 		return expressions;
 	}

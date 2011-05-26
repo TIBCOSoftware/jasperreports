@@ -99,41 +99,41 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * Scriptlets mapped by name.
 	 */
-	protected Map scriptletsMap = new HashMap();
-	protected List scriptletsList = new ArrayList();
+	protected Map<String, JRScriptlet> scriptletsMap = new HashMap<String, JRScriptlet>();
+	protected List<JRScriptlet> scriptletsList = new ArrayList<JRScriptlet>();
 
 	/**
 	 * Parameters mapped by name.
 	 */
-	protected Map parametersMap = new HashMap();
-	protected List parametersList = new ArrayList();
+	protected Map<String, JRParameter> parametersMap = new HashMap<String, JRParameter>();
+	protected List<JRParameter> parametersList = new ArrayList<JRParameter>();
 
 	/**
 	 * Fields mapped by name.
 	 */
-	protected Map fieldsMap = new HashMap();
-	protected List fieldsList = new ArrayList();
+	protected Map<String, JRField> fieldsMap = new HashMap<String, JRField>();
+	protected List<JRField> fieldsList = new ArrayList<JRField>();
 
 
 	/**
 	 * Sort fields mapped by name.
 	 */
-	protected Map sortFieldsMap = new HashMap();
-	protected List sortFieldsList = new ArrayList();
+	protected Map<String, JRSortField> sortFieldsMap = new HashMap<String, JRSortField>();
+	protected List<JRSortField> sortFieldsList = new ArrayList<JRSortField>();
 
 
 	/**
 	 * Variables mapped by name.
 	 */
-	protected Map variablesMap = new HashMap();
-	protected List variablesList = new ArrayList();
+	protected Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
+	protected List<JRVariable> variablesList = new ArrayList<JRVariable>();
 
 
 	/**
 	 * Groups mapped by name.
 	 */
-	protected Map groupsMap = new HashMap();
-	protected List groupsList = new ArrayList();
+	protected Map<String, JRGroup> groupsMap = new HashMap<String, JRGroup>();
+	protected List<JRGroup> groupsList = new ArrayList<JRGroup>();
 
 	private class QueryLanguageChangeListener implements PropertyChangeListener, Serializable
 	{
@@ -296,9 +296,9 @@ public class JRDesignDataset extends JRBaseDataset
 			parameter.setName((String) parametersArray[i++]);
 			
 			Object parameterType = parametersArray[i];
-			if (parameterType instanceof Class)
+			if (parameterType instanceof Class<?>)
 			{
-				parameter.setValueClass((Class) parameterType);
+				parameter.setValueClass((Class<?>) parameterType);
 			}
 			else if (parameterType instanceof String)
 			{
@@ -372,7 +372,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRScriptlet JRScriptlet} objects
 	 */
-	public List getScriptletsList()
+	public List<JRScriptlet> getScriptletsList()
 	{
 		return scriptletsList;
 	}
@@ -383,7 +383,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRScriptlet JRScriptlet} objects indexed by name
 	 */
-	public Map getScriptletsMap()
+	public Map<String, JRScriptlet> getScriptletsMap()
 	{
 		return scriptletsMap;
 	}
@@ -439,7 +439,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRScriptlet removeScriptlet(String scriptletName)
 	{
-		return removeScriptlet((JRScriptlet) scriptletsMap.get(scriptletName));
+		return removeScriptlet(scriptletsMap.get(scriptletName));
 	}
 
 	
@@ -483,7 +483,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRParameter JRParameter} objects
 	 */
-	public List getParametersList()
+	public List<JRParameter> getParametersList()
 	{
 		return parametersList;
 	}
@@ -494,7 +494,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRParameter JRParameter} objects indexed by name
 	 */
-	public Map getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -541,7 +541,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRParameter removeParameter(String parameterName)
 	{
-		return removeParameter((JRParameter) parametersMap.get(parameterName));
+		return removeParameter(parametersMap.get(parameterName));
 	}
 
 	
@@ -634,7 +634,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRField JRField} objects
 	 */
-	public List getFieldsList()
+	public List<JRField> getFieldsList()
 	{
 		return fieldsList;
 	}
@@ -645,7 +645,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRField JRField} objects indexed by name
 	 */
-	public Map getFieldsMap()
+	public Map<String, JRField> getFieldsMap()
 	{
 		return fieldsMap;
 	}
@@ -692,7 +692,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRField removeField(String fieldName)
 	{
-		return removeField((JRField) fieldsMap.get(fieldName));
+		return removeField(fieldsMap.get(fieldName));
 	}
 
 	
@@ -735,7 +735,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRSortField JRSortField} objects
 	 */
-	public List getSortFieldsList()
+	public List<JRSortField> getSortFieldsList()
 	{
 		return sortFieldsList;
 	}
@@ -782,7 +782,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRSortField removeSortField(String fieldName)
 	{
-		return removeSortField((JRSortField) sortFieldsMap.get(fieldName));
+		return removeSortField(sortFieldsMap.get(fieldName));
 	}
 
 	
@@ -825,7 +825,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * @return list of {@link JRVariable JRVariable} objects
 	 */
 	
-	public List getVariablesList()
+	public List<JRVariable> getVariablesList()
 	{
 		return variablesList;
 	}
@@ -836,7 +836,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRVariable JRVariable} objects indexed by name
 	 */
-	public Map getVariablesMap()
+	public Map<String, JRVariable> getVariablesMap()
 	{
 		return variablesMap;
 	}
@@ -900,10 +900,10 @@ public class JRDesignDataset extends JRBaseDataset
 		if (system)
 		{
 			// add the variable before the first non-system variable
-			ListIterator it = variablesList.listIterator();
+			ListIterator<JRVariable> it = variablesList.listIterator();
 			while (it.hasNext())
 			{
-				JRVariable var = (JRVariable) it.next();
+				JRVariable var = it.next();
 				if (!var.isSystemDefined())
 				{
 					it.previous();
@@ -932,7 +932,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRVariable removeVariable(String variableName)
 	{
-		return removeVariable((JRVariable) variablesMap.get(variableName));
+		return removeVariable(variablesMap.get(variableName));
 	}
 
 	
@@ -974,7 +974,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return list of {@link JRGroup JRGroup} objects
 	 */
-	public List getGroupsList()
+	public List<JRGroup> getGroupsList()
 	{
 		return groupsList;
 	}
@@ -985,7 +985,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @return {@link JRGroup JRGroup} objects indexed by name
 	 */
-	public Map getGroupsMap()
+	public Map<String, JRGroup> getGroupsMap()
 	{
 		return groupsMap;
 	}
@@ -1053,7 +1053,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public JRGroup removeGroup(String groupName)
 	{
-		return removeGroup((JRGroup) groupsMap.get(groupName));
+		return removeGroup(groupsMap.get(groupName));
 	}
 
 	
@@ -1147,7 +1147,7 @@ public class JRDesignDataset extends JRBaseDataset
 		for (int i = 0; i < builtinParameters.length; i += 2)
 		{
 			String parameterName = (String) builtinParameters[i];
-			JRParameter parameter = (JRParameter) parametersMap.get(parameterName);
+			JRParameter parameter = parametersMap.get(parameterName);
 			if (parameter.isSystemDefined())
 			{
 				removeParameter(parameter);
@@ -1195,11 +1195,11 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (sortFieldsMap == null)
 		{
-			sortFieldsMap = new HashMap();
+			sortFieldsMap = new HashMap<String, JRSortField>();
 		}
 		if (sortFieldsList == null)
 		{
-			sortFieldsList = new ArrayList();
+			sortFieldsList = new ArrayList<JRSortField>();
 		}
 	}
 
@@ -1212,12 +1212,12 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList(parametersList.size());
-			clone.parametersMap = new HashMap(parametersList.size());
+			clone.parametersList = new ArrayList<JRParameter>(parametersList.size());
+			clone.parametersMap = new HashMap<String, JRParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRParameter parameter = 
-					(JRParameter)((JRParameter)parametersList.get(i)).clone();
+					(JRParameter)(parametersList.get(i).clone());
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}
@@ -1225,12 +1225,12 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (fieldsList != null)
 		{
-			clone.fieldsList = new ArrayList(fieldsList.size());
-			clone.fieldsMap = new HashMap(fieldsList.size());
+			clone.fieldsList = new ArrayList<JRField>(fieldsList.size());
+			clone.fieldsMap = new HashMap<String, JRField>(fieldsList.size());
 			for(int i = 0; i < fieldsList.size(); i++)
 			{
 				JRField field = 
-					(JRField)((JRField)fieldsList.get(i)).clone();
+					(JRField)(fieldsList.get(i).clone());
 				clone.fieldsList.add(field);
 				clone.fieldsMap.put(field.getName(), field);
 			}
@@ -1238,12 +1238,12 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (sortFieldsList != null)
 		{
-			clone.sortFieldsList = new ArrayList(sortFieldsList.size());
-			clone.sortFieldsMap = new HashMap(sortFieldsList.size());
+			clone.sortFieldsList = new ArrayList<JRSortField>(sortFieldsList.size());
+			clone.sortFieldsMap = new HashMap<String, JRSortField>(sortFieldsList.size());
 			for(int i = 0; i < sortFieldsList.size(); i++)
 			{
 				JRSortField sortField = 
-					(JRSortField)((JRSortField)sortFieldsList.get(i)).clone();
+					(JRSortField)(sortFieldsList.get(i).clone());
 				clone.sortFieldsList.add(sortField);
 				clone.sortFieldsMap.put(sortField.getName(), sortField);
 			}
@@ -1251,12 +1251,12 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (variablesList != null)
 		{
-			clone.variablesList = new ArrayList(variablesList.size());
-			clone.variablesMap = new HashMap(variablesList.size());
+			clone.variablesList = new ArrayList<JRVariable>(variablesList.size());
+			clone.variablesMap = new HashMap<String, JRVariable>(variablesList.size());
 			for(int i = 0; i < variablesList.size(); i++)
 			{
 				JRVariable variable = 
-					(JRVariable)((JRVariable)variablesList.get(i)).clone();
+					(JRVariable)(variablesList.get(i).clone());
 				clone.variablesList.add(variable);
 				clone.variablesMap.put(variable.getName(), variable);
 			}
@@ -1264,12 +1264,12 @@ public class JRDesignDataset extends JRBaseDataset
 		
 		if (groupsList != null)
 		{
-			clone.groupsList = new ArrayList(groupsList.size());
-			clone.groupsMap = new HashMap(groupsList.size());
+			clone.groupsList = new ArrayList<JRGroup>(groupsList.size());
+			clone.groupsMap = new HashMap<String, JRGroup>(groupsList.size());
 			for(int i = 0; i < groupsList.size(); i++)
 			{
 				JRGroup group = 
-					(JRGroup)((JRGroup)groupsList.get(i)).clone();
+					(JRGroup)(groupsList.get(i).clone());
 				clone.groupsList.add(group);
 				clone.groupsMap.put(group.getName(), group);
 			}

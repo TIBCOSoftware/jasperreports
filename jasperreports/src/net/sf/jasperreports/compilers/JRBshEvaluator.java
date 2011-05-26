@@ -84,7 +84,7 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	public void verify(Collection expressions) throws JRException
+	public <T> void verify(Collection<T> expressions) throws JRException
 	{
 		try
 		{
@@ -92,7 +92,7 @@ public class JRBshEvaluator extends JREvaluator
 			
 			if (expressions != null)
 			{
-				for(Iterator it = expressions.iterator(); it.hasNext();)
+				for(Iterator<T> it = expressions.iterator(); it.hasNext();)
 				{
 					JRExpression expression = (JRExpression)it.next();
 					interpreter.eval("bshEvaluator.evaluateOld(" + expression.getId() + ")");
@@ -117,10 +117,10 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	protected void customizedInit(
-		Map pars,
-		Map fldsm,
-		Map varsm
+	protected <T,U,V> void customizedInit(
+			Map<String, T> pars, 
+			Map<String, U> fldsm, 
+			Map<String, V> varsm
 		) throws JRException
 	{
 		try

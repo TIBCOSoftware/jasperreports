@@ -220,8 +220,8 @@ public class JavaScriptEvaluator extends JREvaluator
 	private final JavaScriptCompileData compileData;
 	private Context context;
 	private ScriptableObject scope;
-	private Map loadedTypes = new HashMap();
-	private Map compiledExpressions = new HashMap();
+	private Map<String, Class<?>> loadedTypes = new HashMap<String, Class<?>>();
+	private Map<String, Script> compiledExpressions = new HashMap<String, Script>();
 
 	/**
 	 * Create a JavaScript expression evaluator.
@@ -233,26 +233,29 @@ public class JavaScriptEvaluator extends JREvaluator
 		this.compileData = compileData;
 	}
 
-	protected void customizedInit(Map parametersMap, Map fieldsMap,
-			Map variablesMap) throws JRException
+	protected <T,U,V> void customizedInit(
+			Map<String, T> parametersMap, 
+			Map<String, U> fieldsMap,
+			Map<String, V> variablesMap
+			) throws JRException
 	{
 		context = ContextFactory.getGlobal().enterContext();//TODO exit context
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		scope = context.initStandardObjects();
 		
-		for (Iterator it = parametersMap.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String, T>> it = parametersMap.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			String name = (String) entry.getKey();
+			Map.Entry<String, T> entry = it.next();
+			String name = entry.getKey();
 			JRFillParameter param = (JRFillParameter) entry.getValue();
 			JSParameter jsParam = new JSParameter(param, scope);
 			scope.put(getParameterVar(name), scope, jsParam);
 		}
 
-		for (Iterator it = variablesMap.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String, V>> it = variablesMap.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			String name = (String) entry.getKey();
+			Map.Entry<String, V> entry = it.next();
+			String name = entry.getKey();
 			JRFillVariable var = (JRFillVariable) entry.getValue();
 			JSVariable jsVar = new JSVariable(var, scope);
 			scope.put(getVariableVar(name), scope, jsVar);
@@ -260,10 +263,10 @@ public class JavaScriptEvaluator extends JREvaluator
 
 		if (fieldsMap != null)
 		{
-			for (Iterator it = fieldsMap.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<String, U>> it = fieldsMap.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
-				String name = (String) entry.getKey();
+				Map.Entry<String, U> entry = it.next();
+				String name = entry.getKey();
 				JRFillField field = (JRFillField) entry.getValue();
 				JSField jsField = new JSField(field, scope);
 				scope.put(getFieldVar(name), scope, jsField);
@@ -321,7 +324,7 @@ public class JavaScriptEvaluator extends JREvaluator
 	
 	protected Script getCompiledExpression(String expression)
 	{
-		Script compiledExpression = (Script) compiledExpressions.get(expression);
+		Script compiledExpression = compiledExpressions.get(expression);
 		if (compiledExpression == null)
 		{
 			compiledExpression = context.compileString(expression, "expression", 0, null);
@@ -333,9 +336,9 @@ public class JavaScriptEvaluator extends JREvaluator
 	/**
 	 * @deprecated To be removed.
 	 */
-	protected Class getTypeClass(String type)
+	protected Class<?> getTypeClass(String type)
 	{
-		Class typeClass = (Class) loadedTypes.get(type);
+		Class<?> typeClass = loadedTypes.get(type);
 		if (typeClass == null)
 		{
 			try
@@ -350,4 +353,5 @@ public class JavaScriptEvaluator extends JREvaluator
 		}
 		return typeClass;
 	}
+
 }

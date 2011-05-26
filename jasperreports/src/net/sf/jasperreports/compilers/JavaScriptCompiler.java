@@ -73,9 +73,9 @@ public class JavaScriptCompiler extends JRAbstractCompiler
 			{
 				JRCompilationUnit unit = units[i];
 				JavaScriptCompileData compileData = new JavaScriptCompileData();
-				for (Iterator it = unit.getExpressions().iterator(); it.hasNext();)
+				for (Iterator<JRExpression> it = unit.getExpressions().iterator(); it.hasNext();)
 				{
-					JRExpression expr = (JRExpression) it.next();
+					JRExpression expr = it.next();
 					int id = unit.getCompileTask().getExpressionId(expr).intValue();
 					JavaScriptCompileData.Expression jsExpr = 
 						JavaScriptEvaluator.createJSExpression(expr);

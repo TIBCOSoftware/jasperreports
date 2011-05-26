@@ -124,15 +124,15 @@ public class JRExpressionCollector
 
 	protected static class GeneratedIds
 	{
-		private final TreeMap ids = new TreeMap();
+		private final TreeMap<Integer, JRExpression> ids = new TreeMap<Integer, JRExpression>();
 		private int nextId;
-		private List expressions;
+		private List<JRExpression> expressions;
 
 		public JRExpression put(Integer id, JRExpression expression)
 		{
 			expressions = null;
 
-			return (JRExpression) ids.put(id, expression);
+			return ids.put(id, expression);
 		}
 
 		public Integer nextId()
@@ -145,18 +145,18 @@ public class JRExpressionCollector
 			return id;
 		}
 
-		public List expressions()
+		public List<JRExpression> expressions()
 		{
 			if (expressions == null)
 			{
-				expressions = new ArrayList(ids.values());
+				expressions = new ArrayList<JRExpression>(ids.values());
 			}
 			return expressions;
 		}
 
 		public JRExpression expression(int id)
 		{
-			return (JRExpression) ids.get(Integer.valueOf(id));
+			return ids.get(Integer.valueOf(id));
 		}
 	}
 	private GeneratedIds generatedIds = new GeneratedIds();
@@ -358,9 +358,9 @@ public class JRExpressionCollector
 	 *
 	 * @return the collected expressions
 	 */
-	public List getExpressions()
+	public List<JRExpression> getExpressions()
 	{
-		return new ArrayList(generatedIds.expressions());
+		return new ArrayList<JRExpression>(generatedIds.expressions());
 	}
 
 
