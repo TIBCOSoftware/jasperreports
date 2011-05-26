@@ -708,10 +708,10 @@ public class TextMeasurer implements JRTextMeasurer
 						// next line should should start at first tab stop indent
 						nextTabStopHolder[0] = ParagraphUtil.getFirstTabStop(jrParagraph, endX);
 					}
-					else
-					{
-						//nothing; this leaves lineComplete=false
-					}
+//					else
+//					{
+//						//nothing; this leaves lineComplete=false
+//					}
 				}
 				else
 				{

@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.TabStop;
-import net.sf.jasperreports.engine.fill.TextMeasurer;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -473,10 +472,10 @@ public abstract class AbstractTextRenderer
 							// next line should should start at first tab stop indent
 							nextTabStop = ParagraphUtil.getFirstTabStop(text.getParagraph(), endX);
 						}
-						else
-						{
-							//nothing; this leaves lineComplete=false
-						}
+//						else
+//						{
+//							//nothing; this leaves lineComplete=false
+//						}
 					}
 					else
 					{

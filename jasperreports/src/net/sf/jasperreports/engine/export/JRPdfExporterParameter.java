@@ -219,6 +219,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 *
 	 * @see #PROPERTY_FORCE_LINEBREAK_POLICY
 	 * @see net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter
+	 * @deprecated No longer used.
 	 */
 	public static final JRPdfExporterParameter FORCE_LINEBREAK_POLICY = new JRPdfExporterParameter("Force linebreak policy");
 
@@ -228,6 +229,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * PDF exporter parameter.
 	 * 
 	 * @see #FORCE_LINEBREAK_POLICY
+	 * @deprecated No longer used.
 	 */
 	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRProperties.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
