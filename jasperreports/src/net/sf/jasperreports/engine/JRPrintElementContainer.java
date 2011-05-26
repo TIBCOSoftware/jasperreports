@@ -57,7 +57,7 @@ public interface JRPrintElementContainer
 	 * 
 	 * @return the list of elements
 	 */
-	public List getElements();
+	public List<JRPrintElement> getElements();
 	
 	
 	/**

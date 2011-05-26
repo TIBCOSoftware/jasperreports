@@ -47,7 +47,7 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 	
 	public static final String PROPERTY_CATEGORY_SERIES = "categorySeries";
 	
-	private List categorySeriesList = new ArrayList();
+	private List<JRCategorySeries> categorySeriesList = new ArrayList<JRCategorySeries>();
 	
 	public StandardSpiderDataset()
 	{
@@ -82,7 +82,7 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 	/**
 	 * 
 	 */
-	public List getSeriesList()
+	public List<JRCategorySeries> getSeriesList()
 	{
 		return categorySeriesList;
 	}

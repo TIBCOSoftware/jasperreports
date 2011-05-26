@@ -56,7 +56,7 @@ public abstract class BaseFillList extends BaseFillComponent
 	protected final int contentsHeight;
 	protected final FillDatasetRun datasetRun;
 	
-	protected Map printFrameTemplates = new HashMap();
+	protected Map<JRStyle, JRTemplateFrame> printFrameTemplates = new HashMap<JRStyle, JRTemplateFrame>();
 	protected JRTemplatePrintFrame printFrame;
 	protected boolean filling;
 	protected boolean fillStarted;
@@ -106,7 +106,7 @@ public abstract class BaseFillList extends BaseFillComponent
 	protected JRTemplateFrame getFrameTemplate()
 	{
 		JRStyle style = fillContext.getElementStyle();
-		JRTemplateFrame frameTemplate = (JRTemplateFrame) printFrameTemplates.get(style);
+		JRTemplateFrame frameTemplate = printFrameTemplates.get(style);
 		if (frameTemplate == null)
 		{
 			frameTemplate = new JRTemplateFrame(
@@ -179,7 +179,7 @@ public abstract class BaseFillList extends BaseFillComponent
 			container.addElement(element);
 		}
 
-		public List getElements()
+		public List<JRPrintElement> getElements()
 		{
 			return container.getElements();
 		}

@@ -736,7 +736,7 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
-	public List getHyperlinkParametersList()
+	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;
 	}
@@ -783,9 +783,9 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
-			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			JRHyperlinkParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();

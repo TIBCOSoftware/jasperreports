@@ -82,7 +82,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	private Map parameterValues;
+	private Map<String, Object> parameterValues;
 	private JRSubreportParameter[] parameters;
 	private Connection connection;
 	private JRDataSource dataSource;
@@ -240,9 +240,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 *
 	 */
-	protected Collection getPrintElements()
+	protected Collection<JRPrintElement> getPrintElements()
 	{
-		Collection printElements = null;
+		Collection<JRPrintElement> printElements = null;
 		
 		if (printPage != null)
 		{
@@ -369,7 +369,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		}
 	}
 
-	protected Map evaluateParameterValues(byte evaluation) throws JRException
+	protected Map<String, Object> evaluateParameterValues(byte evaluation) throws JRException
 	{
 		return getParameterValues(
 			filler, 
@@ -462,7 +462,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 * @return the parameter values map
 	 * @throws JRException
 	 */
-	public static Map getParameterValues(
+	public static Map<String, Object> getParameterValues(
 			JRBaseFiller filler, 
 			JRExpression parametersMapExpression, 
 			JRDatasetParameter[] subreportParameters, 
@@ -491,7 +491,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 * @return the parameter values map
 	 * @throws JRException
 	 */
-	public static Map getParameterValues(
+	public static Map<String, Object> getParameterValues(
 			//TODO using the filler or current dataset?
 			JRBaseFiller filler, 
 			JRFillExpressionEvaluator expressionEvaluator,
@@ -503,10 +503,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			boolean removeFormatFactory
 			) throws JRException
 	{
-		Map parameterValues = null;
+		Map<String, Object> parameterValues = null;
 		if (parametersMapExpression != null)
 		{
-			parameterValues = (Map) expressionEvaluator.evaluate(parametersMapExpression, evaluation);
+			parameterValues = (Map<String, Object>) expressionEvaluator.evaluate(parametersMapExpression, evaluation);
 		}		
 		
 		if (parameterValues != null)
@@ -515,7 +515,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			if (parameterValues == filler.getParameterValuesMap())
 			{
 				//create a clone of the map so that the master map is not altered
-				parameterValues = new HashMap(parameterValues);
+				parameterValues = new HashMap<String, Object>(parameterValues);
 			}
 			
 			//parameterValues.remove(JRParameter.REPORT_LOCALE);
@@ -553,7 +553,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap();
+			parameterValues = new HashMap<String, Object>();
 		}
 		
 		/*   */

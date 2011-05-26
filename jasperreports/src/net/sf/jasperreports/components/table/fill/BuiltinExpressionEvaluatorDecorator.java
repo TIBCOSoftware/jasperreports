@@ -50,7 +50,7 @@ public class BuiltinExpressionEvaluatorDecorator implements DatasetExpressionEva
 		this.builtinEvaluators = builtinEvaluators;
 	}
 
-	public void init(Map parametersMap, Map fieldsMap, Map variablesMap,
+	public <T,U,V> void init(Map<String, T> parametersMap, Map<String, U> fieldsMap, Map<String, V> variablesMap, 
 			WhenResourceMissingTypeEnum resourceMissingType) throws JRException
 	{
 		decorated.init(parametersMap, fieldsMap, variablesMap, resourceMissingType);

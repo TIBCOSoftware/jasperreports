@@ -111,9 +111,9 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 
 	private Map stylesMap = new HashMap();
-	private List stylesList = new ArrayList();
+	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
 	private Map originsMap = new HashMap();
-	private List originsList = new ArrayList();
+	private List<JROrigin> originsList = new ArrayList<JROrigin>();
 
 	private List pages = new ArrayList();
 
@@ -373,7 +373,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Gets a list of report styles.
 	 */
-	public List getStylesList()
+	public List<JRStyle> getStylesList()
 	{
 		return stylesList;
 	}
@@ -458,7 +458,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Gets a list of report origins.
 	 */
-	public List getOriginsList()
+	public List<JROrigin> getOriginsList()
 	{
 		return originsList;
 	}

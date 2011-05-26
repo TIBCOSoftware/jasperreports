@@ -40,7 +40,7 @@ public interface JRElementGroup extends JRChild
 	/**
 	 * Gets a list of all direct children elements or elements groups.
 	 */
-	public List getChildren();
+	public List<JRChild> getChildren();
 
 	/**
 	 * Gets the parent element group.

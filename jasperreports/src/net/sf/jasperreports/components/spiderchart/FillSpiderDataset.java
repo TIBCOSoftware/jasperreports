@@ -31,6 +31,7 @@ import net.sf.jasperreports.charts.fill.JRFillCategorySeries;
 import net.sf.jasperreports.charts.util.CategoryLabelGenerator;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -59,9 +60,9 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	protected JRFillCategorySeries[] categorySeries;
 
 	private DefaultCategoryDataset dataset;
-	private Map labelsMap;
+	private Map<Comparable<?>, Map<Comparable<?>, String>> labelsMap;
 	
-	private Map itemHyperlinks;
+	private Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> itemHyperlinks;
 
 	
 	/**
@@ -130,15 +131,15 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 			if (dataset == null)
 			{
 				dataset = new DefaultCategoryDataset();
-				labelsMap = new HashMap();
-				itemHyperlinks = new HashMap();
+				labelsMap = new HashMap<Comparable<?>, Map<Comparable<?>, String>>();
+				itemHyperlinks = new HashMap<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>>();
 			}
 			
 			for(int i = 0; i < categorySeries.length; i++)
 			{
 				JRFillCategorySeries crtCategorySeries = categorySeries[i];
 				
-				Comparable seriesName = crtCategorySeries.getSeries();
+				Comparable<?> seriesName = crtCategorySeries.getSeries();
 				if (seriesName == null)
 				{
 					throw new JRRuntimeException("Category series name is null.");
@@ -152,10 +153,10 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 
 				if (crtCategorySeries.getLabelExpression() != null)
 				{
-					Map seriesLabels = (Map)labelsMap.get(seriesName);
+					Map<Comparable<?>, String> seriesLabels = labelsMap.get(seriesName);
 					if (seriesLabels == null)
 					{
-						seriesLabels = new HashMap();
+						seriesLabels = new HashMap<Comparable<?>, String>();
 						labelsMap.put(seriesName, seriesLabels);
 					}
 					
@@ -164,10 +165,10 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 				
 				if (crtCategorySeries.hasItemHyperlinks())
 				{
-					Map seriesLinks = (Map) itemHyperlinks.get(seriesName);
+					Map<Comparable<?>,JRPrintHyperlink> seriesLinks = itemHyperlinks.get(seriesName);
 					if (seriesLinks == null)
 					{
-						seriesLinks = new HashMap();
+						seriesLinks = new HashMap<Comparable<?>,JRPrintHyperlink>();
 						itemHyperlinks.put(seriesName, seriesLinks);
 					}
 					seriesLinks.put(crtCategorySeries.getCategory(), crtCategorySeries.getPrintItemHyperlink());
@@ -202,7 +203,7 @@ public class FillSpiderDataset extends JRFillElementDataset implements SpiderDat
 	}
 
 	
-	public Map getItemHyperlinks()
+	public Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> getItemHyperlinks()
 	{
 		return itemHyperlinks;
 	}
