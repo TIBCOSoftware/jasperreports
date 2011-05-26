@@ -40,7 +40,8 @@ import com.lowagie.text.pdf.PdfChunk;
  * @version $Id$
  * 
  * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#FORCE_LINEBREAK_POLICY
- * @see net.sf.jasperreports.engine.util.JRProperties#PDF_FORCE_LINEBREAK_POLICY
+ * @see net.sf.jasperreports.engine.export.JRPdfExporterParameter#PROPERTY_FORCE_LINEBREAK_POLICY
+ * @deprecated No longer used.
  */
 public class BreakIteratorSplitCharacter implements SplitCharacter
 {

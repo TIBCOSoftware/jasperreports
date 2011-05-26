@@ -85,7 +85,6 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -104,7 +103,6 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.SplitCharacter;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
@@ -205,8 +203,6 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	private Map fontMap;
 
-	private SplitCharacter splitCharacter;
-	
 	protected JRPdfExporterContext exporterContext = new ExporterContext();
 	
 	/**
@@ -325,7 +321,6 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
 
-			setSplitCharacter();
 			setHyperlinkProducerFactory();
 
 			pdfJavaScript = 
@@ -401,31 +396,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		finally
 		{
 			resetExportContext();
-		}
-	}
-
-
-	protected void setSplitCharacter()
-	{
-		boolean useFillSplitCharacter;
-		Boolean useFillSplitCharacterParam = (Boolean) parameters.get(JRPdfExporterParameter.FORCE_LINEBREAK_POLICY);
-		if (useFillSplitCharacterParam == null)
-		{
-			useFillSplitCharacter = 
-				JRProperties.getBooleanProperty(
-					jasperPrint.getPropertiesMap(),
-					JRPdfExporterParameter.PROPERTY_FORCE_LINEBREAK_POLICY,
-					false
-					);
-		}
-		else
-		{
-			useFillSplitCharacter = useFillSplitCharacterParam.booleanValue();
-		}
-
-		if (useFillSplitCharacter)
-		{
-			splitCharacter = new BreakIteratorSplitCharacter();
 		}
 	}
 
@@ -1735,11 +1705,11 @@ public class JRPdfExporter extends JRAbstractExporter
 			}
 		}
 
-		if (splitCharacter != null)
-		{
-			//TODO use line break offsets if available?
-			chunk.setSplitCharacter(splitCharacter);
-		}
+//		if (splitCharacter != null)
+//		{
+//			//TODO use line break offsets if available?
+//			chunk.setSplitCharacter(splitCharacter);
+//		}
 
 		return chunk;
 	}

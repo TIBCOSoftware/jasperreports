@@ -1746,11 +1746,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			
 		}
-		else
-		{
-			//FIXME: to handle a custom hyperlink
-			//href = customHandler.getHyperlink(hyperlink);
-		}
+//		else
+//		{
+//			//FIXME: to handle a custom hyperlink
+//			//href = customHandler.getHyperlink(hyperlink);
+//		}
 	}
 
 
