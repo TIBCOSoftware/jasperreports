@@ -46,7 +46,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 	private static final ExtensionsRegistry defaultExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType) 
+			public List<?> getExtensions(Class<?> extensionType) 
 			{
 				if (QueryExecuterFactoryBundle.class.equals(extensionType))
 				{
