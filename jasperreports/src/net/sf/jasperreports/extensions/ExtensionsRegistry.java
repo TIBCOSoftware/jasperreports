@@ -41,6 +41,6 @@ public interface ExtensionsRegistry
 	 * @param extensionType the extension type
 	 * @return a list of extension objects
 	 */
-	List getExtensions(Class extensionType);
+	List<?> getExtensions(Class<?> extensionType);
 	
 }
