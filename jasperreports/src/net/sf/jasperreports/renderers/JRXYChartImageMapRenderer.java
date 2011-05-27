@@ -30,6 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.charts.util.XYChartHyperlinkProvider;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
+import net.sf.jasperreports.engine.util.Pair;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
@@ -50,7 +51,7 @@ public class JRXYChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private XYChartHyperlinkProvider xyChartHyperlinkProvider;
 	
-	public JRXYChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
+	public JRXYChartImageMapRenderer(JFreeChart chart, Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> itemHyperlinks)
 	{
 		super(chart);
 		
@@ -74,7 +75,7 @@ public class JRXYChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	/**
 	 * @deprecated
 	 */
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<Pair, JRPrintHyperlink>> itemHyperlinks;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

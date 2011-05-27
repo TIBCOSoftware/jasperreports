@@ -81,12 +81,12 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	private String svgText;
 	private byte[] svgData;
 	private String svgDataLocation;
-	private List areaHyperlinks;
+	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
 
 	private transient GraphicsNode rootNode;
 	private transient Dimension2D documentSize;
 
-	protected BatikRenderer(List areaHyperlinks)
+	protected BatikRenderer(List<JRPrintImageAreaHyperlink> areaHyperlinks)
 	{
 		this.areaHyperlinks = areaHyperlinks;
 	}
@@ -97,7 +97,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @param svgText the SVG text
 	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
-	public BatikRenderer(String svgText, List areaHyperlinks)
+	public BatikRenderer(String svgText, List<JRPrintImageAreaHyperlink> areaHyperlinks)
 	{
 		this.svgText = svgText;
 		this.areaHyperlinks = areaHyperlinks;
@@ -109,7 +109,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @param svgData the SVG (binary) data
 	 * @param areaHyperlinks a list of {@link JRPrintImageAreaHyperlink area hyperlinks}
 	 */
-	public BatikRenderer(byte[] svgData, List areaHyperlinks)
+	public BatikRenderer(byte[] svgData, List<JRPrintImageAreaHyperlink> areaHyperlinks)
 	{
 		this.svgData = svgData;
 		this.areaHyperlinks = areaHyperlinks;
@@ -198,7 +198,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		}
 	}
 	
-	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
 
@@ -208,7 +208,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return areaHyperlinks;
 	}

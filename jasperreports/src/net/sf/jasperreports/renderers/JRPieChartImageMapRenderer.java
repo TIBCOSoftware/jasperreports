@@ -50,7 +50,7 @@ public class JRPieChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	
 	private PieChartHyperlinkProvider pieChartHyperlinkProvider;
 	
-	public JRPieChartImageMapRenderer(JFreeChart chart, Map sectionHyperlinks)
+	public JRPieChartImageMapRenderer(JFreeChart chart, Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks)
 	{
 		super(chart);
 		
@@ -75,7 +75,7 @@ public class JRPieChartImageMapRenderer extends JRAbstractChartImageMapRenderer
 	/**
 	 * @deprecated
 	 */
-	private Map sectionHyperlinks;
+	private Map<Comparable<?>, JRPrintHyperlink> sectionHyperlinks;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

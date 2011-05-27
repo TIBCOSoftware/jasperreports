@@ -61,6 +61,6 @@ public interface JRImageMapRenderer extends JRRenderable
 	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
 	 * @throws JRException
 	 */
-	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException;
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException;
 
 }

@@ -32,6 +32,7 @@ import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 import org.jfree.chart.JFreeChart;
 
@@ -53,7 +54,7 @@ public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer
 		super(chart);
 	}
 
-	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D renderingArea) throws JRException
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D renderingArea) throws JRException
 	{
 		render(grx, renderingArea);
 		return ChartUtil.getImageAreaHyperlinks(getChart(), this, grx, renderingArea);
@@ -62,7 +63,7 @@ public abstract class JRAbstractChartImageMapRenderer extends JFreeChartRenderer
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return ChartUtil.getImageAreaHyperlinks(getChart(), this, null, renderingArea);
 	}

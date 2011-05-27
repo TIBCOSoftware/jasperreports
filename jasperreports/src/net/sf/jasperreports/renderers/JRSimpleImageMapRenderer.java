@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 /**
  * @author Sanda Zaharia (shertage@users.sourceforge.net)
@@ -40,18 +41,18 @@ public class JRSimpleImageMapRenderer extends JRImageRenderer implements JRImage
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private List areaHyperlinks;
+	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
 	
 	/**
 	 * 
 	 */
-	public JRSimpleImageMapRenderer(byte[] imageData, List areaHyperlinks) 
+	public JRSimpleImageMapRenderer(byte[] imageData, List<JRPrintImageAreaHyperlink> areaHyperlinks) 
 	{
 		super(imageData);
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
-	public List renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
 		
@@ -61,7 +62,7 @@ public class JRSimpleImageMapRenderer extends JRImageRenderer implements JRImage
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
 	{
 		return areaHyperlinks;
 	}
@@ -70,5 +71,4 @@ public class JRSimpleImageMapRenderer extends JRImageRenderer implements JRImage
 	{
 		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
 	}
-
 }
