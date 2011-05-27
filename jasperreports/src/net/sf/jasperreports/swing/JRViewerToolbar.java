@@ -66,7 +66,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	protected final float MAX_ZOOM = 10f;
 	protected int zooms[] = {50, 75, 100, 125, 150, 175, 200, 250, 400, 800};
 	protected int defaultZoomIndex = 2;
-	protected List saveContributors = new ArrayList();
+	protected List<JRSaveContributor> saveContributors = new ArrayList<JRSaveContributor>();
 	protected File lastFolder;
 	protected JRSaveContributor lastSaveContributor;
 	protected DecimalFormat zoomDecimalFormat = new DecimalFormat("#.##");
@@ -351,7 +351,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		fileChooser.updateUI();
 		for(int i = 0; i < saveContributors.size(); i++)
 		{
-			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
+			fileChooser.addChoosableFileFilter(saveContributors.get(i));
 		}
 
 		if (saveContributors.contains(lastSaveContributor))
@@ -360,7 +360,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		}
 		else if (saveContributors.size() > 0)
 		{
-			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
+			fileChooser.setFileFilter(saveContributors.get(0));
 		}
 		
 		if (lastFolder != null)
@@ -387,7 +387,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 				int i = 0;
 				while(contributor == null && i < saveContributors.size())
 				{
-					contributor = (JRSaveContributor)saveContributors.get(i++);
+					contributor = saveContributors.get(i++);
 					if (!contributor.accept(file))
 					{
 						contributor = null;
@@ -648,7 +648,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	 */
 	public JRSaveContributor[] getSaveContributors()
 	{
-		return (JRSaveContributor[])saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
+		return saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
 	}
 
 
@@ -657,7 +657,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	 */
 	public void setSaveContributors(JRSaveContributor[] saveContributors)
 	{
-		this.saveContributors = new ArrayList();
+		this.saveContributors = new ArrayList<JRSaveContributor>();
 		if (saveContributors != null)
 		{
 			this.saveContributors.addAll(Arrays.asList(saveContributors));
@@ -689,8 +689,8 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 		{
 			try
 			{
-				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Constructor constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
+				Class<?> saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
+				Constructor<?> constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
 				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), viewerContext.getResourceBundle()});
 				saveContributors.add(saveContrib);
 			}
