@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.entity.ChartEntity;
+import org.jfree.data.time.RegularTimePeriod;
 
 
 /**
@@ -50,7 +51,7 @@ public class JRTimeSeriesChartImageMapRenderer extends JRAbstractChartImageMapRe
 	
 	private TimeSeriesChartHyperlinkProvider timeSeriesChartHyperlinkProvider;
 	
-	public JRTimeSeriesChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
+	public JRTimeSeriesChartImageMapRenderer(JFreeChart chart, Map<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>> itemHyperlinks)
 	{
 		super(chart);
 		
@@ -75,7 +76,7 @@ public class JRTimeSeriesChartImageMapRenderer extends JRAbstractChartImageMapRe
 	/**
 	 * @deprecated
 	 */
-	private Map itemHyperlinks;
+	private Map<Comparable<?>, Map<RegularTimePeriod, JRPrintHyperlink>> itemHyperlinks;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

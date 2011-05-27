@@ -49,7 +49,7 @@ public class JRHighLowChartImageMapRenderer extends JRAbstractChartImageMapRende
 	
 	private HighLowChartHyperlinkProvider highLowChartHyperlinkProvider;
 	
-	public JRHighLowChartImageMapRenderer(JFreeChart chart, List itemHyperlinks)
+	public JRHighLowChartImageMapRenderer(JFreeChart chart, List<JRPrintHyperlink> itemHyperlinks)
 	{
 		super(chart);
 		
@@ -73,7 +73,7 @@ public class JRHighLowChartImageMapRenderer extends JRAbstractChartImageMapRende
 	/**
 	 * @deprecated
 	 */
-	private List itemHyperlinks;
+	private List<JRPrintHyperlink> itemHyperlinks;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{

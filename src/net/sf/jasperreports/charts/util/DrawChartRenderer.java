@@ -61,7 +61,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 		}
 	}
 	
-	public List<?> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 
 	{
 		render(grx, rectangle);
 		

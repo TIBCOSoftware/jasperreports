@@ -49,7 +49,7 @@ public class JRCategoryChartImageMapRenderer extends JRAbstractChartImageMapRend
 	
 	private CategoryChartHyperlinkProvider categoryChartHyperlinkProvider;
 	
-	public JRCategoryChartImageMapRenderer(JFreeChart chart, Map itemHyperlinks)
+	public JRCategoryChartImageMapRenderer(JFreeChart chart, Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> itemHyperlinks)
 	{
 		super(chart);
 		
@@ -73,7 +73,7 @@ public class JRCategoryChartImageMapRenderer extends JRAbstractChartImageMapRend
 	/**
 	 * @deprecated
 	 */
-	private Map itemHyperlinks;
+	private Map<Comparable<?>,Map<Comparable<?>,JRPrintHyperlink>> itemHyperlinks;
 
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
