@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
@@ -86,7 +87,7 @@ public class ImageServlet extends BaseHttpServlet
 		}
 		else
 		{
-			List jasperPrintList = BaseHttpServlet.getJasperPrintList(request);
+			List<JasperPrint> jasperPrintList = BaseHttpServlet.getJasperPrintList(request);
 			
 			if (jasperPrintList == null)
 			{
