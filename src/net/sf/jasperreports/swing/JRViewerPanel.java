@@ -114,8 +114,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	private int downX;
 	private int downY;
 	
-	private java.util.List hyperlinkListeners = new ArrayList();
-	private Map linksMap = new HashMap();
+	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<JRHyperlinkListener>();
+	private Map<JPanel, JRPrintHyperlink> linksMap = new HashMap<JPanel, JRPrintHyperlink>();
 
 	/**
 	 * the screen resolution.
@@ -316,7 +316,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	public JRHyperlinkListener[] getHyperlinkListeners()
 	{
-		return (JRHyperlinkListener[])hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
+		return hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
 	}
 
 
@@ -340,8 +340,8 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			{
 				if (hyperlink.getHyperlinkAnchor() != null)
 				{
-					Map anchorIndexes = viewerContext.getJasperPrint().getAnchorIndexes();
-					JRPrintAnchorIndex anchorIndex = (JRPrintAnchorIndex)anchorIndexes.get(hyperlink.getHyperlinkAnchor());
+					Map<String, JRPrintAnchorIndex> anchorIndexes = viewerContext.getJasperPrint().getAnchorIndexes();
+					JRPrintAnchorIndex anchorIndex = anchorIndexes.get(hyperlink.getHyperlinkAnchor());
 					if (anchorIndex.getPageIndex() != viewerContext.getPageIndex())
 					{
 						viewerContext.setPageIndex(anchorIndex.getPageIndex());
@@ -706,7 +706,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		}
 
 		pnlLinks.removeAll();
-		linksMap = new HashMap();
+		linksMap = new HashMap<JPanel, JRPrintHyperlink>();
 
 		createHyperlinks();
 
@@ -774,18 +774,18 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected void createHyperlinks()
 	{
-		java.util.List pages = viewerContext.getJasperPrint().getPages();
-		JRPrintPage page = (JRPrintPage)pages.get(viewerContext.getPageIndex());
+		List<JRPrintPage> pages = viewerContext.getJasperPrint().getPages();
+		JRPrintPage page = pages.get(viewerContext.getPageIndex());
 		createHyperlinks(page.getElements(), 0, 0);
 	}
 
-	protected void createHyperlinks(List elements, int offsetX, int offsetY)
+	protected void createHyperlinks(List<JRPrintElement> elements, int offsetX, int offsetY)
 	{
 		if(elements != null && elements.size() > 0)
 		{
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement)it.next();
+				JRPrintElement element = it.next();
 
 				JRImageMapRenderer imageMap = null;
 				if (element instanceof JRPrintImage)
@@ -851,7 +851,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 					link.setToolTipText(toolTip);
 
 					pnlLinks.add(link);
-					linksMap.put(link, element);
+					linksMap.put(link, hyperlink);
 				}
 
 				if (element instanceof JRPrintFrame)
@@ -870,7 +870,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		protected final List imageAreaHyperlinks;
+		protected final List<JRPrintImageAreaHyperlink> imageAreaHyperlinks;
 
 		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
 		{
@@ -933,9 +933,9 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			JRPrintImageAreaHyperlink image = null;
 			if (imageAreaHyperlinks != null)
 			{
-				for (ListIterator it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
+				for (ListIterator<JRPrintImageAreaHyperlink> it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
 				{
-					JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.previous();
+					JRPrintImageAreaHyperlink area = it.previous();
 					if (area.getArea().containsPoint(x, y))
 					{
 						image = area;
@@ -1051,7 +1051,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 	void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
-		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);
+		JRPrintHyperlink element = linksMap.get(link);
 		hyperlinkClicked(element);
 	}
 
@@ -1062,7 +1062,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			JRHyperlinkListener listener = null;
 			for(int i = 0; i < hyperlinkListeners.size(); i++)
 			{
-				listener = (JRHyperlinkListener)hyperlinkListeners.get(i);
+				listener = hyperlinkListeners.get(i);
 				listener.gotoHyperlink(hyperlink);
 			}
 		}

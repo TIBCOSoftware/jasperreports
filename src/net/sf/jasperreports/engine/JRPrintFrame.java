@@ -44,5 +44,5 @@ public interface JRPrintFrame extends JRPrintElement, JRBoxContainer
 	 * 
 	 * @return the list of sub print elements
 	 */
-	public List getElements();
+	public List<JRPrintElement> getElements();
 }

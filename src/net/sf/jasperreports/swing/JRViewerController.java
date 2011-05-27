@@ -56,7 +56,7 @@ public class JRViewerController
 	
 	private ResourceBundle resourceBundle;
 	private Locale locale;
-	private final List listeners = new ArrayList();
+	private final List<JRViewerListener> listeners = new ArrayList<JRViewerListener>();
 	
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML;
@@ -106,9 +106,9 @@ public class JRViewerController
 		if (!listeners.isEmpty())
 		{
 			JRViewerEvent event = new JRViewerEvent(this, eventCode);
-			for (Iterator it = listeners.iterator(); it.hasNext();)
+			for (Iterator<JRViewerListener> it = listeners.iterator(); it.hasNext();)
 			{
-				JRViewerListener listener = (JRViewerListener) it.next();
+				JRViewerListener listener = it.next();
 				listener.viewerEvent(event);
 			}
 		}

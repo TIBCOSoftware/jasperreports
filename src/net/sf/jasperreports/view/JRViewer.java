@@ -171,8 +171,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	private int downX;
 	private int downY;
 
-	private java.util.List hyperlinkListeners = new ArrayList();
-	private Map linksMap = new HashMap();
+	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<JRHyperlinkListener>();
+	private Map<JPanel,JRPrintHyperlink> linksMap = new HashMap<JPanel,JRPrintHyperlink>();
 	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()
 		{
@@ -196,7 +196,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			}
 		};
 
-	protected List saveContributors = new ArrayList();
+	protected List<JRSaveContributor> saveContributors = new ArrayList<JRSaveContributor>();
 	protected File lastFolder;
 	protected JRSaveContributor lastSaveContributor;
 
@@ -352,7 +352,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public JRSaveContributor[] getSaveContributors()
 	{
-		return (JRSaveContributor[])saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
+		return saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
 	}
 
 
@@ -361,7 +361,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public void setSaveContributors(JRSaveContributor[] saveContribs)
 	{
-		this.saveContributors = new ArrayList();
+		this.saveContributors = new ArrayList<JRSaveContributor>();
 		if (saveContribs != null)
 		{
 			this.saveContributors.addAll(Arrays.asList(saveContribs));
@@ -392,7 +392,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	public JRHyperlinkListener[] getHyperlinkListeners()
 	{
-		return (JRHyperlinkListener[])hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
+		return hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
 	}
 
 
@@ -453,8 +453,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		{
 			try
 			{
-				Class saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Constructor constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
+				Class<?> saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
+				Constructor<?> constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
 				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), resourceBundle});
 				saveContributors.add(saveContrib);
 			}
@@ -485,8 +485,8 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			{
 				if (hyperlink.getHyperlinkAnchor() != null)
 				{
-					Map anchorIndexes = jasperPrint.getAnchorIndexes();
-					JRPrintAnchorIndex anchorIndex = (JRPrintAnchorIndex)anchorIndexes.get(hyperlink.getHyperlinkAnchor());
+					Map<String,JRPrintAnchorIndex> anchorIndexes = jasperPrint.getAnchorIndexes();
+					JRPrintAnchorIndex anchorIndex = anchorIndexes.get(hyperlink.getHyperlinkAnchor());
 					if (anchorIndex.getPageIndex() != pageIndex)
 					{
 						setPageIndex(anchorIndex.getPageIndex());
@@ -1079,7 +1079,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		fileChooser.updateUI();
 		for(int i = 0; i < saveContributors.size(); i++)
 		{
-			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
+			fileChooser.addChoosableFileFilter(saveContributors.get(i));
 		}
 
 		if (saveContributors.contains(lastSaveContributor))
@@ -1088,7 +1088,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 		else if (saveContributors.size() > 0)
 		{
-			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
+			fileChooser.setFileFilter(saveContributors.get(0));
 		}
 		
 		if (lastFolder != null)
@@ -1115,7 +1115,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 				int i = 0;
 				while(contributor == null && i < saveContributors.size())
 				{
-					contributor = (JRSaveContributor)saveContributors.get(i++);
+					contributor = saveContributors.get(i++);
 					if (!contributor.accept(file))
 					{
 						contributor = null;
@@ -1354,7 +1354,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	void hyperlinkClicked(MouseEvent evt)
 	{
 		JPanel link = (JPanel)evt.getSource();
-		JRPrintHyperlink element = (JRPrintHyperlink)linksMap.get(link);
+		JRPrintHyperlink element = linksMap.get(link);
 		hyperlinkClicked(element);
 	}
 
@@ -1366,7 +1366,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			JRHyperlinkListener listener = null;
 			for(int i = 0; i < hyperlinkListeners.size(); i++)
 			{
-				listener = (JRHyperlinkListener)hyperlinkListeners.get(i);
+				listener = hyperlinkListeners.get(i);
 				listener.gotoHyperlink(hyperlink);
 			}
 		}
@@ -1550,7 +1550,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 
 		pnlLinks.removeAll();
-		linksMap = new HashMap();
+		linksMap = new HashMap<JPanel,JRPrintHyperlink>();
 
 		createHyperlinks();
 
@@ -1613,18 +1613,18 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 
 	protected void createHyperlinks()
 	{
-		java.util.List pages = jasperPrint.getPages();
-		JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+		List<JRPrintPage> pages = jasperPrint.getPages();
+		JRPrintPage page = pages.get(pageIndex);
 		createHyperlinks(page.getElements(), 0, 0);
 	}
 
-	protected void createHyperlinks(List elements, int offsetX, int offsetY)
+	protected void createHyperlinks(List<JRPrintElement> elements, int offsetX, int offsetY)
 	{
 		if(elements != null && elements.size() > 0)
 		{
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement)it.next();
+				JRPrintElement element = it.next();
 
 				JRImageMapRenderer imageMap = null;
 				if (element instanceof JRPrintImage)
@@ -1690,7 +1690,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 					link.setToolTipText(toolTip);
 
 					pnlLinks.add(link);
-					linksMap.put(link, element);
+					linksMap.put(link, hyperlink);
 				}
 
 				if (element instanceof JRPrintFrame)
@@ -1709,7 +1709,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		protected final List imageAreaHyperlinks;
+		protected final List<JRPrintImageAreaHyperlink> imageAreaHyperlinks;
 
 		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
 		{
@@ -1772,9 +1772,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 			JRPrintImageAreaHyperlink image = null;
 			if (imageAreaHyperlinks != null)
 			{
-				for (ListIterator it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
+				for (ListIterator<JRPrintImageAreaHyperlink> it = imageAreaHyperlinks.listIterator(imageAreaHyperlinks.size()); image == null && it.hasPrevious();)
 				{
-					JRPrintImageAreaHyperlink area = (JRPrintImageAreaHyperlink) it.previous();
+					JRPrintImageAreaHyperlink area = it.previous();
 					if (area.getArea().containsPoint(x, y))
 					{
 						image = area;

@@ -45,7 +45,7 @@ public interface JRImageMapRenderer extends JRRenderable
 	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
 	 * @throws JRException
 	 */
-	List getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException;
+	List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException;
 
 	/**
 	 * Indicates whether the renderer actually includes any image map areas.

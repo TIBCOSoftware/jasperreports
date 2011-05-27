@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
+import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 import org.jfree.chart.JFreeChart;
 
@@ -70,7 +71,7 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 	/**
 	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 */
-	public List<?> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{
 		return ChartUtil.getImageAreaHyperlinks(chart, chartHyperlinkProvider, null, renderingArea);
 	}

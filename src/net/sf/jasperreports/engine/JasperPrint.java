@@ -110,14 +110,14 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	private Integer rightMargin;
 	private OrientationEnum orientationValue = OrientationEnum.PORTRAIT;
 
-	private Map stylesMap = new HashMap();
+	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
 	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
-	private Map originsMap = new HashMap();
+	private Map<JROrigin, Integer> originsMap = new HashMap<JROrigin, Integer>();
 	private List<JROrigin> originsList = new ArrayList<JROrigin>();
 
-	private List pages = new ArrayList();
+	private List<JRPrintPage> pages = new ArrayList<JRPrintPage>();
 
-	private transient Map anchorIndexes;
+	private transient Map<String,JRPrintAnchorIndex> anchorIndexes;
 	private DefaultStyleProvider defaultStyleProvider;
 	
 	private String formatFactoryClass;
@@ -381,7 +381,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Gets a map of report styles.
 	 */
-	public Map getStylesMap()
+	public Map<String, JRStyle> getStylesMap()
 	{
 		return stylesMap;
 	}
@@ -423,9 +423,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public synchronized JRStyle removeStyle(String styleName)
 	{
-		return removeStyle(
-			(JRStyle)stylesMap.get(styleName)
-			);
+		return removeStyle(stylesMap.get(styleName));
 	}
 
 	/**
@@ -452,7 +450,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	 */
 	public JROrigin[] getOrigins()
 	{
-		return (JROrigin[]) originsList.toArray(new JROrigin[originsList.size()]);
+		return originsList.toArray(new JROrigin[originsList.size()]);
 	}
 
 	/**
@@ -466,7 +464,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Gets a map of report origins.
 	 */
-	public Map getOriginsMap()
+	public Map<JROrigin, Integer> getOriginsMap()
 	{
 		return originsMap;
 	}
@@ -491,7 +489,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		if (originsMap.containsKey(origin))
 		{
 			originsList.remove(origin);
-			originsMap = new HashMap();
+			originsMap = new HashMap<JROrigin, Integer>();
 			for(int i = 0; i < originsList.size(); i++)
 			{
 				originsMap.put(originsList.get(i), Integer.valueOf(i));
@@ -504,7 +502,7 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	/**
 	 * Returns a list of all pages in the filled report.
 	 */
-	public List getPages()
+	public List<JRPrintPage> getPages()
 	{
 		return pages;
 	}
@@ -533,23 +531,23 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 	public synchronized JRPrintPage removePage(int index)
 	{
 		anchorIndexes = null;
-		return (JRPrintPage)pages.remove(index);
+		return pages.remove(index);
 	}
 
 	/**
 	 *
 	 */
-	public synchronized Map getAnchorIndexes()
+	public synchronized Map<String,JRPrintAnchorIndex> getAnchorIndexes()
 	{
 		if (anchorIndexes == null)
 		{
-			anchorIndexes = new HashMap();
+			anchorIndexes = new HashMap<String,JRPrintAnchorIndex>();
 			
 			int i = 0;
-			for(Iterator itp = pages.iterator(); itp.hasNext(); i++)
+			for(Iterator<JRPrintPage> itp = pages.iterator(); itp.hasNext(); i++)
 			{
-				JRPrintPage page = (JRPrintPage)itp.next();
-				Collection elements = page.getElements();
+				JRPrintPage page = itp.next();
+				Collection<JRPrintElement> elements = page.getElements();
 				collectAnchors(elements, i, 0, 0);
 			}
 		}
@@ -557,14 +555,14 @@ public class JasperPrint implements Serializable, JRPropertiesHolder
 		return anchorIndexes;
 	}
 
-	protected void collectAnchors(Collection elements, int pageIndex, int offsetX, int offsetY)
+	protected void collectAnchors(Collection<JRPrintElement> elements, int pageIndex, int offsetX, int offsetY)
 	{
 		if (elements != null && elements.size() > 0)
 		{
 			JRPrintElement element = null;
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				element = (JRPrintElement)it.next();
+				element = it.next();
 				if (element instanceof JRPrintAnchor)
 				{
 					anchorIndexes.put(
