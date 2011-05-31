@@ -215,6 +215,9 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 					datasource.setTimeZone(csvTimezoneId);
 				}
 			}
+			Integer reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
+			if(reportMaxCount != null)
+				datasource.setReportMaxCount(reportMaxCount);
 		}
 		
 		return datasource;
