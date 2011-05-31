@@ -129,6 +129,7 @@ public class CrosstabApp extends AbstractSampleApp
 	 */
 	public void pdf() throws JRException
 	{
+		System.out.println("********************** ");
 		File[] files = getFiles(new File("build/reports"), "jrprint");
 		for(int i = 0; i < files.length; i++)
 		{

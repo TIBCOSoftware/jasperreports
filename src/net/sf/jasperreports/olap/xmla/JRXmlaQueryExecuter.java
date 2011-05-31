@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 import net.sf.jasperreports.olap.JROlapDataSource;
 
@@ -77,7 +78,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	private JRXmlaResult xmlaResult;
 
 
-	public JRXmlaQueryExecuter(JRDataset dataset, Map parametersMap)
+	public JRXmlaQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 
@@ -223,7 +224,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			// <AxisFormat>TupleFormat</AxisFormat>
 			// </PropertyList>
 			// </Properties>
-			Map paraList = new HashMap();
+			Map<String, String> paraList = new HashMap<String, String>();
 			String datasource = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_DATASOURCE);
 			paraList.put("DataSourceInfo", datasource);
 			String catalog = (String) getParameterValue(JRXmlaQueryExecuterFactory.PARAMETER_XMLA_CATALOG);
@@ -246,7 +247,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 	}
 
-	protected void addParameterList(SOAPEnvelope envelope, SOAPElement eParent, String typeName, String listName, Map params) throws SOAPException
+	protected void addParameterList(SOAPEnvelope envelope, SOAPElement eParent, String typeName, String listName, Map<String, String> params) throws SOAPException
 	{
 		Name nPara = envelope.createName(typeName, "", XMLA_URI);
 		SOAPElement eType = eParent.addChildElement(nPara);
@@ -256,11 +257,11 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		{
 			return;
 		}
-		for (Iterator entryIt = params.entrySet().iterator(); entryIt.hasNext();)
+		for (Iterator<Map.Entry<String, String>> entryIt = params.entrySet().iterator(); entryIt.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) entryIt.next();
-			String tag = (String) entry.getKey();
-			String value = (String) entry.getValue();
+			Map.Entry<String, String> entry = entryIt.next();
+			String tag = entry.getKey();
+			String value = entry.getValue();
 			nPara = envelope.createName(tag, "", XMLA_URI);
 			SOAPElement eTag = eList.addChildElement(nPara);
 			eTag.addTextNode(value);
@@ -313,7 +314,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		Name eName = soapEnvelope.createName("ExecuteResponse", "", XMLA_URI);
 
 		// Get the ExecuteResponse-Node
-		Iterator responseElements = soapBody.getChildElements(eName);
+		Iterator<?> responseElements = soapBody.getChildElements(eName);
 		if (responseElements.hasNext())
 		{
 			Object eObj = responseElements.next();
@@ -330,7 +331,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 
 		// Get the return-Node
 		Name rName = soapEnvelope.createName("return", "", XMLA_URI);
-		Iterator returnElements = eElement.getChildElements(rName);
+		Iterator<?> returnElements = eElement.getChildElements(rName);
 		SOAPElement returnElement = null;
 		if (returnElements.hasNext())
 		{
@@ -364,7 +365,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		// Get the root-Node
 		Name rootName = soapEnvelope.createName("root", "", MDD_URI);
 		SOAPElement rootElement = null;
-		Iterator rootElements = returnElement.getChildElements(rootName);
+		Iterator<?> rootElements = returnElement.getChildElements(rootName);
 		if (rootElements.hasNext())
 		{
 			Object eObj = rootElements.next();
@@ -381,7 +382,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		// Get the OlapInfo-Node
 		Name olapInfoName = soapEnvelope.createName("OlapInfo", "", MDD_URI);
 		SOAPElement olapInfoElement = null;
-		Iterator olapInfoElements = rootElement.getChildElements(olapInfoName);
+		Iterator<?> olapInfoElements = rootElement.getChildElements(olapInfoName);
 		if (olapInfoElements.hasNext())
 		{
 			Object eObj = olapInfoElements.next();
@@ -401,7 +402,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		// Get the Axes Element
 		Name axesName = soapEnvelope.createName("Axes", "", MDD_URI);
 		SOAPElement axesElement = null;
-		Iterator axesElements = rootElement.getChildElements(axesName);
+		Iterator<?> axesElements = rootElement.getChildElements(axesName);
 		if (axesElements.hasNext())
 		{
 			Object eObj = axesElements.next();
@@ -421,7 +422,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		// Get the CellData Element
 		Name cellDataName = soapEnvelope.createName("CellData", "", MDD_URI);
 		SOAPElement cellDataElement = null;
-		Iterator cellDataElements = rootElement.getChildElements(cellDataName);
+		Iterator<?> cellDataElements = rootElement.getChildElements(cellDataName);
 		if (cellDataElements.hasNext())
 		{
 			Object eObj = cellDataElements.next();
@@ -476,7 +477,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		// Get the AxesInfo-Node
 		Name axesInfoName = sf.createName("AxesInfo", "", MDD_URI);
 		SOAPElement axesElement = null;
-		Iterator axesInfoElements = olapInfoElement.getChildElements(axesInfoName);
+		Iterator<?> axesInfoElements = olapInfoElement.getChildElements(axesInfoName);
 		if (axesInfoElements.hasNext())
 		{
 			Object axesObj = axesInfoElements.next();
@@ -500,7 +501,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		// Cycle over AxisInfo-Elements
 		Name axisInfoName = sf.createName("AxisInfo", "", MDD_URI);
-		Iterator itAxis = axesInfoElement.getChildElements(axisInfoName);
+		Iterator<?> itAxis = axesInfoElement.getChildElements(axisInfoName);
 		while (itAxis.hasNext())
 		{
 			SOAPElement axisElement = (SOAPElement) itAxis.next();
@@ -516,7 +517,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 
 			// retrieve the hierarchies by <HierarchyInfo>
 			name = sf.createName("HierarchyInfo", "", MDD_URI);
-			Iterator itHierInfo = axisElement.getChildElements(name);
+			Iterator<?> itHierInfo = axisElement.getChildElements(name);
 			while (itHierInfo.hasNext())
 			{
 				SOAPElement eHierInfo = (SOAPElement) itHierInfo.next();
@@ -529,7 +530,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	{
 		// Cycle over Axis-Elements
 		Name aName = sf.createName("Axis", "", MDD_URI);
-		Iterator itAxis = axesElement.getChildElements(aName);
+		Iterator<?> itAxis = axesElement.getChildElements(aName);
 		while (itAxis.hasNext())
 		{
 			SOAPElement axisElement = (SOAPElement) itAxis.next();
@@ -546,7 +547,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 
 			// retrieve the tuples by <Tuples>
 			name = sf.createName("Tuples", "", MDD_URI);
-			Iterator itTuples = axisElement.getChildElements(name);
+			Iterator<?> itTuples = axisElement.getChildElements(name);
 			if (itTuples.hasNext())
 			{
 				SOAPElement eTuples = (SOAPElement) itTuples.next();
@@ -558,13 +559,13 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	protected void parseCellDataElement(SOAPElement cellDataElement) throws SOAPException
 	{
 		Name name = sf.createName("Cell", "", MDD_URI);
-		Iterator itCells = cellDataElement.getChildElements(name);
+		Iterator<?> itCells = cellDataElement.getChildElements(name);
 		while (itCells.hasNext())
 		{
 			SOAPElement cellElement = (SOAPElement) itCells.next();
 			
 			Name errorName = sf.createName("Error", "", MDD_URI);
-			Iterator errorElems = cellElement.getChildElements(errorName);
+			Iterator<?> errorElems = cellElement.getChildElements(errorName);
 			if (errorElems.hasNext())
 			{
 				handleCellErrors(errorElems);
@@ -574,7 +575,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			String cellOrdinal = cellElement.getAttributeValue(ordinalName);
 
 			Object value = null;
-			Iterator valueElements = cellElement.getChildElements(sf.createName("Value", "", MDD_URI));
+			Iterator<?> valueElements = cellElement.getChildElements(sf.createName("Value", "", MDD_URI));
 			if (valueElements.hasNext())
 			{
 				SOAPElement valueElement = (SOAPElement) valueElements.next();
@@ -598,7 +599,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			}
 
 			String fmtValue = "";
-			Iterator fmtValueElements = cellElement.getChildElements(sf.createName("FmtValue", "", MDD_URI));
+			Iterator<?> fmtValueElements = cellElement.getChildElements(sf.createName("FmtValue", "", MDD_URI));
 			if (fmtValueElements.hasNext())
 			{
 				SOAPElement fmtValueElement = ((SOAPElement) fmtValueElements.next());
@@ -611,14 +612,14 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		}
 	}
 
-	protected void handleCellErrors(Iterator errorElems) throws SOAPException
+	protected void handleCellErrors(Iterator<?> errorElems) throws SOAPException
 	{
 		SOAPElement errorElem = (SOAPElement) errorElems.next();
 		
 		StringBuffer errorMsg = new StringBuffer();
 		errorMsg.append("Cell error: ");
 		
-		Iterator descriptionElems = errorElem.getChildElements(sf.createName("Description", "", MDD_URI));
+		Iterator<?> descriptionElems = errorElem.getChildElements(sf.createName("Description", "", MDD_URI));
 		if (descriptionElems.hasNext())
 		{
 			SOAPElement descrElem = (SOAPElement) descriptionElems.next();
@@ -626,7 +627,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			errorMsg.append("; ");
 		}
 		
-		Iterator sourceElems = errorElem.getChildElements(sf.createName("Source", "", MDD_URI));
+		Iterator<?> sourceElems = errorElem.getChildElements(sf.createName("Source", "", MDD_URI));
 		if (sourceElems.hasNext())
 		{
 			SOAPElement sourceElem = (SOAPElement) sourceElems.next();
@@ -635,7 +636,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			errorMsg.append("; ");
 		}
 		
-		Iterator codeElems = errorElem.getChildElements(sf.createName("ErrorCode", "", MDD_URI));
+		Iterator<?> codeElems = errorElem.getChildElements(sf.createName("ErrorCode", "", MDD_URI));
 		if (codeElems.hasNext())
 		{
 			SOAPElement codeElem = (SOAPElement) codeElems.next();
@@ -659,7 +660,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	protected void handleTuplesElement(JRXmlaResultAxis axis, SOAPElement tuplesElement) throws SOAPException
 	{
 		Name tName = sf.createName("Tuple", "", MDD_URI);
-		for (Iterator itTuple = tuplesElement.getChildElements(tName); itTuple.hasNext();)
+		for (Iterator<?> itTuple = tuplesElement.getChildElements(tName); itTuple.hasNext();)
 		{
 			SOAPElement eTuple = (SOAPElement) itTuple.next();
 			handleTupleElement(axis, eTuple);
@@ -671,7 +672,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 		JRXmlaMemberTuple tuple = new JRXmlaMemberTuple(axis.getHierarchiesOnAxis().length);
 		
 		Name memName = sf.createName("Member", "", MDD_URI);
-		Iterator itMember = tupleElement.getChildElements(memName);
+		Iterator<?> itMember = tupleElement.getChildElements(memName);
 		int memNum = 0;
 		while (itMember.hasNext())
 		{
@@ -681,19 +682,19 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			String hierName = memElement.getAttributeValue(name);
 			
 			String uName = "";
-			Iterator uNameElements = memElement.getChildElements(sf.createName("UName", "", MDD_URI));
+			Iterator<?> uNameElements = memElement.getChildElements(sf.createName("UName", "", MDD_URI));
 			if (uNameElements.hasNext())
 			{
 				uName = ((SOAPElement) uNameElements.next()).getValue();
 			}
 			String caption = "";
-			Iterator captionElements = memElement.getChildElements(sf.createName("Caption", "", MDD_URI));
+			Iterator<?> captionElements = memElement.getChildElements(sf.createName("Caption", "", MDD_URI));
 			if (captionElements.hasNext())
 			{
 				caption = ((SOAPElement) captionElements.next()).getValue();
 			}
 			String lName = "";
-			Iterator lNameElements = memElement.getChildElements(sf.createName("LName", "", MDD_URI));
+			Iterator<?> lNameElements = memElement.getChildElements(sf.createName("LName", "", MDD_URI));
 			if (lNameElements.hasNext())
 			{
 				String levelUniqueName = ((SOAPElement) lNameElements.next()).getValue();
@@ -705,7 +706,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 			}
 			
 			int lNum = 0;
-			Iterator lNumElements = memElement.getChildElements(sf.createName("LNum", "", MDD_URI));
+			Iterator<?> lNumElements = memElement.getChildElements(sf.createName("LNum", "", MDD_URI));
 			if (lNumElements.hasNext())
 			{
 				lNum = Integer.parseInt(((SOAPElement) lNumElements.next()).getValue());

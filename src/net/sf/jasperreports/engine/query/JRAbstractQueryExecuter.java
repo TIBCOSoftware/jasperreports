@@ -129,7 +129,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	protected final Map clauseFunctions = new HashMap();
 	
 	protected final JRDataset dataset;
-	private final Map parametersMap;
+	private final Map<String, JRValueParameter> parametersMap;
 	
 	private String queryString;
 	
@@ -141,7 +141,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	private Set parameterClauseStack;
 	
 	
-	protected JRAbstractQueryExecuter(JRDataset dataset, Map parametersMap)
+	protected JRAbstractQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parametersMap)
 	{
 		this.dataset = dataset;
 		this.parametersMap = parametersMap;
@@ -599,7 +599,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected JRValueParameter getValueParameter(String parameterName, boolean ignoreMissing)
 	{
-		JRValueParameter parameter = (JRValueParameter) parametersMap.get(parameterName);
+		JRValueParameter parameter = parametersMap.get(parameterName);
 		
 		if (parameter == null && !ignoreMissing)
 		{

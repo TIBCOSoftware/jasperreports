@@ -40,15 +40,15 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 {
 
 	private final String axisName;
-	private final List hierarchyList;
+	private final List<JRXmlaHierarchy> hierarchyList;
 	private JRXmlaHierarchy[] hierarchies;
-	private final List tuples;
+	private final List<JRXmlaMemberTuple> tuples;
 	
 	public JRXmlaResultAxis(String axisName)
 	{
 		this.axisName = axisName;
-		this.hierarchyList = new ArrayList();
-		this.tuples = new ArrayList();
+		this.hierarchyList = new ArrayList<JRXmlaHierarchy>();
+		this.tuples = new ArrayList<JRXmlaMemberTuple>();
 	}
 	
 	public String getAxisName()
@@ -68,7 +68,7 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + tuples.size());
 		}
 		
-		return (JROlapMemberTuple) tuples.get(index);
+		return tuples.get(index);
 	}
 
 	public int getTupleCount()
@@ -93,9 +93,9 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 	{
 		JRXmlaMember[] members = tuple.getXmlaMembers();
 		int idx = 0;
-		for (Iterator it = hierarchyList.iterator(); it.hasNext() && idx < members.length; ++idx)
+		for (Iterator<JRXmlaHierarchy> it = hierarchyList.iterator(); it.hasNext() && idx < members.length; ++idx)
 		{
-			JRXmlaHierarchy hierarchy = (JRXmlaHierarchy) it.next();
+			JRXmlaHierarchy hierarchy = it.next();
 			JRXmlaMember member = members[idx];
 			if (hierarchy.getDimensionName().equals(member.getDimensionName()))
 			{
@@ -110,7 +110,7 @@ public class JRXmlaResultAxis implements JROlapResultAxis
 		if (hierarchies == null)
 		{
 			hierarchies = new JRXmlaHierarchy[hierarchyList.size()];
-			hierarchies = (JRXmlaHierarchy[]) hierarchyList.toArray(hierarchies);
+			hierarchies = hierarchyList.toArray(hierarchies);
 		}
 		return hierarchies;
 	}

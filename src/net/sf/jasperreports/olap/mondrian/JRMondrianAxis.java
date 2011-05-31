@@ -46,13 +46,13 @@ public class JRMondrianAxis implements JROlapResultAxis
 	
 	public JRMondrianAxis(Axis axis, Hierarchy[] axisHierarchies, JRMondrianFactory factory)
 	{
-		List positions = axis.getPositions();
+		List<Position> positions = axis.getPositions();
 		tuples = new JRMondrianTuple[positions.size()];
 		
 		int idx = 0;
-		for (Iterator it = positions.iterator(); it.hasNext(); ++idx)
+		for (Iterator<Position> it = positions.iterator(); it.hasNext(); ++idx)
 		{
-			Position position = (Position) it.next();
+			Position position = it.next();
 			tuples[idx] = new JRMondrianTuple(position, factory);
 		}
 		
