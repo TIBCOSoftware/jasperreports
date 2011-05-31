@@ -64,7 +64,7 @@ public MappingLexer(LexerSharedInputState state) {
 	super(state);
 	caseSensitiveLiterals = true;
 	setCaseSensitive(false);
-	literals = new Hashtable();
+	literals = new Hashtable<ANTLRHashString, Integer>();
 	literals.put(new ANTLRHashString("Columns", this), Integer.valueOf(7));
 	literals.put(new ANTLRHashString("Data", this), Integer.valueOf(12));
 	literals.put(new ANTLRHashString("Chapters", this), Integer.valueOf(10));

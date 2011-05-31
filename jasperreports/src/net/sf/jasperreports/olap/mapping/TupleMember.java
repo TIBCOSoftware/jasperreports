@@ -33,12 +33,12 @@ import java.util.List;
  */
 public class TupleMember
 {
-	private final List names;
+	private final List<String> names;
 	private String uniqueName;
 	
 	public TupleMember ()
 	{
-		this.names = new ArrayList();
+		this.names = new ArrayList<String>();
 	}
 	
 	public void addName (String name)
@@ -58,7 +58,7 @@ public class TupleMember
 		uniqueName = sb.toString();
 	}
 	
-	public List getNames ()
+	public List<String> getNames ()
 	{
 		return names;
 	}

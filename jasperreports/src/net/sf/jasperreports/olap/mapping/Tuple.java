@@ -34,16 +34,16 @@ import java.util.List;
  */
 public class Tuple
 {
-	private final List members;
+	private final List<TupleMember> members;
 	
 	public Tuple ()
 	{
-		this.members = new ArrayList();
+		this.members = new ArrayList<TupleMember>();
 	}
 	
 	public Tuple (TupleMember member)
 	{
-		this.members = new ArrayList(1);
+		this.members = new ArrayList<TupleMember>(1);
 		addMember(member);
 	}
 	
@@ -52,7 +52,7 @@ public class Tuple
 		members.add(member);
 	}
 	
-	public List getMembers ()
+	public List<TupleMember> getMembers ()
 	{
 		return members;
 	}
@@ -60,10 +60,10 @@ public class Tuple
 	public String[] getMemberUniqueNames ()
 	{
 		String[] names = new String[members.size()];
-		Iterator it = members.iterator();
+		Iterator<TupleMember> it = members.iterator();
 		for (int i = 0; i < names.length; ++i)
 		{
-			TupleMember member = (TupleMember) it.next();
+			TupleMember member = it.next();
 			names[i] = member.getUniqueName();
 		}
 		return names;

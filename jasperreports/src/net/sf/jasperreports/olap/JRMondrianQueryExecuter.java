@@ -31,6 +31,7 @@ import mondrian.olap.Result;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +49,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 	private Connection connection;
 	private Result result;
 
-	public JRMondrianQueryExecuter(JRDataset dataset, Map parametersMap)
+	public JRMondrianQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 		

@@ -43,6 +43,7 @@ import net.sf.jasperreports.olap.mapping.Mapping;
 import net.sf.jasperreports.olap.mapping.MappingLexer;
 import net.sf.jasperreports.olap.mapping.MappingMetadata;
 import net.sf.jasperreports.olap.mapping.MappingParser;
+import net.sf.jasperreports.olap.mapping.Member;
 import net.sf.jasperreports.olap.mapping.MemberDepth;
 import net.sf.jasperreports.olap.mapping.MemberMapping;
 import net.sf.jasperreports.olap.mapping.MemberProperty;
@@ -75,14 +76,14 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
     protected final JROlapHierarchy[][] queryHierarchies;
     protected final int hierarchiesCount;
 
-    protected Map fieldMatchers;
+    protected Map<Object, FieldMatcher> fieldMatchers;
     protected int[][] fieldsMaxDepths;
     protected boolean[] iteratePositions;
     protected boolean iterate;
 
     protected boolean dataField;
 
-    protected Map fieldValues;
+    protected Map<Object, Object> fieldValues;
     protected int[] axisPositions;
     protected boolean first;
     protected int[][] maxDepths;
@@ -148,11 +149,11 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             }
 
             resetMaxDepths();
-            for (Iterator it = fieldMatchers.entrySet().iterator(); it.hasNext();)
+            for (Iterator<Map.Entry<Object, FieldMatcher>> it = fieldMatchers.entrySet().iterator(); it.hasNext();)
             {
-                Map.Entry entry = (Map.Entry) it.next();
+                Map.Entry<Object, FieldMatcher> entry = it.next();
                 Object fieldName = entry.getKey();
-                FieldMatcher matcher = (FieldMatcher) entry.getValue();
+                FieldMatcher matcher = entry.getValue();
                 if (matcher.matches())
                 {
                     Object value = matcher.value();
@@ -228,7 +229,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
      *
      */
     public Object getFieldValue(JRField jrField) throws JRException {
-        Class valueClass = jrField.getValueClass();
+        Class<?> valueClass = jrField.getValueClass();
         Object value = fieldValues.get(jrField.getName());
 
         try {
@@ -301,7 +302,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
     {
         iteratePositions = new boolean[axes.length];
 
-        fieldMatchers = new HashMap();
+        fieldMatchers = new HashMap<Object, FieldMatcher>();
 
         dataField = false;
         JRField[] fields = dataset.getFields();
@@ -348,9 +349,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
     private void processMappingMembers(Mapping mapping)
     {
-        for (Iterator it = mapping.memberMappings(); it.hasNext();)
+        for (Iterator<Member> it = mapping.memberMappings(); it.hasNext();)
         {
-            net.sf.jasperreports.olap.mapping.Member member = (net.sf.jasperreports.olap.mapping.Member) it.next();
+            Member member = it.next();
             processMemberInfo(member);
         }
     }
@@ -399,7 +400,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             first = true;
         }
 
-        fieldValues = new HashMap();
+        fieldValues = new HashMap<Object, Object>();
     }
 
 
@@ -563,7 +564,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
         {
             this.formatted = mapping.isFormatted();
 
-            List mappingPositions = mapping.getPositions();
+            List<?> mappingPositions = mapping.getPositions();
             if (mappingPositions == null)
             {
                 this.dataPositions = null;
@@ -595,7 +596,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
                 }
             }
 
-            List filter = mapping.getFilter();
+            List<?> filter = mapping.getFilter();
             if (filter == null || filter.isEmpty())
             {
                 this.members = null;
