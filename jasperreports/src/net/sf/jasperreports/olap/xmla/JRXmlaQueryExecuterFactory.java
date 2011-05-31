@@ -27,6 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
@@ -62,7 +63,7 @@ public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
 		return XMLA_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters) throws JRException
 	{
 		return new JRXmlaQueryExecuter(dataset, parameters);
 	}

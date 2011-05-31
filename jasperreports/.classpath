@@ -36,7 +36,7 @@
 	<classpathentry kind="lib" path="lib/xercesImpl-2.7.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core-2.5.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar" sourcepath="/home/sanda/.m2/repository/commons-collections/commons-collections/2.1.1/commons-collections-2.1.1-sources.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>

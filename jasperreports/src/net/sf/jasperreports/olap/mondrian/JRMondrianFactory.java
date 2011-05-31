@@ -36,11 +36,11 @@ import mondrian.olap.Member;
 public class JRMondrianFactory
 {
 	
-	private final Map members;
+	private final Map<String,JRMondrianMember> members;
 	
 	public JRMondrianFactory()
 	{
-		members = new HashMap();
+		members = new HashMap<String,JRMondrianMember>();
 	}
 	
 	public JRMondrianMember createMember(Member member)
@@ -53,7 +53,7 @@ public class JRMondrianFactory
 		else
 		{
 			String key = member.getUniqueName();
-			mondrianMember = (JRMondrianMember) members.get(key);
+			mondrianMember = members.get(key);
 			if (mondrianMember == null)
 			{
 				mondrianMember = new JRMondrianMember(member, this);

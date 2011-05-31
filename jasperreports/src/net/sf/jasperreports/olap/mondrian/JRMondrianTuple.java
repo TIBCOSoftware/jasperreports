@@ -44,9 +44,9 @@ public class JRMondrianTuple implements JROlapMemberTuple
 	{
 		members = new JRMondrianMember[position.size()];
 		int idx = 0;
-		for (Iterator it = position.iterator(); it.hasNext(); ++idx)
+		for (Iterator<Member> it = position.iterator(); it.hasNext(); ++idx)
 		{
-			Member member = (Member) it.next();
+			Member member = it.next();
 			members[idx] = factory.createMember(member);
 		}
 	}

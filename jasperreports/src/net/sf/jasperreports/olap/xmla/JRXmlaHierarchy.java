@@ -43,13 +43,13 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 	private final static Log log = LogFactory.getLog(JRXmlaHierarchy.class);
 
 	private final String dimensionName;
-	private final List levels;
+	private final List<JRXmlaHierarchyLevel> levels;
 	private JRXmlaHierarchyLevel[] levelArray;
 
 	public JRXmlaHierarchy(String dimensionName)
 	{
 		this.dimensionName = dimensionName;
-		this.levels = new ArrayList();
+		this.levels = new ArrayList<JRXmlaHierarchyLevel>();
 	}
 
 	public String getDimensionName()
@@ -73,7 +73,7 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 			}
 		}
 		
-		JRXmlaHierarchyLevel level = (JRXmlaHierarchyLevel) levels.get(depth);
+		JRXmlaHierarchyLevel level = levels.get(depth);
 		if (level == null)
 		{
 			level = new JRXmlaHierarchyLevel(levelName, depth);
@@ -100,7 +100,7 @@ public class JRXmlaHierarchy implements JROlapHierarchy
 		if (levelArray == null)
 		{
 			levelArray = new JRXmlaHierarchyLevel[levels.size()];
-			levelArray = (JRXmlaHierarchyLevel[]) levels.toArray(levelArray);
+			levelArray = levels.toArray(levelArray);
 		}
 		return levelArray;
 	}

@@ -45,10 +45,10 @@ public class JRXmlaResult implements JROlapResult
 
 	private final static Log log = LogFactory.getLog(JRXmlaResult.class);
 	
-	private List axesList = new ArrayList();
+	private List<JRXmlaResultAxis> axesList = new ArrayList<JRXmlaResultAxis>();
 	private JRXmlaResultAxis[] axes;
 	private int[] cellOrdinalFactors;
-	private final List cells = new ArrayList();
+	private final List<JRXmlaCell> cells = new ArrayList<JRXmlaCell>();
 
 	public JROlapResultAxis[] getAxes()
 	{
@@ -64,7 +64,7 @@ public class JRXmlaResult implements JROlapResult
                 // The xmla spec (version 1.1 CellData section page 26) indicates that cell elements
                 // can be missing.
                 if (cellOrdinal < cells.size()) {
-                    return (JROlapCell) cells.get(cellOrdinal);
+                    return cells.get(cellOrdinal);
 		}
                 else {
                     return null;
@@ -98,9 +98,9 @@ public class JRXmlaResult implements JROlapResult
 	public JRXmlaResultAxis getAxisByName(String name)
 	{
 		JRXmlaResultAxis axis = null;
-		for (Iterator iter = axesList.iterator(); axis == null && iter.hasNext();)
+		for (Iterator<JRXmlaResultAxis> iter = axesList.iterator(); axis == null && iter.hasNext();)
 		{
-			JRXmlaResultAxis ax = (JRXmlaResultAxis) iter.next();
+			JRXmlaResultAxis ax = iter.next();
 			if (ax.getAxisName().equals(name))
 			{
 				axis = ax;
@@ -114,7 +114,7 @@ public class JRXmlaResult implements JROlapResult
 		if (axes == null)
 		{
 			axes = new JRXmlaResultAxis[axesList.size()];
-			axes = (JRXmlaResultAxis[]) axesList.toArray(axes);
+			axes = axesList.toArray(axes);
 		}
 		return axes;
 	}
