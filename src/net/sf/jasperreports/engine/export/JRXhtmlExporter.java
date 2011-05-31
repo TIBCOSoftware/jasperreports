@@ -981,7 +981,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			writer.write("\"></a>");
 		}
 
-		writer.write("<span");//FIXME why dealing with cell style if no text to print (textLength == 0)?
+		writer.write("<div");//FIXME why dealing with cell style if no text to print (textLength == 0)?
 
 		appendId(text);
 
@@ -991,12 +991,16 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
+		StringBuffer divStyleBuffer = new StringBuffer();
+		String rotationValue = null;
 
 		if (text.getRotationValue() == RotationEnum.NONE)
 		{
-			appendPositionStyle(text, styleBuffer);
-			appendSizeStyle(text, text, styleBuffer);
-			appendBorderStyle(text.getLineBox(), styleBuffer);
+			appendPositionStyle(text, divStyleBuffer);
+//			appendSizeStyle(text, text, styleBuffer);
+			styleBuffer.append("width: 100%; height: 100%;");
+			appendSizeStyle(text, text, divStyleBuffer);
+			appendBorderStyle(text.getLineBox(), divStyleBuffer);
 		}
 		else
 		{
@@ -1023,6 +1027,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					rotatedText.setHeight(text.getWidth());
 					rotationIE = 3;
 					rotationAngle = -90;
+					rotationValue = "left";
 					break;
 				}
 				case RIGHT : 
@@ -1033,12 +1038,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					rotatedText.setHeight(text.getWidth());
 					rotationIE = 1;
 					rotationAngle = 90;
+					rotationValue = "right";
 					break;
 				}
 				case UPSIDE_DOWN : 
 				{
 					rotationIE = 2;
 					rotationAngle = 180;
+					rotationValue = "upsideDown";
 					break;
 				}
 				case NONE :
@@ -1047,9 +1054,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 			}
 			
-			appendPositionStyle(rotatedText, styleBuffer);
+			appendPositionStyle(rotatedText, divStyleBuffer);
 			appendSizeStyle(rotatedText, rotatedText, styleBuffer);
-			appendBorderStyle(rotatedText.getLineBox(), styleBuffer);
+			appendSizeStyle(text, text, divStyleBuffer);
+			appendBorderStyle(text.getLineBox(), divStyleBuffer);
 
 			styleBuffer.append("-webkit-transform: translate(" + translateX + "px," + translateY + "px) ");
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
@@ -1058,7 +1066,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			styleBuffer.append("filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=" + rotationIE + "); ");
 		}
 
-		appendBackcolorStyle(text, styleBuffer);
+		appendBackcolorStyle(text, divStyleBuffer);
 
 		String verticalAlignment = HTML_VERTICAL_ALIGN_TOP;
 
@@ -1120,11 +1128,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				styleBuffer.append(horizontalAlignment);
 				styleBuffer.append(";");
 //			}
-
-			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-			{
+//
+//			if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+//			{
 				styleBuffer.append(" display:table;");
-			}
+//			}
 		}
 
 		if (isWrapBreakWord)
@@ -1178,7 +1186,20 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			styleBuffer.append("white-space: nowrap; ");
 		}
 		
-		styleBuffer.append("overflow: hidden;");
+		divStyleBuffer.append("overflow: hidden;");
+		
+		if (divStyleBuffer.length() > 0) 
+		{
+			writer.write(" style=\"");
+			writer.write(divStyleBuffer.toString());
+			writer.write("\"");
+		}
+		writer.write("><span");
+		
+		if (rotationValue != null) 
+		{
+			writer.write(" class=\"rotated\" data-rotation=\"" + rotationValue + "\"");
+		}
 		
 		if (styleBuffer.length() > 0)
 		{
@@ -1189,12 +1210,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		writer.write(">");
 		
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
+//		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+//		{
 			writer.write("<span style=\"display:table-cell;vertical-align:"); //display:table-cell conflicts with overflow: hidden;
 			writer.write(verticalAlignment);
 			writer.write(";\">");
-		}
+//		}
 
 		startHyperlink(text);
 
@@ -1211,12 +1232,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		endHyperlink();
 
-		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
-		{
+//		if (!verticalAlignment.equals(HTML_VERTICAL_ALIGN_TOP))
+//		{
 			writer.write("</span>");//FIXMENOW move tooltip span here
-		}
+//		}
 
-		writer.write("</span>\n");
+		writer.write("</span></div>\n");
 	}
 
 
