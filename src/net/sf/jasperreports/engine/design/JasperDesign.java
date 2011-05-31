@@ -159,8 +159,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private List<JRReportTemplate> templateList = new ArrayList<JRReportTemplate>();
 
-	private Map stylesMap = new HashMap();
-	private List stylesList = new ArrayList();
+	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
+	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
 
 	/**
 	 * Main report dataset.
@@ -170,8 +170,8 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Report sub datasets indexed by name.
 	 */
-	private Map datasetMap = new HashMap();
-	private List datasetList = new ArrayList();
+	private Map<String, JRDataset> datasetMap = new HashMap<String, JRDataset>();
+	private List<JRDataset> datasetList = new ArrayList<JRDataset>();
 
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
@@ -541,7 +541,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		if (importsSet == null)
 		{
-			importsSet = new HashSet();//FIXME maintain order
+			importsSet = new HashSet<String>();//FIXME maintain order
 		}
 		
 		if (importsSet.add(value))
@@ -573,7 +573,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		for (int i = stylesList.size() - 1; i >= 0; i--)
 		{
-			JRStyle style = (JRStyle)stylesList.get(i);
+			JRStyle style = stylesList.get(i);
 			if (style.isDefault())
 			{
 				setDefaultStyle(style);
@@ -611,7 +611,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report level styles. These styles can be referenced by report elements.
 	 */
-	public List getStylesList()
+	public List<JRStyle> getStylesList()
 	{
 		return stylesList;
 	}
@@ -620,7 +620,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
-	public Map getStylesMap()
+	public Map<String, JRStyle> getStylesMap()
 	{
 		return stylesMap;
 	}
@@ -662,9 +662,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRStyle removeStyle(String styleName)
 	{
-		return removeStyle(
-			(JRStyle)stylesMap.get(styleName)
-			);
+		return removeStyle(stylesMap.get(styleName));
 	}
 
 
@@ -696,7 +694,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report scriptlets (excluding the one specified by scriptletClass).
 	 */
-	public List getScriptletsList()
+	public List<JRScriptlet> getScriptletsList()
 	{
 		return mainDesignDataset.getScriptletsList();
 	}
@@ -705,7 +703,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report scriptlets (excluding the one specified by scriptletClass).
 	 */
-	public Map getScriptletsMap()
+	public Map<String, JRScriptlet> getScriptletsMap()
 	{
 		return mainDesignDataset.getScriptletsMap();
 	}
@@ -741,7 +739,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report parameters (including built-in ones).
 	 */
-	public List getParametersList()
+	public List<JRParameter> getParametersList()
 	{
 		return mainDesignDataset.getParametersList();
 	}
@@ -750,7 +748,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report parameters (including built-in ones).
 	 */
-	public Map getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return mainDesignDataset.getParametersMap();
 	}
@@ -795,7 +793,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report fields.
 	 */
-	public List getFieldsList()
+	public List<JRField> getFieldsList()
 	{
 		return mainDesignDataset.getFieldsList();
 	}
@@ -804,7 +802,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report fields.
 	 */
-	public Map getFieldsMap()
+	public Map<String, JRField> getFieldsMap()
 	{
 		return mainDesignDataset.getFieldsMap();
 	}
@@ -840,7 +838,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of sort report fields.
 	 */
-	public List getSortFieldsList()
+	public List<JRSortField> getSortFieldsList()
 	{
 		return mainDesignDataset.getSortFieldsList();
 	}
@@ -876,7 +874,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report variables.
 	 */
-	public List getVariablesList()
+	public List<JRVariable> getVariablesList()
 	{
 		return mainDesignDataset.getVariablesList();
 	}
@@ -885,7 +883,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report variables.
 	 */
-	public Map getVariablesMap()
+	public Map<String, JRVariable> getVariablesMap()
 	{
 		return mainDesignDataset.getVariablesMap();
 	}
@@ -921,7 +919,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets an array of report groups.
 	 */
-	public List getGroupsList()
+	public List<JRGroup> getGroupsList()
 	{
 		return mainDesignDataset.getGroupsList();
 	}
@@ -930,7 +928,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report groups.
 	 */
-	public Map getGroupsMap()
+	public Map<String, JRGroup> getGroupsMap()
 	{
 		return mainDesignDataset.getGroupsMap();
 	}
@@ -986,7 +984,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return list of {@link JRDesignDataset JRDesignDataset} objects
 	 */
-	public List getDatasetsList()
+	public List<JRDataset> getDatasetsList()
 	{
 		return datasetList;
 	}
@@ -997,7 +995,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return the sub datasets of the report indexed by name
 	 */
-	public Map getDatasetMap()
+	public Map<String, JRDataset> getDatasetMap()
 	{
 		return datasetMap;
 	}
@@ -1044,9 +1042,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRDataset removeDataset(String datasetName)
 	{
-		return removeDataset(
-			(JRDataset)datasetMap.get(datasetName)
-			);
+		return removeDataset(datasetMap.get(datasetName));
 	}
 
 
@@ -1106,16 +1102,16 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void preprocess()
 	{
-		for (Iterator it = getCrosstabs().iterator(); it.hasNext();)
+		for (Iterator<JRCrosstab> it = getCrosstabs().iterator(); it.hasNext();)
 		{
 			JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 			crosstab.preprocess();
 		}
 	}
 
-	protected List getCrosstabs()
+	protected List<JRCrosstab> getCrosstabs()
 	{
-		final List crosstabs = new ArrayList();
+		final List<JRCrosstab> crosstabs = new ArrayList<JRCrosstab>();
 		JRElementsVisitor.visitReport(this, new JRVisitorSupport()
 		{
 			public void visitCrosstab(JRCrosstab crosstab)

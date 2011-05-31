@@ -67,7 +67,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		if (styleName != null)
 		{
 			JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-			Map stylesMap = jasperDesign.getStylesMap();
+			Map<String, JRStyle> stylesMap = jasperDesign.getStylesMap();
 
 			if (stylesMap.containsKey(styleName))
 			{

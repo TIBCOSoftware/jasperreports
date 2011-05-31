@@ -44,7 +44,7 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * Returns the class of the bucket value. Any class is allowed as long as it is in the classpath at compile and run time.
 	 * @return a <tt>Class</tt> instance representing the bucket value class
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 		
 	/**
 	 * Returns the string name of the bucket value class.

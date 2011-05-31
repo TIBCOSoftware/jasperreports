@@ -67,7 +67,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getValueClassName();
 	}
 
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		return parentMeasure.getValueClass();
 	}
@@ -87,7 +87,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getIncrementerFactoryClassName();
 	}
 
-	public Class getIncrementerFactoryClass()
+	public Class<?> getIncrementerFactoryClass()
 	{
 		return parentMeasure.getIncrementerFactoryClass();
 	}
@@ -158,7 +158,7 @@ public class JRFillCrosstabMeasure implements JRCrosstabMeasure
 		return parentMeasure.getPercentageCalculatorClassName();
 	}
 
-	public Class getPercentageCalculatorClass()
+	public Class<?> getPercentageCalculatorClass()
 	{
 		return parentMeasure.getPercentageCalculatorClass();
 	}

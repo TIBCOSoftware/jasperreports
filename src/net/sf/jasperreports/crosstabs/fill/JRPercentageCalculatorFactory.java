@@ -39,13 +39,13 @@ import net.sf.jasperreports.engine.fill.JRCalculable;
  */
 public final class JRPercentageCalculatorFactory
 {
-	private static final Map builtInCalculators;
+	private static final Map<String, JRPercentageCalculator> builtInCalculators;
 
-	private static final Map cachedCalculators;
+	private static final Map<String, JRPercentageCalculator> cachedCalculators;
 
 	static
 	{
-		builtInCalculators = new HashMap();
+		builtInCalculators = new HashMap<String, JRPercentageCalculator>();
 		builtInCalculators.put(Float.class.getName(), new FloatPercentageCalculator());
 		builtInCalculators.put(Double.class.getName(), new DoublePercentageCalculator());
 		builtInCalculators.put(Integer.class.getName(), new IntegerPercentageCalculator());
@@ -55,7 +55,7 @@ public final class JRPercentageCalculatorFactory
 		builtInCalculators.put(BigDecimal.class.getName(), new BigDecimalPercentageCalculator());
 		builtInCalculators.put(BigInteger.class.getName(), new BigIntegerPercentageCalculator());
 
-		cachedCalculators = new HashMap();
+		cachedCalculators = new HashMap<String, JRPercentageCalculator>();
 	}
 
 	
@@ -65,7 +65,7 @@ public final class JRPercentageCalculatorFactory
 	 * @param valueClass the class
 	 * @return whether the class has built-in percentage support
 	 */
-	public static boolean hasBuiltInCalculator(Class valueClass)
+	public static boolean hasBuiltInCalculator(Class<?> valueClass)
 	{
 		return builtInCalculators.containsKey(valueClass.getName());
 	}
@@ -81,13 +81,13 @@ public final class JRPercentageCalculatorFactory
 	 * @param valueClass the value class
 	 * @return a percentage calculator for the percentage calculator class/value class
 	 */
-	public static JRPercentageCalculator getPercentageCalculator(Class percentageCalculatorClass, Class valueClass)
+	public static JRPercentageCalculator getPercentageCalculator(Class<?> percentageCalculatorClass, Class<?> valueClass)
 	{
 		JRPercentageCalculator calculator;
 
 		if (percentageCalculatorClass == null)
 		{
-			calculator = (JRPercentageCalculator) builtInCalculators.get(valueClass.getName());
+			calculator = builtInCalculators.get(valueClass.getName());
 			if (calculator == null)
 			{
 				throw new JRRuntimeException("Measure with type " + valueClass.getName() + " should specify a percentage calculator class.");
@@ -95,7 +95,7 @@ public final class JRPercentageCalculatorFactory
 		}
 		else
 		{
-			calculator = (JRPercentageCalculator) cachedCalculators.get(percentageCalculatorClass.getName());
+			calculator = cachedCalculators.get(percentageCalculatorClass.getName());
 			
 			if (calculator == null)
 			{

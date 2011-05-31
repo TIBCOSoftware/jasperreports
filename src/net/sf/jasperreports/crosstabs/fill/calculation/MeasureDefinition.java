@@ -41,7 +41,7 @@ public class MeasureDefinition
 {
 	protected CalculationEnum calculation;
 	protected final JRExtendedIncrementerFactory incrementerFactory;
-	protected final Class valueClass;
+	protected final Class<?> valueClass;
 	protected final boolean isSystemDefined;
 	
 	
@@ -53,7 +53,7 @@ public class MeasureDefinition
 	 * @param incrementerFactory the incrementer factory
 	 */
 	public MeasureDefinition(
-			Class valueClass, 
+			Class<?> valueClass, 
 			CalculationEnum calculation, 
 			JRExtendedIncrementerFactory incrementerFactory) 
 	{
@@ -61,7 +61,7 @@ public class MeasureDefinition
 	}
 	
 	protected MeasureDefinition(
-			Class valueClass, 
+			Class<?> valueClass, 
 			CalculationEnum calculation, 
 			JRExtendedIncrementerFactory incrementerFactory, 
 			boolean isSystemDefined)
@@ -141,7 +141,7 @@ public class MeasureDefinition
 	 * 
 	 * @return the measure value class
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		return valueClass;
 	}

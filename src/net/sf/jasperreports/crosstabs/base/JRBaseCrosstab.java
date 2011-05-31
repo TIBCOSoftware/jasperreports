@@ -290,10 +290,10 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		{
 			if (crosstab instanceof JRDesignCrosstab)
 			{
-				List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
-				for (Iterator it = cellsList.iterator(); element == null && it.hasNext();)
+				List<JRCrosstabCell> cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+				for (Iterator<JRCrosstabCell> it = cellsList.iterator(); element == null && it.hasNext();)
 				{
-					JRCrosstabCell cell = (JRCrosstabCell) it.next();
+					JRCrosstabCell cell = it.next();
 					element = cell.getContents().getElementByKey(key);
 				}
 			}

@@ -103,9 +103,9 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	public static Class loadClassForName(String className) throws ClassNotFoundException
+	public static Class<?> loadClassForName(String className) throws ClassNotFoundException
 	{
-		Class clazz = null;
+		Class<?> clazz = null;
 
 		String classRealName = className;
 		ClassNotFoundException initialEx = null;
@@ -145,9 +145,9 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	public static Class loadClassForRealName(String className) throws ClassNotFoundException
+	public static Class<?> loadClassForRealName(String className) throws ClassNotFoundException
 	{
-		Class clazz = null;
+		Class<?> clazz = null;
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
@@ -183,9 +183,9 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	public static Class loadClassFromFile(String className, File file) throws IOException
+	public static Class<?> loadClassFromFile(String className, File file) throws IOException
 	{
-		Class clazz = null;
+		Class<?> clazz = null;
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
@@ -227,9 +227,9 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	public static Class loadClassFromBytes(String className, byte[] bytecodes)
+	public static Class<?> loadClassFromBytes(String className, byte[] bytecodes)
 	{
-		Class clazz = null;
+		Class<?> clazz = null;
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
@@ -271,7 +271,7 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	protected Class loadClass(String className, File file) throws IOException
+	protected Class<?> loadClass(String className, File file) throws IOException
 	{
 		FileInputStream fis = null;
 		ByteArrayOutputStream baos = null;
@@ -331,9 +331,9 @@ public class JRClassLoader extends ClassLoader
 	/**
 	 *
 	 */
-	protected Class loadClass(String className, byte[] bytecodes)
+	protected Class<?> loadClass(String className, byte[] bytecodes)
 	{
-		Class clazz = null;
+		Class<?> clazz = null;
 
 		clazz = 
 			defineClass(

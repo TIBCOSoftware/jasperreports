@@ -58,7 +58,7 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 	}
 
 	
-	public void init(Map parametersMap, Map variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
+	public <T,U> void init(Map<String, T> parametersMap, Map<String, U> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
 	{
 		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType);
 	}
