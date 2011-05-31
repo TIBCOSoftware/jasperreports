@@ -40,13 +40,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -83,6 +83,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	//TODO: parametrize this value
 	private boolean isStrictCsv = true;
+	private int reportMaxCount = -1;
 
 	/**
 	 * Creates a datasource instance from a CSV data input stream, using the default encoding.
@@ -187,12 +188,14 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.reader = reader;
 	}
 
-
+	private int rowcount = 0;
 	/**
 	 *
 	 */
 	public boolean next() throws JRException
 	{
+		if(reportMaxCount >=0 && rowcount > reportMaxCount)
+			return false;
 		try {
 			if (!processingStarted) {
 				if (useFirstRowAsHeader) 
@@ -206,12 +209,22 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				}
 				processingStarted = true;
 			}
-
+			rowcount++;
 			return parseRow();
 		} catch (IOException e) {
 			throw new JRException(e);
 		}
 	}
+
+	public int getReportMaxCount() {
+		return reportMaxCount;
+	}
+
+
+	public void setReportMaxCount(int reportMaxCount) {
+		this.reportMaxCount = reportMaxCount;
+	}
+
 
 	/**
 	 *
@@ -729,6 +742,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.numberFormat = numberFormat;
 	}
 	
-	
+	public HashMap getColumnNames() {
+		return columnNames;
+	}
 	
 }
