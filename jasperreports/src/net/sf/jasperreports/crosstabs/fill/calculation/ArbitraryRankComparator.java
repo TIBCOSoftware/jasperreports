@@ -36,7 +36,7 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ArbitraryRankComparator implements Comparator
+public class ArbitraryRankComparator implements Comparator<Object>
 {
 
 	// using a weak ref map to store ranks per objects

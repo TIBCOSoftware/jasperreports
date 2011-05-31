@@ -63,7 +63,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the value class of this measure
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 	
 	
 	/**
@@ -110,7 +110,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * @return the incrementer factory class
 	 * @see #getIncrementerFactoryClassName()
 	 */
-	public Class getIncrementerFactoryClass();
+	public Class<?> getIncrementerFactoryClass();
 
 	
 	/**
@@ -147,7 +147,7 @@ public interface JRCrosstabMeasure extends JRCloneable
 	 * 
 	 * @return the percentage calculator class
 	 */
-	public Class getPercentageCalculatorClass();
+	public Class<?> getPercentageCalculatorClass();
 	
 	
 	/**

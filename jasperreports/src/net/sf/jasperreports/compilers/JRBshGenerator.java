@@ -62,7 +62,7 @@ public class JRBshGenerator
 	 */
 	protected final JRSourceCompileTask sourceTask;
 
-	protected Map<String, JRParameter> parametersMap;
+	protected Map<String, ?> parametersMap;
 	protected Map<String, JRField> fieldsMap;
 	protected Map<String, JRVariable> variablesMap;
 	protected JRVariable[] variables;
@@ -421,7 +421,7 @@ public class JRBshGenerator
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						jrParameter = parametersMap.get(chunkText);
+						jrParameter = (JRParameter)parametersMap.get(chunkText);
 	
 						sbuffer.append("((");
 						sbuffer.append(jrParameter.getValueClassName());
@@ -461,7 +461,7 @@ public class JRBshGenerator
 					}
 					case JRExpressionChunk.TYPE_RESOURCE :
 					{
-						jrParameter = parametersMap.get(chunkText);
+						jrParameter = (JRParameter)parametersMap.get(chunkText);
 	
 						sbuffer.append("super.evaluator.str(\"");
 						sbuffer.append(chunkText);

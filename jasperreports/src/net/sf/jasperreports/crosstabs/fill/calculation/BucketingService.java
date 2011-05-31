@@ -33,7 +33,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
@@ -106,7 +105,14 @@ public class BucketingService
 	 * @param sorted whether the data is presorted
 	 * @param retrieveTotal totals to retrieve along with the cell values
 	 */
-	public BucketingService(JRFillCrosstab fillCrosstab, List rowBuckets, List columnBuckets, List measures, boolean sorted, boolean[][] retrieveTotal)
+	public BucketingService(
+			JRFillCrosstab fillCrosstab, 
+			List<BucketDefinition> rowBuckets, 
+			List<BucketDefinition> columnBuckets, 
+			List<MeasureDefinition> measures, 
+			boolean sorted, 
+			boolean[][] retrieveTotal
+			)
 	{
 		this.fillCrosstab = fillCrosstab;
 		
@@ -127,11 +133,11 @@ public class BucketingService
 		System.arraycopy(buckets[DIMENSION_COLUMN], 0, allBuckets, rowBucketCount, colBucketCount);
 
 		origMeasureCount = measures.size();
-		List measuresList = new ArrayList(measures.size() * 2);
-		List measureIndexList = new ArrayList(measures.size() * 2);
+		List<MeasureDefinition> measuresList = new ArrayList<MeasureDefinition>(measures.size() * 2);
+		List<Integer> measureIndexList = new ArrayList<Integer>(measures.size() * 2);
 		for (int i = 0; i < measures.size(); ++i)
 		{
-			MeasureDefinition measure = (MeasureDefinition) measures.get(i);
+			MeasureDefinition measure =  measures.get(i);
 			addMeasure(measure, i, measuresList, measureIndexList);
 		}
 		this.measures = new MeasureDefinition[measuresList.size()];
@@ -139,7 +145,7 @@ public class BucketingService
 		this.measureIndexes = new int[measureIndexList.size()];
 		for (int i = 0; i < measureIndexes.length; ++i)
 		{
-			measureIndexes[i] = ((Integer) measureIndexList.get(i)).intValue();
+			measureIndexes[i] = measureIndexList.get(i).intValue();
 		}
 
 		this.retrieveTotal = retrieveTotal;
@@ -255,7 +261,12 @@ public class BucketingService
 		return new BucketListMap(level, true);
 	}
 
-	protected void addMeasure(MeasureDefinition measure, int index, List measuresList, List measureIndexList)
+	protected void addMeasure(
+			MeasureDefinition measure, 
+			int index, 
+			List<MeasureDefinition> measuresList, 
+			List<Integer> measureIndexList
+			)
 	{
 		switch (measure.getCalculation())
 		{
@@ -525,9 +536,9 @@ public class BucketingService
 		
 		if (!bucketMap.last)
 		{
-			for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
+			for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
+				Map.Entry<Bucket, Object> entry = it.next();
 
 				computeTotals((BucketMap) entry.getValue());
 			}
@@ -559,9 +570,9 @@ public class BucketingService
 	{
 		MeasureValue[] totals = initMeasureValues();
 		
-		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
+		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
+			Map.Entry<Bucket, Object> entry = it.next();
 			
 			for (int i = bucketMap.level + 1; i < allBuckets.length; ++i)
 			{
@@ -584,9 +595,9 @@ public class BucketingService
 	{
 		BucketListMap totals = createCollectBucketMap(rowBucketCount);
 		
-		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
+		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
+			Map.Entry<Bucket, Object> entry = it.next();
 			
 			for (int i = bucketMap.level + 1; i < rowBucketCount; ++i)
 			{
@@ -606,7 +617,7 @@ public class BucketingService
 	}
 
 	
-	static protected class MapEntry implements Map.Entry, Comparable
+	static protected class MapEntry implements Map.Entry<Bucket, Object>, Comparable
 	{
 		final Bucket key;
 
@@ -618,7 +629,7 @@ public class BucketingService
 			this.value = value;
 		}
 
-		public Object getKey()
+		public Bucket getKey()
 		{
 			return key;
 		}
@@ -666,7 +677,7 @@ public class BucketingService
 
 		abstract void clear();
 
-		abstract Iterator entryIterator();
+		abstract Iterator<Map.Entry<Bucket, Object>> entryIterator();
 
 		abstract Object get(Bucket key);
 
@@ -678,18 +689,18 @@ public class BucketingService
 
 		abstract int size();
 		
-		abstract Map.Entry getTotalEntry();
+		abstract MapEntry getTotalEntry();
 	}
 
 	protected class BucketTreeMap extends BucketMap
 	{
-		TreeMap map;
+		TreeMap<Bucket, Object> map;
 
 		BucketTreeMap(int level)
 		{
 			super(level);
 
-			map = new TreeMap();
+			map = new TreeMap<Bucket, Object>();
 		}
 		
 		void clear()
@@ -697,7 +708,7 @@ public class BucketingService
 			map.clear();
 		}
 
-		Iterator entryIterator()
+		Iterator<Map.Entry<Bucket, Object>> entryIterator()
 		{
 			return map.entrySet().iterator();
 		}
@@ -744,7 +755,7 @@ public class BucketingService
 			map.put(totalKey, value);
 		}
 		
-		Map.Entry getTotalEntry()
+		MapEntry getTotalEntry()
 		{
 			Object value = get(totalKey);
 			return value == null ? null : new MapEntry(totalKey, value);
@@ -759,10 +770,10 @@ public class BucketingService
 
 	protected class BucketListMap extends BucketMap
 	{
-		List entries;
+		List<Map.Entry<Bucket, Object>> entries;
 		// we maintain a map as well in order to have fast search by key
 		// TODO implement this in a single structure
-		Map entryMap;
+		Map<Bucket, Object> entryMap;
 
 		BucketListMap(int level, boolean linked)
 		{
@@ -770,14 +781,14 @@ public class BucketingService
 
 			if (linked)
 			{
-				entries = new LinkedList();
+				entries = new LinkedList<Map.Entry<Bucket, Object>>();
 			}
 			else
 			{
-				entries = new ArrayList();
+				entries = new ArrayList<Map.Entry<Bucket, Object>>();
 			}
 			
-			entryMap = new HashMap();
+			entryMap = new HashMap<Bucket, Object>();
 		}
 
 		void clear()
@@ -786,7 +797,7 @@ public class BucketingService
 			entryMap.clear();
 		}
 		
-		Iterator entryIterator()
+		Iterator<Map.Entry<Bucket, Object>> entryIterator()
 		{
 			return entries.iterator();
 		}
@@ -816,7 +827,7 @@ public class BucketingService
 					break;
 				}
 
-				MapEntry lastEntry = (MapEntry) map.entries.get(size - 1);
+				MapEntry lastEntry = (MapEntry)map.entries.get(size - 1);
 				if (!lastEntry.key.equals(bucketValues[i]))
 				{
 					break;
@@ -857,9 +868,9 @@ public class BucketingService
 			add(totalKey, value);
 		}
 
-		Map.Entry getTotalEntry()
+		MapEntry getTotalEntry()
 		{
-			MapEntry lastEntry = (MapEntry) entries.get(entries.size() - 1);
+			MapEntry lastEntry = (MapEntry)entries.get(entries.size() - 1);
 			if (lastEntry.key.isTotal())
 			{
 				return lastEntry;
@@ -871,14 +882,14 @@ public class BucketingService
 		
 		void collectVals(BucketMap map, boolean sum) throws JRException
 		{
-			ListIterator totalIt = entries.listIterator();
+			ListIterator<Map.Entry<Bucket, Object>> totalIt = entries.listIterator();
 			MapEntry totalItEntry = totalIt.hasNext() ? (MapEntry) totalIt.next() : null;
 			
-			Iterator it = map.entryIterator();
-			Map.Entry entry = it.hasNext() ? (Map.Entry) it.next() : null;
+			Iterator<Map.Entry<Bucket, Object>> it = map.entryIterator();
+			Map.Entry<Bucket, Object> entry = it.hasNext() ? it.next() : null;
 			while(entry != null)
 			{
-				Bucket key = (Bucket) entry.getKey();
+				Bucket key = entry.getKey();
 				
 				int compare = totalItEntry == null ? -1 : key.compareTo(totalItEntry.key);
 				if (compare <= 0)
@@ -929,7 +940,7 @@ public class BucketingService
 						}
 					}
 					
-					entry = it.hasNext() ? (Map.Entry) it.next() : null;
+					entry = it.hasNext() ? it.next() : null;
 				}
 				
 				if (compare >= 0)
@@ -943,9 +954,9 @@ public class BucketingService
 		{
 			StringBuffer sb = new StringBuffer();
 			sb.append('{');
-			for (Iterator it = entries.iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<Bucket, Object>> it = entries.iterator(); it.hasNext();)
 			{
-				MapEntry entry = (MapEntry) it.next();
+				Map.Entry<Bucket, Object> entry = it.next();
 				sb.append(entry);
 				if (it.hasNext())
 				{
@@ -991,7 +1002,7 @@ public class BucketingService
 		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders);
 		
 		cells = new CrosstabCell[rowBuckets][colBuckets];
-		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList(), new ArrayList());
+		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList<Bucket>(), new ArrayList<BucketMap>());
 	}
 
 
@@ -1018,9 +1029,9 @@ public class BucketingService
 			return;
 		}
 		
-		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
+		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
+			Map.Entry<Bucket, Object> entry = it.next();
 			BucketMap nextMap = (BucketMap) entry.getValue();
 			if (bucketMap.level == rowBucketCount - 1)
 			{
@@ -1049,10 +1060,10 @@ public class BucketingService
 			headers = new SequentialCollectedList(totalPosition);
 		}
 
-		for (Iterator it = bucketMap.entryIterator(); it.hasNext();)
+		for (Iterator<Map.Entry<Bucket, Object>> it = bucketMap.entryIterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			Bucket bucketValue = (Bucket) entry.getKey();
+			Map.Entry<Bucket, Object> entry = it.next();
+			Bucket bucketValue = entry.getKey();
 
 			boolean totalBucket = bucketValue.isTotal();
 			boolean createHeader = !totalBucket || total || totalPosition != CrosstabTotalPositionEnum.NONE;
@@ -1109,23 +1120,23 @@ public class BucketingService
 	{
 		HeaderCell[][] headers = new HeaderCell[buckets[dimension].length][headersLists[dimension].span];
 		
-		List vals = new ArrayList();
+		List<Bucket> vals = new ArrayList<Bucket>();
 		fillHeaders(dimension, headers, 0, 0, headersLists[dimension], vals);
 		
 		return headers;
 	}
 
 	
-	protected void fillHeaders(byte dimension, HeaderCell[][] headers, int level, int col, CollectedList list, List vals)
+	protected void fillHeaders(byte dimension, HeaderCell[][] headers, int level, int col, CollectedList list, List<Bucket> vals)
 	{
 		if (level == buckets[dimension].length)
 		{
 			return;
 		}
 		
-		for (Iterator it = list.iterator(); it.hasNext();)
+		for (Iterator<CollectedList> it = list.iterator(); it.hasNext();)
 		{
-			CollectedList subList = (CollectedList) it.next();
+			CollectedList subList = it.next();
 			
 			vals.add(subList.key);
 			
@@ -1146,7 +1157,7 @@ public class BucketingService
 	}
 
 
-	protected void fillCells(CollectedList[] collectedHeaders, BucketMap bucketMap, int level, int[] pos, List vals, List bucketMaps)
+	protected void fillCells(CollectedList[] collectedHeaders, BucketMap bucketMap, int level, int[] pos, List<Bucket> vals, List<BucketMap> bucketMaps)
 	{
 		bucketMaps.add(bucketMap);
 		
@@ -1170,9 +1181,9 @@ public class BucketingService
 				
 		CollectedList collectedList = collectedHeaders[dimension];
 		
-		for (Iterator it = collectedList.iterator(); it.hasNext();)
+		for (Iterator<CollectedList> it = collectedList.iterator(); it.hasNext();)
 		{
-			CollectedList list = (CollectedList) it.next();
+			CollectedList list = it.next();
 			Object bucketValue = bucketMap == null ? null : bucketMap.get(list.key);
 			
 			vals.add(list.key);
@@ -1200,19 +1211,19 @@ public class BucketingService
 	}
 
 
-	protected void fillCell(int[] pos, List vals, List bucketMaps, MeasureValue[] values)
+	protected void fillCell(int[] pos, List<Bucket> vals, List<BucketMap> bucketMaps, MeasureValue[] values)
 	{
-		Iterator valsIt = vals.iterator();
+		Iterator<Bucket> valsIt = vals.iterator();
 		Bucket[] rowValues = new Bucket[buckets[BucketingService.DIMENSION_ROW].length];
 		for (int i = 0; i < rowValues.length; i++)
 		{
-			rowValues[i] = (Bucket) valsIt.next();
+			rowValues[i] = valsIt.next();
 		}
 		
 		Bucket[] columnValues = new Bucket[buckets[BucketingService.DIMENSION_COLUMN].length];
 		for (int i = 0; i < columnValues.length; i++)
 		{
-			columnValues[i] = (Bucket) valsIt.next();
+			columnValues[i] = valsIt.next();
 		}
 		
 		MeasureValue[] measureVals = values == null ? zeroUserMeasureValues : getUserMeasureValues(values);
@@ -1222,7 +1233,7 @@ public class BucketingService
 	}
 	
 	
-	protected MeasureValue[][][] retrieveTotals(List vals, List bucketMaps)
+	protected MeasureValue[][][] retrieveTotals(List<Bucket> vals, List<BucketMap> bucketMaps)
 	{
 		MeasureValue[][][] totals = new MeasureValue[rowBucketCount + 1][colBucketCount + 1][];
 		
@@ -1233,10 +1244,10 @@ public class BucketingService
 				continue;
 			}
 			
-			BucketMap rowMap = (BucketMap) bucketMaps.get(row);
+			BucketMap rowMap = bucketMaps.get(row);
 			for (int i = row; rowMap != null && i < rowBucketCount; ++i)
 			{
-				Entry totalEntry = rowMap.getTotalEntry();
+				MapEntry totalEntry = rowMap.getTotalEntry();
 				rowMap = totalEntry == null ? null : (BucketMap) totalEntry.getValue();
 			}
 
@@ -1248,11 +1259,11 @@ public class BucketingService
 				{
 					if (row == rowBucketCount)
 					{
-						rowMap = (BucketMap) bucketMaps.get(rowBucketCount + col + 1);
+						rowMap = bucketMaps.get(rowBucketCount + col + 1);
 					}
 					else if (rowMap != null)
 					{
-						rowMap = (BucketMap) rowMap.get((Bucket) vals.get(rowBucketCount + col));
+						rowMap = (BucketMap) rowMap.get(vals.get(rowBucketCount + col));
 					}
 				}
 				
@@ -1270,7 +1281,7 @@ public class BucketingService
 				{
 					if (col == colBucketCount)
 					{
-						MeasureValue[] measureValues = (MeasureValue[]) colMap.get((Bucket) vals.get(rowBucketCount + colBucketCount - 1));
+						MeasureValue[] measureValues = (MeasureValue[]) colMap.get(vals.get(rowBucketCount + colBucketCount - 1));
 						if (measureValues != null)
 						{
 							totals[row][col] = getUserMeasureValues(measureValues);
@@ -1278,7 +1289,7 @@ public class BucketingService
 					}
 					else
 					{
-						Map.Entry totalEntry = colMap.getTotalEntry();
+						MapEntry totalEntry = colMap.getTotalEntry();
 						if (totalEntry != null)
 						{
 							MeasureValue[] totalValues = (MeasureValue[]) totalEntry.getValue();
@@ -1310,7 +1321,7 @@ public class BucketingService
 			span = 0;
 		}
 
-		public abstract Iterator iterator();
+		public abstract Iterator<CollectedList> iterator();
 		
 		public void add(CollectedList sublist)
 		{
@@ -1343,16 +1354,16 @@ public class BucketingService
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 		final CrosstabTotalPositionEnum totalPosition;
-		final LinkedList list;
+		final LinkedList<CollectedList> list;
 		
 		SequentialCollectedList(CrosstabTotalPositionEnum totalPosition)
 		{
 			this.totalPosition = totalPosition;
 			
-			list = new LinkedList();
+			list = new LinkedList<CollectedList>();
 		}
 
-		public Iterator iterator()
+		public Iterator<CollectedList> iterator()
 		{
 			return list.iterator();
 		}
@@ -1374,7 +1385,7 @@ public class BucketingService
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		final TreeSet list;
+		final TreeSet<CollectedList> list;
 		
 		OrderedCollectedList(BucketDefinition bucketDefinition)
 		{
@@ -1382,10 +1393,10 @@ public class BucketingService
 			
 			CollectedListComparator comparator = 
 				new CollectedListComparator(bucketDefinition);
-			list = new TreeSet(comparator);
+			list = new TreeSet<CollectedList>(comparator);
 		}
 
-		public Iterator iterator()
+		public Iterator<CollectedList> iterator()
 		{
 			return list.iterator();
 		}

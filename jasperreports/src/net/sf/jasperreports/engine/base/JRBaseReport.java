@@ -103,7 +103,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *
 	 */
-	protected Set importsSet;
+	protected Set<String> importsSet;
 
 	/**
 	 * Report templates.
@@ -180,7 +180,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		String[] imports = report.getImports();
 		if (imports != null && imports.length > 0)
 		{
-			importsSet = new HashSet(imports.length);
+			importsSet = new HashSet<String>(imports.length);
 			importsSet.addAll(Arrays.asList(imports));
 		}
 
@@ -476,7 +476,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	{
 		if (importsSet != null)
 		{
-			return (String[])importsSet.toArray(new String[importsSet.size()]);
+			return importsSet.toArray(new String[importsSet.size()]);
 		}
 		return null;
 	}

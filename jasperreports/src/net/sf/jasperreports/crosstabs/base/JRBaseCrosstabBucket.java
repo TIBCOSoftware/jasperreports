@@ -48,7 +48,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 
 	protected String valueClassName;
 	protected String valueClassRealName;
-	protected Class valueClass;
+	protected Class<?> valueClass;
 
 	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 	protected JRExpression expression;
@@ -95,7 +95,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 		return comparatorExpression;
 	}
 	
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{

@@ -89,7 +89,7 @@ public class JRGroovyGenerator
 	 */
 	protected final JRSourceCompileTask sourceTask;
 
-	protected Map<String, JRParameter> parametersMap;
+	protected Map<String, ?> parametersMap;
 	protected Map<String, JRField> fieldsMap;
 	protected Map<String, JRVariable> variablesMap;
 	protected JRVariable[] variables;
@@ -568,7 +568,7 @@ public class JRGroovyGenerator
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						JRParameter jrParameter = parametersMap.get(chunkText);
+						JRParameter jrParameter = (JRParameter)parametersMap.get(chunkText);
 	
 						sb.append("(");
 						if (!"java.lang.Object".equals(jrParameter.getValueClassName()))

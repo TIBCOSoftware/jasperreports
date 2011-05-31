@@ -71,10 +71,10 @@ public class BucketDefinition
 	 */
 	protected final Bucket VALUE_NULL = new Bucket(VALUE_TYPE_NULL);
 	
-	protected final Comparator bucketValueComparator;
+	protected final Comparator<Object> bucketValueComparator;
 
 	protected final JRExpression orderByExpression;
-	protected final Comparator orderValueComparator;
+	protected final Comparator<Object> orderValueComparator;
 	private final CrosstabTotalPositionEnum totalPosition;
 	
 	private boolean computeTotal;
@@ -90,8 +90,8 @@ public class BucketDefinition
 	 * @param totalPosition the position of the total bucket
 	 * @throws JRException
 	 */
-	public BucketDefinition(Class valueClass, 
-			JRExpression orderByExpression, Comparator comparator, SortOrderEnum order, 
+	public BucketDefinition(Class<?> valueClass, 
+			JRExpression orderByExpression, Comparator<Object> comparator, SortOrderEnum order, 
 			CrosstabTotalPositionEnum totalPosition) throws JRException
 	{
 		if (comparator == null && orderByExpression == null 
@@ -137,9 +137,9 @@ public class BucketDefinition
 	}
 
 	
-	protected static Comparator createOrderComparator(Comparator comparator, SortOrderEnum order)
+	protected static Comparator<Object> createOrderComparator(Comparator<Object> comparator, SortOrderEnum order)
 	{
-		Comparator orderComparator;
+		Comparator<Object> orderComparator;
 		switch (order)
 		{
 			case DESCENDING:
@@ -243,7 +243,7 @@ public class BucketDefinition
 	 * 
 	 * @author Lucian Chirita (lucianc@users.sourceforge.net)
 	 */
-	public class Bucket implements Comparable
+	public class Bucket implements Comparable<Object>
 	{
 		private final Object value;
 		private final byte type;
