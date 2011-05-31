@@ -32,5 +32,5 @@ import java.util.Iterator;
  */
 public interface Mapping
 {
-	Iterator memberMappings();
+	<T> Iterator<T> memberMappings();
 }

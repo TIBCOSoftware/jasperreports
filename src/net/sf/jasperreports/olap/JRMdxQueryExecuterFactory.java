@@ -64,7 +64,7 @@ public class JRMdxQueryExecuterFactory implements JRQueryExecuterFactory
 		return MDX_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters) throws JRException
 	{
 		JRQueryExecuter queryExecuter;
 		if (getParameterValue(parameters, JRMondrianQueryExecuterFactory.PARAMETER_MONDRIAN_CONNECTION) != null)
@@ -83,9 +83,9 @@ public class JRMdxQueryExecuterFactory implements JRQueryExecuterFactory
 		return queryExecuter;
 	}
 
-	protected final Object getParameterValue(Map valueParams, String name)
+	protected final Object getParameterValue(Map<String, JRValueParameter> valueParams, String name)
 	{
-		JRValueParameter valueParam = (JRValueParameter) valueParams.get(name);
+		JRValueParameter valueParam = valueParams.get(name);
 		return valueParam == null ? null : valueParam.getValue();
 	}
 	

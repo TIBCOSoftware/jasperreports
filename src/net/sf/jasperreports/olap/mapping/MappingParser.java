@@ -190,7 +190,9 @@ public MappingParser(ParserSharedInputState state) {
 	public final DataMapping  dataMapping() throws RecognitionException, TokenStreamException {
 		DataMapping mapping = null;
 		
-		boolean formatted = false; List filter = null; List positions = null;
+		boolean formatted = false; 
+		List<Member> filter = null; 
+		List<AxisPosition> positions = null;
 		
 		try {      // for error handling
 			{
@@ -506,8 +508,8 @@ public MappingParser(ParserSharedInputState state) {
 		return name;
 	}
 	
-	public final List  memberFilter() throws RecognitionException, TokenStreamException {
-		List filter = new ArrayList();
+	public final List<Member>  memberFilter() throws RecognitionException, TokenStreamException {
+		List<Member> filter = new ArrayList<Member>();
 		
 		Member member;
 		
@@ -538,8 +540,8 @@ public MappingParser(ParserSharedInputState state) {
 		return filter;
 	}
 	
-	public final List  axisPositions() throws RecognitionException, TokenStreamException {
-		List positions = new ArrayList();
+	public final List<AxisPosition> axisPositions() throws RecognitionException, TokenStreamException {
+		List<AxisPosition> positions = new ArrayList<AxisPosition>();
 		
 		AxisPosition pos; int axis = 0;
 		
