@@ -96,7 +96,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	private ResultSet resultSet;
 
 	
-	public JRJdbcQueryExecuter(JRDataset dataset, Map parameters)
+	public JRJdbcQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters)
 	{
 		super(dataset, parameters);
 		
