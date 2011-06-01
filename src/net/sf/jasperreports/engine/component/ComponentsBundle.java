@@ -48,7 +48,7 @@ public interface ComponentsBundle
 	 * 
 	 * @return the set of component names in this bundle
 	 */
-	Set getComponentNames();
+	Set<String> getComponentNames();
 
 	/**
 	 * Returns the manager for a component type identified by name.

@@ -63,7 +63,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	 *
 	 */
 	private JasperPrint jasperPrint;
-	private List errors = new ArrayList();
+	private List<Exception> errors = new ArrayList<Exception>();
 
 
 	/**
@@ -161,7 +161,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 		
 		if (errors.size() > 0)
 		{
-			Exception e = (Exception)errors.get(0);
+			Exception e = errors.get(0);
 			if (e instanceof JRException)
 			{
 				throw (JRException)e;
