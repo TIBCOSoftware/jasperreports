@@ -50,7 +50,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	 */
 	private TableModel tableModel;
 	private int index = -1;
-	private HashMap columnNames = new HashMap();
+	private HashMap<String, Integer> columnNames = new HashMap<String, Integer>();
 	
 
 	/**
@@ -93,7 +93,7 @@ public class JRTableModelDataSource implements JRRewindableDataSource
 	{
 		String fieldName = jrField.getName();
 		
-		Integer columnIndex = (Integer)this.columnNames.get(fieldName);
+		Integer columnIndex = this.columnNames.get(fieldName);
 		
 		if (columnIndex != null)
 		{

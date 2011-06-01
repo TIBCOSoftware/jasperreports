@@ -49,14 +49,14 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 {
 
 	/** The introspected bean class */
-	private Class beanClass;
+	private Class<?> beanClass;
 
 	/**
 	 * Creates the provider. Superclasses must pass a valid class that will be
 	 * used to introspect the available bean fields.
 	 * @param beanClass the bean class to be introspected.
 	 */
-	public JRAbstractBeanDataSourceProvider(Class beanClass) {
+	public JRAbstractBeanDataSourceProvider(Class<?> beanClass) {
 		if (beanClass == null)
 		{
 			throw new JRRuntimeException("beanClass must not be null");
@@ -87,7 +87,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 		PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
 		if(descriptors != null) 
 		{
-			ArrayList fields = new ArrayList(descriptors.length);
+			ArrayList<JRField> fields = new ArrayList<JRField>(descriptors.length);
 			
 			for (int i = 0; i < descriptors.length; i++) {
 				PropertyDescriptor descriptor = descriptors[i];
@@ -102,7 +102,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 				}
 			}
 	
-			return (JRField[]) fields.toArray(new JRField[fields.size()]);
+			return fields.toArray(new JRField[fields.size()]);
 		}
 
 		return new JRField[0];
@@ -111,7 +111,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 	/**
 	 * Converts a primitive class to its object counterpart
 	 */
-	private static Class normalizeClass(Class clazz) {
+	private static Class<?> normalizeClass(Class<?> clazz) {
 		if(clazz.isPrimitive()) 
 		{
 			if(clazz == boolean.class)

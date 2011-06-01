@@ -43,8 +43,8 @@ public class JRHibernateListDataSource extends JRHibernateAbstractDataSource imp
 	private final int pageSize;
 	private int pageCount;
 	private boolean nextPage;
-	private List returnValues;
-	private Iterator iterator;
+	private List<?> returnValues;
+	private Iterator<?> iterator;
 
 	public JRHibernateListDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription, int pageSize)
 	{

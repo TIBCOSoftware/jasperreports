@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.query.JRHibernateQueryExecuter;
  */
 public class JRHibernateIterateDataSource extends JRHibernateAbstractDataSource implements JRRewindableDataSource
 {
-	private Iterator iterator;
+	private Iterator<?> iterator;
 	
 	public JRHibernateIterateDataSource(JRHibernateQueryExecuter queryExecuter, boolean useFieldDescription)
 	{

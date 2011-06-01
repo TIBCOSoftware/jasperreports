@@ -62,7 +62,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	private List records = new ArrayList();
 	private Iterator iterator;
 	private Object[] currentRecord;
-	private Map fieldIndexMap = new HashMap();
+	private Map<String,Integer> fieldIndexMap = new HashMap<String,Integer>();
 
 	protected Collator collator;
 
@@ -100,7 +100,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 		for(int i = 0; i < sortFields.length; i++)
 		{
 			JRSortField sortField = sortFields[i];
-			sortIndexes[i] = ((Integer)fieldIndexMap.get(sortField.getName())).intValue();
+			sortIndexes[i] = fieldIndexMap.get(sortField.getName()).intValue();
 			sortOrders[i] = (SortOrderEnum.ASCENDING == sortField.getOrderValue() ? 1 : -1);
 
 			collatorFlags[i] = false;
@@ -168,7 +168,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	 */
 	public Object getFieldValue(JRField jrField)
 	{
-		Integer fieldIndex = (Integer)fieldIndexMap.get(jrField.getName());
+		Integer fieldIndex = fieldIndexMap.get(jrField.getName());
 
 		if (fieldIndex == null)
 		{
