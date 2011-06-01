@@ -30,6 +30,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -43,7 +44,7 @@ public class JRSourceCompileTask
 	private JasperDesign jasperDesign;
 	private String unitName;
 	private JRExpressionCollector expressionCollector;
-	private Map<String, ?> parametersMap;
+	private Map<String, JRParameter> parametersMap;
 	private Map<String, JRField> fieldsMap;
 	private Map<String, JRVariable> variablesMap;
 	private JRVariable[] variables;
@@ -55,7 +56,7 @@ public class JRSourceCompileTask
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
-			Map<String, T> parametersMap, 
+			Map<String, JRParameter> parametersMap, 
 			Map<String, JRField> fieldsMap, 
 			Map<String, JRVariable> variablesMap, 
 			JRVariable[] variables, 
@@ -136,7 +137,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map<String, ?> getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
