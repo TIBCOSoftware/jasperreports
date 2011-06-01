@@ -58,7 +58,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	protected String valueClassName = java.lang.String.class.getName();
 	protected String valueClassRealName;
 
-	protected transient Class valueClass;
+	protected transient Class<?> valueClass;
 	
 	protected JRPropertiesMap propertiesMap;
 
@@ -116,7 +116,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{

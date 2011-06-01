@@ -247,7 +247,7 @@ public class TableUtil
 		JRDatasetRun datasetRun = table.getDatasetRun();
 		if (datasetRun != null) {
 			String dataSetName = datasetRun.getDatasetName();
-			JRDataset ds = (JRDataset) jd.getDatasetMap().get(dataSetName);
+			JRDataset ds = jd.getDatasetMap().get(dataSetName);
 			groupsList = (ds != null ? Arrays.asList(ds.getGroups()) : null);
 		}
 		return groupsList;
