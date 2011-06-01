@@ -67,7 +67,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	private Map columnNames = new HashMap();
 	private boolean useFirstRowAsHeader;
 	private int recordIndex = -1;
-
+	private int reportMaxCount = -1;
 	private InputStream inputStream;
 	private boolean closeWorkbook;
 	private boolean closeInputStream;
@@ -132,8 +132,9 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public boolean next() throws JRException
 	{
+		if(reportMaxCount >=0 && recordIndex > reportMaxCount)
+			return false;
 		recordIndex++;
-
 		if (workbook != null)
 		{
 			if (recordIndex == 0 && useFirstRowAsHeader) 
@@ -157,7 +158,14 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 		return false;
 	}
+	public int getReportMaxCount() {
+		return reportMaxCount;
+	}
 
+
+	public void setReportMaxCount(int reportMaxCount) {
+		this.reportMaxCount = reportMaxCount;
+	}
 
 	/**
 	 *
@@ -393,6 +401,10 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
 		}
+	}
+	
+	public Map getColumnNames() {
+		return columnNames;
 	}
 }
 

@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
@@ -742,7 +743,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.numberFormat = numberFormat;
 	}
 	
-	public HashMap getColumnNames() {
+	public Map getColumnNames() {
 		return columnNames;
 	}
 	
