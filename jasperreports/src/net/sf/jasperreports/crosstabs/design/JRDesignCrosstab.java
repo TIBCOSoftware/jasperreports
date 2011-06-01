@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.design.JRDesignElement;
+import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -108,7 +109,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
 	protected List<JRCrosstabParameter> parametersList;
-	protected Map<String,JRParameter> parametersMap;
+	protected Map<String,JRDesignParameter> parametersMap;
 	protected SequencedHashMap variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
@@ -166,7 +167,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		super(defaultStyleProvider);
 		
 		parametersList = new ArrayList<JRCrosstabParameter>();
-		parametersMap = new HashMap<String, JRParameter>();
+		parametersMap = new HashMap<String, JRDesignParameter>();
 		
 		rowGroupsMap = new HashMap<String, Integer>();
 		rowGroups = new ArrayList<JRCrosstabRowGroup>();
@@ -943,7 +944,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the parameters indexed by names
 	 */
-	public Map<String, JRParameter> getParametersMap()
+	public Map<String, JRDesignParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -971,7 +972,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 		}
 		
-		parametersMap.put(parameter.getName(), parameter);
+		parametersMap.put(parameter.getName(), (JRDesignParameter)parameter);
 		parametersList.add(parameter);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, parametersList.size() - 1);
@@ -994,7 +995,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			}
 		}
 		
-		parametersMap.put(parameter.getName(), parameter);
+		parametersMap.put(parameter.getName(), (JRDesignParameter)parameter);
 		parametersList.add(index, parameter);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_PARAMETERS, parameter, index);
@@ -1056,14 +1057,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the variables of this crosstab indexed by name
 	 */
-	public Map<String, JRVariable> getVariablesMap()
+	public Map<String, JRDesignVariable> getVariablesMap()
 	{
 		JRVariable[] variables = getVariables();
-		Map<String, JRVariable> variablesMap = new HashMap<String, JRVariable>();
+		Map<String, JRDesignVariable> variablesMap = new HashMap<String, JRDesignVariable>();
 		
 		for (int i = 0; i < variables.length; i++)
 		{
-			variablesMap.put(variables[i].getName(), variables[i]);
+			variablesMap.put(variables[i].getName(), (JRDesignVariable)variables[i]);
 		}
 		
 		return variablesMap;
@@ -1564,13 +1565,13 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (parametersList != null)
 		{
 			clone.parametersList = new ArrayList<JRCrosstabParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String,JRParameter>(parametersList.size());
+			clone.parametersMap = new HashMap<String,JRDesignParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRCrosstabParameter parameter = 
 					(JRCrosstabParameter)(parametersList.get(i).clone());
 				clone.parametersList.add(parameter);
-				clone.parametersMap.put(parameter.getName(), parameter);
+				clone.parametersMap.put(parameter.getName(), (JRDesignParameter)parameter);
 			}
 		}
 		

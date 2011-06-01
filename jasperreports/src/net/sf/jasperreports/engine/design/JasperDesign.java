@@ -159,8 +159,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private List<JRReportTemplate> templateList = new ArrayList<JRReportTemplate>();
 
-	private Map<String, JRStyle> stylesMap = new HashMap<String, JRStyle>();
-	private List<JRStyle> stylesList = new ArrayList<JRStyle>();
+	private Map<String, JRDesignStyle> stylesMap = new HashMap<String, JRDesignStyle>();
+	private List<JRDesignStyle> stylesList = new ArrayList<JRDesignStyle>();
 
 	/**
 	 * Main report dataset.
@@ -170,8 +170,8 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Report sub datasets indexed by name.
 	 */
-	private Map<String, JRDataset> datasetMap = new HashMap<String, JRDataset>();
-	private List<JRDataset> datasetList = new ArrayList<JRDataset>();
+	private Map<String, JRDesignDataset> datasetMap = new HashMap<String, JRDesignDataset>();
+	private List<JRDesignDataset> datasetList = new ArrayList<JRDesignDataset>();
 
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
@@ -573,7 +573,7 @@ public class JasperDesign extends JRBaseReport
 	{
 		for (int i = stylesList.size() - 1; i >= 0; i--)
 		{
-			JRStyle style = stylesList.get(i);
+			JRDesignStyle style = stylesList.get(i);
 			if (style.isDefault())
 			{
 				setDefaultStyle(style);
@@ -611,7 +611,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report level styles. These styles can be referenced by report elements.
 	 */
-	public List<JRStyle> getStylesList()
+	public List<JRDesignStyle> getStylesList()
 	{
 		return stylesList;
 	}
@@ -620,7 +620,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 *
 	 */
-	public Map<String, JRStyle> getStylesMap()
+	public Map<String, JRDesignStyle> getStylesMap()
 	{
 		return stylesMap;
 	}
@@ -645,8 +645,8 @@ public class JasperDesign extends JRBaseReport
 			throw new JRException("Duplicate declaration of report style : " + style.getName());
 		}
 
-		stylesList.add(index, style);
-		stylesMap.put(style.getName(), style);
+		stylesList.add(index, (JRDesignStyle)style);
+		stylesMap.put(style.getName(), (JRDesignStyle)style);
 
 		if (style.isDefault())
 		{
@@ -694,7 +694,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report scriptlets (excluding the one specified by scriptletClass).
 	 */
-	public List<JRScriptlet> getScriptletsList()
+	public List<JRDesignScriptlet> getScriptletsList()
 	{
 		return mainDesignDataset.getScriptletsList();
 	}
@@ -703,7 +703,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report scriptlets (excluding the one specified by scriptletClass).
 	 */
-	public Map<String, JRScriptlet> getScriptletsMap()
+	public Map<String, JRDesignScriptlet> getScriptletsMap()
 	{
 		return mainDesignDataset.getScriptletsMap();
 	}
@@ -739,7 +739,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report parameters (including built-in ones).
 	 */
-	public List<JRParameter> getParametersList()
+	public List<JRDesignParameter> getParametersList()
 	{
 		return mainDesignDataset.getParametersList();
 	}
@@ -748,7 +748,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report parameters (including built-in ones).
 	 */
-	public Map<String, JRParameter> getParametersMap()
+	public Map<String, JRDesignParameter> getParametersMap()
 	{
 		return mainDesignDataset.getParametersMap();
 	}
@@ -793,7 +793,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report fields.
 	 */
-	public List<JRField> getFieldsList()
+	public List<JRDesignField> getFieldsList()
 	{
 		return mainDesignDataset.getFieldsList();
 	}
@@ -802,7 +802,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report fields.
 	 */
-	public Map<String, JRField> getFieldsMap()
+	public Map<String, JRDesignField> getFieldsMap()
 	{
 		return mainDesignDataset.getFieldsMap();
 	}
@@ -831,14 +831,14 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public JRField removeField(JRField field)
 	{
-		return mainDesignDataset.removeField(field);
+		return mainDesignDataset.removeField((JRDesignField)field);
 	}
 
 
 	/**
 	 * Gets a list of sort report fields.
 	 */
-	public List<JRSortField> getSortFieldsList()
+	public List<JRDesignSortField> getSortFieldsList()
 	{
 		return mainDesignDataset.getSortFieldsList();
 	}
@@ -874,7 +874,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report variables.
 	 */
-	public List<JRVariable> getVariablesList()
+	public List<JRDesignVariable> getVariablesList()
 	{
 		return mainDesignDataset.getVariablesList();
 	}
@@ -883,7 +883,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a map of report variables.
 	 */
-	public Map<String, JRVariable> getVariablesMap()
+	public Map<String, JRDesignVariable> getVariablesMap()
 	{
 		return mainDesignDataset.getVariablesMap();
 	}
@@ -919,7 +919,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets an array of report groups.
 	 */
-	public List<JRGroup> getGroupsList()
+	public List<JRDesignGroup> getGroupsList()
 	{
 		return mainDesignDataset.getGroupsList();
 	}
@@ -928,7 +928,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Gets a list of report groups.
 	 */
-	public Map<String, JRGroup> getGroupsMap()
+	public Map<String, JRDesignGroup> getGroupsMap()
 	{
 		return mainDesignDataset.getGroupsMap();
 	}
@@ -984,7 +984,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return list of {@link JRDesignDataset JRDesignDataset} objects
 	 */
-	public List<JRDataset> getDatasetsList()
+	public List<JRDesignDataset> getDatasetsList()
 	{
 		return datasetList;
 	}
@@ -995,7 +995,7 @@ public class JasperDesign extends JRBaseReport
 	 *
 	 * @return the sub datasets of the report indexed by name
 	 */
-	public Map<String, JRDataset> getDatasetMap()
+	public Map<String, JRDesignDataset> getDatasetMap()
 	{
 		return datasetMap;
 	}
