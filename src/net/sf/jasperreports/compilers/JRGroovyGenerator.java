@@ -46,6 +46,9 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.design.JRDesignField;
+import net.sf.jasperreports.engine.design.JRDesignParameter;
+import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -89,9 +92,9 @@ public class JRGroovyGenerator
 	 */
 	protected final JRSourceCompileTask sourceTask;
 
-	protected Map<String, ?> parametersMap;
-	protected Map<String, JRField> fieldsMap;
-	protected Map<String, JRVariable> variablesMap;
+	protected Map<String, JRDesignParameter> parametersMap;
+	protected Map<String, JRDesignField> fieldsMap;
+	protected Map<String, JRDesignVariable> variablesMap;
 	protected JRVariable[] variables;
 
 	
@@ -568,7 +571,7 @@ public class JRGroovyGenerator
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						JRParameter jrParameter = (JRParameter)parametersMap.get(chunkText);
+						JRParameter jrParameter = parametersMap.get(chunkText);
 	
 						sb.append("(");
 						if (!"java.lang.Object".equals(jrParameter.getValueClassName()))
