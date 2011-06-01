@@ -5,11 +5,6 @@ package net.sf.jasperreports.components.charts;
 
 import java.awt.Color;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.SortedSet;
-
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 
 import org.jfree.chart.plot.PlotOrientation;
 

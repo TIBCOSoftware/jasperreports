@@ -28,7 +28,6 @@ import java.io.Serializable;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAnchor;
-import net.sf.jasperreports.engine.JRChartCustomizer;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlink;
