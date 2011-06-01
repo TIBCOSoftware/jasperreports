@@ -134,12 +134,12 @@ public class ConvertVisitor implements JRVisitor
 	 */
 	public void visitElementGroup(JRElementGroup elementGroup)
 	{
-		List children = elementGroup.getChildren();
+		List<JRChild> children = elementGroup.getChildren();
 		if (children != null && children.size() > 0)
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild)children.get(i)).visit(this);
+				children.get(i).visit(this);
 			}
 		}
 	}

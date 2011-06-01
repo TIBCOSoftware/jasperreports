@@ -168,11 +168,11 @@ public final class CrosstabConverter extends FrameConverter
 	/**
 	 *
 	 */
-	private void mirrorElements(List elements, int x, int width)
+	private void mirrorElements(List<JRPrintElement> elements, int x, int width)
 	{
-		for (Iterator it = elements.iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement) it.next();
+			JRPrintElement element = it.next();
 			int mirrorX = width - element.getX() - element.getWidth();
 			element.setX(mirrorX);
 		}
@@ -242,13 +242,13 @@ public final class CrosstabConverter extends FrameConverter
 //				}
 //			}
 //		}
-		List children = cell.getChildren();
+		List<JRChild> children = cell.getChildren();
 		if (children != null && children.size() > 0)
 		{
 			ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, frame);
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild)children.get(i)).visit(convertVisitor);
+				children.get(i).visit(convertVisitor);
 			}
 		}
 		
@@ -262,7 +262,7 @@ public final class CrosstabConverter extends FrameConverter
 		ReportConverter reportConverter,
 		JRCrosstab crosstab, 
 		int rowHeadersXOffset, 
-		List crosstabElements
+		List<JRPrintElement> crosstabElements
 		)
 	{
 		JRCrosstabColumnGroup[] groups = crosstab.getColumnGroups();
@@ -338,7 +338,7 @@ public final class CrosstabConverter extends FrameConverter
 		JRCrosstab crosstab, 
 		int rowHeadersXOffset, 
 		int colHeadersYOffset, 
-		List crosstabElements
+		List<JRPrintElement> crosstabElements
 		)
 	{
 		JRCrosstabRowGroup[] groups = crosstab.getRowGroups();
@@ -442,7 +442,7 @@ public final class CrosstabConverter extends FrameConverter
 		int rowOffsetX, 
 		int rowOffsetY, 
 		int rowIndex,
-		List crosstabElements
+		List<JRPrintElement> crosstabElements
 		)
 	{
 		JRCrosstabCell[][] cells = crosstab.getCells();

@@ -94,9 +94,9 @@ public class ReportConverter
 	/**
 	 * List containing page elements in a given order 
 	 */
-	private List pageElements = new ArrayList();
+	private List<JRPrintElement> pageElements = new ArrayList<JRPrintElement>();
 	
-	protected Map stylesMap;
+	protected Map<String, JRStyle> stylesMap;
 
 	
 	/**
@@ -218,9 +218,9 @@ public class ReportConverter
 		
 		try
 		{
-			for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+			for (Iterator<JRStyle> it = stylesMap.values().iterator(); it.hasNext();)
 			{
-				JRStyle style = (JRStyle) it.next();
+				JRStyle style = it.next();
 				jasperPrint.addStyle(style);
 			}
 		}
@@ -234,9 +234,9 @@ public class ReportConverter
 		if (reportDefault == null)
 		{
 			//search for the last default style
-			for (Iterator it = stylesMap.values().iterator(); it.hasNext();)
+			for (Iterator<JRStyle> it = stylesMap.values().iterator(); it.hasNext();)
 			{
-				JRStyle style = (JRStyle) it.next();
+				JRStyle style = it.next();
 				if (style.isDefault())
 				{
 					printDefault = style;
@@ -259,7 +259,7 @@ public class ReportConverter
 		JRReportTemplate[] templates = report.getTemplates();
 		if (templates != null)
 		{
-			Set loadedLocations = new HashSet();
+			Set<String> loadedLocations = new HashSet<String>();
 			for (int i = 0; i < templates.length; i++)
 			{
 				loadReportTemplateStyles(templates[i], loadedLocations);
@@ -269,7 +269,7 @@ public class ReportConverter
 		collectStyles(report.getStyles());
 	}
 
-	protected void loadReportTemplateStyles(JRReportTemplate template, Set loadedLocations)
+	protected void loadReportTemplateStyles(JRReportTemplate template, Set<String> loadedLocations)
 	{
 		JRExpression sourceExpression = template.getSourceExpression();
 		if (sourceExpression != null)
@@ -282,13 +282,13 @@ public class ReportConverter
 			}
 			else
 			{
-				HashSet parentLocations = new HashSet();
+				HashSet<String> parentLocations = new HashSet<String>();
 				loadTemplateStyles(location, loadedLocations, parentLocations);
 			}
 		}
 	}
 
-	protected void loadTemplateStyles(String location, Set loadedLocations, Set parentLocations)
+	protected void loadTemplateStyles(String location, Set<String> loadedLocations, Set<String> parentLocations)
 	{
 		if (!parentLocations.add(location))
 		{
@@ -484,7 +484,7 @@ public class ReportConverter
 		}
 		else if (nameReference != null)
 		{
-			style = (JRStyle) stylesMap.get(nameReference);
+			style = stylesMap.get(nameReference);
 			if (style == null)
 			{
 				log.warn("Style " + nameReference + " could not be resolved.");
