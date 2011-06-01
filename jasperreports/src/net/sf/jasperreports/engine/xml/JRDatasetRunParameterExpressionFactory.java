@@ -54,7 +54,7 @@ public class JRDatasetRunParameterExpressionFactory extends JRBaseFactory//FIXME
 		else
 		{
 			JRDatasetParameter runParameter = (JRDatasetParameter) digester.peek();
-			JRParameter param = (JRParameter) dataset.getParametersMap().get(runParameter.getName());
+			JRParameter param = dataset.getParametersMap().get(runParameter.getName());
 			
 			if (param == null)
 			{

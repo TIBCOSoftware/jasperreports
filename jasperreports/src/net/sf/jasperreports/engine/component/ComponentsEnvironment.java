@@ -61,18 +61,18 @@ public final class ComponentsEnvironment
 	 * 
 	 * @return the set of component bundles
 	 */
-	public static Collection getComponentBundles()
+	public static Collection<ComponentsBundle> getComponentBundles()
 	{
-		Map components = getCachedComponentBundles();
+		Map<String, ComponentsBundle> components = getCachedComponentBundles();
 		return components.values();
 	}
 	
-	protected static Map getCachedComponentBundles()
+	protected static Map<String, ComponentsBundle> getCachedComponentBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
 		{
-			Map components = (Map) cache.get(cacheKey);
+			Map<String, ComponentsBundle> components = (Map<String, ComponentsBundle>) cache.get(cacheKey);
 			if (components == null)
 			{
 				components = findComponentBundles();
@@ -82,15 +82,15 @@ public final class ComponentsEnvironment
 		}
 	}
 
-	protected static Map findComponentBundles()
+	protected static Map<String, ComponentsBundle> findComponentBundles()
 	{
-		Map components = new HashMap();
+		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
 		ExtensionsRegistry extensionsRegistry = 
 			ExtensionsEnvironment.getExtensionsRegistry();
-		List bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
-		for (Iterator it = bundles.iterator(); it.hasNext();)
+		List<ComponentsBundle> bundles = (List<ComponentsBundle>)extensionsRegistry.getExtensions(ComponentsBundle.class);
+		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
 		{
-			ComponentsBundle bundle = (ComponentsBundle) it.next();
+			ComponentsBundle bundle = it.next();
 			String namespace = bundle.getXmlParser().getNamespace();
 			if (components.containsKey(namespace))
 			{
