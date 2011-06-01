@@ -169,7 +169,7 @@ public class JRCsvQueryExecuterFactory implements JRQueryExecuterFactory {
 			CSV_COLUMN_NAMES_ARRAY, "java.lang.String[]",
 			CSV_DATE_FORMAT, "java.text.DateFormat",
 			CSV_DATE_PATTERN, "java.lang.String",
-			CSV_FIELD_DELIMITER, "java.lang.Character",
+			CSV_FIELD_DELIMITER, "java.lang.String",
 			CSV_NUMBER_FORMAT, "java.text.NumberFormat",
 			CSV_NUMBER_PATTERN, "java.lang.String",
 			CSV_RECORD_DELIMITER, "java.lang.String",
