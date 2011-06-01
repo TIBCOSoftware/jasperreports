@@ -48,7 +48,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	protected List elements = new ArrayList();
+	protected List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
 
 	
 	public JRBasePrintPage()
@@ -59,7 +59,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	public List getElements()
+	public List<JRPrintElement> getElements()
 	{
 		return this.elements;
 	}
@@ -67,7 +67,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	public void setElements(List elements)
+	public void setElements(List<JRPrintElement> elements)
 	{
 		this.elements = elements;
 	}

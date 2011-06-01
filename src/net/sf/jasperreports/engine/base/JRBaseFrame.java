@@ -51,7 +51,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	protected List children;
+	protected List<JRChild> children;
 
 	protected JRLineBox lineBox;
 
@@ -60,14 +60,14 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 	{
 		super(frame, factory);
 
-		List frameChildren = frame.getChildren();
+		List<JRChild> frameChildren = frame.getChildren();
 		if (frameChildren != null)
 		{
-			children = new ArrayList(frameChildren.size());
-			for (Iterator it = frameChildren.iterator(); it.hasNext();)
+			children = new ArrayList<JRChild>(frameChildren.size());
+			for (Iterator<JRChild> it = frameChildren.iterator(); it.hasNext();)
 			{
-				JRChild child = (JRChild) it.next();
-				children.add(factory.getVisitResult(child));
+				JRChild child = it.next();
+				children.add((JRChild)factory.getVisitResult(child));
 			}
 		}
 		
@@ -92,7 +92,7 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		visitor.visitFrame(this);
 	}
 	
-	public List getChildren()
+	public List<JRChild> getChildren()
 	{
 		return children;
 	}
@@ -239,10 +239,10 @@ public class JRBaseFrame extends JRBaseElement implements JRFrame
 		
 		if (children != null)
 		{
-			clone.children = new ArrayList(children.size());
+			clone.children = new ArrayList<JRChild>(children.size());
 			for(int i = 0; i < children.size(); i++)
 			{
-				clone.children.add(((JRChild)children.get(i)).clone(clone));
+				clone.children.add((JRChild)(children.get(i).clone(clone)));
 			}
 		}
 		

@@ -58,7 +58,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	protected String valueClassName = java.lang.String.class.getName();
 	protected String valueClassRealName;
 
-	protected transient Class valueClass;
+	protected transient Class<?> valueClass;
 
 	/**
 	 *
@@ -119,7 +119,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{

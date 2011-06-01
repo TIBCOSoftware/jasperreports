@@ -141,7 +141,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	private static short counter = 1;
 	
 	
-	protected List elements = new ArrayList();
+	protected List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
 
 	/**
 	 * A unique identifier that is useful for serialization and deserialization
@@ -209,7 +209,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 
 	public void setVirtualData(Object o)
 	{
-		elements = (List) o;
+		elements = (List<JRPrintElement>) o;
 	}
 	
 	public Object getVirtualData()
@@ -235,7 +235,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 			if (identityProviders.length == 1) {
 				data = identityProviders[0].getIdentityData(this);
 			} else if (identityProviders.length > 1) {
-				Set list = new HashSet();
+				Set<ObjectIDPair> list = new HashSet<ObjectIDPair>();
 				for (int i = 0; i < identityProviders.length; ++i) {
 					ObjectIDPair[] pairs = identityProviders[i]
 							.getIdentityData(this);
@@ -245,8 +245,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 						}
 					}
 				}
-				data = (ObjectIDPair[]) list.toArray(new ObjectIDPair[list
-						.size()]);
+				data = list.toArray(new ObjectIDPair[list.size()]);
 			} else {
 				data = null;
 			}
@@ -306,7 +305,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		}
 	}
 
-	public List getElements()
+	public List<JRPrintElement> getElements()
 	{
 		ensureVirtualData();
 		return elements;
@@ -320,7 +319,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		}
 	}
 
-	public void setElements(List elements) {
+	public void setElements(List<JRPrintElement> elements) {
 		cleanVirtualData();
 		this.elements = elements;
 		cacheInContext(this.elements);
@@ -420,7 +419,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		in.readFully(buffer);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 		ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
-		elements = (List) elementsStream.readObject();
+		elements = (List<JRPrintElement>) elementsStream.readObject();
 		afterInternalization();
 		
 		setThreadVirtualizer();
@@ -483,18 +482,18 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	 * 
 	 * @return all the elements on the page
 	 */
-	protected List getDeepElements()
+	protected List<JRPrintElement> getDeepElements()
 	{
-		List deepElements = new ArrayList(elements.size());
+		List<JRPrintElement> deepElements = new ArrayList<JRPrintElement>(elements.size());
 		collectDeepElements(elements, deepElements);
 		return deepElements;
 	}
 
-	protected void collectDeepElements(List elementsList, List deepElements)
+	protected void collectDeepElements(List<JRPrintElement> elementsList, List<JRPrintElement> deepElements)
 	{
-		for (Iterator it = elementsList.iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = elementsList.iterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement) it.next();
+			JRPrintElement element = it.next();
 			deepElements.add(element);
 			
 			if (element instanceof JRPrintFrame)
@@ -528,13 +527,13 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	}
 
 
-	protected void cacheInContext(List elementList)
+	protected void cacheInContext(List<JRPrintElement> elementList)
 	{
 		if (elementList != null && !elementList.isEmpty())
 		{
-			for (Iterator it = elementList.iterator(); it.hasNext();)
+			for (Iterator<JRPrintElement> it = elementList.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement) it.next();
+				JRPrintElement element = it.next();
 				cacheInContext(element);
 			}
 		}
@@ -595,11 +594,11 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		traverseDeepElements(visitor, elements);
 	}
 
-	protected void traverseDeepElements(ElementVisitor visitor, List elementsList)
+	protected void traverseDeepElements(ElementVisitor visitor, List<JRPrintElement> elementsList)
 	{
-		for (Iterator it = elementsList.iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = elementsList.iterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement) it.next();
+			JRPrintElement element = it.next();
 			visitor.visitElement(element);
 			
 			if (element instanceof JRPrintFrame)
@@ -618,7 +617,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 	
 	protected class ExternalizationElementVisitor implements ElementVisitor
 	{
-		private final Map idTemplates = new HashMap();
+		private final Map<String, JRIdHolderTemplateElement> idTemplates = new HashMap<String, JRIdHolderTemplateElement>();
 
 		public void visitElement(JRPrintElement element)
 		{
@@ -644,7 +643,7 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 				if (virtualizationContext.hasCachedTemplate(template.getId()))
 				{
 					String templateId = template.getId();
-					JRIdHolderTemplateElement idTemplate = (JRIdHolderTemplateElement) idTemplates.get(templateId);
+					JRIdHolderTemplateElement idTemplate = idTemplates.get(templateId);
 					if (idTemplate == null)
 					{
 						idTemplate = new JRIdHolderTemplateElement(templateId);

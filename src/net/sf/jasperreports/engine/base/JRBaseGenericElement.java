@@ -50,7 +50,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRGenericElementType genericType;
-	private List parameters;
+	private List<JRGenericElementParameter> parameters;
 	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroupName;
 	
@@ -70,7 +70,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 		this.evaluationGroupName = element.getEvaluationGroupName();
 		
 		JRGenericElementParameter[] elementParameters = element.getParameters();
-		this.parameters = new ArrayList(elementParameters.length);
+		this.parameters = new ArrayList<JRGenericElementParameter>(elementParameters.length);
 		for (int i = 0; i < elementParameters.length; i++)
 		{
 			JRGenericElementParameter elementParameter = elementParameters[i];
@@ -87,8 +87,7 @@ public class JRBaseGenericElement extends JRBaseElement implements
 
 	public JRGenericElementParameter[] getParameters()
 	{
-		return (JRGenericElementParameter[]) parameters.toArray(
-				new JRGenericElementParameter[parameters.size()]);
+		return parameters.toArray(new JRGenericElementParameter[parameters.size()]);
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)

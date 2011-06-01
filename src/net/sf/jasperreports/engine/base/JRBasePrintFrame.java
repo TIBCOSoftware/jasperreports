@@ -49,14 +49,14 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private List elements;
+	private List<JRPrintElement> elements;
 	private JRLineBox lineBox;
 	
 	public JRBasePrintFrame(JRDefaultStyleProvider defaultStyleProvider)
 	{
 		super(defaultStyleProvider);
 		
-		elements = new ArrayList();
+		elements = new ArrayList<JRPrintElement>();
 
 		lineBox = new JRBaseLineBox(this);
 	}
@@ -90,7 +90,7 @@ public class JRBasePrintFrame extends JRBasePrintElement implements JRPrintFrame
 		elements.add(element);
 	}
 	
-	public List getElements()
+	public List<JRPrintElement> getElements()
 	{
 		return elements;
 	}

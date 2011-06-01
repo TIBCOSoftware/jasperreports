@@ -59,7 +59,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 * @deprecated To be removed.
 	 */
-	protected transient Class valueClass;
+	protected transient Class<?> valueClass;
 
 	/**
 	 *
@@ -147,7 +147,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 	/**
 	 * @deprecated To be removed.
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{

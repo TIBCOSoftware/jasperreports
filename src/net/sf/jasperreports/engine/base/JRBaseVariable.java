@@ -64,8 +64,8 @@ public class JRBaseVariable implements JRVariable, Serializable
 	protected CalculationEnum calculationValue = CalculationEnum.NOTHING;
 	protected boolean isSystemDefined;
 
-	protected transient Class valueClass;
-	protected transient Class incrementerFactoryClass;
+	protected transient Class<?> valueClass;
+	protected transient Class<?> incrementerFactoryClass;
 
 	/**
 	 *
@@ -118,7 +118,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{
@@ -163,7 +163,7 @@ public class JRBaseVariable implements JRVariable, Serializable
 	/**
 	 *
 	 */
-	public Class getIncrementerFactoryClass()
+	public Class<?> getIncrementerFactoryClass()
 	{
 		if (incrementerFactoryClass == null)
 		{

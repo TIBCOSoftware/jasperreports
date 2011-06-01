@@ -62,8 +62,8 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	protected boolean isSystemDefined;
 	protected boolean isForPrompting = true;
 
-	protected transient Class valueClass;
-	protected transient Class nestedType;
+	protected transient Class<?> valueClass;
+	protected transient Class<?> nestedType;
 
 	/**
 	 *
@@ -131,7 +131,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		if (valueClass == null)
 		{
@@ -173,7 +173,7 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 		return valueClassRealName;
 	}
 
-	public Class getNestedType()
+	public Class<?> getNestedType()
 	{
 		if (nestedTypeName != null && nestedType == null)
 		{
