@@ -108,7 +108,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
 	protected List<JRCrosstabParameter> parametersList;
-	protected Map<String,JRCrosstabParameter> parametersMap;
+	protected Map<String,JRParameter> parametersMap;
 	protected SequencedHashMap variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
@@ -166,7 +166,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		super(defaultStyleProvider);
 		
 		parametersList = new ArrayList<JRCrosstabParameter>();
-		parametersMap = new HashMap<String, JRCrosstabParameter>();
+		parametersMap = new HashMap<String, JRParameter>();
 		
 		rowGroupsMap = new HashMap<String, Integer>();
 		rowGroups = new ArrayList<JRCrosstabRowGroup>();
@@ -943,7 +943,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the parameters indexed by names
 	 */
-	public Map<String, ?> getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -1009,7 +1009,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public JRCrosstabParameter removeParameter(String parameterName)
 	{
-		JRCrosstabParameter param = parametersMap.remove(parameterName);
+		JRCrosstabParameter param = (JRCrosstabParameter)parametersMap.remove(parameterName);
 		
 		if (param != null)
 		{
@@ -1564,7 +1564,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (parametersList != null)
 		{
 			clone.parametersList = new ArrayList<JRCrosstabParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String,JRCrosstabParameter>(parametersList.size());
+			clone.parametersMap = new HashMap<String,JRParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRCrosstabParameter parameter = 
