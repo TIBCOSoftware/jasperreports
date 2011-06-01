@@ -42,7 +42,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 {
 
 	private ComponentsXmlParser xmlParser;
-	private Map componentManagers;
+	private Map<String,ComponentManager> componentManagers;
 
 	public ComponentsXmlParser getXmlParser()
 	{
@@ -60,14 +60,14 @@ public class DefaultComponentsBundle implements ComponentsBundle
 		this.xmlParser = xmlParser;
 	}
 
-	public Set getComponentNames()
+	public Set<String> getComponentNames()
 	{
 		return componentManagers.keySet();
 	}
 	
 	public ComponentManager getComponentManager(String componentName)
 	{
-		ComponentManager manager = (ComponentManager) componentManagers.get(componentName);
+		ComponentManager manager = componentManagers.get(componentName);
 		if (manager == null)
 		{
 			throw new JRRuntimeException("No component manager found for name " + componentName 
@@ -82,7 +82,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * @return the map of component managers
 	 * @see #setComponentManagers(Map)
 	 */
-	public Map getComponentManagers()
+	public Map<String,ComponentManager> getComponentManagers()
 	{
 		return componentManagers;
 	}
@@ -96,7 +96,7 @@ public class DefaultComponentsBundle implements ComponentsBundle
 	 * 
 	 * @param componentManagers the map of component managers
 	 */
-	public void setComponentManagers(Map componentManagers)
+	public void setComponentManagers(Map<String,ComponentManager> componentManagers)
 	{
 		this.componentManagers = componentManagers;
 	}

@@ -79,13 +79,13 @@ public class FrameConverter extends ElementConverter
 		
 		printFrame.copyBox(frame.getLineBox());
 		
-		List children = frame.getChildren();
+		List<JRChild> children = frame.getChildren();
 		if (children != null && children.size() > 0)
 		{
 			ConvertVisitor convertVisitor = new ConvertVisitor(reportConverter, printFrame);
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild)children.get(i)).visit(convertVisitor);
+				children.get(i).visit(convertVisitor);
 			}
 		}
 		
