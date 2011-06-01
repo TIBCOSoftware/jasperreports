@@ -44,7 +44,7 @@ public class JRSourceCompileTask
 	private JasperDesign jasperDesign;
 	private String unitName;
 	private JRExpressionCollector expressionCollector;
-	private Map<String, JRParameter> parametersMap;
+	private Map<String, ? extends JRParameter> parametersMap;
 	private Map<String, JRField> fieldsMap;
 	private Map<String, JRVariable> variablesMap;
 	private JRVariable[] variables;
@@ -56,7 +56,7 @@ public class JRSourceCompileTask
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
-			Map<String, JRParameter> parametersMap, 
+			Map<String, ? extends JRParameter> parametersMap, 
 			Map<String, JRField> fieldsMap, 
 			Map<String, JRVariable> variablesMap, 
 			JRVariable[] variables, 
@@ -137,7 +137,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map<String, JRParameter> getParametersMap()
+	public Map<String, ? extends JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
