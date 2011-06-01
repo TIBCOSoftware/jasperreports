@@ -71,10 +71,10 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
-	private HashMap columnNames = new HashMap();
+	private Map<String, Integer> columnNames = new HashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
 
-	private List fields;
+	private List<String> fields;
 	private Reader reader;
 	private char buffer[] = new char[1024];
 	private int position;
@@ -84,7 +84,6 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	//TODO: parametrize this value
 	private boolean isStrictCsv = true;
-	private int reportMaxCount = -1;
 
 	/**
 	 * Creates a datasource instance from a CSV data input stream, using the default encoding.
@@ -189,43 +188,31 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.reader = reader;
 	}
 
-	private int rowcount = 0;
+
 	/**
 	 *
 	 */
 	public boolean next() throws JRException
 	{
-		if(reportMaxCount >=0 && rowcount > reportMaxCount)
-			return false;
 		try {
 			if (!processingStarted) {
 				if (useFirstRowAsHeader) 
 				{
 					parseRow();
-					this.columnNames = new HashMap();
+					this.columnNames = new HashMap<String, Integer>();
 					for (int i = 0; i < fields.size(); i++) {
-						String name = (String) fields.get(i);
+						String name = fields.get(i);
 						this.columnNames.put(name, Integer.valueOf(i));
 					}
 				}
 				processingStarted = true;
 			}
-			rowcount++;
+
 			return parseRow();
 		} catch (IOException e) {
 			throw new JRException(e);
 		}
 	}
-
-	public int getReportMaxCount() {
-		return reportMaxCount;
-	}
-
-
-	public void setReportMaxCount(int reportMaxCount) {
-		this.reportMaxCount = reportMaxCount;
-	}
-
 
 	/**
 	 *
@@ -234,7 +221,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	{
 		String fieldName = jrField.getName();
 
-		Integer columnIndex = (Integer) columnNames.get(fieldName);
+		Integer columnIndex = columnNames.get(fieldName);
 		if (columnIndex == null && fieldName.startsWith("COLUMN_"))
 		{
 			columnIndex = Integer.valueOf(fieldName.substring(7));
@@ -246,8 +233,8 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 		if (fields.size() > columnIndex.intValue()) 
 		{
-			String fieldValue = (String) fields.get(columnIndex.intValue());
-			Class valueClass = jrField.getValueClass();
+			String fieldValue = fields.get(columnIndex.intValue());
+			Class<?> valueClass = jrField.getValueClass();
 			
 			if (valueClass.equals(String.class))
 			{
@@ -314,7 +301,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		boolean startPosition = false;
 		char c;
 		int leadingSpaces = 0;
-		fields = new ArrayList();
+		fields = new ArrayList<String>();
 
 		String row = getRow();
 		if (row == null)// || row.length() == 0)
@@ -666,7 +653,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		}
-		this.columnNames = new HashMap();
+		this.columnNames = new HashMap<String, Integer>();
 		for (int i = 0; i < columnNames.length; i++)
 		{
 			this.columnNames.put(columnNames[i], Integer.valueOf(i));
@@ -743,8 +730,9 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		this.numberFormat = numberFormat;
 	}
 	
-	public Map getColumnNames() {
+	public Map<String, Integer> getColumnNames() {
 		return columnNames;
 	}
+	
 	
 }

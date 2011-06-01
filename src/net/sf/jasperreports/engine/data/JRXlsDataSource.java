@@ -64,10 +64,10 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
-	private Map columnNames = new HashMap();
+	private Map<String, Integer> columnNames = new HashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
 	private int recordIndex = -1;
-	private int reportMaxCount = -1;
+
 	private InputStream inputStream;
 	private boolean closeWorkbook;
 	private boolean closeInputStream;
@@ -132,9 +132,8 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public boolean next() throws JRException
 	{
-		if(reportMaxCount >=0 && recordIndex > reportMaxCount)
-			return false;
 		recordIndex++;
+
 		if (workbook != null)
 		{
 			if (recordIndex == 0 && useFirstRowAsHeader) 
@@ -158,14 +157,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 		return false;
 	}
-	public int getReportMaxCount() {
-		return reportMaxCount;
-	}
 
-
-	public void setReportMaxCount(int reportMaxCount) {
-		this.reportMaxCount = reportMaxCount;
-	}
 
 	/**
 	 *
@@ -183,7 +175,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	{
 		String fieldName = jrField.getName();
 
-		Integer columnIndex = (Integer) columnNames.get(fieldName);
+		Integer columnIndex = columnNames.get(fieldName);
 		if (columnIndex == null && fieldName.startsWith("COLUMN_")) {
 			columnIndex = Integer.valueOf(fieldName.substring(7));
 		}
@@ -194,7 +186,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		Sheet sheet = workbook.getSheet(0);
 		Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
 		String fieldValue = cell.getContents();
-		Class valueClass = jrField.getValueClass();
+		Class<?> valueClass = jrField.getValueClass();
 		
 		if (valueClass.equals(String.class)) 
 		{
@@ -261,10 +253,10 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		}
 		else
 		{
-			Map newColumnNames = new HashMap();
-			for(Iterator it = columnNames.values().iterator(); it.hasNext();)
+			Map<String, Integer> newColumnNames = new HashMap<String, Integer>();
+			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
-				Integer columnIndex = (Integer)it.next();
+				Integer columnIndex = it.next();
 				Cell cell = sheet.getCell(columnIndex.intValue(), recordIndex);
 				String columnName = cell.getContents();
 				
@@ -402,8 +394,9 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started.");
 		}
 	}
+
 	
-	public Map getColumnNames() {
+	public Map<String, Integer> getColumnNames() {
 		return columnNames;
 	}
 }
