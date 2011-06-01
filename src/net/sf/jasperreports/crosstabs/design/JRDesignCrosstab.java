@@ -107,8 +107,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
 
-	protected List<JRParameter> parametersList;
-	protected Map<String,JRParameter> parametersMap;
+	protected List<JRCrosstabParameter> parametersList;
+	protected Map<String, JRCrosstabParameter> parametersMap;
 	protected SequencedHashMap variablesList;
 	protected JRExpression parametersMapExpression;
 	protected JRDesignCrosstabDataset dataset;
@@ -165,8 +165,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	{
 		super(defaultStyleProvider);
 		
-		parametersList = new ArrayList<JRParameter>();
-		parametersMap = new HashMap<String, JRParameter>();
+		parametersList = new ArrayList<JRCrosstabParameter>();
+		parametersMap = new HashMap<String, JRCrosstabParameter>();
 		rowGroupsMap = new HashMap<String, Integer>();
 		rowGroups = new ArrayList<JRCrosstabRowGroup>();
 		columnGroupsMap = new HashMap<String, Integer>();
@@ -931,7 +931,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the paremeters list
 	 */
-	public List<JRParameter> getParametersList()
+	public List<JRCrosstabParameter> getParametersList()
 	{
 		return parametersList;
 	}
@@ -942,7 +942,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 * 
 	 * @return the parameters indexed by names
 	 */
-	public Map<String, JRParameter> getParametersMap()
+	public Map<String, JRCrosstabParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -1008,7 +1008,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	 */
 	public JRCrosstabParameter removeParameter(String parameterName)
 	{
-		JRCrosstabParameter param = (JRCrosstabParameter)parametersMap.remove(parameterName);
+		JRCrosstabParameter param = parametersMap.remove(parameterName);
 		
 		if (param != null)
 		{
@@ -1562,8 +1562,8 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList<JRParameter>(parametersList.size());
-			clone.parametersMap = new HashMap<String,JRParameter>(parametersList.size());
+			clone.parametersList = new ArrayList<JRCrosstabParameter>(parametersList.size());
+			clone.parametersMap = new HashMap<String, JRCrosstabParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRCrosstabParameter parameter = 

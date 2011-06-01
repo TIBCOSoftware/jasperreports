@@ -62,7 +62,7 @@ public class JRBshGenerator
 	 */
 	protected final JRSourceCompileTask sourceTask;
 
-	protected Map<String, JRParameter> parametersMap;
+	protected Map<String, ? extends JRParameter> parametersMap;
 	protected Map<String, JRField> fieldsMap;
 	protected Map<String, JRVariable> variablesMap;
 	protected JRVariable[] variables;
