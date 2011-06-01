@@ -412,7 +412,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * @param resultCount the number of rows to return
 	 * @return result row list
 	 */
-	public List list(int firstIndex, int resultCount)
+	public List<?> list(int firstIndex, int resultCount)
 	{
 		if (reportMaxCount != null && firstIndex + resultCount > reportMaxCount.intValue())
 		{

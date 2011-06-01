@@ -48,7 +48,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	private List records = new ArrayList();
 	private Iterator iterator;
 	private Object[] currentRecord;
-	private Map columnNamesMap = new HashMap();
+	private Map<String, Integer> columnNamesMap = new HashMap<String, Integer>();
 
 
 	/**
@@ -96,7 +96,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	 */
 	public Object getFieldValue(JRField jrField)
 	{
-		Integer fieldIndex = (Integer)columnNamesMap.get(jrField.getName());
+		Integer fieldIndex = columnNamesMap.get(jrField.getName());
 
 		if (fieldIndex == null)
 		{

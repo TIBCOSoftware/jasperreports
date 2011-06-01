@@ -44,7 +44,7 @@ import org.hibernate.type.Type;
 public abstract class JRHibernateAbstractDataSource implements JRDataSource
 {
 	private final boolean useFieldDescription;
-	private final Map fieldReaders;
+	private final Map<String, FieldReader> fieldReaders;
 	protected final JRHibernateQueryExecuter queryExecuter;
 	private Object currentReturnValue;
 	
@@ -72,15 +72,15 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	 * @return a report field name to field reader mapping
 	 * @see FieldReader
 	 */
-	protected Map assignReaders(boolean useIndexOnSingleReturn)
+	protected Map<String, FieldReader> assignReaders(boolean useIndexOnSingleReturn)
 	{
-		Map readers = new HashMap();
+		Map<String, FieldReader> readers = new HashMap<String, FieldReader>();
 		
 		JRField[] fields = queryExecuter.getDataset().getFields();
 		Type[] returnTypes = queryExecuter.getReturnTypes();
 		String[] aliases = queryExecuter.getReturnAliases();
 		
-		Map aliasesMap = new HashMap();
+		Map<String, Integer> aliasesMap = new HashMap<String, Integer>();
 		if (aliases != null)
 		{
 			for (int i = 0; i < aliases.length; i++)
@@ -132,7 +132,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		return readers;
 	}
 
-	protected FieldReader getFieldReaderSingleReturn(Map aliasesMap, JRField field, boolean useIndex)
+	protected FieldReader getFieldReaderSingleReturn(Map<String,Integer> aliasesMap, JRField field, boolean useIndex)
 	{
 		FieldReader reader;
 		
@@ -170,12 +170,12 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 		return reader;
 	}
 
-	protected FieldReader getFieldReader(Type[] returnTypes, Map aliasesMap, JRField field)
+	protected FieldReader getFieldReader(Type[] returnTypes, Map<String,Integer> aliasesMap, JRField field)
 	{
 		FieldReader reader;
 		
 		String fieldMapping = getFieldMapping(field);
-		Integer fieldIdx = (Integer) aliasesMap.get(fieldMapping);
+		Integer fieldIdx = aliasesMap.get(fieldMapping);
 		if (fieldIdx == null)
 		{
 			int firstNestedIdx = fieldMapping.indexOf(PropertyUtils.NESTED_DELIM);
@@ -188,7 +188,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 			String fieldAlias = fieldMapping.substring(0, firstNestedIdx);
 			String fieldProperty = fieldMapping.substring(firstNestedIdx + 1);
 			
-			fieldIdx = (Integer) aliasesMap.get(fieldAlias);
+			fieldIdx = aliasesMap.get(fieldAlias);
 			if (fieldIdx == null)
 			{
 				throw new JRRuntimeException("The HQL query does not have a \"" + fieldAlias + "\" alias.");
@@ -224,7 +224,7 @@ public abstract class JRHibernateAbstractDataSource implements JRDataSource
 	
 	public Object getFieldValue(JRField jrField) throws JRException
 	{
-		FieldReader reader = (FieldReader) fieldReaders.get(jrField.getName());
+		FieldReader reader = fieldReaders.get(jrField.getName());
 		if (reader == null)
 		{
 			throw new JRRuntimeException("No filed reader for " + jrField.getName());

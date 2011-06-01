@@ -62,10 +62,10 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 	private final int pageSize;
 	private int pageCount;
 	private boolean nextPage;
-	private List returnValues;
-	private Iterator iterator;
+	private List<?> returnValues;
+	private Iterator<?> iterator;
 	protected Object currentRow;
-	private Map fieldValueReaders;
+	private Map<String,FieldValueReader> fieldValueReaders;
 
 	public JRJpaDataSource(JRJpaQueryExecuter queryExecuter, int pageSize) {
 		super(true);
@@ -73,7 +73,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 		this.queryExecuter = queryExecuter;
 		this.pageSize = pageSize;
 		
-		fieldValueReaders = new HashMap();
+		fieldValueReaders = new HashMap<String,FieldValueReader>();
 		
 		pageCount = 0;
 		fetchPage();
@@ -133,7 +133,7 @@ public class JRJpaDataSource extends JRAbstractBeanDataSource {
 	
 	protected FieldValueReader getFieldValueReader(JRField field)
 	{
-		FieldValueReader reader = (FieldValueReader) fieldValueReaders.get(field.getName());
+		FieldValueReader reader = fieldValueReaders.get(field.getName());
 		if (reader == null)
 		{
 			String mapping = getPropertyName(field);

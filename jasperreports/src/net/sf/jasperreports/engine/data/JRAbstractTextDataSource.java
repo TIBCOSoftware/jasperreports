@@ -57,7 +57,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 	private String numberPattern;
 	private TimeZone timeZone;
 
-	protected Object convertStringValue(String text, Class valueClass)
+	protected Object convertStringValue(String text, Class<?> valueClass)
 	{
 		Object value = null;
 		if (String.class.equals(valueClass))
@@ -79,7 +79,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		return value;
 	}
 
-	protected Object convertNumber(Number number, Class valueClass) throws JRException
+	protected Object convertNumber(Number number, Class<?> valueClass) throws JRException
 	{
 		Number value = null;
 		if (valueClass.equals(Byte.class))
@@ -121,7 +121,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		return value;
 	}
 	
-	protected Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class valueClass) throws ParseException
+	protected Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class<?> valueClass) throws ParseException
 	{
 		if (valueClass.equals(Byte.class)) 
 		{
@@ -162,7 +162,7 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		return null;
 	}
 	
-	protected Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class valueClass) throws ParseException 
+	protected Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class<?> valueClass) throws ParseException 
 	{
 		if (valueClass.equals(java.util.Date.class)) 
 		{

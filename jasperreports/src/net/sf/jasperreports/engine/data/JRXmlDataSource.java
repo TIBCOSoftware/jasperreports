@@ -298,7 +298,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		}
 		Object value = null;
 		
-		Class valueClass = jrField.getValueClass();
+		Class<?> valueClass = jrField.getValueClass();
 		Object selectedObject = xPathExecuter.selectObject(currentNode, expression);
 
 		if(Object.class != valueClass) 

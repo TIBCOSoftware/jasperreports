@@ -133,7 +133,7 @@ public abstract class AbstractXmlDataSource extends JRAbstractTextDataSource imp
 		}
 		Object value = null;
 		
-		Class valueClass = jrField.getValueClass();
+		Class<?> valueClass = jrField.getValueClass();
 		Object selectedObject = getSelectObject(getCurrentNode(), expression);
 
 		if(Object.class != valueClass) 
