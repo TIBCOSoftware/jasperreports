@@ -140,7 +140,7 @@ public interface JRChartPlot extends JRCloneable
 	 * 
 	 * @param colors the list of series colors ({@link JRSeriesColor} instances}
 	 */
-	public void setSeriesColors(Collection colors);
+	public void setSeriesColors(Collection<JRSeriesColor> colors);
 	
 	/**
 	 *
