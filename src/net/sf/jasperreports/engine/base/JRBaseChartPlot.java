@@ -75,7 +75,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	protected Float backgroundAlphaFloat;
 	protected Float foregroundAlphaFloat;
 	protected Double labelRotationDouble;
-	protected SortedSet  seriesColors;
+	protected SortedSet<JRSeriesColor>  seriesColors;
 
 
 	/**
@@ -92,11 +92,11 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 			foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 			labelRotationDouble = plot.getLabelRotationDouble();
-			seriesColors = new TreeSet(plot.getSeriesColors());
+			seriesColors = new TreeSet<JRSeriesColor>(plot.getSeriesColors());
 		}
 		else
 		{
-			seriesColors = new TreeSet();
+			seriesColors = new TreeSet<JRSeriesColor>();
 		}
 	}
 
@@ -115,7 +115,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		backgroundAlphaFloat = plot.getBackgroundAlphaFloat();
 		foregroundAlphaFloat = plot.getForegroundAlphaFloat();
 		labelRotationDouble = plot.getLabelRotationDouble();
-		seriesColors = new TreeSet(plot.getSeriesColors());
+		seriesColors = new TreeSet<JRSeriesColor>(plot.getSeriesColors());
 	}
 
 	
@@ -236,7 +236,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
-	public SortedSet getSeriesColors()
+	public SortedSet<JRSeriesColor> getSeriesColors()
 	{
 		return seriesColors;
 	}
@@ -259,9 +259,9 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 				seriesColor, seriesColors.size() - 1);
 	}
 	
-	public void setSeriesColors(Collection colors)
+	public void setSeriesColors(Collection<JRSeriesColor> colors)
 	{
-		Object old = new TreeSet(seriesColors);
+		Object old = new TreeSet<JRSeriesColor>(seriesColors);
 		seriesColors.clear();
 		if (colors != null)
 		{
@@ -343,10 +343,10 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		
 		if (seriesColors != null)
 		{
-			clone.seriesColors = new TreeSet();
-			for(Iterator it = seriesColors.iterator(); it.hasNext();)
+			clone.seriesColors = new TreeSet<JRSeriesColor>();
+			for(Iterator<JRSeriesColor> it = seriesColors.iterator(); it.hasNext();)
 			{
-				clone.seriesColors.add(((JRChartPlot.JRSeriesColor)it.next()).clone());
+				clone.seriesColors.add((JRSeriesColor)(it.next().clone()));
 			}
 		}
 		

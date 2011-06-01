@@ -168,7 +168,7 @@ public class JRFillChartPlot implements JRChartPlot
 	 * Returns a list of all the defined series colors.  Every entry in the list is of type JRChartPlot.JRSeriesColor.
 	 * If there are no defined series colors this method will return an empty list, not null. 
 	 */
-	public SortedSet getSeriesColors()
+	public SortedSet<JRSeriesColor> getSeriesColors()
 	{
 		return parent.getSeriesColors();
 	}
@@ -187,7 +187,7 @@ public class JRFillChartPlot implements JRChartPlot
 	{
 	}
 
-	public void setSeriesColors(Collection colors)
+	public void setSeriesColors(Collection<JRSeriesColor> colors)
 	{
 		// NOOP
 	}
