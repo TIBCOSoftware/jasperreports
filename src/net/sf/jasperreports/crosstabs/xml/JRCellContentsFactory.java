@@ -27,7 +27,6 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.design.JRDesignCellContents;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -68,7 +67,7 @@ public class JRCellContentsFactory extends JRBaseFactory
 		if (styleName != null)
 		{
 			JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-			Map<String, JRDesignStyle> stylesMap = jasperDesign.getStylesMap();
+			Map<String, JRStyle> stylesMap = jasperDesign.getStylesMap();
 
 			if (stylesMap.containsKey(styleName))
 			{

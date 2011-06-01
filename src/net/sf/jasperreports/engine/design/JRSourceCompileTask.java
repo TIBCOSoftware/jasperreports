@@ -29,6 +29,8 @@ import java.util.Map;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 
 /**
@@ -42,21 +44,21 @@ public class JRSourceCompileTask
 	private JasperDesign jasperDesign;
 	private String unitName;
 	private JRExpressionCollector expressionCollector;
-	private Map<String, JRDesignParameter> parametersMap;
-	private Map<String, JRDesignField> fieldsMap;
-	private Map<String, JRDesignVariable> variablesMap;
+	private Map<String, JRParameter> parametersMap;
+	private Map<String, JRField> fieldsMap;
+	private Map<String, JRVariable> variablesMap;
 	private JRVariable[] variables;
 	private List<JRExpression> expressions;
 	private boolean onlyDefaultEvaluation;
 	
 	
-	protected <T> JRSourceCompileTask(
+	protected JRSourceCompileTask(
 			JasperDesign jasperDesign, 
 			String unitName, 
 			JRExpressionCollector expressionCollector, 
-			Map<String, JRDesignParameter> parametersMap, 
-			Map<String, JRDesignField> fieldsMap, 
-			Map<String, JRDesignVariable> variablesMap, 
+			Map<String, JRParameter> parametersMap, 
+			Map<String, JRField> fieldsMap, 
+			Map<String, JRVariable> variablesMap, 
 			JRVariable[] variables, 
 			boolean onlyDefaultEvaluation
 			)
@@ -111,7 +113,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map<String, JRDesignField> getFieldsMap()
+	public Map<String, JRField> getFieldsMap()
 	{
 		return fieldsMap;
 	}
@@ -135,7 +137,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map<String, JRDesignParameter> getParametersMap()
+	public Map<String, JRParameter> getParametersMap()
 	{
 		return parametersMap;
 	}
@@ -153,7 +155,7 @@ public class JRSourceCompileTask
 	}
 
 
-	public Map<String, JRDesignVariable> getVariablesMap()
+	public Map<String, JRVariable> getVariablesMap()
 	{
 		return variablesMap;
 	}

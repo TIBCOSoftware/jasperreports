@@ -46,9 +46,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.design.JRDesignField;
-import net.sf.jasperreports.engine.design.JRDesignParameter;
-import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JRSourceCompileTask;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -92,9 +89,9 @@ public class JRGroovyGenerator
 	 */
 	protected final JRSourceCompileTask sourceTask;
 
-	protected Map<String, JRDesignParameter> parametersMap;
-	protected Map<String, JRDesignField> fieldsMap;
-	protected Map<String, JRDesignVariable> variablesMap;
+	protected Map<String, JRParameter> parametersMap;
+	protected Map<String, JRField> fieldsMap;
+	protected Map<String, JRVariable> variablesMap;
 	protected JRVariable[] variables;
 
 	
