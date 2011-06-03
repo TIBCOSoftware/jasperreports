@@ -153,7 +153,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	/**
 	 *
 	 */
-	public void draw(Graphics2D grx, Collection elements, int offsetX, int offsetY) throws JRException
+	public void draw(Graphics2D grx, Collection<JRPrintElement> elements, int offsetX, int offsetY) throws JRException
 	{
 		setGraphics(grx);
 		
@@ -179,14 +179,14 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	/**
 	 *
 	 */
-	private void draw(Collection elements) throws JRException
+	private void draw(Collection<JRPrintElement> elements) throws JRException
 	{
 		if (elements != null && elements.size() > 0)
 		{
 			Shape clipArea = grx.getClip();
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement)it.next();
+				JRPrintElement element = it.next();
 				
 				if (
 					(filter != null && !filter.isToExport(element))

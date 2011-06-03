@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class BoxDrawer extends ElementDrawer
+public class BoxDrawer extends ElementDrawer<JRPrintElement>
 {
 
 	/**
