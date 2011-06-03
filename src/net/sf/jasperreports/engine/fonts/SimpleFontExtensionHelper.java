@@ -92,7 +92,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 * Thread local soft cache of instances.
 	 */
-	private static final ThreadLocal threadInstances = new ThreadLocal();
+	private static final ThreadLocal<SoftReference<SimpleFontExtensionHelper>> threadInstances = new ThreadLocal<SoftReference<SimpleFontExtensionHelper>>();
 	
 	/**
 	 * Return a cached instance.
@@ -102,15 +102,15 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	public static SimpleFontExtensionHelper getInstance()
 	{
 		SimpleFontExtensionHelper instance = null;
-		SoftReference instanceRef = (SoftReference) threadInstances.get();
+		SoftReference<SimpleFontExtensionHelper> instanceRef = threadInstances.get();
 		if (instanceRef != null)
 		{
-			instance = (SimpleFontExtensionHelper) instanceRef.get();
+			instance = instanceRef.get();
 		}
 		if (instance == null)
 		{
 			instance = new SimpleFontExtensionHelper();
-			threadInstances.set(new SoftReference(instance));
+			threadInstances.set(new SoftReference<SimpleFontExtensionHelper>(instance));
 		}
 		return instance;
 	}

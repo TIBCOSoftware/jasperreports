@@ -93,7 +93,7 @@ public abstract class BorderOffset
 	/**
 	 * 
 	 */
-	private static final ThreadLocal threadInstance = new ThreadLocal();
+	private static final ThreadLocal<BorderOffset> threadInstance = new ThreadLocal<BorderOffset>();
 	
 
 	/**
@@ -109,7 +109,7 @@ public abstract class BorderOffset
 	 */
 	public static float getOffset(JRPen pen)
 	{
-		BorderOffset borderOffset = (BorderOffset)threadInstance.get();
+		BorderOffset borderOffset = threadInstance.get();
 		if (borderOffset == null)
 		{
 			borderOffset = 

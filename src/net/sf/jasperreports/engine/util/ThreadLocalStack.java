@@ -34,19 +34,19 @@ import java.util.LinkedList;
  */
 public class ThreadLocalStack
 {
-	private final ThreadLocal threadStack;
+	private final ThreadLocal<LinkedList<Object>> threadStack;
 	
 	public ThreadLocalStack()
 	{
-		threadStack = new ThreadLocal();
+		threadStack = new ThreadLocal<LinkedList<Object>>();
 	}
 	
 	public void push(Object o)
 	{
-		LinkedList stack = (LinkedList) threadStack.get();
+		LinkedList<Object> stack = threadStack.get();
 		if (stack == null)
 		{
-			stack = new LinkedList();
+			stack = new LinkedList<Object>();
 			threadStack.set(stack);
 		}
 		stack.addFirst(o);
@@ -55,7 +55,7 @@ public class ThreadLocalStack
 	public Object top()
 	{
 		Object o = null;
-		LinkedList stack = (LinkedList) threadStack.get();
+		LinkedList<Object> stack = threadStack.get();
 		if (stack != null && !stack.isEmpty())
 		{
 			o = stack.getFirst();
@@ -66,7 +66,7 @@ public class ThreadLocalStack
 	public Object pop()
 	{
 		Object o = null;
-		LinkedList stack = (LinkedList) threadStack.get();
+		LinkedList<Object> stack = threadStack.get();
 		if (stack != null)
 		{
 			o = stack.removeFirst();
@@ -76,7 +76,7 @@ public class ThreadLocalStack
 	
 	public boolean empty()
 	{
-		LinkedList stack = (LinkedList) threadStack.get();
+		LinkedList<Object> stack = threadStack.get();
 		return stack == null || stack.isEmpty();
 	}
 }
