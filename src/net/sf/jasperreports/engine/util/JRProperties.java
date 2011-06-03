@@ -560,10 +560,10 @@ public final class JRProperties
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
 	 * @see #getAllProperties(JRPropertiesMap, String)
 	 */
-	public static List getProperties(JRPropertiesMap propertiesMap, String prefix)
+	public static List<PropertySuffix> getProperties(JRPropertiesMap propertiesMap, String prefix)
 	{
 		int prefixLength = prefix.length();
-		List values = new ArrayList();
+		List<PropertySuffix> values = new ArrayList<PropertySuffix>();
 		if (propertiesMap != null)
 		{
 			String[] propertyNames = propertiesMap.getPropertyNames();

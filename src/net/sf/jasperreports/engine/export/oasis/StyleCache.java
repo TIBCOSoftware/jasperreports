@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,29 +55,29 @@ public class StyleCache
 	 *
 	 */
 	private Writer styleWriter;
-	private Map fontMap;
-	private Set fontFaces = new HashSet();
+	private Map<String,String> fontMap;
+	private Set<String> fontFaces = new HashSet<String>();
 	private String exporterKey;
 
 	/**
 	 *
 	 */
-	private Map frameStyles = new HashMap();//FIXMEODT soft cache?
+	private Map<String,String> frameStyles = new HashMap<String,String>();//FIXMEODT soft cache?
 	private int frameStylesCounter;
-	private Map cellStyles = new HashMap();
+	private Map<String,String> cellStyles = new HashMap<String,String>();
 	private int cellStylesCounter;
-	private Map graphicStyles = new HashMap();
+	private Map<String,String> graphicStyles = new HashMap<String,String>();
 	private int graphicStylesCounter;
-	private Map paragraphStyles = new HashMap();
+	private Map<String,String> paragraphStyles = new HashMap<String,String>();
 	private int paragraphStylesCounter;
-	private Map textSpanStyles = new HashMap();
+	private Map<String,String> textSpanStyles = new HashMap<String,String>();
 	private int textSpanStylesCounter;
 
 
 	/**
 	 *
 	 */
-	public StyleCache(Writer styleWriter, Map fontMap, String exporterKey)
+	public StyleCache(Writer styleWriter, Map<String,String> fontMap, String exporterKey)
 	{
 		this.styleWriter = styleWriter;
 		this.fontMap = fontMap;
@@ -87,7 +88,7 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public Collection getFontFaces()
+	public Collection<String> getFontFaces()
 	{
 		return fontFaces;
 	}
@@ -102,7 +103,7 @@ public class StyleCache
 		frameStyle.setBox(text.getLineBox());
 		
 		String frameStyleId = frameStyle.getId();
-		String frameStyleName = (String)frameStyles.get(frameStyleId);
+		String frameStyleName = frameStyles.get(frameStyleId);
 		
 		if (frameStyleName == null)
 		{
@@ -124,7 +125,7 @@ public class StyleCache
 		FrameStyle frameStyle  = new FrameStyle(styleWriter, element);
 		
 		String frameStyleId = frameStyle.getId();
-		String frameStyleName = (String)frameStyles.get(frameStyleId);
+		String frameStyleName = frameStyles.get(frameStyleId);
 		
 		if (frameStyleName == null)
 		{
@@ -146,7 +147,7 @@ public class StyleCache
 		GraphicStyle graphicStyle  = new GraphicStyle(styleWriter, element);
 		
 		String graphicStyleId = graphicStyle.getId();
-		String graphicStyleName = (String)cellStyles.get(graphicStyleId);
+		String graphicStyleName = cellStyles.get(graphicStyleId);
 		
 		if (graphicStyleName == null)
 		{
@@ -175,7 +176,7 @@ public class StyleCache
 //			cellStyle.setPen(((JRCommonGraphicElement)element).getLinePen());
 		
 		String cellStyleId = cellStyle.getId();
-		String cellStyleName = (String)cellStyles.get(cellStyleId);
+		String cellStyleName = cellStyles.get(cellStyleId);
 		
 		if (cellStyleName == null)
 		{
@@ -197,7 +198,7 @@ public class StyleCache
 		ParagraphStyle paragraphStyle  = new ParagraphStyle(styleWriter, text);
 		
 		String paragraphStyleId = paragraphStyle.getId();
-		String paragraphStyleName = (String)paragraphStyles.get(paragraphStyleId);
+		String paragraphStyleName = paragraphStyles.get(paragraphStyleId);
 		
 		if (paragraphStyleName == null)
 		{
@@ -214,13 +215,13 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public String getTextSpanStyle(Map attributes, String text, Locale locale) throws IOException
+	public String getTextSpanStyle(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);
 		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
-			fontFamily = (String) fontMap.get(fontFamilyAttr);
+			fontFamily = fontMap.get(fontFamilyAttr);
 		}
 		else
 		{
@@ -295,7 +296,7 @@ public class StyleCache
 //		}
 
 		String textSpanStyleId = textSpanStyleIdBuffer.toString();
-		String textSpanStyleName = (String)textSpanStyles.get(textSpanStyleId);
+		String textSpanStyleName = textSpanStyles.get(textSpanStyleId);
 		
 		if (textSpanStyleName == null)
 		{

@@ -110,7 +110,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			return jasperPrint;
 		}
 
-		public Map getExportParameters()
+		public Map<JRExporterParameter,Object> getExportParameters()
 		{
 			return parameters;
 		}
@@ -171,13 +171,13 @@ public abstract class JRAbstractExporter implements JRExporter
 			}
 			else
 			{
-				List properties = JRProperties.getProperties(jasperPrint.getPropertiesMap(), propertyPrefix);
+				List<PropertySuffix> properties = JRProperties.getProperties(jasperPrint.getPropertiesMap(), propertyPrefix);
 				if (properties != null)
 				{
 					values = new String[properties.size()];
 					for(int i = 0; i < values.length; i++)
 					{
-						values[i] = ((PropertySuffix)properties.get(i)).getValue();
+						values[i] = properties.get(i).getValue();
 					}
 				}
 			}
@@ -327,13 +327,13 @@ public abstract class JRAbstractExporter implements JRExporter
 			JRPropertiesMap hintsMap = jasperPrint.getPropertiesMap();
 			if (hintsMap != null)
 			{
-				List properties = JRProperties.getProperties(hintsMap, propertyPrefix);
+				List<PropertySuffix> properties = JRProperties.getProperties(hintsMap, propertyPrefix);
 				if (properties != null)
 				{
 					values = new String[properties.size()];
 					for(int i = 0; i < values.length; i++)
 					{
-						values[i] = ((PropertySuffix)properties.get(i)).getValue();
+						values[i] = properties.get(i).getValue();
 					}
 				}
 			}
@@ -489,12 +489,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected Map parameters = new HashMap();
+	protected Map<JRExporterParameter,Object> parameters = new HashMap<JRExporterParameter,Object>();
 
 	/**
 	 *
 	 */
-	protected List jasperPrintList;
+	protected List<JasperPrint> jasperPrintList;
 	protected JasperPrint jasperPrint;
 	protected boolean isModeBatch = true;
 	protected int startPageIndex;
@@ -512,15 +512,15 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	private LinkedList elementOffsetStack = new LinkedList();
+	private LinkedList<int[]> elementOffsetStack = new LinkedList<int[]>();
 	private int elementOffsetX = globalOffsetX;
 	private int elementOffsetY = globalOffsetY;
 
 	/**
 	 *
 	 */
-	protected Map dateFormatCache = new HashMap();
-	protected Map numberFormatCache = new HashMap();
+	protected Map<String,DateFormat> dateFormatCache = new HashMap<String,DateFormat>();
+	protected Map<String,NumberFormat> numberFormatCache = new HashMap<String,NumberFormat>();
 
 	/**
 	 *
@@ -540,8 +540,8 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public void reset()
 	{
-		parameters = new HashMap();
-		elementOffsetStack = new LinkedList();
+		parameters = new HashMap<JRExporterParameter,Object>();
+		elementOffsetStack = new LinkedList<int[]>();
 	}
 	
 	
@@ -566,7 +566,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	public void setParameters(Map parameters)
+	public void setParameters(Map<JRExporterParameter,Object> parameters)
 	{
 		this.parameters = parameters;
 	}
@@ -575,7 +575,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	public Map getParameters()
+	public Map<JRExporterParameter,Object> getParameters()
 	{
 		return parameters;
 	}
@@ -806,7 +806,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void setInput() throws JRException
 	{
-		jasperPrintList = (List)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
+		jasperPrintList = (List<JasperPrint>)parameters.get(JRExporterParameter.JASPER_PRINT_LIST);
 		if (jasperPrintList == null)
 		{
 			isModeBatch = false;
@@ -849,7 +849,7 @@ public abstract class JRAbstractExporter implements JRExporter
 				}
 			}
 			
-			jasperPrintList = new ArrayList();
+			jasperPrintList = new ArrayList<JasperPrint>();
 			jasperPrintList.add(jasperPrint);
 		}
 		else
@@ -861,7 +861,7 @@ public abstract class JRAbstractExporter implements JRExporter
 				throw new JRException("Empty input source supplied to the exporter in batch mode.");
 			}
 
-			jasperPrint = (JasperPrint)jasperPrintList.get(0);
+			jasperPrint = jasperPrintList.get(0);
 		}
 
 		setJasperPrint(jasperPrint);
@@ -1018,7 +1018,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void restoreElementOffsets()
 	{
-		int[] offsets = (int[]) elementOffsetStack.removeLast();
+		int[] offsets = elementOffsetStack.removeLast();
 		elementOffsetX = offsets[0];
 		elementOffsetY = offsets[1];
 	}
@@ -1071,7 +1071,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		{
 			try
 			{
-				Class valueClass = JRClassLoader.loadClassForRealName(text.getValueClassName());
+				Class<?> valueClass = JRClassLoader.loadClassForRealName(text.getValueClassName());
 				if (java.lang.Number.class.isAssignableFrom(valueClass))
 				{
 					textValue = getNumberCellValue(text, textStr);
@@ -1179,7 +1179,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	}
 
 
-	protected Number defaultParseNumber(String textStr, Class valueClass)
+	protected Number defaultParseNumber(String textStr, Class<?> valueClass)
 	{
 		Number value = null;
 		try
@@ -1231,7 +1231,7 @@ public abstract class JRAbstractExporter implements JRExporter
 			+ "|" + pattern 
 			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)) 
 			+ "|" + (tz == null ? "" : JRDataUtils.getTimeZoneId(tz));
-		DateFormat dateFormat = (DateFormat)dateFormatCache.get(key);
+		DateFormat dateFormat = dateFormatCache.get(key);
 		if (dateFormat == null)
 		{
 			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
@@ -1247,7 +1247,7 @@ public abstract class JRAbstractExporter implements JRExporter
 		String key = formatFactoryClass 
 			+ "|" + pattern 
 			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)); 
-		NumberFormat numberFormat = (NumberFormat)numberFormatCache.get(key);
+		NumberFormat numberFormat = numberFormatCache.get(key);
 		if (numberFormat == null)
 		{
 			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
