@@ -132,16 +132,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected XlsxCellHelper cellHelper;//FIXMEXLSX maybe cell helper should be part of sheet helper, just like in table helper
 
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map rendererToImagePathMap;
-	protected Map imageMaps;
-	protected List imagesToProcess;
+	protected Map<String, String> rendererToImagePathMap;
+//	protected Map imageMaps;
+	protected List<JRPrintElementIndex> imagesToProcess;
 //	protected Map hyperlinksMap;
 
 	protected int tableIndex;
 	protected boolean startPage;
 
 
-	protected LinkedList backcolorStack;
+	protected LinkedList<Color> backcolorStack;
 	protected Color backcolor;
 
 	private XlsxRunHelper runHelper;
@@ -160,7 +160,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	public JRXlsxExporter()
 	{
-		backcolorStack = new LinkedList();
+		backcolorStack = new LinkedList<Color>();
 		backcolor = null;
 	}
 
@@ -185,16 +185,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	public static JRPrintImage getImage(List jasperPrintList, String imageName)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, JRPrintElementIndex imageIndex)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
 	{
-		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
@@ -244,7 +244,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
-				imagePath = (String)rendererToImagePathMap.get(renderer.getId());
+				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
 			else
 			{
@@ -392,7 +392,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void restoreBackcolor()
 	{
-		backcolor = (Color) backcolorStack.removeLast();
+		backcolor = backcolorStack.removeLast();
 	}
 
 
@@ -630,9 +630,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 			if ((imagesToProcess != null && imagesToProcess.size() > 0))
 			{
-				for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+				for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
 				{
-					JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+					JRPrintElementIndex imageIndex = it.next();
 
 					JRPrintImage image = getImage(jasperPrintList, imageIndex);
 					JRRenderable renderer = image.getRenderer();
@@ -1329,9 +1329,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void openWorkbook(OutputStream os) throws JRException 
 	{
-		rendererToImagePathMap = new HashMap();
-		imageMaps = new HashMap();
-		imagesToProcess = new ArrayList();
+		rendererToImagePathMap = new HashMap<String,String>();
+//		imageMaps = new HashMap();
+		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
 
 		try

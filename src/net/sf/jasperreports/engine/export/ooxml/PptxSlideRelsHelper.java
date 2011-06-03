@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 public class PptxSlideRelsHelper extends BaseHelper
 {
 
-	private Map linkCache = new HashMap();
+	private Map<String,Integer> linkCache = new HashMap<String,Integer>();
 	private Set<String> imageNames = new HashSet<String>();
 	
 	/**
@@ -77,7 +77,7 @@ public class PptxSlideRelsHelper extends BaseHelper
 	 */
 	public int getHyperlink(String href)
 	{
-		Integer linkIndex = (Integer)linkCache.get(href);
+		Integer linkIndex = linkCache.get(href);
 		if (linkIndex == null)
 		{
 			linkIndex = Integer.valueOf(linkCache.size());

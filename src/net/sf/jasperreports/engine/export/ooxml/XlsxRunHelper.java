@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.awt.Color;
 import java.awt.font.TextAttribute;
 import java.io.Writer;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,14 +51,14 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private Map fontMap;
+	private Map<String,String> fontMap;
 	private String exporterKey;
 
 
 	/**
 	 *
 	 */
-	public XlsxRunHelper(Writer writer, Map fontMap, String exporterKey)
+	public XlsxRunHelper(Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
 		super(writer);
 		this.fontMap = fontMap;
@@ -68,7 +69,7 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void export(JRStyle style, Map attributes, String text, Locale locale)
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale)
 	{
 		if (text != null)
 		{
@@ -89,7 +90,7 @@ public class XlsxRunHelper extends BaseHelper
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
-		Map styledTextAttributes = new HashMap(); 
+		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
@@ -103,7 +104,7 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportProps(Map parentAttrs,  Map attrs, Locale locale)
+	public void exportProps(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs, Locale locale)
 	{
 		write("       <rPr>\n");
 
@@ -116,7 +117,7 @@ public class XlsxRunHelper extends BaseHelper
 			String fontFamily = fontFamilyAttr;
 			if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 			{
-				fontFamily = (String) fontMap.get(fontFamilyAttr);
+				fontFamily = fontMap.get(fontFamilyAttr);
 			}
 			else
 			{
@@ -219,12 +220,12 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	private Map getAttributes(JRStyle style)//FIXMEDOCX put this in util?
+	private Map<Attribute,Object> getAttributes(JRStyle style)//FIXMEDOCX put this in util?
 	{
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
 		
-		Map styledTextAttributes = new HashMap(); 
+		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
 		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());

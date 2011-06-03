@@ -41,9 +41,9 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
  */
 public class XlsxFontHelper extends BaseHelper
 {
-	private Map fontCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> fontCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
-	private Map fontMap;
+	private Map<String,String> fontMap;
 	private String exporterKey;
 	private boolean isFontSizeFixEnabled;
 
@@ -52,7 +52,7 @@ public class XlsxFontHelper extends BaseHelper
 	 */
 	public XlsxFontHelper(
 		Writer writer,
-		Map fontMap,
+		Map<String,String> fontMap,
 		String exporterKey,
 		boolean isFontSizeFixEnabled		
 		)
@@ -78,7 +78,7 @@ public class XlsxFontHelper extends BaseHelper
 		String fontName = font.getFontName();
 		if (fontMap != null && fontMap.containsKey(fontName))
 		{
-			fontName = (String) fontMap.get(fontName);
+			fontName = fontMap.get(fontName);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ public class XlsxFontHelper extends BaseHelper
 		}
 		
 		XlsxFontInfo fontInfo = new XlsxFontInfo(gridCell, fontName);
-		Integer fontIndex = (Integer)fontCache.get(fontInfo.getId());
+		Integer fontIndex = fontCache.get(fontInfo.getId());
 		if (fontIndex == null)
 		{
 			fontIndex = Integer.valueOf(fontCache.size());

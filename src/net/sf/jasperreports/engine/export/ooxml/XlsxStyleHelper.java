@@ -49,7 +49,7 @@ public class XlsxStyleHelper extends BaseHelper
 	private FileBufferedWriter bordersWriter = new FileBufferedWriter();
 	private FileBufferedWriter cellXfsWriter = new FileBufferedWriter();
 	
-	private Map styleCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> styleCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private XlsxFormatHelper formatHelper;
 	private XlsxFontHelper fontHelper;
@@ -63,7 +63,7 @@ public class XlsxStyleHelper extends BaseHelper
 	 */
 	public XlsxStyleHelper(
 		Writer writer, 
-		Map fontMap, 
+		Map<String,String> fontMap, 
 		String exporterKey,
 		boolean isWhitePageBackground,
 		boolean isIgnoreCellBorder,
@@ -103,7 +103,7 @@ public class XlsxStyleHelper extends BaseHelper
 				isHidden,
 				isLocked
 				);
-		Integer styleIndex = (Integer)styleCache.get(styleInfo.getId());
+		Integer styleIndex = styleCache.get(styleInfo.getId());
 		if (styleIndex == null)
 		{
 			styleIndex = Integer.valueOf(styleCache.size() + 1);
