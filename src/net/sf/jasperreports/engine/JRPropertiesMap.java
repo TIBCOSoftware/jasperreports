@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -54,8 +56,10 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	
 	private static final Log log = LogFactory.getLog(JRPropertiesMap.class);
 	
-	private Map propertiesMap;
-	private List propertiesList;
+	public static final String PROPERTY_VALUE = "value";
+	
+	private Map<String, String> propertiesMap;
+	private List<String> propertiesList;
 	
 	private JRPropertiesMap base;
 	
@@ -97,8 +101,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 
 	private void init()
 	{
-		propertiesMap = new HashMap();
-		propertiesList = new ArrayList();
+		propertiesMap = new HashMap<String, String>();
+		propertiesList = new ArrayList<String>();
 	}
 
 	
@@ -114,13 +118,13 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		{
 			if (base == null)
 			{
-				names = (String[]) propertiesList.toArray(new String[propertiesList.size()]);
+				names = propertiesList.toArray(new String[propertiesList.size()]);
 			}
 			else
 			{
-				LinkedHashSet namesSet = new LinkedHashSet();
+				LinkedHashSet<String> namesSet = new LinkedHashSet<String>();
 				collectPropertyNames(namesSet);
-				names = (String[]) namesSet.toArray(new String[namesSet.size()]);
+				names = namesSet.toArray(new String[namesSet.size()]);
 			}
 		}
 		else if (base != null)
@@ -135,7 +139,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	}
 
 	
-	protected void collectPropertyNames(Collection names)
+	protected void collectPropertyNames(Collection<String> names)
 	{
 		if (base != null)
 		{
@@ -209,6 +213,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 	 */
 	public void setProperty(String propName, String value)
 	{
+		Object old = getOwnProperty(propName);
+		
 		ensureInit();
 		
 		if (!hasOwnProperty(propName))
@@ -216,6 +222,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 			propertiesList.add(propName);
 		}
 		propertiesMap.put(propName, value);
+
+		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, value);
 	}
 	
 	
@@ -268,8 +276,8 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		if (propertiesList == null && propertiesMap != null)// an instance from an old version has been deserialized
 		{
 			//recreate the properties list and map
-			propertiesList = new ArrayList(propertiesMap.keySet());
-			propertiesMap = new HashMap(propertiesMap);
+			propertiesList = new ArrayList<String>(propertiesMap.keySet());
+			propertiesMap = new HashMap<String, String>(propertiesMap);
 		}
 	}
 	
@@ -372,7 +380,7 @@ public class JRPropertiesMap implements Serializable, Cloneable
 			stream.close();
 			
 			JRPropertiesMap properties = new JRPropertiesMap();
-			for (Enumeration names = props.propertyNames(); names.hasMoreElements(); )
+			for (Enumeration<?> names = props.propertyNames(); names.hasMoreElements(); )
 			{
 				String name = (String) names.nextElement();
 				String value = props.getProperty(name);
@@ -401,5 +409,21 @@ public class JRPropertiesMap implements Serializable, Cloneable
 				}
 			}
 		}
+	}
+
+	
+	private transient JRPropertyChangeSupport eventSupport;
+	
+	public JRPropertyChangeSupport getEventSupport()
+	{
+		synchronized (this)
+		{
+			if (eventSupport == null)
+			{
+				eventSupport = new JRPropertyChangeSupport(this);
+			}
+		}
+		
+		return eventSupport;
 	}
 }
