@@ -56,12 +56,12 @@ public class JRReportCompileData implements Serializable
 	/**
 	 * Map containing compiled data per sub dataset name.
 	 */
-	private Map datasetCompileData;
+	private Map<String, Serializable> datasetCompileData;
 	
 	/**
 	 * Map containing compiled data per crosstab name.
 	 */
-	private Map crosstabCompileData;
+	private Map<Integer, Serializable> crosstabCompileData;
 	
 	
 	/**
@@ -69,8 +69,8 @@ public class JRReportCompileData implements Serializable
 	 */
 	public JRReportCompileData()
 	{
-		datasetCompileData = new HashMap();
-		crosstabCompileData = new HashMap();
+		datasetCompileData = new HashMap<String, Serializable>();
+		crosstabCompileData = new HashMap<Integer, Serializable>();
 	}
 	
 	
@@ -143,7 +143,7 @@ public class JRReportCompileData implements Serializable
 		}
 		else
 		{
-			compileData = (Serializable) datasetCompileData.get(dataset.getName());
+			compileData = datasetCompileData.get(dataset.getName());
 			if (compileData == null)
 			{
 				throw new JRException("Compile data for dataset " + dataset.getName() + " not found in the report.");
@@ -163,7 +163,7 @@ public class JRReportCompileData implements Serializable
 	 */
 	public Serializable getCrosstabCompileData(JRCrosstab crosstab) throws JRException
 	{
-		Serializable compileData = (Serializable) crosstabCompileData.get(Integer.valueOf(crosstab.getId()));
+		Serializable compileData = crosstabCompileData.get(Integer.valueOf(crosstab.getId()));
 		if (compileData == null)
 		{
 			throw new JRException("Compile data for crosstab not found in the report.");

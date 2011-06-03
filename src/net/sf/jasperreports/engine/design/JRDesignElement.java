@@ -74,7 +74,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	
 	public static final String PROPERTY_PROPERTY_EXPRESSIONS = "propertyExpressions";
 
-	private List propertyExpressions = new ArrayList();
+	private List<JRPropertyExpression> propertyExpressions = new ArrayList<JRPropertyExpression>();
 
 	/**
 	 *
@@ -182,7 +182,7 @@ public abstract class JRDesignElement extends JRBaseElement
 		
 		if (propertyExpressions == null)
 		{
-			propertyExpressions = new ArrayList();
+			propertyExpressions = new ArrayList<JRPropertyExpression>();
 		}
 	}
 	
@@ -226,9 +226,9 @@ public abstract class JRDesignElement extends JRBaseElement
 	public JRPropertyExpression removePropertyExpression(String name)
 	{
 		JRPropertyExpression removed = null;
-		for (ListIterator it = propertyExpressions.listIterator(); it.hasNext();)
+		for (ListIterator<JRPropertyExpression> it = propertyExpressions.listIterator(); it.hasNext();)
 		{
-			JRPropertyExpression prop = (JRPropertyExpression) it.next();
+			JRPropertyExpression prop = it.next();
 			if (name.equals(prop.getName()))
 			{
 				removed = prop;
@@ -249,7 +249,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	 * @return the list of property expressions ({@link JRPropertyExpression} instances)
 	 * @see #addPropertyExpression(JRPropertyExpression)
 	 */
-	public List getPropertyExpressionsList()
+	public List<JRPropertyExpression> getPropertyExpressionsList()
 	{
 		return propertyExpressions;
 	}
@@ -263,8 +263,7 @@ public abstract class JRDesignElement extends JRBaseElement
 		}
 		else
 		{
-			props = (JRPropertyExpression[]) propertyExpressions.toArray(
-					new JRPropertyExpression[propertyExpressions.size()]);
+			props = propertyExpressions.toArray(new JRPropertyExpression[propertyExpressions.size()]);
 		}
 		return props;
 	}

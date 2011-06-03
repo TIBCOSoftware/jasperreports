@@ -65,7 +65,7 @@ public class JRDesignParameter extends JRBaseParameter
 	/**
 	 *
 	 */
-	public void setValueClass(Class clazz)
+	public void setValueClass(Class<?> clazz)
 	{
 		setValueClassName(clazz.getName());
 	}
@@ -88,7 +88,7 @@ public class JRDesignParameter extends JRBaseParameter
 	 * @param type the nester value type
 	 * @see #getNestedType()
 	 */
-	public void setNestedType(Class type)
+	public void setNestedType(Class<?> type)
 	{
 		setNestedTypeName(type == null ? null : type.getName());
 	}

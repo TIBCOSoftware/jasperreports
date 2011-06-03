@@ -160,7 +160,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	protected JRExpression hyperlinkAnchorExpression;
 	protected JRExpression hyperlinkPageExpression;
 	private JRExpression hyperlinkTooltipExpression;
-	private List hyperlinkParameters;
+	private List<JRHyperlinkParameter> hyperlinkParameters;
 
 	protected JRChartDataset dataset;
 	protected JRChartPlot plot;
@@ -186,7 +186,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 		
 		setChartType(chartType);
 		
-		hyperlinkParameters = new ArrayList();
+		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
 		
 		lineBox = new JRBaseLineBox(this);
 	}
@@ -910,7 +910,7 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
-	public List getHyperlinkParametersList()
+	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;
 	}
@@ -957,9 +957,9 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
-			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			JRHyperlinkParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();
@@ -1009,10 +1009,10 @@ public class JRDesignChart extends JRDesignElement implements JRChart
 
 		if (hyperlinkParameters != null)
 		{
-			clone.hyperlinkParameters = new ArrayList(hyperlinkParameters.size());
+			clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>(hyperlinkParameters.size());
 			for(int i = 0; i < hyperlinkParameters.size(); i++)
 			{
-				clone.hyperlinkParameters.add(((JRHyperlinkParameter)hyperlinkParameters.get(i)).clone());
+				clone.hyperlinkParameters.add((JRHyperlinkParameter)(hyperlinkParameters.get(i).clone()));
 			}
 		}
 

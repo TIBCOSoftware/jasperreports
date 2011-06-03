@@ -60,7 +60,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	/**
 	 *
 	 */
-	protected List chunks = new ArrayList();
+	protected List<JRExpressionChunk> chunks = new ArrayList<JRExpressionChunk>();
 
 
 	/**
@@ -77,7 +77,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	/**
 	 * @deprecated To be removed.
 	 */
-	public void setValueClass(Class clazz)
+	public void setValueClass(Class<?> clazz)
 	{
 		setValueClassName(clazz.getName());
 	}
@@ -122,7 +122,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	 * Clears the current list of chunks and adds the passed list of chunks.  The reference
 	 * to the list passed is not kept.
 	 */
-	public void setChunks(List chunks)
+	public void setChunks(List<JRExpressionChunk> chunks)
 	{
 		this.chunks.clear();
 		this.chunks.addAll(chunks);
@@ -336,10 +336,10 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 		
 		if (chunks != null)
 		{
-			clone.chunks = new ArrayList(chunks.size());
+			clone.chunks = new ArrayList<JRExpressionChunk>(chunks.size());
 			for(int i = 0; i < chunks.size(); i++)
 			{
-				clone.chunks.add(((JRExpressionChunk)chunks.get(i)).clone());
+				clone.chunks.add((JRExpressionChunk)(chunks.get(i).clone()));
 			}
 		}
 

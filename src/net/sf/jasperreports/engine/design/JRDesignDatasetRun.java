@@ -46,8 +46,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map parametersMap;
-	private List parametersList;
+	private Map<String, JRDatasetParameter> parametersMap;
+	private List<JRDatasetParameter> parametersList;
 	
 	public static final String PROPERTY_CONNECTION_EXPRESSION = "connectionExpression";
 	
@@ -65,8 +65,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 */
 	public JRDesignDatasetRun()
 	{
-		parametersMap = new HashMap();
-		parametersList = new ArrayList();
+		parametersMap = new HashMap<String, JRDatasetParameter>();
+		parametersList = new ArrayList<JRDatasetParameter>();
 	}
 	
 	
@@ -99,7 +99,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 	 */
 	public JRDatasetParameter removeParameter(String parameterName)
 	{
-		JRDatasetParameter param = (JRDatasetParameter) parametersMap.remove(parameterName);
+		JRDatasetParameter param = parametersMap.remove(parameterName);
 		if (param != null)
 		{
 			int idx = parametersList.indexOf(param);
@@ -197,12 +197,11 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		
 		if (parametersList != null)
 		{
-			clone.parametersList = new ArrayList(parametersList.size());
-			clone.parametersMap = new HashMap(parametersList.size());
+			clone.parametersList = new ArrayList<JRDatasetParameter>(parametersList.size());
+			clone.parametersMap = new HashMap<String, JRDatasetParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
-				JRDatasetParameter parameter = 
-					(JRDatasetParameter)((JRDatasetParameter)parametersList.get(i)).clone();
+				JRDatasetParameter parameter = (JRDatasetParameter)(parametersList.get(i)).clone();
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}

@@ -56,7 +56,7 @@ public class JRDesignScriptlet extends JRBaseScriptlet
 	/**
 	 *
 	 */
-	public void setValueClass(Class clazz)
+	public void setValueClass(Class<?> clazz)
 	{
 		setValueClassName(clazz.getName());
 	}

@@ -60,7 +60,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	
 	public static final String PROPERTY_CHILDREN = "children";
 	
-	private List children;
+	private List<JRChild> children;
 
 	private JRLineBox lineBox;
 
@@ -74,7 +74,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	{
 		super(defaultStyleProvider);
 		
-		children = new ArrayList();
+		children = new ArrayList<JRChild>();
 		
 		lineBox = new JRBaseLineBox(this);
 	}
@@ -214,7 +214,7 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 	}
 
 	
-	public List getChildren()
+	public List<JRChild> getChildren()
 	{
 		return children;
 	}
@@ -263,10 +263,10 @@ public class JRDesignFrame extends JRDesignElement implements JRFrame
 		
 		if (children != null)
 		{
-			clone.children = new ArrayList(children.size());
+			clone.children = new ArrayList<JRChild>(children.size());
 			for(int i = 0; i < children.size(); i++)
 			{
-				clone.children.add(((JRChild)children.get(i)).clone(clone));
+				clone.children.add((JRChild)(children.get(i).clone(clone)));
 			}
 		}
 
