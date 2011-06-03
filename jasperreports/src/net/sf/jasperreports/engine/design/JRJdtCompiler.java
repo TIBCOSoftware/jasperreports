@@ -77,12 +77,12 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	
 	private final ClassLoader classLoader;
 
-	Constructor constrNameEnvAnsBin;
-	Constructor constrNameEnvAnsCompUnit;
+	Constructor<?> constrNameEnvAnsBin;
+	Constructor<?> constrNameEnvAnsCompUnit;
 	
 	boolean is2ArgsConstr;
-	Constructor constrNameEnvAnsBin2Args;
-	Constructor constrNameEnvAnsCompUnit2Args;
+	Constructor<?> constrNameEnvAnsBin2Args;
+	Constructor<?> constrNameEnvAnsCompUnit2Args;
 
 	public JRJdtCompiler ()
 	{
@@ -93,7 +93,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		boolean success;
 		try //FIXME remove support for pre 3.1 jdt
 		{
-			Class classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
+			Class<?> classAccessRestriction = loadClass("org.eclipse.jdt.internal.compiler.env.AccessRestriction");
 			constrNameEnvAnsBin2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{IBinaryType.class, classAccessRestriction});
 			constrNameEnvAnsCompUnit2Args = NameEnvironmentAnswer.class.getConstructor(new Class[]{ICompilationUnit.class, classAccessRestriction});
 			is2ArgsConstr = true;
@@ -170,7 +170,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		final IErrorHandlingPolicy policy = 
 			DefaultErrorHandlingPolicies.proceedWithAllProblems();
 
-		final Map settings = getJdtSettings();
+		final Map<String,String> settings = getJdtSettings();
 
 		final IProblemFactory problemFactory = 
 			new DefaultProblemFactory(Locale.getDefault());
@@ -486,9 +486,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		return requestor;
 	}
 
-	protected Map getJdtSettings()
+	protected Map<String,String> getJdtSettings()
 	{
-		final Map settings = new HashMap();
+		final Map<String,String> settings = new HashMap<String,String>();
 		settings.put(CompilerOptions.OPTION_LineNumberAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_SourceFileAttribute, CompilerOptions.GENERATE);
 		settings.put(CompilerOptions.OPTION_ReportDeprecation, CompilerOptions.IGNORE);
@@ -501,10 +501,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 //			settings.put(CompilerOptions.OPTION_LocalVariableAttribute, CompilerOptions.GENERATE);
 //		}
 		
-		List properties = JRProperties.getProperties(JDT_PROPERTIES_PREFIX);
-		for (Iterator it = properties.iterator(); it.hasNext();)
+		List<JRProperties.PropertySuffix> properties = JRProperties.getProperties(JDT_PROPERTIES_PREFIX);
+		for (Iterator<JRProperties.PropertySuffix> it = properties.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) it.next();
+			JRProperties.PropertySuffix property = it.next();
 			String propVal = property.getValue();
 			if (propVal != null && propVal.length() > 0)
 			{
@@ -513,9 +513,9 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 		}
 		
 		Properties systemProps = System.getProperties();
-		for (Enumeration it = systemProps.propertyNames(); it.hasMoreElements();)
+		for (Enumeration<String> it = (Enumeration<String>)systemProps.propertyNames(); it.hasMoreElements();)
 		{
-			String propName = (String) it.nextElement();
+			String propName = it.nextElement();
 			if (propName.startsWith(JDT_PROPERTIES_PREFIX))
 			{
 				String propVal = systemProps.getProperty(propName);
@@ -569,7 +569,7 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	}
 	
 	
-	protected Class loadClass (String className) throws ClassNotFoundException
+	protected Class<?> loadClass (String className) throws ClassNotFoundException
 	{
 		if (classLoader == null)
 		{

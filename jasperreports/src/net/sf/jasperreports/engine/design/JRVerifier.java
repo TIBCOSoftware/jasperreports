@@ -223,7 +223,7 @@ public class JRVerifier
 	/**
 	 * @deprecated To be removed.
 	 */
-	private static Class[] templateTypes = new Class[] {
+	private static Class<?>[] templateTypes = new Class[] {
 		String.class, java.io.File.class, java.net.URL.class, java.io.InputStream.class,
 		JRTemplate.class};
 
@@ -231,11 +231,11 @@ public class JRVerifier
 	 *
 	 */
 	private JasperDesign jasperDesign;
-	private Collection brokenRules;
+	private Collection<JRValidationFault> brokenRules;
 
 	private JRExpressionCollector expressionCollector;
 
-	private LinkedList currentComponentElementStack = new LinkedList();
+	private LinkedList<JRComponentElement> currentComponentElementStack = new LinkedList<JRComponentElement>();
 	
 	private boolean allowElementNegativeWidth;
 	private final boolean allowElementNegativeY;
@@ -252,7 +252,7 @@ public class JRVerifier
 	protected JRVerifier(JasperDesign jrDesign, JRExpressionCollector expressionCollector)
 	{
 		jasperDesign = jrDesign;
-		brokenRules = new ArrayList();
+		brokenRules = new ArrayList<JRValidationFault>();
 
 		if (expressionCollector != null)
 		{
@@ -285,7 +285,7 @@ public class JRVerifier
 		addBrokenRule(brokenRules, message, source);
 	}
 
-	protected static void addBrokenRule(Collection brokenRules, 
+	protected static void addBrokenRule(Collection<JRValidationFault> brokenRules, 
 			String message, Object source)
 	{
 		JRValidationFault fault = new JRValidationFault();
@@ -318,7 +318,7 @@ public class JRVerifier
 	 * @return a list of {@link JRValidationFault design faults};
 	 * 	the report design is valid if and only if the list is empty
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
+	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
 	{
 		JRVerifier verifier = new JRVerifier(jasperDesign, expressionCollector);
 		return verifier.verifyDesign();
@@ -332,7 +332,7 @@ public class JRVerifier
 	 * @return a list of {@link JRValidationFault design faults};
 	 * 	the report design is valid if and only if the list is empty
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign)
+	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
 	{
 		return verifyDesign(jasperDesign, null);
 	}
@@ -340,7 +340,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	protected Collection verifyDesign()
+	protected Collection<JRValidationFault> verifyDesign()
 	{
 		/*   */
 		jasperDesign.preprocess();//FIXME either calculate twice or use change listeners
@@ -496,7 +496,7 @@ public class JRVerifier
 	 * @param topMargin the page top margin
 	 * @param bottomMargin the page bottom margin
 	 */
-	public static void verifyBandHeights(Collection brokenRules, JRReport report,
+	public static void verifyBandHeights(Collection<JRValidationFault> brokenRules, JRReport report,
 			int pageHeight, int topMargin, int bottomMargin)
 	{
 		if (
@@ -635,7 +635,7 @@ public class JRVerifier
 		{
 			try
 			{
-				Class formatFactoryClass = JRClassLoader.loadClassForName(formatFactoryClassName);
+				Class<?> formatFactoryClass = JRClassLoader.loadClassForName(formatFactoryClassName);
 				if (!FormatFactory.class.isAssignableFrom(formatFactoryClass))
 				{
 					addBrokenRule("The report format factory class is not compatible with " + FormatFactory.class.getName(), jasperDesign);
@@ -679,7 +679,7 @@ public class JRVerifier
 			JRQueryChunk[] chunks = query.getChunks();
 			if (chunks != null && chunks.length > 0)
 			{
-				Map parametersMap = dataset.getParametersMap();
+				Map<String, JRParameter> parametersMap = dataset.getParametersMap();
 
 				for(int j = 0; j < chunks.length; j++)
 				{
@@ -688,7 +688,7 @@ public class JRVerifier
 					{
 						case JRQueryChunk.TYPE_PARAMETER :
 						{
-							JRParameter parameter = (JRParameter)parametersMap.get(queryChunk.getText());
+							JRParameter parameter = parametersMap.get(queryChunk.getText());
 							if ( parameter == null )
 							{
 								addBrokenRule("Query parameter not found : " + queryChunk.getText(), query);
@@ -734,13 +734,18 @@ public class JRVerifier
 	/**
 	 *
 	 */
-	private void verifyExpressions(List expressions, Map parametersMap, Map fieldsMap, Map variablesMap)
+	private void verifyExpressions(
+			List<JRExpression> expressions, 
+			Map<String, ? extends JRParameter> parametersMap, 
+			Map<String, JRField> fieldsMap, 
+			Map<String, JRVariable> variablesMap
+			)
 	{
 		if (expressions != null && expressions.size() > 0)
 		{
-			for(Iterator it = expressions.iterator(); it.hasNext();)
+			for(Iterator<JRExpression> it = expressions.iterator(); it.hasNext();)
 			{
-				JRExpression expression = (JRExpression)it.next();
+				JRExpression expression = it.next();
 				JRExpressionChunk[] chunks = expression.getChunks();
 				if (chunks != null && chunks.length > 0)
 				{
@@ -823,12 +828,12 @@ public class JRVerifier
 	/**
 	 * @deprecated To be removed.
 	 */
-	protected boolean verifyTemplateSourceType(Class valueClass)
+	protected boolean verifyTemplateSourceType(Class<?> valueClass)
 	{
 		boolean valid = false;
 		for (int i = 0; i < templateTypes.length; i++)
 		{
-			Class type = templateTypes[i];
+			Class<?> type = templateTypes[i];
 			if (type.isAssignableFrom(valueClass))
 			{
 				valid = true;
@@ -940,7 +945,7 @@ public class JRVerifier
 
 				try
 				{
-					Class fieldType = field.getValueClass();
+					Class<?> fieldType = field.getValueClass();
 					if (fieldType == null)
 					{
 						addBrokenRule("Class not set for field : " + field.getName(), field);
@@ -1033,7 +1038,7 @@ public class JRVerifier
 
 				try
 				{
-					Class valueClass = variable.getValueClass();
+					Class<?> valueClass = variable.getValueClass();
 					if (valueClass == null)
 					{
 						addBrokenRule("Class not set for variable : " + variable.getName(), variable);
@@ -1053,7 +1058,7 @@ public class JRVerifier
 					}
 					else
 					{
-						Map groupsMap = dataset.getGroupsMap();
+						Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 
 						if (!groupsMap.containsKey(variable.getResetGroup().getName()))
 						{
@@ -1071,7 +1076,7 @@ public class JRVerifier
 					}
 					else
 					{
-						Map groupsMap = dataset.getGroupsMap();
+						Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 
 						if (!groupsMap.containsKey(variable.getIncrementGroup().getName()))
 						{
@@ -1674,7 +1679,7 @@ public class JRVerifier
 
 				try
 				{
-					Class valueClass = parameter.getValueClass();
+					Class<?> valueClass = parameter.getValueClass();
 					if (valueClass == null)
 					{
 						addBrokenRule("Class not set for crosstab parameter " + paramName + ".", parameter);
@@ -1724,7 +1729,7 @@ public class JRVerifier
 
 		try
 		{
-			Class valueClass = bucket.getValueClass();
+			Class<?> valueClass = bucket.getValueClass();
 			if (valueClass == null)
 			{
 				addBrokenRule("Class not set for bucket : " + group.getName(), bucket);
@@ -1849,14 +1854,14 @@ public class JRVerifier
 
 		try
 		{
-			Class valueClass = measure.getValueClass();
+			Class<?> valueClass = measure.getValueClass();
 			if (valueClass == null)
 			{
 				addBrokenRule("Measure value class missing.", measure);
 			}
 			if (measure.getPercentageType() != CrosstabPercentageEnum.NONE)
 			{
-				Class percentageCalculatorClass = measure.getPercentageCalculatorClass();
+				Class<?> percentageCalculatorClass = measure.getPercentageCalculatorClass();
 				if (percentageCalculatorClass == null)
 				{
 					if (valueClass != null && !JRPercentageCalculatorFactory.hasBuiltInCalculator(valueClass))
@@ -1880,7 +1885,7 @@ public class JRVerifier
 
 		try
 		{
-			Class incrementerFactoryClass = measure.getIncrementerFactoryClass();
+			Class<?> incrementerFactoryClass = measure.getIncrementerFactoryClass();
 			if (incrementerFactoryClass != null && !JRExtendedIncrementerFactory.class.isAssignableFrom(incrementerFactoryClass))
 			{
 				addBrokenRule("Crosstab measures need extended incrementers (net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory).", measure);
@@ -1897,7 +1902,7 @@ public class JRVerifier
 	{
 		verifyExpressions(expressionCollector.getExpressions(crosstab),
 				crosstab.getParametersMap(),
-				new HashMap(),
+				new HashMap<String,JRField>(),
 				crosstab.getVariablesMap());
 	}
 
@@ -2086,7 +2091,7 @@ public class JRVerifier
 				JRParameter datasetParam = null;
 				if (dataset != null)
 				{
-					datasetParam = (JRParameter) dataset.getParametersMap().get(paramName);
+					datasetParam = dataset.getParametersMap().get(paramName);
 
 					if (datasetParam == null)
 					{
@@ -2467,7 +2472,7 @@ public class JRVerifier
 		{
 			return null;
 		}
-		return (JRComponentElement) currentComponentElementStack.getFirst();
+		return currentComponentElementStack.getFirst();
 	}
 
 	protected void pushCurrentComponentElement(JRComponentElement element)

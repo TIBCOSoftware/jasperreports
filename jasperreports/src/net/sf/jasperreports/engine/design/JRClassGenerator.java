@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRException;
@@ -66,23 +67,23 @@ public class JRClassGenerator
 	protected static final int SOURCE_EXPRESSION_ID_START_LENGTH = SOURCE_EXPRESSION_ID_START.length();
 	protected static final String SOURCE_EXPRESSION_ID_END = "$";
 
-	private static Map fieldPrefixMap;
-	private static Map variablePrefixMap;
-	private static Map methodSuffixMap;
+	private static Map<Byte,String> fieldPrefixMap;
+	private static Map<Byte,String> variablePrefixMap;
+	private static Map<Byte, String> methodSuffixMap;
 	
 	static
 	{
-		fieldPrefixMap = new HashMap();
+		fieldPrefixMap = new HashMap<Byte,String>();
 		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
 		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "");
 		fieldPrefixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");
 		
-		variablePrefixMap = new HashMap();
+		variablePrefixMap = new HashMap<Byte,String>();
 		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
 		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "Estimated");
 		variablePrefixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");
 		
-		methodSuffixMap = new HashMap();
+		methodSuffixMap = new HashMap<Byte,String>();
 		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_OLD),       "Old");
 		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_ESTIMATED), "Estimated");
 		methodSuffixMap.put(new Byte(JRExpression.EVALUATION_DEFAULT),   "");		
@@ -90,9 +91,9 @@ public class JRClassGenerator
 
 	protected final JRSourceCompileTask sourceTask;
 	
-	protected Map parametersMap;
-	protected Map fieldsMap;
-	protected Map variablesMap;
+	protected Map<String, ? extends JRParameter> parametersMap;
+	protected Map<String,JRField> fieldsMap;
+	protected Map<String,JRVariable> variablesMap;
 	protected JRVariable[] variables;
 	
 	protected JRClassGenerator(JRSourceCompileTask sourceTask)
@@ -136,11 +137,11 @@ public class JRClassGenerator
 		}
 		generateInitVarsMethod(sb);
 
-		List expressions = sourceTask.getExpressions();
+		List<JRExpression> expressions = sourceTask.getExpressions();
 		sb.append(generateMethod(JRExpression.EVALUATION_DEFAULT, expressions));
 		if (sourceTask.isOnlyDefaultEvaluation())
 		{
-			List empty = new ArrayList();
+			List<JRExpression> empty = new ArrayList<JRExpression>();
 			sb.append(generateMethod(JRExpression.EVALUATION_OLD, empty));
 			sb.append(generateMethod(JRExpression.EVALUATION_ESTIMATED, empty));
 		}
@@ -234,22 +235,22 @@ public class JRClassGenerator
 	{
 		if (parametersMap != null && parametersMap.size() > 0)
 		{
-			Collection parameterNames = parametersMap.keySet();
-			for (Iterator it = parameterNames.iterator(); it.hasNext();)
+			Collection<String> parameterNames = parametersMap.keySet();
+			for (Iterator<String> it = parameterNames.iterator(); it.hasNext();)
 			{
 				sb.append("    private JRFillParameter parameter_");
-				sb.append(JRStringUtil.getJavaIdentifier((String)it.next()));
+				sb.append(JRStringUtil.getJavaIdentifier(it.next()));
 				sb.append(" = null;\n");
 			}
 		}
 		
 		if (fieldsMap != null && fieldsMap.size() > 0)
 		{
-			Collection fieldNames = fieldsMap.keySet();
-			for (Iterator it = fieldNames.iterator(); it.hasNext();)
+			Collection<String> fieldNames = fieldsMap.keySet();
+			for (Iterator<String> it = fieldNames.iterator(); it.hasNext();)
 			{
 				sb.append("    private JRFillField field_");
-				sb.append(JRStringUtil.getJavaIdentifier((String)it.next()));
+				sb.append(JRStringUtil.getJavaIdentifier(it.next()));
 				sb.append(" = null;\n");
 			}
 		}
@@ -268,14 +269,15 @@ public class JRClassGenerator
 
 	protected final void generateInitParamsMethod(StringBuffer sb) throws JRException
 	{
-		Iterator parIt = null;
+		Iterator<String> parIt = null;
 		if (parametersMap != null && parametersMap.size() > 0) 
 		{
 			parIt = parametersMap.keySet().iterator();
 		}
 		else
 		{
-			parIt = Collections.EMPTY_SET.iterator();
+			Set<String> emptySet = Collections.emptySet();
+			parIt = emptySet.iterator();
 		}
 		generateInitParamsMethod(sb, parIt, 0);
 	}		
@@ -283,14 +285,15 @@ public class JRClassGenerator
 
 	protected final void generateInitFieldsMethod(StringBuffer sb) throws JRException
 	{
-		Iterator fieldIt = null;
+		Iterator<String> fieldIt = null;
 		if (fieldsMap != null && fieldsMap.size() > 0) 
 		{
 			fieldIt = fieldsMap.keySet().iterator();
 		}
 		else
 		{
-			fieldIt = Collections.EMPTY_SET.iterator();
+			Set<String> emptySet = Collections.emptySet();
+			fieldIt = emptySet.iterator();
 		}
 		generateInitFieldsMethod(sb, fieldIt, 0);
 	}
@@ -298,14 +301,15 @@ public class JRClassGenerator
 
 	protected final void generateInitVarsMethod(StringBuffer sb) throws JRException
 	{
-		Iterator varIt = null;
+		Iterator<JRVariable> varIt = null;
 		if (variables != null && variables.length > 0) 
 		{
 			varIt = Arrays.asList(variables).iterator();
 		}
 		else
 		{
-			varIt = Collections.EMPTY_LIST.iterator();
+			List<JRVariable> emptyList = Collections.emptyList();
+			varIt = emptyList.iterator();
 		}
 		generateInitVarsMethod(sb, varIt, 0);
 	}
@@ -314,7 +318,7 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private void generateInitParamsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	private void generateInitParamsMethod(StringBuffer sb, Iterator<String> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -328,7 +332,7 @@ public class JRClassGenerator
 		sb.append("    {\n");
 		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
 		{
-			String parameterName = (String)it.next();
+			String parameterName = it.next();
 			sb.append("        parameter_");
 			sb.append(JRStringUtil.getJavaIdentifier(parameterName));
 			sb.append(" = (JRFillParameter)pm.get(\"");
@@ -355,7 +359,7 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private void generateInitFieldsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	private void generateInitFieldsMethod(StringBuffer sb, Iterator<String> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -369,7 +373,7 @@ public class JRClassGenerator
 		sb.append("    {\n");
 		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
 		{
-			String fieldName = (String)it.next();
+			String fieldName = it.next();
 			sb.append("        field_");
 			sb.append(JRStringUtil.getJavaIdentifier(fieldName));
 			sb.append(" = (JRFillField)fm.get(\"");
@@ -396,7 +400,7 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private void generateInitVarsMethod(StringBuffer sb, Iterator it, int index) throws JRException
+	private void generateInitVarsMethod(StringBuffer sb, Iterator<JRVariable> it, int index) throws JRException
 	{
 		sb.append("    /**\n");
 		sb.append("     *\n");
@@ -410,7 +414,7 @@ public class JRClassGenerator
 		sb.append("    {\n");
 		for (int i = 0; i < EXPR_MAX_COUNT_PER_METHOD && it.hasNext(); i++)
 		{
-			String variableName = ((JRVariable) it.next()).getName();
+			String variableName = (it.next()).getName();
 			sb.append("        variable_");
 			sb.append(JRStringUtil.getJavaIdentifier(variableName));
 			sb.append(" = (JRFillVariable)vm.get(\"");
@@ -434,7 +438,7 @@ public class JRClassGenerator
 	}		
 
 
-	protected final String generateMethod(byte evaluationType, List expressionsList) throws JRException
+	protected final String generateMethod(byte evaluationType, List<JRExpression> expressionsList) throws JRException
 	{
 		StringBuffer sb = new StringBuffer();
 
@@ -449,7 +453,7 @@ public class JRClassGenerator
 			sb.append("     *\n");
 			sb.append("     */\n");
 			sb.append("    public Object evaluate");
-			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
 			sb.append("(int id) throws Throwable\n");
 			sb.append("    {\n");
 			sb.append("        return null;\n");
@@ -465,7 +469,7 @@ public class JRClassGenerator
 	/**
 	 *
 	 */
-	private String generateMethod(Iterator it, int index, byte evaluationType) throws JRException
+	private String generateMethod(Iterator<JRExpression> it, int index, byte evaluationType) throws JRException
 	{
 		StringBuffer sb = new StringBuffer();
 
@@ -476,13 +480,13 @@ public class JRClassGenerator
 		if (index > 0)
 		{
 			sb.append("    private Object evaluate");
-			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
 			sb.append(index);
 		}
 		else
 		{
 			sb.append("    public Object evaluate");
-			sb.append((String)methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
 		}
 		sb.append("(int id) throws Throwable\n");
 		sb.append("    {\n");
@@ -493,7 +497,7 @@ public class JRClassGenerator
 
 		for (int i = 0; it.hasNext() && i < EXPR_MAX_COUNT_PER_METHOD; i++)
 		{
-			JRExpression expression = (JRExpression)it.next();
+			JRExpression expression = it.next();
 			
 			sb.append("            case "); 
 			sb.append(sourceTask.getExpressionId(expression)); 
@@ -514,7 +518,7 @@ public class JRClassGenerator
 		if (it.hasNext())
 		{
 			sb.append("               value = evaluate");
-			sb.append((String) methodSuffixMap.get(new Byte(evaluationType)));
+			sb.append(methodSuffixMap.get(new Byte(evaluationType)));
 			sb.append(index + 1);
 			sb.append("(id);\n");
 		}
@@ -573,7 +577,7 @@ public class JRClassGenerator
 					}
 					case JRExpressionChunk.TYPE_PARAMETER :
 					{
-						jrParameter = (JRParameter)parametersMap.get(chunkText);
+						jrParameter = parametersMap.get(chunkText);
 	
 						sb.append("((");
 						sb.append(jrParameter.getValueClassName());
@@ -585,28 +589,28 @@ public class JRClassGenerator
 					}
 					case JRExpressionChunk.TYPE_FIELD :
 					{
-						jrField = (JRField)fieldsMap.get(chunkText);
+						jrField = fieldsMap.get(chunkText);
 	
 						sb.append("((");
 						sb.append(jrField.getValueClassName());
 						sb.append(")field_");
 						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
 						sb.append(".get");
-						sb.append((String)fieldPrefixMap.get(new Byte(evaluationType))); 
+						sb.append(fieldPrefixMap.get(new Byte(evaluationType))); 
 						sb.append("Value())");
 	
 						break;
 					}
 					case JRExpressionChunk.TYPE_VARIABLE :
 					{
-						jrVariable = (JRVariable)variablesMap.get(chunkText);
+						jrVariable = variablesMap.get(chunkText);
 	
 						sb.append("((");
 						sb.append(jrVariable.getValueClassName());
 						sb.append(")variable_"); 
 						sb.append(JRStringUtil.getJavaIdentifier(chunkText)); 
 						sb.append(".get");
-						sb.append((String)variablePrefixMap.get(new Byte(evaluationType))); 
+						sb.append(variablePrefixMap.get(new Byte(evaluationType))); 
 						sb.append("Value())");
 	
 						break;
@@ -656,7 +660,7 @@ public class JRClassGenerator
 	
 	protected JRExpression[] parseSourceLines(String sourceCode)
 	{
-		List expressions = new ArrayList();
+		List<JRExpression> expressions = new ArrayList<JRExpression>();
 		int start = 0;
 		int end = sourceCode.indexOf('\n');
 		while (end >= 0)
@@ -672,7 +676,7 @@ public class JRClassGenerator
 			start = end + 1;
 			end = sourceCode.indexOf('\n', start);
 		}
-		return (JRExpression[]) expressions.toArray(new JRExpression[expressions.size()]);
+		return expressions.toArray(new JRExpression[expressions.size()]);
 	}
 
 

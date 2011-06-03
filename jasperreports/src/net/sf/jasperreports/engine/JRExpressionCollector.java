@@ -370,7 +370,7 @@ public class JRExpressionCollector
 	 * @param dataset the dataset
 	 * @return the expressions
 	 */
-	public List getExpressions(JRDataset dataset)
+	public List<JRExpression> getExpressions(JRDataset dataset)
 	{
 		return getCollector(dataset).getExpressions();
 	}
@@ -382,7 +382,7 @@ public class JRExpressionCollector
 	 * @param crosstab the crosstab
 	 * @return the expressions
 	 */
-	public List getExpressions(JRCrosstab crosstab)
+	public List<JRExpression> getExpressions(JRCrosstab crosstab)
 	{
 		return getCollector(crosstab).getExpressions();
 	}

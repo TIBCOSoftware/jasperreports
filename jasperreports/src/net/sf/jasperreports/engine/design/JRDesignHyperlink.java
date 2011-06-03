@@ -67,11 +67,11 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	
 	public static final String PROPERTY_HYPERLINK_PARAMETERS = "hyperlinkParameters";
 	
-	private List hyperlinkParameters;
+	private List<JRHyperlinkParameter> hyperlinkParameters;
 	
 	public JRDesignHyperlink()
 	{
-		hyperlinkParameters = new ArrayList();
+		hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
 	}
 
 	
@@ -219,7 +219,7 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * 
 	 * @return the list of custom hyperlink parameters
 	 */
-	public List getHyperlinkParametersList()
+	public List<JRHyperlinkParameter> getHyperlinkParametersList()
 	{
 		return hyperlinkParameters;
 	}
@@ -266,9 +266,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 */
 	public void removeHyperlinkParameter(String parameterName)
 	{
-		for (ListIterator it = hyperlinkParameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRHyperlinkParameter> it = hyperlinkParameters.listIterator(); it.hasNext();)
 		{
-			JRHyperlinkParameter parameter = (JRHyperlinkParameter) it.next();
+			JRHyperlinkParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				it.remove();

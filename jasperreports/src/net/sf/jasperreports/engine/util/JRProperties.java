@@ -502,13 +502,13 @@ public final class JRProperties
 	 * @param prefix the key prefix
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
 	 */
-	public static List getProperties (String prefix)
+	public static List<PropertySuffix> getProperties (String prefix)
 	{
 		int prefixLength = prefix.length();
-		List values = new ArrayList();
-		for (Enumeration names = props.propertyNames(); names.hasMoreElements();)
+		List<PropertySuffix> values = new ArrayList<PropertySuffix>();
+		for (Enumeration<String> names = (Enumeration<String>)props.propertyNames(); names.hasMoreElements();)
 		{
-			String name = (String) names.nextElement();
+			String name = names.nextElement();
 			if (name.startsWith(prefix))
 			{
 				String suffix = name.substring(prefixLength);

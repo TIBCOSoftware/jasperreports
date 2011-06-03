@@ -82,7 +82,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	/**
 	 *
 	 */
-	public void setValueClass(Class clazz)
+	public void setValueClass(Class<?> clazz)
 	{
 		setValueClassName(clazz.getName());
 	}
@@ -102,7 +102,7 @@ public class JRDesignVariable extends JRBaseVariable implements JRChangeEventsSu
 	/**
 	 *
 	 */
-	public void setIncrementerFactoryClass(Class clazz)
+	public void setIncrementerFactoryClass(Class<?> clazz)
 	{
 		setIncrementerFactoryClassName(clazz.getName());
 	}

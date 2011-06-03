@@ -155,8 +155,8 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			}
 		}
 
-		List datasets = jasperDesign.getDatasetsList();
-		List crosstabs = jasperDesign.getCrosstabs();
+		List<JRDataset> datasets = jasperDesign.getDatasetsList();
+		List<JRCrosstab> crosstabs = jasperDesign.getCrosstabs();
 		
 		JRCompilationUnit[] units = new JRCompilationUnit[datasets.size() + crosstabs.size() + 1];
 		
@@ -164,14 +164,14 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		units[0] = createCompileUnit(jasperDesign, jasperDesign.getMainDesignDataset(), expressionCollector, tempDirFile, nameSuffix);
 
 		int sourcesCount = 1;
-		for (Iterator it = datasets.iterator(); it.hasNext(); ++sourcesCount)
+		for (Iterator<JRDataset> it = datasets.iterator(); it.hasNext(); ++sourcesCount)
 		{
 			JRDesignDataset dataset = (JRDesignDataset) it.next();
 			// generating source code for a sub dataset
 			units[sourcesCount] = createCompileUnit(jasperDesign, dataset, expressionCollector, tempDirFile, nameSuffix);
 		}
 		
-		for (Iterator it = crosstabs.iterator(); it.hasNext(); ++sourcesCount)
+		for (Iterator<JRCrosstab> it = crosstabs.iterator(); it.hasNext(); ++sourcesCount)
 		{
 			JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 			// generating source code for a sub dataset
@@ -195,13 +195,13 @@ public abstract class JRAbstractCompiler implements JRCompiler
 			JRReportCompileData reportCompileData = new JRReportCompileData();
 			reportCompileData.setMainDatasetCompileData(units[0].getCompileData());
 			
-			for (ListIterator it = datasets.listIterator(); it.hasNext();)
+			for (ListIterator<JRDataset> it = datasets.listIterator(); it.hasNext();)
 			{
 				JRDesignDataset dataset = (JRDesignDataset) it.next();
 				reportCompileData.setDatasetCompileData(dataset, units[it.nextIndex()].getCompileData());
 			}
 			
-			for (ListIterator it = crosstabs.listIterator(); it.hasNext();)
+			for (ListIterator<JRCrosstab> it = crosstabs.listIterator(); it.hasNext();)
 			{
 				JRDesignCrosstab crosstab = (JRDesignCrosstab) it.next();
 				Integer crosstabId = expressionCollector.getCrosstabId(crosstab);
@@ -252,7 +252,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	private void verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector) throws JRException
 	{
-		Collection brokenRules = JRVerifier.verifyDesign(jasperDesign, expressionCollector);
+		Collection<JRValidationFault> brokenRules = JRVerifier.verifyDesign(jasperDesign, expressionCollector);
 		if (brokenRules != null && brokenRules.size() > 0)
 		{
 			throw new JRValidationException(brokenRules);

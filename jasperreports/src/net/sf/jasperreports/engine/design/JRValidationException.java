@@ -42,7 +42,7 @@ public class JRValidationException extends JRException
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private final Collection faults;
+	private final Collection<JRValidationFault> faults;
 
 	/**
 	 * Creates a validation exception containing a single fault.
@@ -79,7 +79,7 @@ public class JRValidationException extends JRException
 	 * 
 	 * @param faults a list of {@link JRValidationFault validation faults}
 	 */
-	public JRValidationException(Collection faults)
+	public JRValidationException(Collection<JRValidationFault> faults)
 	{
 		this(null, faults);
 	}
@@ -90,7 +90,7 @@ public class JRValidationException extends JRException
 	 * @param message the message to be used as header for the exception message
 	 * @param faults a list of {@link JRValidationFault validation faults}
 	 */
-	public JRValidationException(String message, Collection faults)
+	public JRValidationException(String message, Collection<JRValidationFault> faults)
 	{
 		super(appendMessages(message, faults));
 		
@@ -102,12 +102,12 @@ public class JRValidationException extends JRException
 	 * 
 	 * @return the list of {@link JRValidationFault JRValidationFault} instances.
 	 */
-	public Collection getFaults()
+	public Collection<JRValidationFault> getFaults()
 	{
 		return faults;
 	}
 	
-	protected static String appendMessages(String header, Collection faults)
+	protected static String appendMessages(String header, Collection<JRValidationFault> faults)
 	{
 		if (header == null)
 		{
@@ -117,9 +117,9 @@ public class JRValidationException extends JRException
 		StringBuffer sbuffer = new StringBuffer();
 		sbuffer.append(header);
 		int i = 1;
-		for(Iterator it = faults.iterator(); it.hasNext(); i++)
+		for(Iterator<JRValidationFault> it = faults.iterator(); it.hasNext(); i++)
 		{
-			JRValidationFault fault = (JRValidationFault) it.next();
+			JRValidationFault fault = it.next();
 			sbuffer.append("\n\t " + i + ". " + fault.getMessage());
 		}
 		return sbuffer.toString();

@@ -60,7 +60,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	/**
 	 *
 	 */
-	protected List chunks = new ArrayList();
+	protected List<JRQueryChunk> chunks = new ArrayList<JRQueryChunk>();
 
 	
 	private transient final JRQueryChunkHandler chunkAdder = new JRQueryChunkHandler()
@@ -105,7 +105,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public void setChunks(List chunks)
+	public void setChunks(List<JRQueryChunk> chunks)
 	{
 		this.chunks = chunks;
 	}
@@ -176,7 +176,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	public void setText(String text)
 	{
 		Object old = getText();
-		chunks = new ArrayList();
+		chunks = new ArrayList<JRQueryChunk>();
 		JRQueryParser.instance().parse(text, chunkAdder);
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, getText());
 	}
@@ -276,10 +276,10 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 
 		if (chunks != null)
 		{
-			clone.chunks = new ArrayList(chunks.size());
+			clone.chunks = new ArrayList<JRQueryChunk>(chunks.size());
 			for(int i = 0; i < chunks.size(); i++)
 			{
-				clone.chunks.add(((JRQueryChunk)chunks.get(i)).clone());
+				clone.chunks.add((JRQueryChunk)(chunks.get(i).clone()));
 			}
 		}
 

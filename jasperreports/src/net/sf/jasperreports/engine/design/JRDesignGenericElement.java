@@ -60,7 +60,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	public static final String PROPERTY_PARAMETERS = "parameters";
 	
 	private JRGenericElementType genericType;
-	private List parameters = new ArrayList();
+	private List<JRGenericElementParameter> parameters = new ArrayList<JRGenericElementParameter>();
 	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroupName;
 	
@@ -76,14 +76,13 @@ public class JRDesignGenericElement extends JRDesignElement implements
 
 	public JRGenericElementParameter[] getParameters()
 	{
-		return (JRGenericElementParameter[]) parameters.toArray(
-				new JRGenericElementParameter[parameters.size()]);
+		return parameters.toArray(new JRGenericElementParameter[parameters.size()]);
 	}
 	
 	/**
 	 * @deprecated Replaced by {@link #getParametersList()}.
 	 */
-	public List getParamtersList()
+	public List<JRGenericElementParameter> getParamtersList()
 	{
 		return getParametersList();
 	}
@@ -94,7 +93,7 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	 * @return the list of element parameters
 	 * @see #getParameters()
 	 */
-	public List getParametersList()
+	public List<JRGenericElementParameter> getParametersList()
 	{
 		return parameters;
 	}
@@ -140,9 +139,9 @@ public class JRDesignGenericElement extends JRDesignElement implements
 	public JRGenericElementParameter removeParameter(String parameterName)
 	{
 		JRGenericElementParameter removed = null;
-		for (ListIterator it = parameters.listIterator(); it.hasNext();)
+		for (ListIterator<JRGenericElementParameter> it = parameters.listIterator(); it.hasNext();)
 		{
-			JRGenericElementParameter parameter = (JRGenericElementParameter) it.next();
+			JRGenericElementParameter parameter = it.next();
 			if (parameter.getName() != null && parameter.getName().equals(parameterName))
 			{
 				removed = parameter;

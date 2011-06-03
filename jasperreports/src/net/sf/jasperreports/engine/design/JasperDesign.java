@@ -964,7 +964,7 @@ public class JasperDesign extends JRBaseReport
 	/**
 	 * Returns a collection of all report expressions.
 	 */
-	public Collection getExpressions()
+	public Collection<?> getExpressions()
 	{
 		return JRExpressionCollector.collectExpressions(this);
 	}
