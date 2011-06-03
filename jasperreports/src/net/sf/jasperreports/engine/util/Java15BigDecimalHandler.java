@@ -53,7 +53,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 		JRProperties.PROPERTY_PREFIX + "big.decimal.minimum.precision";
 	
 	private final int minPrecision;
-	private final ThreadLocal mathContexts;
+	private final ThreadLocal<MathContext[]> mathContexts;
 	
 	public Java15BigDecimalHandler()
 	{
@@ -68,7 +68,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 		}
 		
 		this.minPrecision = minPrecision;
-		this.mathContexts = new ThreadLocal();
+		this.mathContexts = new ThreadLocal<MathContext[]>();
 	}
 	
 	private static int readConfiguredPrecision()
@@ -106,7 +106,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 	
 	protected MathContext getMathContext(int precision)
 	{
-		MathContext[] contexts = (MathContext[]) mathContexts.get();
+		MathContext[] contexts = mathContexts.get();
 		int idx = precision - minPrecision;
 		if (contexts == null || contexts.length < idx + 1)
 		{

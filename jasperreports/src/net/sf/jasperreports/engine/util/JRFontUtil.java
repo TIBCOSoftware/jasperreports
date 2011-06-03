@@ -58,11 +58,11 @@ public final class JRFontUtil
 	/**
 	 *.
 	 */
-	private static final InheritableThreadLocal threadMissingFontsCache = new InheritableThreadLocal()
+	private static final InheritableThreadLocal<Set<String>> threadMissingFontsCache = new InheritableThreadLocal<Set<String>>()
 	{
 		@Override
-		protected Object initialValue() {
-			return new HashSet();
+		protected Set<String> initialValue() {
+			return new HashSet<String>();
 		}
 	};
 	
@@ -330,7 +330,7 @@ public final class JRFontUtil
 	 */
 	public static void resetThreadMissingFontsCache()
 	{
-		threadMissingFontsCache.set(new HashSet());
+		threadMissingFontsCache.set(new HashSet<String>());
 	}
 	
 	
@@ -343,7 +343,7 @@ public final class JRFontUtil
 		{
 			if (ignoreMissingFont)
 			{
-				Set missingFontNames = (Set)threadMissingFontsCache.get();
+				Set<String> missingFontNames = threadMissingFontsCache.get();
 				if (!missingFontNames.contains(name))
 				{
 					missingFontNames.add(name);

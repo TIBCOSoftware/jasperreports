@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
  */
 public final class JRVirtualizationHelper
 {
-	private static final ThreadLocal threadVirtualizer = new ThreadLocal();
+	private static final ThreadLocal<JRVirtualizer> threadVirtualizer = new ThreadLocal<JRVirtualizer>();
 
 	
 	/**
@@ -67,7 +67,7 @@ public final class JRVirtualizationHelper
 	 */
 	public static JRVirtualizer getThreadVirtualizer()
 	{
-		return (JRVirtualizer) threadVirtualizer.get();
+		return threadVirtualizer.get();
 	}
 	
 	

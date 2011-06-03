@@ -63,7 +63,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	
 	// @JVM Crash workaround
 	// Reference to the loaded class class in a per thread map
-	private static ThreadLocal classFromBytesRef = new ThreadLocal();
+	private static ThreadLocal<Class<?>> classFromBytesRef = new ThreadLocal<Class<?>>();
 
 
 	private static final Object CLASS_CACHE_NULL_KEY = new Object();
@@ -82,7 +82,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 
 		try
 		{
-			Class clazz = getClassFromCache(className);
+			Class<?> clazz = getClassFromCache(className);
 			if (clazz == null)
 			{
 				clazz = JRClassLoader.loadClassFromBytes(className, (byte[]) compileData);
@@ -113,20 +113,20 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	}
 
 	
-	protected static synchronized Class getClassFromCache(String className)
+	protected static synchronized Class<?> getClassFromCache(String className)
 	{
 		Object key = classCacheKey();
 		Map contextMap = (Map) classCache.get(key);
-		Class cachedClass = null;
+		Class<?> cachedClass = null;
 		if (contextMap != null)
 		{
-			cachedClass = (Class) contextMap.get(className);
+			cachedClass = (Class<?>) contextMap.get(className);
 		}
 		return cachedClass;
 	}
 
 
-	protected static synchronized void putClassInCache(String className, Class loadedClass)
+	protected static synchronized void putClassInCache(String className, Class<?> loadedClass)
 	{
 		Object key = classCacheKey();
 		Map contextMap = (Map) classCache.get(key);

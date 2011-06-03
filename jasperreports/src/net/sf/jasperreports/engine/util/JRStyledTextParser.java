@@ -74,7 +74,7 @@ public class JRStyledTextParser implements ErrorHandler
 {
 	private static final Log log = LogFactory.getLog(JRStyledTextParser.class);
 
-	private static final Set AVAILABLE_FONT_FACE_NAMES = new HashSet();
+	private static final Set<String> AVAILABLE_FONT_FACE_NAMES = new HashSet<String>();
 	static
 	{
 		//FIXMEFONT do some cache
@@ -136,12 +136,12 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 * Thread local soft cache of instances.
 	 */
-	private static final ThreadLocal threadInstances = new ThreadLocal();
+	private static final ThreadLocal<SoftReference<JRStyledTextParser>> threadInstances = new ThreadLocal<SoftReference<JRStyledTextParser>>();
 	
 	/**
 	 * 
 	 */
-	private static final ThreadLocal threadLocale = new ThreadLocal();
+	private static final ThreadLocal<Locale> threadLocale = new ThreadLocal<Locale>();
 	
 	/**
 	 * Return a cached instance.
@@ -151,15 +151,15 @@ public class JRStyledTextParser implements ErrorHandler
 	public static JRStyledTextParser getInstance()
 	{
 		JRStyledTextParser instance = null;
-		SoftReference instanceRef = (SoftReference) threadInstances.get();
+		SoftReference<JRStyledTextParser> instanceRef = threadInstances.get();
 		if (instanceRef != null)
 		{
-			instance = (JRStyledTextParser) instanceRef.get();
+			instance =  instanceRef.get();
 		}
 		if (instance == null)
 		{
 			instance = new JRStyledTextParser();
-			threadInstances.set(new SoftReference(instance));
+			threadInstances.set(new SoftReference<JRStyledTextParser>(instance));
 		}
 		return instance;
 	}
@@ -178,7 +178,7 @@ public class JRStyledTextParser implements ErrorHandler
 	 */
 	public static Locale getLocale()
 	{
-		return (Locale)threadLocale.get();
+		return threadLocale.get();
 	}
 	
 	/**
