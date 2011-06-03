@@ -80,13 +80,13 @@ public interface JRExporter
 	 * Sets export parameters from a specified map.
 	 * @see JRExporter#setParameter(JRExporterParameter, Object)
 	 */
-	public void setParameters(Map parameters);
+	public void setParameters(Map<JRExporterParameter,Object> parameters);
 	
 
 	/**
 	 * Gets a map containing all export parameters.
 	 */
-	public Map getParameters();
+	public Map<JRExporterParameter,Object> getParameters();
 
 
 	/**

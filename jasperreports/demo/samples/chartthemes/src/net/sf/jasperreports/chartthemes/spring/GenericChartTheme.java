@@ -166,7 +166,7 @@ public class GenericChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	protected ThreadLocal threadLocalChartContext = new ThreadLocal();
+	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
 	
 
 	/**
@@ -182,7 +182,7 @@ public class GenericChartTheme implements ChartTheme
 	 */
 	private ChartContext getChartContext()
 	{
-		return (ChartContext)threadLocalChartContext.get();
+		return threadLocalChartContext.get();
 	}
 	
 	

@@ -49,13 +49,13 @@ public class StyleBuilder
 	/**
 	 * 
 	 */
-	private List jasperPrintList;
+	private List<JasperPrint> jasperPrintList;
 	private Writer writer;
 	
 	/**
 	 * 
 	 */
-	public StyleBuilder(List jasperPrintList, Writer writer)
+	public StyleBuilder(List<JasperPrint> jasperPrintList, Writer writer)
 	{
 		this.jasperPrintList = jasperPrintList;
 		this.writer = writer;
@@ -68,7 +68,7 @@ public class StyleBuilder
 	{
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			JasperPrint jasperPrint = jasperPrintList.get(reportIndex);
 
 			if (reportIndex == 0)
 			{

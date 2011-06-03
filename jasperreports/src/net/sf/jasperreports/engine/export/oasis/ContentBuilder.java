@@ -58,7 +58,7 @@ public class ContentBuilder
 	private ExportZipEntry styleEntry;
 	private ExportZipEntry bodyEntry;
 	
-	private Collection fontFaces;
+	private Collection<String> fontFaces;
 	
 	private byte openDocumentNature;
 	
@@ -69,7 +69,7 @@ public class ContentBuilder
 		ExportZipEntry contentEntry,
 		ExportZipEntry styleEntry,
 		ExportZipEntry bodyEntry,
-		Collection fontFaces
+		Collection<String> fontFaces
 		)
 	{
 		this(
@@ -88,7 +88,7 @@ public class ContentBuilder
 		ExportZipEntry contentEntry,
 		ExportZipEntry styleEntry,
 		ExportZipEntry bodyEntry,
-		Collection fontFaces,
+		Collection<String> fontFaces,
 		byte openDocumentNature
 		)
 	{
@@ -150,9 +150,9 @@ public class ContentBuilder
 		writer.write(" <office:font-face-decls>\n");
 		if (fontFaces != null)
 		{
-			for (Iterator it = fontFaces.iterator(); it.hasNext();)
+			for (Iterator<String> it = fontFaces.iterator(); it.hasNext();)
 			{
-				String fontFace = (String)it.next();
+				String fontFace = it.next();
 				writer.write("<style:font-face style:name=\"" + fontFace + "\"");
 				writer.write(" svg:font-family=\"" + fontFace + "\"");
 				writer.write("/>\n");
