@@ -49,7 +49,7 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(Writer writer, Map fontMap, String exporterKey)
+	public DocxStyleHelper(Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
 		super(writer);
 		
@@ -60,7 +60,7 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void export(List jasperPrintList) throws IOException
+	public void export(List<JasperPrint> jasperPrintList) throws IOException
 	{
 		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		writer.write("<w:styles\n");
@@ -81,7 +81,7 @@ public class DocxStyleHelper extends BaseHelper
 
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			JasperPrint jasperPrint = (JasperPrint)jasperPrintList.get(reportIndex);
+			JasperPrint jasperPrint = jasperPrintList.get(reportIndex);
 			
 			String localeCode = jasperPrint.getLocaleCode();
 			

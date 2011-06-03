@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.export.JRExporterGridCell;
  */
 public class XlsxBorderHelper extends BaseHelper
 {
-	private Map borderCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> borderCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 	
 	private boolean isIgnoreCellBorder;
 	
@@ -63,7 +63,7 @@ public class XlsxBorderHelper extends BaseHelper
 		}
 
 		XlsxBorderInfo borderInfo = new XlsxBorderInfo(gridCell.getBox());
-		Integer borderIndex = (Integer)borderCache.get(borderInfo.getId());
+		Integer borderIndex = borderCache.get(borderInfo.getId());
 		if (borderIndex == null)
 		{
 			borderIndex = Integer.valueOf(borderCache.size());

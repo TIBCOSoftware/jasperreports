@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class XlsxFormatHelper extends BaseHelper
 {
-	private Map formatCache = new HashMap();//FIXMEXLSX use soft cache? check other exporter caches as well
+	private Map<String,Integer> formatCache = new HashMap<String,Integer>();//FIXMEXLSX use soft cache? check other exporter caches as well
 
 	/**
 	 *
@@ -55,7 +55,7 @@ public class XlsxFormatHelper extends BaseHelper
 		}
 		
 		XlsxFormatInfo formatInfo = new XlsxFormatInfo(pattern);
-		Integer formatIndex = (Integer)formatCache.get(formatInfo.getId());
+		Integer formatIndex = formatCache.get(formatInfo.getId());
 		if (formatIndex == null)
 		{
 			formatIndex = Integer.valueOf(formatCache.size());

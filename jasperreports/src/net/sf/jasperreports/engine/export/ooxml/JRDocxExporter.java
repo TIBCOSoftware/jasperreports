@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -129,9 +130,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected Writer docWriter;
 
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map rendererToImagePathMap;
-	protected Map imageMaps;
-	protected List imagesToProcess;
+	protected Map<String, String> rendererToImagePathMap;
+//	protected Map imageMaps;
+	protected List<JRPrintElementIndex> imagesToProcess;
 //	protected Map hyperlinksMap;
 
 	protected int reportIndex;
@@ -142,9 +143,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap;
+	protected Map<String,String> fontMap;
 
-	protected LinkedList backcolorStack;
+	protected LinkedList<Color> backcolorStack;
 	protected Color backcolor;
 
 	private DocxRunHelper runHelper;
@@ -179,7 +180,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	
 	public JRDocxExporter()
 	{
-		backcolorStack = new LinkedList();
+		backcolorStack = new LinkedList<Color>();
 		backcolor = null;
 	}
 
@@ -213,12 +214,12 @@ public class JRDocxExporter extends JRAbstractExporter
 				setPageRange();
 			}
 
-			rendererToImagePathMap = new HashMap();
-			imageMaps = new HashMap();
-			imagesToProcess = new ArrayList();
+			rendererToImagePathMap = new HashMap<String,String>();
+//			imageMaps = new HashMap();
+			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //			hyperlinksMap = new HashMap();
 
-			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
 
 			setHyperlinkProducerFactory();
 
@@ -286,16 +287,16 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static JRPrintImage getImage(List jasperPrintList, String imageName)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, JRPrintElementIndex imageIndex)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
 	{
-		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
@@ -345,9 +346,9 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -364,7 +365,7 @@ public class JRDocxExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted.");
 					}
 
-					page = (JRPrintPage)pages.get(pageIndex);
+					page = pages.get(pageIndex);
 
 					exportPage(page);
 				}
@@ -376,9 +377,9 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		if ((imagesToProcess != null && imagesToProcess.size() > 0))
 		{
-			for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
 			{
-				JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+				JRPrintElementIndex imageIndex = it.next();
 
 				JRPrintImage image = getImage(jasperPrintList, imageIndex);
 				JRRenderable renderer = image.getRenderer();
@@ -755,7 +756,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Map attributes = iterator.getAttributes();
+			Map<Attribute,Object> attributes = iterator.getAttributes();
 			
 			boolean localHyperlink = false;
 
@@ -1031,7 +1032,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		{
 			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
-				imagePath = (String)rendererToImagePathMap.get(renderer.getId());
+				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}
 			else
 			{
@@ -1248,7 +1249,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 	protected void restoreBackcolor()
 	{
-		backcolor = (Color) backcolorStack.removeLast();
+		backcolor = backcolorStack.removeLast();
 	}
 
 

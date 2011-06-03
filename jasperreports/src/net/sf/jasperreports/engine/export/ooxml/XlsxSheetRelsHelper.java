@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
  */
 public class XlsxSheetRelsHelper extends BaseHelper
 {
-	private Map linkCache = new HashMap();
+	private Map<String,Integer> linkCache = new HashMap<String,Integer>();
 
 	/**
 	 * 
@@ -61,7 +61,7 @@ public class XlsxSheetRelsHelper extends BaseHelper
 	 */
 	public int getHyperlink(String href)
 	{
-		Integer linkIndex = (Integer)linkCache.get(href);
+		Integer linkIndex = linkCache.get(href);
 		if (linkIndex == null)
 		{
 			linkIndex = Integer.valueOf(linkCache.size());

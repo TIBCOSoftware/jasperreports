@@ -118,7 +118,7 @@ public final class JRFontUtil
 	 * The attributes include the TextAttribute.FONT, which has a java.awt.Font object as value.
 	 * @deprecated Replaced by {@link #getAttributesWithoutAwtFont(Map, JRFont)}.
 	 */
-	public static Map getAttributes(Map attributes, JRFont font, Locale locale)
+	public static Map<Attribute,Object> getAttributes(Map<Attribute,Object> attributes, JRFont font, Locale locale)
 	{
 		//Font awtFont = getAwtFont(font);//FIXMEFONT optimize so that we don't load the AWT font for all exporters.
 		Font awtFont = 
@@ -143,7 +143,7 @@ public final class JRFontUtil
 	/**
 	 *
 	 */
-	public static Map getAttributesWithoutAwtFont(Map attributes, JRFont font)
+	public static Map<Attribute,Object> getAttributesWithoutAwtFont(Map<Attribute,Object> attributes, JRFont font)
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
 
@@ -188,10 +188,10 @@ public final class JRFontUtil
 	public static FontInfo getFontInfo(String name, Locale locale)
 	{
 		//FIXMEFONT do some cache
-		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
-		for (Iterator itf = families.iterator(); itf.hasNext();)
+		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
-			FontFamily family = (FontFamily)itf.next();
+			FontFamily family = itf.next();
 			if (locale == null || family.supportsLocale(locale))
 			{
 				if (name.equals(family.getName()))
@@ -228,14 +228,14 @@ public final class JRFontUtil
 	/**
 	 * Returns the font family names available through extensions, in alphabetical order.
 	 */
-	public static Collection getFontFamilyNames()
+	public static Collection<String> getFontFamilyNames()
 	{
-		TreeSet familyNames = new TreeSet();//FIXMEFONT use collator for order?
+		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
-		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
-		for (Iterator itf = families.iterator(); itf.hasNext();)
+		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
-			FontFamily family = (FontFamily)itf.next();
+			FontFamily family = itf.next();
 			familyNames.add(family.getName());
 		}
 		return familyNames;
@@ -387,7 +387,7 @@ public final class JRFontUtil
 		
 		if (awtFont == null)
 		{
-			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap(), font));
+			awtFont = new Font(getAttributesWithoutAwtFont(new HashMap<Attribute,Object>(), font));
 		}
 		else
 		{
