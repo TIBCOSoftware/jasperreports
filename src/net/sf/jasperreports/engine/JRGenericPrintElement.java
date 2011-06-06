@@ -53,7 +53,7 @@ public interface JRGenericPrintElement extends JRPrintElement
 	 * 
 	 * @return the set of parameter names (as <code>String</code>s).
 	 */
-	Set getParameterNames();
+	Set<String> getParameterNames();
 	
 	/**
 	 * Determines whether the element includes a parameter having a given name.

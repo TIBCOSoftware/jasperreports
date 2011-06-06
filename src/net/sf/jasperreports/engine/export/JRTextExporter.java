@@ -37,11 +37,11 @@ import java.util.StringTokenizer;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -299,9 +299,9 @@ public class JRTextExporter extends JRAbstractExporter
 	{
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -320,7 +320,7 @@ public class JRTextExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted.");
 					}
 
-					JRPrintPage page = (JRPrintPage)pages.get(i);
+					JRPrintPage page = pages.get(i);
 
 					/*   */
 					exportPage(page);
@@ -339,7 +339,7 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		List elements = page.getElements();
+		List<JRPrintElement> elements = page.getElements();
 
 		pageData = new char[pageHeightInChars][];
 		for (int i = 0; i < pageHeightInChars; i++) {
@@ -363,7 +363,7 @@ public class JRTextExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportElements(List elements)
+	protected void exportElements(List<JRPrintElement> elements)
 	{
 		for (int i = 0; i < elements.size();i++)
 		{

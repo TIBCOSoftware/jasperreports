@@ -39,14 +39,14 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class ElementKeyExporterFilter implements ExporterFilter
 {
 	
-	private final Set excludedKeys;
+	private final Set<String> excludedKeys;
 	
 	/**
 	 * Creates a filter instance.
 	 * 
 	 * @param excludedKeys the set of keys to exclude
 	 */
-	public ElementKeyExporterFilter(Set excludedKeys)
+	public ElementKeyExporterFilter(Set<String> excludedKeys)
 	{
 		if (excludedKeys == null)
 		{

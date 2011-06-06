@@ -69,7 +69,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	{
 		String excludeKeyPrefix = 
 			exporterContext.getExportPropertiesPrefix() + PROPERTY_EXCLUDED_KEY_PREFIX;
-		List props = JRProperties.getProperties(
+		List<JRProperties.PropertySuffix> props = JRProperties.getProperties(
 				exporterContext.getExportedReport(), excludeKeyPrefix);
 		ExporterFilter filter;
 		if (props.isEmpty())
@@ -78,10 +78,10 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 		}
 		else
 		{
-			Set excludedKeys = new HashSet();
-			for (Iterator it = props.iterator(); it.hasNext();)
+			Set<String> excludedKeys = new HashSet<String>();
+			for (Iterator<JRProperties.PropertySuffix> it = props.iterator(); it.hasNext();)
 			{
-				JRProperties.PropertySuffix prop = (JRProperties.PropertySuffix) it.next();
+				JRProperties.PropertySuffix prop = it.next();
 				String key = prop.getValue();
 				if (key == null || key.length() == 0)
 				{

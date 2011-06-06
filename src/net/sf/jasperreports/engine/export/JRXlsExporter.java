@@ -39,6 +39,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -123,12 +124,12 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	public static final String XLS_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xls";
 	
-	private static Map hssfColorsCache = new ReferenceMap();
+	private static Map<Color,HSSFColor> hssfColorsCache = new ReferenceMap();
 
-	protected Map loadedCellStyles = new HashMap();
-	protected Map anchorLinks = new HashMap();
-	protected Map pageLinks = new HashMap();
-	protected Map anchorNames = new HashMap();
+	protected Map<StyleInfo,HSSFCellStyle> loadedCellStyles = new HashMap<StyleInfo,HSSFCellStyle>();
+	protected Map<String,List<Hyperlink>> anchorLinks = new HashMap<String,List<Hyperlink>>();
+	protected Map<Integer,List<Hyperlink>> pageLinks = new HashMap<Integer,List<Hyperlink>>();
+	protected Map<String,HSSFName> anchorNames = new HashMap<String,HSSFName>();
 
 	/**
 	 *
@@ -297,16 +298,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			for (Object anchorName : anchorNames.keySet())
 			{
-				HSSFName anchor = (HSSFName)anchorNames.get(anchorName);
-				List linkList = (List)anchorLinks.get(anchorName);
+				HSSFName anchor = anchorNames.get(anchorName);
+				List<Hyperlink> linkList = anchorLinks.get(anchorName);
 				int index = anchor.getSheetIndex();
 				anchor.setRefersToFormula("'" + workbook.getSheetName(index) + "'!"+ anchor.getRefersToFormula());
 				
 				if(linkList != null && !linkList.isEmpty())
 				{
-					for(Object hyperlink : linkList)
+					for(Hyperlink link : linkList)
 					{
-						Hyperlink link = (Hyperlink)hyperlink;
 						link.setAddress(anchor.getRefersToFormula());
 					}
 				}
@@ -314,12 +314,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 			for (Object pageIndex : pageLinks.keySet())
 			{
-				List linkList = (List)pageLinks.get(pageIndex);
+				List<Hyperlink> linkList = pageLinks.get(pageIndex);
 				if(linkList != null && !linkList.isEmpty())
 				{
-					for(Object hyperlink : linkList)
+					for(Hyperlink link : linkList)
 					{
-						Hyperlink link = (Hyperlink)hyperlink;
 						if(isOnePagePerSheet)
 						{
 							link.setAddress("'" + workbook.getSheetName(((Integer)pageIndex).intValue() - 1)+ "'!A1");
@@ -763,7 +762,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 		while(runLimit < styledText.length() && (runLimit = iterator.getRunLimit()) <= styledText.length())
 		{
-			Map attributes = iterator.getAttributes();
+			Map<Attribute,Object> attributes = iterator.getAttributes();
 			JRFont runFont = attributes.isEmpty()? defaultFont : new JRBaseFont(attributes);
 			short runForecolor = attributes.get(TextAttribute.FOREGROUND) != null ? 
 					getWorkbookColor((Color)attributes.get(TextAttribute.FOREGROUND)).getIndex() :
@@ -883,13 +882,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected static HSSFColor getNearestColor(Color awtColor)
 	{
-		HSSFColor color = (HSSFColor) hssfColorsCache.get(awtColor);		
+		HSSFColor color = hssfColorsCache.get(awtColor);		
 		if (color == null)
 		{
-			Map triplets = HSSFColor.getTripletHash();
+			Map<?,?> triplets = HSSFColor.getTripletHash();
 			if (triplets != null)
 			{
-				Collection keys = triplets.keySet();
+				Collection<?> keys = triplets.keySet();
 				if (keys != null && keys.size() > 0)
 				{
 					Object key = null;
@@ -897,7 +896,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					short[] rgb = null;
 					int diff = 0;
 					int minDiff = 999;
-					for (Iterator it = keys.iterator(); it.hasNext();)
+					for (Iterator<?> it = keys.iterator(); it.hasNext();)
 					{
 						key = it.next();
 
@@ -923,14 +922,14 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map attributes, Locale locale)
+	protected HSSFFont getLoadedFont(JRFont font, short forecolor, Map<Attribute,Object> attributes, Locale locale)
 	{
 		HSSFFont cellFont = null;
 
 		String fontName = font.getFontName();
 		if (fontMap != null && fontMap.containsKey(fontName))
 		{
-			fontName = (String) fontMap.get(fontName);
+			fontName = fontMap.get(fontName);
 		}
 		else
 		{
@@ -1028,7 +1027,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected HSSFCellStyle getLoadedCellStyle(StyleInfo style)
 	{
-		HSSFCellStyle cellStyle = (HSSFCellStyle) loadedCellStyles.get(style);
+		HSSFCellStyle cellStyle = loadedCellStyles.get(style);
 		if (cellStyle == null)
 		{
 			cellStyle = workbook.createCellStyle();
@@ -1672,11 +1671,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
 					    if(anchorLinks.containsKey(href))
 					    {
-					    	((List)anchorLinks.get(href)).add(link);
+					    	(anchorLinks.get(href)).add(link);
 					    }
 					    else
 					    {
-					    	List hrefList = new ArrayList();
+					    	List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
 					    	hrefList.add(link);
 					    	anchorLinks.put(href, hrefList);
 					    }
@@ -1693,11 +1692,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
 					    if(pageLinks.containsKey(hrefPage))
 					    {
-					    	((List)pageLinks.get(hrefPage)).add(link);
+					    	pageLinks.get(hrefPage).add(link);
 					    }
 					    else
 					    {
-					    	List hrefList = new ArrayList();
+					    	List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
 					    	hrefList.add(link);
 					    	pageLinks.put(hrefPage, hrefList);
 					    }

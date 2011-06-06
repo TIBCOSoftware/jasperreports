@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -66,7 +67,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws IOException
 	{
-		List elements = page.getElements();
+		List<JRPrintElement> elements = page.getElements();
 		Map<String, String> currentRow = new HashMap<String, String>();
 		Map<String, String> repeatedValues = new HashMap<String, String>();
 		

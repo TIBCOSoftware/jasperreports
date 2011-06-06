@@ -63,11 +63,11 @@ public class JRHtmlExporterHelper
 	/**
 	 *
 	 */
-	public void createNestedFrames(ListIterator elemIt, JRBasePrintFrame parentFrame)//FIXME need to make this recursive for frames
+	public void createNestedFrames(ListIterator<JRPrintElement> elemIt, JRBasePrintFrame parentFrame)//FIXME need to make this recursive for frames
 	{
 		while (elemIt.hasNext())
 		{
-			JRPrintElement element = (JRPrintElement)elemIt.next();
+			JRPrintElement element = elemIt.next();
 			
 			if (element.hasProperties())
 			{
@@ -124,9 +124,9 @@ public class JRHtmlExporterHelper
 		int y = Integer.MAX_VALUE;
 		int width = 0;
 		int height = 0;
-		for (Iterator it = frame.getElements().iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = frame.getElements().iterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement)it.next();
+			JRPrintElement element = it.next();
 			x = element.getX() < x ? element.getX() : x; 
 			y = element.getY() < y ? element.getY() : y;
 			width = element.getX() + element.getWidth() > width ? element.getX() + element.getWidth() : width;
@@ -138,9 +138,9 @@ public class JRHtmlExporterHelper
 		frame.setWidth(width - x);
 		frame.setHeight(height - y);
 
-		for (Iterator it = frame.getElements().iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = frame.getElements().iterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement)it.next();
+			JRPrintElement element = it.next();
 			element.setX(element.getX() - x); 
 			element.setY(element.getY() - y); 
 		}

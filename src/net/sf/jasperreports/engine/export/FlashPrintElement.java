@@ -128,7 +128,7 @@ public final class FlashPrintElement
 	 * @return a Flash generic element
 	 */
 	public static JRGenericPrintElement makeFlashElement(JRPrintElement template,
-			String swfUrl, Map flashVars, Map elementParameters)
+			String swfUrl, Map<String,Object> flashVars, Map<String,Object> elementParameters)
 	{
 		// TODO use JRTemplateGenericElement
 		JRBaseGenericPrintElement flashEl = new JRBaseGenericPrintElement(
@@ -147,10 +147,10 @@ public final class FlashPrintElement
 		
 		flashEl.setGenericType(FLASH_ELEMENT_TYPE);
 		flashEl.setParameterValue(PARAMETER_SWF_URL, swfUrl);
-		for (Iterator it = flashVars.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String,Object>> it = flashVars.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			String name = (String) entry.getKey();
+			Map.Entry<String,Object> entry = it.next();
+			String name = entry.getKey();
 			Object value = entry.getValue();
 			String paramName = PARAMETER_FLASH_VAR_PREFIX + name;
 			flashEl.setParameterValue(paramName, value);
@@ -158,10 +158,10 @@ public final class FlashPrintElement
 		
 		if (elementParameters != null && !elementParameters.isEmpty())
 		{
-			for (Iterator it = elementParameters.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<String,Object>> it = elementParameters.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
-				String name = (String) entry.getKey();
+				Map.Entry<String,Object> entry = it.next();
+				String name = entry.getKey();
 				Object value = entry.getValue();
 				flashEl.setParameterValue(name, value);
 			}

@@ -55,10 +55,10 @@ public class DefaultHyperlinkTargetProducerFactory extends JRHyperlinkTargetProd
 			return null;
 		}
 
-		List factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(JRHyperlinkTargetProducerFactory.class);
-		for (Iterator it = factories.iterator(); it.hasNext();)
+		List<JRHyperlinkTargetProducerFactory> factories = (List<JRHyperlinkTargetProducerFactory>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(JRHyperlinkTargetProducerFactory.class);
+		for (Iterator<JRHyperlinkTargetProducerFactory> it = factories.iterator(); it.hasNext();)
 		{
-			JRHyperlinkTargetProducerFactory factory = (JRHyperlinkTargetProducerFactory) it.next();
+			JRHyperlinkTargetProducerFactory factory = it.next();
 			JRHyperlinkTargetProducer producer = factory.getHyperlinkTargetProducer(linkTarget);
 			if (producer != null)
 			{

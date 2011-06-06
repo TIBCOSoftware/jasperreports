@@ -77,9 +77,8 @@ public final class GenericElementHandlerEnviroment
 	public static GenericElementHandler getHandler(JRGenericElementType type,
 			String exporterKey)
 	{
-		Map handlerBundles = getHandlerBundles();
-		GenericElementHandlerBundle bundle = (GenericElementHandlerBundle) 
-				handlerBundles.get(type.getNamespace());
+		Map<String,GenericElementHandlerBundle> handlerBundles = getHandlerBundles();
+		GenericElementHandlerBundle bundle = handlerBundles.get(type.getNamespace());
 		if (bundle == null)
 		{
 			throw new JRRuntimeException(
@@ -89,13 +88,13 @@ public final class GenericElementHandlerEnviroment
 		return bundle.getHandler(type.getName(), exporterKey);
 	}
 
-	protected static Map getHandlerBundles()
+	protected static Map<String,GenericElementHandlerBundle> getHandlerBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
-		Map handlerBundles;
+		Map<String,GenericElementHandlerBundle> handlerBundles;
 		synchronized (handlersCache)
 		{
-			handlerBundles = (Map) handlersCache.get(cacheKey);
+			handlerBundles = (Map<String,GenericElementHandlerBundle>) handlersCache.get(cacheKey);
 			if (handlerBundles == null)
 			{
 				handlerBundles = loadHandlerBundles();
@@ -105,14 +104,14 @@ public final class GenericElementHandlerEnviroment
 		return handlerBundles;
 	}
 
-	protected static Map loadHandlerBundles()
+	protected static Map<String,GenericElementHandlerBundle> loadHandlerBundles()
 	{
-		List bundleList = ExtensionsEnvironment.getExtensionsRegistry()
+		List<GenericElementHandlerBundle> bundleList = (List<GenericElementHandlerBundle>)ExtensionsEnvironment.getExtensionsRegistry()
 				.getExtensions(GenericElementHandlerBundle.class);
-		Map bundles = new HashMap();
-		for (Iterator it = bundleList.iterator(); it.hasNext();)
+		Map<String,GenericElementHandlerBundle> bundles = new HashMap<String,GenericElementHandlerBundle>();
+		for (Iterator<GenericElementHandlerBundle> it = bundleList.iterator(); it.hasNext();)
 		{
-			GenericElementHandlerBundle bundle = (GenericElementHandlerBundle) it.next();
+			GenericElementHandlerBundle bundle = it.next();
 			String namespace = bundle.getNamespace();
 			if (bundles.containsKey(namespace))
 			{

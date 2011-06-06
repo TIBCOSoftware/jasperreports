@@ -37,6 +37,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -59,8 +60,8 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	private static final String GROUP_PREFIX = "group.";
 	private static final String REPORT_PREFIX = "report.";
 	
-	private Map originsToExclude = new HashMap();
-	private Map firstOccurrences = new HashMap();
+	private Map<JROrigin,Boolean> originsToExclude = new HashMap<JROrigin,Boolean>();
+	private Map<JRTemplateElement,JRTemplatePrintElement> firstOccurrences = new HashMap<JRTemplateElement,JRTemplatePrintElement>();
 	
 	public void addOrigin(JROrigin origin)
 	{
@@ -79,7 +80,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	
 	public void reset()
 	{
-		firstOccurrences = new HashMap();
+		firstOccurrences = new HashMap<JRTemplateElement,JRTemplatePrintElement>();
 	}
 	
 	public boolean isToExport(JRPrintElement element)
@@ -98,8 +99,8 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	
 	private boolean isFirst(JRTemplatePrintElement element)
 	{
-		Object template = element.getTemplate();
-		Object firstElement = firstOccurrences.get(template);
+		JRTemplateElement template = element.getTemplate();
+		JRTemplatePrintElement firstElement = firstOccurrences.get(template);
 		if (firstElement == null || firstElement == element)
 		{
 			firstOccurrences.put(template, element);
@@ -125,16 +126,16 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		boolean keepFirst
 		)
 	{
-		List properties = JRProperties.getProperties(originFilterPrefix + BAND_PREFIX);
+		List<PropertySuffix> properties = JRProperties.getProperties(originFilterPrefix + BAND_PREFIX);
 		properties.addAll(JRProperties.getProperties(propertiesMap, originFilterPrefix + BAND_PREFIX));
 		
 		if (!properties.isEmpty())
 		{
 			filter = (filter == null ? new JROriginExporterFilter(): filter);
 				
-			for(Iterator it = properties.iterator(); it.hasNext();)
+			for(Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();)
 			{
-				PropertySuffix propertySuffix = (PropertySuffix)it.next();
+				PropertySuffix propertySuffix = it.next();
 				String suffix = propertySuffix.getSuffix();
 				BandTypeEnum bandType = 
 					BandTypeEnum.getByName(

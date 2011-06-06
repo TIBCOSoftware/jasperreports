@@ -42,6 +42,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -68,7 +69,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
@@ -121,8 +121,8 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	protected int reportIndex;
 
-	protected List colors;
-	protected List fonts;
+	protected List<Color> colors;
+	protected List<String> fonts;
 
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
@@ -130,7 +130,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	private Map fontMap;
+	private Map<String,String> fontMap;
 
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
@@ -170,11 +170,11 @@ public class JRRtfExporter extends JRAbstractExporter
 				setPageRange();
 			}
 
-			fonts = new ArrayList();
-			colors = new ArrayList();
+			fonts = new ArrayList<String>();
+			colors = new ArrayList<Color>();
 			colors.add(null);
 
-			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
 			setHyperlinkProducerFactory();
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null) {
@@ -261,9 +261,9 @@ public class JRRtfExporter extends JRAbstractExporter
 		writer = new FileBufferedWriter();
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++ ){
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0){
 				if (isModeBatch)
 				{
@@ -303,7 +303,7 @@ public class JRRtfExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted");
 					}
 
-					page = (JRPrintPage)pages.get(pageIndex);
+					page = pages.get(pageIndex);
 					writeAnchor(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
 					boolean lastPageFlag = false;
@@ -403,7 +403,7 @@ public class JRRtfExporter extends JRAbstractExporter
 		String fontName = font.getFontName();
 		if(fontMap != null && fontMap.containsKey(fontName))
 		{
-			fontName = (String)fontMap.get(fontName);
+			fontName = fontMap.get(fontName);
 		}
 		else
 		{
@@ -848,7 +848,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 		}
 
-		JRFont font = text;
+//		JRFont font = text;
 		if (text.getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
 			writer.write("\\rtlch");
@@ -950,7 +950,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			)
 		{
 
-			Map styledTextAttributes = iterator.getAttributes();
+			Map<Attribute,Object> styledTextAttributes = iterator.getAttributes();
 			JRFont styleFont = new JRBaseFont(styledTextAttributes);
 			Color styleForeground = (Color) styledTextAttributes.get(TextAttribute.FOREGROUND);
 			Color styleBackground = (Color) styledTextAttributes.get(TextAttribute.BACKGROUND);
@@ -1336,10 +1336,10 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportElements(Collection elements) throws JRException, IOException {
+	protected void exportElements(Collection<JRPrintElement> elements) throws JRException, IOException {
 		if (elements != null && elements.size() > 0) {
-			for (Iterator it = elements.iterator(); it.hasNext();) {
-				JRPrintElement element = (JRPrintElement)it.next();
+			for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();) {
+				JRPrintElement element = it.next();
 				if (filter == null || filter.isToExport(element)) {
 					if (element instanceof JRPrintLine) {
 						exportLine((JRPrintLine)element);

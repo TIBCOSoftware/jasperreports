@@ -40,14 +40,14 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class ExporterFilterContainer implements ExporterFilter
 {
 
-	private final List filters;
+	private final List<ExporterFilter> filters;
 	
 	/**
 	 * Constructs a container for a list of exporter filters.
 	 * 
 	 * @param filters the list of filters
 	 */
-	public ExporterFilterContainer(List filters)
+	public ExporterFilterContainer(List<ExporterFilter> filters)
 	{
 		if (filters == null)
 		{
@@ -64,9 +64,9 @@ public class ExporterFilterContainer implements ExporterFilter
 	public boolean isToExport(JRPrintElement element)
 	{
 		boolean export = true;
-		for (Iterator it = filters.iterator(); it.hasNext();)
+		for (Iterator<ExporterFilter> it = filters.iterator(); it.hasNext();)
 		{
-			ExporterFilter filter = (ExporterFilter) it.next();
+			ExporterFilter filter = it.next();
 			if (!filter.isToExport(element))
 			{
 				export = false;

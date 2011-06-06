@@ -65,7 +65,7 @@ public class JRGridLayout
 	private CutsInfo yCuts;
 	private JRExporterGridCell[][] grid;
 
-	private Map boxesCache;
+	private Map<BoxKey,JRLineBox> boxesCache;
 
 	private int virtualFrameIndex;
 
@@ -87,7 +87,7 @@ public class JRGridLayout
 	 */
 	public JRGridLayout(
 		ExporterNature nature,
-		List elements,
+		List<JRPrintElement> elements,
 		int width,
 		int height,
 		int offsetX,
@@ -117,7 +117,7 @@ public class JRGridLayout
 	 */
 	public JRGridLayout(
 		ExporterNature nature,
-		List elements,
+		List<JRPrintElement> elements,
 		int width,
 		int height,
 		int offsetX,
@@ -133,7 +133,7 @@ public class JRGridLayout
 		this.address = null;
 		this.xCuts = xCuts;
 
-		boxesCache = new HashMap();
+		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
 		virtualFrameIndex = elements.size();
 
@@ -175,7 +175,7 @@ public class JRGridLayout
 		//this constructor is called only in nested grids:
 		this.isNested = true;
 
-		boxesCache = new HashMap();
+		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
 		layoutGrid(wrappers);
 
@@ -197,7 +197,7 @@ public class JRGridLayout
 		)
 	{
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
-		List wrappers = new ArrayList();
+		List<ElementWrapper> wrappers = new ArrayList<ElementWrapper>();
 
 		frame.setWidth(xCuts.getCut(col2) - xCuts.getCut(col1));
 		frame.setHeight(yCuts.getCut(row2) - yCuts.getCut(row1));
@@ -232,7 +232,7 @@ public class JRGridLayout
 		gridCell.setLayout(
 			new JRGridLayout(
 				nature,
-				(ElementWrapper[]) wrappers.toArray(new ElementWrapper[wrappers.size()]),
+				wrappers.toArray(new ElementWrapper[wrappers.size()]),
 				frame.getWidth(),
 				frame.getHeight(),
 				offsetX -xCuts.getCut(col1),
@@ -262,7 +262,7 @@ public class JRGridLayout
 
 			if(createXCuts)
 			{
-				List xCutsList = xCuts.getCuts();
+				List<Integer> xCutsList = xCuts.getCuts();
 
 				if(hasLeftMargin)
 				{
@@ -270,7 +270,7 @@ public class JRGridLayout
 				}
 			}
 
-			List yCutsList = yCuts.getCuts();
+			List<Integer> yCutsList = yCuts.getCuts();
 
 			if(hasTopMargin)
 			{
@@ -602,8 +602,8 @@ public class JRGridLayout
 				if (keepLeft || keepRight || keepTop || keepBottom)
 				{
 					JRLineBox cellBox = cell.getBox();
-					Object key = new BoxKey(frame.getLineBox(), cellBox, keepLeft, keepRight, keepTop, keepBottom);
-					JRLineBox modBox = (JRLineBox) boxesCache.get(key);
+					BoxKey key = new BoxKey(frame.getLineBox(), cellBox, keepLeft, keepRight, keepTop, keepBottom);
+					JRLineBox modBox = boxesCache.get(key);
 					if (modBox == null)
 					{
 						modBox = JRBoxUtil.copyBordersNoPadding(frame.getLineBox(), keepLeft, keepRight, keepTop, keepBottom, cellBox);
@@ -838,13 +838,13 @@ public class JRGridLayout
 	 * @param offsetX
 	 *            horizontal element position offset
 	 */
-	public static CutsInfo calculateXCuts(ExporterNature nature, List pages, int startPageIndex, int endPageIndex, int width, int offsetX)
+	public static CutsInfo calculateXCuts(ExporterNature nature, List<JRPrintPage> pages, int startPageIndex, int endPageIndex, int width, int offsetX)
 	{
 		CutsInfo xCuts = new CutsInfo();
 
 		for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
 		{
-			JRPrintPage page = (JRPrintPage) pages.get(pageIndex);
+			JRPrintPage page = pages.get(pageIndex);
 			addXCuts(nature, page.getElements(), offsetX, xCuts);
 		}
 		
@@ -869,11 +869,11 @@ public class JRGridLayout
 	 * @param xCuts
 	 *            The list to which the X cuts are to be added.
 	 */
-	protected static void addXCuts(ExporterNature nature, List elementsList, int elementOffsetX, CutsInfo xCuts)
+	protected static void addXCuts(ExporterNature nature, List<JRPrintElement> elementsList, int elementOffsetX, CutsInfo xCuts)
 	{
-		for (Iterator it = elementsList.iterator(); it.hasNext();)
+		for (Iterator<JRPrintElement> it = elementsList.iterator(); it.hasNext();)
 		{
-			JRPrintElement element = ((JRPrintElement) it.next());
+			JRPrintElement element = it.next();
 
 			if (nature.isToExport(element))
 			{
@@ -905,13 +905,13 @@ public class JRGridLayout
 	/**
 	 *
 	 */
-	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List elementsList, String parentAddress)
+	private static ElementWrapper[] createWrappers(ElementWrapper parentWrapper, List<JRPrintElement> elementsList, String parentAddress)
 	{
 		ElementWrapper[] wrappers = new ElementWrapper[elementsList.size()];
 
 		for (int elementIndex = 0; elementIndex < elementsList.size(); elementIndex++)
 		{
-			JRPrintElement element = ((JRPrintElement) elementsList.get(elementIndex));
+			JRPrintElement element = elementsList.get(elementIndex);
 
 			String address = (parentAddress == null ? "" : parentAddress + "_") + elementIndex;
 

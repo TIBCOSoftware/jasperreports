@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -218,7 +217,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected RunDirectionEnum sheetDirection;
 
-	protected Map formatPatternsMap;
+	protected Map<String,String> formatPatternsMap;
 
 	protected JRExportProgressMonitor progressMonitor;
 
@@ -228,7 +227,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap;
+	protected Map<String,String> fontMap;
 
 	/**
 	 *
@@ -249,7 +248,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * Used when indexing the identical sheet name. Contains sheet names as keys and the number of 
 	 * occurrences of each sheet name as values.
 	 */
-	protected Map sheetNamesMap;
+	protected Map<String,Integer> sheetNamesMap;
 
 	protected boolean isIgnorePageMargins;
 
@@ -459,7 +458,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+		fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
 
 		setHyperlinkProducerFactory();
 
@@ -520,7 +519,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				);
 		sheetDirection = sheetDirectionProp == null ? RunDirectionEnum.LTR : RunDirectionEnum.getByName(sheetDirectionProp);
 		
-		formatPatternsMap = (Map)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
+		formatPatternsMap = (Map<String,String>)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 	}
 
 	protected abstract void setBackground();
@@ -528,11 +527,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void exportReportToStream(OutputStream os) throws JRException
 	{
 		openWorkbook(os);
-		sheetNamesMap = new HashMap();
+		sheetNamesMap = new HashMap<String,Integer>();
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
@@ -547,7 +546,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				sheetNamesIndex = 0;
 			}
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -566,7 +565,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							throw new JRException("Current thread interrupted.");
 						}
 
-						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+						JRPrintPage page = pages.get(pageIndex);
 
 						createSheet(getSheetName(null));
 
@@ -609,7 +608,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						{
 							throw new JRException("Current thread interrupted.");
 						}
-						JRPrintPage page = (JRPrintPage)pages.get(pageIndex);
+						JRPrintPage page = pages.get(pageIndex);
 						startRow = exportPage(page, xCuts, startRow);
 					}
 					
@@ -1023,7 +1022,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if(sheetNamesMap.containsKey(sheetName))
 		{
 			// sheet names must be unique; altering sheet name using number of occurrences
-			crtIndex = ((Integer)sheetNamesMap.get(sheetName)).intValue() + 1;
+			crtIndex = sheetNamesMap.get(sheetName).intValue() + 1;
 			txtIndex = String.valueOf(crtIndex);
 		}
 
@@ -1140,7 +1139,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				);
 		if (sheetNamesArray != null)
 		{
-			List sheetNamesList = new ArrayList();
+			List<String> sheetNamesList = new ArrayList<String>();
 			for(int i = 0; i < sheetNamesArray.length; i++)
 			{
 				if (sheetNamesArray[i] == null)
@@ -1156,7 +1155,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					}
 				}
 			}
-			sheetNames = (String[]) sheetNamesList.toArray(new String[sheetNamesList.size()]);
+			sheetNames = sheetNamesList.toArray(new String[sheetNamesList.size()]);
 		}
 		
 	}
@@ -1189,7 +1188,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
 		{
-			return (String) formatPatternsMap.get(pattern);
+			return formatPatternsMap.get(pattern);
 		}
 		return pattern;
 	}

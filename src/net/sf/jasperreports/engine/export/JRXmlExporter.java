@@ -130,10 +130,10 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected String encoding;
 	
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map rendererToImagePathMap;
-	protected Map imageNameToImageDataMap;
-	protected Map fontsMap = new HashMap();
-	protected Map stylesMap = new HashMap();
+	protected Map<JRRenderable,String> rendererToImagePathMap;
+	protected Map<String,byte[]> imageNameToImageDataMap;
+//	protected Map fontsMap = new HashMap();
+	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
 
 	/**
 	 *
@@ -287,8 +287,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		//if (!isEmbeddingImages)
 		{
-			rendererToImagePathMap = new HashMap();
-			imageNameToImageDataMap = new HashMap();
+			rendererToImagePathMap = new HashMap<JRRenderable,String>();
+			imageNameToImageDataMap = new HashMap<String,byte[]>();
 		}
 				
 		Writer writer = null;
@@ -318,7 +318,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		
 		if (!isEmbeddingImages)
 		{
-			Collection imageNames = imageNameToImageDataMap.keySet();
+			Collection<String> imageNames = imageNameToImageDataMap.keySet();
 			if (imageNames != null && imageNames.size() > 0)
 			{
 				if (!imagesDir.exists())
@@ -326,10 +326,10 @@ public class JRXmlExporter extends JRAbstractExporter
 					imagesDir.mkdir();
 				}
 	
-				for(Iterator it = imageNames.iterator(); it.hasNext();)
+				for(Iterator<String> it = imageNames.iterator(); it.hasNext();)
 				{
-					String imageName = (String)it.next();
-					byte[] imageData = (byte[])imageNameToImageDataMap.get(imageName);
+					String imageName = it.next();
+					byte[] imageData = imageNameToImageDataMap.get(imageName);
 
 					File imageFile = new File(imagesDir, imageName);
 
@@ -439,7 +439,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		}
 
 
-		List pages = jasperPrint.getPages();
+		List<JRPrintPage> pages = jasperPrint.getPages();
 		if (pages != null && pages.size() > 0)
 		{
 			JRPrintPage page = null;
@@ -450,7 +450,7 @@ public class JRXmlExporter extends JRAbstractExporter
 					throw new JRException("Current thread interrupted.");
 				}
 				
-				page = (JRPrintPage)pages.get(i);
+				page = pages.get(i);
 	
 				/*   */
 				exportPage(page);
@@ -498,10 +498,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 		if (style.getStyle() != null)
 		{
-			JRStyle baseStyle = 
-				(JRStyle)stylesMap.get(
-						style.getStyle().getName()
-					);
+			JRStyle baseStyle = stylesMap.get(style.getStyle().getName());
 			if(baseStyle != null)
 			{
 				xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_style, style.getStyle().getName());
@@ -579,13 +576,13 @@ public class JRXmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void exportElements(Collection elements) throws IOException, JRException
+	protected void exportElements(Collection<JRPrintElement> elements) throws IOException, JRException
 	{
 		if (elements != null && elements.size() > 0)
 		{
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				exportElement((JRPrintElement)it.next());
+				exportElement(it.next());
 			}
 		}
 	}
@@ -827,7 +824,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			{
 				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer))
 				{
-					imageSource = (String)rendererToImagePathMap.get(renderer);
+					imageSource = rendererToImagePathMap.get(renderer);
 				}
 				else
 				{
@@ -1075,9 +1072,9 @@ public class JRXmlExporter extends JRAbstractExporter
 		JRPrintHyperlinkParameters hyperlinkParameters = hyperlink.getHyperlinkParameters();
 		if (hyperlinkParameters != null)
 		{
-			for (Iterator it = hyperlinkParameters.getParameters().iterator(); it.hasNext();)
+			for (Iterator<JRPrintHyperlinkParameter> it = hyperlinkParameters.getParameters().iterator(); it.hasNext();)
 			{
-				JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter) it.next();
+				JRPrintHyperlinkParameter parameter = it.next();
 				exportHyperlinkParameter(parameter);
 			}
 		}
@@ -1126,10 +1123,10 @@ public class JRXmlExporter extends JRAbstractExporter
 					genericType.getName());
 			xmlWriter.closeElement();//genericElementType
 			
-			Set names = element.getParameterNames();
-			for (Iterator it = names.iterator(); it.hasNext();)
+			Set<String> names = element.getParameterNames();
+			for (Iterator<String> it = names.iterator(); it.hasNext();)
 			{
-				String name = (String) it.next();
+				String name = it.next();
 				Object value = element.getParameterValue(name);
 				xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameter);
 				xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_name, name);

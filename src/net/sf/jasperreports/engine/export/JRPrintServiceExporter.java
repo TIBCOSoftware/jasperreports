@@ -164,7 +164,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 			{
 				printRequestAttributeSet = new HashPrintRequestAttributeSet();
 				setDefaultPrintRequestAttributeSet(printRequestAttributeSet);
-				setOrientation((JasperPrint)jasperPrintList.get(0), printRequestAttributeSet);
+				setOrientation(jasperPrintList.get(0), printRequestAttributeSet);
 				if(displayPageDialogOnlyOnce)
 				{
 					if(printerJob.pageDialog(printRequestAttributeSet) == null)
@@ -190,11 +190,11 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				}
 			}
 			
-			List status = new ArrayList();
+			List<Boolean> status = new ArrayList<Boolean>();
 			// fix for bug ID artf1455 from jasperforge.org bug database
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
-				setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+				setJasperPrint(jasperPrintList.get(reportIndex));
 
 				exporter = new JRGraphics2DExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -292,7 +292,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 				}
 			}
 			
-			printStatus = (Boolean[]) status.toArray(new Boolean[status.size()]);
+			printStatus = status.toArray(new Boolean[status.size()]);
 			printService = printerJob.getPrintService();
 		}
 		finally
