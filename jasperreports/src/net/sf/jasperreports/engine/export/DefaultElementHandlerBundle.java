@@ -45,7 +45,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 	private static final Log log = LogFactory.getLog(DefaultElementHandlerBundle.class);
 	
 	private String namespace;
-	private Map elementHandlers;
+	private Map<String,GenericElementHandler> elementHandlers;
 
 	/**
 	 * Uses the handler map to locate a handler for the element name
@@ -56,15 +56,14 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 	public GenericElementHandler getHandler(String elementName,
 			String exporterKey)
 	{
-		Map handlers = (Map) elementHandlers.get(elementName);
+		Map<String,GenericElementHandler> handlers = (Map<String,GenericElementHandler>) elementHandlers.get(elementName);
 		if (handlers == null)
 		{
 			throw new JRRuntimeException("No handlers for generic elements of type "
 					+ namespace + "#" + elementName);
 		}
 		
-		GenericElementHandler handler = (GenericElementHandler) handlers.get(
-				exporterKey);
+		GenericElementHandler handler = handlers.get(exporterKey);
 		
 		if (handler == null && log.isDebugEnabled())
 		{
@@ -97,7 +96,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 	 * 
 	 * @return the map of element handlers
 	 */
-	public Map getElementHandlers()
+	public Map<String,GenericElementHandler> getElementHandlers()
 	{
 		return elementHandlers;
 	}
@@ -111,7 +110,7 @@ public class DefaultElementHandlerBundle implements GenericElementHandlerBundle
 	 * 
 	 * @param elementHandlers the map of element handlers
 	 */
-	public void setElementHandlers(Map elementHandlers)
+	public void setElementHandlers(Map<String,GenericElementHandler> elementHandlers)
 	{
 		this.elementHandlers = elementHandlers;
 	}

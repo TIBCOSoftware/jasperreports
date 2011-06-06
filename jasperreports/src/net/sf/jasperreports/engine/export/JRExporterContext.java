@@ -67,7 +67,7 @@ public interface JRExporterContext
 	 * 
 	 * @return the map of export parameters
 	 */
-	Map getExportParameters();
+	Map<JRExporterParameter,Object> getExportParameters();
 
 	/**
 	 * Returns the current X-axis offset at which elements should be exported.

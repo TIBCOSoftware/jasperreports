@@ -49,7 +49,7 @@ public final class ExporterFilterFactoryUtil
 		//return (ExporterFilterFactory) cache.getCachedInstance(factoryClassName);
 		try
 		{
-			Class clazz = JRClassLoader.loadClassForName(factoryClassName);
+			Class<?> clazz = JRClassLoader.loadClassForName(factoryClassName);
 			return (ExporterFilterFactory)clazz.newInstance();
 		}
 		catch (ClassNotFoundException e)

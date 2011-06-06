@@ -38,6 +38,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
@@ -208,7 +209,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		atrans.scale(zoom, zoom);
 		grx.transform(atrans);
 
-		java.util.List pages = jasperPrint.getPages();
+		List<JRPrintPage> pages = jasperPrint.getPages();
 		if (pages != null)
 		{
 			Shape oldClipShape = grx.getClip();
@@ -217,7 +218,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 			try
 			{
-				JRPrintPage page = (JRPrintPage)pages.get(startPageIndex);
+				JRPrintPage page = pages.get(startPageIndex);
 				exportPage(page);
 			}
 			finally

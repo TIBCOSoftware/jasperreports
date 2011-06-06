@@ -44,7 +44,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -217,9 +216,9 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	{
 		for(int reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -235,7 +234,7 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted.");
 					}
 				
-					JRPrintPage page = (JRPrintPage)pages.get(i);
+					JRPrintPage page = pages.get(i);
 
 					/*   */
 					exportPage(page);

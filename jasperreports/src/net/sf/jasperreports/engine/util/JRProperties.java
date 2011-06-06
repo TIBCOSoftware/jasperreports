@@ -530,7 +530,7 @@ public final class JRProperties
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
 	 * @see #getAllProperties(JRPropertiesHolder, String)
 	 */
-	public static List getProperties(JRPropertiesHolder propertiesHolder, String prefix)
+	public static List<PropertySuffix> getProperties(JRPropertiesHolder propertiesHolder, String prefix)
 	{
 		return getProperties(getOwnProperties(propertiesHolder), prefix);
 	}
@@ -544,7 +544,7 @@ public final class JRProperties
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
 	 * @see #getProperties(JRPropertiesHolder, String)
 	 */
-	public static List getAllProperties(JRPropertiesHolder propertiesHolder, String prefix)
+	public static List<PropertySuffix> getAllProperties(JRPropertiesHolder propertiesHolder, String prefix)
 	{
 		return getAllProperties(getOwnProperties(propertiesHolder), prefix);
 	}
@@ -590,11 +590,11 @@ public final class JRProperties
 	 * @return a list of {@link PropertySuffix PropertySuffix} objects containing the suffix of the key and the value
 	 * @see #getProperties(JRPropertiesMap, String)
 	 */
-	public static List getAllProperties(JRPropertiesMap propertiesMap, String prefix)
+	public static List<PropertySuffix> getAllProperties(JRPropertiesMap propertiesMap, String prefix)
 	{
-		List own = getProperties(propertiesMap, prefix);
-		List global = getProperties(prefix);
-		List collected;
+		List<PropertySuffix> own = getProperties(propertiesMap, prefix);
+		List<PropertySuffix> global = getProperties(prefix);
+		List<PropertySuffix> collected;
 		if (own.isEmpty())
 		{
 			collected = global;
@@ -603,16 +603,16 @@ public final class JRProperties
 		{
 			if (!global.isEmpty())
 			{
-				Set ownSuffixes = new HashSet();
-				for (Iterator it = own.iterator(); it.hasNext();)
+				Set<String> ownSuffixes = new HashSet<String>();
+				for (Iterator<PropertySuffix> it = own.iterator(); it.hasNext();)
 				{
-					PropertySuffix prop = (PropertySuffix) it.next();
+					PropertySuffix prop = it.next();
 					ownSuffixes.add(prop.getSuffix());
 				}
 				
-				for (Iterator it = global.iterator(); it.hasNext();)
+				for (Iterator<PropertySuffix> it = global.iterator(); it.hasNext();)
 				{
-					PropertySuffix prop = (PropertySuffix) it.next();
+					PropertySuffix prop = it.next();
 					if (!ownSuffixes.contains(prop.getSuffix()))
 					{
 						own.add(prop);
@@ -908,17 +908,17 @@ public final class JRProperties
 	protected static void transfer(JRPropertiesMap source,
 			JRPropertiesHolder destination, String tranferPropertiesPrefix)
 	{
-		List transferPrefixProps = getProperties(tranferPropertiesPrefix);
-		for (Iterator prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
+		List<PropertySuffix> transferPrefixProps = getProperties(tranferPropertiesPrefix);
+		for (Iterator<PropertySuffix> prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
 		{
-			JRProperties.PropertySuffix transferPrefixProp = (JRProperties.PropertySuffix) prefixIt.next();
+			JRProperties.PropertySuffix transferPrefixProp = prefixIt.next();
 			String transferPrefix = transferPrefixProp.getValue();
 			if (transferPrefix != null && transferPrefix.length() > 0)
 			{
-				List transferProps = getProperties(source, transferPrefix);
-				for (Iterator propIt = transferProps.iterator(); propIt.hasNext();)
+				List<PropertySuffix> transferProps = getProperties(source, transferPrefix);
+				for (Iterator<PropertySuffix> propIt = transferProps.iterator(); propIt.hasNext();)
 				{
-					JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) propIt.next();
+					JRProperties.PropertySuffix property = propIt.next();
 					String value = property.getValue();
 					destination.getPropertiesMap().setProperty(property.getKey(), value);
 				}

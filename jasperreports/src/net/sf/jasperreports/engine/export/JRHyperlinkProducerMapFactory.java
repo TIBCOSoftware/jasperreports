@@ -45,7 +45,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map producers;
+	private Map<String,JRHyperlinkProducer> producers;
 	
 	
 	/**
@@ -53,7 +53,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 */
 	public JRHyperlinkProducerMapFactory()
 	{
-		producers = new HashMap();
+		producers = new HashMap<String,JRHyperlinkProducer>();
 	}
 
 	
@@ -62,7 +62,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 * 
 	 * @return the type to producer association map
 	 */
-	public Map getProducersMap()
+	public Map<String,JRHyperlinkProducer> getProducersMap()
 	{
 		return producers;
 	}
@@ -74,7 +74,7 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 * @param producers bulk type to producer association map
 	 * @see #getProducersMap()
 	 */
-	public void setProducersMap(Map producers)
+	public void setProducersMap(Map<String,JRHyperlinkProducer> producers)
 	{
 		this.producers = producers;
 	}
@@ -100,13 +100,13 @@ public class JRHyperlinkProducerMapFactory extends JRHyperlinkProducerFactory im
 	 */
 	public JRHyperlinkProducer removeProducer(String linkType)
 	{
-		return (JRHyperlinkProducer) producers.remove(linkType);
+		return producers.remove(linkType);
 	}
 	
 	
 	public JRHyperlinkProducer getHandler(String linkType)
 	{
-		return (JRHyperlinkProducer) producers.get(linkType);
+		return producers.get(linkType);
 	}
 
 }

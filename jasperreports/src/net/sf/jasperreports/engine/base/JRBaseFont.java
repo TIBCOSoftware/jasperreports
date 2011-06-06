@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.awt.font.TextAttribute;
 import java.io.Serializable;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
@@ -101,7 +102,7 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport
 	/**
 	 *
 	 */
-	public JRBaseFont(Map<TextAttribute, ? extends Object> attributes)
+	public JRBaseFont(Map<Attribute,Object> attributes)
 	{
 		String fontNameAttr = (String)attributes.get(TextAttribute.FAMILY);
 		if (fontNameAttr != null)

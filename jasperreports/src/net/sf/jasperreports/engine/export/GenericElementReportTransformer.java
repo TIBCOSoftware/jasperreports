@@ -77,22 +77,23 @@ public final class GenericElementReportTransformer
 			String transformerExportKey)
 	{
 		TransformerContext transformerContext = new TransformerContext(report);
-		List pages = report.getPages();
-		for (Iterator pageIt = pages.iterator(); pageIt.hasNext();)
+		List<JRPrintPage> pages = report.getPages();
+		for (Iterator<JRPrintPage> pageIt = pages.iterator(); pageIt.hasNext();)
 		{
-			JRPrintPage page = (JRPrintPage) pageIt.next();
+			JRPrintPage page = pageIt.next();
 			transformElements(transformerContext, transformerExportKey, 
 					page.getElements());
 		}
 	}
 
 	protected static void transformElements(
-			TransformerContext context, String transformerExportKey, 
-			List elements)
+			TransformerContext context, 
+			String transformerExportKey, 
+			List<JRPrintElement> elements)
 	{
-		for (ListIterator it = elements.listIterator(); it.hasNext();)
+		for (ListIterator<JRPrintElement> it = elements.listIterator(); it.hasNext();)
 		{
-			JRPrintElement element = (JRPrintElement) it.next();
+			JRPrintElement element = it.next();
 			if (element instanceof JRGenericPrintElement)
 			{
 				JRGenericPrintElement genericElement = 

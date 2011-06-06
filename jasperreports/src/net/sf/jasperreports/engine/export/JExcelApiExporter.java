@@ -158,12 +158,12 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected static final String EMPTY_SHEET_NAME = "Sheet1";
 
-	private static Map colorsCache = new ReferenceMap();
+	private static Map<Color,Colour> colorsCache = new ReferenceMap();
 
 	private static final Colour[] FIXED_COLOURS = new Colour[] {WHITE, BLACK, Colour.PALETTE_BLACK,
 		Colour.DEFAULT_BACKGROUND, Colour.DEFAULT_BACKGROUND1, Colour.AUTOMATIC, Colour.UNKNOWN};
 
-	private Map loadedCellStyles = new HashMap();
+	private Map<StyleInfo,WritableCellFormat> loadedCellStyles = new HashMap<StyleInfo,WritableCellFormat>();
 
 	private WritableWorkbook workbook;
 
@@ -171,11 +171,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	private Pattern backgroundMode = Pattern.SOLID;
 
-	private Map numberFormats;
-	private Map dateFormats;
+	private Map<String,NumberFormat> numberFormats;
+	private Map<String,DateFormat> dateFormats;
 
-	protected Map workbookColours = new HashMap();
-	protected Map usedColours = new HashMap();
+	protected Map<Color,Colour> workbookColours = new HashMap<Color,Colour>();
+	protected Map<Colour,RGB> usedColours = new HashMap<Colour,RGB>();
 	protected String password;
 	
 	protected ExporterNature nature;
@@ -195,8 +195,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	public JExcelApiExporter()
 	{
-		numberFormats = new HashMap();
-		dateFormats = new HashMap();
+		numberFormats = new HashMap<String,NumberFormat>();
+		dateFormats = new HashMap<String,DateFormat>();
 	}
 
 	protected void setParameters()
@@ -804,7 +804,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected NumberFormat getNumberFormat(String pattern, boolean isComplexFormat)
 	{
 		String convertedPattern = getConvertedPattern(pattern);
-		NumberFormat cellFormat = (NumberFormat) numberFormats.get(convertedPattern);
+		NumberFormat cellFormat = numberFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
 			if(isComplexFormat)
@@ -823,7 +823,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected DateFormat getDateFormat(String pattern)
 	{
 		String convertedPattern = getConvertedPattern(pattern);
-		DateFormat cellFormat = (DateFormat) dateFormats.get(convertedPattern);
+		DateFormat cellFormat = dateFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
 			cellFormat = new DateFormat(convertedPattern);
@@ -1250,7 +1250,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		Colour colour;
 		if (createCustomPalette)
 		{
-			colour = (Colour) workbookColours.get(awtColor);
+			colour = workbookColours.get(awtColor);
 			if (colour == null)
 			{
 				colour = determineWorkbookColour(awtColor);
@@ -1278,7 +1278,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		for (int i = 0; i < colors.length; i++)
 		{
 			Colour colour = colors[i];
-			RGB customRGB = (RGB) usedColours.get(colour);
+			RGB customRGB = usedColours.get(colour);
 
 			RGB rgb = customRGB == null ? colour.getDefaultRGB() : customRGB;
 			int dist = rgbDistance(awtColor, rgb);
@@ -1332,7 +1332,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected static Colour getNearestColour(Color awtColor)
 	{
-		Colour color = (Colour) colorsCache.get(awtColor);
+		Colour color = colorsCache.get(awtColor);
 
 		if (color == null)
 		{
@@ -1881,7 +1881,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected WritableCellFormat getLoadedCellStyle(StyleInfo styleKey) throws JRException
 	{
-		WritableCellFormat cellStyle = (WritableCellFormat) loadedCellStyles.get(styleKey);
+		WritableCellFormat cellStyle = loadedCellStyles.get(styleKey);
 
 		if (cellStyle == null)
 		{

@@ -68,9 +68,9 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 	    	new HtmlExporterHyperlinkProducerAdapter(exporterContext);
 	    
 	    StringBuffer flashVarsBuf = new StringBuffer();
-	    for (Iterator it = element.getParameterNames().iterator(); it.hasNext();)
+	    for (Iterator<String> it = element.getParameterNames().iterator(); it.hasNext();)
 		{
-			String paramName = (String) it.next();
+			String paramName = it.next();
 			if (paramName.startsWith(FlashPrintElement.PARAMETER_FLASH_VAR_PREFIX))
 			{
 				String varName = paramName.substring(

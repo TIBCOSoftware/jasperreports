@@ -45,6 +45,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -179,10 +180,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected Writer writer;
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map rendererToImagePathMap;
-	protected Map imageMaps;
-	protected Map imageNameToImageDataMap;
-	protected List imagesToProcess;
+	protected Map<String,String> rendererToImagePathMap;
+	protected Map<Pair,String> imageMaps;
+	protected Map<String,byte[]> imageNameToImageDataMap;
+	protected List<JRPrintElementIndex> imagesToProcess;
 	protected boolean isPxImageLoaded;
 
 	protected int reportIndex;
@@ -219,9 +220,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap;
+	protected Map<String,String> fontMap;
 
-	private LinkedList backcolorStack;
+	private LinkedList<Color> backcolorStack;
 	private Color backcolor;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
@@ -235,7 +236,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	public JRHtmlExporter()
 	{
-		backcolorStack = new LinkedList();
+		backcolorStack = new LinkedList<Color>();
 		backcolor = null;
 	}
 
@@ -315,13 +316,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 					);
 	
-			rendererToImagePathMap = new HashMap();
-			imageMaps = new HashMap();
-			imagesToProcess = new ArrayList();
+			rendererToImagePathMap = new HashMap<String,String>();
+			imageMaps = new HashMap<Pair,String>();
+			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 			isPxImageLoaded = false;
 	
 			//backward compatibility with the IMAGE_MAP parameter
-			imageNameToImageDataMap = (Map)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+			imageNameToImageDataMap = (Map<String,byte[]>)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
 	//		if (imageNameToImageDataMap == null)
 	//		{
 	//			imageNameToImageDataMap = new HashMap();
@@ -421,7 +422,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					false
 					);
 			
-			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
 						
 			setHyperlinkProducerFactory();
 
@@ -608,9 +609,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 						}
 					}
 	
-					for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+					for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
 					{
-						JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+						JRPrintElementIndex imageIndex = it.next();
 	
 						JRPrintImage image = getImage(jasperPrintList, imageIndex);
 						JRRenderable renderer = image.getRenderer();
@@ -662,16 +663,16 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, String imageName)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, JRPrintElementIndex imageIndex)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
 	{
-		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
@@ -716,9 +717,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -735,7 +736,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted.");
 					}
 
-					page = (JRPrintPage)pages.get(pageIndex);
+					page = pages.get(pageIndex);
 
 					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"></a>\n");
 
@@ -783,7 +784,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
-		List elements = null;
+		List<JRPrintElement> elements = null;
 		
 		if (accessibleHtml)
 		{
@@ -1226,7 +1227,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map attributes, String text, Locale locale) throws IOException
+	protected void exportStyledTextRun(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
 	{
 		exportStyledTextRun(attributes, text, null, locale);
 	}
@@ -1236,7 +1237,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 *
 	 */
 	protected void exportStyledTextRun(
-		Map attributes, 
+		Map<Attribute,Object> attributes, 
 		String text,
 		String tooltip,
 		Locale locale
@@ -1246,7 +1247,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
-			fontFamily = (String) fontMap.get(fontFamilyAttr);
+			fontFamily = fontMap.get(fontFamilyAttr);
 		}
 		else
 		{
@@ -1599,12 +1600,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 				case CUSTOM :
 				{
 					boolean paramFound = false;
-					List parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
+					List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
 					if (parameters != null)
 					{
-						for(Iterator it = parameters.iterator(); it.hasNext();)
+						for(Iterator<JRPrintHyperlinkParameter> it = parameters.iterator(); it.hasNext();)
 						{
-							JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter)it.next();
+							JRPrintHyperlinkParameter parameter = it.next();
 							if (link.getLinkTarget().equals(parameter.getName()))
 							{
 								target = parameter.getValue() == null ? null : parameter.getValue().toString();
@@ -1912,7 +1913,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("<img");
 			String imagePath = null;
 			String imageMapName = null;
-			List imageMapAreas = null;
+			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 	
 			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
@@ -1920,7 +1921,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			{
 				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 				{
-					imagePath = (String)rendererToImagePathMap.get(renderer.getId());
+					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -1962,7 +1963,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					
 					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 					{
-						imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
+						imageMapName = imageMaps.get(new Pair(renderer.getId(), renderingArea));
 					}
 	
 					if (imageMapName == null)
@@ -2101,13 +2102,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void writeImageMap(String imageMapName, JRPrintImage image, List imageMapAreas) throws IOException
+	protected void writeImageMap(String imageMapName, JRPrintImage image, List<JRPrintImageAreaHyperlink> imageMapAreas) throws IOException
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
 
-		for (ListIterator it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
+		for (ListIterator<JRPrintImageAreaHyperlink> it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
 		{
-			JRPrintImageAreaHyperlink areaHyperlink = (JRPrintImageAreaHyperlink) it.previous();
+			JRPrintImageAreaHyperlink areaHyperlink = it.previous();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
 			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
@@ -2386,7 +2387,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected void restoreBackcolor()
 	{
-		backcolor = (Color) backcolorStack.removeLast();
+		backcolor = backcolorStack.removeLast();
 	}
 
 
@@ -2433,7 +2434,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	public Map getExportParameters()
+	public Map<JRExporterParameter,Object> getExportParameters()
 	{
 		return parameters;
 	}

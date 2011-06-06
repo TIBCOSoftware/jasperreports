@@ -66,11 +66,11 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	 */
 	public ExporterFilter getFilter(JRExporterContext exporterContext) throws JRException
 	{
-		List factories = getAllFilterFactories(exporterContext.getExportedReport());
-		List filters = new ArrayList(factories.size());
-		for (Iterator it = factories.iterator(); it.hasNext();)
+		List<ExporterFilterFactory> factories = getAllFilterFactories(exporterContext.getExportedReport());
+		List<ExporterFilter> filters = new ArrayList<ExporterFilter>(factories.size());
+		for (Iterator<ExporterFilterFactory> it = factories.iterator(); it.hasNext();)
 		{
-			ExporterFilterFactory factory = (ExporterFilterFactory) it.next();
+			ExporterFilterFactory factory = it.next();
 			ExporterFilter filter = factory.getFilter(exporterContext);
 			if (filter != null)
 			{
@@ -85,7 +85,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 		}
 		else if (filters.size() == 1)
 		{
-			filter = (ExporterFilter) filters.get(0);
+			filter = filters.get(0);
 		}
 		else
 		{
@@ -94,14 +94,14 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 		return filter;
 	}
 
-	protected List getAllFilterFactories(JasperPrint report) throws JRException
+	protected List<ExporterFilterFactory> getAllFilterFactories(JasperPrint report) throws JRException
 	{
-		List factoryProps = JRProperties.getAllProperties(report, 
+		List<JRProperties.PropertySuffix> factoryProps = JRProperties.getAllProperties(report, 
 				PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX);
-		List factories = new ArrayList(factoryProps.size());
-		for (Iterator it = factoryProps.iterator(); it.hasNext();)
+		List<ExporterFilterFactory> factories = new ArrayList<ExporterFilterFactory>(factoryProps.size());
+		for (Iterator<JRProperties.PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix prop = (JRProperties.PropertySuffix) it.next();
+			JRProperties.PropertySuffix prop = it.next();
 			ExporterFilterFactory factory = getFilterFactory(prop.getValue());
 			factories.add(factory);
 		}

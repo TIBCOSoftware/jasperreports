@@ -38,7 +38,7 @@ public class JRPrintHyperlinkParameters implements Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	private List parameters;
+	private List<JRPrintHyperlinkParameter> parameters;
 	
 	
 	/**
@@ -46,7 +46,7 @@ public class JRPrintHyperlinkParameters implements Serializable
 	 */
 	public JRPrintHyperlinkParameters()
 	{
-		parameters = new ArrayList();
+		parameters = new ArrayList<JRPrintHyperlinkParameter>();
 	}
 
 
@@ -55,7 +55,7 @@ public class JRPrintHyperlinkParameters implements Serializable
 	 * 
 	 * @return the list of parameters
 	 */
-	public List getParameters()
+	public List<JRPrintHyperlinkParameter> getParameters()
 	{
 		return parameters;
 	}

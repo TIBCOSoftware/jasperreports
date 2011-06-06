@@ -45,6 +45,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -163,13 +164,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected Writer writer;
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map rendererToImagePathMap;
-	protected Map imageMaps;
-	protected List imagesToProcess;
 
+	protected Map<String,String> rendererToImagePathMap;
+	protected Map<Pair,String> imageMaps;
+	protected List<JRPrintElementIndex> imagesToProcess;
+	
 	protected int reportIndex;
 	protected int pageIndex;
-	protected List frameIndexStack;
+	protected List<Integer> frameIndexStack;
 	protected int elementIndex;
 
 	/**
@@ -196,7 +198,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 * @deprecated
 	 */
-	protected Map fontMap;
+	protected Map<String,String> fontMap;
 
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
 
@@ -276,10 +278,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					JRExporterParameter.CHARACTER_ENCODING, 
 					JRExporterParameter.PROPERTY_CHARACTER_ENCODING
 					);
-	
-			rendererToImagePathMap = new HashMap();
-			imageMaps = new HashMap();
-			imagesToProcess = new ArrayList();
+
+			rendererToImagePathMap = new HashMap<String,String>();
+			imageMaps = new HashMap<Pair,String>();
+			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 	
 			isWrapBreakWord = 
 				getBooleanParameter(
@@ -315,7 +317,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					false
 					);
 			
-			fontMap = (Map) parameters.get(JRExporterParameter.FONT_MAP);
+			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
 						
 			setHyperlinkProducerFactory();
 			
@@ -455,9 +457,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						imagesDir.mkdir();
 					}
 	
-					for(Iterator it = imagesToProcess.iterator(); it.hasNext();)
+					for(Iterator<JRPrintElementIndex> it = imagesToProcess.iterator(); it.hasNext();)
 					{
-						JRPrintElementIndex imageIndex = (JRPrintElementIndex)it.next();
+						JRPrintElementIndex imageIndex = it.next();
 	
 						JRPrintImage image = getImage(jasperPrintList, imageIndex);
 						JRRenderable renderer = image.getRenderer();
@@ -509,16 +511,16 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, String imageName)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List jasperPrintList, JRPrintElementIndex imageIndex)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
 	{
-		JasperPrint report = (JasperPrint)jasperPrintList.get(imageIndex.getReportIndex());
-		JRPrintPage page = (JRPrintPage)report.getPages().get(imageIndex.getPageIndex());
+		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
+		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
 
 		Integer[] elementIndexes = imageIndex.getAddressArray();
 		Object element = page.getElements().get(elementIndexes[0].intValue());
@@ -561,9 +563,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
-			setJasperPrint((JasperPrint)jasperPrintList.get(reportIndex));
+			setJasperPrint(jasperPrintList.get(reportIndex));
 
-			List pages = jasperPrint.getPages();
+			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
 				if (isModeBatch)
@@ -580,7 +582,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						throw new JRException("Current thread interrupted.");
 					}
 
-					page = (JRPrintPage)pages.get(pageIndex);
+					page = pages.get(pageIndex);
 
 					writer.write("<a name=\"" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1) + "\"></a>\n");
 
@@ -631,7 +633,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			+ ";height:" + toSizeUnit(jasperPrint.getPageHeight()) + ";\">\n"
 			);
 
-		frameIndexStack = new ArrayList();
+		frameIndexStack = new ArrayList<Integer>();
 		
 		exportElements(page.getElements());
 
@@ -647,7 +649,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportElements(List elements) throws IOException, JRException
+	protected void exportElements(List<JRPrintElement> elements) throws IOException, JRException
 	{
 		if (elements != null && elements.size() > 0)
 		{
@@ -656,7 +658,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			{
 				elementIndex = i;
 				
-				element = (JRPrintElement)elements.get(i);
+				element = elements.get(i);
 				
 				if (filter == null || filter.isToExport(element))
 				{
@@ -836,13 +838,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected void exportStyledTextRun(Map attributes, String text, Locale locale) throws IOException
+	protected void exportStyledTextRun(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
 	{
 		exportStyledTextRun(attributes, text, null, locale);
 	}
 	
 	protected void exportStyledTextRun(
-		Map attributes, 
+		Map<Attribute,Object> attributes, 
 		String text,
 		String tooltip,
 		Locale locale
@@ -852,7 +854,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		String fontFamily = fontFamilyAttr;
 		if (fontMap != null && fontMap.containsKey(fontFamilyAttr))
 		{
-			fontFamily = (String) fontMap.get(fontFamilyAttr);
+			fontFamily = fontMap.get(fontFamilyAttr);
 		}
 		else
 		{
@@ -1301,12 +1303,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				case CUSTOM :
 				{
 					boolean paramFound = false;
-					List parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
+					List<JRPrintHyperlinkParameter> parameters = link.getHyperlinkParameters() == null ? null : link.getHyperlinkParameters().getParameters();
 					if (parameters != null)
 					{
-						for(Iterator it = parameters.iterator(); it.hasNext();)
+						for(Iterator<JRPrintHyperlinkParameter> it = parameters.iterator(); it.hasNext();)
 						{
-							JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter)it.next();
+							JRPrintHyperlinkParameter parameter = it.next();
 							if (link.getLinkTarget().equals(parameter.getName()))
 							{
 								target = parameter.getValue() == null ? null : parameter.getValue().toString();
@@ -1654,7 +1656,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			writer.write("<img");
 			String imagePath = null;
 			String imageMapName = null;
-			List imageMapAreas = null;
+			List<JRPrintImageAreaHyperlink> imageMapAreas = null;
 	
 			ScaleImageEnum scaleImage = image.getScaleImageValue();
 			
@@ -1662,7 +1664,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			{
 				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 				{
-					imagePath = (String)rendererToImagePathMap.get(renderer.getId());
+					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
 				else
 				{
@@ -1688,7 +1690,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					
 					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 					{
-						imageMapName = (String) imageMaps.get(new Pair(renderer.getId(), renderingArea));
+						imageMapName = imageMaps.get(new Pair(renderer.getId(), renderingArea));
 					}
 	
 					if (imageMapName == null)
@@ -1919,7 +1921,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		StringBuffer sbuffer = new StringBuffer();
 		for (int i = 0; i < frameIndexStack.size(); i++)
 		{
-			Integer frameIndex = (Integer)frameIndexStack.get(i);
+			Integer frameIndex = frameIndexStack.get(i);
 
 			sbuffer.append(frameIndex).append("_");
 		}
@@ -1934,13 +1936,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected void writeImageMap(String imageMapName, JRPrintImage image, List imageMapAreas) throws IOException
+	protected void writeImageMap(String imageMapName, JRPrintImage image, List<JRPrintImageAreaHyperlink> imageMapAreas) throws IOException
 	{
 		writer.write("<map name=\"" + imageMapName + "\">\n");
 
-		for (ListIterator it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
+		for (ListIterator<JRPrintImageAreaHyperlink> it = imageMapAreas.listIterator(imageMapAreas.size()); it.hasPrevious();)
 		{
-			JRPrintImageAreaHyperlink areaHyperlink = (JRPrintImageAreaHyperlink) it.previous();
+			JRPrintImageAreaHyperlink areaHyperlink = it.previous();
 			JRPrintImageArea area = areaHyperlink.getArea();
 
 			writer.write("  <area shape=\"" + JRPrintImageArea.getHtmlShape(area.getShape()) + "\"");
@@ -2225,7 +2227,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 	}
 
-	public Map getExportParameters()
+	public Map<JRExporterParameter,Object> getExportParameters()
 	{
 		return parameters;
 	}
