@@ -99,7 +99,7 @@ public class AsynchronousFillHandle
 		this.dataSource = dataSource;
 		this.conn = conn;
 		this.filler = JRFiller.createFiller(jasperReport);
-		this.listeners = new ArrayList();
+		this.listeners = new ArrayList<AsynchronousFilllListener>();
 		lock = this;
 	}
 
@@ -246,9 +246,9 @@ public class AsynchronousFillHandle
 	
 	protected void notifyFinish(JasperPrint print)
 	{
-		for (Iterator i = listeners.iterator(); i.hasNext();)
+		for (Iterator<AsynchronousFilllListener> i = listeners.iterator(); i.hasNext();)
 		{
-			AsynchronousFilllListener listener = (AsynchronousFilllListener) i.next();
+			AsynchronousFilllListener listener = i.next();
 			listener.reportFinished(print);
 		}
 	}
@@ -256,9 +256,9 @@ public class AsynchronousFillHandle
 	
 	protected void notifyCancel()
 	{
-		for (Iterator i = listeners.iterator(); i.hasNext();)
+		for (Iterator<AsynchronousFilllListener> i = listeners.iterator(); i.hasNext();)
 		{
-			AsynchronousFilllListener listener = (AsynchronousFilllListener) i.next();
+			AsynchronousFilllListener listener =  i.next();
 			listener.reportCancelled();
 		}
 	}
@@ -266,9 +266,9 @@ public class AsynchronousFillHandle
 	
 	protected void notifyError(Throwable e)
 	{
-		for (Iterator i = listeners.iterator(); i.hasNext();)
+		for (Iterator<AsynchronousFilllListener> i = listeners.iterator(); i.hasNext();)
 		{
-			AsynchronousFilllListener listener = (AsynchronousFilllListener) i.next();
+			AsynchronousFilllListener listener = i.next();
 			listener.reportFillError(e);
 		}
 	}

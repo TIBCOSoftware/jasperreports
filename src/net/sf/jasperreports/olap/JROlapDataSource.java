@@ -564,7 +564,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
         {
             this.formatted = mapping.isFormatted();
 
-            List<?> mappingPositions = mapping.getPositions();
+            List<AxisPosition> mappingPositions = mapping.getPositions();
             if (mappingPositions == null)
             {
                 this.dataPositions = null;
@@ -579,9 +579,9 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
                 this.dataPositions = new int[axes.length];
                 int c = 0;
-                for (Iterator iter = mappingPositions.iterator(); iter.hasNext(); ++c)
+                for (Iterator<AxisPosition> iter = mappingPositions.iterator(); iter.hasNext(); ++c)
                 {
-                    AxisPosition position = (AxisPosition) iter.next();
+                    AxisPosition position = iter.next();
                     int pos;
                     if (position.isSpecified())
                     {
@@ -603,7 +603,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             }
             else
             {
-                this.members = new net.sf.jasperreports.olap.mapping.Member[filter.size()];
+                this.members = new Member[filter.size()];
                 filter.toArray(this.members);
             }
         }
@@ -620,7 +620,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
             {
                 for (int i = 0; i < members.length; i++)
                 {
-                    net.sf.jasperreports.olap.mapping.Member memberInfo = members[i];
+                    Member memberInfo = members[i];
                     JROlapMember member = member(memberInfo, positions);
                     setMatchMemberDepth(memberInfo, member);
                     if (!memberInfo.matches(member))

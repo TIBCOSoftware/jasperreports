@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -64,11 +63,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 {
 	private static final Log log = LogFactory.getLog(JRAbstractLRUVirtualizer.class);
 
-	protected static class CacheReference extends WeakReference
+	protected static class CacheReference extends WeakReference<JRVirtualizable>
 	{
 		private final String id;
 
-		public CacheReference(JRVirtualizable o, ReferenceQueue queue)
+		public CacheReference(JRVirtualizable o, ReferenceQueue<JRVirtualizable> queue)
 		{
 			super(o, queue);
 			id = o.getUID();
@@ -97,15 +96,15 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 			protected void removeLRU()
 			{
-				Map.Entry entry = getFirst();
+				Map.Entry<?,?> entry = getFirst();
 				boolean found = isRemovable(entry);
 				if (!found)
 				{
-					Iterator entriesIt = entrySet().iterator();
+					Iterator<Map.Entry<?,?>> entriesIt = entrySet().iterator();
 					entriesIt.next(); //skipping the first, which is already checked
 					while(!found && entriesIt.hasNext())
 					{
-						entry = (Entry) entriesIt.next();
+						entry = entriesIt.next();
 						found = isRemovable(entry);
 					}
 				}
@@ -121,7 +120,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				processRemovedLRU(key,value);
 			}
 
-			protected boolean isRemovable(Map.Entry entry)
+			protected boolean isRemovable(Map.Entry<?,?> entry)
 			{
 				JRVirtualizable value = getMapValue(entry.getValue());
 				return value == null || !lastObjectSet.containsKey(value);
@@ -137,13 +136,13 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 		}
 
-		private final ReferenceQueue refQueue;
+		private final ReferenceQueue<JRVirtualizable> refQueue;
 		private final LRUScanMap map;
 
 		Cache(int maxSize)
 		{
 			map = new LRUScanMap(maxSize);
-			refQueue = new ReferenceQueue();
+			refQueue = new ReferenceQueue<JRVirtualizable>();
 		}
 
 		protected JRVirtualizable getMapValue(Object val)
@@ -155,14 +154,14 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 			else
 			{
-				Reference ref = (Reference) val;
+				Reference<JRVirtualizable> ref = (Reference<JRVirtualizable>) val;
 				if (ref.isEnqueued())
 				{
 					o = null;
 				}
 				else
 				{
-					o = (JRVirtualizable) ref.get();
+					o = ref.get();
 				}
 			}
 			return o;
@@ -203,21 +202,21 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			return getMapValue(map.remove(id));
 		}
 
-		public Iterator idIterator()
+		public Iterator<String> idIterator()
 		{
 			purge();
 
-			final Iterator valsIt = map.values().iterator();
-			return new Iterator()
+			final Iterator<CacheReference> valsIt = map.values().iterator();
+			return new Iterator<String>()
 			{
 				public boolean hasNext()
 				{
 					return valsIt.hasNext();
 				}
 
-				public Object next()
+				public String next()
 				{
-					CacheReference ref = (CacheReference) valsIt.next();
+					CacheReference ref = valsIt.next();
 					return ref.getId();
 				}
 
@@ -246,8 +245,8 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		return false;
 	}
 
-	protected final Map classLoadersIndexes = new HashMap();
-	protected final List classLoadersList = new ArrayList();
+	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<ClassLoader,Integer>();
+	protected final List<ClassLoader> classLoadersList = new ArrayList<ClassLoader>();
 
 	protected class ClassLoaderAnnotationObjectOutputStream extends ObjectOutputStream
 	{
@@ -256,7 +255,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			super(out);
 		}
 
-		protected void annotateClass(Class clazz) throws IOException
+		protected void annotateClass(Class<?> clazz) throws IOException
 		{
 			super.annotateClass(clazz);
 
@@ -270,7 +269,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 			else
 			{
-				Integer idx = (Integer) classLoadersIndexes.get(classLoader);
+				Integer idx = classLoadersIndexes.get(classLoader);
 				if (idx == null)
 				{
 					idx = Integer.valueOf(classLoadersList.size());
@@ -291,9 +290,9 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			super(in);
 		}
 
-		protected Class resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
+		protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
 		{
-			Class clazz;
+			Class<?> clazz;
 			try
 			{
 				clazz = super.resolveClass(desc);
@@ -307,7 +306,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 					throw e;
 				}
 
-				ClassLoader loader = (ClassLoader) classLoadersList.get(loaderIdx);
+				ClassLoader loader = classLoadersList.get(loaderIdx);
 				clazz = Class.forName(desc.getName(), false, loader);
 			}
 
@@ -617,9 +616,9 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	protected final void disposeAll()
 	{
 		// Remove all paged-out swap files.
-		for (Iterator it = pagedOut.keySet().iterator(); it.hasNext();)
+		for (Iterator<String> it = pagedOut.keySet().iterator(); it.hasNext();)
 		{
-			String id = (String) it.next();
+			String id = it.next();
 			try
 			{
 				dispose(id);
@@ -632,9 +631,9 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 		}
 
-		for (Iterator it = pagedIn.idIterator(); it.hasNext();)
+		for (Iterator<String> it = pagedIn.idIterator(); it.hasNext();)
 		{
-			String id = (String) it.next();
+			String id = it.next();
 			try
 			{
 				dispose(id);

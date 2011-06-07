@@ -25,11 +25,8 @@ package net.sf.jasperreports.engine.fill;
 
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**

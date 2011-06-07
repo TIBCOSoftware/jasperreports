@@ -63,7 +63,7 @@ public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
 		return XMLA_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters) throws JRException
 	{
 		return new JRXmlaQueryExecuter(dataset, parameters);
 	}

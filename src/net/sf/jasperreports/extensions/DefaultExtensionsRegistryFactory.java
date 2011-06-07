@@ -28,7 +28,6 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;

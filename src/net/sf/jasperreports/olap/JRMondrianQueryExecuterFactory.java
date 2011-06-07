@@ -52,7 +52,7 @@ public class JRMondrianQueryExecuterFactory implements JRQueryExecuterFactory
 		return MONDRIAN_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) throws JRException
 	{
 		return new JRMondrianQueryExecuter(dataset, parameters);
 	}

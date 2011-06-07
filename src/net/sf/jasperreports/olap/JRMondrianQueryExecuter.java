@@ -49,7 +49,7 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 	private Connection connection;
 	private Result result;
 
-	public JRMondrianQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parametersMap)
+	public JRMondrianQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 		

@@ -447,7 +447,7 @@ public class DefaultChartTheme implements ChartTheme
 
 
 		// Set any color series
-		SortedSet seriesColors = getPlot().getSeriesColors();
+		SortedSet<JRSeriesColor> seriesColors = getPlot().getSeriesColors();
 		if (seriesColors != null && seriesColors.size() > 0)
 		{
 			if (seriesColors.size() == 1)
@@ -455,7 +455,7 @@ public class DefaultChartTheme implements ChartTheme
 				// Add the single color to the beginning of the color cycle, using all the default
 				// colors.  To replace the defaults you have to specify at least two colors.
 				Paint[] colors = new Paint[DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length + 1];
-				colors[0] = ((JRSeriesColor)seriesColors.first()).getColor();
+				colors[0] = seriesColors.first().getColor();
 				System.arraycopy(DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE, 0, colors, 1, DefaultDrawingSupplier.DEFAULT_PAINT_SEQUENCE.length);
 				plot.setDrawingSupplier(new DefaultDrawingSupplier(colors,
 						DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
@@ -510,8 +510,8 @@ public class DefaultChartTheme implements ChartTheme
 		Boolean verticalTickLabels,
 		Color lineColor,
 		boolean isRangeAxis,
-		Comparable axisMinValue,
-		Comparable axisMaxValue
+		Comparable<?> axisMinValue,
+		Comparable<?> axisMaxValue
 		)
 	{
 		axis.setLabelFont(JRFontUtil.getAwtFont(getFont(labelFont), getLocale()));
@@ -617,16 +617,16 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(), areaPlot.getCategoryAxisVerticalTickLabels(),
 				areaPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
 		
 		// Handle the axis formating for the value axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(), areaPlot.getValueAxisVerticalTickLabels(),
 				areaPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 		return jfreeChart;
 	}
 
@@ -705,16 +705,16 @@ public class DefaultChartTheme implements ChartTheme
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(), bar3DPlot.getCategoryAxisVerticalTickLabels(),
 				bar3DPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(bar3DPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bar3DPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bar3DPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bar3DPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), bar3DPlot.getValueAxisLabelFont(),
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(), bar3DPlot.getValueAxisVerticalTickLabels(),
 				bar3DPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
 				
 		return jfreeChart;
 	}
@@ -754,8 +754,8 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(), barPlot.getCategoryAxisVerticalTickLabels(),
 				barPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
 
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickMarksVisible(isShowTickMarks);
 		((NumberAxis)categoryPlot.getRangeAxis()).setTickLabelsVisible(isShowTickLabels);
@@ -764,8 +764,8 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 				barPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		BarRenderer categoryRenderer = (BarRenderer)categoryPlot.getRenderer();
 		boolean isShowLabels = barPlot.getShowLabels() == null ? false : barPlot.getShowLabels().booleanValue();
@@ -841,16 +841,16 @@ public class DefaultChartTheme implements ChartTheme
 				bubblePlot.getXAxisLabelColor(), bubblePlot.getXAxisTickLabelFont(),
 				bubblePlot.getXAxisTickLabelColor(), bubblePlot.getXAxisTickLabelMask(), bubblePlot.getXAxisVerticalTickLabels(),
 				bubblePlot.getXAxisLineColor(), false,
-				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bubblePlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bubblePlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), bubblePlot.getYAxisLabelFont(),
 				bubblePlot.getYAxisLabelColor(), bubblePlot.getYAxisTickLabelFont(),
 				bubblePlot.getYAxisTickLabelColor(), bubblePlot.getYAxisTickLabelMask(), bubblePlot.getYAxisVerticalTickLabels(),
 				bubblePlot.getYAxisLineColor(), true,
-				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bubblePlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bubblePlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bubblePlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -884,16 +884,16 @@ public class DefaultChartTheme implements ChartTheme
 				candlestickPlot.getTimeAxisLabelColor(), candlestickPlot.getTimeAxisTickLabelFont(),
 				candlestickPlot.getTimeAxisTickLabelColor(), candlestickPlot.getTimeAxisTickLabelMask(), candlestickPlot.getTimeAxisVerticalTickLabels(),
 				candlestickPlot.getTimeAxisLineColor(), false,
-				(Comparable)evaluateExpression(candlestickPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(candlestickPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(candlestickPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(candlestickPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), candlestickPlot.getValueAxisLabelFont(),
 				candlestickPlot.getValueAxisLabelColor(), candlestickPlot.getValueAxisTickLabelFont(),
 				candlestickPlot.getValueAxisTickLabelColor(), candlestickPlot.getValueAxisTickLabelMask(), candlestickPlot.getValueAxisVerticalTickLabels(),
 				candlestickPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(candlestickPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(candlestickPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(candlestickPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(candlestickPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -930,16 +930,16 @@ public class DefaultChartTheme implements ChartTheme
 				highLowPlot.getTimeAxisLabelColor(), highLowPlot.getTimeAxisTickLabelFont(),
 				highLowPlot.getTimeAxisTickLabelColor(), highLowPlot.getTimeAxisTickLabelMask(), highLowPlot.getTimeAxisVerticalTickLabels(),
 				highLowPlot.getTimeAxisLineColor(), false,
-				(Comparable)evaluateExpression(highLowPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(highLowPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(highLowPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(highLowPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), highLowPlot.getValueAxisLabelFont(),
 				highLowPlot.getValueAxisLabelColor(), highLowPlot.getValueAxisTickLabelFont(),
 				highLowPlot.getValueAxisTickLabelColor(), highLowPlot.getValueAxisTickLabelMask(), highLowPlot.getValueAxisVerticalTickLabels(),
 				highLowPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(highLowPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(highLowPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(highLowPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(highLowPlot.getRangeAxisMaxValueExpression()));
 		
 		return jfreeChart;
 	}
@@ -977,16 +977,16 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(), linePlot.getCategoryAxisVerticalTickLabels(),
 				linePlot.getCategoryAxisLineColor(),  false,
-				(Comparable)evaluateExpression(linePlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(linePlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(linePlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), linePlot.getValueAxisLabelFont(),
 				linePlot.getValueAxisLabelColor(), linePlot.getValueAxisTickLabelFont(),
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(), linePlot.getValueAxisVerticalTickLabels(),
 				linePlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1199,16 +1199,16 @@ public class DefaultChartTheme implements ChartTheme
 				scatterPlot.getXAxisLabelColor(), scatterPlot.getXAxisTickLabelFont(),
 				scatterPlot.getXAxisTickLabelColor(), scatterPlot.getXAxisTickLabelMask(), scatterPlot.getXAxisVerticalTickLabels(),
 				scatterPlot.getXAxisLineColor(), false,
-				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(scatterPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(scatterPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), scatterPlot.getYAxisLabelFont(),
 				scatterPlot.getYAxisLabelColor(), scatterPlot.getYAxisTickLabelFont(),
 				scatterPlot.getYAxisTickLabelColor(), scatterPlot.getYAxisTickLabelMask(), scatterPlot.getYAxisVerticalTickLabels(),
 				scatterPlot.getYAxisLineColor(), true,
-				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(scatterPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(scatterPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(scatterPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1253,16 +1253,16 @@ public class DefaultChartTheme implements ChartTheme
 				bar3DPlot.getCategoryAxisLabelColor(), bar3DPlot.getCategoryAxisTickLabelFont(),
 				bar3DPlot.getCategoryAxisTickLabelColor(), bar3DPlot.getCategoryAxisTickLabelMask(), bar3DPlot.getCategoryAxisVerticalTickLabels(),
 				bar3DPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(bar3DPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bar3DPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bar3DPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bar3DPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), bar3DPlot.getValueAxisLabelFont(),
 				bar3DPlot.getValueAxisLabelColor(), bar3DPlot.getValueAxisTickLabelFont(),
 				bar3DPlot.getValueAxisTickLabelColor(), bar3DPlot.getValueAxisTickLabelMask(), bar3DPlot.getValueAxisVerticalTickLabels(),
 				bar3DPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(bar3DPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(bar3DPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1310,16 +1310,16 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(), barPlot.getCategoryAxisVerticalTickLabels(),
 				barPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(categoryPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 				barPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1350,16 +1350,16 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(), areaPlot.getCategoryAxisVerticalTickLabels(),
 				areaPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(((CategoryPlot)jfreeChart.getPlot()).getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(), areaPlot.getValueAxisVerticalTickLabels(),
 				areaPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 
 		((CategoryPlot)jfreeChart.getPlot()).getDomainAxis().setCategoryMargin(0);
 		
@@ -1389,15 +1389,15 @@ public class DefaultChartTheme implements ChartTheme
 				areaPlot.getCategoryAxisLabelColor(), areaPlot.getCategoryAxisTickLabelFont(),
 				areaPlot.getCategoryAxisTickLabelColor(), areaPlot.getCategoryAxisTickLabelMask(), areaPlot.getCategoryAxisVerticalTickLabels(),
 				areaPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getDomainAxisMaxValueExpression()));
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), areaPlot.getValueAxisLabelFont(),
 				areaPlot.getValueAxisLabelColor(), areaPlot.getValueAxisTickLabelFont(),
 				areaPlot.getValueAxisTickLabelColor(), areaPlot.getValueAxisTickLabelMask(), areaPlot.getValueAxisVerticalTickLabels(),
 				areaPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(areaPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1463,16 +1463,16 @@ public class DefaultChartTheme implements ChartTheme
 				barPlot.getCategoryAxisLabelColor(), barPlot.getCategoryAxisTickLabelFont(),
 				barPlot.getCategoryAxisTickLabelColor(), barPlot.getCategoryAxisTickLabelMask(), barPlot.getCategoryAxisVerticalTickLabels(),
 				barPlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), barPlot.getValueAxisLabelFont(),
 				barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 				barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 				barPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		return jfreeChart;
 	}
@@ -1501,16 +1501,16 @@ public class DefaultChartTheme implements ChartTheme
 				linePlot.getCategoryAxisLabelColor(), linePlot.getCategoryAxisTickLabelFont(),
 				linePlot.getCategoryAxisTickLabelColor(), linePlot.getCategoryAxisTickLabelMask(), linePlot.getCategoryAxisVerticalTickLabels(),
 				linePlot.getCategoryAxisLineColor(), false,
-				(Comparable)evaluateExpression(linePlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(linePlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(linePlot.getDomainAxisMaxValueExpression()));
 		
 		// Handle the axis formating for the value axis
 		configureAxis(jfreeChart.getXYPlot().getRangeAxis(), linePlot.getValueAxisLabelFont(),
 				linePlot.getValueAxisLabelColor(), linePlot.getValueAxisTickLabelFont(),
 				linePlot.getValueAxisTickLabelColor(), linePlot.getValueAxisTickLabelMask(), linePlot.getValueAxisVerticalTickLabels(),
 				linePlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(linePlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(linePlot.getRangeAxisMaxValueExpression()));
 
 		XYLineAndShapeRenderer lineRenderer = (XYLineAndShapeRenderer) jfreeChart.getXYPlot().getRenderer();
 		boolean isShowShapes = linePlot.getShowShapes() == null ? true : linePlot.getShowShapes().booleanValue();
@@ -1553,16 +1553,16 @@ public class DefaultChartTheme implements ChartTheme
 				timeSeriesPlot.getTimeAxisLabelColor(), timeSeriesPlot.getTimeAxisTickLabelFont(),
 				timeSeriesPlot.getTimeAxisTickLabelColor(), timeSeriesPlot.getTimeAxisTickLabelMask(), timeSeriesPlot.getTimeAxisVerticalTickLabels(),
 				timeSeriesPlot.getTimeAxisLineColor(), false,
-				(Comparable)evaluateExpression(timeSeriesPlot.getDomainAxisMinValueExpression()),
-				(Comparable)evaluateExpression(timeSeriesPlot.getDomainAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(timeSeriesPlot.getDomainAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(timeSeriesPlot.getDomainAxisMaxValueExpression()));
 
 		// Handle the axis formating for the value axis
 		configureAxis(xyPlot.getRangeAxis(), timeSeriesPlot.getValueAxisLabelFont(),
 				timeSeriesPlot.getValueAxisLabelColor(), timeSeriesPlot.getValueAxisTickLabelFont(),
 				timeSeriesPlot.getValueAxisTickLabelColor(), timeSeriesPlot.getValueAxisTickLabelMask(), timeSeriesPlot.getValueAxisVerticalTickLabels(),
 				timeSeriesPlot.getValueAxisLineColor(), true,
-				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMinValueExpression()),
-				(Comparable)evaluateExpression(timeSeriesPlot.getRangeAxisMaxValueExpression()));
+				(Comparable<?>)evaluateExpression(timeSeriesPlot.getRangeAxisMinValueExpression()),
+				(Comparable<?>)evaluateExpression(timeSeriesPlot.getRangeAxisMaxValueExpression()));
 		return jfreeChart;
 	}
 
@@ -1613,8 +1613,8 @@ public class DefaultChartTheme implements ChartTheme
 			barPlot.getValueAxisLabelColor(), barPlot.getValueAxisTickLabelFont(),
 			barPlot.getValueAxisTickLabelColor(), barPlot.getValueAxisTickLabelMask(), barPlot.getValueAxisVerticalTickLabels(),
 			barPlot.getValueAxisLineColor(), true,
-			(Comparable)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
-			(Comparable)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
+			(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMinValueExpression()),
+			(Comparable<?>)evaluateExpression(barPlot.getRangeAxisMaxValueExpression()));
 
 		GanttRenderer categoryRenderer = (GanttRenderer)categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)getLabelGenerator());
@@ -1763,13 +1763,13 @@ public class DefaultChartTheme implements ChartTheme
 		}
 
 		// Now define all of the intervals, setting their range and color
-		List intervals = jrPlot.getIntervals();
+		List<JRMeterInterval> intervals = jrPlot.getIntervals();
 		if (intervals != null)
 		{
-			Iterator iter = intervals.iterator();
+			Iterator<JRMeterInterval> iter = intervals.iterator();
 			while (iter.hasNext())
 			{
-				JRMeterInterval interval = (JRMeterInterval)iter.next();
+				JRMeterInterval interval = iter.next();
 				chartPlot.addInterval(convertInterval(interval));
 			}
 		}
@@ -1924,7 +1924,7 @@ public class DefaultChartTheme implements ChartTheme
 		scale.setFirstTickLabelVisible(true);
 
 		dialPlot.addScale(0, scale);
-		List intervals = jrPlot.getIntervals();
+		List<JRMeterInterval> intervals = jrPlot.getIntervals();
 		if (intervals != null && intervals.size() > 0)
 		{
 			int size = Math.min(3, intervals.size());
@@ -1935,7 +1935,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			for(int i = 0; i < size; i++)
 			{
-				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				JRMeterInterval interval = intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange());
 
 				Color color = new Color(255 - colorStep * i, 0 + colorStep * i, 0);
@@ -2042,8 +2042,8 @@ public class DefaultChartTheme implements ChartTheme
 	protected void setAxisBounds(
 		Axis axis,
 		boolean isRangeAxis,
-		Comparable axisMinValue,
-		Comparable axisMaxValue
+		Comparable<?> axisMinValue,
+		Comparable<?> axisMaxValue
 		)
 	{
 		if (axis instanceof ValueAxis)
