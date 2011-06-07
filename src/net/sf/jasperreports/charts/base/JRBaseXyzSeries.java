@@ -99,7 +99,7 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 
 		if (seriesExpression != null)
 		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();
+			clone.seriesExpression = (JRExpression)seriesExpression.clone();//FIXMENOW replace with nullSafeClone
 		}
 		if (xValueExpression != null)
 		{

@@ -696,6 +696,8 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 				clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
 			}
 			
+			clone.eventSupport = null;
+			
 			return clone;
 		}
 		catch (CloneNotSupportedException e)

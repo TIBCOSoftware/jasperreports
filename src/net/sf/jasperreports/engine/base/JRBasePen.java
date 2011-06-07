@@ -198,6 +198,7 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 		}
 		
 		clone.penContainer = penContainer;
+		clone.eventSupport = null;
 		
 		return clone;
 	}

@@ -1118,6 +1118,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 				}
 			}
 			
+			clone.eventSupport = null;
+
 			return clone;
 		}
 		catch (CloneNotSupportedException e)

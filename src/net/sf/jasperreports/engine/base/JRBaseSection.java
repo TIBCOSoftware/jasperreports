@@ -122,6 +122,8 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 			}
 		}
 
+		clone.eventSupport = null;
+
 		return clone;
 	}
 	

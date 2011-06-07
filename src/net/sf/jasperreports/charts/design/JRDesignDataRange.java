@@ -85,6 +85,16 @@ public class JRDesignDataRange extends JRBaseDataRange implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_HIGH_EXPRESSION, old, this.highExpression);
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone() 
+	{
+		JRDesignDataRange clone = (JRDesignDataRange)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

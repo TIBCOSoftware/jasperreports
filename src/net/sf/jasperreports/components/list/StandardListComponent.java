@@ -106,6 +106,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 			StandardListComponent clone = (StandardListComponent) super.clone();
 			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
 			clone.contents = (ListContents) JRCloneUtils.nullSafeClone(contents);
+			clone.eventSupport = null;
 			return clone;
 		} 
 		catch (CloneNotSupportedException e)

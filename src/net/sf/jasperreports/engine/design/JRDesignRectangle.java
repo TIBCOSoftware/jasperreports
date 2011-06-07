@@ -117,6 +117,16 @@ public class JRDesignRectangle extends JRDesignGraphicElement implements JRRecta
 		collector.collect(this);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignRectangle clone = (JRDesignRectangle)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

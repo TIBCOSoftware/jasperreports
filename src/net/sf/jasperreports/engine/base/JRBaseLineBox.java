@@ -433,6 +433,8 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		clone.bottomPen = bottomPen.clone(clone);
 		clone.rightPen = rightPen.clone(clone);
 		
+		clone.eventSupport = null;
+
 		return clone;
 	}
 	

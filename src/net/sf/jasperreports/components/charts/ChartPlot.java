@@ -6,6 +6,8 @@ package net.sf.jasperreports.components.charts;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
+
 import org.jfree.chart.plot.PlotOrientation;
 
 /**
@@ -13,7 +15,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public interface ChartPlot extends Serializable
+public interface ChartPlot extends Serializable, JRCloneable
 {
 	/**
 	 * Gets the chart background color.

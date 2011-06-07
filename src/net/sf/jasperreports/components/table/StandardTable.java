@@ -124,6 +124,7 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 			StandardTable clone = (StandardTable) super.clone();
 			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
 			clone.columns = JRCloneUtils.cloneList(columns);
+			clone.eventSupport = null;
 			return clone;
 		} 
 		catch (CloneNotSupportedException e)

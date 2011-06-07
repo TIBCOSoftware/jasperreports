@@ -137,6 +137,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 			clone.columnFooter = (Cell) JRCloneUtils.nullSafeClone(columnFooter);
 			clone.printWhenExpression = (JRExpression) JRCloneUtils.nullSafeClone(
 					printWhenExpression);
+			clone.eventSupport = null;
 			return clone;
 		} 
 		catch (CloneNotSupportedException e)

@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
 public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 {
 	/** Property change support mechanism. */
-	private transient JRPropertyChangeSupport propSupport;
+	private transient JRPropertyChangeSupport eventSupport;
 
 
 	/**
@@ -199,13 +199,13 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	{
 		synchronized (this)
 		{
-			if (propSupport == null)
+			if (eventSupport == null)
 			{
-				propSupport = new JRPropertyChangeSupport(this);
+				eventSupport = new JRPropertyChangeSupport(this);
 			}
 		}
 		
-		return propSupport;
+		return eventSupport;
 	}
 	
 	/**
@@ -282,6 +282,8 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 				clone.chunks.add((JRQueryChunk)(chunks.get(i).clone()));
 			}
 		}
+		
+		clone.eventSupport = null;
 
 		return clone;
 	}

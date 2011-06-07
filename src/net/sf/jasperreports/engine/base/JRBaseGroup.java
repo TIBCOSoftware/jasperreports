@@ -319,6 +319,8 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 			clone.countVariable = (JRVariable)countVariable.clone();
 		}
 		
+		clone.eventSupport = null;
+		
 		return clone;
 	}
 

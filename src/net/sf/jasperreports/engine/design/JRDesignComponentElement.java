@@ -163,6 +163,8 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 			}
 		}
 		
+		clone.eventSupport = null;
+
 		return clone;
 	}
 

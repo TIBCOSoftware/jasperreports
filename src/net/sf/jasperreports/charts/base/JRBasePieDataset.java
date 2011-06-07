@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -213,18 +214,10 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 			}
 		}
 		
-		if (otherKeyExpression != null)
-		{
-			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
-		}
-		if (otherLabelExpression != null)
-		{
-			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
-		}
-		if (otherSectionHyperlink != null)
-		{
-			clone.otherSectionHyperlink = (JRHyperlink)otherSectionHyperlink.clone();
-		}
+		clone.otherKeyExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherKeyExpression);
+		clone.otherLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherLabelExpression);
+		clone.otherSectionHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(otherSectionHyperlink);
+		clone.eventSupport = null;
 		
 		return clone;
 	}

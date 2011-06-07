@@ -45,7 +45,7 @@ public class JRDesignGenericElementParameter extends
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	public static final String PROPERTY_SKIP_WHEN_EMPTY = "skipWhenEmpty";
 	
-	private transient JRPropertyChangeSupport eventSupport;
+	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE cloneable?
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{

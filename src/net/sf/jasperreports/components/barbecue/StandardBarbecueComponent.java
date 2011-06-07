@@ -265,6 +265,8 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 					.nullSafeClone(codeExpression);
 			clone.applicationIdentifierExpression = (JRExpression) JRCloneUtils
 					.nullSafeClone(applicationIdentifierExpression);
+			//FIXMENOW should context be cloned?
+			clone.eventSupport = null;
 			return clone;
 		}
 		catch (CloneNotSupportedException e)

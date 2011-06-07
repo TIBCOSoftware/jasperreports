@@ -27,17 +27,20 @@ import net.sf.jasperreports.components.charts.ChartComponent;
 import net.sf.jasperreports.components.charts.ChartDataset;
 import net.sf.jasperreports.components.charts.ChartPlot;
 import net.sf.jasperreports.components.charts.ChartSettings;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: SpiderChartComponent.java 3892 2010-07-16 13:43:20Z shertage $
  */
-public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport
+public class SpiderChartComponent implements ChartComponent, JRChangeEventsSupport, JRCloneable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -68,7 +71,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		this.evaluationTime = chartComponent.getEvaluationTime();
 		this.evaluationGroup = chartComponent.getEvaluationGroup();
 		
-		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);
+		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);//FIXMENOW check use of constructor here
 		this.dataset = new StandardSpiderDataset((SpiderDataset)chartComponent.getDataset(), baseFactory);
 		this.plot = new StandardSpiderPlot((SpiderPlot)chartComponent.getPlot(), baseFactory);
 		
@@ -149,7 +152,31 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, old, this.evaluationGroup);
 	}
 
-
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		SpiderChartComponent clone = null;
+		
+		try
+		{
+			clone = (SpiderChartComponent)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		clone.chartSettings = (ChartSettings)JRCloneUtils.nullSafeClone(chartSettings);
+		clone.dataset = (SpiderDataset)JRCloneUtils.nullSafeClone(dataset);
+		clone.plot = (SpiderPlot)JRCloneUtils.nullSafeClone(plot);
+		
+		clone.eventSupport = null;
+		
+		return null;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

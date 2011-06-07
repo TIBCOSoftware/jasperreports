@@ -85,6 +85,16 @@ public class JRDesignXyzSeries extends JRBaseXyzSeries implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_ITEM_HYPERLINK, old, this.itemHyperlink);
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone()
+	{
+		JRDesignXyzSeries clone = (JRDesignXyzSeries)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

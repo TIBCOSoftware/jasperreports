@@ -84,7 +84,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 		getEventSupport().firePropertyChange(pROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
-	private transient JRPropertyChangeSupport eventSupport;
+	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE needs to implement cloneable?
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{

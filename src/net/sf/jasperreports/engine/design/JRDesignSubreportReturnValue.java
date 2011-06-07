@@ -104,6 +104,16 @@ public class JRDesignSubreportReturnValue extends JRBaseSubreportReturnValue imp
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENTER_FACTORY_CLASS_NAME, old, this.incrementerFactoryClassName);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignSubreportReturnValue clone = (JRDesignSubreportReturnValue)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

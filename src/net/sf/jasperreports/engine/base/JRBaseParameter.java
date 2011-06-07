@@ -264,6 +264,8 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
 		
+		clone.eventSupport = null;
+
 		return clone;
 	}
 

@@ -96,6 +96,7 @@ public class StandardGroupCell implements GroupCell, Serializable,
 		{
 			StandardGroupCell clone = (StandardGroupCell) super.clone();
 			clone.cell = (Cell) JRCloneUtils.nullSafeClone(cell);
+			clone.eventSupport = null;
 			return clone;
 		}
 		catch (CloneNotSupportedException e)

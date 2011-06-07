@@ -342,6 +342,8 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 				clone.chunks.add((JRExpressionChunk)(chunks.get(i).clone()));
 			}
 		}
+		
+		clone.eventSupport = null;
 
 		return clone;
 	}

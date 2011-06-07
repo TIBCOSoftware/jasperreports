@@ -111,6 +111,17 @@ public class JRDesignCategorySeries extends JRBaseCategorySeries implements JRCh
 	}
 
 	
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRDesignCategorySeries clone = (JRDesignCategorySeries)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

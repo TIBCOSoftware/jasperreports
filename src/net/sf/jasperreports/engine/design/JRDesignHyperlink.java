@@ -293,6 +293,16 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_HYPERLINK_TARGET, old, this.hyperlinkTooltipExpression);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignHyperlink clone = (JRDesignHyperlink)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

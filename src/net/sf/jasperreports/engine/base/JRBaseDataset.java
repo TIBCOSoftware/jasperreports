@@ -351,6 +351,8 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 				clone.groups[i] = (JRGroup)groups[i].clone();
 			}
 		}
+		
+		clone.eventSupport = null;
 
 		return clone;
 	}

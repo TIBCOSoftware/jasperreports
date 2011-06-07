@@ -190,6 +190,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 					.nullSafeClone(codeExpression);
 			clone.patternExpression = (JRExpression) JRCloneUtils
 					.nullSafeClone(patternExpression);
+			clone.eventSupport = null;
 			return clone;
 		} 
 		catch (CloneNotSupportedException e)
@@ -199,16 +200,20 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 		}
 	}
 	
-	protected BarcodeComponent cloneObject() {
+	protected BarcodeComponent cloneObject() //FIXMENOW where is this method coming from?
+	{
+		BarcodeComponent clone = null;
 		try
 		{
-			return (BarcodeComponent) super.clone();
+			clone = (BarcodeComponent)super.clone();
+			clone.eventSupport = null;
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		return clone;
 	}
 	
 	public abstract void receive(BarcodeVisitor visitor);

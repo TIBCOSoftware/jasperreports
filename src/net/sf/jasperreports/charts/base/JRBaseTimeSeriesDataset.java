@@ -121,6 +121,8 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 			}
 		}
 		
+		clone.eventSupport = null;
+		
 		return clone;
 	}
 	

@@ -156,6 +156,16 @@ public abstract class JRDesignElementDataset extends JRBaseElementDataset implem
 		getEventSupport().firePropertyChange(PROPERTY_INCREMENT_WHEN_EXPRESSION, old, this.incrementWhenExpression);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignElementDataset clone = (JRDesignElementDataset)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

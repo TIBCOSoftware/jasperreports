@@ -189,6 +189,7 @@ public abstract class JRDesignCrosstabGroup extends JRBaseCrosstabGroup implemen
 	{
 		JRDesignCrosstabGroup clone = (JRDesignCrosstabGroup) clone();
 		clone.setParent(parent);
+		clone.eventSupport = null;
 		return clone;
 	}
 	
