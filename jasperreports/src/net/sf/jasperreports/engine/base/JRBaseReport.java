@@ -687,7 +687,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		return noData;
 	}
 	
-	private transient JRPropertyChangeSupport eventSupport;
+	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE cloneable for reset?
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{

@@ -119,6 +119,16 @@ public class JRDesignChartAxis extends JRBaseChartAxis implements JRChangeEvents
 		setChart((JRDesignChart)element);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone() 
+	{
+		JRDesignChartAxis clone = (JRDesignChartAxis)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

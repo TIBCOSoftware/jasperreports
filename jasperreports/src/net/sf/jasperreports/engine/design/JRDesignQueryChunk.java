@@ -83,6 +83,16 @@ public class JRDesignQueryChunk extends JRBaseQueryChunk implements JRChangeEven
 		getEventSupport().firePropertyChange(PROPERTY_TOKENS, old, this.tokens);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignQueryChunk clone = (JRDesignQueryChunk)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

@@ -453,6 +453,8 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 			}
 		}
 
+		clone.eventSupport = null;
+
 		return clone;
 	}
 	

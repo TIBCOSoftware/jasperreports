@@ -201,6 +201,8 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
 		
+		clone.eventSupport = null;
+
 		return clone;
 	}
 

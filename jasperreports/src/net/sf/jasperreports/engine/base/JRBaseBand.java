@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -121,10 +122,8 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	public Object clone() 
 	{
 		JRBaseBand clone = (JRBaseBand)super.clone();
-		if (printWhenExpression != null)
-		{
-			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
-		}
+		clone.printWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(printWhenExpression);
+		clone.eventSupport = null;
 		return clone;
 	}
 	

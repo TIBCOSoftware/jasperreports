@@ -25,7 +25,9 @@ package net.sf.jasperreports.components.html;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
@@ -36,12 +38,14 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport {
+public class HtmlComponent implements ContextAwareComponent, Serializable, JRChangeEventsSupport, JRCloneable
+{
 
 	/**
 	 * 
@@ -184,6 +188,22 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		this.evaluationGroup = evaluationGroup;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, 
 				old, this.evaluationGroup);
+	}
+
+	public Object clone()
+	{
+		try
+		{
+			HtmlComponent clone = (HtmlComponent) super.clone();
+			clone.htmlContentExpression = (JRExpression) JRCloneUtils.nullSafeClone(htmlContentExpression);
+			clone.eventSupport = null;
+			return clone;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			// never
+			throw new JRRuntimeException(e);
+		}
 	}
 
 	public JRPropertyChangeSupport getEventSupport() {

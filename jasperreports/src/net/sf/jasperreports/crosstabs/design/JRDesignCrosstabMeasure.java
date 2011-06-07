@@ -261,6 +261,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 		JRDesignCrosstabMeasure clone = (JRDesignCrosstabMeasure) super.clone();
 		// always the same instance
 		clone.designVariable = (JRDesignVariable) clone.variable;
+		clone.eventSupport = null;
 		return clone;
 	}
 

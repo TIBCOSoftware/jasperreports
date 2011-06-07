@@ -360,9 +360,8 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseChartPlot clone = (JRBaseChartPlot)this.clone();
-		
 		clone.chart = parentChart;
-		
+		clone.eventSupport = null;
 		return clone;
 	}
 

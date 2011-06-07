@@ -130,6 +130,15 @@ public class JRDesignElementGroup extends JRBaseElementGroup implements JRChange
 		return elemGrp;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignElementGroup clone = (JRDesignElementGroup)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	

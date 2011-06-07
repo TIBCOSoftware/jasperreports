@@ -69,6 +69,16 @@ public class JRDesignDatasetParameter extends JRBaseDatasetParameter implements 
 		getEventSupport().firePropertyChange(PROPERTY_EXPRESSION, old, this.expression);
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone() 
+	{
+		JRDesignDatasetParameter clone = (JRDesignDatasetParameter)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

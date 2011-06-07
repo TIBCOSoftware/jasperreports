@@ -47,7 +47,7 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	private final List<JRTemplateReference> includedTemplates = new ArrayList();
 	private final List<JRStyle> styles = new ArrayList();
 	private JRStyle defaultStyle;
-	private transient JRPropertyChangeSupport eventSupport;
+	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
 
 	public JRPropertyChangeSupport getEventSupport() {
 		synchronized (this) {

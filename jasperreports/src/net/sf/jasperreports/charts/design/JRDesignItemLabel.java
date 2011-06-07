@@ -115,6 +115,16 @@ public class JRDesignItemLabel extends JRBaseItemLabel implements JRChangeEvents
 		getEventSupport().firePropertyChange(PROPERTY_FONT, old, this.font);
 	}
 	
+	/**
+	 *
+	 */
+	public Object clone()
+	{
+		JRDesignItemLabel clone = (JRDesignItemLabel)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

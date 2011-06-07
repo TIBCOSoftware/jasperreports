@@ -25,24 +25,26 @@ package net.sf.jasperreports.components.spiderchart;
 
 import java.awt.Color;
 
-import org.jfree.chart.plot.PlotOrientation;
-
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+
+import org.jfree.chart.plot.PlotOrientation;
 
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: StandardSpiderPlot.java 3889 2010-07-16 10:52:00Z shertage $
  */
-public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
+public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport, JRCloneable
 {
 
 
@@ -397,6 +399,26 @@ public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
 		SpiderChartCompiler.collectExpressions(this, collector);
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		StandardSpiderPlot clone = null;
+		
+		try
+		{
+			clone = (StandardSpiderPlot)super.clone();
+			clone.eventSupport = null;
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		return clone;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

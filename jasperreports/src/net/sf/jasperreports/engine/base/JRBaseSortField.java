@@ -121,7 +121,9 @@ public class JRBaseSortField implements JRSortField, Serializable, JRChangeEvent
 	{
 		try
 		{
-			return super.clone();
+			JRBaseSortField clone = (JRBaseSortField)super.clone(); 
+			clone.eventSupport = null;
+			return clone;
 		}
 		catch (CloneNotSupportedException e)
 		{

@@ -207,6 +207,8 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 			}
 		}
 		
+		clone.eventSupport = null;
+		
 		return clone;
 	}
 	

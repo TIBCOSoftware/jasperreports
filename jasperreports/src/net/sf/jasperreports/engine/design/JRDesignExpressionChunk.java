@@ -65,6 +65,16 @@ public class JRDesignExpressionChunk extends JRBaseExpressionChunk implements JR
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, this.text);
 	}
 	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignExpressionChunk clone = (JRDesignExpressionChunk)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()
