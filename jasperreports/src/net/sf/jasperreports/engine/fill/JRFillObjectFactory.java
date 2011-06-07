@@ -154,15 +154,15 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	
 //	private JRFont defaultFont;
 
-	private List elementDatasets = new ArrayList();
-	private Map elementDatasetMap = new HashMap();
+	private List<JRFillElementDataset> elementDatasets = new ArrayList<JRFillElementDataset>();
+	private Map<String,List<JRFillElementDataset>> elementDatasetMap = new HashMap<String,List<JRFillElementDataset>>();
 	
-	private Map delayedStyleSettersByName = new HashMap();
+	private Map<String,List<JRStyleSetter>> delayedStyleSettersByName = new HashMap<String,List<JRStyleSetter>>();
 	
 	protected static class StylesList
 	{
-		private final List styles = new ArrayList();
-		private final Map stylesIdx = new HashMap();
+		private final List<JRStyle> styles = new ArrayList<JRStyle>();
+		private final Map<String,Integer> stylesIdx = new HashMap<String,Integer>();
 		
 		public boolean containsStyle(String name)
 		{
@@ -171,8 +171,8 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		public JRStyle getStyle(String name)
 		{
-			Integer idx = (Integer) stylesIdx.get(name);
-			return idx == null ? null : (JRStyle) styles.get(idx.intValue());
+			Integer idx = stylesIdx.get(name);
+			return idx == null ? null : styles.get(idx.intValue());
 		}
 		
 		public void addStyle(JRStyle style)
@@ -183,12 +183,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		
 		public void renamed(String oldName, String newName)
 		{
-			Integer idx = (Integer) stylesIdx.remove(oldName);
+			Integer idx = stylesIdx.remove(oldName);
 			stylesIdx.put(newName, idx);
 		}
 	}
 	
-	private Set originalStyleList;
+	private Set<JRStyle> originalStyleList;
 	private StylesList stylesMap = new StylesList();
 
 
@@ -235,21 +235,21 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	protected JRFillChartDataset[] getDatasets()
 	{
-		return (JRFillChartDataset[]) elementDatasets.toArray(new JRFillChartDataset[elementDatasets.size()]);
+		return elementDatasets.toArray(new JRFillChartDataset[elementDatasets.size()]);
 	}
 
 
 	protected JRFillElementDataset[] getElementDatasets(JRDataset dataset)
 	{
 		JRFillElementDataset[] elementDatasetsArray;
-		List elementDatasetsList;
+		List<JRFillElementDataset> elementDatasetsList;
 		if (dataset.isMainDataset())
 		{
 			elementDatasetsList = elementDatasets;
 		}
 		else
 		{
-			elementDatasetsList = (List) elementDatasetMap.get(dataset.getName());
+			elementDatasetsList = elementDatasetMap.get(dataset.getName());
 		}
 
 		if (elementDatasetsList == null || elementDatasetsList.size() == 0)
@@ -270,10 +270,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	{
 		if (parentFiller == null)
 		{
-			List setters = (List) delayedStyleSettersByName.get(styleName);
+			List<JRStyleSetter> setters = delayedStyleSettersByName.get(styleName);
 			if (setters == null)
 			{
-				setters = new ArrayList();
+				setters = new ArrayList<JRStyleSetter>();
 				delayedStyleSettersByName.put(styleName, setters);
 			}
 			
@@ -1324,7 +1324,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	 */
 	public void registerElementDataset(JRFillElementDataset elementDataset)
 	{
-		List elementDatasetsList;
+		List<JRFillElementDataset> elementDatasetsList;
 		JRDatasetRun datasetRun = elementDataset.getDatasetRun();
 		if (datasetRun == null)
 		{
@@ -1333,10 +1333,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		else
 		{
 			String datasetName = datasetRun.getDatasetName();
-			elementDatasetsList = (List) elementDatasetMap.get(datasetName);
+			elementDatasetsList = elementDatasetMap.get(datasetName);
 			if (elementDatasetsList == null)
 			{
-				elementDatasetsList = new ArrayList();
+				elementDatasetsList = new ArrayList<JRFillElementDataset>();
 				elementDatasetMap.put(datasetName, elementDatasetsList);
 			}
 		}
@@ -1464,19 +1464,19 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return fillTemplate;
 	}
 	
-	public List setStyles(List styles)
+	public List<JRStyle> setStyles(List<JRStyle> styles)
 	{
-		originalStyleList = new HashSet(styles);
+		originalStyleList = new HashSet<JRStyle>(styles);
 		
 		//filtering requested styles
-		Set requestedStyles = collectRequestedStyles(styles);
+		Set<JRStyle> requestedStyles = collectRequestedStyles(styles);
 		
 		//collect used styles
-		Map usedStylesMap = new SequencedHashMap();
-		Map allStylesMap = new HashMap();
-		for (Iterator it = styles.iterator(); it.hasNext();)
+		Map<JRStyle,Object> usedStylesMap = new SequencedHashMap();
+		Map<String,JRStyle> allStylesMap = new HashMap<String,JRStyle>();
+		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
 		{
-			JRStyle style = (JRStyle) it.next();
+			JRStyle style = it.next();
 			if (requestedStyles.contains(style))
 			{
 				collectUsedStyles(style, usedStylesMap, allStylesMap);
@@ -1484,10 +1484,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			allStylesMap.put(style.getName(), style);
 		}
 		
-		List includedStyles = new ArrayList();
-		for (Iterator it = usedStylesMap.keySet().iterator(); it.hasNext();)
+		List<JRStyle> includedStyles = new ArrayList<JRStyle>();
+		for (Iterator<JRStyle> it = usedStylesMap.keySet().iterator(); it.hasNext();)
 		{
-			JRStyle style = (JRStyle) it.next();
+			JRStyle style = it.next();
 			JRStyle newStyle = getStyle(style);
 			
 			includedStyles.add(newStyle);
@@ -1502,12 +1502,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		return includedStyles;
 	}
 
-	protected Set collectRequestedStyles(List externalStyles)
+	protected Set<JRStyle> collectRequestedStyles(List<JRStyle> externalStyles)
 	{
-		Map requestedStylesMap = new HashMap();
-		for (Iterator it = externalStyles.iterator(); it.hasNext();)
+		Map<String,JRStyle> requestedStylesMap = new HashMap<String,JRStyle>();
+		for (Iterator<JRStyle> it = externalStyles.iterator(); it.hasNext();)
 		{
-			JRStyle style = (JRStyle) it.next();
+			JRStyle style = it.next();
 			String name = style.getName();
 			if (delayedStyleSettersByName.containsKey(name))
 			{
@@ -1515,10 +1515,10 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		
-		return new HashSet(requestedStylesMap.values());
+		return new HashSet<JRStyle>(requestedStylesMap.values());
 	}
 
-	protected void collectUsedStyles(JRStyle style, Map usedStylesMap, Map allStylesMap)
+	protected void collectUsedStyles(JRStyle style, Map<JRStyle,Object> usedStylesMap, Map<String,JRStyle> allStylesMap)
 	{
 		if (!usedStylesMap.containsKey(style) && originalStyleList.contains(style))
 		{
@@ -1528,7 +1528,7 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 				String parentName = style.getStyleNameReference();
 				if (parentName != null)
 				{
-					parent = (JRStyle) allStylesMap.get(parentName);
+					parent = allStylesMap.get(parentName);
 					if (parent == null)
 					{
 						throw new JRRuntimeException("Style " + parentName + " not found");
@@ -1547,12 +1547,12 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 	
 	protected void useDelayedStyle(JRStyle style)
 	{
-		List delayedSetters = (List) delayedStyleSettersByName.remove(style.getName());
+		List<JRStyleSetter> delayedSetters = delayedStyleSettersByName.remove(style.getName());
 		if (delayedSetters != null)
 		{
-			for (Iterator it = delayedSetters.iterator(); it.hasNext();)
+			for (Iterator<JRStyleSetter> it = delayedSetters.iterator(); it.hasNext();)
 			{
-				JRStyleSetter setter = (JRStyleSetter) it.next();
+				JRStyleSetter setter = it.next();
 				setter.setStyle(style);
 			}
 		}
@@ -1563,9 +1563,9 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		if (!delayedStyleSettersByName.isEmpty())
 		{
 			StringBuffer errorMsg = new StringBuffer("Could not resolve style(s): ");
-			for (Iterator it = delayedStyleSettersByName.keySet().iterator(); it.hasNext();)
+			for (Iterator<String> it = delayedStyleSettersByName.keySet().iterator(); it.hasNext();)
 			{
-				String name = (String) it.next();
+				String name = it.next();
 				errorMsg.append(name);
 				errorMsg.append(", ");
 			}

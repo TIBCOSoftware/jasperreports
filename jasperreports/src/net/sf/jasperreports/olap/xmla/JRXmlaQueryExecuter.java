@@ -78,7 +78,7 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	private JRXmlaResult xmlaResult;
 
 
-	public JRXmlaQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parametersMap)
+	public JRXmlaQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 

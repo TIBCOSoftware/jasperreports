@@ -47,6 +47,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
+import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -123,14 +124,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		 */
 		public Object put(Object key, Object value, JRPrintPage keyPage)
 		{
-			Map pageMap = (Map) map.get(keyPage);
+			Map pageMap = (Map)map.get(keyPage);
 			if (pageMap == null)
 			{
 				pageMap = new HashMap();
 				map.put(keyPage, pageMap);
 			}
 
-			return pageMap.put(key, value);
+			return pageMap.put(key,value);
 		}
 
 		/**
@@ -144,7 +145,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 				return put(key, value, fillContext.getPrintPage());
 			}
 
-			return map.put(key, value);
+			return map.put(key,value);
 		}
 
 		public void clear()
@@ -159,7 +160,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		public Map getMap(JRPrintPage page)
 		{
-			return (Map) map.get(page);
+			return (Map)map.get(page);
 		}
 
 		public Map putMap(JRPrintPage page, Map valueMap)
@@ -282,7 +283,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 * Bound element maps indexed by {@link JREvaluationTime JREvaluationTime} objects.
 	 */
-	protected Map boundElements;
+	protected Map<JREvaluationTime,BoundElementMap> boundElements;
 
 	/**
 	 *
@@ -297,14 +298,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * List of {@link JRFillBand JRFillBand} objects containing all bands of the
 	 * report.
 	 */
-	protected List bands;
+	protected List<JRBand> bands;
 
 	/**
 	 * Collection of subfillers
 	 */
-	protected Set subfillers;
+	protected Set<JRBaseFiller> subfillers;
 
-	private List identityPages;
+	private List<JRVirtualPrintPage> identityPages;
 
 	private Thread fillingThread;
 
@@ -315,7 +316,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 * Map of datasets ({@link JRFillDataset JRFillDataset} objects} indexed by name.
 	 */
-	protected Map datasetMap;
+	protected Map<String,JRFillDataset> datasetMap;
 
 	/**
 	 * The report.
@@ -329,8 +330,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected Map dateFormatCache = new HashMap();
-	protected Map numberFormatCache = new HashMap();
+	protected Map<String,Format> dateFormatCache = new HashMap<String,Format>();
+	protected Map<String,Format> numberFormatCache = new HashMap<String,Format>();
 
 	private JRSubreportRunner subreportRunner;
 
@@ -578,7 +579,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @return the report parameters map
 	 */
-	protected Map getParametersMap()
+	protected Map<String,JRFillParameter> getParametersMap()
 	{
 		return mainDataset.parametersMap;
 	}
@@ -589,7 +590,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 * 
 	 * @return the map of parameter values
 	 */
-	public Map getParameterValuesMap()
+	public Map<String,Object> getParameterValuesMap()
 	{
 		return mainDataset.getParameterValuesMap();
 	}
@@ -599,7 +600,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @return the report fields map
 	 */
-	protected Map getFieldsMap()
+	protected Map<String,JRFillField> getFieldsMap()
 	{
 		return mainDataset.fieldsMap;
 	}
@@ -610,7 +611,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 *
 	 * @return the report variables map
 	 */
-	protected Map getVariablesMap()
+	protected Map<String,JRFillVariable> getVariablesMap()
 	{
 		return mainDataset.variablesMap;
 	}
@@ -624,7 +625,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected JRFillVariable getVariable(String variableName)
 	{
-		return (JRFillVariable) mainDataset.variablesMap.get(variableName);
+		return mainDataset.variablesMap.get(variableName);
 	}
 
 
@@ -636,12 +637,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected JRFillField getField(String fieldName)
 	{
-		return (JRFillField) mainDataset.fieldsMap.get(fieldName);
+		return mainDataset.fieldsMap.get(fieldName);
 	}
 
 	private void initBands()
 	{
-		bands = new ArrayList(8 + (groups == null ? 0 : (2 * groups.length)));
+		bands = new ArrayList<JRBand>(8 + (groups == null ? 0 : (2 * groups.length)));
 		bands.add(title);
 		bands.add(summary);
 		bands.add(pageHeader);
@@ -798,11 +799,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	protected abstract void setPageHeight(int pageHeight);
 
 
-	public JasperPrint fill(Map parameterValues, Connection conn) throws JRException
+	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap();
+			parameterValues = new HashMap<String,Object>();
 		}
 
 		setConnectionParameterValue(parameterValues, conn);
@@ -811,17 +812,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	protected void setConnectionParameterValue(Map parameterValues, Connection conn)
+	protected void setConnectionParameterValue(Map<String,Object> parameterValues, Connection conn)
 	{
 		mainDataset.setConnectionParameterValue(parameterValues, conn);
 	}
 
 
-	public JasperPrint fill(Map parameterValues, JRDataSource ds) throws JRException
+	public JasperPrint fill(Map<String,Object> parameterValues, JRDataSource ds) throws JRException
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap();
+			parameterValues = new HashMap<String,Object>();
 		}
 
 		setDatasourceParameterValue(parameterValues, ds);
@@ -830,17 +831,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	protected void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
+	protected void setDatasourceParameterValue(Map<String,Object> parameterValues, JRDataSource ds)
 	{
 		mainDataset.setDatasourceParameterValue(parameterValues, ds);
 	}
 
 
-	public JasperPrint fill(Map parameterValues) throws JRException
+	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameterValues == null)
 		{
-			parameterValues = new HashMap();
+			parameterValues = new HashMap<String,Object>();
 		}
 
 		if (log.isDebugEnabled())
@@ -940,7 +941,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		void defaultStyleSet(JRStyle style);
 	}
 
-	private final List defaultStyleListeners = new ArrayList();
+	private final List<DefaultStyleListener> defaultStyleListeners = new ArrayList<DefaultStyleListener>();
 
 	protected void addDefaultStyleListener(DefaultStyleListener listener)
 	{
@@ -951,25 +952,25 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		defaultStyle = style;
 
-		for (Iterator it = defaultStyleListeners.iterator(); it.hasNext();)
+		for (Iterator<DefaultStyleListener> it = defaultStyleListeners.iterator(); it.hasNext();)
 		{
-			DefaultStyleListener listener = (DefaultStyleListener) it.next();
+			DefaultStyleListener listener = it.next();
 			listener.defaultStyleSet(style);
 		}
 	}
 
 	protected void loadStyles() throws JRException
 	{
-		List styleList = collectStyles();
+		List<JRStyle> styleList = collectStyles();
 		JRStyle reportDefaultStyle = jasperReport.getDefaultStyle();
 		if (reportDefaultStyle == null)
 		{
 			lookupExternalDefaultStyle(styleList);
 		}
 
-		List includedStyles = factory.setStyles(styleList);
+		List<JRStyle> includedStyles = factory.setStyles(styleList);
 
-		styles = (JRStyle[]) includedStyles.toArray(new JRStyle[includedStyles.size()]);
+		styles = includedStyles.toArray(new JRStyle[includedStyles.size()]);
 
 		if (reportDefaultStyle != null)
 		{
@@ -989,9 +990,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	};
 
-	protected List collectStyles() throws JRException
+	protected List<JRStyle> collectStyles() throws JRException
 	{
-		List styleList = collectTemplateStyles();
+		List<JRStyle> styleList = collectTemplateStyles();
 
 		JRStyle[] reportStyles = jasperReport.getStyles();
 		if (reportStyles != null)
@@ -1028,7 +1029,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 
-		Collection paramTemplates = (Collection) mainDataset.getParameterValue(
+		Collection<JRTemplate> paramTemplates = (Collection<JRTemplate>) mainDataset.getParameterValue(
 				JRParameter.REPORT_TEMPLATES, true);
 		if (paramTemplates != null)
 		{
@@ -1041,12 +1042,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return templates;
 	}
 	
-	protected List collectTemplateStyles() throws JRException
+	protected List<JRStyle> collectTemplateStyles() throws JRException
 	{
 		collectTemplates();
 		
-		List externalStyles = new ArrayList();
-		HashSet loadedLocations = new HashSet();
+		List<JRStyle> externalStyles = new ArrayList<JRStyle>();
+		HashSet<String> loadedLocations = new HashSet<String>();
 		for (JRTemplate template : templates)
 		{
 			collectStyles(template, externalStyles, loadedLocations);
@@ -1054,14 +1055,14 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return externalStyles;
 	}
 
-	protected void collectStyles(JRTemplate template, List externalStyles, Set loadedLocations) throws JRException
+	protected void collectStyles(JRTemplate template, List<JRStyle> externalStyles, Set<String> loadedLocations) throws JRException
 	{
-		HashSet parentLocations = new HashSet();
+		HashSet<String> parentLocations = new HashSet<String>();
 		collectStyles(template, externalStyles, loadedLocations, parentLocations);
 	}
 	
-	protected void collectStyles(JRTemplate template, List externalStyles, 
-			Set loadedLocations, Set templateParentLocations) throws JRException
+	protected void collectStyles(JRTemplate template, List<JRStyle> externalStyles, 
+			Set<String> loadedLocations, Set<String> templateParentLocations) throws JRException
 	{
 		collectIncludedTemplates(template, externalStyles, 
 				loadedLocations, templateParentLocations);
@@ -1083,8 +1084,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	protected void collectIncludedTemplates(JRTemplate template, List externalStyles, 
-			Set loadedLocations, Set templateParentLocations) throws JRException
+	protected void collectIncludedTemplates(JRTemplate template, List<JRStyle> externalStyles, 
+			Set<String> loadedLocations, Set<String> templateParentLocations) throws JRException
 	{
 		JRTemplateReference[] includedTemplates = template.getIncludedTemplates();
 		if (includedTemplates != null)
@@ -1113,12 +1114,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		}
 	}
 
-	protected void lookupExternalDefaultStyle(Collection styleList)
+	protected void lookupExternalDefaultStyle(Collection<JRStyle> styleList)
 	{
 		JRStyle defStyle = null;
-		for (Iterator it = styleList.iterator(); it.hasNext();)
+		for (Iterator<JRStyle> it = styleList.iterator(); it.hasNext();)
 		{
-			JRStyle style = (JRStyle) it.next();
+			JRStyle style = it.next();
 			if (style.isDefault())
 			{
 				defStyle = style;
@@ -1147,7 +1148,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private void createBoundElemementMaps()
 	{
-		boundElements = new HashMap();
+		boundElements = new HashMap<JREvaluationTime,BoundElementMap>();
 
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_REPORT);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_PAGE);
@@ -1161,7 +1162,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			}
 		}
 
-		for (Iterator i = bands.iterator(); i.hasNext();)
+		for (Iterator<JRBand> i = bands.iterator(); i.hasNext();)
 		{
 			JRFillBand band = (JRFillBand) i.next();
 			createBoundElementMaps(JREvaluationTime.getBandEvaluationTime(band));
@@ -1180,9 +1181,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		if (subfillers != null && !subfillers.isEmpty())
 		{
-			for (Iterator it = subfillers.iterator(); it.hasNext();)
+			for (Iterator<JRBaseFiller> it = subfillers.iterator(); it.hasNext();)
 			{
-				JRBaseFiller subfiller = (JRBaseFiller) it.next();
+				JRBaseFiller subfiller = it.next();
 				if (subfiller.fillingThread != null)
 				{
 					if (log.isDebugEnabled())
@@ -1205,7 +1206,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	/**
 	 *
 	 */
-	protected void setParameters(Map parameterValues) throws JRException
+	protected void setParameters(Map<String,Object> parameterValues) throws JRException
 	{
 		if (!isSubreport())
 		{
@@ -1245,7 +1246,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	private void setFormatFactory(Map parameterValues)
+	private void setFormatFactory(Map<String,Object> parameterValues)
 	{
 		formatFactory = (FormatFactory)parameterValues.get(JRParameter.REPORT_FORMAT_FACTORY);
 		if (formatFactory == null)
@@ -1256,7 +1257,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	}
 
 
-	private void setIgnorePagination(Map parameterValues)
+	private void setIgnorePagination(Map<String,Object> parameterValues)
 	{
 		if (parentFiller == null)//pagination is driven by the master
 		{
@@ -1348,7 +1349,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		Locale lc = getLocale();
 		TimeZone tz = getTimeZone();
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc) + "|" + JRDataUtils.getTimeZoneId(tz);
-		Format format = (Format)dateFormatCache.get(key);
+		Format format = dateFormatCache.get(key);
 		if (format == null)
 		{
 			format = getFormatFactory().createDateFormat(pattern, lc, tz);
@@ -1368,7 +1369,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		Locale lc = getLocale();
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc);
-		Format format = (Format)numberFormatCache.get(key);
+		Format format = numberFormatCache.get(key);
 		if (format == null)
 		{
 			format = getFormatFactory().createNumberFormat(pattern, lc);
@@ -1440,11 +1441,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		if (boundElementsMap != null)
 		{
-			for (Iterator it = boundElementsMap.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<JRPrintElement,JRFillElement>> it = boundElementsMap.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
-				JRPrintElement element = (JRPrintElement) entry.getKey();
-				JRFillElement fillElement = (JRFillElement) entry.getValue();
+				Map.Entry<JRPrintElement,JRFillElement> entry = it.next();
+				JRPrintElement element = entry.getKey();
+				JRFillElement fillElement = entry.getValue();
 
 				fillElement.resolveElement(element, evaluation, evaluationTime);
 			}
@@ -1453,17 +1454,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected void resolveBoundElements(JREvaluationTime evaluationTime, byte evaluation) throws JRException
 	{
-		BoundElementMap boundElementsMap = (BoundElementMap) boundElements.get(evaluationTime);
+		BoundElementMap boundElementsMap = boundElements.get(evaluationTime);
 		if (isPerPageBoundElements)
 		{
-			Map perPageElementsMap = boundElementsMap.getMap();
-			for (Iterator it = perPageElementsMap.entrySet().iterator(); it.hasNext();)
+			Map<JRPrintPage,Map<JRPrintElement,JRFillElement>> perPageElementsMap = boundElementsMap.getMap();
+			for (Iterator<Map.Entry<JRPrintPage,Map<JRPrintElement,JRFillElement>>> it = perPageElementsMap.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
+				Map.Entry<JRPrintPage,Map<JRPrintElement,JRFillElement>> entry = it.next();
 				// Calling getElements() will page in the data for the page.
-				JRPrintPage page = (JRPrintPage) entry.getKey();
+				JRPrintPage page = entry.getKey();
 				page.getElements();
-				Map elementsMap = (Map) entry.getValue();
+				Map<JRPrintElement,JRFillElement> elementsMap = entry.getValue();
 				resolveBoundElements(elementsMap, evaluation, evaluationTime);
 			}
 
@@ -1634,12 +1635,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		if (subfillers == null)
 		{
-			subfillers = new HashSet();
+			subfillers = new HashSet<JRBaseFiller>();
 		}
 
 		if (subfillers.add(subfiller) && fillContext.isUsingVirtualizer())
 		{
-			subfiller.identityPages = new ArrayList();
+			subfiller.identityPages = new ArrayList<JRVirtualPrintPage>();
 
 			JRVirtualPrintPage masterPrintPage = (JRVirtualPrintPage) fillContext.getPrintPage();
 			subfiller.identityPages.add(masterPrintPage);
@@ -1661,9 +1662,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		if (filler.subfillers != null)
 		{
-			for (Iterator i = filler.subfillers.iterator(); i.hasNext();)
+			for (Iterator<JRBaseFiller> i = filler.subfillers.iterator(); i.hasNext();)
 			{
-				JRBaseFiller subfiller = (JRBaseFiller) i.next();
+				JRBaseFiller subfiller = i.next();
 
 				subfiller.identityPages.add(page);
 				addIdentityDataProviders(page, subfiller);
@@ -1675,9 +1676,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		if (filler.identityPages != null)
 		{
-			for (Iterator it = filler.identityPages.iterator(); it.hasNext();)
+			for (Iterator<JRVirtualPrintPage> it = filler.identityPages.iterator(); it.hasNext();)
 			{
-				JRVirtualPrintPage page = (JRVirtualPrintPage) it.next();
+				JRVirtualPrintPage page = it.next();
 
 				page.removeIdentityDataProvider(filler);
 			}
@@ -1704,7 +1705,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected static final class PageIdentityDataProvider implements JRVirtualPrintPage.IdentityDataProvider
 	{
-		private static final Map providers = new HashMap();
+		private static final Map<JRPrintPage,JRVirtualPrintPage.IdentityDataProvider> providers = 
+			new HashMap<JRPrintPage,JRVirtualPrintPage.IdentityDataProvider>();
 
 		private final JRPrintPage printPage;
 
@@ -1722,13 +1724,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		{
 			if (identityData != null && identityData.length > 0)
 			{
-				Map idMap = new HashMap();
+				Map<Integer,Object> idMap = new HashMap<Integer,Object>();
 				for (int i = 0; i < identityData.length; i++)
 				{
 					idMap.put(Integer.valueOf(identityData[i].getIdentity()), identityData[i].getObject());
 				}
 
-				for (ListIterator i = printPage.getElements().listIterator(); i.hasNext();)
+				for (ListIterator<JRPrintElement> i = printPage.getElements().listIterator(); i.hasNext();)
 				{
 					Object element = i.next();
 					Integer id = Integer.valueOf(System.identityHashCode(element));
@@ -1736,7 +1738,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 					Object idObject = idMap.get(id);
 					if (idObject != null)
 					{
-						i.set(idObject);
+						i.set((JRPrintElement)idObject);
 					}
 				}
 			}
@@ -1744,7 +1746,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		public static JRVirtualPrintPage.IdentityDataProvider getIdentityDataProvider(JRPrintPage printPage)
 		{
-			JRVirtualPrintPage.IdentityDataProvider provider = (JRVirtualPrintPage.IdentityDataProvider) providers.get(printPage);
+			JRVirtualPrintPage.IdentityDataProvider provider = providers.get(printPage);
 			if (provider == null)
 			{
 				provider = new PageIdentityDataProvider(printPage);
@@ -1755,7 +1757,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		public static JRVirtualPrintPage.IdentityDataProvider removeIdentityDataProvider(JRPrintPage printPage)
 		{
-			return (JRVirtualPrintPage.IdentityDataProvider) providers.remove(printPage);
+			return providers.remove(printPage);
 		}
 	}
 
@@ -1797,7 +1799,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private void createDatasets() throws JRException
 	{
-		datasetMap = new HashMap();
+		datasetMap = new HashMap<String,JRFillDataset>();
 
 		JRDataset[] datasets = jasperReport.getDatasets();
 		if (datasets != null && datasets.length > 0)
@@ -1815,9 +1817,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	private void initDatasets(JRFillObjectFactory factory)
 	{
-		for (Iterator it = datasetMap.values().iterator(); it.hasNext();)
+		for (Iterator<JRFillDataset> it = datasetMap.values().iterator(); it.hasNext();)
 		{
-			JRFillDataset dataset = (JRFillDataset) it.next();
+			JRFillDataset dataset = it.next();
 			dataset.inheritFromMain();
 			dataset.initElementDatasets(factory);
 		}
@@ -1902,7 +1904,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 	protected void addBoundElement(JRFillElement element, JRPrintElement printElement, JREvaluationTime evaluationTime)
 	{
-		BoundElementMap boundElementsMap = (BoundElementMap) boundElements.get(evaluationTime);
+		BoundElementMap boundElementsMap = boundElements.get(evaluationTime);
 		boundElementsMap.put(printElement, element);
 	}
 
@@ -1941,11 +1943,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	public JRVirtualPrintPage.ObjectIDPair[] getIdentityData(JRVirtualPrintPage page)
 	{
 		Map allElements = new HashMap();
-		List identityList = new ArrayList();
+		List<JRVirtualPrintPage.ObjectIDPair> identityList = new ArrayList<JRVirtualPrintPage.ObjectIDPair>();
 
-		for (Iterator it = boundElements.values().iterator(); it.hasNext();)
+		for (Iterator<BoundElementMap> it = boundElements.values().iterator(); it.hasNext();)
 		{
-			BoundElementMap pageBoundElementsMap = (BoundElementMap) it.next();
+			BoundElementMap pageBoundElementsMap = it.next();
 			Map map = pageBoundElementsMap.getMap(page);
 			if (map != null && !map.isEmpty())
 			{
@@ -2174,7 +2176,7 @@ class SavePoint
 	protected int heightOffset;
 	protected int groupIndex;
 	protected FooterPositionEnum footerPosition = FooterPositionEnum.NORMAL;
-	protected List elementsToMove = new ArrayList();
+	protected List<JRPrintElement> elementsToMove = new ArrayList<JRPrintElement>();
 	
 	protected SavePoint(
 		JRPrintPage page,
@@ -2232,7 +2234,7 @@ class SavePoint
 	{
 		for(int i = elementsToMove.size() - 1; i >= 0; i--)// elementsToMove were added in reverse order
 		{
-			JRPrintElement printElement = (JRPrintElement)elementsToMove.get(i);
+			JRPrintElement printElement = elementsToMove.get(i);
 
 			printElement.setX(printElement.getX() + xdelta);
 			printElement.setY(printElement.getY() + ydelta);
@@ -2251,7 +2253,7 @@ class SavePoint
 			//no page/column break occurred
 			for(int i = startElementIndex; i < endElementIndex; i++)
 			{
-				JRPrintElement printElement = (JRPrintElement)page.getElements().get(i);
+				JRPrintElement printElement = page.getElements().get(i);
 				printElement.setY(printElement.getY() + heightOffset);
 			}
 		}

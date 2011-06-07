@@ -109,7 +109,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset parameters indexed by name.
 	 */
-	protected Map parametersMap;
+	protected Map<String,JRFillParameter> parametersMap;
 
 	/**
 	 * The dataset fields.
@@ -119,7 +119,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset fields indexed by name.
 	 */
-	protected Map fieldsMap;
+	protected Map<String,JRFillField> fieldsMap;
 	
 	/**
 	 * The dataset variables.
@@ -129,12 +129,12 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The dataset variables indexed by name.
 	 */
-	protected Map variablesMap;
+	protected Map<String,JRFillVariable> variablesMap;
 	
 	/**
 	 * Set of {@link VariableCalculationReq VariableCalculationReq} objects.
 	 */
-	protected Set variableCalculationReqs;
+	protected Set<VariableCalculationReq> variableCalculationReqs;
 
 	/**
 	 * The element datasets.
@@ -200,7 +200,7 @@ public class JRFillDataset implements JRDataset
 	/**
 	 * The scriptlets used by the dataset.
 	 */
-	protected List scriptlets;
+	protected List<JRAbstractScriptlet> scriptlets;
 
 	/**
 	 *
@@ -251,7 +251,7 @@ public class JRFillDataset implements JRDataset
 		if (jrParameters != null && jrParameters.length > 0)
 		{
 			parameters = new JRFillParameter[jrParameters.length];
-			parametersMap = new HashMap();
+			parametersMap = new HashMap<String,JRFillParameter>();
 			for (int i = 0; i < parameters.length; i++)
 			{
 				parameters[i] = factory.getParameter(jrParameters[i]);
@@ -280,9 +280,9 @@ public class JRFillDataset implements JRDataset
 		JRVariable[] jrVariables = dataset.getVariables();
 		if (jrVariables != null && jrVariables.length > 0)
 		{
-			List variableList = new ArrayList(jrVariables.length * 3);
+			List<JRFillVariable> variableList = new ArrayList<JRFillVariable>(jrVariables.length * 3);
 
-			variablesMap = new HashMap();
+			variablesMap = new HashMap<String,JRFillVariable>();
 			for (int i = 0; i < jrVariables.length; i++)
 			{
 				addVariable(jrVariables[i], variableList, factory);
@@ -293,7 +293,7 @@ public class JRFillDataset implements JRDataset
 	}
 	
 	
-	private JRFillVariable addVariable(JRVariable parentVariable, List variableList, JRFillObjectFactory factory)
+	private JRFillVariable addVariable(JRVariable parentVariable, List<JRFillVariable> variableList, JRFillObjectFactory factory)
 	{
 		JRFillVariable variable = factory.getVariable(parentVariable);
 
@@ -372,10 +372,10 @@ public class JRFillDataset implements JRDataset
 		return helper;
 	}
 
-	private void setVariables(List variableList)
+	private void setVariables(List<JRFillVariable> variableList)
 	{
 		variables = new JRFillVariable[variableList.size()];
-		variables = (JRFillVariable[]) variableList.toArray(variables);
+		variables = variableList.toArray(variables);
 
 		for (int i = 0; i < variables.length; i++)
 		{
@@ -390,7 +390,7 @@ public class JRFillDataset implements JRDataset
 		if (jrFields != null && jrFields.length > 0)
 		{
 			fields = new JRFillField[jrFields.length];
-			fieldsMap = new HashMap();
+			fieldsMap = new HashMap<String,JRFillField>();
 			for (int i = 0; i < fields.length; i++)
 			{
 				fields[i] = factory.getField(jrFields[i]);
@@ -452,17 +452,17 @@ public class JRFillDataset implements JRDataset
 	 * @return the scriptlets list
 	 * @throws JRException
 	 */
-	protected List createScriptlets(Map parameterValues) throws JRException
+	protected List<JRAbstractScriptlet> createScriptlets(Map<String,Object> parameterValues) throws JRException
 	{
 		ScriptletFactoryContext context = new ScriptletFactoryContext(parameterValues, this);
 		
-		scriptlets = new ArrayList();
+		scriptlets = new ArrayList<JRAbstractScriptlet>();
 		
-		List factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ScriptletFactory.class);
-		for (Iterator it = factories.iterator(); it.hasNext();)
+		List<ScriptletFactory> factories = (List<ScriptletFactory>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ScriptletFactory.class);
+		for (Iterator<ScriptletFactory> it = factories.iterator(); it.hasNext();)
 		{
-			ScriptletFactory factory = (ScriptletFactory)it.next();
-			List tmpScriptlets = factory.getScriplets(context);
+			ScriptletFactory factory = it.next();
+			List<JRAbstractScriptlet> tmpScriptlets = factory.getScriplets(context);
 			if (tmpScriptlets != null)
 			{
 				scriptlets.addAll(tmpScriptlets);
@@ -542,7 +542,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @throws JRException 
 	 */
-	public void setParameterValues(Map parameterValues) throws JRException
+	public void setParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
@@ -620,7 +620,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the values map
 	 * @throws JRException
 	 */
-	private void setFillParameterValues(Map parameterValues) throws JRException
+	private void setFillParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
 		if (parameters != null && parameters.length > 0)
 		{
@@ -650,11 +650,10 @@ public class JRFillDataset implements JRDataset
 	 * 
 	 * @return the map of parameter values
 	 */
-	protected Map getParameterValuesMap()
+	protected Map<String,Object> getParameterValuesMap()
 	{
-		JRFillParameter paramValuesParameter = (JRFillParameter) parametersMap.get(
-				JRParameter.REPORT_PARAMETERS_MAP);
-		return (Map) paramValuesParameter.getValue();
+		JRFillParameter paramValuesParameter = parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP);
+		return (Map<String,Object>) paramValuesParameter.getValue();
 	}
 	
 	/**
@@ -703,7 +702,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @param ds the data source
 	 */
-	public void setDatasourceParameterValue(Map parameterValues, JRDataSource ds)
+	public void setDatasourceParameterValue(Map<String,Object> parameterValues, JRDataSource ds)
 	{
 		useDatasourceParamValue = true;
 		
@@ -720,7 +719,7 @@ public class JRFillDataset implements JRDataset
 	 * @param parameterValues the parameter values
 	 * @param conn the connection
 	 */
-	public void setConnectionParameterValue(Map parameterValues, Connection conn)
+	public void setConnectionParameterValue(Map<String,Object> parameterValues, Connection conn)
 	{
 		useConnectionParamValue = true;
 		
@@ -875,7 +874,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected void setParameter(String parameterName, Object value) throws JRException
 	{
-		JRFillParameter parameter = (JRFillParameter) parametersMap.get(parameterName);
+		JRFillParameter parameter = parametersMap.get(parameterName);
 		if (parameter != null)
 		{
 			setParameter(parameter, value);
@@ -924,7 +923,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getVariableValue(String variableName)
 	{
-		JRFillVariable var = (JRFillVariable) variablesMap.get(variableName);
+		JRFillVariable var = variablesMap.get(variableName);
 		if (var == null)
 		{
 			throw new JRRuntimeException("No such variable " + variableName);
@@ -954,7 +953,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getParameterValue(String parameterName, boolean ignoreMissing)
 	{
-		JRFillParameter param = (JRFillParameter) parametersMap.get(parameterName);
+		JRFillParameter param = parametersMap.get(parameterName);
 		Object value;
 		if (param == null)
 		{
@@ -981,7 +980,7 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getFieldValue(String fieldName)
 	{
-		JRFillField var = (JRFillField) fieldsMap.get(fieldName);
+		JRFillField var = fieldsMap.get(fieldName);
 		if (var == null)
 		{
 			throw new JRRuntimeException("No such field " + fieldName);
@@ -1034,7 +1033,7 @@ public class JRFillDataset implements JRDataset
 	{
 		if (variableCalculationReqs == null)
 		{
-			variableCalculationReqs = new HashSet();
+			variableCalculationReqs = new HashSet<VariableCalculationReq>();
 		}
 
 		variableCalculationReqs.add(new VariableCalculationReq(variableName, calculation));
@@ -1050,7 +1049,7 @@ public class JRFillDataset implements JRDataset
 	{
 		if (variableCalculationReqs != null && !variableCalculationReqs.isEmpty())
 		{
-			List variableList = new ArrayList(variables.length * 2);
+			List<JRFillVariable> variableList = new ArrayList<JRFillVariable>(variables.length * 2);
 
 			for (int i = 0; i < variables.length; i++)
 			{
@@ -1063,7 +1062,7 @@ public class JRFillDataset implements JRDataset
 	}
 
 	
-	private void checkVariableCalculationReq(JRFillVariable variable, List variableList, JRFillObjectFactory factory)
+	private void checkVariableCalculationReq(JRFillVariable variable, List<JRFillVariable> variableList, JRFillObjectFactory factory)
 	{
 		if (hasVariableCalculationReq(variable, CalculationEnum.AVERAGE) || hasVariableCalculationReq(variable, CalculationEnum.VARIANCE))
 		{
@@ -1136,7 +1135,7 @@ public class JRFillDataset implements JRDataset
 		return parameters;
 	}
 
-	public Map getParametersMap()
+	public Map<String,JRFillParameter> getParametersMap()
 	{
 		return parametersMap;
 	}

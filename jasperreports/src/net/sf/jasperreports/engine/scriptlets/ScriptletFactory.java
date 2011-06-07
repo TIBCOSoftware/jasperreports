@@ -41,6 +41,6 @@ public interface ScriptletFactory
 	 * Returns a list of scriptlet instances to be used during report filling.
 	 * This method can return <code>null</code> if no scriplet is to be used.
 	 */
-	List getScriplets(ScriptletFactoryContext context) throws JRException;
+	List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException;
 	
 }
