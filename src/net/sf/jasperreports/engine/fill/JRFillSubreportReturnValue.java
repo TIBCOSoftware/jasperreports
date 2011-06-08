@@ -98,7 +98,7 @@ public class JRFillSubreportReturnValue implements JRSubreportReturnValue
 			{
 				try
 				{
-					Class incrementerFactoryClass = JRClassLoader.loadClassForName(incrementerFactoryClassName);
+					Class<?> incrementerFactoryClass = JRClassLoader.loadClassForName(incrementerFactoryClassName);
 					incrementerFactory = JRIncrementerFactoryCache.getInstance(incrementerFactoryClass); 
 				}
 				catch (ClassNotFoundException e)

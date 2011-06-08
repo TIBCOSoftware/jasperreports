@@ -46,18 +46,18 @@ public class JRRecordedValues implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 
-	private Set evaluationTimes;
-	private Map recordedVariableValues;
-	private Map recordedFieldValues;
+	private Set<JREvaluationTime> evaluationTimes;
+	private Map<String,Object> recordedVariableValues;
+	private Map<String,Object> recordedFieldValues;
 
 	/**
 	 * Creates a recorded values set.
 	 * 
 	 * @param evaluationTimes future times when the values will be recorded
 	 */
-	public JRRecordedValues(Set evaluationTimes)
+	public JRRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
-		this.evaluationTimes = new HashSet(evaluationTimes);
+		this.evaluationTimes = new HashSet<JREvaluationTime>(evaluationTimes);
 	}
 
 	
@@ -104,7 +104,7 @@ public class JRRecordedValues implements Serializable
 	{
 		if (recordedVariableValues == null)
 		{
-			recordedVariableValues = new HashMap();
+			recordedVariableValues = new HashMap<String,Object>();
 		}
 		recordedVariableValues.put(variableName, value);
 	}
@@ -120,7 +120,7 @@ public class JRRecordedValues implements Serializable
 	{
 		if (recordedFieldValues == null)
 		{
-			recordedFieldValues = new HashMap();
+			recordedFieldValues = new HashMap<String,Object>();
 		}
 		recordedFieldValues.put(fieldName, value);
 	}
@@ -131,7 +131,7 @@ public class JRRecordedValues implements Serializable
 	 * 
 	 * @return the recorded variable values
 	 */
-	public Map getRecordedVariableValues()
+	public Map<String,Object> getRecordedVariableValues()
 	{
 		return recordedVariableValues;
 	}
@@ -142,7 +142,7 @@ public class JRRecordedValues implements Serializable
 	 * 
 	 * @return the recorded field values
 	 */
-	public Map getRecordedFieldValues()
+	public Map<String,Object> getRecordedFieldValues()
 	{
 		return recordedFieldValues;
 	}

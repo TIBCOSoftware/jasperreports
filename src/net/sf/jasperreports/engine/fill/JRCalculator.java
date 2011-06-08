@@ -49,9 +49,9 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
-	protected Map parsm;
-	protected Map fldsm;
-	protected Map varsm;
+	protected Map<String,?> parsm;
+	protected Map<String,?> fldsm;
+	protected Map<String,?> varsm;
 	protected JRFillVariable[] variables;
 	protected JRFillGroup[] groups;
 	protected JRFillElementDataset[] datasets;

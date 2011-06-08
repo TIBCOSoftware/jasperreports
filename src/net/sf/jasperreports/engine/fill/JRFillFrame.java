@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -61,17 +62,17 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	/**
 	 * Template frame without the bottom border.
 	 */
-	private Map bottomTemplateFrames;
+	private Map<JRStyle,JRTemplateElement> bottomTemplateFrames;
 	
 	/**
 	 * Template frame without the top border
 	 */
-	private Map topTemplateFrames;
+	private Map<JRStyle,JRTemplateElement> topTemplateFrames;
 	
 	/**
 	 * Template frame without the top and bottom borders
 	 */
-	private Map topBottomTemplateFrames;
+	private Map<JRStyle,JRTemplateElement> topBottomTemplateFrames;
 	
 	/**
 	 * Whether the current frame chunk is the first one.
@@ -95,9 +96,9 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		
 		frameContainer = new JRFillFrameElements(factory);
 		
-		bottomTemplateFrames = new HashMap();
-		topTemplateFrames = new HashMap();
-		topBottomTemplateFrames = new HashMap();
+		bottomTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
+		topTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
+		topBottomTemplateFrames = new HashMap<JRStyle,JRTemplateElement>();
 		
 		setShrinkable(true);
 	}
@@ -284,7 +285,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 	{
 		JRStyle style = getStyle();
 
-		Map templatesMap;
+		Map<JRStyle,JRTemplateElement> templatesMap;
 		if (first)
 		{
 			if (fillBottomBorder)
@@ -362,7 +363,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		return frameContainer.getElements();
 	}
 	
-	public List getChildren()
+	public List<JRChild> getChildren()
 	{
 		return frameContainer.getChildren();
 	}

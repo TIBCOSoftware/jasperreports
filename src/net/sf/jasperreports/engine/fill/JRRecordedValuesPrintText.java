@@ -54,7 +54,7 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 		recordedValues = null;
 	}
 
-	public void initRecordedValues(Set evaluationTimes)
+	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);
 	}

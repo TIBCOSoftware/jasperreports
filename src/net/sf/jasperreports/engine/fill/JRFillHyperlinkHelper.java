@@ -70,7 +70,7 @@ public final class JRFillHyperlinkHelper
 			{
 				JRHyperlinkParameter hyperlinkParameter = hyperlinkParameters[i];
 				JRExpression valueExpression = hyperlinkParameter.getValueExpression();
-				Class valueClass;
+				Class<?> valueClass;
 				Object value;
 				if (valueExpression == null)
 				{

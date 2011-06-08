@@ -28,6 +28,7 @@ import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -74,7 +75,7 @@ public class JRStyledText implements Cloneable
 	private List runs = new ArrayList();
 	private AttributedString attributedString;
 	private AttributedString awtAttributedString;
-	private Map globalAttributes;
+	private Map<Attribute,Object> globalAttributes;
 	private Locale locale;
 
 	
@@ -317,14 +318,14 @@ public class JRStyledText implements Cloneable
 		}
 	}
 
-	public void setGlobalAttributes(Map attributes)
+	public void setGlobalAttributes(Map<Attribute,Object> attributes)
 	{
 		this.globalAttributes = attributes;
 		addRun(new Run(attributes, 0, length()));
 	}
 	
 	
-	public Map getGlobalAttributes()
+	public Map<Attribute,Object> getGlobalAttributes()
 	{
 		return globalAttributes;
 	}
@@ -335,9 +336,9 @@ public class JRStyledText implements Cloneable
 		return super.clone();
 	}
 	
-	protected static Map cloneAttributesMap(Map attributes)
+	protected static Map<Attribute,Object> cloneAttributesMap(Map<Attribute,Object> attributes)
 	{
-		return attributes == null ? null : new HashMap(attributes);
+		return attributes == null ? null : new HashMap<Attribute,Object>(attributes);
 	}
 
 	

@@ -38,9 +38,9 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public class JRClonePool
 {
 	private final JRFillCloneable original;
-	private final LinkedList availableClones;
+	private final LinkedList<JRFillCloneable> availableClones;
 	private final boolean trackLockedClones;
-	private final Set lockedClones;
+	private final Set<JRFillCloneable> lockedClones;
 
 	
 	/**
@@ -57,12 +57,12 @@ public class JRClonePool
 	{
 		this.original = original;
 		
-		availableClones = new LinkedList();
+		availableClones = new LinkedList<JRFillCloneable>();
 		
 		this.trackLockedClones = trackLockedClones;
 		if (trackLockedClones)
 		{
-			lockedClones = new HashSet();
+			lockedClones = new HashSet<JRFillCloneable>();
 		}
 		else
 		{
@@ -95,7 +95,7 @@ public class JRClonePool
 		}
 		else
 		{
-			clone = (JRFillCloneable) availableClones.removeFirst();
+			clone = availableClones.removeFirst();
 		}
 		
 		if (trackLockedClones)
@@ -123,6 +123,6 @@ public class JRClonePool
 			}
 		}
 		
-		availableClones.addLast(clone);
+		availableClones.addLast((JRFillCloneable)clone);
 	}
 }

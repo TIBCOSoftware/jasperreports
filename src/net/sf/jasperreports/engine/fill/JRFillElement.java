@@ -71,7 +71,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRElement parent;
-	protected Map templates = new HashMap();
+	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
 
 	/**
 	 *
@@ -102,7 +102,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	private boolean isToPrint = true;
 	private boolean isReprinted;
 	private boolean isAlreadyPrinted;
-	private Collection dependantElements = new ArrayList();
+	private Collection<JRElement> dependantElements = new ArrayList<JRElement>();
 	private int relativeY;
 	private int stretchHeight;
 
@@ -116,7 +116,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected byte currentEvaluation;
 	
 	// used by elements that support evaluationTime=Auto
-	protected Map delayedEvaluationsMap;
+	protected Map<JREvaluationTime,DelayedEvaluations> delayedEvaluationsMap;
 
 	protected JRFillElementContainer conditionalStylesContainer;
 	
@@ -564,7 +564,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
-	protected Collection getDependantElements()
+	protected Collection<JRElement> getDependantElements()
 	{
 		return dependantElements;
 	}
@@ -786,12 +786,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected void moveDependantElements()
 	{
-		Collection elements = getDependantElements();
+		Collection<JRElement> elements = getDependantElements();
 		if (elements != null && elements.size() > 0)
 		{
 			JRFillElement element = null;
 			int diffY = 0;
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRElement> it = elements.iterator(); it.hasNext();)
 			{
 				element = (JRFillElement)it.next();
 
@@ -942,13 +942,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-		final Set fields;
-		final Set variables;
+		final Set<String> fields;
+		final Set<String> variables;
 
 		DelayedEvaluations()
 		{
-			fields = new HashSet();
-			variables = new HashSet();
+			fields = new HashSet<String>();
+			variables = new HashSet<String>();
 		}
 	}
 
@@ -956,7 +956,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		if (getEvaluationTimeValue() == EvaluationTimeEnum.AUTO && delayedEvaluationsMap == null)
 		{
-			delayedEvaluationsMap = new HashMap();
+			delayedEvaluationsMap = new HashMap<JREvaluationTime,DelayedEvaluations>();
 			collectDelayedEvaluations();
 		}
 	}
@@ -1039,7 +1039,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	private DelayedEvaluations getDelayedEvaluations(JREvaluationTime time)
 	{
-		DelayedEvaluations delayedEvaluations = (DelayedEvaluations) delayedEvaluationsMap.get(time);
+		DelayedEvaluations delayedEvaluations = delayedEvaluationsMap.get(time);
 		if (delayedEvaluations == null)
 		{
 			delayedEvaluations = new DelayedEvaluations();
@@ -1091,9 +1091,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void initDelayedEvaluationPrint(JRRecordedValuesPrintElement printElement) throws JRException
 	{
-		for (Iterator it = delayedEvaluationsMap.keySet().iterator(); it.hasNext();)
+		for (Iterator<JREvaluationTime> it = delayedEvaluationsMap.keySet().iterator(); it.hasNext();)
 		{
-			JREvaluationTime evaluationTime = (JREvaluationTime) it.next();
+			JREvaluationTime evaluationTime = it.next();
 			if (!evaluationTime.equals(JREvaluationTime.EVALUATION_TIME_NOW))
 			{
 				filler.addBoundElement(this, printElement, evaluationTime);
@@ -1114,18 +1114,18 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		JRRecordedValues recordedValues = printElement.getRecordedValues();
 		if (!recordedValues.lastEvaluationTime())
 		{
-			DelayedEvaluations delayedEvaluations = (DelayedEvaluations) delayedEvaluationsMap.get(evaluationTime);
+			DelayedEvaluations delayedEvaluations = delayedEvaluationsMap.get(evaluationTime);
 			
-			for (Iterator it = delayedEvaluations.fields.iterator(); it.hasNext();)
+			for (Iterator<String> it = delayedEvaluations.fields.iterator(); it.hasNext();)
 			{
-				String fieldName = (String) it.next();
+				String fieldName = it.next();
 				JRFillField field = getField(fieldName);
 				recordedValues.recordFieldValue(fieldName, field.getValue(evaluation));
 			}
 
-			for (Iterator it = delayedEvaluations.variables.iterator(); it.hasNext();)
+			for (Iterator<String> it = delayedEvaluations.variables.iterator(); it.hasNext();)
 			{
-				String variableName = (String) it.next();
+				String variableName = it.next();
 				JRFillVariable variable = getVariable(variableName);
 				recordedValues.recordVariableValue(variableName, variable.getValue(evaluation));
 			}
@@ -1145,26 +1145,26 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	private void overwriteWithRecordedValues(JRRecordedValues recordedValues, byte evaluation)
 	{
-		Map fieldValues = recordedValues.getRecordedFieldValues();
+		Map<String,Object> fieldValues = recordedValues.getRecordedFieldValues();
 		if (fieldValues != null)
 		{
-			for (Iterator it = fieldValues.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<String,Object>> it = fieldValues.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
-				String fieldName = (String) entry.getKey();
+				Map.Entry<String,Object> entry = it.next();
+				String fieldName = entry.getKey();
 				Object fieldValue = entry.getValue();
 				JRFillField field = getField(fieldName);
 				field.overwriteValue(fieldValue, evaluation);
 			}
 		}
 		
-		Map variableValues = recordedValues.getRecordedVariableValues();
+		Map<String,Object> variableValues = recordedValues.getRecordedVariableValues();
 		if (variableValues != null)
 		{
-			for (Iterator it = variableValues.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<String,Object>> it = variableValues.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry entry = (Map.Entry) it.next();
-				String variableName = (String) entry.getKey();
+				Map.Entry<String,Object> entry = it.next();
+				String variableName = entry.getKey();
 				Object variableValue = entry.getValue();
 				JRFillVariable variable = getVariable(variableName);
 				variable.overwriteValue(variableValue, evaluation);
@@ -1174,23 +1174,23 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	private void restoreValues(JRRecordedValues recordedValues, byte evaluation)
 	{
-		Map fieldValues = recordedValues.getRecordedFieldValues();
+		Map<String,Object> fieldValues = recordedValues.getRecordedFieldValues();
 		if (fieldValues != null)
 		{
-			for (Iterator it = fieldValues.keySet().iterator(); it.hasNext();)
+			for (Iterator<String> it = fieldValues.keySet().iterator(); it.hasNext();)
 			{
-				String fieldName = (String) it.next();
+				String fieldName = it.next();
 				JRFillField field = getField(fieldName);
 				field.restoreValue(evaluation);
 			}
 		}
 		
-		Map variableValues = recordedValues.getRecordedVariableValues();
+		Map<String,Object> variableValues = recordedValues.getRecordedVariableValues();
 		if (variableValues != null)
 		{
-			for (Iterator it = variableValues.keySet().iterator(); it.hasNext();)
+			for (Iterator<String> it = variableValues.keySet().iterator(); it.hasNext();)
 			{
-				String variableName = (String) it.next();
+				String variableName = it.next();
 				JRFillVariable variable = getVariable(variableName);
 				variable.restoreValue(evaluation);
 			}
@@ -1246,7 +1246,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	protected JRTemplateElement getTemplate(JRStyle style)
 	{
-		return (JRTemplateElement) templates.get(style);
+		return templates.get(style);
 	}
 
 	/**

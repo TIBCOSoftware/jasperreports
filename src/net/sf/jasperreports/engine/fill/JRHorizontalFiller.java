@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -794,7 +795,7 @@ public class JRHorizontalFiller extends JRBaseFiller
 
 			for(int i = 0; i < detailBands.length; i++)
 			{
-				JRFillBand detailBand = (JRFillBand)detailBands[i];
+				JRFillBand detailBand = detailBands[i];
 
 				detailBand.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
 
@@ -2177,14 +2178,14 @@ public class JRHorizontalFiller extends JRBaseFiller
 	 */
 	protected void fillBand(JRPrintBand band)
 	{
-		java.util.List elements = band.getElements();
+		List<JRPrintElement> elements = band.getElements();
 
 		if (elements != null && elements.size() > 0)
 		{
 			JRPrintElement element = null;
-			for(Iterator it = elements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 			{
-				element = (JRPrintElement)it.next();
+				element = it.next();
 				element.setX(element.getX() + offsetX);
 				element.setY(element.getY() + offsetY);
 				printPage.addElement(element);

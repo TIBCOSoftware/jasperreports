@@ -99,7 +99,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		return parent.getValueClass();
 	}
@@ -115,7 +115,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	/**
 	 *
 	 */
-	public Class getIncrementerFactoryClass()
+	public Class<?> getIncrementerFactoryClass()
 	{
 		return parent.getIncrementerFactoryClass();
 	}
@@ -280,7 +280,7 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	{
 		if (incrementer == null)
 		{
-			Class incrementerFactoryClass = getIncrementerFactoryClass();
+			Class<?> incrementerFactoryClass = getIncrementerFactoryClass();
 			
 			JRIncrementerFactory incrementerFactory;
 			if (incrementerFactoryClass == null)

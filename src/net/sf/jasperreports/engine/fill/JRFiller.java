@@ -45,7 +45,7 @@ public final class JRFiller
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport,
-		Map parameters,
+		Map<String,Object> parameters,
 		Connection conn
 		) throws JRException
 	{
@@ -71,7 +71,7 @@ public final class JRFiller
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport,
-		Map parameters,
+		Map<String,Object> parameters,
 		JRDataSource dataSource
 		) throws JRException
 	{
@@ -109,7 +109,7 @@ public final class JRFiller
 	 * @return the filled report
 	 * @throws JRException
 	 */
-	public static JasperPrint fillReport(JasperReport jasperReport, Map parameters) throws JRException
+	public static JasperPrint fillReport(JasperReport jasperReport, Map<String,Object> parameters) throws JRException
 	{
 		JRBaseFiller filler = createFiller(jasperReport);
 

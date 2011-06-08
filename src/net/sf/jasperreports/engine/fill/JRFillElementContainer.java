@@ -78,8 +78,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	/**
 	 *
 	 */
-	protected Set stylesToEvaluate = new HashSet();
-	protected Map evaluatedStyles = new HashMap();
+	protected Set<JRStyle> stylesToEvaluate = new HashSet<JRStyle>();
+	protected Map<JRStyle,JRStyle> evaluatedStyles = new HashMap<JRStyle,JRStyle>();
 	
 	protected boolean hasPrintWhenOverflowElement;
 	
@@ -112,19 +112,19 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		}
 		else
 		{
-			List deepElementsList = new ArrayList(elements.length);
+			List<JRFillElement> deepElementsList = new ArrayList<JRFillElement>(elements.length);
 			collectDeepElements(elements, deepElementsList);
 			deepElements = new JRFillElement[deepElementsList.size()];
 			deepElementsList.toArray(deepElements);
 		}
 	}
 
-	private static void collectDeepElements(JRElement[] elements, List deepElementsList)
+	private static void collectDeepElements(JRElement[] elements, List<JRFillElement> deepElementsList)
 	{
 		for (int i = 0; i < elements.length; i++)
 		{
 			JRElement element = elements[i];
-			deepElementsList.add(element);
+			deepElementsList.add((JRFillElement)element);
 			
 			if (element instanceof JRFillFrame)
 			{
@@ -140,10 +140,10 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		
 		if (elements != null && elements.length > 0)
 		{
-			List sortedElemsList = new ArrayList();
-			List stretchElemsList = new ArrayList();
-			List bandBottomElemsList = new ArrayList();
-			List removableElemsList = new ArrayList();
+			List<JRFillElement> sortedElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> stretchElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> bandBottomElemsList = new ArrayList<JRFillElement>();
+			List<JRFillElement> removableElemsList = new ArrayList<JRFillElement>();
 			for(int i = 0; i < elements.length; i++)
 			{
 				JRFillElement element = elements[i];
@@ -584,24 +584,24 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 						{
 							JRFillSubreport subreport = (JRFillSubreport)element;
 							
-							List styles = subreport.subreportFiller.getJasperPrint().getStylesList();
+							List<JRStyle> styles = subreport.subreportFiller.getJasperPrint().getStylesList();
 							for(int j = 0; j < styles.size(); j++)
 							{
-								filler.addPrintStyle((JRStyle)styles.get(j));
+								filler.addPrintStyle(styles.get(j));
 							}
 							
-							List origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
+							List<JROrigin> origins = subreport.subreportFiller.getJasperPrint().getOriginsList();
 							for(int j = 0; j < origins.size(); j++)
 							{
-								filler.getJasperPrint().addOrigin((JROrigin)origins.get(j));
+								filler.getJasperPrint().addOrigin(origins.get(j));
 							}
 							
-							Collection printElements = subreport.getPrintElements();
+							Collection<JRPrintElement> printElements = subreport.getPrintElements();
 							addSubElements(printContainer, element, printElements);
 						}
 						else if (element instanceof JRFillCrosstab)
 						{
-							List printElements = ((JRFillCrosstab) element).getPrintElements();
+							List<JRPrintElement> printElements = ((JRFillCrosstab) element).getPrintElements();
 							addSubElements(printContainer, element, printElements);
 						}
 					}
@@ -614,14 +614,14 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	}
 
 
-	protected void addSubElements(JRPrintElementContainer printContainer, JRFillElement element, Collection printElements)
+	protected void addSubElements(JRPrintElementContainer printContainer, JRFillElement element, Collection<JRPrintElement> printElements)
 	{
 		JRPrintElement printElement;
 		if (printElements != null && printElements.size() > 0)
 		{
-			for(Iterator it = printElements.iterator(); it.hasNext();)
+			for(Iterator<JRPrintElement> it = printElements.iterator(); it.hasNext();)
 			{
-				printElement = (JRPrintElement)it.next();
+				printElement =it.next();
 				printElement.setX(element.getX() + printElement.getX());
 				printElement.setY(element.getRelativeY() + printElement.getY());
 				printContainer.addElement(printElement);
@@ -702,9 +702,9 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	protected void evaluateConditionalStyles(byte evaluation) throws JRException
 	{
-		for (Iterator it = stylesToEvaluate.iterator(); it.hasNext();) 
+		for (Iterator<JRStyle> it = stylesToEvaluate.iterator(); it.hasNext();) 
 		{
-			evaluateConditionalStyle((JRStyle) it.next(), evaluation);
+			evaluateConditionalStyle(it.next(), evaluation);
 		}
 	}
 
@@ -714,20 +714,20 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		JRStyle consolidatedStyle = initialStyle;
 
 		StringBuffer code = new StringBuffer();
-		List condStylesToApply = new ArrayList();
+		List<JRStyle> condStylesToApply = new ArrayList<JRStyle>();
 		
 		boolean anyTrue = buildConsolidatedStyle(initialStyle, evaluation, code, condStylesToApply);
 		
 		if (anyTrue)
 		{
 			String consolidatedStyleName = initialStyle.getName() + "|" + code.toString();
-			consolidatedStyle = (JRStyle)filler.getJasperPrint().getStylesMap().get(consolidatedStyleName);
+			consolidatedStyle = filler.getJasperPrint().getStylesMap().get(consolidatedStyleName);
 			if (consolidatedStyle == null)
 			{
 				consolidatedStyle = new JRBaseStyle(consolidatedStyleName);
 				for (int j = condStylesToApply.size() - 1; j >= 0; j--)
 				{
-					JRStyleResolver.appendStyle(consolidatedStyle, (JRStyle)condStylesToApply.get(j));
+					JRStyleResolver.appendStyle(consolidatedStyle, condStylesToApply.get(j));
 				}
 
 				filler.addPrintStyle(consolidatedStyle);
@@ -740,7 +740,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	}
 
 
-	protected boolean buildConsolidatedStyle(JRStyle style, byte evaluation, StringBuffer code, List condStylesToApply) throws JRException
+	protected boolean buildConsolidatedStyle(JRStyle style, byte evaluation, StringBuffer code, List<JRStyle> condStylesToApply) throws JRException
 	{
 		boolean anyTrue = false;
 		
@@ -788,7 +788,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 	public JRStyle getEvaluatedConditionalStyle(JRStyle parentStyle)
 	{
-		return (JRStyle) evaluatedStyles.get(parentStyle);
+		return evaluatedStyles.get(parentStyle);
 	}
 	
 	protected final void setElementOriginProvider(JROriginProvider originProvider)

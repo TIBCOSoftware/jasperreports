@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
 public final class JRResourcesFillUtil
 {
 	
-	public static ResourcesFillContext setResourcesFillContext(Map parameterValues)
+	public static ResourcesFillContext setResourcesFillContext(Map<String,Object> parameterValues)
 	{
 		ResourcesFillContext context = new ResourcesFillContext();
 		

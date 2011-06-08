@@ -46,7 +46,7 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private List elements;
+	private List<JRPrintElement> elements;
 
 	/**
 	 * Creates a print frame element.
@@ -57,10 +57,10 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	{
 		super(templateFrame);
 		
-		elements = new ArrayList();
+		elements = new ArrayList<JRPrintElement>();
 	}
 
-	public List getElements()
+	public List<JRPrintElement> getElements()
 	{
 		return elements;
 	}

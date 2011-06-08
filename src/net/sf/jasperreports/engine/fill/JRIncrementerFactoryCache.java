@@ -41,16 +41,16 @@ public final class JRIncrementerFactoryCache
 	/**
 	 *
 	 */
-	private static Map factoriesMap = 
+	private static Map<Class<?>,JRIncrementerFactory> factoriesMap = 
 		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
 
 	/**
 	 *
 	 */
-	public static synchronized JRIncrementerFactory getInstance(Class factoryClass)
+	public static synchronized JRIncrementerFactory getInstance(Class<?> factoryClass)
 	{
-		JRIncrementerFactory incrementerFactory = (JRIncrementerFactory)factoriesMap.get(factoryClass);
+		JRIncrementerFactory incrementerFactory = factoriesMap.get(factoryClass);
 
 		if (incrementerFactory == null)
 		{

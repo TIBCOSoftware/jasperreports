@@ -69,7 +69,7 @@ public class JRDistinctCountExtendedIncrementerFactory extends JRAbstractExtende
 	}
 
 
-	public static JRExtendedIncrementerFactory getFactory (Class valueClass)
+	public static JRExtendedIncrementerFactory getFactory (Class<?> valueClass)
 	{
 		return JRDistinctCountExtendedIncrementerFactory.getInstance();
 	}
@@ -124,7 +124,7 @@ class JRDistinctCountExtendedIncrementer extends JRAbstractExtendedIncrementer
 	 */
 	public Object combine(JRCalculable calculable1, JRCalculable calculable2, AbstractValueProvider valueProvider)
 	{
-		Set distinctValues = new HashSet();
+		Set<Object> distinctValues = new HashSet<Object>();
 		
 		DistinctCountHolder holder1  = (DistinctCountHolder)calculable1.getValue();
 		if (holder1 != null)

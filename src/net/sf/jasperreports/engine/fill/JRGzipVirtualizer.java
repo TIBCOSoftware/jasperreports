@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.JRVirtualizable;
  */
 public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 {
-	private final Map zippedData;
+	private final Map<String,byte[]> zippedData;
 
 	/**
 	 * @param maxSize
@@ -94,7 +94,7 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 	protected void pageIn(JRVirtualizable o) throws IOException {
 		GZIPInputStream gis = null;
 		try {
-			byte[] data = (byte[]) zippedData.get(o.getUID());
+			byte[] data = zippedData.get(o.getUID());
 			if (data == null) {
 				throw new JRRuntimeException("No data found for object with UID " + o.getUID());
 			}

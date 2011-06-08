@@ -44,7 +44,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	/**
 	 *
 	 */
-	protected List children = new ArrayList();
+	protected List<JRChild> children = new ArrayList<JRChild>();
 	protected JRElementGroup elementGroup;
 
 	/**
@@ -73,12 +73,12 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 			factory.put(elementGrp, this);
 
 			/*   */
-			List list = elementGrp.getChildren();
+			List<JRChild> list = elementGrp.getChildren();
 			if (list != null && list.size() > 0)
 			{
 				for(int i = 0; i < list.size(); i++)
 				{
-					JRChild child = (JRChild)list.get(i);
+					JRChild child = list.get(i);
 					child = (JRChild)factory.getVisitResult(child);
 					children.add(child);
 				}
@@ -96,14 +96,14 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	{
 		factory.put(elementGrp, this);
 
-		List list = elementGrp.getChildren();
+		List<JRChild> list = elementGrp.getChildren();
 		if (list != null)
 		{
 			for (int i = 0; i < list.size(); i++)
 			{
 				JRFillCloneable child = (JRFillCloneable) list.get(i);
 				JRFillCloneable clone = child.createClone(factory);
-				children.add(clone);
+				children.add((JRChild)clone);
 			}
 		}
 
@@ -116,7 +116,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 	/**
 	 * 
 	 */
-	public List getChildren()
+	public List<JRChild> getChildren()
 	{
 		return this.children;
 	}
@@ -140,7 +140,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 		{
 			if (this.children != null)
 			{
-				List allElements = new ArrayList();
+				List<JRElement> allElements = new ArrayList<JRElement>();
 				Object child = null;
 				JRElement[] childElementArray = null;
 				for(int i = 0; i < this.children.size(); i++)
@@ -148,7 +148,7 @@ public class JRFillElementGroup implements JRElementGroup, JRFillCloneable
 					child = this.children.get(i);
 					if (child instanceof JRFillElement)
 					{
-						allElements.add(child);
+						allElements.add((JRElement)child);
 					}
 					else if (child instanceof JRFillElementGroup)
 					{

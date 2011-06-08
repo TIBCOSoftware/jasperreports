@@ -44,7 +44,7 @@ public class JRSwapFileVirtualizer extends JRAbstractLRUVirtualizer
 {
 	private final JRSwapFile swap;
 	private final boolean swapOwner;
-	private final Map handles;
+	private final Map<String,JRSwapFile.SwapHandle> handles;
 	
 	
 	/**
@@ -76,7 +76,7 @@ public class JRSwapFileVirtualizer extends JRAbstractLRUVirtualizer
 
 		this.swap = swap;
 		this.swapOwner = swapOwner;
-		handles = Collections.synchronizedMap(new HashMap());
+		handles = Collections.synchronizedMap(new HashMap<String,JRSwapFile.SwapHandle>());
 	}
 
 	protected void pageOut(JRVirtualizable o) throws IOException
@@ -101,7 +101,7 @@ public class JRSwapFileVirtualizer extends JRAbstractLRUVirtualizer
 
 	protected void pageIn(JRVirtualizable o) throws IOException
 	{
-		JRSwapFile.SwapHandle handle = (JRSwapFile.SwapHandle) handles.get(o.getUID());
+		JRSwapFile.SwapHandle handle = handles.get(o.getUID());
 		byte[] data = swap.read(handle, !isReadOnly(o));
 
 		readData(o, new ByteArrayInputStream(data));
@@ -114,7 +114,7 @@ public class JRSwapFileVirtualizer extends JRAbstractLRUVirtualizer
 
 	protected void dispose(String id)
 	{
-		JRSwapFile.SwapHandle handle = (JRSwapFile.SwapHandle) handles.remove(id);
+		JRSwapFile.SwapHandle handle = handles.remove(id);
 		if (handle != null)
 		{
 			swap.free(handle);

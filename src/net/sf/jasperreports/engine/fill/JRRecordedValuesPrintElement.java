@@ -45,7 +45,7 @@ public interface JRRecordedValuesPrintElement extends JRPrintElement
 	 * 
 	 * @param evaluationTimes future times when the values will be recorded
 	 */
-	void initRecordedValues(Set evaluationTimes);
+	void initRecordedValues(Set<JREvaluationTime> evaluationTimes);
 	
 	/**
 	 * Returns the recorded values set.

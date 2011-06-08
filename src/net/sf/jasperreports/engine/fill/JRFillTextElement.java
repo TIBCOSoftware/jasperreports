@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 *
 	 */
 	private static final JRSingletonCache markupProcessorFactoryCache = new JRSingletonCache(MarkupProcessorFactory.class);
-	private static final Map markupProcessors = new HashMap();
+	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<String,MarkupProcessor>();
 
 	/**
 	 *
@@ -87,7 +88,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private String textTruncateSuffix;
 	private String rawText;
 	private JRStyledText styledText;
-	private Map styledTextAttributesMap = new HashMap();
+	private Map<JRStyle,Map<Attribute,Object>> styledTextAttributesMap = new HashMap<JRStyle,Map<Attribute,Object>>();
 	
 	protected final JRLineBox lineBox;
 	protected final JRParagraph paragraph;
@@ -278,13 +279,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	protected Map getStyledTextAttributes()
+	protected Map<Attribute,Object> getStyledTextAttributes()
 	{
 		JRStyle style = getStyle();
-		Map styledTextAttributes = (Map)styledTextAttributesMap.get(style);
+		Map<Attribute,Object> styledTextAttributes = styledTextAttributesMap.get(style);
 		if (styledTextAttributes == null)
 		{
-			styledTextAttributes = new HashMap(); 
+			styledTextAttributes = new HashMap<Attribute,Object>(); 
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
 			JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
@@ -857,7 +858,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	protected static MarkupProcessor getMarkupProcessor(String markup)
 	{
-		MarkupProcessor markupProcessor = (MarkupProcessor)markupProcessors.get(markup);
+		MarkupProcessor markupProcessor = markupProcessors.get(markup);
 		
 		if (markupProcessor == null)
 		{
