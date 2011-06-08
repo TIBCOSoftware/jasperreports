@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRJpaDataSource;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,7 +113,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	private EntityManager em;
 	private Query query;
 	
-	public JRJpaQueryExecuter(JRDataset dataset, Map parameters) {
+	public JRJpaQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) {
 		super(dataset, parameters);
 		
 		em = (EntityManager)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER);
@@ -153,12 +154,12 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		query = em.createQuery(queryString);
 		
 		// Set parameters.
-		List parameterNames = getCollectedParameterNames();
+		List<String> parameterNames = getCollectedParameterNames();
 		if (!parameterNames.isEmpty()) {
 			// Use set to prevent the parameter to be set multiple times.
-			Set namesSet = new HashSet();
-			for (Iterator iter = parameterNames.iterator(); iter.hasNext();) {
-				String parameterName = (String)iter.next();
+			Set<String> namesSet = new HashSet<String>();
+			for (Iterator<String> iter = parameterNames.iterator(); iter.hasNext();) {
+				String parameterName = iter.next();
 				if (namesSet.add(parameterName)) {
 					JRValueParameter parameter = getValueParameter(parameterName);
 					String ejbParamName = getEjbqlParameterName(parameterName);
@@ -176,23 +177,23 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 
 		// Set query hints.
 		// First, set query hints supplied by the JPA_QUERY_HINTS_MAP parameter.
-		Map queryHintsMap = (Map)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_QUERY_HINTS_MAP);
+		Map<String,Object> queryHintsMap = (Map<String,Object>)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_QUERY_HINTS_MAP);
 		if (queryHintsMap != null) {
-			for (Iterator i = queryHintsMap.entrySet().iterator(); i.hasNext(); ) {
-				Map.Entry pairs = (Map.Entry)i.next();
+			for (Iterator<Map.Entry<String,Object>> i = queryHintsMap.entrySet().iterator(); i.hasNext(); ) {
+				Map.Entry<String,Object> pairs = i.next();
 				if (log.isDebugEnabled()) {
 					log.debug("EJBQL query hint [" + pairs.getKey() + "] set.");
 				}
-				query.setHint((String)pairs.getKey(), pairs.getValue());
+				query.setHint(pairs.getKey(), pairs.getValue());
 			}
 		}
 		// Second, set query hints supplied by report properties which start with JREjbPersistenceQueryExecuterFactory.PROPERTY_JPA_PERSISTENCE_QUERY_HINT_PREFIX
 		// Example: net.sf.jasperreports.ejbql.query.hint.fetchSize
 		// This property will result in a query hint set with the name: fetchSize
-		List properties = JRProperties.getProperties(dataset, 
+		List<PropertySuffix> properties = JRProperties.getProperties(dataset, 
 				JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX);
-		for (Iterator it = properties.iterator(); it.hasNext();) {
-			JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) it.next();
+		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();) {
+			PropertySuffix property = it.next();
 			String queryHint = property.getSuffix();
 			if (queryHint.length() > 0) {
 				String value = property.getValue();
@@ -250,7 +251,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	 * 
 	 * @return the result of the query as a list
 	 */
-	public List getResultList() {
+	public List<?> getResultList() {
 		if (reportMaxCount != null) {
 			query.setMaxResults(reportMaxCount.intValue());
 		}
@@ -265,7 +266,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	 * @param resultCount the number of rows to return
 	 * @return result row list
 	 */
-	public List getResultList(int firstIndex, int resultCount) {
+	public List<?> getResultList(int firstIndex, int resultCount) {
 		if (reportMaxCount != null && firstIndex + resultCount > reportMaxCount.intValue()) {
 			resultCount = reportMaxCount.intValue() - firstIndex;
 		}

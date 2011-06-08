@@ -96,7 +96,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	private ResultSet resultSet;
 
 	
-	public JRJdbcQueryExecuter(JRDataset dataset, Map<String, JRValueParameter> parameters)
+	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
 	{
 		super(dataset, parameters);
 		
@@ -243,12 +243,12 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					statement.setMaxRows(reportMaxCount.intValue());
 				}
 
-				List parameterNames = getCollectedParameters();
+				List<QueryParameter> parameterNames = getCollectedParameters();
 				if (!parameterNames.isEmpty())
 				{
 					for(int i = 0, paramIdx = 1; i < parameterNames.size(); i++)
 					{
-						QueryParameter queryParameter = (QueryParameter) parameterNames.get(i);
+						QueryParameter queryParameter = parameterNames.get(i);
 						if (queryParameter.isMulti())
 						{
 							paramIdx += setStatementMultiParameters(paramIdx, queryParameter.getName(), queryParameter.isIgnoreNulls());
@@ -277,7 +277,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected void setStatementParameter(int parameterIndex, String parameterName) throws SQLException
 	{
 		JRValueParameter parameter = getValueParameter(parameterName);
-		Class clazz = parameter.getValueClass();
+		Class<?> clazz = parameter.getValueClass();
 		Object parameterValue = parameter.getValue();
 		
 		if (log.isDebugEnabled())
@@ -307,11 +307,11 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				}
 			}
 		}
-		else if (paramValue instanceof Collection)
+		else if (paramValue instanceof Collection<?>)
 		{
-			Collection values = (Collection) paramValue;
+			Collection<?> values = (Collection<?>) paramValue;
 			count = 0;
-			for (Iterator it = values.iterator(); it.hasNext(); ++count)
+			for (Iterator<?> it = values.iterator(); it.hasNext(); ++count)
 			{
 				Object value = it.next();
 				
@@ -343,7 +343,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			throw new JRRuntimeException("Multi parameters cannot contain null values.");
 		}
 		
-		Class type = value.getClass();
+		Class<?> type = value.getClass();
 		
 		if (log.isDebugEnabled())
 		{
@@ -355,7 +355,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	}
 
 	
-	protected void setStatementParameter(int parameterIndex, Class parameterType, Object parameterValue) throws SQLException
+	protected void setStatementParameter(int parameterIndex, Class<?> parameterType, Object parameterValue) throws SQLException
 	{
 		if (java.lang.Boolean.class.isAssignableFrom(parameterType))
 		{

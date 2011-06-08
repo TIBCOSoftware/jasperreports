@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -95,7 +96,7 @@ public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 		Arrays.sort(queryParameterClassNames);
 	}
 	
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) throws JRException
 	{
 		return new JRJdbcQueryExecuter(dataset, parameters);
 	}

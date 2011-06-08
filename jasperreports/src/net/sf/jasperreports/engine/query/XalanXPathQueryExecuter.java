@@ -34,6 +34,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.XalanXmlDataSource;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
@@ -65,7 +66,7 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 	
 	private Map<String, String> namespacesMap;
 	
-	public XalanXPathQueryExecuter(JRDataset dataset, Map parametersMap)
+	public XalanXPathQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 				
@@ -135,11 +136,11 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 		Map<String, String> namespaces = new HashMap<String, String>();
 		
     	String xmlnsPrefix = XalanXPathQueryExecuterFactory.XML_NAMESPACE_PREFIX;
-        List nsProperties = JRProperties.getProperties(dataset, xmlnsPrefix);
+        List<PropertySuffix> nsProperties = JRProperties.getProperties(dataset, xmlnsPrefix);
         
         for (int i=0; i < nsProperties.size(); ++i) 
         {
-            PropertySuffix prop = (PropertySuffix)nsProperties.get(i);
+            PropertySuffix prop = nsProperties.get(i);
             String nsPrefix = prop.getKey().substring(xmlnsPrefix.length());
             if (nsPrefix.length() > 0) 
             {

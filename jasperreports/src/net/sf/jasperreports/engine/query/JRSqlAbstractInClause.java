@@ -129,7 +129,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		}
 		else
 		{
-			Collection paramCollection = convert(param, paramValue);
+			Collection<?> paramCollection = convert(param, paramValue);
 			int count = paramCollection.size();
 			Iterator<?> it = paramCollection.iterator();
 
@@ -144,7 +144,7 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 				boolean nullFound = false;
 				boolean notNullFound = false;
 				int idx = 0;
-				List notNullQueryParameters = new ArrayList();
+				List<Object> notNullQueryParameters = new ArrayList<Object>();
 				
 				while(it.hasNext())
 				{
@@ -226,16 +226,16 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 	 * @return a <code>java.util.Collection</code> type object obtained either by converting an array to 
 	 * a list or by a cast to <code>java.util.Collection</code> type.
 	 */
-	protected Collection convert(String paramName, Object paramValue)
+	protected Collection<?> convert(String paramName, Object paramValue)
 	{
-		Collection paramCollection;
+		Collection<?> paramCollection;
 		if (paramValue.getClass().isArray())
 		{
 			paramCollection = Arrays.asList(paramValue);
 		}
-		else if (paramValue instanceof Collection)
+		else if (paramValue instanceof Collection<?>)
 		{
-			paramCollection = (Collection) paramValue;
+			paramCollection = (Collection<?>) paramValue;
 		}
 		else
 		{

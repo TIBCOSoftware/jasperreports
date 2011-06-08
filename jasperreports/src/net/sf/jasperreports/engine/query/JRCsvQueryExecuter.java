@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
@@ -61,7 +62,7 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 	
 	private JRCsvDataSource datasource;
 	
-	protected JRCsvQueryExecuter(JRDataset dataset, Map parametersMap) {
+	protected JRCsvQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap) {
 		super(dataset, parametersMap);
 	}
 
@@ -118,28 +119,28 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 		}
 		
 		if (datasource != null) {
-			List columnNamesList = null;
+			List<String> columnNamesList = null;
 			String columnNames = getStringParameterOrProperty(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
 			if(columnNames != null) {
-				columnNamesList = new ArrayList();
+				columnNamesList = new ArrayList<String>();
 				columnNamesList.add(columnNames);
 			} else {
 				String[] columnNamesArray = (String[]) getParameterValue(JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, true);
 				if(columnNamesArray != null) {
 					columnNamesList = Arrays.asList(columnNamesArray);
 				} else {
-					List properties = JRProperties.getAllProperties(dataset, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
+					List<PropertySuffix> properties = JRProperties.getAllProperties(dataset, JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES);
 					if (properties != null && !properties.isEmpty()) {
-						columnNamesList = new ArrayList();
+						columnNamesList = new ArrayList<String>();
 						for(int i = 0; i < properties.size(); i++) {
-							String property = ((PropertySuffix)properties.get(i)).getValue();
+							String property = properties.get(i).getValue();
 							columnNamesList.add(property);
 						}
 					} else {
 						JRField[] fields = dataset.getFields();
 						if (fields != null && fields.length > 0)
 						{
-							columnNamesList = new ArrayList();
+							columnNamesList = new ArrayList<String>();
 							for (int i = 0; i < fields.length; i++)
 							{
 								columnNamesList.add(fields[i].getName());
@@ -150,14 +151,14 @@ public class JRCsvQueryExecuter extends JRAbstractQueryExecuter {
 			}
 
 			if (columnNamesList != null && columnNamesList.size() > 0) {
-				List splitColumnNamesList = new ArrayList();
+				List<String> splitColumnNamesList = new ArrayList<String>();
 				for(int i = 0; i < columnNamesList.size(); i++) {
-					String names = (String)columnNamesList.get(i);
+					String names = columnNamesList.get(i);
 					for(String token: names.split(",")){
 						splitColumnNamesList.add(token.trim());
 					}
 				}
-				datasource.setColumnNames((String[]) splitColumnNamesList.toArray(new String[splitColumnNamesList.size()]));
+				datasource.setColumnNames(splitColumnNamesList.toArray(new String[splitColumnNamesList.size()]));
 			} else {
 				if (log.isWarnEnabled()){
 					log.warn("No column names were specified.");
