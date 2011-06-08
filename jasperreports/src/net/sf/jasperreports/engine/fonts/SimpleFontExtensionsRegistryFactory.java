@@ -29,6 +29,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -53,11 +54,11 @@ public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFa
 	 */
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
-		List fontFamiliesProperties = JRProperties.getProperties(properties, SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX);
-		List fontFamilies = new ArrayList();
-		for (Iterator it = fontFamiliesProperties.iterator(); it.hasNext();)
+		List<PropertySuffix> fontFamiliesProperties = JRProperties.getProperties(properties, SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX);
+		List<FontFamily> fontFamilies = new ArrayList<FontFamily>();
+		for (Iterator<PropertySuffix> it = fontFamiliesProperties.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix fontFamiliesProp = (JRProperties.PropertySuffix) it.next();
+			PropertySuffix fontFamiliesProp = it.next();
 			//String fontFamiliesName = fontFamiliesProp.getSuffix();
 			String fontFamiliesLocation = fontFamiliesProp.getValue();
 			fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(fontFamiliesLocation));

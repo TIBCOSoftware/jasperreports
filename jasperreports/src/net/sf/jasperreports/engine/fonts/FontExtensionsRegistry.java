@@ -34,14 +34,14 @@ import net.sf.jasperreports.extensions.ExtensionsRegistry;
 public class FontExtensionsRegistry implements ExtensionsRegistry
 {
 
-	private final List fontFamilies;
+	private final List<FontFamily> fontFamilies;
 	
-	public FontExtensionsRegistry(List fontFamilies)
+	public FontExtensionsRegistry(List<FontFamily> fontFamilies)
 	{
 		this.fontFamilies = fontFamilies;
 	}
 	
-	public List getExtensions(Class extensionType)
+	public List<FontFamily> getExtensions(Class<?> extensionType)
 	{
 		if (FontFamily.class.equals(extensionType)) {
 			return fontFamilies;
