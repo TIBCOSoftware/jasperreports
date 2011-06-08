@@ -62,12 +62,12 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		}
 	}
 
-	/**
+	/**.classpath
 	 * Calls <code>super.resolveClass()</code> and in case this fails with
 	 * {@link ClassNotFoundException} attempts to load the class using the
 	 * context class loader.
 	 */
-	protected Class resolveClass(ObjectStreamClass desc) throws IOException,
+	protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException,
 			ClassNotFoundException
 	{
 		try

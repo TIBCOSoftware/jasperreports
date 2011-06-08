@@ -675,7 +675,7 @@ public final class JRLoader
 				resources);
 		collectResources(resource, Thread.currentThread().getContextClassLoader(), 
 				resources);
-		return new ArrayList(resources);
+		return new ArrayList<URL>(resources);
 	}
 
 

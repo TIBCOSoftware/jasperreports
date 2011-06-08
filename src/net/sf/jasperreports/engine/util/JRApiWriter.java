@@ -97,7 +97,6 @@ import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -149,6 +148,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.BreakTypeEnum;
@@ -195,12 +195,12 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	private Map stylesMap = new HashMap();
+	private Map<String, String> stylesMap = new HashMap<String, String>();
 
 	/**
 	 *
 	 */
-	private Map groupsMap = new HashMap();
+	private Map<String, String> groupsMap = new HashMap<String, String>();
 
 	
 	private Writer writer;
@@ -788,14 +788,14 @@ public class JRApiWriter
 	 */
 	public void writeChildElements( JRElementGroup elementContainer, String parentName)
 	{
-		List children = elementContainer.getChildren();
+		List<JRChild> children = elementContainer.getChildren();
 		if (children != null && children.size() > 0)
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
 				String childName = parentName + "_" + i;
 				apiWriterVisitor.setName(childName);
-				((JRChild) children.get(i)).visit(apiWriterVisitor);
+				children.get(i).visit(apiWriterVisitor);
 				if(children.get(i) instanceof JRElementGroup && !(children.get(i) instanceof JRElement))
 				{
 					write( parentName +".addElementGroup(" + childName + ");\n\n");
@@ -1833,14 +1833,14 @@ public class JRApiWriter
 	 *
 	 * @param seriesColors the colors to write
 	 */
-	private void writeSeriesColors( SortedSet seriesColors, String parentName)
+	private void writeSeriesColors( SortedSet<JRSeriesColor> seriesColors, String parentName)
 	{
 		if (seriesColors == null || seriesColors.size() == 0)
 		{
 			return;
 		}
 		//FIXME why do we need an array?
-		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
+		JRSeriesColor[] colors = seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
 		for (int i = 0; i < colors.length; i++)
 		{
 			String seriesColorName = parentName + "SeriesColor" +i;
@@ -2740,12 +2740,12 @@ public class JRApiWriter
 				writeValueDisplay( plot.getValueDisplay(), plotName);
 				writeDataRange( plot.getDataRange(), plotName, "DataRange");
 
-				List intervals = plot.getIntervals();
+				List<JRMeterInterval> intervals = plot.getIntervals();
 				if (intervals != null && intervals.size() > 0)
 				{
 					for(int i = 0; i < intervals.size(); i++)
 					{
-						JRMeterInterval meterInterval = (JRMeterInterval) intervals.get(i);
+						JRMeterInterval meterInterval = intervals.get(i);
 						writeMeterInterval( meterInterval, plotName, plotName+"Interval"+i);
 					}
 				}
@@ -2819,12 +2819,12 @@ public class JRApiWriter
 			write( "JRDesignMultiAxisPlot " + plotName + " = (JRDesignMultiAxisPlot)" + chartName + ".getPlot();\n");
 			write( plotName + ".setChart(" + chartName + ");\n");//FIXMECHART why is this needed since we get the plot from chart?
 			writePlot( chart.getPlot(), plotName);
-			List axes = plot.getAxes();
+			List<JRChartAxis> axes = plot.getAxes();
 			if (axes != null && axes.size() > 0)
 			{
 				for (int i = 0; i < axes.size(); i++)
 				{
-					JRChartAxis chartAxis = (JRChartAxis) axes.get(i);
+					JRChartAxis chartAxis = axes.get(i);
 					writeChartAxis( chartAxis, plotName, plotName + "Axis" + i, chartName);
 				}
 			}
@@ -2998,10 +2998,10 @@ public class JRApiWriter
 	
 			if (crosstab instanceof JRDesignCrosstab)
 			{
-				List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+				List<JRCrosstabCell> cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
 				for (int i = 0; i < cellsList.size(); i++)
 				{
-					JRCrosstabCell cell = (JRCrosstabCell) cellsList.get(i);
+					JRCrosstabCell cell = cellsList.get(i);
 					writeCrosstabCell( cell, crosstabName + "Cell" + i);
 					write( crosstabName + ".addCell(" + crosstabName + "Cell" + i + ");\n");
 				}
@@ -3009,7 +3009,7 @@ public class JRApiWriter
 			else
 			{
 				JRCrosstabCell[][] cells = crosstab.getCells();
-				Set cellsSet = new HashSet();
+				Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
 				for (int i = cells.length - 1; i >= 0 ; --i)
 				{
 					for (int j = cells[i].length - 1; j >= 0 ; --j)
@@ -3817,7 +3817,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Enum value)
+	protected void write(String pattern, Enum<?> value)
 	{
 		write(pattern, value, null);
 	}
@@ -3826,7 +3826,7 @@ public class JRApiWriter
 	/**
 	 *
 	 */
-	protected void write(String pattern, Enum value, Enum defaultValue)
+	protected void write(String pattern, Enum<?> value, Enum<?> defaultValue)
 	{
 		if (value != null && value != defaultValue)
 		{
@@ -4014,7 +4014,7 @@ public class JRApiWriter
 		
 		try
 		{
-			Class reportCreatorClass = Class.forName(reportCreatorClassName);
+			Class<?> reportCreatorClass = Class.forName(reportCreatorClassName);
 			ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
 			JasperDesign jasperDesign = reportCreator.create();
 			JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");

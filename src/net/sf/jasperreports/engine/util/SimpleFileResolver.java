@@ -36,7 +36,7 @@ import java.util.List;
 public class SimpleFileResolver implements FileResolver
 {
 
-	private List folders;
+	private List<File> folders;
 	private boolean isResolveAbsolutePath;
 	
 	/**
@@ -44,14 +44,14 @@ public class SimpleFileResolver implements FileResolver
 	 */
 	public SimpleFileResolver(File parentFolder)
 	{
-		folders = new ArrayList();
+		folders = new ArrayList<File>();
 		folders.add(parentFolder);
 	}
 	
 	/**
 	 *
 	 */
-	public SimpleFileResolver(List parentFolders)
+	public SimpleFileResolver(List<File> parentFolders)
 	{
 		folders = parentFolders;
 	}
@@ -79,9 +79,9 @@ public class SimpleFileResolver implements FileResolver
 	{
 		if (fileName != null)
 		{
-			for(Iterator it = folders.iterator(); it.hasNext();)
+			for(Iterator<File> it = folders.iterator(); it.hasNext();)
 			{
-				File folder = (File)it.next();
+				File folder = it.next();
 				File file = new File(folder, fileName);
 				if (file.exists() && file.isFile())
 				{

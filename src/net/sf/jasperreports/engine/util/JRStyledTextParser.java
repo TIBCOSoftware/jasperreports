@@ -31,6 +31,7 @@ import java.io.StringReader;
 import java.lang.ref.SoftReference;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,6 +53,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.util.JRStyledText.Run;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.apache.commons.logging.Log;
@@ -78,10 +80,10 @@ public class JRStyledTextParser implements ErrorHandler
 	static
 	{
 		//FIXMEFONT do some cache
-		List families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
-		for (Iterator itf = families.iterator(); itf.hasNext();)
+		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
-			FontFamily family = (FontFamily)itf.next();
+			FontFamily family =itf.next();
 			AVAILABLE_FONT_FACE_NAMES.add(family.getName());
 		}
 			
@@ -213,7 +215,7 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	public JRStyledText parse(Map attributes, String text, Locale locale) throws SAXException
+	public JRStyledText parse(Map<Attribute,Object> attributes, String text, Locale locale) throws SAXException
 	{
 		JRStyledText styledText = new JRStyledText(locale);
 		
@@ -247,7 +249,7 @@ public class JRStyledTextParser implements ErrorHandler
 	 * @param locale the locale for the text
 	 * @return a styled text object
 	 */
-	public JRStyledText getStyledText(Map parentAttributes, String text, boolean isStyledText, Locale locale)
+	public JRStyledText getStyledText(Map<Attribute,Object> parentAttributes, String text, boolean isStyledText, Locale locale)
 	{
 		JRStyledText styledText = null;
 		if (isStyledText)
@@ -295,7 +297,7 @@ public class JRStyledTextParser implements ErrorHandler
 	 * @param text the text
 	 * @return the String styled text representation
 	 */
-	public String write(Map parentAttrs, AttributedCharacterIterator iterator, String text)
+	public String write(Map<Attribute,Object> parentAttrs, AttributedCharacterIterator iterator, String text)
 	{
 		StringBuffer sbuffer = new StringBuffer();
 		
@@ -304,7 +306,7 @@ public class JRStyledTextParser implements ErrorHandler
 		while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit()) <= iterator.getEndIndex())
 		{
 			String chunk = text.substring(iterator.getIndex(), runLimit);
-			Map attrs = iterator.getAttributes();
+			Map<Attribute,Object> attrs = iterator.getAttributes();
 			
 			StringBuffer styleBuffer = writeStyleAttributes(parentAttrs, attrs);
 			if (styleBuffer.length() > 0)
@@ -352,7 +354,7 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	public void writeChunk(StringBuffer sbuffer, Map parentAttrs, Map attrs, String chunk)
+	public void writeChunk(StringBuffer sbuffer, Map<Attribute,Object> parentAttrs, Map<Attribute,Object> attrs, String chunk)
 	{
 		Object value = attrs.get(TextAttribute.SUPERSCRIPT);
 		Object oldValue = parentAttrs.get(TextAttribute.SUPERSCRIPT);
@@ -477,7 +479,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_fontName) != null)
 				{
@@ -589,7 +591,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_bold.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 				styleAttrs.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 
 				int startIndex = styledText.length();
@@ -600,7 +602,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_italic.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 				styleAttrs.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 
 				int startIndex = styledText.length();
@@ -611,7 +613,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_underline.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 				styleAttrs.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 
 				int startIndex = styledText.length();
@@ -622,7 +624,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sup.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER);
 
 				int startIndex = styledText.length();
@@ -633,7 +635,7 @@ public class JRStyledTextParser implements ErrorHandler
 			}
 			else if (node.getNodeType() == Node.ELEMENT_NODE && NODE_sub.equalsIgnoreCase(node.getNodeName()))
 			{
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 				styleAttrs.put(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB);
 
 				int startIndex = styledText.length();
@@ -646,7 +648,7 @@ public class JRStyledTextParser implements ErrorHandler
 			{
 				NamedNodeMap nodeAttrs = node.getAttributes();
 
-				Map styleAttrs = new HashMap();
+				Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
 				if (nodeAttrs.getNamedItem(ATTRIBUTE_size) != null)
 				{
@@ -700,7 +702,7 @@ public class JRStyledTextParser implements ErrorHandler
 				resizeRuns(styledText.getRuns(), startIndex, 1);
 
 				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
+				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
 
 				if (startIndex < styledText.length()) {
 					styledText.append("\n");
@@ -719,7 +721,7 @@ public class JRStyledTextParser implements ErrorHandler
 				int startIndex = styledText.length();
 				resizeRuns(styledText.getRuns(), startIndex, 1);
 				parseStyle(styledText, node);
-				styledText.addRun(new JRStyledText.Run(new HashMap(), startIndex, styledText.length()));
+				styledText.addRun(new JRStyledText.Run(new HashMap<Attribute,Object>(), startIndex, styledText.length()));
 				
 				// if the text in the next node does not start with a '\n', or 
 				// if the next node is not a <li /> one, we have to append a new line
@@ -741,7 +743,7 @@ public class JRStyledTextParser implements ErrorHandler
 				{
 					NamedNodeMap nodeAttrs = node.getAttributes();
 
-					Map styleAttrs = new HashMap();
+					Map<Attribute,Object> styleAttrs = new HashMap<Attribute,Object>();
 
 					hyperlink = new JRBasePrintHyperlink();
 					hyperlink.setHyperlinkType(HyperlinkTypeEnum.REFERENCE);
@@ -818,11 +820,11 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	private void resizeRuns(List runs, int startIndex, int count)
+	private void resizeRuns(List<Run> runs, int startIndex, int count)
 	{
 		for (int j = 0; j < runs.size(); j++)
 		{
-			JRStyledText.Run run = (JRStyledText.Run) runs.get(j);
+			JRStyledText.Run run = runs.get(j);
 			if (run.startIndex <= startIndex && run.endIndex > startIndex - count)
 			{
 				run.endIndex += count;
@@ -834,7 +836,7 @@ public class JRStyledTextParser implements ErrorHandler
 	/**
 	 *
 	 */
-	private StringBuffer writeStyleAttributes(Map parentAttrs,  Map attrs)
+	private StringBuffer writeStyleAttributes(Map<Attribute,Object> parentAttrs,  Map<Attribute,Object> attrs)
 	{
 		StringBuffer sbuffer = new StringBuffer();
 		

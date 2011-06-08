@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 		JEditorPane editorPane = new JEditorPane("text/rtf", srcText);
 		editorPane.setEditable(false);
 
-		List elements = new ArrayList();
+		List<Element> elements = new ArrayList<Element>();
 
 		Document document = editorPane.getDocument();
 
@@ -83,7 +84,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 		int endOffset = 0;
 		
 		JRStyledText styledText = new JRStyledText();
-		styledText.setGlobalAttributes(new HashMap());
+		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
 		for(int i = 0; i < elements.size(); i++)
 		{
 			if (chunk != null)
@@ -93,7 +94,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 			}
 
 			chunk = null;
-			element = (Element)elements.get(i);
+			element = elements.get(i);
 			startOffset = element.getStartOffset();
 			endOffset = element.getEndOffset();
 
@@ -123,7 +124,7 @@ public class JEditorPaneRtfMarkupProcessor extends JEditorPaneMarkupProcessor
 	/**
 	 * 
 	 */
-	protected void addElements(List elements, Element element) 
+	protected void addElements(List<Element> elements, Element element) 
 	{
 		if(element instanceof LeafElement)
 		{

@@ -78,7 +78,7 @@ public final class JRValueStringUtils
 		Object deserialize(String data);
 	}
 	
-	private static final Map serializers;
+	private static final Map<String,ValueSerializer> serializers;
 	private static final ValueSerializer defaultSerializer;
 	
 	static
@@ -135,7 +135,7 @@ public final class JRValueStringUtils
 
 	protected static ValueSerializer getSerializer(String valueClass)
 	{
-		ValueSerializer serializer = (ValueSerializer) serializers.get(valueClass);
+		ValueSerializer serializer = serializers.get(valueClass);
 		if (serializer == null)
 		{
 			serializer = defaultSerializer;
@@ -144,9 +144,9 @@ public final class JRValueStringUtils
 	}
 
 	
-	private static Map getSerializers()
+	private static Map<String,ValueSerializer> getSerializers()
 	{
-		Map map = new HashMap();
+		Map<String,ValueSerializer> map = new HashMap<String,ValueSerializer>();
 		map.put(java.lang.String.class.getName(), new StringSerializer());
 		map.put(java.lang.Character.class.getName(), new CharacterSerializer());
 		map.put(java.lang.Boolean.class.getName(), new BooleanSerializer());

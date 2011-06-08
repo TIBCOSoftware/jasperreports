@@ -58,7 +58,7 @@ public class JRStyledText implements Cloneable
 		System.getProperty("java.version").startsWith("1.6") 
 		&& JRProperties.getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);
 	
-	private static final Set FONT_ATTRS = new HashSet();
+	private static final Set<Attribute> FONT_ATTRS = new HashSet<Attribute>();
 	static
 	{
 		FONT_ATTRS.add(TextAttribute.FAMILY);
@@ -72,7 +72,7 @@ public class JRStyledText implements Cloneable
 	 *
 	 */
 	private StringBuffer sbuffer = new StringBuffer();
-	private List runs = new ArrayList();
+	private List<Run> runs = new ArrayList<Run>();
 	private AttributedString attributedString;
 	private AttributedString awtAttributedString;
 	private Map<Attribute,Object> globalAttributes;
@@ -152,7 +152,7 @@ public class JRStyledText implements Cloneable
 
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
-				Run run = (Run)runs.get(i);
+				Run run = runs.get(i);
 				if (run.startIndex != run.endIndex && run.attributes != null)
 				{
 					attributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
@@ -174,7 +174,7 @@ public class JRStyledText implements Cloneable
 
 			for(int i = runs.size() - 1; i >= 0; i--)
 			{
-				Run run = (Run)runs.get(i);
+				Run run = runs.get(i);
 				if (run.startIndex != run.endIndex && run.attributes != null)
 				{
 					awtAttributedString.addAttributes(run.attributes, run.startIndex, run.endIndex);
@@ -206,7 +206,7 @@ public class JRStyledText implements Cloneable
 
 			while(runLimit < iterator.getEndIndex() && (runLimit = iterator.getRunLimit(FONT_ATTRS)) <= iterator.getEndIndex())
 			{
-				Map attrs = iterator.getAttributes();
+				Map<Attribute,Object> attrs = iterator.getAttributes();
 					
 				String familyName = (String)attrs.get(TextAttribute.FAMILY); 
 				
@@ -265,7 +265,7 @@ public class JRStyledText implements Cloneable
 	/**
 	 *
 	 */
-	public List getRuns()
+	public List<Run> getRuns()
 	{
 		return runs;
 	}
@@ -278,14 +278,14 @@ public class JRStyledText implements Cloneable
 		/**
 		 *
 		 */
-		public Map attributes;
+		public Map<Attribute,Object> attributes;
 		public int startIndex;
 		public int endIndex;
 
 		/**
 		 *
 		 */
-		public Run(Map attributes, int startIndex, int endIndex) 
+		public Run(Map<Attribute,Object> attributes, int startIndex, int endIndex) 
 		{
 			this.attributes = attributes;
 			this.startIndex = startIndex;
@@ -354,10 +354,10 @@ public class JRStyledText implements Cloneable
 			JRStyledText clone = (JRStyledText) super.clone();
 			clone.globalAttributes = cloneAttributesMap(globalAttributes);
 			
-			clone.runs = new ArrayList(runs.size());
-			for (Iterator it = runs.iterator(); it.hasNext();)
+			clone.runs = new ArrayList<Run>(runs.size());
+			for (Iterator<Run> it = runs.iterator(); it.hasNext();)
 			{
-				Run run = (Run) it.next();
+				Run run = it.next();
 				Run runClone = run.cloneRun();
 				clone.runs.add(runClone);
 			}
@@ -411,9 +411,9 @@ public class JRStyledText implements Cloneable
 			
 			//adjust runs
 			//TODO optimize this?
-			for (Iterator it = runs.iterator(); it.hasNext();)
+			for (Iterator<Run> it = runs.iterator(); it.hasNext();)
 			{
-				Run run = (Run) it.next();
+				Run run = it.next();
 				if (run.startIndex >= offset)
 				{
 					//inserted before run

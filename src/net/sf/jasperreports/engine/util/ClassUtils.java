@@ -46,11 +46,11 @@ public final class ClassUtils
 	 * @throws JRRuntimeException if the class cannot be loaded or instantiated,
 	 * or if it does not implement the expected type
 	 */
-	public static final Object instantiateClass(String className, Class expectedType)
+	public static final Object instantiateClass(String className, Class<?> expectedType)
 	{
 		try
 		{
-			Class clazz = JRClassLoader.loadClassForName(className);
+			Class<?> clazz = JRClassLoader.loadClassForName(className);
 			if (!expectedType.isAssignableFrom(clazz))
 			{
 				throw new JRRuntimeException("Class " + className 

@@ -41,7 +41,7 @@ public final class JRGraphEnvInitializer
 	/**
 	 *
 	 */
-	private static Set AVAILABLE_FONT_FACE_NAMES; //NOPMD
+	private static Set<String> AVAILABLE_FONT_FACE_NAMES; //NOPMD
 
 	/**
 	 *
@@ -50,7 +50,7 @@ public final class JRGraphEnvInitializer
 	{
 		if (AVAILABLE_FONT_FACE_NAMES == null)
 		{
-			AVAILABLE_FONT_FACE_NAMES = new HashSet();
+			AVAILABLE_FONT_FACE_NAMES = new HashSet<String>();
 
 			try
 			{
