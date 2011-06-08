@@ -51,7 +51,7 @@ public final class BigDecimalUtils
 		BigDecimalHandler handler;
 		try
 		{
-			Class handlerClass = Class.forName(
+			Class<?> handlerClass = Class.forName(
 					"net.sf.jasperreports.engine.util.Java15BigDecimalHandler");
 			handler = (BigDecimalHandler) handlerClass.newInstance();
 		}

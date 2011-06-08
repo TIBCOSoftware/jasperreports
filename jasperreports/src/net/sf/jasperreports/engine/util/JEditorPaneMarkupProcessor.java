@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +64,9 @@ public abstract class JEditorPaneMarkupProcessor implements MarkupProcessor
 	/**
 	 * 
 	 */
-	protected Map getAttributes(AttributeSet attrSet) 
+	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
 	{
-		Map attrMap = new HashMap();
+		Map<Attribute,Object> attrMap = new HashMap<Attribute,Object>();
 		if (attrSet.isDefined(StyleConstants.FontFamily))
 		{
 			attrMap.put(

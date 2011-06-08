@@ -55,10 +55,10 @@ public class JRXmlWriteHelper
 	
 	private final Writer writer;
 	
-	private final List indents;
+	private final List<char[]> indents;
 	
 	private int indent;
-	private final List elementStack;
+	private final List<StackElement> elementStack;
 	private StringBuffer buffer;
 	private StackElement lastElement;
 		
@@ -77,7 +77,7 @@ public class JRXmlWriteHelper
 	protected static class StackElement
 	{
 		String name;
-		List atts;
+		List<Attribute> atts;
 		boolean hasChildren;
 		XmlNamespace namespace;
 		String qName;
@@ -86,7 +86,7 @@ public class JRXmlWriteHelper
 		StackElement(String name, XmlNamespace namespace)
 		{
 			this.name = name;
-			this.atts = new ArrayList();
+			this.atts = new ArrayList<Attribute>();
 			this.hasChildren = false;
 			this.namespace = namespace;
 			this.qName = getQualifiedName(this.name, this.namespace);
@@ -108,10 +108,10 @@ public class JRXmlWriteHelper
 	{
 		this.writer = writer;
 		
-		indents = new ArrayList();
+		indents = new ArrayList<char[]>();
 		
 		indent = 0;
-		elementStack = new ArrayList();
+		elementStack = new ArrayList<StackElement>();
 		lastElement = null;
 		
 		clearBuffer();
@@ -189,9 +189,9 @@ public class JRXmlWriteHelper
 	protected XmlNamespace findContextNamespace(String namespaceURI)
 	{
 		XmlNamespace ns = null;
-		for (ListIterator it = elementStack.listIterator(elementStack.size()); it.hasPrevious();)
+		for (ListIterator<StackElement> it = elementStack.listIterator(elementStack.size()); it.hasPrevious();)
 		{
-			StackElement element = (StackElement) it.previous();
+			StackElement element = it.previous();
 			if (element.namespace != null && namespaceURI.equals(element.namespace.getNamespaceURI()))
 			{
 				ns = element.namespace;
@@ -227,7 +227,7 @@ public class JRXmlWriteHelper
 		int startWrite = stackSize - 1;
 		while (startWrite >= 0)
 		{
-			StackElement element = (StackElement) elementStack.get(startWrite);
+			StackElement element = elementStack.get(startWrite);
 			
 			if (element.hasChildren)
 			{
@@ -248,7 +248,7 @@ public class JRXmlWriteHelper
 		
 		for (int i = startWrite + 1; i < stackSize; ++i)
 		{
-			StackElement element = (StackElement) elementStack.get(i);
+			StackElement element = elementStack.get(i);
 			writeElementAttributes(element, i);
 		}
 	}
@@ -335,9 +335,9 @@ public class JRXmlWriteHelper
 		buffer.append(getIndent(level));
 		buffer.append('<');
 		buffer.append(element.qName);
-		for (Iterator i = element.atts.iterator(); i.hasNext();)
+		for (Iterator<Attribute> i = element.atts.iterator(); i.hasNext();)
 		{
-			Attribute att = (Attribute) i.next();
+			Attribute att = i.next();
 			buffer.append(' ');
 			buffer.append(att.name);
 			buffer.append("=\"");
@@ -400,7 +400,7 @@ public class JRXmlWriteHelper
 			}
 		}
 		
-		return (char[]) indents.get(level);
+		return indents.get(level);
 	}
 	
 	protected void flushBuffer() throws IOException
@@ -617,7 +617,7 @@ public class JRXmlWriteHelper
 	/**
 	 * @deprecated To be removed. 
 	 */
-	public void addAttribute(String name, byte value, Map xmlValues)
+	public void addAttribute(String name, byte value, Map<?,?> xmlValues)
 	{
 		String xmlValue = (String) xmlValues.get(new Byte(value));
 		writeAttribute(name, xmlValue);
@@ -626,7 +626,7 @@ public class JRXmlWriteHelper
 	/**
 	 * @deprecated To be removed. 
 	 */
-	public void addAttribute(String name, int value, Map xmlValues)
+	public void addAttribute(String name, int value, Map<?,?> xmlValues)
 	{
 		String xmlValue = (String) xmlValues.get(Integer.valueOf(value));
 		writeAttribute(name, xmlValue);
@@ -635,7 +635,7 @@ public class JRXmlWriteHelper
 	/**
 	 * @deprecated To be removed. 
 	 */
-	public void addAttribute(String name, byte value, Map xmlValues, byte defaultValue)
+	public void addAttribute(String name, byte value, Map<?,?> xmlValues, byte defaultValue)
 	{
 		if (value != defaultValue)
 		{
@@ -646,7 +646,7 @@ public class JRXmlWriteHelper
 	/**
 	 * @deprecated To be removed. 
 	 */
-	public void addAttribute(String name, Object value, Map xmlValues)
+	public void addAttribute(String name, Object value, Map<?,?> xmlValues)
 	{
 		if (value != null)
 		{
@@ -658,7 +658,7 @@ public class JRXmlWriteHelper
 	/**
 	 * @deprecated To be removed. 
 	 */
-	public void addAttribute(String name, Object value, Map xmlValues, Object defaultValue)
+	public void addAttribute(String name, Object value, Map<?,?> xmlValues, Object defaultValue)
 	{
 		if (!value.equals(defaultValue))
 		{

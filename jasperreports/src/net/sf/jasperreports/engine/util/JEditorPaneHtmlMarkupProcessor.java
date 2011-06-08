@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +80,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		JEditorPane editorPane = new JEditorPane("text/html", srcText);
 		editorPane.setEditable(false);
 
-		List elements = new ArrayList();
+		List<Element> elements = new ArrayList<Element>();
 
 		Document document = editorPane.getDocument();
 
@@ -111,7 +112,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			if (bodyOccurred && chunk != null)
 			{
 				styledText.append(chunk);
-				Map styleAttributes = getAttributes(element.getAttributes());
+				Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
 				if (hyperlink != null)
 				{
 					styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
@@ -125,7 +126,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			}
 
 			chunk = null;
-			element = (Element)elements.get(i);
+			element = elements.get(i);
 			parent = element.getParentElement();
 			startOffset = element.getStartOffset();
 			endOffset = element.getEndOffset();
@@ -230,7 +231,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 		if (chunk != null && !"\n".equals(chunk))
 		{
 			styledText.append(chunk);
-			Map styleAttributes = getAttributes(element.getAttributes());
+			Map<Attribute,Object> styleAttributes = getAttributes(element.getAttributes());
 			if (hyperlink != null)
 			{
 				styleAttributes.put(JRTextAttribute.HYPERLINK, hyperlink);
@@ -243,7 +244,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 			}
 		}
 		
-		styledText.setGlobalAttributes(new HashMap());
+		styledText.setGlobalAttributes(new HashMap<Attribute,Object>());
 		
 		return JRStyledTextParser.getInstance().write(styledText);
 	}
@@ -251,7 +252,7 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	/**
 	 * 
 	 */
-	protected void addElements(List elements, Element element) 
+	protected void addElements(List<Element> elements, Element element) 
 	{
 		//if(element instanceof LeafElement)
 		{
@@ -267,9 +268,9 @@ public class JEditorPaneHtmlMarkupProcessor extends JEditorPaneMarkupProcessor
 	/**
 	 * 
 	 */
-	protected Map getAttributes(AttributeSet attrSet) 
+	protected Map<Attribute,Object> getAttributes(AttributeSet attrSet) 
 	{
-		Map attrMap = new HashMap();
+		Map<Attribute,Object> attrMap = new HashMap<Attribute,Object>();
 		if (attrSet.isDefined(StyleConstants.FontFamily))
 		{
 			attrMap.put(

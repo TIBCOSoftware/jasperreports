@@ -50,10 +50,10 @@ public final class JRQueryExecuterUtils
 	 */
 	public static JRQueryExecuterFactory getQueryExecuterFactory(String language) throws JRException
 	{
-		List bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(QueryExecuterFactoryBundle.class);
-		for (Iterator it = bundles.iterator(); it.hasNext();)
+		List<QueryExecuterFactoryBundle> bundles = (List<QueryExecuterFactoryBundle>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(QueryExecuterFactoryBundle.class);
+		for (Iterator<QueryExecuterFactoryBundle> it = bundles.iterator(); it.hasNext();)
 		{
-			QueryExecuterFactoryBundle bundle = (QueryExecuterFactoryBundle)it.next();
+			QueryExecuterFactoryBundle bundle = it.next();
 			JRQueryExecuterFactory factory = bundle.getQueryExecuterFactory(language);
 			if (factory != null)
 			{

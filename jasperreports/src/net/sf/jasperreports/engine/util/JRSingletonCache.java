@@ -41,14 +41,14 @@ public class JRSingletonCache
 	private static final Object CONTEXT_KEY_NULL = new Object();
 	
 	private final ReferenceMap cache;
-	private final Class itf;
+	private final Class<?> itf;
 
 	/**
 	 * Creates a cache of singleton instances.
 	 * 
 	 * @param itf a interface or class that should be implemented by all classes cached by this object
 	 */
-	public JRSingletonCache(Class itf)
+	public JRSingletonCache(Class<?> itf)
 	{
 		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 		this.itf = itf;
@@ -67,7 +67,7 @@ public class JRSingletonCache
 	 */
 	public synchronized Object getCachedInstance(String className) throws JRException
 	{
-		Map contextCache = getContextInstanceCache();
+		Map<String,Object> contextCache = getContextInstanceCache();
 		Object instance = contextCache.get(className);
 		if (instance == null)
 		{
@@ -81,7 +81,7 @@ public class JRSingletonCache
 	{
 		try
 		{
-			Class clazz = JRClassLoader.loadClassForName(className);
+			Class<?> clazz = JRClassLoader.loadClassForName(className);
 			if (itf != null && !itf.isAssignableFrom(clazz))
 			{
 				throw new JRException("Class \"" + className + "\" should be compatible with \"" + itf.getName() + "\"");
@@ -103,10 +103,10 @@ public class JRSingletonCache
 		}
 	}
 
-	protected Map getContextInstanceCache()
+	protected Map<String,Object> getContextInstanceCache()
 	{
 		Object contextKey = getContextKey();
-		Map contextCache = (Map) cache.get(contextKey);
+		Map<String,Object> contextCache = (Map<String,Object>) cache.get(contextKey);
 		if (contextCache == null)
 		{
 			contextCache = new ReferenceMap();

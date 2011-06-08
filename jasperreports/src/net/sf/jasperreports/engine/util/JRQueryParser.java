@@ -175,7 +175,7 @@ public class JRQueryParser
 	
 	protected String[] parseClause(String clauseChunk)
 	{
-		List tokens = new ArrayList();
+		List<String> tokens = new ArrayList<String>();
 		
 		boolean wasClauseToken = false;
 		String separator = determineClauseTokenSeparator(clauseChunk);
@@ -202,7 +202,7 @@ public class JRQueryParser
 			tokens.add("");
 		}
 		
-		return (String[]) tokens.toArray(new String[tokens.size()]);
+		return tokens.toArray(new String[tokens.size()]);
 	}
 
 	protected String determineClauseTokenSeparator(String clauseChunk)

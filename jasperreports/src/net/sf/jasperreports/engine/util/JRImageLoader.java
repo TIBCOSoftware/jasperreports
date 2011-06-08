@@ -24,14 +24,10 @@
 package net.sf.jasperreports.engine.util;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
-import java.net.URLStreamHandlerFactory;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 
@@ -87,7 +83,7 @@ public final class JRImageLoader
 		{
 			try 
 			{
-				Class clazz = JRClassLoader.loadClassForRealName(readerClassName);	
+				Class<?> clazz = JRClassLoader.loadClassForRealName(readerClassName);	
 				imageReader = (JRImageReader) clazz.newInstance();
 			}
 			catch (Exception e)
@@ -106,7 +102,7 @@ public final class JRImageLoader
 		{
 			try 
 			{
-				Class clazz = JRClassLoader.loadClassForRealName(encoderClassName);	
+				Class<?> clazz = JRClassLoader.loadClassForRealName(encoderClassName);	
 				imageEncoder = (JRImageEncoder) clazz.newInstance();
 			}
 			catch (Exception e)

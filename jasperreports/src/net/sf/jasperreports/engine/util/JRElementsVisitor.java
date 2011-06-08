@@ -130,13 +130,13 @@ public class JRElementsVisitor extends JRDelegationVisitor
 		}
 	}
 
-	protected void visitElements(List elements)
+	protected void visitElements(List<JRChild> elements)
 	{
 		if (elements != null)
 		{
-			for (Iterator it = elements.iterator(); it.hasNext();)
+			for (Iterator<JRChild> it = elements.iterator(); it.hasNext();)
 			{
-				JRChild child = (JRChild) it.next();
+				JRChild child = it.next();
 				child.visit(this);
 			}
 		}
@@ -188,10 +188,10 @@ public class JRElementsVisitor extends JRDelegationVisitor
 		
 		if (crosstab instanceof JRDesignCrosstab)
 		{
-			List cells = ((JRDesignCrosstab) crosstab).getCellsList();
-			for (Iterator it = cells.iterator(); it.hasNext();)
+			List<JRCrosstabCell> cells = ((JRDesignCrosstab) crosstab).getCellsList();
+			for (Iterator<JRCrosstabCell> it = cells.iterator(); it.hasNext();)
 			{
-				JRCrosstabCell cell = (JRCrosstabCell) it.next();
+				JRCrosstabCell cell = it.next();
 				visitCrosstabCell(cell.getContents());
 			}
 		}
@@ -200,7 +200,7 @@ public class JRElementsVisitor extends JRDelegationVisitor
 			JRCrosstabCell[][] cells = crosstab.getCells();
 			if (cells != null)
 			{
-				Set cellContents = new HashSet();
+				Set<JRCellContents> cellContents = new HashSet<JRCellContents>();
 				for (int i = 0; i < cells.length; i++)
 				{
 					for (int j = 0; j < cells[i].length; j++)

@@ -42,7 +42,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private static final Map instanceMap = new HashMap(4);
+	private static final Map<String,JRTextAttribute> instanceMap = new HashMap<String,JRTextAttribute>(4);
 
 	/**
 	 *
@@ -79,7 +79,7 @@ public final class JRTextAttribute extends AttributedCharacterIterator.Attribute
 			throw new InvalidObjectException("Subclass didn't correctly implement readResolve");
 		}
 		
-		JRTextAttribute instance = (JRTextAttribute) instanceMap.get(getName());
+		JRTextAttribute instance = instanceMap.get(getName());
 		if (instance != null)
 		{
 			return instance;
