@@ -124,15 +124,15 @@ class JRDistinctCountIncrementer implements JRIncrementer
  */
 class DistinctCountHolder
 {
-	private Set distinctValues;
+	private Set<Object> distinctValues;
 	private Object lastValue;
 
 	public DistinctCountHolder()
 	{
-		distinctValues = new HashSet();
+		distinctValues = new HashSet<Object>();
 	}
 
-	public DistinctCountHolder(Set distinctValues)
+	public DistinctCountHolder(Set<Object> distinctValues)
 	{
 		this.distinctValues = distinctValues;
 	}
@@ -145,10 +145,10 @@ class DistinctCountHolder
 
 	public void init()
 	{
-		distinctValues = new HashSet();
+		distinctValues = new HashSet<Object>();
 	}
 
-	public Set getDistinctValues()
+	public Set<Object> getDistinctValues()
 	{
 		return distinctValues;
 	}

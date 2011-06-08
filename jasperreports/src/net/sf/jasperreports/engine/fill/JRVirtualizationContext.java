@@ -50,8 +50,8 @@ public class JRVirtualizationContext implements Serializable
 	
 	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
 	
-	private Map cachedRenderers;
-	private Map cachedTemplates;
+	private Map<String,JRRenderable> cachedRenderers;
+	private Map<String,JRTemplateElement> cachedTemplates;
 	
 	private boolean readOnly;
 	
@@ -60,8 +60,8 @@ public class JRVirtualizationContext implements Serializable
 	 */
 	public JRVirtualizationContext()
 	{
-		cachedRenderers = new HashMap();
-		cachedTemplates = new HashMap();
+		cachedRenderers = new HashMap<String,JRRenderable>();
+		cachedTemplates = new HashMap<String,JRTemplateElement>();
 	}
 
 	
@@ -88,7 +88,7 @@ public class JRVirtualizationContext implements Serializable
 	 */
 	public JRRenderable getCachedRenderer(String id)
 	{
-		return (JRRenderable) cachedRenderers.get(id);
+		return cachedRenderers.get(id);
 	}
 
 	
@@ -139,7 +139,7 @@ public class JRVirtualizationContext implements Serializable
 	 */
 	public JRTemplateElement getCachedTemplate(String templateId)
 	{
-		return (JRTemplateElement) cachedTemplates.get(templateId);
+		return cachedTemplates.get(templateId);
 	}
 
 

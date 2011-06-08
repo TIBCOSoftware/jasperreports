@@ -88,7 +88,7 @@ public class JRFillScriptlet implements JRScriptlet
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		return parent.getValueClass();
 	}

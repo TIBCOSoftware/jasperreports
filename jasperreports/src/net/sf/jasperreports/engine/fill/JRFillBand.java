@@ -63,13 +63,13 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	private boolean isNewPageColumn;
 	private boolean isFirstWholeOnPageColumn;
-	private Map isNewGroupMap = new HashMap();
+	private Map<JRGroup,Boolean> isNewGroupMap = new HashMap<JRGroup,Boolean>();
 
-	private Set nowEvaluationTimes;
+	private Set<JREvaluationTime> nowEvaluationTimes;
 	
 	// used by subreports to save values of variables used as return receptacles
 	// so that the values can be restored when the bands gets rewound
-	private Map savedVariableValues = new HashMap();
+	private Map<String,Object> savedVariableValues = new HashMap<String,Object>();
 
 	protected JROrigin origin;
 	
@@ -125,7 +125,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		initConditionalStyles();
 
-		nowEvaluationTimes = new HashSet();
+		nowEvaluationTimes = new HashSet<JREvaluationTime>();
 	}
 
 
@@ -191,7 +191,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected boolean isNewGroup(JRGroup group)
 	{
-		Boolean value = (Boolean)isNewGroupMap.get(group);
+		Boolean value = isNewGroupMap.get(group);
 
 		if (value == null)
 		{
@@ -395,7 +395,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 
 		isFirstWholeOnPageColumn = isNewPageColumn && isOverflow;
 		isNewPageColumn = false;
-		isNewGroupMap = new HashMap();
+		isNewGroupMap = new HashMap<JRGroup,Boolean>();
 
 		JRPrintBand printBand = new JRPrintBand();
 		fillElements(printBand);
@@ -484,10 +484,10 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	
 	protected void restoreSavedVariables()
 	{
-		for (Iterator it = savedVariableValues.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String,Object>> it = savedVariableValues.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			String variableName = (String) entry.getKey();
+			Map.Entry<String,Object> entry = it.next();
+			String variableName = entry.getKey();
 			Object value = entry.getValue();
 			JRFillVariable variable = filler.getVariable(variableName);
 			variable.setOldValue(value);

@@ -47,7 +47,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private Map parameters = new LinkedHashMap();
+	private Map<String,Object> parameters = new LinkedHashMap<String,Object>();
 	
 	/**
 	 * Creates a generic print element.
@@ -69,7 +69,7 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 		return ((JRTemplateGenericElement) template).getGenericType();
 	}
 
-	public Set getParameterNames()
+	public Set<String> getParameterNames()
 	{
 		return parameters.keySet();
 	}

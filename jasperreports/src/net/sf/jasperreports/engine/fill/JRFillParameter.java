@@ -89,7 +89,7 @@ public class JRFillParameter implements JRValueParameter
 	/**
 	 *
 	 */
-	public Class getValueClass()
+	public Class<?> getValueClass()
 	{
 		return parent.getValueClass();
 	}
@@ -102,7 +102,7 @@ public class JRFillParameter implements JRValueParameter
 		return parent.getValueClassName();
 	}
 
-	public Class getNestedType()
+	public Class<?> getNestedType()
 	{
 		return parent.getNestedType();
 	}

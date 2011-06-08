@@ -48,9 +48,9 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
  */
 public class JRFillContext
 {
-	private Map loadedImages;
-	private Map loadedSubreports;
-	private Map loadedTemplates;
+	private Map<Object,JRPrintImage> loadedImages;
+	private Map<Object,JasperReport> loadedSubreports;
+	private Map<Object,JRTemplate> loadedTemplates;
 	private boolean usingVirtualizer;
 	private boolean perPageBoundElements;
 	private JRPrintPage printPage;
@@ -69,9 +69,9 @@ public class JRFillContext
 	 */
 	public JRFillContext()
 	{
-		loadedImages = new HashMap();
-		loadedSubreports = new HashMap();
-		loadedTemplates = new HashMap();
+		loadedImages = new HashMap<Object,JRPrintImage>();
+		loadedSubreports = new HashMap<Object,JasperReport>();
+		loadedTemplates = new HashMap<Object,JRTemplate>();
 		
 		JRFontUtil.resetThreadMissingFontsCache();
 	}
@@ -100,7 +100,7 @@ public class JRFillContext
 	 */
 	public JRPrintImage getLoadedImage(Object source)
 	{
-		return (JRPrintImage) loadedImages.get(source); 
+		return loadedImages.get(source); 
 	}
 	
 	
@@ -146,7 +146,7 @@ public class JRFillContext
 	 */
 	public JasperReport getLoadedSubreport(Object source)
 	{
-		return (JasperReport) loadedSubreports.get(source); 
+		return loadedSubreports.get(source); 
 	}
 	
 	
@@ -392,7 +392,7 @@ public class JRFillContext
 	 */
 	public JRTemplate getLoadedTemplate(Object source)
 	{
-		return (JRTemplate) loadedTemplates.get(source); 
+		return loadedTemplates.get(source); 
 	}
 	
 	

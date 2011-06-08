@@ -42,7 +42,7 @@ public class JRPrintBand implements JRPrintElementContainer
 	 *
 	 */
 	private int height;
-	private List elements = new ArrayList();
+	private List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
 
 	
 	/**
@@ -64,7 +64,7 @@ public class JRPrintBand implements JRPrintElementContainer
 	/**
 	 *
 	 */
-	public List getElements()
+	public List<JRPrintElement> getElements()
 	{
 		return this.elements;
 	}

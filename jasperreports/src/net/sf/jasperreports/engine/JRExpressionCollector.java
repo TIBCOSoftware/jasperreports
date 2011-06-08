@@ -112,7 +112,7 @@ public class JRExpressionCollector
 		return collector;
 	}
 
-	public static List collectExpressions(JRReport report, JRCrosstab crosstab)
+	public static List<JRExpression> collectExpressions(JRReport report, JRCrosstab crosstab)
 	{
 		return collector(report, crosstab).getExpressions(crosstab);
 	}

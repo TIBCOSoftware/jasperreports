@@ -55,8 +55,8 @@ import org.apache.commons.collections.ReferenceMap;
  */
 public class JRFillCellContents extends JRFillElementContainer implements JRCellContents, JRStyleSetter
 {
-	private final Map transformedContentsCache;
-	private final Map boxContentsCache;
+	private final Map<StretchedContents,JRFillCellContents> transformedContentsCache;
+	private final Map<BoxContents,JRFillCellContents> boxContentsCache;
 	private final JRClonePool clonePool;
 	private final JROriginProvider originProvider;
 	
@@ -76,7 +76,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private CrosstabRowPositionEnum verticalPositionType = CrosstabRowPositionEnum.TOP;
 	private int horizontalSpan;
 	
-	private Map templateFrames;
+	private Map<JRStyle,JRTemplateFrame> templateFrames;
 	
 	private JRDefaultStyleProvider defaultStyleProvider;
 	private JRStyle initStyle;
@@ -109,13 +109,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		setElementOriginProvider(this.originProvider);
 		
 		transformedContentsCache = new ReferenceMap();
-		boxContentsCache = new HashMap();
+		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
 		clonePool = new JRClonePool(this, true, true);
 	}
 
 	private void initTemplatesMap()
 	{
-		templateFrames = new HashMap();
+		templateFrames = new HashMap<JRStyle,JRTemplateFrame>();
 	}
 
 	protected JRFillCellContents(JRFillCellContents cellContents, JRFillCloneFactory factory)
@@ -143,7 +143,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		this.originProvider = cellContents.originProvider;
 		
 		transformedContentsCache = new ReferenceMap();
-		boxContentsCache = new HashMap();
+		boxContentsCache = new HashMap<BoxContents,JRFillCellContents>();
 		clonePool = new JRClonePool(this, true, true);
 		
 		verticalPositionType = cellContents.verticalPositionType;
@@ -213,7 +213,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		}
 		
 		Object key = new BoxContents(copyLeft, copyRight, copyTop);
-		JRFillCellContents boxContents = (JRFillCellContents) boxContentsCache.get(key);
+		JRFillCellContents boxContents = boxContentsCache.get(key);
 		if (boxContents == null)
 		{
 			boxContents = (JRFillCellContents) createClone();
@@ -237,7 +237,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			
 			boxContents.setBox(newBox);
 			
-			boxContentsCache.put(key, boxContents);
+			boxContentsCache.put((BoxContents)key, boxContents);
 		}
 		
 		return boxContents;
@@ -261,13 +261,13 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		Object key = new StretchedContents(newWidth, newHeight, xPosition, yPosition);
 		
-		JRFillCellContents transformedCell = (JRFillCellContents) transformedContentsCache.get(key);
+		JRFillCellContents transformedCell = transformedContentsCache.get(key);
 		if (transformedCell == null)
 		{
 			transformedCell = (JRFillCellContents) createClone();
 			transformedCell.transform(newWidth, newHeight, xPosition, yPosition);
 			
-			transformedContentsCache.put(key, transformedCell);
+			transformedContentsCache.put((StretchedContents)key, transformedCell);
 		}
 		
 		return transformedCell;
@@ -423,7 +423,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	protected JRTemplateFrame getTemplateFrame()
 	{
 		JRStyle style = getStyle();
-		JRTemplateFrame template = (JRTemplateFrame) templateFrames.get(style);
+		JRTemplateFrame template = templateFrames.get(style);
 		if (template == null)
 		{
 			template = new JRTemplateFrame(getOrigin(), 
@@ -457,21 +457,21 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		
 		if (positionOffset != 0)
 		{
-			List printElements = printCell.getElements();
+			List<JRPrintElement> printElements = printCell.getElements();
 			
 			int positionY = getStretchHeight() - positionOffset;
 			boolean outside = false;
-			for (Iterator it = printElements.iterator(); !outside && it.hasNext();)
+			for (Iterator<JRPrintElement> it = printElements.iterator(); !outside && it.hasNext();)
 			{
-				JRPrintElement element = (JRPrintElement) it.next();
+				JRPrintElement element = it.next();
 				outside = element.getY() + element.getHeight() > positionY;
 			}
 			
 			if (!outside)
 			{
-				for (Iterator it = printElements.iterator(); it.hasNext();)
+				for (Iterator<JRPrintElement> it = printElements.iterator(); it.hasNext();)
 				{
-					JRPrintElement element = (JRPrintElement) it.next();
+					JRPrintElement element = it.next();
 					element.setY(element.getY() + positionOffset);
 				}
 			}

@@ -54,17 +54,17 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 *
 	 */
 	public void setData(
-		Map parsm,
-		Map fldsm,
-		Map varsm,
+		Map<String,JRFillParameter> parsm,
+		Map<String,JRFillField> fldsm,
+		Map<String,JRFillVariable> varsm,
 		JRFillGroup[] grps
 		)
 	{
 		super.setData(parsm, fldsm, varsm, grps);
 		
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).setData(parsm, fldsm, varsm, grps);
+			it.next().setData(parsm, fldsm, varsm, grps);
 		}
 	}
 
@@ -74,9 +74,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void beforeReportInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).beforeReportInit();
+			it.next().beforeReportInit();
 		}
 	}
 
@@ -86,9 +86,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void afterReportInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).afterReportInit();
+			it.next().afterReportInit();
 		}
 	}
 
@@ -98,9 +98,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void beforePageInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).beforePageInit();
+			it.next().beforePageInit();
 		}
 	}
 
@@ -110,9 +110,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void afterPageInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).afterPageInit();
+			it.next().afterPageInit();
 		}
 	}
 
@@ -122,9 +122,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void beforeColumnInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).beforeColumnInit();
+			it.next().beforeColumnInit();
 		}
 	}
 
@@ -134,9 +134,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void afterColumnInit() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).afterColumnInit();
+			it.next().afterColumnInit();
 		}
 	}
 
@@ -146,9 +146,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void beforeGroupInit(String groupName) throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).beforeGroupInit(groupName);
+			it.next().beforeGroupInit(groupName);
 		}
 	}
 
@@ -158,9 +158,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void afterGroupInit(String groupName) throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).afterGroupInit(groupName);
+			it.next().afterGroupInit(groupName);
 		}
 	}
 
@@ -170,9 +170,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void beforeDetailEval() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).beforeDetailEval();
+			it.next().beforeDetailEval();
 		}
 	}
 
@@ -182,9 +182,9 @@ public class JRFillDatasetScriptlet extends JRAbstractScriptlet
 	 */
 	public void afterDetailEval() throws JRScriptletException
 	{
-		for(Iterator it = dataset.scriptlets.iterator(); it.hasNext();)
+		for(Iterator<JRAbstractScriptlet> it = dataset.scriptlets.iterator(); it.hasNext();)
 		{
-			((JRAbstractScriptlet)it.next()).afterDetailEval();
+			it.next().afterDetailEval();
 		}
 	}
 

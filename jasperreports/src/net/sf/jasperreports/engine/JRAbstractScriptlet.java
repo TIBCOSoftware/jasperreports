@@ -45,9 +45,9 @@ public abstract class JRAbstractScriptlet
 	/**
 	 *
 	 */
-	protected Map parametersMap;
-	protected Map fieldsMap;
-	protected Map variablesMap;
+	protected Map<String,JRFillParameter> parametersMap;
+	protected Map<String,JRFillField> fieldsMap;
+	protected Map<String,JRFillVariable> variablesMap;
 	protected JRFillGroup[] groups;
 
 
@@ -63,9 +63,9 @@ public abstract class JRAbstractScriptlet
 	 *
 	 */
 	public void setData(
-		Map parsm,
-		Map fldsm,
-		Map varsm,
+		Map<String,JRFillParameter> parsm,
+		Map<String,JRFillField> fldsm,
+		Map<String,JRFillVariable> varsm,
 		JRFillGroup[] grps
 		)
 	{
@@ -90,14 +90,14 @@ public abstract class JRAbstractScriptlet
 	 */
 	public Object getParameterValue(String parameterName, boolean mustBeDeclared) throws JRScriptletException
 	{
-		JRFillParameter parameter = (JRFillParameter)this.parametersMap.get(parameterName);
+		JRFillParameter parameter = this.parametersMap.get(parameterName);
 		if (parameter == null)
 		{
 			if (mustBeDeclared)
 			{
 				throw new JRScriptletException("Parameter not found : " + parameterName);
 			}
-			return ((Map)((JRFillParameter)this.parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP)).getValue()).get(parameterName);
+			return ((Map<String,?>)this.parametersMap.get(JRParameter.REPORT_PARAMETERS_MAP).getValue()).get(parameterName);
 		}
 		return parameter.getValue();
 	}
@@ -108,7 +108,7 @@ public abstract class JRAbstractScriptlet
 	 */
 	public Object getFieldValue(String fieldName) throws JRScriptletException
 	{
-		JRFillField field = (JRFillField)this.fieldsMap.get(fieldName);
+		JRFillField field = this.fieldsMap.get(fieldName);
 		if (field == null)
 		{
 			throw new JRScriptletException("Field not found : " + fieldName);
@@ -122,7 +122,7 @@ public abstract class JRAbstractScriptlet
 	 */
 	public Object getVariableValue(String variableName) throws JRScriptletException
 	{
-		JRFillVariable variable = (JRFillVariable)this.variablesMap.get(variableName);
+		JRFillVariable variable = this.variablesMap.get(variableName);
 		if (variable == null)
 		{
 			throw new JRScriptletException("Variable not found : " + variableName);
@@ -136,7 +136,7 @@ public abstract class JRAbstractScriptlet
 	 */
 	public void setVariableValue(String variableName, Object value) throws JRScriptletException
 	{
-		JRFillVariable variable = (JRFillVariable)this.variablesMap.get(variableName);
+		JRFillVariable variable = this.variablesMap.get(variableName);
 		if (variable == null)
 		{
 			throw new JRScriptletException("Variable not found : " + variableName);

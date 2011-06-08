@@ -55,7 +55,7 @@ public class JRRecordedValuesPrintImage extends JRTemplatePrintImage implements 
 		recordedValues = null;
 	}
 
-	public void initRecordedValues(Set evaluationTimes)
+	public void initRecordedValues(Set<JREvaluationTime> evaluationTimes)
 	{
 		recordedValues = new JRRecordedValues(evaluationTimes);
 	}

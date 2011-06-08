@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.fill;
 
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;

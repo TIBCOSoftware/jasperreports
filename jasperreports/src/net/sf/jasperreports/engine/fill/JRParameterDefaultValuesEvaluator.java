@@ -51,9 +51,9 @@ public final class JRParameterDefaultValuesEvaluator
 	 * @return a map containing parameter values indexed by parameter names
 	 * @throws JRException
 	 */
-	public static Map evaluateParameterDefaultValues(JasperReport report, Map initialParameters) throws JRException
+	public static Map<String,Object> evaluateParameterDefaultValues(JasperReport report, Map<String,Object> initialParameters) throws JRException
 	{
-		Map valuesMap = initialParameters == null ? new HashMap() : new HashMap(initialParameters);
+		Map<String,Object> valuesMap = initialParameters == null ? new HashMap<String,Object>() : new HashMap<String,Object>(initialParameters);
 		
 		valuesMap.put(JRParameter.JASPER_REPORT, report);
 		
@@ -69,7 +69,7 @@ public final class JRParameterDefaultValuesEvaluator
 		{
 			fillDataset.setParameterValues(valuesMap);
 			
-			Map parameterValues = new HashMap();
+			Map<String,Object> parameterValues = new HashMap<String,Object>();
 			JRParameter[] parameters = reportDataset.getParameters();
 			for (int i = 0; i < parameters.length; i++)
 			{

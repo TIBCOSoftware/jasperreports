@@ -85,7 +85,7 @@ public class TextMeasurer implements JRTextMeasurer
 	//private float formatWidth;
 	private int maxHeight;
 	private boolean canOverflow;
-	private Map globalAttributes;
+	private Map<Attribute,Object> globalAttributes;
 	private TextMeasuredState measuredState;
 	private TextMeasuredState prevMeasuredState;
 	
@@ -101,7 +101,7 @@ public class TextMeasurer implements JRTextMeasurer
 		protected String textSuffix;
 		
 		protected int lastOffset;
-		protected ArrayList lineBreakOffsets;
+		protected ArrayList<Integer> lineBreakOffsets;
 		
 		public TextMeasuredState(boolean saveLineBreakOffsets)
 		{
@@ -138,7 +138,7 @@ public class TextMeasurer implements JRTextMeasurer
 				//might be a performance problem on very large texts
 				if (lineBreakOffsets != null)
 				{
-					clone.lineBreakOffsets = (ArrayList) lineBreakOffsets.clone();
+					clone.lineBreakOffsets = (ArrayList<Integer>) lineBreakOffsets.clone();
 				}
 				
 				return clone;
@@ -156,7 +156,7 @@ public class TextMeasurer implements JRTextMeasurer
 			{
 				if (lineBreakOffsets == null)
 				{
-					lineBreakOffsets = new ArrayList();
+					lineBreakOffsets = new ArrayList<Integer>();
 				}
 
 				int breakOffset = textOffset - lastOffset;
@@ -187,7 +187,7 @@ public class TextMeasurer implements JRTextMeasurer
 			boolean overflow = false;
 			for (int i = 0; i < offsets.length; i++)
 			{
-				int offset = ((Integer) lineBreakOffsets.get(i)).intValue();
+				int offset = lineBreakOffsets.get(i).intValue();
 				if (offset > Short.MAX_VALUE)
 				{
 					if (log.isWarnEnabled())
@@ -824,10 +824,10 @@ public class TextMeasurer implements JRTextMeasurer
 	{
 		for (char c = attributes.first(); c != CharacterIterator.DONE; c = attributes.next())
 		{
-			for (Iterator it = attributes.getAttributes().entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<Attribute,Object>> it = attributes.getAttributes().entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry attributeEntry = (Map.Entry) it.next();
-				AttributedCharacterIterator.Attribute attribute = (Attribute) attributeEntry.getKey();
+				Map.Entry<Attribute,Object> attributeEntry = it.next();
+				AttributedCharacterIterator.Attribute attribute = attributeEntry.getKey();
 				if (attributes.getRunStart(attribute) == attributes.getIndex())
 				{
 					Object attributeValue = attributeEntry.getValue();
@@ -844,15 +844,15 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected void setAttributes(
 		AttributedString string,
-		Map attributes, 
+		Map<Attribute,Object> attributes, 
 		int startIndex, 
 		int endIndex
 		)
 	{
-		for (Iterator it = attributes.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<Attribute,Object>> it = attributes.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			AttributedCharacterIterator.Attribute attribute = (Attribute) entry.getKey();
+			Map.Entry<Attribute,Object> entry = it.next();
+			Attribute attribute = entry.getKey();
 			Object attributeValue = entry.getValue();
 			string.addAttribute(attribute, attributeValue, startIndex, endIndex);
 		}

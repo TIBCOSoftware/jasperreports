@@ -96,7 +96,7 @@ public final class JRDefaultIncrementerFactory extends JRAbstractExtendedIncreme
 	}
 
 
-	public static JRExtendedIncrementerFactory getFactory (Class valueClass)
+	public static JRExtendedIncrementerFactory getFactory (Class<?> valueClass)
 	{
 		JRExtendedIncrementerFactory factory;
 		

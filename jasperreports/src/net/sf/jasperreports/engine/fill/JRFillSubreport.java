@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
+import net.sf.jasperreports.engine.design.JRValidationFault;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -89,7 +90,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	private JasperReport jasperReport;
 	private Object source;
 
-	private Map loadedEvaluators;
+	private Map<JasperReport,JREvaluator> loadedEvaluators;
 	
 	/**
 	 * Values to be copied from the subreport.
@@ -107,7 +108,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	/**
 	 * Set of checked reports.
 	 */
-	private Set checkedReports;
+	private Set<JasperReport> checkedReports;
 
 
 	/**
@@ -125,7 +126,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		JRSubreportReturnValue[] subrepReturnValues = subreport.getReturnValues();
 		if (subrepReturnValues != null)
 		{
-			List returnValuesList = new ArrayList(subrepReturnValues.length * 2);
+			List<JRFillSubreportReturnValue> returnValuesList = new ArrayList<JRFillSubreportReturnValue>(subrepReturnValues.length * 2);
 			
 			returnValues = new JRFillSubreportReturnValue[subrepReturnValues.length];
 			for (int i = 0; i < subrepReturnValues.length; i++)
@@ -137,8 +138,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			returnValuesList.toArray(returnValues);
 		}
 		
-		loadedEvaluators = new HashMap();
-		checkedReports = new HashSet();
+		loadedEvaluators = new HashMap<JasperReport,JREvaluator>();
+		checkedReports = new HashSet<JasperReport>();
 	}
 
 
@@ -387,14 +388,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		DatasetExpressionEvaluator evaluator = null;
 		if (isUsingCache())
 		{
-			evaluator = (JREvaluator) loadedEvaluators.get(jasperReport);
+			evaluator = loadedEvaluators.get(jasperReport);
 		}
 		if (evaluator == null)
 		{
 			evaluator = createEvaluator();
 			if (isUsingCache())
 			{
-				loadedEvaluators.put(jasperReport, evaluator);
+				loadedEvaluators.put(jasperReport, (JREvaluator)evaluator);
 			}
 		}
 		return evaluator;
@@ -757,7 +758,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 		}// synchronized
 		
-		Collection printElements = getPrintElements();
+		Collection<JRPrintElement> printElements = getPrintElements();
 		if (
 			(printElements == null || printElements.size() == 0) &&
 			isRemoveLineWhenBlank() //FIXME if the line won't be removed, the background does not appear
@@ -854,7 +855,11 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	}
 	
 
-	private JRFillSubreportReturnValue addReturnValue (JRSubreportReturnValue parentReturnValue, List returnValueList, JRFillObjectFactory factory)
+	private JRFillSubreportReturnValue addReturnValue (
+			JRSubreportReturnValue parentReturnValue, 
+			List<JRFillSubreportReturnValue> returnValueList, 
+			JRFillObjectFactory factory
+			)
 	{
 		JRFillSubreportReturnValue returnValue = factory.getSubreportReturnValue(parentReturnValue);
 		
@@ -1015,7 +1020,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			}
 			while (parentFiller != null);
 			
-			List brokenRules = new ArrayList();
+			List<JRValidationFault> brokenRules = new ArrayList<JRValidationFault>();
 			JRVerifier.verifyBandHeights(brokenRules, 
 					jasperReport, pageHeight, topMargin, bottomMargin);
 			

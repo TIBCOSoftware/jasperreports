@@ -37,16 +37,16 @@ import java.util.Map;
  */
 public class JRFillCloneFactory
 {
-	private Map cloneMap;
+	private Map<JRFillCloneable,JRFillCloneable> cloneMap;
 	
 	public JRFillCloneFactory()
 	{
-		cloneMap = new HashMap();
+		cloneMap = new HashMap<JRFillCloneable,JRFillCloneable>();
 	}
 
 	protected JRFillCloneable getCached(JRFillCloneable original)
 	{
-		return (JRFillCloneable) cloneMap.get(original);
+		return cloneMap.get(original);
 	}
 
 	public void put(JRFillCloneable original, JRFillCloneable clone)

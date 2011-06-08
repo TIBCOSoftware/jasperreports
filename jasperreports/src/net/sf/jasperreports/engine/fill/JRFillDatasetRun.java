@@ -74,7 +74,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	public JRFillDatasetRun(JRBaseFiller filler, JRDatasetRun datasetRun, JRFillObjectFactory factory)
 	{
 		this(filler, datasetRun, 
-				(JRFillDataset) filler.datasetMap.get(datasetRun.getDatasetName()));
+				filler.datasetMap.get(datasetRun.getDatasetName()));
 		
 		factory.put(datasetRun, this);
 	}
@@ -101,7 +101,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	 */
 	public void evaluate(JRFillElementDataset elementDataset, byte evaluation) throws JRException
 	{
-		Map parameterValues = 
+		Map<String,Object> parameterValues = 
 			JRFillSubreport.getParameterValues(
 				filler, 
 				parametersMapExpression, 
@@ -142,7 +142,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		}
 	}
 
-	protected void copyConnectionParameter(Map parameterValues)
+	protected void copyConnectionParameter(Map<String,Object> parameterValues)
 	{
 		JRQuery query = dataset.getQuery();
 		if (query != null)
@@ -152,7 +152,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 					(language.equals("sql") || language.equals("SQL")) &&
 					!parameterValues.containsKey(JRParameter.REPORT_CONNECTION))
 			{
-				JRFillParameter connParam = (JRFillParameter) filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
+				JRFillParameter connParam = filler.getParametersMap().get(JRParameter.REPORT_CONNECTION);
 				Connection connection = (Connection) connParam.getValue();
 				parameterValues.put(JRParameter.REPORT_CONNECTION, connection);
 			}
