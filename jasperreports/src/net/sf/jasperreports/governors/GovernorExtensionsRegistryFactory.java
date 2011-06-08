@@ -41,7 +41,7 @@ public class GovernorExtensionsRegistryFactory implements ExtensionsRegistryFact
 	private static final ExtensionsRegistry governorExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType) 
+			public List<GovernorFactory> getExtensions(Class<?> extensionType) 
 			{
 				if (ScriptletFactory.class.equals(extensionType))
 				{

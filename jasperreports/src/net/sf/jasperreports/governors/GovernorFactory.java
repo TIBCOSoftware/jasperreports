@@ -57,9 +57,9 @@ public final class GovernorFactory implements ScriptletFactory
 	/**
 	 *
 	 */
-	public List getScriplets(ScriptletFactoryContext context) throws JRException
+	public List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException
 	{
-		List scriptlets = new ArrayList();
+		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();
 
 		boolean maxPagesEnabled = JRProperties.getBooleanProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES_ENABLED, true);
 		if (maxPagesEnabled)
@@ -93,7 +93,7 @@ public final class GovernorFactory implements ScriptletFactory
 
 		try
 		{
-			Class scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
+			Class<?> scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
 			scriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
 		}
 		catch (ClassNotFoundException e)

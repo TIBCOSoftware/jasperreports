@@ -56,9 +56,9 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 	/**
 	 *
 	 */
-	public List getScriplets(ScriptletFactoryContext context) throws JRException
+	public List<JRAbstractScriptlet> getScriplets(ScriptletFactoryContext context) throws JRException
 	{
-		List scriptlets = new ArrayList();
+		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();
 
 		JRAbstractScriptlet scriptlet = (JRAbstractScriptlet)context.getParameterValues().get(JRParameter.REPORT_SCRIPTLET);
 		if (scriptlet == null)
@@ -106,7 +106,7 @@ public final class DefaultScriptletFactory implements ScriptletFactory
 
 		try
 		{
-			Class scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
+			Class<?> scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
 			scriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
 		}
 		catch (ClassNotFoundException e)
