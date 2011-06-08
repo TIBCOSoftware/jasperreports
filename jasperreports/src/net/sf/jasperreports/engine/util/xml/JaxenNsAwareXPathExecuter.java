@@ -48,7 +48,7 @@ import org.w3c.dom.NodeList;
 public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 {
 
-	private final Map cachedXPaths = new ReferenceMap();//soft cache
+	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
 	
 	private Map<String, String> xmlNamespaceMap;
 	
@@ -89,7 +89,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 	
 	protected XPath getXPath(Node contextNode, String expression) throws JRException
 	{
-		XPath xPath = (XPath) cachedXPaths.get(expression);
+		XPath xPath = cachedXPaths.get(expression);
 		if (xPath == null)
 		{
 			try
@@ -113,14 +113,14 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 		{
 			XPath xpath = getXPath(contextNode, expression);
 			Object object = xpath.evaluate(contextNode);
-			List nodes;
-			if (object instanceof List)
+			List<Object> nodes;
+			if (object instanceof List<?>)
 			{
 				nodes = (List) object;
 			}
 			else
 			{
-				nodes = new ArrayList();
+				nodes = new ArrayList<Object>();
 				nodes.add(object);
 			}
 			return new NodeListWrapper(nodes);
@@ -138,9 +138,9 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			XPath xpath = getXPath(contextNode, expression);
 			Object object = xpath.evaluate(contextNode);
 			Object value;
-			if (object instanceof List)
+			if (object instanceof List<?>)
 			{
-				List list = (List) object;
+				List<?> list = (List<?>) object;
 				if (list.isEmpty())
 				{
 					value = null;
@@ -181,7 +181,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 	private Map<String, String> extractXmlNamespaces(Node contextNode) throws JRException 
 	{
 		Map<String, String> namespaces = new HashMap<String, String>();
-		List nlist;
+		List<Node> nlist;
 		String namespaceXPathString = "//namespace::node()";
 
 		try
@@ -191,7 +191,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			
             for (int i = 0; i < nlist.size(); i++) 
             {
-                Node node = (Node)nlist.get(i);
+                Node node = nlist.get(i);
                 if(node.getParentNode() != null && node.getParentNode().getPrefix() != null)
                 {
                 	if (!namespaces.containsKey(node.getParentNode().getPrefix()))
