@@ -142,7 +142,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	public List loadFontFamilies(String file)
+	public List<FontFamily> loadFontFamilies(String file)
 	{
 		InputStream is = null; 
 		
@@ -173,9 +173,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	public List loadFontFamilies(InputStream is)
+	public List<FontFamily> loadFontFamilies(InputStream is)
 	{
-		List fontFamilies = null;
+		List<FontFamily> fontFamilies = null;
 
 		try
 		{
@@ -198,9 +198,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private List parseFontFamilies(Node fontFamiliesNode) throws SAXException
+	private List<FontFamily> parseFontFamilies(Node fontFamiliesNode) throws SAXException
 	{
-		List fontFamilies = new ArrayList();
+		List<FontFamily> fontFamilies = new ArrayList<FontFamily>();
 		
 		NodeList nodeList = fontFamiliesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -279,9 +279,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private Map parseExportFonts(Node exportFontsNode) throws SAXException
+	private Map<String,String> parseExportFonts(Node exportFontsNode) throws SAXException
 	{
-		Map exportFonts = new HashMap();
+		Map<String,String> exportFonts = new HashMap<String,String>();
 		
 		NodeList nodeList = exportFontsNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
@@ -573,9 +573,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private Set parseLocales(Node localesNode) throws SAXException
+	private Set<String> parseLocales(Node localesNode) throws SAXException
 	{
-		Set locales = new HashSet();
+		Set<String> locales = new HashSet<String>();
 		
 		NodeList nodeList = localesNode.getChildNodes();
 		for(int i = 0; i < nodeList.getLength(); i++)
