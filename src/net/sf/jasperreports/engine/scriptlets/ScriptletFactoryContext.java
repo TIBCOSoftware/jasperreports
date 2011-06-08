@@ -42,12 +42,12 @@ public class ScriptletFactoryContext
 	 */
 	private JasperReport jasperReport;
 	private JRDataset dataset;
-	private Map parameterValues;
+	private Map<String,Object> parameterValues;
 
 	/**
 	 *
 	 */
-	public ScriptletFactoryContext(Map parameterValues, JRDataset dataset)
+	public ScriptletFactoryContext(Map<String,Object> parameterValues, JRDataset dataset)
 	{
 		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
 		this.dataset = dataset;
@@ -74,7 +74,7 @@ public class ScriptletFactoryContext
 	/**
 	 *
 	 */
-	public Map getParameterValues()
+	public Map<String,Object> getParameterValues()
 	{
 		return parameterValues;
 	}
