@@ -46,7 +46,7 @@ import org.w3c.dom.NodeList;
 public class JaxenXPathExecuter implements JRXPathExecuter
 {
 
-	private final Map cachedXPaths = new ReferenceMap();//soft cache
+	private final Map<String,XPath> cachedXPaths = new ReferenceMap();//soft cache
 	
 	public JaxenXPathExecuter()
 	{
@@ -54,7 +54,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 	
 	protected XPath getXPath(String expression) throws JRException
 	{
-		XPath xPath = (XPath) cachedXPaths.get(expression);
+		XPath xPath = cachedXPaths.get(expression);
 		if (xPath == null)
 		{
 			try
@@ -76,14 +76,14 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 		{
 			XPath xpath = getXPath(expression);
 			Object object = xpath.evaluate(contextNode);
-			List nodes;
-			if (object instanceof List)
+			List<Object> nodes;
+			if (object instanceof List<?>)
 			{
 				nodes = (List) object;
 			}
 			else
 			{
-				nodes = new ArrayList();
+				nodes = new ArrayList<Object>();
 				nodes.add(object);
 			}
 			return new NodeListWrapper(nodes);
@@ -101,9 +101,9 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 			XPath xpath = new DOMXPath(expression);
 			Object object = xpath.evaluate(contextNode);
 			Object value;
-			if (object instanceof List)
+			if (object instanceof List<?>)
 			{
-				List list = (List) object;
+				List<?> list = (List<?>) object;
 				if (list.isEmpty())
 				{
 					value = null;
@@ -132,9 +132,9 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 	protected static final class NodeListWrapper implements NodeList
 	{
 
-		private final List nodes;
+		private final List<?> nodes;
 		
-		public NodeListWrapper(List nodes)
+		public NodeListWrapper(List<?> nodes)
 		{
 			this.nodes = nodes;
 		}
@@ -146,7 +146,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 
 		public Node item(int index)
 		{
-			return (Node) nodes.get(index);
+			return (Node)nodes.get(index);
 		}
 		
 	}
