@@ -27,6 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 
 /**
  * XPath query executer factory.
@@ -77,7 +78,7 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 		return XPATH_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters)
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
 			throws JRException
 	{
 		return new JRXPathQueryExecuter(dataset, parameters);

@@ -126,7 +126,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	/**
 	 * Clause function registry.
 	 */
-	protected final Map clauseFunctions = new HashMap();
+	protected final Map<String,JRClauseFunction> clauseFunctions = new HashMap<String,JRClauseFunction>();
 	
 	protected final JRDataset dataset;
 	private final Map<String,? extends JRValueParameter> parametersMap;
@@ -136,9 +136,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	/**
 	 * List of {@link QueryParameter query parameters}.
 	 */
-	private List queryParameters;
+	private List<QueryParameter> queryParameters;
 	
-	private Set parameterClauseStack;
+	private Set<String> parameterClauseStack;
 	
 	
 	protected JRAbstractQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
@@ -147,7 +147,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		this.parametersMap = parametersMap;
 		
 		queryString = "";
-		queryParameters = new ArrayList();
+		queryParameters = new ArrayList<QueryParameter>();
 	}
 
 	/**
@@ -180,7 +180,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected JRClauseFunction resolveFunction(String id)
 	{
-		JRClauseFunction function = (JRClauseFunction) clauseFunctions.get(id);
+		JRClauseFunction function = clauseFunctions.get(id);
 		if (function == null)
 		{
 			throw new JRRuntimeException("No clause function for id " + id + " found");
@@ -195,7 +195,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected void parseQuery()
 	{
-		parameterClauseStack = new HashSet();
+		parameterClauseStack = new HashSet<String>();
 		
 		JRQuery query = dataset.getQuery();
 		
@@ -429,12 +429,12 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 * 
 	 * @return the list of parameter names
 	 */
-	protected List getCollectedParameterNames()
+	protected List<String> getCollectedParameterNames()
 	{
-		List parameterNames = new ArrayList(queryParameters.size());
-		for (Iterator it = queryParameters.iterator(); it.hasNext();)
+		List<String> parameterNames = new ArrayList<String>(queryParameters.size());
+		for (Iterator<QueryParameter> it = queryParameters.iterator(); it.hasNext();)
 		{
-			QueryParameter param = (QueryParameter) it.next();
+			QueryParameter param = it.next();
 			parameterNames.add(param.getName());
 		}
 		return parameterNames;
@@ -446,7 +446,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 * 
 	 * @return the list of query parameters
 	 */
-	protected List getCollectedParameters()
+	protected List<QueryParameter> getCollectedParameters()
 	{
 		return queryParameters;
 	}
@@ -464,7 +464,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		if (ignoreMissing)
 		{
 			JRValueParameter parameter = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
-			return ((Map)parameter.getValue()).get(parameterName);
+			return ((Map<String,Object>)parameter.getValue()).get(parameterName);
 		}
 		
 		JRValueParameter parameter = getValueParameter(parameterName, ignoreMissing);
@@ -489,7 +489,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	protected boolean parameterHasValue(String parameter)
 	{
 		JRValueParameter reportParametersMap = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
-		return ((Map)reportParametersMap.getValue()).containsKey(parameter);
+		return ((Map<String,Object>)reportParametersMap.getValue()).containsKey(parameter);
 	}
 	
 	

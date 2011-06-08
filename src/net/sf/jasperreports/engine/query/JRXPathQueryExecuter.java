@@ -30,6 +30,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 
 import org.apache.commons.logging.Log;
@@ -55,7 +56,7 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 	
 	private final Document document;
 	
-	public JRXPathQueryExecuter(JRDataset dataset, Map parametersMap)
+	public JRXPathQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
 	{
 		super(dataset, parametersMap);
 				

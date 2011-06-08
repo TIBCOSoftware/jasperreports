@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
@@ -60,7 +61,7 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 	
 	private JRXlsDataSource datasource;
 	
-	protected JRXlsQueryExecuter(JRDataset dataset, Map parametersMap) {
+	protected JRXlsQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) {
 		super(dataset, parametersMap);
 	}
 
@@ -99,7 +100,7 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 			String columnNames = getStringParameterOrProperty(JRXlsQueryExecuterFactory.XLS_COLUMN_NAMES);
 			
 			if(columnNames != null) {
-				columnNamesList = new ArrayList();
+				columnNamesList = new ArrayList<String>();
 				columnNamesList.add(columnNames);
 			} else {
 				String[] columnNamesArray = (String[]) getParameterValue(JRXlsQueryExecuterFactory.XLS_COLUMN_NAMES_ARRAY, true);
@@ -107,18 +108,18 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 					columnNamesList = Arrays.asList(columnNamesArray);
 				} else {
 					String propertiesPrefix = JRXlsQueryExecuterFactory.XLS_COLUMN_NAMES;
-					List properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
+					List<PropertySuffix> properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) {
-						columnNamesList = new ArrayList();
+						columnNamesList = new ArrayList<String>();
 						for(int i = 0; i < properties.size(); i++) {
-							PropertySuffix property = (PropertySuffix)properties.get(i);
+							PropertySuffix property = properties.get(i);
 							columnNamesList.add(property.getValue());
 						}
 					} else {
 						JRField[] fields = dataset.getFields();
 						if (fields != null && fields.length > 0)
 						{
-							columnNamesList = new ArrayList();
+							columnNamesList = new ArrayList<String>();
 							for (int i = 0; i < fields.length; i++)
 							{
 								columnNamesList.add(fields[i].getName());
@@ -129,7 +130,7 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 			}
 			List<String> splitColumnNamesList = null;
 			if (columnNamesList != null && columnNamesList.size() > 0) {
-				splitColumnNamesList = new ArrayList();
+				splitColumnNamesList = new ArrayList<String>();
 				for(int i = 0; i < columnNamesList.size(); i++) {
 					String names = columnNamesList.get(i);
 					for(String token: names.split(",")){
@@ -153,11 +154,11 @@ public class JRXlsQueryExecuter extends JRAbstractQueryExecuter {
 					columnIndexesList = Arrays.asList(columnIndexesArray);
 				} else {
 					String propertiesPrefix = JRXlsQueryExecuterFactory.XLS_COLUMN_INDEXES;
-					List properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
+					List<PropertySuffix> properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) {
 						columnIndexesList = new ArrayList<Integer>();
 						for(int i = 0; i < properties.size(); i++) {
-							String propertyValue = ((PropertySuffix)properties.get(i)).getValue();
+							String propertyValue = properties.get(i).getValue();
 							for (String colIndex: propertyValue.split(",")){
 								columnIndexesList.add(Integer.valueOf(colIndex.trim()));
 							}

@@ -30,6 +30,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 
 /**
@@ -59,14 +60,14 @@ public final class DefaultQueryExecuterFactoryBundle implements QueryExecuterFac
 	 */
 	public String[] getLanguages()
 	{
-		List languages = new ArrayList();
-		List properties = JRProperties.getProperties(JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX);
-		for (Iterator it = properties.iterator(); it.hasNext();)
+		List<String> languages = new ArrayList<String>();
+		List<PropertySuffix> properties = JRProperties.getProperties(JRQueryExecuterFactory.QUERY_EXECUTER_FACTORY_PREFIX);
+		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix property = (JRProperties.PropertySuffix) it.next();
+			PropertySuffix property = it.next();
 			languages.add(property.getSuffix());
 		}
-		return (String[])languages.toArray(new String[languages.size()]);
+		return languages.toArray(new String[languages.size()]);
 	}
 
 	/**

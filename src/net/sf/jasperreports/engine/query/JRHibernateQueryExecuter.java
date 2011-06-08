@@ -62,11 +62,11 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRHibernateQueryExecuter.class);
 	
-	private static final Map hibernateTypeMap;
+	private static final Map<Class<?>,Type> hibernateTypeMap;
 	
 	static
 	{
-		hibernateTypeMap = new HashMap();
+		hibernateTypeMap = new HashMap<Class<?>,Type>();
 		hibernateTypeMap.put(Boolean.class, Hibernate.BOOLEAN);
 		hibernateTypeMap.put(Byte.class, Hibernate.BYTE);
 		hibernateTypeMap.put(Double.class, Hibernate.DOUBLE);
@@ -92,7 +92,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	private boolean isClearCache;
 
 	
-	public JRHibernateQueryExecuter(JRDataset dataset, Map parameters)
+	public JRHibernateQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters)
 	{
 		super(dataset, parameters);
 		
@@ -224,15 +224,15 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 */
 	protected void setParameters()
 	{
-		List parameterNames = getCollectedParameterNames();
+		List<String> parameterNames = getCollectedParameterNames();
 		
 		if (!parameterNames.isEmpty())
 		{
-			Set namesSet = new HashSet();
+			Set<String> namesSet = new HashSet<String>();
 			
-			for (Iterator iter = parameterNames.iterator(); iter.hasNext();)
+			for (Iterator<String> iter = parameterNames.iterator(); iter.hasNext();)
 			{
-				String parameterName = (String) iter.next();
+				String parameterName = iter.next();
 				if (namesSet.add(parameterName))
 				{
 					JRValueParameter parameter = getValueParameter(parameterName);
@@ -251,7 +251,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	protected void setParameter(JRValueParameter parameter)
 	{
 		String hqlParamName = getHqlParameterName(parameter.getName());
-		Class clazz = parameter.getValueClass();
+		Class<?> clazz = parameter.getValueClass();
 		Object parameterValue = parameter.getValue();
 		
 		if (log.isDebugEnabled())
@@ -259,7 +259,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 			log.debug("Parameter " + hqlParamName + " of type " + clazz.getName() + ": " + parameterValue);
 		}
 		
-		Type type = (Type) hibernateTypeMap.get(clazz);
+		Type type = hibernateTypeMap.get(clazz);
 		
 		if (type != null)
 		{
@@ -375,7 +375,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * 
 	 * @return the result of the query as a list
 	 */
-	public List list()
+	public List<?> list()
 	{
 		setMaxCount();
 		
@@ -434,7 +434,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	 * 
 	 * @return query iterator
 	 */
-	public Iterator iterate()
+	public Iterator<?> iterate()
 	{
 		setMaxCount();
 		

@@ -27,6 +27,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -97,7 +98,7 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 		return JAXEN_XPATH_BUILTIN_PARAMETERS;
 	}
 	
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters)
+	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
 			throws JRException
 	{
 		return new JaxenXPathQueryExecuter(dataset, parameters);
