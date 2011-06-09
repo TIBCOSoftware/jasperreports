@@ -57,14 +57,14 @@ public class JRPrintFontFactory extends JRBaseFactory
 			String styleName = atts.getValue(JRXmlConstants.ATTRIBUTE_reportFont);
 			if (styleName != null)
 			{
-				Map stylesMap = jasperPrint.getStylesMap();
+				Map<String,JRStyle> stylesMap = jasperPrint.getStylesMap();
 
 				if (!stylesMap.containsKey(styleName))
 				{
 					printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + styleName));
 				}
 
-				element.setStyle((JRStyle) stylesMap.get(styleName));
+				element.setStyle(stylesMap.get(styleName));
 			}
 		}
 

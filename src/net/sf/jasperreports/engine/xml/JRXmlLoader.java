@@ -43,7 +43,9 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -83,9 +85,9 @@ public class JRXmlLoader
 		new HashMap<XmlGroupReference, XmlLoaderReportContext>();
 	
 	//TODO use XmlGroupReference for datasets
-	private Set groupBoundDatasets = new HashSet();
+	private Set<JRElementDataset> groupBoundDatasets = new HashSet<JRElementDataset>();
 	
-	private List errors = new ArrayList();
+	private List<Exception> errors = new ArrayList<Exception>();
 
 	private Digester digester;
 
@@ -140,7 +142,7 @@ public class JRXmlLoader
 	/**
 	*
 	*/
-	public Set getGroupBoundDatasets()
+	public Set<JRElementDataset> getGroupBoundDatasets()
 	{
 		return groupBoundDatasets;
 	}
@@ -255,7 +257,7 @@ public class JRXmlLoader
 		
 		if (errors.size() > 0)
 		{
-			Exception e = (Exception)errors.get(0);
+			Exception e = errors.get(0);
 			if (e instanceof JRException)
 			{
 				throw (JRException)e;
@@ -265,7 +267,7 @@ public class JRXmlLoader
 
 		/*   */
 		assignGroupsToVariables(jasperDesign.getMainDesignDataset());
-		for (Iterator it = jasperDesign.getDatasetsList().iterator(); it.hasNext();)
+		for (Iterator<JRDataset> it = jasperDesign.getDatasetsList().iterator(); it.hasNext();)
 		{
 			JRDesignDataset dataset = (JRDesignDataset) it.next();
 			assignGroupsToVariables(dataset);
@@ -285,7 +287,7 @@ public class JRXmlLoader
 		JRVariable[] variables = dataset.getVariables();
 		if (variables != null && variables.length > 0)
 		{
-			Map groupsMap = dataset.getGroupsMap();
+			Map<String,JRGroup> groupsMap = dataset.getGroupsMap();
 			for(int i = 0; i < variables.length; i++)
 			{
 				JRDesignVariable variable = (JRDesignVariable)variables[i];
@@ -296,7 +298,7 @@ public class JRXmlLoader
 					if (group != null)
 					{
 						groupName = group.getName();
-						group = (JRGroup)groupsMap.get(groupName);
+						group = groupsMap.get(groupName);
 					}
 
 					if (!ignoreConsistencyProblems && group == null)
@@ -323,7 +325,7 @@ public class JRXmlLoader
 					if (group != null)
 					{
 						groupName = group.getName();
-						group = (JRGroup)groupsMap.get(groupName);
+						group = groupsMap.get(groupName);
 					}
 
 					if (!ignoreConsistencyProblems && group == null)
@@ -383,8 +385,8 @@ public class JRXmlLoader
 		if (context == null)
 		{
 			// main dataset groups
-			Map groupsMap = jasperDesign.getGroupsMap();
-			group = (JRGroup) groupsMap.get(groupName);
+			Map<String,JRGroup> groupsMap = jasperDesign.getGroupsMap();
+			group = groupsMap.get(groupName);
 		}
 		else
 		{
@@ -396,7 +398,7 @@ public class JRXmlLoader
 						+ datasetName + "\"");
 			}
 			
-			group = (JRGroup) dataset.getGroupsMap().get(groupName);
+			group = dataset.getGroupsMap().get(groupName);
 		}
 		return group;
 	}
@@ -407,19 +409,19 @@ public class JRXmlLoader
 	 */
 	private void assignGroupsToDatasets() throws JRException
 	{
-		for(Iterator it = groupBoundDatasets.iterator(); it.hasNext();)
+		for(Iterator<JRElementDataset> it = groupBoundDatasets.iterator(); it.hasNext();)
 		{
 			JRDesignElementDataset dataset = (JRDesignElementDataset) it.next();
 			
 			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			Map groupsMap;
+			Map<String,JRGroup> groupsMap;
 			if (datasetRun == null)
 			{
 				groupsMap = jasperDesign.getGroupsMap();
 			}
 			else
 			{
-				Map datasetMap = jasperDesign.getDatasetMap();
+				Map<String,JRDataset> datasetMap = jasperDesign.getDatasetMap();
 				String datasetName = datasetRun.getDatasetName();
 				JRDesignDataset subDataset = (JRDesignDataset) datasetMap.get(datasetName);
 				if (subDataset == null)
@@ -436,7 +438,7 @@ public class JRXmlLoader
 				if (group != null)
 				{
 					groupName = group.getName();
-					group = (JRGroup)groupsMap.get(group.getName());
+					group = groupsMap.get(group.getName());
 				}
 
 				if (!ignoreConsistencyProblems && group == null)
@@ -458,7 +460,7 @@ public class JRXmlLoader
 				if (group != null)
 				{
 					groupName = group.getName();
-					group = (JRGroup)groupsMap.get(group.getName());
+					group = groupsMap.get(group.getName());
 				}
 
 				if (!ignoreConsistencyProblems && group == null)

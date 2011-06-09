@@ -675,12 +675,12 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	public void writeChildElements(JRElementGroup elementContainer)
 	{
-		List children = elementContainer.getChildren();
+		List<JRChild> children = elementContainer.getChildren();
 		if (children != null && children.size() > 0)
 		{
 			for(int i = 0; i < children.size(); i++)
 			{
-				((JRChild) children.get(i)).visit(xmlWriterVisitor);
+				children.get(i).visit(xmlWriterVisitor);
 			}
 		}
 	}
@@ -1552,14 +1552,14 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 *
 	 * @param seriesColors the colors to write
 	 */
-	private void writeSeriesColors(SortedSet seriesColors) throws IOException
+	private void writeSeriesColors(SortedSet<JRSeriesColor> seriesColors) throws IOException
 	{
 		if (seriesColors == null || seriesColors.size() == 0)
 		{
 			return;
 		}
 		//FIXME why do we need an array?
-		JRSeriesColor[] colors = (JRSeriesColor[])seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
+		JRSeriesColor[] colors = seriesColors.toArray(new JRSeriesColor[seriesColors.size()]);
 		for (int i = 0; i < colors.length; i++)
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_seriesColor);
@@ -2301,14 +2301,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writeValueDisplay(plot.getValueDisplay());
 		writeDataRange(plot.getDataRange());
 
-		List intervals = plot.getIntervals();
+		List<JRMeterInterval> intervals = plot.getIntervals();
 		if (intervals != null)
 		{
-			Iterator iter = intervals.iterator();
+			Iterator<JRMeterInterval> iter = intervals.iterator();
 			while (iter.hasNext())
 			{
-				JRMeterInterval meterInterval =
-						  (JRMeterInterval) iter.next();
+				JRMeterInterval meterInterval = iter.next();
 				writeMeterInterval(meterInterval);
 			}
 		}
@@ -2388,14 +2387,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writePlot(chart.getPlot());
 
-		List axes = plot.getAxes();
+		List<JRChartAxis> axes = plot.getAxes();
 		if (axes != null)
 		{
-			Iterator iter = axes.iterator();
+			Iterator<JRChartAxis> iter = axes.iterator();
 			while (iter.hasNext())
 			{
-				JRChartAxis chartAxis =
-						  (JRChartAxis) iter.next();
+				JRChartAxis chartAxis = iter.next();
 				writeChartAxis(chartAxis);
 			}
 		}
@@ -2551,17 +2549,17 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		if (crosstab instanceof JRDesignCrosstab)
 		{
-			List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
-			for (Iterator it = cellsList.iterator(); it.hasNext();)
+			List<JRCrosstabCell> cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+			for (Iterator<JRCrosstabCell> it = cellsList.iterator(); it.hasNext();)
 			{
-				JRCrosstabCell cell = (JRCrosstabCell) it.next();
+				JRCrosstabCell cell = it.next();
 				writeCrosstabCell(cell);
 			}
 		}
 		else
 		{
 			JRCrosstabCell[][] cells = crosstab.getCells();
-			Set cellsSet = new HashSet();
+			Set<JRCrosstabCell> cellsSet = new HashSet<JRCrosstabCell>();
 			for (int i = cells.length - 1; i >= 0 ; --i)
 			{
 				for (int j = cells[i].length - 1; j >= 0 ; --j)

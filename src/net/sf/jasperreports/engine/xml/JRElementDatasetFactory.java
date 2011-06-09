@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JRElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -53,7 +54,7 @@ public class JRElementDatasetFactory extends JRBaseFactory
 	protected void setDatasetAtts(Attributes atts, JRDesignElementDataset dataset)
 	{
 		JRXmlLoader xmlLoader = (JRXmlLoader)digester.peek(digester.getCount() - 1);
-		Set groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
+		Set<JRElementDataset> groupBoundDatasets = xmlLoader.getGroupBoundDatasets();
 		
 		ResetTypeEnum resetType = ResetTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_resetType));
 		if (resetType != null)

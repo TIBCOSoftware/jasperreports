@@ -128,11 +128,11 @@ public abstract class JRFontFactory extends JRBaseFactory
 				if (styleName != null)
 				{
 					JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-					Map stylesMap = jasperDesign.getStylesMap();
+					Map<String,JRStyle> stylesMap = jasperDesign.getStylesMap();
 
 					if (stylesMap.containsKey(styleName))
 					{
-						JRStyle style = (JRStyle) stylesMap.get(styleName);
+						JRStyle style = stylesMap.get(styleName);
 						element.setStyle(style);
 					}
 					else
@@ -177,11 +177,11 @@ public abstract class JRFontFactory extends JRBaseFactory
 				if (styleName != null)
 				{
 					JasperDesign jasperDesign = (JasperDesign)digester.peek(digester.getCount() - 2);
-					Map stylesMap = jasperDesign.getStylesMap();
+					Map<String,JRStyle> stylesMap = jasperDesign.getStylesMap();
 
 					if (stylesMap.containsKey(styleName))
 					{
-						JRStyle style = (JRStyle) stylesMap.get(styleName);
+						JRStyle style = stylesMap.get(styleName);
 						designFont.setStyle(style);
 					}
 					else
