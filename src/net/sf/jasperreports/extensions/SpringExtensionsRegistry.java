@@ -62,7 +62,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	/**
 	 * Returns all beans that match the extension class.
 	 */
-	public List getExtensions(Class extensionType)
+	public List<?> getExtensions(Class<?> extensionType)
 	{
 		String[] beanNames = getExtensionBeanNames(extensionType);
 		List beans = new ArrayList(beanNames.length);
@@ -80,7 +80,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 		return beans;
 	}
 
-	protected String[] getExtensionBeanNames(Class extensionType)
+	protected String[] getExtensionBeanNames(Class<?> extensionType)
 	{
 		synchronized (extensionBeanNamesCache)
 		{
@@ -94,7 +94,7 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 		}
 	}
 
-	protected String[] findExtensionBeanNames(Class extensionType)
+	protected String[] findExtensionBeanNames(Class<?> extensionType)
 	{
 		String[] beanNames = beanFactory.getBeanNamesForType(extensionType);
 		
