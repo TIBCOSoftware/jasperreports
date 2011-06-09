@@ -201,7 +201,7 @@ public class JRExpressionFactory extends JRBaseFactory
 			this.defaultValueClass = defaultValueClass;
 		}
 		
-		public ArbitraryExpressionFactory(Class defaultValueClass)
+		public ArbitraryExpressionFactory(Class<?> defaultValueClass)
 		{
 			this(defaultValueClass == null ? null : defaultValueClass.getName());
 		}

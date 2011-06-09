@@ -42,14 +42,14 @@ public class JRPrintStyleFactory extends JRAbstractStyleFactory
 	{
 		JRPrintXmlLoader printXmlLoader = (JRPrintXmlLoader) digester.peek(digester.getCount() - 1);
 		JasperPrint jasperPrint = (JasperPrint) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperPrint.getStylesMap();
+		Map<String,JRStyle> stylesMap = jasperPrint.getStylesMap();
 
 		if (!stylesMap.containsKey(parentStyleName))
 		{
 			printXmlLoader.addError(new JRRuntimeException("Unknown report style : " + parentStyleName));
 		}
 		
-		JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
+		JRStyle parent = stylesMap.get(parentStyleName);
 		currentStyle.setParentStyle(parent);
 	}
 

@@ -40,11 +40,11 @@ public class JRStyleFactory extends JRAbstractStyleFactory
 	protected void setParentStyle(JRDesignStyle currentStyle, String parentStyleName)
 	{
 		JasperDesign jasperDesign = (JasperDesign) digester.peek(digester.getCount() - 2);
-		Map stylesMap = jasperDesign.getStylesMap();
+		Map<String,JRStyle> stylesMap = jasperDesign.getStylesMap();
 
 		if (stylesMap.containsKey(parentStyleName))
 		{
-			JRStyle parent = (JRStyle) stylesMap.get(parentStyleName);
+			JRStyle parent = stylesMap.get(parentStyleName);
 			currentStyle.setParentStyle(parent);
 		}
 		else

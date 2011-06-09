@@ -55,7 +55,7 @@ public class JRSubreportReturnValueFactory extends JRBaseFactory
 		JRDesignSubreportReturnValue returnValue = new JRDesignSubreportReturnValue();
 
 		String variableName = atts.getValue(JRXmlConstants.ATTRIBUTE_toVariable);
-		JRVariable variable = (JRVariable) design.getVariablesMap().get(variableName);
+		JRVariable variable = design.getVariablesMap().get(variableName);
 		if (variable == null)
 		{
 			xmlLoader.addError(new JRValidationException("Unknown variable " + variableName, returnValue));

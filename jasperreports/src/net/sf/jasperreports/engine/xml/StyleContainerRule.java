@@ -67,10 +67,10 @@ public class StyleContainerRule extends Rule
 		String styleName = attributes.getValue(styleAttribute);
 		if (styleName != null)
 		{
-			Map stylesMap = jasperDesign.getStylesMap();
+			Map<String,JRStyle> stylesMap = jasperDesign.getStylesMap();
 			if (stylesMap.containsKey(styleName))
 			{
-				JRStyle style = (JRStyle) stylesMap.get(styleName);
+				JRStyle style = stylesMap.get(styleName);
 				styleContainer.setStyle(style);
 			}
 			else

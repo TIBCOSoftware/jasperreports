@@ -54,7 +54,7 @@ public class JRXmlDigester extends Digester
 	 */
 	//private static boolean wasWarning;
 
-	private Map internalEntityResources;
+	private Map<String,String> internalEntityResources;
 
 	private String lastNamespacePrefix;
 	
@@ -88,7 +88,7 @@ public class JRXmlDigester extends Digester
 
 	private void initInternalResources()
 	{
-		internalEntityResources = new HashMap();
+		internalEntityResources = new HashMap<String,String>();
 		
 		internalEntityResources.put(JRXmlConstants.JASPERREPORT_SYSTEM_ID, 
 				JRXmlConstants.JASPERREPORT_DTD);
@@ -130,7 +130,7 @@ public class JRXmlDigester extends Digester
 
 		if (systemId != null)
 		{
-			String resource = (String) internalEntityResources.get(systemId);
+			String resource = internalEntityResources.get(systemId);
 			
 			if (resource == null)
 			{

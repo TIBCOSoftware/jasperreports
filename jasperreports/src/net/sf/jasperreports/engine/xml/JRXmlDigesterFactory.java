@@ -499,10 +499,10 @@ public final class JRXmlDigesterFactory
 		digester.addFactoryCreate("*/componentElement", JRComponentElementFactory.class.getName());
 		digester.addSetNext("*/componentElement", "addElement", JRDesignElement.class.getName());
 		
-		Collection components = ComponentsEnvironment.getComponentBundles();
-		for (Iterator it = components.iterator(); it.hasNext();)
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
-			ComponentsBundle componentsBundle = (ComponentsBundle) it.next();
+			ComponentsBundle componentsBundle = it.next();
 			ComponentsXmlParser xmlParser = componentsBundle.getXmlParser();
 			digester.setRuleNamespaceURI(xmlParser.getNamespace());
 			
@@ -512,10 +512,10 @@ public final class JRXmlDigesterFactory
 				configurer.configureDigester(digester);
 			}
 			
-			for (Iterator namesIt = componentsBundle.getComponentNames().iterator(); 
+			for (Iterator<String> namesIt = componentsBundle.getComponentNames().iterator(); 
 					namesIt.hasNext();)
 			{
-				String componentName = (String) namesIt.next();
+				String componentName = namesIt.next();
 				digester.addRule("*/componentElement/" + componentName, 
 						JRComponentRule.newInstance());
 			}
@@ -1346,10 +1346,10 @@ public final class JRXmlDigesterFactory
 	
 	protected static void setComponentsInternalEntityResources(JRXmlDigester digester)
 	{
-		Collection components = ComponentsEnvironment.getComponentBundles();
-		for (Iterator it = components.iterator(); it.hasNext();)
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
-			ComponentsBundle componentManager = (ComponentsBundle) it.next();
+			ComponentsBundle componentManager = it.next();
 			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
 			String schemaResource = xmlParser.getInternalSchemaResource();
 			if (schemaResource != null)

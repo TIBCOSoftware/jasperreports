@@ -135,7 +135,7 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 	protected void configureParser(SAXParser parser)
 			throws SAXException
 	{
-		List schemaLocations = getSchemaLocations();
+		List<String> schemaLocations = getSchemaLocations();
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
 			"http://www.w3.org/2001/XMLSchema");
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource",
@@ -148,16 +148,16 @@ public class JRReportSaxParserFactory implements JRSaxParserFactory
 		}
 	}
 
-	protected List getSchemaLocations()
+	protected List<String> getSchemaLocations()
 	{
-		List schemas = new ArrayList();
+		List<String> schemas = new ArrayList<String>();
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
 		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
 		
-		Collection components = ComponentsEnvironment.getComponentBundles();
-		for (Iterator it = components.iterator(); it.hasNext();)
+		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
+		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
 		{
-			ComponentsBundle componentManager = (ComponentsBundle) it.next();
+			ComponentsBundle componentManager = it.next();
 			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
 			
 			String schemaURI;
