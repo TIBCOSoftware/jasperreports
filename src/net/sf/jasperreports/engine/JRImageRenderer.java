@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 
@@ -67,7 +66,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	private transient SoftReference awtImageRef;
+	private transient SoftReference<Image> awtImageRef;
 
 
 	/**
@@ -344,9 +343,9 @@ public class JRImageRenderer extends JRAbstractRenderer
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
 			Image awtImage = JRImageLoader.loadImage(getImageData());
-			awtImageRef = new SoftReference(awtImage);
+			awtImageRef = new SoftReference<Image>(awtImage);
 		}
-		return (Image) awtImageRef.get();
+		return awtImageRef.get();
 	}
 
 

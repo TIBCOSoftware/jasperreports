@@ -52,7 +52,7 @@ public interface JRScriptlet extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 
 	/**
 	 *

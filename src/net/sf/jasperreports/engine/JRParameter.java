@@ -171,7 +171,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	/**
 	 *
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 
 	/**
 	 *
@@ -208,7 +208,7 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * 
 	 * @see #getValueClass()
 	 */
-	public Class getNestedType();
+	public Class<?> getNestedType();
 
 	/**
 	 * Returns the name of the parameter nested value type.

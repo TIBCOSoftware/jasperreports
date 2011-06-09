@@ -54,11 +54,11 @@ public class JRPrintImageArea implements Serializable
 	public final static String SHAPE_HTML_CIRCLE = "circle";
 	public final static String SHAPE_HTML_POLYGON = "poly";
 	
-	private final static Map htmlShapes;
+	private final static Map<String,Byte> htmlShapes;
 	
 	static
 	{
-		htmlShapes = new HashMap();
+		htmlShapes = new HashMap<String,Byte>();
 		htmlShapes.put(SHAPE_HTML_DEFAULT, new Byte(SHAPE_DEFAULT));
 		htmlShapes.put(SHAPE_HTML_RECTANGLE, new Byte(SHAPE_RECTANGLE));
 		htmlShapes.put(SHAPE_HTML_CIRCLE, new Byte(SHAPE_CIRCLE));
@@ -74,7 +74,7 @@ public class JRPrintImageArea implements Serializable
 	 */
 	public static byte getShape(String htmlShape)
 	{
-		Byte shape = (Byte) htmlShapes.get(htmlShape.toLowerCase());
+		Byte shape = htmlShapes.get(htmlShape.toLowerCase());
 		if (shape == null)
 		{
 			throw new JRRuntimeException("Unknown HTML image area shape \"" + htmlShape + "\"");

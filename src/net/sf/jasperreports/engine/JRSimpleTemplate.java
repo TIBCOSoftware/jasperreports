@@ -44,8 +44,8 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	private final List<JRTemplateReference> includedTemplates = new ArrayList();
-	private final List<JRStyle> styles = new ArrayList();
+	private final List<JRTemplateReference> includedTemplates = new ArrayList<JRTemplateReference>();
+	private final List<JRStyle> styles = new ArrayList<JRStyle>();
 	private JRStyle defaultStyle;
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
 
@@ -114,8 +114,8 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	 */
 	public JRStyle getStyle(String name) {
 		JRStyle style = null;
-		for (Iterator it = styles.iterator(); it.hasNext();) {
-			JRStyle itStyle = (JRStyle) it.next();
+		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();) {
+			JRStyle itStyle = it.next();
 			if (nameMatches(itStyle, name)) {
 				style = itStyle;
 				break;
@@ -155,8 +155,8 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	 */
 	public JRStyle removeStyle(String name) {
 		JRStyle removed = null;
-		for (ListIterator it = styles.listIterator(); it.hasNext();) {
-			JRStyle style = (JRStyle) it.next();
+		for (ListIterator<JRStyle> it = styles.listIterator(); it.hasNext();) {
+			JRStyle style = it.next();
 			if (nameMatches(style, name)) {
 				if (style.isDefault()) {
 					defaultStyle = null;
@@ -249,8 +249,8 @@ public class JRSimpleTemplate implements JRTemplate, Serializable, JRChangeEvent
 	 */
 	public JRTemplateReference removeIncludedTemplate(String location) {
 		JRTemplateReference removed = null;
-		for (ListIterator it = includedTemplates.listIterator(); it.hasNext();) {
-			JRTemplateReference ref = (JRTemplateReference) it.next();
+		for (ListIterator<JRTemplateReference> it = includedTemplates.listIterator(); it.hasNext();) {
+			JRTemplateReference ref = it.next();
 			if (ref.getLocation().equals(location)) {
 				removed = ref;
 			}

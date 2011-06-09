@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.font.TextAttribute;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -70,9 +71,9 @@ public abstract class JRStyledTextAttributeSelector
 	 */
 	public static final JRStyledTextAttributeSelector ALL = new JRStyledTextAttributeSelector()
 	{
-		public Map getStyledTextAttributes(JRPrintText printText)
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
-			Map attributes = new HashMap(); 
+			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
@@ -90,9 +91,9 @@ public abstract class JRStyledTextAttributeSelector
 	 */
 	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new JRStyledTextAttributeSelector()
 	{
-		public Map getStyledTextAttributes(JRPrintText printText)
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
-			Map attributes = new HashMap(); 
+			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
 			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
 			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
 			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
@@ -105,7 +106,7 @@ public abstract class JRStyledTextAttributeSelector
 	 */
 	public static final JRStyledTextAttributeSelector NONE = new JRStyledTextAttributeSelector()
 	{
-		public Map getStyledTextAttributes(JRPrintText printText)
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
 		{
 			return null;
 		}
@@ -118,6 +119,6 @@ public abstract class JRStyledTextAttributeSelector
 	 * @param printText the print text object
 	 * @return a map containing styled text attributes
 	 */
-	public abstract Map getStyledTextAttributes(JRPrintText printText);
+	public abstract Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText);
 	
 }

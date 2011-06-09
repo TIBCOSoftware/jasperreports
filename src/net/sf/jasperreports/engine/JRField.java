@@ -52,7 +52,7 @@ public interface JRField extends JRPropertiesHolder, JRCloneable
 	/**
 	 * Gets the field value class. Field types cannot be primitives.
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 		
 	/**
 	 * Gets the field value class name.

@@ -100,7 +100,7 @@ public class JRExpressionCollector
 		return collector;
 	}
 
-	public static List collectExpressions(JRReport report)
+	public static List<JRExpression> collectExpressions(JRReport report)
 	{
 		return collector(report).getExpressions();
 	}
@@ -120,7 +120,7 @@ public class JRExpressionCollector
 	private final JRReport report;
 	private final JRExpressionCollector parent;
 
-	private Map expressionIds;
+	private Map<JRExpression,Integer> expressionIds;
 
 	protected static class GeneratedIds
 	{
@@ -161,19 +161,19 @@ public class JRExpressionCollector
 	}
 	private GeneratedIds generatedIds = new GeneratedIds();
 
-	private Map crosstabIds = new HashMap();
+	private Map<JRCrosstab,Integer> crosstabIds = new HashMap<JRCrosstab,Integer>();
 
 	/**
 	 * Collectors for sub datasets indexed by dataset name.
 	 */
-	private Map datasetCollectors;
+	private Map<String,JRExpressionCollector> datasetCollectors;
 
 	/**
 	 * Collectors for crosstabs.
 	 */
-	private Map crosstabCollectors;
+	private Map<JRCrosstab,JRExpressionCollector> crosstabCollectors;
 
-	private final Set collectedStyles;
+	private final Set<JRStyle> collectedStyles;
 
 
 	protected JRExpressionCollector(JRExpressionCollector parent, JRReport report)
@@ -183,16 +183,16 @@ public class JRExpressionCollector
 
 		if (parent == null)
 		{
-			expressionIds = new HashMap();
-			datasetCollectors = new HashMap();
-			crosstabCollectors = new HashMap();
+			expressionIds = new HashMap<JRExpression,Integer>();
+			datasetCollectors = new HashMap<String,JRExpressionCollector>();
+			crosstabCollectors = new HashMap<JRCrosstab,JRExpressionCollector>();
 		}
 		else
 		{
 			expressionIds = this.parent.expressionIds;
 		}
 
-		collectedStyles = new HashSet();
+		collectedStyles = new HashSet<JRStyle>();
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class JRExpressionCollector
 		JRExpressionCollector collector;
 		if (parent == null)
 		{
-			collector = (JRExpressionCollector) datasetCollectors.get(datasetName);
+			collector = datasetCollectors.get(datasetName);
 			if (collector == null)
 			{
 				collector = new JRExpressionCollector(this, report);
@@ -338,7 +338,7 @@ public class JRExpressionCollector
 		JRExpressionCollector collector;
 		if (parent == null)
 		{
-			collector = (JRExpressionCollector) crosstabCollectors.get(crosstab);
+			collector = crosstabCollectors.get(crosstab);
 			if (collector == null)
 			{
 				collector = new JRExpressionCollector(this, report);
@@ -390,7 +390,7 @@ public class JRExpressionCollector
 
 	public Integer getExpressionId(JRExpression expression)
 	{
-		return (Integer) expressionIds.get(expression);
+		return expressionIds.get(expression);
 	}
 
 
@@ -402,14 +402,14 @@ public class JRExpressionCollector
 
 	public Integer getCrosstabId(JRCrosstab crosstab)
 	{
-		return (Integer) crosstabIds.get(crosstab);
+		return crosstabIds.get(crosstab);
 	}
 
 
 	/**
 	 *
 	 */
-	public Collection collect()
+	public Collection<JRExpression> collect()
 	{
 		collectTemplates();
 
@@ -1076,13 +1076,13 @@ public class JRExpressionCollector
 	 */
 	public void collect(JRMeterPlot meterPlot)
 	{
-		List intervals = meterPlot.getIntervals();
+		List<JRMeterInterval> intervals = meterPlot.getIntervals();
 		if (intervals != null)
 		{
-			Iterator iter = intervals.iterator();
+			Iterator<JRMeterInterval> iter = intervals.iterator();
 			while (iter.hasNext())
 			{
-				JRMeterInterval interval = (JRMeterInterval)iter.next();
+				JRMeterInterval interval = iter.next();
 				collect(interval.getDataRange());
 			}
 		}
@@ -1223,13 +1223,13 @@ public class JRExpressionCollector
 	{
 		if (crosstab instanceof JRDesignCrosstab)
 		{
-			List cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
+			List<JRCrosstabCell> cellsList = ((JRDesignCrosstab) crosstab).getCellsList();
 
 			if (cellsList != null)
 			{
-				for (Iterator iter = cellsList.iterator(); iter.hasNext();)
+				for (Iterator<JRCrosstabCell> iter = cellsList.iterator(); iter.hasNext();)
 				{
-					JRCrosstabCell cell = (JRCrosstabCell) iter.next();
+					JRCrosstabCell cell = iter.next();
 					crosstabCollector.collect(cell.getContents());
 				}
 			}
@@ -1260,7 +1260,7 @@ public class JRExpressionCollector
 	 * @param dataset the dataset
 	 * @return collected expressions
 	 */
-	public Collection collect(JRDataset dataset)
+	public Collection<JRExpression> collect(JRDataset dataset)
 	{
 		JRExpressionCollector collector = getCollector(dataset);
 		collector.collect(dataset.getParameters());
