@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.util.ClassLoaderResource;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -99,14 +100,14 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	private final ReferenceMap registryCache = 
 		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
-	public List getExtensions(Class extensionType)
+	public List<?> getExtensions(Class<?> extensionType)
 	{
-		List registries = getRegistries();
+		List<ExtensionsRegistry> registries = getRegistries();
 		List extensions = new ArrayList(registries.size());
-		for (Iterator it = registries.iterator(); it.hasNext();)
+		for (Iterator<ExtensionsRegistry> it = registries.iterator(); it.hasNext();)
 		{
-			ExtensionsRegistry registry = (ExtensionsRegistry) it.next();
-			List registryExtensions = registry.getExtensions(extensionType);
+			ExtensionsRegistry registry = it.next();
+			List<?> registryExtensions = registry.getExtensions(extensionType);
 			if (registryExtensions != null && !registryExtensions.isEmpty())
 			{
 				extensions.addAll(registryExtensions);
@@ -115,13 +116,13 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		return extensions;
 	}
 	
-	protected List getRegistries()
+	protected List<ExtensionsRegistry> getRegistries()
 	{
-		List registries;
+		List<ExtensionsRegistry> registries;
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (registrySetCache)
 		{
-			registries = (List) registrySetCache.get(cacheKey);
+			registries = (List<ExtensionsRegistry>) registrySetCache.get(cacheKey);
 			if (registries == null)
 			{
 				if (log.isDebugEnabled())
@@ -136,17 +137,17 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		return registries;
 	}
 	
-	protected List loadRegistries()
+	protected List<ExtensionsRegistry> loadRegistries()
 	{
-		List allRegistries = new ArrayList();
+		List<ExtensionsRegistry> allRegistries = new ArrayList<ExtensionsRegistry>();
 		List<ClassLoaderResource> extensionResources = loadExtensionPropertyResources();
 		for (ClassLoaderResource extensionResource : extensionResources)
 		{
 			ClassLoader classLoader = extensionResource.getClassLoader();
-			Map<URL, List> classLoaderRegistries = getClassLoaderRegistries(classLoader);
+			Map<URL, List<ExtensionsRegistry>> classLoaderRegistries = getClassLoaderRegistries(classLoader);
 			
 			URL url = extensionResource.getUrl();
-			List registries;
+			List<ExtensionsRegistry> registries;
 			synchronized (classLoaderRegistries)
 			{
 				registries = classLoaderRegistries.get(url);
@@ -176,29 +177,28 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 				EXTENSION_RESOURCE_NAME);
 	}
 
-	protected Map<URL, List> getClassLoaderRegistries(ClassLoader classLoader)
+	protected Map<URL, List<ExtensionsRegistry>> getClassLoaderRegistries(ClassLoader classLoader)
 	{
 		synchronized (registryCache)
 		{
-			Map<URL, List> registries = (Map<URL, List>) registryCache.get(classLoader);
+			Map<URL, List<ExtensionsRegistry>> registries = (Map<URL, List<ExtensionsRegistry>>) registryCache.get(classLoader);
 			if (registries == null)
 			{
-				registries = new HashMap<URL, List>();
+				registries = new HashMap<URL, List<ExtensionsRegistry>>();
 				registryCache.put(classLoader, registries);
 			}
 			return registries;
 		}
 	}
 	
-	protected List loadRegistries(JRPropertiesMap properties)
+	protected List<ExtensionsRegistry> loadRegistries(JRPropertiesMap properties)
 	{
-		List registries = new ArrayList();
-		List factoryProps = JRProperties.getProperties(properties, 
+		List<ExtensionsRegistry> registries = new ArrayList<ExtensionsRegistry>();
+		List<PropertySuffix> factoryProps = JRProperties.getProperties(properties, 
 				PROPERTY_REGISTRY_FACTORY_PREFIX);
-		for (Iterator it = factoryProps.iterator(); it.hasNext();)
+		for (Iterator<PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix factoryProp = 
-				(JRProperties.PropertySuffix) it.next();
+			JRProperties.PropertySuffix factoryProp = it.next();
 			String registryId = factoryProp.getSuffix();
 			String factoryClass = factoryProp.getValue();
 			
