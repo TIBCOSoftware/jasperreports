@@ -224,7 +224,7 @@ public final class JasperCompileManager
 	 * @return collection of {@link JRValidationFault JRValidationFault} if problems are found
 	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
-	public static Collection verifyDesign(JasperDesign jasperDesign)
+	public static Collection<?> verifyDesign(JasperDesign jasperDesign)
 	{
 		return JRVerifier.verifyDesign(jasperDesign);
 	}
@@ -432,7 +432,7 @@ public final class JasperCompileManager
 		
 		String compilerClassName = jasperReport.getCompilerClass();
 
-		Class compilerClass = null;
+		Class<?> compilerClass = null;
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
@@ -508,7 +508,7 @@ public final class JasperCompileManager
 
 		try 
 		{
-			Class clazz = JRClassLoader.loadClassForName(compilerClassName);
+			Class<?> clazz = JRClassLoader.loadClassForName(compilerClassName);
 			compiler = (JRCompiler)clazz.newInstance();
 		}
 		catch (Exception e)

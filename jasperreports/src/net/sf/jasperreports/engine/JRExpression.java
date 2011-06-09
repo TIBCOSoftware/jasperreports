@@ -49,7 +49,7 @@ public interface JRExpression extends JRCloneable
 	 * Returns the expression return value class.
 	 * @deprecated To be removed.
 	 */
-	public Class getValueClass();
+	public Class<?> getValueClass();
 	
 	/**
 	 * Returns the expression return value class.

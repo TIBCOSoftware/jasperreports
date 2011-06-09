@@ -65,7 +65,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 *
 	 */
 	private ResultSet resultSet;
-	private Map columnIndexMap = new HashMap();
+	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
 	
 
 	/**
@@ -110,7 +110,7 @@ public class JRResultSetDataSource implements JRDataSource
 		if (field != null && resultSet != null)
 		{
 			Integer columnIndex = getColumnIndex(field.getName());
-			Class clazz = field.getValueClass();
+			Class<?> clazz = field.getValueClass();
 
 			try
 			{
@@ -326,7 +326,7 @@ public class JRResultSetDataSource implements JRDataSource
 	 */
 	private Integer getColumnIndex(String fieldName) throws JRException
 	{
-		Integer columnIndex = (Integer)columnIndexMap.get(fieldName);
+		Integer columnIndex = columnIndexMap.get(fieldName);
 		if (columnIndex == null)
 		{
 			try

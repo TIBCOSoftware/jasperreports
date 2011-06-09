@@ -48,7 +48,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map params, 
+		Map<String,Object> params, 
 		Connection conn
 		) throws JRException
 	{
@@ -57,7 +57,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
@@ -84,7 +84,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map params 
+		Map<String,Object> params 
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -92,7 +92,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -114,7 +114,7 @@ public final class JasperRunManager
 	public static void runReportToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -138,7 +138,7 @@ public final class JasperRunManager
 	public static void runReportToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -155,7 +155,7 @@ public final class JasperRunManager
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -179,7 +179,7 @@ public final class JasperRunManager
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -195,7 +195,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -218,7 +218,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -234,7 +234,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -257,7 +257,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -273,7 +273,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -292,11 +292,11 @@ public final class JasperRunManager
 	 * @param parameters the parameters map
 	 * @return binary PDF output
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map<String,Object>)
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -312,7 +312,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
-		Map params, 
+		Map<String,Object> params, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -321,7 +321,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
@@ -343,7 +343,7 @@ public final class JasperRunManager
 	public static void runReportToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -362,7 +362,7 @@ public final class JasperRunManager
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -379,7 +379,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -396,7 +396,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -413,7 +413,7 @@ public final class JasperRunManager
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -430,7 +430,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map params, 
+		Map<String,Object> params, 
 		Connection conn
 		) throws JRException
 	{
@@ -439,7 +439,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
@@ -466,7 +466,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map params 
+		Map<String,Object> params 
 		) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
@@ -474,7 +474,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
@@ -496,7 +496,7 @@ public final class JasperRunManager
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
@@ -520,7 +520,7 @@ public final class JasperRunManager
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters 
+		Map<String,Object> parameters 
 		) throws JRException
 	{
 		/*   */
@@ -536,7 +536,7 @@ public final class JasperRunManager
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
-		Map params, 
+		Map<String,Object> params, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
@@ -545,7 +545,7 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
@@ -567,7 +567,7 @@ public final class JasperRunManager
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
-		Map parameters, 
+		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
