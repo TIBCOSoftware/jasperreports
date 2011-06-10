@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * A implementation of {@link JRGenericElement} that is to be used at report
@@ -230,6 +231,16 @@ public class JRDesignGenericElement extends JRDesignElement implements
 		this.evaluationGroupName = evaluationGroupName;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP_NAME, 
 				old, this.evaluationGroupName);
+	}
+	
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignGenericElement clone = (JRDesignGenericElement)super.clone();
+		clone.parameters = JRCloneUtils.cloneList(parameters);
+		return clone;
 	}
 
 	/*

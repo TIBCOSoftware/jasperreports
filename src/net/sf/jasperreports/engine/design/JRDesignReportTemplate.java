@@ -75,7 +75,17 @@ public class JRDesignReportTemplate extends JRBaseReportTemplate implements JRCh
 		getEventSupport().firePropertyChange(PROPERTY_SOURCE_EXPRESSION, old, this.sourceExpression);
 	}
 	
-	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignReportTemplate clone = (JRDesignReportTemplate)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+
+	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{

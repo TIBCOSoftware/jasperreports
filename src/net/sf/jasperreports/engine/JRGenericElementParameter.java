@@ -30,7 +30,7 @@ package net.sf.jasperreports.engine;
  * @version $Id$
  * @see JRGenericElement#getParameters()
  */
-public interface JRGenericElementParameter
+public interface JRGenericElementParameter extends JRCloneable
 {
 
 	/**
