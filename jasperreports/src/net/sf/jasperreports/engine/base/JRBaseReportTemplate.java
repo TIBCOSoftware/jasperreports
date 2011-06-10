@@ -26,9 +26,12 @@ package net.sf.jasperreports.engine.base;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRReportTemplate;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -37,7 +40,7 @@ import net.sf.jasperreports.engine.JRReportTemplate;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseReportTemplate implements JRReportTemplate, Serializable
+public class JRBaseReportTemplate implements JRReportTemplate, Serializable, JRCloneable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -60,4 +63,24 @@ public class JRBaseReportTemplate implements JRReportTemplate, Serializable
 		return sourceExpression;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRBaseReportTemplate clone = null;
+		
+		try
+		{
+			clone = (JRBaseReportTemplate)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		clone.sourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(sourceExpression);
+		
+		return clone;
+	}
 }

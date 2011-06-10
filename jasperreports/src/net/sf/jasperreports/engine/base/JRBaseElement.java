@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -511,11 +512,8 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 			throw new JRRuntimeException(e);
 		}
 
-		if (printWhenExpression != null)
-		{
-			clone.printWhenExpression = (JRExpression)printWhenExpression.clone();
-		}
-		
+		clone.printWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(printWhenExpression);
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		clone.eventSupport = null;
 		
 		return clone;
