@@ -70,6 +70,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -701,43 +702,19 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			}
 		}
 
-		if (titleExpression != null)
-		{
-			clone.titleExpression = (JRExpression)titleExpression.clone();
-		}
-		if (subtitleExpression != null)
-		{
-			clone.subtitleExpression = (JRExpression)subtitleExpression.clone();
-		}
-		if (anchorNameExpression != null)
-		{
-			clone.anchorNameExpression = (JRExpression)anchorNameExpression.clone();
-		}
-		if (hyperlinkReferenceExpression != null)
-		{
-			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
-		}
-		if (hyperlinkAnchorExpression != null)
-		{
-			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
-		}
-		if (hyperlinkPageExpression != null)
-		{
-			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
-		}
-		if (hyperlinkTooltipExpression != null)
-		{
-			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
-		}
+		clone.titleFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)titleFont);
+		clone.subtitleFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)subtitleFont);
+		clone.legendFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)legendFont);
 
-		if (dataset != null)
-		{
-			clone.dataset = (JRChartDataset)dataset.clone();
-		}
-		if (plot != null)
-		{
-			clone.plot = (JRChartPlot)plot.clone(clone);
-		}
+		clone.titleExpression = (JRExpression)JRCloneUtils.nullSafeClone(titleExpression);
+		clone.subtitleExpression = (JRExpression)JRCloneUtils.nullSafeClone(subtitleExpression);
+		clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
+		clone.dataset = (JRChartDataset)JRCloneUtils.nullSafeClone(dataset);
+		clone.plot = (JRChartPlot)JRCloneUtils.nullSafeClone(plot);
 
 		return clone;
 	}
