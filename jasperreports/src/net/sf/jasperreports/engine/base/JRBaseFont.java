@@ -29,9 +29,11 @@ import java.text.AttributedCharacterIterator.Attribute;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
@@ -44,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRTextAttribute;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport//FIXMECLONE font is not cloneable? check for eventSupport reset
+public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, JRCloneable
 {
 
 
@@ -534,7 +536,27 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport//
 		getEventSupport().firePropertyChange(PROPERTY_PDF_EMBEDDED, old, this.isPdfEmbedded);
 	}
 
-
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRBaseFont clone = null;
+		
+		try
+		{
+			clone = (JRBaseFont)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		clone.eventSupport = null;
+		
+		return clone;
+	}
+	
 	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()

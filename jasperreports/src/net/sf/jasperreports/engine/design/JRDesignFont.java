@@ -42,6 +42,8 @@ public class JRDesignFont extends JRBaseFont
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	public static final String PROPERTY_STYLE = "style";
+	public static final String PROPERTY_STYLE_NAME_REFERENCE = "styleNameReference";
 
 	/**
 	 * @deprecated To be removed.
@@ -65,7 +67,9 @@ public class JRDesignFont extends JRBaseFont
 	 */
 	public void setStyle(JRStyle style)
 	{
+		Object old = this.style;
 		this.style = style;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE, old, this.style);
 	}
 
 	
@@ -74,7 +78,9 @@ public class JRDesignFont extends JRBaseFont
 	 */
 	public void setStyleNameReference(String styleNameReference)
 	{
+		Object old = this.styleNameReference;
 		this.styleNameReference = styleNameReference;
+		getEventSupport().firePropertyChange(PROPERTY_STYLE_NAME_REFERENCE, old, this.styleNameReference);
 	}
 
 }
