@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base implementation of {@link JRPropertyExpression}.
@@ -102,6 +103,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 			throw new JRRuntimeException(e);
 		}
 		
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
 		clone.eventSupport = null;
 		
 		return clone;

@@ -25,9 +25,13 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * A read-only implementation of {@link JRGenericElementParameter}
@@ -36,7 +40,7 @@ import net.sf.jasperreports.engine.JRGenericElementParameter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseGenericElementParameter implements JRGenericElementParameter, Serializable
+public class JRBaseGenericElementParameter implements JRGenericElementParameter, Serializable, JRCloneable
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -80,4 +84,25 @@ public class JRBaseGenericElementParameter implements JRGenericElementParameter,
 		return skipWhenEmpty;
 	}
 
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignGenericElementParameter clone = null;
+		
+		try
+		{
+			clone = (JRDesignGenericElementParameter)super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
+		
+		return clone;
+	}
+	
 }
