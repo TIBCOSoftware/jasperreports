@@ -607,6 +607,10 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 		{
 			clone.expression = (JRExpression)expression.clone();
 		}
+		if (patternExpression != null)
+		{
+			clone.patternExpression = (JRExpression)patternExpression.clone();
+		}
 		if (anchorNameExpression != null)
 		{
 			clone.anchorNameExpression = (JRExpression)anchorNameExpression.clone();
