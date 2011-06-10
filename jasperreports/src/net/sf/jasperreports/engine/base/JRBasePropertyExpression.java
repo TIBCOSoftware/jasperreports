@@ -25,9 +25,11 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertyExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 
@@ -37,7 +39,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePropertyExpression implements JRPropertyExpression, Serializable, JRChangeEventsSupport
+public class JRBasePropertyExpression implements JRPropertyExpression, Serializable, JRChangeEventsSupport, JRCloneable
 {
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -84,7 +86,28 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 		getEventSupport().firePropertyChange(pROPERTY_VALUE_EXPRESSION, old, this.valueExpression);
 	}
 	
-	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE needs to implement cloneable?
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRBasePropertyExpression clone = null;
+		
+		try
+		{
+			clone = (JRBasePropertyExpression) super.clone();
+		}
+		catch (CloneNotSupportedException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		
+		clone.eventSupport = null;
+		
+		return clone;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{
