@@ -35,8 +35,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDesignGenericElementParameter extends
-		JRBaseGenericElementParameter
+public class JRDesignGenericElementParameter extends JRBaseGenericElementParameter
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
@@ -45,7 +44,17 @@ public class JRDesignGenericElementParameter extends
 	public static final String PROPERTY_VALUE_EXPRESSION = "valueExpression";
 	public static final String PROPERTY_SKIP_WHEN_EMPTY = "skipWhenEmpty";
 	
-	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE cloneable?
+	/**
+	 * 
+	 */
+	public Object clone()
+	{
+		JRDesignGenericElementParameter clone = (JRDesignGenericElementParameter)super.clone();
+		clone.eventSupport = null;
+		return clone;
+	}
+	
+	private transient JRPropertyChangeSupport eventSupport;
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{
