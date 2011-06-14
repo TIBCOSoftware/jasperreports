@@ -27,7 +27,6 @@ import java.awt.Color;
 
 import net.sf.jasperreports.components.spiderchart.type.SpiderRotationEnum;
 import net.sf.jasperreports.components.spiderchart.type.TableOrderEnum;
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -44,7 +43,7 @@ import org.jfree.chart.plot.PlotOrientation;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id: StandardSpiderPlot.java 3889 2010-07-16 10:52:00Z shertage $
  */
-public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport, JRCloneable
+public class StandardSpiderPlot implements SpiderPlot, JRChangeEventsSupport
 {
 
 

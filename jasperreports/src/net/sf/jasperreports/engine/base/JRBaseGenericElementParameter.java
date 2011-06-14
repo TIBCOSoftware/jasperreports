@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGenericElementParameter;
@@ -40,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseGenericElementParameter implements JRGenericElementParameter, Serializable, JRCloneable
+public class JRBaseGenericElementParameter implements JRGenericElementParameter, Serializable
 {
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
