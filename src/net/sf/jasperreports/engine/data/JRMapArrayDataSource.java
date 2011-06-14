@@ -76,7 +76,7 @@ public class JRMapArrayDataSource implements JRRewindableDataSource
 	{
 		Object value = null;
 		
-		Map currentRecord = (Map)records[index];
+		Map<String,?> currentRecord = (Map<String,?>)records[index];
 
 		if (currentRecord != null)
 		{

@@ -41,15 +41,15 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	private Collection data;
-	private Iterator iterator;
+	private Collection<?> data;
+	private Iterator<?> iterator;
 	private Object currentBean;
 	
 
 	/**
 	 *
 	 */
-	public JRBeanCollectionDataSource(Collection beanCollection)
+	public JRBeanCollectionDataSource(Collection<?> beanCollection)
 	{
 		this(beanCollection, true);
 	}
@@ -58,7 +58,7 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	/**
 	 *
 	 */
-	public JRBeanCollectionDataSource(Collection beanCollection, boolean isUseFieldDescription)
+	public JRBeanCollectionDataSource(Collection<?> beanCollection, boolean isUseFieldDescription)
 	{
 		super(isUseFieldDescription);
 		
@@ -117,7 +117,7 @@ public class JRBeanCollectionDataSource extends JRAbstractBeanDataSource
 	 * 
 	 * @return the underlying bean collection
 	 */
-	public Collection getData()
+	public Collection<?> getData()
 	{
 		return data;
 	}

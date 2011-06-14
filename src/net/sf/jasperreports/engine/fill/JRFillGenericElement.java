@@ -49,7 +49,7 @@ public class JRFillGenericElement extends JRFillElement implements
 {
 	
 	private JRGenericElementParameter[] parameters;
-	private Map parameterValues = new HashMap();
+	private Map<String,Object> parameterValues = new HashMap<String,Object>();
 	
 	public JRFillGenericElement(JRBaseFiller filler, JRGenericElement element,
 			JRFillObjectFactory factory)
@@ -205,10 +205,10 @@ public class JRFillGenericElement extends JRFillElement implements
 
 	protected void copy(JRGenericPrintElement printElement)
 	{
-		for (Iterator it = parameterValues.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String,Object>> it = parameterValues.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry entry = (Map.Entry) it.next();
-			String name = (String) entry.getKey();
+			Map.Entry<String,Object> entry = it.next();
+			String name = entry.getKey();
 			Object value = entry.getValue();
 			printElement.setParameterValue(name, value);
 		}

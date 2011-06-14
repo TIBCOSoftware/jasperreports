@@ -100,10 +100,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 	private final ReferenceMap registryCache = 
 		new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
 
-	public List<?> getExtensions(Class<?> extensionType)
+	public List<Object> getExtensions(Class<?> extensionType)
 	{
 		List<ExtensionsRegistry> registries = getRegistries();
-		List extensions = new ArrayList(registries.size());
+		List<Object> extensions = new ArrayList<Object>(registries.size());
 		for (Iterator<ExtensionsRegistry> it = registries.iterator(); it.hasNext();)
 		{
 			ExtensionsRegistry registry = it.next();

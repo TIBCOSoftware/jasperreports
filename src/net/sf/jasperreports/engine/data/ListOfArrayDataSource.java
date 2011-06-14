@@ -45,8 +45,8 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private List records = new ArrayList();
-	private Iterator iterator;
+	private List<Object[]> records = new ArrayList<Object[]>();
+	private Iterator<Object[]> iterator;
 	private Object[] currentRecord;
 	private Map<String, Integer> columnNamesMap = new HashMap<String, Integer>();
 
@@ -54,7 +54,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	public ListOfArrayDataSource(List records, String[] columnNames)
+	public ListOfArrayDataSource(List<Object[]> records, String[] columnNames)
 	{
 		this.records = records;
 		
@@ -83,7 +83,7 @@ public class ListOfArrayDataSource implements JRRewindableDataSource
 
 			if (hasNext)
 			{
-				currentRecord = (Object[])iterator.next();
+				currentRecord = iterator.next();
 			}
 		}
 

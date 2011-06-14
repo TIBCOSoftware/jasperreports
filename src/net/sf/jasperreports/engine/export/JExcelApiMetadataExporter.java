@@ -1379,7 +1379,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				String fontName = font.getFontName();
 				if (fontMap != null && fontMap.containsKey(fontName))
 				{
-					fontName = (String) fontMap.get(fontName);
+					fontName = fontMap.get(fontName);
 				}
 				else
 				{
@@ -1422,7 +1422,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				String fontName = font.getFontName();
 				if (fontMap != null && fontMap.containsKey(fontName))
 				{
-					fontName = (String) fontMap.get(fontName);
+					fontName = fontMap.get(fontName);
 				}
 
 				cellFont =

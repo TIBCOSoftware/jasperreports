@@ -79,7 +79,7 @@ public class JaxenXPathExecuter implements JRXPathExecuter
 			List<Object> nodes;
 			if (object instanceof List<?>)
 			{
-				nodes = (List) object;
+				nodes = (List<Object>) object;
 			}
 			else
 			{

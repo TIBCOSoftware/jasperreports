@@ -116,7 +116,7 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			List<Object> nodes;
 			if (object instanceof List<?>)
 			{
-				nodes = (List) object;
+				nodes = (List<Object>) object;
 			}
 			else
 			{

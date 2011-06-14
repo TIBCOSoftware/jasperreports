@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -152,7 +153,7 @@ public final class ChartUtil
 			return new DefaultChartTheme();
 		}
 
-		List<ChartThemeBundle> themeBundles = (List<ChartThemeBundle>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class);
+		List<ChartThemeBundle> themeBundles = (List<ChartThemeBundle>)(ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ChartThemeBundle.class));
 		for (Iterator<ChartThemeBundle> it = themeBundles.iterator(); it.hasNext();)
 		{
 			ChartThemeBundle bundle = it.next();

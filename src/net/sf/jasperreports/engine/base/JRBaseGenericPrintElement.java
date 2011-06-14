@@ -47,7 +47,7 @@ public class JRBaseGenericPrintElement extends JRBasePrintElement
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private JRGenericElementType genericType;
-	private Map parameters = new LinkedHashMap();
+	private Map<String,Object> parameters = new LinkedHashMap<String,Object>();
 
 	/**
 	 * Creates a generic print element.
@@ -76,7 +76,7 @@ public class JRBaseGenericPrintElement extends JRBasePrintElement
 		this.genericType = genericType;
 	}
 
-	public Set getParameterNames()
+	public Set<String> getParameterNames()
 	{
 		return parameters.keySet();
 	}

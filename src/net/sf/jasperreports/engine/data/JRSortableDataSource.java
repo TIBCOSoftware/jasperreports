@@ -59,8 +59,8 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private List records = new ArrayList();
-	private Iterator iterator;
+	private List<Object[]> records = new ArrayList<Object[]>();
+	private Iterator<Object[]> iterator;
 	private Object[] currentRecord;
 	private Map<String,Integer> fieldIndexMap = new HashMap<String,Integer>();
 
@@ -155,7 +155,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 
 			if (hasNext)
 			{
-				currentRecord = (Object[])iterator.next();
+				currentRecord = iterator.next();
 			}
 		}
 

@@ -67,7 +67,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 
 
 	private static final Object CLASS_CACHE_NULL_KEY = new Object();
-	private static Map classCache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
+	private static Map<Object,Map<String,Class<?>>> classCache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 
 	
 	protected JRAbstractJavaCompiler(boolean needsSourceFiles)
@@ -116,11 +116,11 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected static synchronized Class<?> getClassFromCache(String className)
 	{
 		Object key = classCacheKey();
-		Map contextMap = (Map) classCache.get(key);
+		Map<String,Class<?>> contextMap = classCache.get(key);
 		Class<?> cachedClass = null;
 		if (contextMap != null)
 		{
-			cachedClass = (Class<?>) contextMap.get(className);
+			cachedClass = contextMap.get(className);
 		}
 		return cachedClass;
 	}
@@ -129,7 +129,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	protected static synchronized void putClassInCache(String className, Class<?> loadedClass)
 	{
 		Object key = classCacheKey();
-		Map contextMap = (Map) classCache.get(key);
+		Map<String,Class<?>> contextMap = classCache.get(key);
 		if (contextMap == null)
 		{
 			contextMap = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.SOFT);

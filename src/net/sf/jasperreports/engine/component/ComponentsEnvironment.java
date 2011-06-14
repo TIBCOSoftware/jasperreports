@@ -86,11 +86,11 @@ public final class ComponentsEnvironment
 	{
 		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
 		ExtensionsRegistry extensionsRegistry = 
-			ExtensionsEnvironment.getExtensionsRegistry();
-		List<ComponentsBundle> bundles = (List<ComponentsBundle>)extensionsRegistry.getExtensions(ComponentsBundle.class);
-		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
+			(ExtensionsRegistry)ExtensionsEnvironment.getExtensionsRegistry();
+		List<?> bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
+		for (Iterator<?> it = bundles.iterator(); it.hasNext();)
 		{
-			ComponentsBundle bundle = it.next();
+			ComponentsBundle bundle = (ComponentsBundle)it.next();
 			String namespace = bundle.getXmlParser().getNamespace();
 			if (components.containsKey(namespace))
 			{
@@ -114,8 +114,8 @@ public final class ComponentsEnvironment
 	 */
 	public static ComponentsBundle getComponentsBundle(String namespace)
 	{
-		Map components = getCachedComponentBundles();
-		ComponentsBundle componentsBundle = (ComponentsBundle) components.get(namespace);
+		Map<String, ComponentsBundle> components = getCachedComponentBundles();
+		ComponentsBundle componentsBundle = components.get(namespace);
 		if (componentsBundle == null)
 		{
 			throw new JRRuntimeException("No components bundle registered for namespace " 

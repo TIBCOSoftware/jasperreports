@@ -40,15 +40,15 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	private Collection records;
-	private Iterator iterator;
-	private Map currentRecord;
+	private Collection<Map<String,?>> records;
+	private Iterator<Map<String,?>> iterator;
+	private Map<String,?> currentRecord;
 	
 
 	/**
 	 *
 	 */
-	public JRMapCollectionDataSource(Collection col)
+	public JRMapCollectionDataSource(Collection<Map<String,?>> col)
 	{
 		records = col;
 
@@ -72,7 +72,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 			
 			if (hasNext)
 			{
-				currentRecord = (Map)iterator.next();
+				currentRecord = iterator.next();
 			}
 		}
 		
@@ -112,7 +112,7 @@ public class JRMapCollectionDataSource implements JRRewindableDataSource
 	 * 
 	 * @return the underlying map collection
 	 */
-	public Collection getData()
+	public Collection<Map<String,?>> getData()
 	{
 		return records;
 	}

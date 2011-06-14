@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.JasperReport;
 public class AsynchronousFillHandle
 {	
 	protected final JasperReport jasperReport;
-	protected final Map parameters;
+	protected final Map<String,Object> parameters;
 	protected final JRDataSource dataSource;
 	protected final Connection conn;
 	protected final JRBaseFiller filler;
@@ -63,7 +63,7 @@ public class AsynchronousFillHandle
 	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
-			Map parameters,
+			Map<String,Object> parameters,
 			JRDataSource dataSource
 			) throws JRException
 	{
@@ -72,7 +72,7 @@ public class AsynchronousFillHandle
 	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
-			Map parameters,
+			Map<String,Object> parameters,
 			Connection conn
 			) throws JRException
 	{
@@ -81,7 +81,7 @@ public class AsynchronousFillHandle
 	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
-			Map parameters
+			Map<String,Object> parameters
 			) throws JRException
 	{
 		this(jasperReport, parameters, null, null);
@@ -89,7 +89,7 @@ public class AsynchronousFillHandle
 	
 	protected AsynchronousFillHandle (
 			JasperReport jasperReport,
-			Map parameters,
+			Map<String,Object> parameters,
 			JRDataSource dataSource,
 			Connection conn
 			) throws JRException
@@ -285,7 +285,7 @@ public class AsynchronousFillHandle
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
-		Map parameters,
+		Map<String,Object> parameters,
 		JRDataSource dataSource
 		) throws JRException
 	{
@@ -306,7 +306,7 @@ public class AsynchronousFillHandle
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
-		Map parameters,
+		Map<String,Object> parameters,
 		Connection conn
 		) throws JRException
 	{
@@ -326,7 +326,7 @@ public class AsynchronousFillHandle
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
-		Map parameters
+		Map<String,Object> parameters
 		) throws JRException
 	{
 		AsynchronousFillHandle filler = new AsynchronousFillHandle(jasperReport, parameters);
