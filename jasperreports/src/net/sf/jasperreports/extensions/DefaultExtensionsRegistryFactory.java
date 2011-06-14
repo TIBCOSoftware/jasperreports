@@ -46,23 +46,23 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 	private static final ExtensionsRegistry defaultExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
-			public List<?> getExtensions(Class<?> extensionType) 
+			public List<Object> getExtensions(Class<?> extensionType) 
 			{
 				if (QueryExecuterFactoryBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(DefaultQueryExecuterFactoryBundle.getInstance());
+					return Collections.singletonList((Object)DefaultQueryExecuterFactoryBundle.getInstance());
 				}
 				else if (ScriptletFactory.class.equals(extensionType))
 				{
-					return Collections.singletonList(DefaultScriptletFactory.getInstance());
+					return Collections.singletonList((Object)DefaultScriptletFactory.getInstance());
 				}
 				else if (ChartThemeBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(DefaultChartTheme.BUNDLE);
+					return Collections.singletonList((Object)DefaultChartTheme.BUNDLE);
 				}
 				else if (GenericElementHandlerBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(FlashPrintElement.getHandlerBundle());
+					return Collections.singletonList((Object)FlashPrintElement.getHandlerBundle());
 				}
 				return null;
 			}

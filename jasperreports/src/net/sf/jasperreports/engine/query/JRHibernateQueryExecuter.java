@@ -267,7 +267,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else if (Collection.class.isAssignableFrom(clazz))
 		{
-			query.setParameterList(hqlParamName, (Collection) parameterValue);
+			query.setParameterList(hqlParamName, (Collection<?>) parameterValue);
 		}
 		else
 		{

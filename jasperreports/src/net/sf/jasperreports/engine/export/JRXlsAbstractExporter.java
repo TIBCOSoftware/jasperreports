@@ -181,7 +181,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected List loadedFonts = new ArrayList();
+	protected List<Object> loadedFonts = new ArrayList<Object>();
 
 	/**
 	 *

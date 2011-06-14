@@ -250,9 +250,9 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	{
 		double total = 0;
 		ArrayList sortedValues = new ArrayList();
-		for(Iterator it = values.values().iterator(); it.hasNext();)
+		for(Iterator<Number> it = values.values().iterator(); it.hasNext();)
 		{
-			Number value = (Number)it.next();
+			Number value = it.next();
 			total += value.doubleValue();
 			sortedValues.add(value);
 		}

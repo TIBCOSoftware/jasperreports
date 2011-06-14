@@ -142,11 +142,11 @@ public class ComponentsExtensionsRegistryFactory implements
 		
 		REGISTRY = new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType)
+			public List<ComponentsBundle> getExtensions(Class<?> extensionType)
 			{
 				if (ComponentsBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList(bundle);
+					return Collections.singletonList((ComponentsBundle)bundle);
 				}
 				
 				return null;

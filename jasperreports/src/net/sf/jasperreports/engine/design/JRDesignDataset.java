@@ -1128,12 +1128,12 @@ public class JRDesignDataset extends JRBaseDataset
 	
 	private void sortSystemParamsFirst()
 	{
-		Collections.sort(parametersList, new Comparator()
+		Collections.sort(parametersList, new Comparator<JRParameter>()
 				{
-					public int compare(Object o1, Object o2)
+					public int compare(JRParameter p1, JRParameter p2)
 					{
-						JRParameter p1 = (JRParameter) o1;
-						JRParameter p2 = (JRParameter) o2;
+//						JRParameter p1 = (JRParameter) o1;
+//						JRParameter p2 = (JRParameter) o2;
 						boolean s1 = p1.isSystemDefined();
 						boolean s2 = p2.isSystemDefined();
 						

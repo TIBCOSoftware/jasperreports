@@ -62,10 +62,10 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	/**
 	 * Returns all beans that match the extension class.
 	 */
-	public List<?> getExtensions(Class<?> extensionType)
+	public List<Object> getExtensions(Class<?> extensionType)
 	{
 		String[] beanNames = getExtensionBeanNames(extensionType);
-		List beans = new ArrayList(beanNames.length);
+		List<Object> beans = new ArrayList<Object>(beanNames.length);
 		for (int i = 0; i < beanNames.length; i++)
 		{
 			String name = beanNames[i];
