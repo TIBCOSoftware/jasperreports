@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRExpression;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * The base implementation of {@link net.sf.jasperreports.engine.JRDataset JRDataset}.
@@ -294,25 +296,16 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			throw new JRRuntimeException(e);
 		}
 		
-		if (query != null)
-		{
-			clone.query = (JRQuery)query.clone();
-		}
-		if (filterExpression != null)
-		{
-			clone.filterExpression = (JRExpression)filterExpression.clone();
-		}
-		if (propertiesMap != null)
-		{
-			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
-		}
+		clone.query = (JRQuery)JRCloneUtils.nullSafeClone(query);
+		clone.filterExpression = (JRExpression)JRCloneUtils.nullSafeClone(filterExpression);
+		clone.propertiesMap = (JRPropertiesMap)JRCloneUtils.nullSafeClone((JRCloneable)propertiesMap);
 
 		if (parameters != null)
 		{
 			clone.parameters = new JRParameter[parameters.length];
 			for(int i = 0; i < parameters.length; i++)
 			{
-				clone.parameters[i] = (JRParameter)parameters[i].clone();
+				clone.parameters[i] = (JRParameter)JRCloneUtils.nullSafeClone(parameters[i]);
 			}
 		}
 
@@ -321,7 +314,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			clone.fields = new JRField[fields.length];
 			for(int i = 0; i < fields.length; i++)
 			{
-				clone.fields[i] = (JRField)fields[i].clone();
+				clone.fields[i] = (JRField)JRCloneUtils.nullSafeClone(fields[i]);
 			}
 		}
 
@@ -330,7 +323,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			clone.sortFields = new JRSortField[sortFields.length];
 			for(int i = 0; i < sortFields.length; i++)
 			{
-				clone.sortFields[i] = (JRSortField)sortFields[i].clone();
+				clone.sortFields[i] = (JRSortField)JRCloneUtils.nullSafeClone(sortFields[i]);
 			}
 		}
 
@@ -339,7 +332,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			clone.variables = new JRVariable[variables.length];
 			for(int i = 0; i < variables.length; i++)
 			{
-				clone.variables[i] = (JRVariable)variables[i].clone();
+				clone.variables[i] = (JRVariable)JRCloneUtils.nullSafeClone(variables[i]);
 			}
 		}
 
@@ -348,7 +341,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			clone.groups = new JRGroup[groups.length];
 			for(int i = 0; i < groups.length; i++)
 			{
-				clone.groups[i] = (JRGroup)groups[i].clone();
+				clone.groups[i] = (JRGroup)JRCloneUtils.nullSafeClone(groups[i]);
 			}
 		}
 		

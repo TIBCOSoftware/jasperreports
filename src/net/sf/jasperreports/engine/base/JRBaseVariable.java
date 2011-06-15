@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -285,14 +286,9 @@ public class JRBaseVariable implements JRVariable, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (expression != null)
-		{
-			clone.expression = (JRExpression)expression.clone();
-		}
-		if (initialValueExpression != null)
-		{
-			clone.initialValueExpression = (JRExpression)initialValueExpression.clone();
-		}
+		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
+		clone.initialValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(initialValueExpression);
+		
 		return clone;
 	}
 		

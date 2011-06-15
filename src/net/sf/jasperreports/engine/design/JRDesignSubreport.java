@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseSubreport;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -386,7 +387,7 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 			{
 				String key = it.next();
 				JRSubreportParameter parameter = parametersMap.get(key);
-				clone.parametersMap.put(key, (JRSubreportParameter)parameter.clone());
+				clone.parametersMap.put(key, (JRSubreportParameter)JRCloneUtils.nullSafeClone(parameter));
 			}
 		}
 
@@ -395,26 +396,14 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 			clone.returnValues = new ArrayList<JRSubreportReturnValue>(returnValues.size());
 			for(int i = 0; i < returnValues.size(); i++)
 			{
-				clone.returnValues.add((JRSubreportReturnValue)returnValues.get(i).clone());
+				clone.returnValues.add((JRSubreportReturnValue)JRCloneUtils.nullSafeClone(returnValues.get(i)));
 			}
 		}
 
-		if (parametersMapExpression != null)
-		{
-			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
-		}
-		if (connectionExpression != null)
-		{
-			clone.connectionExpression = (JRExpression)connectionExpression.clone();
-		}
-		if (dataSourceExpression != null)
-		{
-			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
-		}
-		if (expression != null)
-		{
-			clone.expression = (JRExpression)expression.clone();
-		}
+		clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
+		clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
+		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
 
 		return clone;
 	}

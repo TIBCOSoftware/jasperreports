@@ -698,7 +698,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
 			for(int i = 0; i < hyperlinkParameters.length; i++)
 			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)hyperlinkParameters[i].clone();
+				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
 			}
 		}
 

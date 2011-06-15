@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -172,7 +173,7 @@ public class JRDesignStyle extends JRBaseStyle
 			for (Iterator<JRConditionalStyle> it = conditionalStylesList.iterator(); it.hasNext();)
 			{
 				JRConditionalStyle style = it.next();
-				JRConditionalStyle styleClone = (JRConditionalStyle) style.clone();
+				JRConditionalStyle styleClone = (JRConditionalStyle) JRCloneUtils.nullSafeClone(style);
 				clone.conditionalStylesList.add(styleClone);
 			}
 		}

@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -93,10 +94,7 @@ public class JRBaseHyperlinkParameter implements JRHyperlinkParameter, Serializa
 			throw new JRRuntimeException(e);
 		}
 
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
 		
 		return clone;
 	}

@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.base.JRBaseQuery;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRQueryChunkHandler;
 import net.sf.jasperreports.engine.util.JRQueryParser;
 
@@ -279,7 +280,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 			clone.chunks = new ArrayList<JRQueryChunk>(chunks.size());
 			for(int i = 0; i < chunks.size(); i++)
 			{
-				clone.chunks.add((JRQueryChunk)(chunks.get(i).clone()));
+				clone.chunks.add((JRQueryChunk)JRCloneUtils.nullSafeClone(chunks.get(i)));
 			}
 		}
 		

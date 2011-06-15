@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -1113,7 +1114,7 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 				for (int i = 0; i < conditionalStyles.length; i++)
 				{
 					JRConditionalStyle style = conditionalStyles[i];
-					JRConditionalStyle styleClone = (JRConditionalStyle) style.clone();
+					JRConditionalStyle styleClone = (JRConditionalStyle) JRCloneUtils.nullSafeClone(style);
 					clone.conditionalStyles[i] = styleClone;
 				}
 			}

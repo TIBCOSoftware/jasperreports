@@ -335,7 +335,7 @@ public class JRBaseTextField extends JRBaseTextElement implements JRTextField
 			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
 			for(int i = 0; i < hyperlinkParameters.length; i++)
 			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)hyperlinkParameters[i].clone();
+				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
 			}
 		}
 

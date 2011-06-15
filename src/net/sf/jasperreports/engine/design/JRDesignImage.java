@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -695,34 +696,16 @@ public class JRDesignImage extends JRDesignGraphicElement implements JRImage
 			clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>(hyperlinkParameters.size());
 			for(int i = 0; i < hyperlinkParameters.size(); i++)
 			{
-				clone.hyperlinkParameters.add((JRHyperlinkParameter)(hyperlinkParameters.get(i).clone()));
+				clone.hyperlinkParameters.add((JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters.get(i)));
 			}
 		}
 
-		if (expression != null)
-		{
-			clone.expression = (JRExpression)expression.clone();
-		}
-		if (anchorNameExpression != null)
-		{
-			clone.anchorNameExpression = (JRExpression)anchorNameExpression.clone();
-		}
-		if (hyperlinkReferenceExpression != null)
-		{
-			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
-		}
-		if (hyperlinkAnchorExpression != null)
-		{
-			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
-		}
-		if (hyperlinkPageExpression != null)
-		{
-			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
-		}
-		if (hyperlinkTooltipExpression != null)
-		{
-			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
-		}
+		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
+		clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 
 		return clone;
 	}

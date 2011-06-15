@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -301,23 +302,11 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 		{
 			throw new JRRuntimeException(e);
 		}
-		
-		if (expression != null)
-		{
-			clone.expression = (JRExpression)expression.clone();
-		}
-		if (groupHeader != null)
-		{
-			clone.groupHeader = (JRBand)groupHeader.clone();
-		}
-		if (groupFooter != null)
-		{
-			clone.groupFooter = (JRBand)groupFooter.clone();
-		}
-		if (countVariable != null)
-		{
-			clone.countVariable = (JRVariable)countVariable.clone();
-		}
+	
+		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
+		clone.groupHeader = (JRBand)JRCloneUtils.nullSafeClone(groupHeader);
+		clone.groupFooter = (JRBand)JRCloneUtils.nullSafeClone(groupFooter);
+		clone.countVariable = (JRVariable)JRCloneUtils.nullSafeClone(countVariable);
 		
 		clone.eventSupport = null;
 		

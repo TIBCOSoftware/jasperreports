@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -196,10 +198,7 @@ public class JRBaseScriptlet implements JRScriptlet, Serializable, JRChangeEvent
 			throw new JRRuntimeException(e);
 		}
 
-		if (propertiesMap != null)
-		{
-			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
-		}
+		clone.propertiesMap = (JRPropertiesMap)JRCloneUtils.nullSafeClone((JRCloneable)propertiesMap);
 		
 		clone.eventSupport = null;
 
