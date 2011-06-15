@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base implementation of the {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} interface.
@@ -123,25 +124,16 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (parametersMapExpression != null)
-		{
-			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
-		}
-		if (connectionExpression != null)
-		{
-			clone.connectionExpression = (JRExpression)connectionExpression.clone();
-		}
-		if (dataSourceExpression != null)
-		{
-			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
-		}
+		clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
+		clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
 
 		if (parameters != null)
 		{
 			clone.parameters = new JRDatasetParameter[parameters.length];
 			for(int i = 0; i < parameters.length; i++)
 			{
-				clone.parameters[i] = (JRDatasetParameter)parameters[i].clone();
+				clone.parameters[i] = (JRDatasetParameter)JRCloneUtils.nullSafeClone(parameters[i]);
 			}
 		}
 

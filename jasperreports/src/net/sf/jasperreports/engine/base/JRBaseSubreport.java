@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -262,7 +263,7 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 			clone.parameters = new JRSubreportParameter[parameters.length];
 			for(int i = 0; i < parameters.length; i++)
 			{
-				clone.parameters[i] = (JRSubreportParameter)parameters[i].clone();
+				clone.parameters[i] = (JRSubreportParameter)JRCloneUtils.nullSafeClone(parameters[i]);
 			}
 		}
 
@@ -271,26 +272,14 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 			clone.returnValues = new JRSubreportReturnValue[returnValues.length];
 			for(int i = 0; i < returnValues.length; i++)
 			{
-				clone.returnValues[i] = (JRSubreportReturnValue)returnValues[i].clone();
+				clone.returnValues[i] = (JRSubreportReturnValue)JRCloneUtils.nullSafeClone(returnValues[i]);
 			}
 		}
 
-		if (parametersMapExpression != null)
-		{
-			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
-		}
-		if (connectionExpression != null)
-		{
-			clone.connectionExpression = (JRExpression)connectionExpression.clone();
-		}
-		if (dataSourceExpression != null)
-		{
-			clone.dataSourceExpression = (JRExpression)dataSourceExpression.clone();
-		}
-		if (expression != null)
-		{
-			clone.expression = (JRExpression)expression.clone();
-		}
+			clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
+			clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
+			clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
+			clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
 
 		return clone;
 	}

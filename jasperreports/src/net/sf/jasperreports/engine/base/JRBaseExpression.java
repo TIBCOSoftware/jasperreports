@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -314,7 +315,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 			clone.chunks = new JRExpressionChunk[chunks.length];
 			for(int i = 0; i < chunks.length; i++)
 			{
-				clone.chunks[i] = (JRExpressionChunk)chunks[i].clone();
+				clone.chunks[i] = (JRExpressionChunk)JRCloneUtils.nullSafeClone(chunks[i]);
 			}
 		}
 

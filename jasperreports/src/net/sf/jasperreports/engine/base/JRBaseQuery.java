@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRQueryParser;
 
 
@@ -129,7 +130,7 @@ public class JRBaseQuery implements JRQuery, Serializable
 			clone.chunks = new JRQueryChunk[chunks.length];
 			for(int i = 0; i < chunks.length; i++)
 			{
-				clone.chunks[i] = (JRQueryChunk)chunks[i].clone();
+				clone.chunks[i] = (JRQueryChunk)JRCloneUtils.nullSafeClone(chunks[i]);
 			}
 		}
 

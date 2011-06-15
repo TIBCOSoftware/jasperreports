@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseDatasetRun;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Implementation of {@link net.sf.jasperreports.engine.JRDatasetRun JRDatasetRun} to be used for report desing.
@@ -201,7 +202,7 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 			clone.parametersMap = new HashMap<String, JRDatasetParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
-				JRDatasetParameter parameter = (JRDatasetParameter)(parametersList.get(i)).clone();
+				JRDatasetParameter parameter = (JRDatasetParameter)JRCloneUtils.nullSafeClone(parametersList.get(i));
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}

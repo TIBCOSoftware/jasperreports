@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -448,7 +449,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 			clone.tabStops = new ArrayList<TabStop>(tabStops.size());
 			for(int i = 0; i < tabStops.size(); i++)
 			{
-				TabStop tabStop = (TabStop)tabStops.get(i).clone();
+				TabStop tabStop = (TabStop)JRCloneUtils.nullSafeClone(tabStops.get(i));
 				clone.tabStops.add(tabStop);
 			}
 		}

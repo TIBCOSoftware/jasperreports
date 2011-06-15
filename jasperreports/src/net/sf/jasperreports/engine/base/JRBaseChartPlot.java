@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -346,7 +347,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			clone.seriesColors = new TreeSet<JRSeriesColor>();
 			for(Iterator<JRSeriesColor> it = seriesColors.iterator(); it.hasNext();)
 			{
-				clone.seriesColors.add((JRSeriesColor)(it.next().clone()));
+				clone.seriesColors.add((JRSeriesColor)JRCloneUtils.nullSafeClone(it.next()));
 			}
 		}
 		
@@ -359,7 +360,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	 */
 	public Object clone(JRChart parentChart) 
 	{
-		JRBaseChartPlot clone = (JRBaseChartPlot)this.clone();
+		JRBaseChartPlot clone = (JRBaseChartPlot)JRCloneUtils.nullSafeClone(this);
 		clone.chart = parentChart;
 		clone.eventSupport = null;
 		return clone;

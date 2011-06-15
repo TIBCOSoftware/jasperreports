@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 /**
@@ -1217,7 +1218,7 @@ public class JRDesignDataset extends JRBaseDataset
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRParameter parameter = 
-					(JRParameter)(parametersList.get(i).clone());
+					(JRParameter)JRCloneUtils.nullSafeClone(parametersList.get(i));
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}
@@ -1230,7 +1231,7 @@ public class JRDesignDataset extends JRBaseDataset
 			for(int i = 0; i < fieldsList.size(); i++)
 			{
 				JRField field = 
-					(JRField)(fieldsList.get(i).clone());
+					(JRField)JRCloneUtils.nullSafeClone(fieldsList.get(i));
 				clone.fieldsList.add(field);
 				clone.fieldsMap.put(field.getName(), field);
 			}
@@ -1243,7 +1244,7 @@ public class JRDesignDataset extends JRBaseDataset
 			for(int i = 0; i < sortFieldsList.size(); i++)
 			{
 				JRSortField sortField = 
-					(JRSortField)(sortFieldsList.get(i).clone());
+					(JRSortField)JRCloneUtils.nullSafeClone(sortFieldsList.get(i));
 				clone.sortFieldsList.add(sortField);
 				clone.sortFieldsMap.put(sortField.getName(), sortField);
 			}
@@ -1256,7 +1257,7 @@ public class JRDesignDataset extends JRBaseDataset
 			for(int i = 0; i < variablesList.size(); i++)
 			{
 				JRVariable variable = 
-					(JRVariable)(variablesList.get(i).clone());
+					(JRVariable)JRCloneUtils.nullSafeClone(variablesList.get(i));
 				clone.variablesList.add(variable);
 				clone.variablesMap.put(variable.getName(), variable);
 			}
@@ -1269,7 +1270,7 @@ public class JRDesignDataset extends JRBaseDataset
 			for(int i = 0; i < groupsList.size(); i++)
 			{
 				JRGroup group = 
-					(JRGroup)(groupsList.get(i).clone());
+					(JRGroup)JRCloneUtils.nullSafeClone(groupsList.get(i));
 				clone.groupsList.add(group);
 				clone.groupsMap.put(group.getName(), group);
 			}

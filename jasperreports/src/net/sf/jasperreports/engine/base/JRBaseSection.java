@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -118,7 +119,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 			clone.bands = new JRBand[bands.length];
 			for(int i = 0; i < bands.length; i++)
 			{
-				clone.bands[i] = (JRBand)bands[i].clone();
+				clone.bands[i] = (JRBand)JRCloneUtils.nullSafeClone(bands[i]);
 			}
 		}
 

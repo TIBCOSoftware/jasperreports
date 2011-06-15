@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.base.JRBaseExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -339,7 +340,7 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 			clone.chunks = new ArrayList<JRExpressionChunk>(chunks.size());
 			for(int i = 0; i < chunks.size(); i++)
 			{
-				clone.chunks.add((JRExpressionChunk)(chunks.get(i).clone()));
+				clone.chunks.add((JRExpressionChunk)JRCloneUtils.nullSafeClone(chunks.get(i)));
 			}
 		}
 		

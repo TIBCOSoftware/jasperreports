@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRClassLoader;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -195,7 +197,7 @@ public class JRBaseField implements JRField, Serializable, JRChangeEventsSupport
 
 		if (propertiesMap != null)
 		{
-			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+			clone.propertiesMap = (JRPropertiesMap)JRCloneUtils.nullSafeClone((JRCloneable)propertiesMap);
 		}
 		
 		clone.eventSupport = null;

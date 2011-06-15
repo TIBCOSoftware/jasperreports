@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Read-only implementation of {@link JRHyperlink JRHyperlink}.
@@ -167,26 +168,14 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
 			for(int i = 0; i < hyperlinkParameters.length; i++)
 			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)hyperlinkParameters[i].clone();
+				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
 			}
 		}
 
-		if (hyperlinkReferenceExpression != null)
-		{
-			clone.hyperlinkReferenceExpression = (JRExpression)hyperlinkReferenceExpression.clone();
-		}
-		if (hyperlinkAnchorExpression != null)
-		{
-			clone.hyperlinkAnchorExpression = (JRExpression)hyperlinkAnchorExpression.clone();
-		}
-		if (hyperlinkPageExpression != null)
-		{
-			clone.hyperlinkPageExpression = (JRExpression)hyperlinkPageExpression.clone();
-		}
-		if (hyperlinkTooltipExpression != null)
-		{
-			clone.hyperlinkTooltipExpression = (JRExpression)hyperlinkTooltipExpression.clone();
-		}
+		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 
 		return clone;
 	}

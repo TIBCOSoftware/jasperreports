@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -184,14 +185,9 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 			throw new JRRuntimeException(e);
 		}
 
-		if (incrementWhenExpression != null)
-		{
-			clone.incrementWhenExpression = (JRExpression)incrementWhenExpression.clone();
-		}
-		if (datasetRun != null)
-		{
-			clone.datasetRun = (JRDatasetRun)datasetRun.clone();
-		}
+		clone.incrementWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(incrementWhenExpression);
+		clone.datasetRun = (JRDatasetRun)JRCloneUtils.nullSafeClone(datasetRun);
+		
 		return clone;
 	}
 
