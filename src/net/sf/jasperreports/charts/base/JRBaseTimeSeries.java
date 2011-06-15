@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -130,26 +131,11 @@ public class JRBaseTimeSeries implements JRTimeSeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (seriesExpression != null)
-		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();
-		}
-		if (timePeriodExpression != null)
-		{
-			clone.timePeriodExpression = (JRExpression)timePeriodExpression.clone();
-		}
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
-		if (labelExpression != null)
-		{
-			clone.labelExpression = (JRExpression)labelExpression.clone();
-		}
-		if (itemHyperlink != null)
-		{
-			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
-		}
+		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.timePeriodExpression = (JRExpression)JRCloneUtils.nullSafeClone(timePeriodExpression);
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
+		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

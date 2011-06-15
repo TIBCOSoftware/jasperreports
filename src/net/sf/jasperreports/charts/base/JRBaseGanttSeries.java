@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Peter Risko (peter@risko.hu)
@@ -158,39 +159,14 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (seriesExpression != null)
-		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();
-		}
-		if (taskExpression != null)
-		{
-			clone.taskExpression = (JRExpression)taskExpression.clone();
-		}
-		if (subtaskExpression != null)
-		{
-			clone.subtaskExpression = (JRExpression)subtaskExpression.clone();
-		}
-		if (startDateExpression != null)
-		{
-			clone.startDateExpression = (JRExpression)startDateExpression.clone();
-		}
-		if (endDateExpression != null)
-		{
-			clone.endDateExpression = (JRExpression)endDateExpression.clone();
-		}
-		if (percentExpression != null)
-		{
-			clone.percentExpression = (JRExpression)percentExpression.clone();
-		}
-		if (labelExpression != null)
-		{
-			clone.labelExpression = (JRExpression)labelExpression.clone();
-		}
-		if (itemHyperlink != null)
-		{
-			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
-		}
-
+		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.taskExpression = (JRExpression)JRCloneUtils.nullSafeClone(taskExpression);
+		clone.subtaskExpression = (JRExpression)JRCloneUtils.nullSafeClone(subtaskExpression);
+		clone.startDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(startDateExpression);
+		clone.endDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(endDateExpression);
+		clone.percentExpression = (JRExpression)JRCloneUtils.nullSafeClone(percentExpression);
+		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
 		return clone;
 	}
 

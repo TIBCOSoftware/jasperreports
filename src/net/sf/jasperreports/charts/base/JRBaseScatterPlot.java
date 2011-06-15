@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -376,30 +377,12 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(parentChart);
-		if (xAxisLabelExpression != null)
-		{
-			clone.xAxisLabelExpression = (JRExpression)xAxisLabelExpression.clone();
-		}
-		if (yAxisLabelExpression != null)
-		{
-			clone.yAxisLabelExpression = (JRExpression)yAxisLabelExpression.clone();
-		}
-		if (domainAxisMinValueExpression != null)
-		{
-			clone.domainAxisMinValueExpression = (JRExpression)domainAxisMinValueExpression.clone();
-		}
-		if (domainAxisMaxValueExpression != null)
-		{
-			clone.domainAxisMaxValueExpression = (JRExpression)domainAxisMaxValueExpression.clone();
-		}
-		if (rangeAxisMinValueExpression != null)
-		{
-			clone.rangeAxisMinValueExpression = (JRExpression)rangeAxisMinValueExpression.clone();
-		}
-		if (rangeAxisMaxValueExpression != null)
-		{
-			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
-		}
+		clone.xAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(xAxisLabelExpression);
+		clone.yAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(yAxisLabelExpression);
+		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
 

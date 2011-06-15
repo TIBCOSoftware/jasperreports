@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 
@@ -160,7 +161,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 			clone.categorySeriesList = new ArrayList<JRCategorySeries>(categorySeriesList.size());
 			for(int i = 0; i < categorySeriesList.size(); i++)
 			{
-				clone.categorySeriesList.add((JRCategorySeries)(categorySeriesList.get(i).clone()));
+				clone.categorySeriesList.add((JRCategorySeries)JRCloneUtils.nullSafeClone(categorySeriesList.get(i)));
 			}
 		}
 

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * An immutable representation of the layout of a thermometer plot.
@@ -226,27 +227,12 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone(parentChart);
-		
-		if (dataRange != null)
-		{
-			clone.dataRange = (JRDataRange)dataRange.clone();
-		}
-		if (valueDisplay != null)
-		{
-			clone.valueDisplay = (JRValueDisplay)valueDisplay.clone();
-		}
-		if (lowRange != null)
-		{
-			clone.lowRange = (JRDataRange)lowRange.clone();
-		}
-		if (mediumRange != null)
-		{
-			clone.mediumRange = (JRDataRange)mediumRange.clone();
-		}
-		if (highRange != null)
-		{
-			clone.highRange = (JRDataRange)highRange.clone();
-		}
+	
+		clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
+		clone.valueDisplay = (JRValueDisplay)JRCloneUtils.nullSafeClone(valueDisplay);
+		clone.lowRange = (JRDataRange)JRCloneUtils.nullSafeClone(lowRange);
+		clone.mediumRange = (JRDataRange)JRCloneUtils.nullSafeClone(mediumRange);
+		clone.highRange = (JRDataRange)JRCloneUtils.nullSafeClone(highRange);
 		
 		return clone;
 	}

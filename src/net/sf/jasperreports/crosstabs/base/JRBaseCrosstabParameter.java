@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.base.JRBaseParameter;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only implementation of crosstab parameters.
@@ -62,7 +63,7 @@ public class JRBaseCrosstabParameter extends JRBaseParameter implements JRCrosst
 		JRBaseCrosstabParameter clone = (JRBaseCrosstabParameter) super.clone();
 		if (valueExpression != null)
 		{
-			clone.valueExpression = (JRExpression) valueExpression.clone();
+			clone.valueExpression = (JRExpression) JRCloneUtils.nullSafeClone(valueExpression);
 		}
 		return clone;
 	}

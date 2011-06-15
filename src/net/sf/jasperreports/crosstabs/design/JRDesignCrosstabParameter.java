@@ -27,6 +27,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Implementation of crosstab parameters to be used for report designing.
@@ -71,10 +72,7 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 	public Object clone()
 	{
 		JRDesignCrosstabParameter clone = (JRDesignCrosstabParameter) super.clone();
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression) valueExpression.clone();
-		}
+		clone.valueExpression = (JRExpression) JRCloneUtils.nullSafeClone(valueExpression);
 		return clone;
 	}
 }

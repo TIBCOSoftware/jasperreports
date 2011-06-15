@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -170,7 +171,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 			clone.timeSeriesList = new ArrayList<JRTimeSeries>(timeSeriesList.size());
 			for(int i = 0; i < timeSeriesList.size(); i++)
 			{
-				clone.timeSeriesList.add((JRTimeSeries)(timeSeriesList.get(i).clone()));
+				clone.timeSeriesList.add((JRTimeSeries)JRCloneUtils.nullSafeClone(timeSeriesList.get(i)));
 			}
 		}
 

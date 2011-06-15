@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -98,7 +99,7 @@ public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset
 			clone.xyzSeries = new JRXyzSeries[xyzSeries.length];
 			for(int i = 0; i < xyzSeries.length; i++)
 			{
-				clone.xyzSeries[i] = (JRXyzSeries)xyzSeries[i].clone();
+				clone.xyzSeries[i] = (JRXyzSeries)JRCloneUtils.nullSafeClone(xyzSeries[i]);
 			}
 		}
 		

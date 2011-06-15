@@ -30,6 +30,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabCell;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Base read-only implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabCell JRCrosstabCell}.
@@ -107,7 +108,7 @@ public class JRBaseCrosstabCell implements JRCrosstabCell, Serializable
 		
 		if (contents != null)
 		{
-			clone.contents = (JRCellContents)contents.clone();
+			clone.contents = (JRCellContents)JRCloneUtils.nullSafeClone(contents);
 		}
 
 		return clone;

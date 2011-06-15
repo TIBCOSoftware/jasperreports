@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * Defines a subsection of a meter chart.  This section has its own range,
@@ -194,10 +195,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (dataRange != null)
-		{
-			clone.dataRange = (JRDataRange)dataRange.clone();
-		}
+		clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
 		
 		return clone;
 	}

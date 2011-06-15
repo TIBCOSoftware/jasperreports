@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -161,38 +162,14 @@ public class JRBaseHighLowDataset extends JRBaseChartDataset implements JRHighLo
 	{
 		JRBaseHighLowDataset clone = (JRBaseHighLowDataset)super.clone();
 		
-		if (seriesExpression != null)
-		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();
-		}
-		if (dateExpression != null)
-		{
-			clone.dateExpression = (JRExpression)dateExpression.clone();
-		}
-		if (highExpression != null)
-		{
-			clone.highExpression = (JRExpression)highExpression.clone();
-		}
-		if (lowExpression != null)
-		{
-			clone.lowExpression = (JRExpression)lowExpression.clone();
-		}
-		if (openExpression != null)
-		{
-			clone.openExpression = (JRExpression)openExpression.clone();
-		}
-		if (closeExpression != null)
-		{
-			clone.closeExpression = (JRExpression)closeExpression.clone();
-		}
-		if (volumeExpression != null)
-		{
-			clone.volumeExpression = (JRExpression)volumeExpression.clone();
-		}
-		if (itemHyperlink != null)
-		{
-			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
-		}
+		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.dateExpression = (JRExpression)JRCloneUtils.nullSafeClone(dateExpression);
+		clone.highExpression = (JRExpression)JRCloneUtils.nullSafeClone(highExpression);
+		clone.lowExpression = (JRExpression)JRCloneUtils.nullSafeClone(lowExpression);
+		clone.openExpression = (JRExpression)JRCloneUtils.nullSafeClone(openExpression);
+		clone.closeExpression = (JRExpression)JRCloneUtils.nullSafeClone(closeExpression);
+		clone.volumeExpression = (JRExpression)JRCloneUtils.nullSafeClone(volumeExpression);
+		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 
@@ -357,18 +358,9 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 			}
 		}
 		
-		if (otherKeyExpression != null)
-		{
-			clone.otherKeyExpression = (JRExpression)otherKeyExpression.clone();
-		}
-		if (otherLabelExpression != null)
-		{
-			clone.otherLabelExpression = (JRExpression)otherLabelExpression.clone();
-		}
-		if (otherSectionHyperlink != null)
-		{
-			clone.otherSectionHyperlink = (JRHyperlink)otherSectionHyperlink.clone();
-		}
+		clone.otherKeyExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherKeyExpression);
+		clone.otherLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherLabelExpression);
+		clone.otherSectionHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(otherSectionHyperlink);
 		
 		return clone;
 	}

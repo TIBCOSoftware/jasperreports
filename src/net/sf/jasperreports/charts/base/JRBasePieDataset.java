@@ -210,7 +210,7 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 			clone.pieSeries = new JRPieSeries[pieSeries.length];
 			for(int i = 0; i < pieSeries.length; i++)
 			{
-				clone.pieSeries[i] = (JRPieSeries)pieSeries[i].clone();
+				clone.pieSeries[i] = (JRPieSeries)JRCloneUtils.nullSafeClone(pieSeries[i]);
 			}
 		}
 		

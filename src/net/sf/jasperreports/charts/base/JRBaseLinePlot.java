@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
@@ -393,30 +394,12 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseLinePlot clone = (JRBaseLinePlot)super.clone(parentChart);
-		if (categoryAxisLabelExpression != null)
-		{
-			clone.categoryAxisLabelExpression = (JRExpression)categoryAxisLabelExpression.clone();
-		}
-		if (valueAxisLabelExpression != null)
-		{
-			clone.valueAxisLabelExpression = (JRExpression)valueAxisLabelExpression.clone();
-		}
-		if (domainAxisMinValueExpression != null)
-		{
-			clone.domainAxisMinValueExpression = (JRExpression)domainAxisMinValueExpression.clone();
-		}
-		if (domainAxisMaxValueExpression != null)
-		{
-			clone.domainAxisMaxValueExpression = (JRExpression)domainAxisMaxValueExpression.clone();
-		}
-		if (rangeAxisMinValueExpression != null)
-		{
-			clone.rangeAxisMinValueExpression = (JRExpression)rangeAxisMinValueExpression.clone();
-		}
-		if (rangeAxisMaxValueExpression != null)
-		{
-			clone.rangeAxisMaxValueExpression = (JRExpression)rangeAxisMaxValueExpression.clone();
-		}
+		clone.categoryAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(categoryAxisLabelExpression);
+		clone.valueAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
+		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
 	
