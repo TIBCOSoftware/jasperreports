@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -117,7 +118,7 @@ public class JRBaseTimeSeriesDataset extends JRBaseChartDataset implements JRTim
 			clone.timeSeries = new JRTimeSeries[timeSeries.length];
 			for(int i = 0; i < timeSeries.length; i++)
 			{
-				clone.timeSeries[i] = (JRTimeSeries)timeSeries[i].clone();
+				clone.timeSeries[i] = (JRTimeSeries)JRCloneUtils.nullSafeClone(timeSeries[i]);
 			}
 		}
 		

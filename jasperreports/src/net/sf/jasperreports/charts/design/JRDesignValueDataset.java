@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.design.JRDesignChartDataset;
 import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -136,10 +137,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	{
 		JRDesignValueDataset clone = (JRDesignValueDataset)super.clone();
 		
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
 		
 		return clone;
 	}

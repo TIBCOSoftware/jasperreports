@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -110,30 +111,12 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 			throw new JRRuntimeException(e);
 		}
 
-		if (seriesExpression != null)
-		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();
-		}
-		if (startDateExpression != null)
-		{
-			clone.startDateExpression = (JRExpression)startDateExpression.clone();
-		}
-		if (endDateExpression != null)
-		{
-			clone.endDateExpression = (JRExpression)endDateExpression.clone();
-		}
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
-		if (labelExpression != null)
-		{
-			clone.labelExpression = (JRExpression)labelExpression.clone();
-		}
-		if (itemHyperlink != null)
-		{
-			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
-		}
+		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.startDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(startDateExpression);
+		clone.endDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(endDateExpression);
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
+		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * An immutable instantiation of a <code>JRDataRange</code>, suitable for holding
@@ -132,14 +133,8 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (lowExpression != null)
-		{
-			clone.lowExpression = (JRExpression)lowExpression.clone();
-		}
-		if (highExpression != null)
-		{
-			clone.highExpression = (JRExpression)highExpression.clone();
-		}
+		clone.lowExpression = (JRExpression)JRCloneUtils.nullSafeClone(lowExpression);
+		clone.highExpression = (JRExpression)JRCloneUtils.nullSafeClone(highExpression);
 		
 		return clone;
 	}

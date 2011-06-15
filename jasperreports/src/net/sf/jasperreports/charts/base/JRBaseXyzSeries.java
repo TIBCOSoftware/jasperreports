@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
@@ -97,26 +98,11 @@ public class JRBaseXyzSeries implements JRXyzSeries, Serializable {
 			throw new JRRuntimeException(e);
 		}
 
-		if (seriesExpression != null)
-		{
-			clone.seriesExpression = (JRExpression)seriesExpression.clone();//FIXMENOW replace with nullSafeClone
-		}
-		if (xValueExpression != null)
-		{
-			clone.xValueExpression = (JRExpression)xValueExpression.clone();
-		}
-		if (yValueExpression != null)
-		{
-			clone.yValueExpression = (JRExpression)yValueExpression.clone();
-		}
-		if (zValueExpression != null)
-		{
-			clone.zValueExpression = (JRExpression)zValueExpression.clone();
-		}
-		if (itemHyperlink != null)
-		{
-			clone.itemHyperlink = (JRHyperlink)itemHyperlink.clone();
-		}
+		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.xValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(xValueExpression);
+		clone.yValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(yValueExpression);
+		clone.zValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(zValueExpression);
+		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

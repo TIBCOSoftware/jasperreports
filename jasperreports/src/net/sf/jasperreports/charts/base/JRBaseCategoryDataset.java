@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -123,7 +124,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 			clone.categorySeries = new JRCategorySeries[categorySeries.length];
 			for(int i = 0; i < categorySeries.length; i++)
 			{
-				clone.categorySeries[i] = (JRCategorySeries)categorySeries[i].clone();
+				clone.categorySeries[i] = (JRCategorySeries)JRCloneUtils.nullSafeClone(categorySeries[i]);
 			}
 		}
 		

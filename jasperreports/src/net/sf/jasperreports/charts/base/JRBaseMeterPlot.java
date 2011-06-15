@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * An immutable representation of the layout of a Meter chart.
@@ -280,21 +281,14 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	{
 		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone(parentChart);
 		
-		if (dataRange != null)
-		{
-			clone.dataRange = (JRDataRange)dataRange.clone();
-		}
-		if (valueDisplay != null)
-		{
-			clone.valueDisplay = (JRValueDisplay)valueDisplay.clone();
-		}
-		
+			clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
+			clone.valueDisplay = (JRValueDisplay)JRCloneUtils.nullSafeClone(valueDisplay);
 		if (intervals != null)
 		{
 			clone.intervals = new ArrayList<JRMeterInterval>(intervals.size());
 			for(int i = 0; i < intervals.size(); i++)
 			{
-				clone.intervals.add((JRMeterInterval)(intervals.get(i).clone()));
+				clone.intervals.add((JRMeterInterval)JRCloneUtils.nullSafeClone(intervals.get(i)));
 			}
 		}
 		

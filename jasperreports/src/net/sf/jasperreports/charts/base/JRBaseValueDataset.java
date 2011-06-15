@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartDataset;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.JRVerifier;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -123,10 +124,7 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	{
 		JRBaseValueDataset clone = (JRBaseValueDataset)super.clone();
 		
-		if (valueExpression != null)
-		{
-			clone.valueExpression = (JRExpression)valueExpression.clone();
-		}
+		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
 		
 		return clone;
 	}

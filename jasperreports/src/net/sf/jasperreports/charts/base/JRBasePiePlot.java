@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseChartPlot;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -188,10 +189,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public Object clone(JRChart parentChart) 
 	{
 		JRBasePiePlot clone = (JRBasePiePlot)super.clone(parentChart);
-		if (itemLabel != null)
-		{
-			clone.itemLabel = (JRItemLabel)itemLabel.clone();
-		}
+		clone.itemLabel = (JRItemLabel)JRCloneUtils.nullSafeClone(itemLabel);
 		
 		return clone;
 	}

@@ -66,6 +66,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.engine.util.Pair;
 
@@ -1567,20 +1568,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			for(int i = 0; i < parametersList.size(); i++)
 			{
 				JRCrosstabParameter parameter = 
-					(JRCrosstabParameter)(parametersList.get(i).clone());
+					(JRCrosstabParameter)JRCloneUtils.nullSafeClone(parametersList.get(i));
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}
 		}
 		
-		if (parametersMapExpression != null)
-		{
-			clone.parametersMapExpression = (JRExpression)parametersMapExpression.clone();
-		}
-		if (dataset != null)
-		{
-			clone.dataset = (JRDesignCrosstabDataset)dataset.clone();
-		}
+			clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
+			clone.dataset = (JRDesignCrosstabDataset)JRCloneUtils.nullSafeClone(dataset);
 		
 		// keep group and measure cloned variables to reuse the clone instances
 		// in the variables list
@@ -1641,7 +1636,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRDesignCrosstabMeasure measure = 
 					(JRDesignCrosstabMeasure) measures.get(i);
 				JRDesignCrosstabMeasure clonedMeasure = 
-					(JRDesignCrosstabMeasure) measure.clone();
+					(JRDesignCrosstabMeasure) JRCloneUtils.nullSafeClone(measure);
 				clone.measures.add(clonedMeasure);
 				clone.measuresMap.put(clonedMeasure.getName(), Integer.valueOf(i));
 				
@@ -1661,10 +1656,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRVariable variable = (JRVariable) it.next();
 				// check whether the variable was already cloned as part of a group or measure
 				JRVariable variableClone = clonedVariables.get(variable);
-				if (variableClone == null)
-				{
-					variableClone = (JRVariable) variable.clone();
-				}
+				variableClone = (JRVariable) JRCloneUtils.nullSafeClone(variable);
 				clone.variablesList.put(variableClone.getName(), variableClone);
 			}
 		}
@@ -1676,7 +1668,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			for(int i = 0; i < cellsList.size(); i++)
 			{
 				JRDesignCrosstabCell cell = 
-					(JRDesignCrosstabCell)((JRDesignCrosstabCell)cellsList.get(i)).clone();
+					(JRDesignCrosstabCell)JRCloneUtils.nullSafeClone(cellsList.get(i));
 				adjustCrosstabReference(clone, (JRDesignCellContents) cell.getContents());
 				clone.cellsList.add(cell);
 				clone.cellsMap.put(new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
@@ -1686,16 +1678,10 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		// clone not preprocessed
 		clone.crossCells = null;
 		
-		if (whenNoDataCell != null)
-		{
-			clone.whenNoDataCell = (JRDesignCellContents)whenNoDataCell.clone();
-			adjustCrosstabReference(clone, clone.whenNoDataCell);
-		}
-		if (headerCell != null)
-		{
-			clone.headerCell = (JRDesignCellContents)headerCell.clone();
-			adjustCrosstabReference(clone, clone.headerCell);
-		}
+		clone.whenNoDataCell = (JRDesignCellContents)JRCloneUtils.nullSafeClone(whenNoDataCell);
+		adjustCrosstabReference(clone, clone.whenNoDataCell);
+		clone.headerCell = (JRDesignCellContents)JRCloneUtils.nullSafeClone(headerCell);
+		adjustCrosstabReference(clone, clone.headerCell);
 
 		return clone;
 	}
