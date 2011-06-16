@@ -90,15 +90,16 @@ public final class JRCloneUtils
 		if (items == null)
 		{
 			clone = null;
-		}
+		} 
 		else
 		{
+			clone = items.clone();
 			List<T> list = new ArrayList<T>(items.length);
 			for (T item : items)
 			{
 				list.add(JRCloneUtils.nullSafeClone(item));
 			}
-			clone = (T[])list.toArray();
+			clone = list.toArray(clone);
 		}
 		return clone;
 	}
