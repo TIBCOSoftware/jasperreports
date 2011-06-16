@@ -443,17 +443,7 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		}
 		
 		clone.paragraphContainer = paragraphContainer;
-		
-		if (tabStops != null)
-		{
-			clone.tabStops = new ArrayList<TabStop>(tabStops.size());
-			for(int i = 0; i < tabStops.size(); i++)
-			{
-				TabStop tabStop = (TabStop)JRCloneUtils.nullSafeClone(tabStops.get(i));
-				clone.tabStops.add(tabStop);
-			}
-		}
-
+		clone.tabStops = JRCloneUtils.cloneList(tabStops);
 		clone.eventSupport = null;
 
 		return clone;

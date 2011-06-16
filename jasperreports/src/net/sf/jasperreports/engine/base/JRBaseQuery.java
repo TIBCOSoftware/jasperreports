@@ -125,14 +125,7 @@ public class JRBaseQuery implements JRQuery, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
-		if (chunks != null)
-		{
-			clone.chunks = new JRQueryChunk[chunks.length];
-			for(int i = 0; i < chunks.length; i++)
-			{
-				clone.chunks[i] = (JRQueryChunk)JRCloneUtils.nullSafeClone(chunks[i]);
-			}
-		}
+		clone.chunks = JRCloneUtils.cloneArray(chunks);
 
 		return clone;
 	}

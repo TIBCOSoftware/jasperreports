@@ -122,7 +122,7 @@ public class JRBaseBand extends JRBaseElementGroup implements JRBand, JRChangeEv
 	public Object clone() 
 	{
 		JRBaseBand clone = (JRBaseBand)super.clone();
-		clone.printWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(printWhenExpression);
+		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		clone.eventSupport = null;
 		return clone;
 	}

@@ -79,7 +79,7 @@ public class JRBaseReportTemplate implements JRReportTemplate, Serializable, JRC
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.sourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(sourceExpression);
+		clone.sourceExpression = JRCloneUtils.nullSafeClone(sourceExpression);
 		
 		return clone;
 	}

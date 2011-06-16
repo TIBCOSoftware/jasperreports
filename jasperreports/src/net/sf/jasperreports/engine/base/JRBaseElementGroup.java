@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
-import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 
 /**
@@ -235,7 +234,7 @@ public class JRBaseElementGroup implements JRElementGroup, Serializable
 	 */
 	public Object clone(JRElementGroup parentGroup) 
 	{
-		JRBaseElementGroup clone = (JRBaseElementGroup)JRCloneUtils.nullSafeClone(this);
+		JRBaseElementGroup clone = (JRBaseElementGroup)this.clone();
 		
 		clone.elementGroup = parentGroup;
 		

@@ -124,18 +124,11 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
-		clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
-		clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
+		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.connectionExpression = JRCloneUtils.nullSafeClone(connectionExpression);
+		clone.dataSourceExpression = JRCloneUtils.nullSafeClone(dataSourceExpression);
 
-		if (parameters != null)
-		{
-			clone.parameters = new JRDatasetParameter[parameters.length];
-			for(int i = 0; i < parameters.length; i++)
-			{
-				clone.parameters[i] = (JRDatasetParameter)JRCloneUtils.nullSafeClone(parameters[i]);
-			}
-		}
+		clone.parameters = JRCloneUtils.cloneArray(parameters);
 
 		return clone;
 	}

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -257,9 +256,11 @@ public class JRBaseParameter implements JRParameter, Serializable, JRChangeEvent
 			throw new JRRuntimeException(e);
 		}
 
-			clone.defaultValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(defaultValueExpression);
-			clone.propertiesMap = (JRPropertiesMap)JRCloneUtils.nullSafeClone((JRCloneable)propertiesMap);
-		
+		clone.defaultValueExpression = JRCloneUtils.nullSafeClone(defaultValueExpression);
+		if (propertiesMap != null)
+		{
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
+		}
 		clone.eventSupport = null;
 
 		return clone;

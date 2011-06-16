@@ -94,7 +94,7 @@ public class JRBaseHyperlinkParameter implements JRHyperlinkParameter, Serializa
 			throw new JRRuntimeException(e);
 		}
 
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 		
 		return clone;
 	}

@@ -692,29 +692,20 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		JRBaseChart clone = (JRBaseChart)super.clone();
 		
 		clone.lineBox = lineBox.clone(clone);
+		clone.hyperlinkParameters = JRCloneUtils.cloneArray(hyperlinkParameters);
+		clone.titleFont = JRCloneUtils.nullSafeClone((JRBaseFont)titleFont);
+		clone.subtitleFont = JRCloneUtils.nullSafeClone((JRBaseFont)subtitleFont);
+		clone.legendFont = JRCloneUtils.nullSafeClone((JRBaseFont)legendFont);
 
-		if (hyperlinkParameters != null)
-		{
-			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
-			for(int i = 0; i < hyperlinkParameters.length; i++)
-			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
-			}
-		}
-
-		clone.titleFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)titleFont);
-		clone.subtitleFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)subtitleFont);
-		clone.legendFont = (JRFont)JRCloneUtils.nullSafeClone((JRBaseFont)legendFont);
-
-		clone.titleExpression = (JRExpression)JRCloneUtils.nullSafeClone(titleExpression);
-		clone.subtitleExpression = (JRExpression)JRCloneUtils.nullSafeClone(subtitleExpression);
-		clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
-		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
-		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
-		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
-		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
-		clone.dataset = (JRChartDataset)JRCloneUtils.nullSafeClone(dataset);
-		clone.plot = (JRChartPlot)JRCloneUtils.nullSafeClone(plot);
+		clone.titleExpression = JRCloneUtils.nullSafeClone(titleExpression);
+		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
+		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
+		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
+		clone.plot = JRCloneUtils.nullSafeClone(plot);
 
 		return clone;
 	}

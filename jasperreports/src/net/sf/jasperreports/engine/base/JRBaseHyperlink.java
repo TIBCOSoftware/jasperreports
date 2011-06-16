@@ -163,19 +163,11 @@ public class JRBaseHyperlink implements JRHyperlink, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
-		if (hyperlinkParameters != null)
-		{
-			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
-			for(int i = 0; i < hyperlinkParameters.length; i++)
-			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
-			}
-		}
-
-		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
-		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
-		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
-		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
+		clone.hyperlinkParameters = JRCloneUtils.cloneArray(hyperlinkParameters);
+		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 
 		return clone;
 	}

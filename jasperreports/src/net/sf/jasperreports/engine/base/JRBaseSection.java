@@ -114,15 +114,7 @@ public class JRBaseSection implements JRSection, JRChangeEventsSupport, Serializ
 			throw new JRRuntimeException(e);
 		}
 
-		if (bands != null)
-		{
-			clone.bands = new JRBand[bands.length];
-			for(int i = 0; i < bands.length; i++)
-			{
-				clone.bands[i] = (JRBand)JRCloneUtils.nullSafeClone(bands[i]);
-			}
-		}
-
+		clone.bands = JRCloneUtils.cloneArray(bands);
 		clone.eventSupport = null;
 
 		return clone;
