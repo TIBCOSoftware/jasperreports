@@ -334,18 +334,8 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 	public Object clone() 
 	{
 		JRDesignExpression clone = (JRDesignExpression)super.clone();
-		
-		if (chunks != null)
-		{
-			clone.chunks = new ArrayList<JRExpressionChunk>(chunks.size());
-			for(int i = 0; i < chunks.size(); i++)
-			{
-				clone.chunks.add((JRExpressionChunk)JRCloneUtils.nullSafeClone(chunks.get(i)));
-			}
-		}
-		
+		clone.chunks = JRCloneUtils.cloneList(chunks);
 		clone.eventSupport = null;
-
 		return clone;
 	}
 	

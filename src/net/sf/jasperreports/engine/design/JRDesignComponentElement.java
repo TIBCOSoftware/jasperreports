@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
-import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -153,7 +152,7 @@ public class JRDesignComponentElement extends JRDesignElement implements JRCompo
 		
 		if (component instanceof JRCloneable)
 		{
-			clone.component = (Component) JRCloneUtils.nullSafeClone((JRCloneable) component);
+			clone.component = (Component) ((JRCloneable) component).clone();
 		}
 		else if (component != null)
 		{
