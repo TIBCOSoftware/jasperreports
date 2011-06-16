@@ -131,19 +131,20 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 
 	public Object clone()
 	{
+		JRBaseCrosstabBucket clone = null;
 		try
 		{
-			JRBaseCrosstabBucket clone = (JRBaseCrosstabBucket) super.clone();
-			clone.expression = (JRExpression) JRCloneUtils.nullSafeClone(expression);
-			clone.orderByExpression = (JRExpression) JRCloneUtils.nullSafeClone(orderByExpression);
-			clone.comparatorExpression = (JRExpression) JRCloneUtils.nullSafeClone(comparatorExpression);
-			return clone;
+			clone = (JRBaseCrosstabBucket) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.orderByExpression = JRCloneUtils.nullSafeClone(orderByExpression);
+		clone.comparatorExpression = JRCloneUtils.nullSafeClone(comparatorExpression);
+		return clone;
 	}
 
 

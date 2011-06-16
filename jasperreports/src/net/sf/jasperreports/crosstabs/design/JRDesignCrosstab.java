@@ -1567,15 +1567,14 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			clone.parametersMap = new HashMap<String, JRCrosstabParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
-				JRCrosstabParameter parameter = 
-					(JRCrosstabParameter)JRCloneUtils.nullSafeClone(parametersList.get(i));
+				JRCrosstabParameter parameter = JRCloneUtils.nullSafeClone(parametersList.get(i));
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}
 		}
 		
-			clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
-			clone.dataset = (JRDesignCrosstabDataset)JRCloneUtils.nullSafeClone(dataset);
+		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
 		
 		// keep group and measure cloned variables to reuse the clone instances
 		// in the variables list
@@ -1635,8 +1634,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			{
 				JRDesignCrosstabMeasure measure = 
 					(JRDesignCrosstabMeasure) measures.get(i);
-				JRDesignCrosstabMeasure clonedMeasure = 
-					(JRDesignCrosstabMeasure) JRCloneUtils.nullSafeClone(measure);
+				JRDesignCrosstabMeasure clonedMeasure = JRCloneUtils.nullSafeClone(measure);
 				clone.measures.add(clonedMeasure);
 				clone.measuresMap.put(clonedMeasure.getName(), Integer.valueOf(i));
 				
@@ -1656,7 +1654,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 				JRVariable variable = (JRVariable) it.next();
 				// check whether the variable was already cloned as part of a group or measure
 				JRVariable variableClone = clonedVariables.get(variable);
-				variableClone = (JRVariable) JRCloneUtils.nullSafeClone(variable);
+				variableClone = JRCloneUtils.nullSafeClone(variable);
 				clone.variablesList.put(variableClone.getName(), variableClone);
 			}
 		}
@@ -1667,8 +1665,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 			clone.cellsMap = new HashMap<Pair,JRCrosstabCell>(cellsList.size());
 			for(int i = 0; i < cellsList.size(); i++)
 			{
-				JRDesignCrosstabCell cell = 
-					(JRDesignCrosstabCell)JRCloneUtils.nullSafeClone(cellsList.get(i));
+				JRCrosstabCell cell = JRCloneUtils.nullSafeClone(cellsList.get(i));
 				adjustCrosstabReference(clone, (JRDesignCellContents) cell.getContents());
 				clone.cellsList.add(cell);
 				clone.cellsMap.put(new Pair(cell.getRowTotalGroup(), cell.getColumnTotalGroup()), cell);
@@ -1678,9 +1675,9 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		// clone not preprocessed
 		clone.crossCells = null;
 		
-		clone.whenNoDataCell = (JRDesignCellContents)JRCloneUtils.nullSafeClone(whenNoDataCell);
+		clone.whenNoDataCell = JRCloneUtils.nullSafeClone(whenNoDataCell);
 		adjustCrosstabReference(clone, clone.whenNoDataCell);
-		clone.headerCell = (JRDesignCellContents)JRCloneUtils.nullSafeClone(headerCell);
+		clone.headerCell = JRCloneUtils.nullSafeClone(headerCell);
 		adjustCrosstabReference(clone, clone.headerCell);
 
 		return clone;

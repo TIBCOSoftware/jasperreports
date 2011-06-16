@@ -228,18 +228,19 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 	 */
 	public Object clone() 
 	{
+		JRBaseCrosstabMeasure clone = null;
 		try
 		{
-			JRBaseCrosstabMeasure clone = (JRBaseCrosstabMeasure) super.clone();
-			clone.expression = (JRExpression) JRCloneUtils.nullSafeClone(expression);
-			clone.variable = (JRVariable) JRCloneUtils.nullSafeClone(variable);
-			return clone;
+			clone = (JRBaseCrosstabMeasure) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.variable = JRCloneUtils.nullSafeClone(variable);
+		return clone;
 	}
 
 	
