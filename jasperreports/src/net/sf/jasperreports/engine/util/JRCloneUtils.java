@@ -69,7 +69,7 @@ public final class JRCloneUtils
 			clone = new ArrayList<T>(items.size());
 			for (T item : items)
 			{
-				clone.add((T)item.clone());
+				clone.add(JRCloneUtils.nullSafeClone(item));
 			}
 		}
 		return clone;
@@ -96,7 +96,7 @@ public final class JRCloneUtils
 			List<T> list = new ArrayList<T>(items.length);
 			for (T item : items)
 			{
-				list.add((T)item.clone());
+				list.add(JRCloneUtils.nullSafeClone(item));
 			}
 			clone = (T[])list.toArray();
 		}
