@@ -101,19 +101,20 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	
 	public Object clone()
 	{
+		StandardListComponent clone = null;
 		try
 		{
-			StandardListComponent clone = (StandardListComponent) super.clone();
-			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
-			clone.contents = (ListContents) JRCloneUtils.nullSafeClone(contents);
-			clone.eventSupport = null;
-			return clone;
+			clone = (StandardListComponent) super.clone();
 		} 
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.datasetRun = JRCloneUtils.nullSafeClone(datasetRun);
+		clone.contents = JRCloneUtils.nullSafeClone(contents);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	/**
