@@ -183,21 +183,20 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 
 	public Object clone()
 	{
+		BarcodeComponent clone = null;
 		try
 		{
-			BarcodeComponent clone = (BarcodeComponent) super.clone();
-			clone.codeExpression = (JRExpression) JRCloneUtils
-					.nullSafeClone(codeExpression);
-			clone.patternExpression = (JRExpression) JRCloneUtils
-					.nullSafeClone(patternExpression);
-			clone.eventSupport = null;
-			return clone;
+			clone = (BarcodeComponent) super.clone();
 		} 
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.codeExpression = JRCloneUtils.nullSafeClone(codeExpression);
+		clone.patternExpression = JRCloneUtils.nullSafeClone(patternExpression);
+		clone.eventSupport = null;
+		return clone;
 	}
 	
 	protected BarcodeComponent cloneObject() //FIXMENOW where is this method coming from?

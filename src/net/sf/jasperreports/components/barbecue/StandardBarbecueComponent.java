@@ -258,22 +258,21 @@ public class StandardBarbecueComponent implements BarbecueComponent, Serializabl
 	
 	public Object clone()
 	{
+		StandardBarbecueComponent clone = null;
 		try
 		{
-			StandardBarbecueComponent clone = (StandardBarbecueComponent) super.clone();
-			clone.codeExpression = (JRExpression) JRCloneUtils
-					.nullSafeClone(codeExpression);
-			clone.applicationIdentifierExpression = (JRExpression) JRCloneUtils
-					.nullSafeClone(applicationIdentifierExpression);
-			//FIXMENOW should context be cloned?
-			clone.eventSupport = null;
-			return clone;
+			clone = (StandardBarbecueComponent) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.codeExpression = JRCloneUtils.nullSafeClone(codeExpression);
+		clone.applicationIdentifierExpression = JRCloneUtils.nullSafeClone(applicationIdentifierExpression);
+		//FIXMENOW should context be cloned?
+		clone.eventSupport = null;
+		return clone;
 	}
 
 
