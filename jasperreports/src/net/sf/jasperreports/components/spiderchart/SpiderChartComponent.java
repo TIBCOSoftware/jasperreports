@@ -168,13 +168,12 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.chartSettings = (ChartSettings)JRCloneUtils.nullSafeClone(chartSettings);
-		clone.dataset = (SpiderDataset)JRCloneUtils.nullSafeClone(dataset);
-		clone.plot = (SpiderPlot)JRCloneUtils.nullSafeClone(plot);
-		
+		clone.chartSettings = JRCloneUtils.nullSafeClone(chartSettings);
+		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
+		clone.plot = JRCloneUtils.nullSafeClone(plot);
 		clone.eventSupport = null;
 		
-		return null;
+		return clone;
 	}
 	
 	private transient JRPropertyChangeSupport eventSupport;

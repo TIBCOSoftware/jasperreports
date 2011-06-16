@@ -655,35 +655,25 @@ public class StandardChartSettings implements ChartSettings, JRChangeEventsSuppo
 
 	public Object clone() 
 	{
+		StandardChartSettings clone = null;
 		try
 		{
-			StandardChartSettings clone = (StandardChartSettings)super.clone();
-			
-			if (hyperlinkParameters != null)
-			{
-				clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>();
-				for(int i = 0; i < hyperlinkParameters.size(); i++)
-				{
-					clone.hyperlinkParameters.add(i,(JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters.get(i)));
-				}
-			}
-	
-			clone.titleExpression = (JRExpression)JRCloneUtils.nullSafeClone(titleExpression);
-			clone.subtitleExpression = (JRExpression)JRCloneUtils.nullSafeClone(subtitleExpression);
-			clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
-			clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
-			clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
-			clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
-			clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
-			
-			clone.eventSupport = null;
-			
-			return clone;
+			clone = (StandardChartSettings)super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			throw new JRRuntimeException(e);
 		}
+		clone.hyperlinkParameters = JRCloneUtils.cloneList(hyperlinkParameters);
+		clone.titleExpression = JRCloneUtils.nullSafeClone(titleExpression);
+		clone.subtitleExpression = JRCloneUtils.nullSafeClone(subtitleExpression);
+		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;
