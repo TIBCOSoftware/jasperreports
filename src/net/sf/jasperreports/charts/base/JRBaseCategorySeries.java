@@ -131,11 +131,11 @@ public class JRBaseCategorySeries implements JRCategorySeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
-		clone.categoryExpression = (JRExpression)JRCloneUtils.nullSafeClone(categoryExpression);
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
-		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
-		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
+		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.categoryExpression = JRCloneUtils.nullSafeClone(categoryExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

@@ -111,12 +111,12 @@ public class JRBaseTimePeriodSeries implements JRTimePeriodSeries, Serializable 
 			throw new JRRuntimeException(e);
 		}
 
-		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
-		clone.startDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(startDateExpression);
-		clone.endDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(endDateExpression);
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
-		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
-		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
+		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.startDateExpression = JRCloneUtils.nullSafeClone(startDateExpression);
+		clone.endDateExpression = JRCloneUtils.nullSafeClone(endDateExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

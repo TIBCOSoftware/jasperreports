@@ -430,13 +430,13 @@ public class JRBaseBar3DPlot extends JRBaseChartPlot implements JRBar3DPlot
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseBar3DPlot clone = (JRBaseBar3DPlot)super.clone(parentChart);
-		clone.categoryAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(categoryAxisLabelExpression);
-		clone.valueAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
-		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
-		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
-		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
-		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
-		clone.itemLabel = (JRItemLabel)JRCloneUtils.nullSafeClone(itemLabel);
+		clone.categoryAxisLabelExpression = JRCloneUtils.nullSafeClone(categoryAxisLabelExpression);
+		clone.valueAxisLabelExpression = JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
+		clone.domainAxisMinValueExpression = JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
+		clone.itemLabel = JRCloneUtils.nullSafeClone(itemLabel);
 		return clone;
 	}
 

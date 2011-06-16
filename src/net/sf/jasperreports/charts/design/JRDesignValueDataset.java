@@ -136,9 +136,7 @@ public class JRDesignValueDataset extends JRDesignChartDataset implements JRValu
 	public Object clone() 
 	{
 		JRDesignValueDataset clone = (JRDesignValueDataset)super.clone();
-		
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
-		
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 		return clone;
 	}
 }

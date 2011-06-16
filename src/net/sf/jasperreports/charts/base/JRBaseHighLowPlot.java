@@ -386,12 +386,12 @@ public class JRBaseHighLowPlot extends JRBaseChartPlot implements JRHighLowPlot
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseHighLowPlot clone = (JRBaseHighLowPlot)super.clone(parentChart);
-		clone.timeAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(timeAxisLabelExpression);
-		clone.valueAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
-		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
-		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
-		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
-		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
+		clone.timeAxisLabelExpression = JRCloneUtils.nullSafeClone(timeAxisLabelExpression);
+		clone.valueAxisLabelExpression = JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
+		clone.domainAxisMinValueExpression = JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
 	

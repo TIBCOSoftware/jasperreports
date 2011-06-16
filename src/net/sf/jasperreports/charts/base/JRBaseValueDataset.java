@@ -123,9 +123,7 @@ public class JRBaseValueDataset extends JRBaseChartDataset implements JRValueDat
 	public Object clone() 
 	{
 		JRBaseValueDataset clone = (JRBaseValueDataset)super.clone();
-		
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
-		
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 		return clone;
 	}
 }

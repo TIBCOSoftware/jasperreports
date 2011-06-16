@@ -159,14 +159,14 @@ public class JRBaseGanttSeries implements JRGanttSeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
-		clone.taskExpression = (JRExpression)JRCloneUtils.nullSafeClone(taskExpression);
-		clone.subtaskExpression = (JRExpression)JRCloneUtils.nullSafeClone(subtaskExpression);
-		clone.startDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(startDateExpression);
-		clone.endDateExpression = (JRExpression)JRCloneUtils.nullSafeClone(endDateExpression);
-		clone.percentExpression = (JRExpression)JRCloneUtils.nullSafeClone(percentExpression);
-		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
-		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
+		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.taskExpression = JRCloneUtils.nullSafeClone(taskExpression);
+		clone.subtaskExpression = JRCloneUtils.nullSafeClone(subtaskExpression);
+		clone.startDateExpression = JRCloneUtils.nullSafeClone(startDateExpression);
+		clone.endDateExpression = JRCloneUtils.nullSafeClone(endDateExpression);
+		clone.percentExpression = JRCloneUtils.nullSafeClone(percentExpression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = JRCloneUtils.nullSafeClone(itemHyperlink);
 		return clone;
 	}
 

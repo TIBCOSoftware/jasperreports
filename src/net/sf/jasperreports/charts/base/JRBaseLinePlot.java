@@ -394,12 +394,12 @@ public class JRBaseLinePlot extends JRBaseChartPlot implements JRLinePlot {
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseLinePlot clone = (JRBaseLinePlot)super.clone(parentChart);
-		clone.categoryAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(categoryAxisLabelExpression);
-		clone.valueAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
-		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
-		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
-		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
-		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
+		clone.categoryAxisLabelExpression = JRCloneUtils.nullSafeClone(categoryAxisLabelExpression);
+		clone.valueAxisLabelExpression = JRCloneUtils.nullSafeClone(valueAxisLabelExpression);
+		clone.domainAxisMinValueExpression = JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
 	

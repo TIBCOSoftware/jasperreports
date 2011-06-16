@@ -131,11 +131,11 @@ public class JRBaseXySeries implements JRXySeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
-		clone.xValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(xValueExpression);
-		clone.yValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(yValueExpression);
-		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
-		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
+		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.xValueExpression = JRCloneUtils.nullSafeClone(xValueExpression);
+		clone.yValueExpression = JRCloneUtils.nullSafeClone(yValueExpression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
+		clone.itemHyperlink = JRCloneUtils.nullSafeClone(itemHyperlink);
 		
 		return clone;
 	}

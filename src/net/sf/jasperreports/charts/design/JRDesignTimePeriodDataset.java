@@ -145,16 +145,7 @@ public class JRDesignTimePeriodDataset extends JRDesignChartDataset implements J
 	public Object clone() 
 	{
 		JRDesignTimePeriodDataset clone = (JRDesignTimePeriodDataset)super.clone();
-		
-		if (timePeriodSeriesList != null)
-		{
-			clone.timePeriodSeriesList = new ArrayList<JRTimePeriodSeries>(timePeriodSeriesList.size());
-			for(int i = 0; i < timePeriodSeriesList.size(); i++)
-			{
-				clone.timePeriodSeriesList.add((JRTimePeriodSeries)JRCloneUtils.nullSafeClone(timePeriodSeriesList.get(i)));
-			}
-		}
-
+		clone.timePeriodSeriesList = JRCloneUtils.cloneList(timePeriodSeriesList);
 		return clone;
 	}
 }

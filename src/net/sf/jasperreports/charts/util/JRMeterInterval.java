@@ -195,7 +195,7 @@ public class JRMeterInterval implements JRCloneable, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
+		clone.dataRange = JRCloneUtils.nullSafeClone(dataRange);
 		
 		return clone;
 	}

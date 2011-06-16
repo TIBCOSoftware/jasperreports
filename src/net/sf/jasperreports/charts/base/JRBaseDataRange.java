@@ -133,8 +133,8 @@ public class JRBaseDataRange implements JRDataRange, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.lowExpression = (JRExpression)JRCloneUtils.nullSafeClone(lowExpression);
-		clone.highExpression = (JRExpression)JRCloneUtils.nullSafeClone(highExpression);
+		clone.lowExpression = JRCloneUtils.nullSafeClone(lowExpression);
+		clone.highExpression = JRCloneUtils.nullSafeClone(highExpression);
 		
 		return clone;
 	}

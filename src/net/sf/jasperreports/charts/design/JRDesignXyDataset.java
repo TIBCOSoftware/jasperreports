@@ -155,16 +155,7 @@ public class JRDesignXyDataset extends JRDesignChartDataset implements JRXyDatas
 	public Object clone() 
 	{
 		JRDesignXyDataset clone = (JRDesignXyDataset)super.clone();
-		
-		if (xySeriesList != null)
-		{
-			clone.xySeriesList = new ArrayList<JRXySeries>(xySeriesList.size());
-			for(int i = 0; i < xySeriesList.size(); i++)
-			{
-				clone.xySeriesList.add((JRXySeries)JRCloneUtils.nullSafeClone(xySeriesList.get(i)));
-			}
-		}
-
+		clone.xySeriesList = JRCloneUtils.cloneList(xySeriesList);
 		return clone;
 	}
 }

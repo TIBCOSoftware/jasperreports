@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.charts.base;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -131,16 +130,7 @@ public class JRBaseMultiAxisPlot extends JRBaseChartPlot implements JRMultiAxisP
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseMultiAxisPlot clone = (JRBaseMultiAxisPlot)super.clone(parentChart);
-		
-		if (axes != null)
-		{
-			clone.axes = new ArrayList<JRChartAxis>(axes.size());
-			for(int i = 0; i < axes.size(); i++)
-			{
-				clone.axes.add((JRChartAxis)JRCloneUtils.nullSafeClone(axes.get(i)));
-			}
-		}
-
+		clone.axes = JRCloneUtils.cloneList(axes);
 		return clone;
 	}
 }
