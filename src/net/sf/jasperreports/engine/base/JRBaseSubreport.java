@@ -257,30 +257,12 @@ public class JRBaseSubreport extends JRBaseElement implements JRSubreport
 	public Object clone() 
 	{
 		JRBaseSubreport clone = (JRBaseSubreport)super.clone();
-		
-		if (parameters != null)
-		{
-			clone.parameters = new JRSubreportParameter[parameters.length];
-			for(int i = 0; i < parameters.length; i++)
-			{
-				clone.parameters[i] = (JRSubreportParameter)JRCloneUtils.nullSafeClone(parameters[i]);
-			}
-		}
-
-		if (returnValues != null)
-		{
-			clone.returnValues = new JRSubreportReturnValue[returnValues.length];
-			for(int i = 0; i < returnValues.length; i++)
-			{
-				clone.returnValues[i] = (JRSubreportReturnValue)JRCloneUtils.nullSafeClone(returnValues[i]);
-			}
-		}
-
-			clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
-			clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
-			clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
-			clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
-
+		clone.parameters = JRCloneUtils.cloneArray(parameters);
+		clone.returnValues = JRCloneUtils.cloneArray(returnValues);
+		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.connectionExpression = JRCloneUtils.nullSafeClone(connectionExpression);
+		clone.dataSourceExpression = JRCloneUtils.nullSafeClone(dataSourceExpression);
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		return clone;
 	}
 }

@@ -185,8 +185,8 @@ public abstract class JRBaseElementDataset implements JRElementDataset, Serializ
 			throw new JRRuntimeException(e);
 		}
 
-		clone.incrementWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(incrementWhenExpression);
-		clone.datasetRun = (JRDatasetRun)JRCloneUtils.nullSafeClone(datasetRun);
+		clone.incrementWhenExpression = JRCloneUtils.nullSafeClone(incrementWhenExpression);
+		clone.datasetRun = JRCloneUtils.nullSafeClone(datasetRun);
 		
 		return clone;
 	}

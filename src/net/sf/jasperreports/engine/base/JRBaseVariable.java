@@ -286,8 +286,8 @@ public class JRBaseVariable implements JRVariable, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
-		clone.initialValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(initialValueExpression);
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.initialValueExpression = JRCloneUtils.nullSafeClone(initialValueExpression);
 		
 		return clone;
 	}

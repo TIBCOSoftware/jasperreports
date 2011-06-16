@@ -473,25 +473,14 @@ public class JRBaseImage extends JRBaseGraphicElement implements JRImage
 	public Object clone() 
 	{
 		JRBaseImage clone = (JRBaseImage)super.clone();
-		
 		clone.lineBox = lineBox.clone(clone);
-
-		if (hyperlinkParameters != null)
-		{
-			clone.hyperlinkParameters = new JRHyperlinkParameter[hyperlinkParameters.length];
-			for(int i = 0; i < hyperlinkParameters.length; i++)
-			{
-				clone.hyperlinkParameters[i] = (JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters[i]);
-			}
-		}
-
-		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
-		clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
-		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
-		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
-		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
-		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
-
+		clone.hyperlinkParameters = JRCloneUtils.cloneArray(hyperlinkParameters);
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		return clone;
 	}
 

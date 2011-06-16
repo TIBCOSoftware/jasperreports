@@ -98,7 +98,7 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 	public Object clone()
 	{
 		JRBaseConditionalStyle clone = (JRBaseConditionalStyle) super.clone();
-		clone.conditionExpression = (JRExpression) JRCloneUtils.nullSafeClone(conditionExpression);
+		clone.conditionExpression = JRCloneUtils.nullSafeClone(conditionExpression);
 		return clone;
 	}
 }

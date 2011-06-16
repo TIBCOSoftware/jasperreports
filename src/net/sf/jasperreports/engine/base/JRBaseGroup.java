@@ -303,11 +303,10 @@ public class JRBaseGroup implements JRGroup, Serializable, JRChangeEventsSupport
 			throw new JRRuntimeException(e);
 		}
 	
-		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
-		clone.groupHeader = (JRBand)JRCloneUtils.nullSafeClone(groupHeader);
-		clone.groupFooter = (JRBand)JRCloneUtils.nullSafeClone(groupFooter);
-		clone.countVariable = (JRVariable)JRCloneUtils.nullSafeClone(countVariable);
-		
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.groupHeader = JRCloneUtils.nullSafeClone(groupHeader);
+		clone.groupFooter = JRCloneUtils.nullSafeClone(groupFooter);
+		clone.countVariable = JRCloneUtils.nullSafeClone(countVariable);
 		clone.eventSupport = null;
 		
 		return clone;

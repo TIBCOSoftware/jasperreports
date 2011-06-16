@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRExpression;
@@ -296,54 +295,18 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.query = (JRQuery)JRCloneUtils.nullSafeClone(query);
-		clone.filterExpression = (JRExpression)JRCloneUtils.nullSafeClone(filterExpression);
-		clone.propertiesMap = (JRPropertiesMap)JRCloneUtils.nullSafeClone((JRCloneable)propertiesMap);
-
-		if (parameters != null)
+		clone.query = JRCloneUtils.nullSafeClone(query);
+		clone.filterExpression = JRCloneUtils.nullSafeClone(filterExpression);
+		if (propertiesMap != null)
 		{
-			clone.parameters = new JRParameter[parameters.length];
-			for(int i = 0; i < parameters.length; i++)
-			{
-				clone.parameters[i] = (JRParameter)JRCloneUtils.nullSafeClone(parameters[i]);
-			}
+			clone.propertiesMap = (JRPropertiesMap)propertiesMap.clone();
 		}
 
-		if (fields != null)
-		{
-			clone.fields = new JRField[fields.length];
-			for(int i = 0; i < fields.length; i++)
-			{
-				clone.fields[i] = (JRField)JRCloneUtils.nullSafeClone(fields[i]);
-			}
-		}
-
-		if (sortFields != null)
-		{
-			clone.sortFields = new JRSortField[sortFields.length];
-			for(int i = 0; i < sortFields.length; i++)
-			{
-				clone.sortFields[i] = (JRSortField)JRCloneUtils.nullSafeClone(sortFields[i]);
-			}
-		}
-
-		if (variables != null)
-		{
-			clone.variables = new JRVariable[variables.length];
-			for(int i = 0; i < variables.length; i++)
-			{
-				clone.variables[i] = (JRVariable)JRCloneUtils.nullSafeClone(variables[i]);
-			}
-		}
-
-		if (groups != null)
-		{
-			clone.groups = new JRGroup[groups.length];
-			for(int i = 0; i < groups.length; i++)
-			{
-				clone.groups[i] = (JRGroup)JRCloneUtils.nullSafeClone(groups[i]);
-			}
-		}
+		clone.parameters = JRCloneUtils.cloneArray(parameters);
+		clone.fields = JRCloneUtils.cloneArray(fields);
+		clone.sortFields = JRCloneUtils.cloneArray(sortFields);
+		clone.variables = JRCloneUtils.cloneArray(variables);
+		clone.groups = JRCloneUtils.cloneArray(groups);
 		
 		clone.eventSupport = null;
 

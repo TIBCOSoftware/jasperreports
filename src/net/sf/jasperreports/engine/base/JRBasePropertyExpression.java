@@ -103,7 +103,7 @@ public class JRBasePropertyExpression implements JRPropertyExpression, Serializa
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 		clone.eventSupport = null;
 		
 		return clone;

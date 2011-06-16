@@ -310,14 +310,7 @@ public class JRBaseExpression implements JRExpression, Serializable
 			throw new JRRuntimeException(e);
 		}
 
-		if (chunks != null)
-		{
-			clone.chunks = new JRExpressionChunk[chunks.length];
-			for(int i = 0; i < chunks.length; i++)
-			{
-				clone.chunks[i] = (JRExpressionChunk)JRCloneUtils.nullSafeClone(chunks[i]);
-			}
-		}
+		clone.chunks = JRCloneUtils.cloneArray(chunks);
 
 		return clone;
 	}

@@ -512,7 +512,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 			throw new JRRuntimeException(e);
 		}
 
-		clone.printWhenExpression = (JRExpression)JRCloneUtils.nullSafeClone(printWhenExpression);
+		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
 		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		clone.eventSupport = null;
 		

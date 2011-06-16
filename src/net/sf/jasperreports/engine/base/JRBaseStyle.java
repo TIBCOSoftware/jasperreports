@@ -1101,32 +1101,22 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	
 	public Object clone()
 	{
+		JRBaseStyle clone = null;
 		try
 		{
-			JRBaseStyle clone = (JRBaseStyle) super.clone();
-			clone.lineBox = lineBox == null ? null : lineBox.clone(clone);
-			clone.linePen = linePen == null ? null : linePen.clone(clone);
-			clone.paragraph = paragraph == null ? null : paragraph.clone(clone);
-			
-			if (conditionalStyles != null)
-			{
-				clone.conditionalStyles = new JRConditionalStyle[conditionalStyles.length];
-				for (int i = 0; i < conditionalStyles.length; i++)
-				{
-					JRConditionalStyle style = conditionalStyles[i];
-					JRConditionalStyle styleClone = (JRConditionalStyle) JRCloneUtils.nullSafeClone(style);
-					clone.conditionalStyles[i] = styleClone;
-				}
-			}
-			
-			clone.eventSupport = null;
-
-			return clone;
+			clone = (JRBaseStyle) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.lineBox = lineBox == null ? null : lineBox.clone(clone);
+		clone.linePen = linePen == null ? null : linePen.clone(clone);
+		clone.paragraph = paragraph == null ? null : paragraph.clone(clone);
+		clone.conditionalStyles = JRCloneUtils.cloneArray(conditionalStyles);
+		clone.eventSupport = null;
+
+		return clone;
 	}
 }
