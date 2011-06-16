@@ -31,6 +31,7 @@ import java.util.List;
 import net.sf.jasperreports.charts.JRPieDataset;
 import net.sf.jasperreports.charts.JRPieSeries;
 import net.sf.jasperreports.engine.JRChartDataset;
+import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -348,20 +349,10 @@ public class JRDesignPieDataset extends JRDesignChartDataset implements JRPieDat
 	public Object clone() 
 	{
 		JRDesignPieDataset clone = (JRDesignPieDataset)super.clone();
-		
-		if (pieSeriesList != null)
-		{
-			clone.pieSeriesList = new ArrayList<JRPieSeries>(pieSeriesList.size());
-			for(int i = 0; i < pieSeriesList.size(); i++)
-			{
-				clone.pieSeriesList.add((JRPieSeries)(pieSeriesList.get(i).clone()));
-			}
-		}
-		
-		clone.otherKeyExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherKeyExpression);
-		clone.otherLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherLabelExpression);
-		clone.otherSectionHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(otherSectionHyperlink);
-		
+		clone.pieSeriesList = JRCloneUtils.cloneList(pieSeriesList);
+		clone.otherKeyExpression = JRCloneUtils.nullSafeClone(otherKeyExpression);
+		clone.otherLabelExpression = JRCloneUtils.nullSafeClone(otherLabelExpression);
+		clone.otherSectionHyperlink = JRCloneUtils.nullSafeClone(otherSectionHyperlink);
 		return clone;
 	}
 

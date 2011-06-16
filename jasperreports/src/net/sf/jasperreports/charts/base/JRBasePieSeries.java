@@ -121,10 +121,10 @@ public class JRBasePieSeries implements JRPieSeries, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
-		clone.keyExpression = (JRExpression)JRCloneUtils.nullSafeClone(keyExpression);
-		clone.valueExpression = (JRExpression)JRCloneUtils.nullSafeClone(valueExpression);
-		clone.labelExpression = (JRExpression)JRCloneUtils.nullSafeClone(labelExpression);
-		clone.sectionHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(sectionHyperlink);
+		clone.keyExpression = JRCloneUtils.nullSafeClone(keyExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
+		clone.labelExpression = JRCloneUtils.nullSafeClone(labelExpression);
+		clone.sectionHyperlink = JRCloneUtils.nullSafeClone(sectionHyperlink);
 		
 		return clone;
 	}

@@ -227,13 +227,11 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseThermometerPlot clone = (JRBaseThermometerPlot)super.clone(parentChart);
-	
-		clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
-		clone.valueDisplay = (JRValueDisplay)JRCloneUtils.nullSafeClone(valueDisplay);
-		clone.lowRange = (JRDataRange)JRCloneUtils.nullSafeClone(lowRange);
-		clone.mediumRange = (JRDataRange)JRCloneUtils.nullSafeClone(mediumRange);
-		clone.highRange = (JRDataRange)JRCloneUtils.nullSafeClone(highRange);
-		
+		clone.dataRange = JRCloneUtils.nullSafeClone(dataRange);
+		clone.valueDisplay = JRCloneUtils.nullSafeClone(valueDisplay);
+		clone.lowRange = JRCloneUtils.nullSafeClone(lowRange);
+		clone.mediumRange = JRCloneUtils.nullSafeClone(mediumRange);
+		clone.highRange = JRCloneUtils.nullSafeClone(highRange);
 		return clone;
 	}
 

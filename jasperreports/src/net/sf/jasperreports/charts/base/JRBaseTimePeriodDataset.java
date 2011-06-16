@@ -94,16 +94,7 @@ public class JRBaseTimePeriodDataset extends JRBaseChartDataset implements JRTim
 	public Object clone() 
 	{
 		JRBaseTimePeriodDataset clone = (JRBaseTimePeriodDataset)super.clone();
-		
-		if (timePeriodSeries != null)
-		{
-			clone.timePeriodSeries = new JRTimePeriodSeries[timePeriodSeries.length];
-			for(int i = 0; i < timePeriodSeries.length; i++)
-			{
-				clone.timePeriodSeries[i] = (JRTimePeriodSeries)JRCloneUtils.nullSafeClone(timePeriodSeries[i]);
-			}
-		}
-		
+		clone.timePeriodSeries = JRCloneUtils.cloneArray(timePeriodSeries);
 		return clone;
 	}
 }

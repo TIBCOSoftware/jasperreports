@@ -204,21 +204,11 @@ public class JRBasePieDataset extends JRBaseChartDataset implements JRPieDataset
 	public Object clone() 
 	{
 		JRBasePieDataset clone = (JRBasePieDataset)super.clone();
-		
-		if (pieSeries != null)
-		{
-			clone.pieSeries = new JRPieSeries[pieSeries.length];
-			for(int i = 0; i < pieSeries.length; i++)
-			{
-				clone.pieSeries[i] = (JRPieSeries)JRCloneUtils.nullSafeClone(pieSeries[i]);
-			}
-		}
-		
-		clone.otherKeyExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherKeyExpression);
-		clone.otherLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(otherLabelExpression);
-		clone.otherSectionHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(otherSectionHyperlink);
+		clone.pieSeries = JRCloneUtils.cloneArray(pieSeries);
+		clone.otherKeyExpression = JRCloneUtils.nullSafeClone(otherKeyExpression);
+		clone.otherLabelExpression = JRCloneUtils.nullSafeClone(otherLabelExpression);
+		clone.otherSectionHyperlink = JRCloneUtils.nullSafeClone(otherSectionHyperlink);
 		clone.eventSupport = null;
-		
 		return clone;
 	}
 

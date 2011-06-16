@@ -189,8 +189,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	public Object clone(JRChart parentChart) 
 	{
 		JRBasePiePlot clone = (JRBasePiePlot)super.clone(parentChart);
-		clone.itemLabel = (JRItemLabel)JRCloneUtils.nullSafeClone(itemLabel);
-		
+		clone.itemLabel = JRCloneUtils.nullSafeClone(itemLabel);
 		return clone;
 	}
 

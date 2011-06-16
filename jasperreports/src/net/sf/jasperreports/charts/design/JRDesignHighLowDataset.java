@@ -226,16 +226,14 @@ public class JRDesignHighLowDataset extends JRDesignChartDataset implements JRHi
 	public Object clone() 
 	{
 		JRDesignHighLowDataset clone = (JRDesignHighLowDataset)super.clone();
-	
-		clone.seriesExpression = (JRExpression)JRCloneUtils.nullSafeClone(seriesExpression);
-		clone.dateExpression = (JRExpression)JRCloneUtils.nullSafeClone(dateExpression);
-		clone.highExpression = (JRExpression)JRCloneUtils.nullSafeClone(highExpression);
-		clone.lowExpression = (JRExpression)JRCloneUtils.nullSafeClone(lowExpression);
-		clone.openExpression = (JRExpression)JRCloneUtils.nullSafeClone(openExpression);
-		clone.closeExpression = (JRExpression)JRCloneUtils.nullSafeClone(closeExpression);
-		clone.volumeExpression = (JRExpression)JRCloneUtils.nullSafeClone(volumeExpression);
-		clone.itemHyperlink = (JRHyperlink)JRCloneUtils.nullSafeClone(itemHyperlink);
-		
+		clone.seriesExpression = JRCloneUtils.nullSafeClone(seriesExpression);
+		clone.dateExpression = JRCloneUtils.nullSafeClone(dateExpression);
+		clone.highExpression = JRCloneUtils.nullSafeClone(highExpression);
+		clone.lowExpression = JRCloneUtils.nullSafeClone(lowExpression);
+		clone.openExpression = JRCloneUtils.nullSafeClone(openExpression);
+		clone.closeExpression = JRCloneUtils.nullSafeClone(closeExpression);
+		clone.volumeExpression = JRCloneUtils.nullSafeClone(volumeExpression);
+		clone.itemHyperlink = JRCloneUtils.nullSafeClone(itemHyperlink);
 		return clone;
 	}
 }

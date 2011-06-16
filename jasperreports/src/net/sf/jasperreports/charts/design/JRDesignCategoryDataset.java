@@ -155,16 +155,7 @@ public class JRDesignCategoryDataset extends JRDesignChartDataset implements JRC
 	public Object clone() 
 	{
 		JRDesignCategoryDataset clone = (JRDesignCategoryDataset)super.clone();
-		
-		if (categorySeriesList != null)
-		{
-			clone.categorySeriesList = new ArrayList<JRCategorySeries>(categorySeriesList.size());
-			for(int i = 0; i < categorySeriesList.size(); i++)
-			{
-				clone.categorySeriesList.add((JRCategorySeries)JRCloneUtils.nullSafeClone(categorySeriesList.get(i)));
-			}
-		}
-
+		clone.categorySeriesList = JRCloneUtils.cloneList(categorySeriesList);
 		return clone;
 	}
 	

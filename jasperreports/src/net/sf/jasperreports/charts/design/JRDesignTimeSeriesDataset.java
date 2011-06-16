@@ -165,16 +165,7 @@ public class JRDesignTimeSeriesDataset extends JRDesignChartDataset implements J
 	public Object clone() 
 	{
 		JRDesignTimeSeriesDataset clone = (JRDesignTimeSeriesDataset)super.clone();
-		
-		if (timeSeriesList != null)
-		{
-			clone.timeSeriesList = new ArrayList<JRTimeSeries>(timeSeriesList.size());
-			for(int i = 0; i < timeSeriesList.size(); i++)
-			{
-				clone.timeSeriesList.add((JRTimeSeries)JRCloneUtils.nullSafeClone(timeSeriesList.get(i)));
-			}
-		}
-
+		clone.timeSeriesList = JRCloneUtils.cloneList(timeSeriesList);
 		return clone;
 	}
 }

@@ -377,12 +377,12 @@ public class JRBaseScatterPlot extends JRBaseChartPlot implements JRScatterPlot 
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseScatterPlot clone = (JRBaseScatterPlot)super.clone(parentChart);
-		clone.xAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(xAxisLabelExpression);
-		clone.yAxisLabelExpression = (JRExpression)JRCloneUtils.nullSafeClone(yAxisLabelExpression);
-		clone.domainAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
-		clone.domainAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
-		clone.rangeAxisMinValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
-		clone.rangeAxisMaxValueExpression = (JRExpression)JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
+		clone.xAxisLabelExpression = JRCloneUtils.nullSafeClone(xAxisLabelExpression);
+		clone.yAxisLabelExpression = JRCloneUtils.nullSafeClone(yAxisLabelExpression);
+		clone.domainAxisMinValueExpression = JRCloneUtils.nullSafeClone(domainAxisMinValueExpression);
+		clone.domainAxisMaxValueExpression = JRCloneUtils.nullSafeClone(domainAxisMaxValueExpression);
+		clone.rangeAxisMinValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMinValueExpression);
+		clone.rangeAxisMaxValueExpression = JRCloneUtils.nullSafeClone(rangeAxisMaxValueExpression);
 		return clone;
 	}
 

@@ -118,16 +118,7 @@ public class JRBaseCategoryDataset extends JRBaseChartDataset implements JRCateg
 	public Object clone() 
 	{
 		JRBaseCategoryDataset clone = (JRBaseCategoryDataset)super.clone();
-		
-		if (categorySeries != null)
-		{
-			clone.categorySeries = new JRCategorySeries[categorySeries.length];
-			for(int i = 0; i < categorySeries.length; i++)
-			{
-				clone.categorySeries[i] = (JRCategorySeries)JRCloneUtils.nullSafeClone(categorySeries[i]);
-			}
-		}
-		
+		clone.categorySeries = JRCloneUtils.cloneArray(categorySeries);
 		return clone;
 	}
 

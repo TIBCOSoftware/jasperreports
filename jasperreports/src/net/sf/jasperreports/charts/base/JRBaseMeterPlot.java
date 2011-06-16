@@ -26,7 +26,6 @@ package net.sf.jasperreports.charts.base;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -280,18 +279,9 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	public Object clone(JRChart parentChart) 
 	{
 		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone(parentChart);
-		
-			clone.dataRange = (JRDataRange)JRCloneUtils.nullSafeClone(dataRange);
-			clone.valueDisplay = (JRValueDisplay)JRCloneUtils.nullSafeClone(valueDisplay);
-		if (intervals != null)
-		{
-			clone.intervals = new ArrayList<JRMeterInterval>(intervals.size());
-			for(int i = 0; i < intervals.size(); i++)
-			{
-				clone.intervals.add((JRMeterInterval)JRCloneUtils.nullSafeClone(intervals.get(i)));
-			}
-		}
-		
+		clone.dataRange = JRCloneUtils.nullSafeClone(dataRange);
+		clone.valueDisplay = JRCloneUtils.nullSafeClone(valueDisplay);
+		clone.intervals = JRCloneUtils.cloneList(intervals);
 		return clone;
 	}
 

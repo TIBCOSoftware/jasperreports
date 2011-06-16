@@ -93,16 +93,7 @@ public class JRBaseXyzDataset extends JRBaseChartDataset implements JRXyzDataset
 	public Object clone() 
 	{
 		JRBaseXyzDataset clone = (JRBaseXyzDataset)super.clone();
-		
-		if (xyzSeries != null)
-		{
-			clone.xyzSeries = new JRXyzSeries[xyzSeries.length];
-			for(int i = 0; i < xyzSeries.length; i++)
-			{
-				clone.xyzSeries[i] = (JRXyzSeries)JRCloneUtils.nullSafeClone(xyzSeries[i]);
-			}
-		}
-		
+		clone.xyzSeries = JRCloneUtils.cloneArray(xyzSeries);
 		return clone;
 	}
 }
