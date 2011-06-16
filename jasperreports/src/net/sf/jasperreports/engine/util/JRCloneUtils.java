@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
@@ -45,9 +44,9 @@ public final class JRCloneUtils
 	 * @return a clone of the argument, or <code>null</code> if the argument was
 	 * <code>null</code>
 	 */
-	public static Object nullSafeClone(JRCloneable original)
+	public static <T extends JRCloneable> T nullSafeClone(T original)
 	{
-		return original == null ? null : original.clone();
+		return original == null ? null : (T)original.clone();
 	}
 	
 	/**
@@ -58,7 +57,7 @@ public final class JRCloneUtils
 	 * @param items the list to clone
 	 * @return a new list which contains clones of the elements in the original list
 	 */
-	public static <T> List<T> cloneList(List<T> items)
+	public static <T extends JRCloneable> List<T> cloneList(List<T> items)
 	{
 		List<T> clone;
 		if (items == null)
@@ -68,11 +67,38 @@ public final class JRCloneUtils
 		else
 		{
 			clone = new ArrayList<T>(items.size());
-			for (Iterator<T> it = items.iterator(); it.hasNext();)
+			for (T item : items)
 			{
-				T item = it.next();
-				clone.add((T)((JRCloneable)item).clone());
+				clone.add((T)item.clone());
 			}
+		}
+		return clone;
+	}
+	
+
+	/**
+	 * Clones a list of objects.
+	 * 
+	 * The list elements are assumed to implement {@link JRCloneable}.
+	 * 
+	 * @param items the list to clone
+	 * @return a new list which contains clones of the elements in the original list
+	 */
+	public static <T extends JRCloneable> T[] cloneArray(T[] items)
+	{
+		T[] clone;
+		if (items == null)
+		{
+			clone = null;
+		}
+		else
+		{
+			List<T> list = new ArrayList<T>(items.length);
+			for (T item : items)
+			{
+				list.add((T)item.clone());
+			}
+			clone = (T[])list.toArray();
 		}
 		return clone;
 	}
