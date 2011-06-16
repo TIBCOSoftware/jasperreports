@@ -117,20 +117,21 @@ public abstract class JRBaseCrosstabGroup implements JRCrosstabGroup, Serializab
 	 */
 	public Object clone() 
 	{
+		JRBaseCrosstabGroup clone = null;
 		try
 		{
-			JRBaseCrosstabGroup clone = (JRBaseCrosstabGroup) super.clone();
-			clone.bucket = (JRCrosstabBucket) JRCloneUtils.nullSafeClone(bucket);
-			clone.header = (JRCellContents) JRCloneUtils.nullSafeClone(header);
-			clone.totalHeader = (JRCellContents) JRCloneUtils.nullSafeClone(totalHeader);
-			clone.variable = (JRVariable) JRCloneUtils.nullSafeClone(variable);
-			return clone;
+			clone = (JRBaseCrosstabGroup) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.bucket = JRCloneUtils.nullSafeClone(bucket);
+		clone.header = JRCloneUtils.nullSafeClone(header);
+		clone.totalHeader = JRCloneUtils.nullSafeClone(totalHeader);
+		clone.variable = JRCloneUtils.nullSafeClone(variable);
+		return clone;
 	}
 
 	

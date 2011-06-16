@@ -72,7 +72,7 @@ public class JRDesignCrosstabParameter extends JRDesignParameter implements JRCr
 	public Object clone()
 	{
 		JRDesignCrosstabParameter clone = (JRDesignCrosstabParameter) super.clone();
-		clone.valueExpression = (JRExpression) JRCloneUtils.nullSafeClone(valueExpression);
+		clone.valueExpression = JRCloneUtils.nullSafeClone(valueExpression);
 		return clone;
 	}
 }

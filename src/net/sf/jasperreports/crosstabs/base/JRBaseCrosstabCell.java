@@ -106,10 +106,7 @@ public class JRBaseCrosstabCell implements JRCrosstabCell, Serializable
 			throw new JRRuntimeException(e);
 		}
 		
-		if (contents != null)
-		{
-			clone.contents = (JRCellContents)JRCloneUtils.nullSafeClone(contents);
-		}
+		clone.contents = JRCloneUtils.nullSafeClone(contents);
 
 		return clone;
 	}
