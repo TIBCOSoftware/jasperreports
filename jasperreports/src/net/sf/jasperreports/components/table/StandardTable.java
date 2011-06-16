@@ -119,19 +119,20 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	
 	public Object clone()
 	{
+		StandardTable clone = null;
 		try
 		{
-			StandardTable clone = (StandardTable) super.clone();
-			clone.datasetRun = (JRDatasetRun) JRCloneUtils.nullSafeClone(datasetRun);
-			clone.columns = JRCloneUtils.cloneList(columns);
-			clone.eventSupport = null;
-			return clone;
+			clone = (StandardTable) super.clone();
 		} 
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.datasetRun = JRCloneUtils.nullSafeClone(datasetRun);
+		clone.columns = JRCloneUtils.cloneList(columns);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;

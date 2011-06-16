@@ -78,7 +78,7 @@ public class StandardColumn extends StandardBaseColumn implements Column
 	public Object clone()
 	{
 		StandardColumn clone = (StandardColumn) super.clone();
-		clone.detail = (Cell) JRCloneUtils.nullSafeClone(detail);
+		clone.detail = JRCloneUtils.nullSafeClone(detail);
 		return clone;
 	}
 

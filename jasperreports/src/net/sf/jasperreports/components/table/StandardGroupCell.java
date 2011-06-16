@@ -92,17 +92,18 @@ public class StandardGroupCell implements GroupCell, Serializable,
 
 	public Object clone()
 	{
+		StandardGroupCell clone = null;
 		try
 		{
-			StandardGroupCell clone = (StandardGroupCell) super.clone();
-			clone.cell = (Cell) JRCloneUtils.nullSafeClone(cell);
-			clone.eventSupport = null;
-			return clone;
+			clone = (StandardGroupCell) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			throw new JRRuntimeException(e);
 		}
+		clone.cell = JRCloneUtils.nullSafeClone(cell);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	private transient JRPropertyChangeSupport eventSupport;
