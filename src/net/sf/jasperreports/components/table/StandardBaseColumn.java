@@ -126,25 +126,25 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	
 	public Object clone()
 	{
+		StandardBaseColumn clone = null;
 		try
 		{
-			StandardBaseColumn clone = (StandardBaseColumn) super.clone();
-			clone.tableHeader = (Cell) JRCloneUtils.nullSafeClone(tableHeader);
-			clone.tableFooter = (Cell) JRCloneUtils.nullSafeClone(tableFooter);
-			clone.groupHeaders = JRCloneUtils.cloneList(groupHeaders);
-			clone.groupFooters = JRCloneUtils.cloneList(groupFooters);
-			clone.columnHeader = (Cell) JRCloneUtils.nullSafeClone(columnHeader);
-			clone.columnFooter = (Cell) JRCloneUtils.nullSafeClone(columnFooter);
-			clone.printWhenExpression = (JRExpression) JRCloneUtils.nullSafeClone(
-					printWhenExpression);
-			clone.eventSupport = null;
-			return clone;
+			clone = (StandardBaseColumn) super.clone();
 		} 
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.tableHeader = JRCloneUtils.nullSafeClone(tableHeader);
+		clone.tableFooter = JRCloneUtils.nullSafeClone(tableFooter);
+		clone.groupHeaders = JRCloneUtils.cloneList(groupHeaders);
+		clone.groupFooters = JRCloneUtils.cloneList(groupFooters);
+		clone.columnHeader = JRCloneUtils.nullSafeClone(columnHeader);
+		clone.columnFooter = JRCloneUtils.nullSafeClone(columnFooter);
+		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	public Cell getTableHeader()
