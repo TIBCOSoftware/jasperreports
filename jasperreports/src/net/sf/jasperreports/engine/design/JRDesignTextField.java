@@ -594,24 +594,14 @@ public class JRDesignTextField extends JRDesignTextElement implements JRTextFiel
 	public Object clone() 
 	{
 		JRDesignTextField clone = (JRDesignTextField)super.clone();
-		
-		if (hyperlinkParameters != null)
-		{
-			clone.hyperlinkParameters = new ArrayList<JRHyperlinkParameter>(hyperlinkParameters.size());
-			for(int i = 0; i < hyperlinkParameters.size(); i++)
-			{
-				clone.hyperlinkParameters.add((JRHyperlinkParameter)JRCloneUtils.nullSafeClone(hyperlinkParameters.get(i)));
-			}
-		}
-
-		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
-		clone.patternExpression = (JRExpression)JRCloneUtils.nullSafeClone(patternExpression);
-		clone.anchorNameExpression = (JRExpression)JRCloneUtils.nullSafeClone(anchorNameExpression);
-		clone.hyperlinkReferenceExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
-		clone.hyperlinkAnchorExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
-		clone.hyperlinkPageExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
-		clone.hyperlinkTooltipExpression = (JRExpression)JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
-
+		clone.hyperlinkParameters = JRCloneUtils.cloneList(hyperlinkParameters);
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
+		clone.patternExpression = JRCloneUtils.nullSafeClone(patternExpression);
+		clone.anchorNameExpression = JRCloneUtils.nullSafeClone(anchorNameExpression);
+		clone.hyperlinkReferenceExpression = JRCloneUtils.nullSafeClone(hyperlinkReferenceExpression);
+		clone.hyperlinkAnchorExpression = JRCloneUtils.nullSafeClone(hyperlinkAnchorExpression);
+		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
+		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		return clone;
 	}
 	

@@ -385,25 +385,15 @@ public class JRDesignSubreport extends JRDesignElement implements JRSubreport
 			clone.parametersMap = new LinkedHashMap<String, JRSubreportParameter>();
 			for(Iterator<String> it = parametersMap.keySet().iterator(); it.hasNext();)
 			{
-				String key = it.next();
-				JRSubreportParameter parameter = parametersMap.get(key);
-				clone.parametersMap.put(key, (JRSubreportParameter)JRCloneUtils.nullSafeClone(parameter));
+				clone.parametersMap.put(key, (JRSubreportParameter)JRCloneUtils.nullSafeClone(parametersMap.get(it.next())));
 			}
 		}
 
-		if (returnValues != null)
-		{
-			clone.returnValues = new ArrayList<JRSubreportReturnValue>(returnValues.size());
-			for(int i = 0; i < returnValues.size(); i++)
-			{
-				clone.returnValues.add((JRSubreportReturnValue)JRCloneUtils.nullSafeClone(returnValues.get(i)));
-			}
-		}
-
-		clone.parametersMapExpression = (JRExpression)JRCloneUtils.nullSafeClone(parametersMapExpression);
-		clone.connectionExpression = (JRExpression)JRCloneUtils.nullSafeClone(connectionExpression);
-		clone.dataSourceExpression = (JRExpression)JRCloneUtils.nullSafeClone(dataSourceExpression);
-		clone.expression = (JRExpression)JRCloneUtils.nullSafeClone(expression);
+		clone.returnValues = JRCloneUtils.cloneList(returnValues);
+		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
+		clone.connectionExpression = JRCloneUtils.nullSafeClone(connectionExpression);
+		clone.dataSourceExpression = JRCloneUtils.nullSafeClone(dataSourceExpression);
+		clone.expression = JRCloneUtils.nullSafeClone(expression);
 
 		return clone;
 	}

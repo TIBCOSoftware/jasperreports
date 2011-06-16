@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.design;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -166,18 +165,7 @@ public class JRDesignStyle extends JRBaseStyle
 	public Object clone()
 	{
 		JRDesignStyle clone = (JRDesignStyle) super.clone();
-		
-		if (conditionalStylesList != null)
-		{
-			clone.conditionalStylesList = new ArrayList<JRConditionalStyle>(conditionalStylesList.size());
-			for (Iterator<JRConditionalStyle> it = conditionalStylesList.iterator(); it.hasNext();)
-			{
-				JRConditionalStyle style = it.next();
-				JRConditionalStyle styleClone = (JRConditionalStyle) JRCloneUtils.nullSafeClone(style);
-				clone.conditionalStylesList.add(styleClone);
-			}
-		}
-		
+		clone.conditionalStylesList = JRCloneUtils.cloneList(conditionalStylesList);
 		return clone;
 	}
 }

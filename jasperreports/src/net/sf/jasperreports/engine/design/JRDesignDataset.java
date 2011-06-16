@@ -1217,8 +1217,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.parametersMap = new HashMap<String, JRParameter>(parametersList.size());
 			for(int i = 0; i < parametersList.size(); i++)
 			{
-				JRParameter parameter = 
-					(JRParameter)JRCloneUtils.nullSafeClone(parametersList.get(i));
+				JRParameter parameter = JRCloneUtils.nullSafeClone(parametersList.get(i));
 				clone.parametersList.add(parameter);
 				clone.parametersMap.put(parameter.getName(), parameter);
 			}
@@ -1230,8 +1229,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.fieldsMap = new HashMap<String, JRField>(fieldsList.size());
 			for(int i = 0; i < fieldsList.size(); i++)
 			{
-				JRField field = 
-					(JRField)JRCloneUtils.nullSafeClone(fieldsList.get(i));
+				JRField field = JRCloneUtils.nullSafeClone(fieldsList.get(i));
 				clone.fieldsList.add(field);
 				clone.fieldsMap.put(field.getName(), field);
 			}
@@ -1243,8 +1241,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.sortFieldsMap = new HashMap<String, JRSortField>(sortFieldsList.size());
 			for(int i = 0; i < sortFieldsList.size(); i++)
 			{
-				JRSortField sortField = 
-					(JRSortField)JRCloneUtils.nullSafeClone(sortFieldsList.get(i));
+				JRSortField sortField = JRCloneUtils.nullSafeClone(sortFieldsList.get(i));
 				clone.sortFieldsList.add(sortField);
 				clone.sortFieldsMap.put(sortField.getName(), sortField);
 			}
@@ -1256,8 +1253,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.variablesMap = new HashMap<String, JRVariable>(variablesList.size());
 			for(int i = 0; i < variablesList.size(); i++)
 			{
-				JRVariable variable = 
-					(JRVariable)JRCloneUtils.nullSafeClone(variablesList.get(i));
+				JRVariable variable = JRCloneUtils.nullSafeClone(variablesList.get(i));
 				clone.variablesList.add(variable);
 				clone.variablesMap.put(variable.getName(), variable);
 			}
@@ -1269,8 +1265,7 @@ public class JRDesignDataset extends JRBaseDataset
 			clone.groupsMap = new HashMap<String, JRGroup>(groupsList.size());
 			for(int i = 0; i < groupsList.size(); i++)
 			{
-				JRGroup group = 
-					(JRGroup)JRCloneUtils.nullSafeClone(groupsList.get(i));
+				JRGroup group = JRCloneUtils.nullSafeClone(groupsList.get(i));
 				clone.groupsList.add(group);
 				clone.groupsMap.put(group.getName(), group);
 			}
