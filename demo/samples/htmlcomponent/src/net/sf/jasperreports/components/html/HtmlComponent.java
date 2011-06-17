@@ -192,18 +192,19 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 
 	public Object clone()
 	{
+		HtmlComponent clone = null;
 		try
 		{
-			HtmlComponent clone = (HtmlComponent) super.clone();
-			clone.htmlContentExpression = (JRExpression) JRCloneUtils.nullSafeClone(htmlContentExpression);
-			clone.eventSupport = null;
-			return clone;
+			clone = (HtmlComponent) super.clone();
 		}
 		catch (CloneNotSupportedException e)
 		{
 			// never
 			throw new JRRuntimeException(e);
 		}
+		clone.htmlContentExpression = JRCloneUtils.nullSafeClone(htmlContentExpression);
+		clone.eventSupport = null;
+		return clone;
 	}
 
 	public JRPropertyChangeSupport getEventSupport() {
