@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.lang.ref.SoftReference;
 import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.text.AttributedString;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -418,7 +418,7 @@ public class JRStyledTextParser implements ErrorHandler
 			JRPrintHyperlinkParameters parameters = hlink.getHyperlinkParameters();
 			if (parameters != null && parameters.getParameters() != null)
 			{
-				for (JRPrintHyperlinkParameter parameter:(List<JRPrintHyperlinkParameter>)parameters.getParameters())
+				for (JRPrintHyperlinkParameter parameter : parameters.getParameters())
 				{
 					sbuffer.append(LESS);
 					sbuffer.append(NODE_param);
