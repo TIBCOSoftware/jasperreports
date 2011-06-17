@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -48,7 +47,6 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
-import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -140,7 +138,7 @@ public class TextMeasurer implements JRTextMeasurer
 				//might be a performance problem on very large texts
 				if (lineBreakOffsets != null)
 				{
-					clone.lineBreakOffsets = (ArrayList<Integer>) JRCloneUtils.nullSafeClone((JRCloneable)lineBreakOffsets);
+					clone.lineBreakOffsets = (ArrayList<Integer>) lineBreakOffsets.clone();
 				}
 				
 				return clone;
