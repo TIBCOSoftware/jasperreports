@@ -85,8 +85,7 @@ public final class ComponentsEnvironment
 	protected static Map<String, ComponentsBundle> findComponentBundles()
 	{
 		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
-		ExtensionsRegistry extensionsRegistry = 
-			(ExtensionsRegistry)ExtensionsEnvironment.getExtensionsRegistry();
+		ExtensionsRegistry extensionsRegistry = ExtensionsEnvironment.getExtensionsRegistry();
 		List<?> bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
 		for (Iterator<?> it = bundles.iterator(); it.hasNext();)
 		{
