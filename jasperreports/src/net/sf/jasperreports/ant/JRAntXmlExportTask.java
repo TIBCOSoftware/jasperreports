@@ -310,7 +310,7 @@ public class JRAntXmlExportTask extends MatchingTask
 				{
 					System.out.print("File : " + srcFileName + " ... ");
 
-					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(srcFileName);
+					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(srcFileName);
 					
 					JasperExportManager.exportReportToXmlFile(jasperPrint, destFileName, false);
 					

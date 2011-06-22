@@ -45,6 +45,7 @@ import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.batik.bridge.BridgeContext;
 import org.apache.batik.bridge.GVTBuilder;
@@ -152,7 +153,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		if (svgText == null
 				&& svgData == null && svgDataLocation != null)
 		{
-			svgData = JRLoader.loadBytesFromLocation(svgDataLocation);
+			svgData = RepositoryUtil.getBytes(svgDataLocation);
 		}
 	}
 
@@ -300,11 +301,11 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @param location the location
 	 * @return a SVG renderer
 	 * @throws JRException
-	 * @see JRLoader#loadBytesFromLocation(String)
+	 * @see RepositoryUtil#getBytes(String)
 	 */
 	public static BatikRenderer getInstanceFromLocation(String location) throws JRException
 	{
-		byte[] data = JRLoader.loadBytesFromLocation(location);
+		byte[] data = RepositoryUtil.getBytes(location);
 		return new BatikRenderer(data, null);
 	}
 
@@ -318,6 +319,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @return a SVG renderer
 	 * @throws JRException
 	 * @see JRLoader#loadBytesFromLocation(String, ClassLoader, URLStreamHandlerFactory, FileResolver)
+	 * @deprecated Replaced by {@link #getInstanceFromLocation(String)}.
 	 */
 	public static BatikRenderer getInstanceFromLocation(
 		String location,

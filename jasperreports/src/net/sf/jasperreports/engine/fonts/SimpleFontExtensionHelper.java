@@ -44,7 +44,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -148,7 +148,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		try
 		{
-			is = JRLoader.getLocationInputStream(file);
+			is = RepositoryUtil.getInputStream(file);
 			return loadFontFamilies(is);
 		}
 		catch (JRException e)

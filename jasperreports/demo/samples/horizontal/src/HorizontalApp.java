@@ -99,7 +99,7 @@ public class HorizontalApp extends AbstractSampleApp
 		//Preparing parameters
 		Image image = 
 			Toolkit.getDefaultToolkit().createImage(
-				JRLoader.loadBytesFromLocation("dukesign.jpg")
+				JRLoader.loadBytesFromResource("dukesign.jpg")
 				);
 		MediaTracker traker = new MediaTracker(new Panel());
 		traker.addImage(image, 0);

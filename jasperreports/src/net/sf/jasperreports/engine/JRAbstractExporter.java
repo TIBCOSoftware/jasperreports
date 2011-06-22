@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
-import java.net.URLStreamHandlerFactory;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -54,17 +53,17 @@ import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRResourcesUtil;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -501,12 +500,12 @@ public abstract class JRAbstractExporter implements JRExporter
 	protected int endPageIndex;
 	protected int globalOffsetX;
 	protected int globalOffsetY;
-	protected ClassLoader classLoader;
-	protected boolean classLoaderSet;
-	protected URLStreamHandlerFactory urlHandlerFactory;
-	protected boolean urlHandlerFactorySet;
-	protected FileResolver fileResolver;
-	protected boolean fileResolverSet;
+//	protected ClassLoader classLoader;
+//	protected boolean classLoaderSet;
+//	protected URLStreamHandlerFactory urlHandlerFactory;
+//	protected boolean urlHandlerFactorySet;
+//	protected FileResolver fileResolver;
+//	protected boolean fileResolverSet;
 	protected ExporterFilter filter;
 
 	/**
@@ -720,30 +719,37 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void setExportContext()
 	{
-		classLoaderSet = false;
-		urlHandlerFactorySet = false;
-		fileResolverSet = false;
-		
-		classLoader = (ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER);
-		if (classLoader != null)
-		{
-			JRResourcesUtil.setThreadClassLoader(classLoader);
-			classLoaderSet = true;
-		}
+//		classLoaderSet = false;
+//		urlHandlerFactorySet = false;
+//		fileResolverSet = false;
+//		
+//		classLoader = (ClassLoader)parameters.get(JRExporterParameter.CLASS_LOADER);
+//		if (classLoader != null)
+//		{
+//			JRResourcesUtil.setThreadClassLoader(classLoader);
+//			classLoaderSet = true;
+//		}
+//
+//		urlHandlerFactory = (URLStreamHandlerFactory) parameters.get(JRExporterParameter.URL_HANDLER_FACTORY);
+//		if (urlHandlerFactory != null)
+//		{
+//			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
+//			urlHandlerFactorySet = true;
+//		}
+//
+//		fileResolver = (FileResolver) parameters.get(JRExporterParameter.FILE_RESOLVER);
+//		if (fileResolver != null)
+//		{
+//			JRResourcesUtil.setThreadFileResolver(fileResolver);
+//			fileResolverSet = true;
+//		}
 
-		urlHandlerFactory = (URLStreamHandlerFactory) parameters.get(JRExporterParameter.URL_HANDLER_FACTORY);
-		if (urlHandlerFactory != null)
-		{
-			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
-			urlHandlerFactorySet = true;
-		}
+		Map<String, Object> contextParamValues = new HashMap<String, Object>(3);
+		contextParamValues.put(JRParameter.REPORT_CLASS_LOADER, parameters.get(JRExporterParameter.CLASS_LOADER));
+		contextParamValues.put(JRParameter.REPORT_URL_HANDLER_FACTORY, parameters.get(JRExporterParameter.URL_HANDLER_FACTORY));
+		contextParamValues.put(JRParameter.REPORT_FILE_RESOLVER, parameters.get(JRExporterParameter.FILE_RESOLVER));
 
-		fileResolver = (FileResolver) parameters.get(JRExporterParameter.FILE_RESOLVER);
-		if (fileResolver != null)
-		{
-			JRResourcesUtil.setThreadFileResolver(fileResolver);
-			fileResolverSet = true;
-		}
+		RepositoryUtil.setRepositoryContext(new SimpleRepositoryContext(contextParamValues));
 		
 		JRFontUtil.resetThreadMissingFontsCache();
 	}
@@ -754,20 +760,22 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected void resetExportContext()
 	{
-		if (classLoaderSet)
-		{
-			JRResourcesUtil.resetClassLoader();
-		}
-		
-		if (urlHandlerFactorySet)
-		{
-			JRResourcesUtil.resetThreadURLHandlerFactory();
-		}
-		
-		if (fileResolverSet)
-		{
-			JRResourcesUtil.resetThreadFileResolver();
-		}
+//		if (classLoaderSet)
+//		{
+//			JRResourcesUtil.resetClassLoader();
+//		}
+//		
+//		if (urlHandlerFactorySet)
+//		{
+//			JRResourcesUtil.resetThreadURLHandlerFactory();
+//		}
+//		
+//		if (fileResolverSet)
+//		{
+//			JRResourcesUtil.resetThreadFileResolver();
+//		}
+
+		RepositoryUtil.revertRepositoryContext();
 	}
 
 	
@@ -838,7 +846,7 @@ public abstract class JRAbstractExporter implements JRExporter
 							String fileName = (String)parameters.get(JRExporterParameter.INPUT_FILE_NAME);
 							if (fileName != null)
 							{
-								jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+								jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 							}
 							else
 							{

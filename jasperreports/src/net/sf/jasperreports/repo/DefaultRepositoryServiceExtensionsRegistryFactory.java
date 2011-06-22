@@ -21,78 +21,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
+package net.sf.jasperreports.repo;
 
-import java.awt.Image;
+import java.util.Collections;
+import java.util.List;
 
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: GovernorExtensionsRegistryFactory.java 4391 2011-06-08 13:17:35Z shertage $
  */
-public class FileImageProvider implements ImageProvider
+public class DefaultRepositoryServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	private String file;
-
-	
-	/**
-	 *
-	 */
-	public FileImageProvider()
-	{
-	}
-	
-	
-	/**
-	 *
-	 */
-	public FileImageProvider(String file)
-	{
-		this.file = file;
-	}
-	
-	
-	/**
-	 *
-	 */
-	public Image getImage()
-	{
-		try
+	private static final ExtensionsRegistry repositoryServiceExtensionsRegistry = 
+		new ExtensionsRegistry()
 		{
-			return
-				JRImageLoader.loadImage(
-					RepositoryUtil.getBytes(file)
-					);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
+			public List<DefaultRepositoryServiceFactory> getExtensions(Class<?> extensionType) 
+			{
+				if (RepositoryServiceFactory.class.equals(extensionType))
+				{
+					return Collections.singletonList(DefaultRepositoryServiceFactory.getInstance());
+				}
+				return null;
+			}
+		};
+	
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
+	{
+		return repositoryServiceExtensionsRegistry;
 	}
-
-
-	public String getFile() {
-		return file;
-	}
-
-
-	public void setFile(String file) {
-		this.file = file;
-	}
-
 }

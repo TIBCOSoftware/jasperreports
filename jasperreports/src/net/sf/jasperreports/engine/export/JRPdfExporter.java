@@ -44,8 +44,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
 import java.text.AttributedCharacterIterator.Attribute;
+import java.text.AttributedString;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -88,9 +88,10 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -217,7 +218,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				pxImage =
 					Image.getInstance(
-						JRLoader.loadBytesFromLocation("net/sf/jasperreports/engine/images/pixel.GIF", null)
+						JRLoader.loadBytesFromResource("net/sf/jasperreports/engine/images/pixel.GIF")
 						);
 			}
 			catch(Exception e)
@@ -1760,7 +1761,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (fontMap != null && fontMap.containsKey(key))
 		{
-			pdfFont = (PdfFont) fontMap.get(key);
+			pdfFont = fontMap.get(key);
 		}
 		else
 		{
@@ -1901,7 +1902,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = JRLoader.loadBytesFromLocation(pdfFont.getPdfFontName(), classLoader, urlHandlerFactory, fileResolver);
+				bytes = RepositoryUtil.getBytes(pdfFont.getPdfFontName());
 			}
 			catch(JRException e)
 			{

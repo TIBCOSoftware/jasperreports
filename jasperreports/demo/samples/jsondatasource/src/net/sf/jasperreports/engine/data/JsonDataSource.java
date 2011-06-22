@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JsonUtil;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
@@ -122,7 +123,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * @param location a String representing JSON data source
 	 */
 	public JsonDataSource(String location, String selectExpression) throws JRException {
-		this(JRLoader.getInputStreamFromLocation(location), selectExpression);
+		this(RepositoryUtil.getInputStream(location), selectExpression);
 		
 		toClose = true;
 	}

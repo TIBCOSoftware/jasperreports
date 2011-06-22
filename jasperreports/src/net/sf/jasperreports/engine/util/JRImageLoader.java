@@ -57,14 +57,6 @@ public final class JRImageLoader
 	public static final String CROSSTAB_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/crosstab-16.png";
 	public static final String COMPONENT_IMAGE_RESOURCE = "net/sf/jasperreports/engine/images/component-16.png";
 
-	private static final String[] IMAGE_LOCATION = new String[]
-		{
-		NO_IMAGE_RESOURCE,
-		SUBREPORT_IMAGE_RESOURCE,
-		CHART_IMAGE_RESOURCE,
-		CROSSTAB_IMAGE_RESOURCE
-		};
-
 	/**
 	 *
 	 */

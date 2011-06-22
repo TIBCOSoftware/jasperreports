@@ -44,7 +44,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -161,7 +161,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(String location) throws JRException
 	{
-		this(JRLoader.getInputStreamFromLocation(location));
+		this(RepositoryUtil.getInputStream(location));
 		
 		toClose = true;
 	}
@@ -173,7 +173,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
-		this(JRLoader.getInputStreamFromLocation(location), charsetName);
+		this(RepositoryUtil.getInputStream(location), charsetName);
 		
 		toClose = true;
 	}

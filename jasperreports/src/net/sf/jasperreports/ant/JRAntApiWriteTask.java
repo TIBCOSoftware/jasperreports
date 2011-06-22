@@ -353,13 +353,13 @@ public class JRAntApiWriteTask extends MatchingTask
 					}
 					else if ("jasper".equalsIgnoreCase(srcFileExtension))
 					{
-						report = (JRReport)JRLoader.loadObject(srcFileName);
+						report = (JRReport)JRLoader.loadObjectFromFile(srcFileName);
 					}
 					else
 					{
 						try
 						{
-							report = (JRReport)JRLoader.loadObject(srcFileName);
+							report = (JRReport)JRLoader.loadObjectFromFile(srcFileName);
 						}
 						catch (JRException e)
 						{

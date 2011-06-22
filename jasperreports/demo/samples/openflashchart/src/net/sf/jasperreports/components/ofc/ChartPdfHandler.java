@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfAnnotation;
@@ -145,6 +146,6 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 
 	protected byte[] readSwf() throws JRException
 	{
-		return JRLoader.loadBytesFromLocation("openflashchart/open-flash-chart.swf");
+		return RepositoryUtil.getBytes("openflashchart/open-flash-chart.swf");
 	}
 }

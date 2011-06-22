@@ -31,6 +31,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 
 /**
@@ -63,8 +65,8 @@ public final class JRParameterDefaultValuesEvaluator
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
 
-		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
-			JRResourcesFillUtil.setResourcesFillContext(valuesMap);
+		RepositoryUtil.setRepositoryContext(new SimpleRepositoryContext(valuesMap));
+
 		try
 		{
 			fillDataset.setParameterValues(valuesMap);
@@ -86,7 +88,7 @@ public final class JRParameterDefaultValuesEvaluator
 		}
 		finally
 		{
-			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
+			RepositoryUtil.revertRepositoryContext();
 		}
 	}
 	

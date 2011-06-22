@@ -151,7 +151,7 @@ public class JRXmlLoader
 	/**
 	 *
 	 */
-	public static JasperDesign load(String sourceFileName) throws JRException
+	public static JasperDesign load(String sourceFileName) throws JRException//FIXMEREPO consider renaming
 	{
 		return load(new File(sourceFileName));
 	}

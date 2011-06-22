@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -310,13 +311,13 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 				else if (source instanceof java.lang.String)
 				{
-					report = 
-						(JasperReport)JRLoader.loadObjectFromLocation(
-							(String)source, 
-							filler.reportClassLoader,
-							filler.urlHandlerFactory,
-							filler.fileResolver
-							);
+					report = RepositoryUtil.getReport((String)source);
+//						(JasperReport)JRLoader.loadObjectFromLocation(
+//							(String)source, 
+//							filler.reportClassLoader,
+//							filler.urlHandlerFactory,
+//							filler.fileResolver
+//							);
 				}
 				else
 				{

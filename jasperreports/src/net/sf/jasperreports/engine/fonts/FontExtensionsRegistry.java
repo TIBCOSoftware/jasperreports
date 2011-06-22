@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fonts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
@@ -34,16 +35,26 @@ import net.sf.jasperreports.extensions.ExtensionsRegistry;
 public class FontExtensionsRegistry implements ExtensionsRegistry
 {
 
-	private final List<FontFamily> fontFamilies;
+	private final List<String> fontFamiliesLocations;
+	private List<FontFamily> fontFamilies;
 	
-	public FontExtensionsRegistry(List<FontFamily> fontFamilies)
+	public FontExtensionsRegistry(List<String> fontFamiliesLocations)
 	{
-		this.fontFamilies = fontFamilies;
+		this.fontFamiliesLocations = fontFamiliesLocations;
 	}
 	
 	public List<FontFamily> getExtensions(Class<?> extensionType)
 	{
-		if (FontFamily.class.equals(extensionType)) {
+		if (FontFamily.class.equals(extensionType)) 
+		{
+			if (fontFamilies == null && fontFamiliesLocations != null)
+			{
+				fontFamilies = new ArrayList<FontFamily>();
+				for (String location : fontFamiliesLocations)
+				{
+					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(location));
+				}
+			}
 			return fontFamilies;
 		}
 		return null;

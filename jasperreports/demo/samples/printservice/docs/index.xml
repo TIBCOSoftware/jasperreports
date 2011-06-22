@@ -163,7 +163,7 @@ methods in the <code>src/PrintServiceApp.java</code> class file):
     image.setScaleImage(ScaleImageEnum.CLIP);
     image.setRenderer(
       JRImageRenderer.getInstance(
-        JRLoader.loadBytesFromLocation("jasperreports.png")
+        JRLoader.loadBytesFromResource("jasperreports.png")
         )
       );
     page.addElement(image);

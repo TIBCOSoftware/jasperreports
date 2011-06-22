@@ -118,7 +118,7 @@ public class JRDesignViewer extends JRViewer
 		}
 		else
 		{
-			setReport((JRReport) JRLoader.loadObject(fileName));
+			setReport((JRReport) JRLoader.loadObjectFromFile(fileName));
 		}
 		this.type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
