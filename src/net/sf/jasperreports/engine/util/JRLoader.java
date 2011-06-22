@@ -45,6 +45,7 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,9 +67,18 @@ public final class JRLoader
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #loadObjectFromFile(String)}.
 	 */
 	public static Object loadObject(String fileName) throws JRException
+	{
+		return loadObjectFromFile(fileName);
+	}
+
+
+	/**
+	 *
+	 */
+	public static Object loadObjectFromFile(String fileName) throws JRException
 	{
 		return loadObject(new File(fileName));
 	}
@@ -214,7 +224,7 @@ public final class JRLoader
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
 	 */
 	public static Object loadObjectFromLocation(String location) throws JRException
 	{
@@ -223,7 +233,7 @@ public final class JRLoader
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
 	 */
 	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
@@ -232,7 +242,7 @@ public final class JRLoader
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
 	 */
 	public static Object loadObjectFromLocation(
 		String location, 
@@ -253,7 +263,7 @@ public final class JRLoader
 			return loadObject(file);
 		}
 
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
 		if (url != null)
 		{
 			return loadObject(url);
@@ -270,7 +280,7 @@ public final class JRLoader
 	{
 		if (!file.exists() || !file.isFile())
 		{
-			throw new JRException( new FileNotFoundException(String.valueOf(file)) );
+			throw new JRException( new FileNotFoundException(String.valueOf(file)) );//FIXMEREPO this probably useless
 		}
 
 		FileInputStream fis = null;
@@ -309,7 +319,7 @@ public final class JRLoader
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#getInputStream(String)}.
 	 */
 	public static InputStream getInputStreamFromLocation(String location) throws JRException
 	{
@@ -318,7 +328,7 @@ public final class JRLoader
 	
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#getInputStream(String)}.
 	 */
 	public static InputStream getInputStreamFromLocation(
 		String location, 
@@ -339,7 +349,7 @@ public final class JRLoader
 			return getInputStream(file);
 		}
 
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
 		if (url != null)
 		{
 			return getInputStream(url);
@@ -504,6 +514,30 @@ public final class JRLoader
 	/**
 	 *
 	 */
+	public static byte[] loadBytesFromResource(String resourceName) throws JRException
+	{
+		return loadBytesFromResource(resourceName, null);
+	}
+
+
+	/**
+	 *
+	 */
+	public static byte[] loadBytesFromResource(String resourceName, ClassLoader classLoader) throws JRException
+	{
+		URL url = JRResourcesUtil.findClassLoaderResource(resourceName, classLoader);
+		if (url != null)
+		{
+			return loadBytes(url);
+		}
+
+		throw new JRException("Resource '" + resourceName + "' not found.");
+	}
+		
+	
+	/**
+	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
+	 */
 	public static byte[] loadBytesFromLocation(String location) throws JRException
 	{
 		return loadBytesFromLocation(location, null, null, null);
@@ -511,7 +545,7 @@ public final class JRLoader
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
 	 */
 	public static byte[] loadBytesFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
@@ -520,7 +554,7 @@ public final class JRLoader
 		
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
 	 */
 	public static byte[] loadBytesFromLocation(
 		String location, 
@@ -533,7 +567,7 @@ public final class JRLoader
 		
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link RepositoryUtil#getBytes(String)}.
 	 */
 	public static byte[] loadBytesFromLocation(
 		String location, 
@@ -554,7 +588,7 @@ public final class JRLoader
 			return loadBytes(file);
 		}
 
-		url = JRResourcesUtil.findClassLoaderResource(location, classLoader, JRLoader.class);
+		url = JRResourcesUtil.findClassLoaderResource(location, classLoader);
 		if (url != null)
 		{
 			return loadBytes(url);

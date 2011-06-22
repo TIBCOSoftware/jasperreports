@@ -117,9 +117,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRPdfExporter exporter = new JRPdfExporter();
 		
@@ -140,9 +140,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRHtmlExporter exporter = new JRHtmlExporter();
 		
@@ -162,9 +162,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRRtfExporter exporter = new JRRtfExporter();
 		
@@ -184,9 +184,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRXlsExporter exporter = new JRXlsExporter();
 		
@@ -207,9 +207,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JExcelApiExporter exporter = new JExcelApiExporter();
 		
@@ -230,9 +230,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRCsvExporter exporter = new JRCsvExporter();
 		
@@ -252,9 +252,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JROdtExporter exporter = new JROdtExporter();
 		
@@ -274,9 +274,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JROdsExporter exporter = new JROdsExporter();
 		
@@ -297,9 +297,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRDocxExporter exporter = new JRDocxExporter();
 		
@@ -319,9 +319,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRXlsxExporter exporter = new JRXlsxExporter();
 		
@@ -342,9 +342,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRPptxExporter exporter = new JRPptxExporter();
 		
@@ -364,9 +364,9 @@ public class BatchExportApp extends AbstractSampleApp
 	{
 		long start = System.currentTimeMillis();
 		List jasperPrintList = new ArrayList();
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report1.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report2.jrprint"));
-		jasperPrintList.add(JRLoader.loadObjectFromLocation("build/reports/Report3.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report1.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report2.jrprint"));
+		jasperPrintList.add(JRLoader.loadObjectFromFile("build/reports/Report3.jrprint"));
 		
 		JRXhtmlExporter exporter = new JRXhtmlExporter();
 		

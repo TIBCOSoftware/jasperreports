@@ -21,104 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fonts;
+package net.sf.jasperreports.repo;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 import java.io.InputStream;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class SimpleFontFace implements FontFace
+public interface RepositoryService
 {
+	/**
+	 * 
+	 *
+	public <T extends RepositoryContext> T createContext();
 
 	/**
 	 * 
 	 */
-	private String file;
-	private Font font;
-	
-	/**
-	 * 
-	 */
-	public SimpleFontFace(String file)
-	{
-		this.file = file;
+	public void setContext(RepositoryContext context);
 
-		InputStream is = null;
-		try
-		{
-			is = RepositoryUtil.getInputStream(file);
-		}
-		catch(JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		
-		try
-		{
-			font = Font.createFont(Font.TRUETYPE_FONT, is);
-		}
-		catch(FontFormatException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		catch(IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			try
-			{
-				is.close();
-			}
-			catch (IOException e)
-			{
-			}
-		}
-	}
+	/**
+	 * 
+	 */
+	public void revertContext();
+
+	/**
+	 * 
+	 */
+	public InputStream getInputStream(String uri);
 	
 	/**
 	 * 
 	 */
-	public SimpleFontFace(Font font)
-	{
-		this.font = font;
-	}
+	public Resource getResource(String uri);
 	
 	/**
 	 * 
 	 */
-	public String getName()
-	{
-		//(String)font.getAttributes().get(TextAttribute.FAMILY);
-		return font.getName();
-	}
-	
-	/**
-	 * 
-	 */
-	public String getFile()
-	{
-		return file;
-	}
-	
-	/**
-	 * 
-	 */
-	public Font getFont()
-	{
-		return font;
-	}
-	
+	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType);
 }

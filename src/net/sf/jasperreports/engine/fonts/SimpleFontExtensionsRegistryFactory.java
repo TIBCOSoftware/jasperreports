@@ -55,16 +55,17 @@ public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFa
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
 		List<PropertySuffix> fontFamiliesProperties = JRProperties.getProperties(properties, SIMPLE_FONT_FAMILIES_PROPERTY_PREFIX);
-		List<FontFamily> fontFamilies = new ArrayList<FontFamily>();
+		List<String> fontFamiliesLocations = new ArrayList<String>();
 		for (Iterator<PropertySuffix> it = fontFamiliesProperties.iterator(); it.hasNext();)
 		{
 			PropertySuffix fontFamiliesProp = it.next();
 			//String fontFamiliesName = fontFamiliesProp.getSuffix();
 			String fontFamiliesLocation = fontFamiliesProp.getValue();
-			fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(fontFamiliesLocation));
+			//fontFamiliesLocations.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(fontFamiliesLocation));
+			fontFamiliesLocations.add(fontFamiliesLocation);
 		}
 		
-		return new FontExtensionsRegistry(fontFamilies);
+		return new FontExtensionsRegistry(fontFamiliesLocations);
 	}
 
 }

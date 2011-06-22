@@ -303,7 +303,7 @@ public final class JasperCompileManager
 		String destFileName
 		) throws JRException
 	{
-		JRReport report = (JRReport)JRLoader.loadObject(sourceFileName);
+		JRReport report = (JRReport)JRLoader.loadObjectFromFile(sourceFileName);
 
 		writeReportToXmlFile(
 			report, 

@@ -94,7 +94,7 @@ public final class JasperExportManager
 		String destFileName
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		exportReportToPdfFile(jasperPrint, destFileName);
 	}
@@ -246,7 +246,7 @@ public final class JasperExportManager
 		boolean isEmbeddingImages
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		exportReportToXmlFile(
 			jasperPrint, 
@@ -403,7 +403,7 @@ public final class JasperExportManager
 		String destFileName
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		exportReportToHtmlFile(
 			jasperPrint, 

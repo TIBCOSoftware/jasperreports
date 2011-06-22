@@ -455,6 +455,7 @@ public final class JRResourcesUtil
 	 * @param clsLoader a class loader
 	 * @param clazz a class
 	 * @return the resource URL if found
+	 * @deprecated Replaced by {@link #findClassLoaderResource(String, ClassLoader)}.
 	 */
 	public static URL findClassLoaderResource(String location, ClassLoader clsLoader, Class<?> clazz)
 	{
@@ -482,6 +483,59 @@ public final class JRResourcesUtil
 				if (classLoader == null)
 				{
 					url = clazz.getResource("/" + location);
+				}
+				else
+				{
+					url = classLoader.getResource(location);
+				}
+			}
+		}
+		
+		return url;
+	}
+
+	/**
+	 * Attempts to find a resource using a class loader.
+	 * <p/>
+	 * The following sources are tried:
+	 * <ul>
+	 * 	<li>the class loader returned by {@link #getClassLoader(ClassLoader) <code>getClassLoader(classLoader)</code>}</li>
+	 * 	<li>the context class loader</li>
+	 * 	<li><code>JRLoader.class.getClassLoader()</code></li>
+	 * 	<li><code>JRLoader.class.getResource()</code></li>
+	 * </ul>
+	 * 
+	 * @param location the resource name
+	 * @param clsLoader a class loader
+	 * @param clazz a class
+	 * @return the resource URL if found
+	 */
+	public static URL findClassLoaderResource(String location, ClassLoader clsLoader)
+	{
+		ClassLoader classLoader = getClassLoader(clsLoader);
+		
+		URL url = null;
+		
+		if (classLoader != null)
+		{
+			url = classLoader.getResource(location);
+		}
+		
+		if (url == null)
+		{
+			classLoader = Thread.currentThread().getContextClassLoader();
+
+			if (classLoader != null)
+			{
+				url = classLoader.getResource(location);
+			}
+
+			if (url == null)
+			{
+				classLoader = JRLoader.class.getClassLoader();
+				if (classLoader == null)
+				{
+					url = JRLoader.class.getResource("/" + location);
 				}
 				else
 				{

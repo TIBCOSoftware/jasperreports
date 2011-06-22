@@ -499,10 +499,10 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 						JRImageRenderer.getInstance(
 							location, 
 							getOnErrorTypeValue(), 
-							isLazy(), 
-							filler.reportClassLoader,
-							filler.urlHandlerFactory,
-							filler.fileResolver
+							isLazy()//, 
+//							filler.reportClassLoader,
+//							filler.urlHandlerFactory,
+//							filler.fileResolver
 							);
 				}
 				else if (source instanceof JRRenderable)

@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -122,7 +122,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXlsDataSource(String location) throws JRException, IOException
 	{
-		this(JRLoader.getInputStreamFromLocation(location));
+		this(RepositoryUtil.getInputStream(location));
 		this.closeInputStream = true;
 	}
 	

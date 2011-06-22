@@ -42,6 +42,7 @@ import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -125,12 +126,30 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
 	{
-		return getInstance(imageLocation, onErrorType, isLazy, null, null, null);
+		if (imageLocation == null)
+		{
+			return null;
+		}
+
+		if (isLazy)
+		{
+			return new JRImageRenderer(imageLocation);
+		}
+
+		try
+		{
+			byte[] data = RepositoryUtil.getBytes(imageLocation);
+			return new JRImageRenderer(data);
+		}
+		catch (JRException e)
+		{
+			return getOnErrorRenderer(onErrorType, e);
+		}
 	}
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getInstance(String, OnErrorTypeEnum, boolean)}.
 	 */
 	public static JRRenderable getInstance(
 		String imageLocation, 
@@ -390,7 +409,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		if (imageData == null)
 		{
-			imageData = JRLoader.loadBytesFromLocation(imageLocation);
+			imageData = RepositoryUtil.getBytes(imageLocation);
 			
 			if(imageData != null) 
 			{

@@ -49,7 +49,7 @@ public final class JasperPrintManager
 		boolean withPrintDialog
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		return printReport(jasperPrint, withPrintDialog);
 	}
@@ -103,7 +103,7 @@ public final class JasperPrintManager
 		boolean withPrintDialog
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		return printPage(jasperPrint, pageIndex, withPrintDialog);
 	}
@@ -152,7 +152,7 @@ public final class JasperPrintManager
 		boolean withPrintDialog
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		return printPages(
 			jasperPrint,
@@ -212,7 +212,7 @@ public final class JasperPrintManager
 		float zoom
 		) throws JRException
 	{
-		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFileName);
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
 		return printPageToImage(jasperPrint, pageIndex, zoom);
 	}

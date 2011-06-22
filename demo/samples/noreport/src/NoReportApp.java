@@ -457,7 +457,7 @@ public class NoReportApp extends AbstractSampleApp
 		image.setScaleImage(ScaleImageEnum.CLIP);
 		image.setRenderer(
 			JRImageRenderer.getInstance(
-				JRLoader.loadBytesFromLocation("jasperreports.png")
+				JRLoader.loadBytesFromResource("jasperreports.png")
 				)
 			);
 		page.addElement(image);

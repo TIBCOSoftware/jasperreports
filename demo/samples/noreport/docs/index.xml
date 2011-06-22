@@ -157,7 +157,7 @@ Report compilation and filling are no more necessary.
     image.setScaleImage(ScaleImageEnum.CLIP);
     image.setRenderer(
       JRImageRenderer.getInstance(
-        JRLoader.loadBytesFromLocation("jasperreports.png")
+        JRLoader.loadBytesFromResource("jasperreports.png")
       )
     );
     page.addElement(image);

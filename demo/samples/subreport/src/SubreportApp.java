@@ -93,7 +93,7 @@ public class SubreportApp extends AbstractSampleApp
 	public void fill() throws JRException
 	{
 		long start = System.currentTimeMillis();
-		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromLocation("build/reports/ProductReport.jasper");
+		JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
 
 		//Preparing parameters
 		Map parameters = new HashMap();

@@ -122,7 +122,7 @@ public class JRViewerController
 		}
 		else
 		{
-			jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
 
 		type = TYPE_FILE_NAME;

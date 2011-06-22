@@ -1440,7 +1440,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 		}
 		else
 		{
-			jasperPrint = (JasperPrint)JRLoader.loadObject(fileName);
+			jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(fileName);
 		}
 
 		type = TYPE_FILE_NAME;

@@ -86,7 +86,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
-	public static JasperPrint load(String sourceFileName) throws JRException
+	public static JasperPrint load(String sourceFileName) throws JRException//FIXMEREPO consider rename to loadFromFile
 	{
 		JasperPrint jasperPrint = null;
 

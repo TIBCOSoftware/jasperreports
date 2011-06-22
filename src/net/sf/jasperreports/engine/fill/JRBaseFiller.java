@@ -86,6 +86,8 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -851,12 +853,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 
 		fillingThread = Thread.currentThread();
 		
-		JRResourcesFillUtil.ResourcesFillContext resourcesContext = 
-			JRResourcesFillUtil.setResourcesFillContext(parameterValues);
-		reportClassLoader = resourcesContext.getClassLoader();
-		urlHandlerFactory = resourcesContext.getUrlHandlerFactory();
-		fileResolver = resourcesContext.getFileResolver();
+		RepositoryUtil.setRepositoryContext(new SimpleRepositoryContext(parameterValues));
 
+		reportClassLoader = (ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
+		urlHandlerFactory = (URLStreamHandlerFactory)parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY);
+		fileResolver = (FileResolver)parameterValues.get(JRParameter.REPORT_FILE_RESOLVER);
+		
 		try
 		{
 			if (parentFiller != null)
@@ -927,7 +929,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 			//kill the subreport filler threads
 			killSubfillerThreads();
 
-			JRResourcesFillUtil.revertResourcesFillContext(resourcesContext);
+			RepositoryUtil.revertRepositoryContext();
 		}
 	}
 

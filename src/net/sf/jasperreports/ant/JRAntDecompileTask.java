@@ -305,7 +305,7 @@ public class JRAntDecompileTask extends MatchingTask
 				{
 					System.out.print("File : " + srcFileName + " ... ");
 
-					JasperReport jasperReport = (JasperReport)JRLoader.loadObject(srcFileName);
+					JasperReport jasperReport = (JasperReport)JRLoader.loadObjectFromFile(srcFileName);
 					
 					JRXmlWriter.writeReport(jasperReport, destFileName, "UTF-8");
 					

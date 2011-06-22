@@ -60,7 +60,7 @@ public class FileBufferedZip extends AbstractZip
 		try
 		{
 			addEntry(
-				new FileBufferedZipEntry(name, JRLoader.loadBytesFromLocation(resource))
+				new FileBufferedZipEntry(name, JRLoader.loadBytesFromResource(resource))
 				);
 		}
 		catch (JRException e)

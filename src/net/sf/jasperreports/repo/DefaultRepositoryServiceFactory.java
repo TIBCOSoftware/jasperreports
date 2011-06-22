@@ -21,78 +21,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.chartthemes.simple;
-
-import java.awt.Image;
-
-import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.repo.RepositoryUtil;
+package net.sf.jasperreports.repo;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
  */
-public class FileImageProvider implements ImageProvider
+public final class DefaultRepositoryServiceFactory implements RepositoryServiceFactory
 {
+
+	private static final DefaultRepositoryServiceFactory INSTANCE = new DefaultRepositoryServiceFactory();
+	
+	private DefaultRepositoryServiceFactory()
+	{
+	}
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	/**
-	 *
-	 */
-	private String file;
-
-	
-	/**
-	 *
-	 */
-	public FileImageProvider()
+	public static DefaultRepositoryServiceFactory getInstance()
 	{
+		return INSTANCE;
 	}
-	
-	
+
 	/**
 	 *
 	 */
-	public FileImageProvider(String file)
+	public RepositoryService getRepositoryService()
 	{
-		this.file = file;
+		return new DefaultRepositoryService();
 	}
 	
-	
-	/**
-	 *
-	 */
-	public Image getImage()
-	{
-		try
-		{
-			return
-				JRImageLoader.loadImage(
-					RepositoryUtil.getBytes(file)
-					);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
-
-	public String getFile() {
-		return file;
-	}
-
-
-	public void setFile(String file) {
-		this.file = file;
-	}
-
 }

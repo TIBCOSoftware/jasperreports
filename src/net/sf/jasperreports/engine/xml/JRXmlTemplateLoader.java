@@ -40,7 +40,7 @@ import java.net.URL;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTemplate;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,11 +69,11 @@ public class JRXmlTemplateLoader
 	 * 	Can be a URL, a file path or a classloader resource name.
 	 * @return the template object
 	 * @throws JRException when the location cannot be resolved or read
-	 * @see JRLoader#loadBytesFromLocation(String)
+	 * @see RepositoryUtil#getBytes(String)
 	 */
 	public static JRTemplate load(String location) throws JRException
 	{
-		byte[] data = JRLoader.loadBytesFromLocation(location);
+		byte[] data = RepositoryUtil.getBytes(location);
 		return load(new ByteArrayInputStream(data));
 	}
 	
