@@ -59,6 +59,14 @@ public class SimpleFileResolver implements FileResolver
 	/**
 	 *
 	 */
+	public List<File> getFolders()
+	{
+		return folders;
+	}
+
+	/**
+	 *
+	 */
 	public boolean isResolveAbsolutePath()
 	{
 		return isResolveAbsolutePath;
