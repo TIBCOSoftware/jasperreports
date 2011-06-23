@@ -62,5 +62,10 @@ public interface RepositoryService
 	/**
 	 * 
 	 */
+	public void saveResource(String uri, Resource resource);
+	
+	/**
+	 * 
+	 */
 	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType);
 }
