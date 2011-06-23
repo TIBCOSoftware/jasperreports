@@ -55,7 +55,12 @@ public final class RepositoryUtil
 		if (repositoryServices == null)
 		{
 			List<RepositoryServiceFactory> factories = (List<RepositoryServiceFactory>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(RepositoryServiceFactory.class);
-			if (factories != null)
+			if (factories == null || factories.size() == 0)
+			{
+				repositoryServices = new ArrayList<RepositoryService>(1);
+				repositoryServices.add(new DefaultRepositoryService());//FIXMEREPO cache
+			}
+			else
 			{
 				repositoryServices = new ArrayList<RepositoryService>(factories.size());
 				for (RepositoryServiceFactory factory : factories)
