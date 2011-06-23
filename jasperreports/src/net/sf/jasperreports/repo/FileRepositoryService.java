@@ -228,6 +228,6 @@ public class FileRepositoryService extends DefaultRepositoryService
 			return (K)dataAdapter;
 		}
 		
-		return super.getResource(uri, resourceType);
+		return (K)super.getResource(uri, resourceType);
 	}
 }
