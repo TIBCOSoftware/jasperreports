@@ -152,6 +152,14 @@ public class DefaultRepositoryService implements RepositoryService
 	/**
 	 * 
 	 */
+	public void saveResource(String uri, Resource resource)
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * 
+	 */
 	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType)
 	{
 		if (ReportResource.class.getName().equals(resourceType.getName()))

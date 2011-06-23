@@ -117,13 +117,27 @@ public final class RepositoryUtil
 	 */
 	public static JasperReport getReport(String location) throws JRException
 	{
-		ReportResource resource = null;
+		ReportResource resource = getResource(location, ReportResource.class);
+		if (resource == null)
+		{
+			throw new JRException("Report not found at : " + location);
+		}
+		return resource.getReport();
+	}
+
+
+	/**
+	 * 
+	 */
+	public static <K extends Resource> K getResource(String location, Class<? extends Resource> resourceType) throws JRException
+	{
+		Resource resource = null;
 		List<RepositoryService> services = getRepositoryServices();
 		if (services != null)
 		{
 			for (RepositoryService service : services)
 			{
-				resource = service.getResource(location, ReportResource.class);
+				resource = service.getResource(location, resourceType);
 				if (resource != null)
 				{
 					break;
@@ -132,9 +146,9 @@ public final class RepositoryUtil
 		}
 		if (resource == null)
 		{
-			throw new JRException("Report not found at : " + location);
+			throw new JRException("Resource not found at : " + location);
 		}
-		return resource.getReport();
+		return (K)resource;
 	}
 
 
