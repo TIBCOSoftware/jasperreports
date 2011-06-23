@@ -99,9 +99,12 @@ public class FileRepositoryService extends DefaultRepositoryService
 	}
 	
 	
-	/**
-	 * 
-	 */
+	@Override
+	public void saveResource(String uri, Resource resource)
+	{
+		//FIXMEREPO
+	}
+	
 	@Override
 	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType)
 	{
