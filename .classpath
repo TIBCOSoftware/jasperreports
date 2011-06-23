@@ -42,6 +42,6 @@
 	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.10.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.6.jar"/>
-	<classpathentry kind="lib" path="demo/samples/chartthemes/lib/castor-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/castor-1.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
