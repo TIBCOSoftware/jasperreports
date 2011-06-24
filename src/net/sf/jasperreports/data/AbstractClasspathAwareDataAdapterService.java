@@ -32,6 +32,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
+import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -52,12 +53,19 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 	 */
 	protected ClassLoader getClassLoader()
 	{
+		FileResolver fileResolver = JRResourcesUtil.getFileResolver(null);
+		if (fileResolver == null)
+		{
+			SimpleFileResolver sfr = new SimpleFileResolver(new File("."));
+			sfr.setResolveAbsolutePath(true);
+			fileResolver = sfr;
+		}
+
 		ClasspathAwareDataAdapter dataAdapter = (ClasspathAwareDataAdapter)getDataAdapter();
 		List<String> paths = dataAdapter.getClasspathPaths();
 		List<URL> urls = new ArrayList<URL>();
 		for (String path : paths) 
 		{
-			FileResolver fileResolver = JRResourcesUtil.getFileResolver(null);
 			File file = fileResolver.resolveFile(path);
 
 			if (file != null && file.exists()) {
