@@ -29,7 +29,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import jxl.Workbook;
@@ -70,7 +69,6 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 				if (xlsDataAdapter.isQueryExecuterMode())
 				{	
 					parameters.put(JRXlsQueryExecuterFactory.XLS_WORKBOOK, Workbook.getWorkbook(new FileInputStream(new File(xlsDataAdapter.getFileName()))));
-					parameters.put(JRParameter.REPORT_PARAMETERS_MAP, new HashMap<String, String>());
 					if (datePattern != null && datePattern.length() > 0)
 		            {
 		            	parameters.put( JRXlsQueryExecuterFactory.XLS_DATE_FORMAT, new SimpleDateFormat(datePattern) );
