@@ -56,7 +56,7 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 		FileResolver fileResolver = JRResourcesUtil.getFileResolver(null);
 		if (fileResolver == null)
 		{
-			SimpleFileResolver sfr = new SimpleFileResolver(new File("."));
+			SimpleFileResolver sfr = new SimpleFileResolver(new File("."));//FIXMEREPO
 			sfr.setResolveAbsolutePath(true);
 			fileResolver = sfr;
 		}
