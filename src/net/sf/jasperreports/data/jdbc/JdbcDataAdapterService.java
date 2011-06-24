@@ -28,16 +28,18 @@ import java.sql.Driver;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class JdbcDataAdapterService extends AbstractDataAdapterService {
+public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterService 
+{
 
 	/**
 	 * This classloader is used to load JDBC drivers available in the set of
@@ -99,18 +101,22 @@ public class JdbcDataAdapterService extends AbstractDataAdapterService {
 	}
 
 	@Override
-	public void contributeParameters(Map<String, Object> parameters)
-			throws JRException {
+	public void contributeParameters(Map<String, Object> parameters) throws JRException 
+	{
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
-		if (jdbcDataAdapter != null) {
+		if (jdbcDataAdapter != null) 
+		{
 			Connection conn = null;
+			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
 
-			try {
-//				ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			try 
+			{
+				Thread.currentThread().setContextClassLoader(
+					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
+					);
 				
-				Class clazz = JRClassLoader.loadClassForRealName(jdbcDataAdapter.getDriver());
+				Class<?> clazz = JRClassLoader.loadClassForRealName(jdbcDataAdapter.getDriver());
 				Driver driver = (Driver) clazz.newInstance();
-			
 				
 //				Driver driver = (Driver) (Class.forName(
 //						jdbcDataAdapter.getDriver(), true, getClassLoader()))
@@ -127,8 +133,14 @@ public class JdbcDataAdapterService extends AbstractDataAdapterService {
 				connectProps.setProperty("password", password);
 
 				conn = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				throw new JRException(ex);
+			}
+			finally
+			{
+				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
 
 			parameters.put(JRParameter.REPORT_CONNECTION, conn);

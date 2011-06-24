@@ -21,42 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.jdbc;
+package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
+public abstract class AbstractClasspathAwareDataAdapter extends AbstractDataAdapter implements ClasspathAwareDataAdapter
 {
-    public String getDatabase();
+	private List<String> classpathPaths = new ArrayList<String>();
     
-    public void setDatabase(String database);
-    
-    public String getDriver();
-    
-    public void setDriver(String driver);
-    
-    public String getPassword();
-    
-    public void setPassword(String password);
-    
-    public boolean isSavePassword();
-    
-    public void setSavePassword(boolean savePassword);
-    
-    public String getUrl();
-    
-    public void setUrl(String url);
-    
-    public String getUsername();
-    
-    public void setUsername(String username);
-	
-    public String getServerAddress();
-    
-    public void setServerAddress(String serverAddress);
+	public void setClasspathPaths(List<String> classpathPaths) {
+		this.classpathPaths = classpathPaths;
+	}
+
+	public List<String> getClasspathPaths() {
+		return classpathPaths;
+	}
 }

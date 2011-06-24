@@ -23,13 +23,13 @@
  */
 package net.sf.jasperreports.data.bean;
 
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class BeanDataAdapterImpl extends AbstractDataAdapter implements BeanDataAdapter 
+public class BeanDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements BeanDataAdapter 
 {
 	private boolean isUseFieldDescription;
 	private String factoryClass;

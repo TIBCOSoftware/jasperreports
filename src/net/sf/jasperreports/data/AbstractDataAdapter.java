@@ -23,15 +23,12 @@
  */
 package net.sf.jasperreports.data;
 
-import net.sf.jasperreports.repo.Resource;
-
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public abstract class AbstractDataAdapter implements DataAdapter, Resource
+public abstract class AbstractDataAdapter implements DataAdapter
 {
 	
 	/**
