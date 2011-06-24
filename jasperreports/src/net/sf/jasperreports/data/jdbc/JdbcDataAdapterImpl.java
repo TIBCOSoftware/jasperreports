@@ -23,19 +23,15 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class JdbcDataAdapterImpl extends AbstractDataAdapter implements JdbcDataAdapter
+public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements JdbcDataAdapter
 {
-	private List<String> classpathPaths = new ArrayList<String>();
     private String driver;
     private String username;
     private String password = null;
@@ -103,12 +99,4 @@ public class JdbcDataAdapterImpl extends AbstractDataAdapter implements JdbcData
     public void setServerAddress(String serverAddress) {
         this.serverAddress = serverAddress;
     }
-        
-	public void setClasspathPaths(List<String> classpathPaths) {
-		this.classpathPaths = classpathPaths;
-	}
-
-	public List<String> getClasspathPaths() {
-		return classpathPaths;
-	}
 }

@@ -19,6 +19,8 @@
 		<field name="useFieldDescription" type="boolean">
 			<bind-xml name="useFieldDescription" node="element"/>
 		</field>
-		
+		<field name="classpathPaths" type="string" collection="arraylist">
+			<bind-xml name="classpathPaths" node="element"/>
+		</field>
 	</class>
 </mapping>

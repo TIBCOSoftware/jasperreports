@@ -28,18 +28,20 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class BeanDataAdapterService extends AbstractDataAdapterService 
+public class BeanDataAdapterService extends AbstractClasspathAwareDataAdapterService 
 {
 
 	public BeanDataAdapterService(BeanDataAdapter beanDataAdapter) {
@@ -54,12 +56,17 @@ public class BeanDataAdapterService extends AbstractDataAdapterService
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{
 		BeanDataAdapter beanDataAdapter = getBeanDataAdapter();
-		beanDataAdapter.getFactoryClass();
-		beanDataAdapter.getMethodName();
 
-		JRAbstractBeanDataSource beanDataSource = null;
-		try {
-			Class clazz = Class.forName(beanDataAdapter.getFactoryClass());
+		ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
+
+		try 
+		{
+			JRAbstractBeanDataSource beanDataSource = null;
+			Thread.currentThread().setContextClassLoader(
+					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
+					);
+
+			Class<?> clazz = JRClassLoader.loadClassForRealName(beanDataAdapter.getFactoryClass());
 			Method method = clazz.getMethod(beanDataAdapter.getMethodName());
 			Object res = method.invoke(null);
 			if (res instanceof Collection) {
@@ -75,7 +82,8 @@ public class BeanDataAdapterService extends AbstractDataAdapterService
 								+ clazz.getName());
 			}
 			parameters.put(JRParameter.REPORT_DATA_SOURCE, beanDataSource);
-		} catch (ClassNotFoundException e) {
+		}
+		catch (ClassNotFoundException e) {
 			throw new JRException(e);
 		} catch (IllegalAccessException e) {
 			throw new JRException(e);
@@ -88,6 +96,9 @@ public class BeanDataAdapterService extends AbstractDataAdapterService
 		} catch (InvocationTargetException e) {
 			throw new JRException(e);
 		}
-
+		finally
+		{
+			Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
+		}
 	}
 }
