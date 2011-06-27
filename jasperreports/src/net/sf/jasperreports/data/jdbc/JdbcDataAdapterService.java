@@ -34,12 +34,18 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
 public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterService 
 {
+	private static final Log log = LogFactory.getLog(JdbcDataAdapterService.class);
+	
+	private Connection connection = null; 
 
 	/**
 	 * This classloader is used to load JDBC drivers available in the set of
@@ -106,7 +112,6 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
 		if (jdbcDataAdapter != null) 
 		{
-			Connection conn = null;
 			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
 
 			try 
@@ -132,7 +137,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
 
-				conn = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
+				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
 			}
 			catch (Exception ex)
 			{
@@ -143,7 +148,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
 
-			parameters.put(JRParameter.REPORT_CONNECTION, conn);
+			parameters.put(JRParameter.REPORT_CONNECTION, connection);
 		}
 	}
 
@@ -152,4 +157,20 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				"This service implementation needs the password to be saved in the data adapter.");
 	}
 
+	@Override
+	public void dispose() 
+	{
+		if (connection != null) 
+		{
+			try 
+			{
+				connection.close();
+			}
+			catch (Exception ex) 
+			{
+				if (log.isErrorEnabled())
+					log.error("Error while closing the connection.", ex);
+			}
+		}
+	}
 }

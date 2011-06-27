@@ -46,7 +46,7 @@ public class JndiDataAdapterService extends AbstractDataAdapterService
 {
 	private static final Log log = LogFactory.getLog(JndiDataAdapterService.class);
 	
-	private Connection conn = null; 
+	private Connection connection = null; 
 
 	public JndiDataAdapterService(JndiDataAdapter jndiDataAdapter)
 	{
@@ -67,25 +67,31 @@ public class JndiDataAdapterService extends AbstractDataAdapterService
 
 	        try {
 	        	Context ctx = new InitialContext();
-				DataSource ds = (DataSource) ctx.lookup("java:comp/env/" + jndiDataAdapter.getDataSourceName());
-	            conn = ds.getConnection();
+				DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/" + jndiDataAdapter.getDataSourceName());
+				connection = dataSource.getConnection();
 	        }
 			catch (Exception ex)
 			{ 
 				throw new JRException(ex);
 			}
 
-			parameters.put(JRParameter.REPORT_CONNECTION, conn);
+			parameters.put(JRParameter.REPORT_CONNECTION, connection);
 		}
 	}
 	
 	@Override
-	public void dispose() {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (Exception ex) {
-				log.error("Error while closing the connection.", ex);
+	public void dispose() 
+	{
+		if (connection != null) 
+		{
+			try 
+			{
+				connection.close();
+			}
+			catch (Exception ex) 
+			{
+				if (log.isErrorEnabled())
+					log.error("Error while closing the connection.", ex);
 			}
 		}
 	}
