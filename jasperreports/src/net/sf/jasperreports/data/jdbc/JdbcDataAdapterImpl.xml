@@ -31,8 +31,8 @@
 		<field name="serverAddress" type="string">
 			<bind-xml name="serverAddress" node="element"/>
 		</field>
-		<field name="classpathPaths" type="string" collection="arraylist">
-			<bind-xml name="classpathPaths" node="element"/>
+		<field name="classpath" type="string" collection="arraylist">
+			<bind-xml name="classpath" node="element"/>
 		</field>
 	</class>
 </mapping>

@@ -32,7 +32,7 @@ import java.util.List;
  */
 public interface ClasspathAwareDataAdapter extends DataAdapter
 {
-	public void setClasspathPaths(List<String> classpathPaths);
+	public void setClasspath(List<String> classpath);
 
-	public List<String> getClasspathPaths();
+	public List<String> getClasspath();
 }

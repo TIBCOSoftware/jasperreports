@@ -21,19 +21,19 @@ package net.sf.jasperreports.data.provider;
 
 import java.util.Map;
 
-import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class DataSourceProviderDataAdapterService extends
-		AbstractDataAdapterService {
-
-	private JRDataSourceProvider dsp;
+public class DataSourceProviderDataAdapterService extends AbstractClasspathAwareDataAdapterService 
+{
 
 	public DataSourceProviderDataAdapterService(
 			DataSourceProviderDataAdapter dsDataAdapter) {
@@ -44,33 +44,39 @@ public class DataSourceProviderDataAdapterService extends
 		return (DataSourceProviderDataAdapter) getDataAdapter();
 	}
 
-	public JRDataSourceProvider getProvider() throws JRException {
-		if (dsp == null) {
-			DataSourceProviderDataAdapter dsDataAdapter = getDataSourceProviderDataAdapter();
-			if (dsDataAdapter != null) {
-				try {
-					Class clazz = Class.forName(dsDataAdapter
-							.getProviderClass(), true, Thread.currentThread()
-							.getContextClassLoader());
-					dsp = (JRDataSourceProvider) clazz.newInstance();
-					// FIXME: I don't have a report, why I need a report??!
-				} catch (ClassNotFoundException e) {
-					throw new JRException(e);
-				} catch (IllegalAccessException e) {
-					throw new JRException(e);
-				} catch (InstantiationException e) {
-					throw new JRException(e);
-				}
-			}
-		}
-		return dsp;
-	}
-
 	@Override
-	public void contributeParameters(Map<String, Object> parameters)
-			throws JRException {
-		if (getProvider() != null)
-			parameters.put(JRParameter.REPORT_DATA_SOURCE, dsp.create(null));
+	public void contributeParameters(Map<String, Object> parameters) throws JRException 
+	{
+		DataSourceProviderDataAdapter dsDataAdapter = getDataSourceProviderDataAdapter();
+		if (dsDataAdapter != null) 
+		{
+			JRDataSourceProvider provider = null;
+			
+			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
+
+			try 
+			{
+				Thread.currentThread().setContextClassLoader(
+					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
+					);
+
+				Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getProviderClass());
+				provider = (JRDataSourceProvider) clazz.newInstance();
+				// FIXME: I don't have a report, why I need a report??!
+			} catch (ClassNotFoundException e) {
+				throw new JRException(e);
+			} catch (IllegalAccessException e) {
+				throw new JRException(e);
+			} catch (InstantiationException e) {
+				throw new JRException(e);
+			}
+			finally
+			{
+				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
+			}
+
+			parameters.put(JRParameter.REPORT_DATA_SOURCE, provider.create(null));
+		}
 	}
 
 }

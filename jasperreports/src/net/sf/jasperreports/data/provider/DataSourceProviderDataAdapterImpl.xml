@@ -13,5 +13,8 @@
 		<field name="providerClass" type="string">
 			<bind-xml name="providerClass" node="element"/>
 		</field>
+		<field name="classpath" type="string" collection="arraylist">
+			<bind-xml name="classpath" node="element"/>
+		</field>
 	</class>
 </mapping>
