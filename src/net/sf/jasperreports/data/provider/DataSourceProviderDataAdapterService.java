@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  */
 public class DataSourceProviderDataAdapterService extends AbstractClasspathAwareDataAdapterService 
 {
+	private JRDataSourceProvider provider = null;
 
 	public DataSourceProviderDataAdapterService(
 			DataSourceProviderDataAdapter dsDataAdapter) {
@@ -43,39 +44,49 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 	public DataSourceProviderDataAdapter getDataSourceProviderDataAdapter() {
 		return (DataSourceProviderDataAdapter) getDataAdapter();
 	}
+	
+	public JRDataSourceProvider getProvider() throws JRException
+	{
+		if (provider == null)
+		{
+			DataSourceProviderDataAdapter dsDataAdapter = getDataSourceProviderDataAdapter();
+			if (dsDataAdapter != null) 
+			{
+				ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
+
+				try 
+				{
+					Thread.currentThread().setContextClassLoader(
+						new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
+						);
+
+					Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getProviderClass());
+					provider = (JRDataSourceProvider) clazz.newInstance();
+					// FIXME: I don't have a report, why I need a report??!
+				} catch (ClassNotFoundException e) {
+					throw new JRException(e);
+				} catch (IllegalAccessException e) {
+					throw new JRException(e);
+				} catch (InstantiationException e) {
+					throw new JRException(e);
+				}
+				finally
+				{
+					Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
+				}
+			}
+		}
+		
+		return provider;
+	}
 
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{
-		DataSourceProviderDataAdapter dsDataAdapter = getDataSourceProviderDataAdapter();
-		if (dsDataAdapter != null) 
+		JRDataSourceProvider dsProvider = getProvider();
+		if (dsProvider != null) 
 		{
-			JRDataSourceProvider provider = null;
-			
-			ClassLoader oldThreadClassLoader = Thread.currentThread().getContextClassLoader();
-
-			try 
-			{
-				Thread.currentThread().setContextClassLoader(
-					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
-					);
-
-				Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getProviderClass());
-				provider = (JRDataSourceProvider) clazz.newInstance();
-				// FIXME: I don't have a report, why I need a report??!
-			} catch (ClassNotFoundException e) {
-				throw new JRException(e);
-			} catch (IllegalAccessException e) {
-				throw new JRException(e);
-			} catch (InstantiationException e) {
-				throw new JRException(e);
-			}
-			finally
-			{
-				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
-			}
-
-			parameters.put(JRParameter.REPORT_DATA_SOURCE, provider.create(null));
+			parameters.put(JRParameter.REPORT_DATA_SOURCE, dsProvider.create(null));
 		}
 	}
 
