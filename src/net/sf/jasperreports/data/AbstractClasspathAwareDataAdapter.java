@@ -33,13 +33,13 @@ import java.util.List;
  */
 public abstract class AbstractClasspathAwareDataAdapter extends AbstractDataAdapter implements ClasspathAwareDataAdapter
 {
-	private List<String> classpathPaths = new ArrayList<String>();
+	private List<String> classpath = new ArrayList<String>();
     
-	public void setClasspathPaths(List<String> classpathPaths) {
-		this.classpathPaths = classpathPaths;
+	public void setClasspath(List<String> classpath) {
+		this.classpath = classpath;
 	}
 
-	public List<String> getClasspathPaths() {
-		return classpathPaths;
+	public List<String> getClasspath() {
+		return classpath;
 	}
 }

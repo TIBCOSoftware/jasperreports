@@ -62,9 +62,9 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 		}
 
 		ClasspathAwareDataAdapter dataAdapter = (ClasspathAwareDataAdapter)getDataAdapter();
-		List<String> paths = dataAdapter.getClasspathPaths();
+		List<String> classpath = dataAdapter.getClasspath();
 		List<URL> urls = new ArrayList<URL>();
-		for (String path : paths) 
+		for (String path : classpath) 
 		{
 			File file = fileResolver.resolveFile(path);
 

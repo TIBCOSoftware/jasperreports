@@ -68,7 +68,7 @@ public class XlsDataAdapterService extends AbstractDataAdapterService
 				String numberPattern = xlsDataAdapter.getNumberPattern();
 				if (xlsDataAdapter.isQueryExecuterMode())
 				{	
-					parameters.put(JRXlsQueryExecuterFactory.XLS_WORKBOOK, Workbook.getWorkbook(new FileInputStream(new File(xlsDataAdapter.getFileName()))));
+					parameters.put(JRXlsQueryExecuterFactory.XLS_WORKBOOK, Workbook.getWorkbook(new FileInputStream(new File(xlsDataAdapter.getFileName()))));//FIXMENOW check this
 					if (datePattern != null && datePattern.length() > 0)
 		            {
 		            	parameters.put( JRXlsQueryExecuterFactory.XLS_DATE_FORMAT, new SimpleDateFormat(datePattern) );

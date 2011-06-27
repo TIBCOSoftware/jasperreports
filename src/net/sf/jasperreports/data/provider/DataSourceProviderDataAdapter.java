@@ -19,14 +19,14 @@
  */
 package net.sf.jasperreports.data.provider;
 
-import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public interface DataSourceProviderDataAdapter extends DataAdapter
+public interface DataSourceProviderDataAdapter extends ClasspathAwareDataAdapter
 {
 	public String getProviderClass();
 

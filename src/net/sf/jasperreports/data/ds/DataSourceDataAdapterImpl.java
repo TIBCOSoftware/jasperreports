@@ -19,14 +19,14 @@
  */
 package net.sf.jasperreports.data.ds;
 
-import net.sf.jasperreports.data.AbstractDataAdapter;
+import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class DataSourceDataAdapterImpl extends AbstractDataAdapter implements DataSourceDataAdapter
+public class DataSourceDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements DataSourceDataAdapter
 {
 	private String factoryClass;
 	private String methodToCall;
