@@ -63,7 +63,7 @@ public abstract class OasisZip extends AbstractZip
 		contentEntry = createEntry("content.xml");
 		exportZipEntries.add(contentEntry);
 		
-		exportZipEntries.add(new EmptyZipEntry("meta.xml"));
+		createMetaEntry();
 		exportZipEntries.add(new EmptyZipEntry("settings.xml"));
 
 		stylesEntry = createEntry("styles.xml");
@@ -164,6 +164,35 @@ public abstract class OasisZip extends AbstractZip
 				try
 				{
 					manifestWriter.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void createMetaEntry() throws IOException
+	{
+		ExportZipEntry metaEntry = createEntry("meta.xml");
+		Writer metaWriter = null;
+		try
+		{
+			metaWriter = metaEntry.getWriter();
+			metaWriter.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+			metaWriter.flush();
+			exportZipEntries.add(metaEntry);
+		}
+		finally
+		{
+			if (metaWriter != null)
+			{
+				try
+				{
+					metaWriter.close();
 				}
 				catch (IOException e)
 				{
