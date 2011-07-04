@@ -123,7 +123,10 @@ public class XlsxSheetHelper extends BaseHelper
 		write("\" bottom=\"");
 		write(String.valueOf(jasperPrint.getBottomMargin() == null ? 0.75f : LengthUtil.inchNoRound(isIgnorePageMargins ? 0 : jasperPrint.getBottomMargin()))); 
 		write("\" header=\"0.0\" footer=\"0.0\"/>\n");
-		//write("<pageSetup orientation=\"portrait\" r:id=\"rId1\"/>\n");		
+		if (jasperPrint.getOrientationValue() != null)
+		{
+			write("<pageSetup orientation=\"" + jasperPrint.getOrientationValue().getName().toLowerCase() + "\"/>\n");		
+		}
 		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
 	}
 
