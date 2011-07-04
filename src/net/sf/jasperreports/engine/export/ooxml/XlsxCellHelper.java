@@ -124,9 +124,8 @@ public class XlsxCellHelper extends BaseHelper
 			throw new JRRuntimeException(e);
 		}
 
-		String type = handler.getType();
-		
 		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked) + "\"");
+		String type = handler.getType();
 		if (type != null)
 		{
 			write(" t=\"" + type + "\"");
@@ -331,7 +330,7 @@ class TypeTextValueHandler implements TextValueHandler
 	}
 	
 	public void handle(DateTextValue textValue) throws JRException {
-		type = "d";
+		type = null;//"d"; //mantis #5192 : invalid file in ms office 2010
 	}
 	
 	public void handle(NumberTextValue textValue) throws JRException {
