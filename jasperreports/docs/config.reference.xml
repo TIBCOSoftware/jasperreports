@@ -196,6 +196,7 @@
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
       <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
       <property ref="net.sf.jasperreports.export.xls.password"/>
+      <property ref="net.sf.jasperreports.export.xls.pattern"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
@@ -2409,7 +2410,7 @@ Specifies whether the page background should be white or the default XLS backgro
     <description>
 Property that stores the formula which has to be applied to a given cell in an Excel sheet.
     </description>
-    <api>net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_CELL_FORMULA</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_FORMULA</api>
     <default>N/A</default>
     <scope>Text Element</scope>
     <since>3.0.0</since>
@@ -2420,16 +2421,29 @@ Property that stores the formula which has to be applied to a given cell in an E
   
   <configProperty name="net.sf.jasperreports.export.xls.password">
     <description>
-Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PASSWORD">PASSWORD</api> export parameter.
+Property whose value is used as default state of the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PASSWORD">PASSWORD</api> export parameter.
 <br/>
 Contains a String value representing the password in case of password protected sheets in documents.
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
-    <api>net/sf/jasperreports/engine/export/JRAbstractXlsExporterParameter.html#PROPERTY_PASSWORD</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_PASSWORD</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.pattern -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.pattern">
+    <description>
+Property whose value is an Excel compatible pattern, to be used as replacement for the text field pattern when exporting to XLS formats.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRAbstractXlsExporter.html#PROPERTY_CELL_PATTERN</api>
+    <default>N/A</default>
+    <scope>Text Element</scope>
+    <since>4.0.3</since>
   </configProperty>
   
   
