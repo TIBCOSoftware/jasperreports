@@ -570,7 +570,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 					baseStyle.setDataFormat(
 						dataFormat.getFormat(
-							getConvertedPattern(((NumberTextValue)value).getPattern())
+							((NumberTextValue)value).getPattern()
 							)
 						);
 				}
@@ -578,7 +578,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 					baseStyle.setDataFormat(
 							dataFormat.getFormat(
-								getConvertedPattern(((DateTextValue)value).getPattern())
+								((DateTextValue)value).getPattern()
 								)
 							);
 					
@@ -624,7 +624,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						baseStyle.setDataFormat(
 							dataFormat.getFormat(
-								getConvertedPattern(textValue.getPattern())
+								textValue.getPattern()
 								)
 							);
 					}
@@ -645,7 +645,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 					baseStyle.setDataFormat(
 						dataFormat.getFormat(
-							getConvertedPattern(textValue.getPattern())
+							textValue.getPattern()
 							)
 						);
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);

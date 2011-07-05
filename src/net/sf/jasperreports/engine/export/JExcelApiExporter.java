@@ -803,31 +803,29 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected NumberFormat getNumberFormat(String pattern, boolean isComplexFormat)
 	{
-		String convertedPattern = getConvertedPattern(pattern);
-		NumberFormat cellFormat = numberFormats.get(convertedPattern);
+		NumberFormat cellFormat = numberFormats.get(pattern);
 		if (cellFormat == null)
 		{
 			if(isComplexFormat)
 			{
-				cellFormat = new NumberFormat(convertedPattern,NumberFormat.COMPLEX_FORMAT);
+				cellFormat = new NumberFormat(pattern,NumberFormat.COMPLEX_FORMAT);
 			}
 			else
 			{
-				cellFormat = new NumberFormat(convertedPattern);
+				cellFormat = new NumberFormat(pattern);
 			}
-			numberFormats.put(convertedPattern, cellFormat);
+			numberFormats.put(pattern, cellFormat);
 		}
 		return cellFormat;
 	}
 
 	protected DateFormat getDateFormat(String pattern)
 	{
-		String convertedPattern = getConvertedPattern(pattern);
-		DateFormat cellFormat = dateFormats.get(convertedPattern);
+		DateFormat cellFormat = dateFormats.get(pattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new DateFormat(convertedPattern);
-			dateFormats.put(convertedPattern, cellFormat);
+			cellFormat = new DateFormat(pattern);
+			dateFormats.put(pattern, cellFormat);
 		}
 		return cellFormat;
 	}

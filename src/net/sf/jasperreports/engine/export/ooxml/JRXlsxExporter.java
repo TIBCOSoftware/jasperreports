@@ -1184,7 +1184,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		cellHelper.exportHeader(
 			gridCell, rowIndex, colIndex, textValue, 
-			getConvertedPattern(text.getPattern()), 
+			getPattern(text), 
 			getTextLocale(text), 
 			isWrapText(gridCell.getElement()), 
 			isCellHidden(gridCell.getElement()), 
