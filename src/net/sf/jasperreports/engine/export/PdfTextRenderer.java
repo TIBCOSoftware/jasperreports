@@ -150,7 +150,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				//- text.getLeadingOffset()
 				+ lineHeight
 				- drawPosY,
-			x + leftPadding + drawPosX  + segment.layout.getAdvance(),
+			x + leftPadding + drawPosX  + (segment.layout.getAdvance() * 1.2f),//FIXMETAB that was a fair approximation
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
