@@ -608,10 +608,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 				}
 				cellValue = getDetectedCellValue(x, y, textValue, baseStyle, isComplexFormat(text));
 			}
-			else if (isAutoDetectCellType)
-			{
-				cellValue = getAutoDetectedCellValue(x, y, textStr, baseStyle);
-			}
 			else
 			{
 				cellValue = getLabelCell(x, y, textStr, baseStyle);
@@ -828,22 +824,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			dateFormats.put(pattern, cellFormat);
 		}
 		return cellFormat;
-	}
-
-	protected CellValue getAutoDetectedCellValue(int x, int y, String textStr, StyleInfo baseStyle) throws JRException
-	{
-		CellValue cellValue;
-		try
-		{
-			double d = Double.parseDouble(textStr);
-			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
-			cellValue = new Number(x, y, d, cellStyle);
-		}
-		catch (NumberFormatException nfe)
-		{
-			cellValue = getLabelCell(x, y, textStr, baseStyle);
-		}
-		return cellValue;
 	}
 
 	protected CellValue getLabelCell(int x, int y, String textStr, StyleInfo baseStyle) throws JRException

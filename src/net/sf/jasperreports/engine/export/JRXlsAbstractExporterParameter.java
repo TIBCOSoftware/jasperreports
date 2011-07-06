@@ -115,14 +115,6 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * A boolean value specifying whether the exporter should try to automatically detect cell types based on the cell value.
-	 *
-	 * @deprecated The {@link #IS_DETECT_CELL_TYPE IS_DETECT_CELL_TYPE} offers more consistent numerical cell detection.
-	 */
-	public static final JRXlsAbstractExporterParameter IS_AUTO_DETECT_CELL_TYPE = new JRXlsAbstractExporterParameter("Is Auto Detect Cell Type");
-
-
-	/**
 	 * Flag used to indicate whether the exporter should take into consideration the type of the
 	 * original text field expressions and set the cell types and values accordingly.
 	 * <p>

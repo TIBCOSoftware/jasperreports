@@ -676,26 +676,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 			});
 		}
-		else if (isAutoDetectCellType)
-		{
-			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-			try
-			{
-				cell.setCellValue(Double.parseDouble(textStr));
-			}
-			catch(NumberFormatException e)
-			{
-				if (JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()))
-				{
-					setStringCellValue(textStr);
-				}
-				else
-				{
-					setRichTextStringCellValue(styledText, forecolor, textElement, getTextLocale(textElement));
-				}
-			}
-			endCreateCell(cellStyle);
-		}
 		else
 		{
 			HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
