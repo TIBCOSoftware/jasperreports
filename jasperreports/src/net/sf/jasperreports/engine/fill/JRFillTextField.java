@@ -711,7 +711,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 
 		setPrintText(text);
 		
-		text.setTextFormat(getTextFormat());
+		text.setTextFormat(getTextFormat());//FIXMEFORMAT why do we set this always, even when pattern is fixed.
 
 		text.setAnchorName(getAnchorName());
 		text.setHyperlinkReference(getHyperlinkReference());

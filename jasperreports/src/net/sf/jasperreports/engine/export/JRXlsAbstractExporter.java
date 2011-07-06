@@ -217,7 +217,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isRemoveEmptySpaceBetweenRows;
 	protected boolean isRemoveEmptySpaceBetweenColumns;
 	protected boolean isWhitePageBackground;
-	protected boolean isAutoDetectCellType;
 	protected boolean isDetectCellType;
 	protected boolean isFontSizeFixEnabled;
 	protected boolean isImageBorderFixEnabled;
@@ -401,12 +400,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 		setBackground();
-
-		Boolean isAutoDetectCellTypeParameter = (Boolean)parameters.get(JRXlsAbstractExporterParameter.IS_AUTO_DETECT_CELL_TYPE);
-		if (isAutoDetectCellTypeParameter != null)
-		{
-			isAutoDetectCellType = isAutoDetectCellTypeParameter.booleanValue();
-		}
 
 		isDetectCellType = 
 			getBooleanParameter(
