@@ -182,6 +182,9 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	protected boolean useTempFile;
 	protected boolean complexFormat;
 	
+	protected int rowFreezeIndex;
+	protected int columnFreezeIndex;
+	
 	protected class ExporterContext extends BaseExporterContext implements JExcelApiExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -2050,6 +2053,8 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			sheets.getFooter().getRight().append(sheetFooterRight);
 		}
 		
+		rowFreezeIndex = 0;
+		columnFreezeIndex = 0;
 	}
 
 	private final PaperSize getSuitablePaperSize(JasperPrint jasP)
@@ -2335,6 +2340,21 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 		return complexFormat;
 	}
-
+	
+	protected void setFreezePane(int rowIndex, int colIndex)
+	{
+		SheetSettings settings = sheet.getSettings();
+		if(rowIndex > rowFreezeIndex)
+		{
+			settings.setVerticalFreeze(rowIndex);
+			rowFreezeIndex = rowIndex;
+		}
+		if(colIndex > columnFreezeIndex)
+		{
+			settings.setHorizontalFreeze(colIndex);
+			columnFreezeIndex = colIndex;
+		}
+	}
+	
 }
 

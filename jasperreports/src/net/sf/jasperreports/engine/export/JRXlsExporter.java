@@ -158,6 +158,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected String password;
 
+	protected int rowFreezeIndex;
+	protected int columnFreezeIndex;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -290,6 +293,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
+		rowFreezeIndex = 0;
+		columnFreezeIndex = 0;
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException
@@ -1741,6 +1746,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		return XLS_EXPORTER_KEY;
 	}
 
+	
+	protected void setFreezePane(int rowIndex, int colIndex)
+	{
+		int maxRowIndex = Math.max(rowIndex, rowFreezeIndex);
+		int maxColIndex = Math.max(colIndex, columnFreezeIndex);
+		sheet.createFreezePane(maxColIndex, maxRowIndex );
+		rowFreezeIndex = maxRowIndex;
+		columnFreezeIndex = maxColIndex;
+	}
+	
 }
 
 
