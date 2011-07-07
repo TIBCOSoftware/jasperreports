@@ -1430,5 +1430,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		return XLSX_EXPORTER_KEY;
 	}
+	
+	protected void setFreezePane(int colIndex, int rowIndex){
+		//TODO: set freeze pane here
+	}
+	
 }
 
