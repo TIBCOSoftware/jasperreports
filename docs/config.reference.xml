@@ -189,6 +189,10 @@
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
       <property ref="net.sf.jasperreports.export.xls.formula"/>
+      <property ref="net.sf.jasperreports.export.xls.freeze.column"/>
+      <property ref="net.sf.jasperreports.export.xls.freeze.column.edge"/>
+      <property ref="net.sf.jasperreports.export.xls.freeze.row"/>
+      <property ref="net.sf.jasperreports.export.xls.freeze.row.edge"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
@@ -2410,10 +2414,81 @@ Specifies whether the page background should be white or the default XLS backgro
     <description>
 Property that stores the formula which has to be applied to a given cell in an Excel sheet.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_FORMULA</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_FORMULA</api>stores the formula which has to be applied to a given cell in an Excel sheet.
     <default>N/A</default>
     <scope>Text Element</scope>
     <since>3.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.freeze.column -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.freeze.column">
+    <description>
+Property that indicates the name of the first unlocked column in the sheet. All columns to the left of 
+this one will be 'frozen'. Possible values for this property are letters or letter combinations representing 
+valid column names in Excel, like A, B, AB, AC, etc.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.0.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.freeze.column.edge -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.freeze.column.edge">
+    <description>
+Property that indicates the vertical edge of the freeze pane, relative to the current cell. Possible values are:
+<ul>
+<li>
+<code>Left</code> - the current column is the first unlocked column in the sheet. All columns to the left are 'frozen'.
+</li>
+<li>
+<code>Right</code> - the current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.
+</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE</api>
+    <default>N/A</default>
+    <scope>Report Element</scope>
+    <since>4.0.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.freeze.row -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.freeze.row">
+    <description>
+Property that specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
+Possible values for this property are positive integers in the 0..65536 range. Negative values are not considered.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.0.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.freeze.row.edge -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.freeze.row.edge">
+    <description>
+Property that indicates the horizontal edge of the freeze pane, relative to the current cell. Possible values are:
+<ul>
+<li>
+<code>Top</code> - the current row is the first unlocked row in the sheet. All rows above are 'frozen'.
+</li>
+<li>
+<code>Bottom</code> - the current row is the last 'frozen' row in the sheet. All rows below are unlocked.
+</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE</api>
+    <default>N/A</default>
+    <scope>Report Element</scope>
+    <since>4.0.3</since>
   </configProperty>
   
   
