@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPen;
@@ -223,7 +224,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 		
 		for (int i = 0; i < elements.size(); ++i) 
 		{
-			Object element = elements.get(i);
+			JRPrintElement element = elements.get(i);
 			
 			if (element instanceof JRPrintLine)
 			{
@@ -252,6 +253,31 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			else if (element instanceof JRGenericPrintElement)
 			{
 				exportGenericElement((JRGenericPrintElement) element);
+			}
+			
+			String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
+			
+			String rowFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_ROW_FREEZE_EDGE);
+			
+			int rowFreezeIndex = rowFreeze == null 
+				? gridRowFreezeIndex 
+				: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
+						? rowIndex + 1
+						: rowIndex
+						);
+			
+			String columnFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_FREEZE_EDGE);
+				
+			int columnFreezeIndex = columnFreeze == null 
+				? gridColumnFreezeIndex 
+				: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
+						? columnNamesMap.get(currentColumnName) + 1
+						: columnNamesMap.get(currentColumnName)
+						);
+
+			if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
+			{
+				setFreezePane(rowFreezeIndex, columnFreezeIndex);
 			}
 				
 		}
