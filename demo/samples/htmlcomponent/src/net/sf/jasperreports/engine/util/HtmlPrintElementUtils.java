@@ -61,8 +61,7 @@ public final class HtmlPrintElementUtils
 		String factoryClassName = JRProperties.getProperty(PROPERTY_HTML_PRINTELEMENT_FACTORY);
 		if (factoryClassName == null)
 		{
-			throw new JRException("HtmlPrintElement factory property not found. " +
-					"Create a propery named " + PROPERTY_HTML_PRINTELEMENT_FACTORY + ".");
+			factoryClassName = DefaultHtmlPrintElementFactory.class.getName();
 		}
 		
 		return (HtmlPrintElementFactory) cache.getCachedInstance(factoryClassName);
