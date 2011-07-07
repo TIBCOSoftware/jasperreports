@@ -211,7 +211,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li>Bottom - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
 	 * </ul>
 	 */
-	protected static final String PROPERTY_ROW_FREEZE_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
+	protected static final String PROPERTY_FREEZE_ROW_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
 	
 	/**
 	 * This property indicates the vertical edge of the freeze pane, relative to the current cell. 
@@ -221,7 +221,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li>Right - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
-	protected static final String PROPERTY_COLUMN_FREEZE_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
+	protected static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
 	
 	
 	
@@ -804,7 +804,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						JRPrintElement element = gridCell.getWrapper().getElement();
 						
-						String rowFreeze = JRProperties.getProperty(element, PROPERTY_ROW_FREEZE_EDGE);
+						String rowFreeze = JRProperties.getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 						
 						int rowFreezeIndex = rowFreeze == null 
 							? gridRowFreezeIndex 
@@ -813,7 +813,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									: rowIndex
 									);
 						
-						String columnFreeze = JRProperties.getProperty(element, PROPERTY_COLUMN_FREEZE_EDGE);
+						String columnFreeze = JRProperties.getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 							
 						int columnFreezeIndex = columnFreeze == null 
 							? gridColumnFreezeIndex 

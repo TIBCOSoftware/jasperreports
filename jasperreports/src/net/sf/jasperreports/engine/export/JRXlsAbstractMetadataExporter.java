@@ -257,7 +257,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			
 			String currentColumnName = element.getPropertiesMap().getProperty(JRXlsAbstractMetadataExporterParameter.PROPERTY_COLUMN_NAME);
 			
-			String rowFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_ROW_FREEZE_EDGE);
+			String rowFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
 				? gridRowFreezeIndex 
@@ -266,7 +266,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 						: rowIndex
 						);
 			
-			String columnFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_FREEZE_EDGE);
+			String columnFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
 				? gridColumnFreezeIndex 
