@@ -192,7 +192,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_SHEET_DIRECTION = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.direction";
 	
 	/**
-	 * This property indicates the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
+	 * This property specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
 	 * Its possible values are positive integers in the 0..65536 range. Negative values are not considered. 
 	 */
 	protected static final String PROPERTY_FREEZE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row";
@@ -218,7 +218,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * Possible values are:
 	 * <ul>
 	 * <li>Left - The current column is the first unlocked column in the sheet. All columns to the left are 'frozen'.</li>
-	 * <li>Bottom - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
+	 * <li>Right - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
 	protected static final String PROPERTY_COLUMN_FREEZE_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
