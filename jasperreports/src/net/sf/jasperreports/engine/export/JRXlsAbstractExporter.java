@@ -195,13 +195,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * This property specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
 	 * Its possible values are positive integers in the 0..65536 range. Negative values are not considered. 
 	 */
-	protected static final String PROPERTY_FREEZE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row";
+	public static final String PROPERTY_FREEZE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row";
 	
 	/**
 	 * This property indicates the name of the first unlocked column in the sheet. All columns to the left of this one will be 'frozen'. 
 	 * Possible values are letters or letter combinations representing valid column names in Excel, like A, B, AB, AC, etc.
 	 */
-	protected static final String PROPERTY_FREEZE_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column";
+	public static final String PROPERTY_FREEZE_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column";
 	
 	/**
 	 * This property indicates the horizontal edge of the freeze pane, relative to the current cell. 
@@ -211,7 +211,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li>Bottom - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
 	 * </ul>
 	 */
-	protected static final String PROPERTY_FREEZE_ROW_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
+	public static final String PROPERTY_FREEZE_ROW_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
 	
 	/**
 	 * This property indicates the vertical edge of the freeze pane, relative to the current cell. 
@@ -221,12 +221,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * <li>Right - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
-	protected static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
+	public static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
 	
 	
 	
-	protected static final int MAX_ROW_INDEX = 65535;
-	protected static final int MAX_COLUMN_INDEX = 255;
+	public static final int MAX_ROW_INDEX = 65535;
+	public static final int MAX_COLUMN_INDEX = 255;
 	
 	protected static class TextAlignHolder
 	{
