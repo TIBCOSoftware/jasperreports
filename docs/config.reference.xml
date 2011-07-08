@@ -183,7 +183,14 @@
       <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
       <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
+      
+      <property ref="net.sf.jasperreports.export.xls.column.name"/>
+      <property ref="net.sf.jasperreports.export.xls.column.names"/>
+      
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
+      
+      <property ref="net.sf.jasperreports.export.xls.data"/>
+      
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
@@ -203,6 +210,9 @@
       <property ref="net.sf.jasperreports.export.xls.pattern"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
+      
+      <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
+      
       <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
@@ -213,6 +223,9 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
+      
+      <property ref="net.sf.jasperreports.export.xls.write.header"/>
+      
       <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
       <property ref="net.sf.jasperreports.export.xml.page.count"/>
       <property ref="net.sf.jasperreports.export.xml.start.page.index"/>
@@ -2185,6 +2198,36 @@ Specifies whether row spans should be collapsed and merging cells across rows sh
     <since>2.0.1</since>
   </configProperty>
   
+
+  <!-- net.sf.jasperreports.export.xls.column.name -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.column.name">
+    <description>
+Represents the name for the column that should appear in the XLS export. It must be one of the values in 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">PROPERTY_COLUMN_NAMES_PREFIX</api>, 
+if provided.    
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.0.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.column.names -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.column.names">
+    <description>
+Properties having this prefix contain comma-separated column names. 
+<br/>
+The order of the columns is important and for accurate results they should be in the same order as the original columns.   
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
+    <default>N/A</default>
+    <scope>Report</scope>
+    <since>4.0.2</since>
+  </configProperty>
+  
   
   <!-- net.sf.jasperreports.export.xls.cell.hidden -->
   
@@ -2229,6 +2272,22 @@ This property is by default not set (<code>false</code>).
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.data -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.data">
+    <description>
+Property that specifies which value to associate with 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api>.  
+<br/>
+By default this value is represented by the text value of the report element this property is assigned to.    
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_DATA</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.0.2</since>
+  </configProperty>
+
+
   <!-- net.sf.jasperreports.export.xls.detect.cell.type -->
   
   <configProperty name="net.sf.jasperreports.export.xls.detect.cell.type">
@@ -2578,6 +2637,21 @@ It is very useful especially when displaying each report's group on a separate s
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.repeat.value -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.repeat.value">
+    <description>
+Property that specifies whether the value associated with 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+should be repeated or not when it is missing.    
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>4.0.2</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.sheet.direction -->
   
   <configProperty name="net.sf.jasperreports.export.xls.sheet.direction">
@@ -2790,6 +2864,19 @@ If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowe
     <default>true</default>
     <scope>Global | Report | Element</scope>
     <since>3.7.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.write.header -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.write.header">
+    <description>
+Property that specifies whether the export header (the column names) should be written or not.    
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>4.0.2</since>
   </configProperty>
   
   
