@@ -2427,7 +2427,15 @@ Property that stores the formula which has to be applied to a given cell in an E
     <description>
 Property that indicates the name of the first unlocked column in the sheet. All columns to the left of 
 this one will be 'frozen'. Possible values for this property are letters or letter combinations representing 
-valid column names in Excel, like A, B, AB, AC, etc.
+valid column names in Excel, like A, B, AB, AC, etc. 
+<br/>
+The property is available for: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
+</ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN</api>
     <default>N/A</default>
@@ -2449,6 +2457,12 @@ Property that indicates the vertical edge of the freeze pane, relative to the cu
 <code>Right</code> - the current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.
 </li>
 </ul>
+The property is available for: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+</ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE</api>
     <default>N/A</default>
@@ -2463,6 +2477,14 @@ Property that indicates the vertical edge of the freeze pane, relative to the cu
     <description>
 Property that specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
 Possible values for this property are positive integers in the 0..65536 range. Negative values are not considered.
+<br/>
+The property is available for: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api></li>
+</ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW</api>
     <default>N/A</default>
@@ -2483,6 +2505,12 @@ Property that indicates the horizontal edge of the freeze pane, relative to the 
 <li>
 <code>Bottom</code> - the current row is the last 'frozen' row in the sheet. All rows below are unlocked.
 </li>
+</ul>
+The property is available for: 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api></li>
 </ul>
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE</api>
