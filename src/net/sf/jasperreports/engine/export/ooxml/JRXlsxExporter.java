@@ -148,7 +148,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature nature;
 
-	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -729,7 +728,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
-		sheetHelper.exportHeader();
+		sheetHelper.exportHeader(gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
 		drawingHelper.exportHeader();
 		drawingRelsHelper.exportHeader();
@@ -1432,6 +1431,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 	
 	protected void setFreezePane(int colIndex, int rowIndex){
+		
 		//TODO: set freeze pane here
 	}
 	

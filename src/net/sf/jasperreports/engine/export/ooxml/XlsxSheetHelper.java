@@ -28,8 +28,10 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -77,6 +79,37 @@ public class XlsxSheetHelper extends BaseHelper
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 
 		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
+		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
+	{
+		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		write("<worksheet\n");
+		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
+		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
+
+		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
+		if(rowFreeze > 0 || columnFreeze > 0)
+		{
+			write(">\n<pane xSplit=\"" + columnFreeze + "\" ySplit=\"" + rowFreeze +"\"");
+			String columnName = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
+				? "A" 
+				: JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
+			write(" topLeftCell=\"" + columnName + rowFreeze + "\"");
+			write(" activePane=\"bottomRight\" state=\"frozen\"/>\n");
+			write("<selection pane=\"topRight\"/>\n");
+			write("<selection pane=\"bottomLeft\"/>\n");
+			write("<selection pane=\"bottomRight\"/>\n");
+			write("</sheetView>\n</sheetViews>\n");
+		}
+		else
+		{
+			write("/></sheetViews>\n");
+		}
 		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
 	}
 	
