@@ -37,6 +37,9 @@ import net.sf.jasperreports.components.list.FillListFactory;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListComponentCompiler;
 import net.sf.jasperreports.components.list.ListDesignConverter;
+import net.sf.jasperreports.components.map.MapCompiler;
+import net.sf.jasperreports.components.map.MapDesignConverter;
+import net.sf.jasperreports.components.map.MapFillFactory;
 import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
@@ -82,6 +85,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		"UPCA", "UPCE", "EAN13", "EAN8", "USPSIntelligentMail", "RoyalMailCustomer", 
 		"POSTNET", "PDF417"};
 	protected static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
+	protected static final String MAP_COMPONENT_NAME = "map";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -137,6 +141,13 @@ public class ComponentsExtensionsRegistryFactory implements
 		spiderChartManager.setComponentXmlWriter(xmlHandler);
 		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
 		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
+		
+		DefaultComponentManager mapManager = new DefaultComponentManager();
+		mapManager.setDesignConverter(MapDesignConverter.getInstance());
+		mapManager.setComponentCompiler(new MapCompiler());
+		mapManager.setComponentXmlWriter(xmlHandler);
+		mapManager.setComponentFillFactory(new MapFillFactory());
+		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

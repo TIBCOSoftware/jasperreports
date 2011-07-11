@@ -27,14 +27,21 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.components.map.MapElementHtmlHandler;
+import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.export.FlashHtmlHandler;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
 /**
@@ -43,6 +50,31 @@ import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
  */
 public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
+	private static final GenericElementHandlerBundle HANDLER_BUNDLE = 
+		new GenericElementHandlerBundle()
+		{
+			public String getNamespace()
+			{
+				return JRXmlConstants.JASPERREPORTS_NAMESPACE;
+			}
+			
+			public GenericElementHandler getHandler(String elementName,
+					String exporterKey)
+			{
+				if (FlashPrintElement.FLASH_ELEMENT_NAME.equals(elementName) 
+						&& JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey))
+				{
+					return FlashHtmlHandler.getInstance();
+				}
+				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName) 
+						&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				{
+					return MapElementHtmlHandler.getInstance();
+				}
+				return null;
+			}
+		};
+
 	private static final ExtensionsRegistry defaultExtensionsRegistry = 
 		new ExtensionsRegistry()
 		{
@@ -62,7 +94,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				else if (GenericElementHandlerBundle.class.equals(extensionType))
 				{
-					return Collections.singletonList((Object)FlashPrintElement.getHandlerBundle());
+					return Collections.singletonList((Object)HANDLER_BUNDLE);
 				}
 				return null;
 			}

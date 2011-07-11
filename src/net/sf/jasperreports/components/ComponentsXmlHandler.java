@@ -48,6 +48,8 @@ import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.components.map.StandardMapComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
@@ -100,6 +102,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addBarcode4jRules(digester);
 		addTableRules(digester);
 		SpiderChartDigester.addSpiderChartRules(digester);
+		addMapRules(digester);
 	}
 
 	protected void addListRules(Digester digester)
@@ -217,6 +220,34 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				JRExpressionFactory.class.getName());
 		digester.addCallMethod(patternExpressionPattern, "setText", 0);
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
+				JRExpression.class.getName());
+	}
+
+	protected void addMapRules(Digester digester)
+	{
+		String mapPattern = "*/componentElement/map";
+		digester.addObjectCreate(mapPattern, StandardMapComponent.class);
+		digester.addSetProperties(mapPattern,
+			//properties to be ignored by this rule
+			new String[]{JRXmlConstants.ATTRIBUTE_evaluationTime}, 
+			new String[0]);
+		digester.addRule(mapPattern, 
+			new XmlConstantPropertyRule(
+				JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTime",
+				EvaluationTimeEnum.values()));
+
+		String latitudeExpressionPattern = mapPattern + "/latitudeExpression";
+		digester.addFactoryCreate(latitudeExpressionPattern, 
+				JRExpressionFactory.class.getName());
+		digester.addCallMethod(latitudeExpressionPattern, "setText", 0);
+		digester.addSetNext(latitudeExpressionPattern, "setLatitudeExpression", 
+				JRExpression.class.getName());
+
+		String longitudeExpressionPattern = mapPattern + "/longitudeExpression";
+		digester.addFactoryCreate(longitudeExpressionPattern, 
+				JRExpressionFactory.class.getName());
+		digester.addCallMethod(longitudeExpressionPattern, "setText", 0);
+		digester.addSetNext(longitudeExpressionPattern, "setLongitudeExpression", 
 				JRExpression.class.getName());
 	}
 
@@ -386,6 +417,34 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				barcode.getCodeExpression());
 		writer.writeExpression("applicationIdentifierExpression", 
 				barcode.getApplicationIdentifierExpression());
+		
+		writer.closeElement();
+	}
+
+	protected void writeMap(MapComponent map, ComponentKey componentKey,
+			JRXmlWriter reportWriter) throws IOException
+	{
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		
+		XmlNamespace namespace = new XmlNamespace(
+			ComponentsExtensionsRegistryFactory.NAMESPACE, 
+			componentKey.getNamespacePrefix(),
+			ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+		
+		writer.startElement("map", namespace);
+		
+		if (map.getEvaluationTime() != EvaluationTimeEnum.NOW)
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
+				map.getEvaluationTime());
+		}
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
+			map.getEvaluationGroup());
+
+		writer.writeExpression("latitudeExpression", 
+			map.getLatitudeExpression());
+		writer.writeExpression("longitudeExpression", 
+			map.getLongitudeExpression());
 		
 		writer.closeElement();
 	}
