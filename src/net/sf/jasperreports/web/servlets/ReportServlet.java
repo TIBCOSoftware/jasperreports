@@ -65,13 +65,13 @@ public class ReportServlet extends HttpServlet
 	public static final String DEFAULT_REPOSITORY_ROOT = "WEB-INF/repository";
 
 	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
-	public static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpag";
+	public static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpg";
 	public static final String REQUEST_PARAMETER_RUN_REPORT = "jr.run";
 	public static final String REQUEST_PARAMETER_REPORT_JRXML = "jr.jrxml";
-	
-	public static final String DECORATOR = "decorator";
-	public static final String REPORT_CLEAR_SESSION = "report.clear"; 
-	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
+	public static final String REQUEST_PARAMETER_REPORT_VIEWER = "jr.vwr";
+
+//	public static final String REPORT_CLEAR_SESSION = "report.clear"; 
+//	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
 	
 
 //	public static final String DEFAULT_JASPER_REPORT_SESSION_ATTRIBUTE = "net.sf.jasperreports.web.jasper_report";
@@ -222,15 +222,15 @@ public class ReportServlet extends HttpServlet
 				webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, jasperPrint);
 			}
 			
-			String decorator = request.getParameter(DECORATOR);
-			if (decorator == null || decorator.trim().length() == 0)
+			String viewer = request.getParameter(REQUEST_PARAMETER_REPORT_VIEWER);
+			if (viewer == null || viewer.trim().length() == 0)
 			{
-				new DefaultDecorator().service(request, response, webReportContext);
+				new DefaultViewer().service(request, response, webReportContext);
 			}
 			else
 			{
 				//FIXMEJIVE
-				new DashboardDecorator().service(request, response, webReportContext);
+				new NoDecorationViewer().service(request, response, webReportContext);
 			}
 		}
 		catch (JRException e)
