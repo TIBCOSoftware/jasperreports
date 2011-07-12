@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<script type='text/javascript' src="resources/js/JiveUtils.js"></script>
+	</head>
+<body>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr valign="top">
+<td><h3>Repository</h3></td>
+</tr>
+<tr valign="top">
+<td>
+<a href="servlets/report?report.uri=organization_1/reports/AdvancedTableReport">organization_1/reports/AdvancedTableReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/BasicSortCsvDataAdapterReport">organization_1/reports/BasicSortCsvDataAdapterReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/CsvDataAdapterReport">organization_1/reports/CsvDataAdapterReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/CsvQueryExecuterReport">organization_1/reports/CsvQueryExecuterReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/DashboardReport">organization_1/reports/DashboardReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/DashboardReportWithTabPane">organization_1/reports/DashboardReportWithTabPane</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/JdbcDataAdapterQueryReport">organization_1/reports/JdbcDataAdapterQueryReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/JndiDataAdapterQueryReport">organization_1/reports/JndiDataAdapterQueryReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/MapReport">organization_1/reports/MapReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/SimpleDashboardReport">organization_1/reports/SimpleDashboardReport</a></br>
+<a href="servlets/report?report.uri=organization_1/reports/SortableReport">organization_1/reports/SortableReport</a></br>
+</td>
+</tr>
+<tr valign="top">
+<td>
+<br/>
+<a href="servlets/report?report.uri=organization_1/reports/CsvQueryExecuterReport.jasper"><i>New Dashboard ...</i></a></br>
+</td>
+</tr>
+</table>
+<div id="jivecontainer" style="float: left; border: 1px solid black;"></div>
+<div id="viewer2" style="float: right; border: 1px solid black;"></div>
+<script type="text/javascript">
+	JiveUtils.viewer({
+		width: 600,
+		height: 400,
+		reporturl: 'servlets/report?report.uri=reports/MapReport'
+	});
+</script>
+</body>
+</html>
