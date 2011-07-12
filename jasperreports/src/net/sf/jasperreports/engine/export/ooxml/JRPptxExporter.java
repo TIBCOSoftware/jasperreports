@@ -1007,7 +1007,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	public void exportImage(JRPrintImage image) throws JRException
 	{
-		System.out.println("************* pptx exporter exportImage method");
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
 		int rightPadding = image.getLineBox().getRightPadding().intValue();
@@ -1340,7 +1339,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected String getImagePath(JRRenderable renderer, boolean isLazy)
 	{
-		System.out.println("***************** getImagePath method");
 		String imagePath = null;
 
 		if (renderer != null)
@@ -1375,7 +1373,6 @@ public class JRPptxExporter extends JRAbstractExporter
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 		}
-		System.out.println("***************** imagePath = "+imagePath);
 
 		return imagePath;
 	}
@@ -1575,7 +1572,6 @@ public class JRPptxExporter extends JRAbstractExporter
 		if (handler != null)
 		{
 			JRPptxExporterContext exporterContext = new ExporterContext();
-			System.out.println("***************** pptx exporter handler");
 			handler.exportElement(exporterContext, element);
 		}
 		else
