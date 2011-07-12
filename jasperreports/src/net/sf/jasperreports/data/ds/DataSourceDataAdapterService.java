@@ -67,10 +67,10 @@ public class DataSourceDataAdapterService extends
 	            Method method = clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]);
 	            if(!Modifier.isStatic(method.getModifiers()))
 	            	obj = clazz.newInstance();
-	            if(method.getReturnType().isAssignableFrom(JRDataSource.class))
+	            if(JRDataSource.class.isAssignableFrom(method.getReturnType()))
 	            	ds = (JRDataSource) method.invoke(obj,new Object[0]);
 	            else
-	            	throw new JRException("Method must return a JRDatasource class");
+	            	throw new JRException("Method " + dsDataAdapter.getMethodToCall() + " in " + dsDataAdapter.getFactoryClass() + " class does not return a JRDataSource object.");
 	        }
 			catch (ClassNotFoundException e)
 			{
