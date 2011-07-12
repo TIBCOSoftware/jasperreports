@@ -245,7 +245,7 @@ function initToolbar(toolbarId) {
 			var currentHref = parent.attr('data-url');
 			var currentPage = parent.attr('data-currentpage');
 			if (currentPage > 0) {
-				var ctx = getToolbarExecutionContext(this, currentHref, 'page=0');
+				var ctx = getToolbarExecutionContext(this, currentHref, 'jr.page=0');
 				if (ctx) {
 					ctx.run();
 					updateCurrentPageForToolbar(parent, 0);
@@ -258,7 +258,7 @@ function initToolbar(toolbarId) {
 			var currentHref = parent.attr('data-url');
 			var currentPage = parent.attr('data-currentpage');
 			if (currentPage > 0) {
-				var ctx = getToolbarExecutionContext(this, currentHref, 'page=' + (currentPage-1));
+				var ctx = getToolbarExecutionContext(this, currentHref, 'jr.page=' + (currentPage-1));
 				if (ctx) {
 					ctx.run();
 					updateCurrentPageForToolbar(parent, currentPage-1);
@@ -272,7 +272,7 @@ function initToolbar(toolbarId) {
 			var currentPage = parent.attr('data-currentpage');
 			var totalPages = parent.attr('data-totalpages');
 			if (currentPage < (totalPages -1)) {
-				var ctx = getToolbarExecutionContext(this, currentHref, 'page=' + (currentPage+1));
+				var ctx = getToolbarExecutionContext(this, currentHref, 'jr.page=' + (currentPage+1));
 				if (ctx) {
 					ctx.run();
 					updateCurrentPageForToolbar(parent, currentPage+1);
@@ -286,7 +286,7 @@ function initToolbar(toolbarId) {
 			var totalPages = parent.attr('data-totalpages');
 			var currentPage = parent.attr('data-currentpage');
 			if (currentPage < (totalPages -1)) {
-				var ctx = getToolbarExecutionContext(this, currentHref, 'page=' + (totalPages-1));
+				var ctx = getToolbarExecutionContext(this, currentHref, 'jr.page=' + (totalPages-1));
 				if (ctx) {
 					ctx.run();
 					updateCurrentPageForToolbar(parent, totalPages-1);

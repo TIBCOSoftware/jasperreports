@@ -48,7 +48,7 @@ import org.apache.velocity.VelocityContext;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HtmlServlet.java 3031 2009-08-27 11:14:57Z teodord $
  */
-public class DashboardDecorator
+public class DefaultViewer
 {
 	/**
 	 *
@@ -60,14 +60,14 @@ public class DashboardDecorator
 
 	public static final String APPLICATION_CONTEXT_PATH_VAR = "APPLICATION_CONTEXT_PATH";
 
-	public static final String PARAMETER_PAGE = "page";
+	public static final String REQUEST_PARAMETER_PAGE = "jr.page";
 	public static final String PARAMETER_TOOLBAR = "toolbar";
 	public static final String PARAMETER_IS_AJAX= "isajax";
 	
-	public static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/dashboard/HeaderTemplate.vm";
-	public static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/dashboard/BetweenPagesTemplate.vm";
-	public static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/dashboard/FooterTemplate.vm";
-	public static final String TEMPLATE_EXCEPTION= "net/sf/jasperreports/web/servlets/resources/dashboard/ExceptionTemplate.vm";
+	public static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplate.vm";
+	public static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/templates/BetweenPagesTemplate.vm";
+	public static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplate.vm";
+	public static final String TEMPLATE_EXCEPTION= "net/sf/jasperreports/web/servlets/resources/templates/ExceptionTemplate.vm";
 	/**
 	 *
 	 */
@@ -100,11 +100,16 @@ public class DashboardDecorator
 		
 //			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION-_ATTRIBUTE, jasperPrint);
 			
-			String reportPage = request.getParameter(PARAMETER_PAGE);
+			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
 			
-			if (reportPage != null) {
+			if (reportPage == null) 
+			{
+				exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(0));
+			}
+			else
+			{
 				exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.parseInt(reportPage));
-			}			
+			}
 
 			exporter.setParameter(HTTP_REQUEST, request);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -120,7 +125,7 @@ public class DashboardDecorator
 //			headerContext.put("showToolbar", request.getParameter(PARAMETER_TOOLBAR) != null && request.getParameter(PARAMETER_TOOLBAR).equals("true"));
 			headerContext.put("showToolbar", Boolean.TRUE);
 			headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
-			headerContext.put("currentUrl", getCurrentUrl(request));
+			headerContext.put("currentUrl", getCurrentUrl(request, webReportContext));
 			headerContext.put("totalPages", jasperPrint.getPages().size());
 			headerContext.put("currentPage", (reportPage != null ? reportPage : "0"));
 			exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, VelocityUtil.processTemplate(TEMPLATE_HEADER, headerContext));
@@ -154,18 +159,25 @@ public class DashboardDecorator
 		}
 	}
 
-	private String getCurrentUrl(HttpServletRequest request) {
+	private String getCurrentUrl(HttpServletRequest request, WebReportContext webReportContext) {
 		String newQueryString = "";
 		
 		Enumeration<String> paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
-			if (!paramName.equals(DashboardDecorator.PARAMETER_PAGE)) {
+			if (!paramName.equals(DefaultViewer.REQUEST_PARAMETER_PAGE)) {
 				newQueryString += paramName + "=" + request.getParameter(paramName) + "&";
 			}
 		}
 		
-		return request.getContextPath() + request.getServletPath() + "?" + newQueryString.substring(0, newQueryString.lastIndexOf("&"));
+		newQueryString = newQueryString.substring(0, newQueryString.lastIndexOf("&"));
+		
+		if (!newQueryString.contains(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID))
+		{
+			newQueryString += "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+		}
+		
+		return request.getContextPath() + request.getServletPath() + "?" + newQueryString;
 	}
 
 }

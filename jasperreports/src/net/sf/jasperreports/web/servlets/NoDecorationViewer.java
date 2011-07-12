@@ -48,7 +48,7 @@ import org.apache.velocity.VelocityContext;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HtmlServlet.java 3031 2009-08-27 11:14:57Z teodord $
  */
-public class DefaultDecorator
+public class NoDecorationViewer
 {
 	/**
 	 *
@@ -60,14 +60,14 @@ public class DefaultDecorator
 
 	public static final String APPLICATION_CONTEXT_PATH_VAR = "APPLICATION_CONTEXT_PATH";
 
-	public static final String PARAMETER_PAGE = "page";
+	public static final String REQUEST_PARAMETER_PAGE = "jr.page";
 	public static final String PARAMETER_TOOLBAR = "toolbar";
 	public static final String PARAMETER_IS_AJAX= "isajax";
 	
-	public static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplate.vm";
-	public static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/templates/BetweenPagesTemplate.vm";
-	public static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplate.vm";
-	public static final String TEMPLATE_EXCEPTION= "net/sf/jasperreports/web/servlets/resources/templates/ExceptionTemplate.vm";
+	public static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/dashboard/HeaderTemplate.vm";
+	public static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/dashboard/BetweenPagesTemplate.vm";
+	public static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/dashboard/FooterTemplate.vm";
+	public static final String TEMPLATE_EXCEPTION= "net/sf/jasperreports/web/servlets/resources/dashboard/ExceptionTemplate.vm";
 	/**
 	 *
 	 */
@@ -100,11 +100,16 @@ public class DefaultDecorator
 		
 //			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION-_ATTRIBUTE, jasperPrint);
 			
-			String reportPage = request.getParameter(PARAMETER_PAGE);
+			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
 			
-			if (reportPage != null) {
+			if (reportPage == null) 
+			{
+				exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(0));
+			}
+			else
+			{
 				exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.parseInt(reportPage));
-			}			
+			}
 
 			exporter.setParameter(HTTP_REQUEST, request);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
@@ -160,7 +165,7 @@ public class DefaultDecorator
 		Enumeration<String> paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String paramName = paramNames.nextElement();
-			if (!paramName.equals(DefaultDecorator.PARAMETER_PAGE)) {
+			if (!paramName.equals(NoDecorationViewer.REQUEST_PARAMETER_PAGE)) {
 				newQueryString += paramName + "=" + request.getParameter(paramName) + "&";
 			}
 		}
