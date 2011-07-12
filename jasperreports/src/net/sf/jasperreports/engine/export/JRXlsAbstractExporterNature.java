@@ -72,22 +72,8 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	 */
 	public boolean isToExport(JRPrintElement element)
 	{
-		boolean isToExport = true;
-		if (element instanceof JRGenericPrintElement)
-		{
-			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHtmlHandler handler = (GenericElementHtmlHandler) //FIXMENOW html handler???
-			GenericElementHandlerEnviroment.getHandler(
-					genericElement.getGenericType(), JRHtmlExporter.HTML_EXPORTER_KEY);
-			if (handler == null || !handler.toExport(genericElement))
-			{
-				isToExport = false;
-			}
-		}
-
 		return 
-			isToExport
-			&& (!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
+			(!isIgnoreGraphics || (element instanceof JRPrintText) || (element instanceof JRPrintFrame))
 			&& (filter == null || filter.isToExport(element));
 	}
 	

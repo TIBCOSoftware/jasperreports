@@ -29,6 +29,11 @@
 
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintText;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -51,6 +56,26 @@ public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
 		super(filter, isIgnoreGraphics, isIgnorePageMargins);
+	}
+	
+	/**
+	 *
+	 */
+	public boolean isToExport(JRPrintElement element)
+	{
+		boolean isToExport = true;
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
+					genericElement.getGenericType(), JExcelApiExporter.JXL_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				isToExport = false;
+			}
+		}
+
+		return isToExport && super.isToExport(element);
 	}
 	
 }

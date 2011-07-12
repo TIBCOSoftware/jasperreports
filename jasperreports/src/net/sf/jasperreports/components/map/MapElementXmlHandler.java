@@ -21,56 +21,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Greg Hilton 
- */
-
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintElement;
-
+import net.sf.jasperreports.engine.export.GenericElementXmlHandler;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporterContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporterNature extends JRXlsAbstractExporterNature
+public class MapElementXmlHandler implements GenericElementXmlHandler
 {
-
-	/**
-	 * 
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
-	{
-		super(filter, isIgnoreGraphics);
-	}
+	private static final MapElementXmlHandler INSTANCE = new MapElementXmlHandler();
 	
-	/**
-	 * 
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	public static MapElementXmlHandler getInstance()
 	{
-		super(filter, isIgnoreGraphics, isIgnorePageMargins);
+		return INSTANCE;
 	}
-
-	public boolean isToExport(JRPrintElement element)
+	public void exportElement(
+			JRXmlExporterContext exporterContext,
+		JRGenericPrintElement element
+		)
 	{
-		boolean isToExport = true;
-		if (element instanceof JRGenericPrintElement)
+		try
 		{
-			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
-					genericElement.getGenericType(), JRXlsExporter.XLS_EXPORTER_KEY);
-			if (handler == null || !handler.toExport(genericElement))
-			{
-				isToExport = false;
-			}
+			JRXmlExporter exporter = (JRXmlExporter)exporterContext.getExporter();
+	        exporter.exportImage(MapElementImageProvider.getImage(element));
 		}
-
-		return isToExport && super.isToExport(element);
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
-	
+
+	public boolean toExport(JRGenericPrintElement element) {
+		return true;
+	}
+
 }

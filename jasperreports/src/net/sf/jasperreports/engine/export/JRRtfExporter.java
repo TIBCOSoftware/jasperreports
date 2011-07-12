@@ -1059,7 +1059,7 @@ public class JRRtfExporter extends JRAbstractExporter
 	 * @throws JRException
 	 * @throws IOException
 	 */
-	protected void exportImage(JRPrintImage printImage) throws JRException, IOException
+	public void exportImage(JRPrintImage printImage) throws JRException, IOException
 	{
 		int leftPadding = printImage.getLineBox().getLeftPadding().intValue();
 		int topPadding = printImage.getLineBox().getTopPadding().intValue();

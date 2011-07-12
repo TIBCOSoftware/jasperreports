@@ -745,7 +745,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	 * @throws IOException 
 	 *
 	 */
-	protected void exportImage(JRPrintImage image) throws JRException, IOException
+	public void exportImage(JRPrintImage image) throws JRException, IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_image);
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_scaleImage, image.getOwnScaleImageValue());

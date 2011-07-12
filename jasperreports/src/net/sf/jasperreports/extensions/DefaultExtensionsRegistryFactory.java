@@ -27,15 +27,33 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
+import net.sf.jasperreports.components.map.MapElementDocxHandler;
 import net.sf.jasperreports.components.map.MapElementHtmlHandler;
+import net.sf.jasperreports.components.map.MapElementJExcelApiHandler;
+import net.sf.jasperreports.components.map.MapElementOdsHandler;
+import net.sf.jasperreports.components.map.MapElementOdtHandler;
+import net.sf.jasperreports.components.map.MapElementPdfHandler;
+import net.sf.jasperreports.components.map.MapElementPptxHandler;
+import net.sf.jasperreports.components.map.MapElementRtfHandler;
+import net.sf.jasperreports.components.map.MapElementXlsHandler;
+import net.sf.jasperreports.components.map.MapElementXlsxHandler;
 import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.FlashHtmlHandler;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.QueryExecuterFactoryBundle;
@@ -66,10 +84,48 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				{
 					return FlashHtmlHandler.getInstance();
 				}
-				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName) 
-						&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName))
 				{
-					return MapElementHtmlHandler.getInstance();
+					if(JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementHtmlHandler.getInstance();
+					}
+					else if(JRPdfExporter.PDF_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementPdfHandler.getInstance();
+					}
+					else if(JRXlsExporter.XLS_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementXlsHandler.getInstance();
+					}
+					else if(JExcelApiExporter.JXL_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementJExcelApiHandler.getInstance();
+					}
+					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementXlsxHandler.getInstance();
+					}
+					else if(JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementDocxHandler.getInstance();
+					}
+					else if(JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementPptxHandler.getInstance();
+					}
+					else if(JRRtfExporter.RTF_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementRtfHandler.getInstance();
+					}
+					else if(JROdtExporter.ODT_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementOdtHandler.getInstance();
+					}
+					else if(JROdsExporter.ODS_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementOdsHandler.getInstance();
+					}
 				}
 				return null;
 			}

@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.engine.export.ooxml;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
+import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterNature;
 
 /**
@@ -41,4 +46,21 @@ public class JRXlsxExporterNature extends JRXlsAbstractExporterNature
 		super(filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
+	public boolean isToExport(JRPrintElement element)
+	{
+		boolean isToExport = true;
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
+					genericElement.getGenericType(), JRXlsxExporter.XLSX_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				isToExport = false;
+			}
+		}
+
+		return isToExport && super.isToExport(element);
+	}
+	
 }
