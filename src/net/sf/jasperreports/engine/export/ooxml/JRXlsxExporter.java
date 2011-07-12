@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.MapElementImageProvider;
-import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -79,7 +77,6 @@ import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -207,9 +204,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
 
-		if(element instanceof JRTemplateGenericPrintElement && ((JRTemplateGenericPrintElement)element).getGenericType().equals(MapPrintElement.MAP_ELEMENT_TYPE))
+		if(element instanceof JRGenericPrintElement)
 		{
-			return MapElementImageProvider.getImage((JRTemplateGenericPrintElement)element);
+			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+			return ((GenericElementXlsxHandler)GenericElementHandlerEnviroment.getHandler(
+					genericPrintElement.getGenericType(), 
+					XLSX_EXPORTER_KEY
+					)).getImage(genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;

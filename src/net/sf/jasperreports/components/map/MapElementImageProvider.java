@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
@@ -58,7 +59,7 @@ public class MapElementImageProvider
 				+ elementWidth 
 				+ "x" 
 				+ elementHeight 
-				+ "&zoom=8&sensor=false";
+				+ "&format=png&zoom=8&sensor=false";
 			
 			JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 			
@@ -76,6 +77,9 @@ public class MapElementImageProvider
 	        printImage.setScaleImage(ScaleImageEnum.CLIP);
 	        printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 	        printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
+	        
+	        JRImageRenderer renderer = (JRImageRenderer)JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
+	        renderer.getImageData();
 	        
 	        printImage.setRenderer(JRImageRenderer.getInstance(imageLocation));
 	        
