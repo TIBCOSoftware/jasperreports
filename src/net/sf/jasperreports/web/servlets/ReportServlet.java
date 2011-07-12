@@ -183,6 +183,11 @@ public class ReportServlet extends HttpServlet
 
 					jasperReport = RepositoryUtil.getReport(reportUri);
 				}
+				
+				if (jasperReport == null)
+				{
+					throw new JRException("Report not found at : " + reportUri);
+				}
 
 				webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
 				
