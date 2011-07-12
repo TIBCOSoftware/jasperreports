@@ -26,6 +26,9 @@
 				<include name="**/*.png"/>
 				<include name="**/*.GIF"/>
 				<include name="**/*TokenTypes.txt"/>
+				<include name="**/*.vm"/>
+				<include name="**/*.js"/>
+				<include name="**/*.css"/>
 			</fileset>
 		</copy>
 	</target>

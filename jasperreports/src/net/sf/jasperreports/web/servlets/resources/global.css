@@ -1,0 +1,77 @@
+.hidden {
+	display: none;	
+}
+
+.globalError {
+	font-family: sans, arial;
+	font-size: 10px;
+	color: red;
+}
+
+.selected {
+	background-color: gray;
+}
+
+.dashboardDiv {
+	position: relative;
+	z-index: 2; 
+	width: 200px; 
+	text-align: left;
+	background-color: #ADD8E6;
+}
+
+.db_cbbutton {
+	cursor: pointer;
+	display: block;	
+}
+
+/************************ <TAB PANE> ***************************/
+
+.tabButtons {
+	width: 100%;
+	height: 31px;
+}
+
+.tabHeaderRegular {
+	float: left;
+	border-style: solid none none solid; 
+	border-color: black;
+	border-width: 1px;
+	border-top-right-radius: 10px 20px;
+	cursor: pointer;
+}
+
+.tabHeaderLast {
+	float: left;
+	border-style: solid solid none solid; 
+	border-color: black;
+	border-width: 1px;
+	border-top-right-radius: 10px 20px;
+	cursor: pointer;
+}
+
+.tabBodyContainer {
+	height: 100%;
+}
+
+.tabBody {
+	border: 1px solid black;
+	/*width: 100%;*/
+	height: 100%;
+	/*background-color: gray;*/
+}
+
+.tabBodyResult {
+	width: 100%; 
+	height: 100%; 
+}
+
+.activeTab {
+	background-color: #66CCFF; 
+}
+
+.inactiveTab {
+	background-color: #99FFFF; 
+}
+
+/************************ </TAB PANE> ***************************/
