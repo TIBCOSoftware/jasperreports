@@ -63,7 +63,8 @@ public class DataSourceDataAdapterService extends AbstractClasspathAwareDataAdap
 					);
 
 	            Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getFactoryClass());
-	            ds = (JRDataSource) clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]).invoke(null,new Object[0]);
+	            Object obj = clazz.newInstance();
+	            ds = (JRDataSource) clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]).invoke(obj,new Object[0]);
 	        }
 			catch (ClassNotFoundException e)
 			{
@@ -79,6 +80,8 @@ public class DataSourceDataAdapterService extends AbstractClasspathAwareDataAdap
 			} 
 			catch (IllegalAccessException e)
 			{
+				throw new JRException(e);			
+			} catch (InstantiationException e) {
 				throw new JRException(e);			
 			} 
 			finally
