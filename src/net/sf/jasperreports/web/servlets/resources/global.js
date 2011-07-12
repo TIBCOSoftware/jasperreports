@@ -12,9 +12,9 @@ jQuery.fn.loadmask = function(options) {
 			}
 		} else {
 			var settings = {
-					bgimage : APPLICATION_CONTEXT_PATH + '/resources/theme/images/loadmask.png',
+					bgimage : APPLICATION_CONTEXT_PATH + '/jasperreports/images/loadmask.png',
 					opacity: 0.3,
-					loadinggif: APPLICATION_CONTEXT_PATH + '/resources/theme/images/loading4.gif'
+					loadinggif: APPLICATION_CONTEXT_PATH + '/jasperreports/images/loading4.gif'
 			}
 			
 			if (options) {

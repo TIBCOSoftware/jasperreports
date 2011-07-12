@@ -33,26 +33,12 @@
 				<exclude name="**/commons-javaflow-*.jar"/>
 			</fileset>
 		</copy>
-		<copy todir="./applets">
-			<fileset dir="../../../dist" includes="**/jasperreports-applet-*.jar"/>
-			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
-			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
-		</copy>
 	</target>
 
 	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
 			<classpath>
 				<pathelement location="./WEB-INF/classes/"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-		</javac>
-		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="false">
-			<classpath>
-				<pathelement location="./applets/"/>
 				<pathelement location="../../../build/classes"/>
 				<fileset dir="../../../lib">
 					<include name="**/*.jar"/>
@@ -67,8 +53,6 @@
 			<fileset dir="." includes="**/*.war" />
 			<fileset dir="." includes="**/*.jar" />
 		</delete>
-		<delete dir="./reports/WebappReport.html_files" />
-		<delete dir="./jsp/html/reportPage.html_files" />
 	</target>
 
 	<target name="war" depends="javac" description="Builds the Web application .war file.">
@@ -79,8 +63,8 @@
 			<fileset dir="." includes="**/*.jar" excludes="**/WEB-INF/lib/**/*.jar"/>
 			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
 			<fileset dir="." includes="**/images/**/*.*" />
-			<fileset dir="." includes="**/jsp/**/*.*" />
-			<fileset dir="." includes="**/resources/**/*.*" />
+			<fileset dir="." includes="**/jasperreports/**/*.*" />
+			<fileset dir="." includes="**/jquery/**/*.*" />
 			<fileset dir="." includes="**/WEB-INF/repository/**/*.*" />
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
