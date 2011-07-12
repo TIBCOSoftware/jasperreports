@@ -20,6 +20,8 @@
 package net.sf.jasperreports.data.ds;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
@@ -33,19 +35,17 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public class DataSourceDataAdapterService extends AbstractClasspathAwareDataAdapterService
-{
-	
-	public DataSourceDataAdapterService(DataSourceDataAdapter dsDataAdapter)
-	{
+public class DataSourceDataAdapterService extends
+		AbstractClasspathAwareDataAdapterService {
+
+	public DataSourceDataAdapterService(DataSourceDataAdapter dsDataAdapter) {
 		super(dsDataAdapter);
 	}
-	
-	public DataSourceDataAdapter getDataSourceDataAdapter() 
-	{
-		return (DataSourceDataAdapter)getDataAdapter();
+
+	public DataSourceDataAdapter getDataSourceDataAdapter() {
+		return (DataSourceDataAdapter) getDataAdapter();
 	}
-	
+
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{
@@ -63,8 +63,14 @@ public class DataSourceDataAdapterService extends AbstractClasspathAwareDataAdap
 					);
 
 	            Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getFactoryClass());
-	            Object obj = clazz.newInstance();
-	            ds = (JRDataSource) clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]).invoke(obj,new Object[0]);
+	            Object obj = null;
+	            Method method = clazz.getMethod( dsDataAdapter.getMethodToCall(), new Class[0]);
+	            if(!Modifier.isStatic(method.getModifiers()))
+	            	obj = clazz.newInstance();
+	            if(method.getReturnType().isAssignableFrom(JRDataSource.class))
+	            	ds = (JRDataSource) method.invoke(obj,new Object[0]);
+	            else
+	            	throw new JRException("Method must return a JRDatasource class");
 	        }
 			catch (ClassNotFoundException e)
 			{
@@ -92,5 +98,4 @@ public class DataSourceDataAdapterService extends AbstractClasspathAwareDataAdap
 			parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 		}
 	}
-	
 }
