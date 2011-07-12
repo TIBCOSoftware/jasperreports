@@ -21,56 +21,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
- * Contributors:
- * Greg Hilton 
- */
-
-package net.sf.jasperreports.engine.export;
+package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintElement;
-
+import net.sf.jasperreports.engine.export.JRExporterGridCell;
+import net.sf.jasperreports.engine.export.oasis.GenericElementOdsHandler;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporterContext;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsExporterNature extends JRXlsAbstractExporterNature
+public class MapElementOdsHandler implements GenericElementOdsHandler
 {
-
-	/**
-	 * 
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	private static final MapElementOdsHandler INSTANCE = new MapElementOdsHandler();
+	
+	public static MapElementOdsHandler getInstance()
 	{
-		super(filter, isIgnoreGraphics);
+		return INSTANCE;
 	}
 	
-	/**
-	 * 
-	 */
-	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	public void exportElement(
+		JROdsExporterContext exporterContext,
+		JRGenericPrintElement element,
+		JRExporterGridCell gridCell
+		)
 	{
-		super(filter, isIgnoreGraphics, isIgnorePageMargins);
-	}
-
-	public boolean isToExport(JRPrintElement element)
-	{
-		boolean isToExport = true;
-		if (element instanceof JRGenericPrintElement)
+		try
 		{
-			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
-					genericElement.getGenericType(), JRXlsExporter.XLS_EXPORTER_KEY);
-			if (handler == null || !handler.toExport(genericElement))
-			{
-				isToExport = false;
-			}
+			JROdsExporter exporter = (JROdsExporter)exporterContext.getExporter();
+	        exporter.exportImage(exporterContext.getTableBuilder(), MapElementImageProvider.getImage(element), gridCell);
 		}
-
-		return isToExport && super.isToExport(element);
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
-	
+
+	public boolean toExport(JRGenericPrintElement element) {
+		return true;
+	}
+
 }

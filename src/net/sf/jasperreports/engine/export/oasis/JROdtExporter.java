@@ -174,7 +174,7 @@ public class JROdtExporter extends JROpenDocumentExporter
 	/**
 	 *
 	 */
-	protected void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
+	public void exportImage(TableBuilder tableBuilder, JRPrintImage image, JRExporterGridCell gridCell) throws JRException, IOException
 	{
 		int topPadding = 
 			Math.max(image.getLineBox().getTopPadding().intValue(), Math.round(image.getLineBox().getTopPen().getLineWidth().floatValue()));

@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.components.map.MapElementImageProvider;
+import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
@@ -77,6 +79,7 @@ import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -184,13 +187,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	/**
 	 *
 	 */
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
+	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
 	{
 		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
@@ -204,6 +207,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
 
+		if(element instanceof JRTemplateGenericPrintElement && ((JRTemplateGenericPrintElement)element).getGenericType().equals(MapPrintElement.MAP_ELEMENT_TYPE))
+		{
+			return MapElementImageProvider.getImage((JRTemplateGenericPrintElement)element);
+		}
+		
 		return (JRPrintImage) element;
 	}
 
@@ -796,7 +804,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void exportImage(
+	public void exportImage(
 		JRPrintImage image, 
 		JRExporterGridCell gridCell,
 		int colIndex, 
