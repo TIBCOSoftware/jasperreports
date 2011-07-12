@@ -38,8 +38,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.MapElementImageProvider;
-import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -66,7 +64,6 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
@@ -285,11 +282,14 @@ public class JRPptxExporter extends JRAbstractExporter
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
 
-		if(element instanceof JRTemplateGenericPrintElement && ((JRTemplateGenericPrintElement)element).getGenericType().equals(MapPrintElement.MAP_ELEMENT_TYPE))
+		if(element instanceof JRGenericPrintElement)
 		{
-			return MapElementImageProvider.getImage((JRTemplateGenericPrintElement)element);
+			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+			return ((GenericElementPptxHandler)GenericElementHandlerEnviroment.getHandler(
+					genericPrintElement.getGenericType(), 
+					PPTX_EXPORTER_KEY
+					)).getImage(genericPrintElement);
 		}
-		
 		
 		return (JRPrintImage) element;
 	}
@@ -1007,6 +1007,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	public void exportImage(JRPrintImage image) throws JRException
 	{
+		System.out.println("************* pptx exporter exportImage method");
 		int leftPadding = image.getLineBox().getLeftPadding().intValue();
 		int topPadding = image.getLineBox().getTopPadding().intValue();//FIXMEDOCX maybe consider border thickness
 		int rightPadding = image.getLineBox().getRightPadding().intValue();
@@ -1339,6 +1340,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected String getImagePath(JRRenderable renderer, boolean isLazy)
 	{
+		System.out.println("***************** getImagePath method");
 		String imagePath = null;
 
 		if (renderer != null)
@@ -1373,6 +1375,7 @@ public class JRPptxExporter extends JRAbstractExporter
 				rendererToImagePathMap.put(renderer.getId(), imagePath);
 			}
 		}
+		System.out.println("***************** imagePath = "+imagePath);
 
 		return imagePath;
 	}
@@ -1572,7 +1575,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		if (handler != null)
 		{
 			JRPptxExporterContext exporterContext = new ExporterContext();
-
+			System.out.println("***************** pptx exporter handler");
 			handler.exportElement(exporterContext, element);
 		}
 		else

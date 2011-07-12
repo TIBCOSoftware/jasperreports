@@ -41,8 +41,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sf.jasperreports.components.map.MapElementImageProvider;
-import net.sf.jasperreports.components.map.MapPrintElement;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -78,7 +76,6 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -310,9 +307,13 @@ public class JRDocxExporter extends JRAbstractExporter
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
 
-		if(element instanceof JRTemplateGenericPrintElement && ((JRTemplateGenericPrintElement)element).getGenericType().equals(MapPrintElement.MAP_ELEMENT_TYPE))
+		if(element instanceof JRGenericPrintElement)
 		{
-			return MapElementImageProvider.getImage((JRTemplateGenericPrintElement)element);
+			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
+			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getHandler(
+					genericPrintElement.getGenericType(), 
+					DOCX_EXPORTER_KEY
+					)).getImage(genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;
