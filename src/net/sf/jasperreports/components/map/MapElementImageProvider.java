@@ -59,7 +59,7 @@ public class MapElementImageProvider
 				+ elementWidth 
 				+ "x" 
 				+ elementHeight 
-				+ "&format=png&zoom=8&sensor=false";
+				+ "&format=jpg&zoom=8&sensor=false";
 			
 			JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 			
