@@ -10,11 +10,11 @@
     	<script type='text/javascript'>
     		var APPLICATION_CONTEXT_PATH = '${contextPath}';
     	</script>
-    	<script type='text/javascript' src='${contextPath}/resources/js/jquery-1.4.4.min.js'></script>
-    	<script type='text/javascript' src='${contextPath}/resources/js/jquery-ui-1.8.9.custom.min.js'></script>
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-1.4.4.min.js'></script>
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-ui-1.8.9.custom.min.js'></script>
     	<script type='text/javascript' src='${globaljs}'></script>
     
-    	<link type='text/css' rel='stylesheet' href='${contextPath}/resources/theme/jquery.ui.all.css'></link> 
+    	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
     	<link type='text/css' rel='stylesheet' href='${globalcss}'></link>
     #end
 </head>
@@ -25,10 +25,10 @@
 			data-url='${currentUrl}'
 			data-totalpages='${totalPages}'
 			data-currentpage='${currentPage}'> 
-		<img class='pageFirst' 		src='${contextPath}/resources/theme/images/toolbar/first.GIF' />
-		<img class='pagePrevious' 	src='${contextPath}/resources/theme/images/toolbar/previous.GIF' />
-		<img class='pageNext' 		src='${contextPath}/resources/theme/images/toolbar/next.GIF' />
-		<img class='pageLast' 		src='${contextPath}/resources/theme/images/toolbar/last.GIF' />
+		<img class='pageFirst' 		src='${contextPath}/jasperreports/images/first.GIF' />
+		<img class='pagePrevious' 	src='${contextPath}/jasperreports/images/previous.GIF' />
+		<img class='pageNext' 		src='${contextPath}/jasperreports/images/next.GIF' />
+		<img class='pageLast' 		src='${contextPath}/jasperreports/images/last.GIF' />
 	</div>
 	<script type='text/javascript'>
 		initToolbar('${toolbarId}');

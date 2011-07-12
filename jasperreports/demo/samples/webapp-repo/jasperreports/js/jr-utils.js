@@ -63,7 +63,7 @@
 	//				console.log('loading jQuery');
 					if (typeof jQuery !== 'function') {
 	//					console.log('jQuery is not defined...loading script');
-						this.loadScript('jqueryscript', 'resources/js/jquery-1.4.4.min.js');
+						this.loadScript('jqueryscript', 'jquery/js/jquery-1.4.4.min.js');
 						setTimeout(this.run, 200);
 					} else {
 						this.run();
