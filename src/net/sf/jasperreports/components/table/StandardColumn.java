@@ -23,8 +23,20 @@
  */
 package net.sf.jasperreports.components.table;
 
+import java.util.List;
+
+import net.sf.jasperreports.components.sort.SortElement;
+import net.sf.jasperreports.components.sort.SortElementHandlerBundle;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignGenericElement;
+import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * 
@@ -65,8 +77,22 @@ public class StandardColumn extends StandardBaseColumn implements Column
 	{
 		Object old = this.detail;
 		this.detail = detail;
-		getEventSupport().firePropertyChange(PROPERTY_DETAIL, 
-				old, this.detail);
+
+		//FIXMEJIVE find a better way to add the generic element for sorting
+		List<JRChild> children = detail.getChildren();
+		for (JRChild child: children) {
+			if (child instanceof JRTextField) {
+				JRTextField tf = (JRTextField) child;
+				String expressionString = tf.getExpression() != null ? tf.getExpression().getText() : null;
+				if (expressionString != null && expressionString.indexOf("{") != -1) {
+					String columnName = expressionString.substring(expressionString.indexOf("{") + 1, expressionString.length()-1);
+					addGenericElementToHeader(columnName);
+					break;
+				}
+			}
+		}
+		
+		getEventSupport().firePropertyChange(PROPERTY_DETAIL, old, this.detail);
 	}
 
 	public <R> R visitColumn(ColumnVisitor<R> visitor)
@@ -82,4 +108,54 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		return clone;
 	}
 
+	public void addGenericElementToHeader(String columnName) {
+		Cell header = getColumnHeader();
+		
+		JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
+		genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
+		genericElement.setX(0);
+		genericElement.setY(0);
+		genericElement.setHeight(header.getHeight());
+		genericElement.setMode(ModeEnum.TRANSPARENT);
+		
+		JRGenericElementType genericType = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, SortElementHandlerBundle.NAME);//FIXMEJIVE make sort element
+		genericElement.setGenericType(genericType);
+		
+		JRDesignGenericElementParameter paramColumnName = new JRDesignGenericElementParameter();
+		paramColumnName.setName(SortElement.PARAMETER_SORT_COLUMN_NAME);
+		JRDesignExpression paramColumnNameValueExpression = new JRDesignExpression();
+		paramColumnNameValueExpression.setText("\"" + columnName + "\"");
+		paramColumnName.setValueExpression(paramColumnNameValueExpression);
+		genericElement.addParameter(paramColumnName);
+		
+		JRDesignGenericElementParameter paramColumnType = new JRDesignGenericElementParameter();
+		paramColumnType.setName(SortElement.PARAMETER_SORT_COLUMN_TYPE);
+		JRDesignExpression paramColumnTypeValueExpression = new JRDesignExpression();
+		paramColumnTypeValueExpression.setText("\"Field\"");
+		paramColumnType.setValueExpression(paramColumnTypeValueExpression);
+		genericElement.addParameter(paramColumnType);
+		
+		JRDesignGenericElementParameter paramHorizontalAlign = new JRDesignGenericElementParameter();
+		paramHorizontalAlign.setName(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
+		JRDesignExpression paramHorizontalAlignValueExpression = new JRDesignExpression();
+		paramHorizontalAlignValueExpression.setText("\"Right\"");
+		paramHorizontalAlign.setValueExpression(paramHorizontalAlignValueExpression);
+		genericElement.addParameter(paramHorizontalAlign);
+
+		JRDesignGenericElementParameter paramVerticalAlign = new JRDesignGenericElementParameter();
+		paramVerticalAlign.setName(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
+		JRDesignExpression paramVerticalAlignValueExpression = new JRDesignExpression();
+		paramVerticalAlignValueExpression.setText("\"Middle\"");
+		paramVerticalAlign.setValueExpression(paramVerticalAlignValueExpression);
+		genericElement.addParameter(paramVerticalAlign);
+
+		JRDesignGenericElementParameter paramForControl = new JRDesignGenericElementParameter();
+		paramForControl.setName(SortElement.PARAMETER_DYNAMIC_TABLE_BINDING);
+		JRDesignExpression paramForControlValueExpression = new JRDesignExpression();
+		paramForControlValueExpression.setText("\"dinamicallyAdded\"");
+		paramForControl.setValueExpression(paramForControlValueExpression);
+		genericElement.addParameter(paramForControl);
+		
+		header.getChildren().add(genericElement);
+	}
 }

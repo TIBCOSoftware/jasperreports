@@ -38,6 +38,8 @@ import net.sf.jasperreports.components.map.MapElementRtfHandler;
 import net.sf.jasperreports.components.map.MapElementXlsHandler;
 import net.sf.jasperreports.components.map.MapElementXlsxHandler;
 import net.sf.jasperreports.components.map.MapPrintElement;
+import net.sf.jasperreports.components.sort.SortElementHandlerBundle;
+import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.export.FlashHtmlHandler;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
@@ -126,6 +128,11 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return MapElementOdsHandler.getInstance();
 					}
+				}
+				if (SortElementHandlerBundle.NAME.equals(elementName) 
+						&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+				{
+					return new SortElementHtmlHandler();
 				}
 				return null;
 			}

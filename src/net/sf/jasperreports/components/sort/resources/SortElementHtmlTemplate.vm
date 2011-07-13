@@ -1,0 +1,31 @@
+<script type='text/javascript'>
+	appendScriptElementToDOM('_sortScript','${resourceSortJs}');
+</script>
+
+<a href='${href}'
+	class='sortlink' 
+	style='display: table; position: absolute; left: ${elementX}; top: ${elementY}; 
+		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign};
+		#if(${backgroundColor}) 
+			background-color: \#${backgroundColor};
+		#end
+'>
+	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
+		<span style='color: ${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
+			${sortSymbol}
+		</span>
+	</span>
+	
+</a>
+
+<div id='${filterDivId}' class='filterdiv' style='display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>
+	<img class='hidefilter' align="right" src="${filterCloseDialogImageResource}" style='cursor: pointer;'/>
+	<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>
+		## <input type='hidden' name='${filterReportUriParamName}' value='${filterReportUriParamValue}' />
+		<input class='postable' type='hidden' name='${filterReportActionParamName}' value='${filterReportActionParamValue}' />
+		<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />
+		<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />
+		<input class='postable' type='text' name='${filterValueParamName}' style='width: 80px;' />
+		<input class='submitFilter' type='button' value='Filter' />
+	</form>
+</div>

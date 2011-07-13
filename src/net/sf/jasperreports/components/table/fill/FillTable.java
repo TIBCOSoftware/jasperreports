@@ -40,6 +40,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -47,6 +48,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
+import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
@@ -238,7 +240,13 @@ public class FillTable extends BaseFillComponent
 		// the relationship between objects (e.g. variables and groups) in the cloned
 		// dataset
 		JRDataset tableSubdataset = DatasetCloneObjectFactory.cloneDataset(reportSubdataset);
-		TableReportDataset reportDataset = new TableReportDataset(tableSubdataset, tableReportName);
+		Map<String, Object> reportContext = (Map<String, Object>)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+		TableReportDataset reportDataset = new TableReportDataset(reportContext, tableSubdataset, tableReportName);
+
+		JRExpression newTableFilterExpression = new JRDesignExpression();
+		reportDataset.setFilterExpression(newTableFilterExpression);
+		builtinEvaluators.put(newTableFilterExpression, new TableFilterExpressionEvaluator(tableReportName, reportContext, fillContext, reportSubdataset.getFilterExpression()));
+
 		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
 		
 		if (log.isDebugEnabled())
@@ -248,7 +256,7 @@ public class FillTable extends BaseFillComponent
 		}
 		
 		JRReportCompileData tableReportCompileData = createTableReportCompileData(
-				parentReport, reportSubdataset);
+				parentReport, reportDataset);//reportSubdataset); //FIXMEJIVE check this
 		
 		JasperReport compiledTableReport = new JasperReport(tableReport, 
 				parentReport.getCompilerClass(), 
