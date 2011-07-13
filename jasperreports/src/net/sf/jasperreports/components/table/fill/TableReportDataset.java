@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
@@ -60,6 +61,10 @@ public class TableReportDataset implements JRDataset
 	
 	private final List<JRScriptlet> scriptlets;
 	private final List<JRParameter> parameters;
+
+	private JRExpression filterExpression;
+	private Map<String, Object> reportContext;
+	private String reportName;
 	
 	public TableReportDataset(JRDataset tableSubdataset, String name)
 	{
@@ -99,6 +104,13 @@ public class TableReportDataset implements JRDataset
 		}
 	}
 
+	public TableReportDataset(Map<String, Object> reportContext, JRDataset tableSubdataset, String name)
+	{
+		this(tableSubdataset, name);
+		this.reportContext = reportContext;
+		this.reportName = name;
+	}
+	
 	public JRField[] getFields()
 	{
 		return tableSubdataset.getFields();
@@ -106,9 +118,14 @@ public class TableReportDataset implements JRDataset
 
 	public JRExpression getFilterExpression()
 	{
-		return tableSubdataset.getFilterExpression();
+		return filterExpression;
 	}
 
+	public void setFilterExpression(JRExpression filterExpression) 
+	{
+		this.filterExpression = filterExpression;
+	}
+	
 	public TableReportGroup[] getTableGroups()
 	{
 		return tableGroups;
@@ -156,7 +173,22 @@ public class TableReportDataset implements JRDataset
 
 	public JRSortField[] getSortFields()
 	{
-		return tableSubdataset.getSortFields();
+		JRSortField[] sortFields = tableSubdataset.getSortFields();
+		JRSortField[] extendedSortFields = null;
+
+		if (reportContext.containsKey(reportName)) {
+			List<JRSortField> paramSortFields =  (List<JRSortField>)reportContext.get(reportName);
+			extendedSortFields = new JRSortField[sortFields.length + paramSortFields.size()];
+
+			System.arraycopy(sortFields, 0, extendedSortFields, 0, sortFields.length);
+			
+			for (int i=0; i<paramSortFields.size(); i++) {
+				extendedSortFields[sortFields.length + i] = paramSortFields.get(i);
+			}
+			return extendedSortFields;
+		} else {
+			return sortFields;
+		}
 	}
 
 	public JRVariable[] getVariables()

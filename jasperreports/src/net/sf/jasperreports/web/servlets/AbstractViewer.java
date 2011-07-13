@@ -46,7 +46,7 @@ public abstract class AbstractViewer
 	/**
 	 *
 	 */
-	//public static final JRHtmlExporterParameter HTTP_REQUEST = new JRHtmlExporterParameter("HTTP Request");
+	public static final JRHtmlExporterParameter HTTP_REQUEST = new JRHtmlExporterParameter("HTTP Request");
 
 	//public static final String APPLICATION_CONTEXT_PATH_VAR = "APPLICATION_CONTEXT_PATH";
 
@@ -65,7 +65,7 @@ public abstract class AbstractViewer
 		
 		JRXhtmlExporter exporter = new JRXhtmlExporter();
 	
-		//exporter.setParameter(HTTP_REQUEST, request);
+		exporter.setParameter(HTTP_REQUEST, request);
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
 		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");

@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -40,6 +41,8 @@ import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRGenericElement;
+import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
@@ -73,6 +76,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * 
@@ -813,6 +817,19 @@ public class TableReport implements JRReport
 			JRChild child = it.next();
 			if (child instanceof JRElement)
 			{
+				if (child instanceof JRGenericElement) {
+					JRGenericElement genericElement = (JRGenericElement)child;
+					JRGenericElementParameter[] params = genericElement.getParameters();
+					
+					for (JRGenericElementParameter param: params) {
+						if (param.getName().equals(SortElement.PARAMETER_DYNAMIC_TABLE_BINDING) && param.getValueExpression().getText() != null) {
+							genericElement.getPropertiesMap().setProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.PARAMETER_TABLE_NAME, getName());
+							genericElement.setWidth(width);
+							break;
+						}
+					}
+				}
+					
 				JRElement element = (JRElement) child;
 				// clone the element in order to set the frame as group
 				element = (JRElement) element.clone(frame);
