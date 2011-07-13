@@ -31,6 +31,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.jasperreports.components.sort.SortElement;
+import net.sf.jasperreports.components.sort.SortElementAction;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -43,16 +47,20 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
+import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -97,11 +105,59 @@ public class FillTable extends BaseFillComponent
 		
 		filling = false;
 		
+		sort();
+		
 		evaluateColumns(evaluation);
 		if (!fillColumns.isEmpty())
 		{
 			createFillSubreport();
 			fillSubreport.evaluateSubreport(evaluation);
+		}
+	}
+
+	private void sort()
+	{
+		HttpServletRequest request = (HttpServletRequest)fillContext.getFiller().getParameterValuesMap().get("PARAMETER_REQUEST");
+		String reportActionData = request.getParameter(SortElementAction.REPORT_ACTION_DATA);
+		String paramTableName = request.getParameter(SortElement.PARAMETER_TABLE_NAME);
+		
+		Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+//		if (reportContext == null) {
+//			reportContext = new HashMap<String, Object>();
+//			context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
+//		}
+
+		if (reportActionData != null && paramTableName != null)
+		{
+			List<JRSortField> sortFields = new ArrayList<JRSortField>();
+			List<String> sortFieldsList = new ArrayList<String>();
+			String[] tokens = reportActionData.split(",");
+			for (int i = 0; i < tokens.length; i++)
+			{
+				String token = tokens[i];
+				sortFieldsList.add(token);
+				String[] chunks = token.split(":");
+				sortFields.add(
+					new JRDesignSortField(
+						chunks[0],
+						SortFieldTypeEnum.getByName(chunks[1]),
+						SortOrderEnum.getByName(chunks[2])
+						)
+					);
+			}
+			fillContext.getFiller().getParameterValuesMap().put(SortElementAction.SORT_FIELDS_PARAM, sortFieldsList);
+			reportContext.put(paramTableName, sortFields);
+		}
+		if (paramTableName != null)
+		{
+			String paramFieldName = request.getParameter(SortElement.PARAMETER_FILTER_FIELD);
+			String paramFieldValue = request.getParameter(SortElement.PARAMETER_FILTER_VALUE);
+			
+			if (paramFieldName != null && paramFieldValue != null)
+			{
+				reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
+				reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
+			}
 		}
 	}
 
