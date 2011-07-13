@@ -49,4 +49,7 @@ public interface SortElement {
 	String PARAMETER_FILTER_VALUE = "paramFilterValue";
 	String PARAMETER_TABLE_NAME = "paramTableName";
 	
+	public static final String REQUEST_PARAMETER_SORT_DATA = "report.action.data";
+	public static final String PARAMETER_SORT_FIELDS = "_sortFields";
+
 }

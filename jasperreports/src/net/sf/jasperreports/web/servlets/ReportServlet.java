@@ -70,7 +70,7 @@ public class ReportServlet extends HttpServlet
 	public static final String REQUEST_PARAMETER_REPORT_JRXML = "jr.jrxml";
 	public static final String REQUEST_PARAMETER_REPORT_VIEWER = "jr.vwr";
 
-	public static final String REPORT_ACTION = "report.action";
+//	public static final String REPORT_ACTION = "report.action";
 //	public static final String REPORT_CLEAR_SESSION = "report.clear"; 
 //	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
 	
