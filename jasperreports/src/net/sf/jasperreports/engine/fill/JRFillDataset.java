@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
@@ -544,6 +545,13 @@ public class JRFillDataset implements JRDataset
 	 */
 	public void setParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
+		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
+		if (reportContext == null)
+		{
+			reportContext = null;//FIXMEJIVE Locale.getDefault();
+			parameterValues.put(JRParameter.REPORT_CONTEXT, reportContext);
+		}
+		
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
 		if (filler != null)

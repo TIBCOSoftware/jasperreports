@@ -551,6 +551,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
 			parameterValues.remove(JRParameter.SORT_FIELDS);
 			parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
+			//FIXMEJIVE ? parameterValues.remove(JRParameter.REPORT_CONTEXT);
 		}
 		
 		if (parameterValues == null)
