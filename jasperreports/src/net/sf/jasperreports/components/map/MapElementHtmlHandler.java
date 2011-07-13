@@ -23,12 +23,15 @@
  */
 package net.sf.jasperreports.components.map;
 
+import org.apache.velocity.VelocityContext;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.web.util.VelocityUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -38,6 +41,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 {
 	private static final MapElementHtmlHandler INSTANCE = new MapElementHtmlHandler();
 	
+	private static final String MAP_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/map/resources/templates/MapElementHtmlTemplate.vm";
+	
 	public static MapElementHtmlHandler getInstance()
 	{
 		return INSTANCE;
@@ -45,42 +50,21 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
-		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
-		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
+		VelocityContext velocityContext = new VelocityContext();
+		velocityContext.put("latitude", element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE));
+		velocityContext.put("longitude", element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE));
+		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
+		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
+		velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+		velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+		velocityContext.put("elementWidth", element.getWidth());
+		velocityContext.put("elementHeight", element.getHeight());
 		
-		String elementX = ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX());
-		String elementY = ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY());
-//		int elementWidth = element.getWidth();
-//		int elementHeight = element.getY();
-		
-		StringBuffer script = new StringBuffer(128);
-		script.append("<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?sensor=false\"></script>");
-		script.append("<div id=\"" + element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id") 
-				+ "\" class=\"" + element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class") 
-//				+ "\" style='padding-left:10px;padding-top:10px;width:" + (element.getWidth() - 0) + "px;height:" + (element.getHeight() - 0) + "px;'>");
-				+ "\" style='position: absolute;left: " + elementX + ";top:" + elementY + ";width:" + (element.getWidth() - 0) + "px;height:" + (element.getHeight() - 0) + "px;");
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
-			script.append("background-color: #");
-			script.append(JRColorUtil.getColorHexa(element.getBackcolor()));
-			script.append("; ");
+			velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 		}
-		script.append("'>");
-		//script.append("<div id=\"map_canvas\" style=\"width:" + (element.getWidth() - 20) + "px;height:" + (element.getHeight() - 20) + "px;\"></div>" +
-		//script.append("<div id=\"map_canvas\" style=\"padding:10px;width:100%;height:100%;\"></div>" +
-		script.append("<div id=\"map_canvas\" style=\"width:100%;height:100%;overflow:auto\"></div>");
-		script.append("</div>");
-		script.append("<script type=\"text/javascript\">");
-		script.append("    var latlng = new google.maps.LatLng(" + latitude + ", " + longitude + ");");
-		script.append("    var myOptions = {");
-		script.append("      zoom: 8,");
-		script.append("      center: latlng,");
-		script.append("      mapTypeId: google.maps.MapTypeId.ROADMAP");
-		script.append("    };");
-		script.append("    var map = new google.maps.Map(document.getElementById(\"map_canvas\"),");
-		script.append("        myOptions);");
-		script.append("</script>");
-		return script.toString();
+		return VelocityUtil.processTemplate(MAP_ELEMENT_HTML_TEMPLATE, velocityContext);
 	}
 
 	public boolean toExport(JRGenericPrintElement element) {
