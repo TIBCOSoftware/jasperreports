@@ -318,6 +318,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int gridRowFreezeIndex;
 	protected int gridColumnFreezeIndex;		
 
+	protected int maxRowFreezeIndex;
+	protected int maxColumnFreezeIndex;
+	
 	/**
 	 *
 	 */
