@@ -158,9 +158,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected String password;
 
-	protected int rowFreezeIndex;
-	protected int columnFreezeIndex;
-	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -293,8 +290,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
-		rowFreezeIndex = 0;
-		columnFreezeIndex = 0;
+		maxRowFreezeIndex = 0;
+		maxColumnFreezeIndex = 0;
 	}
 
 	protected void closeWorkbook(OutputStream os) throws JRException
@@ -1749,11 +1746,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	
 	protected void setFreezePane(int rowIndex, int colIndex)
 	{
-		int maxRowIndex = Math.max(rowIndex, rowFreezeIndex);
-		int maxColIndex = Math.max(colIndex, columnFreezeIndex);
+		int maxRowIndex = Math.max(rowIndex, maxRowFreezeIndex);
+		int maxColIndex = Math.max(colIndex, maxColumnFreezeIndex);
 		sheet.createFreezePane(maxColIndex, maxRowIndex );
-		rowFreezeIndex = maxRowIndex;
-		columnFreezeIndex = maxColIndex;
+		maxRowFreezeIndex = maxRowIndex;
+		maxColumnFreezeIndex = maxColIndex;
 	}
 	
 }
