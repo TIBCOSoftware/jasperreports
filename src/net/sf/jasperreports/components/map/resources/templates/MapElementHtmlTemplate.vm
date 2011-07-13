@@ -1,0 +1,46 @@
+#if (${divId} && ${divClass})
+	<div id='${divId}' class='${divClass}'
+#else 
+	<div
+#end
+		style='position: absolute; left: ${elementX}; top: ${elementY}; width: ${elementWidth}px; height: ${elementHeight}px;
+		#if(${backgroundColor}) 
+			background-color: \#${backgroundColor};
+		#end
+	'>
+		<div id='map_canvas' style='width: 100%; height: 100%; overflow: auto'></div>
+	</div>
+
+<script type='text/javascript'>
+
+	function initializeMap() {
+	    var latlng = new google.maps.LatLng('${latitude}', '${longitude}');  
+	    var myOptions = {
+				zoom: 8,
+				center: latlng, 
+				mapTypeId: google.maps.MapTypeId.ROADMAP 
+		};
+		var map = new google.maps.Map(document.getElementById('map_canvas'), myOptions); 
+	}
+		
+	(function() {
+		var googleScriptUri = 'http://maps.google.com/maps/api/js?sensor=false&callback=initializeMap';
+			
+		function loadScript(scriptName, scriptUri) {
+			// prevent the script tag from being created more than once
+			if (!window[scriptName]) {
+				window[scriptName] = scriptUri;
+				var element = document.createElement('script');
+				element.setAttribute('type', 'text/javascript');
+				element.setAttribute('src', scriptUri);
+				var head = document.getElementsByTagName('head');
+				head[0].appendChild(element);
+			}
+		}
+		
+		if (!window.google) {
+			loadScript('_googleApi', googleScriptUri);
+		}
+	} ());
+			
+</script>
