@@ -24,7 +24,6 @@
 package net.sf.jasperreports.web.util;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
@@ -39,23 +38,21 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
 	
 	private HttpServletRequest request;
-	private HttpServletResponse response;
 	
 	/**
 	 *
 	 */
-	private ReportExecutionHyperlinkProducerFactory(HttpServletRequest request, HttpServletResponse response)
+	private ReportExecutionHyperlinkProducerFactory(HttpServletRequest request)
 	{
 		this.request = request;
-		this.response = response;
 	}
 
 	/**
 	 *
 	 */
-	public static ReportExecutionHyperlinkProducerFactory getInstance(HttpServletRequest request, HttpServletResponse response)
+	public static ReportExecutionHyperlinkProducerFactory getInstance(HttpServletRequest request)
 	{
-		return new ReportExecutionHyperlinkProducerFactory(request, response);
+		return new ReportExecutionHyperlinkProducerFactory(request);
 	}
 
 	/**
@@ -68,7 +65,7 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 			return null;
 		}
 		
-		return ReportExecutionHyperlinkProducer.getInstance(request, response);
+		return ReportExecutionHyperlinkProducer.getInstance(request);
 	}
 
 }

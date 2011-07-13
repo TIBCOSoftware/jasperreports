@@ -74,10 +74,6 @@ public class ReportServlet extends HttpServlet
 //	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
 	
 
-//	public static final String DEFAULT_JASPER_REPORT_SESSION_ATTRIBUTE = "net.sf.jasperreports.web.jasper_report";
-//	public static final String DEFAULT_JASPER_FILE_SESSION_ATTRIBUTE = "net.sf.jasperreports.web.file.jasper";
-//	public static final String DEFAULT_JRXML_FILE_SESSION_ATTRIBUTE = "net.sf.jasperreports.web.file.jrxml";
-	
 	private File repositoryRoot;
 	private SimpleFileResolver fileResolver;
 	
@@ -109,7 +105,7 @@ public class ReportServlet extends HttpServlet
 		String repo = getInitParameter("repository.root"); //this is used in Jetty config
 		if (repo == null)
 		{
-			repo = JRProperties.getProperty(PROPERTY_REPOSITORY_ROOT);//FIXME constant
+			repo = JRProperties.getProperty(PROPERTY_REPOSITORY_ROOT);//FIXMEJIVE constant
 		}
 		if (repo == null)
 		{
@@ -139,116 +135,39 @@ public class ReportServlet extends HttpServlet
 		HttpServletResponse response
 		) throws IOException, ServletException
 	{
-//		ServletContext context = this.getServletConfig().getServletContext();
+		response.setContentType("text/html");
+		
+		// Set to expire far in the past.
+		response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
+		// Set standard HTTP/1.1 no-cache headers.
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		// Set standard HTTP/1.0 no-cache header.
+		response.setHeader("Pragma", "no-cache");
+
+		PrintWriter out = response.getWriter();
 
 		WebReportContext webReportContext = WebReportContext.getInstance(request);
 
 		try
 		{
-			JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
-			String run = request.getParameter(REQUEST_PARAMETER_RUN_REPORT);
-			if (jasperPrint == null || Boolean.valueOf(run))
-			{
-				String reportUri = request.getParameter(REQUEST_PARAMETER_REPORT_URI);
-				
-//				Map<String, Object> parameters = (Map<String, Object>)request.getSession().getAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri);  
-//				if (parameters == null) 
-//				{
-//					parameters = new HashMap<String, Object>();
-//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, parameters);
-//				}
-				
-				webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-//				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-				JRResourcesUtil.setThreadFileResolver(fileResolver);
-				
-				Boolean isIgnorePagination = Boolean.valueOf(request.getParameter(REQUEST_PARAMETER_IGNORE_PAGINATION));
-				if (isIgnorePagination != null) 
-				{
-					webReportContext.setParameterValue(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
-					//parameters.put(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
-				}		
-				
-				JasperReport jasperReport = null; 
-				
-				String jrxml = request.getParameter(REQUEST_PARAMETER_REPORT_JRXML);
-				if (jrxml != null && jrxml.trim().length() > 0)
-				{
-					jrxml = jrxml.trim();
-					jasperReport =  JasperCompileManager.compileReport(new ByteArrayInputStream(jrxml.getBytes()));
-				}
-				else if (reportUri != null && reportUri.trim().length() > 0)
-				{
-					reportUri = reportUri.trim();
-
-					jasperReport = RepositoryUtil.getReport(reportUri);
-				}
-				
-				if (jasperReport == null)
-				{
-					throw new JRException("Report not found at : " + reportUri);
-				}
-
-				webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
-				
-//				Map parameters = new HashMap();
-				
-//				String clearSession = request.getParameter(REPORT_CLEAR_SESSION);
-//				if (clearSession != null && clearSession.equalsIgnoreCase("true")) {
-//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, null);
-//				}
-				
-				/* data adapter - start */
-				String dataAdapterUri = jasperReport.getProperty("net.sf.jasperreports.data.adapter");
-				if (dataAdapterUri != null)
-				{
-					//repoService.setFileResolver(fileResolver);
-
-					DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
-					DataAdapterService dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
-					
-					Map<String, Object> dasParams = dataAdapterService.getParameters();
-					//parameters.putAll(dasParams);
-					webReportContext.setParameterValues(dasParams);
-				}
-				/* data adapter - end */
-				
-				jasperPrint = 
-					JasperFillManager.fillReport(
-						jasperReport, 
-						webReportContext.getParameterValues()
-						);
-							
-				webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, jasperPrint);
-			}
+			runReport(request, webReportContext);
 			
 			String viewer = request.getParameter(REQUEST_PARAMETER_REPORT_VIEWER);
 			if (viewer == null || viewer.trim().length() == 0)
 			{
-				new DefaultViewer().service(request, response, webReportContext);
+				new DefaultViewer().render(request, webReportContext, out);
 			}
 			else
 			{
 				//FIXMEJIVE
-				new NoDecorationViewer().service(request, response, webReportContext);
+				new NoDecorationViewer().render(request, webReportContext, out);
 			}
 		}
 		catch (JRException e)
 		{
-			response.setContentType("text/html");
-			
-			// Set to expire far in the past.
-			response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
-			// Set standard HTTP/1.1 no-cache headers.
-			response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-			// Set IE extended HTTP/1.1 no-cache headers (use addHeader).
-			response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-			// Set standard HTTP/1.0 no-cache header.
-			response.setHeader("Pragma", "no-cache");
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<html>");
+			out.println("<html>");//FIXMEJIVE do we need to render this? or should this be done by the viewer?
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
 			out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" title=\"Style\">");
@@ -269,16 +188,103 @@ public class ReportServlet extends HttpServlet
 	}
 
 
-	public static String extractReportUri(String paramReportUri) {
-		String lcReportUri = paramReportUri.toLowerCase();
-		if (lcReportUri.endsWith(".jasper"))
+	/**
+	 *
+	 */
+	public void runReport(
+		HttpServletRequest request, //FIXMEJIVE put request in report context, maybe as a thread local?
+		WebReportContext webReportContext
+		) throws JRException //IOException, ServletException
+	{
+		JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
+		String run = request.getParameter(REQUEST_PARAMETER_RUN_REPORT);
+		if (jasperPrint == null || Boolean.valueOf(run))
 		{
-			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jasper"));
+			String reportUri = request.getParameter(REQUEST_PARAMETER_REPORT_URI);
+			
+//				Map<String, Object> parameters = (Map<String, Object>)request.getSession().getAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri);  
+//				if (parameters == null) 
+//				{
+//					parameters = new HashMap<String, Object>();
+//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, parameters);
+//				}
+			
+			webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
+//				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
+			JRResourcesUtil.setThreadFileResolver(fileResolver);
+			
+			Boolean isIgnorePagination = Boolean.valueOf(request.getParameter(REQUEST_PARAMETER_IGNORE_PAGINATION));
+			if (isIgnorePagination != null) 
+			{
+				webReportContext.setParameterValue(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
+				//parameters.put(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
+			}		
+			
+			JasperReport jasperReport = null; 
+			
+			String jrxml = request.getParameter(REQUEST_PARAMETER_REPORT_JRXML);
+			if (jrxml != null && jrxml.trim().length() > 0)
+			{
+				jrxml = jrxml.trim();
+				jasperReport =  JasperCompileManager.compileReport(new ByteArrayInputStream(jrxml.getBytes()));
+			}
+			else if (reportUri != null && reportUri.trim().length() > 0)
+			{
+				reportUri = reportUri.trim();
+
+				jasperReport = RepositoryUtil.getReport(reportUri);
+			}
+			
+			if (jasperReport == null)
+			{
+				throw new JRException("Report not found at : " + reportUri);
+			}
+
+			webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
+			
+//				Map parameters = new HashMap();
+			
+//				String clearSession = request.getParameter(REPORT_CLEAR_SESSION);
+//				if (clearSession != null && clearSession.equalsIgnoreCase("true")) {
+//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, null);
+//				}
+			
+			/* data adapter - start */
+			String dataAdapterUri = jasperReport.getProperty("net.sf.jasperreports.data.adapter");
+			if (dataAdapterUri != null)
+			{
+				//repoService.setFileResolver(fileResolver);
+
+				DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
+				DataAdapterService dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
+				
+				Map<String, Object> dasParams = dataAdapterService.getParameters();
+				//parameters.putAll(dasParams);
+				webReportContext.setParameterValues(dasParams);
+			}
+			/* data adapter - end */
+			
+			jasperPrint = 
+				JasperFillManager.fillReport(
+					jasperReport, 
+					webReportContext.getParameterValues()
+					);
+						
+			webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, jasperPrint);
 		}
-		else if (lcReportUri.endsWith(".jrxml"))
-		{
-			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jrxml"));
-		}
-		return paramReportUri;
 	}
+
+
+//	public static String extractReportUri(String paramReportUri) {
+//		String lcReportUri = paramReportUri.toLowerCase();
+//		if (lcReportUri.endsWith(".jasper"))
+//		{
+//			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jasper"));
+//		}
+//		else if (lcReportUri.endsWith(".jrxml"))
+//		{
+//			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jrxml"));
+//		}
+//		return paramReportUri;
+//	}
 }
