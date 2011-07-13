@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -153,6 +154,7 @@ public class JRDesignDataset extends JRBaseDataset
 	 * An array containing the built-in parameters that can be found and used in any report dataset.
 	 */
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
+		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
 		JRParameter.JASPER_REPORT, JasperReport.class, 
 		JRParameter.REPORT_CONNECTION, Connection.class,

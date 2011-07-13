@@ -28,6 +28,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.engine.ReportContext;
+
 
 
 /**

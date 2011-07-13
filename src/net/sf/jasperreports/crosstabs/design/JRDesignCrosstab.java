@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -143,6 +144,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	private PropertyChangeListener measureClassChangeListener = new MeasureClassChangeListener();
 	
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
+		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 
 		JRParameter.REPORT_LOCALE, Locale.class, 
 		JRParameter.REPORT_RESOURCE_BUNDLE, ResourceBundle.class,
