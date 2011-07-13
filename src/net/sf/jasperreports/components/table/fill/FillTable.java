@@ -34,7 +34,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.sort.SortElementAction;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -118,7 +117,7 @@ public class FillTable extends BaseFillComponent
 	private void sort()
 	{
 		HttpServletRequest request = (HttpServletRequest)fillContext.getFiller().getParameterValuesMap().get("PARAMETER_REQUEST");
-		String reportActionData = request.getParameter(SortElementAction.REPORT_ACTION_DATA);
+		String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
 		String paramTableName = request.getParameter(SortElement.PARAMETER_TABLE_NAME);
 		
 		Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
@@ -145,7 +144,7 @@ public class FillTable extends BaseFillComponent
 						)
 					);
 			}
-			fillContext.getFiller().getParameterValuesMap().put(SortElementAction.SORT_FIELDS_PARAM, sortFieldsList);
+			fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
 			reportContext.put(paramTableName, sortFields);
 		}
 		if (paramTableName != null)

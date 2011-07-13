@@ -96,8 +96,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
-			velocityContext.put("filterReportActionParamName", ReportServlet.REPORT_ACTION);
-			velocityContext.put("filterReportActionParamValue", SortElementAction.NAME);
+			//velocityContext.put("filterReportActionParamName", ReportServlet.REPORT_ACTION);
+			//velocityContext.put("filterReportActionParamValue", SortElementAction.NAME);
 			velocityContext.put("filterFieldParamName", SortElement.PARAMETER_FILTER_FIELD);
 			velocityContext.put("filterValueParamName", SortElement.PARAMETER_FILTER_VALUE);
 			velocityContext.put("filterColumnName", sortColumnName);
@@ -142,8 +142,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		hyperlink.setLinkType("ReportExecution");
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REPORT_ACTION, String.class.getName(), SortElementAction.NAME));
-		parameters.addParameter(new JRPrintHyperlinkParameter(SortElementAction.REPORT_ACTION_DATA, String.class.getName(), sortColumnName + ":" + sortColumnType + ":" +
+		//parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REPORT_ACTION, String.class.getName(), SortElementAction.NAME));
+		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_SORT_DATA, String.class.getName(), sortColumnName + ":" + sortColumnType + ":" +
 				(isAscending?"Ascending":"Descending")));
 		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.PARAMETER_TABLE_NAME, String.class.getName(), sortTableName));
 		hyperlink.setHyperlinkParameters(parameters);
@@ -161,7 +161,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	private String getCurrentSortField(HttpServletRequest request, String sortColumnName, String sortColumnType) 
 	{
 		String result = null;
-		String reportActionData = request.getParameter(SortElementAction.REPORT_ACTION_DATA);
+		String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
 		
 		if (reportActionData != null && reportActionData.indexOf(":") != -1 && reportActionData.split(":").length > 1)
 		{
@@ -183,8 +183,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			{
 				Map paramMap = webReportContext.getParameterValues();
 				//Map paramMap = (Map)request.getSession().getAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri);
-				if (paramMap != null && paramMap.get(SortElementAction.SORT_FIELDS_PARAM) != null) {
-					List<String> sortFields = (List<String>)paramMap.get(SortElementAction.SORT_FIELDS_PARAM);
+				if (paramMap != null && paramMap.get(SortElement.PARAMETER_SORT_FIELDS) != null) {
+					List<String> sortFields = (List<String>)paramMap.get(SortElement.PARAMETER_SORT_FIELDS);
 					for (String _sortField: sortFields) {
 						String[] sortActionData = _sortField.split(":");
 						if (sortActionData.length > 1 && sortActionData[0].equals(sortColumnName) && sortActionData[1].equals(sortColumnType)) {
