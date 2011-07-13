@@ -26,7 +26,6 @@ package net.sf.jasperreports.web.util;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
@@ -41,23 +40,21 @@ import net.sf.jasperreports.web.servlets.ReportServlet;
 public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 {
 	private HttpServletRequest request;
-	private HttpServletResponse response;
 	
 	/**
 	 *
 	 */
-	private ReportExecutionHyperlinkProducer(HttpServletRequest request, HttpServletResponse response)
+	private ReportExecutionHyperlinkProducer(HttpServletRequest request)
 	{
 		this.request = request;
-		this.response = response;
 	}
 
 	/**
 	 *
 	 */
-	public static ReportExecutionHyperlinkProducer getInstance(HttpServletRequest request, HttpServletResponse response)
+	public static ReportExecutionHyperlinkProducer getInstance(HttpServletRequest request)
 	{
-		return new ReportExecutionHyperlinkProducer(request, response);
+		return new ReportExecutionHyperlinkProducer(request);
 	}
 
 

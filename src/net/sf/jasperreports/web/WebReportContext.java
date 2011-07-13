@@ -67,14 +67,15 @@ public class WebReportContext implements ReportContext
 		WebReportContext webReportContext = null;
 
 		String reportContextId = request.getParameter(REQUEST_PARAMETER_REPORT_CONTEXT_ID);
-		if (reportContextId == null && create)
+		if (reportContextId != null)
+		{
+			webReportContext = (WebReportContext)request.getSession().getAttribute(getSessionAttributeName(reportContextId));
+		}
+
+		if (webReportContext == null && create)
 		{
 			webReportContext = new WebReportContext();
 			request.getSession().setAttribute(webReportContext.getSessionAttributeName(), webReportContext);
-		}
-		else
-		{
-			webReportContext = (WebReportContext)request.getSession().getAttribute(getSessionAttributeName(reportContextId));
 		}
 		
 		return webReportContext;
