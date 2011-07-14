@@ -117,45 +117,48 @@ public class FillTable extends BaseFillComponent
 	private void sort()
 	{
 		HttpServletRequest request = (HttpServletRequest)fillContext.getFiller().getParameterValuesMap().get("PARAMETER_REQUEST");
-		String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
-		String paramTableName = request.getParameter(SortElement.PARAMETER_TABLE_NAME);
-		
-		Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
-//		if (reportContext == null) {
-//			reportContext = new HashMap<String, Object>();
-//			context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
-//		}
-
-		if (reportActionData != null && paramTableName != null)
+		if (request != null)
 		{
-			List<JRSortField> sortFields = new ArrayList<JRSortField>();
-			List<String> sortFieldsList = new ArrayList<String>();
-			String[] tokens = reportActionData.split(",");
-			for (int i = 0; i < tokens.length; i++)
-			{
-				String token = tokens[i];
-				sortFieldsList.add(token);
-				String[] chunks = token.split(":");
-				sortFields.add(
-					new JRDesignSortField(
-						chunks[0],
-						SortFieldTypeEnum.getByName(chunks[1]),
-						SortOrderEnum.getByName(chunks[2])
-						)
-					);
-			}
-			fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
-			reportContext.put(paramTableName, sortFields);
-		}
-		if (paramTableName != null)
-		{
-			String paramFieldName = request.getParameter(SortElement.PARAMETER_FILTER_FIELD);
-			String paramFieldValue = request.getParameter(SortElement.PARAMETER_FILTER_VALUE);
+			String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
+			String paramTableName = request.getParameter(SortElement.PARAMETER_TABLE_NAME);
 			
-			if (paramFieldName != null && paramFieldValue != null)
+			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+//			if (reportContext == null) {
+//				reportContext = new HashMap<String, Object>();
+//				context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
+//			}
+
+			if (reportActionData != null && paramTableName != null)
 			{
-				reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
-				reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
+				List<JRSortField> sortFields = new ArrayList<JRSortField>();
+				List<String> sortFieldsList = new ArrayList<String>();
+				String[] tokens = reportActionData.split(",");
+				for (int i = 0; i < tokens.length; i++)
+				{
+					String token = tokens[i];
+					sortFieldsList.add(token);
+					String[] chunks = token.split(":");
+					sortFields.add(
+						new JRDesignSortField(
+							chunks[0],
+							SortFieldTypeEnum.getByName(chunks[1]),
+							SortOrderEnum.getByName(chunks[2])
+							)
+						);
+				}
+				fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
+				reportContext.put(paramTableName, sortFields);
+			}
+			if (paramTableName != null)
+			{
+				String paramFieldName = request.getParameter(SortElement.PARAMETER_FILTER_FIELD);
+				String paramFieldValue = request.getParameter(SortElement.PARAMETER_FILTER_VALUE);
+				
+				if (paramFieldName != null && paramFieldValue != null)
+				{
+					reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
+					reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
+				}
 			}
 		}
 	}

@@ -177,7 +177,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			}
 		} else 
 		{
-			String reportUri = ReportServlet.extractReportUri(request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
+			//String reportUri = ReportServlet.extractReportUri(request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
 			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
 			if (webReportContext != null)
 			{
