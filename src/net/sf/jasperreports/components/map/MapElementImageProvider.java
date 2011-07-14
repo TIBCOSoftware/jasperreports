@@ -44,6 +44,9 @@ public class MapElementImageProvider
 	{
 		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
 		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
+		Integer zoom = element.getParameterValue(MapPrintElement.PARAMETER_ZOOM ) == null
+			? 8
+			: (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
 		
 		if(latitude != null && longitude != null)
 		{
@@ -59,7 +62,10 @@ public class MapElementImageProvider
 				+ elementWidth 
 				+ "x" 
 				+ elementHeight 
-				+ "&format=jpg&zoom=8&sensor=false";
+				+ "&format=jpg"
+				+ "&zoom="
+				+ zoom
+				+ "&sensor=false";
 			
 			JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 			

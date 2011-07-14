@@ -53,6 +53,10 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		VelocityContext velocityContext = new VelocityContext();
 		velocityContext.put("latitude", element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE));
 		velocityContext.put("longitude", element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE));
+		Integer zoom = element.getParameterValue(MapPrintElement.PARAMETER_ZOOM) == null
+			? 8
+			: (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
+		velocityContext.put(MapPrintElement.PARAMETER_ZOOM, zoom);
 		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));

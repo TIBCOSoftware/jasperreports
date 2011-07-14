@@ -43,6 +43,7 @@ public class MapCompiler implements ComponentCompiler
 		MapComponent map = (MapComponent) component;
 		collector.addExpression(map.getLatitudeExpression());
 		collector.addExpression(map.getLongitudeExpression());
+		collector.addExpression(map.getZoomExpression());
 	}
 
 	public Component toCompiledComponent(Component component,

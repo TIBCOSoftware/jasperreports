@@ -5,10 +5,13 @@
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="latitude" class="java.lang.Float">
-		<defaultValueExpression>new Float(42.21f)</defaultValueExpression>
+		<defaultValueExpression>Float.valueOf(42.21f)</defaultValueExpression>
 	</parameter>
 	<parameter name="longitude" class="java.lang.Float">
-		<defaultValueExpression>new Float(-71.5f)</defaultValueExpression>
+		<defaultValueExpression>Float.valueOf(-71.5f)</defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression>Integer.valueOf(8)</defaultValueExpression>
 	</parameter>
 	<title>
 		<band height="70">
@@ -56,6 +59,7 @@
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 				</c:map>
 			</componentElement>
 		</band>

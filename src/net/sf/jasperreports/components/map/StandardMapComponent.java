@@ -46,11 +46,13 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	
 	public static final String PROPERTY_LATITUDE_EXPRESSION = "latitudeExpression";
 	public static final String PROPERTY_LONGITUDE_EXPRESSION = "longitudeExpression";
+	public static final String PROPERTY_ZOOM_EXPRESSION = "zoomExpression";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
+	private JRExpression zoomExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	
@@ -64,6 +66,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		this.latitudeExpression = objectFactory.getExpression(map.getLatitudeExpression());
 		this.longitudeExpression = objectFactory.getExpression(map.getLongitudeExpression());
+		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
 	}
@@ -90,6 +93,18 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		Object old = this.longitudeExpression;
 		this.longitudeExpression = longitudeExpression;
 		getEventSupport().firePropertyChange(PROPERTY_LONGITUDE_EXPRESSION, old, this.longitudeExpression);
+	}
+
+	public JRExpression getZoomExpression()
+	{
+		return zoomExpression;
+	}
+
+	public void setZoomExpression(JRExpression zoomExpression)
+	{
+		Object old = this.zoomExpression;
+		this.zoomExpression = zoomExpression;
+		getEventSupport().firePropertyChange(PROPERTY_ZOOM_EXPRESSION, old, this.zoomExpression);
 	}
 
 	public EvaluationTimeEnum getEvaluationTime()
@@ -144,6 +159,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		}
 		clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
 		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
+		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.eventSupport = null;
 		return clone;
 	}
