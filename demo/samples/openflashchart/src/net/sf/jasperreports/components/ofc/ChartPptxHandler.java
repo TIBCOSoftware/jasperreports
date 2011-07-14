@@ -23,10 +23,9 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.io.IOException;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementPptxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
@@ -48,5 +47,10 @@ public class ChartPptxHandler extends BaseChartHandler implements GenericElement
 		JRPrintText text = getTextElementReplacement(exporterContext, element);
 		
 		exporter.exportText(text);
+	}
+
+	public JRPrintImage getImage(JRGenericPrintElement element) throws JRException 
+	{
+		return null;
 	}
 }
