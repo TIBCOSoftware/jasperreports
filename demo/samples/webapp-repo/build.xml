@@ -2,6 +2,9 @@
 
 	<description>Shows how reporting functionality could be added to a Web application.</description>
 
+	<property name="projectname" value="jasperreports" />
+	<property name="war.name" value="${projectname}.war" />
+	
 	<path id="classpath">
 		<pathelement location="./WEB-INF/classes/"/>
 		<pathelement location="../../../build/classes" />
@@ -56,7 +59,7 @@
 	</target>
 
 	<target name="war" depends="javac" description="Builds the Web application .war file.">
-		<war warfile="jasperreports.war" webxml="./WEB-INF/web.xml">
+		<war warfile="${war.name}" webxml="./WEB-INF/web.xml">
 			<fileset dir="." includes="**/*.css" />
 			<fileset dir="." includes="**/*.html" />
 			<fileset dir="." includes="**/*.class" excludes="**/WEB-INF/classes/**/*.class"/>
@@ -83,5 +86,59 @@
 		<antcall target="clean" />
 		<antcall target="javac" />
 	</target>
+	
+	
+	<property file="build.properties"/>
+	
+	<target name="isTomcatRunning">
+		<echo message="Checking Tomcat Status" />
+		<condition property="tomcat.running">
+	     	<socket server="${tomcat.host}" port="${tomcat.port}" /> 
+	    </condition>
+	</target>
+	
+	<target name="startTomcat" depends="isTomcatRunning" unless="tomcat.running">
+		<echo message="Starting Tomcat" />
+	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	    </java>
+	</target>
 
+	<target name="stopTomcat" depends="isTomcatRunning" if="tomcat.running">
+		<echo message="Stopping Tomcat" />
+	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" >
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	        <arg line="stop"/>
+	    </java>
+	</target>
+
+	<target name="jasperreportsAntCleanJar">
+		<ant antfile="${jasperreports.ant.file}" target="clean" inheritall="false"/>
+		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
+	</target>
+	
+	<target name="copyWarToTomcat" depends="clean, war">
+		<copy todir="${tomcat.home}/webapps" file="${basedir}/${war.name}" />
+	</target>
+	
+	<target name="cleanTomcat">
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.home}/work/Catalina">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${tomcat.home}/webapps">
+				<include name="${war.name}" />
+				<include name="${projectname}/**" />
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="deploy">
+		<antcall target="stopTomcat" />
+		<antcall target="jasperreportsAntCleanJar" />
+		<antcall target="cleanTomcat" />
+		<antcall target="copyWarToTomcat" />
+		<antcall target="startTomcat" inheritall="false" />
+	</target>
+	
 </project>
