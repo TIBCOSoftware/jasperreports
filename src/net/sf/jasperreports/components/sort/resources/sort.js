@@ -6,7 +6,6 @@ $(document).ready(function() {
     });
 
 	// add event for clickable sortlinks (up/down arrows)
-//	$('.sortlink').live('click', function(event){
 	$('a').live('click', function(event){
 		event.preventDefault();
 		var currentHref = $(this).attr("href");
@@ -25,6 +24,12 @@ $(document).ready(function() {
 	$('.sortlink').live('mousedown', function(event) {
 	    if (event.which == 3) {
 	    	var filterDiv = $('.filterdiv',$(this).parent());
+	    	
+	    	// hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+	    	$('.filterdiv').filter(':visible').each(function (index, element) {
+	    		$(element).hide();
+	    	});
+	    	
 	    	filterDiv.css({
 	    			position: 'absolute',
 	    			'z-index': 999998,
