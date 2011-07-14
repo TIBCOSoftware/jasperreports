@@ -55,6 +55,11 @@ public final class MapPrintElement
 	 */
 	public static final String PARAMETER_LONGITUDE = "longitude";
 	
+	/**
+	 * The name of the parameter that provides the zoom.
+	 */
+	public static final String PARAMETER_ZOOM = "zoom";
+	
 //	/**
 //	 * Creates a map element by copying all base element attributes
 //	 * from a template instance.
@@ -67,7 +72,7 @@ public final class MapPrintElement
 //	 * @return a map element
 //	 */
 //	public static JRGenericPrintElement makeMapElement(JRPrintElement template,
-//			Float latitude, Float longitude, Map<String,Object> elementParameters)
+//			Float latitude, Float longitude, Integer zoom, Map<String,Object> elementParameters)
 //	{
 //		// TODO use JRTemplateGenericElement
 //		JRBaseGenericPrintElement mapEl = new JRBaseGenericPrintElement(
@@ -86,7 +91,8 @@ public final class MapPrintElement
 //		
 //		mapEl.setGenericType(MAP_ELEMENT_TYPE);
 //		mapEl.setParameterValue(PARAMETER_LATITUDE, latitude);
-//		mapEl.setParameterValue(PARAMETER_LONGITUDE, longitude);
+//	mapEl.setParameterValue(PARAMETER_LONGITUDE, longitude);
+//	mapEl.setParameterValue(PARAMETER_ZOOM, zoom);
 //		
 //		if (elementParameters != null && !elementParameters.isEmpty())
 //		{

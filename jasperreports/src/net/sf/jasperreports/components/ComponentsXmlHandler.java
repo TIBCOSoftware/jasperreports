@@ -249,6 +249,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addCallMethod(longitudeExpressionPattern, "setText", 0);
 		digester.addSetNext(longitudeExpressionPattern, "setLongitudeExpression", 
 				JRExpression.class.getName());
+		
+		String zoomExpressionPattern = mapPattern + "/zoomExpression";
+		digester.addFactoryCreate(zoomExpressionPattern, 
+				JRExpressionFactory.class.getName());
+		digester.addCallMethod(zoomExpressionPattern, "setText", 0);
+		digester.addSetNext(zoomExpressionPattern, "setZoomExpression", 
+				JRExpression.class.getName());
 	}
 
 	protected void addTableRules(Digester digester)

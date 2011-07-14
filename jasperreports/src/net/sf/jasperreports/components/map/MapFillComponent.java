@@ -44,6 +44,7 @@ public class MapFillComponent extends BaseFillComponent
 	
 	private Float latitude;
 	private Float longitude;
+	private Integer zoom;
 	
 	public MapFillComponent(MapComponent map)
 	{
@@ -67,6 +68,11 @@ public class MapFillComponent extends BaseFillComponent
 	{
 		latitude = (Float)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
+		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
+		if(zoom == null)
+		{
+			zoom = 8;
+		}
 	}
 	
 	protected boolean isEvaluateNow()
@@ -119,5 +125,6 @@ public class MapFillComponent extends BaseFillComponent
 	{
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
+		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
 	}
 }
