@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.jasperreports</groupId>
 	<artifactId>jasperreports</artifactId>
-	<version>4.0.3</version>
+	<version>4.1.1</version>
 	<packaging>jar</packaging>
 	<name>JasperReports</name>
 	<url>http://jasperreports.sourceforge.net</url>
@@ -17,7 +17,7 @@
 	</licenses>
 	<scm>
 		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
-		<tag>jr-4-0-3</tag>
+		<tag>jr-4-1-1</tag>
 		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
 	</scm>
 	<developers>
@@ -68,6 +68,9 @@
 					<include>**/*.png</include>
 					<include>**/*.GIF</include>
 					<include>**/*TokenTypes.txt</include>
+					<include>**/*.vm</include>
+					<include>**/*.js</include>
+					<include>**/*.css</include>
 				</includes>
 			</resource>
 		</resources>
@@ -415,6 +418,19 @@
 			<groupId>net.sourceforge.barbecue</groupId>
 			<artifactId>barbecue</artifactId>
 			<version>1.5-beta1</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>

@@ -28,6 +28,7 @@
 				<include name="**/jxl*.jar"/>
 				<include name="**/png-encoder*.jar"/>
 				<include name="**/spring*.jar"/>
+				<include name="**/velocity*.jar"/>
 				<exclude name="**/commons-javaflow-*.jar"/>
 			</fileset>
 		</copy>
@@ -101,6 +102,7 @@
 			<fileset dir="." includes="**/*.jrxml" />
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
+				<include name="**/*.csv" />
 			</classes>
 			<lib dir="./WEB-INF/lib/">
 				<include name="*.jar" />
