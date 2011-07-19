@@ -210,8 +210,6 @@ public class ReportServlet extends HttpServlet
 //					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, parameters);
 //				}
 			
-			webReportContext.setParameterValue("PARAMETER_REQUEST", request);//FIXMEJIVE try do this differently
-
 			webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
 //				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
 			JRResourcesUtil.setThreadFileResolver(fileResolver);

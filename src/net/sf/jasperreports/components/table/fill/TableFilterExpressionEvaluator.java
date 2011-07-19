@@ -26,9 +26,9 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.Map;
 
 import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.table.fill.BuiltinExpressionEvaluator;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
@@ -44,10 +44,10 @@ public class TableFilterExpressionEvaluator implements BuiltinExpressionEvaluato
 	private Map<String, JRFillField> fieldsMap;
 	private JRExpression originalFilterExpression;
 	private FillContext fillContext;
-	private Map<String, Object> reportContext;
+	private ReportContext reportContext;
 	private String tableReportName;
 	
-	public TableFilterExpressionEvaluator(String tableReportName, Map<String, Object> reportContext, FillContext fillContext, JRExpression originalFilterExpression) {
+	public TableFilterExpressionEvaluator(String tableReportName, ReportContext reportContext, FillContext fillContext, JRExpression originalFilterExpression) {
 		this.tableReportName = tableReportName;
 		this.fillContext = fillContext;
 		this.reportContext = reportContext;
@@ -76,8 +76,8 @@ public class TableFilterExpressionEvaluator implements BuiltinExpressionEvaluato
 			originalEvaluationResult = Boolean.TRUE;
 		}
 		
-		String paramFilterField = (String)reportContext.get(tableReportName + "." + SortElement.PARAMETER_FILTER_FIELD);
-		String paramFilterValue = (String)reportContext.get(tableReportName + "." + SortElement.PARAMETER_FILTER_VALUE);
+		String paramFilterField = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.PARAMETER_FILTER_FIELD);
+		String paramFilterValue = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.PARAMETER_FILTER_VALUE);
 		
 		if (paramFilterField != null && paramFilterValue != null) {
 			result = ((String)fieldsMap.get(paramFilterField).getValue()).contains(paramFilterValue);

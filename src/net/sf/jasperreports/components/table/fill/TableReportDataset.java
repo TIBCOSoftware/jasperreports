@@ -26,7 +26,6 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
@@ -40,6 +39,7 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignScriptlet;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
@@ -63,7 +63,7 @@ public class TableReportDataset implements JRDataset
 	private final List<JRParameter> parameters;
 
 	private JRExpression filterExpression;
-	private Map<String, Object> reportContext;
+	private ReportContext reportContext;
 	private String reportName;
 	
 	public TableReportDataset(JRDataset tableSubdataset, String name)
@@ -104,7 +104,7 @@ public class TableReportDataset implements JRDataset
 		}
 	}
 
-	public TableReportDataset(Map<String, Object> reportContext, JRDataset tableSubdataset, String name)
+	public TableReportDataset(ReportContext reportContext, JRDataset tableSubdataset, String name)
 	{
 		this(tableSubdataset, name);
 		this.reportContext = reportContext;
@@ -176,9 +176,9 @@ public class TableReportDataset implements JRDataset
 		JRSortField[] sortFields = tableSubdataset.getSortFields();
 		JRSortField[] extendedSortFields = null;
 
-		if (reportContext.containsKey(reportName)) {
-			List<JRSortField> paramSortFields =  (List<JRSortField>)reportContext.get(reportName);
-			extendedSortFields = new JRSortField[sortFields.length + paramSortFields.size()];
+		if (reportContext.containsParameter(reportName)) {
+			List<JRSortField> paramSortFields =  (List<JRSortField>)reportContext.getParameterValue(reportName);
+			extendedSortFields = new JRSortField[sortFields.length + paramSortFields.size()];//FIXMEJIVE null
 
 			System.arraycopy(sortFields, 0, extendedSortFields, 0, sortFields.length);
 			

@@ -45,4 +45,9 @@ public interface ReportContext
 	 *
 	 */
 	public void setParameterValue(String parameterName, Object value);
+
+	/**
+	 *
+	 */
+	public boolean containsParameter(String parameterName);
 }

@@ -31,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
@@ -49,6 +47,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
@@ -116,13 +115,13 @@ public class FillTable extends BaseFillComponent
 
 	private void sort()
 	{
-		HttpServletRequest request = (HttpServletRequest)fillContext.getFiller().getParameterValuesMap().get("PARAMETER_REQUEST");
-		if (request != null)
+		ReportContext reportContext = (ReportContext)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_CONTEXT);
+		if (reportContext != null)
 		{
-			String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
-			String paramTableName = request.getParameter(SortElement.PARAMETER_TABLE_NAME);
+			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
+			String paramTableName = (String)reportContext.getParameterValue(SortElement.PARAMETER_TABLE_NAME);
 			
-			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+//			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
 //			if (reportContext == null) {
 //				reportContext = new HashMap<String, Object>();
 //				context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
@@ -147,17 +146,17 @@ public class FillTable extends BaseFillComponent
 						);
 				}
 				fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
-				reportContext.put(paramTableName, sortFields);
+				reportContext.setParameterValue(paramTableName, sortFields);
 			}
 			if (paramTableName != null)
 			{
-				String paramFieldName = request.getParameter(SortElement.PARAMETER_FILTER_FIELD);
-				String paramFieldValue = request.getParameter(SortElement.PARAMETER_FILTER_VALUE);
+				String paramFieldName = (String)reportContext.getParameterValue(SortElement.PARAMETER_FILTER_FIELD);
+				String paramFieldValue = (String)reportContext.getParameterValue(SortElement.PARAMETER_FILTER_VALUE);
 				
 				if (paramFieldName != null && paramFieldValue != null)
 				{
-					reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
-					reportContext.put(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
+					reportContext.setParameterValue(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
+					reportContext.setParameterValue(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
 				}
 			}
 		}
@@ -298,7 +297,8 @@ public class FillTable extends BaseFillComponent
 		// the relationship between objects (e.g. variables and groups) in the cloned
 		// dataset
 		JRDataset tableSubdataset = DatasetCloneObjectFactory.cloneDataset(reportSubdataset);
-		Map<String, Object> reportContext = (Map<String, Object>)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+		//Map<String, Object> reportContext = (Map<String, Object>)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
+		ReportContext reportContext = (ReportContext)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_CONTEXT);
 		TableReportDataset reportDataset = new TableReportDataset(reportContext, tableSubdataset, tableReportName);
 
 		JRExpression newTableFilterExpression = new JRDesignExpression();
