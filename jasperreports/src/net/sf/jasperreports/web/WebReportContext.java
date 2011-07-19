@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ReportContext;
 
 
@@ -50,7 +51,9 @@ public class WebReportContext implements ReportContext
 	/**
 	 *
 	 */
-	private Map<String, Object> parameterValues = new HashMap<String, Object>();
+	//private ThreadLocal<HttpServletRequest> threadLocalRequest = new ThreadLocal<HttpServletRequest>();//FIXMEJIVE
+	private HttpServletRequest request;
+	private Map<String, Object> parameterValues;
 	private String id;
 	
 	/**
@@ -80,6 +83,11 @@ public class WebReportContext implements ReportContext
 			request.getSession().setAttribute(webReportContext.getSessionAttributeName(), webReportContext);
 		}
 		
+		if (webReportContext != null)
+		{
+			webReportContext.setRequest(request);
+		}
+		
 		return webReportContext;
 	}
 
@@ -88,6 +96,8 @@ public class WebReportContext implements ReportContext
 	 */
 	private WebReportContext()
 	{
+		parameterValues = new HashMap<String, Object>();
+		parameterValues.put(JRParameter.REPORT_CONTEXT, this);
 	}
 
 	/**
@@ -105,6 +115,24 @@ public class WebReportContext implements ReportContext
 	/**
 	 *
 	 */
+	public HttpServletRequest getRequest()
+	{
+		//return threadLocalRequest.get();
+		return request;
+	}
+
+	/**
+	 *
+	 */
+	public void setRequest(HttpServletRequest request)
+	{
+		//threadLocalRequest.set(request);
+		this.request = request;
+	}
+
+	/**
+	 *
+	 */
 	public String getSessionAttributeName()
 	{
 		return getSessionAttributeName(getId());
@@ -115,7 +143,29 @@ public class WebReportContext implements ReportContext
 	 */
 	public Object getParameterValue(String parameterName)
 	{
+		HttpServletRequest request = getRequest();
+		String requestParameterValue = request.getParameter(parameterName);
+		if (requestParameterValue != null)
+		{
+			return requestParameterValue;
+		}
+		
 		return parameterValues.get(parameterName);
+	}
+
+	/**
+	 *
+	 */
+	public boolean containsParameter(String parameterName)
+	{
+		HttpServletRequest request = getRequest();
+		String requestParameterValue = request.getParameter(parameterName);
+		if (requestParameterValue != null)
+		{
+			return true;
+		}
+		
+		return parameterValues.containsKey(parameterName);
 	}
 
 	/**
