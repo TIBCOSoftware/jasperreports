@@ -1371,7 +1371,7 @@ Specifies the image resolution in dots-per-inch, for the images created by the e
     <api>net/sf/jasperreports/engine/JRRenderable.html#PROPERTY_IMAGE_DPI</api>
     <default>72</default>
     <scope>Global</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
@@ -2017,7 +2017,7 @@ It specifies whether the PDF exporter should use a <a href="http://itext.ugent.b
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
-    <deprecated>4.0.3</deprecated>
+    <deprecated>4.1.1</deprecated>
   </configProperty>
   
   
@@ -2499,7 +2499,7 @@ The property is available for:
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
@@ -2526,7 +2526,7 @@ The property is available for:
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE</api>
     <default>N/A</default>
     <scope>Report Element</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
@@ -2548,7 +2548,7 @@ The property is available for:
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW</api>
     <default>N/A</default>
     <scope>Global | Report</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
@@ -2575,7 +2575,7 @@ The property is available for:
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE</api>
     <default>N/A</default>
     <scope>Report Element</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
@@ -2605,7 +2605,7 @@ Property whose value is an Excel compatible pattern, to be used as replacement f
     <api>net/sf/jasperreports/engine/export/JRAbstractXlsExporter.html#PROPERTY_CELL_PATTERN</api>
     <default>N/A</default>
     <scope>Text Element</scope>
-    <since>4.0.3</since>
+    <since>4.1.1</since>
   </configProperty>
   
   
