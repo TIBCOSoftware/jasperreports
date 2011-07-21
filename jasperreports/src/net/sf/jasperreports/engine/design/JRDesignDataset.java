@@ -61,6 +61,8 @@ import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -765,13 +767,14 @@ public class JRDesignDataset extends JRBaseDataset
 	 */
 	public void addSortField(int index, JRSortField sortField) throws JRException
 	{
-		if (sortFieldsMap.containsKey(sortField.getName()))
+		String sortFieldKey = getSortFieldKey(sortField);
+		if (sortFieldsMap.containsKey(sortFieldKey))
 		{
 			throw new JRException("Duplicate declaration of sort field : " + sortField.getName());
 		}
 
 		sortFieldsList.add(index, sortField);
-		sortFieldsMap.put(sortField.getName(), sortField);
+		sortFieldsMap.put(sortFieldKey, sortField);
 		
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_SORT_FIELDS, sortField, index);
 	}
@@ -782,10 +785,11 @@ public class JRDesignDataset extends JRBaseDataset
 	 * 
 	 * @param fieldName the field name
 	 * @return the removed sort field, or <code>null</code> if the sort field was not found
+	 * @deprecated To be removed.
 	 */
 	public JRSortField removeSortField(String fieldName)
 	{
-		return removeSortField(sortFieldsMap.get(fieldName));
+		return removeSortField(sortFieldsMap.get(getSortFieldKey(new JRDesignSortField(fieldName, SortFieldTypeEnum.FIELD, SortOrderEnum.ASCENDING))));
 	}
 
 	
@@ -803,7 +807,7 @@ public class JRDesignDataset extends JRBaseDataset
 			if (idx >= 0)
 			{
 				sortFieldsList.remove(idx);
-				sortFieldsMap.remove(sortField.getName());
+				sortFieldsMap.remove(getSortFieldKey(sortField));
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_SORT_FIELDS, sortField, idx);
 			}
 		}
@@ -1192,6 +1196,15 @@ public class JRDesignDataset extends JRBaseDataset
 	/**
 	 * 
 	 */
+	private String getSortFieldKey(JRSortField sortField)
+	{
+		return sortField.getName() + "|" + sortField.getType().getName();
+	}
+
+	
+	/**
+	 * 
+	 */
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -1245,7 +1258,7 @@ public class JRDesignDataset extends JRBaseDataset
 			{
 				JRSortField sortField = JRCloneUtils.nullSafeClone(sortFieldsList.get(i));
 				clone.sortFieldsList.add(sortField);
-				clone.sortFieldsMap.put(sortField.getName(), sortField);
+				clone.sortFieldsMap.put(getSortFieldKey(sortField), sortField);
 			}
 		}
 		
