@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
+import java.util.Map;
+
 import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 
@@ -59,4 +61,8 @@ public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
     public String getServerAddress();
     
     public void setServerAddress(String serverAddress);
+    
+    public void setProperties(Map<String, String> properties);
+
+	public Map<String, String> getProperties();
 }

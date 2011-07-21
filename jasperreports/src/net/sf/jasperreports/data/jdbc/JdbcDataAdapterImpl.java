@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.jdbc;
 
+import java.util.Map;
+
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
 
 
@@ -39,6 +41,7 @@ public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
     private String database;
     private boolean savePassword;
     private String serverAddress;
+    private Map<String, String> properties;
     
     public JdbcDataAdapterImpl() {
     	setName("New JDBC Data Adapter");
@@ -99,4 +102,12 @@ public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter imple
     public void setServerAddress(String serverAddress) {
         this.serverAddress = serverAddress;
     }
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
 }

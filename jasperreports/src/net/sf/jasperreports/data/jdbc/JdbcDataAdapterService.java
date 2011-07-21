@@ -127,7 +127,12 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 //						jdbcDataAdapter.getDriver(), true, getClassLoader()))
 //						.newInstance();
 
-				Properties connectProps = new Properties();
+				
+				Properties	connectProps = new Properties();
+				Map<String, String> map = jdbcDataAdapter.getProperties();
+				for(String key: map.keySet())
+					connectProps.setProperty(key, map.get(key));
+				
 
 				String password = jdbcDataAdapter.getPassword();
 				if (!jdbcDataAdapter.isSavePassword()) {
@@ -136,7 +141,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 
 				connectProps.setProperty("user", jdbcDataAdapter.getUsername());
 				connectProps.setProperty("password", password);
-
+				
 				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
 			}
 			catch (Exception ex)
