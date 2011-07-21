@@ -2561,4 +2561,15 @@ public class JRVerifier
 		return breakHeight;
 	}
 	
+	public void verifyExpression(JRExpression expression, Object parent, String mandatoryMessage)
+	{
+		if (expression == null)
+		{
+			if (mandatoryMessage != null)
+			{
+				addBrokenRule(mandatoryMessage, parent);
+			}
+		}
+	}
+	
 }
