@@ -88,7 +88,7 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName))
 				{
-					if(JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
+					if(JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey) || JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementHtmlHandler.getInstance();
 					}
@@ -104,6 +104,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 					{
 						return MapElementJExcelApiHandler.getInstance();
 					}
+//					else if(JExcelApiMetadataExporter.JXL_METADATA_EXPORTER_KEY.equals(exporterKey))
+//					{
+//						return MapElementJExcelApiMetadataHandler.getInstance();
+//					}
 					else if(JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementXlsxHandler.getInstance();
