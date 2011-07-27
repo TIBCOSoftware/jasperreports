@@ -1,14 +1,14 @@
-$(document).ready(function() {
+jQuery(document).ready(function() {
 	
 	// disable browser contextual menu when right-clicking
-	$(document).bind("contextmenu",function(e){  
+	jQuery(document).bind("contextmenu",function(e){  
         return false;  
     });
 
 	// add event for clickable sortlinks (up/down arrows)
-	$('a').live('click', function(event){
+	jQuery('a').live('click', function(event){
 		event.preventDefault();
-		var currentHref = $(this).attr("href");
+		var currentHref = jQuery(this).attr("href");
 		var ctx = getExecutionContext(this, currentHref, null);
 		if (ctx) {
 			ctx.run();
@@ -17,24 +17,24 @@ $(document).ready(function() {
 		
 	});
 	
-	$('.hidefilter').live('click', function(event){
-		$(this).parent().hide();
+	jQuery('.hidefilter').live('click', function(event){
+		jQuery(this).parent().hide();
 	});
 	
-	$('.sortlink').live('mousedown', function(event) {
+	jQuery('.sortlink').live('mousedown', function(event) {
 	    if (event.which == 3) {
-	    	var filterDiv = $('.filterdiv',$(this).parent());
+	    	var filterDiv = jQuery('.filterdiv',jQuery(this).parent());
 	    	
 	    	// hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
-	    	$('.filterdiv').filter(':visible').each(function (index, element) {
-	    		$(element).hide();
+	    	jQuery('.filterdiv').filter(':visible').each(function (index, element) {
+	    		jQuery(element).hide();
 	    	});
 	    	
 	    	filterDiv.css({
 	    			position: 'absolute',
 	    			'z-index': 999998,
-	    			left: (event.pageX - $(this).offset().left)  + "px",
-	    			top: (event.pageY - $(this).offset().top) + "px"
+	    			left: (event.pageX - jQuery(this).offset().left)  + "px",
+	    			top: (event.pageY - jQuery(this).offset().top) + "px"
 	    	});
 	    	
 	    	filterDiv.draggable();
@@ -43,16 +43,16 @@ $(document).ready(function() {
 	    }
 	});
 	
-	$('.submitFilter').live('click', function(event){
+	jQuery('.submitFilter').live('click', function(event){
 		var params = new Object();
-		var parentForm = $(this).parent();
+		var parentForm = jQuery(this).parent();
 		
 		// extract form params
-		$('.postable', parentForm).each(function(){
+		jQuery('.postable', parentForm).each(function(){
 			params[this.name] = this.value;
 		});
 		
-		var currentHref = $(parentForm).attr("action");
+		var currentHref = jQuery(parentForm).attr("action");
 		var ctx = getExecutionContext(this, currentHref, params);
 		if (ctx) {
 			ctx.run();
