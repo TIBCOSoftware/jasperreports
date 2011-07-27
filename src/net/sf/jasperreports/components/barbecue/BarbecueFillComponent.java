@@ -86,6 +86,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 
 	public FillPrepareResult prepare(int availableHeight)
 	{
+		//FIXMENOW do like for map and spider chart, because it crashes with null code one evaluationTime != NOW; check barbecue too
 		return isEvaluateNow() && code == null 
 				? FillPrepareResult.NO_PRINT_NO_OVERFLOW
 				: FillPrepareResult.PRINT_NO_STRETCH;
