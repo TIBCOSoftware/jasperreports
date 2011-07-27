@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -65,8 +66,17 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		velocityContext.put("zoom", zoom);
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
-		velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-		velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+		if(context.getExporter() instanceof JRXhtmlExporter)
+		{
+			velocityContext.put("xhtml", "xhtml");
+			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+		}
+		else
+		{
+			velocityContext.put("elementX", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+			velocityContext.put("elementY", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+		}
 		velocityContext.put("elementWidth", element.getWidth());
 		velocityContext.put("elementHeight", element.getHeight());
 		
