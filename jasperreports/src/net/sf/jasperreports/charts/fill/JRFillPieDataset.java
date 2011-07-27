@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.charts.JRPieDataset;
@@ -249,23 +250,23 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 	public Dataset getCustomDataset()
 	{
 		double total = 0;
-		ArrayList sortedValues = new ArrayList();
-		for(Iterator<Number> it = values.values().iterator(); it.hasNext();)
+		List<Double> sortedValues = new ArrayList<Double>();
+		for(Number nv: values.values())
 		{
-			Number value = it.next();
-			total += value.doubleValue();
-			sortedValues.add(value);
+			double dvalue = nv.doubleValue();
+			total += dvalue;
+			sortedValues.add(dvalue);
 		}
 		Collections.sort(sortedValues);
 		
-		Number minValue = null;
+		Double minValue = null;
 		if (getMinPercentage() != null && getMinPercentage().intValue() >= 0 && getMinPercentage().intValue() <= 100)
 		{
-			minValue = new Double((getMinPercentage().floatValue() * total) / 100);
+			minValue = new Double((getMinPercentage().doubleValue() * total) / 100);
 		}
 		if (getMaxCount() != null && getMaxCount().intValue() >= 0 && getMaxCount().intValue() <= values.size())
 		{
-			Number minValue2 = (Number)sortedValues.get(sortedValues.size() - getMaxCount().intValue());
+			Double minValue2 = sortedValues.get(sortedValues.size() - getMaxCount().intValue());
 			minValue = minValue != null && minValue.doubleValue() > minValue2.doubleValue() ? minValue : minValue2;  
 		}
 		
