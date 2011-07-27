@@ -76,11 +76,14 @@ public class TableFilterExpressionEvaluator implements BuiltinExpressionEvaluato
 			originalEvaluationResult = Boolean.TRUE;
 		}
 		
-		String paramFilterField = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.PARAMETER_FILTER_FIELD);
-		String paramFilterValue = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.PARAMETER_FILTER_VALUE);
-		
-		if (paramFilterField != null && paramFilterValue != null) {
-			result = ((String)fieldsMap.get(paramFilterField).getValue()).contains(paramFilterValue);
+		if (reportContext != null)
+		{
+			String paramFilterField = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.REQUEST_PARAMETER_FILTER_FIELD);
+			String paramFilterValue = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.REQUEST_PARAMETER_FILTER_VALUE);
+			
+			if (paramFilterField != null && paramFilterValue != null) {
+				result = ((String)fieldsMap.get(paramFilterField).getValue()).contains(paramFilterValue);
+			}
 		}
 		
 		return originalEvaluationResult && result;

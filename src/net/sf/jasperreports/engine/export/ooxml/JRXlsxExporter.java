@@ -1185,14 +1185,23 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		final String textStr = styledText.getText();
 
 		TextValue textValue = null;
+		String pattern = null;
 		if (isDetectCellType)
 		{
 			textValue = getTextValue(text, textStr);
+			if (textValue instanceof NumberTextValue)
+			{
+				pattern = ((NumberTextValue)textValue).getPattern();
+			}
+			else if (textValue instanceof DateTextValue)
+			{
+				pattern = ((DateTextValue)textValue).getPattern();
+			}
 		}
 		
 		cellHelper.exportHeader(
 			gridCell, rowIndex, colIndex, textValue, 
-			getPattern(text), 
+			getConvertedPattern(text, pattern), 
 			getTextLocale(text), 
 			isWrapText(gridCell.getElement()), 
 			isCellHidden(gridCell.getElement()), 

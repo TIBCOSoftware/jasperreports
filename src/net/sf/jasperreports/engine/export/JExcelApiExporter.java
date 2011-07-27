@@ -593,7 +593,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			// if the cell has formula, we try create a formula cell
 			textValue = getTextValue(text, textStr);
-			cellValue = getFormulaCellValue(x, y, textValue, textFormula, baseStyle, isComplexFormat(text));
+			cellValue = getFormulaCellValue(x, y, text, textValue, textFormula, baseStyle, isComplexFormat(text));
 		}
 		
 		if (cellValue == null)
@@ -606,7 +606,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					// there was no formula, so textValue was not created
 					textValue = getTextValue(text, textStr);
 				}
-				cellValue = getDetectedCellValue(x, y, textValue, baseStyle, isComplexFormat(text));
+				cellValue = getDetectedCellValue(x, y, text, textValue, baseStyle, isComplexFormat(text));
 			}
 			else
 			{
@@ -618,17 +618,17 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected CellValue getFormulaCellValue(int x, int y, TextValue textValue, String formula, StyleInfo baseStyle, boolean complexFormat) throws JRException
+	protected CellValue getFormulaCellValue(int x, int y, JRPrintText textElement, TextValue textValue, String formula, StyleInfo baseStyle, boolean complexFormat) throws JRException
 	{
-		FormulaTextValueHandler handler = new FormulaTextValueHandler(x, y, formula, baseStyle, complexFormat);
+		FormulaTextValueHandler handler = new FormulaTextValueHandler(x, y, textElement, formula, baseStyle, complexFormat);
 		textValue.handle(handler);
 		return handler.getResult();
 	}
 
 
-	protected CellValue getDetectedCellValue(int x, int y, TextValue textValue, StyleInfo baseStyle, boolean complexFormat) throws JRException
+	protected CellValue getDetectedCellValue(int x, int y, JRPrintText textElement, TextValue textValue, StyleInfo baseStyle, boolean complexFormat) throws JRException
 	{
-		CellTextValueHandler handler = new CellTextValueHandler(x, y, baseStyle, complexFormat);
+		CellTextValueHandler handler = new CellTextValueHandler(x, y, textElement, baseStyle, complexFormat);
 		textValue.handle(handler);
 		return handler.getResult();
 	}
@@ -638,6 +638,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		private final int x;
 		private final int y;
+		private final JRPrintText textElement; 
 		private final String formula;
 		private final StyleInfo baseStyle;
 		private final boolean cellComplexFormat;
@@ -649,10 +650,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 //			this(x, y, formula, baseStyle, false);
 //		}
 
-		public FormulaTextValueHandler(int x, int y, String formula, StyleInfo baseStyle, boolean cellComplexFormat)
+		public FormulaTextValueHandler(int x, int y, JRPrintText textElement, String formula, StyleInfo baseStyle, boolean cellComplexFormat)
 		{
 			this.x = x;
 			this.y = y;
+			this.textElement = textElement;
 			this.formula = formula;
 			this.baseStyle = baseStyle;
 			this.cellComplexFormat = cellComplexFormat;
@@ -665,9 +667,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public void handle(NumberTextValue textValue) throws JRException
 		{
-			if (textValue.getPattern() != null)
+			String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+			if (convertedPattern != null)
 			{
-				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern(), cellComplexFormat));
+				baseStyle.setDisplayFormat(getNumberFormat(convertedPattern, cellComplexFormat));
 			}
 
 			result = formula();
@@ -675,7 +678,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public void handle(DateTextValue textValue) throws JRException
 		{
-			baseStyle.setDisplayFormat(getDateFormat(textValue.getPattern()));
+			baseStyle.setDisplayFormat(getDateFormat(getConvertedPattern(textElement, textValue.getPattern())));
 			result = formula();
 		}
 
@@ -710,6 +713,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		private final int x;
 		private final int y;
+		private final JRPrintText textElement;
 		private final StyleInfo baseStyle;
 		private final boolean cellComplexFormat;
 
@@ -720,10 +724,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 //			this(x, y, baseStyle, false);
 //		}
 
-		public CellTextValueHandler(int x, int y, StyleInfo baseStyle, boolean cellComplexFormat)
+		public CellTextValueHandler(int x, int y, JRPrintText textElement, StyleInfo baseStyle, boolean cellComplexFormat)
 		{
 			this.x = x;
 			this.y = y;
+			this.textElement = textElement;
 			this.baseStyle = baseStyle;
 			this.cellComplexFormat = cellComplexFormat;
 		}
@@ -736,9 +741,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public void handle(NumberTextValue textValue) throws JRException
 		{
-			if (textValue.getPattern() != null)
+			String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+			if (convertedPattern != null)
 			{
-				baseStyle.setDisplayFormat(getNumberFormat(textValue.getPattern(), cellComplexFormat));
+				baseStyle.setDisplayFormat(getNumberFormat(convertedPattern, cellComplexFormat));
 			}
 
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
@@ -754,7 +760,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 		public void handle(DateTextValue textValue) throws JRException
 		{
-			baseStyle.setDisplayFormat(getDateFormat(textValue.getPattern()));
+			baseStyle.setDisplayFormat(getDateFormat(getConvertedPattern(textElement, textValue.getPattern())));//FIXMEFORMAT why no null test here like in number?
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
 			if (textValue.getValue() == null)
 			{
@@ -797,31 +803,31 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		
 	}
 
-	protected NumberFormat getNumberFormat(String pattern, boolean isComplexFormat)
+	protected NumberFormat getNumberFormat(String convertedPattern, boolean isComplexFormat)
 	{
-		NumberFormat cellFormat = numberFormats.get(pattern);
+		NumberFormat cellFormat = numberFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
 			if(isComplexFormat)
 			{
-				cellFormat = new NumberFormat(pattern,NumberFormat.COMPLEX_FORMAT);
+				cellFormat = new NumberFormat(convertedPattern, NumberFormat.COMPLEX_FORMAT);
 			}
 			else
 			{
-				cellFormat = new NumberFormat(pattern);
+				cellFormat = new NumberFormat(convertedPattern);
 			}
-			numberFormats.put(pattern, cellFormat);
+			numberFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
 	}
 
-	protected DateFormat getDateFormat(String pattern)
+	protected DateFormat getDateFormat(String convertedPattern)
 	{
-		DateFormat cellFormat = dateFormats.get(pattern);
+		DateFormat cellFormat = dateFormats.get(convertedPattern);
 		if (cellFormat == null)
 		{
-			cellFormat = new DateFormat(pattern);
-			dateFormats.put(pattern, cellFormat);
+			cellFormat = new DateFormat(convertedPattern);
+			dateFormats.put(convertedPattern, cellFormat);
 		}
 		return cellFormat;
 	}

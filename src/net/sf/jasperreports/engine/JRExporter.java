@@ -86,9 +86,21 @@ public interface JRExporter
 	/**
 	 * Gets a map containing all export parameters.
 	 */
-	public Map<JRExporterParameter,Object> getParameters();
+	public Map<JRExporterParameter, Object> getParameters();
 
 
+	/**
+	 *
+	 */
+	public void setReportContext(ReportContext reportContext);
+
+	
+	/**
+	 *
+	 */
+	public ReportContext getReportContext();
+
+	
 	/**
 	 * Actually starts the export process.
 	 */

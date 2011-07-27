@@ -54,7 +54,7 @@ public class ResourceServlet extends HttpServlet
 		String resource = request.getParameter(RESOURCE_URI);
 		try {
 			byte[] bytes = JRLoader.loadBytesFromResource(resource);
-			if (resource.endsWith(".js")) {
+			if (resource.endsWith(".js")) {//FIXMEJIVE revisit this
 				response.setContentType("text/javascript");
 			} else if (resource.endsWith(".css")) {
 				response.setContentType("text/css");

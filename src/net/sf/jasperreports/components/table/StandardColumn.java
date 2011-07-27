@@ -29,6 +29,8 @@ import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.components.sort.SortElementHandlerBundle;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
@@ -83,11 +85,21 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		for (JRChild child: children) {
 			if (child instanceof JRTextField) {
 				JRTextField tf = (JRTextField) child;
-				String expressionString = tf.getExpression() != null ? tf.getExpression().getText() : null;
-				if (expressionString != null && expressionString.indexOf("{") != -1) {
-					String columnName = expressionString.substring(expressionString.indexOf("{") + 1, expressionString.length()-1);
-					addGenericElementToHeader(columnName);
-					break;
+				
+				JRExpression expression = tf.getExpression();
+				if (expression != null)
+				{
+					JRExpressionChunk[] chunks = expression.getChunks();
+					if (
+						chunks != null 
+						&& chunks.length == 1 
+						&& (chunks[0].getType() == JRExpressionChunk.TYPE_FIELD 
+							|| chunks[0].getType() == JRExpressionChunk.TYPE_VARIABLE)
+						)
+					{
+						addGenericElementToHeader(chunks[0]);
+						break;
+					}
 				}
 			}
 		}
@@ -108,7 +120,7 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		return clone;
 	}
 
-	public void addGenericElementToHeader(String columnName) {
+	public void addGenericElementToHeader(JRExpressionChunk chunk) {
 		Cell header = getColumnHeader();
 		
 		JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
@@ -124,14 +136,14 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		JRDesignGenericElementParameter paramColumnName = new JRDesignGenericElementParameter();
 		paramColumnName.setName(SortElement.PARAMETER_SORT_COLUMN_NAME);
 		JRDesignExpression paramColumnNameValueExpression = new JRDesignExpression();
-		paramColumnNameValueExpression.setText("\"" + columnName + "\"");
+		paramColumnNameValueExpression.setText("\"" + chunk.getText() + "\"");
 		paramColumnName.setValueExpression(paramColumnNameValueExpression);
 		genericElement.addParameter(paramColumnName);
 		
 		JRDesignGenericElementParameter paramColumnType = new JRDesignGenericElementParameter();
 		paramColumnType.setName(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 		JRDesignExpression paramColumnTypeValueExpression = new JRDesignExpression();
-		paramColumnTypeValueExpression.setText("\"Field\"");
+		paramColumnTypeValueExpression.setText("\"" + (chunk.getType() == JRExpressionChunk.TYPE_FIELD ? "Field" : "Variable") + "\"");
 		paramColumnType.setValueExpression(paramColumnTypeValueExpression);
 		genericElement.addParameter(paramColumnType);
 		

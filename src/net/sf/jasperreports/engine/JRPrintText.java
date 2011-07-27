@@ -62,6 +62,16 @@ public interface JRPrintText extends JRPrintElement, JRAlignment, JRPrintAnchor,
 	public void setText(String text);
 
 	/**
+	 * 
+	 */
+	public Object getValue();
+		
+	/**
+	 * 
+	 */
+	public void setValue(Object value);
+
+	/**
 	 * Returns the index to which this object's text is to be truncated.
 	 * 
 	 * This index is usually set at report fill time when the engine is instructed

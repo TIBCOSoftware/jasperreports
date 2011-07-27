@@ -174,9 +174,12 @@ public class TableReportDataset implements JRDataset
 	public JRSortField[] getSortFields()
 	{
 		JRSortField[] sortFields = tableSubdataset.getSortFields();
+		sortFields = sortFields == null ? new JRSortField[0] : sortFields;
+
 		JRSortField[] extendedSortFields = null;
 
-		if (reportContext.containsParameter(reportName)) {
+		if (reportContext != null && reportContext.containsParameter(reportName)) 
+		{
 			List<JRSortField> paramSortFields =  (List<JRSortField>)reportContext.getParameterValue(reportName);
 			extendedSortFields = new JRSortField[sortFields.length + paramSortFields.size()];//FIXMEJIVE null
 
@@ -186,7 +189,9 @@ public class TableReportDataset implements JRDataset
 				extendedSortFields[sortFields.length + i] = paramSortFields.get(i);
 			}
 			return extendedSortFields;
-		} else {
+		}
+		else 
+		{
 			return sortFields;
 		}
 	}

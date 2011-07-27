@@ -25,10 +25,14 @@ package net.sf.jasperreports.engine;
 
 import java.io.File;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,6 +47,14 @@ import net.sf.jasperreports.engine.export.ExporterFilterFactoryUtil;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.engine.export.data.BooleanTextValue;
+import net.sf.jasperreports.engine.export.data.DateTextValue;
+import net.sf.jasperreports.engine.export.data.NumberTextValue;
+import net.sf.jasperreports.engine.export.data.StringTextValue;
+import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
+import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -501,13 +513,19 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
-	protected Map<String,DateFormat> dateFormatCache = new HashMap<String,DateFormat>();
-	protected Map<String,NumberFormat> numberFormatCache = new HashMap<String,NumberFormat>();
+	protected Map<String, DateFormat> dateFormatCache = new HashMap<String, DateFormat>();
+	protected Map<String, NumberFormat> numberFormatCache = new HashMap<String, NumberFormat>();
 
 	/**
 	 *
 	 */
 	protected JRHyperlinkProducerFactory hyperlinkProducerFactory;
+	
+	/**
+	 *
+	 */
+	private ReportContext reportContext;
+	
 	
 	/**
 	 *
@@ -650,6 +668,24 @@ public abstract class JRAbstractExporter implements JRExporter
 	public Character getCharacterParameter(JRExporterParameter parameter, String property)
 	{
 		return getParameterResolver().getCharacterParameter(parameter, property);
+	}
+
+	
+	/**
+	 *
+	 */
+	public void setReportContext(ReportContext reportContext)
+	{
+		this.reportContext = reportContext;
+	}
+
+	
+	/**
+	 *
+	 */
+	public ReportContext getReportContext()
+	{
+		return reportContext;
 	}
 
 	
@@ -1049,6 +1085,202 @@ public abstract class JRAbstractExporter implements JRExporter
 			tzId = jasperPrint.getTimeZoneId();
 		}
 		return tzId == null ? null : JRDataUtils.getTimeZone(tzId);
+	}
+	
+	protected TextValue getTextValue(JRPrintText text, String textStr)
+	{
+		TextValue textValue;
+		if (text.getValueClassName() == null)
+		{
+			textValue = getTextValueString(text, textStr);
+		}
+		else
+		{
+			try
+			{
+				Class<?> valueClass = JRClassLoader.loadClassForRealName(text.getValueClassName());
+				if (java.lang.Number.class.isAssignableFrom(valueClass))
+				{
+					textValue = getNumberCellValue(text, textStr);
+				}
+				else if (Date.class.isAssignableFrom(valueClass))
+				{
+					textValue = getDateCellValue(text, textStr);
+				}
+				else if (Boolean.class.equals(valueClass))
+				{
+					textValue = getBooleanCellValue(text, textStr);
+				}
+				else
+				{
+					textValue = getTextValueString(text, textStr);
+				} 
+			}
+			catch (ParseException e)
+			{
+				//log.warn("Error parsing text value", e);
+				textValue = getTextValueString(text, textStr);
+			}
+			catch (ClassNotFoundException e)
+			{
+				//log.warn("Error loading text value class", e);
+				textValue = getTextValueString(text, textStr);
+			}			
+		}
+		return textValue;
+	}
+
+	protected TextValue getTextValueString(JRPrintText text, String textStr)
+	{
+		return new StringTextValue(textStr);
+	}
+
+	protected TextValue getDateCellValue(JRPrintText text, String textStr) throws ParseException
+	{
+		return new DateTextValue(textStr, (Date)text.getValue(), text.getPattern());
+//		TextValue textValue;
+//		String pattern = text.getPattern();
+//		if (pattern == null || pattern.trim().length() == 0)
+//		{
+//			textValue = getTextValueString(text, textStr);
+//		}
+//		else
+//		{
+//			DateFormat dateFormat = getDateFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text), getTextTimeZone(text));
+//			
+//			Date value = null;
+//			if (textStr != null && textStr.length() > 0)
+//			{
+//				value = dateFormat.parse(textStr);
+//			}
+//			textValue = new DateTextValue(textStr, value, getPattern(text));
+//		}
+//		return textValue;
+	}
+
+	protected TextValue getNumberCellValue(JRPrintText text, String textStr) throws ParseException, ClassNotFoundException
+	{
+		return new NumberTextValue(textStr, (Number)text.getValue(), text.getPattern());
+//		TextValue textValue;
+//		String pattern = text.getPattern();
+//		if (pattern == null || pattern.trim().length() == 0)
+//		{
+//			if (textStr != null && textStr.length() > 0)
+//			{
+//				Number value = defaultParseNumber(textStr, JRClassLoader.loadClassForRealName(text.getValueClassName()));
+//
+//				if (value != null)
+//				{
+//					textValue = new NumberTextValue(textStr, value, getPattern(text));
+//				}
+//				else
+//				{
+//					textValue = getTextValueString(text, textStr);
+//				}
+//			}
+//			else
+//			{
+//				textValue = new NumberTextValue(textStr, null, getPattern(text));
+//			}
+//		}
+//		else
+//		{
+//			NumberFormat numberFormat = getNumberFormat(getTextFormatFactoryClass(text), pattern, getTextLocale(text));
+//			
+//			Number value = null;
+//			if (textStr != null && textStr.length() > 0)
+//			{
+//				value = numberFormat.parse(textStr);
+//			}
+//			textValue = new NumberTextValue(textStr, value, getPattern(text));
+//		}
+//		return textValue;
+	}
+
+	protected Number defaultParseNumber(String textStr, Class<?> valueClass)
+	{
+		Number value = null;
+		try
+		{
+			if (valueClass.equals(Byte.class))
+			{
+				value = Byte.valueOf(textStr);
+			}
+			else if (valueClass.equals(Short.class))
+			{
+				value = Short.valueOf(textStr);
+			}
+			else if (valueClass.equals(Integer.class))
+			{
+				value = Integer.valueOf(textStr);
+			}
+			else if (valueClass.equals(Long.class))
+			{
+				value = Long.valueOf(textStr);
+			}
+			else if (valueClass.equals(Float.class))
+			{
+				value = Float.valueOf(textStr);
+			}
+			else if (valueClass.equals(Double.class))
+			{
+				value = Double.valueOf(textStr);
+			}
+			else if (valueClass.equals(BigInteger.class))
+			{
+				value = new BigInteger(textStr);
+			}
+			else if (valueClass.equals(BigDecimal.class))
+			{
+				value = new BigDecimal(textStr);
+			}
+		}
+		catch (NumberFormatException e)
+		{
+			//skip
+		}
+		return value;
+	}
+	
+	protected TextValue getBooleanCellValue(JRPrintText text, String textStr)
+	{
+		Boolean value = null;
+		if (textStr != null && textStr.length() > 0)
+		{
+			value = Boolean.valueOf(textStr);
+		}
+		return new BooleanTextValue(textStr, value);
+	}
+
+	protected DateFormat getDateFormat(String formatFactoryClass, String pattern, Locale lc, TimeZone tz)
+	{
+		String key = formatFactoryClass 
+			+ "|" + pattern 
+			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)) 
+			+ "|" + (tz == null ? "" : JRDataUtils.getTimeZoneId(tz));
+		DateFormat dateFormat = dateFormatCache.get(key);
+		if (dateFormat == null)
+		{
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
+			dateFormat = formatFactory.createDateFormat(pattern, lc, tz);
+			dateFormatCache.put(key, dateFormat);
+		}
+		return dateFormat;
+	}
+
+	protected NumberFormat getNumberFormat(String formatFactoryClass, String pattern, Locale lc)
+	{
+		String key = formatFactoryClass 
+			+ "|" + pattern 
+			+ "|" + (lc == null ? "" : JRDataUtils.getLocaleCode(lc)); 
+		NumberFormat numberFormat = numberFormatCache.get(key);
+		if (numberFormat == null)
+		{
+			FormatFactory formatFactory = DefaultFormatFactory.createFormatFactory(formatFactoryClass);//FIXMEFORMAT cache this too
+			numberFormat = formatFactory.createNumberFormat(pattern, lc);
+			numberFormatCache.put(key, numberFormat);
+		}
+		return numberFormat;
 	}
 	
 	protected ExporterFilter createFilter(final String exportPropertyPrefix) 

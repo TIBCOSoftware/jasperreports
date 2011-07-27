@@ -72,6 +72,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
 	private transient String truncatedText;
+	private Object value;
 	/**
 	 * @deprecated No longer used.
 	 */
@@ -227,6 +228,22 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 				);
 	}
 	
+	/**
+	 *
+	 */
+	public Object getValue()
+	{
+		return value;
+	}
+
+	/**
+	 *
+	 */
+	public void setValue(Object value)
+	{
+		this.value = value;
+	}
+
 	/**
 	 * @deprecated No longer used.
 	 */
