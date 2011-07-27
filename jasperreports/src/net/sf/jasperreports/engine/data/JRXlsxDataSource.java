@@ -150,22 +150,13 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 				}
 			}
 			
-			if (recordIndex == 0) 
+			if (sheetIndex == 0 && useFirstRowAsHeader && recordIndex == 0) 
 			{
-				if(useFirstRowAsHeader)
-				{
-					if(sheetIndex == 0)
-					{
-						readHeader();
-					}
-					recordIndex++;
-				}
+				readHeader();
+				recordIndex++;
 			}
 
-			if (recordIndex < workbook.getSheetAt(sheetIndex).getLastRowNum()
-				|| (recordIndex == workbook.getSheetAt(sheetIndex).getLastRowNum() 
-					&& sheetIndex + 1 < workbook.getNumberOfSheets() 
-					&& workbook.getSheetAt(sheetIndex + 1).getLastRowNum() > 0))
+			if (recordIndex <= workbook.getSheetAt(sheetIndex).getLastRowNum())
 			{
 				return true;
 			}
@@ -262,11 +253,16 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			Row row = sheet.getRow(recordIndex);
 			for(int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++)
 			{
-				Cell cell = sheet.getRow(recordIndex).getCell(columnIndex);
-				String columnName = cell.getStringCellValue();
-				if (columnName != null && columnName.trim().length() > 0)
+				System.out.println("********** columnIndex = "+ columnIndex);
+				Cell cell = row.getCell(columnIndex);
+				if(cell != null)
 				{
-					columnNames.put(columnName, Integer.valueOf(columnIndex));
+					System.out.println("********** columnIndex = "+ columnIndex +"; cell = "+ cell);
+					columnNames.put(cell.toString(), Integer.valueOf(columnIndex));
+				}
+				else
+				{
+					columnNames.put("COLUMN_"+columnIndex, Integer.valueOf(columnIndex));
 				}
 			}
 		}
@@ -278,9 +274,10 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 				Integer columnIndex = it.next();
 				Row row = sheet.getRow(recordIndex) ;
 				Cell cell = row.getCell(columnIndex);
-				String columnName = cell.getStringCellValue();
-				
-				newColumnNames.put(columnName, columnIndex);
+				if(cell != null)
+				{
+					newColumnNames.put(cell.toString(), columnIndex);
+				}
 			}
 			columnNames = newColumnNames;
 		}
