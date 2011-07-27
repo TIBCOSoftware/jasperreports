@@ -82,9 +82,10 @@ public class MapFillComponent extends BaseFillComponent
 
 	public FillPrepareResult prepare(int availableHeight)
 	{
-		return isEvaluateNow() && (latitude == null || longitude == null) //FIXMEMAP check this null test 
-				? FillPrepareResult.NO_PRINT_NO_OVERFLOW
-				: FillPrepareResult.PRINT_NO_STRETCH;
+		return FillPrepareResult.PRINT_NO_STRETCH;
+//		return isEvaluateNow() && (latitude == null || longitude == null)  
+//				? FillPrepareResult.NO_PRINT_NO_OVERFLOW
+//				: FillPrepareResult.PRINT_NO_STRETCH;
 	}
 
 	public JRPrintElement fill()
