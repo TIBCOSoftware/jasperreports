@@ -141,7 +141,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 
 		String barcodeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(barcodeExpressionPattern, 
-				JRExpressionFactory.class.getName());
+				JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addCallMethod(barcodeExpressionPattern, "setText", 0);
 		digester.addSetNext(barcodeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
@@ -149,7 +149,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		String applicationIdentifierExpressionPattern = barcodePattern 
 				+ "/applicationIdentifierExpression";
 		digester.addFactoryCreate(applicationIdentifierExpressionPattern, 
-				JRExpressionFactory.class.getName());
+				JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addCallMethod(applicationIdentifierExpressionPattern, "setText", 0);
 		digester.addSetNext(applicationIdentifierExpressionPattern, 
 				"setApplicationIdentifierExpression", 
@@ -210,14 +210,14 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		
 		String codeExpressionPattern = barcodePattern + "/codeExpression";
 		digester.addFactoryCreate(codeExpressionPattern, 
-				JRExpressionFactory.class.getName());
+				JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addCallMethod(codeExpressionPattern, "setText", 0);
 		digester.addSetNext(codeExpressionPattern, "setCodeExpression", 
 				JRExpression.class.getName());
 		
 		String patternExpressionPattern = barcodePattern + "/patternExpression";
 		digester.addFactoryCreate(patternExpressionPattern, 
-				JRExpressionFactory.class.getName());
+				JRExpressionFactory.StringExpressionFactory.class.getName());
 		digester.addCallMethod(patternExpressionPattern, "setText", 0);
 		digester.addSetNext(patternExpressionPattern, "setPatternExpression", 
 				JRExpression.class.getName());
@@ -268,7 +268,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnPattern, "addColumn");
 		digester.addSetProperties(columnPattern);
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
-				JRExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnPattern + "/tableFooter", "setTableFooter");
@@ -283,7 +283,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(columnGroupPattern, "addColumn");
 		digester.addSetProperties(columnGroupPattern);
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
-				JRExpressionFactory.class, "setPrintWhenExpression",
+				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
 		addTableCellRules(digester, columnGroupPattern + "/tableHeader", "setTableHeader");
 		addTableCellRules(digester, columnGroupPattern + "/tableFooter", "setTableFooter");
