@@ -1,5 +1,5 @@
 <script type='text/javascript'>
-	appendScriptElementToDOM('_sortScript','${resourceSortJs}');
+	JasperReports.modules.global.appendScriptElementToDOM('_sortScript','${resourceSortJs}');
 </script>
 
 <a href='${href}'
@@ -25,7 +25,7 @@
 		## <input class='postable' type='hidden' name='${filterReportActionParamName}' value='${filterReportActionParamValue}' />
 		<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />
 		<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />
-		<input class='postable' type='text' name='${filterValueParamName}' style='width: 80px;' />
+		<input class='postable filterValue' type='text' name='${filterValueParamName}' style='width: 80px;' />
 		<input class='submitFilter' type='button' value='Filter' />
 	</form>
 </div>

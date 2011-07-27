@@ -7,14 +7,14 @@
 		a {text-decoration: none}
 	</style>
     #if(!${isAjax})
-    	<script type='text/javascript'>
-    		var APPLICATION_CONTEXT_PATH = '${contextPath}';
-    	</script>
     	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-1.4.4.min.js'></script>
     	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-ui-1.8.9.custom.min.js'></script>
     	<script type='text/javascript' src='${globaljs}'></script>
-    
-    	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
+		<script type='text/javascript'>
+    		JasperReports.modules.global.APPLICATION_CONTEXT_PATH = '${contextPath}';
+    	</script>    
+    	
+		<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
     	<link type='text/css' rel='stylesheet' href='${globalcss}'></link>
     #end
 </head>
