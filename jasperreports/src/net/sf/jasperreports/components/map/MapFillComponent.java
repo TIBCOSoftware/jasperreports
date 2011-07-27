@@ -69,10 +69,7 @@ public class MapFillComponent extends BaseFillComponent
 		latitude = (Float)fillContext.evaluate(mapComponent.getLatitudeExpression(), evaluation);
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
-		if(zoom == null)
-		{
-			zoom = 8;
-		}
+		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
 	}
 	
 	protected boolean isEvaluateNow()
