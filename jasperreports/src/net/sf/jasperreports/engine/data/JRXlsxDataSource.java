@@ -253,11 +253,9 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			Row row = sheet.getRow(recordIndex);
 			for(int columnIndex = 0; columnIndex < row.getLastCellNum(); columnIndex++)
 			{
-				System.out.println("********** columnIndex = "+ columnIndex);
 				Cell cell = row.getCell(columnIndex);
 				if(cell != null)
 				{
-					System.out.println("********** columnIndex = "+ columnIndex +"; cell = "+ cell);
 					columnNames.put(cell.toString(), Integer.valueOf(columnIndex));
 				}
 				else
