@@ -312,6 +312,8 @@ public class StyleCache
 			}
 			styleWriter.write(" style:font-name=\"" + fontFamily + "\"");
 			styleWriter.write(" fo:font-size=\"" + size + "pt\"");
+			styleWriter.write(" style:font-size-asian=\"" + size + "pt\"");
+			styleWriter.write(" style:font-size-complex=\"" + size + "pt\"");
 			if (posture != null)
 			{
 				styleWriter.write(" fo:font-style=\"" + posture + "\"");
