@@ -41,6 +41,8 @@ import net.sf.jasperreports.data.qe.QueryExecuterDataAdapter;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapterService;
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.data.xls.XlsDataAdapterService;
+import net.sf.jasperreports.data.xlsx.XlsxDataAdapter;
+import net.sf.jasperreports.data.xlsx.XlsxDataAdapterService;
 import net.sf.jasperreports.data.xml.RemoteXmlDataAdapter;
 import net.sf.jasperreports.data.xml.RemoteXmlDataAdapterService;
 import net.sf.jasperreports.data.xml.XmlDataAdapter;
@@ -109,6 +111,10 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		else if (dataAdapter instanceof XlsDataAdapter)
 		{
 			dataAdapterService = new XlsDataAdapterService((XlsDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof XlsxDataAdapter)
+		{
+			dataAdapterService = new XlsxDataAdapterService((XlsxDataAdapter)dataAdapter);
 		}
 		else if (dataAdapter instanceof RemoteXmlDataAdapter)
 		{
