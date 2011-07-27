@@ -435,24 +435,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.xbean</groupId>
-		    <artifactId>maven-xbean-plugin</artifactId>
-		    <version>3.7</version>
-		</dependency>
-		<dependency>
 		    <groupId>org.apache.poi</groupId>
 		    <artifactId>poi-ooxml</artifactId>
 		    <version>3.6</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml-schemas</artifactId>
-		    <version>3.6</version>
-		</dependency>
-		<dependency>
-		    <groupId>dom4j</groupId>
-		    <artifactId>dom4j</artifactId>
-		    <version>1.6.1</version>
 		</dependency>
 	</dependencies>
 </project>
