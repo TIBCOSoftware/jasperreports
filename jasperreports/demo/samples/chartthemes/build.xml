@@ -14,9 +14,6 @@
 		<fileset dir="../../../lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="./lib">
-			<include name="**/*.jar"/>
-		</fileset>
 	</path>
 
 	<target name="javac" description="Compiles the java source files of the test application.">
