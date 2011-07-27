@@ -37,10 +37,10 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
  */
 public class DefaultDataAdapterServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry governorExtensionsRegistry = 
+	private static final ExtensionsRegistry extensionsRegistry = 
 		new ExtensionsRegistry()
 		{
-			public List getExtensions(Class extensionType) 
+			public List<?> getExtensions(Class<?> extensionType) 
 			{
 				if (DataAdapterServiceFactory.class.equals(extensionType))
 				{
@@ -52,6 +52,6 @@ public class DefaultDataAdapterServiceExtensionsRegistryFactory implements Exten
 	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return governorExtensionsRegistry;
+		return extensionsRegistry;
 	}
 }
