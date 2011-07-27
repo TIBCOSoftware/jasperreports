@@ -1,13 +1,15 @@
+jQuery.noConflict();
+
 jQuery.fn.loadmask = function(options) {
 	return this.each(function(){
 		if('string' == typeof options) {
 			var id = this.id + '_maskDiv';
 			switch (options) {
 			case 'hide':
-				$('#'+id).hide();
+				jQuery('#'+id).hide();
 				break;
 			case 'remove':
-				$('#'+id).remove();
+				jQuery('#'+id).remove();
 				break;
 			}
 		} else {
@@ -18,31 +20,31 @@ jQuery.fn.loadmask = function(options) {
 			}
 			
 			if (options) {
-				$.extend(settings, options);
+				jQuery.extend(settings, options);
 			}
 			var id = this.id + '_maskDiv';
 			
 			// check if the element exists
-			if ($('#'+id).size() == 0) {
-				$(this).parent().append("<div id='" + id + "'></div>")
+			if (jQuery('#'+id).size() == 0) {
+				jQuery(this).parent().append("<div id='" + id + "'></div>")
 			}
 	
-			$('#'+id).show().css({
+			jQuery('#'+id).show().css({
 				position : 				'absolute',
 				backgroundImage : 		"url('" + settings.bgimage + "')",
 				opacity : 				settings.opacity,
-				width : 				$(this).css('width'),
-				height : 				$(this).css('height'),
-				top : 					$(this).position().top,
-				left : 					$(this).position().left,
-				'border-top-width' : 	$(this).css('borderTopWidth'),
-				'border-top-style' : 	$(this).css('borderTopStyle'),
-				borderBottomWidth : 	$(this).css('borderBottomWidth'),
-				borderBottomStyle : 	$(this).css('borderBottomStyle'),
-				borderLeftWidth : 		$(this).css('borderLeftWidth'),
-				borderLeftStyle : 		$(this).css('borderLeftStyle'),
-				borderRightWidth : 		$(this).css('borderRightWidth'),
-				borderRightStyle : 		$(this).css('borderRightStyle'),
+				width : 				jQuery(this).css('width'),
+				height : 				jQuery(this).css('height'),
+				top : 					jQuery(this).position().top,
+				left : 					jQuery(this).position().left,
+				'border-top-width' : 	jQuery(this).css('borderTopWidth'),
+				'border-top-style' : 	jQuery(this).css('borderTopStyle'),
+				borderBottomWidth : 	jQuery(this).css('borderBottomWidth'),
+				borderBottomStyle : 	jQuery(this).css('borderBottomStyle'),
+				borderLeftWidth : 		jQuery(this).css('borderLeftWidth'),
+				borderLeftStyle : 		jQuery(this).css('borderLeftStyle'),
+				borderRightWidth : 		jQuery(this).css('borderRightWidth'),
+				borderRightStyle : 		jQuery(this).css('borderRightStyle'),
 				'z-index' : 			999999,
 				cursor:					'wait'
 			});
@@ -63,14 +65,14 @@ function appendScriptElementToDOM(scriptname, scripturi) {
 //	console.log('appendScriptElementToDOM scriptName: ' + scriptname + '; window[scriptname] :' + isEmpty(window[scriptname]));
 	if (isEmpty(window[scriptname])) {
 		window[scriptname] = scripturi;
-		$('head').append("<script type='text/javascript' src='" + APPLICATION_CONTEXT_PATH + scripturi + "'></script>");
+		jQuery('head').append("<script type='text/javascript' src='" + APPLICATION_CONTEXT_PATH + scripturi + "'></script>");
 	}
 }
 
 function appendCssElementToDOM(cssname, cssuri) {
 	if (isEmpty(window[cssname])) {
 		window[cssname] = cssuri;
-		$('head').append("<link type='text/css' rel='stylesheet' href='" + APPLICATION_CONTEXT_PATH + cssuri + "'></link>");
+		jQuery('head').append("<link type='text/css' rel='stylesheet' href='" + APPLICATION_CONTEXT_PATH + cssuri + "'></link>");
 	}
 }
 
@@ -124,10 +126,10 @@ function AjaxExecutionContext(contextId, requestUrl, target, requestParams, elem
 		},
 		
 		run : function() {
-			var parent = $(_target).closest('div.executionContext');
+			var parent = jQuery(_target).closest('div.executionContext');
 			
 			if (parent.size() == 0) {
-				parent = $(_target).closest('div.jiveContext');
+				parent = jQuery(_target).closest('div.jiveContext');
 			}
 			parent.loadmask();
 			
@@ -144,7 +146,7 @@ function AjaxExecutionContext(contextId, requestUrl, target, requestParams, elem
 				_requestParams['isajax'] = true;
 			}
 			
-			$(_target).load(_requestUrl + (_elementToExtract!=null ? ' ' +_elementToExtract : ''), _requestParams, function(response, status, xhr) {
+			jQuery(_target).load(_requestUrl + (_elementToExtract!=null ? ' ' +_elementToExtract : ''), _requestParams, function(response, status, xhr) {
 				parent.loadmask('hide');
 				
 				if (status == 'success') {
@@ -165,23 +167,23 @@ function AjaxExecutionContext(contextId, requestUrl, target, requestParams, elem
 }
 
 function getExecutionContext(startPoint, requestedUrl, params) {
-	var executionContextElement = $(startPoint).closest('div.executionContext');
+	var executionContextElement = jQuery(startPoint).closest('div.executionContext');
 	
 	if (executionContextElement.size() == 0) {
-		executionContextElement = $(startPoint).closest('div.jiveContext');
+		executionContextElement = jQuery(startPoint).closest('div.jiveContext');
 	}
 
 	if (executionContextElement.size() > 0) {
-		var contextUrl = $(executionContextElement).attr('data-contexturl');
-		var contextId = $(executionContextElement).attr('id');
+		var contextUrl = jQuery(executionContextElement).attr('data-contexturl');
+		var contextId = jQuery(executionContextElement).attr('id');
 		
 		// update context url
-		$(executionContextElement).attr('data-contexturl', requestedUrl + (isEmpty(params) ? '' : params));
+		jQuery(executionContextElement).attr('data-contexturl', requestedUrl + (isEmpty(params) ? '' : params));
 		
 		return AjaxExecutionContext(
 					contextId, 
 					requestedUrl, 
-					$('div.result', executionContextElement), // target 
+					jQuery('div.result', executionContextElement), // target 
 					params,
 					null
 				);
@@ -191,13 +193,13 @@ function getExecutionContext(startPoint, requestedUrl, params) {
 }
 
 function getToolbarExecutionContext(startPoint, requestedUrl, params) {
-	var executionContextElement = $(startPoint).closest('div.mainReportDiv');
+	var executionContextElement = jQuery(startPoint).closest('div.mainReportDiv');
 	
 	if (executionContextElement && executionContextElement.size() > 0) {
 		return AjaxExecutionContext(
 				null, 
 				requestedUrl, 
-				$('div.result', executionContextElement).filter(':first'), // target 
+				jQuery('div.result', executionContextElement).filter(':first'), // target 
 				params,
 				'div.result'
 		);
@@ -205,7 +207,7 @@ function getToolbarExecutionContext(startPoint, requestedUrl, params) {
 }
 
 function getContextElement(startPoint) {
-	var executionContextElement = $(startPoint).closest('div.executionContext');
+	var executionContextElement = jQuery(startPoint).closest('div.executionContext');
 	if (executionContextElement && executionContextElement.size() > 0) {
 		return executionContextElement;
 	} 
@@ -217,9 +219,9 @@ function extendUrl(url, parameters) {
 	
 	if (parameters != null) {
 		if (url.indexOf('?') != -1) {
-			result = url + '&' + $.param(parameters);
+			result = url + '&' + jQuery.param(parameters);
 		} else {
-			result = url + '?' + $.param(parameters); 
+			result = url + '?' + jQuery.param(parameters); 
 		}
 	}
 	
@@ -227,7 +229,7 @@ function extendUrl(url, parameters) {
 }
 
 function initToolbar(toolbarId) {
-	var toolbar = $('#' + toolbarId);
+	var toolbar = jQuery('#' + toolbarId);
 	
 	if (toolbar.attr('data-initialized') == null) {
 		toolbar.attr('data-initialized', 'true');
@@ -240,8 +242,8 @@ function initToolbar(toolbarId) {
 
 		toolbar.draggable();
 		
-		$('.pageFirst', toolbar).bind('click', function() {
-			var parent = $(this).parent();
+		jQuery('.pageFirst', toolbar).bind('click', function() {
+			var parent = jQuery(this).parent();
 			var currentHref = parent.attr('data-url');
 			var currentPage = parent.attr('data-currentpage');
 			if (currentPage > 0) {
@@ -253,8 +255,8 @@ function initToolbar(toolbarId) {
 			}
 		});
 
-		$('.pagePrevious', toolbar).bind('click', function() {
-			var parent = $(this).parent();
+		jQuery('.pagePrevious', toolbar).bind('click', function() {
+			var parent = jQuery(this).parent();
 			var currentHref = parent.attr('data-url');
 			var currentPage = parent.attr('data-currentpage');
 			if (currentPage > 0) {
@@ -266,8 +268,8 @@ function initToolbar(toolbarId) {
 			}
 		});
 		
-		$('.pageNext', toolbar).bind('click', function() {
-			var parent = $(this).parent();
+		jQuery('.pageNext', toolbar).bind('click', function() {
+			var parent = jQuery(this).parent();
 			var currentHref = parent.attr('data-url');
 			var currentPage = parent.attr('data-currentpage');
 			var totalPages = parent.attr('data-totalpages');
@@ -280,8 +282,8 @@ function initToolbar(toolbarId) {
 			}
 		});
 		
-		$('.pageLast', toolbar).bind('click', function() {
-			var parent = $(this).parent();
+		jQuery('.pageLast', toolbar).bind('click', function() {
+			var parent = jQuery(this).parent();
 			var currentHref = parent.attr('data-url');
 			var totalPages = parent.attr('data-totalpages');
 			var currentPage = parent.attr('data-currentpage');
