@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  */
 public interface MapComponent extends Component, JRCloneable
 {
+	public static final Integer DEFAULT_ZOOM = 8;
+	
 	JRExpression getLatitudeExpression();
 
 	JRExpression getLongitudeExpression();

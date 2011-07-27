@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.map;
 
-import org.apache.velocity.VelocityContext;
-
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
@@ -32,6 +30,8 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+
+import org.apache.velocity.VelocityContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -50,15 +50,21 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
+		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
+		latitude = latitude == null ? MapPrintElement.DEFAULT_LATITUDE : latitude;
+
+		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
+		longitude = longitude == null ? MapPrintElement.DEFAULT_LONGITUDE : longitude;
+		
+		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
+		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
+
 		VelocityContext velocityContext = new VelocityContext();
-		velocityContext.put("latitude", element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE));
-		velocityContext.put("longitude", element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE));
-		Integer zoom = element.getParameterValue(MapPrintElement.PARAMETER_ZOOM) == null
-			? 8
-			: (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
-		velocityContext.put(MapPrintElement.PARAMETER_ZOOM, zoom);
-		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
-		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
+		velocityContext.put("latitude", latitude);
+		velocityContext.put("longitude", longitude);
+		velocityContext.put("zoom", zoom);
+//		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
+//		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
 		velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 		velocityContext.put("elementWidth", element.getWidth());

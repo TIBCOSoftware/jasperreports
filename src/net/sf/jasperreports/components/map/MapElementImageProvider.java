@@ -43,55 +43,53 @@ public class MapElementImageProvider
 	public static JRPrintImage getImage(JRGenericPrintElement element) throws JRException
 	{
 		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
+		latitude = latitude == null ? 0 : latitude;
+
 		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
-		Integer zoom = element.getParameterValue(MapPrintElement.PARAMETER_ZOOM ) == null
-			? 8
-			: (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
+		longitude = longitude == null ? 0 : longitude;
 		
-		if(latitude != null && longitude != null)
-		{
-			int elementWidth = element.getWidth();
-			int elementHeight = element.getHeight();
-			
-			String imageLocation = 
-				"http://maps.google.com/maps/api/staticmap?center=" 
-				+ latitude 
-				+ "," 
-				+ longitude 
-				+ "&size=" 
-				+ elementWidth 
-				+ "x" 
-				+ elementHeight 
-				+ "&format=jpg"
-				+ "&zoom="
-				+ zoom
-				+ "&sensor=false";
-			
-			JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
-			
-	        printImage.setX(element.getX());
-	        printImage.setY(element.getY());
-	        printImage.setWidth(element.getWidth());
-	        printImage.setHeight(element.getHeight());
-	        printImage.setStyle(element.getStyle());
-	        printImage.setMode(element.getModeValue());
-	        printImage.setBackcolor(element.getBackcolor());
-	        printImage.setForecolor(element.getForecolor());
-	        printImage.setLazy(true);
-	        
-	        //TODO: there are no scale image and alignment attributes defined for the map element
-	        printImage.setScaleImage(ScaleImageEnum.CLIP);
-	        printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
-	        printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
-	        
-	        JRImageRenderer renderer = (JRImageRenderer)JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
-	        renderer.getImageData();
-	        
-	        printImage.setRenderer(JRImageRenderer.getInstance(imageLocation));
-	        
-	        return printImage;
-		}
+		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
+		zoom = zoom == null ? 0 : zoom;
 		
-		return null;
+		int elementWidth = element.getWidth();
+		int elementHeight = element.getHeight();
+		
+		String imageLocation = 
+			"http://maps.google.com/maps/api/staticmap?center=" 
+			+ latitude 
+			+ "," 
+			+ longitude 
+			+ "&size=" 
+			+ elementWidth 
+			+ "x" 
+			+ elementHeight 
+			+ "&format=jpg"
+			+ "&zoom="
+			+ zoom
+			+ "&sensor=false";
+		
+		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
+		
+        printImage.setX(element.getX());
+        printImage.setY(element.getY());
+        printImage.setWidth(element.getWidth());
+        printImage.setHeight(element.getHeight());
+        printImage.setStyle(element.getStyle());
+        printImage.setMode(element.getModeValue());
+        printImage.setBackcolor(element.getBackcolor());
+        printImage.setForecolor(element.getForecolor());
+        printImage.setLazy(true);
+        
+        //FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
+        printImage.setScaleImage(ScaleImageEnum.CLIP);
+        printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
+        printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
+        
+        JRImageRenderer renderer = (JRImageRenderer)JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
+        renderer.getImageData();
+        
+        printImage.setRenderer(JRImageRenderer.getInstance(imageLocation));
+        
+        return printImage;
 	}
 }
