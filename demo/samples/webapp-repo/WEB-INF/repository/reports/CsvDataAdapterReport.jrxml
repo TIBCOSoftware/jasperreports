@@ -237,7 +237,7 @@
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textElement markup="styled"/>
 									<textFieldExpression class="java.lang.String"><![CDATA[
-"N<font color=\"blue\"><a type=\"ReportExecution\"><param name=\"report.action\">sort</param><param name=\"report.action.data\">" + "</param>am</a></font>e"
+"N<font color=\"blue\"><a type=\"ReportExecution\"><param name=\"report.action\">sort</param><param name=\"jr.sort\">" + "</param>am</a></font>e"
 ]]></textFieldExpression>
 									<hyperlinkParameter name="report.action">
 										<hyperlinkParameterExpression><![CDATA["sort"]]></hyperlinkParameterExpression>
