@@ -45,11 +45,11 @@ public interface SortElement {
 	/**
 	 * 
 	 */
-	String PARAMETER_FILTER_FIELD = "paramFilterField";
-	String PARAMETER_FILTER_VALUE = "paramFilterValue";
-	String PARAMETER_TABLE_NAME = "paramTableName";
+	public static final String REQUEST_PARAMETER_FILTER_FIELD = "jr.fltrFld";
+	public static final String REQUEST_PARAMETER_FILTER_VALUE = "jr.fltrVl";
 	
-	public static final String REQUEST_PARAMETER_SORT_DATA = "report.action.data";
-	public static final String PARAMETER_SORT_FIELDS = "_sortFields";
+	public static final String REQUEST_PARAMETER_SORT_DATA = "jr.sort";
+	public static final String REQUEST_PARAMETER_DATASET_RUN = "jr.dsr";//FIXMEJIVE this parameter cannot uniquely identify a dataset run that repeats; check it
+	//public static final String PARAMETER_SORT_FIELDS = "_sortFields";
 
 }

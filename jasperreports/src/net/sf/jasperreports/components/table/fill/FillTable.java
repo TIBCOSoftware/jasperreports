@@ -119,7 +119,7 @@ public class FillTable extends BaseFillComponent
 		if (reportContext != null)
 		{
 			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
-			String paramTableName = (String)reportContext.getParameterValue(SortElement.PARAMETER_TABLE_NAME);
+			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
 //			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
 //			if (reportContext == null) {
@@ -130,12 +130,12 @@ public class FillTable extends BaseFillComponent
 			if (reportActionData != null && paramTableName != null)
 			{
 				List<JRSortField> sortFields = new ArrayList<JRSortField>();
-				List<String> sortFieldsList = new ArrayList<String>();
+				//List<String> sortFieldsList = new ArrayList<String>();
 				String[] tokens = reportActionData.split(",");
 				for (int i = 0; i < tokens.length; i++)
 				{
 					String token = tokens[i];
-					sortFieldsList.add(token);
+					//sortFieldsList.add(token);
 					String[] chunks = token.split(":");
 					sortFields.add(
 						new JRDesignSortField(
@@ -145,18 +145,18 @@ public class FillTable extends BaseFillComponent
 							)
 						);
 				}
-				fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
+				//fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
 				reportContext.setParameterValue(paramTableName, sortFields);
 			}
 			if (paramTableName != null)
 			{
-				String paramFieldName = (String)reportContext.getParameterValue(SortElement.PARAMETER_FILTER_FIELD);
-				String paramFieldValue = (String)reportContext.getParameterValue(SortElement.PARAMETER_FILTER_VALUE);
+				String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
+				String paramFieldValue = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE);
 				
 				if (paramFieldName != null && paramFieldValue != null)
 				{
-					reportContext.setParameterValue(paramTableName + "." + SortElement.PARAMETER_FILTER_FIELD, paramFieldName);
-					reportContext.setParameterValue(paramTableName + "." + SortElement.PARAMETER_FILTER_VALUE, paramFieldValue);
+					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_FIELD, paramFieldName);
+					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_VALUE, paramFieldValue);
 				}
 			}
 		}

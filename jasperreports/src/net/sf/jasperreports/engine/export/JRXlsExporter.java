@@ -568,22 +568,25 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			{
 				TextValue value = getTextValue(textElement, textStr);
 				
-				if (value instanceof NumberTextValue && ((NumberTextValue)value).getPattern() != null)
+				if (value instanceof NumberTextValue)
 				{
-					baseStyle.setDataFormat(
-						dataFormat.getFormat(
-							((NumberTextValue)value).getPattern()
-							)
-						);
-				}
-				else if (value instanceof DateTextValue && ((DateTextValue)value).getPattern() != null)
-				{
-					baseStyle.setDataFormat(
-							dataFormat.getFormat(
-								((DateTextValue)value).getPattern()
-								)
+					String convertedPattern = getConvertedPattern(textElement, ((NumberTextValue)value).getPattern());
+					if (convertedPattern != null)
+					{
+						baseStyle.setDataFormat(
+							dataFormat.getFormat(convertedPattern)
 							);
-					
+					}
+				}
+				else if (value instanceof DateTextValue)
+				{
+					String convertedPattern = getConvertedPattern(textElement, ((DateTextValue)value).getPattern());
+					if (convertedPattern != null)
+					{
+						baseStyle.setDataFormat(
+							dataFormat.getFormat(convertedPattern)
+							);
+					}
 				}
 				
 				HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
@@ -622,12 +625,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 				public void handle(NumberTextValue textValue)
 				{
-					if (textValue.getPattern() != null)
+					String convertedPattern = getConvertedPattern(textElement, textValue.getPattern());
+					if (convertedPattern != null)
 					{
 						baseStyle.setDataFormat(
-							dataFormat.getFormat(
-								textValue.getPattern()
-								)
+							dataFormat.getFormat(convertedPattern)
 							);
 					}
 
@@ -647,7 +649,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				{
 					baseStyle.setDataFormat(
 						dataFormat.getFormat(
-							textValue.getPattern()
+							getConvertedPattern(textElement, textValue.getPattern())//FIXMEFORMAT why no null test like in numeric above?
 							)
 						);
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);

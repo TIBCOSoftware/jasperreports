@@ -61,6 +61,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	private Object value;
+
+	/**
+	 *
+	 */
 	private TextFormat textFormat;
 
 	/**
@@ -278,6 +283,14 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	/**
 	 *
 	 */
+	protected Object getValue()
+	{
+		return value;
+	}
+
+	/**
+	 *
+	 */
 	protected String getAnchorName()
 	{
 		return anchorName;
@@ -405,31 +418,41 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	{
 		evaluateProperties(evaluation);
 		
-		Object textFieldValue = evaluateExpression(getExpression(), evaluation);
+		value = evaluateExpression(getExpression(), evaluation);
 		
+		String strValue = null;
+
 		pattern = (String) evaluateExpression(getPatternExpression(), evaluation);
 
-		Format format = getFormat(textFieldValue);
-
-		evaluateTextFormat(format, textFieldValue);
-		
-		if (textFieldValue == null)
+		if (value == null)
 		{
 			if (isBlankWhenNull())
 			{
-				textFieldValue = "";
+				strValue = "";
+			}
+			else
+			{
+				strValue = null;
 			}
 		}
 		else
 		{
-			if (format != null)
+			Format format = getFormat(value);
+
+			evaluateTextFormat(format, value);
+
+			if (format == null)
 			{
-				textFieldValue = format.format(textFieldValue);
+				strValue = value.toString();
+			}
+			else
+			{
+				strValue = format.format(value);
 			}
 		}
 
 		String oldRawText = getRawText();
-		String newRawText = processMarkupText(String.valueOf(textFieldValue));
+		String newRawText = processMarkupText(String.valueOf(strValue));
 
 		setRawText(newRawText);
 		resetTextChunk();
@@ -709,6 +732,8 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		text.setTextHeight(getTextHeight());
 		//FIXME rotation and run direction?
 
+		text.setValue(getValue());
+		
 		setPrintText(text);
 		
 		text.setTextFormat(getTextFormat());//FIXMEFORMAT why do we set this always, even when pattern is fixed.

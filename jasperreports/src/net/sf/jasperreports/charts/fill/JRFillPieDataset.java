@@ -260,7 +260,7 @@ public class JRFillPieDataset extends JRFillChartDataset implements JRPieDataset
 		Collections.sort(sortedValues);
 		
 		Double minValue = null;
-		if (getMinPercentage() != null && getMinPercentage().intValue() >= 0 && getMinPercentage().intValue() <= 100)
+		if (getMinPercentage() != null && getMinPercentage().intValue() >= 0 && getMinPercentage().intValue() <= 100)//FIXMENOW why intValue?
 		{
 			minValue = new Double((getMinPercentage().doubleValue() * total) / 100);
 		}

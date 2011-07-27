@@ -823,7 +823,7 @@ public class TableReport implements JRReport
 					
 					for (JRGenericElementParameter param: params) {
 						if (param.getName().equals(SortElement.PARAMETER_DYNAMIC_TABLE_BINDING) && param.getValueExpression().getText() != null) {
-							genericElement.getPropertiesMap().setProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.PARAMETER_TABLE_NAME, getName());
+							genericElement.getPropertiesMap().setProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN, getName());
 							genericElement.setWidth(width);
 							break;
 						}

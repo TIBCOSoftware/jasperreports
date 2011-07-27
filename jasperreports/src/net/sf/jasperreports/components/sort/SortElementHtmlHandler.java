@@ -25,23 +25,18 @@ package net.sf.jasperreports.components.sort;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.servlets.AbstractViewer;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 
@@ -67,8 +62,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		String htmlFragment = null;
-		HttpServletRequest request = (HttpServletRequest)context.getExportParameters().get(AbstractViewer.HTTP_REQUEST);
-		if (request != null)//FIXMEJIVE
+		ReportContext reportContext = context.getExporter().getReportContext();
+		if (reportContext != null)//FIXMEJIVE
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
@@ -76,13 +71,17 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortHandlerFontSize = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE);
 			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
 			String sortHandlerHAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
-			String sortTableName = element.getPropertiesMap().getProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.PARAMETER_TABLE_NAME);
-			String sortField = getCurrentSortField(request, sortColumnName, sortColumnType);
+			String sortTableName = element.getPropertiesMap().getProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
 			Template template = getVelocityEngine().getTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE);
 			
 			VelocityContext velocityContext = new VelocityContext();
-			velocityContext.put("resourceSortJs", ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=" + SortElementHtmlHandler.RESOURCE_SORT_JS);
+			String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
+			if (webResourcesBasePath == null)
+			{
+				webResourcesBasePath = ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+			}
+			velocityContext.put("resourceSortJs", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_SORT_JS);
 			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
 			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 			velocityContext.put("elementWidth", element.getWidth());
@@ -95,31 +94,33 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterDivId", "filter_dialog_" + this.hashCode());
 			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
-			velocityContext.put("filterReportUriParamValue", request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
+			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
 			//velocityContext.put("filterReportActionParamName", ReportServlet.REPORT_ACTION);
 			//velocityContext.put("filterReportActionParamValue", SortElementAction.NAME);
-			velocityContext.put("filterFieldParamName", SortElement.PARAMETER_FILTER_FIELD);
-			velocityContext.put("filterValueParamName", SortElement.PARAMETER_FILTER_VALUE);
+			velocityContext.put("filterFieldParamName", SortElement.REQUEST_PARAMETER_FILTER_FIELD);
+			velocityContext.put("filterValueParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE);
 			velocityContext.put("filterColumnName", sortColumnName);
-			velocityContext.put("filterTableNameParam", SortElement.PARAMETER_TABLE_NAME);
+			velocityContext.put("filterTableNameParam", SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			velocityContext.put("filterTableNameValue", sortTableName);
-			velocityContext.put("filterCloseDialogImageResource", request.getContextPath() + ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=" + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);
+			velocityContext.put("filterCloseDialogImageResource", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);//FIXMEJIVE
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
 				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
 			
-			if (sortField != null) 
+			String sortField = getCurrentSortField(reportContext, sortColumnName, sortColumnType);
+			if (sortField == null) 
+			{
+				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, true, sortTableName));
+				velocityContext.put("sortSymbol", "");
+			}
+			else 
 			{
 				String[] sortActionData = sortField.split(":");
 				boolean isAscending = !"Ascending".equals(sortActionData[2]);
 				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, isAscending, sortTableName));
 				velocityContext.put("sortSymbol", isAscending ? ASCENDING_SORT_SYMBOL : DESCENDING_SORT_SYMBOL);
-				
-			} else {
-				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, true, sortTableName));
-				velocityContext.put("sortSymbol", "");
 			}
 
 			StringWriter writer = new StringWriter(128);
@@ -145,7 +146,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		//parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REPORT_ACTION, String.class.getName(), SortElementAction.NAME));
 		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_SORT_DATA, String.class.getName(), sortColumnName + ":" + sortColumnType + ":" +
 				(isAscending?"Ascending":"Descending")));
-		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.PARAMETER_TABLE_NAME, String.class.getName(), sortTableName));
+		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_DATASET_RUN, String.class.getName(), sortTableName));
 		hyperlink.setHyperlinkParameters(parameters);
 		
 		return context.getHyperlinkURL(hyperlink);
@@ -158,45 +159,26 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	
-	private String getCurrentSortField(HttpServletRequest request, String sortColumnName, String sortColumnType) 
+	private String getCurrentSortField(ReportContext reportContext, String sortColumnName, String sortColumnType) 
 	{
-		String result = null;
-		String reportActionData = request.getParameter(SortElement.REQUEST_PARAMETER_SORT_DATA);
+		String sortField = null;
+		String sortData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 		
-		if (reportActionData != null && reportActionData.indexOf(":") != -1 && reportActionData.split(":").length > 1)
+		if (sortData != null && sortData.indexOf(":") >= 0 && sortData.split(":").length > 1)
 		{
-			String[] tokens = reportActionData.split(",");
+			String[] tokens = sortData.split(",");
 			for (int i = 0; i < tokens.length; i++)
 			{
 				String token = tokens[i];
 				String[] sortActionData = token.split(":");
 				if (sortActionData.length > 1 && sortActionData[0].equals(sortColumnName) && sortActionData[1].equals(sortColumnType)) {
-					result = token;
+					sortField = token;
 					break;
-				}
-			}
-		} else 
-		{
-			//String reportUri = ReportServlet.extractReportUri(request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
-			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
-			if (webReportContext != null)
-			{
-				Map paramMap = webReportContext.getParameterValues();
-				//Map paramMap = (Map)request.getSession().getAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri);
-				if (paramMap != null && paramMap.get(SortElement.PARAMETER_SORT_FIELDS) != null) {
-					List<String> sortFields = (List<String>)paramMap.get(SortElement.PARAMETER_SORT_FIELDS);
-					for (String _sortField: sortFields) {
-						String[] sortActionData = _sortField.split(":");
-						if (sortActionData.length > 1 && sortActionData[0].equals(sortColumnName) && sortActionData[1].equals(sortColumnType)) {
-							result = _sortField;
-							break;
-						}
-					}
 				}
 			}
 		}
 		
-		return result;
+		return sortField;
 	}
 	
 	public boolean toExport(JRGenericPrintElement element) {

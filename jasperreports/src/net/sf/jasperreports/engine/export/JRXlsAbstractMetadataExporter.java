@@ -604,22 +604,6 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	}
 
 	/**
-	 * This method is intended to modify a given format pattern so to include
-	 * only the accepted proprietary format characters. The resulted pattern
-	 * will possibly truncate the original pattern
-	 * @param pattern
-	 * @return pattern converted to accepted proprietary formats
-	 */
-	protected String getConvertedPattern(String pattern)
-	{
-		if (formatPatternsMap != null && formatPatternsMap.containsKey(pattern))
-		{
-			return formatPatternsMap.get(pattern);
-		}
-		return pattern;
-	}
-
-	/**
 	 * Compares the highest index of the currentRow's columns with the index of the column to be inserted
 	 * to determine if the current column is read in the proper order
 	 * </p>

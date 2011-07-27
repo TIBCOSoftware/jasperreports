@@ -76,6 +76,7 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 	protected short[] lineBreakOffsets;
 	protected String textTruncateSuffix;
 	protected transient String truncatedText;
+	protected Object value;
 	/**
 	 * @deprecated No longer used.
 	 */
@@ -267,6 +268,22 @@ public class JRBasePrintText extends JRBasePrintElement implements JRPrintText
 				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
 				JRStyledTextAttributeSelector.getTextLocale(this)
 				);
+	}
+
+	/**
+	 *
+	 */
+	public Object getValue()
+	{
+		return value;
+	}
+
+	/**
+	 *
+	 */
+	public void setValue(Object value)
+	{
+		this.value = value;
 	}
 
 	/**
