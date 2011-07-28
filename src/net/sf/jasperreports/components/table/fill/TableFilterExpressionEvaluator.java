@@ -81,8 +81,26 @@ public class TableFilterExpressionEvaluator implements BuiltinExpressionEvaluato
 			String paramFilterField = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.REQUEST_PARAMETER_FILTER_FIELD);
 			String paramFilterValue = (String)reportContext.getParameterValue(tableReportName + "." + SortElement.REQUEST_PARAMETER_FILTER_VALUE);
 			
-			if (paramFilterField != null && paramFilterValue != null) {
-				result = ((String)fieldsMap.get(paramFilterField).getValue()).contains(paramFilterValue);
+			if (
+				fieldsMap != null //dataset might not have fields at all, in which case why would we even try filter? 
+				&& paramFilterField != null 
+				&& paramFilterValue != null
+				) 
+			{
+				JRFillField field = fieldsMap.get(paramFilterField);
+				if (String.class.getName().equals(field.getValueClassName()))
+				{
+					String fieldValue = (String)field.getValue();
+					result = 
+						fieldValue != null 
+						&& fieldValue.toLowerCase(
+							fillContext.getReportLocale()//FIXMEJIVE not sure if this is the correct locale to use as it does not appear to be used anywhere else
+							).contains(
+								paramFilterValue.toLowerCase(
+									fillContext.getReportLocale()
+									)
+								);
+				}
 			}
 		}
 		
