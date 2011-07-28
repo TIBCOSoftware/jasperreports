@@ -347,9 +347,12 @@ class SortFillDatasetRun extends JRFillDatasetRun
 		
 		JRField[] fields = dataset.getFields();
 		Object[] record = new Object[sortInfo.fieldNames.size()];
-		for(int i = 0; i < fields.length; i++)
+		if(fields != null)
 		{
-			record[i] = dataset.getFieldValue(fields[i].getName());
+			for(int i = 0; i < fields.length; i++)
+			{
+				record[i] = dataset.getFieldValue(fields[i].getName());
+			}
 		}
 		for(int i = 0; i < allSortFields.length; i++)
 		{
