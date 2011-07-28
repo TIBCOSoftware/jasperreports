@@ -131,9 +131,13 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 		super(plot, chart);
 		
 		JRMeterPlot meterPlot = plot instanceof JRMeterPlot ? (JRMeterPlot)plot : null;
-		if (meterPlot != null)
+		if (meterPlot == null)
 		{
-			valueDisplay = meterPlot.getValueDisplay();
+			valueDisplay = new JRBaseValueDisplay(null, chart);
+		}
+		else
+		{
+			valueDisplay = new JRBaseValueDisplay(meterPlot.getValueDisplay(), chart);
 			tickLabelFont = meterPlot.getTickLabelFont();
 		}
 	}
