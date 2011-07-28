@@ -130,8 +130,9 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				
 				Properties	connectProps = new Properties();
 				Map<String, String> map = jdbcDataAdapter.getProperties();
-				for(String key: map.keySet())
-					connectProps.setProperty(key, map.get(key));
+				if(map != null)
+					for(String key: map.keySet())
+						connectProps.setProperty(key, map.get(key));
 				
 
 				String password = jdbcDataAdapter.getPassword();
