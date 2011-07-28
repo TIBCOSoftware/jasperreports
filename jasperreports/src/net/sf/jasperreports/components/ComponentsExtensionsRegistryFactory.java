@@ -40,6 +40,9 @@ import net.sf.jasperreports.components.list.ListDesignConverter;
 import net.sf.jasperreports.components.map.MapCompiler;
 import net.sf.jasperreports.components.map.MapDesignConverter;
 import net.sf.jasperreports.components.map.MapFillFactory;
+import net.sf.jasperreports.components.sort.SortComponentCompiler;
+import net.sf.jasperreports.components.sort.SortComponentDesignConverter;
+import net.sf.jasperreports.components.sort.SortComponentFillFactory;
 import net.sf.jasperreports.components.spiderchart.SpiderChartCompiler;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDesignConverter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
@@ -86,6 +89,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		"POSTNET", "PDF417"};
 	protected static final String SPIDERCHART_COMPONENT_NAME = "spiderChart";
 	protected static final String MAP_COMPONENT_NAME = "map";
+	protected static final String SORT_COMPONENT_NAME = "sort";
 	
 	private static final ExtensionsRegistry REGISTRY;
 	
@@ -148,6 +152,13 @@ public class ComponentsExtensionsRegistryFactory implements
 		mapManager.setComponentXmlWriter(xmlHandler);
 		mapManager.setComponentFillFactory(new MapFillFactory());
 		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
+
+		DefaultComponentManager sortManager = new DefaultComponentManager();
+		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
+		sortManager.setComponentCompiler(new SortComponentCompiler());
+		sortManager.setComponentXmlWriter(xmlHandler);
+		sortManager.setComponentFillFactory(new SortComponentFillFactory());
+		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
 		
 		bundle.setComponentManagers(componentManagers);
 		

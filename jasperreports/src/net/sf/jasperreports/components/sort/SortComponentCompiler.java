@@ -23,39 +23,29 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import net.sf.jasperreports.engine.export.GenericElementHandler;
-import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ComponentCompiler;
+import net.sf.jasperreports.engine.design.JRVerifier;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FlashPrintElement.java 4063 2010-11-30 16:37:20Z teodord $
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
+ * @version $Id$
  */
-public final class SortElementHandlerBundle implements GenericElementHandlerBundle
-{
-	public static final String NAME = "sort";
-	public static final String NAMESPACE = "http://jasperreports.sourceforge.net/jasperreports/sort";
-	
-	private static final SortElementHandlerBundle INSTANCE = new SortElementHandlerBundle();
-	
-	public static SortElementHandlerBundle getInstance()
-	{
-		return INSTANCE;
+public class SortComponentCompiler implements ComponentCompiler {
+
+	public void collectExpressions(Component component, JRExpressionCollector collector) {
 	}
 	
-	public String getNamespace()
-	{
-		return NAMESPACE;
+	public Component toCompiledComponent(Component component,
+			JRBaseObjectFactory baseFactory) {
+		SortComponent sortComponent = (SortComponent) component;
+		return new SortComponent(sortComponent, baseFactory);
+	}
+
+	public void verify(Component component, JRVerifier verifier) {
+		// TODO
 	}
 	
-	public GenericElementHandler getHandler(String elementName,
-			String exporterKey)
-	{
-		if (NAME.equals(elementName) 
-				&& JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
-		{
-			return new SortElementHtmlHandler();
-		}
-		return null;
-	}
 }

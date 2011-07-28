@@ -23,12 +23,18 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id: SortElement.java 75 2011-06-23 15:04:59Z narcism $
  */
 public interface SortElement {
+	
+	String SORT_ELEMENT_NAME = "sort";
+	JRGenericElementType SORT_ELEMENT_TYPE = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, SORT_ELEMENT_NAME);
 	
 	String PARAMETER_SORT_COLUMN_NAME = "sortColumnName";
 	String PARAMETER_SORT_COLUMN_TYPE = "sortColumnType";
