@@ -97,13 +97,17 @@ public class JRBaseBarPlot extends JRBaseChartPlot implements JRBarPlot
 		super(plot, chart);
 		
 		JRBarPlot barPlot = plot instanceof JRBarPlot ? (JRBarPlot)plot : null;
-		if (barPlot != null)
+		if (barPlot == null)
+		{
+			itemLabel = new JRBaseItemLabel(null, chart);
+		}
+		else
 		{
 			categoryAxisLabelFont = barPlot.getCategoryAxisLabelFont();
 			categoryAxisTickLabelFont = barPlot.getCategoryAxisTickLabelFont();
 			valueAxisLabelFont = barPlot.getValueAxisLabelFont();
 			valueAxisTickLabelFont = barPlot.getValueAxisTickLabelFont();
-			itemLabel = barPlot.getItemLabel();
+			itemLabel = new JRBaseItemLabel(barPlot.getItemLabel(), chart);
 		}
 	}
 

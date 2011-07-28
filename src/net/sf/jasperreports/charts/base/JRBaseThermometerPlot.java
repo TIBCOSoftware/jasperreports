@@ -106,9 +106,13 @@ public class JRBaseThermometerPlot extends JRBaseChartPlot implements JRThermome
 		super(plot, chart);
 		
 		JRThermometerPlot thermoPlot = plot instanceof JRThermometerPlot ? (JRThermometerPlot)plot : null;
-		if (thermoPlot != null)
+		if (thermoPlot == null)
 		{
-			valueDisplay = thermoPlot.getValueDisplay();
+			valueDisplay = new JRBaseValueDisplay(null, chart);
+		}
+		else
+		{
+			valueDisplay = new JRBaseValueDisplay(thermoPlot.getValueDisplay(), chart);
 		}
 	}
 
