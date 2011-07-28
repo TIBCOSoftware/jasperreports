@@ -26,19 +26,16 @@ package net.sf.jasperreports.components.table;
 import java.util.List;
 
 import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.sort.SortElementHandlerBundle;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
-import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 /**
  * 
@@ -130,8 +127,7 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		genericElement.setHeight(header.getHeight());
 		genericElement.setMode(ModeEnum.TRANSPARENT);
 		
-		JRGenericElementType genericType = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, SortElementHandlerBundle.NAME);//FIXMEJIVE make sort element
-		genericElement.setGenericType(genericType);
+		genericElement.setGenericType(SortElement.SORT_ELEMENT_TYPE);
 		
 		JRDesignGenericElementParameter paramColumnName = new JRDesignGenericElementParameter();
 		paramColumnName.setName(SortElement.PARAMETER_SORT_COLUMN_NAME);

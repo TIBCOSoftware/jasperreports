@@ -50,6 +50,9 @@ import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.StandardMapComponent;
+import net.sf.jasperreports.components.sort.SortComponent;
+import net.sf.jasperreports.components.sort.SortComponentDigester;
+import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
@@ -103,6 +106,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addTableRules(digester);
 		SpiderChartDigester.addSpiderChartRules(digester);
 		addMapRules(digester);
+		SortComponentDigester.addSortComponentRules(digester);
 	}
 
 	protected void addListRules(Digester digester)
@@ -366,6 +370,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			SpiderChartComponent spiderChart = (SpiderChartComponent) component;
 			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter();
 			spiderChartWriter.writeToXml(componentKey, spiderChart, reportWriter);
+		}
+		else if (component instanceof SortComponent)
+		{
+			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter();
+			sortWriter.writeToXml(componentKey, component, reportWriter);
 		}
 	}
 
