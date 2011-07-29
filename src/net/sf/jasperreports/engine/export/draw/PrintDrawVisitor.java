@@ -184,7 +184,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 
 		if (handler != null)
 		{
-			handler.exportElement(printElement, grx, offset);
+			handler.exportElement(this.frameDrawer.getExporterContext(), printElement, grx, offset);
 		}
 		else
 		{
@@ -194,6 +194,14 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 						+ printElement.getGenericType());
 			}
 		}
+	}
+
+	/**
+	 * @return the imageDrawer
+	 */
+	public ImageDrawer getImageDrawer()
+	{
+		return this.imageDrawer;
 	}
 
 }
