@@ -23,26 +23,14 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import java.awt.Graphics2D;
-
-import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.export.draw.Offset;
 
 /**
- * A generic print element Graphics2D export handler.
+ * A context that represents information about an Graphics2D export process.
  * 
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GenericElementPdfHandler.java 3033 2009-08-27 11:46:22Z teodord $
+ * @author sanda zaharia (shertage@users.sourceforge.net)
+ * @version $Id$
+ * @see JRGraphics2DExporter
  */
-public interface GenericElementGraphics2DHandler extends GenericElementHandler
+public interface JRGraphics2DExporterContext extends JRExporterContext
 {
-
-	/**
-	 * Exports a generic element.
-	 * 
-	 * @param grx the graphic context
-	 * @param element the generic element to export
-	 */
-	void exportElement(JRGraphics2DExporterContext context, JRGenericPrintElement element, Graphics2D grx, Offset offset);
-
 }

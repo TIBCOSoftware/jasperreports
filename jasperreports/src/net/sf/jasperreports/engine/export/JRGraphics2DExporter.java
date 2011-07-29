@@ -93,6 +93,16 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected AwtTextRenderer textRenderer;
 	protected FrameDrawer frameDrawer;
 
+	protected class ExporterContext extends BaseExporterContext implements JRGraphics2DExporterContext
+	{
+		public String getExportPropertiesPrefix()
+		{
+			return GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX;
+		}
+	}
+
+	protected JRGraphics2DExporterContext exporterContext = new ExporterContext();
+	
 	/**
 	 *
 	 */
@@ -190,7 +200,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	
 	protected void setDrawers()
 	{
-		frameDrawer = new FrameDrawer(filter, textRenderer);
+		frameDrawer = new FrameDrawer(exporterContext, filter, textRenderer);
 	}
 
 	
@@ -260,5 +270,14 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected String getExporterKey()
 	{
 		return GRAPHICS2D_EXPORTER_KEY;
+	}
+
+
+	/**
+	 * @return the frameDrawer
+	 */
+	public FrameDrawer getFrameDrawer()
+	{
+		return this.frameDrawer;
 	}
 }
