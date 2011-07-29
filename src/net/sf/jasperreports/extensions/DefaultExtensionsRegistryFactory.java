@@ -28,6 +28,7 @@ import java.util.List;
 
 import net.sf.jasperreports.charts.ChartThemeBundle;
 import net.sf.jasperreports.components.map.MapElementDocxHandler;
+import net.sf.jasperreports.components.map.MapElementGraphics2DHandler;
 import net.sf.jasperreports.components.map.MapElementHtmlHandler;
 import net.sf.jasperreports.components.map.MapElementJExcelApiHandler;
 import net.sf.jasperreports.components.map.MapElementOdsHandler;
@@ -46,6 +47,7 @@ import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -88,6 +90,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				}
 				if (MapPrintElement.MAP_ELEMENT_NAME.equals(elementName))
 				{
+					if(JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
+					{
+						return MapElementGraphics2DHandler.getInstance();
+					}
 					if(JRHtmlExporter.HTML_EXPORTER_KEY.equals(exporterKey) || JRXhtmlExporter.XHTML_EXPORTER_KEY.equals(exporterKey))
 					{
 						return MapElementHtmlHandler.getInstance();
