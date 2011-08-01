@@ -34,17 +34,14 @@
 		
 		jQuery('.filterdiv')
 			.draggable()
-			.bind('mouseleave', function(){
-				jQuery(this).hide();
-			})
 			.bind('keypress', function(event) {
 				var target = jQuery(event.target),
 					filterDiv = jQuery(this);
 				
-				// Disable 'Enter' key press for filter value
+				// 'Enter' key press for filter value triggers 'contextual' submit
 				if (target.is('.filterValue') && event.keyCode == 13) {
 					event.preventDefault();
-					return false;
+					jQuery('.submitFilter', filterDiv).trigger('click');
 				}
 			});
 		
