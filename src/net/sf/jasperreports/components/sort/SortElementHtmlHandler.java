@@ -67,11 +67,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
+			
 			String sortHandlerColor = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_COLOR);
 			String sortHandlerFontSize = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE);
 			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
 			String sortHandlerHAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
-			String sortTableName = element.getPropertiesMap().getProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN);
+			String sortTableName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
+			String isFilterable = element.getPropertiesMap().getProperty(SortElement.PROPERTY_IS_FILTERABLE);
 			
 			Template template = getVelocityEngine().getTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE);
 			
@@ -91,12 +93,11 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerColor", sortHandlerColor != null ? sortHandlerColor : "white");
 			velocityContext.put("sortHandlerFontSize", sortHandlerFontSize != null ? sortHandlerFontSize : "10");
 			
+			velocityContext.put("isFilterable", isFilterable != null && isFilterable.equalsIgnoreCase("true"));
 			velocityContext.put("filterDivId", "filter_dialog_" + this.hashCode());
 			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
-			//velocityContext.put("filterReportActionParamName", ReportServlet.REPORT_ACTION);
-			//velocityContext.put("filterReportActionParamValue", SortElementAction.NAME);
 			velocityContext.put("filterFieldParamName", SortElement.REQUEST_PARAMETER_FILTER_FIELD);
 			velocityContext.put("filterValueParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE);
 			velocityContext.put("filterColumnName", sortColumnName);
@@ -112,17 +113,18 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortField = getCurrentSortField(reportContext, sortColumnName, sortColumnType);
 			if (sortField == null) 
 			{
-				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, true, sortTableName));
+				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortTableName));
 				velocityContext.put("sortSymbol", "");
 			}
 			else 
 			{
-				String[] sortActionData = sortField.split(":");
-				boolean isAscending = !"Ascending".equals(sortActionData[2]);
-				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, isAscending, sortTableName));
+				String[] sortActionData = SortElementUtils.extractColumnInfo(sortField);
+				boolean isAscending = !SortElement.SORT_ORDER_ASC.equals(sortActionData[2]);
+				String sortOrder = isAscending ? SortElement.SORT_ORDER_ASC : SortElement.SORT_ORDER_DESC;
+				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortTableName));
 				velocityContext.put("sortSymbol", isAscending ? ASCENDING_SORT_SYMBOL : DESCENDING_SORT_SYMBOL);
 			}
-
+			
 			StringWriter writer = new StringWriter(128);
 			template.merge(velocityContext, writer);
 			writer.flush();
@@ -138,14 +140,15 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
-	private String getSortLink(JRHtmlExporterContext context, String sortColumnName, String sortColumnType, boolean isAscending , String sortTableName) {
+	private String getSortLink(JRHtmlExporterContext context, String sortColumnName, String sortColumnType, String sortOrder, String sortTableName) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
 		hyperlink.setLinkType("ReportExecution");
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-		//parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REPORT_ACTION, String.class.getName(), SortElementAction.NAME));
-		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_SORT_DATA, String.class.getName(), sortColumnName + ":" + sortColumnType + ":" +
-				(isAscending?"Ascending":"Descending")));
+		parameters.addParameter(new JRPrintHyperlinkParameter(
+				SortElement.REQUEST_PARAMETER_SORT_DATA,
+				String.class.getName(), 
+				SortElementUtils.packSortColumnInfo(sortColumnName, sortColumnType, sortOrder)));
 		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_DATASET_RUN, String.class.getName(), sortTableName));
 		hyperlink.setHyperlinkParameters(parameters);
 		
@@ -164,13 +167,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		String sortField = null;
 		String sortData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 		
-		if (sortData != null && sortData.indexOf(":") >= 0 && sortData.split(":").length > 1)
+		if (SortElementUtils.isValidSortData(sortData))
 		{
 			String[] tokens = sortData.split(",");
 			for (int i = 0; i < tokens.length; i++)
 			{
 				String token = tokens[i];
-				String[] sortActionData = token.split(":");
+				String[] sortActionData = SortElementUtils.extractColumnInfo(token);
 				if (sortActionData.length > 1 && sortActionData[0].equals(sortColumnName) && sortActionData[1].equals(sortColumnType)) {
 					sortField = token;
 					break;

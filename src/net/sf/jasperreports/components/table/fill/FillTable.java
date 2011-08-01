@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.sort.SortElement;
+import net.sf.jasperreports.components.sort.SortElementUtils;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -58,7 +59,6 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -136,12 +136,12 @@ public class FillTable extends BaseFillComponent
 				{
 					String token = tokens[i];
 					//sortFieldsList.add(token);
-					String[] chunks = token.split(":");
+					String[] chunks = SortElementUtils.extractColumnInfo(token);
 					sortFields.add(
 						new JRDesignSortField(
 							chunks[0],
 							SortFieldTypeEnum.getByName(chunks[1]),
-							SortOrderEnum.getByName(chunks[2])
+							SortElementUtils.getSortOrder(chunks[2])
 							)
 						);
 				}

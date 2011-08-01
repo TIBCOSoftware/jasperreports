@@ -76,7 +76,6 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * 
@@ -819,13 +818,37 @@ public class TableReport implements JRReport
 			{
 				if (child instanceof JRGenericElement) {
 					JRGenericElement genericElement = (JRGenericElement)child;
-					JRGenericElementParameter[] params = genericElement.getParameters();
-					
-					for (JRGenericElementParameter param: params) {
-						if (param.getName().equals(SortElement.PARAMETER_DYNAMIC_TABLE_BINDING) && param.getValueExpression().getText() != null) {
-							genericElement.getPropertiesMap().setProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN, getName());
-							genericElement.setWidth(width);
-							break;
+					if ("true".equals(genericElement.getPropertiesMap().getProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING))) {
+						JRGenericElementParameter[] params = genericElement.getParameters();
+						
+						for (int i = 0; i < params.length; i++) {
+							JRGenericElementParameter param = params[i];
+							if (param.getName().equals(SortElement.PARAMETER_SORT_COLUMN_NAME) && param.getValueExpression().getText() != null) {
+								genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, getName());
+								genericElement.setWidth(width);
+								
+								String sortColumnNameExpr = param.getValueExpression().getText();
+								String sortColumnTypeExpr = params[i+1].getValueExpression().getText();
+								
+								String columnName = sortColumnNameExpr.substring(1, sortColumnNameExpr.length() - 1);
+								String columnType = sortColumnTypeExpr.substring(1, sortColumnTypeExpr.length() - 1);
+								
+								// filterable columns FIXMEJIVE: string only?
+								if (SortElement.SORT_ELEMENT_TYPE_FIELD.equals(columnType)) {
+									for(JRField field: getFields()) {
+										if (columnName.equals(field.getName()) && field.getValueClassName().equals(String.class.getName())) {
+											genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
+										}
+									}
+								} else if (SortElement.SORT_ELEMENT_TYPE_VARIABLE.equals(columnType)) {
+									for(JRVariable var: getVariables()) {
+										if (columnName.equals(var.getName()) && var.getValueClassName().equals(String.class.getName())) {
+											genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
+										}
+									}
+								}
+								break;
+							}
 						}
 					}
 				}
