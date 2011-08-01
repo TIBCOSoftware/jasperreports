@@ -121,25 +121,26 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		Cell header = getColumnHeader();
 		
 		JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
+
+		genericElement.setGenericType(SortElement.SORT_ELEMENT_TYPE);
+		genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING, "true");
 		genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
 		genericElement.setX(0);
 		genericElement.setY(0);
 		genericElement.setHeight(header.getHeight());
 		genericElement.setMode(ModeEnum.TRANSPARENT);
 		
-		genericElement.setGenericType(SortElement.SORT_ELEMENT_TYPE);
-		
-		JRDesignGenericElementParameter paramColumnName = new JRDesignGenericElementParameter();
-		paramColumnName.setName(SortElement.PARAMETER_SORT_COLUMN_NAME);
-		JRDesignExpression paramColumnNameValueExpression = new JRDesignExpression();
-		paramColumnNameValueExpression.setText("\"" + chunk.getText() + "\"");
-		paramColumnName.setValueExpression(paramColumnNameValueExpression);
-		genericElement.addParameter(paramColumnName);
+		JRDesignGenericElementParameter paramSortColumnName = new JRDesignGenericElementParameter();
+		paramSortColumnName.setName(SortElement.PARAMETER_SORT_COLUMN_NAME);
+		JRDesignExpression paramSortColumnValueExpression = new JRDesignExpression();
+		paramSortColumnValueExpression.setText("\"" + chunk.getText() + "\"");
+		paramSortColumnName.setValueExpression(paramSortColumnValueExpression);
+		genericElement.addParameter(paramSortColumnName);
 		
 		JRDesignGenericElementParameter paramColumnType = new JRDesignGenericElementParameter();
 		paramColumnType.setName(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 		JRDesignExpression paramColumnTypeValueExpression = new JRDesignExpression();
-		paramColumnTypeValueExpression.setText("\"" + (chunk.getType() == JRExpressionChunk.TYPE_FIELD ? "Field" : "Variable") + "\"");
+		paramColumnTypeValueExpression.setText("\"" + ((chunk.getType() == JRExpressionChunk.TYPE_FIELD) ? SortElement.SORT_ELEMENT_TYPE_FIELD : SortElement.SORT_ELEMENT_TYPE_VARIABLE) + "\"");
 		paramColumnType.setValueExpression(paramColumnTypeValueExpression);
 		genericElement.addParameter(paramColumnType);
 		
@@ -156,13 +157,6 @@ public class StandardColumn extends StandardBaseColumn implements Column
 		paramVerticalAlignValueExpression.setText("\"Middle\"");
 		paramVerticalAlign.setValueExpression(paramVerticalAlignValueExpression);
 		genericElement.addParameter(paramVerticalAlign);
-
-		JRDesignGenericElementParameter paramForControl = new JRDesignGenericElementParameter();
-		paramForControl.setName(SortElement.PARAMETER_DYNAMIC_TABLE_BINDING);
-		JRDesignExpression paramForControlValueExpression = new JRDesignExpression();
-		paramForControlValueExpression.setText("\"dinamicallyAdded\"");
-		paramForControl.setValueExpression(paramForControlValueExpression);
-		genericElement.addParameter(paramForControl);
 		
 		header.getChildren().add(genericElement);
 	}
