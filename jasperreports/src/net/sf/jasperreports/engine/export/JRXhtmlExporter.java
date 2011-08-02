@@ -173,6 +173,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected int pageIndex;
 	protected List<Integer> frameIndexStack;
 	protected int elementIndex;
+	protected int rightLimit;
+	protected int bottomLimit;
 
 	/**
 	 *
@@ -627,10 +629,18 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
+		rightLimit = 0;
+		bottomLimit = 0;
+		
+		setRightBottomLimit(page.getElements());
+
+		rightLimit = Math.max(rightLimit, jasperPrint.getPageWidth());
+		bottomLimit = Math.max(bottomLimit, jasperPrint.getPageHeight());
+		
 		writer.write(
 			"<div style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
-			+ "position:relative;width:" + toSizeUnit(jasperPrint.getPageWidth()) 
-			+ ";height:" + toSizeUnit(jasperPrint.getPageHeight()) + ";\">\n"
+			+ "position:relative;width:" + toSizeUnit(rightLimit) 
+			+ ";height:" + toSizeUnit(bottomLimit) + ";\">\n"
 			);
 
 		frameIndexStack = new ArrayList<Integer>();
@@ -2130,6 +2140,30 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 	
 		
+	/**
+	 *
+	 */
+	private void setRightBottomLimit(List<JRPrintElement> elements) throws IOException, JRException
+	{
+		if (elements != null && elements.size() > 0)
+		{
+			JRPrintElement element;
+			for(int i = 0; i < elements.size(); i++)
+			{
+				elementIndex = i;
+				
+				element = elements.get(i);
+				
+				if (filter == null || filter.isToExport(element))
+				{
+					rightLimit = (element.getX() + element.getWidth()) > rightLimit ? element.getX() + element.getWidth() : rightLimit;
+					bottomLimit = (element.getY() + element.getHeight()) > bottomLimit ? element.getY() + element.getHeight() : bottomLimit;
+				}
+			}
+		}
+	}
+
+	
 	/**
 	 *
 	 */
