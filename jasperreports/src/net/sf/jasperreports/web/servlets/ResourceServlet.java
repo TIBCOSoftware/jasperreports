@@ -44,7 +44,7 @@ public class ResourceServlet extends HttpServlet
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String RESOURCE_URI = "resource.uri";
-	public static final String DEFAULT_CONTEXT_PATH = "/servlets/resource";
+	public static final String DEFAULT_PATH = "/servlets/resource";
 
 	public void service(
 		HttpServletRequest request,

@@ -33,6 +33,7 @@ import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
+import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
@@ -89,6 +90,7 @@ public class TableReport implements JRReport
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 	
 	private final FillContext fillContext;
+	private final TableComponent table;
 	private final JasperReport parentReport;
 	private final TableReportDataset mainDataset;
 	private final JRSection detail;
@@ -98,11 +100,17 @@ public class TableReport implements JRReport
 	private final JRDesignBand pageFooter;
 	private final JRDesignBand lastPageFooter;
 	
-	public TableReport(FillContext fillContext, TableReportDataset mainDataset, 
-			List<FillColumn> fillColumns, 
-			Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
+	public TableReport(
+		FillContext fillContext, 
+		TableComponent table, 
+		TableReportDataset mainDataset, 
+		List<FillColumn> fillColumns, 
+		Map<JRExpression, 
+		BuiltinExpressionEvaluator> builtinEvaluators
+		)
 	{
 		this.fillContext = fillContext;
+		this.table = table;
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
 		
@@ -818,7 +826,7 @@ public class TableReport implements JRReport
 			{
 				if (child instanceof JRGenericElement) {
 					JRGenericElement genericElement = (JRGenericElement)child;
-					if ("true".equals(genericElement.getPropertiesMap().getProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING))) {
+					if ("true".equals(genericElement.getPropertiesMap().getProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING))) {//FIXMEJIVE check this test
 						JRGenericElementParameter[] params = genericElement.getParameters();
 						
 						for (int i = 0; i < params.length; i++) {
@@ -1124,7 +1132,25 @@ public class TableReport implements JRReport
 
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
-		return WhenNoDataTypeEnum.NO_PAGES;
+		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
+		if (table.getWhenNoDataType() != null)
+		{
+			switch (table.getWhenNoDataType())
+			{
+				case ALL_SECTIONS_NO_DETAIL :
+				{
+					whenNoDataType = WhenNoDataTypeEnum.ALL_SECTIONS_NO_DETAIL;
+					break;
+				}
+				case BLANK :
+				default :
+				{
+					whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;
+					break;
+				}
+			}
+		}
+		return whenNoDataType;
 	}
 
 	public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue()

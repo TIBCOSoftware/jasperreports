@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
@@ -64,16 +65,21 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
 
 		VelocityContext velocityContext = new VelocityContext();
-		String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
-		if (webResourcesBasePath == null)
+		ReportContext reportContext = context.getExporter().getReportContext();
+		if (reportContext != null)
 		{
-			webResourcesBasePath = ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
+			String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
+			if (webResourcesBasePath == null)
+			{
+				webResourcesBasePath = (appContextPath == null ? "" : appContextPath) + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+			}
+			velocityContext.put("resourceMapJs", webResourcesBasePath + MapElementHtmlHandler.RESOURCE_MAP_JS);
 		}
-		velocityContext.put("resourceMapJs", webResourcesBasePath + MapElementHtmlHandler.RESOURCE_MAP_JS);
+		velocityContext.put("gotReportContext", reportContext != null);
 		velocityContext.put("latitude", latitude);
 		velocityContext.put("longitude", longitude);
 		velocityContext.put("zoom", zoom);
-		velocityContext.put("gotReportContext", context.getExporter().getReportContext() != null);
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		if(context.getExporter() instanceof JRXhtmlExporter)

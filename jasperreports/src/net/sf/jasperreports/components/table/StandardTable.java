@@ -48,9 +48,12 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	
 	public static final String PROPERTY_DATASET_RUN = "datasetRun";
 	public static final String PROPERTY_COLUMNS = "columns";
+	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
 
 	private JRDatasetRun datasetRun;
 	private List<BaseColumn> columns;
+	
+	private WhenNoDataTypeTableEnum whenNoDataType;
 
 	public StandardTable()
 	{
@@ -59,6 +62,8 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public StandardTable(TableComponent table, JRBaseObjectFactory factory)
 	{
+		whenNoDataType = table.getWhenNoDataType();
+
 		datasetRun = factory.getDatasetRun(table.getDatasetRun());
 		
 		ColumnFactory columnFactory = new ColumnFactory(factory);
@@ -115,6 +120,18 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		this.datasetRun = datasetRun;
 		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, 
 				old, this.datasetRun);
+	}
+	
+	public WhenNoDataTypeTableEnum getWhenNoDataType()
+	{
+		return whenNoDataType;
+	}
+	
+	public void setWhenNoDataType(WhenNoDataTypeTableEnum whenNoDataType)
+	{
+		Object old = this.whenNoDataType;
+		this.whenNoDataType = whenNoDataType;
+		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, this.whenNoDataType);
 	}
 	
 	public Object clone()

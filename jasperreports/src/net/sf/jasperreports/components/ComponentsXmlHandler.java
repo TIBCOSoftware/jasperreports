@@ -66,9 +66,10 @@ import net.sf.jasperreports.components.table.GroupCell;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardColumnGroup;
 import net.sf.jasperreports.components.table.StandardGroupCell;
-import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.components.table.StandardTableFactory;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.TableReportContextXmlRule;
+import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
@@ -265,7 +266,8 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	protected void addTableRules(Digester digester)
 	{
 		String tablePattern = "*/componentElement/table";
-		digester.addObjectCreate(tablePattern, StandardTable.class);
+		//digester.addObjectCreate(tablePattern, StandardTable.class);
+		digester.addFactoryCreate(tablePattern, StandardTableFactory.class.getName());
 		
 		String columnPattern = "*/column";
 		digester.addObjectCreate(columnPattern, StandardColumn.class);
@@ -476,6 +478,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("table", namespace);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType(), WhenNoDataTypeTableEnum.BLANK);
 		reportWriter.writeDatasetRun(table.getDatasetRun());
 		
 		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()

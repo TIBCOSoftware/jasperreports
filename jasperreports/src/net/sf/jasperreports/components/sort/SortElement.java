@@ -66,6 +66,6 @@ public interface SortElement {
 	public static final String REQUEST_PARAMETER_DATASET_RUN = "jr.dsr";//FIXMEJIVE this parameter cannot uniquely identify a dataset run that repeats; check it
 	
 	public static final String PROPERTY_DATASET_RUN = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN;
-	public static final String PROPERTY_IS_FILTERABLE = JRProperties.PROPERTY_PREFIX + "export.jr.filterable";
+	public static final String PROPERTY_IS_FILTERABLE = JRProperties.PROPERTY_PREFIX + "export.jr.filterable";//FIXMEJIVE why we need jr token in name?
 
 }
