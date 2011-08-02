@@ -305,7 +305,7 @@ public class FillTable extends BaseFillComponent
 		reportDataset.setFilterExpression(newTableFilterExpression);
 		builtinEvaluators.put(newTableFilterExpression, new TableFilterExpressionEvaluator(tableReportName, reportContext, fillContext, reportSubdataset.getFilterExpression()));
 
-		TableReport tableReport = new TableReport(fillContext, reportDataset, fillColumns, builtinEvaluators);
+		TableReport tableReport = new TableReport(fillContext, table, reportDataset, fillColumns, builtinEvaluators);
 		
 		if (log.isDebugEnabled())
 		{

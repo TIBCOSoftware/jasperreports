@@ -26,6 +26,7 @@ package net.sf.jasperreports.web.servlets;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -57,10 +58,15 @@ public class DefaultViewer extends AbstractViewer
 	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext)
 	{
 		VelocityContext headerContext = new VelocityContext();
+		String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");//FIXMEJIVE reuse this code
+		if (webResourcesBasePath == null)
+		{
+			webResourcesBasePath = request.getContextPath() + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+		}
 		headerContext.put("isAjax", request.getParameter(PARAMETER_IS_AJAX) != null && request.getParameter(PARAMETER_IS_AJAX).equals("true"));
 		headerContext.put("contextPath", request.getContextPath());
-		headerContext.put("globaljs", request.getContextPath() + ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=" + RESOURCE_GLOBAL_JS);
-		headerContext.put("globalcss", request.getContextPath() + ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=" + RESOURCE_GLOBAL_CSS);
+		headerContext.put("globaljs", webResourcesBasePath + RESOURCE_GLOBAL_JS);
+		headerContext.put("globalcss", webResourcesBasePath + RESOURCE_GLOBAL_CSS);
 //		headerContext.put("showToolbar", request.getParameter(PARAMETER_TOOLBAR) != null && request.getParameter(PARAMETER_TOOLBAR).equals("true"));
 		headerContext.put("showToolbar", Boolean.TRUE);
 		headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));

@@ -86,6 +86,7 @@ public class WebReportContext implements ReportContext
 		if (webReportContext != null)
 		{
 			webReportContext.setRequest(request);
+			webReportContext.setParameterValue("net.sf.jasperreports.web.app.context.path", request.getContextPath());
 		}
 		
 		return webReportContext;

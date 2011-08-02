@@ -514,6 +514,25 @@
 							<element ref="c:column"/>
 						</choice>
 					</sequence>
+					<attribute name="whenNoDataType" use="optional" default="Blank">
+						<annotation>
+							<documentation>Allows users to customize the behavior of the table when there are now rows in the data source.</documentation>
+						</annotation>
+						<simpleType>
+					 	<restriction base="string">
+							<enumeration value="Blank">
+							<annotation>
+								<documentation>The table output will be blank.</documentation>
+							</annotation>
+							</enumeration>
+							<enumeration value="AllSectionsNoDetail">
+							<annotation>
+								<documentation>All the table sections except the detail section will get printed.</documentation>
+							</annotation>
+							</enumeration>
+						</restriction>
+						</simpleType>
+					</attribute>
 				</extension>
 			</complexContent>
 		</complexType>

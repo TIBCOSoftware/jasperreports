@@ -77,11 +77,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 			Template template = getVelocityEngine().getTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE);
 			
+			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
+			
 			VelocityContext velocityContext = new VelocityContext();
 			String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
 			{
-				webResourcesBasePath = ResourceServlet.DEFAULT_CONTEXT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
 			velocityContext.put("resourceSortJs", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_SORT_JS);
 			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
@@ -103,7 +105,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterColumnName", sortColumnName);
 			velocityContext.put("filterTableNameParam", SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			velocityContext.put("filterTableNameValue", sortTableName);
-			velocityContext.put("filterCloseDialogImageResource", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);//FIXMEJIVE
+			velocityContext.put("filterCloseDialogImageResource", (appContextPath == null ? "" : appContextPath) + webResourcesBasePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);//FIXMEJIVE
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{

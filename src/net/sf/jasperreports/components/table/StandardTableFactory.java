@@ -23,24 +23,35 @@
  */
 package net.sf.jasperreports.components.table;
 
-import java.util.List;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.component.Component;
+import org.xml.sax.Attributes;
 
 
 /**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JasperDesignFactory.java 3953 2010-09-20 13:54:34Z teodord $
  */
-public interface TableComponent extends Component, JRCloneable
+public class StandardTableFactory extends JRBaseFactory
 {
 
-	JRDatasetRun getDatasetRun();
+	
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		StandardTable table = new StandardTable();
+		
+		WhenNoDataTypeTableEnum whenNoDataType = WhenNoDataTypeTableEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_whenNoDataType));
+		if (whenNoDataType != null)
+		{
+			table.setWhenNoDataType(whenNoDataType);
+		}
 
-	List<BaseColumn> getColumns();
+		return table;
+	}
 	
-	WhenNoDataTypeTableEnum getWhenNoDataType();
-	
+
 }
