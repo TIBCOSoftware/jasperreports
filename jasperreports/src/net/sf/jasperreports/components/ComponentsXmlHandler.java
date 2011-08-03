@@ -378,6 +378,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter();
 			sortWriter.writeToXml(componentKey, component, reportWriter);
 		}
+		else if (component instanceof MapComponent)
+		{
+			MapComponent map = (MapComponent) component;
+			writeMap(map, componentKey, reportWriter);
+		}
+		
 	}
 
 	protected void writeList(ListComponent list, ComponentKey componentKey,
