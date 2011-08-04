@@ -34,7 +34,7 @@
 		
 		jQuery('.filterdiv')
 			.draggable()
-			.bind('keypress', function(event) {
+			.live('keypress', function(event) {
 				var target = jQuery(event.target),
 					filterDiv = jQuery(this);
 				
