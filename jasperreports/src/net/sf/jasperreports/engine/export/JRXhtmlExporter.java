@@ -164,9 +164,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected Writer writer;
 	protected JRExportProgressMonitor progressMonitor;
-
 	protected Map<String,String> rendererToImagePathMap;
 	protected Map<Pair,String> imageMaps;
+	protected Map<String,byte[]> imageNameToImageDataMap;
 	protected List<JRPrintElementIndex> imagesToProcess;
 	
 	protected int reportIndex;
@@ -285,6 +285,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			imageMaps = new HashMap<Pair,String>();
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 	
+			//backward compatibility with the IMAGE_MAP parameter
+			imageNameToImageDataMap = (Map<String,byte[]>)parameters.get(JRHtmlExporterParameter.IMAGES_MAP);
+	//		if (imageNameToImageDataMap == null)
+	//		{
+	//			imageNameToImageDataMap = new HashMap();
+	//		}
+			//END - backward compatibility with the IMAGE_MAP parameter
+
 			isWrapBreakWord = 
 				getBooleanParameter(
 					JRHtmlExporterParameter.IS_WRAP_BREAK_WORD,
@@ -1689,6 +1697,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	
 						String imageName = getImageName(imageIndex);
 						imagePath = imagesURI + imageName;
+
+						//backward compatibility with the IMAGE_MAP parameter
+						if (imageNameToImageDataMap != null)
+						{
+							if (renderer.getType() == JRRenderable.TYPE_SVG)
+							{
+								renderer =
+									new JRWrappingSvgRenderer(
+										renderer,
+										new Dimension(image.getWidth(), image.getHeight()),
+										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
+										);
+							}
+							imageNameToImageDataMap.put(imageName, renderer.getImageData());
+						}
+						//END - backward compatibility with the IMAGE_MAP parameter
 					}
 	
 					rendererToImagePathMap.put(renderer.getId(), imagePath);
