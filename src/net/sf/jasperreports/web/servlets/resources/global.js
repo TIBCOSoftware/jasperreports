@@ -40,7 +40,7 @@ jQuery.noConflict();
 						}
 					}
 				};
-			} else { // for Others
+			} else { // for Others - this is not supposed to work on Safari 2
 				scriptElement.onload = function(){
 					if (gotCallback) {
 						callbackFn();
