@@ -36,7 +36,7 @@
 		});
 	</script>
 #else
-	<script type='text/javascript'>
+	<script class='jasperreports' type='text/javascript'>
 		function initGoogleMapsCallback() {
 			var gg = google.maps,
 				latlng = new gg.LatLng('${latitude}', '${longitude}'),  

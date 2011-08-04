@@ -1,4 +1,4 @@
-<script type='text/javascript'>
+<script class='jasperreports' type='text/javascript'>
 	JasperReports.modules.global.appendScriptElementToDOM('_sortScript','${resourceSortJs}');
 </script>
 
