@@ -173,6 +173,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected int pageIndex;
 	protected List<Integer> frameIndexStack;
 	protected int elementIndex;
+	protected int topLimit;
+	protected int leftLimit;
 	protected int rightLimit;
 	protected int bottomLimit;
 
@@ -637,18 +639,43 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportPage(JRPrintPage page) throws JRException, IOException
 	{
+		topLimit = jasperPrint.getPageHeight();
+		leftLimit = jasperPrint.getPageWidth();
 		rightLimit = 0;
 		bottomLimit = 0;
 		
-		setRightBottomLimit(page.getElements());
+		setPageLimits(page.getElements());
 
-		rightLimit = Math.max(rightLimit, jasperPrint.getPageWidth());
-		bottomLimit = Math.max(bottomLimit, jasperPrint.getPageHeight());
+		if (!isIgnorePageMargins)
+		{
+			topLimit = 0;
+		}
+		if (!isIgnorePageMargins)
+		{
+			leftLimit = 0;
+		}
+		if (jasperPrint.getPageWidth() > rightLimit && !isIgnorePageMargins)
+		{
+			rightLimit = jasperPrint.getPageWidth();
+		}
+		if (jasperPrint.getPageHeight() > bottomLimit && !isIgnorePageMargins)
+		{
+			bottomLimit = jasperPrint.getPageHeight();
+		}
+		
+		if (topLimit > bottomLimit)//these can occur only when empty page and page margins are ignored
+		{
+			topLimit = bottomLimit;
+		}
+		if (leftLimit > rightLimit)
+		{
+			leftLimit = rightLimit;
+		}
 		
 		writer.write(
 			"<div style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
-			+ "position:relative;width:" + toSizeUnit(rightLimit) 
-			+ ";height:" + toSizeUnit(bottomLimit) + ";\">\n"
+			+ "position:relative;width:" + toSizeUnit(rightLimit - leftLimit) 
+			+ ";height:" + toSizeUnit(bottomLimit - topLimit) + ";\">\n"
 			);
 
 		frameIndexStack = new ArrayList<Integer>();
@@ -1550,10 +1577,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	{
 		styleBuffer.append("position:absolute;");
 		styleBuffer.append("left:");
-		styleBuffer.append(toSizeUnit(element.getX()));
+		styleBuffer.append(toSizeUnit(element.getX() - (frameIndexStack.size() == 0 ? leftLimit : 0)));
 		styleBuffer.append(";");
 		styleBuffer.append("top:");
-		styleBuffer.append(toSizeUnit(element.getY()));
+		styleBuffer.append(toSizeUnit(element.getY() - (frameIndexStack.size() == 0 ? topLimit : 0)));
 		styleBuffer.append(";");
 	}
 
@@ -2167,7 +2194,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private void setRightBottomLimit(List<JRPrintElement> elements) throws IOException, JRException
+	private void setPageLimits(List<JRPrintElement> elements) throws IOException, JRException
 	{
 		if (elements != null && elements.size() > 0)
 		{
@@ -2180,6 +2207,8 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				
 				if (filter == null || filter.isToExport(element))
 				{
+					topLimit = element.getY() < topLimit ? element.getY() : topLimit;
+					leftLimit = element.getX() < leftLimit ? element.getX() : leftLimit;
 					rightLimit = (element.getX() + element.getWidth()) > rightLimit ? element.getX() + element.getWidth() : rightLimit;
 					bottomLimit = (element.getY() + element.getHeight()) > bottomLimit ? element.getY() + element.getHeight() : bottomLimit;
 				}
@@ -2226,6 +2255,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		if (styleBuffer.length() > 0)
 		{
 			writer.write(" style=\"");
+			//writer.write(" style=\"overflow:hidden;");
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
