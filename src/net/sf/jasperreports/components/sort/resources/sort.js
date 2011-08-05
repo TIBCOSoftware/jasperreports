@@ -88,7 +88,3 @@
 	
 	global.JasperReports.modules.sort = js;
 } (this));
-
-jQuery(document).ready(function() {
-	JasperReports.modules.sort.init();
-});
