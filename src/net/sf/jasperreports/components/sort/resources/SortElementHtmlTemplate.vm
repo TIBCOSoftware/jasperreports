@@ -19,7 +19,7 @@
 </a>
 
 #if (${isFilterable})
-<div id='${filterDivId}' class='filterdiv' style='display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>
+<div id='${filterDivId}' class='filterdiv' style='text-align:center; display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>
 	<img class='hidefilter' align="right" src="${filterCloseDialogImageResource}" style='cursor: pointer;'/>
 	<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>
 		## <input type='hidden' name='${filterReportUriParamName}' value='${filterReportUriParamValue}' />
