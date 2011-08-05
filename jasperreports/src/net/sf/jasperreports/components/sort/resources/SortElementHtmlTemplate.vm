@@ -1,5 +1,5 @@
 <script class='jasperreports' type='text/javascript'>
-	JasperReports.modules.global.appendScriptElementToDOM('_sortScript','${resourceSortJs}');
+	JasperReports.modules.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'JasperReports.modules.sort.init');
 </script>
 
 <a href='${href}'
