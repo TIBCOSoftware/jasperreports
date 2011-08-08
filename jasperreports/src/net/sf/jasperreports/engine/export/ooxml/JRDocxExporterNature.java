@@ -29,8 +29,12 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
+import net.sf.jasperreports.engine.export.GenericElementHandler;
+import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
@@ -50,6 +54,26 @@ public class JRDocxExporterNature extends JROfficeOpenXmlExporterNature
 		super(filter);
 		
 		this.deepGrid = deepGrid;
+	}
+
+	/**
+	 * 
+	 */
+	public boolean isToExport(JRPrintElement element)
+	{
+		boolean isToExport = true;
+		if (element instanceof JRGenericPrintElement)
+		{
+			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
+					genericElement.getGenericType(), JRDocxExporter.DOCX_EXPORTER_KEY);
+			if (handler == null || !handler.toExport(genericElement))
+			{
+				isToExport = false;
+			}
+		}
+
+		return isToExport && super.isToExport(element);
 	}
 
 	/**
