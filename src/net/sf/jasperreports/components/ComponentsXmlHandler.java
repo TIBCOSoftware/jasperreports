@@ -468,7 +468,9 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());
 		writer.writeExpression("longitudeExpression", 
-			map.getLongitudeExpression());
+				map.getLongitudeExpression());
+		writer.writeExpression("zoomExpression", 
+				map.getZoomExpression());
 		
 		writer.closeElement();
 	}
