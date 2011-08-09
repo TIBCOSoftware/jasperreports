@@ -96,7 +96,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerFontSize", sortHandlerFontSize != null ? sortHandlerFontSize : "10");
 			
 			velocityContext.put("isFilterable", isFilterable != null && isFilterable.equalsIgnoreCase("true"));
-			velocityContext.put("filterDivId", "filter_dialog_" + this.hashCode());
+			velocityContext.put("filterDivId", "filter_" + sortTableName + "_" + sortColumnName);
 			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));

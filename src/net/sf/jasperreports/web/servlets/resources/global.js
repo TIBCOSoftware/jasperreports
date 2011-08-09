@@ -15,9 +15,13 @@ jQuery.noConflict();
 					scripts: {},
 					APPLICATION_CONTEXT_PATH: '',
 					JQUERY: {
-						CORE: '/jquery/js/jquery-1.6.2.min.js',
+						CORE: '/jquery/js/jquery-1.4.4.min.js',
 						UI: '/jquery/js/jquery-ui-1.8.9.custom.min.js'
-					}
+					},
+					events: {
+						SORT_INIT: 'sort_init'
+					},
+					eventSubcribers: {}
 				}
 			},
 		},
@@ -95,6 +99,27 @@ jQuery.noConflict();
 		}
 		jg.loadScript(scriptname, scripturi, callbackFn);
 	};
+	
+	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs) {
+		if (!jg.eventSubcribers[eventName]) {
+			jg.eventSubcribers[eventName] = [];
+		}
+		var arrEvent = jg.eventSubcribers[eventName];
+		arrEvent.push({
+			callbackfn: strCallbackFn,
+			callbackargs: arrCallbackArgs
+		});
+	};
+	
+	jg.processEvent = function (eventName) {
+		var subscribers = jg.eventSubcribers[eventName];
+		if (subscribers) {
+			for (var i = 0; i < subscribers.length; i++) {
+				var subscriber = subscribers[i];
+				jg.extractCallbackFunction(subscriber.callbackfn).apply(null, subscriber.callbackargs);
+			}
+		}
+	}
 	
 	jg.isEmpty = function(element) {
 		if (element == null || element == undefined || element == '') {
