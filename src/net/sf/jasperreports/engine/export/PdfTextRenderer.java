@@ -48,6 +48,8 @@ public class PdfTextRenderer extends AbstractTextRenderer
 	private JRPdfExporter pdfExporter;
 	private PdfContentByte pdfContentByte;
 	private int horizontalAlignment;
+	private float leftOffsetFactor;
+	private float rightOffsetFactor;
 
 	
 	/**
@@ -86,23 +88,17 @@ public class PdfTextRenderer extends AbstractTextRenderer
 		this.pdfContentByte = pdfContentByte;
 		
 		horizontalAlignment = Element.ALIGN_LEFT;
+		leftOffsetFactor = 0f;
+		rightOffsetFactor = 0f;
+		
+		//FIXMETAB 0.2f was a fair approximation
 		switch (text.getHorizontalAlignmentValue())
 		{
-			case LEFT :
+			case JUSTIFIED :
 			{
-				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
-				{
-					horizontalAlignment = Element.ALIGN_LEFT;
-				}
-				else
-				{
-					horizontalAlignment = Element.ALIGN_RIGHT;
-				}
-				break;
-			}
-			case CENTER :
-			{
-				horizontalAlignment = Element.ALIGN_CENTER;
+				horizontalAlignment = Element.ALIGN_JUSTIFIED_ALL;
+				leftOffsetFactor = 0f;
+				rightOffsetFactor = 0f;
 				break;
 			}
 			case RIGHT :
@@ -115,16 +111,31 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				{
 					horizontalAlignment = Element.ALIGN_LEFT;
 				}
+				leftOffsetFactor = -0.2f;
+				rightOffsetFactor = 0f;
 				break;
 			}
-			case JUSTIFIED :
+			case CENTER :
 			{
-				horizontalAlignment = Element.ALIGN_JUSTIFIED_ALL;
+				horizontalAlignment = Element.ALIGN_CENTER;
+				leftOffsetFactor = -0.1f;
+				rightOffsetFactor = 0.1f;
 				break;
 			}
+			case LEFT :
 			default :
 			{
-				horizontalAlignment = Element.ALIGN_LEFT;
+				if (text.getRunDirectionValue() == RunDirectionEnum.LTR)
+				{
+					horizontalAlignment = Element.ALIGN_LEFT;
+				}
+				else
+				{
+					horizontalAlignment = Element.ALIGN_RIGHT;
+				}
+				leftOffsetFactor = 0f;
+				rightOffsetFactor = 0.2f;
+				break;
 			}
 		}
 
@@ -139,10 +150,12 @@ public class PdfTextRenderer extends AbstractTextRenderer
 	{
 		TabSegment segment = segments.get(segmentIndex);
 		
+		float advance = segment.layout.getAdvance();
+		
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
 			pdfExporter.getPhrase(segment.as, segment.text, text),
-			x + leftPadding + drawPosX,
+			x + leftPadding + drawPosX + leftOffsetFactor * advance,
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
@@ -150,7 +163,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				//- text.getLeadingOffset()
 				+ lineHeight
 				- drawPosY,
-			x + leftPadding + drawPosX  + (segment.layout.getAdvance() * 1.2f),//FIXMETAB that was a fair approximation
+			x + leftPadding + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
