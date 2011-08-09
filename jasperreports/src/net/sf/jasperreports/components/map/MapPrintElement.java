@@ -59,6 +59,10 @@ public final class MapPrintElement
 	 * The name of the parameter that provides the zoom.
 	 */
 	public static final String PARAMETER_ZOOM = "zoom";
+	/**
+	 * The cached image renderer.
+	 */
+	public static final String PARAMETER_CACHE_RENDERER = "cacheRenderer";
 	
 	/**
 	 *

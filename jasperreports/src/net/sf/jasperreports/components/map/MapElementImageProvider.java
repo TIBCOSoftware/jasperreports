@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
@@ -39,9 +40,9 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  */
 public class MapElementImageProvider
 {
-
 	public static JRPrintImage getImage(JRGenericPrintElement element) throws JRException
 	{
+		
 		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
 		latitude = latitude == null ? 0 : latitude;
 
@@ -50,7 +51,7 @@ public class MapElementImageProvider
 		
 		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
 		zoom = zoom == null ? 0 : zoom;
-		
+
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 		
@@ -85,10 +86,16 @@ public class MapElementImageProvider
         printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
         printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
         
-        JRImageRenderer renderer = (JRImageRenderer)JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
-        renderer.getImageData();
-        
-        printImage.setRenderer(JRImageRenderer.getInstance(imageLocation));
+		JRRenderable cacheRenderer = (JRRenderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
+
+		if(cacheRenderer == null)
+		{
+			cacheRenderer = JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
+			cacheRenderer.getImageData();
+			element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
+		}
+
+        printImage.setRenderer(cacheRenderer);
         
         return printImage;
 	}
