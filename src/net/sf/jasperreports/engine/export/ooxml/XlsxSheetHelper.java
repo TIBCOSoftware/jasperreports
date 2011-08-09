@@ -99,7 +99,7 @@ public class XlsxSheetHelper extends BaseHelper
 			String columnName = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
 				? "A" 
 				: JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
-			write(" topLeftCell=\"" + columnName + rowFreeze + "\"");
+			write(" topLeftCell=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
 			write(" activePane=\"bottomRight\" state=\"frozen\"/>\n");
 			write("<selection pane=\"topRight\"/>\n");
 			write("<selection pane=\"bottomLeft\"/>\n");
