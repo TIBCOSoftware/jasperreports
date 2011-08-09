@@ -60,6 +60,8 @@ public class HtmlComponentFill extends BaseFillComponent {
 	private	JRTemplateGenericElement template;
 	
 	private JRTemplateGenericPrintElement printElement;
+	
+	private boolean hasOverflowed;
 
 	
 	public HtmlComponentFill(HtmlComponent htmlComponent)
@@ -81,6 +83,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 	{
 		if (isEvaluateNow())
 		{
+			hasOverflowed = false;
 			evaluateHtmlComponent(evaluation);
 		}
 	}
@@ -145,9 +148,14 @@ public class HtmlComponentFill extends BaseFillComponent {
 			int printElementHeight = Math.max(imageHeight, element.getHeight());
 			
 			if (imageHeight <= availableHeight) {
-				result = FillPrepareResult.printStretch(printElementHeight, false);
+				result = FillPrepareResult.PRINT_NO_STRETCH;
 			} else {
-				result = FillPrepareResult.noPrintOverflow(printElementHeight);
+				if (hasOverflowed) {
+					result = FillPrepareResult.PRINT_NO_STRETCH;
+				} else {
+					result = FillPrepareResult.noPrintOverflow(printElementHeight);
+					hasOverflowed = true;
+				}
 			}
 			
 			if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
