@@ -97,6 +97,10 @@
 				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Name" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+			</componentElement>
 			<staticText>
 				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" style="pageHeader"/>
 				<textElement/>
