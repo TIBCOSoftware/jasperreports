@@ -4,11 +4,23 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="reqLatitude" class="java.lang.Float">
+		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
+	</parameter>
+	<parameter name="reqLongitude" class="java.lang.Float">
+		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))</defaultValueExpression>
+	</parameter>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression>Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))</defaultValueExpression>
+	</parameter>
 	<parameter name="latitude" class="java.lang.Float">
-		<defaultValueExpression>new Float(42.21f)</defaultValueExpression>
+		<defaultValueExpression>$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}</defaultValueExpression>
 	</parameter>
 	<parameter name="longitude" class="java.lang.Float">
-		<defaultValueExpression>new Float(-71.5f)</defaultValueExpression>
+		<defaultValueExpression>$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}</defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(12) : $P{reqZoom}</defaultValueExpression>
 	</parameter>
 	<title>
 		<band height="70">
@@ -56,6 +68,7 @@
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 				</c:map>
 			</componentElement>
 		</band>
