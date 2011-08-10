@@ -593,9 +593,6 @@ public class JRFillDataset implements JRDataset
 		scriptlets = createScriptlets(parameterValues);
 		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
 
-		setFillParameterValues(parameterValues);
-		
-		//FIXMEJIVE maybe this should be upper?
 		List<ParameterContributor> contributors = getParameterContributors(new ParameterContributorContext(parameterValues, this));//FIXMEJIVE null?
 		if (contributors != null)
 		{
@@ -604,6 +601,8 @@ public class JRFillDataset implements JRDataset
 				contributor.contributeParameters(parameterValues);
 			}
 		}
+
+		setFillParameterValues(parameterValues);
 	}
 	
 	
