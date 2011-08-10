@@ -27,7 +27,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -35,9 +34,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataAdapterService;
-import net.sf.jasperreports.data.DataAdapterServiceUtil;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -241,7 +237,7 @@ public class ReportServlet extends HttpServlet
 				throw new JRException("Report not found at : " + reportUri);
 			}
 
-			webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
+			//webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
 			
 //				Map parameters = new HashMap();
 			
@@ -251,18 +247,18 @@ public class ReportServlet extends HttpServlet
 //				}
 			
 			/* data adapter - start */
-			String dataAdapterUri = jasperReport.getProperty("net.sf.jasperreports.data.adapter");
-			if (dataAdapterUri != null)
-			{
-				//repoService.setFileResolver(fileResolver);
-
-				DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
-				DataAdapterService dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
-				
-				Map<String, Object> dasParams = dataAdapterService.getParameters();
-				//parameters.putAll(dasParams);
-				webReportContext.setParameterValues(dasParams);
-			}
+//			String dataAdapterUri = jasperReport.getProperty("net.sf.jasperreports.data.adapter");
+//			if (dataAdapterUri != null)
+//			{
+//				//repoService.setFileResolver(fileResolver);
+//
+//				DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
+//				DataAdapterService dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
+//				
+//				Map<String, Object> dasParams = dataAdapterService.getParameters();
+//				//parameters.putAll(dasParams);
+//				webReportContext.setParameterValues(dasParams);
+//			}
 			/* data adapter - end */
 			
 			jasperPrint = 

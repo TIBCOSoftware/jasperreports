@@ -46,7 +46,7 @@ public class WebReportContext implements ReportContext
 	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr.ctxid";
 
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
-	public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
+	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
 	/**
 	 *
