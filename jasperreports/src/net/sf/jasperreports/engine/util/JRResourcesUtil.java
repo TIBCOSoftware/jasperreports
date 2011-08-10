@@ -507,7 +507,6 @@ public final class JRResourcesUtil
 	 * 
 	 * @param location the resource name
 	 * @param clsLoader a class loader
-	 * @param clazz a class
 	 * @return the resource URL if found
 	 */
 	public static URL findClassLoaderResource(String location, ClassLoader clsLoader)
