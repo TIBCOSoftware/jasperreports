@@ -53,6 +53,9 @@ import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ParameterContributor;
+import net.sf.jasperreports.engine.ParameterContributorContext;
+import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
@@ -591,6 +594,16 @@ public class JRFillDataset implements JRDataset
 		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
 
 		setFillParameterValues(parameterValues);
+		
+		//FIXMEJIVE maybe this should be upper?
+		List<ParameterContributor> contributors = getParameterContributors(new ParameterContributorContext(parameterValues, this));//FIXMEJIVE null?
+		if (contributors != null)
+		{
+			for(ParameterContributor contributor : contributors)
+			{
+				contributor.contributeParameters(parameterValues);
+			}
+		}
 	}
 	
 	
@@ -653,6 +666,30 @@ public class JRFillDataset implements JRDataset
 	}
 
 
+	/**
+	 *
+	 */
+	private static List<ParameterContributor> getParameterContributors(ParameterContributorContext context) throws JRException
+	{
+		List<ParameterContributor> allContributors = null;
+		List<?> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ParameterContributorFactory.class);
+		if (factories != null && factories.size() > 0)
+		{
+			allContributors = new ArrayList<ParameterContributor>();
+			for (Iterator<?> it = factories.iterator(); it.hasNext();)
+			{
+				ParameterContributorFactory factory = (ParameterContributorFactory)it.next();
+				List<ParameterContributor> contributors = factory.getContributors(context);
+				if (contributors != null)
+				{
+					allContributors.addAll(contributors);
+				}
+			}
+		}
+		return allContributors;
+	}
+
+	
 	/**
 	 * Returns the map of parameter values.
 	 * 

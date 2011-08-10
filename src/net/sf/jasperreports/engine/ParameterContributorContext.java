@@ -21,91 +21,67 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.engine;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
+ * @version $Id: ScriptletFactoryContext.java 4391 2011-06-08 13:17:35Z shertage $
  */
-public abstract class AbstractDataAdapterService implements DataAdapterService
+public class ParameterContributorContext
 {
+
 	/**
 	 *
 	 */
-	private String name;
-	private DataAdapter dataAdapter;
-    
-	/**
-	 * FIXME consider removing
-	 */
-	public AbstractDataAdapterService()
-	{
-	}
-	  
+	private JasperReport jasperReport;
+	private JRDataset dataset;
+	private Map<String,Object> parameterValues;
+
 	/**
 	 *
 	 */
-	public AbstractDataAdapterService(DataAdapter dataAdapter)
+	public ParameterContributorContext(Map<String,Object> parameterValues, JRDataset dataset)
 	{
-		this.dataAdapter = dataAdapter;
+		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
+		this.dataset = dataset;
+		this.parameterValues = parameterValues;
 	}
-	  
+
 	/**
-	 *
+	 * Returns the {@link JasperReport} object for this context.
+	 * 
+	 * <p>
+	 * Note that this context might correspond to a subdataset in the report.
+	 * Use {@link #getDataset()} to retrieve the dataset for which scriptlets
+	 * are to be created
+	 * </p>
+	 * 
+	 * @return the current {@link JasperReport} object
+	 * @see #getDataset()
 	 */
-	public String getName()
+	public JasperReport getJasperReport()
 	{
-		return name;
+		return jasperReport;
 	}
-	  
-	/**
-	 *
-	 */
-	public void setName(String name)
-	{
-		this.name = name;
-	}
-	  
-	/**
-	 *
-	 */
-	public DataAdapter getDataAdapter()
-	{
-		return dataAdapter;
-	}
-	  
-	/**
-	 * FIXME consider removing
-	 */
-	public void setDataAdapter(DataAdapter dataAdapter)
-	{
-		this.dataAdapter = dataAdapter;
-	}
-	  
-	/**
-	 *
-	 */
-	public abstract void contributeParameters(Map<String, Object> parameters) throws JRException;
 	
 	/**
 	 *
 	 */
-	public void dispose() 
+	public Map<String,Object> getParameterValues()
 	{
+		return parameterValues;
 	}
-
+	
 	/**
-	 *
+	 * Returns the dataset for which scriptlets are to be created.
+	 * 
+	 * @return a dataset
 	 */
-	public void test() throws JRException
+	public JRDataset getDataset()
 	{
-		contributeParameters(new HashMap<String, Object>());
-		dispose();
+		return dataset;
 	}
- 
 }
