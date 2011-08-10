@@ -5,12 +5,7 @@
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<subDataset name="TableDataset">
-		<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state, latitude, longitude"/>
-		<property name="net.sf.jasperreports.csv.source" value="/data/CsvDataSource.csv"/>
-		<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
-			<defaultValueExpression><![CDATA["\r\n"]]></defaultValueExpression>
-		</parameter>
-		<parameter name="tableVisibleColumns" class="java.util.Set"/>
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
 		<queryString language="csv">
 			<![CDATA[]]>
 		</queryString>
@@ -55,9 +50,6 @@
 			<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		</group>
 	</subDataset>
-	<parameter name="tableVisibleColumns" class="java.util.Set">
-		<defaultValueExpression><![CDATA[new java.util.HashSet(java.util.Arrays.asList(new String[]{"id","name","address"}))]]></defaultValueExpression>
-	</parameter>
 	<title>
 		<band height="70">
 			<line>
@@ -76,7 +68,7 @@
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["CSV Query Executer"]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["CSV Data Adapter"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -105,9 +97,6 @@
 					xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
 					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="TableDataset">
-						<datasetParameter name="tableVisibleColumns">
-							<datasetParameterExpression><![CDATA[$P{tableVisibleColumns}]]></datasetParameterExpression>
-						</datasetParameter>
 					</datasetRun>
 					<jr:columnGroup width="515">
 						<jr:groupHeader groupName="CityGroup">
@@ -120,11 +109,8 @@
 									<textElement/>
 									<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{city})]]></textFieldExpression>
 									<anchorNameExpression><![CDATA[String.valueOf($F{city})]]></anchorNameExpression>
-									<hyperlinkParameter name="report.uri">
-										<hyperlinkParameterExpression><![CDATA["/organization_1/reports/MapReport"]]></hyperlinkParameterExpression>
-									</hyperlinkParameter>
-									<hyperlinkParameter name="report.action">
-										<hyperlinkParameterExpression><![CDATA["map"]]></hyperlinkParameterExpression>
+									<hyperlinkParameter name="jr.uri">
+										<hyperlinkParameterExpression><![CDATA["/reports/MapReport"]]></hyperlinkParameterExpression>
 									</hyperlinkParameter>
 									<hyperlinkParameter name="latitude">
 										<hyperlinkParameterExpression><![CDATA[$V{latitude}]]></hyperlinkParameterExpression>
@@ -163,7 +149,6 @@
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="205">
-							<printWhenExpression><![CDATA[$P{tableVisibleColumns}.contains("name") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
 							<jr:groupHeader groupName="CityGroup">
 								<jr:cell height="0"/>
 							</jr:groupHeader>
@@ -187,7 +172,6 @@
 							</jr:detailCell>
 						</jr:column>
 						<jr:column width="255">
-							<printWhenExpression><![CDATA[$P{tableVisibleColumns}.contains("address") ? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
 							<jr:groupHeader groupName="CityGroup">
 								<jr:cell height="0"/>
 							</jr:groupHeader>
