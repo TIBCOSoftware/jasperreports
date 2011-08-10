@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine.fill;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
@@ -46,26 +45,26 @@ public final class JREvaluationTime implements Serializable
 
 
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_REPORT EvaluationTimeEnum.REPORT}.
+	 * Evaluation time corresponding to {@link EvaluationTimeEnum#REPORT EvaluationTimeEnum.REPORT}.
 	 */
 	public static final JREvaluationTime EVALUATION_TIME_REPORT = new JREvaluationTime(EvaluationTimeEnum.REPORT, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_PAGE EvaluationTimeEnum.PAGE}.
+	 * Evaluation time corresponding to {@link EvaluationTimeEnum#PAGE EvaluationTimeEnum.PAGE}.
 	 */
 	public static final JREvaluationTime EVALUATION_TIME_PAGE = new JREvaluationTime(EvaluationTimeEnum.PAGE, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_COLUMN EvaluationTimeEnum.COLUMN}.
+	 * Evaluation time corresponding to {@link EvaluationTimeEnum#COLUMN EvaluationTimeEnum.COLUMN}.
 	 */
 	public static final JREvaluationTime EVALUATION_TIME_COLUMN = new JREvaluationTime(EvaluationTimeEnum.COLUMN, null, null);
 	/**
-	 * Evaluation time corresponding to {@link JRExpression#EVALUATION_TIME_NOW EvaluationTimeEnum.NOW}.
+	 * Evaluation time corresponding to {@link EvaluationTimeEnum#NOW EvaluationTimeEnum.NOW}.
 	 */
 	public static final JREvaluationTime EVALUATION_TIME_NOW = new JREvaluationTime(EvaluationTimeEnum.NOW, null, null);
 	
 	
 	/**
 	 * Returns the evaluation time corresponding to
-	 * {@link JRExpression#EVALUATION_TIME_GROUP EvaluationTimeEnum.GROUP} for a specific group.
+	 * {@link EvaluationTimeEnum#GROUP EvaluationTimeEnum.GROUP} for a specific group.
 	 * 
 	 * @param groupName the group name
 	 * @return corresponding group evaluation time
@@ -77,7 +76,7 @@ public final class JREvaluationTime implements Serializable
 	
 	/**
 	 * Returns the evaluation time corresponding to
-	 * {@link JRExpression#EVALUATION_TIME_BAND EvaluationTimeEnum.BAND} for a specific band.
+	 * {@link EvaluationTimeEnum#BAND EvaluationTimeEnum.BAND} for a specific band.
 	 * 
 	 * @param band the band
 	 * @return corresponding band evaluation time
@@ -92,9 +91,9 @@ public final class JREvaluationTime implements Serializable
 	 * Returns the evaluation time corresponding to an evaluation time type.
 	 * 
 	 * @param type the evaluation time type
-	 * @param group the group used for {@link JRExpression#EVALUATION_TIME_GROUP EvaluationTimeEnum.GROUP}
+	 * @param group the group used for {@link EvaluationTimeEnum#GROUP EvaluationTimeEnum.GROUP}
 	 * 	evaluation time type
-	 * @param band the band used for {@link JRExpression#EVALUATION_TIME_BAND EvaluationTimeEnum.BAND}
+	 * @param band the band used for {@link EvaluationTimeEnum#BAND EvaluationTimeEnum.BAND}
 	 * 	evaluation time type
 	 * @return the evaluation time corresponding to an evaluation time type
 	 */

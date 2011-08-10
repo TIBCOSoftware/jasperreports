@@ -108,9 +108,9 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * or the referred document location.
 	 * <p>
 	 * This expression is used when the hyperlink type is
-	 * {@link JRHyperlink#HYPERLINK_TYPE_REFERENCE JRHyperlink.HYPERLINK_TYPE_REFERENCE},
-	 * {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_ANCHOR JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR} or
-	 * {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_PAGE JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE}.
+	 * {@link HyperlinkTypeEnum#REFERENCE HyperlinkTypeEnum.REFERENCE},
+	 * {@link HyperlinkTypeEnum#REMOTE_ANCHOR HyperlinkTypeEnum.REMOTE_ANCHOR} or
+	 * {@link HyperlinkTypeEnum#REMOTE_PAGE HyperlinkTypeEnum.REMOTE_PAGE}.
 	 * The type of the expression should be <code>java.lang.String</code>
 	 * </p>
 	 * 
@@ -129,8 +129,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * Sets the expression that will generate the referred anchor.
 	 * <p>
 	 * This expression is used when the hyperlink type is
-	 * {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_ANCHOR JRHyperlink.HYPERLINK_TYPE_LOCAL_ANCHOR} or
-	 * {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_ANCHOR JRHyperlink.HYPERLINK_TYPE_REMOTE_ANCHOR}.
+	 * {@link HyperlinkTypeEnum#LOCAL_ANCHOR HyperlinkTypeEnum.LOCAL_ANCHOR} or
+	 * {@link HyperlinkTypeEnum#REMOTE_ANCHOR HyperlinkTypeEnum.REMOTE_ANCHOR}.
 	 * The type of the expression should be <code>java.lang.String</code>
 	 * </p>
 	 * 
@@ -149,8 +149,8 @@ public class JRDesignHyperlink extends JRBaseHyperlink implements JRChangeEvents
 	 * Sets the expression that will generate the referred page.
 	 * <p>
 	 * This expression is used when the hyperlink type is
-	 * {@link JRHyperlink#HYPERLINK_TYPE_LOCAL_PAGE JRHyperlink.HYPERLINK_TYPE_LOCAL_PAGE} or
-	 * {@link JRHyperlink#HYPERLINK_TYPE_REMOTE_PAGE JRHyperlink.HYPERLINK_TYPE_REMOTE_PAGE}.
+	 * {@link HyperlinkTypeEnum#LOCAL_PAGE HyperlinkTypeEnum.LOCAL_PAGE} or
+	 * {@link HyperlinkTypeEnum#REMOTE_PAGE HyperlinkTypeEnum.REMOTE_PAGE}.
 	 * The type of the expression should be <code>java.lang.Integer</code>
 	 * </p>
 	 * 

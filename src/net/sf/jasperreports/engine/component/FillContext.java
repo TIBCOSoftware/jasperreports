@@ -101,14 +101,14 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * @param printElement the print element
 	 * @param evaluationTime the delayed evaluation time; one of
 	 * <ul>
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_BAND}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_COLUMN}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_PAGE}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_GROUP}
-	 * 	<li>{@link JRExpression#EVALUATION_TIME_REPORT}
+	 * 	<li>{@link EvaluationTimeEnum#BAND}
+	 * 	<li>{@link EvaluationTimeEnum#COLUMN}
+	 * 	<li>{@link EvaluationTimeEnum#PAGE}
+	 * 	<li>{@link EvaluationTimeEnum#GROUP}
+	 * 	<li>{@link EvaluationTimeEnum#REPORT}
 	 * </ul>
 	 * @param evaluationGroup the evaluation group name, if
-	 * <code>evaluationTime</code> is {@link JRExpression#EVALUATION_TIME_GROUP}
+	 * <code>evaluationTime</code> is {@link EvaluationTimeEnum#GROUP}
 	 * @see FillComponent#evaluateDelayedElement(JRPrintElement, byte)
 	 */
 	void registerDelayedEvaluation(JRPrintElement printElement, 
