@@ -68,11 +68,10 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)
 		{
-			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
 			String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
 			{
-				webResourcesBasePath = (appContextPath == null ? "" : appContextPath) + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
 			velocityContext.put("resourceMapJs", webResourcesBasePath + MapElementHtmlHandler.RESOURCE_MAP_JS);
 		}
