@@ -23,22 +23,16 @@
  */
 package net.sf.jasperreports.data;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.ParameterContributor;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
  */
-public interface DataAdapterService
+public interface DataAdapterService extends ParameterContributor
 {
     
-	/**
-	 *
-	 */
-	public Map<String, Object> getParameters() throws JRException;//FIXME which is best? getParameters or contributeParameters
-  
 	/**
 	 *
 	 */
