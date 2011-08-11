@@ -81,8 +81,8 @@ public interface JRGenericElement extends JRElement
 	/**
 	 * Returns the name of the evaluation group for this element.
 	 * The evaluation group is only present when
-	 * {@link #getEvaluationTime() the evaluation time} is
-	 * {@link JRExpression#EVALUATION_TIME_GROUP}.
+	 * {@link #getEvaluationTimeValue() the evaluation time} is
+	 * {@link EvaluationTimeEnum#GROUP}.
 	 * 
 	 * @return the name of the evaluation group for this element
 	 */

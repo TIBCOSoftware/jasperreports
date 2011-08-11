@@ -56,7 +56,7 @@ public class JavaScriptCompileData implements Serializable
 		private final String estimatedExpression;
 		
 		/**
-		 * @deprecated Replaced by {@link Expression#Expression(String, String, String)}.
+		 * @deprecated To be removed.
 		 */
 		public Expression(String type, String defaultExpression,
 				String estimatedExpression, String oldExpression)

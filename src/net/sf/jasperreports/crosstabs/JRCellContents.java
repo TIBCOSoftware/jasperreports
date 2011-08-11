@@ -158,8 +158,8 @@ public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxC
 	/**
 	 * Returns the cell transparency mode.
 	 * 
-	 * @return {@link net.sf.jasperreports.engine.JRElement#MODE_OPAQUE MODE_OPAQUE}
-	 * or {@link net.sf.jasperreports.engine.JRElement#MODE_TRANSPARENT MODE_TRANSPARENT}
+	 * @return {@link ModeEnum#OPAQUE}
+	 * or {@link ModeEnum#TRANSPARENT}
 	 */
 	public ModeEnum getModeValue();
 }

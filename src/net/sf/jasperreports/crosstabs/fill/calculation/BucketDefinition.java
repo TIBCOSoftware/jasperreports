@@ -86,7 +86,7 @@ public class BucketDefinition
 	 * @param valueClass the class of the bucket values
 	 * @param orderByExpression expression that provides order by values
 	 * @param comparator the comparator to use for bucket sorting
-	 * @param order the order type, {@link #ORDER_ASCENDING ORDER_ASCENDING} or {@link #ORDER_DESCENDING ORDER_DESCENDING} descending
+	 * @param order the order type, {@link SortOrderEnum#ASCENDING} or {@link SortOrderEnum#DESCENDING} descending
 	 * @param totalPosition the position of the total bucket
 	 * @throws JRException
 	 */

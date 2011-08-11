@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see net.sf.jasperreports.engine.util.JRProperties#SUBREPORT_RUNNER_FACTORY
  */
 public interface JRSubreportRunnerFactory
 {

@@ -224,7 +224,7 @@ public final class JRLoader
 
 
 	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
+	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
 	 */
 	public static Object loadObjectFromLocation(String location) throws JRException
 	{
@@ -233,7 +233,7 @@ public final class JRLoader
 
 
 	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
+	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
 	 */
 	public static Object loadObjectFromLocation(String location, ClassLoader classLoader) throws JRException
 	{
@@ -242,7 +242,7 @@ public final class JRLoader
 
 	
 	/**
-	 * @deprecated Replaced by {@link RepositoryUtil#loadObject(String)}.
+	 * @deprecated Replaced by {@link RepositoryUtil#getResource(String, Class)}.
 	 */
 	public static Object loadObjectFromLocation(
 		String location, 

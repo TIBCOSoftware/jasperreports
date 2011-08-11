@@ -60,7 +60,7 @@ public interface ListContents extends JRElementGroup
 	 * </p>
 	 * 
 	 * @return the width of the list contents
-	 * @see ListComponent#getPrintOrder()
+	 * @see ListComponent#getPrintOrderValue()
 	 * @see ListComponent#getIgnoreWidth()
 	 */
 	Integer getWidth();

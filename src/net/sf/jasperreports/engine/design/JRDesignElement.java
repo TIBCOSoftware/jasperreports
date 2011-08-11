@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
+import net.sf.jasperreports.engine.type.StretchTypeEnum;
 
 
 /**
@@ -142,7 +143,7 @@ public abstract class JRDesignElement extends JRBaseElement
 	/**
 	 * Specifies the logical group that the element belongs to. More elements can be grouped in order to get the height
 	 * of the tallest one.
-	 * @see net.sf.jasperreports.engine.JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
+	 * @see StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT
 	 */
 	public void setElementGroup(JRElementGroup elementGroup)
 	{

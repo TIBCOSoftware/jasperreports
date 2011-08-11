@@ -135,7 +135,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 
 	/**
-	 * @param columnName the columnName to set
+	 * @param sortFieldName the sort field name to set
 	 */
 	public void setSortFieldName(String sortFieldName) {
 		Object old = this.sortFieldName;
@@ -152,7 +152,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	}
 
 	/**
-	 * @param columnType the columnType to set
+	 * @param sortFieldType the sort field type to set
 	 */
 	public void setSortFieldType(String sortFieldType) {
 		Object old = this.sortFieldType;

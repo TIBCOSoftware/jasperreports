@@ -50,12 +50,9 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * and for getting the XML representation of report design objects for
  * storage or network transfer.
  * 
- * Report compilation using this class is delegated to the
- * {@link net.sf.jasperreports.engine.design.JRDefaultCompiler}.
- * 
  * @see net.sf.jasperreports.engine.design.JasperDesign
  * @see net.sf.jasperreports.engine.JasperReport
- * @see net.sf.jasperreports.engine.design.JRDefaultCompiler
+ * @see net.sf.jasperreports.engine.design.JRCompiler
  * @see net.sf.jasperreports.engine.design.JRVerifier
  * @see net.sf.jasperreports.engine.xml.JRXmlLoader
  * @see net.sf.jasperreports.engine.xml.JRXmlWriter
@@ -208,7 +205,7 @@ public final class JasperCompileManager
 	 *
 	 * @param jasperDesign source report design object
 	 * @return compiled report design object 
-	 * @see net.sf.jasperreports.engine.design.JRDefaultCompiler
+	 * @see net.sf.jasperreports.engine.design.JRCompiler
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{

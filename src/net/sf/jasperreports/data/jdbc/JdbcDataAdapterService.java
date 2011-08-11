@@ -47,56 +47,55 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 	
 	private Connection connection = null; 
 
-	/**
-	 * This classloader is used to load JDBC drivers available in the set of
-	 * paths provided by classpathPaths.
-	 *
-	private ClassLoader classLoader = null;
-
-	/**
-	 * Same as getDriversClassLoader(false)
-	 * 
-	 * @return
-	 *
-	public ClassLoader getClassLoader() {
-		return getClassLoader(false);
-	}
-
-	/**
-	 * Return the classloader, an URLClassLoader made up with all the paths
-	 * defined to look for Drivers (mainly jars).
-	 * 
-	 * @param reload
-	 *            - if true, it forces a classloader rebuilt with the set of
-	 *            paths in classpathPaths.
-	 * @return
-	 *
-	public ClassLoader getClassLoader(boolean reload) {
-		if (classLoader == null || reload) {
-			List<String> paths = ((JdbcDataAdapter) getDataAdapter())
-					.getClasspathPaths();
-			List<URL> urls = new ArrayList<URL>();
-			for (String p : paths) {
-				FileResolver fileResolver = JRResourcesUtil
-						.getFileResolver(null);
-				File f = fileResolver.resolveFile(p);
-
-				if (f != null && f.exists()) {
-					try {
-						urls.add(f.toURI().toURL());
-					} catch (MalformedURLException e) {
-						// e.printStackTrace();
-						// We don't care if the entry cannot be found.
-					}
-				}
-			}
-
-			classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
-		}
-
-		return classLoader;
-	}
-	*/
+//	/**
+//	 * This classloader is used to load JDBC drivers available in the set of
+//	 * paths provided by classpathPaths.
+//	 */
+//	private ClassLoader classLoader = null;
+//
+//	/**
+//	 * Same as getDriversClassLoader(false)
+//	 * 
+//	 * @return
+//	 */
+//	public ClassLoader getClassLoader() {
+//		return getClassLoader(false);
+//	}
+//
+//	/**
+//	 * Return the classloader, an URLClassLoader made up with all the paths
+//	 * defined to look for Drivers (mainly jars).
+//	 * 
+//	 * @param reload
+//	 *            - if true, it forces a classloader rebuilt with the set of
+//	 *            paths in classpathPaths.
+//	 * @return
+//	 */
+//	public ClassLoader getClassLoader(boolean reload) {
+//		if (classLoader == null || reload) {
+//			List<String> paths = ((JdbcDataAdapter) getDataAdapter())
+//					.getClasspathPaths();
+//			List<URL> urls = new ArrayList<URL>();
+//			for (String p : paths) {
+//				FileResolver fileResolver = JRResourcesUtil
+//						.getFileResolver(null);
+//				File f = fileResolver.resolveFile(p);
+//
+//				if (f != null && f.exists()) {
+//					try {
+//						urls.add(f.toURI().toURL());
+//					} catch (MalformedURLException e) {
+//						// e.printStackTrace();
+//						// We don't care if the entry cannot be found.
+//					}
+//				}
+//			}
+//
+//			classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]));
+//		}
+//
+//		return classLoader;
+//	}
 
 	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) {
 		super(jdbcDataAdapter);

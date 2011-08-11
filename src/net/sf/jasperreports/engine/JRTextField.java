@@ -89,7 +89,7 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 
 	/**
 	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
-	 * @see JRExpression#EVALUATION_TIME_GROUP
+	 * @see EvaluationTimeEnum#GROUP
 	 */
 	public JRGroup getEvaluationGroup();
 		

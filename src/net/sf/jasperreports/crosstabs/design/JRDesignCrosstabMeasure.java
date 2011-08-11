@@ -79,7 +79,7 @@ public class JRDesignCrosstabMeasure extends JRBaseCrosstabMeasure implements JR
 	 * Sets the calculation type.
 	 * 
 	 * @param calculationValue the calculation type
-	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getCalculation()
+	 * @see net.sf.jasperreports.crosstabs.JRCrosstabMeasure#getCalculationValue()
 	 */
 	public void setCalculation(CalculationEnum calculationValue)
 	{

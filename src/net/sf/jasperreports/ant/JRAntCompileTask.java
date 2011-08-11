@@ -174,8 +174,7 @@ public class JRAntCompileTask extends MatchingTask
 	 * The specified class should be an implementation of the 
 	 * {@link net.sf.jasperreports.engine.design.JRCompiler} interface.
 	 * When specified, this value will temporarily override the value of the
-	 * <code>jasper.reports.compiler.class</code> system property which in turn 
-	 * is used by the {@link net.sf.jasperreports.engine.design.JRDefaultCompiler}.
+	 * <code>jasper.reports.compiler.class</code> system property.
 	 * 
 	 * @param compiler report compiler class name
 	 */

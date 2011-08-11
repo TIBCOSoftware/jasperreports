@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 
 
@@ -68,7 +69,7 @@ public interface JRHyperlink extends JRCloneable
 	 * The actual hyperlink target is determined by {@link #getLinkTarget() getLinkTarget()}.
 	 * This method can is used to determine whether the hyperlink target is one of the
 	 * built-in target names or a custom one. 
-	 * When hyperlink has a custom target name, {@link #HYPERLINK_TARGET_CUSTOM HYPERLINK_TYPE_CUSTOM} is returned.
+	 * When hyperlink has a custom target name, {@link HyperlinkTargetEnum#CUSTOM} is returned.
 	 * </p>
 	 * @return one of the hyperlink target constants
 	 * @see #getLinkTarget()

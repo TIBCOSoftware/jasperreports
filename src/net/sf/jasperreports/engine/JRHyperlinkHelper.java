@@ -47,7 +47,7 @@ public final class JRHyperlinkHelper
 	
 
 	/**
-	 * Returns the built-in hyperlink type, or {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM JRHyperlink.HYPERLINK_TYPE_CUSTOM}
+	 * Returns the built-in hyperlink type, or {@link HyperlinkTypeEnum#CUSTOM HyperlinkTypeEnum.CUSTOM}
 	 * if the type is not a built-in type.
 	 * 
 	 * @param hyperlink the hyperlink object
@@ -69,7 +69,7 @@ public final class JRHyperlinkHelper
 	
 	
 	/**
-	 * Returns the built-in hyperlink type, or {@link JRHyperlink#HYPERLINK_TYPE_CUSTOM JRHyperlink.HYPERLINK_TYPE_CUSTOM}
+	 * Returns the built-in hyperlink type, or {@link HyperlinkTypeEnum#CUSTOM HyperlinkTypeEnum.CUSTOM}
 	 * if the type is not a built-in type.
 	 * 
 	 * @param linkType the link type
@@ -99,7 +99,7 @@ public final class JRHyperlinkHelper
 	
 
 	/**
-	 * Returns the built-in hyperlink target, or {@link JRHyperlink#HYPERLINK_TARGET_CUSTOM JRHyperlink.HYPERLINK_TARGET_CUSTOM}
+	 * Returns the built-in hyperlink target, or {@link HyperlinkTargetEnum#CUSTOM HyperlinkTargetEnum.CUSTOM}
 	 * if the target name is not a built-in one.
 	 * 
 	 * @param hyperlink the hyperlink object
