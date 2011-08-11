@@ -139,6 +139,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRExpressionChunk.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRFont.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRFrame.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRGenericPrintElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRGraphicElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlinkHelper*.class"/>
@@ -199,8 +200,7 @@
 				<include name="**/net/sf/jasperreports/engine/export/ResetableExporterFilter.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRExportProgressMonitor.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRExporterContext.class"/>
-				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter.class"/>
-				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporterParameter.class"/>
+				<include name="**/net/sf/jasperreports/engine/export/JRGraphics2DExporter*.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRHyperlinkProducer.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JRHyperlinkProducerFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/export/JROriginExporterFilter.class"/>
@@ -223,6 +223,8 @@
 				<include name="**/net/sf/jasperreports/engine/fill/JRTemplate*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRRecordedValues*.class"/>
 				<include name="**/net/sf/jasperreports/engine/fill/JRVirtualizationContext.class"/>
+				<include name="**/net/sf/jasperreports/engine/fill/SimpleTextFormat.class"/>
+				<include name="**/net/sf/jasperreports/engine/fill/TextFormat.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/FontExtensionsRegistry.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/FontFace.class"/>
 				<include name="**/net/sf/jasperreports/engine/fonts/FontFamily.class"/>
@@ -272,6 +274,13 @@
 				<include name="**/net/sf/jasperreports/extensions/ExtensionsRegistry.class"/>
 				<include name="**/net/sf/jasperreports/extensions/ExtensionsRegistryFactory.class"/>
 				<include name="**/net/sf/jasperreports/renderers/JCommonDrawableRenderer.class"/>
+				<include name="**/net/sf/jasperreports/repo/DefaultRepositoryService.class"/>
+				<include name="**/net/sf/jasperreports/repo/RepositoryContext.class"/>
+				<include name="**/net/sf/jasperreports/repo/RepositoryService.class"/>
+				<include name="**/net/sf/jasperreports/repo/RepositoryServiceFactory.class"/>
+				<include name="**/net/sf/jasperreports/repo/RepositoryUtil.class"/>
+				<include name="**/net/sf/jasperreports/repo/Resource.class"/>
+				<include name="**/net/sf/jasperreports/repo/SimpleRepositoryContext.class"/>
 				<include name="**/net/sf/jasperreports/view/JasperViewer*.class"/>
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
 				<include name="**/net/sf/jasperreports/view/JRHyperlinkListener.class"/>
