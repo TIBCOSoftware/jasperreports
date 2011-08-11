@@ -2,10 +2,66 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.1.1 (2011-0x-xx, SVN xxxx)
+JasperReports 4.1.1 (2011-08-11, SVN 4550)
 ---------------------------------------------
-- deprecated code for JRReportFont, JRBox and graphic element pen property
-was removed from the library's API;
+- deprecated code for JRReportFont, JRBox, graphic element pen property
+and all deprecated byte-based properties were removed from the library's API;
+
+- the whole JR source code was overhauled to make use of Java5-style Generics;
+
+- value class property is now deprecated in expression objects; the type of
+expression no longer needs to be specified;
+
+- the library's API was extented with a new repository API, which is used now
+throughout the reporting engine to locate report resources such as images, fonts, 
+subreports, etc; 
+
+- new parameter contributor interface was added to the engine to allow parameter
+manipulation prior to query execution; parameter contributors can be plugged in as
+extensions;
+
+- new data adapter concept was added to the library's API to allow the reporting engine
+to connect to data directly, without the parent application providing the data the source 
+nor the query executer parameters, at report fill time;
+
+- new report executing servlet was added as part of a larger Web framework that
+is now available in the library's core API, to simplify deployment of JR inside
+Web applications and achieve higher degree of interactivity for reports;
+details about how this new Web framework can be used can be seen in the new
+/demo/samples/webapp-repo sample, which also makes use of the newly introduced
+repository API, to locate the report templates and their additional resources;
+
+- the table component was enhanced so that it is more interactive by default,
+when the reports are deployed in an application that makes use of the above mentioned
+Web framework; by default, table columns are sortable, while text columns are filtrable
+using a simple "contains" filter criteria; this can be seen in the TableReport
+deployed in the /demo/samples/webapp-repo sample;
+
+- new map component added to the core library to simplify rendering of Google maps
+inside reports;
+
+- new XLS metadata exporter added, similar to the CSV metadata exporter in which
+columns that need to be exported have to be marked-up using configuration properties 
+at text element level;
+
+- new XLSX data source and query executer added; details about how it works 
+are found in the new /demo/samples/xlsxdatasource sample;
+
+- pattern expression added to text fields elements to allow for more flexible
+dates and numbers formatting;
+
+- custom property "net.sf.jasperreports.export.xls.pattern" is now available to control
+cell formatting patterns in XLS/XLSX exporters;
+
+- new custom properties are available in XLS/XLSX exporters to freeze panes;
+
+- new "net.sf.jasperreports.image.dpi" custom property added to allow specifying 
+the image resolution in dots-per-inch, for the images created by the engine when 
+rasterizing SVGs or when clipping other image renderers;
+
+- the "net.sf.jasperreports.export.pdf.force.linebreak.policy" configuration property
+is now deprecated as the PDF text rendering code was refactored so that text is rendered 
+exactly like in AWT;
 
 - minor bug fixes and improvements;
 
