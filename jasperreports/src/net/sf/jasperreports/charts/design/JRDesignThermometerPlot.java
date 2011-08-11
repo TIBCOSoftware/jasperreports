@@ -72,7 +72,7 @@ public class JRDesignThermometerPlot extends JRBaseThermometerPlot
 	/**
 	 * Constructs a new plot that is a copy of an existing one.
 	 *
-	 * @param thermoPlot the plot to copy
+	 * @param plot the plot to copy
 	 */
 	public JRDesignThermometerPlot(JRChartPlot plot, JRChart chart)
 	{

@@ -30,10 +30,11 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * Recorded values container used by elements with
- * {@link net.sf.jasperreports.engine.JRExpression#EVALUATION_TIME_AUTO Auto evaluation time}.
+ * {@link EvaluationTimeEnum#AUTO Auto evaluation time}.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$

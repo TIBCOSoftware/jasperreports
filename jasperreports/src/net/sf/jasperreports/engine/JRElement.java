@@ -159,7 +159,7 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	/**
 	 * Indicates the logical group that the element belongs to. More elements can be grouped in order to get the height
 	 * of the tallest one.
-	 * @see JRElement#STRETCH_TYPE_RELATIVE_TO_TALLEST_OBJECT
+	 * @see StretchTypeEnum#RELATIVE_TO_TALLEST_OBJECT
 	 */
 	public JRElementGroup getElementGroup();
 

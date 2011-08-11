@@ -81,7 +81,7 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	/**
 	 * Construct a new meter plot by copying an existing one.
 	 *
-	 * @param meterPlot the plot to copy
+	 * @param plot the plot to copy
 	 */
 	public JRDesignMeterPlot(JRChartPlot plot, JRChart chart)
 	{

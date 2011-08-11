@@ -609,7 +609,6 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	 * </p>
 	 * @param currentRow
 	 * @param currentColumnName
-	 * @return
 	 */
 	protected boolean isColumnReadOnTime(Map<String, Object> currentRow, String currentColumnName)
 	{

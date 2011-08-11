@@ -126,7 +126,7 @@ public interface JRVariable extends JRCloneable
 
 	/**
 	 * Returns <code>true</code> if the variable calculation type is system defined.
-	 * @see JRVariable#CALCULATION_SYSTEM
+	 * @see CalculationEnum#SYSTEM
 	 */
 	public boolean isSystemDefined();
 
@@ -143,14 +143,14 @@ public interface JRVariable extends JRCloneable
 	public JRExpression getInitialValueExpression();
 		
 	/**
-	 * Returns the group whose break triggers the variable reset. Only used when {@link JRVariable#getResetType()} returns
-	 * {@link JRVariable#RESET_TYPE_GROUP}.
+	 * Returns the group whose break triggers the variable reset. Only used when {@link JRVariable#getResetTypeValue()} returns
+	 * {@link ResetTypeEnum#GROUP}.
 	 */
 	public JRGroup getResetGroup();
 		
 	/**
-	 * Returns the group whose break triggers the variable increment. Only used when {@link JRVariable#getIncrementType()} returns
-	 * {@link JRVariable#RESET_TYPE_GROUP}.
+	 * Returns the group whose break triggers the variable increment. Only used when {@link JRVariable#getIncrementTypeValue()} returns
+	 * {@link ResetTypeEnum#GROUP}.
 	 */
 	public JRGroup getIncrementGroup();
 		

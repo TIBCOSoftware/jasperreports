@@ -26,17 +26,18 @@ package net.sf.jasperreports.engine.fill;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * Interface implemented by print elements that can record field/variable values.
  * <p/>
- * An element having {@link net.sf.jasperreports.engine.JRExpression#EVALUATION_TIME_AUTO Auto evaluation time}
+ * An element having {@link EvaluationTimeEnum#AUTO Auto evaluation time}
  * will generate an instance of this type as print element.
  * This instance will be responsible of storing field/variable values until the element can be evaluated.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
- * @see net.sf.jasperreports.engine.JRExpression#EVALUATION_TIME_AUTO
+ * @see EvaluationTimeEnum#AUTO
  */
 public interface JRRecordedValuesPrintElement extends JRPrintElement
 {

@@ -65,7 +65,7 @@ public class JRDesignSection extends JRBaseSection
 	 * (e.g. detail/title/group header/etc).
 	 * The location is automatically set when the section is inserted
 	 * into the report (via one of the
-	 * {@link JasperDesign#setDetail(JRBand) setDetail}/
+	 * {@link JasperDesign#setPageHeader(JRBand)}/
 	 * methods).
 	 * 
 	 * @return the section origin

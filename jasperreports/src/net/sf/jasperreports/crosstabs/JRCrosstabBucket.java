@@ -77,7 +77,7 @@ public interface JRCrosstabBucket extends JRCloneable
 	 * Returns the comparator expression.
 	 * <p>
 	 * The result of this expression is used to sort the buckets, in ascending or
-	 * descending order (given by {@link #getOrder() getOrder()}.
+	 * descending order (given by {@link #getOrderValue() getOrderValue()}.
 	 * If the bucket has an order by expression, the comparator will be used to
 	 * compare values as produced by that expression.
 	 * If no comparator expression is specified, the natural order will be used.

@@ -292,7 +292,7 @@ public final class JasperRunManager
 	 * @param parameters the parameters map
 	 * @return binary PDF output
 	 * @throws JRException
-	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map<String,Object>)
+	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
