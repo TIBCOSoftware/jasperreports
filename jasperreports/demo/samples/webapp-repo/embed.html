@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>
+JasperReports - Web Application Sample
+</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
+<script type='text/javascript' src="jasperreports/js/jr-utils.js"></script>
+</head>
+
+<body bgcolor="white">
+<a name="top">
+
+<table width="700" cellpadding="0" cellspacing="0" border="0">
+  <tr class="doc">
+    <td width="100">
+    <table width="100%" cellpadding="10" cellspacing="1" border="0" bgcolor="#000000">
+    <tr><td bgcolor="#FFFFFF" align="center"><img src="images/jasperreports.png" border="0" height="25"/></td></tr>
+    </table>
+    </td>
+    <td width="600">&nbsp;&nbsp;&nbsp;<span class="header">repository</span></td>
+  </tr>
+  <tr valign="top">
+    <td class="doc">
+      <table width="100%" cellpadding="1" cellspacing="1" border="0">
+        <tr><td class="doc">&nbsp;</td></tr>
+        <tr><td class="menu">&nbsp;<a href="index.html" class="menu">home</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="repository.html" class="menu">repository</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="embed.html" class="menu">embed</span></a></td></tr>
+      </table>
+    </td>
+    <td>
+
+
+<div id="jivecontainer" style="float: left; border: 1px solid black;"></div>
+<div id="viewer2" style="float: right; border: 1px solid black;"></div>
+<script type="text/javascript">
+	JasperReportsUtils.viewer({
+		width: 600,
+		height: 600,
+		reporturl: 'servlets/report?jr.uri=reports/MapReport&jr.vwr=no'
+	});
+</script>
+
+
+    </td>
+  </tr>
+  <tr><td colspan="2"><hr size="1"></td></tr>
+  <tr><td colspan="2" align="center"><span class="small">Copyright &copy; 2001-2009 Jaspersoft Corporation </span><a href="http://www.jaspersoft.com" target="_blank"><span class="small">www.jaspersoft.com</span></a></td></tr>
+</table>
+
+</body>
+</html>
+

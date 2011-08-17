@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>unicode</name>
+  <title>Unicode Sample</title>
+  <description>Shows how text in different languages could be used inside reports.</description>
+
+  <mainFeature ref="unicode"/>
+  <secondaryFeature name="fontextensions" sample="fonts" title="Font Extensions"/>
+  
+  <!-- unicode -->
+  
+  <feature name="unicode" title="Creating Reports in Any Language Using Unicode Support">
+    <description>
+How to create reports in any language using unicode support.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="fonts"/>
+  	<otherSample ref="i18n"/>
+    <content>
+<b>Working with Texts in JasperReports</b>
+<br/>
+<br/>
+Working with texts needs some dedicated tools to process both character representations and text formatting properties. 
+Any text can be considered as a character sequence with a particular representation structure. The text appearance consists in 
+both layout (or paragraph) and font settings. But while in most cases the text layout remains invariant, font settings may change 
+when running the report in different locales. As already known, different languages need different character sets with respect to 
+specific characters representation.
+<br/> 
+Therefore, working with texts means first of all working with fonts. A detailed discussion about how to use fonts in JasperReports can 
+be found in both <a href="../fonts/index.html#fonts">Fonts</a> and <a href="../fonts/index.html#fontextensions">Font Extensions</a> sections of the 
+<a href="../fonts/index.html">Fonts</a> sample.
+<br/>
+One of the main features concerning the text content in a given report is the possibility to internationalize it. That means the same report can be run 
+without any hardcoded modification in different localized environments, using different languages and other localization settings. The only thing to 
+pay attention to is to provide an appropriate set of font files able to get correct representations for characters in report texts.
+<br/>
+And here is where this sample comes to show us how to.
+<br/>
+<br/>
+<b>Character Encodings</b>
+<br/>
+<br/>
+An important feature to consider when working with texts, especially if they are intended to be internationalized, 
+is the character encoding. That's because different charsets provide their own character representation for the same character code. 
+<br/>
+Usually the encoding attribute is specified in the header of the JRXML file and is used at report compilation time to decode the XML content. 
+For instance, if the report contains French words only and characters such as ç, é, â , then the ISO-8859-1 (a.k.a Latin-1) encoding is sufficient:
+<pre><![CDATA[
+  <?xml version="1.0" encoding="ISO-8859-1"?>]]></pre>
+As seen above, ideally would be to choose the encoding fit to the minimal character set which can correctly represent all the 
+characters in the document. But how about documents containing words in multiple languages? And how about internationalized texts?
+<br/>
+<br/>
+Concerning multilanguage documents (ie documents containing words spelled in several languages), one should choose the 
+encoding adapted to the minimal character set able to correctly represent all the 
+characters in the document, even if they belong to different languages. One of the character encodings able to handle multilingual  
+documents is the <code>UTF-8</code>, used as default encoding value by JasperReports.
+<br/>
+<br/>
+As for internationalized texts, these are usually kept in resource bundle files rather than within the document itself. So, there are 
+cases where the JRXML itself looks completely ASCII-compatible, but generated reports at runtime do contain texts totally unreadable with ASCII. 
+As consequence, for a certain type of document export formats (such as CSV, HTML, XHTML, XML, text) one has to know the encoding for the generated 
+document too. 
+<br/>
+More than that, 
+different languages are supported by different character encodings, so each time we need to run a report in a localized environment, we have to know which is the 
+most appropriate character encoding for the generated document language. In this case, the encoding property defined in the JRXML file itself might be no more useful.
+<br/> 
+To solve this kind of issues an export custom property was introduced: 
+<br/>
+<br/>
+<code>net.sf.jasperreports.export.character.encoding</code>
+<br/>
+<br/>
+which defaults to <code>UTF-8</code> too. This default value is set in the <code>default.jasperreports.properties</code> file.
+<br/>
+For more specific options at export time, the 
+<api href="net/sf/jasperreports/engine/JRExporterParameter.html#CHARACTER_ENCODING">CHARACTER_ENCODING</api> export parameter 
+is also available.
+<br/>
+<br/>
+<b>The Unicode Sample</b>
+<br/>
+<br/>
+The <code>UTF-8</code> encoding is one of the most recommended to be used with multilingual reports. It not only provides support for almost all 
+standardized languages, but also is handling the very simple and powerful escape sequence \uXXXX for Unicode characters. Any character encoded with <code>UTF-8</code> 
+can be represented using only its 4-digits hexadecimal code. For instance, the greek letter Γ can be written as \u0393.
+<br/>
+When such a notation is encountered, the engine calls for the appropriate character representation in the character set, and only that particular character 
+will be printed out.
+<br/>
+<br/>
+The sample provides a multilingual document containing several pieces of text written using the Unicode escape sequence. The JRXML content starts with 
+the header below:
+<pre><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>]]></pre>
+where one can see the presence of the <code>UTF-8</code> encoding.
+<br/>
+<br/>
+Next, localized Unicode pieces of text are stored in document parameters:
+<pre><![CDATA[
+  <parameter name="GreekText" class="java.lang.String" isForPrompting="false">
+    <defaultValueExpression>
+      \u0393 \u0394 \u0398 \u039B \u039E \u03A0 \u03A3 \u03A6 \u03A8 \u03A9
+    </defaultValueExpression>
+  </parameter>
+  <parameter name="CyrillicText" class="java.lang.String" isForPrompting="false">
+    <defaultValueExpression>
+      \u0402 \u040B \u040F \u0414 \u0416 \u0418 \u041B \u0426 \u0429 \u042E
+    </defaultValueExpression>
+  </parameter>
+  <parameter name="ChineseText" class="java.lang.String" isForPrompting="false">
+    <defaultValueExpression>
+      \u6211\u559c\u6b22\u4e2d\u56fd\u98df\u7269
+    </defaultValueExpression>
+  </parameter>
+  <parameter name="ArabicText" class="java.lang.String" isForPrompting="false">
+    <defaultValueExpression>
+      \u0647\u0630\u0627 \u0639\u0631\u0636 \u0644\u0645\u062C\u0645\u0648\u0639\u0629 TextLayout
+    </defaultValueExpression>
+  </parameter>
+  <parameter name="HebrewText" class="java.lang.String" isForPrompting="false">
+    <defaultValueExpression>
+      \u05D0\u05E0\u05D9 \u05DC\u05D0 \u05DE\u05D1\u05D9\u05DF \u05E2\u05D1\u05E8\u05D9\u05EA
+    </defaultValueExpression>
+  </parameter>]]></pre>
+When running the report, one can see that not only different languages can be grouped together on the same page, 
+but they can be mixed into the same text element too:
+<br/>
+<br/>
+<code> &lt;textFieldExpression class="java.lang.String"&gt;&lt;![CDATA[$P{GreekText} + "\n" + $P{CyrillicText}]]&gt;&lt;/textFieldExpression&gt;</code>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/unicode</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/unicode/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

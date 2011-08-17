@@ -1,0 +1,13 @@
+<HTML>
+<BODY LANG="en-US" DIR="LTR">
+<P ALIGN=LEFT STYLE="margin-bottom: 0in"><FONT FACE="DejaVu Sans, sans-serif"><FONT SIZE=4 STYLE="font-size: 16pt"><FONT COLOR="#000000">This
+is a </FONT><FONT COLOR="#000000"><I><U><B>text field</B></U></I></FONT><FONT COLOR="#000000"><I><B>
+</B></I></FONT><FONT COLOR="#000000"> element containing </FONT><FONT COLOR="#FF8800"><B><U><A HREF="http://en.wikipedia.org/wiki/HTML" target="_blank">HTML</A></U></B></FONT><FONT COLOR="#000000">
+ text. </FONT><FONT COLOR="#000000"><I><B><SPAN STYLE="background: #ffff00">HTML
+snippets</SPAN></B></I></FONT><FONT COLOR="#000000"> can be used
+inside text elements by setting the </FONT><FONT COLOR="#0000ff"><I>markup
+</I></FONT><FONT COLOR="#000000">attribute available for the
+</FONT><FONT COLOR="#ff00ff"><B>textElement </B></FONT><FONT COLOR="#000000">tag
+to </FONT><FONT COLOR="#ff0000"><I>html</I></FONT><FONT COLOR="#000000">.</FONT></FONT></FONT></P>
+</BODY>
+</HTML>

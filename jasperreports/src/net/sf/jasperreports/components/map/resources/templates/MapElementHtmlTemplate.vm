@@ -1,0 +1,62 @@
+#if (${divId} && ${divClass})
+	<div id='${divId}' class='${divClass}'
+#else 
+	<div
+#end
+#if(${xhtml})
+		style='position: absolute; left: ${elementX}; top: ${elementY}; width: ${elementWidth}px; height: ${elementHeight}px;
+#else
+		style='width: ${elementWidth}px; height: ${elementHeight}px;
+#end
+		#if(${backgroundColor}) 
+			background-color: \#${backgroundColor};
+		#end
+	'>
+		<div id='map_canvas' style='width: 100%; height: 100%; overflow: auto'></div>
+	</div>
+
+#if (${gotReportContext})
+	<script type='text/javascript'>
+		JasperReports.modules.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', function() {
+			var jm = JasperReports.modules.map; 
+			
+			jm.callback = function () {
+				var gg = google.maps,
+					latlng = new gg.LatLng('${latitude}', '${longitude}'),  
+					myOptions = {
+						zoom: ${zoom},
+						center: latlng, 
+						mapTypeId: gg.MapTypeId.ROADMAP 
+					},
+					map = new gg.Map(document.getElementById('map_canvas'), myOptions);
+			} 
+			
+			jm.init();
+			
+		});
+	</script>
+#else
+	<script class='jasperreports' type='text/javascript'>
+		function initGoogleMapsCallback() {
+			var gg = google.maps,
+				latlng = new gg.LatLng('${latitude}', '${longitude}'),  
+				myOptions = {
+					zoom: ${zoom},
+					center: latlng, 
+					mapTypeId: gg.MapTypeId.ROADMAP 
+				},
+				map = new gg.Map(document.getElementById('map_canvas'), myOptions);
+		}
+		(function () {
+			var scriptUrl = 'http://maps.google.com/maps/api/js?sensor=false&callback=initGoogleMapsCallback';
+			if (!window.google) {
+				var scriptElement = document.createElement('script');
+				scriptElement.setAttribute('type', 'text/javascript');
+				scriptElement.src = scriptUrl;
+				document.getElementsByTagName('head')[0].appendChild(scriptElement);
+			} else {
+				initGoogleMapsCallback();
+			}
+		}());
+	</script>
+#end

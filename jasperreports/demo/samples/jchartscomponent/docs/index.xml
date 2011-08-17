@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jchartscomponent</name>
+  <title>jCharts Component Sample</title>
+  <description>Shows how jCharts components can be included in reports.</description>
+
+  <mainFeature ref="jchartscomponent"/>
+  
+  <!-- jchartscomponent -->
+  
+  <feature name="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)">
+    <description>
+How to implement a custom component to wrap charts rendered by the <a href="http://jcharts.sourceforge.net/">jCharts</a> library.
+    </description>
+    <since>3.1.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="openflashchart"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

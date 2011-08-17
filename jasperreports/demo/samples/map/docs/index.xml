@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>map</name>
+  <title>Map Component Sample</title>
+  <description>Illustrates the usage of the map component element.</description>
+
+  <mainFeature ref="map"/>
+  
+  <!-- map -->
+  
+  <feature name="map" title="Using the Built-in Map Component">
+    <description>
+How to render maps using the built-in map component.
+    </description>
+    <since>4.1.1</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

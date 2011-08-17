@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="aegeanChartTheme" class="net.sf.jasperreports.chartthemes.spring.AegeanChartTheme" parent="defaultChartTheme">
+		<!-- property name="defaultChartPropertiesMap" ref="aegeanDefaultChartProperties"/-->
+		<property name="defaultChartPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="seriesColors" value-ref="aegeanSeriesColors"/>
+			    <entry key-ref="chartBorderPaint" value-ref="aegeanChartBorderPaint"/>
+			    <entry key-ref="chartBorderStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="chartBorderVisible" value-ref="isTrue"/>
+		   	    <entry key-ref="baseFontSize">
+		   	    	<value type="java.lang.Integer">9</value>
+		   	    </entry>
+		   	    <entry key-ref="titleFont" value-ref="aegeanTitleFont"/>
+		   	    <entry key-ref="subtitleFont" value-ref="aegeanSubtitleFont"/>
+		   	    <entry key-ref="subtitlePosition" value-ref="rectangleEdgeBottom"/>
+		   	    <entry key-ref="subtitleHorizontalAlignment" value-ref="leftHorizontalAlignment"/>
+		   	    <entry key-ref="legendFont" value-ref="aegeanSubtitleFont"/>
+		   	    <entry key-ref="legendPosition" value-ref="rectangleEdgeRight"/>
+		   	    <entry key-ref="legendHorizontalAlignment" value-ref="rightHorizontalAlignment"/>
+		   	    <entry key-ref="legendFrame" value-ref="blockBorderNone"/>
+		   	    <entry key-ref="chartPadding">
+		   	    	<value type="java.lang.Double">0.02</value>
+		   	    </entry>
+			</map>		
+		</property>
+		<property name="defaultPlotPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="plotTickLabelFont" value-ref="aegeanPlotTickLabelFont"/>
+			    <entry key-ref="plotDisplayFont" value-ref="aegeanPlotDisplayFont"/>
+			</map>		
+		</property>
+		<property name="defaultAxisPropertiesMap">
+			<map merge="true">
+			    <entry key-ref="axisLinePaint" value-ref="grayPaint134"/>
+			    <entry key-ref="axisLineStroke" value-ref="onePointStroke"/>
+			    <entry key-ref="axisLabelFont" value-ref="aegeanAxisLabelFont"/>
+			    <entry key-ref="axisTickLabelFont" value-ref="aegeanAxisTickLabelFont"/>
+		   	    <entry key-ref="domainAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
+		   	    <entry key-ref="rangeAxisTickCount">
+		   	    	<value type="java.lang.Integer">5</value>
+		   	    </entry>
+			    
+			</map>		
+		</property>
+		
+	</bean>
+	
+	<util:list id="aegeanSeriesColors">
+		<ref local="aegeanSeriesColor0"/>
+		<ref local="aegeanSeriesColor1"/>
+		<ref local="aegeanSeriesColor2"/>
+		<ref local="aegeanSeriesColor3"/>
+		<ref local="aegeanSeriesColor4"/>
+		<ref local="aegeanSeriesColor5"/>
+		<ref local="aegeanSeriesColor6"/>
+		<ref local="aegeanSeriesColor7"/>
+	</util:list>
+
+	<bean id="aegeanSeriesColor0" class="java.awt.Color"> 
+		<constructor-arg index="0" type="int" value="46"/>
+		<constructor-arg index="1" type="int" value="49"/>
+		<constructor-arg index="2" type="int" value="146"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor1" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="63"/>
+		<constructor-arg index="1" type="int" value="134"/>
+		<constructor-arg index="2" type="int" value="218"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor2" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="170"/>
+		<constructor-arg index="1" type="int" value="185"/>
+		<constructor-arg index="2" type="int" value="51"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor3" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="22"/>
+		<constructor-arg index="1" type="int" value="161"/>
+		<constructor-arg index="2" type="int" value="197"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor4" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="82"/>
+		<constructor-arg index="1" type="int" value="117"/>
+		<constructor-arg index="2" type="int" value="168"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor5" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="172"/>
+		<constructor-arg index="1" type="int" value="72"/>
+		<constructor-arg index="2" type="int" value="48"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor6" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="0"/>
+		<constructor-arg index="1" type="int" value="82"/>
+		<constructor-arg index="2" type="int" value="37"/>
+	</bean>
+
+	<bean id="aegeanSeriesColor7" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="193"/>
+		<constructor-arg index="1" type="int" value="118"/>
+		<constructor-arg index="2" type="int" value="100"/>
+	</bean>
+
+	<bean id="aegeanChartBorderPaint" class="java.awt.Color">
+		<constructor-arg index="0" type="int" value="134"/>
+		<constructor-arg index="1" type="int" value="134"/>
+		<constructor-arg index="2" type="int" value="134"/>
+	</bean>
+
+	<bean id="aegeanTitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">18</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="aegeanSubtitleFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">9</value>
+		</property>
+	</bean>
+
+	<bean id="aegeanAxisLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">9</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="aegeanAxisTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">9</value>
+		</property>
+	</bean>
+
+	<bean id="aegeanPlotTickLabelFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">16</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<bean id="aegeanPlotDisplayFont" class="net.sf.jasperreports.engine.base.JRBaseFont">
+		<property name="fontSize">
+			<value type="java.lang.Integer">10</value>
+		</property>
+		<property name="bold" ref="isTrue"/>
+	</bean>
+
+	<import resource="chartConstantsBean.xml"/>
+</beans>

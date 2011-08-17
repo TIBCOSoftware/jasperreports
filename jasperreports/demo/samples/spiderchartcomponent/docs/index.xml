@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>spiderchartcomponent</name>
+  <title>JFreeChart Spider Chart Component Sample</title>
+  <description>Shows how a JFreeChart spider chart component can be included in reports.</description>
+
+  <mainFeature ref="spiderchartcomponent"/>
+  
+  <!-- spiderchartcomponent -->
+  
+  <feature name="spiderchartcomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (JFreeChart Library)">
+    <description>
+How to implement a custom component to wrap spider charts rendered by the <a href="http://www.jfree.org/jfreechart/">JFreeChart</a> library.
+    </description>
+    <since>3.1.0</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="openflashchart"/>
+  	<otherSample ref="jchartscomponent"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+</sample>

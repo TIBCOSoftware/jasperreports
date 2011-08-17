@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="StylesReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
+
+	<template>"styles.jrtx"</template>
+
+	<style name="Right Aligned" style="Regular"
+		hAlign="Right"/>
+
+	<style name="More Emphasis" style="Emphasis"
+		fontSize="14" mode="Opaque" backcolor="orange"/>
+	
+	<!-- Override Serif Note from styles.xml -->
+	<style name="Serif Note" style="Serif"
+		fontSize="10" forecolor="orange" mode="Opaque" backcolor="darkGray"/>
+	
+	<title>
+		<band height="782">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="555" height="25"/>
+				<textFieldExpression>"Regular (default): font size = 12, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="30" width="555" height="25"/>
+				<textElement>
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression>"Regular (modified): font size = 12, underlined, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="60" width="555" height="25" positionType="Float" style="Right Aligned"/>
+				<textFieldExpression>"Right Aligned: font size = 12, right aligned, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="90" width="555" height="25" positionType="Float" style="Emphasis"/>
+				<textFieldExpression>"Emphasis: font size = 10, italic, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="120" width="555" height="25" positionType="Float" style="Special Emphasis"/>
+				<textFieldExpression>"Special Emphasis: font size = 12, red, italic, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="150" width="555" height="25" positionType="Float" style="More Emphasis"/>
+				<textFieldExpression>"More Emphasis: font size = 14, black on orange, italic, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="180" width="555" height="25" positionType="Float" style="Strong"/>
+				<textFieldExpression>"Strong: font size = 14, underlined, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="210" width="555" height="25" positionType="Float" style="Very Strong"/>
+				<textFieldExpression>"Very Strong: font size = 12, black on light gray, bold, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="240" width="555" height="25" positionType="Float" style="Very Strong"
+					backcolor="orange"/>
+				<textFieldExpression>"Very Strong (modified): font size = 12, black on orange, bold, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="270" width="555" height="25" positionType="Float" style="Serif"/>
+				<textFieldExpression>"Serif: font face = DejaVu Serif, font size = 12, centered, border"</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="300" width="555" height="25" positionType="Float" style="Serif"/>
+				<textElement markup="styled"/>
+				<textFieldExpression><![CDATA["Serif (styled): font face = DejaVu Serif, font size = 12, <style forecolor=\"red\">partially red</style>, centered, border"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="330" width="555" height="25" positionType="Float" style="Serif Note"/>
+				<textFieldExpression>"Serif Note: font face = DejaVu Serif, font size = 10, orange on dark gray, centered, border"</textFieldExpression>
+			</textField>
+		</band>
+	</title>
+
+</jasperReport>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>markup</name>
+  <title>Markup Sample</title>
+  <description>Shows how the text markup feature works in static and dynamic text elements.</description>
+
+  <mainFeature ref="markup"/>
+  <secondaryFeature name="styledtext" sample="styledtext" title="Styled Text"/>
+  
+  <!-- markup -->
+  
+  <feature name="markup" title="Creating Styled Text Using a Markup Language">
+    <description>
+How to format text using a markup language such as HTML and/or RTF.
+    </description>
+    <since>2.0.5</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Structured Text Content</b>
+<br/>
+<br/>
+In order to achieve a particular look and feel, the text content in text elements can be 
+customized with several style attributes such as text foreground color, text background color, 
+font name, font size, font weight, etc. Some of these attributes (<code>forecolor</code>, 
+<code>backcolor</code>) can be either set independently as report element attributes, or inherited from the 
+<code>style</code> attribute. If set, these style attributes do affect all the text content in the 
+report element.
+<br/>
+But in some cases there is no need to apply a style to the entire text content. Users may want to 
+highlight only few words within the text, without affecting the rest of the paragraph. There are 
+situations when some words are needed in bold style, others require a specific font, and some characters 
+have to be printed with a given color.
+<br/>
+In such cases, the solution is to use specific  markup tags inside the text content, and to instruct the 
+engine that the text content within the report element is no longer pure text, but structured XML content 
+with specific processing rules. The XML content either includes style information in the
+text itself, or some other form of markup language. 
+<br/> 
+<br/> 
+<b>The <code>markup</code> Attribute</b>
+<br/>
+<br/>
+Here comes the <code>markup</code> option attribute to accomplish its job. It specifies type of markup 
+language that will be used inside the text element, and may have the following values:
+<ul>
+<li><code>none</code> - The content of the text element is plain text. There is nothing to be processed. This is the default value.</li>
+<li><code>styled</code> - The content of the text element is styled text, the JasperReports proprietary XML type of markup text. 
+It overrides the deprecated <code>isStyledText</code> attribute. (See the <a href="../styledtext/index.html">Styled text</a> sample)</li>
+<li><code>html</code> - The content of the text element is Hyper Text Markup Language</li>
+<li><code>rtf</code> - The content of the text element is Rich Text Format</li>
+</ul> 
+If the <code>html</code> or <code>rtf</code> values are set, then the engine calls a dedicated markup processor class based on the 
+use of the <code>javax.swing.JEditorPane</code> processor. The structured XML fragment is parsed according to the 
+processing rules, and its content gets formatted as included style attributes require to be.
+<br/> 
+<br/> 
+<b>The Markup Sample</b>
+<br/>
+<br/>
+This sample contains 3 structured text paragraphs. 
+<br/>
+The first one is formatted using the <code>markup="styled"</code> value:
+<br/>
+<pre><![CDATA[
+	<staticText>
+		<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#c0c0c0"/>
+		<textElement markup="styled">
+			<font size="16"/>
+		</textElement>
+		<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> 
+			element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> 
+			elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute 
+			available for the <style isBold="true" forecolor="magenta">textElement</style> tag to 
+			<style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested 
+			<style isBold="true" forecolor="green">style</style> tags and simple HTML tags.&#93;&#93;>
+		</text>
+	</staticText>
+	]]></pre>
+The second paragraph is read from the <code>rtf.txt</code> file in the /reports folder and stored in the <code>$P{RtfText}</code> parameter. 
+Its content gets decoded using the RTF markup processor:
+<pre><![CDATA[
+	<textField isStretchWithOverflow="true">
+		<reportElement mode="Opaque" x="0" y="150" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
+		<textElement markup="rtf">
+			<font size="16"/>
+		</textElement>
+		<textFieldExpression>$P{RtfText}</textFieldExpression>
+	</textField>
+	]]></pre>
+The third paragraph is read from the <code>html.txt</code> file in the /reports folder and stored in the <code>$P{HtmlText}</code> parameter. 
+Its content gets decoded using the HTML markup processor:
+<pre><![CDATA[
+	<textField isStretchWithOverflow="true">
+		<reportElement mode="Opaque" x="0" y="300" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
+		<textElement markup="html">
+			<font size="16"/>
+		</textElement>
+		<textFieldExpression>$P{HtmlText}</textFieldExpression>
+	</textField>
+	]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/markup</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/markup/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>
