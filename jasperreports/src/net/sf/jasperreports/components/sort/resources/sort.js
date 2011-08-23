@@ -26,7 +26,7 @@
 			var filterDiv = jQuery(uid);
 			
 			// attach filter form events
-			jQuery('.hidefilter', filterDiv).bind('click', function(event){
+			jQuery('.hidefilter', filterDiv).bind(('createTouch' in document) ? 'touchend' : 'click', function(event){
 				jQuery(this).parent().hide();
 			});
 			
@@ -46,7 +46,7 @@
 			
 			
 			
-			jQuery('.submitFilter', filterDiv).live('click', function(event){
+			jQuery('.submitFilter', filterDiv).live(('createTouch' in document) ? 'touchend' : 'click', function(event){
 				var params = {},
 					parentForm = jQuery(this).parent(),
 					currentHref = parentForm.attr("action");
@@ -65,8 +65,16 @@
 		}
 		
 	};
-	
-	js.init = function() {
+
+    js.isLongTouch = function(event) {
+        if (!js.touchStartOn) return false;
+        var isSameElement = event.target == js.touchStartOn.element;
+        var holdTimeStamp = event.timeStamp - js.touchStartOn.timeStamp;
+
+        return isSameElement && (holdTimeStamp > 400) && !event.scrollEvent;
+    };
+
+	js.init = function() { 
 		var gm = global.JasperReports.modules.global,
 			eventName = gm.events.SORT_INIT;
 		
@@ -75,40 +83,105 @@
 	        return false;  
 	    });
 
-		// add event for clickable sortlinks (up/down arrows)
-		jQuery('a').live('click', function(event){
-			event.preventDefault();
-			var currentHref = jQuery(this).attr("href"),
-				ctx = gm.getExecutionContext(this, currentHref, null);
+        if ('createTouch' in document) {
+            jQuery(document).bind("touchstart",function(event){
+                event.preventDefault();
 
-			if (ctx) {
-				ctx.run();
-			}
-		});
-		
-		/**
-		 * Show filter div when right-clicking the table header
-		 */
-		jQuery('.sortlink').live('mousedown', function(event) {
-			if (event.which == 3) {
-				var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
-				
-				// hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
-				jQuery('.filterdiv').filter(':visible').each(function (index, element) {
-					jQuery(element).hide();
-				});
-				
-				filterDiv.css({
-					position: 'absolute',
-					'z-index': 999998,
-					left: (event.pageX)  + "px",
-					top: (event.pageY) + "px"
-				});
-				
-				filterDiv.show();
-			}
-		});
-		
+                !event.isStartData && (js.touchStartOn = {
+                    element: event.target,
+                    timeStamp: event.timeStamp
+                });
+                event.isStartData = true;
+            });
+
+            jQuery(document).bind("touchmove",function(event){
+                js.touchStartOn = undefined;
+            });
+
+            // add event for clickable sortlinks (up/down arrows)
+            jQuery('a').live('touchend', function(event){
+                event.preventDefault();
+
+                if(('createTouch' in document) && js.isLongTouch(event)) {
+                    event.stopPropagation();
+                    return false;
+                }
+
+                var currentHref = jQuery(this).attr("href"),
+                    ctx = gm.getExecutionContext(this, currentHref, null);
+
+                if (ctx) {
+                    ctx.run();
+                }
+            });
+
+            jQuery('a').live('click', function(event){
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            });
+
+            /**
+             * Show filter div when right-clicking the table header
+             */
+            jQuery('.sortlink').bind('touchend', function(event) {
+                event.preventDefault();
+                if (js.isLongTouch(event) || event.which == 3) {
+                    var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
+
+                    // hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+                    jQuery('.filterdiv').filter(':visible').each(function (index, element) {
+                        jQuery(element).hide();
+                    });
+
+                    var touch = event.changedTouches ? event.changedTouches[0] : event.originalEvent.changedTouches[0];
+                    filterDiv.css({
+                        position: 'absolute',
+                        'z-index': 999998,
+                        left: touch.pageX  + "px",
+                        top: touch.pageY + "px"
+                    });
+
+                    filterDiv.show();
+                }
+            });
+
+        } else {
+            // add event for clickable sortlinks (up/down arrows)
+            jQuery('a').live('click', function(event){
+                event.preventDefault();
+                var currentHref = jQuery(this).attr("href"),
+                    ctx = gm.getExecutionContext(this, currentHref, null);
+
+                if (ctx) {
+                    ctx.run();
+                }
+            });
+
+            /**
+             * Show filter div when right-clicking the table header
+             */
+            jQuery('.sortlink').live('mousedown', function(event) {
+                if (event.which == 3) {
+                    var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
+
+                    // hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+                    jQuery('.filterdiv').filter(':visible').each(function (index, element) {
+                        jQuery(element).hide();
+                    });
+
+                    filterDiv.css({
+                        position: 'absolute',
+                        'z-index': 999998,
+                        left: (event.pageX)  + "px",
+                        top: (event.pageY) + "px"
+                    });
+
+                    filterDiv.show();
+                }
+            });
+        }
+
 		gm.processEvent(eventName);
 	};
 	
