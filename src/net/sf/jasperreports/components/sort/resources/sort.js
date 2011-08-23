@@ -70,7 +70,6 @@
         if (!js.touchStartOn) return false;
         var isSameElement = event.target == js.touchStartOn.element;
         var holdTimeStamp = event.timeStamp - js.touchStartOn.timeStamp;
-
         return isSameElement && (holdTimeStamp > 400) && !event.scrollEvent;
     };
 
@@ -83,8 +82,21 @@
 	        return false;  
 	    });
 
-        if ('createTouch' in document) {
-            jQuery(document).bind("touchstart",function(event){
+		if ('createTouch' in document) {
+			var sortlinks = jQuery('.sortlink');
+
+            jQuery('document').bind("touchmove",function(event){
+                js.touchStartOn = undefined;
+            });
+			sortlinks.live('click', function(event){
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            });
+			/*
+			 * Capture long touch on touchstart. Also prevent default.
+			 */
+            sortlinks.bind("touchstart",function(event){
                 event.preventDefault();
 
                 !event.isStartData && (js.touchStartOn = {
@@ -93,13 +105,10 @@
                 });
                 event.isStartData = true;
             });
-
-            jQuery(document).bind("touchmove",function(event){
-                js.touchStartOn = undefined;
-            });
-
-            // add event for clickable sortlinks (up/down arrows)
-            jQuery('a').live('touchend', function(event){
+			/*
+             * If long touch do not trigger anchor link.
+             */
+            sortlinks.live('touchend', function(event){
                 event.preventDefault();
 
                 if(('createTouch' in document) && js.isLongTouch(event)) {
@@ -114,17 +123,10 @@
                     ctx.run();
                 }
             });
-
-            jQuery('a').live('click', function(event){
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            });
-
-            /**
-             * Show filter div when right-clicking the table header
+			/*
+             * Show filter div on long touch
              */
-            jQuery('.sortlink').bind('touchend', function(event) {
+            sortlinks.bind('touchend', function(event) {
                 event.preventDefault();
                 if (js.isLongTouch(event) || event.which == 3) {
                     var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
@@ -145,9 +147,8 @@
                     filterDiv.show();
                 }
             });
-
-        } else {
-            // add event for clickable sortlinks (up/down arrows)
+		} else {
+			// add event for clickable sortlinks (up/down arrows)
             jQuery('a').live('click', function(event){
                 event.preventDefault();
                 var currentHref = jQuery(this).attr("href"),
@@ -157,7 +158,6 @@
                     ctx.run();
                 }
             });
-
             /**
              * Show filter div when right-clicking the table header
              */
@@ -180,8 +180,7 @@
                     filterDiv.show();
                 }
             });
-        }
-
+		}
 		gm.processEvent(eventName);
 	};
 	
