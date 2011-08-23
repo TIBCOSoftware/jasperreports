@@ -57,6 +57,8 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		String scaleType = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE);
 		String horizontalAlignment = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN);
 		String verticalAlignment = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN);
+		Boolean hasOverflowed = (Boolean) element.getParameterValue(HtmlPrintElement.BUILTIN_PARAMETER_HAS_OVERFLOWED);
+		Boolean clipOnOverflow = (Boolean) element.getParameterValue(HtmlPrintElement.PARAMETER_CLIP_ON_OVERFLOW);
 		
         JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
         printImage.setStyle(element.getStyle());
@@ -70,14 +72,23 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
         printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
         printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
         
-		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), element.getWidth(), element.getHeight()); 
-		printImage.setRenderer(renderer);
+        FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), element.getWidth(), element.getHeight());
 		
 		if (printImage.getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT || printImage.getScaleImageValue() == ScaleImageEnum.REAL_SIZE) {
-			printImage.setHeight(renderer.getComputedSize().height);
+			boolean canClip = hasOverflowed != null ? hasOverflowed : false;
+			if (canClip) {
+				printImage.setHeight(element.getHeight());
+				if (clipOnOverflow) {
+					printImage.setScaleImage(ScaleImageEnum.CLIP);
+				}
+			} else {
+				printImage.setHeight(renderer.getComputedSize().height);
+			}
 		} else {
 			printImage.setHeight(element.getHeight());
 		}
+
+		printImage.setRenderer(renderer);
 		return printImage;
 	}
 

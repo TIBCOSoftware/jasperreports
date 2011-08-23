@@ -67,6 +67,7 @@ public class HtmlComponentXmlWriter implements ComponentXmlWriter {
 			writer.addAttribute(HtmlComponent.PROPERTY_EVALUATION_TIME, htmlComponent.getEvaluationTime());
 		}
 		writer.addAttribute(HtmlComponent.PROPERTY_EVALUATION_GROUP, htmlComponent.getEvaluationGroup());
+		writer.addAttribute(HtmlComponent.PROPERTY_CLIP_ON_OVERFLOW, htmlComponent.getClipOnOverflow());
 
 		writer.closeElement();
 	}
