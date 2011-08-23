@@ -58,6 +58,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	public static final String PROPERTY_HORIZONTAL_ALIGN = "horizontalAlign";
 	public static final String PROPERTY_VERTICAL_ALIGN = "verticalAlign";
 	public static final String PROPERTY_HTMLCONTENT_EXPRESSION = "htmlContentExpression";
+	public static final String PROPERTY_CLIP_ON_OVERFLOW = "clipOnOverflow";
 	
 	private JRExpression htmlContentExpression;
 	private ScaleImageEnum scaleType = ScaleImageEnum.RETAIN_SHAPE;
@@ -65,6 +66,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 	private VerticalAlignEnum verticalAlign = VerticalAlignEnum.MIDDLE;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
+	private Boolean clipOnOverflow = Boolean.TRUE;
 	private ComponentContext context;
 
 	private transient JRPropertyChangeSupport eventSupport;
@@ -80,6 +82,7 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		this.context = new BaseComponentContext(component.getContext(), objectFactory);
 		this.evaluationTime= component.getEvaluationTime();
 		this.evaluationGroup = component.getEvaluationGroup();
+		this.clipOnOverflow = component.getClipOnOverflow();
 	}
 	
 	public void setContext(ComponentContext context)
@@ -188,6 +191,19 @@ public class HtmlComponent implements ContextAwareComponent, Serializable, JRCha
 		this.evaluationGroup = evaluationGroup;
 		getEventSupport().firePropertyChange(PROPERTY_EVALUATION_GROUP, 
 				old, this.evaluationGroup);
+	}
+	
+	public Boolean getClipOnOverflow() 
+	{
+		return clipOnOverflow;
+	}
+	
+	public void setClipOnOverflow(Boolean clipOnOverflow) 
+	{
+		Object old = this.clipOnOverflow;
+		this.clipOnOverflow = clipOnOverflow;
+		getEventSupport().firePropertyChange(PROPERTY_CLIP_ON_OVERFLOW, 
+				old, this.clipOnOverflow);
 	}
 
 	public Object clone()

@@ -43,6 +43,10 @@ public interface HtmlPrintElement {
 	public static final String PARAMETER_HORIZONTAL_ALIGN = "horizontalAlign";
 	
 	public static final String PARAMETER_VERTICAL_ALIGN = "verticalAlign";
+
+	public static final String PARAMETER_CLIP_ON_OVERFLOW = "clipOnOverflow";
+
+	public static final String BUILTIN_PARAMETER_HAS_OVERFLOWED = "hasOverflowed";
 	
 	JRPrintImage createImageFromElement(JRGenericPrintElement element)  throws JRException;
 
