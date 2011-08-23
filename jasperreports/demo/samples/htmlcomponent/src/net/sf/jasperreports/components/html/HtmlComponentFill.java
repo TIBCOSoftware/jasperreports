@@ -148,22 +148,24 @@ public class HtmlComponentFill extends BaseFillComponent {
 			int printElementHeight = Math.max(imageHeight, element.getHeight());
 			
 			if (imageHeight <= availableHeight) {
-				result = FillPrepareResult.PRINT_NO_STRETCH;
+				result = FillPrepareResult.printStretch(imageHeight, false);
 			} else {
 				if (hasOverflowed) {
-					result = FillPrepareResult.PRINT_NO_STRETCH;
+					result = FillPrepareResult.printStretch(availableHeight, false);
+					
+					if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
+						printElement.setWidth(imageWidth);
+					} else {
+						printElement.setWidth(element.getWidth());
+					}
+					
+					printElement.setHeight(availableHeight);
+					printElement.setParameterValue(HtmlPrintElement.BUILTIN_PARAMETER_HAS_OVERFLOWED, Boolean.TRUE);
 				} else {
 					result = FillPrepareResult.noPrintOverflow(printElementHeight);
 					hasOverflowed = true;
 				}
 			}
-			
-			if (htmlComponent.getScaleType() == ScaleImageEnum.REAL_SIZE) {
-				printElement.setWidth(imageWidth);
-			} else {
-				printElement.setWidth(element.getWidth());
-			}
-			printElement.setHeight(printElementHeight);
 			
 		} else {
 			result = FillPrepareResult.PRINT_NO_STRETCH;
@@ -198,6 +200,7 @@ public class HtmlComponentFill extends BaseFillComponent {
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_SCALE_TYPE, htmlComponent.getScaleType().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_HORIZONTAL_ALIGN, htmlComponent.getHorizontalAlign().getName());
 		printElement.setParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN, htmlComponent.getVerticalAlign().getName());
+		printElement.setParameterValue(HtmlPrintElement.PARAMETER_CLIP_ON_OVERFLOW, htmlComponent.getClipOnOverflow());
 	}
 
 }
