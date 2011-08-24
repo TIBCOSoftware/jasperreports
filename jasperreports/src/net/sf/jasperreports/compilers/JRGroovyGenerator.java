@@ -515,9 +515,9 @@ public class JRGroovyGenerator
 			sb.append(sourceTask.getExpressionId(expression));
 			sb.append(")\n");
 			sb.append("        {\n");
-			sb.append("            value = ");
+			sb.append("            value = (");
 			sb.append(this.generateExpression(expression, evaluationType));
-			sb.append(";\n");
+			sb.append(");\n");
 			sb.append("        }\n");
 		}
 
