@@ -90,6 +90,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
+			velocityContext.put("sortLinkClass", sortTableName);
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", sortHandlerColor != null ? sortHandlerColor : "white");

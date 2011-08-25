@@ -3,7 +3,7 @@
 </script>
 
 <a href='${href}'
-	class='sortlink'
+	class='sortlink ${sortLinkClass}'
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
@@ -26,7 +26,7 @@
 	(function () {
 		var gm = JasperReports.modules.global,
 			uid = '${filterDivId}',
-			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='text-align:center; display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>",
+			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' data-forsortlink='${sortLinkClass}' style='text-align:center; display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>",
 			                "<img class='hidefilter' align='right' src='${filterCloseDialogImageResource}' style='cursor: pointer;'/>",
 			                "<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>",
 			                "	<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
@@ -36,7 +36,7 @@
 			                "</form>",
 			                "</div>"];
 			                
-		gm.subscribeToEvent(gm.events.SORT_INIT, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv]);
+		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv]);
 	} ());
 </script>
 #end
