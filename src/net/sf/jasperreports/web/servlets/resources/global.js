@@ -19,13 +19,37 @@ jQuery.noConflict();
 						UI: '/jquery/js/jquery-ui-1.8.9.custom.min.js'
 					},
 					events: {
-						SORT_INIT: 'sort_init'
+						SORT_INIT: {
+							name: 'sort_init',
+							status: 'default'
+						}
 					},
-					eventSubcribers: {}
+					eventSubscribers: {}
 				}
 			},
 		},
 		jg = jr.modules.global;
+	
+	/**
+	 * Enhances dest with properties of source
+	 * 
+	 * @param dest
+	 * @param src
+	 */
+	jg.merge = function (dest, arrSource) {
+		var i, j, ln, source;
+		dest = dest || {};
+		
+		for (i = 0, ln = arrSource.length; i < ln; i++) {
+			source = arrSource[i];
+			for (j in source) {
+				if (source.hasOwnProperty(j)) {
+						dest[j] = source[j];
+				}
+			}
+		}
+		return dest;
+	};
 	
 	jg.extractCallbackFunction = function (callbackFn) {
 		var result = callbackFn;
@@ -100,24 +124,46 @@ jQuery.noConflict();
 		jg.loadScript(scriptname, scripturi, callbackFn);
 	};
 	
-	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs) {
-		if (!jg.eventSubcribers[eventName]) {
-			jg.eventSubcribers[eventName] = [];
+	jg.getEventByName = function (eventName) {
+		var events = jg.events,
+			prop,
+			event;
+		for(prop in events) {
+			if (events.hasOwnProperty(prop)) {
+				event = events[prop];
+				if ('object' === typeof event && event.hasOwnProperty('name') && event['name'] === eventName) {
+					return event;
+				}
+			}
 		}
-		var arrEvent = jg.eventSubcribers[eventName];
-		arrEvent.push({
-			callbackfn: strCallbackFn,
-			callbackargs: arrCallbackArgs
-		});
+	};
+	
+	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs) {
+		var event = jg.getEventByName(eventName);
+		if (event.status === 'default') { 
+			if (!jg.eventSubscribers[eventName]) {
+				jg.eventSubscribers[eventName] = [];
+			}
+			var arrEvent = jg.eventSubscribers[eventName];
+			arrEvent.push({
+				callbackfn: strCallbackFn,
+				callbackargs: arrCallbackArgs
+			});
+		} else if (event.status === 'finished') { 
+			// The event has finished so we are safe to execute the callback
+			jg.extractCallbackFunction(strCallbackFn).apply(null, arrCallbackArgs);
+		}
 	};
 	
 	jg.processEvent = function (eventName) {
-		var subscribers = jg.eventSubcribers[eventName];
+		var subscribers = jg.eventSubscribers[eventName];
 		if (subscribers) {
 			for (var i = 0; i < subscribers.length; i++) {
 				var subscriber = subscribers[i];
 				jg.extractCallbackFunction(subscriber.callbackfn).apply(null, subscriber.callbackargs);
 			}
+			// clear subscribers
+			jg.eventSubscribers[eventName] = undefined;
 		}
 	}
 	
@@ -126,6 +172,29 @@ jQuery.noConflict();
 			return true;
 		}
 		return false;
+	};
+	
+	jg.getUrlBase = function (url) {
+		if (url.indexOf("?") != -1) {
+			return url.substring(0, url.indexOf("?"));
+		} else {
+			return url;
+		}
+	};
+	
+	jg.getUrlParameters = function (url) {
+		var result = {};
+		if(!jg.isEmpty(url)) {
+			var keyValArray = url.slice(url.indexOf("?") + 1).split("&"),
+				keyVal,
+				ln = keyValArray.length;
+			
+			for (var i=0; i< ln; i++) {
+				keyVal = keyValArray[i].split("=");
+				result[keyVal[0]] = keyVal[1];
+			}
+		}
+		return result;
 	};
 		
 	jg.getUrlParameter = function (url, paramName) {
@@ -197,7 +266,7 @@ jQuery.noConflict();
 					} else if('string' == typeof this.requestParams) {
 						this.requestParams += '&isajax=true';
 					}
-				} else if (_requestParams == null) {
+				} else if (this.requestParams == null) {
 					this.requestParams = {
 						isajax: true
 					};
@@ -217,8 +286,31 @@ jQuery.noConflict();
 				});
 			}
 		};
-
+		
+		jg.logObject = function (objName, obj) {
+			var objString = [],
+				i=0,
+				prop;
+			for (prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+					objString[i] = prop + " = " + obj[prop];
+					i++;
+				}
+			}
+			console.log("object: " + objName + " = {" + objString.join(', ') + "}");
+		}
+		
+		/**
+		 * Obtains an execution context based on parameters
+		 * 
+		 * @param startPoint: a jQuery or DOM object
+		 * @param requestedUrl: a string url
+		 * @param params: an object with additional parameters that must be appended to requestedUrl 
+		 */
 		jg.getExecutionContext = function(startPoint, requestedUrl, params) {
+			if (!requestedUrl) {
+				return null;
+			}
 			var executionContextElement = jQuery(startPoint).closest('div.executionContext');
 			
 			if (executionContextElement.size() == 0) {
@@ -227,16 +319,26 @@ jQuery.noConflict();
 
 			if (executionContextElement.size() > 0) {
 				var contextUrl = executionContextElement.attr('data-contexturl'),
-					contextId = executionContextElement.attr('id');
+					contextId = executionContextElement.attr('id'),
+					reqUrlBase = jg.getUrlBase(requestedUrl),
+					reqParams = jg.getUrlParameters(decodeURIComponent(requestedUrl)),
+					contextReqParams = jg.getUrlParameters(decodeURIComponent(contextUrl));
+				
+//				jg.logObject('params', params);
+//				jg.logObject('contextReqParams', contextReqParams);
+//				jg.logObject('reqParams', reqParams);
+				
+				// mix params with contextReqParams and reqParams in order to preserve previous params; the order matters
+				var newParams = jg.merge({}, [contextReqParams, reqParams, params]);
 				
 				// update context url
-				executionContextElement.attr('data-contexturl', requestedUrl + (jg.isEmpty(params) ? '' : params));
+				executionContextElement.attr('data-contexturl', jg.extendUrl(reqUrlBase, newParams));
 				
 				return new jg.AjaxExecutionContext(
 					contextId, 
-					requestedUrl, 
+					reqUrlBase, 
 					jQuery('div.result', executionContextElement), // target 
-					params,
+					newParams,
 					null
 				);
 			}
@@ -281,8 +383,57 @@ jQuery.noConflict();
 			return result;
 		};
 		
+		jg.updateToolbarPaginationButtons = function (jqToolbar) {
+			var currentPage = jqToolbar.attr('data-currentpage'),
+				totalPages = jqToolbar.attr('data-totalpages'),
+				pageFirst = jQuery('.pageFirst', jqToolbar),
+				pagePrevious = jQuery('.pagePrevious', jqToolbar),
+				pageNext = jQuery('.pageNext', jqToolbar),
+				pageLast = jQuery('.pageLast', jqToolbar),
+				classEnabled = 'enabledPaginationButton',
+				classDisabled = 'disabledPaginationButton',
+				enablePair = function (jqElem1, jqElem2) {
+					jqElem1.removeClass(classDisabled);
+					jqElem2.removeClass(classDisabled);
+	
+					jqElem1.addClass(classEnabled);
+					jqElem2.addClass(classEnabled);
+				},
+				disablePair = function (jqElem1, jqElem2) {
+					jqElem1.removeClass(classEnabled);
+					jqElem2.removeClass(classEnabled);
+	
+					jqElem1.addClass(classDisabled);
+					jqElem2.addClass(classDisabled);
+				};
+			
+			if (currentPage < totalPages - 1) {
+				enablePair(pageNext, pageLast);
+				
+				if (currentPage > 0) {
+					enablePair(pageFirst, pagePrevious);
+				}
+			} else {
+				disablePair(pageNext, pageLast);
+				
+				if (currentPage > 0) {
+					enablePair(pageFirst, pagePrevious);
+				}
+			}
+			
+			if (currentPage == 0) {
+				disablePair(pageFirst, pagePrevious);
+			}
+			
+			if (totalPages == 1) {
+				disablePair(pageNext, pageLast);
+			}
+		};
+		
 		jg.initToolbar = function(toolbarId) {
 			var toolbar = jQuery('#' + toolbarId);
+			
+			jg.updateToolbarPaginationButtons(toolbar);
 			
 			if (toolbar.attr('data-initialized') == null) {
 				toolbar.attr('data-initialized', 'true');
@@ -292,41 +443,29 @@ jQuery.noConflict();
 				toolbar.draggable();
 				
 				toolbar.bind('click', function(event) {
-					var parent = jQuery(this),
-						target = jQuery(event.target),
-						currentHref = parent.attr('data-url'),
-						currentPage = parent.attr('data-currentpage'),
-						totalPages = parent.attr('data-totalpages'),
-						requestedPage,
-						performAction = false,
-						pageParam= 'jr.page=',
-						ctx;
-					
-					if (target.is('.pageFirst')) {
-						if (currentPage > 0) {
-							performAction = true;
+					var target = jQuery(event.target);
+					if (target.is('.enabledPaginationButton')) {
+						var parent = jQuery(this),
+							currentHref = parent.attr('data-url'),
+							currentPage = parent.attr('data-currentpage'),
+							totalPages = parent.attr('data-totalpages'),
+							requestedPage,
+							pageParam= 'jr.page=',
+							ctx;
+						
+						if (target.is('.pageFirst')) {
 							requestedPage = 0;
-						}
-					} else if (target.is('.pagePrevious')) {
-						if (currentPage > 0) {
-							performAction = true;
+						} else if (target.is('.pagePrevious')) {
 							requestedPage = currentPage - 1;
-						}
-					} else if (target.is('.pageNext')) {
-						if (currentPage < (totalPages -1)) {
-							performAction = true;
+						} else if (target.is('.pageNext')) {
 							requestedPage = currentPage+1;
-						}
-					} else if (target.is('.pageLast')) {
-						if (currentPage < (totalPages -1)) {
-							performAction = true;
+						} else if (target.is('.pageLast')) {
 							requestedPage = totalPages -1;
 						}
-					}
-					
-					if (performAction) {
+						
 						jg.getToolbarExecutionContext(parent, currentHref, pageParam + requestedPage).run();
 						jg.updateCurrentPageForToolbar(parent, requestedPage);
+						jg.updateToolbarPaginationButtons(parent);
 					}
 				});
 			}
