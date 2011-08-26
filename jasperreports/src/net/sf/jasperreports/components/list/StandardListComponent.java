@@ -49,6 +49,7 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	
 	public static final String PROPERTY_PRINT_ORDER = "printOrder";
 	public static final String PROPERTY_IGNORE_WIDTH = "ignoreWidth";
+	public static final String PROPERTY_DATASET_RUN = "datasetRun";
 	
 	private JRDatasetRun datasetRun;
 	private ListContents contents;
@@ -80,7 +81,9 @@ public class StandardListComponent implements Serializable, ListComponent, JRCha
 	 */
 	public void setDatasetRun(JRDatasetRun datasetRun)
 	{
+		Object old = this.datasetRun;
 		this.datasetRun = datasetRun;
+		getEventSupport().firePropertyChange(PROPERTY_DATASET_RUN, old, this.datasetRun);
 	}
 	
 	public ListContents getContents()
