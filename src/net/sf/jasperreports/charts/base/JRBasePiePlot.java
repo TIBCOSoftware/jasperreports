@@ -67,9 +67,11 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 	/**
 	 *
 	 */
-	public JRBasePiePlot(JRChartPlot piePlot, JRChart chart)
+	public JRBasePiePlot(JRChartPlot chartPlot, JRChart chart)
 	{
-		super(piePlot, chart);
+		super(chartPlot, chart);
+		
+		JRPiePlot piePlot = chartPlot instanceof JRPiePlot ? (JRPiePlot)chartPlot : null;
 		
 		if (piePlot == null)
 		{
@@ -77,7 +79,7 @@ public class JRBasePiePlot extends JRBaseChartPlot implements JRPiePlot
 		}
 		else
 		{
-			itemLabel = new JRBaseItemLabel(((JRPiePlot)piePlot).getItemLabel(), chart);
+			itemLabel = new JRBaseItemLabel(piePlot.getItemLabel(), chart);
 		}
 	}
 
