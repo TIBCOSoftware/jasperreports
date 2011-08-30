@@ -935,27 +935,27 @@ public class JRFillDataset implements JRDataset
 	 */
 	protected void setParameter(JRFillParameter parameter, Object value) throws JRException
 	{
-		if (value != null)
-		{
-			if (parameter.getValueClass().isInstance(value))
-			{
-				parameter.setValue(value);
-			}
-			else
-			{
-				throw new JRException(
-					"Incompatible " 
-					+ value.getClass().getName() 
-					+ " value assigned to parameter " 
-					+ parameter.getName() 
-					+ " in the " + getName() + " dataset."
-					);
-			}
-		}
-		else
-		{
+//		if (value != null)
+//		{
+//			if (parameter.getValueClass().isInstance(value))
+//			{
+//				parameter.setValue(value);
+//			}
+//			else
+//			{
+//				throw new JRException(
+//					"Incompatible " 
+//					+ value.getClass().getName() 
+//					+ " value assigned to parameter " 
+//					+ parameter.getName() 
+//					+ " in the " + getName() + " dataset."
+//					);
+//			}
+//		}
+//		else
+//		{
 			parameter.setValue(value);
-		}
+//		}
 	}
 
 	
