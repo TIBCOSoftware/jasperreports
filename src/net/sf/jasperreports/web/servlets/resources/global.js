@@ -26,7 +26,7 @@ jQuery.noConflict();
 					},
 					eventSubscribers: {}
 				}
-			},
+			}
 		},
 		jg = jr.modules.global;
 	
