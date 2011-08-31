@@ -89,3 +89,24 @@
 }
 
 /************************ </TAB PANE> ***************************/
+
+/************************ <FILTER DIV> ***************************/
+.filterdiv {
+	display: none; 
+	text-align: center; 
+	width: 180px; 
+	height: 60px; 
+	background-color: #DBEBFF;
+	-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px#888;
+	box-shadow: 0 0 5px 5px #888;
+}
+
+.hidefilter {
+	position: absolute; 
+	top: 2px; 
+	right: 2px; 
+	cursor: pointer;
+}
+/************************ </FILTER DIV> ***************************/
+
