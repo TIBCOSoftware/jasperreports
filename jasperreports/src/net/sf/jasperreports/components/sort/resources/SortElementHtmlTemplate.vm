@@ -26,8 +26,8 @@
 	(function () {
 		var gm = JasperReports.modules.global,
 			uid = '${filterDivId}',
-			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' data-forsortlink='${sortLinkClass}' style='text-align:center; display: none; width: 180px; height: 60px; background-color: #DBEBFF;'>",
-			                "<img class='hidefilter' align='right' src='${filterCloseDialogImageResource}' style='cursor: pointer;'/>",
+			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' data-forsortlink='${sortLinkClass}'>",
+			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
 			                "<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>",
 			                "	<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
 			                "	<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
