@@ -158,7 +158,7 @@ public class JRBaseCrosstabMeasure implements JRCrosstabMeasure, Serializable
 				}
 				catch (ClassNotFoundException e)
 				{
-					throw new JRRuntimeException("Could not load bucket value class", e);
+					throw new JRRuntimeException("Could not load measure value class", e);
 				}
 			}
 		}
