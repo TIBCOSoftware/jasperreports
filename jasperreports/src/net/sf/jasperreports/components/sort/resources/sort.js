@@ -176,15 +176,16 @@
 	                    jQuery('.filterdiv').filter(':visible').each(function (index, element) {
 	                        jQuery(element).hide();
 	                    });
-	
-	                    filterDiv.css({
-	                        position: 'absolute',
-	                        'z-index': 999998,
-	                        left: (event.pageX)  + "px",
-	                        top: (event.pageY) + "px"
-	                    });
-	
-	                    filterDiv.show();
+	                    
+	                    if (filterDiv.size() == 1) {
+		                    filterDiv.css({
+		                        position: 'absolute',
+		                        'z-index': 999998,
+		                        left: (event.pageX)  + "px",
+		                        top: (event.pageY) + "px"
+		                    });
+		                    filterDiv.show();
+		                }
 	                }
 	            });
 			}
