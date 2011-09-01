@@ -75,8 +75,8 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
@@ -630,19 +630,12 @@ public class JRPdfExporter extends JRAbstractExporter
 	}
 
 
-	protected void writePageAnchor(int pageIndex) throws DocumentException {
-		Map<Attribute,Object> pdfFontAttrs = getDefaultPdfFontAttributes();
-		Chunk chunk;
-		if (pdfFontAttrs == null) 
-		{
-			chunk = new Chunk(" ");
-		} 
-		else 
-		{
-			// no underline or strikethrough
-			Font pdfFont = getFont(pdfFontAttrs, getLocale(), false);
-			chunk = new Chunk(" ", pdfFont);
-		}
+	protected void writePageAnchor(int pageIndex) throws DocumentException 
+	{
+		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
+		JRFontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
+		Font pdfFont = getFont(attributes, getLocale(), false);
+		Chunk chunk = new Chunk(" ", pdfFont);
 		
 		chunk.setLocalDestination(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
 
@@ -662,20 +655,6 @@ public class JRPdfExporter extends JRAbstractExporter
 		colText.go();
 
 		tagHelper.endPageAnchor();
-	}
-
-	protected Map<Attribute,Object> getDefaultPdfFontAttributes() {
-		Map<Attribute,Object> attrs = null;
-		JRStyle style = jasperPrint.getDefaultStyle();
-		if (style != null) 
-		{
-			attrs = new HashMap<Attribute,Object>();
-			//FIXME font name for extensions
-			attrs.put(JRTextAttribute.PDF_FONT_NAME, style.getPdfFontName());
-			attrs.put(JRTextAttribute.PDF_ENCODING, style.getPdfEncoding());
-			attrs.put(JRTextAttribute.IS_PDF_EMBEDDED, style.isPdfEmbedded());
-		} 
-		return attrs;
 	}
 
 	/**
