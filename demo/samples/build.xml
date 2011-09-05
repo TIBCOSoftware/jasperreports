@@ -56,7 +56,7 @@
 		<jrc 
 			destdir="${sample.dir}/build/reports"
 			tempdir="${sample.dir}/build/reports"
-			keepjava="false">
+			keepjava="true">
 			<src>
 				<fileset dir="${sample.dir}/reports">
 					<include name="**/*.jrxml"/>
@@ -102,6 +102,13 @@
 	<target name="pdf">
 		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
 			<arg value="pdf"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	
+	<target name="pdfa1">
+		<java classname="${sample.app.name}" fork="true" dir="${sample.dir}">
+			<arg value="pdfa1"/>
 			<classpath refid="classpath"/>
 		</java>
 	</target>
