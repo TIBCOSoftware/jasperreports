@@ -81,9 +81,9 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static int getRightX(TabStop tabStop, float advance)
+	public static float getRightX(TabStop tabStop, float advance)
 	{
-		int rightX = (int)advance;
+		float rightX = advance;
 		if (tabStop != null)
 		{
 			switch (tabStop.getAlignment())
@@ -95,13 +95,13 @@ public final class ParagraphUtil
 				}
 				case CENTER :
 				{
-					rightX = (int)(tabStop.getPosition() + advance / 2);
+					rightX = tabStop.getPosition() + advance / 2;
 					break;
 				}
 				case LEFT :
 				default :
 				{
-					rightX = (int)(tabStop.getPosition() + advance);
+					rightX = tabStop.getPosition() + advance;
 				}
 			}
 		}
@@ -112,21 +112,21 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static int getLeftX(TabStop tabStop, float advance)
+	public static float getLeftX(TabStop tabStop, float advance)
 	{
-		int leftX = 0;
+		float leftX = 0;
 		if (tabStop != null)
 		{
 			switch (tabStop.getAlignment())
 			{
 				case RIGHT ://FIXMETAB RTL writings
 				{
-					leftX = (int)(tabStop.getPosition() - advance);
+					leftX = tabStop.getPosition() - advance;
 					break;
 				}
 				case CENTER :
 				{
-					leftX = (int)(tabStop.getPosition() - advance / 2);
+					leftX = tabStop.getPosition() - advance / 2;
 					break;
 				}
 				case LEFT :
@@ -143,9 +143,9 @@ public final class ParagraphUtil
 	/**
 	 * 
 	 */
-	public static int getSegmentOffset(TabStop tabStop, int rightX)
+	public static float getSegmentOffset(TabStop tabStop, float rightX)
 	{
-		int segmentOffset = rightX;
+		float segmentOffset = rightX;
 		if (tabStop != null)
 		{
 			switch (tabStop.getAlignment())

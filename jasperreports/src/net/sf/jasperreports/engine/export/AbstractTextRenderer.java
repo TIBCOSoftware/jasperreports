@@ -363,7 +363,7 @@ public abstract class AbstractTextRenderer
 				// the current segment limit is either the next tab character or the paragraph end 
 				int tabIndexOrEndIndex = (tabIndexes == null || currentTab >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTab) + 1);
 				
-				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0);
+				float startX = (lineMeasurer.getPosition() == 0 ? text.getParagraph().getFirstLineIndent() : 0) + leftPadding;
 				endX = width - text.getParagraph().getRightIndent() - rightPadding;
 				endX = endX < startX ? startX : endX;
 				//formatWidth = endX - startX;
@@ -371,11 +371,11 @@ public abstract class AbstractTextRenderer
 				
 				int startIndex = lineMeasurer.getPosition();
 
-				int rightX = 0;
+				float rightX = 0;
 
 				if (segments.size() == 0)
 				{
-					rightX = (int)startX;
+					rightX = startX;
 					//nextTabStop = nextTabStop;
 				}
 				else
@@ -429,11 +429,11 @@ public abstract class AbstractTextRenderer
 					crtSegment.as = tmpText;
 					crtSegment.text = lastParagraphText.substring(startIndex, startIndex + layout.getCharacterCount());
 
-					int leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
+					float leftX = ParagraphUtil.getLeftX(nextTabStop, layout.getAdvance()); // nextTabStop can be null here; and that's OK
 					if (rightX > leftX)
 					{
 						crtSegment.leftX = rightX;
-						crtSegment.rightX = (int)(rightX + layout.getAdvance());//FIXMETAB some rounding issues here
+						crtSegment.rightX = rightX + layout.getAdvance();
 					}
 					else
 					{
@@ -534,7 +534,7 @@ public abstract class AbstractTextRenderer
 				
 				drawPosY += lineHeight;
 				
-				int lastRightX = (segments == null || segments.size() == 0 ? 0 : segments.get(segments.size() - 1).rightX);
+				float lastRightX = (segments == null || segments.size() == 0 ? 0 : segments.get(segments.size() - 1).rightX);
 				
 				// now iterate through segments and draw their layouts
 				for (segmentIndex = 0; segmentIndex < segments.size(); segmentIndex++)
@@ -552,19 +552,19 @@ public abstract class AbstractTextRenderer
 							}
 							else
 							{
-								drawPosX = (int)(endX - lastRightX + segment.leftX);
+								drawPosX = (endX - lastRightX + segment.leftX);
 							}
 	
 							break;
 						}
 						case RIGHT ://FIXMETAB RTL writings
 						{
-							drawPosX = (int)(endX - lastRightX + segment.leftX);
+							drawPosX = (endX - lastRightX + segment.leftX);
 							break;
 						}
 						case CENTER :
 						{
-							drawPosX = (int)((endX - lastRightX) / 2) + segment.leftX; 
+							drawPosX = ((endX - lastRightX) / 2) + segment.leftX; 
 							break;
 						}
 						case LEFT :
@@ -733,6 +733,6 @@ class TabSegment
 	public TextLayout layout;
 	public AttributedString as;//FIXMETAB rename these
 	public String text;
-	public int leftX;
-	public int rightX;
+	public float leftX;
+	public float rightX;
 }
