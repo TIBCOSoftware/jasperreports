@@ -35,6 +35,10 @@
 		<ant dir="../" target="pdf"/>
 	</target>
 
+	<target name="pdfa1" description="Generates a PDF/A1 version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pdfa1"/>
+	</target>
+
 	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
 		<ant dir="../" target="xml"/>
 	</target>

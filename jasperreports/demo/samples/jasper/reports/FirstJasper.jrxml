@@ -4,6 +4,7 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	
 	<style name="Serif_Normal" fontName="DejaVu Serif" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Serif_Bold" fontName="DejaVu Serif" fontSize="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="OrderIdStyle" style="Sans_Normal">
@@ -196,7 +197,7 @@
 					<reportElement x="0" y="0" width="555" height="1"/>
 				</line>
 				<image scaleImage="Clip">
-					<reportElement x="0" y="5" width="165" height="40"/>
+					<reportElement x="0" y="5" width="165" height="40" key="TransparentImage"/>
 					<imageExpression class="java.lang.String"><![CDATA["jasperreports.png"]]></imageExpression>
 					<hyperlinkTooltipExpression><![CDATA["The JasperReports Logo"]]></hyperlinkTooltipExpression>
 				</image>
