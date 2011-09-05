@@ -34,6 +34,7 @@ package net.sf.jasperreports.engine.export;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.color.ICC_Profile;
 import java.awt.font.TextAttribute;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -42,6 +43,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -87,6 +89,7 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -109,10 +112,14 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.FontMapper;
 import com.lowagie.text.pdf.PdfAction;
+import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfDictionary;
+import com.lowagie.text.pdf.PdfICCBased;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfString;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -451,7 +458,6 @@ public class JRPdfExporter extends JRAbstractExporter
 					);
 			}
 			
-			pdfWriter.setRgbTransparencyBlending(true);
 
 			if (printScaling != null) 
 			{
@@ -496,8 +502,55 @@ public class JRPdfExporter extends JRAbstractExporter
 			{
 				document.addCreator("JasperReports (" + jasperPrint.getName() + ")");
 			}
+			
+			// BEGIN: PDF/A support
+			String pdfaConformance = getStringParameter( JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PROPERTY_PDFA_CONFORMANCE);
+			boolean gotPdfa = false;
+			if (pdfaConformance != null && !JRPdfExporterParameter.PDFA_CONFORMANCE_NONE.equalsIgnoreCase(pdfaConformance)) 
+			{
+				if (JRPdfExporterParameter.PDFA_CONFORMANCE_1A.equalsIgnoreCase(pdfaConformance))
+				{
+					pdfWriter.setPDFXConformance(PdfWriter.PDFA1A);
+					gotPdfa = true;
+				}
+				else if (JRPdfExporterParameter.PDFA_CONFORMANCE_1B.equalsIgnoreCase(pdfaConformance))
+				{
+					pdfWriter.setPDFXConformance(PdfWriter.PDFA1B);
+					gotPdfa = true;
+				}
+			}
+
+			if (gotPdfa) 
+			{
+				pdfWriter.createXmpMetadata();
+			} else 
+			{
+				pdfWriter.setRgbTransparencyBlending(true);
+			}
+			// END: PDF/A support
 
 			document.open();
+			
+			// BEGIN: PDF/A support
+			if (gotPdfa) {
+				String iccProfilePath = getStringParameter( JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, JRPdfExporterParameter.PROPERTY_PDFA_ICC_PROFILE_PATH);
+				if (iccProfilePath != null) {
+					PdfDictionary pdfDictionary = new PdfDictionary(PdfName.OUTPUTINTENT);
+		            pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
+		            pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
+		            pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
+		            
+		            InputStream iccIs = RepositoryUtil.getInputStream(iccProfilePath);
+		            PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
+	            	pdfICCBased.remove(PdfName.ALTERNATE);
+	            	pdfDictionary.put(PdfName.DESTOUTPUTPROFILE, pdfWriter.addToBody(pdfICCBased).getIndirectReference());
+
+	            	pdfWriter.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(pdfDictionary));
+	            } else {
+	            	throw new JRPdfaIccProfileNotFoundException();
+	            }
+			}
+            // END: PDF/A support
 			
 			if(pdfJavaScript != null)
 			{
