@@ -155,7 +155,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
 			pdfExporter.getPhrase(segment.as, segment.text, text),
-			x + leftPadding + drawPosX + leftOffsetFactor * advance,
+			x + drawPosX + leftOffsetFactor * advance,// + leftPadding
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
@@ -163,7 +163,7 @@ public class PdfTextRenderer extends AbstractTextRenderer
 				//- text.getLeadingOffset()
 				+ lineHeight
 				- drawPosY,
-			x + leftPadding + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,
+			x + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,// + leftPadding
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding

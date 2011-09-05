@@ -88,7 +88,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 		
 		segment.layout.draw(
 			grx,
-			x + leftPadding + drawPosX,
+			x + drawPosX,// + leftPadding,
 			//y + topPadding + verticalAlignOffset + text.getLeadingOffset() + drawPosY
 			y + topPadding + verticalAlignOffset + drawPosY
 			);

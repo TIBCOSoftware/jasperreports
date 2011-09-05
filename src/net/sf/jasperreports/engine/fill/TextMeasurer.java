@@ -621,7 +621,7 @@ public class TextMeasurer implements JRTextMeasurer
 			// the current segment limit is either the next tab character or the paragraph end 
 			int tabIndexOrEndIndex = (tabIndexes == null || currentTabHolder[0] >= tabIndexes.size() ? paragraph.getEndIndex() : tabIndexes.get(currentTabHolder[0]) + 1);
 			
-			float startX = (lineMeasurer.getPosition() == 0 ? textElement.getParagraph().getFirstLineIndent() : 0);
+			float startX = (lineMeasurer.getPosition() == 0 ? textElement.getParagraph().getFirstLineIndent() : 0) + leftPadding;
 			float endX = width - textElement.getParagraph().getRightIndent() - rightPadding;
 			endX = endX < startX ? startX : endX;
 			//formatWidth = endX - startX;
@@ -629,11 +629,11 @@ public class TextMeasurer implements JRTextMeasurer
 
 			int startIndex = lineMeasurer.getPosition();
 
-			int rightX = 0;
+			float rightX = 0;
 
 			if (segments.size() == 0)
 			{
-				rightX = (int)startX;
+				rightX = startX;
 				//nextTabStop = nextTabStop;
 			}
 			else
@@ -665,11 +665,11 @@ public class TextMeasurer implements JRTextMeasurer
 				crtSegment = new TabSegment();
 				crtSegment.layout = layout;
 
-				int leftX = ParagraphUtil.getLeftX(nextTabStopHolder[0], layout.getAdvance()); // nextTabStop can be null here; and that's OK
+				float leftX = ParagraphUtil.getLeftX(nextTabStopHolder[0], layout.getAdvance()); // nextTabStop can be null here; and that's OK
 				if (rightX > leftX)
 				{
 					crtSegment.leftX = rightX;
-					crtSegment.rightX = (int)(rightX + layout.getAdvance());//FIXMETAB some rounding issues here
+					crtSegment.rightX = rightX + layout.getAdvance();
 				}
 				else
 				{
@@ -734,7 +734,7 @@ public class TextMeasurer implements JRTextMeasurer
 									startIndex + 1
 									);
 				 			LineBreakMeasurer lbm = new LineBreakMeasurer(tmpText.getIterator(), getFontRenderContext());
-				 			TextLayout tlyt = lbm.nextLayout(100);
+				 			TextLayout tlyt = lbm.nextLayout(100);//FIXME what is this? why 100?
 							maxAscent = tlyt.getAscent();
 							maxDescent = tlyt.getDescent();
 							maxLeading = tlyt.getLeading();
@@ -874,6 +874,6 @@ public class TextMeasurer implements JRTextMeasurer
 class TabSegment
 {
 	public TextLayout layout;
-	public int leftX;
-	public int rightX;
+	public float leftX;
+	public float rightX;
 }
