@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -50,6 +51,10 @@ public class JRPdfExporterParameter extends JRExporterParameter
 
 	public static final String PRINT_SCALING_DEFAULT = "default";
 	public static final String PRINT_SCALING_NONE = "none";
+	
+	public static final String PDFA_CONFORMANCE_1A = "pdfa1a";
+    public static final String PDFA_CONFORMANCE_1B = "pdfa1b";
+    public static final String PDFA_CONFORMANCE_NONE = "none";
 
 	/**
 	 *
@@ -344,4 +349,39 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
 		JRProperties.PROPERTY_PREFIX + "export.pdf.collapse.missing.bookmark.levels";
 	
+	
+	/**
+	 * The Conformance level of the PDF/A document, as java.lang.String.
+	 * <p/>
+	 * Possible values are:
+	 * <ul>
+	 * 	<li>{@link #PDFA_CONFORMANCE_NONE}</li>
+	 * 	<li>{@link #PDFA_CONFORMANCE_1A}</li>
+	 * 	<li>{@link #PDFA_CONFORMANCE_1B}</li>
+	 * </ul>
+     */
+    public static final JRPdfExporterParameter PDFA_CONFORMANCE = new JRPdfExporterParameter("PDF/A Conformance");
+    
+    
+    /**
+	 * Property whose value is used as default for the {@link #PDF_A_CONFORMANCE} export parameter.
+	 * <p/>
+	 * By default, this property is set to {@link #PDFA_CONFORMANCE_NONE}.
+	 * 
+	 * @see JRProperties
+	 */
+    public static final String PROPERTY_PDFA_CONFORMANCE = JRProperties.PROPERTY_PREFIX + "export.pdfa.conformance";
+    
+    
+    /**
+     * The path to the ICC profile file for the PDF/A compliant document
+     */
+    public static final JRPdfExporterParameter PDFA_ICC_PROFILE_PATH = new JRPdfExporterParameter("PDF/A sRGB profile");
+    
+    
+    /**
+     * Property whose value is used as default for the {@link #PDFA_ICC_PROFILE_PATH} export parameter.
+     */
+    public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRProperties.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
+    
 }
