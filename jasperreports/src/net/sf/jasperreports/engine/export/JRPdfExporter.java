@@ -1989,7 +1989,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 */
 	public void exportText(JRPrintText text) throws DocumentException
 	{
-		PdfTextRenderer textRenderer = new PdfTextRenderer(false);//FIXMETAB optimize this
+		PdfTextRenderer textRenderer = PdfTextRenderer.getInstance();//FIXMETAB optimize this
 		
 		textRenderer.initialize(this, pdfContentByte, text, getOffsetX(), getOffsetY());
 		
