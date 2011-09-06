@@ -109,7 +109,6 @@ public class JasperApp extends AbstractSampleApp
 		Image image = 
 			Toolkit.getDefaultToolkit().createImage(
 				JRLoader.loadBytesFromResource("dukesign.jpg")
-//				JRLoader.loadBytesFromResource("507192main_image_1829_1600-1200.jpg")
 				);
 		MediaTracker traker = new MediaTracker(new Panel());
 		traker.addImage(image, 0);
