@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.query;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,6 +35,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.sql.rowset.CachedRowSet;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -85,6 +88,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	
 	protected static final String HOLD_CURSORS_OVER_COMMIT = "hold";
 	protected static final String CLOSE_CURSORS_AT_COMMIT = "close";
+	
+	protected static final String CACHED_ROWSET_CLASS = "com.sun.rowset.CachedRowSetImpl";
 
 	private Connection connection;
 	
@@ -94,6 +99,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	private PreparedStatement statement;
 
 	private ResultSet resultSet;
+	
+	private boolean isCachedRowSet;
 
 	
 	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
@@ -101,7 +108,6 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		super(dataset, parameters);
 		
 		connection = (Connection) getParameterValue(JRParameter.REPORT_CONNECTION);
-
 		if (connection == null)
 		{
 			if (log.isWarnEnabled())
@@ -110,6 +116,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 			}
 		}
 		
+		isCachedRowSet = getBooleanParameterOrProperty(JRJdbcQueryExecuterFactory.PROPERTY_CACHED_ROWSET, false);
+
 		registerFunctions();
 		
 		parseQuery();		
@@ -160,8 +168,26 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				resultSet = statement.executeQuery();
-				
+				if(isCachedRowSet)
+				{
+					try
+					{
+						Class<? extends CachedRowSet> clazz = (Class<? extends CachedRowSet>)Class.forName(CACHED_ROWSET_CLASS);
+						Constructor<? extends CachedRowSet> constructor = (Constructor<? extends CachedRowSet>)clazz.getConstructor();
+						resultSet = constructor.newInstance();
+					}
+					catch (Exception e)
+					{
+						throw new JRException("Retrieved data could not be cached. ", e);
+					}
+					
+					((CachedRowSet)resultSet).populate(statement.executeQuery());
+					statement.close();
+				}
+				else
+				{
+					resultSet = statement.executeQuery();
+				}
 				dataSource = new JRResultSetDataSource(resultSet);
 			}
 			catch (SQLException e)
