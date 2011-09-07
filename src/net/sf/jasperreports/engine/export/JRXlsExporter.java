@@ -1746,13 +1746,29 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 	
-	protected void setFreezePane(int rowIndex, int colIndex)
+	/**
+	 * Creates a freeze pane for the current sheet. Freeze pane row and column indexes defined at element level override indexes defined at report level. 
+	 * If multiple row freeze indexes are found in the same sheet, their maximum 
+	 * value is considered. 
+	 * 
+	 * @param rowIndex the freeze 0-based row index
+	 * @param colIndex the freeze 0-based column index
+	 * @param isRowEdge specifies if the freeze row index is set at element level
+	 * @param isColumnEdge specifies if the freeze column index is set at element level
+	 */
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
 	{
-		int maxRowIndex = Math.max(rowIndex, maxRowFreezeIndex);
-		int maxColIndex = Math.max(colIndex, maxColumnFreezeIndex);
+		int maxRowIndex = isFreezeRowEdge 
+				? Math.max(rowIndex, maxRowFreezeIndex) 
+				: (isRowEdge ? rowIndex : Math.max(rowIndex, maxRowFreezeIndex));
+		int maxColIndex = isFreezeColumnEdge 
+				? Math.max(colIndex, maxColumnFreezeIndex) 
+				: (isColumnEdge ? colIndex : Math.max(colIndex, maxColumnFreezeIndex));
 		sheet.createFreezePane(maxColIndex, maxRowIndex );
 		maxRowFreezeIndex = maxRowIndex;
 		maxColumnFreezeIndex = maxColIndex;
+		isFreezeRowEdge = isRowEdge;
+		isFreezeColumnEdge = isColumnEdge;
 	}
 	
 }
