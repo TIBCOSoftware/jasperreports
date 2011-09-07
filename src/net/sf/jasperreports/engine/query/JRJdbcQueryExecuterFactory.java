@@ -68,6 +68,11 @@ public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 	public static final String PROPERTY_JDBC_MAX_FIELD_SIZE = JRProperties.PROPERTY_PREFIX + "jdbc.max.field.size";
 
 	/**
+	 * Flag property specifying if data will be stored in a cached rowset.
+	 */
+	public static final String PROPERTY_CACHED_ROWSET = JRProperties.PROPERTY_PREFIX + "jdbc.cached.rowset";
+
+	/**
 	 * SQL query language.
 	 */
 	public static final String QUERY_LANGUAGE_SQL = "sql";
