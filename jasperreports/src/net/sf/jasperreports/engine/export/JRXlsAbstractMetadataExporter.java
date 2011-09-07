@@ -139,7 +139,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
-			setSheetNames();
+			setExporterHints();
 
 			if(
 				getParameter(JRXlsAbstractExporterParameter.SHEET_NAMES) == null
@@ -177,7 +177,8 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 						sheetIndex++;
 						sheetNamesIndex++;
 						rowIndex = 0;
-
+						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						
 						/*   */
 						exportPage(page);
 					}
@@ -190,7 +191,8 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
 					sheetNamesIndex++;
-
+					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					
 					if (filter instanceof ResetableExporterFilter)
 					{
 						((ResetableExporterFilter)filter).reset();
@@ -260,7 +262,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			String rowFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_ROW_EDGE);
 			
 			int rowFreezeIndex = rowFreeze == null 
-				? gridRowFreezeIndex 
+				? 0 
 				: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
 						? rowIndex + 1
 						: rowIndex
@@ -269,7 +271,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			String columnFreeze = JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN_EDGE);
 				
 			int columnFreezeIndex = columnFreeze == null 
-				? gridColumnFreezeIndex 
+				? 0 
 				: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
 						? columnNamesMap.get(currentColumnName) + 1
 						: columnNamesMap.get(currentColumnName)
@@ -277,9 +279,8 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 			if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
 			{
-				setFreezePane(rowFreezeIndex, columnFreezeIndex);
+				setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 			}
-				
 		}
 		// write last row
 		if (columnNames.size() > 0)

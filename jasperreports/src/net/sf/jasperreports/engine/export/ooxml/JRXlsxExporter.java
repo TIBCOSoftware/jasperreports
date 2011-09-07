@@ -1448,9 +1448,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		return XLSX_EXPORTER_KEY;
 	}
 	
-	protected void setFreezePane(int colIndex, int rowIndex){
-		
-		//TODO: set freeze pane here
+	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
+	{
+		//TODO: set freeze pane for element-level defined indexes
 	}
 	
 }

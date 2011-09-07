@@ -175,33 +175,37 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_SHEET_DIRECTION = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.direction";
 	
 	/**
-	 * This property specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
-	 * Its possible values are positive integers in the 0..65536 range. Negative values are not considered. 
+	 * Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
+	 * Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
+	 * The property should be used when all sheets in the document have the same freeze row index.
 	 */
 	public static final String PROPERTY_FREEZE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row";
 	
 	/**
-	 * This property indicates the name of the first unlocked column in the sheet. All columns to the left of this one will be 'frozen'. 
-	 * Possible values are letters or letter combinations representing valid column names in Excel, like A, B, AB, AC, etc.
+	 * Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
+	 * Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc.
+	 * The property should be used when all document sheets have the same freeze column name.
 	 */
 	public static final String PROPERTY_FREEZE_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column";
 	
 	/**
-	 * This property indicates the horizontal edge of the freeze pane, relative to the current cell. 
-	 * Possible values are:
+	 * This property indicates the horizontal edge of the freeze pane, relative to the current cell. If set, it overrides the 
+	 * PROPERTY_FREEZE_ROW value.
+	 * Allowed values are:
 	 * <ul>
-	 * <li>Top - The current row is the first unlocked row in the sheet. All rows above are 'frozen'.</li>
-	 * <li>Bottom - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
+	 * <li><code>Top</code> - The current row is the first unlocked row in the sheet. All rows above are 'frozen'.</li>
+	 * <li><code>Bottom</code> - The current row is the last 'frozen' row in the sheet. All rows below are unlocked.</li>
 	 * </ul>
 	 */
 	public static final String PROPERTY_FREEZE_ROW_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.row.edge";
 	
 	/**
-	 * This property indicates the vertical edge of the freeze pane, relative to the current cell. 
-	 * Possible values are:
+	 * This property indicates the vertical edge of the freeze pane, relative to the current cell. If set, it overrides the 
+	 * PROPERTY_FREEZE_COLUMN and PROPERTY_FREEZE_SHEET_COLUMNS values.
+	 * Allowed values are:
 	 * <ul>
-	 * <li>Left - The current column is the first unlocked column in the sheet. All columns to the left are 'frozen'.</li>
-	 * <li>Right - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
+	 * <li><code>Left</code> - The current column is the first unlocked column in the sheet. All columns to the left are 'frozen'.</li>
+	 * <li><code>Right</code> - The current column is the last 'frozen' column in the sheet. All columns to the right are unlocked.</li>
 	 * </ul>
 	 */
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
@@ -304,6 +308,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int maxRowFreezeIndex;
 	protected int maxColumnFreezeIndex;
 	
+	protected boolean isFreezeRowEdge;
+	protected boolean isFreezeColumnEdge;
 	/**
 	 *
 	 */
@@ -567,6 +573,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		formatPatternsMap = (Map<String,String>)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 		
+	}
+
+	protected void setExporterHints()
+	{
+		setSheetNames();
+		
 		gridRowFreezeIndex = Math.min(
 				Math.max(0, JRProperties.getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1), 
 				MAX_ROW_INDEX
@@ -590,7 +602,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			
 			defaultFont = new JRBasePrintText(jasperPrint.getDefaultStyleProvider());
 			
-			setSheetNames();
+			setExporterHints();
 
 			if(
 				getParameter(JRXlsAbstractExporterParameter.SHEET_NAMES) == null
@@ -628,6 +640,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						sheetIndex++;
 						sheetNamesIndex++;
 
+						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0);
 					}
@@ -641,6 +654,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					sheetIndex++;
 					sheetNamesIndex++;
 
+					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					
 					/*
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
@@ -735,6 +750,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				skippedRows = y;
 				sheetIndex++;
 				sheetNamesIndex++;
+				setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 			}
 			
 			if (
@@ -793,16 +809,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						String rowFreeze = JRProperties.getProperty(element, PROPERTY_FREEZE_ROW_EDGE);
 						
 						int rowFreezeIndex = rowFreeze == null 
-							? gridRowFreezeIndex 
-							: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
-									? rowIndex + gridCell.getRowSpan()
-									: rowIndex
-									);
-						
+								? 0 
+								: (EdgeEnum.BOTTOM.getName().equals(rowFreeze) 
+										? rowIndex + gridCell.getRowSpan()
+										: rowIndex
+										);
+							
 						String columnFreeze = JRProperties.getProperty(element, PROPERTY_FREEZE_COLUMN_EDGE);
 							
 						int columnFreezeIndex = columnFreeze == null 
-							? gridColumnFreezeIndex 
+							? 0
 							: (EdgeEnum.RIGHT.getName().equals(columnFreeze) 
 									? colIndex + gridCell.getColSpan()
 									: colIndex
@@ -810,7 +826,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 						if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
 						{
-							setFreezePane(rowFreezeIndex, columnFreezeIndex);
+							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 						}
 
 						if (element instanceof JRPrintLine)
@@ -1293,6 +1309,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return index;
 	}
 	
+	protected void setFreezePane(int rowIndex, int colIndex)
+	{
+		setFreezePane(rowIndex, colIndex, false, false);
+	}
+	
 	protected abstract ExporterNature getNature();
 
 	protected abstract void openWorkbook(OutputStream os) throws JRException;
@@ -1325,5 +1346,5 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
-	protected abstract void setFreezePane(int rowIndex, int colIndex);
+	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
 }
