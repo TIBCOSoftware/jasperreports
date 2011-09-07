@@ -22,6 +22,7 @@
       <property ref="net.sf.jasperreports.hql.field.mapping.descriptions"/>
       <property ref="net.sf.jasperreports.hql.query.list.page.size"/>
       <property ref="net.sf.jasperreports.hql.query.run.type"/>
+      <property ref="net.sf.jasperreports.jdbc.cached.rowset"/>
       <property ref="net.sf.jasperreports.jdbc.concurrency"/>
       <property ref="net.sf.jasperreports.jdbc.fetch.size"/>
       <property ref="net.sf.jasperreports.jdbc.holdability"/>
@@ -463,6 +464,18 @@ Property specifying the Hibernate query execution type. Possible values are:
     <since>1.2.0</since>
   </configProperty>
   
+  
+  <!-- net.sf.jasperreports.jdbc.cached.rowset -->
+  
+  <configProperty name="net.sf.jasperreports.jdbc.cached.rowset">
+    <description>
+Flag property specifying if data will be stored in a cached rowset.
+    </description>
+    <api>net/sf/jasperreports/engine/query/JRJdbcQueryExecuterFactory.html#PROPERTY_CACHED_ROWSET</api>
+    <default>false</default>
+    <scope>Global | Dataset</scope>
+    <since>4.1.2</since>
+  </configProperty>
   
   <!-- net.sf.jasperreports.jdbc.fetch.size -->
   
@@ -2484,10 +2497,9 @@ Property that stores the formula which has to be applied to a given cell in an E
   
   <configProperty name="net.sf.jasperreports.export.xls.freeze.column">
     <description>
-Property that indicates the name of the first unlocked column in the sheet. All columns to the left of 
-this one will be 'frozen'. Possible values for this property are letters or letter combinations representing 
-valid column names in Excel, like A, B, AB, AC, etc. 
-<br/>
+Indicates the name of the first unlocked column in document's sheets. All columns to the left of this one will be 'frozen'. 
+Allowed values are letters or letter combinations representing valid column names in Excel, such as A, B, AB, AC, etc. 
+The property should be used when all sheets in the document have the same freeze column name.<br/>
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
@@ -2507,7 +2519,10 @@ The property is available for:
   
   <configProperty name="net.sf.jasperreports.export.xls.freeze.column.edge">
     <description>
-Property that indicates the vertical edge of the freeze pane, relative to the current cell. Possible values are:
+Property that indicates the vertical edge of the freeze pane, relative to the current cell. If set, it overrides the 
+<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN</api> value. 
+<br/>
+Allowed values are:
 <ul>
 <li>
 <code>Left</code> - the current column is the first unlocked column in the sheet. All columns to the left are 'frozen'.
@@ -2534,9 +2549,9 @@ The property is available for:
   
   <configProperty name="net.sf.jasperreports.export.xls.freeze.row">
     <description>
-Property that specifies the index of the first unlocked row in the sheet. All rows above this will be 'frozen'. 
-Possible values for this property are positive integers in the 0..65536 range. Negative values are not considered.
-<br/>
+Specifies the index of the first unlocked row in document's sheets. All rows above this will be 'frozen'. 
+Allowed values are represented by positive integers in the 1..65536 range. Negative values are not considered. 
+The property should be used when all sheets in the document have the same freeze row index.<br/>
 The property is available for: 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api></li>
@@ -2556,7 +2571,10 @@ The property is available for:
   
   <configProperty name="net.sf.jasperreports.export.xls.freeze.row.edge">
     <description>
-Property that indicates the horizontal edge of the freeze pane, relative to the current cell. Possible values are:
+Property that indicates the horizontal edge of the freeze pane, relative to the current cell. If set, it overrides the 
+<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW</api> value.
+<br/>
+Allowed values are:
 <ul>
 <li>
 <code>Top</code> - the current row is the first unlocked row in the sheet. All rows above are 'frozen'.
