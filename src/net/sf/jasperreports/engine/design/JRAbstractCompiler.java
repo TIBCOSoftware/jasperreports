@@ -289,7 +289,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	private File getSourceFile(File saveSourceDir, String unitName, JRCompilationSourceCode sourceCode) throws JRException
 	{
 		File sourceFile = null;
-		if (saveSourceDir != null)
+		if (saveSourceDir != null && sourceCode != null && sourceCode.getCode() != null)
 		{
 			String fileName = getSourceFileName(unitName);
 			sourceFile = new File(saveSourceDir,  fileName);
