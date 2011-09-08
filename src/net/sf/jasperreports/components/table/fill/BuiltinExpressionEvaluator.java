@@ -27,6 +27,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -38,7 +41,9 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public interface BuiltinExpressionEvaluator
 {
 
-	<T,U,V> void init(Map<String, T> parametersMap, Map<String, U> fieldsMap, Map<String, V> variablesMap, 
+	void init(Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap, 
+			Map<String, JRFillVariable> variablesMap, 
 			WhenResourceMissingTypeEnum resourceMissingType) throws JRException;
 	
 	Object evaluate() throws JRExpressionEvalException;

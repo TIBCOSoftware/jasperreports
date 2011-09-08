@@ -33,6 +33,9 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.TargetError;
@@ -117,10 +120,10 @@ public class JRBshEvaluator extends JREvaluator
 	/**
 	 *
 	 */
-	protected <T,U,V> void customizedInit(
-			Map<String, T> pars, 
-			Map<String, U> fldsm, 
-			Map<String, V> varsm
+	protected void customizedInit(
+			Map<String, JRFillParameter> pars, 
+			Map<String, JRFillField> fldsm, 
+			Map<String, JRFillVariable> varsm
 		) throws JRException
 	{
 		try

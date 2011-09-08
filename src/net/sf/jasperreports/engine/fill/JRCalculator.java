@@ -50,9 +50,9 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 *
 	 */
 	protected JRFillDataset dataset;
-	protected Map<String,?> parsm;
-	protected Map<String,?> fldsm;
-	protected Map<String,?> varsm;
+	protected Map<String, JRFillParameter> parsm;
+	protected Map<String, JRFillField> fldsm;
+	protected Map<String, JRFillVariable> varsm;
 	protected JRFillVariable[] variables;
 	protected JRFillGroup[] groups;
 	protected JRFillElementDataset[] datasets;
@@ -104,8 +104,8 @@ public class JRCalculator implements JRFillExpressionEvaluator
 		groups = dataset.groups;
 		datasets = dataset.elementDatasets;
 
-		pageNumber = (JRFillVariable)varsm.get(JRVariable.PAGE_NUMBER);
-		columnNumber = (JRFillVariable)varsm.get(JRVariable.COLUMN_NUMBER);
+		pageNumber = varsm.get(JRVariable.PAGE_NUMBER);
+		columnNumber = varsm.get(JRVariable.COLUMN_NUMBER);
 		
 		WhenResourceMissingTypeEnum whenResourceMissingType = dataset.getWhenResourceMissingTypeValue();
 		evaluator.init(parsm, fldsm,varsm, whenResourceMissingType);

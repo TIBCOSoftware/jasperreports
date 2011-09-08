@@ -39,10 +39,10 @@ public interface DatasetExpressionEvaluator
 {
 
 
-	<T,U,V> void init(
-			Map<String, T> parametersMap, 
-			Map<String, U> fieldsMap, 
-			Map<String, V> variablesMap, 
+	void init(
+			Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap, 
+			Map<String, JRFillVariable> variablesMap, 
 			WhenResourceMissingTypeEnum resourceMissingType
 			) throws JRException;
 	
