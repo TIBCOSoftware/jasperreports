@@ -86,10 +86,10 @@ public final class ComponentsEnvironment
 	{
 		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
 		ExtensionsRegistry extensionsRegistry = ExtensionsEnvironment.getExtensionsRegistry();
-		List<?> bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
-		for (Iterator<?> it = bundles.iterator(); it.hasNext();)
+		List<ComponentsBundle> bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
+		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
 		{
-			ComponentsBundle bundle = (ComponentsBundle)it.next();
+			ComponentsBundle bundle = it.next();
 			String namespace = bundle.getXmlParser().getNamespace();
 			if (components.containsKey(namespace))
 			{

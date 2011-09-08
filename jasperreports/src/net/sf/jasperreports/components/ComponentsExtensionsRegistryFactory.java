@@ -23,9 +23,7 @@
  */
 package net.sf.jasperreports.components;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import net.sf.jasperreports.components.barbecue.BarbecueCompiler;
 import net.sf.jasperreports.components.barbecue.BarbecueDesignConverter;
@@ -57,6 +55,7 @@ import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * Extension registry factory that includes built-in component element
@@ -162,18 +161,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		
 		bundle.setComponentManagers(componentManagers);
 		
-		REGISTRY = new ExtensionsRegistry()
-		{
-			public List<ComponentsBundle> getExtensions(Class<?> extensionType)
-			{
-				if (ComponentsBundle.class.equals(extensionType))
-				{
-					return Collections.singletonList((ComponentsBundle)bundle);
-				}
-				
-				return null;
-			}
-		};
+		REGISTRY = new SingletonExtensionRegistry<ComponentsBundle>(ComponentsBundle.class, bundle);
 	}
 	
 	public ExtensionsRegistry createRegistry(String registryId,

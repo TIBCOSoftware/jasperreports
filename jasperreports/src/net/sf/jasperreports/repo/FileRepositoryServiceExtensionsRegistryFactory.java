@@ -23,12 +23,10 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 
 /**
@@ -38,17 +36,8 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 public class FileRepositoryServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	private static final ExtensionsRegistry repositoryServiceExtensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			public List<FileRepositoryServiceFactory> getExtensions(Class<?> extensionType) 
-			{
-				if (RepositoryServiceFactory.class.equals(extensionType))
-				{
-					return Collections.singletonList(FileRepositoryServiceFactory.getInstance());
-				}
-				return null;
-			}
-		};
+			new SingletonExtensionRegistry<RepositoryServiceFactory>(
+					RepositoryServiceFactory.class, FileRepositoryServiceFactory.getInstance());
 	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{

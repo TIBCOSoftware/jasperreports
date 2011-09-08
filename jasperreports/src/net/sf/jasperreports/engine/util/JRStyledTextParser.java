@@ -80,7 +80,7 @@ public class JRStyledTextParser implements ErrorHandler
 	static
 	{
 		//FIXMEFONT do some cache
-		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family =itf.next();

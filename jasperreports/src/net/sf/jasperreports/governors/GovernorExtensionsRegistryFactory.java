@@ -23,13 +23,11 @@
  */
 package net.sf.jasperreports.governors;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 
 /**
@@ -39,17 +37,8 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 public class GovernorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	private static final ExtensionsRegistry governorExtensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			public List<GovernorFactory> getExtensions(Class<?> extensionType) 
-			{
-				if (ScriptletFactory.class.equals(extensionType))
-				{
-					return Collections.singletonList(GovernorFactory.getInstance());
-				}
-				return null;
-			}
-		};
+			new SingletonExtensionRegistry<ScriptletFactory>(
+					ScriptletFactory.class, GovernorFactory.getInstance());
 	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{

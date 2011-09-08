@@ -34,11 +34,11 @@ import java.util.List;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
  */
-public class SingletonExtensionRegistry<T> implements ExtensionsRegistry
+public class SingletonExtensionRegistry<Type> implements ExtensionsRegistry
 {
 
-	private final Class<T> type;
-	private final List<T> extensions;
+	private final Class<Type> type;
+	private final List<Type> extensions;
 	
 	/**
 	 * Creates a singleton extension registry.
@@ -46,17 +46,17 @@ public class SingletonExtensionRegistry<T> implements ExtensionsRegistry
 	 * @param type the registry type
 	 * @param extension the extension object
 	 */
-	public SingletonExtensionRegistry(Class<T> type, T extension)
+	public SingletonExtensionRegistry(Class<Type> type, Type extension)
 	{
 		this.type = type;
 		this.extensions = Collections.singletonList(extension);
 	}
 	
-	public List<?> getExtensions(Class<?> extensionType)
+	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (type.equals(extensionType))
 		{
-			return extensions;
+			return (List<T>) extensions;
 		}
 		return null;
 	}

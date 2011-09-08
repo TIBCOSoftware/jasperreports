@@ -39,8 +39,9 @@ public interface ExtensionsRegistry
 	 * Returns a list of extension objects for a specific extension type.
 	 * 
 	 * @param extensionType the extension type
+	 * @param <T> generic extension type
 	 * @return a list of extension objects
 	 */
-	List<?> getExtensions(Class<?> extensionType);
+	<T> List<T> getExtensions(Class<T> extensionType);
 	
 }
