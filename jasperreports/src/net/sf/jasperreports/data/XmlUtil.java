@@ -46,7 +46,7 @@ import org.xml.sax.InputSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: XmlChartTheme.java 3939 2010-08-20 09:52:00Z teodord $
+ * @version $Id$
  */
 public class XmlUtil
 {

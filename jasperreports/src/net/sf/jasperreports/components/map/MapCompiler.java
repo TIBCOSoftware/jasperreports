@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BarbecueCompiler.java 4327 2011-05-20 08:10:46Z teodord $
+ * @version $Id$
  */
 public class MapCompiler implements ComponentCompiler
 {

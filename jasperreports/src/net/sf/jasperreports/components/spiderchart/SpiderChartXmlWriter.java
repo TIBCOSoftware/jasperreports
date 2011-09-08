@@ -45,7 +45,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderChartXmlWriter.java 3892 2010-07-16 13:43:20Z shertage $
+ * @version $Id$
  */
 public class SpiderChartXmlWriter implements ComponentXmlWriter
 {

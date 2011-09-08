@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAbstractScriptlet.java 4388 2011-06-08 10:23:44Z shertage $
+ * @version $Id$
  */
 public interface ParameterContributor
 {

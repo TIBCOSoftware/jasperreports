@@ -49,7 +49,7 @@ import net.sf.jasperreports.web.WebReportContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ImageServlet.java 4350 2011-05-27 09:42:00Z shertage $
+ * @version $Id$
  */
 public class ImageServlet extends HttpServlet
 {

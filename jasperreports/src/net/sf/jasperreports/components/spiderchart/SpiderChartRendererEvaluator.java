@@ -51,7 +51,7 @@ import org.jfree.ui.RectangleEdge;
  * Spider Chart design evaluator.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderChartDesignConverter.java 3898 2010-07-19 11:30:26Z shertage $
+ * @version $Id$
  */
 public class SpiderChartRendererEvaluator
 {

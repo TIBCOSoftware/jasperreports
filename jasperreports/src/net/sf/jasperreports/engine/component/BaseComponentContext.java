@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StandardBarbecueComponent.java 4087 2010-12-15 12:57:45Z narcism $
+ * @version $Id$
  */
 public class BaseComponentContext implements ComponentContext, Serializable
 {

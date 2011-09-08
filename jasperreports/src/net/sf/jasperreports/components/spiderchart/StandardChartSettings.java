@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: StandardChartSettings.java 3891 2010-07-16 13:15:11Z shertage $
+ * @version $Id$
  */
 public class StandardChartSettings implements ChartSettings, JRChangeEventsSupport
 {

@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
- * @version $Id: Column.java 3586 2010-03-12 18:17:13Z lucianc $
+ * @version $Id$
  */
 public class TableUtil 
 {

@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.util.JRStringUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
+ * @version $Id$
  */
 public class XlsxSheetRelsHelper extends BaseHelper
 {

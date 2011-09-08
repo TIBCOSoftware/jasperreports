@@ -32,7 +32,7 @@ import org.jfree.chart.renderer.xy.XYBubbleRenderer;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: PlotOrientationEnum.java 3551 2010-03-09 16:24:05Z shertage $
+ * @version $Id$
  */
 public enum ScaleTypeEnum implements JREnum
 {

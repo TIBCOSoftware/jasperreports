@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
  * A generic print element XLS export handler.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GenericElementPdfHandler.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  */
 public interface GenericElementJExcelApiHandler extends GenericElementHandler
 {

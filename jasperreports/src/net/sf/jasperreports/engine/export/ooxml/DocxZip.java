@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: OoxmlZip.java 2976 2009-07-28 14:38:22Z teodord $
+ * @version $Id$
  */
 public class DocxZip extends FileBufferedZip
 {

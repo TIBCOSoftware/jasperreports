@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRCloneUtils;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StandardBarbecueComponent.java 4414 2011-06-16 08:10:44Z teodord $
+ * @version $Id$
  */
 public class StandardMapComponent implements MapComponent, Serializable, JRChangeEventsSupport
 {

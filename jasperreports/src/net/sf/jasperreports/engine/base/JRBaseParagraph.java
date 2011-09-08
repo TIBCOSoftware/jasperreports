@@ -43,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseLineBox.java 3939 2010-08-20 09:52:00Z teodord $
+ * @version $Id$
  */
 public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JRChangeEventsSupport
 {

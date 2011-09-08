@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * Builtin expression that evaluates to a constant value.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: BuiltinExpressionEvaluator.java 4347 2011-05-26 11:13:03Z shertage $
+ * @version $Id$
  */
 public class ConstantBuiltinExpression implements BuiltinExpressionEvaluator
 {

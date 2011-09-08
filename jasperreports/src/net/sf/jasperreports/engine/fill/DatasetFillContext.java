@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.EvaluationType;
  * Context information related to a fill time dataset.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
+ * @version $Id$
  */
 public interface DatasetFillContext
 {

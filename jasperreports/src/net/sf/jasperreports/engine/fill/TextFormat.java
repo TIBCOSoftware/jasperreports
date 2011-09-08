@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine.fill;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextMeasurer.java 4298 2011-04-18 16:51:58Z teodord $
+ * @version $Id$
  */
 public interface TextFormat
 {

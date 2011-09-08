@@ -44,7 +44,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: FillSpiderDataset.java 3877 2010-07-14 15:25:08Z shertage $
+ * @version $Id$
  */
 public class FillSpiderDataset extends JRFillElementDataset implements SpiderDataset
 {

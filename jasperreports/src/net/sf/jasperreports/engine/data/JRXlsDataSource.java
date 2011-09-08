@@ -56,7 +56,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  * names or set a flag to read the column names from the first row of the CSV file.
  *
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCsvDataSource.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  */
 public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewindableDataSource
 {

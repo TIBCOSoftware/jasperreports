@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StyleBuilder.java 2908 2009-07-21 14:32:01Z teodord $
+ * @version $Id$
  */
 public class XlsxSheetHelper extends BaseHelper
 {

@@ -39,7 +39,7 @@ import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HtmlServlet.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public abstract class AbstractViewer
 {

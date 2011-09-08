@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextRenderer.java 4280 2011-04-11 10:36:24Z teodord $
+ * @version $Id$
  */
 public abstract class AbstractTextRenderer
 {

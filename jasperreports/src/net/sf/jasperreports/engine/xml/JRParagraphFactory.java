@@ -32,7 +32,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBoxFactory.java 3665 2010-03-31 14:22:48Z shertage $
+ * @version $Id$
  */
 public class JRParagraphFactory extends JRBaseFactory
 {

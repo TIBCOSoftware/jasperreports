@@ -29,7 +29,7 @@ import org.apache.velocity.app.VelocityEngine;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: BaseElementHtmlHandler.java 61 2011-06-14 13:38:24Z narcism $
+ * @version $Id$
  */
 public abstract class BaseElementHtmlHandler implements GenericElementHtmlHandler {
 

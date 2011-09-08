@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: StandardSpiderDataset.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public class StandardSpiderDataset extends JRDesignElementDataset implements SpiderDataset
 {

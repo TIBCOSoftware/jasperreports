@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.export.LengthUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: DocxStyleHelper.java 3939 2010-08-20 09:52:00Z teodord $
+ * @version $Id$
  */
 public class DocxSettingsHelper extends BaseHelper
 {

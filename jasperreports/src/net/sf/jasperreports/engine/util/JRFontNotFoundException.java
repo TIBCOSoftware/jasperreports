@@ -78,7 +78,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * provided with the JasperReports project distribution package.
  *  
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRRuntimeException.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  */
 public class JRFontNotFoundException extends JRRuntimeException
 {

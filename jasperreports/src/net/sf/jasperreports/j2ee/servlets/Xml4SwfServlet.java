@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: XmlServlet.java 3034 2009-08-27 11:58:04Z teodord $
+ * @version $Id$
  */
 public class Xml4SwfServlet extends XmlServlet
 {

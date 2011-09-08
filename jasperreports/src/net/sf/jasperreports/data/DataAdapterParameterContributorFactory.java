@@ -38,7 +38,7 @@ import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
+ * @version $Id$
  */
 public final class DataAdapterParameterContributorFactory implements ParameterContributorFactory
 {

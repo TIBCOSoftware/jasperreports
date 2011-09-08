@@ -32,7 +32,7 @@ import org.xml.sax.Attributes;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderChartXmlFactory.java 3874 2010-07-13 14:58:41Z shertage $
+ * @version $Id$
  */
 public class SpiderChartXmlFactory extends JRBaseFactory
 {

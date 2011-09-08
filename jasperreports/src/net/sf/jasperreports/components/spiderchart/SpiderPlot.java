@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JRFont;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderPlot.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public interface SpiderPlot extends ChartPlot
 {

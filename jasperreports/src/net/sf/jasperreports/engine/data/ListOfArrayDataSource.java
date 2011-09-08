@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBeanCollectionDataSource.java 3939 2010-08-20 09:52:00Z teodord $
+ * @version $Id$
  */
 public class ListOfArrayDataSource implements JRRewindableDataSource
 {

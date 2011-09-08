@@ -32,7 +32,7 @@ import java.util.List;
  * @param <T> the extension type
  *  
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
+ * @version $Id$
  */
 public class SingletonExtensionRegistry<Type> implements ExtensionsRegistry
 {

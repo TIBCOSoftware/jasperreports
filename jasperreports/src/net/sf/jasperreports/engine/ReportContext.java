@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BaseHttpServlet.java 4336 2011-05-24 13:30:34Z teodord $
+ * @version $Id$
  */
 public interface ReportContext
 {

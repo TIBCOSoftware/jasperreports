@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ScriptletFactoryContext.java 4391 2011-06-08 13:17:35Z shertage $
+ * @version $Id$
  */
 public class ParameterContributorContext
 {
