@@ -221,7 +221,7 @@ public final class JasperCompileManager
 	 * @return collection of {@link JRValidationFault JRValidationFault} if problems are found
 	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
-	public static Collection<?> verifyDesign(JasperDesign jasperDesign)
+	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
 	{
 		return JRVerifier.verifyDesign(jasperDesign);
 	}
