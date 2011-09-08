@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2005 - 2009 Works, Inc. All rights reserved.
+ * Copyright (C) 2005 - 2011 Works, Inc. All rights reserved.
  * http://www.works.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
