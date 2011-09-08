@@ -60,19 +60,19 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		Boolean hasOverflowed = (Boolean) element.getParameterValue(HtmlPrintElement.BUILTIN_PARAMETER_HAS_OVERFLOWED);
 		Boolean clipOnOverflow = (Boolean) element.getParameterValue(HtmlPrintElement.PARAMETER_CLIP_ON_OVERFLOW);
 		
-        JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
-        printImage.setStyle(element.getStyle());
-        printImage.setMode(element.getModeValue());
-        printImage.setBackcolor(element.getBackcolor());
-        printImage.setForecolor(element.getForecolor());
-        printImage.setX(element.getX());
-        printImage.setY(element.getY());
-        printImage.setWidth(element.getWidth());
-        printImage.setScaleImage(ScaleImageEnum.getByName(scaleType));
-        printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
-        printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
-        
-        FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), element.getWidth(), element.getHeight());
+		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
+		printImage.setStyle(element.getStyle());
+		printImage.setMode(element.getModeValue());
+		printImage.setBackcolor(element.getBackcolor());
+		printImage.setForecolor(element.getForecolor());
+		printImage.setX(element.getX());
+		printImage.setY(element.getY());
+		printImage.setWidth(element.getWidth());
+		printImage.setScaleImage(ScaleImageEnum.getByName(scaleType));
+		printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
+		printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
+		
+		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), element.getWidth(), element.getHeight());
 		
 		if (printImage.getScaleImageValue() == ScaleImageEnum.REAL_HEIGHT || printImage.getScaleImageValue() == ScaleImageEnum.REAL_SIZE) {
 			boolean canClip = hasOverflowed != null ? hasOverflowed : false;
@@ -101,23 +101,23 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 			htmlContent = JRExpressionUtil.getExpressionText(html.getHtmlContentExpression());
 		}
 		
-        JRBasePrintImage printImage = new JRBasePrintImage(componentElement.getDefaultStyleProvider());
+		JRBasePrintImage printImage = new JRBasePrintImage(componentElement.getDefaultStyleProvider());
 
-        printImage.setStyle(componentElement.getStyle());
-        printImage.setMode(componentElement.getModeValue());
-        printImage.setBackcolor(componentElement.getBackcolor());
-        printImage.setForecolor(componentElement.getForecolor());
-        printImage.setX(componentElement.getX());
-        printImage.setY(componentElement.getY());
-        printImage.setWidth(componentElement.getWidth());
-        printImage.setHeight(componentElement.getHeight());
-        printImage.setScaleImage(html.getScaleType());
-        printImage.setHorizontalAlignment(html.getHorizontalAlign());
-        printImage.setVerticalAlignment(html.getVerticalAlign());
-        
+		printImage.setStyle(componentElement.getStyle());
+		printImage.setMode(componentElement.getModeValue());
+		printImage.setBackcolor(componentElement.getBackcolor());
+		printImage.setForecolor(componentElement.getForecolor());
+		printImage.setX(componentElement.getX());
+		printImage.setY(componentElement.getY());
+		printImage.setWidth(componentElement.getWidth());
+		printImage.setHeight(componentElement.getHeight());
+		printImage.setScaleImage(html.getScaleType());
+		printImage.setHorizontalAlignment(html.getHorizontalAlign());
+		printImage.setVerticalAlignment(html.getVerticalAlign());
+		
 		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), componentElement.getWidth(), componentElement.getHeight());
 		printImage.setRenderer(renderer);
-        return printImage;
+		return printImage;
 	}
 	
 	public Dimension getComputedSize(JRGenericPrintElement element) {
@@ -130,22 +130,22 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 	
 	private Document getHtmlDocument(String htmlContent) {
 		StringBuffer buf = new StringBuffer();
-	    buf.append("<html>");
-	    buf.append("<head><style language='text/css'>");
-	    buf.append("@page{ margin: 0; }");
-	    buf.append("body{ margin:0;}");
-	    buf.append("</style></head>");
-	    buf.append("<body>");
-	    buf.append(htmlContent);
-	    buf.append("</body>");
-	    buf.append("</html>");
-	    
-	    Tidy tidy = new Tidy();
+		buf.append("<html>");
+		buf.append("<head><style language='text/css'>");
+		buf.append("@page{ margin: 0; }");
+		buf.append("body{ margin:0;}");
+		buf.append("</style></head>");
+		buf.append("<body>");
+		buf.append(htmlContent);
+		buf.append("</body>");
+		buf.append("</html>");
+		
+		Tidy tidy = new Tidy();
 		tidy.setXHTML(true);
 		tidy.setQuiet(true);
 		tidy.setShowWarnings(false);
-	    
-	    return tidy.parseDOM(new ByteArrayInputStream(buf.toString().getBytes()), null);
+		
+		return tidy.parseDOM(new ByteArrayInputStream(buf.toString().getBytes()), null);
 	}
 
 }

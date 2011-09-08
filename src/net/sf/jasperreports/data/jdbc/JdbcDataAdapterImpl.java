@@ -34,74 +34,74 @@ import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
  */
 public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements JdbcDataAdapter
 {
-    private String driver;
-    private String username;
-    private String password = null;
-    private String url;
-    private String database;
-    private boolean savePassword;
-    private String serverAddress;
-    private Map<String, String> properties;
-    
-    public JdbcDataAdapterImpl() {
-    	setName("New JDBC Data Adapter");
-    }
-
-    public String getDatabase() {
-        return database;
-    }
-    
-    public void setDatabase(String database) {
-        this.database = database;
-    }
-    
-    public String getDriver() {
-        return driver;
-    }
-    
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
-    
-    public String getPassword() {
-    	return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public boolean isSavePassword() {
-        return savePassword;
-    }
-    
-    public void setSavePassword(boolean savePassword) {
-        this.savePassword = savePassword;
-    }
-    
-    public String getUrl() {
-        return url;
-    }
-    
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	private String driver;
+	private String username;
+	private String password = null;
+	private String url;
+	private String database;
+	private boolean savePassword;
+	private String serverAddress;
+	private Map<String, String> properties;
 	
-    public String getServerAddress() {
-        return this.serverAddress;
-    }
-    
-    public void setServerAddress(String serverAddress) {
-        this.serverAddress = serverAddress;
-    }
+	public JdbcDataAdapterImpl() {
+		setName("New JDBC Data Adapter");
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+	
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+	
+	public String getDriver() {
+		return driver;
+	}
+	
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public boolean isSavePassword() {
+		return savePassword;
+	}
+	
+	public void setSavePassword(boolean savePassword) {
+		this.savePassword = savePassword;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getServerAddress() {
+		return this.serverAddress;
+	}
+	
+	public void setServerAddress(String serverAddress) {
+		this.serverAddress = serverAddress;
+	}
 
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;

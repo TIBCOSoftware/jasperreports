@@ -96,6 +96,6 @@ public class XmlDataAdapterImpl extends AbstractDataAdapter implements XmlDataAd
 	}
 	
 	public void setUseConnection(boolean useConnection) {
-        this.useConnection = useConnection;
-    }
+		this.useConnection = useConnection;
+	}
 }

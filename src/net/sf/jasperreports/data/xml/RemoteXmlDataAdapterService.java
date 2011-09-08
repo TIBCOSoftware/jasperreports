@@ -63,42 +63,40 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 			if (remoteXmlDataAdapter.isUseConnection()) 
 			{
 				String fileName = remoteXmlDataAdapter.getFileName();
-				System.out.println("Running against: " + fileName);
-		        System.out.flush();
-		        if (fileName.toLowerCase().startsWith("https://") ||
-		        	fileName.toLowerCase().startsWith("http://") ||
-		        	fileName.toLowerCase().startsWith("file:")) {
-		        	
-		        	// JRXPathQueryExecuterFactory.XML_URL not available.
-		        	// Once this is available, remove XML_URL from this class.
-		        	parameters.put(XML_URL, fileName);
-		        }
-		        else 
-		        {
-		            Document document = JRXmlUtils.parse(new File(fileName));
-		            parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
-		        }
-		        
-		        Locale locale = remoteXmlDataAdapter.getLocale();
-		        if (locale != null) {
-		        	parameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, locale);
-		        }
-		           
-		        TimeZone timeZone = remoteXmlDataAdapter.getTimeZone();
-		        if (timeZone != null) {
-		        	parameters.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, timeZone);
-		        }
-		        
-		        String datePattern = remoteXmlDataAdapter.getDatePattern();
-		        if (datePattern != null && datePattern.trim().length()>0) {
-		        	parameters.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, datePattern);
-		        }
-		           
-		        String numberPattern = remoteXmlDataAdapter.getNumberPattern();
-		        if (numberPattern != null && numberPattern.trim().length()>0) {
-		        	parameters.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, numberPattern);
-		        }
-		    }
+				if (fileName.toLowerCase().startsWith("https://") ||
+					fileName.toLowerCase().startsWith("http://") ||
+					fileName.toLowerCase().startsWith("file:")) {
+					
+					// JRXPathQueryExecuterFactory.XML_URL not available.
+					// Once this is available, remove XML_URL from this class.
+					parameters.put(XML_URL, fileName);
+				}
+				else 
+				{
+					Document document = JRXmlUtils.parse(new File(fileName));
+					parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+				}
+				
+				Locale locale = remoteXmlDataAdapter.getLocale();
+				if (locale != null) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, locale);
+				}
+
+				TimeZone timeZone = remoteXmlDataAdapter.getTimeZone();
+				if (timeZone != null) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, timeZone);
+				}
+				
+				String datePattern = remoteXmlDataAdapter.getDatePattern();
+				if (datePattern != null && datePattern.trim().length()>0) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, datePattern);
+				}
+
+				String numberPattern = remoteXmlDataAdapter.getNumberPattern();
+				if (numberPattern != null && numberPattern.trim().length()>0) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, numberPattern);
+				}
+			}
 		}
 	}
 
@@ -108,20 +106,20 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 		RemoteXmlDataAdapter remoteXmlDataAdapter = (RemoteXmlDataAdapter)getDataAdapter();
 		URL url = null;
 		InputStream is = null;
-	    try {
-	    	String fileName = remoteXmlDataAdapter.getFileName(); 
-	    	url = new URL(fileName);
-	        if (fileName.startsWith("file://")) {
-	        	is = url.openStream();
-	        }
-	    }
-	    catch (Exception e) {
-	    	throw new JRException(e.getMessage());
-	    } finally {
+		try {
+			String fileName = remoteXmlDataAdapter.getFileName(); 
+			url = new URL(fileName);
+			if (fileName.startsWith("file://")) {
+				is = url.openStream();
+			}
+		}
+		catch (Exception e) {
+			throw new JRException(e.getMessage());
+		} finally {
 
-	        if (is != null) {
-	    	    try { is.close(); } catch (Exception ex){}
-	        }
-	    }
+			if (is != null) {
+				try { is.close(); } catch (Exception ex){}
+			}
+		}
 	}
 }

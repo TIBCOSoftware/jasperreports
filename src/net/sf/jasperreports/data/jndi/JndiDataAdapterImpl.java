@@ -34,9 +34,9 @@ public class JndiDataAdapterImpl extends AbstractDataAdapter implements JndiData
 {
 	private String dataSourceName;
 	
-    public JndiDataAdapterImpl() {
-    	setName("New JNDI Data Adapter");
-    }
+	public JndiDataAdapterImpl() {
+		setName("New JNDI Data Adapter");
+	}
 
 	public String getDataSourceName() {
 		return dataSourceName;

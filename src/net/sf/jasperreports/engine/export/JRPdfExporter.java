@@ -536,21 +536,21 @@ public class JRPdfExporter extends JRAbstractExporter
 				String iccProfilePath = getStringParameter( JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, JRPdfExporterParameter.PROPERTY_PDFA_ICC_PROFILE_PATH);
 				if (iccProfilePath != null) {
 					PdfDictionary pdfDictionary = new PdfDictionary(PdfName.OUTPUTINTENT);
-		            pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
-		            pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
-		            pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
-		            
-		            InputStream iccIs = RepositoryUtil.getInputStream(iccProfilePath);
-		            PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
-	            	pdfICCBased.remove(PdfName.ALTERNATE);
-	            	pdfDictionary.put(PdfName.DESTOUTPUTPROFILE, pdfWriter.addToBody(pdfICCBased).getIndirectReference());
+					pdfDictionary.put(PdfName.OUTPUTCONDITIONIDENTIFIER, new PdfString("sRGB IEC61966-2.1"));
+					pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
+					pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
+					
+					InputStream iccIs = RepositoryUtil.getInputStream(iccProfilePath);
+					PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
+					pdfICCBased.remove(PdfName.ALTERNATE);
+					pdfDictionary.put(PdfName.DESTOUTPUTPROFILE, pdfWriter.addToBody(pdfICCBased).getIndirectReference());
 
-	            	pdfWriter.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(pdfDictionary));
-	            } else {
-	            	throw new JRPdfaIccProfileNotFoundException();
-	            }
+					pdfWriter.getExtraCatalog().put(PdfName.OUTPUTINTENTS, new PdfArray(pdfDictionary));
+				} else {
+					throw new JRPdfaIccProfileNotFoundException();
+				}
 			}
-            // END: PDF/A support
+			// END: PDF/A support
 			
 			if(pdfJavaScript != null)
 			{

@@ -71,21 +71,21 @@ public class MapElementImageProvider
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 		
-        printImage.setX(element.getX());
-        printImage.setY(element.getY());
-        printImage.setWidth(element.getWidth());
-        printImage.setHeight(element.getHeight());
-        printImage.setStyle(element.getStyle());
-        printImage.setMode(element.getModeValue());
-        printImage.setBackcolor(element.getBackcolor());
-        printImage.setForecolor(element.getForecolor());
-        printImage.setLazy(true);
-        
-        //FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
-        printImage.setScaleImage(ScaleImageEnum.CLIP);
-        printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
-        printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
-        
+		printImage.setX(element.getX());
+		printImage.setY(element.getY());
+		printImage.setWidth(element.getWidth());
+		printImage.setHeight(element.getHeight());
+		printImage.setStyle(element.getStyle());
+		printImage.setMode(element.getModeValue());
+		printImage.setBackcolor(element.getBackcolor());
+		printImage.setForecolor(element.getForecolor());
+		printImage.setLazy(true);
+		
+		//FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
+		printImage.setScaleImage(ScaleImageEnum.CLIP);
+		printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
+		printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
+		
 		JRRenderable cacheRenderer = (JRRenderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
 
 		if(cacheRenderer == null)
@@ -95,8 +95,8 @@ public class MapElementImageProvider
 			element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
 		}
 
-        printImage.setRenderer(cacheRenderer);
-        
-        return printImage;
+		printImage.setRenderer(cacheRenderer);
+		
+		return printImage;
 	}
 }

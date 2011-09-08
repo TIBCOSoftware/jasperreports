@@ -111,7 +111,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	protected void evaluateRenderer(byte evaluation) throws JRException
 	{
 		maxValue = (Double) fillContext.evaluate(getPlot().getMaxValueExpression(), evaluation);
-        titleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation));
+		titleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getTitleExpression(), evaluation));
 		subtitleText = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getSubtitleExpression(), evaluation));
 		anchorName = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getAnchorNameExpression(), evaluation));
 		hyperlinkReference = JRStringUtil.getString(fillContext.evaluate(getChartSettings().getHyperlinkReferenceExpression(), evaluation));

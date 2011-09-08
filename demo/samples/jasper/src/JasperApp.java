@@ -163,30 +163,30 @@ public class JasperApp extends AbstractSampleApp
 		try{
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-            JRPdfExporter exporter = new JRPdfExporter();
-            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
-            
-            JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/FirstJasper.jrprint"));
-            
-            // Exclude transparent images when exporting to PDF; elements marked with the key 'TransparentImage'
-            // will be excluded from the exported PDF
-            jp.setProperty("net.sf.jasperreports.export.pdf.exclude.key.TransparentImage", null);
-            
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
-            
-            // Include structure tags for PDF/A-1a compliance; unnecessary for PDF/A-1b
-            exporter.setParameter(JRPdfExporterParameter.IS_TAGGED, Boolean.TRUE);
-            
-            exporter.setParameter(JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PDFA_CONFORMANCE_1A);
-            
-            // Uncomment the following line and specify a valid path for the ICC profile    
-//            exporter.setParameter(JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, "path/to/ICC/profile");
-            
-            exporter.exportReport();
+			JRPdfExporter exporter = new JRPdfExporter();
+			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, os);
+			
+			JasperPrint jp = (JasperPrint)JRLoader.loadObject(new File("build/reports/FirstJasper.jrprint"));
+			
+			// Exclude transparent images when exporting to PDF; elements marked with the key 'TransparentImage'
+			// will be excluded from the exported PDF
+			jp.setProperty("net.sf.jasperreports.export.pdf.exclude.key.TransparentImage", null);
+			
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+			
+			// Include structure tags for PDF/A-1a compliance; unnecessary for PDF/A-1b
+			exporter.setParameter(JRPdfExporterParameter.IS_TAGGED, Boolean.TRUE);
+			
+			exporter.setParameter(JRPdfExporterParameter.PDFA_CONFORMANCE, JRPdfExporterParameter.PDFA_CONFORMANCE_1A);
+			
+			// Uncomment the following line and specify a valid path for the ICC profile
+//			exporter.setParameter(JRPdfExporterParameter.PDFA_ICC_PROFILE_PATH, "path/to/ICC/profile");
+			
+			exporter.exportReport();
 
-            FileOutputStream fos = new FileOutputStream("build/reports/FirstJasper_pdfa.pdf");
-            os.writeTo(fos);
-            fos.close();
+			FileOutputStream fos = new FileOutputStream("build/reports/FirstJasper_pdfa.pdf");
+			os.writeTo(fos);
+			fos.close();
 		}catch(Exception e){
 			 e.printStackTrace();
 		}

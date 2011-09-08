@@ -50,38 +50,38 @@ public final class BarcodeProviders
 		}
 
 		providers = new HashMap<String, BarcodeProvider>();
-        providers.put("2of7", new Barcode2of7Provider());
-        providers.put("3of9", new Barcode3of9Provider());
-        providers.put("Bookland", new BooklandProvider());
-        providers.put("Codabar", new CodabarProvider());
-        providers.put("Code128", new Code128Provider());
-        providers.put("Code128A", new Code128AProvider());
-        providers.put("Code128B", new Code128Provider());
-        providers.put("Code128C", new Code128CProvider());
-        providers.put("Code39", new Code39Provider());
-        providers.put("Code39 (Extended)", 
-        		new Code39ExtendedProvider());
-        providers.put("EAN128", new EAN128Provider());
-        providers.put("EAN13", new EAN13Provider());
-        providers.put("GlobalTradeItemNumber", 
-        		new GlobalTradeItemNumberProvider());
-        providers.put("Int2of5", new Int2of5Provider());
-        providers.put("Monarch", new MonarchProvider());
-        providers.put("NW7", new NW7Provider());
-        providers.put("PDF417", new PDF417Provider());
-        providers.put("PostNet", new PostNetProvider());
-        providers.put("RandomWeightUPCA", new RandomWeightUPCAProvider());
-        providers.put("SCC14ShippingCode", 
-        		new SCC14ShippingCodeProvider());
-        providers.put("ShipmentIdentificationNumber", 
-        		new ShipmentIdentificationNumberProvider());
-        providers.put("SSCC18", new SSCC18Provider());
-        providers.put("Std2of5", new Std2of5Provider());
-        providers.put("UCC128", new UCC128Provider());
-        providers.put("UPCA", new UPCAProvider());
-        providers.put("USD3", new USD3Provider());
-        providers.put("USD4", new USD4Provider());
-        providers.put("USPS", new USPSProvider());
+		providers.put("2of7", new Barcode2of7Provider());
+		providers.put("3of9", new Barcode3of9Provider());
+		providers.put("Bookland", new BooklandProvider());
+		providers.put("Codabar", new CodabarProvider());
+		providers.put("Code128", new Code128Provider());
+		providers.put("Code128A", new Code128AProvider());
+		providers.put("Code128B", new Code128Provider());
+		providers.put("Code128C", new Code128CProvider());
+		providers.put("Code39", new Code39Provider());
+		providers.put("Code39 (Extended)", 
+				new Code39ExtendedProvider());
+		providers.put("EAN128", new EAN128Provider());
+		providers.put("EAN13", new EAN13Provider());
+		providers.put("GlobalTradeItemNumber", 
+				new GlobalTradeItemNumberProvider());
+		providers.put("Int2of5", new Int2of5Provider());
+		providers.put("Monarch", new MonarchProvider());
+		providers.put("NW7", new NW7Provider());
+		providers.put("PDF417", new PDF417Provider());
+		providers.put("PostNet", new PostNetProvider());
+		providers.put("RandomWeightUPCA", new RandomWeightUPCAProvider());
+		providers.put("SCC14ShippingCode", 
+				new SCC14ShippingCodeProvider());
+		providers.put("ShipmentIdentificationNumber", 
+				new ShipmentIdentificationNumberProvider());
+		providers.put("SSCC18", new SSCC18Provider());
+		providers.put("Std2of5", new Std2of5Provider());
+		providers.put("UCC128", new UCC128Provider());
+		providers.put("UPCA", new UPCAProvider());
+		providers.put("USD3", new USD3Provider());
+		providers.put("USD4", new USD4Provider());
+		providers.put("USPS", new USPSProvider());
 	}
 	
 	public static boolean isTypeSupported(String type)

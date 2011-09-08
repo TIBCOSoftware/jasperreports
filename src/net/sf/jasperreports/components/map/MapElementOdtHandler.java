@@ -51,7 +51,7 @@ public class MapElementOdtHandler implements GenericElementOdtHandler
 		try
 		{
 			JROdtExporter exporter = (JROdtExporter)exporterContext.getExporter();
-	        exporter.exportImage(exporterContext.getTableBuilder(), MapElementImageProvider.getImage(element), gridCell);
+			exporter.exportImage(exporterContext.getTableBuilder(), MapElementImageProvider.getImage(element), gridCell);
 		}
 		catch (Exception e)
 		{

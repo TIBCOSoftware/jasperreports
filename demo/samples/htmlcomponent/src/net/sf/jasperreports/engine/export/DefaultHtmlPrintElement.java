@@ -64,20 +64,20 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		editorPane.setSize(editorPane.getPreferredSize());
 
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
-        printImage.setX(element.getX());
-        printImage.setY(element.getY());
-        printImage.setWidth(element.getWidth());
-        printImage.setHeight(element.getHeight());
-        printImage.setScaleImage(ScaleImageEnum.getByName(scaleType));
-        printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
-        printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
-        printImage.setStyle(element.getStyle());
-        printImage.setMode(element.getModeValue());
-        printImage.setBackcolor(element.getBackcolor());
-        printImage.setForecolor(element.getForecolor());
-        printImage.setRenderer(new AwtComponentRenderer(editorPane));
+		printImage.setX(element.getX());
+		printImage.setY(element.getY());
+		printImage.setWidth(element.getWidth());
+		printImage.setHeight(element.getHeight());
+		printImage.setScaleImage(ScaleImageEnum.getByName(scaleType));
+		printImage.setHorizontalAlignment(HorizontalAlignEnum.getByName(horizontalAlignment));
+		printImage.setVerticalAlignment(VerticalAlignEnum.getByName(verticalAlignment));
+		printImage.setStyle(element.getStyle());
+		printImage.setMode(element.getModeValue());
+		printImage.setBackcolor(element.getBackcolor());
+		printImage.setForecolor(element.getForecolor());
+		printImage.setRenderer(new AwtComponentRenderer(editorPane));
 
-        return printImage;
+		return printImage;
 	}
 
 	public JRPrintImage createImageFromComponentElement(JRComponentElement componentElement) throws JRException {
@@ -98,20 +98,20 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(componentElement.getDefaultStyleProvider());
 		printImage.setX(componentElement.getX());
-        printImage.setY(componentElement.getY());
-        printImage.setWidth(componentElement.getWidth());
-        printImage.setHeight(componentElement.getHeight());
-        printImage.setScaleImage(html.getScaleType());
-        printImage.setHorizontalAlignment(html.getHorizontalAlign());
-        printImage.setVerticalAlignment(html.getVerticalAlign());
-        printImage.setStyle(componentElement.getStyle());
-        printImage.setMode(componentElement.getModeValue());
-        printImage.setBackcolor(componentElement.getBackcolor());
-        printImage.setForecolor(componentElement.getForecolor());
+		printImage.setY(componentElement.getY());
+		printImage.setWidth(componentElement.getWidth());
+		printImage.setHeight(componentElement.getHeight());
+		printImage.setScaleImage(html.getScaleType());
+		printImage.setHorizontalAlignment(html.getHorizontalAlign());
+		printImage.setVerticalAlignment(html.getVerticalAlign());
+		printImage.setStyle(componentElement.getStyle());
+		printImage.setMode(componentElement.getModeValue());
+		printImage.setBackcolor(componentElement.getBackcolor());
+		printImage.setForecolor(componentElement.getForecolor());
 
 		printImage.setRenderer(new AwtComponentRenderer(editorPane));
 		
-        return printImage;
+		return printImage;
 	}
 
 	public Dimension getComputedSize(JRGenericPrintElement element) {

@@ -33,7 +33,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class EmptyDataAdapterImpl extends AbstractDataAdapter implements EmptyDataAdapter
 {
 	private Integer recordCount;
-    
+
 	public Integer getRecordCount() {
 		return recordCount;
 	}

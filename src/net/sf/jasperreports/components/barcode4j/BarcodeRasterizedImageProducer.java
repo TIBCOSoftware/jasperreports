@@ -69,7 +69,7 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 					: BufferedImage.TYPE_BYTE_BINARY;
 			
 			BitmapCanvasProvider provider = new BitmapCanvasProvider(
-			    out, "image/x-png", resolution, imageType, antiAlias, orientation);
+				out, "image/x-png", resolution, imageType, antiAlias, orientation);
 			barcode.generateBarcode(provider, message);
 			provider.finish();
 			

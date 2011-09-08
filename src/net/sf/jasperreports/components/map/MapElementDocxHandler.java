@@ -53,7 +53,7 @@ public class MapElementDocxHandler implements GenericElementDocxHandler
 		try
 		{
 			JRDocxExporter exporter = (JRDocxExporter)exporterContext.getExporter();
-	        exporter.exportImage(exporterContext.getTableHelper(), getImage(element), gridCell);
+			exporter.exportImage(exporterContext.getTableHelper(), getImage(element), gridCell);
 		}
 		catch (Exception e)
 		{

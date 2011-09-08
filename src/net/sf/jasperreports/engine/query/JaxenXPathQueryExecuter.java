@@ -135,19 +135,19 @@ public class JaxenXPathQueryExecuter extends JRAbstractQueryExecuter
 	{
 		Map<String, String> namespaces = new HashMap<String, String>();
 		
-    	String xmlnsPrefix = JaxenXPathQueryExecuterFactory.XML_NAMESPACE_PREFIX;
-        List<PropertySuffix> nsProperties = JRProperties.getProperties(dataset, xmlnsPrefix);
-        
-        for (int i=0; i < nsProperties.size(); ++i) 
-        {
-            PropertySuffix prop = nsProperties.get(i);
-            String nsPrefix = prop.getKey().substring(xmlnsPrefix.length());
-            if (nsPrefix.length() > 0) 
-            {
-            	namespaces.put(nsPrefix, prop.getValue());
-            }
-        }
+		String xmlnsPrefix = JaxenXPathQueryExecuterFactory.XML_NAMESPACE_PREFIX;
+		List<PropertySuffix> nsProperties = JRProperties.getProperties(dataset, xmlnsPrefix);
 		
-        return namespaces.size()>0 ? namespaces : null;
+		for (int i=0; i < nsProperties.size(); ++i) 
+		{
+			PropertySuffix prop = nsProperties.get(i);
+			String nsPrefix = prop.getKey().substring(xmlnsPrefix.length());
+			if (nsPrefix.length() > 0) 
+			{
+				namespaces.put(nsPrefix, prop.getValue());
+			}
+		}
+		
+		return namespaces.size()>0 ? namespaces : null;
 	}
 }

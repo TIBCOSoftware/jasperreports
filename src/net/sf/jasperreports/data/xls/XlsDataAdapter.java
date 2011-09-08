@@ -33,7 +33,7 @@ import net.sf.jasperreports.data.DataAdapter;
  */
 public interface XlsDataAdapter extends DataAdapter 
 {
-    public String getDatePattern();
+	public String getDatePattern();
 
 	public String getNumberPattern();
 
@@ -41,13 +41,13 @@ public interface XlsDataAdapter extends DataAdapter
 
 	public void setFileName(String filename);
 	
-    public boolean isUseFirstRowAsHeader();
-    
-    public List<String> getColumnNames();
+	public boolean isUseFirstRowAsHeader();
+	
+	public List<String> getColumnNames();
 
 	public List<Integer> getColumnIndexes();
-    
-    public void setColumnNames(List<String> columnNames);
+	
+	public void setColumnNames(List<String> columnNames);
 
 	public void setColumnIndexes(List<Integer> columnIndexes);
 

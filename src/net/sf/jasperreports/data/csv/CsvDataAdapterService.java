@@ -64,42 +64,42 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 			{	
 				parameters.put(JRCsvQueryExecuterFactory.CSV_SOURCE, csvDataAdapter.getFileName());
 				if (datePattern != null && datePattern.length() > 0)
-	            {
-	            	parameters.put( JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, new SimpleDateFormat(datePattern) );
-	            }
+				{
+					parameters.put( JRCsvQueryExecuterFactory.CSV_DATE_FORMAT, new SimpleDateFormat(datePattern) );
+				}
 				if (numberPattern != null && numberPattern.length() > 0)
-	            {
-	            	parameters.put( JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
-	            }
+				{
+					parameters.put( JRCsvQueryExecuterFactory.CSV_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
+				}
 				parameters.put( JRCsvQueryExecuterFactory.CSV_FIELD_DELIMITER, csvDataAdapter.getFieldDelimiter());
 				parameters.put( JRCsvQueryExecuterFactory.CSV_RECORD_DELIMITER, csvDataAdapter.getRecordDelimiter());
 				parameters.put( JRCsvQueryExecuterFactory.CSV_USE_FIRST_ROW_AS_HEADER, new Boolean(csvDataAdapter.isUseFirstRowAsHeader()));
 
-	            if (!csvDataAdapter.isUseFirstRowAsHeader())
-	            { 
-	                parameters.put( JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, getColumnNames(csvDataAdapter));
-	            }
-	        }else{
+				if (!csvDataAdapter.isUseFirstRowAsHeader())
+				{ 
+					parameters.put( JRCsvQueryExecuterFactory.CSV_COLUMN_NAMES_ARRAY, getColumnNames(csvDataAdapter));
+				}
+			}else{
 				try {
-					JRCsvDataSource ds = new JRCsvDataSource( new File( csvDataAdapter.getFileName()));						        
+					JRCsvDataSource ds = new JRCsvDataSource( new File( csvDataAdapter.getFileName()));								
 					if (datePattern != null && datePattern.length() > 0)
-			        {
+					{
 						ds.setDateFormat( new SimpleDateFormat(datePattern) );
-			        }
+					}
 					if (numberPattern != null && numberPattern.length() > 0)
-			        {
+					{
 						ds.setNumberFormat( new DecimalFormat(numberPattern) );
-			        }
-			        ds.setFieldDelimiter( csvDataAdapter.getFieldDelimiter().charAt(0) );
-			        ds.setRecordDelimiter( csvDataAdapter.getRecordDelimiter() );		        
-			        ds.setUseFirstRowAsHeader( csvDataAdapter.isUseFirstRowAsHeader() );
-			        
-			        if (!csvDataAdapter.isUseFirstRowAsHeader())
-			        { 
-			            ds.setColumnNames( getColumnNames(csvDataAdapter) );
-			        }
-			        
-		            parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
+					}
+					ds.setFieldDelimiter( csvDataAdapter.getFieldDelimiter().charAt(0) );
+					ds.setRecordDelimiter( csvDataAdapter.getRecordDelimiter() );				
+					ds.setUseFirstRowAsHeader( csvDataAdapter.isUseFirstRowAsHeader() );
+					
+					if (!csvDataAdapter.isUseFirstRowAsHeader())
+					{ 
+						ds.setColumnNames( getColumnNames(csvDataAdapter) );
+					}
+					
+					parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 				} catch (FileNotFoundException e) {
 					throw new JRException(e);
 				}
@@ -111,7 +111,7 @@ public class CsvDataAdapterService extends AbstractDataAdapterService
 		String[] names = new String[csvDataAdapter.getColumnNames().size()];
 		for (int i=0; i < names.length; ++i )
 		{
-		    names[i] = "" + csvDataAdapter.getColumnNames().get(i);
+			names[i] = "" + csvDataAdapter.getColumnNames().get(i);
 		}
 		return names;
 	}

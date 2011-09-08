@@ -57,7 +57,7 @@ public class MapElementJExcelApiHandler implements GenericElementJExcelApiHandle
 		try
 		{
 			JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();
-	        exporter.exportImage(MapElementImageProvider.getImage(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
+			exporter.exportImage(MapElementImageProvider.getImage(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		catch (Exception e)
 		{

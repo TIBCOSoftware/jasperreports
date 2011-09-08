@@ -65,11 +65,11 @@ public class JndiDataAdapterService extends AbstractDataAdapterService
 		if (jndiDataAdapter != null)
 		{
 
-	        try {
-	        	Context ctx = new InitialContext();
+			try {
+				Context ctx = new InitialContext();
 				DataSource dataSource = (DataSource) ctx.lookup("java:comp/env/" + jndiDataAdapter.getDataSourceName());
 				connection = dataSource.getConnection();
-	        }
+			}
 			catch (Exception ex)
 			{ 
 				throw new JRException(ex);

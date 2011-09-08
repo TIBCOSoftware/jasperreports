@@ -48,7 +48,7 @@ public class HtmlElementJExcelHandler implements GenericElementJExcelApiHandler
 		{
 			JExcelApiExporter exporter = (JExcelApiExporter)exporterContext.getExporter();
 			HtmlPrintElement htmlPrintElement = HtmlPrintElementUtils.getHtmlPrintElement();
-	        exporter.exportImage(htmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
+			exporter.exportImage(htmlPrintElement.createImageFromElement(element), gridCell, colIndex, rowIndex, emptyCols, yCutsRow, layout);
 		}
 		catch (Exception e)
 		{

@@ -52,7 +52,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	 * enabled by default.
 	 * 
 	 * Due to the fix, the garbage collector might not be able to collect
-	 * a classloader that loaded JasperReports classes.   This would be
+	 * a classloader that loaded JasperReports classes. This would be
 	 * inconvenient in scenarios in which JasperReports classes are repeatedly
 	 * loaded by different classloaders, e.g. when JasperReports is part of
 	 * the classpath of a web application which is often reloaded.  In such

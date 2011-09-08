@@ -35,14 +35,14 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAdapter
 {
 	private boolean useFirstRowAsHeader = false;
-    private String datePattern = null;
-    private String numberPattern = null;
-    private String fileName;
+	private String datePattern = null;
+	private String numberPattern = null;
+	private String fileName;
 	private List<String> columnNames = new ArrayList<String>();
 	private List<Integer> columnIndexes = new ArrayList<Integer>();
 	private boolean queryExecuterMode = false;
 	
-    public String getDatePattern() {
+	public String getDatePattern() {
 		return datePattern;
 	}
 
@@ -58,19 +58,19 @@ public class XlsDataAdapterImpl extends AbstractDataAdapter implements XlsDataAd
 		this.fileName = filename;
 	}
 	
-    public boolean isUseFirstRowAsHeader() {
-        return useFirstRowAsHeader;
-    }
-    
-    public List<String> getColumnNames() {
-        return columnNames;
-    }
+	public boolean isUseFirstRowAsHeader() {
+		return useFirstRowAsHeader;
+	}
+	
+	public List<String> getColumnNames() {
+		return columnNames;
+	}
 
 	public List<Integer> getColumnIndexes() {
-        return columnIndexes;
-    }
-    
-    public void setColumnNames(List<String> columnNames) {
+		return columnIndexes;
+	}
+	
+	public void setColumnNames(List<String> columnNames) {
 		this.columnNames = columnNames;
 	}
 

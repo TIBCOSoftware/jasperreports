@@ -371,16 +371,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected void removeColumn(int colIndex)
 	{
 		sheet.setColumnHidden(colIndex, true);
-//      sheet.setColumnGroupCollapsed((short)colIndex, true);
-//      for(int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--)
-//      {
-//          HSSFRow row = sheet.getRow(rowIndex);
-//          HSSFCell cell = row.getCell((short)colIndex);
-//          if (cell != null)
-//          {
-//              row.removeCell(cell);
-//          }
-//      }
+//		sheet.setColumnGroupCollapsed((short)colIndex, true);
+//		for(int rowIndex = sheet.getLastRowNum(); rowIndex >= 0; rowIndex--)
+//		{
+//			HSSFRow row = sheet.getRow(rowIndex);
+//			HSSFCell cell = row.getCell((short)colIndex);
+//			if (cell != null)
+//			{
+//				row.removeCell(cell);
+//			}
+//		}
 	}
 
 	protected void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
@@ -1643,7 +1643,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					if (href != null)
 					{
 						link = createHelper.createHyperlink(Hyperlink.LINK_URL);
-					    link.setAddress(href);
+						link.setAddress(href);
 					}
 					break;
 				}
@@ -1653,17 +1653,17 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					if (href != null)
 					{
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-					    if(anchorLinks.containsKey(href))
-					    {
-					    	(anchorLinks.get(href)).add(link);
-					    }
-					    else
-					    {
-					    	List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
-					    	hrefList.add(link);
-					    	anchorLinks.put(href, hrefList);
-					    }
-					    
+						if(anchorLinks.containsKey(href))
+						{
+							(anchorLinks.get(href)).add(link);
+						}
+						else
+						{
+							List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+							hrefList.add(link);
+							anchorLinks.put(href, hrefList);
+						}
+						
 					}
 					break;
 					
@@ -1674,16 +1674,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					if (hrefPage != null)
 					{
 						link = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
-					    if(pageLinks.containsKey(hrefPage))
-					    {
-					    	pageLinks.get(hrefPage).add(link);
-					    }
-					    else
-					    {
-					    	List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
-					    	hrefList.add(link);
-					    	pageLinks.put(hrefPage, hrefList);
-					    }
+						if(pageLinks.containsKey(hrefPage))
+						{
+							pageLinks.get(hrefPage).add(link);
+						}
+						else
+						{
+							List<Hyperlink> hrefList = new ArrayList<Hyperlink>();
+							hrefList.add(link);
+							pageLinks.put(hrefPage, hrefList);
+						}
 					}
 					break;
 				}
@@ -1694,8 +1694,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						href = href + "#" + hyperlink.getHyperlinkAnchor();
 						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
-					    link.setAddress(href);
-					    
+						link.setAddress(href);
+						
 					}
 					break;
 					
@@ -1707,8 +1707,8 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					{
 						href = href + "#JR_PAGE_ANCHOR_0_" + hyperlink.getHyperlinkPage().toString();
 						link = createHelper.createHyperlink(Hyperlink.LINK_FILE);
-					    link.setAddress(href);
-					    
+						link.setAddress(href);
+						
 					}
 					break;
 					
@@ -1723,7 +1723,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				//TODO: make tooltips functional
 //				if(hyperlink.getHyperlinkTooltip() != null)
 //				{
-//				    link.setLabel(hyperlink.getHyperlinkTooltip());
+//					link.setLabel(hyperlink.getHyperlinkTooltip());
 //				}
 				cell.setHyperlink(link);
 			}
