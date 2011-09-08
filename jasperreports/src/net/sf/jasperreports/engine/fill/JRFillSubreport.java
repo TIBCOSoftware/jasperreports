@@ -80,7 +80,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	private static final Log log = LogFactory.getLog(JRFillSubreport.class);
 	
-	private static final JRSingletonCache runnerFactoryCache = new JRSingletonCache(JRSubreportRunnerFactory.class);
+	private static final JRSingletonCache<JRSubreportRunnerFactory> runnerFactoryCache = 
+			new JRSingletonCache<JRSubreportRunnerFactory>(JRSubreportRunnerFactory.class);
 
 	/**
 	 *
@@ -1137,7 +1138,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		{
 			throw new JRException("Property \"" + JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY + "\" must be set");
 		}
-		return (JRSubreportRunnerFactory) runnerFactoryCache.getCachedInstance(factoryClassName);
+		return runnerFactoryCache.getCachedInstance(factoryClassName);
 	}
 
 	protected int getContentsStretchHeight()

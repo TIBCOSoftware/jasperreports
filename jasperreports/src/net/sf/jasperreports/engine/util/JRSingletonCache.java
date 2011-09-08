@@ -36,19 +36,19 @@ import org.apache.commons.collections.ReferenceMap;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRSingletonCache
+public class JRSingletonCache<T>
 {
 	private static final Object CONTEXT_KEY_NULL = new Object();
 	
 	private final ReferenceMap cache;
-	private final Class<?> itf;
+	private final Class<T> itf;
 
 	/**
 	 * Creates a cache of singleton instances.
 	 * 
 	 * @param itf a interface or class that should be implemented by all classes cached by this object
 	 */
-	public JRSingletonCache(Class<?> itf)
+	public JRSingletonCache(Class<T> itf)
 	{
 		cache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 		this.itf = itf;
@@ -65,10 +65,10 @@ public class JRSingletonCache
 	 * @return the singleton instance corresponding to a class
 	 * @throws JRException
 	 */
-	public synchronized Object getCachedInstance(String className) throws JRException
+	public synchronized T getCachedInstance(String className) throws JRException
 	{
-		Map<String,Object> contextCache = getContextInstanceCache();
-		Object instance = contextCache.get(className);
+		Map<String,T> contextCache = getContextInstanceCache();
+		T instance = contextCache.get(className);
 		if (instance == null)
 		{
 			instance = createInstance(className);
@@ -77,11 +77,12 @@ public class JRSingletonCache
 		return instance;
 	}
 
-	protected Object createInstance(String className) throws JRException
+	protected T createInstance(String className) throws JRException
 	{
 		try
 		{
-			Class<?> clazz = JRClassLoader.loadClassForName(className);
+			@SuppressWarnings("unchecked")
+			Class<? extends T> clazz = (Class<? extends T>) JRClassLoader.loadClassForName(className);
 			if (itf != null && !itf.isAssignableFrom(clazz))
 			{
 				throw new JRException("Class \"" + className + "\" should be compatible with \"" + itf.getName() + "\"");
@@ -103,10 +104,11 @@ public class JRSingletonCache
 		}
 	}
 
-	protected Map<String,Object> getContextInstanceCache()
+	@SuppressWarnings("unchecked")
+	protected Map<String,T> getContextInstanceCache()
 	{
 		Object contextKey = getContextKey();
-		Map<String,Object> contextCache = (Map<String,Object>) cache.get(contextKey);
+		Map<String,T> contextCache = (Map<String,T>) cache.get(contextKey);
 		if (contextCache == null)
 		{
 			contextCache = new ReferenceMap();

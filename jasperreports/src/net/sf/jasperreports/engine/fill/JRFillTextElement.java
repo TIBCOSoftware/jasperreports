@@ -65,7 +65,8 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	/**
 	 *
 	 */
-	private static final JRSingletonCache markupProcessorFactoryCache = new JRSingletonCache(MarkupProcessorFactory.class);
+	private static final JRSingletonCache<MarkupProcessorFactory> markupProcessorFactoryCache = 
+			new JRSingletonCache<MarkupProcessorFactory>(MarkupProcessorFactory.class);
 	private static final Map<String,MarkupProcessor> markupProcessors = new HashMap<String,MarkupProcessor>();
 
 	/**
@@ -871,7 +872,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			MarkupProcessorFactory factory = null;
 			try
 			{
-				factory = (MarkupProcessorFactory) markupProcessorFactoryCache.getCachedInstance(factoryClass);
+				factory = markupProcessorFactoryCache.getCachedInstance(factoryClass);
 			}
 			catch (JRException e)
 			{
