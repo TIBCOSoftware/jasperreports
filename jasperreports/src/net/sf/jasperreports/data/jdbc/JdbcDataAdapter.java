@@ -34,35 +34,35 @@ import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
  */
 public interface JdbcDataAdapter extends ClasspathAwareDataAdapter
 {
-    public String getDatabase();
-    
-    public void setDatabase(String database);
-    
-    public String getDriver();
-    
-    public void setDriver(String driver);
-    
-    public String getPassword();
-    
-    public void setPassword(String password);
-    
-    public boolean isSavePassword();
-    
-    public void setSavePassword(boolean savePassword);
-    
-    public String getUrl();
-    
-    public void setUrl(String url);
-    
-    public String getUsername();
-    
-    public void setUsername(String username);
+	public String getDatabase();
 	
-    public String getServerAddress();
-    
-    public void setServerAddress(String serverAddress);
-    
-    public void setProperties(Map<String, String> properties);
+	public void setDatabase(String database);
+	
+	public String getDriver();
+	
+	public void setDriver(String driver);
+	
+	public String getPassword();
+	
+	public void setPassword(String password);
+	
+	public boolean isSavePassword();
+	
+	public void setSavePassword(boolean savePassword);
+	
+	public String getUrl();
+	
+	public void setUrl(String url);
+	
+	public String getUsername();
+	
+	public void setUsername(String username);
+	
+	public String getServerAddress();
+	
+	public void setServerAddress(String serverAddress);
+	
+	public void setProperties(Map<String, String> properties);
 
 	public Map<String, String> getProperties();
 }

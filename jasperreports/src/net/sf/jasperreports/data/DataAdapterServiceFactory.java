@@ -30,7 +30,7 @@ package net.sf.jasperreports.data;
  */
 public interface DataAdapterServiceFactory
 {
-    
+
 	/**
 	 *
 	 */

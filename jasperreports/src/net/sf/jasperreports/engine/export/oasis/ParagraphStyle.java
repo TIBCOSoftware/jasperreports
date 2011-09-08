@@ -357,10 +357,10 @@ public class ParagraphStyle extends Style
 		styleWriter.write(">\n");
 		styleWriter.write("</style:text-properties>\n");
 		
-//       styleWriter.write("<style:properties");
-//       styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
-//       styleWriter.write(">\n");
-//       styleWriter.write("</style:properties>\n");
+//		styleWriter.write("<style:properties");
+//		styleWriter.write(" style:rotation-align=\"" + rotationAlignment + "\"");
+//		styleWriter.write(">\n");
+//		styleWriter.write("</style:properties>\n");
 //
 
 		styleWriter.write("</style:style>\n");

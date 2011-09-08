@@ -35,7 +35,7 @@ public abstract class AbstractDataAdapter implements DataAdapter
 	 * 
 	 */
 	private String name;
-    
+
 	/**
 	 * 
 	 */

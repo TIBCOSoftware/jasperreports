@@ -189,24 +189,24 @@ public class JaxenNsAwareXPathExecuter extends JaxenXPathExecuter
 			XPath xpath = new DOMXPath(namespaceXPathString);
 			nlist = xpath.selectNodes(contextNode);
 			
-            for (int i = 0; i < nlist.size(); i++) 
-            {
-                Node node = nlist.get(i);
-                if(node.getParentNode() != null && node.getParentNode().getPrefix() != null)
-                {
-                	if (!namespaces.containsKey(node.getParentNode().getPrefix()))
-                	{
-                		namespaces.put(node.getParentNode().getPrefix(), node.getParentNode().getNamespaceURI());
-                	}
-                }
-            }
-            
+			for (int i = 0; i < nlist.size(); i++) 
+			{
+				Node node = nlist.get(i);
+				if(node.getParentNode() != null && node.getParentNode().getPrefix() != null)
+				{
+					if (!namespaces.containsKey(node.getParentNode().getPrefix()))
+					{
+						namespaces.put(node.getParentNode().getPrefix(), node.getParentNode().getNamespaceURI());
+					}
+				}
+			}
+			
 		} catch (JaxenException e)
 		{
 			throw new JRException("XPath selection failed. Expression: " + namespaceXPathString, e);
 		}
 		
-        return namespaces;
+		return namespaces;
 	}
 	
 	protected void addNamespaceContext(Node contextNode, XPath xPath, String expression) throws JRException {

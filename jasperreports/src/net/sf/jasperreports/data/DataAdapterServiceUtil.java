@@ -36,7 +36,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public final class DataAdapterServiceUtil
 {
-    
+
 	/**
 	 *
 	 */

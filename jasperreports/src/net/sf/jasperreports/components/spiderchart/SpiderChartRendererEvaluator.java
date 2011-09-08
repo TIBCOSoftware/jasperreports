@@ -98,80 +98,80 @@ public class SpiderChartRendererEvaluator
 		
 		SpiderWebPlot spiderWebPlot = new SpiderWebPlot(dataset);
 
-        if(plot.getAxisLineColor() != null)
-        {
-        	spiderWebPlot.setAxisLinePaint(plot.getAxisLineColor());
-        }
-        if(plot.getAxisLineWidth() != null)
-        {
-        	spiderWebPlot.setAxisLineStroke(new BasicStroke(plot.getAxisLineWidth()));
-        }
-        if(plot.getBackcolor() != null)
-        {
-        	spiderWebPlot.setBackgroundPaint(plot.getBackcolor());
-        }
-        if(plot.getBackgroundAlpha() != null)
-        {
-        	spiderWebPlot.setBackgroundAlpha(plot.getBackgroundAlpha());
-        }
-        if(plot.getForegroundAlpha() != null)
-        {
-        	spiderWebPlot.setForegroundAlpha(plot.getForegroundAlpha());
-        }
-        if(plot.getHeadPercent() != null)
-        {
-        	spiderWebPlot.setHeadPercent(plot.getHeadPercent());
-        }
-        if(plot.getInteriorGap() != null)
-        {
-        	spiderWebPlot.setInteriorGap(plot.getInteriorGap());
-        }
-        if(plot.getLabelColor() != null)
-        {
-        	spiderWebPlot.setLabelPaint(plot.getLabelColor());
-        }
-        if(plot.getLabelFont() != null)
-        {
-        	spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(plot.getLabelFont(), Locale.getDefault()));
-        }
-        if(plot.getLabelGap() != null)
-        {
-        	spiderWebPlot.setAxisLabelGap(plot.getLabelGap());
-        }
-        if(spiderchartBean.getMaxValue() != null)
-        {
-        	spiderWebPlot.setMaxValue(spiderchartBean.getMaxValue());
-        }
-        if(plot.getRotation() != null)
-        {
-        	spiderWebPlot.setDirection(plot.getRotation().getRotation());
-        }
-        if(plot.getStartAngle() != null)
-        {
-        	spiderWebPlot.setStartAngle(plot.getStartAngle());
-        }
-        if(plot.getTableOrder() != null)
-        {
-        	spiderWebPlot.setDataExtractOrder(plot.getTableOrder().getOrder());
-        }
-        if(plot.getWebFilled() != null)
-        {
-        	spiderWebPlot.setWebFilled(plot.getWebFilled());
-        }
+		if(plot.getAxisLineColor() != null)
+		{
+			spiderWebPlot.setAxisLinePaint(plot.getAxisLineColor());
+		}
+		if(plot.getAxisLineWidth() != null)
+		{
+			spiderWebPlot.setAxisLineStroke(new BasicStroke(plot.getAxisLineWidth()));
+		}
+		if(plot.getBackcolor() != null)
+		{
+			spiderWebPlot.setBackgroundPaint(plot.getBackcolor());
+		}
+		if(plot.getBackgroundAlpha() != null)
+		{
+			spiderWebPlot.setBackgroundAlpha(plot.getBackgroundAlpha());
+		}
+		if(plot.getForegroundAlpha() != null)
+		{
+			spiderWebPlot.setForegroundAlpha(plot.getForegroundAlpha());
+		}
+		if(plot.getHeadPercent() != null)
+		{
+			spiderWebPlot.setHeadPercent(plot.getHeadPercent());
+		}
+		if(plot.getInteriorGap() != null)
+		{
+			spiderWebPlot.setInteriorGap(plot.getInteriorGap());
+		}
+		if(plot.getLabelColor() != null)
+		{
+			spiderWebPlot.setLabelPaint(plot.getLabelColor());
+		}
+		if(plot.getLabelFont() != null)
+		{
+			spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(plot.getLabelFont(), Locale.getDefault()));
+		}
+		if(plot.getLabelGap() != null)
+		{
+			spiderWebPlot.setAxisLabelGap(plot.getLabelGap());
+		}
+		if(spiderchartBean.getMaxValue() != null)
+		{
+			spiderWebPlot.setMaxValue(spiderchartBean.getMaxValue());
+		}
+		if(plot.getRotation() != null)
+		{
+			spiderWebPlot.setDirection(plot.getRotation().getRotation());
+		}
+		if(plot.getStartAngle() != null)
+		{
+			spiderWebPlot.setStartAngle(plot.getStartAngle());
+		}
+		if(plot.getTableOrder() != null)
+		{
+			spiderWebPlot.setDataExtractOrder(plot.getTableOrder().getOrder());
+		}
+		if(plot.getWebFilled() != null)
+		{
+			spiderWebPlot.setWebFilled(plot.getWebFilled());
+		}
 
-        spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        spiderWebPlot.setLabelGenerator(labelGenerator);
-        
-        Font titleFont = chartSettings.getTitleFont() != null 
-        	? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
-        	: TextTitle.DEFAULT_FONT;
-       
-        String titleText = spiderchartBean.getTitleText();
-        
-        JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
+		spiderWebPlot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
+		spiderWebPlot.setLabelGenerator(labelGenerator);
+		
+		Font titleFont = chartSettings.getTitleFont() != null 
+			? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
+			: TextTitle.DEFAULT_FONT;
+
+		String titleText = spiderchartBean.getTitleText();
+		
+		JFreeChart jfreechart = new JFreeChart(titleText, titleFont, spiderWebPlot, true);
 
 		Color backcolor = chartSettings.getBackcolor() != null ? chartSettings.getBackcolor() : element.getBackcolor();
-        if(backcolor != null)
+		if(backcolor != null)
 		{
 			jfreechart.setBackgroundPaint(backcolor);
 		}
@@ -192,7 +192,7 @@ public class SpiderChartRendererEvaluator
 			jfreechart.setTitle(title);
 		}
 
-        String subtitleText = spiderchartBean.getSubtitleText();
+		String subtitleText = spiderchartBean.getSubtitleText();
 		if (subtitleText != null)
 		{
 			TextTitle subtitle = new TextTitle(subtitleText);
@@ -204,9 +204,9 @@ public class SpiderChartRendererEvaluator
 
 			if(chartSettings.getSubtitleColor() != null)
 			{
-		        Font subtitleFont = chartSettings.getSubtitleFont() != null 
-	        	? JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
-	        	: TextTitle.DEFAULT_FONT;
+				Font subtitleFont = chartSettings.getSubtitleFont() != null 
+				? JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
+				: TextTitle.DEFAULT_FONT;
 				subtitle.setFont(subtitleFont);
 			}
 			

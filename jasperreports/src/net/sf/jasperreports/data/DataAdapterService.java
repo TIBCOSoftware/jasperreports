@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.ParameterContributor;
  */
 public interface DataAdapterService extends ParameterContributor
 {
-    
+
 	/**
 	 *
 	 */

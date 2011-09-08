@@ -53,8 +53,8 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	public static final String PRINT_SCALING_NONE = "none";
 	
 	public static final String PDFA_CONFORMANCE_1A = "pdfa1a";
-    public static final String PDFA_CONFORMANCE_1B = "pdfa1b";
-    public static final String PDFA_CONFORMANCE_NONE = "none";
+	public static final String PDFA_CONFORMANCE_1B = "pdfa1b";
+	public static final String PDFA_CONFORMANCE_NONE = "none";
 
 	/**
 	 *
@@ -359,29 +359,29 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * 	<li>{@link #PDFA_CONFORMANCE_1A}</li>
 	 * 	<li>{@link #PDFA_CONFORMANCE_1B}</li>
 	 * </ul>
-     */
-    public static final JRPdfExporterParameter PDFA_CONFORMANCE = new JRPdfExporterParameter("PDF/A Conformance");
-    
-    
-    /**
+	 */
+	public static final JRPdfExporterParameter PDFA_CONFORMANCE = new JRPdfExporterParameter("PDF/A Conformance");
+	
+	
+	/**
 	 * Property whose value is used as default for the {@link #PDF_A_CONFORMANCE} export parameter.
 	 * <p/>
 	 * By default, this property is set to {@link #PDFA_CONFORMANCE_NONE}.
 	 * 
 	 * @see JRProperties
 	 */
-    public static final String PROPERTY_PDFA_CONFORMANCE = JRProperties.PROPERTY_PREFIX + "export.pdfa.conformance";
-    
-    
-    /**
-     * The path to the ICC profile file for the PDF/A compliant document
-     */
-    public static final JRPdfExporterParameter PDFA_ICC_PROFILE_PATH = new JRPdfExporterParameter("PDF/A sRGB profile");
-    
-    
-    /**
-     * Property whose value is used as default for the {@link #PDFA_ICC_PROFILE_PATH} export parameter.
-     */
-    public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRProperties.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
-    
+	public static final String PROPERTY_PDFA_CONFORMANCE = JRProperties.PROPERTY_PREFIX + "export.pdfa.conformance";
+	
+	
+	/**
+	 * The path to the ICC profile file for the PDF/A compliant document
+	 */
+	public static final JRPdfExporterParameter PDFA_ICC_PROFILE_PATH = new JRPdfExporterParameter("PDF/A sRGB profile");
+	
+	
+	/**
+	 * Property whose value is used as default for the {@link #PDFA_ICC_PROFILE_PATH} export parameter.
+	 */
+	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRProperties.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
+	
 }

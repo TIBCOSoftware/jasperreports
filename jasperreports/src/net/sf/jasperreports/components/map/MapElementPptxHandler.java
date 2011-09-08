@@ -51,7 +51,7 @@ public class MapElementPptxHandler implements GenericElementPptxHandler
 		try
 		{
 			JRPptxExporter exporter = (JRPptxExporter)exporterContext.getExporter();
-	        exporter.exportImage(getImage(element));
+			exporter.exportImage(getImage(element));
 		}
 		catch (Exception e)
 		{

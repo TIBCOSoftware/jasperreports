@@ -32,7 +32,7 @@ import net.sf.jasperreports.data.DataAdapter;
  */
 public interface JndiDataAdapter extends DataAdapter
 {
-    public String getDataSourceName();
-    
-    public void setDataSourceName(String dataSourceName);
+	public String getDataSourceName();
+	
+	public void setDataSourceName(String dataSourceName);
 }

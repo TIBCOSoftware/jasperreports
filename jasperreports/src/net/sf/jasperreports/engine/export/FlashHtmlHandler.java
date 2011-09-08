@@ -61,14 +61,14 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 	public String getHtmlFragment(JRHtmlExporterContext exporterContext,
 			JRGenericPrintElement element)
 	{
-	    String swfURL = (String) element.getParameterValue(
-	    		FlashPrintElement.PARAMETER_SWF_URL);
-	    
-	    JRHyperlinkProducer hyperlinkProducer = 
-	    	new HtmlExporterHyperlinkProducerAdapter(exporterContext);
-	    
-	    StringBuffer flashVarsBuf = new StringBuffer();
-	    for (Iterator<String> it = element.getParameterNames().iterator(); it.hasNext();)
+		String swfURL = (String) element.getParameterValue(
+				FlashPrintElement.PARAMETER_SWF_URL);
+		
+		JRHyperlinkProducer hyperlinkProducer = 
+			new HtmlExporterHyperlinkProducerAdapter(exporterContext);
+		
+		StringBuffer flashVarsBuf = new StringBuffer();
+		for (Iterator<String> it = element.getParameterNames().iterator(); it.hasNext();)
 		{
 			String paramName = it.next();
 			if (paramName.startsWith(FlashPrintElement.PARAMETER_FLASH_VAR_PREFIX))
@@ -90,41 +90,41 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 				flashVarsBuf.append(value);
 			}
 		}
-	    String flashVars = flashVarsBuf.toString();
-	    
-	    String id = "jrflash_" + System.identityHashCode(element);
-	    int width = element.getWidth();
-	    int height = element.getHeight();
-	    
-	    StringBuffer out = new StringBuffer();
-	    out.append("\n<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"");
-	    out.append(width);
-	    out.append("\" height=\"");
-	    out.append(height);
-	    out.append("\" id=\"");
-	    out.append(id);
-	    out.append("\">\n");
-	    out.append("<param name=\"allowScriptAccess\" value=\"always\"/>\n");
-	    out.append("<param name=\"movie\" value=\"");
-	    out.append(swfURL);
-	    out.append("\"/>\n");
-	    out.append("<param name=\"FlashVars\" value=\"");
-	    out.append(flashVars);
-	    out.append("\"/>\n");
-	    out.append("<param name=\"quality\" value=\"high\"/>\n");
-	    out.append("<embed src=\"");
-	    out.append(swfURL);
-	    out.append("\" FlashVars=\"");
-	    out.append(flashVars);
-	    out.append("\" quality=\"high\" width=\"");
-	    out.append(width);
-	    out.append("\" height=\"");
-	    out.append(height);
-	    out.append("\" name=\"");
-	    out.append(id);
-	    out.append("\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"/>\n");
-	    out.append("</object>\n");
-	    return out.toString();
+		String flashVars = flashVarsBuf.toString();
+		
+		String id = "jrflash_" + System.identityHashCode(element);
+		int width = element.getWidth();
+		int height = element.getHeight();
+		
+		StringBuffer out = new StringBuffer();
+		out.append("\n<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"");
+		out.append(width);
+		out.append("\" height=\"");
+		out.append(height);
+		out.append("\" id=\"");
+		out.append(id);
+		out.append("\">\n");
+		out.append("<param name=\"allowScriptAccess\" value=\"always\"/>\n");
+		out.append("<param name=\"movie\" value=\"");
+		out.append(swfURL);
+		out.append("\"/>\n");
+		out.append("<param name=\"FlashVars\" value=\"");
+		out.append(flashVars);
+		out.append("\"/>\n");
+		out.append("<param name=\"quality\" value=\"high\"/>\n");
+		out.append("<embed src=\"");
+		out.append(swfURL);
+		out.append("\" FlashVars=\"");
+		out.append(flashVars);
+		out.append("\" quality=\"high\" width=\"");
+		out.append(width);
+		out.append("\" height=\"");
+		out.append(height);
+		out.append("\" name=\"");
+		out.append(id);
+		out.append("\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"/>\n");
+		out.append("</object>\n");
+		return out.toString();
 	}
 
 }

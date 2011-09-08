@@ -68,10 +68,10 @@ public class JRMondrianHierarchy implements JROlapHierarchy
 		return levels;
 	}
 
-    // MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
-    public String getHierarchyUniqueName()
-    {
-        return hierarchy == null ? null : hierarchy.getUniqueName();
-    }
+	// MPenningroth 21-April-2009 deal with case when dimension is <dimension>.<hierarchy> form
+	public String getHierarchyUniqueName()
+	{
+		return hierarchy == null ? null : hierarchy.getUniqueName();
+	}
 
 }

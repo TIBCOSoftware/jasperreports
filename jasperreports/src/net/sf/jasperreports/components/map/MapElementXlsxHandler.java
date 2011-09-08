@@ -55,7 +55,7 @@ public class MapElementXlsxHandler implements GenericElementXlsxHandler
 		try
 		{
 			JRXlsxExporter exporter = (JRXlsxExporter)exporterContext.getExporter();
-	        exporter.exportImage(getImage(element), gridCell, colIndex, rowIndex, 0, 0, null);
+			exporter.exportImage(getImage(element), gridCell, colIndex, rowIndex, 0, 0, null);
 		}
 		catch (Exception e)
 		{

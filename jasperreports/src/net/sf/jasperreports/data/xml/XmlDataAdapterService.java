@@ -61,67 +61,67 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 		if (xmlDataAdapter != null)
 		{
 			if (xmlDataAdapter.isUseConnection()) {
-	            
+				
 				/*
-	            if (this.getFilename().toLowerCase().startsWith("https://") ||
-	                this.getFilename().toLowerCase().startsWith("http://") ||
-	                this.getFilename().toLowerCase().startsWith("file:"))
-	            {
-	                map.put(JRXPathQueryExecuterFactory.XML_URL, this.getFilename());
-	            }
-	            else
-	            {
-	            */
-	                Document document = JRXmlUtils.parse( new File(xmlDataAdapter.getFileName()));
-	                parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
-	            //}
-	            
-	            
-	            Locale locale = xmlDataAdapter.getLocale();
-	            if (locale != null) {
-	            	parameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, locale);
-	            }
-	           
-	            TimeZone timeZone = xmlDataAdapter.getTimeZone();
-	            if (timeZone != null) {
-	            	parameters.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, timeZone);
-	            }
-	           
-	            String datePattern = xmlDataAdapter.getDatePattern();
-	            if (datePattern != null && datePattern.trim().length() > 0) {
-	            	parameters.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, datePattern);
-	            }
-	           
-	            String numberPattern = xmlDataAdapter.getNumberPattern();
-	            if (numberPattern != null && numberPattern.trim().length() > 0) {
-	            	parameters.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, numberPattern);
-	            }    
-	        }
+				if (this.getFilename().toLowerCase().startsWith("https://") ||
+					this.getFilename().toLowerCase().startsWith("http://") ||
+					this.getFilename().toLowerCase().startsWith("file:"))
+				{
+					map.put(JRXPathQueryExecuterFactory.XML_URL, this.getFilename());
+				}
+				else
+				{
+				*/
+					Document document = JRXmlUtils.parse( new File(xmlDataAdapter.getFileName()));
+					parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+				//}
+				
+				
+				Locale locale = xmlDataAdapter.getLocale();
+				if (locale != null) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_LOCALE, locale);
+				}
+
+				TimeZone timeZone = xmlDataAdapter.getTimeZone();
+				if (timeZone != null) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_TIME_ZONE, timeZone);
+				}
+
+				String datePattern = xmlDataAdapter.getDatePattern();
+				if (datePattern != null && datePattern.trim().length() > 0) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_DATE_PATTERN, datePattern);
+				}
+
+				String numberPattern = xmlDataAdapter.getNumberPattern();
+				if (numberPattern != null && numberPattern.trim().length() > 0) {
+					parameters.put(JRXPathQueryExecuterFactory.XML_NUMBER_PATTERN, numberPattern);
+				}	
+			}
 			else
 			{
 				JRXmlDataSource ds = new JRXmlDataSource(xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression()); 
-		           
-	            Locale locale = xmlDataAdapter.getLocale();
-		        if (locale != null) {
-		        	ds.setLocale(locale);
-		        }
-		           
-	            TimeZone timeZone = xmlDataAdapter.getTimeZone();
-		        if (timeZone != null) {
-		        	ds.setTimeZone(timeZone);
-		        }
-		        
-	            String datePattern = xmlDataAdapter.getDatePattern();
-	            if (datePattern != null && datePattern.trim().length() > 0) {
-	            	ds.setDatePattern(datePattern);
-	            }
-	           
-	            String numberPattern = xmlDataAdapter.getNumberPattern();
-	            if (numberPattern != null && numberPattern.trim().length() > 0) {
-	            	ds.setNumberPattern(numberPattern);
-	            }    
-		           
-	        	parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
+
+				Locale locale = xmlDataAdapter.getLocale();
+				if (locale != null) {
+					ds.setLocale(locale);
+				}
+
+				TimeZone timeZone = xmlDataAdapter.getTimeZone();
+				if (timeZone != null) {
+					ds.setTimeZone(timeZone);
+				}
+				
+				String datePattern = xmlDataAdapter.getDatePattern();
+				if (datePattern != null && datePattern.trim().length() > 0) {
+					ds.setDatePattern(datePattern);
+				}
+
+				String numberPattern = xmlDataAdapter.getNumberPattern();
+				if (numberPattern != null && numberPattern.trim().length() > 0) {
+					ds.setNumberPattern(numberPattern);
+				}	
+
+				parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 			}
 		}
 	}

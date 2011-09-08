@@ -55,7 +55,7 @@ import net.sf.jasperreports.data.xml.XmlDataAdapterService;
  */
 public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFactory
 {
-    
+
 	/**
 	 *
 	 */

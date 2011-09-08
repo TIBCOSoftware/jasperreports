@@ -97,25 +97,25 @@ public class XalanNsAwareXPathExecuter extends XalanXPathExecuter {
 		if (xmlNamespaceMap != null && xmlNamespaceMap.size() > 0) {
 			if (namespaceElement == null) {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			    factory.setNamespaceAware(true);   
-			    DocumentBuilder builder = null;
+				factory.setNamespaceAware(true);   
+				DocumentBuilder builder = null;
 				try {
 					builder = factory.newDocumentBuilder();
 				} catch (ParserConfigurationException e) {
 					throw new JRException(e);
-				}    
-			    DOMImplementation impl = builder.getDOMImplementation();
-			    
-			    Set<String> nsSet = xmlNamespaceMap.keySet();
-			    Iterator<String> it = nsSet.iterator();
-			    String prefix = it.next(); 
-			    Document namespaceHolder = impl.createDocument(xmlNamespaceMap.get(prefix), prefix + ":namespaceMapping", null);
-			    
-			    namespaceElement = namespaceHolder.getDocumentElement();
-			    while (it.hasNext()) {
-			    	prefix = it.next();
-			    	namespaceElement.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" + prefix, xmlNamespaceMap.get(prefix));
-			    }
+				}	
+				DOMImplementation impl = builder.getDOMImplementation();
+				
+				Set<String> nsSet = xmlNamespaceMap.keySet();
+				Iterator<String> it = nsSet.iterator();
+				String prefix = it.next(); 
+				Document namespaceHolder = impl.createDocument(xmlNamespaceMap.get(prefix), prefix + ":namespaceMapping", null);
+				
+				namespaceElement = namespaceHolder.getDocumentElement();
+				while (it.hasNext()) {
+					prefix = it.next();
+					namespaceElement.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" + prefix, xmlNamespaceMap.get(prefix));
+				}
 			}
 		}
 	}

@@ -68,48 +68,48 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 				{	
 					parameters.put(JRXlsxQueryExecuterFactory.XLSX_WORKBOOK, new XSSFWorkbook(new FileInputStream(new File(xlsxDataAdapter.getFileName()))));//FIXMENOW check this
 					if (datePattern != null && datePattern.length() > 0)
-		            {
-		            	parameters.put( JRXlsxQueryExecuterFactory.XLSX_DATE_FORMAT, new SimpleDateFormat(datePattern) );
-		            }
+					{
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_DATE_FORMAT, new SimpleDateFormat(datePattern) );
+					}
 					if (numberPattern != null && numberPattern.length() > 0)
-		            {
-		            	parameters.put( JRXlsxQueryExecuterFactory.XLSX_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
-		            }
+					{
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_NUMBER_FORMAT, new DecimalFormat(numberPattern) );
+					}
 					parameters.put( JRXlsxQueryExecuterFactory.XLSX_USE_FIRST_ROW_AS_HEADER, new Boolean(xlsxDataAdapter.isUseFirstRowAsHeader()));
 	
-		            if (!xlsxDataAdapter.isUseFirstRowAsHeader())
-		            { 
-		            	String[] names = new String[xlsxDataAdapter.getColumnNames().size()];
-			            int[] indexes = new int[xlsxDataAdapter.getColumnNames().size()];
-			            setupColumns(xlsxDataAdapter, names, indexes);
+					if (!xlsxDataAdapter.isUseFirstRowAsHeader())
+					{ 
+						String[] names = new String[xlsxDataAdapter.getColumnNames().size()];
+						int[] indexes = new int[xlsxDataAdapter.getColumnNames().size()];
+						setupColumns(xlsxDataAdapter, names, indexes);
 	
-		                parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES_ARRAY, names);
-		                parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, indexes);
-		            }
-		        }else{				
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES_ARRAY, names);
+						parameters.put( JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES_ARRAY, indexes);
+					}
+				}else{				
 						JRXlsxDataSource ds = new JRXlsxDataSource(new File(xlsxDataAdapter.getFileName()));
 						if (datePattern != null && datePattern.length() > 0)
-				        {
+						{
 							ds.setDateFormat(new SimpleDateFormat(datePattern));
-				        }
-				        if (numberPattern != null && numberPattern.length() > 0)
-				        {
-				            ds.setNumberFormat(new DecimalFormat(numberPattern));
-				        }
+						}
+						if (numberPattern != null && numberPattern.length() > 0)
+						{
+							ds.setNumberFormat(new DecimalFormat(numberPattern));
+						}
 			
-				        ds.setUseFirstRowAsHeader(xlsxDataAdapter.isUseFirstRowAsHeader());
+						ds.setUseFirstRowAsHeader(xlsxDataAdapter.isUseFirstRowAsHeader());
 			
-				        if (!xlsxDataAdapter.isUseFirstRowAsHeader())
-				        {
-				            String[] names = new String[xlsxDataAdapter.getColumnNames().size()];
-				            int[] indexes = new int[xlsxDataAdapter.getColumnNames().size()];
-				            setupColumns(xlsxDataAdapter, names, indexes);
-				            ds.setColumnNames( names, indexes);
-				        }
+						if (!xlsxDataAdapter.isUseFirstRowAsHeader())
+						{
+							String[] names = new String[xlsxDataAdapter.getColumnNames().size()];
+							int[] indexes = new int[xlsxDataAdapter.getColumnNames().size()];
+							setupColumns(xlsxDataAdapter, names, indexes);
+							ds.setColumnNames( names, indexes);
+						}
 			
-				        parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
+						parameters.put(JRParameter.REPORT_DATA_SOURCE, ds);
 					
-		        }
+				}
 			}
 			catch (Exception e)
 			{
@@ -122,8 +122,8 @@ public class XlsxDataAdapterService extends AbstractDataAdapterService
 			int[] indexes) {
 		for (int i=0; i< names.length; ++i )
 		{
-		    names[i] = "" + xlsxDataAdapter.getColumnNames().get(i);
-		    indexes[i] = (xlsxDataAdapter.getColumnIndexes().size() > i) ? xlsxDataAdapter.getColumnIndexes().get(i) : i;
+			names[i] = "" + xlsxDataAdapter.getColumnNames().get(i);
+			indexes[i] = (xlsxDataAdapter.getColumnIndexes().size() > i) ? xlsxDataAdapter.getColumnIndexes().get(i) : i;
 		}
 	}
 	

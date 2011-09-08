@@ -237,37 +237,37 @@ public final class FlashPrintElement
 			JRGenericPrintElement element,
 			JRHyperlinkProducer linkProducer)
 	{
-	    Matcher matcher = LINK_PATTERN.matcher(text);
-	    StringBuffer xml = new StringBuffer();
-	    while (matcher.find())
-	    {
-	    	String paramName = matcher.group(LINK_PARAM_NAME_GROUP);
-	    	JRPrintHyperlink hyperlink = 
-	    		(JRPrintHyperlink) element.getParameterValue(paramName);
-	    	
-	    	String replacement;
-	    	if (hyperlink == null)
-	    	{
-	    		if (log.isWarnEnabled())
-	    		{
-	    			log.warn("Hyperlink parameter " + paramName 
-	    					+ " not found in element");
-	    		}
-	    		
-	    		replacement = null;
-	    	}
-	    	else
-	    	{
-	    		replacement = linkProducer.getHyperlink(hyperlink);
-	    	}
-	    	
-	    	if (replacement == null)
-	    	{
-	    		replacement = "";
-	    	}
-	    	else
-	    	{
-	    		try
+		Matcher matcher = LINK_PATTERN.matcher(text);
+		StringBuffer xml = new StringBuffer();
+		while (matcher.find())
+		{
+			String paramName = matcher.group(LINK_PARAM_NAME_GROUP);
+			JRPrintHyperlink hyperlink = 
+				(JRPrintHyperlink) element.getParameterValue(paramName);
+			
+			String replacement;
+			if (hyperlink == null)
+			{
+				if (log.isWarnEnabled())
+				{
+					log.warn("Hyperlink parameter " + paramName 
+							+ " not found in element");
+				}
+				
+				replacement = null;
+			}
+			else
+			{
+				replacement = linkProducer.getHyperlink(hyperlink);
+			}
+			
+			if (replacement == null)
+			{
+				replacement = "";
+			}
+			else
+			{
+				try
 				{
 					replacement = URLEncoder.encode(replacement, "UTF-8");
 				}
@@ -275,13 +275,13 @@ public final class FlashPrintElement
 				{
 					throw new JRRuntimeException(e);
 				}
-	    	}
-	    	
-	    	matcher.appendReplacement(xml, replacement);
-	    }
-	    matcher.appendTail(xml);
-	    
-	    return xml.toString();
+			}
+			
+			matcher.appendReplacement(xml, replacement);
+		}
+		matcher.appendTail(xml);
+		
+		return xml.toString();
 
 	}
 	

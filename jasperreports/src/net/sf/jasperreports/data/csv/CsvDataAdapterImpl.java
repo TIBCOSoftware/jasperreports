@@ -38,11 +38,11 @@ public class CsvDataAdapterImpl extends AbstractDataAdapter implements CsvDataAd
 	private String recordDelimiter = "\n";
 	private String fieldDelimiter = ",";
 	private boolean useFirstRowAsHeader = false;
-    private String datePattern = null;
-    private String numberPattern = null;
-    private boolean queryExecuterMode = false;
-    private List<String> columnNames = new ArrayList<String>();
-    
+	private String datePattern = null;
+	private String numberPattern = null;
+	private boolean queryExecuterMode = false;
+	private List<String> columnNames = new ArrayList<String>();
+	
 	public String getFileName() {
 		return fileName;
 	}

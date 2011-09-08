@@ -107,13 +107,13 @@ public class BreakIteratorSplitCharacter implements SplitCharacter
 
 	protected char currentChar(int current, char[] cc, PdfChunk[] ck)
 	{
-        char currentCh = cc[current];
-        if (ck != null)
-        {
-            PdfChunk chunk = ck[Math.min(current, ck.length - 1)];
+		char currentCh = cc[current];
+		if (ck != null)
+		{
+			PdfChunk chunk = ck[Math.min(current, ck.length - 1)];
 			currentCh = (char)chunk.getUnicodeEquivalent(currentCh);
-        }
-        return currentCh;
+		}
+		return currentCh;
 	}
 	
 	protected static class ArrayCharIterator implements CharacterIterator

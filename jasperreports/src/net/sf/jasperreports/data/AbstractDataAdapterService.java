@@ -39,7 +39,7 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	 */
 	private String name;
 	private DataAdapter dataAdapter;
-    
+
 	/**
 	 * FIXME consider removing
 	 */

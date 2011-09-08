@@ -45,20 +45,20 @@ public class CustomJava2DRenderer  extends Java2DRenderer{
 	private Map renderingHints;
 
 
-    /**
-     * Creates a new instance pointing to the given Document. Does not render until {@link #getImage(int)} is called for
-     * the first time.
-     *
-     * @param doc The document to be rendered.
-     * @param width Target width, in pixels, for the image; required to provide horizontal bounds for the layout.
-     * @param height Target height, in pixels, for the image.
-     */
-    public CustomJava2DRenderer(Document doc, int width, int height) {
-    	super(doc, width, height);
-        this.doc = doc;
-        this.width = width;
-        prepareLayout();
-    }
+	/**
+	 * Creates a new instance pointing to the given Document. Does not render until {@link #getImage(int)} is called for
+	 * the first time.
+	 *
+	 * @param doc The document to be rendered.
+	 * @param width Target width, in pixels, for the image; required to provide horizontal bounds for the layout.
+	 * @param height Target height, in pixels, for the image.
+	 */
+	public CustomJava2DRenderer(Document doc, int width, int height) {
+		super(doc, width, height);
+		this.doc = doc;
+		this.width = width;
+		prepareLayout();
+	}
 
 	/**
 	 * Sets the rendering hints to apply to the Graphics2D instance used by the renderer; see

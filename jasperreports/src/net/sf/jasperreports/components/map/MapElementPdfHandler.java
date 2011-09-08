@@ -49,7 +49,7 @@ public class MapElementPdfHandler implements GenericElementPdfHandler
 		try
 		{
 			JRPdfExporter exporter = (JRPdfExporter)exporterContext.getExporter();
-	        exporter.exportImage(MapElementImageProvider.getImage(element));
+			exporter.exportImage(MapElementImageProvider.getImage(element));
 		}
 		catch (Exception e)
 		{
