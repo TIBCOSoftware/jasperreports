@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: BarChartXmlWriter.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class BarChartXmlWriter implements ComponentXmlWriter
 {

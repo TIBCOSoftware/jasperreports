@@ -30,7 +30,7 @@ package com.foo;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SomeFooClass.java 1413 2006-09-28 10:47:40Z teodord $
+ * @version $Id$
  */
 public class SomeFooClass
 {

@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: Address.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class Address
 {

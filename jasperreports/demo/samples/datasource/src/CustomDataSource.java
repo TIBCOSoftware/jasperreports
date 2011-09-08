@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CustomDataSource.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class CustomDataSource implements JRDataSource
 {

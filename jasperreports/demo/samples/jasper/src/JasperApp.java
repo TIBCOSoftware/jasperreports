@@ -59,7 +59,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JasperApp.java 3134 2009-10-22 11:44:10Z teodord $
+ * @version $Id$
  */
 public class JasperApp extends AbstractSampleApp
 {

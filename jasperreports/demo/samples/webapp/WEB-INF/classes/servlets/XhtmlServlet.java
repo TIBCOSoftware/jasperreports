@@ -50,7 +50,7 @@ import datasource.WebappDataSource;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HtmlServlet.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class XhtmlServlet extends HttpServlet
 {

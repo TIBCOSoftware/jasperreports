@@ -41,7 +41,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: VirtualizerApp.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class VirtualizerApp extends AbstractSampleApp
 {

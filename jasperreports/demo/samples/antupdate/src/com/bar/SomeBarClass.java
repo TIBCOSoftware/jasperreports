@@ -30,7 +30,7 @@ package com.bar;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SomeBarClass.java 1413 2006-09-28 10:47:40Z teodord $
+ * @version $Id$
  */
 public class SomeBarClass
 {

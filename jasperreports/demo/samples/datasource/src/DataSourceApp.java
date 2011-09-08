@@ -51,7 +51,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: DataSourceApp.java 3086 2009-10-04 17:40:40Z teodord $
+ * @version $Id$
  */
 public class DataSourceApp extends AbstractSampleApp
 {

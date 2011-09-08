@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ChartHtmlHandler.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class ChartXhtmlHandler extends ChartHtmlHandler
 {

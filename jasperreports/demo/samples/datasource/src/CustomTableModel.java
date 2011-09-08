@@ -27,7 +27,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CustomTableModel.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class CustomTableModel extends AbstractTableModel
 {

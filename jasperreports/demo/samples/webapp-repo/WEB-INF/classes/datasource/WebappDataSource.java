@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRField;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: WebappDataSource.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class WebappDataSource implements JRDataSource
 {

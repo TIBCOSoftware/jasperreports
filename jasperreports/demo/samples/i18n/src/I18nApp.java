@@ -53,7 +53,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: I18nApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id$
  */
 public class I18nApp extends AbstractSampleApp
 {

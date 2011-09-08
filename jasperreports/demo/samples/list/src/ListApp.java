@@ -46,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ListApp.java 3150 2009-10-23 16:07:06Z lucianc $
+ * @version $Id$
  */
 public class ListApp extends AbstractSampleApp
 {

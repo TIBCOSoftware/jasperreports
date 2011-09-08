@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StyledTextApp.java 3141 2009-10-23 08:02:07Z teodord $
+ * @version $Id$
  */
 public class StyledTextApp extends AbstractSampleApp
 {
