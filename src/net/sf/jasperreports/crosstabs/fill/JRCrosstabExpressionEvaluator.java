@@ -30,6 +30,8 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -61,7 +63,8 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 	}
 
 	
-	public <T,U> void init(Map<String, T> parametersMap, Map<String, U> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
+	public void init(Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillVariable> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
 	{
 		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType);
 	}

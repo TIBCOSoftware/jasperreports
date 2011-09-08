@@ -111,14 +111,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected JRFillVariable[] variables;
 
-	protected Map<String,JRVariable> variablesMap;
+	protected Map<String,JRFillVariable> variablesMap;
 	
 	protected JRFillVariable[][][] totalVariables;
 	protected boolean[][] retrieveTotal;
 
 	protected JRFillCrosstabParameter[] parameters;
 
-	protected Map<String,JRCrosstabParameter> parametersMap;
+	protected Map<String,JRFillParameter> parametersMap;
 	
 	protected boolean ignoreWidth;
 
@@ -233,7 +233,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		JRCrosstabParameter[] crossParams = crosstab.getParameters();
 		parameters = new JRFillCrosstabParameter[crossParams.length];
-		parametersMap = new HashMap<String,JRCrosstabParameter>();
+		parametersMap = new HashMap<String,JRFillParameter>();
 		for (int i = 0; i < crossParams.length; i++)
 		{
 			parameters[i] = factory.getCrosstabParameter(crossParams[i]);
@@ -261,7 +261,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		JRVariable[] vars = crosstab.getVariables();
 		variables = new JRFillVariable[vars.length];
-		variablesMap = new HashMap<String,JRVariable>();
+		variablesMap = new HashMap<String,JRFillVariable>();
 		for (int i = 0; i < variables.length; i++)
 		{
 			variables[i] = factory.getVariable(vars[i]);
