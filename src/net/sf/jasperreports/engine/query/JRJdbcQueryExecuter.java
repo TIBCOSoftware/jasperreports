@@ -178,11 +178,25 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					}
 					catch (Exception e)
 					{
-						throw new JRException("Retrieved data could not be cached. ", e);
+						throw new JRRuntimeException(e);
 					}
 					
 					((CachedRowSet)resultSet).populate(statement.executeQuery());
-					statement.close();
+					if (statement != null)
+					{
+						try
+						{
+							statement.close();
+						}
+						catch (SQLException e)
+						{
+							log.error("Error while closing statement.", e);
+						}
+						finally
+						{
+							statement = null;
+						}
+					}
 				}
 				else
 				{
