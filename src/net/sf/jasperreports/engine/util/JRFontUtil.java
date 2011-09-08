@@ -188,7 +188,7 @@ public final class JRFontUtil
 	public static FontInfo getFontInfo(String name, Locale locale)
 	{
 		//FIXMEFONT do some cache
-		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();
@@ -232,7 +232,7 @@ public final class JRFontUtil
 	{
 		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
-		List<FontFamily> families = (List<FontFamily>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();

@@ -106,7 +106,7 @@ public final class GenericElementHandlerEnviroment
 
 	protected static Map<String,GenericElementHandlerBundle> loadHandlerBundles()
 	{
-		List<GenericElementHandlerBundle> bundleList = (List<GenericElementHandlerBundle>)ExtensionsEnvironment.getExtensionsRegistry()
+		List<GenericElementHandlerBundle> bundleList = ExtensionsEnvironment.getExtensionsRegistry()
 				.getExtensions(GenericElementHandlerBundle.class);
 		Map<String,GenericElementHandlerBundle> bundles = new HashMap<String,GenericElementHandlerBundle>();
 		for (Iterator<GenericElementHandlerBundle> it = bundleList.iterator(); it.hasNext();)

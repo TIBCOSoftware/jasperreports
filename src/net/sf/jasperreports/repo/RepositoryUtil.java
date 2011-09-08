@@ -54,7 +54,8 @@ public final class RepositoryUtil
 	{
 		if (repositoryServices == null)
 		{
-			List<RepositoryServiceFactory> factories = (List<RepositoryServiceFactory>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(RepositoryServiceFactory.class);
+			List<RepositoryServiceFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
+					RepositoryServiceFactory.class);
 			if (factories == null || factories.size() == 0)
 			{
 				repositoryServices = new ArrayList<RepositoryService>(1);

@@ -23,13 +23,11 @@
  */
 package net.sf.jasperreports.data;
 
-import java.util.Collections;
-import java.util.List;
-
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 
 /**
@@ -39,17 +37,8 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
 	private static final ExtensionsRegistry extensionsRegistry = 
-		new ExtensionsRegistry()
-		{
-			public List<?> getExtensions(Class<?> extensionType) 
-			{
-				if (ParameterContributorFactory.class.equals(extensionType))
-				{
-					return Collections.singletonList(DataAdapterParameterContributorFactory.getInstance());
-				}
-				return null;
-			}
-		};
+			new SingletonExtensionRegistry<ParameterContributorFactory>(
+					ParameterContributorFactory.class, DataAdapterParameterContributorFactory.getInstance());
 	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{

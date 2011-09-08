@@ -42,10 +42,11 @@ public final class DataAdapterServiceUtil
 	 */
 	public static DataAdapterService getDataAdapterService(DataAdapter dataAdapter)
 	{
-		List<?> bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(DataAdapterServiceFactory.class);
-		for (Iterator<?> it = bundles.iterator(); it.hasNext();)
+		List<DataAdapterServiceFactory> bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
+				DataAdapterServiceFactory.class);
+		for (Iterator<DataAdapterServiceFactory> it = bundles.iterator(); it.hasNext();)
 		{
-			DataAdapterServiceFactory factory = (DataAdapterServiceFactory)it.next();
+			DataAdapterServiceFactory factory = it.next();
 			DataAdapterService service = factory.getDataAdapterService(dataAdapter);
 			if (service != null)
 			{

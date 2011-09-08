@@ -466,7 +466,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		scriptlets = new ArrayList<JRAbstractScriptlet>();
 		
-		List<ScriptletFactory> factories = (List<ScriptletFactory>)ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ScriptletFactory.class);
+		List<ScriptletFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(ScriptletFactory.class);
 		for (Iterator<ScriptletFactory> it = factories.iterator(); it.hasNext();)
 		{
 			ScriptletFactory factory = it.next();

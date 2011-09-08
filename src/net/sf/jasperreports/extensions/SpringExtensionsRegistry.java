@@ -62,10 +62,10 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 	/**
 	 * Returns all beans that match the extension class.
 	 */
-	public List<Object> getExtensions(Class<?> extensionType)
+	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		String[] beanNames = getExtensionBeanNames(extensionType);
-		List<Object> beans = new ArrayList<Object>(beanNames.length);
+		List<T> beans = new ArrayList<T>(beanNames.length);
 		for (int i = 0; i < beanNames.length; i++)
 		{
 			String name = beanNames[i];
@@ -74,7 +74,8 @@ public class SpringExtensionsRegistry implements ExtensionsRegistry
 				log.debug("Getting bean " + name + " as extension of type "
 						+ extensionType.getName());
 			}
-			Object bean = beanFactory.getBean(name, extensionType);
+			@SuppressWarnings("unchecked")
+			T bean = (T) beanFactory.getBean(name, extensionType);
 			beans.add(bean);
 		}
 		return beans;

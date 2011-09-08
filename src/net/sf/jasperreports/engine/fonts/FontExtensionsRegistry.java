@@ -43,7 +43,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 		this.fontFamiliesLocations = fontFamiliesLocations;
 	}
 	
-	public List<FontFamily> getExtensions(Class<?> extensionType)
+	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
 		if (FontFamily.class.equals(extensionType)) 
 		{
@@ -55,7 +55,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(location));
 				}
 			}
-			return fontFamilies;
+			return (List<T>) fontFamilies;
 		}
 		return null;
 	}
