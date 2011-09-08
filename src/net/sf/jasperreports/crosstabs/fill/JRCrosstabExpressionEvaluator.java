@@ -41,12 +41,12 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 {
 	private final JREvaluator evaluator;
-	private final JRFillDataset dataset;
-	
-	public JRCrosstabExpressionEvaluator(JREvaluator evaluator, JRFillDataset dataset)
+	private JRFillDataset dataset;
+
+
+	public JRCrosstabExpressionEvaluator(JREvaluator evaluator)
 	{
 		this.evaluator = evaluator;
-		this.dataset = dataset;
 	}
 	
 	
@@ -64,6 +64,11 @@ public class JRCrosstabExpressionEvaluator implements JRFillExpressionEvaluator
 	public <T,U> void init(Map<String, T> parametersMap, Map<String, U> variablesMap, WhenResourceMissingTypeEnum whenResourceMissingType) throws JRException
 	{
 		evaluator.init(parametersMap, null, variablesMap, whenResourceMissingType);
+	}
+	
+	public void setFillDataset(JRFillDataset dataset)
+	{
+		this.dataset = dataset;
 	}
 
 	public JRFillDataset getFillDataset()
