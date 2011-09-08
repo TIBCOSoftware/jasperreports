@@ -48,7 +48,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: ChartPdfHandler.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class ChartPdfHandler implements GenericElementPdfHandler
 {

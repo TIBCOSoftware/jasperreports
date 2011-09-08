@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: FillBarChart.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class FillBarChart extends BaseFillComponent implements JRFillCloneable
 {

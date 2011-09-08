@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextApp.java 3189 2009-11-06 10:06:44Z teodord $
+ * @version $Id$
  */
 public class TextApp extends AbstractSampleApp
 {

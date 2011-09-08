@@ -50,7 +50,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: NoPageBreakApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id$
  */
 public class NoPageBreakApp extends AbstractSampleApp
 {

@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ParagraphsApp.java 3694 2010-04-06 14:52:40Z teodord $
+ * @version $Id$
  */
 public class ParagraphsApp extends AbstractSampleApp
 {

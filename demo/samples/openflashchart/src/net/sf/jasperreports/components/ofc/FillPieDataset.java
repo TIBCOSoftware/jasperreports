@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: FillPieDataset.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class FillPieDataset extends JRFillElementDataset
 {

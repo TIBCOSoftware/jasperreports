@@ -56,7 +56,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HibernateApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id$
  */
 public class HibernateApp extends AbstractSampleApp
 {

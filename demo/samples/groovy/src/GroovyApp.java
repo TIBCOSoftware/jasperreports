@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.util.AbstractSampleApp;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GroovyApp.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class GroovyApp extends AbstractSampleApp
 {

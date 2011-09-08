@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: AlterDesignApp.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class AlterDesignApp extends AbstractSampleApp
 {

@@ -69,7 +69,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: NoXmlDesignApp.java 3420 2010-02-18 09:17:47Z teodord $
+ * @version $Id$
  */
 public class NoXmlDesignApp extends AbstractSampleApp
 {

@@ -61,7 +61,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: NoReportApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id$
  */
 public class NoReportApp extends AbstractSampleApp
 {

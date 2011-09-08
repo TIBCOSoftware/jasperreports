@@ -25,6 +25,6 @@
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: Greeting.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public enum Greeting { bye, day }

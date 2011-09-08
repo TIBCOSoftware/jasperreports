@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: DefaultExtensionsRegistryFactory.java 3193 2009-11-10 15:19:08Z lucianc $
+ * @version $Id$
  */
 public class HtmlElementExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

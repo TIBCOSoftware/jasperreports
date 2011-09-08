@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Marcel Overdijk (marceloverdijk@hotmail.com)
- * @version $Id: EjbqlApp.java 3148 2009-10-23 14:57:10Z shertage $
+ * @version $Id$
  */
 public class EjbqlApp extends AbstractSampleApp
 {

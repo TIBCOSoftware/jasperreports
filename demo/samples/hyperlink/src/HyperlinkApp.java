@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HyperlinkApp.java 3230 2009-12-11 10:49:26Z teodord $
+ * @version $Id$
  */
 public class HyperlinkApp extends AbstractSampleApp
 {

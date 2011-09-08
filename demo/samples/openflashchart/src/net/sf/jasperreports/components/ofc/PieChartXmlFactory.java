@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: PieChartXmlFactory.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class PieChartXmlFactory extends JRBaseFactory
 {

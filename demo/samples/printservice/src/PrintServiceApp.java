@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PrintServiceApp.java 3079 2009-10-01 14:34:51Z teodord $
+ * @version $Id$
  */
 public class PrintServiceApp extends AbstractSampleApp
 {

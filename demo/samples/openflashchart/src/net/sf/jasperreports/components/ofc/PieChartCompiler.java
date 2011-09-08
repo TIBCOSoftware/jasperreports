@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: PieChartCompiler.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class PieChartCompiler implements ComponentCompiler
 {

@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.util.Pair;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: FillBarDataset.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class FillBarDataset extends JRFillElementDataset
 {

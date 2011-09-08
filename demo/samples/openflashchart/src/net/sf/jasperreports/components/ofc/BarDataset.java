@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: BarDataset.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public interface BarDataset extends JRElementDataset
 {
