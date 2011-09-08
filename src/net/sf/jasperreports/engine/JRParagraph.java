@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAlignment.java 3419 2010-02-18 08:16:30Z teodord $
+ * @version $Id$
  */
 public interface JRParagraph extends JRStyleContainer
 {

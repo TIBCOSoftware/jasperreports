@@ -92,7 +92,7 @@ import org.apache.commons.logging.LogFactory;
  * Exports a JasperReports document to XLSX format. It has character output type and exports the document to a
  * grid-based layout.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDocxExporter.java 2943 2009-07-23 19:45:12Z teodord $
+ * @version $Id$
  */
 public class JRXlsxExporter extends JRXlsAbstractExporter
 {

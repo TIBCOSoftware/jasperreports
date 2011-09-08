@@ -31,7 +31,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JasperDesignFactory.java 3953 2010-09-20 13:54:34Z teodord $
+ * @version $Id$
  */
 public class StandardTableFactory extends JRBaseFactory
 {

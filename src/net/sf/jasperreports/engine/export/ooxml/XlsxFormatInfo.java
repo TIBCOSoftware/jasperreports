@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BorderHelper.java 3135 2009-10-22 14:20:23Z teodord $
+ * @version $Id$
  */
 public class XlsxFormatInfo
 {

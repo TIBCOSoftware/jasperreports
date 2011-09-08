@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextMeasurer.java 3047 2009-09-15 13:48:01Z teodord $
+ * @version $Id$
  */
 public class DelegatePropertiesHolder implements JRPropertiesHolder
 {

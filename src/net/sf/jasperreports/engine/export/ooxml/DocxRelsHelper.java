@@ -29,7 +29,7 @@ import java.io.Writer;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: OoxmlZip.java 2908 2009-07-21 14:32:01Z teodord $
+ * @version $Id$
  */
 public class DocxRelsHelper extends BaseHelper
 {

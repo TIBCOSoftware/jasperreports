@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintElement;
 	
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRExporterGridCell.java 2695 2009-03-24 18:14:25Z teodord $
+ * @version $Id$
  */
 public class OccupiedGridCell extends JRExporterGridCell
 {

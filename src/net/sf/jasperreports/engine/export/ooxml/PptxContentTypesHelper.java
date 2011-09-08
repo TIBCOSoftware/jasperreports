@@ -28,7 +28,7 @@ import java.io.Writer;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StyleBuilder.java 2908 2009-07-21 14:32:01Z teodord $
+ * @version $Id$
  */
 public class PptxContentTypesHelper extends BaseHelper
 {

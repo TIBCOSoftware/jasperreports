@@ -27,7 +27,7 @@ package net.sf.jasperreports.engine.export;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: Utility.java 3713 2010-04-08 11:06:05Z teodord $
+ * @version $Id$
  */
 public final class LengthUtil 
 {

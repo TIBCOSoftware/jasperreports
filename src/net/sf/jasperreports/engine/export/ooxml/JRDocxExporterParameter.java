@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 /**
  * Contains parameters useful for export in DOCX format.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporterParameter.java 2793 2009-05-20 12:17:11Z lucianc $
+ * @version $Id$
  */
 public class JRDocxExporterParameter extends JRExporterParameter
 {

@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ReportStyleHelper.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  */
 public class XlsxStyleHelper extends BaseHelper
 {

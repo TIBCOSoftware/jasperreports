@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: StyleHelper.java 2909 2009-07-21 16:21:50Z teodord $
+ * @version $Id$
  */
 public abstract class BaseHelper
 {

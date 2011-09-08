@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BarbecueFillComponent.java 4347 2011-05-26 11:13:03Z shertage $
+ * @version $Id$
  */
 public class MapFillComponent extends BaseFillComponent
 {

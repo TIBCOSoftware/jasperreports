@@ -78,7 +78,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Exports a JasperReports document to PPTX format.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDocxExporter.java 3502 2010-03-04 11:05:10Z teodord $
+ * @version $Id$
  */
 public class JRPptxExporter extends JRAbstractExporter
 {

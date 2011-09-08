@@ -36,7 +36,7 @@ import org.xml.sax.Attributes;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderPlotXmlFactory.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public class SpiderPlotXmlFactory extends JRBaseFactory
 {

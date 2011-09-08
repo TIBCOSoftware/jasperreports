@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * Spider Chart preview converter.
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderChartDesignConverter.java 3898 2010-07-19 11:30:26Z shertage $
+ * @version $Id$
  */
 public class SpiderChartDesignConverter implements ComponentDesignConverter
 {

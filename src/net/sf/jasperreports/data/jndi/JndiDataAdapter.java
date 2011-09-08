@@ -28,7 +28,7 @@ import net.sf.jasperreports.data.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JndiDataAdapter.java 276 2011-06-01 14:12:16Z narcism $
+ * @version $Id$
  */
 public interface JndiDataAdapter extends DataAdapter
 {

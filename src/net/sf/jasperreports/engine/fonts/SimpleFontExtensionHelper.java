@@ -60,7 +60,7 @@ import org.xml.sax.SAXParseException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRStyledTextParser.java 3082 2009-10-02 12:11:22Z teodord $
+ * @version $Id$
  */
 public final class SimpleFontExtensionHelper implements ErrorHandler
 {

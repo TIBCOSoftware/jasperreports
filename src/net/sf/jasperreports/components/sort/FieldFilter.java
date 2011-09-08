@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * A dataset filter that matches String values based on substrings.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
+ * @version $Id$
  */
 public class FieldFilter implements DatasetFilter
 {

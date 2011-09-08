@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.util.JRImageLoader;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BarbecueDesignConverter.java 4087 2010-12-15 12:57:45Z narcism $
+ * @version $Id$
  */
 public class MapDesignConverter extends ElementIconConverter implements ComponentDesignConverter
 {

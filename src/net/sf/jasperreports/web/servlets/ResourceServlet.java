@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FillServlet.java 3031 2009-08-27 11:14:57Z teodord $
+ * @version $Id$
  */
 public class ResourceServlet extends HttpServlet
 {

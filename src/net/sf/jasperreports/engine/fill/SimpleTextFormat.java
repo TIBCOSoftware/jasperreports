@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TextMeasurer.java 4298 2011-04-18 16:51:58Z teodord $
+ * @version $Id$
  */
 public class SimpleTextFormat implements TextFormat, Serializable
 {

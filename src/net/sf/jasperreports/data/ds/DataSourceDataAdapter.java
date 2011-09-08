@@ -24,7 +24,7 @@ import net.sf.jasperreports.data.ClasspathAwareDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
+ * @version $Id$
  */
 public interface DataSourceDataAdapter extends ClasspathAwareDataAdapter 
 {

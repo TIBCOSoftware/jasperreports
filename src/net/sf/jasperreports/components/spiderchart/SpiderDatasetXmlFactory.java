@@ -30,7 +30,7 @@ import org.xml.sax.Attributes;
 /**
  * 
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: SpiderDatasetXmlFactory.java 3887 2010-07-16 09:09:24Z shertage $
+ * @version $Id$
  */
 public class SpiderDatasetXmlFactory extends JRBaseFactory
 {

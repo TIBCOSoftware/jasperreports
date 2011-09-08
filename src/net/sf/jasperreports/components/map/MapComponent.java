@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: BarbecueComponent.java 4307 2011-04-20 13:12:30Z teodord $
+ * @version $Id$
  */
 public interface MapComponent extends Component, JRCloneable
 {

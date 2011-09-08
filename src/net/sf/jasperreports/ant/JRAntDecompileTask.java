@@ -64,7 +64,7 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * is older than the input file will be processed.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAntCompileTask.java 1606 2007-02-28 08:21:12Z lucianc $
+ * @version $Id$
  */
 public class JRAntDecompileTask extends MatchingTask
 {

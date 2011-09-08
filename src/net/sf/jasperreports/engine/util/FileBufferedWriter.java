@@ -36,7 +36,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FileBufferedZipEntry.java 2899 2009-07-21 10:02:32Z teodord $
+ * @version $Id$
  */
 public class FileBufferedWriter extends Writer 
 {

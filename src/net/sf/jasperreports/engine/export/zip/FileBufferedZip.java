@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: FileBufferedOoxmlZip.java 2942 2009-07-23 17:47:05Z teodord $
+ * @version $Id$
  */
 public class FileBufferedZip extends AbstractZip
 {

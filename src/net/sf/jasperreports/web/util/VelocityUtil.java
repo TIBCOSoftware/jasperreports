@@ -33,7 +33,7 @@ import org.apache.velocity.app.VelocityEngine;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: BaseServlet.java 85 2011-07-05 14:07:49Z narcism $
+ * @version $Id$
  */
 public class VelocityUtil
 {

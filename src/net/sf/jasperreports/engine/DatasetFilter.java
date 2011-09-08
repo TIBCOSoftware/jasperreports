@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.fill.DatasetFillContext;
  * </p>
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
+ * @version $Id$
  * @see JRParameter#FILTER
  * @see JRDataset#getFilterExpression()
  */

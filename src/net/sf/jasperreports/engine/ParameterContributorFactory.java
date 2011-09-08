@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ScriptletFactory.java 4386 2011-06-07 09:26:08Z shertage $
+ * @version $Id$
  */
 public interface ParameterContributorFactory
 {

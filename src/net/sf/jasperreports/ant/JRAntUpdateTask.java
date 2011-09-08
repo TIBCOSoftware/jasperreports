@@ -66,7 +66,7 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * design file is older than the source file will be updated.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAntCompileTask.java 1606 2007-02-28 08:21:12Z lucianc $
+ * @version $Id$
  */
 public class JRAntUpdateTask extends MatchingTask
 {

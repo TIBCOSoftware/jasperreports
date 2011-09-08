@@ -40,7 +40,7 @@ import org.jfree.data.time.Year;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PlotOrientationEnum.java 3609 2010-03-23 09:01:15Z teodord $
+ * @version $Id$
  */
 public enum TimePeriodEnum implements JREnum
 {

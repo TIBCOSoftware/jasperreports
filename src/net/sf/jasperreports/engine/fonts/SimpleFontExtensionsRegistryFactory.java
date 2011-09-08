@@ -36,7 +36,7 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: XmlChartThemeExtensionsRegistryFactory.java 3030 2009-08-27 11:12:48Z teodord $
+ * @version $Id$
  */
 public class SimpleFontExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: Barcode4JApp.java 3348 2010-02-01 12:35:35Z teodord $
+ * @version $Id$
  */
 public abstract class AbstractSampleApp
 {

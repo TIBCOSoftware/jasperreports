@@ -32,7 +32,7 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorExtensionsRegistryFactory.java 3034 2009-08-27 11:58:04Z teodord $
+ * @version $Id$
  */
 public class DataAdapterParameterContributorExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

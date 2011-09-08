@@ -37,7 +37,7 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRLoader.java 4395 2011-06-08 14:16:09Z shertage $
+ * @version $Id$
  */
 public final class RepositoryUtil
 {

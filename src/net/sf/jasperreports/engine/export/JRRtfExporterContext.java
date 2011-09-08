@@ -28,7 +28,7 @@ package net.sf.jasperreports.engine.export;
  * A context that represents information about an RTF export process.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRPdfExporterContext.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  * @see JRRtfExporter
  */
 public interface JRRtfExporterContext extends JRExporterContext

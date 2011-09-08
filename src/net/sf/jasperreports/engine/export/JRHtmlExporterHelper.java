@@ -44,7 +44,7 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRHtmlExporter.java 3675 2010-04-02 08:58:23Z shertage $
+ * @version $Id$
  */
 public class JRHtmlExporterHelper
 {

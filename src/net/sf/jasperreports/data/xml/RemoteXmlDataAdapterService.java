@@ -38,7 +38,7 @@ import org.w3c.dom.Document;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRBaseBand.java 4319 2011-05-17 09:22:14Z teodord $
+ * @version $Id$
  */
 public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 {

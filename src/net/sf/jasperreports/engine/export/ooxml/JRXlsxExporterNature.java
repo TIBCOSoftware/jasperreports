@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.export.JRXlsAbstractExporterNature;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDocxExporterNature.java 2964 2009-07-28 07:29:54Z teodord $
+ * @version $Id$
  */
 public class JRXlsxExporterNature extends JRXlsAbstractExporterNature
 {

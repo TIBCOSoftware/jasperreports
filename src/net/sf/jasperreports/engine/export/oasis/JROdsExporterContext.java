@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.export.JRExporterContext;
  * A context that represents information about an ODS export process.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRPdfExporterContext.java 3033 2009-08-27 11:46:22Z teodord $
+ * @version $Id$
  * @see JROdsExporter
  */
 public interface JROdsExporterContext extends JRExporterContext

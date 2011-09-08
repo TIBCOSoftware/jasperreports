@@ -37,7 +37,7 @@ import org.jfree.chart.plot.PlotOrientation;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
- * @version $Id: FillSpiderPlot.java 3889 2010-07-16 10:52:00Z shertage $
+ * @version $Id$
  */
 public class FillSpiderPlot implements SpiderPlot
 {
