@@ -27,11 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.CompositeDatasetFilter;
+import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.ParameterContributor;
+import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 
@@ -47,31 +51,50 @@ import org.apache.commons.logging.LogFactory;
 public class SortParameterContributor implements ParameterContributor
 {
 	private static final Log log = LogFactory.getLog(SortParameterContributor.class);
+	
+	private final ParameterContributorContext context;
 
+	public SortParameterContributor (ParameterContributorContext context)
+	{
+		this.context = context;
+	}
+	
 	public void contributeParameters(Map<String, Object> parameterValues) throws JRException
 	{
-		ReportContext reportContext = (ReportContext)parameterValues.get(JRParameter.REPORT_CONTEXT);
+		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
 			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
-//			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
-//			if (reportContext == null) {
-//				reportContext = new HashMap<String, Object>();
-//				context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
-//			}
-
-			if (reportActionData != null && paramTableName != null)
+			String currentDataset = JRAbstractCompiler.getUnitName(context.getJasperReport(), context.getDataset());
+			if (paramTableName == null || !paramTableName.equals(currentDataset))
 			{
+				return;
+			}
+			
+			if (reportActionData != null)
+			{
+				@SuppressWarnings("unchecked")
+				List<JRSortField> existingFields = (List<JRSortField>) parameterValues.get(JRParameter.SORT_FIELDS);
 				List<JRSortField> sortFields = new ArrayList<JRSortField>();
-				//List<String> sortFieldsList = new ArrayList<String>();
+				// add existing sort fields first
+				if (existingFields != null)
+				{
+					sortFields.addAll(existingFields);
+				}
+				
 				String[] tokens = reportActionData.split(",");
 				for (int i = 0; i < tokens.length; i++)
 				{
 					String token = tokens[i];
-					//sortFieldsList.add(token);
 					String[] chunks = SortElementUtils.extractColumnInfo(token);
+					
+					if (log.isDebugEnabled())
+					{
+						log.debug("Adding sort " + token);
+					}
+					
 					sortFields.add(
 						new JRDesignSortField(
 							chunks[0],
@@ -80,20 +103,23 @@ public class SortParameterContributor implements ParameterContributor
 							)
 						);
 				}
-				//fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
-				//reportContext.setParameterValue(paramTableName, sortFields);
+				
 				parameterValues.put(JRParameter.SORT_FIELDS, sortFields);
 			}
-			if (paramTableName != null)
+			
+			String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
+			String paramFieldValue = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE);
+			if (paramFieldName != null && paramFieldValue != null)
 			{
-				String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
-				String paramFieldValue = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE);
-				
-				if (paramFieldName != null && paramFieldValue != null)
+				if (log.isDebugEnabled())
 				{
-					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_FIELD, paramFieldName);
-					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_VALUE, paramFieldValue);
+					log.debug("Filtering by " + paramFieldName + ": " + paramFieldValue);
 				}
+				
+				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValue);
+				DatasetFilter existingFilter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
+				DatasetFilter combined = CompositeDatasetFilter.combine(existingFilter, filter);
+				parameterValues.put(JRParameter.FILTER, combined);
 			}
 		}
 	}

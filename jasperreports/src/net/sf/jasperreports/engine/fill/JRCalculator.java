@@ -49,6 +49,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	/**
 	 *
 	 */
+	protected JRFillDataset dataset;
 	protected Map<String,?> parsm;
 	protected Map<String,?> fldsm;
 	protected Map<String,?> varsm;
@@ -95,6 +96,7 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	 */
 	protected void init(JRFillDataset dataset) throws JRException
 	{
+		this.dataset = dataset;
 		parsm = dataset.parametersMap;
 		fldsm = dataset.fieldsMap;
 		varsm = dataset.variablesMap;
@@ -587,5 +589,11 @@ public class JRCalculator implements JRFillExpressionEvaluator
 	public Object evaluate(JRExpression expression) throws JRExpressionEvalException
 	{
 		return evaluator.evaluate(expression);
+	}
+
+
+	public JRFillDataset getFillDataset()
+	{
+		return dataset;
 	}
 }

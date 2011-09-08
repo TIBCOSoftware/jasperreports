@@ -23,41 +23,28 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.util.Collections;
-import java.util.List;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributor;
-import net.sf.jasperreports.engine.ParameterContributorContext;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
+ * Extension factory for {@link SortParameterContributorFactory}.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
  */
-public final class SortParameterContributorFactory implements ParameterContributorFactory
+public class SortParameterContributorExtensionFactory implements ExtensionsRegistryFactory
 {
+	
+	private static final ExtensionsRegistry REGISTRY = 
+			new SingletonExtensionRegistry<ParameterContributorFactory>(ParameterContributorFactory.class, 
+					SortParameterContributorFactory.getInstance());
 
-	private static final SortParameterContributorFactory INSTANCE = new SortParameterContributorFactory();
-	
-	private SortParameterContributorFactory()
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
 	{
-	}
-	
-	/**
-	 * 
-	 */
-	public static SortParameterContributorFactory getInstance()
-	{
-		return INSTANCE;
+		return REGISTRY;
 	}
 
-	/**
-	 *
-	 */
-	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
-	{
-		return Collections.<ParameterContributor>singletonList(new SortParameterContributor(context));
-	}
-	
 }

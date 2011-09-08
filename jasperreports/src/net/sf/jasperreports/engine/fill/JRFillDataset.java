@@ -35,6 +35,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.EvaluationType;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
@@ -77,7 +79,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillDataset implements JRDataset
+public class JRFillDataset implements JRDataset, DatasetFillContext
 {
 	
 	private static final Log log = LogFactory.getLog(JRFillDataset.class);
@@ -217,6 +219,8 @@ public class JRFillDataset implements JRDataset
 	protected Integer reportMaxCount;
 
 	private JRQueryExecuter queryExecuter;
+	
+	protected DatasetFilter filter;
 
 	
 	/**
@@ -551,7 +555,9 @@ public class JRFillDataset implements JRDataset
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext == null)
 		{
-			reportContext = null;//FIXMEJIVE Locale.getDefault();
+			//inherit from main
+			reportContext = (ReportContext) filler.getMainDataset().getParameterValue(
+					JRParameter.REPORT_CONTEXT);
 			parameterValues.put(JRParameter.REPORT_CONTEXT, reportContext);
 		}
 		
@@ -601,8 +607,16 @@ public class JRFillDataset implements JRDataset
 				contributor.contributeParameters(parameterValues);
 			}
 		}
+		
+		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
 		setFillParameterValues(parameterValues);
+		
+		// initialize the filter
+		if (filter != null)
+		{
+			filter.init(this);
+		}
 	}
 	
 	
@@ -819,7 +833,6 @@ public class JRFillDataset implements JRDataset
 		if (dataSource != null)
 		{
 			boolean includeRow = true;
-			JRExpression filterExpression = getFilterExpression();
 			do
 			{
 				hasNext = advanceDataSource();
@@ -828,11 +841,7 @@ public class JRFillDataset implements JRDataset
 					setOldValues();
 
 					calculator.estimateVariables();
-					if (filterExpression != null)
-					{
-						Boolean filterExprResult = (Boolean) calculator.evaluate(filterExpression, JRExpression.EVALUATION_ESTIMATED);
-						includeRow = filterExprResult != null && filterExprResult.booleanValue();
-					}
+					includeRow = evaluateFilter();
 					
 					if (!includeRow)
 					{
@@ -908,6 +917,32 @@ public class JRFillDataset implements JRDataset
 		return hasNext;
 	}
 	
+	protected boolean evaluateFilter() throws JRException
+	{
+		boolean includeRow = true;
+		
+		if (filter != null)
+		{
+			includeRow = filter.matches(EvaluationType.ESTIMATED);
+			if (log.isDebugEnabled())
+			{
+				log.debug("Record matched by filter: " + includeRow);
+			}
+		}
+		
+		if (includeRow)
+		{
+			JRExpression filterExpression = getFilterExpression();
+			if (filterExpression != null)
+			{
+				Boolean filterExprResult = (Boolean) calculator.evaluate(
+						filterExpression, JRExpression.EVALUATION_ESTIMATED);
+				includeRow = filterExprResult != null && filterExprResult.booleanValue();
+			}
+		}
+		
+		return includeRow;
+	}
 	
 	/**
 	 * Sets the value of a parameter.
@@ -967,14 +1002,23 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getVariableValue(String variableName)
 	{
+		return getVariableValue(variableName, EvaluationType.DEFAULT);
+	}
+
+	public Object getVariableValue(String variableName, EvaluationType evaluation)
+	{
 		JRFillVariable var = variablesMap.get(variableName);
 		if (var == null)
 		{
 			throw new JRRuntimeException("No such variable " + variableName);
 		}
-		return var.getValue();
+		return var.getValue(evaluation.getType());
 	}
 
+	public JRFillVariable getFillVariable(String variableName)
+	{
+		return variablesMap.get(variableName);
+	}
 	
 	/**
 	 * Returns the value of a parameter.
@@ -1024,14 +1068,23 @@ public class JRFillDataset implements JRDataset
 	 */
 	public Object getFieldValue(String fieldName)
 	{
-		JRFillField var = fieldsMap.get(fieldName);
-		if (var == null)
+		return getFieldValue(fieldName, EvaluationType.DEFAULT);
+	}
+	
+	public Object getFieldValue(String fieldName, EvaluationType evaluation)
+	{
+		JRFillField field = fieldsMap.get(fieldName);
+		if (field == null)
 		{
 			throw new JRRuntimeException("No such field " + fieldName);
 		}
-		return var.getValue();
+		return field.getValue(evaluation.getType());
 	}
 	
+	public JRFillField getFillField(String fieldName)
+	{
+		return fieldsMap.get(fieldName);
+	}
 	
 	/**
 	 * Class used to hold expression calculation  requirements.
@@ -1274,5 +1327,10 @@ public class JRFillDataset implements JRDataset
 	public Object evaluateExpression(JRExpression expression, byte evaluation) throws JRException
 	{
 		return calculator.evaluate(expression, evaluation);
+	}
+	
+	public Locale getLocale()
+	{
+		return locale;
 	}
 }

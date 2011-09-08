@@ -54,6 +54,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRValidationFault;
@@ -550,8 +551,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			//parameterValues.remove(JRParameter.REPORT_CLASS_LOADER);
 			parameterValues.remove(JRParameter.IS_IGNORE_PAGINATION);
 			parameterValues.remove(JRParameter.SORT_FIELDS);
+			parameterValues.remove(JRParameter.FILTER);
 			parameterValues.remove(JRParameter.REPORT_PARAMETERS_MAP);
-			//FIXMEJIVE ? parameterValues.remove(JRParameter.REPORT_CONTEXT);
 		}
 		
 		if (parameterValues == null)
@@ -615,6 +616,16 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				filler.fileResolver != null)
 		{
 			parameterValues.put(JRParameter.REPORT_FILE_RESOLVER, filler.fileResolver);
+		}
+		
+		if (!parameterValues.containsKey(JRParameter.REPORT_CONTEXT))
+		{
+			ReportContext context = (ReportContext) filler.getMainDataset().getParameterValue(
+					JRParameter.REPORT_CONTEXT);
+			if (context != null)
+			{
+				parameterValues.put(JRParameter.REPORT_CONTEXT, context);
+			}
 		}
 		
 		return parameterValues;

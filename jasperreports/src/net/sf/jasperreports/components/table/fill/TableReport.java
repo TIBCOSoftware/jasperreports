@@ -41,9 +41,8 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRGenericElement;
-import net.sf.jasperreports.engine.JRGenericElementParameter;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
@@ -57,6 +56,7 @@ import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
@@ -66,10 +66,13 @@ import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
+import net.sf.jasperreports.engine.design.JRDesignGenericElement;
+import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -93,6 +96,7 @@ public class TableReport implements JRReport
 	private final TableComponent table;
 	private final JasperReport parentReport;
 	private final TableReportDataset mainDataset;
+	private final Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators;
 	private final JRSection detail;
 	private final JRDesignBand title;
 	private final JRDesignBand summary;
@@ -105,14 +109,14 @@ public class TableReport implements JRReport
 		TableComponent table, 
 		TableReportDataset mainDataset, 
 		List<FillColumn> fillColumns, 
-		Map<JRExpression, 
-		BuiltinExpressionEvaluator> builtinEvaluators
+		Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators
 		)
 	{
 		this.fillContext = fillContext;
 		this.table = table;
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
+		this.builtinEvaluators = builtinEvaluators;
 		
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
 		this.title = createTitle(fillColumns);
@@ -127,7 +131,7 @@ public class TableReport implements JRReport
 			// if the table has both column footers and table footers, we need to use
 			// a dummy group's footer to print the last column footers so that they
 			// appear before the table footers
-			addSummaryGroup(fillColumns, builtinEvaluators);
+			addSummaryGroup(fillColumns);
 			
 			// use an empty last page footer so that the regular page footer doesn't
 			// show on the last page
@@ -139,6 +143,15 @@ public class TableReport implements JRReport
 			// use the regular page footer
 			this.lastPageFooter = null;
 		}
+	}
+	
+	protected JRDesignExpression createBuiltinExpression(BuiltinExpressionEvaluator evaluator)
+	{
+		// we only need an empty expression object here
+		// the evaluation logic is separate
+		JRDesignExpression expression = new JRDesignExpression();
+		builtinEvaluators.put(expression, evaluator);
+		return expression;
 	}
 	
 	protected class ReportBandInfo
@@ -203,9 +216,7 @@ public class TableReport implements JRReport
 			
 			if (cell != null)
 			{
-				JRDesignFrame cellFrame = createCellFrame(cell, 
-						column.getWidth(), fillColumn.getWidth(), 
-						xOffset, yOffset);
+				JRDesignFrame cellFrame = createColumnCell(column, cell);
 				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
 				bandInfo.addElement(level + rowSpan - 1, cellFrame);
 				
@@ -218,6 +229,13 @@ public class TableReport implements JRReport
 		}
 
 		protected abstract Cell columnCell(Column column);
+		
+		protected JRDesignFrame createColumnCell(Column column, Cell cell)
+		{
+			return createCellFrame(cell, 
+					column.getWidth(), fillColumn.getWidth(), 
+					xOffset, yOffset);
+		}
 		
 		public Void visitColumnGroup(ColumnGroup columnGroup)
 		{
@@ -372,6 +390,115 @@ public class TableReport implements JRReport
 			return column.getColumnHeader();
 		}
 
+		@Override
+		protected JRDesignFrame createColumnCell(Column column, Cell cell)
+		{
+			JRDesignFrame frame = super.createColumnCell(column, cell);
+			JRExpressionChunk sortExpression = getColumnSortExpression(column);
+			if (sortExpression != null)
+			{
+				addSortElement(column, frame, sortExpression);
+			}
+			return frame;
+		}
+
+		protected JRExpressionChunk getColumnSortExpression(Column column)
+		{
+			Cell detailCell = column.getDetailCell();
+			List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
+			// only consider cells with a single text fields
+			if (detailElements == null || detailElements.size() != 1)
+			{
+				return null;
+			}
+			
+			JRChild detailElement = detailElements.get(0);
+			if (!(detailElement instanceof JRTextField))
+			{
+				return null;
+			}
+			
+			// see if the text field expression is $F{..} of $V{..}
+			JRTextField text = (JRTextField) detailElement;
+			JRExpression textExpression = text.getExpression();
+			JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
+			if (chunks == null || chunks.length != 1
+					|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
+						&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
+			{
+				return null;
+			}
+			
+			// success
+			return chunks[0];
+		}
+
+		protected void addSortElement(Column column, JRDesignFrame frame,
+				JRExpressionChunk sortExpression)
+		{
+			Cell header = column.getColumnHeader();
+			
+			JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
+
+			genericElement.setGenericType(SortElement.SORT_ELEMENT_TYPE);
+			genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
+			genericElement.setX(0);
+			genericElement.setY(0);
+			genericElement.setHeight(header.getHeight());
+			genericElement.setWidth(fillColumn.getWidth());
+			genericElement.setMode(ModeEnum.TRANSPARENT);
+			
+			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, getName());
+			// not used for anything, but leaving it here anyway
+			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING, "true");
+			
+			String name = sortExpression.getText();
+			String columnType;
+			boolean filterable;
+			switch (sortExpression.getType())
+			{
+			case JRExpressionChunk.TYPE_FIELD:
+				columnType = SortElement.SORT_ELEMENT_TYPE_FIELD;
+				JRField field = getField(name);
+				filterable = String.class.equals(field.getValueClass());
+				break;
+				
+			case JRExpressionChunk.TYPE_VARIABLE:
+				columnType = SortElement.SORT_ELEMENT_TYPE_VARIABLE;
+				JRVariable variable = getVariable(name);
+				filterable = String.class.equals(variable.getValueClass());
+				break;
+				
+			default:
+				// never
+				throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+			}
+			
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_NAME, name);
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_TYPE, columnType);
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, "Right");
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, "Middle");
+			
+			if (filterable)
+			{
+				genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
+			}
+			
+			frame.addElement(genericElement);
+		}
+		
+		protected void addElementParameter(JRDesignGenericElement element, String name, Object value)
+		{
+			JRDesignGenericElementParameter param = new JRDesignGenericElementParameter();
+			param.setName(name);
+			
+			JRDesignExpression valueExpression = createBuiltinExpression(
+					new ConstantBuiltinExpression(value));
+			param.setValueExpression(valueExpression);
+			
+			element.addParameter(param);
+		}
+		
 		@Override
 		protected Cell columnGroupCell(ColumnGroup group)
 		{
@@ -746,7 +873,7 @@ public class TableReport implements JRReport
 		return width;
 	}
 	
-	protected void addSummaryGroup(List<FillColumn> fillColumns, Map<JRExpression, BuiltinExpressionEvaluator> builtinEvaluators)
+	protected void addSummaryGroup(List<FillColumn> fillColumns)
 	{
 		JRDesignGroup summaryGroup = new JRDesignGroup();
 		summaryGroup.setName(SUMMARY_GROUP_NAME);//TODO check for uniqueness
@@ -769,10 +896,7 @@ public class TableReport implements JRReport
 		footerFrame.getLineBox().getPen().setLineWidth(0f);
 		footerFrame.setRemoveLineWhenBlank(true);
 		
-		// we only need an empty expression object here
-		// the evaluation logic is separate
-		JRDesignExpression footerPrintWhen = new JRDesignExpression();
-		builtinEvaluators.put(footerPrintWhen, new SummaryGroupFooterPrintWhenEvaluator());
+		JRDesignExpression footerPrintWhen = createBuiltinExpression(new SummaryGroupFooterPrintWhenEvaluator());
 		footerFrame.setPrintWhenExpression(footerPrintWhen);
 		
 		// clone the contents of the page footer in the frame
@@ -824,43 +948,6 @@ public class TableReport implements JRReport
 			JRChild child = it.next();
 			if (child instanceof JRElement)
 			{
-				if (child instanceof JRGenericElement) {
-					JRGenericElement genericElement = (JRGenericElement)child;
-					if ("true".equals(genericElement.getPropertiesMap().getProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING))) {//FIXMEJIVE check this test
-						JRGenericElementParameter[] params = genericElement.getParameters();
-						
-						for (int i = 0; i < params.length; i++) {
-							JRGenericElementParameter param = params[i];
-							if (param.getName().equals(SortElement.PARAMETER_SORT_COLUMN_NAME) && param.getValueExpression().getText() != null) {
-								genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, getName());
-								genericElement.setWidth(width);
-								
-								String sortColumnNameExpr = param.getValueExpression().getText();
-								String sortColumnTypeExpr = params[i+1].getValueExpression().getText();
-								
-								String columnName = sortColumnNameExpr.substring(1, sortColumnNameExpr.length() - 1);
-								String columnType = sortColumnTypeExpr.substring(1, sortColumnTypeExpr.length() - 1);
-								
-								// filterable columns FIXMEJIVE: string only?
-								if (SortElement.SORT_ELEMENT_TYPE_FIELD.equals(columnType)) {
-									for(JRField field: getFields()) {
-										if (columnName.equals(field.getName()) && field.getValueClassName().equals(String.class.getName())) {
-											genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
-										}
-									}
-								} else if (SortElement.SORT_ELEMENT_TYPE_VARIABLE.equals(columnType)) {
-									for(JRVariable var: getVariables()) {
-										if (columnName.equals(var.getName()) && var.getValueClassName().equals(String.class.getName())) {
-											genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
-										}
-									}
-								}
-								break;
-							}
-						}
-					}
-				}
-					
 				JRElement element = (JRElement) child;
 				// clone the element in order to set the frame as group
 				element = (JRElement) element.clone(frame);
@@ -972,6 +1059,20 @@ public class TableReport implements JRReport
 	public JRField[] getFields()
 	{
 		return mainDataset.getFields();
+	}
+
+	protected JRField getField(String name)
+	{
+		JRField found = null;
+		for (JRField field : getFields())
+		{
+			if (name.equals(field.getName()))
+			{
+				found = field;
+				break;
+			}
+		}
+		return found;
 	}
 
 	public String getFormatFactoryClass()
@@ -1130,6 +1231,20 @@ public class TableReport implements JRReport
 		return mainDataset.getVariables();
 	}
 
+	protected JRVariable getVariable(String name)
+	{
+		JRVariable found = null;
+		for (JRVariable var : getVariables())
+		{
+			if (name.equals(var.getName()))
+			{
+				found = var;
+				break;
+			}
+		}
+		return found;
+	}
+	
 	public WhenNoDataTypeEnum getWhenNoDataTypeValue()
 	{
 		WhenNoDataTypeEnum whenNoDataType = WhenNoDataTypeEnum.NO_PAGES;

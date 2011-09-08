@@ -639,7 +639,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected JRFillField getField(String fieldName)
 	{
-		return mainDataset.fieldsMap.get(fieldName);
+		return mainDataset.getFillField(fieldName);
 	}
 
 	private void initBands()
@@ -1306,7 +1306,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	 */
 	protected Locale getLocale()
 	{
-		return mainDataset.locale;
+		return mainDataset.getLocale();
 	}
 
 

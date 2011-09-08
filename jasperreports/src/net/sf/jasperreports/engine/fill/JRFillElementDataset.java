@@ -253,4 +253,9 @@ public abstract class JRFillElementDataset implements JRElementDataset
 	{
 		throw new UnsupportedOperationException();
 	}
+	
+	public JRFillDataset getFillDataset()
+	{
+		return datasetRun == null ? filler.getMainDataset() : datasetRun.getDataset();
+	}
 }

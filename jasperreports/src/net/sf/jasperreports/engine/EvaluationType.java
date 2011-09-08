@@ -21,43 +21,47 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.sort;
-
-import java.util.Collections;
-import java.util.List;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributor;
-import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
+package net.sf.jasperreports.engine;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
+ * Determines the field and variables values to be used when evaluating an expression.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
  */
-public final class SortParameterContributorFactory implements ParameterContributorFactory
+//FIXME deprecate methods that take byte evaluation type in favor of this enum
+public enum EvaluationType
 {
-
-	private static final SortParameterContributorFactory INSTANCE = new SortParameterContributorFactory();
-	
-	private SortParameterContributorFactory()
-	{
-	}
-	
 	/**
+	 * Use current values when evaluating the expression.
+	 */
+	DEFAULT(JRExpression.EVALUATION_DEFAULT),
+	/**
+	 * Use old/previous values when evaluating the expression.
+	 */
+	OLD(JRExpression.EVALUATION_OLD),
+	/**
+	 * Use estimated/future values when evaluating the expression.
+	 */
+	ESTIMATED(JRExpression.EVALUATION_ESTIMATED);
+	
+	private final byte type;
+	
+	private EvaluationType(byte type)
+	{
+		this.type = type;
+	}
+
+	/**
+	 * Returns the corresponding byte value for the evaluation type.
 	 * 
+	 * @return
+	 * @see JRExpression#EVALUATION_DEFAULT
+	 * @see JRExpression#EVALUATION_OLD
+	 * @see JRExpression#EVALUATION_ESTIMATED
 	 */
-	public static SortParameterContributorFactory getInstance()
+	public byte getType()
 	{
-		return INSTANCE;
+		return this.type;
 	}
-
-	/**
-	 *
-	 */
-	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
-	{
-		return Collections.<ParameterContributor>singletonList(new SortParameterContributor(context));
-	}
-	
 }
