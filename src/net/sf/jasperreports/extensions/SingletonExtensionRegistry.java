@@ -21,43 +21,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.sort;
+package net.sf.jasperreports.extensions;
 
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributor;
-import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
-
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
+ * An extension registry that contains a single extension.
+ * 
+ * @param <T> the extension type
+ *  
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
  */
-public final class SortParameterContributorFactory implements ParameterContributorFactory
+public class SingletonExtensionRegistry<T> implements ExtensionsRegistry
 {
 
-	private static final SortParameterContributorFactory INSTANCE = new SortParameterContributorFactory();
-	
-	private SortParameterContributorFactory()
-	{
-	}
+	private final Class<T> type;
+	private final List<T> extensions;
 	
 	/**
+	 * Creates a singleton extension registry.
 	 * 
+	 * @param type the registry type
+	 * @param extension the extension object
 	 */
-	public static SortParameterContributorFactory getInstance()
+	public SingletonExtensionRegistry(Class<T> type, T extension)
 	{
-		return INSTANCE;
+		this.type = type;
+		this.extensions = Collections.singletonList(extension);
+	}
+	
+	public List<?> getExtensions(Class<?> extensionType)
+	{
+		if (type.equals(extensionType))
+		{
+			return extensions;
+		}
+		return null;
 	}
 
-	/**
-	 *
-	 */
-	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
-	{
-		return Collections.<ParameterContributor>singletonList(new SortParameterContributor(context));
-	}
-	
 }

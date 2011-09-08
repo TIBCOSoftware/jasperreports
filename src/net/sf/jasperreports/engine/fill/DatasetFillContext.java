@@ -21,43 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.sort;
+package net.sf.jasperreports.engine.fill;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Locale;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.ParameterContributor;
-import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
+import net.sf.jasperreports.engine.EvaluationType;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: GovernorFactory.java 4391 2011-06-08 13:17:35Z shertage $
+ * Context information related to a fill time dataset.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id: JRCrosstab.java 4370 2011-06-01 13:23:46Z shertage $
  */
-public final class SortParameterContributorFactory implements ParameterContributorFactory
+public interface DatasetFillContext
 {
 
-	private static final SortParameterContributorFactory INSTANCE = new SortParameterContributorFactory();
-	
-	private SortParameterContributorFactory()
-	{
-	}
+	/**
+	 * Returns the value of a parameter.
+	 * 
+	 * @param parameter the parameter name
+	 * @return the parameter value
+	 */
+	Object getParameterValue(String parameter);
 	
 	/**
+	 * Returns the value of a field.
 	 * 
+	 * @param field the field name
+	 * @param evaluation the evaluation type
+	 * @return the field value
 	 */
-	public static SortParameterContributorFactory getInstance()
-	{
-		return INSTANCE;
-	}
+	Object getFieldValue(String field, EvaluationType evaluation);
+	
+	/**
+	 * Returns the value of a variable.
+	 * 
+	 * @param variable the variable name
+	 * @param evaluation the evaluation type
+	 * @return the variable value
+	 */
+	Object getVariableValue(String variable, EvaluationType evaluation);
 
 	/**
-	 *
+	 * Returns the locale used by the dataset.
+	 * 
+	 * @return
 	 */
-	public List<ParameterContributor> getContributors(ParameterContributorContext context) throws JRException
-	{
-		return Collections.<ParameterContributor>singletonList(new SortParameterContributor(context));
-	}
-	
+	Locale getLocale();
 }

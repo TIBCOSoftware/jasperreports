@@ -32,10 +32,12 @@ import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
 import net.sf.jasperreports.engine.fill.JRFillCloneable;
+import net.sf.jasperreports.engine.fill.JRFillDataset;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * 
@@ -147,8 +149,33 @@ public class SortComponentFill extends BaseFillComponent {
 			printElement.setParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign().getName());
 		}
 		
-		String datasetName = JRAbstractCompiler.getUnitName(fillContext.getFiller().getJasperReport(), fillContext.getFiller().getJasperReport().getMainDataset());
-		printElement.getPropertiesMap().setProperty(JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN, datasetName);
+		if (isFilterable())
+		{
+			printElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
+		}
+		
+		String datasetName = JRAbstractCompiler.getUnitName(
+				fillContext.getFiller().getJasperReport(), fillContext.getFillDataset());
+		printElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, datasetName);
 	}
 
+	protected boolean isFilterable()
+	{
+		String type = sortComponent.getSortFieldType();
+		String name = sortComponent.getSortFieldName();
+		JRFillDataset dataset = fillContext.getFillDataset();
+		
+		boolean filterable = false;
+		if (SortElement.SORT_ELEMENT_TYPE_FIELD.equals(type))
+		{
+			JRFillField field = dataset.getFillField(name);
+			filterable = field != null && String.class.equals(field.getValueClass());
+		}
+		else if (SortElement.SORT_ELEMENT_TYPE_VARIABLE.equals(type))
+		{
+			JRFillVariable variable = dataset.getFillVariable(name);
+			filterable = variable != null && String.class.equals(variable.getValueClass());
+		}
+		return filterable;
+	}
 }

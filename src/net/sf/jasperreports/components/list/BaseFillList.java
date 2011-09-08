@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRPrintElementContainer;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
+import net.sf.jasperreports.engine.fill.JRFillDataset;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
@@ -78,6 +79,11 @@ public abstract class BaseFillList extends BaseFillComponent
 			{
 				return datasetRun.evaluateDatasetExpression(
 						expression, evaluationType);
+			}
+
+			public JRFillDataset getFillDataset()
+			{
+				return datasetRun.getDataset();
 			}
 		};
 	}

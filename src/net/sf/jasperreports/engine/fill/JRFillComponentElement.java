@@ -203,6 +203,11 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		return super.evaluateExpression(expression, evaluation);
 	}
 
+	public JRFillDataset getFillDataset()
+	{
+		return expressionEvaluator.getFillDataset();
+	}
+
 	public JRComponentElement getComponentElement()
 	{
 		return this;

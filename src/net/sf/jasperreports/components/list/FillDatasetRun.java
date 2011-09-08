@@ -190,4 +190,13 @@ public class FillDatasetRun extends JRFillDatasetRun
 	{
 		return dataset.evaluateExpression(expression, evaluationType);
 	}
+
+	@Override
+	protected JRFillDataset getDataset()
+	{
+		// only added here for visibility
+		return super.getDataset();
+	}
+	
+	
 }

@@ -72,7 +72,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortHandlerFontSize = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE);
 			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
 			String sortHandlerHAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
-			String sortTableName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
+			String sortDatasetName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
 			String isFilterable = element.getPropertiesMap().getProperty(SortElement.PROPERTY_IS_FILTERABLE);
 			
 			Template template = getVelocityEngine().getTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE);
@@ -90,14 +90,14 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 			velocityContext.put("elementWidth", element.getWidth());
 			velocityContext.put("elementHeight", element.getHeight());
-			velocityContext.put("sortLinkClass", sortTableName);
+			velocityContext.put("sortLinkClass", sortDatasetName);
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", sortHandlerColor != null ? sortHandlerColor : "white");
 			velocityContext.put("sortHandlerFontSize", sortHandlerFontSize != null ? sortHandlerFontSize : "10");
 			
 			velocityContext.put("isFilterable", isFilterable != null && isFilterable.equalsIgnoreCase("true"));
-			velocityContext.put("filterDivId", "filter_" + sortTableName + "_" + sortColumnName);
+			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
 			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
@@ -105,18 +105,18 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterValueParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE);
 			velocityContext.put("filterColumnName", sortColumnName);
 			velocityContext.put("filterTableNameParam", SortElement.REQUEST_PARAMETER_DATASET_RUN);
-			velocityContext.put("filterTableNameValue", sortTableName);
+			velocityContext.put("filterTableNameValue", sortDatasetName);
 			velocityContext.put("filterCloseDialogImageResource", (appContextPath == null ? "" : appContextPath) + webResourcesBasePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);//FIXMEJIVE
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
 				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
-			
-			String sortField = getCurrentSortField(reportContext, sortColumnName, sortColumnType);
+
+			String sortField = getCurrentSortField(reportContext, sortDatasetName, sortColumnName, sortColumnType);
 			if (sortField == null) 
 			{
-				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortTableName));
+				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortDatasetName));
 				velocityContext.put("sortSymbol", "");
 			}
 			else 
@@ -124,7 +124,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				String[] sortActionData = SortElementUtils.extractColumnInfo(sortField);
 				boolean isAscending = !SortElement.SORT_ORDER_ASC.equals(sortActionData[2]);
 				String sortOrder = isAscending ? SortElement.SORT_ORDER_ASC : SortElement.SORT_ORDER_DESC;
-				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortTableName));
+				velocityContext.put("href", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortDatasetName));
 				velocityContext.put("sortSymbol", isAscending ? ASCENDING_SORT_SYMBOL : DESCENDING_SORT_SYMBOL);
 			}
 			
@@ -165,8 +165,16 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	
-	private String getCurrentSortField(ReportContext reportContext, String sortColumnName, String sortColumnType) 
+	private String getCurrentSortField(ReportContext reportContext, String sortDatasetName, String sortColumnName, String sortColumnType) 
 	{
+		String currentSortDataset = (String) reportContext.getParameterValue(
+				SortElement.REQUEST_PARAMETER_DATASET_RUN);
+		if (sortDatasetName == null || !sortDatasetName.equals(currentSortDataset))
+		{
+			// sorting is on a different dataset
+			return null;
+		}
+		
 		String sortField = null;
 		String sortData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 		

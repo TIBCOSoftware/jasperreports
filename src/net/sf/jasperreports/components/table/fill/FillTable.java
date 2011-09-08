@@ -31,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.components.sort.SortElementUtils;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -42,23 +40,17 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
-import net.sf.jasperreports.engine.design.JRDesignExpression;
-import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
-import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRReportUtils;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -103,62 +95,11 @@ public class FillTable extends BaseFillComponent
 		
 		filling = false;
 		
-		sort();
-		
 		evaluateColumns(evaluation);
 		if (!fillColumns.isEmpty())
 		{
 			createFillSubreport();
 			fillSubreport.evaluateSubreport(evaluation);
-		}
-	}
-
-	private void sort()
-	{
-		ReportContext reportContext = (ReportContext)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_CONTEXT);
-		if (reportContext != null)
-		{
-			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
-			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
-			
-//			Map<String, Object> reportContext = (Map<String, Object>)fillContext.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
-//			if (reportContext == null) {
-//				reportContext = new HashMap<String, Object>();
-//				context.getReportParameters().put(JRParameter.REPORT_PARAMETERS_MAP, reportContext);
-//			}
-
-			if (reportActionData != null && paramTableName != null)
-			{
-				List<JRSortField> sortFields = new ArrayList<JRSortField>();
-				//List<String> sortFieldsList = new ArrayList<String>();
-				String[] tokens = reportActionData.split(",");
-				for (int i = 0; i < tokens.length; i++)
-				{
-					String token = tokens[i];
-					//sortFieldsList.add(token);
-					String[] chunks = SortElementUtils.extractColumnInfo(token);
-					sortFields.add(
-						new JRDesignSortField(
-							chunks[0],
-							SortFieldTypeEnum.getByName(chunks[1]),
-							SortElementUtils.getSortOrder(chunks[2])
-							)
-						);
-				}
-				//fillContext.getFiller().getParameterValuesMap().put(SortElement.PARAMETER_SORT_FIELDS, sortFieldsList);
-				reportContext.setParameterValue(paramTableName, sortFields);
-			}
-			if (paramTableName != null)
-			{
-				String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
-				String paramFieldValue = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE);
-				
-				if (paramFieldName != null && paramFieldValue != null)
-				{
-					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_FIELD, paramFieldName);
-					reportContext.setParameterValue(paramTableName + "." + SortElement.REQUEST_PARAMETER_FILTER_VALUE, paramFieldValue);
-				}
-			}
 		}
 	}
 
@@ -297,13 +238,7 @@ public class FillTable extends BaseFillComponent
 		// the relationship between objects (e.g. variables and groups) in the cloned
 		// dataset
 		JRDataset tableSubdataset = DatasetCloneObjectFactory.cloneDataset(reportSubdataset);
-		//Map<String, Object> reportContext = (Map<String, Object>)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_PARAMETERS_MAP);
-		ReportContext reportContext = (ReportContext)factory.getFiller().getParameterValuesMap().get(JRParameter.REPORT_CONTEXT);
-		TableReportDataset reportDataset = new TableReportDataset(reportContext, tableSubdataset, tableReportName);
-
-		JRExpression newTableFilterExpression = new JRDesignExpression();
-		reportDataset.setFilterExpression(newTableFilterExpression);
-		builtinEvaluators.put(newTableFilterExpression, new TableFilterExpressionEvaluator(tableReportName, reportContext, fillContext, reportSubdataset.getFilterExpression()));
+		TableReportDataset reportDataset = new TableReportDataset(tableSubdataset, tableReportName);
 
 		TableReport tableReport = new TableReport(fillContext, table, reportDataset, fillColumns, builtinEvaluators);
 		

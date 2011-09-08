@@ -156,6 +156,12 @@ public interface JRParameter extends JRPropertiesHolder, JRCloneable
 	 * 
 	 */
 	public static final String REPORT_CONTEXT = "REPORT_CONTEXT";
+	
+	/**
+	 * A {@link DatasetFilter} to be used in addition to {@link JRDataset#getFilterExpression()}
+	 * for filtering dataset rows.
+	 */
+	public static final String FILTER = "FILTER";
 
 	/**
 	 *

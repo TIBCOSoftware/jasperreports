@@ -21,37 +21,55 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.components.table.fill;
+
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
- * Fill time expression evaluators interface.
- * <p>
- * An instance of this interface is used at fill time by elements to
- * evaluate expressions.
+ * Builtin expression that evaluates to a constant value.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: BuiltinExpressionEvaluator.java 4347 2011-05-26 11:13:03Z shertage $
  */
-public interface JRFillExpressionEvaluator
+public class ConstantBuiltinExpression implements BuiltinExpressionEvaluator
 {
+
+	private final Object value;
+
 	/**
-	 * Evaluates an expression.
+	 * Creates an expression evaluator for a specified value.
 	 * 
-	 * @param expression the expression to evaluate
-	 * @param evaluationType one of {@link JRExpression#EVALUATION_DEFAULT},
-	 * {@link JRExpression#EVALUATION_OLD}, {@link JRExpression#EVALUATION_ESTIMATED}
-	 * @return the result
-	 * @throws JRException
+	 * @param value the value
 	 */
-	public Object evaluate(JRExpression expression, byte evaluationType) throws JRException;
+	public ConstantBuiltinExpression(Object value)
+	{
+		this.value = value;
+	}
 	
-	/**
-	 * Returns the dataset used by the expression evaluator.
-	 * 
-	 * @return
-	 */
-	public JRFillDataset getFillDataset();
+	public <T, U, V> void init(Map<String, T> parametersMap,
+			Map<String, U> fieldsMap, Map<String, V> variablesMap,
+			WhenResourceMissingTypeEnum resourceMissingType) throws JRException
+	{
+		// NOP
+	}
+
+	public Object evaluate() throws JRExpressionEvalException
+	{
+		return value;
+	}
+
+	public Object evaluateOld() throws JRExpressionEvalException
+	{
+		return value;
+	}
+
+	public Object evaluateEstimated() throws JRExpressionEvalException
+	{
+		return value;
+	}
+
 }

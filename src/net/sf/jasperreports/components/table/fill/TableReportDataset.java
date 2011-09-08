@@ -39,7 +39,6 @@ import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignScriptlet;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
@@ -61,10 +60,6 @@ public class TableReportDataset implements JRDataset
 	
 	private final List<JRScriptlet> scriptlets;
 	private final List<JRParameter> parameters;
-
-	private JRExpression filterExpression;
-	private ReportContext reportContext;
-	private String reportName;
 	
 	public TableReportDataset(JRDataset tableSubdataset, String name)
 	{
@@ -103,13 +98,6 @@ public class TableReportDataset implements JRDataset
 			Collections.addAll(parameters, datasetParameters);
 		}
 	}
-
-	public TableReportDataset(ReportContext reportContext, JRDataset tableSubdataset, String name)
-	{
-		this(tableSubdataset, name);
-		this.reportContext = reportContext;
-		this.reportName = name;
-	}
 	
 	public JRField[] getFields()
 	{
@@ -118,12 +106,7 @@ public class TableReportDataset implements JRDataset
 
 	public JRExpression getFilterExpression()
 	{
-		return filterExpression;
-	}
-
-	public void setFilterExpression(JRExpression filterExpression) 
-	{
-		this.filterExpression = filterExpression;
+		return tableSubdataset.getFilterExpression();
 	}
 	
 	public TableReportGroup[] getTableGroups()
@@ -173,27 +156,7 @@ public class TableReportDataset implements JRDataset
 
 	public JRSortField[] getSortFields()
 	{
-		JRSortField[] sortFields = tableSubdataset.getSortFields();
-		sortFields = sortFields == null ? new JRSortField[0] : sortFields;
-
-		JRSortField[] extendedSortFields = null;
-
-		if (reportContext != null && reportContext.containsParameter(reportName)) 
-		{
-			List<JRSortField> paramSortFields =  (List<JRSortField>)reportContext.getParameterValue(reportName);
-			extendedSortFields = new JRSortField[sortFields.length + paramSortFields.size()];//FIXMEJIVE null
-
-			System.arraycopy(sortFields, 0, extendedSortFields, 0, sortFields.length);
-			
-			for (int i=0; i<paramSortFields.size(); i++) {
-				extendedSortFields[sortFields.length + i] = paramSortFields.get(i);
-			}
-			return extendedSortFields;
-		}
-		else 
-		{
-			return sortFields;
-		}
+		return tableSubdataset.getSortFields();
 	}
 
 	public JRVariable[] getVariables()

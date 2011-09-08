@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -171,7 +172,8 @@ public class JRDesignDataset extends JRBaseDataset
 		JRParameter.REPORT_URL_HANDLER_FACTORY, URLStreamHandlerFactory.class,
 		JRParameter.REPORT_FILE_RESOLVER, FileResolver.class,
 		JRParameter.REPORT_TEMPLATES, Collection.class,
-		JRParameter.SORT_FIELDS, List.class
+		JRParameter.SORT_FIELDS, List.class,
+		JRParameter.FILTER, DatasetFilter.class
 		};
 
 

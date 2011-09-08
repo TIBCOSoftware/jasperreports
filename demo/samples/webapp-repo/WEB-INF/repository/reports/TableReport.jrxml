@@ -31,10 +31,6 @@
 			<fieldDescription><![CDATA[longitude]]></fieldDescription>
 		</field>
 		<sortField name="city" order="Descending"/>
-		
-		<variable name="filterExp" class="java.lang.Boolean" resetType="None" calculation="Nothing">
-			<variableExpression><![CDATA[$F{name}.contains("yl")?Boolean.TRUE:Boolean.FALSE]]></variableExpression>
-		</variable>
 
 		<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
 			<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
@@ -45,7 +41,6 @@
 		<variable name="longitude" class="java.lang.String" resetType="Group" resetGroup="CityGroup" calculation="Highest">
 			<variableExpression><![CDATA[$F{longitude}]]></variableExpression>
 		</variable>
-		<filterExpression><![CDATA[$F{name}.contains("yl")?Boolean.TRUE:Boolean.FALSE]]></filterExpression>
 		<group name="CityGroup" minHeightToStartNewPage="60">
 			<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		</group>
