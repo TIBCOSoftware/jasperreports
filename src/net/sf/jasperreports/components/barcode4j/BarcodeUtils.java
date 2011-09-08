@@ -37,8 +37,8 @@ import net.sf.jasperreports.engine.util.JRSingletonCache;
 public final class BarcodeUtils
 {
 
-	protected static JRSingletonCache imageProducerCache = 
-		new JRSingletonCache(BarcodeImageProducer.class);
+	protected static JRSingletonCache<BarcodeImageProducer> imageProducerCache = 
+		new JRSingletonCache<BarcodeImageProducer>(BarcodeImageProducer.class);
 	
 	public static BarcodeImageProducer getImageProducer(
 			JRPropertiesHolder propertiesHolder)
@@ -55,7 +55,7 @@ public final class BarcodeUtils
 		
 		try
 		{
-			return (BarcodeImageProducer) imageProducerCache.getCachedInstance(producerClass);
+			return imageProducerCache.getCachedInstance(producerClass);
 		}
 		catch (JRException e)
 		{

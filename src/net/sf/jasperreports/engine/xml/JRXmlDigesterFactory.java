@@ -178,8 +178,8 @@ public final class JRXmlDigesterFactory
 
 	private static final Log log = LogFactory.getLog(JRXmlDigesterFactory.class);
 	
-	protected static final JRSingletonCache reportParserFactories = 
-		new JRSingletonCache(JRSaxParserFactory.class);
+	protected static final JRSingletonCache<JRSaxParserFactory> reportParserFactories = 
+		new JRSingletonCache<JRSaxParserFactory>(JRSaxParserFactory.class);
 
 	/**
 	 *
@@ -1337,8 +1337,7 @@ public final class JRXmlDigesterFactory
 				log.debug("Using SAX parser factory class " + parserFactoryClass);
 			}
 			
-			JRSaxParserFactory factory = (JRSaxParserFactory) reportParserFactories
-					.getCachedInstance(parserFactoryClass);
+			JRSaxParserFactory factory = reportParserFactories.getCachedInstance(parserFactoryClass);
 			return factory.createParser();
 		}
 		catch (JRException e)

@@ -58,7 +58,8 @@ public final class ChartUtil
 	/**
 	 *
 	 */
-	private static final JRSingletonCache CHART_RENDERER_FACTORY_CACHE = new JRSingletonCache(ChartRendererFactory.class);
+	private static final JRSingletonCache<ChartRendererFactory> CHART_RENDERER_FACTORY_CACHE = 
+			new JRSingletonCache<ChartRendererFactory>(ChartRendererFactory.class);
 
 	/**
 	 * 
@@ -180,7 +181,7 @@ public final class ChartUtil
 
 		try
 		{
-			chartRendererFactory = (ChartRendererFactory) CHART_RENDERER_FACTORY_CACHE.getCachedInstance(factoryClass);
+			chartRendererFactory = CHART_RENDERER_FACTORY_CACHE.getCachedInstance(factoryClass);
 		}
 		catch (JRException e)
 		{

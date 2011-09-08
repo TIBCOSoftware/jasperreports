@@ -66,7 +66,8 @@ public final class JRTextMeasurerUtil
 	public static final String PROPERTY_TEXT_MEASURER_FACTORY = 
 		JRProperties.PROPERTY_PREFIX + "text.measurer.factory";
 	
-	private static final JRSingletonCache cache = new JRSingletonCache(JRTextMeasurerFactory.class);
+	private static final JRSingletonCache<JRTextMeasurerFactory> cache = 
+			new JRSingletonCache<JRTextMeasurerFactory>(JRTextMeasurerFactory.class);
 	
 	/**
 	 * Creates a text measurer for a text object.
@@ -111,7 +112,7 @@ public final class JRTextMeasurerUtil
 		String factoryClass = getTextMeasurerFactoryClass(propertiesHolder);
 		try
 		{
-			return (JRTextMeasurerFactory) cache.getCachedInstance(factoryClass);
+			return cache.getCachedInstance(factoryClass);
 		}
 		catch (JRException e)
 		{

@@ -39,7 +39,8 @@ import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
  */
 public final class DefaultQueryExecuterFactoryBundle implements QueryExecuterFactoryBundle
 {
-	private static final JRSingletonCache cache = new JRSingletonCache(JRQueryExecuterFactory.class);
+	private static final JRSingletonCache<JRQueryExecuterFactory> cache = 
+			new JRSingletonCache<JRQueryExecuterFactory>(JRQueryExecuterFactory.class);
 	
 	private static final DefaultQueryExecuterFactoryBundle INSTANCE = new DefaultQueryExecuterFactoryBundle();
 	
@@ -81,7 +82,7 @@ public final class DefaultQueryExecuterFactoryBundle implements QueryExecuterFac
 			return null;
 		}
 		
-		return (JRQueryExecuterFactory) cache.getCachedInstance(factoryClassName);
+		return cache.getCachedInstance(factoryClassName);
 	}
 
 }

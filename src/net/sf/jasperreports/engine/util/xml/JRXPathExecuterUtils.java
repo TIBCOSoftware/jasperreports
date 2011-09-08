@@ -48,7 +48,8 @@ public final class JRXPathExecuterUtils
 	 */
 	public static final String PROPERTY_XPATH_EXECUTER_FACTORY = JRProperties.PROPERTY_PREFIX + "xpath.executer.factory";
 	
-	private static final JRSingletonCache cache = new JRSingletonCache(JRXPathExecuterFactory.class);
+	private static final JRSingletonCache<JRXPathExecuterFactory> cache = 
+			new JRSingletonCache<JRXPathExecuterFactory>(JRXPathExecuterFactory.class);
 	
 	
 	/**
@@ -67,7 +68,7 @@ public final class JRXPathExecuterUtils
 					"Create a propery named " + PROPERTY_XPATH_EXECUTER_FACTORY + ".");
 		}
 		
-		return (JRXPathExecuterFactory) cache.getCachedInstance(factoryClassName);
+		return cache.getCachedInstance(factoryClassName);
 	}
 	
 	
