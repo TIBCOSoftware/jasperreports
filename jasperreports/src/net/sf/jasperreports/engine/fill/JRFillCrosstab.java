@@ -165,6 +165,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				JRCellContents.TYPE_NO_DATA_CELL);
 		
 		dataset = factory.getCrosstabDataset(crosstab.getDataset(), this);
+		crosstabEvaluator.setFillDataset(dataset.getFillDataset());
 
 		copyParameters(crosstab, factory);
 		copyVariables(crosstab, crosstabFactory);
@@ -320,7 +321,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		try
 		{
 			JREvaluator evaluator = JasperCompileManager.loadEvaluator(jasperReport, parentCrosstab);
-			crosstabEvaluator = new JRCrosstabExpressionEvaluator(evaluator, dataset.getFillDataset());
+			crosstabEvaluator = new JRCrosstabExpressionEvaluator(evaluator);
 		}
 		catch (JRException e)
 		{
