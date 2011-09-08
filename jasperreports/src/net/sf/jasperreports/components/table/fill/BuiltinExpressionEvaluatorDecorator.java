@@ -29,6 +29,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -50,7 +53,9 @@ public class BuiltinExpressionEvaluatorDecorator implements DatasetExpressionEva
 		this.builtinEvaluators = builtinEvaluators;
 	}
 
-	public <T,U,V> void init(Map<String, T> parametersMap, Map<String, U> fieldsMap, Map<String, V> variablesMap, 
+	public void init(Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap, 
+			Map<String, JRFillVariable> variablesMap, 
 			WhenResourceMissingTypeEnum resourceMissingType) throws JRException
 	{
 		decorated.init(parametersMap, fieldsMap, variablesMap, resourceMissingType);

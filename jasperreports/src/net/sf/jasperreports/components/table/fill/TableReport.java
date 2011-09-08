@@ -71,6 +71,9 @@ import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillField;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
@@ -828,11 +831,13 @@ public class TableReport implements JRReport
 		private JRValueParameter tableScriptletParam;
 		private TableReportScriptlet tableScriptlet;
 		
-		public <T,U,V> void init(Map<String, T> parametersMap, Map<String, U> fieldsMap, Map<String, V> variablesMap, 
+		public void init(Map<String, JRFillParameter> parametersMap, 
+				Map<String, JRFillField> fieldsMap, 
+				Map<String, JRFillVariable> variablesMap, 
 				WhenResourceMissingTypeEnum resourceMissingType)
 				throws JRException
 		{
-			tableScriptletParam = (JRValueParameter) parametersMap.get(TABLE_SCRIPTLET_NAME 
+			tableScriptletParam = parametersMap.get(TABLE_SCRIPTLET_NAME 
 					+ JRScriptlet.SCRIPTLET_PARAMETER_NAME_SUFFIX);
 		}
 

@@ -233,41 +233,41 @@ public class JavaScriptEvaluator extends JREvaluator
 		this.compileData = compileData;
 	}
 
-	protected <T,U,V> void customizedInit(
-			Map<String, T> parametersMap, 
-			Map<String, U> fieldsMap,
-			Map<String, V> variablesMap
+	protected void customizedInit(
+			Map<String, JRFillParameter> parametersMap, 
+			Map<String, JRFillField> fieldsMap,
+			Map<String, JRFillVariable> variablesMap
 			) throws JRException
 	{
 		context = ContextFactory.getGlobal().enterContext();//TODO exit context
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		scope = context.initStandardObjects();
 		
-		for (Iterator<Map.Entry<String, T>> it = parametersMap.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String, JRFillParameter>> it = parametersMap.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry<String, T> entry = it.next();
+			Map.Entry<String, JRFillParameter> entry = it.next();
 			String name = entry.getKey();
-			JRFillParameter param = (JRFillParameter) entry.getValue();
+			JRFillParameter param = entry.getValue();
 			JSParameter jsParam = new JSParameter(param, scope);
 			scope.put(getParameterVar(name), scope, jsParam);
 		}
 
-		for (Iterator<Map.Entry<String, V>> it = variablesMap.entrySet().iterator(); it.hasNext();)
+		for (Iterator<Map.Entry<String, JRFillVariable>> it = variablesMap.entrySet().iterator(); it.hasNext();)
 		{
-			Map.Entry<String, V> entry = it.next();
+			Map.Entry<String, JRFillVariable> entry = it.next();
 			String name = entry.getKey();
-			JRFillVariable var = (JRFillVariable) entry.getValue();
+			JRFillVariable var = entry.getValue();
 			JSVariable jsVar = new JSVariable(var, scope);
 			scope.put(getVariableVar(name), scope, jsVar);
 		}
 
 		if (fieldsMap != null)
 		{
-			for (Iterator<Map.Entry<String, U>> it = fieldsMap.entrySet().iterator(); it.hasNext();)
+			for (Iterator<Map.Entry<String, JRFillField>> it = fieldsMap.entrySet().iterator(); it.hasNext();)
 			{
-				Map.Entry<String, U> entry = it.next();
+				Map.Entry<String, JRFillField> entry = it.next();
 				String name = entry.getKey();
-				JRFillField field = (JRFillField) entry.getValue();
+				JRFillField field = entry.getValue();
 				JSField jsField = new JSField(field, scope);
 				scope.put(getFieldVar(name), scope, jsField);
 			}
