@@ -50,8 +50,6 @@ public interface JRFillExpressionEvaluator
 	
 	/**
 	 * Returns the dataset used by the expression evaluator.
-	 * 
-	 * @return
 	 */
 	public JRFillDataset getFillDataset();
 }

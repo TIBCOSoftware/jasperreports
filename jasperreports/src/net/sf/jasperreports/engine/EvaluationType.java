@@ -55,7 +55,6 @@ public enum EvaluationType
 	/**
 	 * Returns the corresponding byte value for the evaluation type.
 	 * 
-	 * @return
 	 * @see JRExpression#EVALUATION_DEFAULT
 	 * @see JRExpression#EVALUATION_OLD
 	 * @see JRExpression#EVALUATION_ESTIMATED

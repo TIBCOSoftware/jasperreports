@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * An extension registry that contains a single extension.
  * 
- * @param <T> the extension type
+ * @param <Type> the extension type
  *  
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$

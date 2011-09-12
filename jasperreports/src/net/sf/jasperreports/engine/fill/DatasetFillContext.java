@@ -64,8 +64,6 @@ public interface DatasetFillContext
 
 	/**
 	 * Returns the locale used by the dataset.
-	 * 
-	 * @return
 	 */
 	Locale getLocale();
 }
