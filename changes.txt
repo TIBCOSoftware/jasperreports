@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 4.1.2 (2011-09-12, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.1.1 (2011-08-11, SVN 4550)
 ---------------------------------------------
 - deprecated code for JRReportFont, JRBox, graphic element pen property
