@@ -182,20 +182,18 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					}
 					
 					((CachedRowSet)resultSet).populate(statement.executeQuery());
-					if (statement != null)
+					
+					try
 					{
-						try
-						{
-							statement.close();
-						}
-						catch (SQLException e)
-						{
-							log.error("Error while closing statement.", e);
-						}
-						finally
-						{
-							statement = null;
-						}
+						statement.close();
+					}
+					catch (SQLException e)
+					{
+						log.error("Error while closing statement.", e);
+					}
+					finally
+					{
+						statement = null;
 					}
 				}
 				else
