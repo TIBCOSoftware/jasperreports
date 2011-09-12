@@ -1,0 +1,121 @@
+<project name="webapp" default="javac" basedir=".">
+
+	<description>Shows how reporting functionality could be added to a Web application.</description>
+
+	<path id="classpath">
+		<pathelement location="./WEB-INF/classes/"/>
+		<pathelement location="../../../build/classes" />
+		<pathelement location="../../fonts/" />
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../dist">
+				<include name="**/jasperreports-*.jar"/>
+				<exclude name="**/jasperreports-javaflow-*.jar"/>
+				<exclude name="**/jasperreports-applet-*.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib">
+				<include name="**/commons-*.jar"/>
+				<include name="**/i*ext*.jar"/>
+				<include name="**/*jdt*.jar"/>
+				<include name="**/poi*.jar"/>
+				<include name="**/jxl*.jar"/>
+				<include name="**/png-encoder*.jar"/>
+				<include name="**/spring*.jar"/>
+				<include name="**/velocity*.jar"/>
+				<exclude name="**/commons-javaflow-*.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="./applets">
+			<fileset dir="../../../dist" includes="**/jasperreports-applet-*.jar"/>
+			<fileset dir="../../../lib" includes="**/commons-logging-*.jar"/>
+			<fileset dir="../../../lib" includes="**/commons-collections-*.jar"/>
+		</copy>
+	</target>
+
+	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
+		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
+			<classpath>
+				<pathelement location="./WEB-INF/classes/"/>
+				<pathelement location="../../../build/classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+		<javac srcdir="./applets/" destdir="./applets/" debug="true" optimize="false" deprecation="false">
+			<classpath>
+				<pathelement location="./applets/"/>
+				<pathelement location="../../../build/classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="reports/WebappReport.jrxml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<java classname="net.sf.jasperreports.view.JasperDesignViewer" fork="true">
+			<arg value="reports/WebappReport.jasper"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="./reports" includes="**/*.jasper" />
+			<fileset dir="./reports" includes="**/*.html" />
+			<fileset dir="./jsp" includes="**/*.html" />
+			<fileset dir="." includes="**/*.war" />
+			<fileset dir="." includes="**/*.jar" />
+		</delete>
+		<delete dir="./reports/WebappReport.html_files" />
+		<delete dir="./jsp/html/reportPage.html_files" />
+	</target>
+
+	<target name="war" depends="javac" description="Builds the Web application .war file.">
+		<war warfile="jasper-webapp.war" webxml="./WEB-INF/web.xml">
+			<fileset dir="." includes="**/*.css" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.jsp" />
+			<fileset dir="." includes="**/*.class" excludes="**/WEB-INF/classes/**/*.class"/>
+			<fileset dir="." includes="**/*.jar" excludes="**/WEB-INF/lib/**/*.jar"/>
+			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
+			<fileset dir="." includes="**/*.gif" />
+			<fileset dir="." includes="**/*.GIF" />
+			<fileset dir="." includes="**/*.png" />
+			<fileset dir="." includes="**/*.swf" />
+			<fileset dir="." includes="**/*.jrxml" />
+			<classes dir="./WEB-INF/classes/">
+				<include name="**/*.class" />
+				<include name="**/*.csv" />
+			</classes>
+			<lib dir="./WEB-INF/lib/">
+				<include name="*.jar" />
+			</lib>
+		</war>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Webapp Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+	</target>
+
+</project>

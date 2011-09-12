@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.xml.XmlDataAdapterImpl">
+		<map-to xml="xmlDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="fileName" type="string">
+			<bind-xml name="fileName" node="element"/>
+		</field>
+		<field name="useConnection" type="boolean">
+			<bind-xml name="useConnection" node="element"/>
+		</field>
+		<field name="datePattern" type="string">
+			<bind-xml name="datePattern" node="element"/>
+		</field>
+		<field name="numberPattern" type="string">
+			<bind-xml name="numberPattern" node="element"/>
+		</field>
+		<field name="selectExpression" type="string">
+			<bind-xml name="selectExpression" node="element"/>
+		</field>
+		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
+			<bind-xml name="locale" node="element"/>
+		</field>
+		<field name="timeZone" type="java.util.TimeZone">
+			<bind-xml name="timeZone" node="element" handler="net.sf.jasperreports.data.TimeZoneFieldHandler"/>
+		</field>
+	</class>
+</mapping>

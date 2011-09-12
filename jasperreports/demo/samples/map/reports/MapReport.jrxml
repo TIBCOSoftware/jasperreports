@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="reqLatitude" class="java.lang.Float">
+		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
+	</parameter>
+	<parameter name="reqLongitude" class="java.lang.Float">
+		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("longitude"))</defaultValueExpression>
+	</parameter>
+	<parameter name="reqZoom" class="java.lang.Integer">
+		<defaultValueExpression>Integer.getInteger((String)$P{REPORT_CONTEXT}.getParameterValue("zoom"))</defaultValueExpression>
+	</parameter>
+	<parameter name="latitude" class="java.lang.Float">
+		<defaultValueExpression>$P{reqLatitude} == null ? Float.valueOf(44.435f) : $P{reqLatitude}</defaultValueExpression>
+	</parameter>
+	<parameter name="longitude" class="java.lang.Float">
+		<defaultValueExpression>$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}</defaultValueExpression>
+	</parameter>
+	<parameter name="zoom" class="java.lang.Integer">
+		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(12) : $P{reqZoom}</defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="70">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1"/>
+			</line>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
+				<textElement textAlignment="Center">
+					<font size="22"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Map Report"]]></textFieldExpression>
+				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Google Map"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="40">
+			<line>
+				<reportElement x="0" y="10" width="515" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="377">
+			<componentElement>
+				<reportElement x="0" y="0" width="515" height="377"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
+				</c:map>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

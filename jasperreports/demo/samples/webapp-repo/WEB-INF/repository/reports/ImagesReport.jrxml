@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="ImagesReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
+	<style name="imageBox" mode="Opaque" backcolor="yellow">
+		<box>
+			<pen lineWidth="0.5"/>
+		</box>
+	</style>
+	<title>
+		<band height="782">
+			<image scaleImage="Clip" onErrorType="Icon" isLazy="true">
+				<reportElement x="0" y="0" width="150" height="40"/>
+				<imageExpression class="java.lang.String"><![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="0" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip" onErrorType="Icon" isLazy="true"><reportElement x="0" y="0" width="150" height="40"/><imageExpression class="java.lang.String">"http://jasperreports.sourceforge.net/jasperreports.png"</imageExpression></image>]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="50" width="150" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="50" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="0" y="50" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip">
+				<reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/>
+				<box padding="5">
+					<pen lineWidth="0.5"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="100" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="0" y="100" width="150" height="40" mode="Opaque" backcolor="yellow"/><box padding="5"/><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="150" width="150" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="150" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="FillFrame" isUsingCache="true"><reportElement x="0" y="150" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+			</staticText>
+			<image hAlign="Center" isUsingCache="false">
+				<reportElement x="0" y="200" width="150" height="40"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="200" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="RetainShape" hAlign="Center" isUsingCache="false"><reportElement x="0" y="200" width="150" height="40"/><box><pen lineWidth="0.5"/></box><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="250" width="150" height="40" backcolor="#ffdddd"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement x="5" y="255" width="70" height="30"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="250" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="5" y="255" width="70" height="30"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="300" width="150" height="40" backcolor="#ffdddd"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="Clip">
+				<reportElement x="5" y="305" width="70" height="30" backcolor="#ffdddd"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="300" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="5" y="305" width="70" height="30"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="350" width="150" height="40" backcolor="#ffdddd"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<image>
+				<reportElement mode="Opaque" x="5" y="355" width="30" height="30" backcolor="#ddffdd"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="350" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="RetainShape"><reportElement x="5" y="355" width="30" height="30" mode="Opaque" backcolor="#DDFFDD"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="400" width="150" height="40" backcolor="#ffdddd"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<image scaleImage="Clip" hAlign="Center" vAlign="Middle">
+				<reportElement mode="Opaque" x="5" y="405" width="120" height="30" backcolor="#ddffdd"/>
+				<graphicElement/>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="400" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip" hAlign="Center" vAlign="Middle"><reportElement x="5" y="405" width="120" height="30" mode="Opaque" backcolor="#DDFFDD"/><graphicElement/><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip">
+				<reportElement x="50" y="455" width="50" height="30" forecolor="#ff0000"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="450" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="455" width="50" height="30" forecolor="red"/><box><pen lineWidth="0.5"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip">
+				<reportElement x="50" y="505" width="50" height="30" forecolor="#ff0000"/>
+				<box>
+					<pen lineWidth="1" lineStyle="Dashed"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="500" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="505" width="50" height="30" forecolor="red"/><box><pen lineWidth="1" lineStyle="Dashed"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip">
+				<reportElement x="50" y="555" width="50" height="30" forecolor="#ff0000"/>
+				<box>
+					<pen lineWidth="1"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="550" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="555" width="50" height="30" forecolor="red"/><box><pen lineWidth="1"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip">
+				<reportElement x="50" y="605" width="50" height="30" forecolor="#ff0000"/>
+				<box>
+					<pen lineWidth="2"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="600" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip"><reportElement x="50" y="605" width="50" height="30" forecolor="red"/><box><pen lineWidth="2"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image scaleImage="Clip" hAlign="Right">
+				<reportElement x="50" y="655" width="50" height="30" forecolor="#ff0000"/>
+				<box>
+					<pen lineWidth="4"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/transparent.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="650" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image scaleImage="Clip" hAlign="Right" vAlign="Top"><reportElement x="50" y="655" width="50" height="30" forecolor="red"/><box><pen lineWidth="4"/></box><imageExpression>"transparent.gif"</imageExpression></image>]]></text>
+			</staticText>
+			<image>
+				<reportElement x="50" y="705" width="6" height="6" forecolor="#ff00"/>
+				<box>
+					<pen lineWidth="4"/>
+				</box>
+				<imageExpression class="java.lang.String"><![CDATA["/images/1redpixel.gif"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="160" y="700" width="390" height="40"/>
+				<textElement/>
+				<text><![CDATA[<image><reportElement x="50" y="705" width="6" height="6" forecolor="green"/><box><pen lineWidth="4"/></box><imageExpression>"1redpixel.gif"</imageExpression></image>]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="140">
+			<frame>
+				<reportElement x="0" y="0" width="550" height="40"/>
+				<image scaleImage="RealHeight">
+					<reportElement x="0" y="0" width="150" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="50" width="550" height="40" positionType="Float"/>
+				<image scaleImage="RealSize">
+					<reportElement x="0" y="0" width="150" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealSize"><reportElement x="0" y="0" width="150" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="100" width="550" height="40" positionType="Float"/>
+				<image scaleImage="RealHeight">
+					<reportElement x="0" y="0" width="100" height="40" style="imageBox"/>
+					<imageExpression><![CDATA["/images/dukesign.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="160" y="00" width="390" height="40"/>
+					<textElement/>
+					<text><![CDATA[<image scaleImage="RealHeight"><reportElement x="0" y="0" width="100" height="40" style="imageBox"/><imageExpression>"dukesign.jpg"</imageExpression></image>]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

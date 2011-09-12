@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="MarkupReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<parameter name="RtfText" class="java.lang.String"/>
+	<parameter name="HtmlText" class="java.lang.String"/>
+	<title>
+		<band height="660">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="140" backcolor="#c0c0c0"/>
+				<textElement markup="styled">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[This is a <style isBold="true" isItalic="true" isUnderline="true">static text</style> element containing styled text. <style backcolor="yellow" isBold="true" isItalic="true">Styled text</style> elements are introduced by setting the <style forecolor="blue" isItalic="true">markup</style> attribute available for the <style isBold="true" forecolor="magenta">textElement</style> tag to <style forecolor="red" isItalic="true">styled</style> and by formatting the text content using nested <style isBold="true" forecolor="green">style</style> tags and simple HTML tags, including <a type="Reference" href="http://jasperreports.sf.net" target="Blank"><style isItalic="true" isBold="true" isUnderline="true" forecolor="yellow">hyperlinks</style></a>.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="150" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
+				<textElement markup="rtf">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression>$P{RtfText}</textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="300" width="555" height="140" backcolor="#c0c0c0" positionType="Float"/>
+				<textElement markup="html">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression>$P{HtmlText}</textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

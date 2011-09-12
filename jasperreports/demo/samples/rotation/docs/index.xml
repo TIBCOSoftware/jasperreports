@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>rotation</name>
+  <title>Rotation Sample</title>
+  <description>Shows how rotated text could be used in report templates.</description>
+
+  <mainFeature ref="rotation"/>
+  
+  <!-- rotation -->
+  
+  <feature name="rotation" title="Rotated Text">
+    <description>
+How to rotate text elements.
+    </description>
+    <since>0.5.2</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<b>Rotating paragraphs</b>
+<br/>
+<br/>
+There are three possibilities to rotate a text paragraph:
+<ul>
+<li>to the left</li>
+<li>to the right</li>
+<li>upside-down</li>
+</ul>
+Any rotation above changes both the text's flow direction and the paragraph's relative position within its textbox container. In these conditions horizontal and vertical alignments should be reevaluated.
+<br/>
+For example, let's consider a paragraph with <code>Left</code> horizontal alignment and <code>Top</code> vertical alignment. If this paragraph is rotated to the left, then it will be positioned into the left bottom area of its textbox container. 
+The vertical alignment will change from <code>Top</code> to <code>Bottom</code>, and the text will flow from bottom to top.
+<br/>
+Performing various combinations between horizontal alignment, vertical alignment and text's flow direction, leads to a large set of paragraph positions relative to its textbox container.
+<br/>
+In JasperReports calculations related to text rotation are done at export time, based on the text element's <code>textAlignment</code>, <code>verticalAlignment</code> and <code>rotation</code> attributes values.
+<br/>
+<br/>
+<b>Examples of combining horizontal alignment, vertical alignment and rotation in a &lt;textElement /&gt; element.</b>
+<br/>
+<br/>
+Values allowed for the horizontal alignment are: <code>Left</code>, <code>Center</code>, <code>Right</code> and <code>Justified</code>. By default, horizontal alignment is set to <code>Left</code>.
+<br/>
+Values allowed for the vertical alignment are: <code>Top</code>, <code>Middle</code> and <code>Bottom</code>. By default, vertical alignment is set to <code>Top</code>.
+<br/>
+Values allowed for the text rotation are: <code>None</code>, <code>Left</code>, <code>Right</code> and <code>UpsideDown</code>. By default, text rotation is set to <code>None</code>.
+<br/>
+Below are some possible combinations between them:
+<ul>
+<li><code>textAlignment="Left"</code></li>
+<li><code>verticalAlignment="Top"</code></li>
+<li><code>rotation="Left"</code></li>
+</ul>
+This is the case already described in the <b>Rotating paragraphs</b> section above. The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from bottom to top.
+<br/>
+<ul>
+<li><code>textAlignment="Center"</code></li>
+<li><code>verticalAlignment="Bottom"</code></li>
+<li><code>rotation="Left"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from bottom to top.
+<br/>
+<ul>
+<li><code>textAlignment="Right"</code></li>
+<li><code>verticalAlignment="Middle"</code></li>
+<li><code>rotation="Left"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned center, vertically aligned top, and the text will flow from bottom to top.
+<br/>
+<ul>
+<li><code>textAlignment="Left"</code></li>
+<li><code>verticalAlignment="Middle"</code></li>
+<li><code>rotation="UpsideDown"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned right, vertically aligned middle, and the text will flow from right to left.
+<br/>
+<ul>
+<li><code>textAlignment="Right"</code></li>
+<li><code>verticalAlignment="Top"</code></li>
+<li><code>rotation="UpsideDown"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned left, vertically aligned bottom, and the text will flow from right to left.
+<br/>
+<ul>
+<li><code>textAlignment="Right"</code></li>
+<li><code>verticalAlignment="Middle"</code></li>
+<li><code>rotation="Right"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned center, vertically aligned bottom, and the text will flow from top to bottom.
+<br/>
+<ul>
+<li><code>textAlignment="Center"</code></li>
+<li><code>verticalAlignment="Bottom"</code></li>
+<li><code>rotation="Right"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned left, vertically aligned middle, and the text will flow from top to bottom.
+<br/>
+<ul>
+<li><code>textAlignment="Left"</code></li>
+<li><code>verticalAlignment="Top"</code></li>
+<li><code>rotation="Right"</code></li>
+</ul>
+The resulting paragraph will be horizontally aligned right, vertically aligned top, and the text will flow from top to bottom.
+<br/>
+<br/>
+Below is a code snippet showing how to set text alignment and rotation in a static text. In this case the paragraph is horizontally centered, vertically aligned to bottom and rotated to the left:
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;staticText&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement mode="Opaque" x="100" y="0" width="90" height="350" backcolor="#c0c0c0"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Center" verticalAlignment="Bottom" rotation="Left"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&#160;&#160;&lt;font size="14"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;/textElement&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;text>&lt;![CDATA[rotation="Left" textAlignment="Center" verticalAlignment="Bottom"]]&gt;&lt;/text&gt;
+<br/>
+&#160;&#160;&lt;/staticText&gt;
+</code>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/rotation</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/rotation/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

@@ -1,0 +1,42 @@
+<script class='jasperreports' type='text/javascript'>
+	JasperReports.modules.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'JasperReports.modules.sort.init');
+</script>
+
+<a href='${href}'
+	class='sortlink ${sortLinkClass}'
+	#if (${isFilterable})
+		data-filterid='${filterDivId}'
+	#end
+	style='display: table; position: absolute; left: ${elementX}; top: ${elementY};
+		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign};
+		#if(${backgroundColor}) 
+			background-color: \#${backgroundColor};
+		#end
+'>
+	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
+		<span style='color: ${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
+			${sortSymbol}
+		</span>
+	</span>
+	
+</a>
+
+#if (${isFilterable})
+<script class='jasperreports' type='text/javascript'>
+	(function () {
+		var gm = JasperReports.modules.global,
+			uid = '${filterDivId}',
+			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' data-forsortlink='${sortLinkClass}'>",
+			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
+			                "<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>",
+			                "	<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
+			                "	<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
+			                "	<input class='postable filterValue' type='text' name='${filterValueParamName}' style='width: 80px;' />",
+			                "	<input class='submitFilter' type='button' value='Filter' />",
+			                "</form>",
+			                "</div>"];
+			                
+		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv]);
+	} ());
+</script>
+#end

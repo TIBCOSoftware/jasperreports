@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xlsformula</name>
+  <title>XLS Formula Sample</title>
+  <description>Shows how formulas could be introduced in reports exported to XLS format.</description>
+
+  <mainFeature ref="xlsformula"/>
+  
+  <!-- xlsformula -->
+  
+  <feature name="xlsformula" title="Exporting XLS Formulas">
+    <description>
+How to generate formulas, when exporting the report to XLS. 
+    </description>
+    <since>3.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Why to use a formula</b>
+    <br/>
+    <br/>
+A formula represents one of the most useful features in Excel. It is designated to perform various calculations in order to determine the value contained in a given cell.
+These calculations can be very simple ones, like just adding two numbers, or with a higher degree of complexity, derived from any application's requirements specification. 
+<br/>
+A formula can be written using number or string constants, or, better, cell references. A cell reference locates the cell position within the sheet. 
+It is formed of the cell's related column letter and row number. When a cell reference appears in a formula, Excel will perform the calculation using the data located in the referenced cell.
+<br/> 
+An interesting consequence of using cell references is that once written, a formula keeps its result up-to-date at any moment. 
+When the content of a referenced cell changes, the calculation result will be automatically updated. 
+This is a very important feature when cells are dynamically filled with their data.
+<br/>
+Another useful fact is that there are several optimized built-in functions that can be called in order to perform a calculation using a large set of data categories:
+<ul>
+<li>Financial</li>
+<li>Date &amp; Time</li>
+<li>Math &amp; Trig</li>
+<li>Statistical</li>
+<li>Text</li>
+<li>Logical</li>
+<li>etc.</li>
+</ul>
+<b>Note: </b>
+As seen above, formulas can operate with several data types. But data types cannot be mixed in a formula. For example, Date &amp; Time functions cannot be applied on numbers, Math &amp; Trig functions cannot be applied on text values, etc. 
+Therefore is very important to provide the appropriate data type to a formula in order to obtain a successful result.
+<br/>
+<br/>
+All these above are good reasons to use formulas in Excel as frequent as possible.
+<br/>
+<br/>
+<b>Excel formula feature in JasperReports</b>
+<br/>
+<br/>
+The JasperReports engine provides a feature which allows using a formula as content of a text field.
+<br/>
+The formula will affect the text field value only when the document will be exported to XLS or XLSX format, and will be neglected when exporting the document to other formats.
+All other exporters will take into account the value given by the <code>&lt;textFieldExpression /&gt;</code> element.
+<br/>
+But first of all one have to ensure that cells are enabled to detect their own data type. By default all data are exported as text only. 
+Enabling the cell type detection can be done setting the export hint property <code>net.sf.jasperreports.export.xls.detect.cell.type</code> to true:
+<br/>
+<br/>
+<code>
+&lt;property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/&gt;
+</code>
+<br/>
+<br/>
+In JasperReports a formula can be stored using the <api href="net/sf/jasperreports/engine/JRAbstractExporter.html#PROPERTY_CELL_FORMULA">PROPERTY_CELL_FORMULA</api> text field property.
+<br/>
+The property name is <code>net.sf.jasperreports.export.xls.formula</code>, and usually its value is a string containing the formula expression. 
+The expression can be a very simple one, or a more and more complex, as needed.
+<br/> 
+If the expression contains only constants or static data, then using the &lt;property /&gt; element is recommended.
+<br/>
+If the expression contains one or more dynamic data, then the &lt;propertyExpression /&gt; element should be used instead.
+<br/>
+Although in Excel any formula expression should start with the "=" sign, the JasperReports engine is more permissive and allows a formula expression to start also without the "=" sign.
+Both formula expressions are considered as valid, and are further evaluated and prepared to be successfully exported to the XLS output format.
+<br/>
+<br/>
+<b>Formula usage examples</b>
+<br/>
+<br/>
+The XlsFormulaReport.jrxml sample report illustrates how to use the cell formula property in several cases. 
+It contains 2 cells, A2 and A3, having simple static values (given by very simple formulas, as will be seen below), 
+a cell A4 containing the sum of A2 and A3 calculated using static data, and a cell A5 containing the difference between A2 and A3 calculated using a dynamic expression.
+<br/>
+<br/>
+A2 = 7;
+<br/>
+A3 = 4;
+<br/>
+A4 = SUM(7,4) = 11;
+<br/>
+A5 = A2 - A3 = 3.
+<br/>
+<br/>
+Below are some pieces of code showing how formulas should be written:
+<br/>
+<br/>
+The text field containing the A2 cell's value:
+<br/>
+<br/>
+<code>
+	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
+	<br/>
+		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-1" x="0" y="150" width="280" height="23"&gt;
+		<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;
+			<br/>
+		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;box rightPadding="5">
+		<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;topPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+		&#160;&#160;&#160;&#160;&lt;/box&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
+		<br/>
+	&#160;&#160;&lt;/textField&gt;
+</code>
+<br/>
+<br/>
+Two things of interest are here:
+<ul>
+<li>The <code>&lt;property name="net.sf.jasperreports.export.xls.formula" value="7"/&gt;</code> element, containing the most simple formula possible.
+The number 7 could be considered itself as a formula result.</li>
+<li>The <code>&lt;textFieldExpression class="java.lang.Integer"&gt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;</code> element, containing also the value of 0.
+This value will be exported to all other output formats but XLS, instead of the formula property.</li> 
+</ul>
+Next, the text field containing the A4 cell's value:
+<br/>
+<br/>
+<code>
+   	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
+  <br/>
+    &#160;&#160;&#160;&#160;&lt;reportElement key="textField-3" x="0" y="196" width="280" height="23"&gt;
+    <br/>
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;
+      <br/>
+    &#160;&#160;&#160;&#160;&lt;/reportElement&gt;
+    <br/>
+    &#160;&#160;&#160;&#160;&lt;box rightPadding="5">
+    <br/>
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+      <br/>
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+      <br/>
+      &#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+      <br/>
+    &#160;&#160;&#160;&#160;&lt;/box&gt;
+    <br/>
+    &#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+    <br/>
+    &#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"><![CDATA[Integer.valueOf(0)]]>&lt;/textFieldExpression&gt;
+    <br/>
+  &#160;&#160;&lt;/textField&gt;
+</code>
+<br/>
+<br/>
+Again, the <code>&lt;property name="net.sf.jasperreports.export.xls.formula" value="SUM(A2,A3)"/&gt;</code> element contains only a sum formula, and not the effective value. 
+When exported to XLS format, Excel will calculate the correct value and will write it in the cell. 
+<br/>
+All other exporters will consider that the A4 value is 0, as shown in the <code>&lt;textFieldExpression /&gt;</code> expression.
+<br/>
+Finally, the text field containing the A5 cell's value:
+<br/>
+<br/>
+<code>
+	&#160;&#160;&lt;textField isBlankWhenNull="false"&gt;
+	<br/>
+		&#160;&#160;&#160;&#160;&lt;reportElement key="textField-4" x="0" y="219" width="280" height="23"&gt;
+		<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyExpression name="net.sf.jasperreports.export.xls.formula"&gt;&lt;![CDATA["A" + Integer.valueOf(2).intValue() + "-A" + 3]]&gt;&lt;/propertyExpression>
+			<br/>
+		&#160;&#160;&#160;&#160;&lt;/reportElement&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;box rightPadding="5"&gt;
+		<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;leftPen lineWidth="4.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;bottomPen lineWidth="2.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+			&#160;&#160;&#160;&#160;&#160;&#160;&lt;rightPen lineWidth="1.0" lineColor="#C0C0C0"/&gt;
+			<br/>
+		&#160;&#160;&#160;&#160;&lt;/box&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;textElement textAlignment="Right" verticalAlignment="Middle"/&gt;
+		<br/>
+		&#160;&#160;&#160;&#160;&lt;textFieldExpression class="java.lang.Integer"&lt;&lt;![CDATA[Integer.valueOf(0)]]&gt;&lt;/textFieldExpression&gt;
+		<br/>
+	&#160;&#160;&lt;/textField&gt;
+</code>
+<br/>
+<br/>
+Here was used a <code>&lt;propertyExpression /&gt;</code> instead of simple <code>&lt;property /&gt;</code>, and the formula expression is more complicated, and needs a CDATA section to be written.
+In a CDATA section could be used any dynamic expression we need, containing also variable names, parameter names, field names, and any other valid java expression.
+<br/>
+The value of A5 will be calculated by Excel when opening the generated .xls document, and for other output formats the 0 value will be exported.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xlsformula</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/xlsformula/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>
