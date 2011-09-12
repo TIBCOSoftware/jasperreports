@@ -2,8 +2,12 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.1.2 (2011-09-12, SVN xxxx)
+JasperReports 4.1.2 (2011-09-12, SVN 4599)
 ---------------------------------------------
+- support for PDF/A compliance added to the PDF exporter;
+
+- new sort/filter custom component added to allow non-table component reports to leverage 
+the interactive sorting and filtering feature when deployed inside the JR Web Framework; 
 
 - minor bug fixes and improvements;
 
@@ -21,7 +25,7 @@ and all deprecated byte-based properties were removed from the library's API;
 - value class property is now deprecated in expression objects; the type of
 expression no longer needs to be specified;
 
-- the library's API was extented with a new repository API, which is used now
+- the library's API was extended with a new repository API, which is used now
 throughout the reporting engine to locate report resources such as images, fonts, 
 subreports, etc; 
 
