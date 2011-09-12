@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -71,6 +72,24 @@ public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 	 * Flag property specifying if data will be stored in a cached rowset.
 	 */
 	public static final String PROPERTY_CACHED_ROWSET = JRProperties.PROPERTY_PREFIX + "jdbc.cached.rowset";
+
+	/**
+	 * Property specifying the default time zone to be used for sending and retrieving 
+	 * date/time values to and from the database.
+	 * 
+	 * In most cases no explicit time zone conversion would be required, and this property 
+	 * should not be set.
+	 * 
+	 * <p>
+	 * The property can be set globally, at dataset level, at parameter and field levels,
+	 * and as a report/dataset parameter.  Note that sending a value as parameter will 
+	 * override all properties, and the time zone will be used for all date/time parameters
+	 * and fields in the report. 
+	 * </p>
+	 * 
+	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone)
+	 */
+	public static final String PROPERTY_TIME_ZONE = JRProperties.PROPERTY_PREFIX + "jdbc.time.zone";
 
 	/**
 	 * SQL query language.
