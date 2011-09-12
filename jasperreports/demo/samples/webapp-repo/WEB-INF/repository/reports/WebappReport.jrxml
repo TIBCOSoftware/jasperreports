@@ -93,6 +93,10 @@
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Id" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+			</componentElement>
 			<staticText>
 				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" style="pageHeader"/>
 				<textElement/>
@@ -107,6 +111,10 @@
 				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Street" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+			</componentElement>
 		</band>
 	</pageHeader>
 	<detail>
