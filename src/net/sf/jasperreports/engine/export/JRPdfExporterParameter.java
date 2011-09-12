@@ -364,7 +364,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	
 	
 	/**
-	 * Property whose value is used as default for the {@link #PDF_A_CONFORMANCE} export parameter.
+	 * Property whose value is used as default for the {@link #PDFA_CONFORMANCE} export parameter.
 	 * <p/>
 	 * By default, this property is set to {@link #PDFA_CONFORMANCE_NONE}.
 	 * 

@@ -42,7 +42,6 @@ public class CompositeDatasetFilter implements DatasetFilter
 	 * 
 	 * @param filter the first filter
 	 * @param other the second filter
-	 * @return
 	 */
 	public static DatasetFilter combine(DatasetFilter filter, DatasetFilter other)
 	{
