@@ -67,7 +67,7 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		String dataAdapterUri = JRProperties.getProperty(context.getDataset(), "net.sf.jasperreports.data.adapter");
 		if (dataAdapterUri != null)
 		{
-			DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
+			DataAdapter dataAdapter = RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
 			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
 			
 			return Collections.singletonList(dataAdapterService);

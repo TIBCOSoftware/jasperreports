@@ -67,5 +67,5 @@ public interface RepositoryService
 	/**
 	 * 
 	 */
-	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType);
+	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
 }
