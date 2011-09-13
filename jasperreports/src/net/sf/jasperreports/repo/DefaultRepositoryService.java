@@ -160,7 +160,7 @@ public class DefaultRepositoryService implements RepositoryService
 	/**
 	 * 
 	 */
-	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType)
+	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
 		if (ReportResource.class.getName().equals(resourceType.getName()))
 		{

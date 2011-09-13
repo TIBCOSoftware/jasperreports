@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,33 +73,16 @@ public class FileRepositoryService extends DefaultRepositoryService
 	 */
 	private static void loadMapping(Mapping mapping, String mappingFile)
 	{
-		InputStream mis = null;
-		
 		try
 		{
-			mis = JRLoader.getLocationInputStream(mappingFile);
+			byte[] mappingFileData = JRLoader.loadBytesFromResource(mappingFile);
+			InputSource mappingSource = new InputSource(new ByteArrayInputStream(mappingFileData));
 
-			mapping.loadMapping(
-				new InputSource(mis)
-				);
+			mapping.loadMapping(mappingSource);
 		}
 		catch (JRException e)
 		{
 			throw new JRRuntimeException(e);
-		}
-		finally
-		{
-			if (mis != null) // FIXME
-			{
-				try
-				{
-					mis.close();
-				}
-				catch(IOException e)
-				{
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 	
@@ -124,7 +108,7 @@ public class FileRepositoryService extends DefaultRepositoryService
 	}
 	
 	@Override
-	public <K extends Resource> K getResource(String uri, Class<? extends Resource> resourceType)
+	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
 		if (ReportResource.class.getName().equals(resourceType.getName()))
 		{

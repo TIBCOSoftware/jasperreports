@@ -135,9 +135,9 @@ public final class RepositoryUtil
 	/**
 	 * 
 	 */
-	public static <K extends Resource> K getResource(String location, Class<? extends Resource> resourceType) throws JRException
+	public static <K extends Resource> K getResource(String location, Class<K> resourceType) throws JRException
 	{
-		Resource resource = null;
+		K resource = null;
 		List<RepositoryService> services = getRepositoryServices();
 		if (services != null)
 		{
@@ -154,7 +154,7 @@ public final class RepositoryUtil
 		{
 			throw new JRException("Resource not found at : " + location);
 		}
-		return (K)resource;
+		return resource;
 	}
 
 
