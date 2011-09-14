@@ -94,14 +94,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	
 	protected static final String CACHED_ROWSET_CLASS = "com.sun.rowset.CachedRowSetImpl";
 
-	private Connection connection;
+	protected Connection connection;
 	
 	/**
 	 * The statement used to fire the query.
 	 */
-	private PreparedStatement statement;
+	protected PreparedStatement statement;
 
-	private ResultSet resultSet;
+	protected ResultSet resultSet;
 	
 	private boolean isCachedRowSet;
 
