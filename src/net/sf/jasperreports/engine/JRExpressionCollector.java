@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -121,6 +122,9 @@ public class JRExpressionCollector
 	private final JRExpressionCollector parent;
 
 	private Map<JRExpression,Integer> expressionIds;
+	
+	private LinkedList<Object> contextStack;
+	private Map<JRExpression, Object> expressionContextMap;
 
 	protected static class GeneratedIds
 	{
@@ -186,10 +190,14 @@ public class JRExpressionCollector
 			expressionIds = new HashMap<JRExpression,Integer>();
 			datasetCollectors = new HashMap<String,JRExpressionCollector>();
 			crosstabCollectors = new HashMap<JRCrosstab,JRExpressionCollector>();
+			contextStack = new LinkedList<Object>();
+			expressionContextMap = new HashMap<JRExpression, Object>();
 		}
 		else
 		{
 			expressionIds = this.parent.expressionIds;
+			contextStack = this.parent.contextStack;
+			expressionContextMap = this.parent.expressionContextMap;
 		}
 
 		collectedStyles = new HashSet<JRStyle>();
@@ -221,6 +229,8 @@ public class JRExpressionCollector
 					generatedIds.put(newId, existingExpression);
 				}
 			}
+			
+			setExpressionContext(expression);
 		}
 	}
 
@@ -242,7 +252,25 @@ public class JRExpressionCollector
 		}
 	}
 
+	protected void pushContextObject(Object context)
+	{
+		contextStack.addLast(context);
+	}
 
+	protected Object popContextObject()
+	{
+		return contextStack.removeLast();
+	}
+
+	protected void setExpressionContext(JRExpression expression)
+	{
+		if (!contextStack.isEmpty())
+		{
+			Object context = contextStack.getLast();
+			expressionContextMap.put(expression, context);
+		}
+	}
+	
 	/**
 	 * Returns the expression collector to which expressions in an element
 	 * dataset belong.
@@ -405,6 +433,10 @@ public class JRExpressionCollector
 		return crosstabIds.get(crosstab);
 	}
 
+	public Object getExpressionContext(JRExpression expression)
+	{
+		return expressionContextMap.get(expression);
+	}
 
 	/**
 	 *
@@ -1174,11 +1206,14 @@ public class JRExpressionCollector
 				JRCrosstabRowGroup rowGroup = rowGroups[i];
 				JRCrosstabBucket bucket = rowGroup.getBucket();
 				datasetCollector.addExpression(bucket.getExpression());
+				
+				crosstabCollector.pushContextObject(rowGroup);
 				//order by expression is in the crosstab context
 				crosstabCollector.addExpression(bucket.getOrderByExpression());
 				addExpression(bucket.getComparatorExpression());
 				crosstabCollector.collect(rowGroup.getHeader());
 				crosstabCollector.collect(rowGroup.getTotalHeader());
+				crosstabCollector.popContextObject();
 			}
 		}
 
@@ -1190,11 +1225,14 @@ public class JRExpressionCollector
 				JRCrosstabColumnGroup columnGroup = colGroups[i];
 				JRCrosstabBucket bucket = columnGroup.getBucket();
 				datasetCollector.addExpression(bucket.getExpression());
+				
+				crosstabCollector.pushContextObject(columnGroup);
 				//order by expression is in the crosstab context
 				crosstabCollector.addExpression(bucket.getOrderByExpression());
 				addExpression(bucket.getComparatorExpression());
 				crosstabCollector.collect(columnGroup.getHeader());
 				crosstabCollector.collect(columnGroup.getTotalHeader());
+				crosstabCollector.popContextObject();
 			}
 		}
 

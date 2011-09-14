@@ -975,15 +975,16 @@ public class BucketingService
 		CollectedList[] collectedHeaders = new CollectedList[BucketingService.DIMENSIONS];
 		collectedHeaders[DIMENSION_ROW] = createHeadersList(DIMENSION_ROW, bucketValueMap, 0, false);
 		
+		BucketMap columnTotalsMap = null;
 		BucketListMap collectedCols;
 		if (allBuckets[0].computeTotal())
 		{
-			BucketMap map = bucketValueMap;
+			columnTotalsMap = bucketValueMap;
 			for (int i = 0; i < rowBucketCount; ++i)
 			{
-				map = (BucketMap) map.getTotalEntry().getValue();
+				columnTotalsMap = (BucketMap) columnTotalsMap.getTotalEntry().getValue();
 			}
-			collectedCols = (BucketListMap) map;
+			collectedCols = (BucketListMap) columnTotalsMap;
 		}
 		else
 		{
@@ -998,8 +999,8 @@ public class BucketingService
 		int bucketMeasureCount = rowBuckets * colBuckets * origMeasureCount;
 		checkBucketMeasureCount(bucketMeasureCount);
 		
-		colHeaders = createHeaders(BucketingService.DIMENSION_COLUMN, collectedHeaders);
-		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders);
+		colHeaders = createHeaders(BucketingService.DIMENSION_COLUMN, collectedHeaders, columnTotalsMap);
+		rowHeaders = createHeaders(BucketingService.DIMENSION_ROW, collectedHeaders, bucketValueMap);
 		
 		cells = new CrosstabCell[rowBuckets][colBuckets];
 		fillCells(collectedHeaders, bucketValueMap, 0, new int[]{0, 0}, new ArrayList<Bucket>(), new ArrayList<BucketMap>());
@@ -1116,18 +1117,19 @@ public class BucketingService
 	}
 
 
-	protected HeaderCell[][] createHeaders(byte dimension, CollectedList[] headersLists)
+	protected HeaderCell[][] createHeaders(byte dimension, CollectedList[] headersLists, BucketMap totalsMap)
 	{
 		HeaderCell[][] headers = new HeaderCell[buckets[dimension].length][headersLists[dimension].span];
 		
 		List<Bucket> vals = new ArrayList<Bucket>();
-		fillHeaders(dimension, headers, 0, 0, headersLists[dimension], vals);
+		fillHeaders(dimension, headers, 0, 0, headersLists[dimension], vals, totalsMap);
 		
 		return headers;
 	}
 
 	
-	protected void fillHeaders(byte dimension, HeaderCell[][] headers, int level, int col, CollectedList list, List<Bucket> vals)
+	protected void fillHeaders(byte dimension, HeaderCell[][] headers, int level, int col, CollectedList list, 
+			List<Bucket> vals, BucketMap totalsMap)
 	{
 		if (level == buckets[dimension].length)
 		{
@@ -1144,16 +1146,83 @@ public class BucketingService
 			Bucket[] values = new Bucket[buckets[dimension].length];
 			vals.toArray(values);
 			
-			headers[level][col] = new HeaderCell(values, subList.span, depthSpan);
+			MeasureValue[][] totals = retrieveHeaderTotals(dimension, values, totalsMap);
+			headers[level][col] = new HeaderCell(values, subList.span, depthSpan, totals);
 			
 			if (!subList.key.isTotal())
 			{
-				fillHeaders(dimension, headers, level + 1, col, subList, vals);
+				fillHeaders(dimension, headers, level + 1, col, subList, vals, totalsMap);
 			}
 			
 			col += subList.span;
 			vals.remove(vals.size() - 1);
 		}
+	}
+
+
+	private MeasureValue[][] retrieveHeaderTotals(byte dimension, Bucket[] values, BucketMap totalsMap)
+	{
+		// an array to advance on bucket levels with values and totals
+		int levelCount = buckets[dimension].length;
+		Object[] levelBuckets = new Object[levelCount + 1];
+		levelBuckets[0] = totalsMap;
+		
+		for (int idx = 0; idx < levelCount; ++idx)
+		{
+			// save this as it gets modified
+			Object valueBucket = levelBuckets[idx];
+			
+			// advance with totals
+			for (int lIdx = 0; lIdx <= idx; ++lIdx)
+			{
+				if (levelBuckets[lIdx] != null)
+				{
+					MapEntry entry = ((BucketMap) levelBuckets[lIdx]).getTotalEntry();
+					levelBuckets[lIdx] = entry == null ? null : entry.getValue();
+				}
+			}
+			
+			// advance with value if it exists, or total otherwise
+			if (valueBucket != null)
+			{
+				if (idx < values.length && values[idx] != null)
+				{
+					levelBuckets[idx + 1] = ((BucketMap) valueBucket).get(values[idx]);
+				}
+				else
+				{
+					// this is the total computed in the previous loop
+					levelBuckets[idx + 1] = levelBuckets[idx];
+				}
+			}
+		}
+		
+		if (dimension == DIMENSION_ROW)
+		{
+			// we need to advance through column totals
+			for (int idx = 0; idx < colBucketCount; ++idx)
+			{
+				for (int lIdx = 0; lIdx <= levelCount; ++lIdx)
+				{
+					if (levelBuckets[lIdx] != null)
+					{
+						MapEntry entry = ((BucketMap) levelBuckets[lIdx]).getTotalEntry();
+						levelBuckets[lIdx] = entry == null ? null : entry.getValue();
+					}
+				}
+			}
+		}
+		
+		MeasureValue[][] totals = new MeasureValue[levelCount + 1][];
+		for (int lIdx = 0; lIdx <= levelCount; ++lIdx)
+		{
+			MeasureValue[] measureValues = (MeasureValue[]) levelBuckets[lIdx];
+			if (measureValues != null)
+			{
+				totals[lIdx] = getUserMeasureValues(measureValues);
+			}
+		}
+		return totals;
 	}
 
 
