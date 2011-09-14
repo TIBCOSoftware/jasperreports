@@ -2,6 +2,15 @@
 JasperReports Change Log
 ===================================
 
+JasperReports 4.1.3 (2011-xx-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.1.2 (2011-09-12, SVN 4600)
 ---------------------------------------------
 - support for PDF/A compliance added to the PDF exporter;
