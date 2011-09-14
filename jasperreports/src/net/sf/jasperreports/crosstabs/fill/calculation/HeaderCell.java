@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.crosstabs.fill.calculation;
 
+import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+
 /**
  * Crosstab header cell produced by the crosstab bucketing engine.
  * 
@@ -35,8 +37,9 @@ public class HeaderCell
 	private final int levelSpan;
 	private final int depthSpan;
 	private final boolean isTotal;
-	
-	
+	private final MeasureValue[][] totals;
+
+
 	/**
 	 * Creates a crosstab header cell.
 	 * 
@@ -47,11 +50,13 @@ public class HeaderCell
 	public HeaderCell(
 			BucketDefinition.Bucket[] bucketValues, 
 			int levelSpan,
-			int depthSpan)
+			int depthSpan,
+			MeasureValue[][] totals)
 	{
 		this.bucketValues = bucketValues;
 		this.levelSpan = levelSpan;
 		this.depthSpan = depthSpan;
+		this.totals = totals;
 		
 		boolean foundTotal = false;
 		for (int i = 0; i < bucketValues.length; i++)
@@ -114,8 +119,13 @@ public class HeaderCell
 		return isTotal;
 	}
 	
+	public MeasureValue[][] getTotals()
+	{
+		return totals;
+	}
+	
 	public static HeaderCell createLevelSpanCopy(HeaderCell cell, int newLevelSpan)
 	{
-		return new HeaderCell(cell.bucketValues, newLevelSpan, cell.getDepthSpan());
+		return new HeaderCell(cell.bucketValues, newLevelSpan, cell.getDepthSpan(), cell.totals);
 	}
 }

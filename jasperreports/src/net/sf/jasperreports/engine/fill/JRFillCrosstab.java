@@ -27,10 +27,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -282,20 +284,29 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					for (int m = 0; m < measures.length; m++)
 					{
 						String totalVariableName = JRDesignCrosstab.getTotalVariableName(measures[m], rowGroup, colGroup);
-						totalVariables[row][col][m] = (JRFillVariable) variablesMap.get(totalVariableName);
+						totalVariables[row][col][m] = variablesMap.get(totalVariableName);
 						totalVarPos.put(totalVariableName, new int[]{row, col});
 					}
 				}
 			}
 		}
+		
+		Set<String> measureVars = new HashSet<String>();
+		for (JRFillCrosstabMeasure measure : measures)
+		{
+			measureVars.add(measure.getFillVariable().getName());
+		}
 
 		retrieveTotal = new boolean[rowGroups.length + 1][columnGroups.length + 1];
 		
 		//FIXME avoid this
-		List<JRExpression> expressions = JRExpressionCollector.collectExpressions(filler.getJasperReport(), crosstab);
+		JRExpressionCollector collector = JRExpressionCollector.collector(filler.getJasperReport(), crosstab);
+		List<JRExpression> expressions = collector.getExpressions(crosstab);
 		for (Iterator<JRExpression> iter = expressions.iterator(); iter.hasNext();)
 		{
 			JRExpression expression = iter.next();
+			Object expressionContext = collector.getExpressionContext(expression);
+			boolean groupHeaderExpression = expressionContext instanceof JRCrosstabGroup;
 			JRExpressionChunk[] chunks = expression.getChunks();
 			if (chunks != null)
 			{
@@ -309,6 +320,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 						if (pos != null)
 						{
 							retrieveTotal[pos[0]][pos[1]] = true;
+						}
+						
+						// if a measure variable is used inside a group header, compute all totals.
+						// in theory we could have a finer grained rule here, but it complicates
+						// the logic without a singnificant gain.
+						if (groupHeaderExpression && (pos != null || measureVars.contains(varName)))
+						{
+							retrieveTotal[0][0] = true;
 						}
 					}
 				}
@@ -1325,6 +1344,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				setCountVars(-1, columnIdx);
 				setGroupVariables(columnGroups, cell.getBucketValues());
+				setGroupMeasureVariables(cell, false);
 				
 				contents = contents.getTransformedContents(width, height, group.getPositionValue(), CrosstabRowPositionEnum.TOP);
 				boolean firstOnRow = columnIdx == startColumnIndex && (!printRowHeaders || headerCell == null);
@@ -1692,6 +1712,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				setCountVars(rowIdx + startRowIndex - vSpan + 1, -1);
 				setGroupVariables(rowGroups, cell.getBucketValues());
+				setGroupMeasureVariables(cell, true);
 
 				if (stretchContents)
 				{
@@ -1870,6 +1891,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			{
 				setCountVars(rowIdx + startRowIndex - vSpan, -1);
 				setGroupVariables(rowGroups, cell.getBucketValues());
+				setGroupMeasureVariables(cell, true);
 
 				if (stretchContents)
 				{
@@ -1947,6 +1969,34 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 		}
 
+		protected void setGroupMeasureVariables(HeaderCell cell, boolean rowGroup)
+		{
+			MeasureValue[][] totals = cell.getTotals();
+			for (int m = 0; m < measures.length; m++)
+			{
+				for (int row = 0; row <= rowGroups.length; row++)
+				{
+					for (int col = 0; col <= columnGroups.length; col++)
+					{
+						// setting the same values for all row/column groups when filling column/row headers
+						MeasureValue[] vals = rowGroup ? totals[row] : totals[col];
+						if (row == rowGroups.length && col == columnGroups.length)
+						{
+							// setting the base measure variable
+							Object value = measureValue(vals, m);
+							measures[m].getFillVariable().setValue(value);
+						}
+						else if (retrieveTotal[row][col])
+						{
+							JRFillVariable totalVar = totalVariables[row][col][m];
+							Object value = measureValue(vals, m);
+							totalVar.setValue(value);
+						}
+					}
+				}
+			}
+		}
+
 		protected void setMeasureVariables(CrosstabCell cell)
 		{
 			MeasureValue[] values = cell.getMesureValues();
@@ -1978,6 +2028,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		protected Object measureValue(MeasureValue[] values, int measureIdx)
 		{
+			if (values == null)
+			{
+				return null;
+			}
+			
 			Object value;
 			if (measures[measureIdx].getPercentageType() == CrosstabPercentageEnum.GRAND_TOTAL)
 			{
