@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export;
 import java.util.Iterator;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.util.FlashUtils;
 
 /**
  * A HTML export handler for generic print elements produced by
@@ -83,8 +84,10 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 				if (value instanceof String)
 				{
 					//TODO have a flag to determine if this is needed
-					value = FlashPrintElement.resolveLinks(
-							(String) value, element, hyperlinkProducer);
+					String text = (String) value;
+					text = FlashPrintElement.resolveLinks(
+							text, element, hyperlinkProducer);
+					value = FlashUtils.encodeFlashVariable(text);
 				}
 				
 				flashVarsBuf.append(value);
