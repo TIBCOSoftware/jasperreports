@@ -553,7 +553,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	public void setParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
-		if (reportContext == null)
+		if (reportContext == null && filler != null)
 		{
 			//inherit from main
 			reportContext = (ReportContext) filler.getMainDataset().getParameterValue(
