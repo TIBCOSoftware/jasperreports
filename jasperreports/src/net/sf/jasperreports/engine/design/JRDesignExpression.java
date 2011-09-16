@@ -76,6 +76,17 @@ public class JRDesignExpression extends JRBaseExpression implements JRChangeEven
 
 
 	/**
+	 *
+	 */
+	public JRDesignExpression(String text)
+	{
+		this();
+
+		setText(text);
+	}
+
+
+	/**
 	 * @deprecated To be removed.
 	 */
 	public void setValueClass(Class<?> clazz)
