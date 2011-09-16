@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.SortedSet;
 
 import net.sf.jasperreports.charts.JRCategoryAxisFormat;
+import net.sf.jasperreports.charts.type.PlotOrientationEnum;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -103,17 +104,33 @@ public class JRFillChartPlot implements JRChartPlot
 	}
 
 	/**
-	 *
+	 * @deprecated Replaed by {@link #getOrientationValue()}.
 	 */
 	public PlotOrientation getOrientation()
 	{
-		return parent.getOrientation();
+		return getOrientationValue().getOrientation();
 	}
 	
 	/**
 	 *
 	 */
+	public PlotOrientationEnum getOrientationValue()
+	{
+		return parent.getOrientationValue();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #setOrientation(PlotOrientationEnum)}.
+	 */
 	public void setOrientation(PlotOrientation orientation)
+	{
+		setOrientation(PlotOrientationEnum.getByValue(orientation));
+	}
+		
+	/**
+	 *
+	 */
+	public void setOrientation(PlotOrientationEnum orientation)
 	{
 		throw new UnsupportedOperationException();
 	}
