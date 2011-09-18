@@ -38,13 +38,12 @@ import net.sf.jasperreports.engine.JRFont;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$ 
  */
-public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
+public class JRDesignBar3DPlot extends JRBaseBar3DPlot implements JRDesignCategoryPlot 
+{
 	
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	public static final String PROPERTY_CATEGORY_AXIS_LABEL_COLOR = "categoryAxisLabelColor";
-	
-	public static final String PROPERTY_CATEGORY_AXIS_LABEL_EXPRESSION = "categoryAxisLabelExpression";
 	
 	public static final String PROPERTY_CATEGORY_AXIS_LABEL_FONT = "categoryAxisLabelFont";
 	
@@ -59,16 +58,6 @@ public class JRDesignBar3DPlot extends JRBaseBar3DPlot {
 	public static final String PROPERTY_CATEGORY_AXIS_VERTICAL_TICK_LABELS = "categoryAxisVerticalTickLabels";
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_COLOR = "valueAxisLabelColor";
-	
-	public static final String PROPERTY_VALUE_AXIS_LABEL_EXPRESSION = "valueAxisLabelExpression";
-	
-	public static final String PROPERTY_DOMAIN_AXIS_MINVALUE_EXPRESSION = "domainAxisMinValueExpression";
-	
-	public static final String PROPERTY_DOMAIN_AXIS_MAXVALUE_EXPRESSION = "domainAxisMaxValueExpression";
-	
-	public static final String PROPERTY_RANGE_AXIS_MINVALUE_EXPRESSION = "rangeAxisMinValueExpression";
-	
-	public static final String PROPERTY_RANGE_AXIS_MAXVALUE_EXPRESSION = "rangeAxisMaxValueExpression";
 	
 	public static final String PROPERTY_VALUE_AXIS_LABEL_FONT = "valueAxisLabelFont";
 	

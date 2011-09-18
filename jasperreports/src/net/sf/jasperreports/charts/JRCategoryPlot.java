@@ -23,48 +23,44 @@
  */
 package net.sf.jasperreports.charts;
 
-
+import net.sf.jasperreports.engine.JRChartPlot;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRLinePlot.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public interface JRBarPlot extends JRCategoryPlot
+public interface JRCategoryPlot extends JRChartPlot, JRCategoryAxisFormat, JRValueAxisFormat
 {
-
-	/**
-	 * 
-	 */
-	public Boolean getShowTickMarks();
-
-	/**
-	 *
-	 */
-	public void setShowTickMarks(Boolean isShowTickMarks);
-		
-	/**
-	 * 
-	 */
-	public Boolean getShowTickLabels();
 	
 	/**
 	 * 
 	 */
-	public JRItemLabel getItemLabel();
-	
-	/**
-	 *
-	 */
-	public void setShowTickLabels(Boolean isShowTickLabels);
+	public JRExpression getCategoryAxisLabelExpression();
 
 	/**
 	 * 
 	 */
-	public Boolean getShowLabels();
-	
+	public JRExpression getValueAxisLabelExpression();
+
 	/**
-	 *
+	 * 
 	 */
-	public void setShowLabels( Boolean isShowLabels );
+	public JRExpression getDomainAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getDomainAxisMaxValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMinValueExpression();
+
+	/**
+	 * 
+	 */
+	public JRExpression getRangeAxisMaxValueExpression();
 
 }
