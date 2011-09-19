@@ -622,7 +622,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (!parameterValues.containsKey(JRParameter.REPORT_CONTEXT))
 		{
 			ReportContext context = (ReportContext) filler.getMainDataset().getParameterValue(
-					JRParameter.REPORT_CONTEXT);
+					JRParameter.REPORT_CONTEXT, true);
 			if (context != null)
 			{
 				parameterValues.put(JRParameter.REPORT_CONTEXT, context);
