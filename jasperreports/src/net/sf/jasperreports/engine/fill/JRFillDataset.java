@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
@@ -552,15 +551,6 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public void setParameterValues(Map<String,Object> parameterValues) throws JRException
 	{
-		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
-		if (reportContext == null && filler != null)
-		{
-			//inherit from main
-			reportContext = (ReportContext) filler.getMainDataset().getParameterValue(
-					JRParameter.REPORT_CONTEXT);
-			parameterValues.put(JRParameter.REPORT_CONTEXT, reportContext);
-		}
-		
 		parameterValues.put(JRParameter.REPORT_PARAMETERS_MAP, parameterValues);
 		
 		if (filler != null)
@@ -1050,7 +1040,9 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				throw new JRRuntimeException("No such parameter " + parameterName);
 			}
 			
-			value = null;//FIXME look into REPORT_PARAMETERS_MAP?  not yet required.
+			// look into REPORT_PARAMETERS_MAP
+			Map<String, Object> valuesMap = getParameterValuesMap();
+			value = valuesMap == null ? null : valuesMap.get(parameterName);
 		}
 		else
 		{
