@@ -64,6 +64,30 @@ public final class JRXmlConstants
 	 */
 	public static final String JASPERREPORT_XSD_DTD_COMPAT_RESOURCE = 
 		"net/sf/jasperreports/engine/dtds/jasperreport-dtd-compat.xsd";
+	
+	/**
+	 * The namespace used by the XML export schema.
+	 */
+	public static final String JASPERPRINT_NAMESPACE = 
+		"http://jasperreports.sourceforge.net/jasperreports/print";
+	
+	/**
+	 * The system location of the XML export schema.
+	 */
+	public static final String JASPERPRINT_XSD_SYSTEM_ID = 
+		"http://jasperreports.sourceforge.net/xsd/jasperprint.xsd";
+	
+	/**
+	 * The internal location/resource name of the XML export schema.
+	 */
+	public static final String JASPERPRINT_XSD_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jasperprint.xsd";
+	
+	/**
+	 * The internal location/resource name of the DTD compatibility XML export schema.
+	 */
+	public static final String JASPERPRINT_XSD_DTD_COMPAT_RESOURCE = 
+		"net/sf/jasperreports/engine/dtds/jasperprint-dtd-compat.xsd";
 
 	/**
 	 * Template XML public ID.

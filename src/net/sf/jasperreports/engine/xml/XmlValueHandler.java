@@ -23,45 +23,44 @@
  */
 package net.sf.jasperreports.engine.xml;
 
-import javax.xml.parsers.SAXParser;
+import java.io.IOException;
 
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
 
 /**
- * A factory of {@link SAXParser} objects used by JasperReports
- * parsers/digesters.
+ * A handler that deals with arbitrary values being exported to XML and parsed back 
+ * to {@link JasperPrint} objects.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRSaxParserFactory
+public interface XmlValueHandler
 {
 
 	/**
-	 * A property that gives a parser factory class which should be used
-	 * for parsing JRXMLs.
+	 * Returns the namespace of the elements generated on XML export.
 	 * 
-	 * <p>
-	 * By default, this property is set to use {@link JRReportSaxParserFactory}
-	 * as report parser factory.
+	 * @return
 	 */
-	String PROPERTY_REPORT_PARSER_FACTORY = JRProperties.PROPERTY_PREFIX + "compiler.xml.parser.factory";
+	XmlHandlerNamespace getNamespace();
 
 	/**
-	 * A property that gives a parser factory class which should be used
-	 * for parsing XML exports.
+	 * Configures an XML digester by adding the rules required to parse exported values.
 	 * 
-	 * <p>
-	 * By default, this property is set to use {@link PrintSaxParserFactory}
-	 * as report parser factory.
+	 * @param digester the digester to configure
 	 */
-	String PROPERTY_PRINT_PARSER_FACTORY = JRProperties.PROPERTY_PREFIX + "export.xml.parser.factory";
-	
+	void configureDigester(JRXmlDigester digester);
+
 	/**
-	 * Creates a SAX parser.
+	 * Outputs the XML representation of a value if the value is supported by
+	 * this handler.
 	 * 
-	 * @return the created parser
+	 * @param value the value
+	 * @param exporter the XML exporter
+	 * @return <code>true</code> iff the value is supported by this handler
+	 * @throws IOException
 	 */
-	SAXParser createParser();
+	boolean writeToXml(Object value, JRXmlExporter exporter) throws IOException;
 	
 }

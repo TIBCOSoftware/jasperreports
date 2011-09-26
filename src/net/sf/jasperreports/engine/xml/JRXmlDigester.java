@@ -57,6 +57,7 @@ public class JRXmlDigester extends Digester
 	private Map<String,String> internalEntityResources;
 
 	private String lastNamespacePrefix;
+	private Object lastPopped;
 	
 	/**
 	 *
@@ -98,6 +99,8 @@ public class JRXmlDigester extends Digester
 				JRXmlConstants.JASPERTEMPLATE_DTD);
 		internalEntityResources.put(JRXmlConstants.JASPERREPORT_XSD_SYSTEM_ID, 
 				JRXmlConstants.JASPERREPORT_XSD_RESOURCE);
+		internalEntityResources.put(JRXmlConstants.JASPERPRINT_XSD_SYSTEM_ID, 
+				JRXmlConstants.JASPERPRINT_XSD_RESOURCE);
 	}
 
 
@@ -208,5 +211,37 @@ public class JRXmlDigester extends Digester
 	public String getLastNamespacePrefix()
 	{
 		return lastNamespacePrefix;
+	}
+
+
+	@Override
+	public Object pop()
+	{
+		// remember the last popped object
+		lastPopped = super.pop();
+		return lastPopped;
+	}
+	
+	/**
+	 * Clears the last popped object.
+	 * 
+	 * @see #lastPopped()
+	 */
+	public void clearLastPopped()
+	{
+		lastPopped = null;
+	}
+	
+	/**
+	 * Returns the previously popped object.
+	 * 
+	 * This method can be used by rules that need to know the object was added and 
+	 * popped to the stack by an inner element.
+	 * 
+	 * @return the previously popped object
+	 */
+	public Object lastPopped()
+	{
+		return lastPopped;
 	}
 }

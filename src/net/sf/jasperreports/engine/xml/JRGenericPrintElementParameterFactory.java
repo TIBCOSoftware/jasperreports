@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.xml;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 
+import org.apache.commons.digester.Rule;
 import org.xml.sax.Attributes;
 
 /**
@@ -49,7 +50,7 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 	{
 		protected JRGenericPrintElement element;
 		protected String name;
-		protected ParameterValue value;
+		protected Object value;
 		
 		public Parameter(JRGenericPrintElement element, String name)
 		{
@@ -57,14 +58,14 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 			this.name = name;
 		}
 		
-		public void setValue(ParameterValue value)
+		protected void setValue(Object value)
 		{
 			this.value = value;
 		}
 		
 		public void addParameter()
 		{
-			element.setParameterValue(name, value == null ? null : value.value);
+			element.setParameterValue(name, value);
 		}
 	}
 	
@@ -99,4 +100,34 @@ public class JRGenericPrintElementParameterFactory extends JRBaseFactory
 		
 	}
 
+	public static class ArbitraryValueSetter extends Rule
+	{
+		@Override
+		public void begin(String namespace, String name, Attributes attributes) throws Exception
+		{
+			((JRXmlDigester) digester).clearLastPopped();
+		}
+
+		@Override
+		public void end(String namespace, String name) throws Exception
+		{
+			Parameter parameter = (Parameter) digester.peek();
+			Object lastPopped = ((JRXmlDigester) digester).lastPopped();
+			if (lastPopped != null)
+			{
+				Object value;
+				if (lastPopped instanceof ParameterValue)
+				{
+					// this is for genericElementParameterValue elements
+					value = ((ParameterValue) lastPopped).value;
+				}
+				else
+				{
+					// arbitrary elements
+					value = lastPopped;
+				}
+				parameter.setValue(value);
+			}
+		}
+	}
 }

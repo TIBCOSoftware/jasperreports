@@ -31,7 +31,6 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
@@ -39,17 +38,21 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
 import org.apache.commons.digester.SetPropertiesRule;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 
 
 /**
@@ -58,6 +61,11 @@ import org.xml.sax.XMLReader;
  */
 public class JRPrintXmlLoader implements ErrorHandler
 {
+	
+	private static final Log log = LogFactory.getLog(JRPrintXmlLoader.class);
+	
+	protected static final JRSingletonCache<JRSaxParserFactory> printParserFactories = 
+		new JRSingletonCache<JRSaxParserFactory>(JRSaxParserFactory.class);
 
 	/**
 	 *
@@ -176,20 +184,19 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
-	private JRXmlDigester prepareDigester() throws ParserConfigurationException, SAXException
+	protected JRXmlDigester prepareDigester() throws ParserConfigurationException, SAXException
 	{
-		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		JRXmlDigester digester = new JRXmlDigester(createParser());
 		
-		boolean validating = JRProperties.getBooleanProperty(JRProperties.EXPORT_XML_VALIDATION);		
-		saxParserFactory.setValidating(validating);
-
-		SAXParser saxParser = saxParserFactory.newSAXParser();
-		//XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-		XMLReader xmlReader = saxParser.getXMLReader();
-
-		xmlReader.setFeature("http://xml.org/sax/features/validation", validating);
-
-		JRXmlDigester digester = new JRXmlDigester(xmlReader);
+		// use a classloader that resolves both JR classes and classes from the context classloader
+		CompositeClassloader digesterClassLoader = new CompositeClassloader(
+				JRXmlDigesterFactory.class.getClassLoader(), 
+				Thread.currentThread().getContextClassLoader());
+		digester.setClassLoader(digesterClassLoader);
+		digester.setNamespaceAware(true);
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERPRINT_NAMESPACE);
+		
 		digester.push(this);
 		//digester.setDebug(3);
 		digester.setErrorHandler(this);
@@ -296,6 +303,28 @@ public class JRPrintXmlLoader implements ErrorHandler
 	}
 
 
+	protected SAXParser createParser()
+	{
+		try
+		{
+			String parserFactoryClass = JRProperties.getProperty(
+					JRSaxParserFactory.PROPERTY_PRINT_PARSER_FACTORY);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Using SAX parser factory class " + parserFactoryClass);
+			}
+			
+			JRSaxParserFactory factory = printParserFactories.getCachedInstance(parserFactoryClass);
+			return factory.createParser();
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
+
 	private void addFrameRules(JRXmlDigester digester)
 	{
 		digester.addFactoryCreate("*/frame", JRPrintFrameFactory.class.getName());
@@ -334,13 +363,46 @@ public class JRPrintXmlLoader implements ErrorHandler
 		digester.addFactoryCreate(elementParameterPattern, 
 				JRGenericPrintElementParameterFactory.class);
 		digester.addCallMethod(elementParameterPattern, "addParameter");
+		digester.addRule(elementParameterPattern, new JRGenericPrintElementParameterFactory.ArbitraryValueSetter());
 		
 		String elementParameterValuePattern = elementParameterPattern + "/"
 				+ JRXmlConstants.ELEMENT_genericElementParameterValue;
 		digester.addFactoryCreate(elementParameterValuePattern, 
 				JRGenericPrintElementParameterFactory.ParameterValueFactory.class);
-		digester.addSetNext(elementParameterValuePattern, "setValue");
 		digester.addCallMethod(elementParameterValuePattern, "setData", 0);
+		
+		addValueHandlerRules(digester, elementParameterPattern);
+	}
+
+	protected void addValueHandlerRules(JRXmlDigester digester, String elementParameterPattern)
+	{
+		List<XmlValueHandler> handlers = XmlValueHandlerUtils.instance().getHandlers();
+		for (XmlValueHandler handler : handlers)
+		{
+			XmlHandlerNamespace namespace = handler.getNamespace();
+			if (namespace != null)
+			{
+				String namespaceURI = namespace.getNamespaceURI();
+				
+				if (log.isDebugEnabled())
+				{
+					log.debug("Configuring the digester for handler " + handler 
+							+ " and namespace " + namespaceURI);
+				}
+				
+				digester.setRuleNamespaceURI(namespaceURI);
+				handler.configureDigester(digester);
+				
+				String schemaResource = namespace.getInternalSchemaResource();
+				if (schemaResource != null)
+				{
+					digester.addInternalEntityResource(namespace.getPublicSchemaLocation(), 
+							schemaResource);
+				}
+			}
+		}
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERPRINT_NAMESPACE);
 	}
 
 
