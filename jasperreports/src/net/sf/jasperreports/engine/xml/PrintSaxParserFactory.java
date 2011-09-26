@@ -24,27 +24,22 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.ComponentsEnvironment;
-import net.sf.jasperreports.engine.component.ComponentsXmlParser;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The default report SAX parser factory.
+ * The default XML export SAX parser factory.
  * 
  * <p>
  * This factory creates a parser via the default SAX parser factory
  * (<code>javax.xml.parsers.SAXParserFactory.newInstance()</code>).
  * 
  * <p>
- * JRXMLs are always validated using W3C XML schemas.  Reports that refer
+ * XML exports are always validated using W3C XML schemas.  Reports that refer
  * the JasperReports DTD (which has been deprecated) are validated using an
  * internal XML schema equivalent to the DTD.
  * 
@@ -55,50 +50,51 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRReportSaxParserFactory extends BaseSaxParserFactory
+public class PrintSaxParserFactory extends BaseSaxParserFactory
 {
 	
-	private static final Log log = LogFactory.getLog(JRReportSaxParserFactory.class);
+	private static final Log log = LogFactory.getLog(PrintSaxParserFactory.class);
 
 	@Override
 	protected boolean isValidating()
 	{
-		return JRProperties.getBooleanProperty(JRProperties.COMPILER_XML_VALIDATION);
+		return JRProperties.getBooleanProperty(JRProperties.EXPORT_XML_VALIDATION);
 	}
-	
+
 	@Override
 	protected List<String> getSchemaLocations()
 	{
 		List<String> schemas = new ArrayList<String>();
-		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_RESOURCE));
-		schemas.add(getResourceURI(JRXmlConstants.JASPERREPORT_XSD_DTD_COMPAT_RESOURCE));
+		schemas.add(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_RESOURCE));
+		schemas.add(getResourceURI(JRXmlConstants.JASPERPRINT_XSD_DTD_COMPAT_RESOURCE));
 		
-		Collection<ComponentsBundle> components = ComponentsEnvironment.getComponentBundles();
-		for (Iterator<ComponentsBundle> it = components.iterator(); it.hasNext();)
+		List<XmlValueHandler> handlers = XmlValueHandlerUtils.instance().getHandlers();
+		for (XmlValueHandler handler : handlers)
 		{
-			ComponentsBundle componentManager = it.next();
-			ComponentsXmlParser xmlParser = componentManager.getXmlParser();
-			
-			String schemaURI;
-			String schemaResource = xmlParser.getInternalSchemaResource();
-			if (schemaResource != null)
+			XmlHandlerNamespace namespace = handler.getNamespace();
+			if (namespace != null)
 			{
-				schemaURI = getResourceURI(schemaResource);
-			}
-			else
-			{
-				schemaURI = xmlParser.getPublicSchemaLocation();
-			}
+				String schemaURI;
+				String schemaResource = namespace.getInternalSchemaResource();
+				if (schemaResource != null)
+				{
+					schemaURI = getResourceURI(schemaResource);
+				}
+				else
+				{
+					schemaURI = namespace.getPublicSchemaLocation();
+				}
 
-			if (log.isDebugEnabled())
-			{
-				log.debug("Adding components schema at " + schemaURI);
+				if (log.isDebugEnabled())
+				{
+					log.debug("Adding schema at " + schemaURI);
+				}
+				
+				schemas.add(schemaURI);
 			}
-			
-			schemas.add(schemaURI);
 		}
+		
 		return schemas;
 	}
-
 
 }

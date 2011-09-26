@@ -87,6 +87,16 @@ public final class JRValueStringUtils
 		defaultSerializer = new DefaultSerializer();
 	}
 	
+	/**
+	 * Determines if there's a built-in serializer for the value type.
+	 * 
+	 * @param valueClass the value type
+	 * @return
+	 */
+	public static boolean hasSerializer(String valueClass)
+	{
+		return serializers.containsKey(valueClass);
+	}
 	
 	/**
 	 * Converts a value into a String representation.

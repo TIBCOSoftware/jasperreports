@@ -87,8 +87,12 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.tools.codec.Base64Encoder;
 
 
@@ -96,7 +100,7 @@ import org.w3c.tools.codec.Base64Encoder;
  * Exports a JasperReports document to an XML file that contains the same data as a {@link net.sf.jasperreports.engine.JasperPrint}
  * object, but in XML format, instead of a serialized class. Such XML files can be parsed back into <tt>JasperPrint</tt>
  * object using the {@link net.sf.jasperreports.engine.xml.JRPrintXmlLoader} utility class. Their structure is validated
- * against an internal DTD file called jasperprint.dtd
+ * against an internal XSD file called jasperprint.xsd.
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -104,6 +108,8 @@ import org.w3c.tools.codec.Base64Encoder;
 public class JRXmlExporter extends JRAbstractExporter
 {
 
+	private static final Log log = LogFactory.getLog(JRXmlExporter.class);
+	
 	/**
 	 *
 	 */
@@ -122,6 +128,9 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
 	protected static final String XML_FILES_SUFFIX = "_files";
 	protected static final String IMAGE_PREFIX = "img_";
+	
+	public static final XmlNamespace JASPERPRINT_NAMESPACE = 
+			new XmlNamespace(JRXmlConstants.JASPERPRINT_NAMESPACE, null, JRXmlConstants.JASPERPRINT_XSD_SYSTEM_ID);
 
 	/**
 	 *
@@ -138,7 +147,6 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected String dtdLocation;
 	protected boolean isEmbeddingImages = true;
 	protected File destFile;
 	protected File imagesDir;
@@ -186,10 +194,11 @@ public class JRXmlExporter extends JRAbstractExporter
 			/*   */
 			setPageRange();
 	
-			dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
-			if (dtdLocation == null)
+			@SuppressWarnings("deprecation")
+			String dtdLocation = (String)parameters.get(JRXmlExporterParameter.DTD_LOCATION);
+			if (dtdLocation != null)
 			{
-				dtdLocation = JRXmlConstants.JASPERPRINT_SYSTEM_ID;
+				log.warn("The JRXmlExporterParameter.DTD_LOCATION export parameter has no effect and should no longer be used.");
 			}
 			
 			encoding = (String)parameters.get(JRExporterParameter.CHARACTER_ENCODING);
@@ -379,15 +388,18 @@ public class JRXmlExporter extends JRAbstractExporter
 		return buffer.getBuffer();
 	}
 
+	protected XmlNamespace getNamespace()
+	{
+		return JASPERPRINT_NAMESPACE;
+	}
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
 		xmlWriter = new JRXmlWriteHelper(writer);
 		
 		xmlWriter.writeProlog(encoding);
-		xmlWriter.writePublicDoctype(JRXmlConstants.ELEMENT_jasperPrint, JRXmlConstants.JASPERPRINT_PUBLIC_ID, dtdLocation);
 
-		xmlWriter.startElement(JRXmlConstants.ELEMENT_jasperPrint);
+		xmlWriter.startElement(JRXmlConstants.ELEMENT_jasperPrint, getNamespace());
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, jasperPrint.getName());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageWidth, jasperPrint.getPageWidth());
 		xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_pageHeight, jasperPrint.getPageHeight());
@@ -1133,11 +1145,22 @@ public class JRXmlExporter extends JRAbstractExporter
 				if (value != null)
 				{
 					String valueClass = value.getClass().getName();
-					String data = JRValueStringUtils.serialize(valueClass, value);
-					xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameterValue);
-					xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, valueClass);
-					xmlWriter.writeCDATA(data);
-					xmlWriter.closeElement();//genericElementParameterValue
+					// check if there's a builtin serializer for the value
+					boolean builtinSerialization = JRValueStringUtils.hasSerializer(valueClass);
+					if (!builtinSerialization)
+					{
+						// try XML handlers, if none works then default back to the builtin serialization
+						builtinSerialization = !XmlValueHandlerUtils.instance().writeToXml(value, this);
+					}
+					
+					if (builtinSerialization)
+					{
+						String data = JRValueStringUtils.serialize(valueClass, value);
+						xmlWriter.startElement(JRXmlConstants.ELEMENT_genericElementParameterValue);
+						xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_class, valueClass);
+						xmlWriter.writeCDATA(data);
+						xmlWriter.closeElement();//genericElementParameterValue
+					}
 				}
 				xmlWriter.closeElement();//genericElementParameter
 			}
@@ -1162,5 +1185,17 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected String getExporterKey()
 	{
 		return XML_EXPORTER_KEY;
+	}
+	
+	/**
+	 * Returns the XML write helper used by this exporter.
+	 * 
+	 * The helper can be used to output XML elements and attributes.
+	 * 
+	 * @return the XML write helper used by this exporter
+	 */
+	public JRXmlWriteHelper getXmlWriteHelper()
+	{
+		return xmlWriter;
 	}
 }
