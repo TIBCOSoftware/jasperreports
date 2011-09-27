@@ -10,6 +10,7 @@
 
 .selected {
 	background-color: gray;
+	border: 1px solid red;
 }
 
 .dashboardDiv {
@@ -94,7 +95,7 @@
 .filterdiv {
 	display: none; 
 	text-align: center; 
-	width: 180px; 
+	width: 430px; 
 	height: 60px; 
 	background-color: #DBEBFF;
 	-moz-box-shadow: 0 0 5px 5px #888;
