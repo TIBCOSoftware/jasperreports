@@ -25,25 +25,10 @@ package net.sf.jasperreports.components;
 
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 
-import org.apache.velocity.app.VelocityEngine;
-
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
 public abstract class BaseElementHtmlHandler implements GenericElementHtmlHandler {
-
-	private static final VelocityEngine velocityEngine;
-	
-	static {
-		velocityEngine = new VelocityEngine();
-		velocityEngine.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		velocityEngine.setProperty("file.resource.loader.cache", "true");
-		velocityEngine.init();
-	}
-	
-	protected VelocityEngine getVelocityEngine() {
-		return velocityEngine;
-	}
 
 }
