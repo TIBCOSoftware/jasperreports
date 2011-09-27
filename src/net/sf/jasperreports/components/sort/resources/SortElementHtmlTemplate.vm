@@ -4,6 +4,7 @@
 
 <a href='${href}'
 	class='sortlink ${sortLinkClass}'
+	data-resizecolumn='column_${filterColumnName}'
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
@@ -31,7 +32,14 @@
 			                "<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>",
 			                "	<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
 			                "	<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
-			                "	<input class='postable filterValue' type='text' name='${filterValueParamName}' style='width: 80px;' />",
+			                "	<input class='postable' type='hidden' name='${filterTypeParamName}' value='${filterTypeParamNameValue}' />",
+							"	<select class='postable filterTypeValueSelector' name='${filterTypeOperatorParamName}'>",
+								#foreach( $enum in ${filterTypeValuesEnumArray} )
+    						"	<option value='$enum.getName()'>$enum.getName()</option>",
+								#end
+							"	</select>",
+			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueEnd hidden' disabled type='text' name='${filterValueEndParamName}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
 			                "</form>",
 			                "</div>"];
