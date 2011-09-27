@@ -66,6 +66,20 @@
 					ctx.run();
 				}		
 			});
+			
+			// show the second filter value for options containing 'between'
+			jQuery('.filterTypeValueSelector', filterDiv).live('change', function (event) {
+				var optionValue = jQuery(this).val();
+				if (optionValue && optionValue.toLowerCase().indexOf('between') != -1) {
+					jQuery('.filterValueEnd', filterDiv)
+						.removeClass('hidden')
+						.removeAttr('disabled');
+				} else {
+					jQuery('.filterValueEnd', filterDiv)
+						.addClass('hidden')
+						.attr('disabled', true);
+				}
+			});
 		}
 		
 	};
@@ -186,8 +200,35 @@
 		                    });
 		                    filterDiv.show();
 		                }
+	                	
+	                	/*
+	                	var copy_what = jQuery(this).attr('data-resizecolumn'),
+	            		absDiv = "<div id='absDiv' style='position: fixed; top: 50px; right: 50px; width: 200px; height: 400px;'></div>",
+	            		jqAbsDiv = jQuery('#absDiv');
+	            	
+		            	if (jqAbsDiv.size() == 0) {
+		            		jQuery('body').append(absDiv);
+		            		jqAbsDiv = jQuery('#absDiv');
+		            	}
+		            	
+		            	jQuery('.' + copy_what).removeClass('selected').each(function (index, element) {
+		            		jQuery(element).parent().clone().appendTo(jqAbsDiv);
+		            	});
+		            	*/
 	                }
 	            });
+	            
+	            /*
+	            jQuery('.sortlink').live('mouseover', function(event) {
+	            	var resize_what = jQuery(this).attr('data-resizecolumn');
+	            	jQuery('.' + resize_what).addClass('selected');
+	            });
+
+	            jQuery('.sortlink').live('mouseout', function(event) {
+	            	var resize_what = jQuery(this).attr('data-resizecolumn');
+	            	jQuery('.' + resize_what).removeClass('selected');
+	            });
+	            */
 			}
 			sortEvent.status = 'finished';
 			gm.processEvent(sortEvent.name);
