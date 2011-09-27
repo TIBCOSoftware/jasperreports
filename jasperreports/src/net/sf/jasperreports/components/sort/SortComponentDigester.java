@@ -23,10 +23,13 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
 import org.apache.commons.digester.Digester;
@@ -37,7 +40,6 @@ import org.apache.commons.digester.Digester;
  */
 public class SortComponentDigester implements XmlDigesterConfigurer
 {
-
 	public void configureDigester(Digester digester)
 	{
 		addSortComponentRules(digester);
@@ -50,10 +52,15 @@ public class SortComponentDigester implements XmlDigesterConfigurer
 		
 		digester.addSetProperties(sortComponentPattern, new String[] {
 				SortComponent.PROPERTY_EVALUATION_TIME,
+				SortComponent.PROPERTY_COLUMN_TYPE,
 				SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN,
 				SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN}, 
 				new String[0]);
-				
+		
+		digester.addRule(sortComponentPattern, 
+				new XmlConstantPropertyRule(
+						SortComponent.PROPERTY_COLUMN_TYPE,
+						SortFieldTypeEnum.values()));
 		digester.addRule(sortComponentPattern, 
 				new XmlConstantPropertyRule(
 						SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN,
@@ -67,6 +74,12 @@ public class SortComponentDigester implements XmlDigesterConfigurer
 						SortComponent.PROPERTY_EVALUATION_TIME,
 						EvaluationTimeEnum.values()));
 
+		digester.addFactoryCreate(sortComponentPattern + "/symbol", SortComponentSymbolFactory.class.getName());
+		
+		digester.setRuleNamespaceURI(JRXmlConstants.JASPERREPORTS_NAMESPACE);
+
+		digester.addFactoryCreate(sortComponentPattern + "/symbol/font", SortComponentSymbolFontFactory.class.getName());
+		digester.addSetNext(sortComponentPattern + "/symbol/font", "setSymbolFont", JRFont.class.getName());
 	}
 
 }
