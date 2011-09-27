@@ -24,7 +24,8 @@ jQuery.noConflict();
 							status: 'default'
 						}
 					},
-					eventSubscribers: {}
+					eventSubscribers: {},
+					isFirstAjaxRequest: true
 				}
 			}
 		},
@@ -251,7 +252,12 @@ jQuery.noConflict();
 			},
 			
 			run : function() {
-				var parent = jQuery(this.target).closest('div.executionContext');
+				var parent = jQuery(this.target).closest('div.executionContext'),
+					isajax = true;
+				
+				if (jg.isFirstAjaxRequest) {
+					isajax = false; 
+				}
 				
 				if (parent.size() == 0) {
 					parent = jQuery(this.target).closest('div.jiveContext');
@@ -261,14 +267,13 @@ jQuery.noConflict();
 				// FIXME: must know if this is an ajax request, to prevent some resources from reloading
 				if (this.requestParams != null) {
 					if ('object' == typeof this.requestParams) {
-						this.requestParams['isajax'] = true;
-						
+						this.requestParams['isajax'] = isajax; // on first ajax request load all resources
 					} else if('string' == typeof this.requestParams) {
-						this.requestParams += '&isajax=true';
+						this.requestParams += '&isajax=' + isajax;
 					}
 				} else if (this.requestParams == null) {
 					this.requestParams = {
-						isajax: true
+						isajax: isajax
 					};
 				}
 				
@@ -277,6 +282,8 @@ jQuery.noConflict();
 					
 					if (status == 'success') {
 						// add callback here
+						jg.isFirstAjaxRequest = false;
+						
 					} else if (status == 'error') {
 					    alert('Error: ' + xhr.status + " " + xhr.statusText)
 					    
