@@ -28,7 +28,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.SortElement;
+import net.sf.jasperreports.components.sort.SortElementUtils;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
@@ -79,6 +81,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -452,24 +455,23 @@ public class TableReport implements JRReport
 			genericElement.setMode(ModeEnum.TRANSPARENT);
 			
 			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, getName());
-			// not used for anything, but leaving it here anyway
-			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DYNAMIC_TABLE_BINDING, "true");
 			
 			String name = sortExpression.getText();
-			String columnType;
-			boolean filterable;
+			SortFieldTypeEnum columnType;
+			FilterTypesEnum filterType = null;
+			
 			switch (sortExpression.getType())
 			{
 			case JRExpressionChunk.TYPE_FIELD:
-				columnType = SortElement.SORT_ELEMENT_TYPE_FIELD;
+				columnType = SortFieldTypeEnum.FIELD;
 				JRField field = getField(name);
-				filterable = String.class.equals(field.getValueClass());
+				filterType = SortElementUtils.getFilterType(field.getValueClass());
 				break;
 				
 			case JRExpressionChunk.TYPE_VARIABLE:
-				columnType = SortElement.SORT_ELEMENT_TYPE_VARIABLE;
+				columnType = SortFieldTypeEnum.VARIABLE;
 				JRVariable variable = getVariable(name);
-				filterable = String.class.equals(variable.getValueClass());
+				filterType = SortElementUtils.getFilterType(variable.getValueClass());
 				break;
 				
 			default:
@@ -478,13 +480,13 @@ public class TableReport implements JRReport
 			}
 			
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_NAME, name);
-			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_TYPE, columnType);
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_TYPE, columnType.getName());
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, "Right");
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, "Middle");
 			
-			if (filterable)
+			if (filterType != null)
 			{
-				genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_IS_FILTERABLE, "true");
+				genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_FILTER_TYPE, filterType.getName());
 			}
 			
 			frame.addElement(genericElement);
