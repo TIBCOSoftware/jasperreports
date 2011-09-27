@@ -31,7 +31,9 @@
 					<hyperlinkTooltipExpression><![CDATA["Skip to the summary section"]]></hyperlinkTooltipExpression>
 				</textField>
 				<textField hyperlinkType="LocalPage">
-					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
+					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000">
+						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["First Page"]]></propertyExpression>
+					</reportElement>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
 					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
@@ -149,7 +151,9 @@
 					<anchorNameExpression><![CDATA["summary"]]></anchorNameExpression>
 				</textField>
 				<textField hyperlinkType="LocalAnchor">
-					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/>
+					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000">
+						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["Third Page"]]></propertyExpression>					
+					</reportElement>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
 					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>

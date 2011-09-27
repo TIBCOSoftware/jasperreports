@@ -2355,6 +2355,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		isFreezeRowEdge = isRowEdge;
 		isFreezeColumnEdge = isColumnEdge;
 	}
+
+	protected void setSheetName(String sheetName)
+	{
+		sheet.setName(sheetName);
+	}
 	
 }
 

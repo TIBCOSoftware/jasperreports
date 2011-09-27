@@ -211,9 +211,7 @@
       <property ref="net.sf.jasperreports.export.xls.pattern"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
-      
       <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
-      
       <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
@@ -221,6 +219,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.center"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.header.left"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
+      <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
@@ -2762,6 +2761,21 @@ Custom property storing the text content of the right side of the sheet header.
     <default>N/A</default>
     <scope>Global | Report</scope>
     <since>3.7.5</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.sheet.name -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.sheet.name">
+    <description>
+Property used to set the name of the sheet containing a given element. Its value overrides the report-level settings for the sheet name. 
+<br/>
+If several elements in the sheet contain this property, the engine will consider the value of the last exported element's property.
+	</description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAME</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.2</since>
   </configProperty>
   
   

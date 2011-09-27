@@ -1771,6 +1771,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		isFreezeColumnEdge = isColumnEdge;
 	}
 	
+	protected void setSheetName(String sheetName)
+	{
+		workbook.setSheetName(workbook.getSheetIndex(sheet) , sheetName);
+	}
+	
 }
 
 

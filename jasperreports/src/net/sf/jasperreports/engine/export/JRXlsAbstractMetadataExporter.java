@@ -228,6 +228,12 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 		{
 			JRPrintElement element = elements.get(i);
 			
+			String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+			if(sheetName != null)
+			{
+				setSheetName(sheetName);
+			}
+			
 			if (element instanceof JRPrintLine)
 			{
 				exportLine((JRPrintLine)element);
