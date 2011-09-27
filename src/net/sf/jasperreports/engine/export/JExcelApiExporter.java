@@ -2370,6 +2370,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		isFreezeRowEdge = isRowEdge;
 		isFreezeColumnEdge = isColumnEdge;
 	}
-	
+
+	protected void setSheetName(String sheetName)
+	{
+		sheet.setName(sheetName);
+	}
 }
 

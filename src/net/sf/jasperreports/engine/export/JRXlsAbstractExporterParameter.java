@@ -172,6 +172,15 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 
 
 	/**
+	 * Property used to set the name of the sheet containing a given element. Its value overrides the report-level settings for the sheet name. 
+	 * If several elements in the sheet contain this property, the engine will consider the value of the last exported element's property.
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_SHEET_NAME = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.name";
+
+
+	/**
 	 * Flag for decreasing font size so that texts fit into the specified cell height.
 	 */
 	public static final JRXlsAbstractExporterParameter IS_FONT_SIZE_FIX_ENABLED = new JRXlsAbstractExporterParameter("Is Font Size Fix Enabled");

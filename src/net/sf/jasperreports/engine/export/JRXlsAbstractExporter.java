@@ -829,6 +829,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 						}
 
+						String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+						if(sheetName != null)
+						{
+							setSheetName(sheetName);
+						}
+
 						if (element instanceof JRPrintLine)
 						{
 							exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
@@ -1347,4 +1353,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void exportGenericElement(JRGenericPrintElement element, JRExporterGridCell cell, int colIndex, int rowIndex, int emptyCols, int yCutsRow, JRGridLayout layout) throws JRException;
 
 	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
+	
+	protected abstract void setSheetName(String sheetName);
 }

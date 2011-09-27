@@ -1452,6 +1452,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		//TODO: set freeze pane for element-level defined indexes
 	}
+
+	protected void setSheetName(String sheetName)
+	{
+		//TODO: set sheet name for element-level sheet name properties
+	}
 	
 }
 

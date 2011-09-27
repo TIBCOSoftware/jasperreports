@@ -192,7 +192,7 @@ public class HyperlinkApp extends AbstractSampleApp
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		
 		exporter.exportReport();
 
@@ -333,7 +333,7 @@ public class HyperlinkApp extends AbstractSampleApp
 		
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		
 		exporter.exportReport();
 
