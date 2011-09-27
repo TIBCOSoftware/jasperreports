@@ -108,15 +108,21 @@ public class SortParameterContributor implements ParameterContributor
 			}
 			
 			String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
-			String paramFieldValue = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE);
-			if (paramFieldName != null && paramFieldValue != null)
+			String paramFieldValueStart = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE_START);
+			String paramFieldValueEnd = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE_END);
+			
+			String paramFilterType = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE);
+			String paramFilterTypeOperator = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
+			
+			if (paramFieldName != null && paramFieldValueStart != null && paramFilterType != null && paramFilterTypeOperator != null)
 			{
 				if (log.isDebugEnabled())
 				{
-					log.debug("Filtering by " + paramFieldName + ": " + paramFieldValue);
+					log.debug("Filtering by " + paramFieldName + ": " + paramFieldValueStart);
 				}
 				
-				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValue);
+//				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart);
+				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
 				DatasetFilter existingFilter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 				DatasetFilter combined = CompositeDatasetFilter.combine(existingFilter, filter);
 				parameterValues.put(JRParameter.FILTER, combined);

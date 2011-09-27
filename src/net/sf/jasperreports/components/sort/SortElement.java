@@ -37,13 +37,10 @@ public interface SortElement {
 	public static final String SORT_ELEMENT_NAME = "sort";
 	public static final JRGenericElementType SORT_ELEMENT_TYPE = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, SORT_ELEMENT_NAME);
 
-	public static final String SORT_ELEMENT_TYPE_FIELD = "Field";
-	public static final String SORT_ELEMENT_TYPE_VARIABLE = "Variable";
 	public static final String SORT_ORDER_ASC = "Asc";
 	public static final String SORT_ORDER_DESC = "Dsc";
 	public static final String SORT_COLUMN_TOKEN_SEPARATOR = ":";
 	
-//	public static final String PARAMETER_SORT_COLUMN = "sortColumn";
 	public static final String PARAMETER_SORT_COLUMN_NAME = "sortColumnName";
 	public static final String PARAMETER_SORT_COLUMN_TYPE = "sortColumnType";
 	public static final String PARAMETER_SORT_HANDLER_COLOR = "sortHandlerColor";
@@ -51,21 +48,20 @@ public interface SortElement {
 	public static final String PARAMETER_SORT_HANDLER_VERTICAL_ALIGN = "sortHandlerVerticalAlign";
 	public static final String PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN = "sortHandlerHorizontalAlign";
 	
-	/**
-	 * Property used to distinguish the generic elements added by user, from the auto-generated ones 
-	 */
-	public static final String PROPERTY_DYNAMIC_TABLE_BINDING = "controlParameter";
 	
 	/**
 	 * 
 	 */
 	public static final String REQUEST_PARAMETER_FILTER_FIELD = "jr.fltrFld";
-	public static final String REQUEST_PARAMETER_FILTER_VALUE = "jr.fltrVl";
+	public static final String REQUEST_PARAMETER_FILTER_VALUE_START = "jr.fltrVlStrt";
+	public static final String REQUEST_PARAMETER_FILTER_VALUE_END = "jr.fltrVlEnd";
 	
 	public static final String REQUEST_PARAMETER_SORT_DATA = "jr.sort";
 	public static final String REQUEST_PARAMETER_DATASET_RUN = "jr.dsr";//FIXMEJIVE this parameter cannot uniquely identify a dataset run that repeats; check it
+	public static final String REQUEST_PARAMETER_FILTER_TYPE = "jr.fltrTp"; 
+	public static final String REQUEST_PARAMETER_FILTER_TYPE_OPERATOR = "jr.fltrTpOprtr"; 
 	
 	public static final String PROPERTY_DATASET_RUN = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN;
-	public static final String PROPERTY_IS_FILTERABLE = JRProperties.PROPERTY_PREFIX + "export.jr.filterable";//FIXMEJIVE why we need jr token in name?
+	public static final String PROPERTY_FILTER_TYPE = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_TYPE;
 
 }
