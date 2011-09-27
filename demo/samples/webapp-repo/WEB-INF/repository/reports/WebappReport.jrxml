@@ -95,7 +95,11 @@
 			</staticText>
 			<componentElement>
 				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" style="pageHeader"/>
-				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Id" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Id" sortFieldType="Field" handlerHorizontalAlign="Right" >
+					<c:symbol>
+						<font size="12"/>
+					</c:symbol>
+				</c:sort>
 			</componentElement>
 			<staticText>
 				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" style="pageHeader"/>
