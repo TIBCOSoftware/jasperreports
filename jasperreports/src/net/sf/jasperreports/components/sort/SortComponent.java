@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.sort;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.BaseComponentContext;
 import net.sf.jasperreports.engine.component.ComponentContext;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 
 /**
@@ -52,19 +54,21 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	public static final String PROPERTY_COLUMN_NAME = "sortFieldName";
 	public static final String PROPERTY_COLUMN_TYPE = "sortFieldType";
 	public static final String PROPERTY_HANDLER_COLOR = "handlerColor";
-	public static final String PROPERTY_HANDLER_FONT_SIZE = "handlerFontSize";
 	public static final String PROPERTY_HANDLER_VERTICAL_ALIGN = "handlerVerticalAlign";
 	public static final String PROPERTY_HANDLER_HORIZONTAL_ALIGN = "handlerHorizontalAlign";
 	
+	public static final String PROPERTY_SYMBOL_FONT = "symbolFont";
+
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 
 	private String sortFieldName;
-	private String sortFieldType;
+	private SortFieldTypeEnum sortFieldType;
 	private String handlerColor;
-	private String handlerFontSize;
 	private VerticalAlignEnum handlerVerticalAlign = VerticalAlignEnum.MIDDLE;
 	private HorizontalAlignEnum handlerHorizontalAlign = HorizontalAlignEnum.LEFT;
+	
+	private JRFont symbolFont;
 
 	private ComponentContext context;
 
@@ -81,9 +85,10 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		this.sortFieldName = component.getSortFieldName();
 		this.sortFieldType = component.getSortFieldType();
 		this.handlerColor = component.getHandlerColor();
-		this.handlerFontSize = component.getHandlerFontSize();
 		this.handlerVerticalAlign = component.getHandlerVerticalAlign();
 		this.handlerHorizontalAlign = component.getHandlerHorizontalAlign();
+		
+		this.symbolFont = component.getSymbolFont();
 	}
 
 	public void setContext(ComponentContext context)
@@ -147,14 +152,14 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the columnType
 	 */
-	public String getSortFieldType() {
+	public SortFieldTypeEnum getSortFieldType() {
 		return sortFieldType;
 	}
 
 	/**
 	 * @param sortFieldType the sort field type to set
 	 */
-	public void setSortFieldType(String sortFieldType) {
+	public void setSortFieldType(SortFieldTypeEnum sortFieldType) {
 		Object old = this.sortFieldType;
 		this.sortFieldType = sortFieldType;
 		getEventSupport().firePropertyChange(PROPERTY_COLUMN_TYPE, 
@@ -176,23 +181,6 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		this.handlerColor = handlerColor;
 		getEventSupport().firePropertyChange(PROPERTY_HANDLER_COLOR, 
 				old, this.handlerColor);
-	}
-
-	/**
-	 * @return the handlerFontSize
-	 */
-	public String getHandlerFontSize() {
-		return handlerFontSize;
-	}
-
-	/**
-	 * @param handlerFontSize the handlerFontSize to set
-	 */
-	public void setHandlerFontSize(String handlerFontSize) {
-		Object old = this.handlerFontSize;
-		this.handlerFontSize = handlerFontSize;
-		getEventSupport().firePropertyChange(PROPERTY_HANDLER_FONT_SIZE, 
-				old, this.handlerFontSize);
 	}
 
 	/**
@@ -239,6 +227,17 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 		}
 		
 		return eventSupport;
+	}
+
+	public JRFont getSymbolFont() {
+		return symbolFont;
+	}
+
+	public void setSymbolFont(JRFont symbolFont) {
+		Object old = this.symbolFont;
+		this.symbolFont = symbolFont;
+		getEventSupport().firePropertyChange(PROPERTY_SYMBOL_FONT, 
+				old, this.symbolFont);
 	}
 
 }
