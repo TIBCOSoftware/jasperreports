@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,4 +68,20 @@ public class SortElementUtils {
 		return sortOrderMapping.get(sortOrder);
 	}
 
+	public static FilterTypesEnum getFilterType(Class<?> clazz) {
+		FilterTypesEnum result = null;
+		if (Number.class.isAssignableFrom(clazz)) 
+		{
+			result = FilterTypesEnum.NUMERIC;
+		}
+		else if (String.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.TEXT;
+		}
+		else if (Date.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.DATE;
+		}
+		return result;
+	}
 }
