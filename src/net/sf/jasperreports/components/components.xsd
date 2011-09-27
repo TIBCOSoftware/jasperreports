@@ -441,10 +441,32 @@
 		<complexType>
 			<complexContent>
 				<extension base="jr:componentType">
+					<sequence>
+						<element ref="c:symbol" minOccurs="0" maxOccurs="1"/>
+					</sequence>
 					<attribute name="sortFieldName" type="string"/>
-					<attribute name="sortFieldType" type="string"/>
 					<attribute name="handlerColor" type="string" use="optional"/>
 					<attribute name="handlerFontSize" type="string" use="optional"/>
+					
+					<attribute name="sortFieldType" use="optional" default="Field">
+						<annotation>
+							<documentation>Sort field type.</documentation>
+						</annotation>
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Field">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+								<enumeration value="Variable">
+									<annotation>
+										<documentation></documentation>
+									</annotation>
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</attribute>
 					
 					<attribute name="handlerVerticalAlign" use="optional">
 						<annotation>
@@ -502,7 +524,18 @@
 			</complexContent>
 		</complexType>
 	</element>
-
+	
+	<element name="symbol">
+	 <annotation>
+	  <documentation>Specifies style options for the sort symbol.</documentation>
+	 </annotation>
+	 <complexType>
+	  <sequence>
+	   <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+	  </sequence>
+	 </complexType>
+	</element>
+	
 	<element name="table" substitutionGroup="jr:component">
 		<complexType>
 			<complexContent>
