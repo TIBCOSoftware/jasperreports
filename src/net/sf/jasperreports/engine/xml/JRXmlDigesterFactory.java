@@ -514,6 +514,7 @@ public final class JRXmlDigesterFactory
 				configurer.configureDigester(digester);
 			}
 			
+			digester.setRuleNamespaceURI(xmlParser.getNamespace());
 			for (Iterator<String> namesIt = componentsBundle.getComponentNames().iterator(); 
 					namesIt.hasNext();)
 			{
