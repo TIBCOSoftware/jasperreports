@@ -99,13 +99,13 @@ public class FieldFilter implements DatasetFilter
 		
 		switch (filterTypeEnum) {
 			case DATE:
-				result = dateMatch(value, FilterTypeDateOperatorsEnum.getByName(filterTypeOperator));
+				result = dateMatch(value, FilterTypeDateOperatorsEnum.getByEnumConstantName(filterTypeOperator));
 				break;
 			case NUMERIC:
-				result = numericMatch(value, FilterTypeNumericOperatorsEnum.getByName(filterTypeOperator));
+				result = numericMatch(value, FilterTypeNumericOperatorsEnum.getByEnumConstantName(filterTypeOperator));
 				break;
 			case TEXT:
-				result = textMatch(value, FilterTypeTextOperatorsEnum.getByName(filterTypeOperator));
+				result = textMatch(value, FilterTypeTextOperatorsEnum.getByEnumConstantName(filterTypeOperator));
 				break;
 		}
 		
