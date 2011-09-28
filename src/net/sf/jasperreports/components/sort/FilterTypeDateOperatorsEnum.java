@@ -98,6 +98,14 @@ public enum FilterTypeDateOperatorsEnum implements JREnum
 	/**
 	 *
 	 */
+	public static FilterTypeDateOperatorsEnum getByEnumConstantName(String name)
+	{
+		return (FilterTypeDateOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
 	public static FilterTypeDateOperatorsEnum getByValue(Byte value)
 	{
 		return (FilterTypeDateOperatorsEnum)EnumUtil.getByValue(values(), value);
