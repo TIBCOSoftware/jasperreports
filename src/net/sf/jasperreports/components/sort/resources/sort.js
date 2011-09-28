@@ -56,7 +56,10 @@
 				
 				// extract form params
 				jQuery('.postable', parentForm).each(function(){
-					params[this.name] = this.value;
+					// prevent disabled inputs to get posted
+					if(!jQuery(this).is(':disabled')) {
+						params[this.name] = this.value;
+					}
 				});
 				
 				var ctx = gm.getExecutionContext(contextStartPoint, currentHref, params);
