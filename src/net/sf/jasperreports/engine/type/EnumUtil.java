@@ -80,6 +80,24 @@ public final class EnumUtil
 		}
 		return null;
 	}
+
+	/**
+	 *
+	 */
+	public static JREnum getByEnumConstantName(JREnum[] values, String name)
+	{
+		if (values != null && name != null)
+		{
+			for(JREnum e:values)
+			{
+				if (name.equals(((Enum<?>)e).name()))
+				{
+					return e;
+				}
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 *
