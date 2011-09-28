@@ -15,7 +15,7 @@
 		#end
 '>
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
-		<span style='color: ${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
+		<span style='color: #${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
 			${sortSymbol}
 		</span>
 	</span>
@@ -34,8 +34,8 @@
 			                "	<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
 			                "	<input class='postable' type='hidden' name='${filterTypeParamName}' value='${filterTypeParamNameValue}' />",
 							"	<select class='postable filterTypeValueSelector' name='${filterTypeOperatorParamName}'>",
-								#foreach( $enum in ${filterTypeValuesEnumArray} )
-    						"	<option value='$enum.getName()'>$enum.getName()</option>",
+								#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
+    						"	<option value='$entry.key'>$entry.value</option>",
 								#end
 							"	</select>",
 			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' style='width: 80px;' />",
