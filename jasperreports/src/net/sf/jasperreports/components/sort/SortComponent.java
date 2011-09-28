@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.awt.Color;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.JRFont;
@@ -64,7 +65,7 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 
 	private String sortFieldName;
 	private SortFieldTypeEnum sortFieldType;
-	private String handlerColor;
+	private Color handlerColor;
 	private VerticalAlignEnum handlerVerticalAlign = VerticalAlignEnum.MIDDLE;
 	private HorizontalAlignEnum handlerHorizontalAlign = HorizontalAlignEnum.LEFT;
 	
@@ -169,14 +170,14 @@ public class SortComponent implements ContextAwareComponent, Serializable, JRCha
 	/**
 	 * @return the handlerColor
 	 */
-	public String getHandlerColor() {
+	public Color getHandlerColor() {
 		return handlerColor;
 	}
 
 	/**
 	 * @param handlerColor the handlerColor to set
 	 */
-	public void setHandlerColor(String handlerColor) {
+	public void setHandlerColor(Color handlerColor) {
 		Object old = this.handlerColor;
 		this.handlerColor = handlerColor;
 		getEventSupport().firePropertyChange(PROPERTY_HANDLER_COLOR, 
