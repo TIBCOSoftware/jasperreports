@@ -23,11 +23,19 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.awt.Color;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
@@ -39,6 +47,8 @@ import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 
 /**
@@ -47,6 +57,8 @@ import org.apache.velocity.VelocityContext;
  */
 public class SortElementHtmlHandler extends BaseElementHtmlHandler
 {
+	private static final Log log = LogFactory.getLog(SortElementHtmlHandler.class);
+	
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
@@ -66,23 +78,43 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 			
-			String sortHandlerColor = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_COLOR);
-			String sortHandlerFontSize = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT_SIZE);
 			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
 			String sortHandlerHAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN);
 			String sortDatasetName = element.getPropertiesMap().getProperty(SortElement.PROPERTY_DATASET_RUN);
 			
+			JRBaseFont sortHandlerFont = (JRBaseFont) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_FONT);
+			if (sortHandlerFont == null) {
+				sortHandlerFont = new JRBaseFont(element);
+			}
+
+			Color sortHandlerColor = (Color) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_COLOR);
+			if (sortHandlerColor == null) {
+				sortHandlerColor = Color.WHITE;
+			}
+			
+
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
-			JREnum[] filterValuesArray = null;
+			
+			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+			
+			if (log.isDebugEnabled()) {
+				log.debug("report locale: " + locale);
+			}
+			
+			if (locale == null) {
+				locale = Locale.getDefault();
+			}
+			
+			Map<String, String> translatedOperators = null;
 			switch (filterType) {
 				case NUMERIC:
-					filterValuesArray = FilterTypeNumericOperatorsEnum.values();
+					translatedOperators = getTranslatedOperators(FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
 					break;
 				case DATE:
-					filterValuesArray = FilterTypeDateOperatorsEnum.values();
+					translatedOperators = getTranslatedOperators(FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					break;
 				case TEXT:
-					filterValuesArray = FilterTypeTextOperatorsEnum.values();
+					translatedOperators = getTranslatedOperators(FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					break;
 			}
 			
@@ -102,8 +134,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortLinkClass", sortDatasetName);
 			velocityContext.put("sortHandlerHAlign", sortHandlerHAlign != null ? sortHandlerHAlign : CSS_TEXT_ALIGN_LEFT);
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
-			velocityContext.put("sortHandlerColor", sortHandlerColor != null ? sortHandlerColor : "white");
-			velocityContext.put("sortHandlerFontSize", sortHandlerFontSize != null ? sortHandlerFontSize : "10");
+			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
+			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
@@ -121,7 +153,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
 			velocityContext.put("filterTypeOperatorParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
 			
-			velocityContext.put("filterTypeValuesEnumArray", filterValuesArray);
+			velocityContext.put("filterTypeValuesMap", translatedOperators);
 			
 			velocityContext.put("filterValueStartParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE_START);
 			velocityContext.put("filterValueEndParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE_END);
@@ -206,6 +238,17 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
+	}
+	
+	private Map<String, String> getTranslatedOperators(String bundleName, JREnum[] operators, Locale locale) {
+		Map<String, String> result = new LinkedHashMap<String, String>();
+		ResourceBundle rb = ResourceBundle.getBundle(bundleName, locale);
+		
+		for (JREnum operator: operators) {
+			result.put(((Enum<?>)operator).name(), rb.getString(((Enum<?>)operator).name()));
+		}
+		
+		return result;
 	}
 	
  }

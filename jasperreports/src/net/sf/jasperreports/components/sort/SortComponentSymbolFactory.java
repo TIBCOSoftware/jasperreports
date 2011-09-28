@@ -23,7 +23,13 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.awt.Color;
+
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
 
 import org.xml.sax.Attributes;
@@ -41,6 +47,35 @@ public class SortComponentSymbolFactory extends JRBaseFactory
 	public Object createObject(Attributes atts) throws JRException
 	{
 		SortComponent sortComponent = (SortComponent)digester.peek();
+		
+		// Set the text color
+		String attrValue = atts.getValue(SortComponent.PROPERTY_HANDLER_COLOR);
+		if (attrValue != null && attrValue.length() > 0)
+		{
+			Color color = JRColorUtil.getColor(attrValue, null);
+			sortComponent.setHandlerColor(color);
+		}
+		
+		sortComponent.setSortFieldName(atts.getValue(SortComponent.PROPERTY_COLUMN_NAME));
+
+		SortFieldTypeEnum fieldType = SortFieldTypeEnum.getByName(atts.getValue(SortComponent.PROPERTY_COLUMN_TYPE));
+		if (fieldType != null)
+		{
+			sortComponent.setSortFieldType(fieldType);
+		}
+
+		HorizontalAlignEnum hAlign = HorizontalAlignEnum.getByName(atts.getValue(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN));
+		if (hAlign != null)
+		{
+			sortComponent.setHandlerHorizontalAlign(hAlign);
+		}
+		
+		VerticalAlignEnum vAlign = VerticalAlignEnum.getByName(atts.getValue(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN));
+		if (vAlign != null)
+		{
+			sortComponent.setHandlerVerticalAlign(vAlign);
+		}
+		
 		return sortComponent;
 	}
 }

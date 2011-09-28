@@ -444,80 +444,6 @@
 					<sequence>
 						<element ref="c:symbol" minOccurs="0" maxOccurs="1"/>
 					</sequence>
-					<attribute name="sortFieldName" type="string"/>
-					<attribute name="handlerColor" type="string" use="optional"/>
-					<attribute name="handlerFontSize" type="string" use="optional"/>
-					
-					<attribute name="sortFieldType" use="optional" default="Field">
-						<annotation>
-							<documentation>Sort field type.</documentation>
-						</annotation>
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="Field">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-								<enumeration value="Variable">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-							</restriction>
-						</simpleType>
-					</attribute>
-					
-					<attribute name="handlerVerticalAlign" use="optional">
-						<annotation>
-							<documentation>Vertical handler alignment.</documentation>
-						</annotation>
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="Top">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-								<enumeration value="Middle">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-								<enumeration value="Bottom">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-							</restriction>
-						</simpleType>
-					</attribute>
-					
-					<attribute name="handlerHorizontalAlign" use="optional">
-						<annotation>
-							<documentation>Horizontal handler alignment.</documentation>
-						</annotation>
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="Left">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-								<enumeration value="Center">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-								<enumeration value="Right">
-									<annotation>
-										<documentation></documentation>
-									</annotation>
-								</enumeration>
-							</restriction>
-						</simpleType>
-					</attribute>
-					
 					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
 					<attribute name="evaluationGroup" type="string" use="optional"/>
 				</extension>
@@ -526,13 +452,84 @@
 	</element>
 	
 	<element name="symbol">
-	 <annotation>
-	  <documentation>Specifies style options for the sort symbol.</documentation>
-	 </annotation>
-	 <complexType>
-	  <sequence>
-	   <element ref="jr:font" minOccurs="0" maxOccurs="1"/>
-	  </sequence>
+		<annotation>
+			<documentation>Specifies style options for the sort symbol.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+			</sequence>
+			<attribute name="sortFieldName" type="string"/>
+			<attribute name="handlerColor" type="string" use="optional"/>
+			<attribute name="sortFieldType" use="optional" default="Field">
+				<annotation>
+					<documentation>Sort field type.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Field">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Variable">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
+			
+			<attribute name="handlerVerticalAlign" use="optional">
+				<annotation>
+					<documentation>Vertical handler alignment.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Top">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Middle">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Bottom">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
+			
+			<attribute name="handlerHorizontalAlign" use="optional">
+				<annotation>
+					<documentation>Horizontal handler alignment.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Left">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Center">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Right">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
 	 </complexType>
 	</element>
 	

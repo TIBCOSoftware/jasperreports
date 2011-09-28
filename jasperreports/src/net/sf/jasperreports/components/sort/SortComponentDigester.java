@@ -26,9 +26,6 @@ package net.sf.jasperreports.components.sort;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
-import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
-import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
@@ -52,23 +49,9 @@ public class SortComponentDigester implements XmlDigesterConfigurer
 		
 		digester.addSetProperties(sortComponentPattern, new String[] {
 				SortComponent.PROPERTY_EVALUATION_TIME,
-				SortComponent.PROPERTY_COLUMN_TYPE,
-				SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN,
-				SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN}, 
+				}, 
 				new String[0]);
 		
-		digester.addRule(sortComponentPattern, 
-				new XmlConstantPropertyRule(
-						SortComponent.PROPERTY_COLUMN_TYPE,
-						SortFieldTypeEnum.values()));
-		digester.addRule(sortComponentPattern, 
-				new XmlConstantPropertyRule(
-						SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN,
-						HorizontalAlignEnum.values()));
-		digester.addRule(sortComponentPattern, 
-				new XmlConstantPropertyRule(
-						SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN,
-						VerticalAlignEnum.values()));
 		digester.addRule(sortComponentPattern, 
 				new XmlConstantPropertyRule(
 						SortComponent.PROPERTY_EVALUATION_TIME,

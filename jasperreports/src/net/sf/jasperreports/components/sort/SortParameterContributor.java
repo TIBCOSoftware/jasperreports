@@ -64,6 +64,8 @@ public class SortParameterContributor implements ParameterContributor
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
+//			reportContext.setParameterValue(JRParameter.REPORT_LOCALE, parameterValues.get(JRParameter.REPORT_LOCALE));
+			
 			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
