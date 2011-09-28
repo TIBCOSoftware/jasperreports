@@ -98,6 +98,14 @@ public enum FilterTypeTextOperatorsEnum implements JREnum
 	/**
 	 *
 	 */
+	public static FilterTypeTextOperatorsEnum getByEnumConstantName(String name)
+	{
+		return (FilterTypeTextOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
+	}
+	
+	/**
+	 *
+	 */
 	public static FilterTypeTextOperatorsEnum getByValue(Byte value)
 	{
 		return (FilterTypeTextOperatorsEnum)EnumUtil.getByValue(values(), value);
