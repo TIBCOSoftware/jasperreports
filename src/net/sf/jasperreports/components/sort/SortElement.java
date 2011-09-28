@@ -48,6 +48,7 @@ public interface SortElement {
 	public static final String PARAMETER_SORT_HANDLER_VERTICAL_ALIGN = "sortHandlerVerticalAlign";
 	public static final String PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN = "sortHandlerHorizontalAlign";
 	
+	public static final String PARAMETER_SORT_HANDLER_FONT = "sortHandlerFont";
 	
 	/**
 	 * 
