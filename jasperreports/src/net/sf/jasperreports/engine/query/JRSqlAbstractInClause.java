@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -231,7 +231,13 @@ public abstract class JRSqlAbstractInClause implements JRClauseFunction
 		Collection<?> paramCollection;
 		if (paramValue.getClass().isArray())
 		{
-			paramCollection = Arrays.asList(paramValue);
+			int size = Array.getLength(paramValue);
+			ArrayList<Object> list = new ArrayList<Object>(size);
+			for (int i = 0; i < size; i++)
+			{
+				list.add(Array.get(paramValue, i));
+			}
+			paramCollection = list;
 		}
 		else if (paramValue instanceof Collection<?>)
 		{
