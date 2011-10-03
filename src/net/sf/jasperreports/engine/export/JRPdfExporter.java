@@ -2000,21 +2000,17 @@ public class JRPdfExporter extends JRAbstractExporter
 			return;
 		}
 
-		int xFillCorrection = 0;
-		int yFillCorrection = 0;
 		double angle = 0;
 
 		switch (text.getRotationValue())
 		{
 			case LEFT :
 			{
-				xFillCorrection = 1;
 				angle = Math.PI / 2;
 				break;
 			}
 			case RIGHT :
 			{
-				yFillCorrection = -1;
 				angle = - Math.PI / 2;
 				break;
 			}
@@ -2042,8 +2038,8 @@ public class JRPdfExporter extends JRAbstractExporter
 				backcolor.getBlue()
 				);
 			pdfContentByte.rectangle(
-				textRenderer.getX() + xFillCorrection,
-				jasperPrint.getPageHeight() - textRenderer.getY() + yFillCorrection,
+				textRenderer.getX(),
+				jasperPrint.getPageHeight() - textRenderer.getY(),
 				textRenderer.getWidth(),
 				- textRenderer.getHeight()
 				);
