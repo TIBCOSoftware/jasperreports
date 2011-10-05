@@ -324,6 +324,7 @@ public class JRApiWriter
 		write("import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;\n");
 		write("import net.sf.jasperreports.engine.*;\n");
 		write("import net.sf.jasperreports.engine.base.JRBaseChartPlot.JRBaseSeriesColor;\n");
+		write("import net.sf.jasperreports.engine.base.JRBaseFont;\n");
 		write("import net.sf.jasperreports.engine.design.*;\n");
 		write("import net.sf.jasperreports.engine.type.*;\n");
 		write("import net.sf.jasperreports.engine.util.ReportCreator;\n");
@@ -1294,21 +1295,30 @@ public class JRApiWriter
 	
 			write( chartName + ".setTitlePosition({0});\n", chart.getTitlePositionValue());
 			write( chartName + ".setTitleColor({0});\n", chart.getOwnTitleColor());
-			
-			writeFont( chart.getTitleFont(), chartName + ".getTitleFont()");
-
+			if(chart.getTitleFont() != null)
+			{
+				write( chartName + ".setTitleFont(new JRBaseFont());\n");
+				writeFont( chart.getTitleFont(), chartName + ".getTitleFont()");
+			}
 			writeExpression( chart.getTitleExpression(), chartName, "TitleExpression");
-	
 			write( chartName + ".setSubtitleColor({0});\n", chart.getOwnSubtitleColor());
 			
-			writeFont( chart.getSubtitleFont(), chartName + ".getSubtitleFont()");
+			if(chart.getSubtitleFont() != null)
+			{
+				write( chartName + ".setSubtitleFont(new JRBaseFont());\n");
+				writeFont( chart.getSubtitleFont(), chartName + ".getSubtitleFont()");
+			}
 
 			writeExpression( chart.getSubtitleExpression(), chartName, "SubtitleExpression");
 			write( chartName + ".setLegendColor({0});\n", chart.getOwnLegendColor());
 			write( chartName + ".setLegendBackgroundColor({0});\n", chart.getOwnLegendBackgroundColor());
 			write( chartName + ".setLegendPosition({0});\n", chart.getLegendPositionValue());
 
-			writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
+			if(chart.getLegendFont() != null)
+			{
+				write( chartName + ".setLegendFont(new JRBaseFont());\n");
+				writeFont( chart.getLegendFont(), chartName + ".getLegendFont()");
+			}
 	
 			writeExpression( chart.getAnchorNameExpression(), chartName, "AnchorNameExpression");
 			writeExpression( chart.getHyperlinkReferenceExpression(), chartName, "HyperlinkReferenceExpression");
@@ -1761,8 +1771,13 @@ public class JRApiWriter
 			
 			write( valueDisplayName + ".setColor({0});\n", valueDisplay.getColor());
 			write( valueDisplayName + ".setMask(\"{0}\");\n", valueDisplay.getMask());
-	
-			writeFont( valueDisplay.getFont(), valueDisplayName + ".getFont()");
+			write( valueDisplayName + ".setFont(new JRBaseFont());\n");
+			if(valueDisplay.getFont() != null)
+			{
+				write( valueDisplayName + ".setFont(new JRBaseFont());\n");
+				writeFont( valueDisplay.getFont(), valueDisplayName + ".getFont()");
+			}
+			
 			write( parentName + ".setValueDisplay(" + valueDisplayName + ");\n");
 			
 			flush();
@@ -1782,7 +1797,12 @@ public class JRApiWriter
 			write( "JRDesignItemLabel " + itemLabelName + " = new JRDesignItemLabel("+ parentName + ".getItemLabel(), " + parentName + ".getChart());\n");
 			write( itemLabelName + ".setColor({0});\n", itemLabel.getColor());
 			write( itemLabelName + ".setBackgroundColor({0});\n", itemLabel.getBackgroundColor());
-			writeFont( itemLabel.getFont(), itemLabelName + ".getFont()");
+			if(itemLabel.getFont() != null)
+			{
+				write( itemLabelName + ".setFont(new JRBaseFont());\n");
+				writeFont( itemLabel.getFont(), itemLabelName + ".getFont()");
+			}
+			
 			write( parentName + ".set" + itemLabelSuffix + "(" + itemLabelName + ");\n");
 	
 			flush();
@@ -2056,14 +2076,17 @@ public class JRApiWriter
 		write( axisName + ".setLineColor({0});\n", axisLineColor);
 		write( axisName + ".setTickLabelMask(\"{0}\");\n", JRStringUtil.escapeJavaStringLiteral(axisTickLabelMask));
 		write( axisName + ".setVerticalTickLabel({0});\n", getBooleanText(axisVerticalTickLabels));
+
 		
 		if (axisLabelFont != null)
 		{
+			write( axisName + ".setLabelFont(new JRBaseFont());\n");
 			writeFont( axisLabelFont, axisName + ".getLabelFont()");
 		}
 
 		if (axisTickLabelFont != null)
 		{
+			write( axisName + ".setTickLabelFont(new JRBaseFont());\n");
 			writeFont( axisTickLabelFont, axisName + ".getTickLabelFont()");
 		}
 		if(isToSet)//FIXMEAPIWRITER check this
@@ -2734,6 +2757,7 @@ public class JRApiWriter
 				writePlot( plot, plotName);
 				if (plot.getTickLabelFont() != null)
 				{
+					write( plotName + ".setTickLabelFont(new JRBaseFont());\n");
 					writeFont( plot.getTickLabelFont(), plotName + ".getTickLabelFont()");
 					flush();
 				}
