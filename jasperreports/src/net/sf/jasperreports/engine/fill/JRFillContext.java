@@ -28,12 +28,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
+import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
@@ -51,6 +53,7 @@ public class JRFillContext
 	private Map<Object,JRPrintImage> loadedImages;
 	private Map<Object,JasperReport> loadedSubreports;
 	private Map<Object,JRTemplate> loadedTemplates;
+	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
 	private boolean perPageBoundElements;
 	private JRPrintPage printPage;
@@ -72,6 +75,7 @@ public class JRFillContext
 		loadedImages = new HashMap<Object,JRPrintImage>();
 		loadedSubreports = new HashMap<Object,JasperReport>();
 		loadedTemplates = new HashMap<Object,JRTemplate>();
+		deduplicableRegistry = new DeduplicableRegistry();
 		
 		JRFontUtil.resetThreadMissingFontsCache();
 	}
@@ -408,5 +412,17 @@ public class JRFillContext
 	public void registerLoadedTemplate(Object source, JRTemplate template)
 	{
 		loadedTemplates.put(source, template);
+	}
+	
+	/**
+	 * Search for a duplicate of a given object in the fill context, and add the object
+	 * to the context if no duplicate found.
+	 * 
+	 * @param object the object to be searched or added
+	 * @return a duplicate of the object if found, or the passed object if not
+	 */
+	public <T extends Deduplicable> T deduplicate(T object)
+	{
+		return deduplicableRegistry.deduplicate(object);
 	}
 }

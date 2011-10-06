@@ -102,6 +102,8 @@ public class SortComponentFill extends BaseFillComponent {
 			template.setMode(sortComponent.getContext().getComponentElement().getModeValue());
 			template.setBackcolor(sortComponent.getContext().getComponentElement().getBackcolor());
 			template.setForecolor(sortComponent.getContext().getComponentElement().getForecolor());
+			
+			template = deduplicate(template);
 		}
 		
 		printElement = new JRTemplateGenericPrintElement(template);

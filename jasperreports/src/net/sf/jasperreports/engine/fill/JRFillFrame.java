@@ -336,6 +336,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 				}
 			}
 			
+			boxTemplate = filler.fillContext.deduplicate(boxTemplate);
 			templatesMap.put(style, boxTemplate);
 		}
 		

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPenContainer;
@@ -37,6 +38,7 @@ import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -45,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEventsSupport
+public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEventsSupport, Deduplicable
 {
 
 
@@ -238,6 +240,37 @@ public class JRBasePen implements JRPen, Serializable, Cloneable, JRChangeEvents
 			
 			lineStyle = null;
 		}
+	}
+
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		hash.add(lineWidth);
+		hash.add(lineStyleValue);
+		hash.add(lineColor);
+		return hash.getHashCode();
+	}
+
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRBasePen))
+		{
+			return false;
+		}
+		
+		JRBasePen pen = (JRBasePen) object;
+
+		return 
+				ObjectUtils.equals(lineWidth, pen.lineWidth)
+				&& ObjectUtils.equals(lineStyleValue, pen.lineStyleValue)
+				&& ObjectUtils.equals(lineColor, pen.lineColor);
 	}
 
 }

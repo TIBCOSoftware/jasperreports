@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
@@ -100,5 +101,39 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 		JRBaseConditionalStyle clone = (JRBaseConditionalStyle) super.clone();
 		clone.conditionExpression = JRCloneUtils.nullSafeClone(conditionExpression);
 		return clone;
+	}
+
+	@Override
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addStyleHash(hash);
+		hash.add(conditionExpression == null ? null : conditionExpression.getText());
+		return hash.getHashCode();
+	}
+
+	@Override
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRBaseConditionalStyle))
+		{
+			return false;
+		}
+		
+		JRBaseConditionalStyle style = (JRBaseConditionalStyle) object;
+
+		if (!identicalStyle(style))
+		{
+			return false;
+		}
+		
+		String expressionText = conditionExpression == null ? null : conditionExpression.getText();
+		String otherExpressionText = style.conditionExpression == null ? null : style.conditionExpression.getText();
+		return ObjectUtils.equals(expressionText, otherExpressionText);
 	}
 }

@@ -715,6 +715,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			template = createElementTemplate();
 			transferProperties(template);
 			
+			// deduplicate to previously created identical objects
+			template = filler.fillContext.deduplicate(template);
+			
 			registerTemplate(style, template);
 		}
 		return template;

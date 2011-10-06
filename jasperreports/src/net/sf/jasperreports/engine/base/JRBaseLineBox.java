@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.base;
 import java.awt.Color;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -44,7 +46,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChangeEventsSupport
+public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChangeEventsSupport, Deduplicable
 {
 
 
@@ -451,6 +453,50 @@ public class JRBaseLineBox implements JRLineBox, Serializable, Cloneable, JRChan
 		}
 		
 		return eventSupport;
+	}
+
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		hash.addIdentical(pen);
+		hash.addIdentical(topPen);
+		hash.addIdentical(leftPen);
+		hash.addIdentical(bottomPen);
+		hash.addIdentical(rightPen);
+		hash.add(padding);
+		hash.add(topPadding);
+		hash.add(leftPadding);
+		hash.add(bottomPadding);
+		hash.add(rightPadding);
+		return hash.getHashCode();
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRBaseLineBox))
+		{
+			return false;
+		}
+		
+		JRBaseLineBox box = (JRBaseLineBox) object;
+
+		return 
+				ObjectUtils.identical(pen, box.pen)
+				&& ObjectUtils.identical(topPen, box.topPen)
+				&& ObjectUtils.identical(leftPen, box.leftPen)
+				&& ObjectUtils.identical(bottomPen, box.bottomPen)
+				&& ObjectUtils.identical(rightPen, box.rightPen)
+				&& ObjectUtils.equals(padding, box.padding)
+				&& ObjectUtils.equals(topPadding, box.topPadding)
+				&& ObjectUtils.equals(leftPadding, box.leftPadding)
+				&& ObjectUtils.equals(bottomPadding, box.bottomPadding)
+				&& ObjectUtils.equals(rightPadding, box.rightPadding);
 	}
 
 }

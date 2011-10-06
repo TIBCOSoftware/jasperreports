@@ -154,6 +154,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 			templateImage.setStyle(elementStyle);
 			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 			
+			templateImage = deduplicate(templateImage);
 			printTemplates.put(elementStyle, templateImage);
 		}
 		return templateImage;

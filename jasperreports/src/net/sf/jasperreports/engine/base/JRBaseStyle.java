@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRAbstractObjectFactory;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConditionalStyle;
@@ -52,12 +53,13 @@ import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * @author Ionut Nedelcu (ionutned@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
+public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport, Deduplicable
 {
 
 	/**
@@ -126,8 +128,8 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 	protected String name;
 	protected boolean isDefault;
 
-	protected Byte positionType;
-	protected Byte stretchType;
+	protected Byte positionType;//FIXME not used
+	protected Byte stretchType;//FIXME not used
 	protected ModeEnum modeValue;
 	protected Color forecolor;
 	protected Color backcolor;
@@ -1118,5 +1120,99 @@ public class JRBaseStyle implements JRStyle, Serializable, JRChangeEventsSupport
 		clone.eventSupport = null;
 
 		return clone;
+	}
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		hash.addIdentity(parentStyle);
+		addStyleHash(hash);
+		
+		// maybe adding conditional style to the hash is not worth it
+		// as the remaining attributes provide good enough hash information
+		hash.addIdentical(conditionalStyles);
+		
+		return hash.getHashCode();
+	}
+
+	protected void addStyleHash(ObjectUtils.HashCode hash)
+	{
+		hash.add(name);
+		hash.add(isDefault);
+		hash.add(modeValue);
+		hash.add(forecolor);
+		hash.add(backcolor);
+		hash.addIdentical(linePen); 
+		hash.add(fillValue);
+		hash.add(radius);
+		hash.add(scaleImageValue);
+		hash.add(horizontalAlignmentValue);
+		hash.add(verticalAlignmentValue);
+		hash.addIdentical(lineBox); 
+		hash.addIdentical(paragraph); 
+		hash.add(fontName);
+		hash.add(isBold);
+		hash.add(isItalic);
+		hash.add(isUnderline);
+		hash.add(isStrikeThrough);
+		hash.add(fontSize);
+		hash.add(pdfFontName);
+		hash.add(pdfEncoding);
+		hash.add(isPdfEmbedded);
+		hash.add(rotationValue);
+		hash.add(markup);
+		hash.add(pattern);
+		hash.add(isBlankWhenNull);
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRBaseStyle))
+		{
+			return false;
+		}
+		
+		JRBaseStyle style = (JRBaseStyle) object;
+
+		return
+				ObjectUtils.equalsIdentity(parentStyle, style.parentStyle)
+				&& identicalStyle(style)
+				&& ObjectUtils.identical(conditionalStyles, style.conditionalStyles);
+	}
+
+	protected boolean identicalStyle(JRBaseStyle style)
+	{
+		return 
+				ObjectUtils.equals(name, style.name)
+				&& ObjectUtils.equals(isDefault, style.isDefault)
+				&& ObjectUtils.equals(modeValue, style.modeValue)
+				&& ObjectUtils.equals(forecolor, style.forecolor)
+				&& ObjectUtils.equals(backcolor, style.backcolor)
+				&& ObjectUtils.identical(linePen, style.linePen)
+				&& ObjectUtils.equals(fillValue, style.fillValue)
+				&& ObjectUtils.equals(radius, style.radius)
+				&& ObjectUtils.equals(scaleImageValue, style.scaleImageValue)
+				&& ObjectUtils.equals(horizontalAlignmentValue, style.horizontalAlignmentValue)
+				&& ObjectUtils.equals(verticalAlignmentValue, style.verticalAlignmentValue)
+				&& ObjectUtils.identical(lineBox, style.lineBox)
+				&& ObjectUtils.identical(paragraph, style.paragraph)
+				&& ObjectUtils.equals(fontName, style.fontName)
+				&& ObjectUtils.equals(isBold, style.isBold)
+				&& ObjectUtils.equals(isItalic, style.isItalic)
+				&& ObjectUtils.equals(isUnderline, style.isUnderline)
+				&& ObjectUtils.equals(isStrikeThrough, style.isStrikeThrough)
+				&& ObjectUtils.equals(fontSize, style.fontSize)
+				&& ObjectUtils.equals(pdfFontName, style.pdfFontName)
+				&& ObjectUtils.equals(pdfEncoding, style.pdfEncoding)
+				&& ObjectUtils.equals(isPdfEmbedded, style.isPdfEmbedded)
+				&& ObjectUtils.equals(rotationValue, style.rotationValue)
+				&& ObjectUtils.equals(markup, style.markup)
+				&& ObjectUtils.equals(pattern, style.pattern)
+				&& ObjectUtils.equals(isBlankWhenNull, style.isBlankWhenNull);
 	}
 }

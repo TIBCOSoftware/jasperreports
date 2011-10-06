@@ -133,7 +133,8 @@ public class BarcodeFillComponent extends BaseFillComponent
 					fillContext.getDefaultStyleProvider());
 			templateImage.setStyle(elementStyle);
 			templateImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
-			
+
+			templateImage = deduplicate(templateImage);
 			printTemplates.put(elementStyle, templateImage);
 		}
 		return templateImage;

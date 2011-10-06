@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -580,5 +581,46 @@ public class JRTemplateImage extends JRTemplateGraphicElement implements JRAlign
 		{
 			 linkTarget = JRHyperlinkHelper.getLinkTarget(HyperlinkTargetEnum.getByValue(hyperlinkTarget));
 		}
+	}
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addGraphicHash(hash);
+		hash.add(scaleImageValue);
+		hash.add(isUsingCache);
+		hash.add(horizontalAlignmentValue);
+		hash.add(verticalAlignmentValue);
+		hash.add(isLazy);
+		hash.add(onErrorTypeValue);
+		hash.add(linkType);
+		hash.add(linkTarget);
+		hash.addIdentical(lineBox);
+		return hash.getHashCode();
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRTemplateImage))
+		{
+			return false;
+		}
+		
+		JRTemplateImage template = (JRTemplateImage) object;
+		return graphicIdentical(template)
+				&& ObjectUtils.equals(scaleImageValue, template.scaleImageValue)
+				&& ObjectUtils.equals(isUsingCache, template.isUsingCache)
+				&& ObjectUtils.equals(horizontalAlignmentValue, template.horizontalAlignmentValue)
+				&& ObjectUtils.equals(verticalAlignmentValue, template.verticalAlignmentValue)
+				&& ObjectUtils.equals(isLazy, template.isLazy)
+				&& ObjectUtils.equals(onErrorTypeValue, template.onErrorTypeValue)
+				&& ObjectUtils.equals(linkType, template.linkType)
+				&& ObjectUtils.equals(linkTarget, template.linkTarget)
+				&& ObjectUtils.identical(lineBox, template.lineBox);
 	}
 }

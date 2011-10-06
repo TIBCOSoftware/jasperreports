@@ -37,6 +37,8 @@ import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
+import net.sf.jasperreports.engine.util.ObjectUtils.HashCode;
 
 
 /**
@@ -179,4 +181,20 @@ public abstract class JRTemplateGraphicElement extends JRTemplateElement impleme
 			pen = null;
 		}
 	}
+
+	protected void addGraphicHash(HashCode hash)
+	{
+		addTemplateHash(hash);
+		hash.addIdentical(linePen);
+		hash.add(fillValue);
+	}
+
+	protected boolean graphicIdentical(JRTemplateGraphicElement template)
+	{
+		return templateIdentical(template)
+				&& ObjectUtils.identical(linePen, template.linePen)
+				&& ObjectUtils.equals(fillValue, template.fillValue);
+	}
+	
+	
 }

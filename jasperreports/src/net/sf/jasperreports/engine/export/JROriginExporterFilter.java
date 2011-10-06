@@ -100,6 +100,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	private boolean isFirst(JRTemplatePrintElement element)
 	{
 		JRTemplateElement template = element.getTemplate();
+		// FIXME template deduplication can break this functionality
 		JRTemplatePrintElement firstElement = firstOccurrences.get(template);
 		if (firstElement == null || firstElement == element)
 		{

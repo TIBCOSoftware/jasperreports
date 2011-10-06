@@ -2162,6 +2162,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 		return moved;
 	}
 
+	public JRFillContext getFillContext()
+	{
+		return fillContext;
+	}
+
 }
 
 

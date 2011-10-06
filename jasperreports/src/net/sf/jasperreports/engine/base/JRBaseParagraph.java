@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRParagraph;
@@ -39,13 +40,14 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JRChangeEventsSupport
+public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JRChangeEventsSupport, Deduplicable
 {
 
 
@@ -462,6 +464,49 @@ public class JRBaseParagraph implements JRParagraph, Serializable, Cloneable, JR
 		}
 		
 		return eventSupport;
+	}
+
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		hash.add(lineSpacing);
+		hash.add(lineSpacingSize);
+		hash.add(firstLineIndent);
+		hash.add(leftIndent);
+		hash.add(rightIndent);
+		hash.add(spacingBefore);
+		hash.add(spacingAfter);
+		hash.add(tabStopWidth);
+		hash.addIdentical(tabStops);
+		return hash.getHashCode();
+	}
+
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRBaseParagraph))
+		{
+			return false;
+		}
+		
+		JRBaseParagraph para = (JRBaseParagraph) object;
+
+		return 
+				ObjectUtils.equals(lineSpacing, para.lineSpacing)
+				&& ObjectUtils.equals(lineSpacingSize, para.lineSpacingSize)
+				&& ObjectUtils.equals(firstLineIndent, para.firstLineIndent)
+				&& ObjectUtils.equals(leftIndent, para.leftIndent)
+				&& ObjectUtils.equals(rightIndent, para.rightIndent)
+				&& ObjectUtils.equals(spacingBefore, para.spacingBefore)
+				&& ObjectUtils.equals(spacingAfter, para.spacingAfter)
+				&& ObjectUtils.equals(tabStopWidth, para.tabStopWidth)
+				&& ObjectUtils.identical(tabStops, para.tabStops);
 	}
 
 }
