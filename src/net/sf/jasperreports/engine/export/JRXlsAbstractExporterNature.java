@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -141,4 +140,37 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		return Boolean.valueOf(element.getPropertiesMap().getProperty(PROPERTY_BREAK_AFTER_ROW)).booleanValue();
 	}
 	
+	/**
+	 *
+	 */
+	public Boolean getRowAutoFit(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, false);
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public Boolean getColumnAutoFit(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
+		}
+		return null;
+	}
 }

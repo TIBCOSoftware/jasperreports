@@ -91,7 +91,7 @@ public class DocxTableHelper extends BaseHelper
 		write("   <w:tblGrid>\n");
 		for(int col = 1; col < xCuts.size(); col++)
 		{
-			write("    <w:gridCol w:w=\"" + LengthUtil.twip(xCuts.getCut(col) - xCuts.getCut(col - 1)) + "\"/>\n");
+			write("    <w:gridCol w:w=\"" + LengthUtil.twip(xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)) + "\"/>\n");
 		}
 		write("   </w:tblGrid>\n");
 	}

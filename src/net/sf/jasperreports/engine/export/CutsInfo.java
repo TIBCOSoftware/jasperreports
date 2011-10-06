@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRPrintElement;
-
 /**
  * Utility class used by grid exporters to create a grid for page layout.
  * 
@@ -43,90 +41,88 @@ import net.sf.jasperreports.engine.JRPrintElement;
  */
 public class CutsInfo
 {
-	public static final int USAGE_NOT_EMPTY = 1;
-	public static final int USAGE_SPANNED = 2;
-	public static final int USAGE_BREAK = 4;
+//	public static final int USAGE_NOT_EMPTY = 1;
+//	public static final int USAGE_SPANNED = 2;
+//	public static final int USAGE_BREAK = 4;
 	
-	private final List<Integer> cuts = new ArrayList<Integer>();
-	private int[] cutUsage;
+	private final List<Integer> cutOffsets = new ArrayList<Integer>();
+//	private int[] cutUsage;
+	private Cut[] cuts;
 	
 	public CutsInfo()
 	{
-		addCut(Integer.valueOf(0));
+		addCutOffset(Integer.valueOf(0));
 	}
 	
-	public CutsInfo(int lastCut)
+	public CutsInfo(Integer lastCutOffset)
 	{
 		this();
-		addCut(Integer.valueOf(lastCut));
+		addCutOffset(lastCutOffset);
 	}
 	
-	public List<Integer> getCuts()
+	public List<Integer> getCutOffsets()
 	{
-		return cuts;
+		return cutOffsets;
 	}
 	
 	public int size()
 	{
-		return cuts.size();
+		return cutOffsets.size();
 	}
 	
-	public void use()
+	public void use()//FIXMEXLS maybe remove this
 	{
-		if (cutUsage == null)
+		if (cuts == null)
 		{
-			cutUsage = new int[cuts.size()];
+			cuts = new Cut[cutOffsets.size()];
 		}
 	}
 	
-	public int getCut(int index)
+	public int getCutOffset(int index)
 	{
-		return cuts.get(index).intValue();
+		return cutOffsets.get(index).intValue();
 	}
 	
-	public void addXCuts(JRPrintElement element, int offset)
+	public Cut getCut(int index)
 	{
-		addCut(element.getX() + offset);
-		addCut(element.getX() + element.getWidth() + offset);
-	}
-	
-	public void addYCuts(JRPrintElement element, int offset)
-	{
-		addCut(element.getY() + offset);
-		addCut(element.getY() + element.getHeight() + offset);
-	}
-	
-	protected boolean addCut(int cut)
-	{
-		return addCut(Integer.valueOf(cut));
+		Cut cut = cuts[index];
+		if (cut == null)
+		{
+			cut = new Cut();
+			cuts[index] = cut;
+		}
+		return cut;
 	}
 	
 	public void addUsage(int index, int usage)
 	{
-		cutUsage[index] |= usage;
+		Cut cut = getCut(index);
+		int tmpUsage = cut.getUsage();
+		tmpUsage |= usage;
+		cut.setUsage(tmpUsage);
 	}
 	
-	private boolean addCut(Integer cut)
+	public void setAutoFit(int index, Boolean autoFit)
 	{
-		int idx = Collections.binarySearch(cuts, cut);
+		getCut(index).setAutoFit(autoFit);
+	}
+	
+	public boolean addCutOffset(Integer cutOffset)
+	{
+		int idx = Collections.binarySearch(cutOffsets, cutOffset);
 		
 		if (idx >= 0)
 		{
 			return false;
 		}
 		
-		cuts.add(-idx - 1, cut);
+		cutOffsets.add(-idx - 1, cutOffset);
 		return true;
 	}
 	
-	public int indexOfCut(int cut)
+	public int indexOfCutOffset(Integer cutOffset)
 	{
-		return indexOfCut(Integer.valueOf(cut));
-	}
-	
-	private int indexOfCut(Integer cut)
-	{
-		int idx = Collections.binarySearch(cuts, cut);
+		int idx = Collections.binarySearch(cutOffsets, cutOffset);
 		
 		if (idx < 0)
 		{
@@ -137,14 +133,23 @@ public class CutsInfo
 	}
 
 	/**
+	 * 
+	 */
+	public boolean isAutoFit(int index)//FIXMEXLS do this in Cut
+	{
+		return getCut(index).getAutoFit();
+	}
+
+	/**
 	 * Decides whether a cut is empty or not.
 	 * 
 	 * @param index the cut index
 	 * @return <code>true</code> if and only if the cut is not empty
 	 */
-	public boolean isCutNotEmpty(int index)
+	public boolean isCutNotEmpty(int index)//FIXMEXLS do this in Cut
 	{
-		return ((cutUsage[index] & USAGE_NOT_EMPTY) > 0);
+		Cut cut = getCut(index);
+		return ((cut.getUsage() & Cut.USAGE_NOT_EMPTY) > 0);
 	}
 
 	/**
@@ -155,7 +160,8 @@ public class CutsInfo
 	 */
 	public boolean isCutSpanned(int index)
 	{
-		return ((cutUsage[index] & USAGE_SPANNED) > 0);
+		Cut cut = getCut(index);
+		return ((cut.getUsage() & Cut.USAGE_SPANNED) > 0);
 	}
 
 	/**
@@ -163,26 +169,27 @@ public class CutsInfo
 	 */
 	public boolean isBreak(int index)
 	{
-		return ((cutUsage[index] & USAGE_BREAK) > 0);
+		Cut cut = getCut(index);
+		return ((cut.getUsage() & Cut.USAGE_BREAK) > 0);
 	}
 	
 	public boolean hasCuts()
 	{
-		return !cuts.isEmpty();
+		return !cutOffsets.isEmpty();
 	}
 	
-	public int getFirstCut()
+	public int getFirstCutOffset()
 	{
-		return getCut(0);
+		return getCutOffset(0);
 	}
 	
-	public int getLastCut()
+	public int getLastCutOffset()
 	{
-		return getCut(size() - 1);
+		return getCutOffset(size() - 1);
 	}
 	
 	public int getTotalLength()
 	{
-		return hasCuts() ? getLastCut() - getFirstCut() : 0;
+		return hasCuts() ? getLastCutOffset() - getFirstCutOffset() : 0;
 	}
 }

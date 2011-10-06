@@ -109,4 +109,20 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	{
 		return false;
 	}
+	
+	/**
+	 *
+	 */
+	public Boolean getRowAutoFit(JRPrintElement element)
+	{
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public Boolean getColumnAutoFit(JRPrintElement element)
+	{
+		return null;
+	}
 }

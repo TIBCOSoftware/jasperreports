@@ -850,7 +850,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 		int width = 0;
 		for(int i = 1; i < xCuts.size(); i++)
 		{
-			width = xCuts.getCut(i) - xCuts.getCut(i - 1);
+			width = xCuts.getCutOffset(i) - xCuts.getCutOffset(i - 1);
 			writer.write("  <td" + emptyCellStringProvider.getStringForCollapsedTD(imagesURI, width, 1) + "</td>\n");
 		}
 		writer.write("</tr>\n");

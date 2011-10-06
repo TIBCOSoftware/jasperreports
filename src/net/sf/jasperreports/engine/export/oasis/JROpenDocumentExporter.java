@@ -424,7 +424,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		{
 			tableBuilder.buildColumnStyle(
 					col - 1,
-					xCuts.getCut(col) - xCuts.getCut(col - 1)
+					xCuts.getCutOffset(col) - xCuts.getCutOffset(col - 1)
 					);
 			tableBuilder.buildColumnHeader(col - 1);
 			tableBuilder.buildColumnFooter();

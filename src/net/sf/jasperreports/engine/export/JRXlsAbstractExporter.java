@@ -210,6 +210,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
 	
+	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
+	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
 	
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -918,9 +920,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
+			if (
+				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
+				|| !xCuts.isAutoFit(col)
+				)
 			{
-				int width = xCuts.getCut(col + 1) - xCuts.getCut(col);
+				int width = xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
 				setColumnWidth(col, width);
 			}
 		}
