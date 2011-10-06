@@ -1395,7 +1395,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			setColumnWidth(
 				col, 
 				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col))) 
-					? xCuts.getCut(col + 1) - xCuts.getCut(col) 
+					? xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col) 
 					: 0
 				);
 		}

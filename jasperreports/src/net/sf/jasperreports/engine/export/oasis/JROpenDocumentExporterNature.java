@@ -124,4 +124,20 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	}
 	
 	protected abstract byte getOpenDocumentNature();
+	
+	/**
+	 *
+	 */
+	public Boolean getRowAutoFit(JRPrintElement element)
+	{
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public Boolean getColumnAutoFit(JRPrintElement element)
+	{
+		return null;
+	}
 }

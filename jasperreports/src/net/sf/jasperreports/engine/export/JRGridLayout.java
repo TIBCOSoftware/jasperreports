@@ -199,8 +199,8 @@ public class JRGridLayout
 		JRBasePrintFrame frame = new JRBasePrintFrame(null);
 		List<ElementWrapper> wrappers = new ArrayList<ElementWrapper>();
 
-		frame.setWidth(xCuts.getCut(col2) - xCuts.getCut(col1));
-		frame.setHeight(yCuts.getCut(row2) - yCuts.getCut(row1));
+		frame.setWidth(xCuts.getCutOffset(col2) - xCuts.getCutOffset(col1));
+		frame.setHeight(yCuts.getCutOffset(row2) - yCuts.getCutOffset(row1));
 
 		String virtualAddress = (address == null ? "" : address + "_") + getNextVirtualFrameIndex();
 
@@ -235,8 +235,8 @@ public class JRGridLayout
 				wrappers.toArray(new ElementWrapper[wrappers.size()]),
 				frame.getWidth(),
 				frame.getHeight(),
-				offsetX -xCuts.getCut(col1),
-				offsetY -yCuts.getCut(row1),
+				offsetX -xCuts.getCutOffset(col1),
+				offsetY -yCuts.getCutOffset(row1),
 				virtualAddress
 				)
 			);
@@ -262,7 +262,7 @@ public class JRGridLayout
 
 			if(createXCuts)
 			{
-				List<Integer> xCutsList = xCuts.getCuts();
+				List<Integer> xCutsList = xCuts.getCutOffsets();
 
 				if(hasLeftMargin)
 				{
@@ -270,7 +270,7 @@ public class JRGridLayout
 				}
 			}
 
-			List<Integer> yCutsList = yCuts.getCuts();
+			List<Integer> yCutsList = yCuts.getCutOffsets();
 
 			if(hasTopMargin)
 			{
@@ -288,9 +288,9 @@ public class JRGridLayout
 		// is not to be removed and no element goes beyond the width
 		if (createXCuts && (isNested
 				|| (!(nature.isIgnorePageMargins() && hasRightMargin)
-				&& !(xCuts.hasCuts() && xCuts.getLastCut() >= width))))
+				&& !(xCuts.hasCuts() && xCuts.getLastCutOffset() >= width))))
 		{
-			xCuts.addCut(width);
+			xCuts.addCutOffset(width);
 		}
 		
 		xCuts.use();
@@ -307,8 +307,8 @@ public class JRGridLayout
 			{
 				grid[row][col] =
 					new EmptyGridCell(
-						xCuts.getCut(col + 1) - xCuts.getCut(col),
-						yCuts.getCut(row + 1) - yCuts.getCut(row),
+						xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col),
+						yCuts.getCutOffset(row + 1) - yCuts.getCutOffset(row),
 						1,
 						1
 						);
@@ -334,10 +334,12 @@ public class JRGridLayout
 			{
 				if (createXCuts)
 				{
-					xCuts.addXCuts(element, elementOffsetX);
+					xCuts.addCutOffset(element.getX() + elementOffsetX);
+					xCuts.addCutOffset(element.getX() + element.getWidth() + elementOffsetX);
 				}
 
-				yCuts.addYCuts(element, elementOffsetY);
+				yCuts.addCutOffset(element.getY() + elementOffsetY);
+				yCuts.addCutOffset(element.getY() + element.getHeight() + elementOffsetY);
 				
 				JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame)element : null;
 				if (frame != null && nature.isDeep(frame))
@@ -401,10 +403,10 @@ public class JRGridLayout
 				int x = element.getX() + elementOffsetX;
 				int y = element.getY() + elementOffsetY;
 
-				int col1 = xCuts.indexOfCut(x);
-				int row1 = yCuts.indexOfCut(y);
-				int col2 = xCuts.indexOfCut(x + element.getWidth());
-				int row2 = yCuts.indexOfCut(y + element.getHeight());
+				int col1 = xCuts.indexOfCutOffset(x);
+				int row1 = yCuts.indexOfCutOffset(y);
+				int col2 = xCuts.indexOfCutOffset(x + element.getWidth());
+				int row2 = yCuts.indexOfCutOffset(y + element.getHeight());
 
 				if (!isOverlap(row1, col1, row2, col2))
 				{
@@ -502,8 +504,8 @@ public class JRGridLayout
 
 	protected void setGridElement(ElementWrapper wrapper, int row1, int col1, int row2, int col2)
 	{
-		yCuts.addUsage(row1, CutsInfo.USAGE_NOT_EMPTY);
-		xCuts.addUsage(col1, CutsInfo.USAGE_NOT_EMPTY);
+		yCuts.addUsage(row1, Cut.USAGE_NOT_EMPTY);
+		xCuts.addUsage(col1, Cut.USAGE_NOT_EMPTY);
 
 		JRPrintElement element = wrapper.getElement();
 		JRPrintFrame frame = element instanceof JRPrintFrame ? (JRPrintFrame) element : null;
@@ -520,6 +522,17 @@ public class JRGridLayout
 				rowSpan
 				);
 
+		Boolean rowAutoFit = nature.getRowAutoFit(element);
+		if (rowAutoFit != null)
+		{
+			yCuts.setAutoFit(col1, rowAutoFit.booleanValue());
+		}
+		Boolean columnAutoFit = nature.getColumnAutoFit(element);
+		if (columnAutoFit != null)
+		{
+			xCuts.setAutoFit(col1, columnAutoFit.booleanValue());
+		}
+
 		if (nature.isSpanCells())
 		{
 			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
@@ -529,12 +542,12 @@ public class JRGridLayout
 				{
 					grid[row][col] = occupiedGridCell;
 				}
-				yCuts.addUsage(row, CutsInfo.USAGE_SPANNED);
+				yCuts.addUsage(row, Cut.USAGE_SPANNED);
 			}
 
 			for (int col = col1; col < col2; col++)
 			{
-				xCuts.addUsage(col, CutsInfo.USAGE_SPANNED);
+				xCuts.addUsage(col, Cut.USAGE_SPANNED);
 			}
 		}
 
@@ -559,11 +572,11 @@ public class JRGridLayout
 
 			if (nature.isBreakBeforeRow(element))
 			{
-				yCuts.addUsage(row1,  CutsInfo.USAGE_BREAK);
+				yCuts.addUsage(row1,  Cut.USAGE_BREAK);
 			}
 			if (nature.isBreakAfterRow(element))
 			{
-				yCuts.addUsage(row1 + rowSpan,  CutsInfo.USAGE_BREAK);
+				yCuts.addUsage(row1 + rowSpan,  Cut.USAGE_BREAK);
 			}
 
 			grid[row1][col1] = gridCell;
@@ -753,13 +766,13 @@ public class JRGridLayout
 
 	public int getColumnWidth(int col)
 	{
-		return xCuts.getCut(col + 1) - xCuts.getCut(col);
+		return xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
 	}
 
 
 	public int getRowHeight(int row)
 	{
-		return yCuts.getCut(row + 1) - yCuts.getCut(row);
+		return yCuts.getCutOffset(row + 1) - yCuts.getCutOffset(row);
 	}
 
 
@@ -849,10 +862,10 @@ public class JRGridLayout
 		}
 		
 		// add a cut at the page width if no element goes beyond the width
-		int lastCut = xCuts.getLastCut();
+		int lastCut = xCuts.getLastCutOffset();
 		if (lastCut < width)
 		{
-			xCuts.addCut(width);
+			xCuts.addCutOffset(width);
 		}
 
 		return xCuts;
@@ -877,7 +890,8 @@ public class JRGridLayout
 
 			if (nature.isToExport(element))
 			{
-				xCuts.addXCuts(element, elementOffsetX);
+				xCuts.addCutOffset(element.getX() + elementOffsetX);
+				xCuts.addCutOffset(element.getX() + element.getWidth() + elementOffsetX);
 				
 				if (element instanceof JRPrintFrame)
 				{

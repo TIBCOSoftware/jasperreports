@@ -68,6 +68,16 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public boolean isBreakAfterRow(JRPrintElement element);
 
+	/**
+	 *
+	 */
+	public Boolean getRowAutoFit(JRPrintElement element);
+
+	/**
+	 *
+	 */
+	public Boolean getColumnAutoFit(JRPrintElement element);
+
 	
 	/**
 	 * Flag that specifies that empty cells are to be horizontally merged.
