@@ -23,9 +23,11 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.fill.JRTemplateElement;
 
 
 /**
@@ -84,4 +86,18 @@ public abstract class BaseFillComponent implements FillComponent
 		// NOOP
 	}
 	
+	/**
+	 * Deduplicates an object by looking for an identical one that's already
+	 * present in the fill context.
+	 * 
+	 * This operations should be performed on {@link JRTemplateElement element templates}
+	 * in order to prevent creation of a large number of identical instances.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	protected <T extends Deduplicable> T deduplicate(T object)
+	{
+		return fillContext.getFiller().getFillContext().deduplicate(object);
+	}
 }

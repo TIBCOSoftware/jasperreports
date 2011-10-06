@@ -399,6 +399,16 @@ public class JRVirtualPrintPage implements JRPrintPage, JRVirtualizable, Seriali
 		{
 			super(id);
 		}
+
+		public int getHashCode()
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		public boolean isIdentical(Object object)
+		{
+			throw new UnsupportedOperationException();
+		}
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException

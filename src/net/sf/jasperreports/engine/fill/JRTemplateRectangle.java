@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.FillEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -151,6 +152,33 @@ public class JRTemplateRectangle extends JRTemplateGraphicElement implements JRC
 	public void setRadius(Integer radius)
 	{
 		this.radius = radius;
+	}
+
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addGraphicHash(hash);
+		hash.add(radius);
+		return hash.getHashCode();
+	}
+
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRTemplateRectangle))
+		{
+			return false;
+		}
+		
+		JRTemplateRectangle template = (JRTemplateRectangle) object;
+		return graphicIdentical(template) 
+				&& ObjectUtils.equals(radius, template.radius);
 	}
 
 

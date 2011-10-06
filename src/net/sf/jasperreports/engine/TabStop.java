@@ -26,13 +26,14 @@ package net.sf.jasperreports.engine;
 import java.io.Serializable;
 
 import net.sf.jasperreports.engine.type.TabStopAlignEnum;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class TabStop implements JRCloneable, Serializable
+public class TabStop implements JRCloneable, Serializable, Deduplicable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
@@ -107,6 +108,30 @@ public class TabStop implements JRCloneable, Serializable
 		}
 		
 		return clone;
+	}
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		hash.add(position);
+		hash.add(alignment);
+		return hash.getHashCode();
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof TabStop))
+		{
+			return false;
+		}
+		
+		TabStop tab = (TabStop) object;
+		return position == tab.position && alignment == tab.alignment;
 	}
 	
 }

@@ -724,13 +724,17 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			consolidatedStyle = filler.getJasperPrint().getStylesMap().get(consolidatedStyleName);
 			if (consolidatedStyle == null)
 			{
-				consolidatedStyle = new JRBaseStyle(consolidatedStyleName);
+				JRBaseStyle style = new JRBaseStyle(consolidatedStyleName);
 				for (int j = condStylesToApply.size() - 1; j >= 0; j--)
 				{
-					JRStyleResolver.appendStyle(consolidatedStyle, condStylesToApply.get(j));
+					JRStyleResolver.appendStyle(style, condStylesToApply.get(j));
 				}
 
-				filler.addPrintStyle(consolidatedStyle);
+				// deduplicate to previously created identical instances
+				style = filler.fillContext.deduplicate(style);
+				filler.addPrintStyle(style);
+				
+				consolidatedStyle = style;
 			}
 		}
 

@@ -299,16 +299,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 		}
 	}
 	
-	public JRStyle getStyle(JRStyle style)
+	public JRBaseStyle getStyle(JRStyle style)
 	{
 		JRBaseStyle fillStyle = null;
 
 		if (style != null)
 		{
-			fillStyle = (JRBaseStyle)get(style);
+			fillStyle = (JRBaseStyle) get(style);
 			if (fillStyle == null)
 			{
 				fillStyle = new JRBaseStyle(style, this);
+				
+				// deduplicate to previously created identical instances
+				fillStyle = filler.fillContext.deduplicate(fillStyle);
+				
 				put(style, fillStyle);
 				
 				if (originalStyleList != null && originalStyleList.contains(style))

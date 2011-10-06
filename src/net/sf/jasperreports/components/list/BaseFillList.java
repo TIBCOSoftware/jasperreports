@@ -119,6 +119,7 @@ public abstract class BaseFillList extends BaseFillComponent
 						fillContext.getElementOrigin(),
 						fillContext.getDefaultStyleProvider());
 			frameTemplate.setElement(fillContext.getComponentElement());
+			frameTemplate = deduplicate(frameTemplate);
 			
 			printFrameTemplates.put(style, frameTemplate);
 		}

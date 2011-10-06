@@ -28,6 +28,7 @@ import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JREllipse;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.base.JRBasePen;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -78,6 +79,29 @@ public class JRTemplateEllipse extends JRTemplateGraphicElement
 	protected void setEllipse(JREllipse ellipse)
 	{
 		super.setGraphicElement(ellipse);
+	}
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addGraphicHash(hash);
+		return hash.getHashCode();
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRTemplateEllipse))
+		{
+			return false;
+		}
+		
+		JRTemplateEllipse template = (JRTemplateEllipse) object;
+		return graphicIdentical(template);
 	}
 
 

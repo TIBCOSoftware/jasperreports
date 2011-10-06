@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.JRLine;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.base.JRBasePen;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 
 /**
@@ -125,6 +126,31 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 			directionValue = LineDirectionEnum.getByValue(direction);
 		}
 		
+	}
+
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addGraphicHash(hash);
+		return hash.getHashCode();
+	}
+
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRTemplateLine))
+		{
+			return false;
+		}
+		
+		JRTemplateLine template = (JRTemplateLine) object;
+		return graphicIdentical(template);
 	}
 
 }

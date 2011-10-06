@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRGenericElement;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * Generic print element information shared by multiple elements.
@@ -106,6 +107,31 @@ public class JRTemplateGenericElement extends JRTemplateElement
 	public void setGenericType(JRGenericElementType genericType)
 	{
 		this.genericType = genericType;
+	}
+
+	public int getHashCode()
+	{
+		ObjectUtils.HashCode hash = ObjectUtils.hash();
+		addTemplateHash(hash);
+		hash.add(genericType);
+		return hash.getHashCode();
+	}
+
+	public boolean isIdentical(Object object)
+	{
+		if (this == object)
+		{
+			return true;
+		}
+		
+		if (!(object instanceof JRTemplateGenericElement))
+		{
+			return false;
+		}
+		
+		JRTemplateGenericElement template = (JRTemplateGenericElement) object;
+		return templateIdentical(template)
+				&& ObjectUtils.equals(genericType, template.genericType);
 	}
 
 }
