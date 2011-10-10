@@ -39,9 +39,11 @@ public interface SortElement {
 
 	public static final String SORT_ORDER_ASC = "Asc";
 	public static final String SORT_ORDER_DESC = "Dsc";
+	public static final String SORT_ORDER_NONE = "None";
 	public static final String SORT_COLUMN_TOKEN_SEPARATOR = ":";
 	
 	public static final String PARAMETER_SORT_COLUMN_NAME = "sortColumnName";
+	public static final String PARAMETER_SORT_COLUMN_LABEL = "sortColumnLabel";
 	public static final String PARAMETER_SORT_COLUMN_TYPE = "sortColumnType";
 	public static final String PARAMETER_SORT_HANDLER_COLOR = "sortHandlerColor";
 	public static final String PARAMETER_SORT_HANDLER_FONT_SIZE = "sortHandlerFontSize";
@@ -56,6 +58,7 @@ public interface SortElement {
 	public static final String REQUEST_PARAMETER_FILTER_FIELD = "jr.fltrFld";
 	public static final String REQUEST_PARAMETER_FILTER_VALUE_START = "jr.fltrVlStrt";
 	public static final String REQUEST_PARAMETER_FILTER_VALUE_END = "jr.fltrVlEnd";
+	public static final String REQUEST_PARAMETER_REMOVE_FILTER = "jr.rmvFltr";
 	
 	public static final String REQUEST_PARAMETER_SORT_DATA = "jr.sort";
 	public static final String REQUEST_PARAMETER_DATASET_RUN = "jr.dsr";//FIXMEJIVE this parameter cannot uniquely identify a dataset run that repeats; check it
