@@ -33,6 +33,13 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 {
 
 	/**
+	 * A value used when no source element Id information is available.
+	 * 
+	 * @see #getSourceElementId()
+	 */
+	int UNSET_SOURCE_ELEMENT_ID = 0;
+	
+	/**
 	 *
 	 */
 	public JROrigin getOrigin();
@@ -107,4 +114,12 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 */
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg);
 
+	/**
+	 * Returns a numerical Id associated to the fill element that generated 
+	 * this print element.
+	 * 
+	 * @return
+	 */
+	public int getSourceElementId();
+	
 }

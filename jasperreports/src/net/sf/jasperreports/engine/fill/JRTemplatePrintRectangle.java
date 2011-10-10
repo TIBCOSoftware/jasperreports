@@ -48,10 +48,22 @@ public class JRTemplatePrintRectangle extends JRTemplatePrintGraphicElement impl
 	 * Creates a print rectangle element.
 	 * 
 	 * @param rectangle the template rectangle that the element will use
+	 * @deprecated provide a source Id via {@link #JRTemplatePrintRectangle(JRTemplateRectangle, int)}
 	 */
 	public JRTemplatePrintRectangle(JRTemplateRectangle rectangle)
 	{
 		super(rectangle);
+	}
+
+	/**
+	 * Creates a print rectangle element.
+	 * 
+	 * @param rectangle the template rectangle that the element will use
+	 * @param sourceElementId the Id of the source element
+	 */
+	public JRTemplatePrintRectangle(JRTemplateRectangle rectangle, int sourceElementId)
+	{
+		super(rectangle, sourceElementId);
 	}
 
 

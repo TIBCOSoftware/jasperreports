@@ -268,7 +268,7 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 
 	protected JRPrintElement fill() throws JRException
 	{		
-		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplate());
+		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplate(), elementId);
 		printFrame.setX(getX());
 		printFrame.setY(getRelativeY());
 		printFrame.setWidth(getWidth());

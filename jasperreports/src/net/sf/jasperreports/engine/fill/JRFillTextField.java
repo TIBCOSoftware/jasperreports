@@ -684,11 +684,11 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		JRRecordedValuesPrintText recordedValuesText;
 		if (isEvaluateAuto())
 		{
-			text = recordedValuesText = new JRRecordedValuesPrintText(getJRTemplateText());
+			text = recordedValuesText = new JRRecordedValuesPrintText(getJRTemplateText(), elementId);
 		}
 		else
 		{
-			text = new JRTemplatePrintText(getJRTemplateText());
+			text = new JRTemplatePrintText(getJRTemplateText(), elementId);
 			recordedValuesText = null;
 		}
 		

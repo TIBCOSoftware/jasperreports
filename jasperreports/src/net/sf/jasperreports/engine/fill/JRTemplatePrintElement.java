@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -67,13 +68,26 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	private int width;
 
 	private JRPropertiesMap properties;
+	private int sourceElementId;
 	
 	/**
 	 *
+	 * @deprecated provide a source Id via {@link #JRTemplatePrintElement(JRTemplateElement, int)}
 	 */
 	protected JRTemplatePrintElement(JRTemplateElement element)
 	{
+		this(element, UNSET_SOURCE_ELEMENT_ID);
+	}
+	
+	/**
+	 * 
+	 * @param element
+	 * @param sourceElementId the Id of the source element
+	 */
+	protected JRTemplatePrintElement(JRTemplateElement element, int sourceElementId)
+	{
 		template = element;
+		this.sourceElementId = sourceElementId;
 	}
 
 	/**
@@ -335,5 +349,38 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	public int getSourceElementId()
+	{
+		return sourceElementId;
+	}
+
+	/**
+	 * Sets the source/fill element Id for the print element.
+	 * 
+	 * @param sourceElementId
+	 * @see #getSourceElementId()
+	 */
+	public void setSourceElementId(int sourceElementId)
+	{
+		this.sourceElementId = sourceElementId;
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (sourceElementId == 0 && template != null)
+		{
+			// if no element Id was written, use the template hash as Id in order
+			// to preserve the old functionality of keep.first export filters
+			sourceElementId = template.hashCode();
+			if (sourceElementId == UNSET_SOURCE_ELEMENT_ID)
+			{
+				// collision with the unset value, using a different value
+				sourceElementId = Integer.MIN_VALUE;
+			}
+		}
 	}
 }

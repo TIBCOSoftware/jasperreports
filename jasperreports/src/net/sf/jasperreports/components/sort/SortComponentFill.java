@@ -106,7 +106,7 @@ public class SortComponentFill extends BaseFillComponent {
 			template = deduplicate(template);
 		}
 		
-		printElement = new JRTemplateGenericPrintElement(template);
+		printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setX(element.getX());
 
 		printElement.setWidth(element.getWidth());

@@ -117,6 +117,12 @@ public class JRPrintElementFactory extends JRBaseFactory
 		{
 			element.setOrigin(jasperPrint.getOriginsList().get(Integer.parseInt(origin)));
 		}
+		
+		String elementId = atts.getValue(JRXmlConstants.ATTRIBUTE_sourceElementId);
+		if (elementId != null && elementId.length() > 0)
+		{
+			element.setSourceElementId(Integer.parseInt(elementId));
+		}
 
 		return element;
 	}

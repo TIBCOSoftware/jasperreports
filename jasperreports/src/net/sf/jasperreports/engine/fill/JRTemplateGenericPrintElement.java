@@ -53,10 +53,22 @@ public class JRTemplateGenericPrintElement extends JRTemplatePrintElement
 	 * Creates a generic print element.
 	 * 
 	 * @param template the template to use for the element
+	 * @deprecated provide a source Id via {@link #JRTemplateGenericPrintElement(JRTemplateGenericElement, int)}
 	 */
 	public JRTemplateGenericPrintElement(JRTemplateGenericElement template)
 	{
 		super(template);
+	}
+	
+	/**
+	 * Creates a generic print element.
+	 * 
+	 * @param template the template to use for the element
+	 * @param sourceElementId the Id of the source element
+	 */
+	public JRTemplateGenericPrintElement(JRTemplateGenericElement template, int sourceElementId)
+	{
+		super(template, sourceElementId);
 	}
 
 	/**

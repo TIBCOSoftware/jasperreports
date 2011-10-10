@@ -43,10 +43,12 @@ public abstract class BaseFillComponent implements FillComponent
 	 * The fill context, as set by {@link #initialize(FillContext)}.
 	 */
 	protected FillContext fillContext;
+	protected int elementId;
 	
 	public void initialize(FillContext fillContext)
 	{
 		this.fillContext = fillContext;
+		this.elementId = fillContext.getElementSourceId();
 	}
 
 	/**

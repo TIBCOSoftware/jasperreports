@@ -385,6 +385,7 @@ public final class JRXmlConstants
 	public static final String ATTRIBUTE_backcolor = "backcolor";
 	public static final String ATTRIBUTE_style = "style";
 	public static final String ATTRIBUTE_origin = "origin";
+	public static final String ATTRIBUTE_sourceElementId = "sourceElementId";
 
 	public static final String ATTRIBUTE_radius = "radius";
 

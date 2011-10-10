@@ -467,6 +467,7 @@
    <attribute name="forecolor" type="string" use="optional"/>
    <attribute name="backcolor" type="string" use="optional"/>
    <attribute name="origin" type="NMTOKEN" use="optional"/>
+   <attribute name="sourceElementId" type="integer" use="optional"/>
   </complexType>
  </element>
 

@@ -71,6 +71,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	protected JRStyle style;
 	
 	private JRPropertiesMap propertiesMap;
+	private int sourceElementId;
 
 	
 	/**
@@ -332,6 +333,22 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	public int getSourceElementId()
+	{
+		return sourceElementId;
+	}
+
+	/**
+	 * Sets the source/fill element Id for the print element.
+	 * 
+	 * @param sourceElementId
+	 * @see #getSourceElementId()
+	 */
+	public void setSourceElementId(int sourceElementId)
+	{
+		this.sourceElementId = sourceElementId;
 	}
 
 }
