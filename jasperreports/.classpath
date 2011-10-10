@@ -45,5 +45,7 @@
 	<classpathentry kind="lib" path="lib/castor-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.7-dep.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.6-20091214.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-lgpl-1.7.4.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-lgpl-1.7.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
