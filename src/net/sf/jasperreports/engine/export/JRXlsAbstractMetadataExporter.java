@@ -178,6 +178,10 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 						sheetNamesIndex++;
 						rowIndex = 0;
 						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						if(autoFilter != null)
+						{
+							setAutoFilter(autoFilter);
+						}
 						
 						/*   */
 						exportPage(page);
@@ -192,6 +196,10 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 					sheetIndex++;
 					sheetNamesIndex++;
 					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					if(autoFilter != null)
+					{
+						setAutoFilter(autoFilter);
+					}
 					
 					if (filter instanceof ResetableExporterFilter)
 					{
@@ -286,6 +294,12 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			if(rowFreezeIndex > 0 || columnFreezeIndex > 0)
 			{
 				setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
+			}
+			
+			String autoFilterRange = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
+			if(autoFilterRange != null)
+			{
+				setAutoFilter(autoFilterRange);
 			}
 		}
 		// write last row

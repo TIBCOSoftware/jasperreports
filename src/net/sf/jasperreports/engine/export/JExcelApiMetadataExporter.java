@@ -2361,5 +2361,11 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		sheet.setName(sheetName);
 	}
 	
+	protected void setAutoFilter(String autoFilterRange)
+	{
+		// TODO support auto filter feature
+		
+	}
+	
 }
 

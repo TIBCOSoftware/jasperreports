@@ -213,7 +213,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.6</version>
+			<version>3.7</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -438,7 +438,7 @@
 		<dependency>
 		    <groupId>org.apache.poi</groupId>
 		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.6</version>
+		    <version>3.7</version>
 		</dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

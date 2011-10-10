@@ -2375,5 +2375,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		sheet.setName(sheetName);
 	}
+
+	protected void setAutoFilter(String autoFilterRange)
+	{
+		// TODO support auto filter feature
+		
+	}
 }
 
