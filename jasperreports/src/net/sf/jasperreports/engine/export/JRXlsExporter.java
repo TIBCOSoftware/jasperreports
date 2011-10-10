@@ -1758,6 +1758,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	 */
 	protected void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge)
 	{
+		System.out.println("freeze pane: rowIndex = "+rowIndex+"colIndex = "+colIndex);
 		int maxRowIndex = isFreezeRowEdge 
 				? Math.max(rowIndex, maxRowFreezeIndex) 
 				: (isRowEdge ? rowIndex : Math.max(rowIndex, maxRowFreezeIndex));
