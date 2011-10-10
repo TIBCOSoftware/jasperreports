@@ -270,7 +270,7 @@ public class FieldFilter implements DatasetFilter
 	protected boolean compareText(String toCompare, String compareWith, FilterTypeTextOperatorsEnum textEnum) {
 		boolean defaultResult = true,
 				result = defaultResult,
-				gotCompareWith = compareWith != null && compareWith.length() > 0;
+				gotCompareWith = compareWith != null;// && compareWith.length() > 0;
 		
 		switch (textEnum) {
 			case CONTAINS:
@@ -300,6 +300,42 @@ public class FieldFilter implements DatasetFilter
 		}
 		
 		return result;
+	}
+	
+	public String getField() {
+		return this.field;
+	}
+	
+	public String getFilterValueStart() {
+		return filterValueStart;
+	}
+
+	public void setFilterValueStart(String filterValueStart) {
+		this.filterValueStart= filterValueStart ;
+	}
+
+	public String getFilterValueEnd() {
+		return filterValueEnd;
+	}
+	
+	public void setFilterValueEnd(String filterValueEnd) {
+		this.filterValueEnd = filterValueEnd;
+	}
+
+	public String getFilterType() {
+		return filterType;
+	}
+
+	public String getFilterTypeOperator() {
+		return filterTypeOperator;
+	}
+	
+	public void setFilterTypeOperator(String filterTypeOperator) {
+		this.filterTypeOperator = filterTypeOperator;
+	}
+
+	public FilterTypesEnum getFilterTypeEnum() {
+		return filterTypeEnum;
 	}
 
 }
