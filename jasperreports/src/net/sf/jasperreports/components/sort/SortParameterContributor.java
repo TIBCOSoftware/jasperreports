@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +39,13 @@ import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.web.WebReportContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 /**
  * 
@@ -64,8 +69,6 @@ public class SortParameterContributor implements ParameterContributor
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
-//			reportContext.setParameterValue(JRParameter.REPORT_LOCALE, parameterValues.get(JRParameter.REPORT_LOCALE));
-			
 			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
@@ -75,16 +78,21 @@ public class SortParameterContributor implements ParameterContributor
 				return;
 			}
 			
+			String currentTableSortFieldsParam = paramTableName + WebReportContext.SORT_FIELDS_PARAM_SUFFIX;
+			String currentTableFiltersParam = paramTableName + WebReportContext.FILTER_FIELDS_PARAM_SUFFIX;
+
+			@SuppressWarnings("unchecked")
+			List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
+			List<JRSortField> sortFields = new ArrayList<JRSortField>();
+
+			// add existing sort fields first
+			if (existingFields != null)
+			{
+				sortFields.addAll(existingFields);
+			}
+			
 			if (reportActionData != null)
 			{
-				@SuppressWarnings("unchecked")
-				List<JRSortField> existingFields = (List<JRSortField>) parameterValues.get(JRParameter.SORT_FIELDS);
-				List<JRSortField> sortFields = new ArrayList<JRSortField>();
-				// add existing sort fields first
-				if (existingFields != null)
-				{
-					sortFields.addAll(existingFields);
-				}
 				
 				String[] tokens = reportActionData.split(",");
 				for (int i = 0; i < tokens.length; i++)
@@ -97,17 +105,20 @@ public class SortParameterContributor implements ParameterContributor
 						log.debug("Adding sort " + token);
 					}
 					
-					sortFields.add(
-						new JRDesignSortField(
-							chunks[0],
-							SortFieldTypeEnum.getByName(chunks[1]),
-							SortElementUtils.getSortOrder(chunks[2])
-							)
-						);
+					overwriteExistingSortField(
+							sortFields,
+							new JRDesignSortField(
+								chunks[0],
+								SortFieldTypeEnum.getByName(chunks[1]),
+								SortElementUtils.getSortOrder(chunks[2])
+								)
+							);
 				}
 				
-				parameterValues.put(JRParameter.SORT_FIELDS, sortFields);
 			}
+
+			parameterValues.put(JRParameter.SORT_FIELDS, sortFields);
+			reportContext.setParameterValue(currentTableSortFieldsParam, sortFields); 
 			
 			String paramFieldName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD);
 			String paramFieldValueStart = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_VALUE_START);
@@ -116,6 +127,9 @@ public class SortParameterContributor implements ParameterContributor
 			String paramFilterType = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE);
 			String paramFilterTypeOperator = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
 			
+			DatasetFilter existingFilter = (DatasetFilter) reportContext.getParameterValue(currentTableFiltersParam);
+			DatasetFilter combined = null; 
+			
 			if (paramFieldName != null && paramFieldValueStart != null && paramFilterType != null && paramFilterTypeOperator != null)
 			{
 				if (log.isDebugEnabled())
@@ -123,13 +137,99 @@ public class SortParameterContributor implements ParameterContributor
 					log.debug("Filtering by " + paramFieldName + ": " + paramFieldValueStart);
 				}
 				
-//				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart);
-				DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
-				DatasetFilter existingFilter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
-				DatasetFilter combined = CompositeDatasetFilter.combine(existingFilter, filter);
+				if (existingFilter != null && true) { //FIXMEJIVE: add parameter to allow single filter on the same field
+					List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+					getFieldFilters(existingFilter, filters, null);
+					FieldFilter filterForCurrentField = null;
+					
+					for (DatasetFilter df: filters){
+						if (((FieldFilter)df).getField().equals(paramFieldName)) {
+							filterForCurrentField = (FieldFilter)df;
+							break;
+						}
+					}
+					
+					// update filterForCurrentField
+					if (filterForCurrentField != null) {
+						filterForCurrentField.setFilterTypeOperator(paramFilterTypeOperator);
+						filterForCurrentField.setFilterValueEnd(paramFieldValueEnd);
+						filterForCurrentField.setFilterValueStart(paramFieldValueStart);
+						combined = new CompositeDatasetFilter(filters);
+					} else {
+						DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+						combined = CompositeDatasetFilter.combine(existingFilter, filter);
+					}
+				} 
+				else {
+					DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+					combined = CompositeDatasetFilter.combine(existingFilter, filter);
+				}
+			}
+			
+			if (combined != null) {
 				parameterValues.put(JRParameter.FILTER, combined);
+				reportContext.setParameterValue(currentTableFiltersParam, combined);
+			} else if (existingFilter != null) {
+				parameterValues.put(JRParameter.FILTER, existingFilter);
+				reportContext.setParameterValue(currentTableFiltersParam, existingFilter);
+			}
+			
+			// remove filters
+			String filterForFieldToRemove = (String) reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_REMOVE_FILTER);
+			if (filterForFieldToRemove != null && existingFilter != null ) {
+				List<DatasetFilter> filters = new ArrayList<DatasetFilter>();
+				getFieldFilters(existingFilter, filters, null);
+				FieldFilter filterToRemove = null;
+				
+				for (DatasetFilter df: filters){
+					if (((FieldFilter)df).getField().equals(filterForFieldToRemove)) {
+						filterToRemove = (FieldFilter)df;
+						break;
+					}
+				}
+				
+				if (filterToRemove != null) {
+					filters.remove(filterToRemove);
+					combined = new CompositeDatasetFilter(filters);
+					parameterValues.put(JRParameter.FILTER, combined);
+					reportContext.setParameterValue(currentTableFiltersParam, combined);
+				}
+				
 			}
 		}
+	}
+	
+	
+	private void overwriteExistingSortField(List<JRSortField> sortFields, JRSortField newSortField) {
+		int indexOfExistingSortField = sortFields.indexOf(newSortField);
+		if (indexOfExistingSortField != -1) {
+			// remove sortfield if previos order was 'Descending'
+			boolean mustRemove = (sortFields.get(indexOfExistingSortField)).getOrderValue().equals(SortOrderEnum.DESCENDING);
+			if (mustRemove) {
+				sortFields.remove(indexOfExistingSortField);
+			} else {
+				((JRDesignSortField)sortFields.get(indexOfExistingSortField)).setOrder(newSortField.getOrderValue());
+			}
+			
+		} else if (newSortField.getOrderValue() != null) {
+			sortFields.add(newSortField);
+		}
+	}
+	
+	private void getFieldFilters(DatasetFilter existingFilter, List<DatasetFilter> fieldFilters, String fieldName) {
+		if (existingFilter instanceof FieldFilter) {
+			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
+				fieldFilters.add(existingFilter);
+			} 
+		} else if (existingFilter instanceof CompositeDatasetFilter) {
+			for (DatasetFilter filter : ((CompositeDatasetFilter)existingFilter).getFilters())
+			{
+				getFieldFilters(filter, fieldFilters, fieldName);
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
 	}
 
 }

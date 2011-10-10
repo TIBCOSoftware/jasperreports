@@ -2,7 +2,7 @@
 	JasperReports.modules.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'JasperReports.modules.sort.init');
 </script>
 
-<a href='${href}'
+<a href='${sortHref}'
 	class='sortlink ${sortLinkClass}'
 	data-resizecolumn='column_${filterColumnName}'
 	#if (${isFilterable})
@@ -16,7 +16,8 @@
 '>
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
 		<span style='color: #${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
-			${sortSymbol}
+			#if (${isSorted})<img src='${sortSymbolResource}' /> #end 
+			#if (${isFiltered}) <img src='${filterSymbolImageResource}' class='filterSymbol_${filterActiveInactive}' /> #end
 		</span>
 	</span>
 	
@@ -29,22 +30,31 @@
 			uid = '${filterDivId}',
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' data-forsortlink='${sortLinkClass}'>",
 			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
-			                "<form action='${filterFormAction}' action='GET' style='padding-top: 16px;'>",
-			                "	<input class='postable' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
-			                "	<input class='postable' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
+			                "<form action='${filterFormAction}' action='GET' class='filterDivForm'>",
+			                "	<input class='postable forClear' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
+			                "	<input class='postable filterField' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
 			                "	<input class='postable' type='hidden' name='${filterTypeParamName}' value='${filterTypeParamNameValue}' />",
-							"	<select class='postable filterTypeValueSelector' name='${filterTypeOperatorParamName}'>",
+			                "	<label class='filterColumnNameLabel' for='${filterTypeOperatorParamName}'>${filterColumnNameLabel}</label>",
+							"	<select class='postable filterOperatorTypeValueSelector' name='${filterTypeOperatorParamName}'>",
 								#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-    						"	<option value='$entry.key'>$entry.value</option>",
+									#set( $selected = "" )
+									#if ($entry.key == ${filterTypeOperatorParamValue})
+										#set( $selected = "selected='selected'" )
+									#end
+    						"	<option value='$entry.key' $selected >$entry.value</option>",
 								#end
 							"	</select>",
-			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' style='width: 80px;' />",
-			                "	<input class='postable filterValue filterValueEnd hidden' disabled type='text' name='${filterValueEndParamName}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' value='${filterValueStartParamValue}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueEnd hidden' disabled type='text' name='${filterValueEndParamName}'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
+			                	#if (${isFiltered})
+			                "	<input class='forClear' type='hidden' name='${filterToRemoveParamName}' value='${filterToRemoveParamvalue}' />",
+			                "	<input class='clearFilter' type='button' value='Clear' />",
+			                	#end
 			                "</form>",
 			                "</div>"];
 			                
-		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv]);
+		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv, ${filtersJsonString}]);
 	} ());
 </script>
 #end
