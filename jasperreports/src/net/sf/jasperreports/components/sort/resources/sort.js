@@ -12,7 +12,14 @@
 				}
 		};
 	
-	js.createFilterDiv = function (uniqueId, arrFilterDiv) {
+	/**
+	 * Creates a unique filter div
+	 * 
+	 * @param uniqueId
+	 * @param arrFilterDiv an array with div's html
+	 * @param filtersJsonString a JSON string of a java.util.List<net.sf.jasperreports.components.sort.FieldFilter>
+	 */
+	js.createFilterDiv = function (uniqueId, arrFilterDiv, filtersJsonString) {
 		var gm = global.JasperReports.modules.global,
 			filterContainerId = js.filters.filterContainerId,
 			filterContainerDiv = "<div id='" + filterContainerId + "'></div>",
@@ -71,7 +78,7 @@
 			});
 			
 			// show the second filter value for options containing 'between'
-			jQuery('.filterTypeValueSelector', filterDiv).live('change', function (event) {
+			jQuery('.filterOperatorTypeValueSelector', filterDiv).live('change', function (event) {
 				var optionValue = jQuery(this).val();
 				if (optionValue && optionValue.toLowerCase().indexOf('between') != -1) {
 					jQuery('.filterValueEnd', filterDiv)
@@ -83,6 +90,57 @@
 						.attr('disabled', true);
 				}
 			});
+			
+			jQuery('.clearFilter', filterDiv).live(('createTouch' in document) ? 'touchend' : 'click', function(event){
+				var params = {},
+					parentForm = jQuery(this).parent(),
+					currentHref = parentForm.attr("action"),
+					parentFilterDiv = jQuery(this).closest('.filterdiv'),
+					contextStartPoint = jQuery('.' + parentFilterDiv.attr('data-forsortlink') + ':first');
+				
+				// extract form params
+				jQuery('.forClear', parentForm).each(function(){
+					// prevent disabled inputs to get posted
+					if(!jQuery(this).is(':disabled')) {
+						params[this.name] = this.value;
+					}
+				});
+				
+				var ctx = gm.getExecutionContext(contextStartPoint, currentHref, params);
+				
+				if (ctx) {
+					parentFilterDiv.hide();
+					ctx.run();
+				}		
+			});
+		} else {
+//			console.log("filterdiv: " + uid + " already exists");
+			// update existing filter with values from filtersJsonString
+			var arrFilters = jQuery.parseJSON(filtersJsonString);
+			var found = false;
+			if (arrFilters) {
+				var filterDiv = jQuery(uid),
+					currentFilterField = jQuery('.filterField', filterDiv).val();
+				
+				for (var i=0, ln = arrFilters.length; i < ln; i++) {
+					var filter = arrFilters[i];
+					if (filter.field === currentFilterField) {
+						console.log('found filter for field: ' + currentFilterField);
+						jQuery('.filterValueStart', filterDiv).val(filter.filterValueStart);
+						jQuery('.filterValueEnd', filterDiv).val(filter.filterValueEnd);
+						jQuery('.filterOperatorTypeValueSelector', filterDiv).val(filter.filterTypeOperator);
+						found = true;
+						break;
+					}
+				}
+				
+				// reset filter controls
+				if (!found) {
+					jQuery('.filterValueStart', filterDiv).val("");
+					jQuery('.filterValueEnd', filterDiv).val("");
+					jQuery('.filterOperatorTypeValueSelector :selected', filterDiv).attr('selected', false);
+				}
+			}
 		}
 		
 	};
