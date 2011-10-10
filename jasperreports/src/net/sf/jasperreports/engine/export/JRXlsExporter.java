@@ -1775,7 +1775,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		workbook.setSheetName(workbook.getSheetIndex(sheet) , sheetName);
 	}
-	
+
+
+	@Override
+	protected void setAutoFilter(String autoFilterRange)
+	{
+		sheet.setAutoFilter(CellRangeAddress.valueOf(autoFilterRange));
+	}
 }
 
 

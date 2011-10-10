@@ -212,6 +212,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
+	public static final String PROPERTY_AUTO_FILTER = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter";
 	
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -305,7 +306,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected boolean isIgnorePageMargins;
 
 	protected int gridRowFreezeIndex;
-	protected int gridColumnFreezeIndex;		
+	protected int gridColumnFreezeIndex;
+	
+	protected String autoFilter;		
 
 	protected int maxRowFreezeIndex;
 	protected int maxColumnFreezeIndex;
@@ -588,7 +591,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		gridColumnFreezeIndex = Math.min(
 				Math.max(0, getColumnIndex(JRProperties.getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN))), 
 				MAX_COLUMN_INDEX
-				);		
+				);	
+		
+		autoFilter = 
+				JRProperties.getProperty(
+					jasperPrint,
+					PROPERTY_AUTO_FILTER
+					);
 	}
 
 	protected abstract void setBackground();
@@ -643,6 +652,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						sheetNamesIndex++;
 
 						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						if(autoFilter != null)
+						{
+							setAutoFilter(autoFilter);
+						}
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0);
 					}
@@ -657,6 +670,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					sheetNamesIndex++;
 
 					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					if(autoFilter != null)
+					{
+						setAutoFilter(autoFilter);
+					}
 					
 					/*
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
@@ -753,6 +770,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				sheetIndex++;
 				sheetNamesIndex++;
 				setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+				if(autoFilter != null)
+				{
+					setAutoFilter(autoFilter);
+				}
 			}
 			
 			if (
@@ -837,6 +858,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							setSheetName(sheetName);
 						}
 
+						String autoFilterRange = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
+						if(autoFilterRange != null)
+						{
+							setAutoFilter(autoFilterRange);
+						}
+						
 						if (element instanceof JRPrintLine)
 						{
 							exportLine((JRPrintLine)element, gridCell, colIndex, rowIndex);
@@ -1360,4 +1387,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void setFreezePane(int rowIndex, int colIndex, boolean isRowEdge, boolean isColumnEdge);
 	
 	protected abstract void setSheetName(String sheetName);
+	
+	protected abstract void setAutoFilter(String autoFilterRange);
+	
 }

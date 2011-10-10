@@ -119,6 +119,15 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins)
 	{
+		exportFooter(index, jasperPrint, isIgnorePageMargins, null);
+	}
+
+
+	/**
+	 *
+	 */
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter)
+	{
 		if (rowIndex > 0)
 		{
 			write("</row>\n");
@@ -134,6 +143,12 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		write("</sheetData>\n");
+		
+		if(autoFilter != null)
+		{
+			write("<autoFilter ref=\"" + autoFilter + "\"/>\n");
+		}
+		
 		if (!mergedCellsWriter.isEmpty())
 		{
 			write("<mergeCells>\n");

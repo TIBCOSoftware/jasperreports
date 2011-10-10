@@ -147,7 +147,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	private XlsxRunHelper runHelper;
 
 	protected ExporterNature nature;
-
+	
+	protected String sheetAutoFilter;
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -748,7 +750,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		if (sheetHelper != null)
 		{
-			sheetHelper.exportFooter(sheetIndex, jasperPrint, isIgnorePageMargins);
+			sheetHelper.exportFooter(
+					sheetIndex, 
+					jasperPrint, 
+					isIgnorePageMargins, 
+					sheetAutoFilter == null ? autoFilter : sheetAutoFilter
+					);
 			sheetHelper.close();
 
 			sheetRelsHelper.exportFooter();
@@ -760,6 +767,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			drawingRelsHelper.exportFooter();
 			drawingRelsHelper.close();
 		}
+		sheetAutoFilter = null;
 	}
 
 
@@ -1456,6 +1464,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setSheetName(String sheetName)
 	{
 		//TODO: set sheet name for element-level sheet name properties
+	}
+
+
+	@Override
+	protected void setAutoFilter(String autoFilterRange)
+	{
+		sheetAutoFilter = autoFilterRange;
+		
 	}
 	
 }
