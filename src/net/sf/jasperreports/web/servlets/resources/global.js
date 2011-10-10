@@ -15,8 +15,8 @@ jQuery.noConflict();
 					scripts: {},
 					APPLICATION_CONTEXT_PATH: '',
 					JQUERY: {
-						CORE: '/jquery/js/jquery-1.4.4.min.js',
-						UI: '/jquery/js/jquery-ui-1.8.9.custom.min.js'
+						CORE: '/jquery/js/jquery-1.6.4.min.js',
+						UI: '/jquery/js/jquery-ui-1.8.16.custom.min.js'
 					},
 					events: {
 						SORT_INIT: {
