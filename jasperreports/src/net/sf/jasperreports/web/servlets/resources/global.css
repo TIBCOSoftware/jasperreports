@@ -95,12 +95,14 @@
 .filterdiv {
 	display: none; 
 	text-align: center; 
-	width: 430px; 
-	height: 60px; 
+	/*width: 430px; 
+	height: 60px; */
 	background-color: #DBEBFF;
 	-moz-box-shadow: 0 0 5px 5px #888;
 	-webkit-box-shadow: 0 0 5px 5px#888;
 	box-shadow: 0 0 5px 5px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .hidefilter {
@@ -109,5 +111,32 @@
 	right: 2px; 
 	cursor: pointer;
 }
+
+.filterOperatorTypeValueSelector {
+	display: inline;
+	width: 140px;
+}
+
+.filterColumnNameLabel {
+	color: gray;
+	display: inline;
+	font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.filterDivForm {
+	padding: 16px;
+}
+
+.filterSymbol_Active {
+	
+}
+
+.filterSymbol_Inactive {
+	display: none;
+}
+
 /************************ </FILTER DIV> ***************************/
 
