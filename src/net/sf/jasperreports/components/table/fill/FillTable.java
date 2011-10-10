@@ -317,7 +317,7 @@ public class FillTable extends BaseFillComponent
 
 	public JRPrintElement fill()
 	{
-		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate());
+		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setWidth(fillWidth);

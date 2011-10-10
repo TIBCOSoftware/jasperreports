@@ -27,9 +27,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRTemplate;
@@ -65,6 +67,8 @@ public class JRFillContext
 	private FormatFactory masterFormatFactory;
 	private Locale masterLocale;
 	private TimeZone masterTimeZone;
+	
+	private final AtomicInteger fillElementSeq = new AtomicInteger();
 
 	
 	/**
@@ -424,5 +428,19 @@ public class JRFillContext
 	public <T extends Deduplicable> T deduplicate(T object)
 	{
 		return deduplicableRegistry.deduplicate(object);
+	}
+
+	/**
+	 * Generates a fresh fill element Id.
+	 * 
+	 * This method is called once by each fill element, and the returned Id is used
+	 * for the generated print elements.
+	 * 
+	 * @return
+	 * @see JRPrintElement#getSourceElementId()
+	 */
+	public int generateFillElementId() 
+	{
+		return fillElementSeq.incrementAndGet();
 	}
 }

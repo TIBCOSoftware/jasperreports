@@ -678,6 +678,12 @@ public class JRXmlExporter extends JRAbstractExporter
 			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_origin, jasperPrint.getOriginsMap().get(origin));
 		}
 		
+		int elementId = element.getSourceElementId();
+		if (elementId != JRPrintElement.UNSET_SOURCE_ELEMENT_ID)
+		{
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_sourceElementId, elementId);
+		}
+		
 		exportProperties(element);
 		
 		xmlWriter.closeElement();

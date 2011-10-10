@@ -37,8 +37,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.fill.JRTemplateElement;
-import net.sf.jasperreports.engine.fill.JRTemplatePrintElement;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
@@ -61,7 +59,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	private static final String REPORT_PREFIX = "report.";
 	
 	private Map<JROrigin,Boolean> originsToExclude = new HashMap<JROrigin,Boolean>();
-	private Map<JRTemplateElement,JRTemplatePrintElement> firstOccurrences = new HashMap<JRTemplateElement,JRTemplatePrintElement>();
+	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<Integer,JRPrintElement>();
 	
 	public void addOrigin(JROrigin origin)
 	{
@@ -80,7 +78,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	
 	public void reset()
 	{
-		firstOccurrences = new HashMap<JRTemplateElement,JRTemplatePrintElement>();
+		firstOccurrences = new HashMap<Integer,JRPrintElement>();
 	}
 	
 	public boolean isToExport(JRPrintElement element)
@@ -93,18 +91,24 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		return
 			!originMatched 
 			|| (keepFirst.booleanValue() 
-				&& (!(element instanceof JRTemplatePrintElement) 
-					|| isFirst((JRTemplatePrintElement)element)));
+				&& isFirst(element));
 	}
 	
-	private boolean isFirst(JRTemplatePrintElement element)
+	private boolean isFirst(JRPrintElement element)
 	{
-		JRTemplateElement template = element.getTemplate();
-		// FIXME template deduplication can break this functionality
-		JRTemplatePrintElement firstElement = firstOccurrences.get(template);
+		int elementId = element.getSourceElementId();
+		if (elementId == JRPrintElement.UNSET_SOURCE_ELEMENT_ID)
+		{
+			// for some reason the element doesn't have a valid source Id.
+			// do not exclude the element in that case.
+			return true;
+		}
+		
+		// FIXME this doesn't work well with batch exporting
+		JRPrintElement firstElement = firstOccurrences.get(elementId);
 		if (firstElement == null || firstElement == element)
 		{
-			firstOccurrences.put(template, element);
+			firstOccurrences.put(elementId, element);
 			return true;
 		}
 		return false;

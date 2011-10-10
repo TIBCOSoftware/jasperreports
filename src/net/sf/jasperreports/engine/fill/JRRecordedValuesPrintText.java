@@ -39,9 +39,24 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 
 	private JRRecordedValues recordedValues;
 
+	/**
+	 * 
+	 * @param text
+	 * @deprecated provide a source Id via {@link #JRTemplatePrintText(JRTemplateText, int)}
+	 */
 	public JRRecordedValuesPrintText(JRTemplateText text)
 	{
 		super(text);
+	}
+
+	/**
+	 * 
+	 * @param text
+	 * @param sourceElementId the Id of the source element
+	 */
+	public JRRecordedValuesPrintText(JRTemplateText text, int sourceElementId)
+	{
+		super(text, sourceElementId);
 	}
 
 	public JRRecordedValues getRecordedValues()

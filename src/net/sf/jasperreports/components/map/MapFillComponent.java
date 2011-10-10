@@ -94,7 +94,7 @@ public class MapFillComponent extends BaseFillComponent
 				MapPrintElement.MAP_ELEMENT_TYPE);
 		template = deduplicate(template);
 		
-		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template);
+		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template, elementId);
 		printElement.setX(element.getX());
 		printElement.setY(fillContext.getElementPrintY());
 		printElement.setWidth(element.getWidth());

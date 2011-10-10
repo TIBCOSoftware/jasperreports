@@ -520,7 +520,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 
 				if (isUsingCache)
 				{
-					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage());
+					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage(), elementId);
 					img.setRenderer(newRenderer);
 					filler.fillContext.registerLoadedImage(source, img);
 				}
@@ -768,11 +768,11 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		JRRecordedValuesPrintImage recordedValuesImage;
 		if (isEvaluateAuto())
 		{
-			printImage = recordedValuesImage = new JRRecordedValuesPrintImage(getJRTemplateImage());
+			printImage = recordedValuesImage = new JRRecordedValuesPrintImage(getJRTemplateImage(), elementId);
 		}
 		else
 		{
-			printImage = new JRTemplatePrintImage(getJRTemplateImage());
+			printImage = new JRTemplatePrintImage(getJRTemplateImage(), elementId);
 			recordedValuesImage = null;
 		}
 		

@@ -77,10 +77,22 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 * Creates a print image element.
 	 * 
 	 * @param image the template image that the element will use
+	 * @deprecated provide a source Id via {@link #JRTemplatePrintImage(JRTemplateImage, int)}
 	 */
 	public JRTemplatePrintImage(JRTemplateImage image)
 	{
 		super(image);
+	}
+
+	/**
+	 * Creates a print image element.
+	 * 
+	 * @param image the template image that the element will use
+	 * @param sourceElementId the Id of the source element
+	 */
+	public JRTemplatePrintImage(JRTemplateImage image, int sourceElementId)
+	{
+		super(image, sourceElementId);
 	}
 
 	/**

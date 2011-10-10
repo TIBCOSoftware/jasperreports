@@ -93,6 +93,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRFillBand band;
 	
 	protected JROriginProvider originProvider;
+	
+	protected int elementId;
 
 	/**
 	 *
@@ -156,6 +158,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			this.filler = filler;
 			this.expressionEvaluator = factory.getExpressionEvaluator();
 			this.defaultStyleProvider = factory.getDefaultStyleProvider();
+			
+			elementId = filler.getFillContext().generateFillElementId();
 
 			/*   */
 			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
@@ -182,6 +186,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		this.expressionEvaluator = element.expressionEvaluator;
 		this.defaultStyleProvider = element.defaultStyleProvider;
 		this.originProvider = element.originProvider;
+		
+		elementId = element.elementId;
 
 		/*   */
 		printWhenGroupChanges = element.printWhenGroupChanges;

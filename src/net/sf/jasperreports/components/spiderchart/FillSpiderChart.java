@@ -171,7 +171,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 		templateImage.setLinkTarget(getLinkTarget());
 		templateImage = deduplicate(templateImage);
 		
-		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage);
+		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, elementId);
 		image.setX(element.getX());
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());

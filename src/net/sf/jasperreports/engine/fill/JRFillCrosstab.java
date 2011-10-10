@@ -588,7 +588,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		JRPrintRectangle printRectangle = null;
 		
-		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle());
+		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), elementId);
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
 		printRectangle.setWidth(getWidth());

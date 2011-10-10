@@ -213,6 +213,11 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		return this;
 	}
 
+	public int getElementSourceId()
+	{
+		return elementId;
+	}
+
 	public JROrigin getElementOrigin()
 	{
 		return super.getElementOrigin();

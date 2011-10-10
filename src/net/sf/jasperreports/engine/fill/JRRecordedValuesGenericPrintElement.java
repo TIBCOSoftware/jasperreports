@@ -45,10 +45,22 @@ public class JRRecordedValuesGenericPrintElement extends
 	 * Creates a generic print element.
 	 * 
 	 * @param template the element template to be used by the element
+	 * @deprecated provide a source Id via {@link #JRRecordedValuesGenericPrintElement(JRTemplateGenericElement, int)}
 	 */
 	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template)
 	{
 		super(template);
+	}
+
+	/**
+	 * Creates a generic print element.
+	 * 
+	 * @param template the element template to be used by the element
+	 * @param sourceElementId the Id of the source element
+	 */
+	public JRRecordedValuesGenericPrintElement(JRTemplateGenericElement template, int sourceElementId)
+	{
+		super(template, sourceElementId);
 	}
 
 	public JRRecordedValues getRecordedValues()
