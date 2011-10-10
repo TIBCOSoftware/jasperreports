@@ -48,6 +48,9 @@ public class WebReportContext implements ReportContext
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
 	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
+	public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
+	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
+	
 	/**
 	 *
 	 */
@@ -80,13 +83,15 @@ public class WebReportContext implements ReportContext
 		if (webReportContext == null && create)
 		{
 			webReportContext = new WebReportContext();
-			request.getSession().setAttribute(webReportContext.getSessionAttributeName(), webReportContext);
+			request.getSession().setAttribute(webReportContext.getSessionAttributeName(), webReportContext); //FIXMEJIVE use FIFO accessor
 		}
 		
 		if (webReportContext != null)
 		{
 			webReportContext.setRequest(request);
 			webReportContext.setParameterValue("net.sf.jasperreports.web.app.context.path", request.getContextPath());
+			webReportContext.setParameterValue(JRParameter.REPORT_CONTEXT, webReportContext);
+			webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, null);	//FIXMEJIVE this should be done only for sorting and filtering
 		}
 		
 		return webReportContext;
@@ -98,7 +103,7 @@ public class WebReportContext implements ReportContext
 	private WebReportContext()
 	{
 		parameterValues = new HashMap<String, Object>();
-		parameterValues.put(JRParameter.REPORT_CONTEXT, this);
+//		parameterValues.put(JRParameter.REPORT_CONTEXT, this);
 	}
 
 	/**
