@@ -72,6 +72,11 @@ public class CompositeDatasetFilter implements DatasetFilter
 	{
 		this.filters = Arrays.asList(filters);
 	}
+
+	public CompositeDatasetFilter(List<DatasetFilter> filters)
+	{
+		this.filters = filters;
+	}
 	
 	public void init(DatasetFillContext context)
 	{
@@ -94,6 +99,14 @@ public class CompositeDatasetFilter implements DatasetFilter
 		}
 
 		return matches;
+	}
+	
+	public List<DatasetFilter> getFilters() {
+		return filters;
+	}
+
+	public void setFilters(List<DatasetFilter> filters) {
+		this.filters = filters;
 	}
 
 }
