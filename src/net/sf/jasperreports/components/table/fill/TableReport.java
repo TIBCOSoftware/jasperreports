@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
 import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JRStaticText;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRValueParameter;
@@ -95,7 +96,6 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  */
 public class TableReport implements JRReport
 {
-
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 	
 	private final FillContext fillContext;
@@ -439,11 +439,34 @@ public class TableReport implements JRReport
 			return chunks[0];
 		}
 
+        protected JRExpression getColumnHeaderLabelExpression(Cell header)
+        {
+            List<JRChild> detailElements = header == null ? null : header.getChildren();
+			// only consider cells with a single text fields
+			if (detailElements == null || detailElements.size() != 1)
+			{
+				return null;
+			}
+
+			JRChild detailElement = detailElements.get(0);
+			if (detailElement instanceof JRTextField)
+			{
+				return ((JRTextField) detailElement).getExpression();
+			}
+
+			if (detailElement instanceof JRStaticText)
+			{
+				return createBuiltinExpression(new ConstantBuiltinExpression(((JRStaticText)detailElement).getText()));
+			}
+			
+			return null;
+        }
+
 		protected void addSortElement(Column column, JRDesignFrame frame,
 				JRExpressionChunk sortExpression)
 		{
 			Cell header = column.getColumnHeader();
-			
+
 			JRDesignGenericElement genericElement = new JRDesignGenericElement(header.getDefaultStyleProvider());
 
 			genericElement.setGenericType(SortElement.SORT_ELEMENT_TYPE);
@@ -480,6 +503,7 @@ public class TableReport implements JRReport
 			}
 			
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_NAME, name);
+			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_COLUMN_TYPE, columnType.getName());
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, "Right");
 			addElementParameter(genericElement, SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, "Middle");
@@ -501,6 +525,14 @@ public class TableReport implements JRReport
 					new ConstantBuiltinExpression(value));
 			param.setValueExpression(valueExpression);
 			
+			element.addParameter(param);
+		}
+
+		protected void addElementParameter(JRDesignGenericElement element, String name, JRExpression expression)
+		{
+			JRDesignGenericElementParameter param = new JRDesignGenericElementParameter();
+			param.setName(name);
+			param.setValueExpression(expression);
 			element.addParameter(param);
 		}
 		
