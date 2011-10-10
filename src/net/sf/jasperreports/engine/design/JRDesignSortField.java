@@ -90,5 +90,17 @@ public class JRDesignSortField extends JRBaseSortField
 		getEventSupport().firePropertyChange(PROPERTY_TYPE, old, this.type);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof JRDesignSortField) {
+			JRDesignSortField compareTo = (JRDesignSortField)obj;
+			if (this.name != null && this.type != null) {
+				return this.name.equals(compareTo.getName()) && this.type.equals(compareTo.getType());
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
 	
 }
