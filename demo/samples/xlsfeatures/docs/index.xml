@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xlsfeatures</name>
+  <title>XLS Features Sample</title>
+  <description>Shows how the specific XLS features could be used when exporting to Excel formats.</description>
+
+  <mainFeature ref="xlsfeatures"/>
+  <secondaryFeature name="datasources" sample="datasource" title="Data Sources"/>
+  
+  <!-- xlsfeatures -->
+  
+  <feature name="xlsfeatures" title="XLS Features">
+    <description>
+How to use XLS specific features to improve the generated document in Excel formats.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="xlsformula"/>
+    <content>
+[Under construction]
+    </content>
+  </feature>
+
+  <!-- xlsfeatures -->
+  
+</sample>
