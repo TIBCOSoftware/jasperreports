@@ -45,7 +45,7 @@
 								#end
 							"	</select>",
 			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' value='${filterValueStartParamValue}' style='width: 80px;' />",
-			                "	<input class='postable filterValue filterValueEnd hidden' disabled type='text' name='${filterValueEndParamName}'  value='${filterValueEndParamValue}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='${filterValueEndParamName}'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
 			                	#if (${isFiltered})
 			                "	<input class='forClear' type='hidden' name='${filterToRemoveParamName}' value='${filterToRemoveParamvalue}' />",
