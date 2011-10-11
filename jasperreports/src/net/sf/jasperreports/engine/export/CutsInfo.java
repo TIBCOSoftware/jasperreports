@@ -107,6 +107,11 @@ public class CutsInfo
 		getCut(index).setAutoFit(autoFit);
 	}
 	
+	public void setCustomWidth(int index, int customWidth)
+	{
+		getCut(index).setCustomWidth(customWidth);
+	}
+	
 	public boolean addCutOffset(Integer cutOffset)
 	{
 		int idx = Collections.binarySearch(cutOffsets, cutOffset);
@@ -138,6 +143,14 @@ public class CutsInfo
 	public boolean isAutoFit(int index)//FIXMEXLS do this in Cut
 	{
 		return getCut(index).getAutoFit();
+	}
+
+	/**
+	 * 
+	 */
+	public Integer getCustomWidth(int index)//FIXMEXLS do this in Cut
+	{
+		return getCut(index).getCustomWidth();
 	}
 
 	/**

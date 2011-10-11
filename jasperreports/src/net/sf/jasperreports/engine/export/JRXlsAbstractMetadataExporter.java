@@ -177,7 +177,10 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 						sheetIndex++;
 						sheetNamesIndex++;
 						rowIndex = 0;
-						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
+						{
+							setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+						}
 						if(autoFilter != null)
 						{
 							setAutoFilter(autoFilter);
@@ -195,7 +198,10 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
 					sheetNamesIndex++;
-					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
+					{
+						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					}
 					if(autoFilter != null)
 					{
 						setAutoFilter(autoFilter);

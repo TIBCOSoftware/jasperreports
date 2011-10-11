@@ -1400,10 +1400,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
+			int width = xCuts.getCustomWidth(col)!= null ? xCuts.getCustomWidth(col) : xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
+			
 			setColumnWidth(
 				col, 
-				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col))) 
-					? xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col) 
+				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)) || !xCuts.isAutoFit(col)) 
+					? width 
 					: 0
 				);
 		}

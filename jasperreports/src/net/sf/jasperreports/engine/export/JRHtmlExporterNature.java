@@ -168,4 +168,9 @@ public class JRHtmlExporterNature implements ExporterNature
 	{
 		return null;
 	}
+
+	public Integer getCustomColumnWidth(JRPrintElement element)
+	{
+		return null;
+	}
 }

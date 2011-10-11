@@ -213,6 +213,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
 	public static final String PROPERTY_AUTO_FILTER = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter";
+	public static final String PROPERTY_CUSTOM_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.custom.column.width";
 	
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -961,7 +962,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| !xCuts.isAutoFit(col)
 				)
 			{
-				int width = xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
+				int width = xCuts.getCustomWidth(col)!= null ? xCuts.getCustomWidth(col) : xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
 				setColumnWidth(col, width);
 			}
 		}
