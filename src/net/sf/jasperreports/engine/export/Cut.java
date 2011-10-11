@@ -45,6 +45,7 @@ public class Cut
 	private int position;
 	private int usage;
 	private Boolean autoFit;
+	private Integer customWidth;
 	
 	public Cut()
 	{
@@ -87,4 +88,14 @@ public class Cut
 		}
 	}
 	
+	public Integer getCustomWidth() {
+		return customWidth;
+	}
+
+	public void setCustomWidth(Integer customWidth) {
+		if(this.customWidth == null || (customWidth != null && this.customWidth < customWidth))
+		{
+			this.customWidth = customWidth;
+		}
+	}
 }

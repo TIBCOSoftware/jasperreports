@@ -125,4 +125,13 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	{
 		return null;
 	}
+
+	/**
+	 *
+	 */
+	public Integer getCustomColumnWidth(JRPrintElement element)
+	{
+		return null;
+	}
+	
 }

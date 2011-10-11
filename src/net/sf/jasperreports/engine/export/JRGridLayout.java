@@ -533,6 +533,12 @@ public class JRGridLayout
 			xCuts.setAutoFit(col1, columnAutoFit.booleanValue());
 		}
 
+		Integer columnCustomWidth = nature.getCustomColumnWidth(element);
+		if (columnCustomWidth != null)
+		{
+			xCuts.setCustomWidth(col1, columnCustomWidth);
+		}
+
 		if (nature.isSpanCells())
 		{
 			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
