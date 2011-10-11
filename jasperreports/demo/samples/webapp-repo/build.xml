@@ -24,6 +24,7 @@
 		</copy>
 		<copy todir="./WEB-INF/lib">
 			<fileset dir="../../../lib">
+				<include name="**/log4j-*.jar"/>
 				<include name="**/commons-*.jar"/>
 				<include name="**/i*ext*.jar"/>
 				<include name="**/*jdt*.jar"/>
@@ -33,6 +34,7 @@
 				<include name="**/spring*.jar"/>
 				<include name="**/castor*.jar"/>
 				<include name="**/velocity*.jar"/>
+				<include name="**/jackson-*.jar"/>
 				<exclude name="**/commons-javaflow-*.jar"/>
 			</fileset>
 		</copy>
@@ -100,7 +102,15 @@
 	<target name="startTomcat" depends="isTomcatRunning" unless="tomcat.running">
 		<echo message="Starting Tomcat" />
 	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
+	        <jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
+	        <jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+	        <jvmarg value="-Xmx512m" />
+	        <jvmarg value="-XX:MaxPermSize=256m" />
+	        <jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
+	        <jvmarg value="-Dcatalina.base=${tomcat.home}" />
 	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	        <jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
+	        <jvmarg value="-Dlog4j.debug" />
 	    </java>
 	</target>
 
@@ -123,6 +133,9 @@
 	
 	<target name="cleanTomcat">
 		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.home}/temp">
+				<include name="**/*" />
+			</fileset>
 			<fileset dir="${tomcat.home}/work/Catalina">
 				<include name="**/*" />
 			</fileset>
@@ -140,5 +153,5 @@
 		<antcall target="copyWarToTomcat" />
 		<antcall target="startTomcat" inheritall="false" />
 	</target>
-	
+		
 </project>
