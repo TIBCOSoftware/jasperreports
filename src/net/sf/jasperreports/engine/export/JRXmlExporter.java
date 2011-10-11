@@ -681,7 +681,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		int elementId = element.getSourceElementId();
 		if (elementId != JRPrintElement.UNSET_SOURCE_ELEMENT_ID)
 		{
-			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_sourceElementId, elementId);
+			xmlWriter.addAttribute(JRXmlConstants.ATTRIBUTE_srcId, elementId);
 		}
 		
 		exportProperties(element);
