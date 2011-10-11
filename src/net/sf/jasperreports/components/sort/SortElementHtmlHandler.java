@@ -71,8 +71,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
 	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
-	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_up.png";
-	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_down.png";
+	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_up.png";
+	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_down.png";
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
 	
 	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
@@ -211,7 +211,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 
 			if (sortDatasetName != null && sortDatasetName.equals(currentDataset))
 			{
-				String currentTableFiltersParam = currentDataset + WebReportContext.FILTER_FIELDS_PARAM_SUFFIX;
+				String currentTableFiltersParam = currentDataset + SortElement.FILTER_FIELDS_PARAM_SUFFIX;
 				DatasetFilter existingFilter = (DatasetFilter) reportContext.getParameterValue(currentTableFiltersParam);
 				getFieldFilters(existingFilter, fieldFilters, sortColumnName);
 				
@@ -286,7 +286,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			return null;
 		}
 		
-		String currentTableSortFieldsParam = currentSortDataset + WebReportContext.SORT_FIELDS_PARAM_SUFFIX;
+		String currentTableSortFieldsParam = currentSortDataset + SortElement.SORT_FIELDS_PARAM_SUFFIX;
 		@SuppressWarnings("unchecked")
 		List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
 		String sortField = null;
