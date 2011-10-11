@@ -171,18 +171,37 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 		copyParameters(crosstab, factory);
 		copyVariables(crosstab, crosstabFactory);
-
-		// default value from property
-		this.ignoreWidth = JRProperties.getBooleanProperty(filler.jasperReport, 
-				PROPERTY_IGNORE_WIDTH, false);
-		Boolean crosstabIgnoreWidth = crosstab.getIgnoreWidth();
-		// crosstab attribute overrides property 
-		if (crosstabIgnoreWidth != null)
-		{
-			this.ignoreWidth = crosstabIgnoreWidth.booleanValue();
-		}
 		
 		crosstabFiller = new CrosstabFiller();
+	}
+
+	private boolean isIgnoreWidth(JRBaseFiller filler, JRCrosstab crosstab)
+	{
+		Boolean crosstabIgnoreWidth = crosstab.getIgnoreWidth();
+		// crosstab attribute overrides all 
+		if (crosstabIgnoreWidth != null)
+		{
+			return crosstabIgnoreWidth.booleanValue();
+		}
+		
+		// report level property
+		String reportProperty = filler.jasperReport.getPropertiesMap().getProperty(
+				PROPERTY_IGNORE_WIDTH);
+		if (reportProperty != null)
+		{
+			return JRProperties.asBoolean(reportProperty);
+		}
+		
+		// report pagination parameter from the master filler
+		Boolean ignorePaginationParam = (Boolean) filler.getMasterFiller().getParameterValue(
+				JRParameter.IS_IGNORE_PAGINATION);
+		if (ignorePaginationParam != null && ignorePaginationParam.booleanValue())
+		{
+			return ignorePaginationParam.booleanValue();
+		}
+		
+		// global property
+		return JRProperties.getBooleanProperty(PROPERTY_IGNORE_WIDTH);
 	}
 
 	/**
@@ -467,6 +486,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			}
 			
 			overflowStartPage = 0;
+
+			ignoreWidth = isIgnoreWidth(filler, parentCrosstab);
 		}
 	}
 
@@ -2166,20 +2187,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	public Boolean getIgnoreWidth()
 	{
-		return Boolean.valueOf(ignoreWidth);
+		return parentCrosstab.getIgnoreWidth();
 	}
 
 	public void setIgnoreWidth(Boolean ignoreWidth)
 	{
-		if (ignoreWidth != null)
-		{
-			setIgnoreWidth(ignoreWidth.booleanValue());
-		}
+		throw new UnsupportedOperationException();
 	}
 
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
-		this.ignoreWidth = ignoreWidth;
+		throw new UnsupportedOperationException();
 	}
 
 }
