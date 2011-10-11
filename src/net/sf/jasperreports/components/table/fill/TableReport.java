@@ -476,6 +476,7 @@ public class TableReport implements JRReport
 			genericElement.setHeight(header.getHeight());
 			genericElement.setWidth(fillColumn.getWidth());
 			genericElement.setMode(ModeEnum.TRANSPARENT);
+            genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 			
 			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_DATASET_RUN, getName());
 			
