@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.sort;
 
 import net.sf.jasperreports.engine.JRGenericElementType;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -67,5 +68,8 @@ public interface SortElement {
 	
 	public static final String PROPERTY_DATASET_RUN = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN;
 	public static final String PROPERTY_FILTER_TYPE = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_TYPE;
+
+    public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
+	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
 
 }

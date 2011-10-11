@@ -48,9 +48,6 @@ public class WebReportContext implements ReportContext
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
 	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
-	public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
-	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
-	
 	/**
 	 *
 	 */

@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
-import net.sf.jasperreports.web.WebReportContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,8 +77,8 @@ public class SortParameterContributor implements ParameterContributor
 				return;
 			}
 			
-			String currentTableSortFieldsParam = paramTableName + WebReportContext.SORT_FIELDS_PARAM_SUFFIX;
-			String currentTableFiltersParam = paramTableName + WebReportContext.FILTER_FIELDS_PARAM_SUFFIX;
+			String currentTableSortFieldsParam = paramTableName + SortElement.SORT_FIELDS_PARAM_SUFFIX;
+			String currentTableFiltersParam = paramTableName + SortElement.FILTER_FIELDS_PARAM_SUFFIX;
 
 			@SuppressWarnings("unchecked")
 			List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
