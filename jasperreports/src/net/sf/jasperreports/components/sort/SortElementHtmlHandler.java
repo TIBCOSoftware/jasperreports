@@ -207,6 +207,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String filterTypeOperatorValue = "";
 			String filterActiveInactive = FILTER_SYMBOL_INACTIVE;
 			boolean isFiltered = false;
+			boolean enableFilterEndParameter = false;
 			List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
 
 			if (sortDatasetName != null && sortDatasetName.equals(currentDataset))
@@ -226,6 +227,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 					filterTypeOperatorValue = ff.getFilterTypeOperator();
 					filterActiveInactive = FILTER_SYMBOL_ACTIVE;
 					isFiltered = true;
+					if (filterTypeOperatorValue != null && filterTypeOperatorValue.toLowerCase().contains("between")) {
+						enableFilterEndParameter = true;
+					}
+					
 				}
 			}
 			velocityContext.put("isFiltered", isFiltered);
@@ -237,6 +242,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterValueEndParamValue", filterValueEnd);
 			velocityContext.put("filterTypeOperatorParamValue", filterTypeOperatorValue);
 			velocityContext.put("filterActiveInactive", filterActiveInactive);
+			velocityContext.put("enableFilterEndParameter", enableFilterEndParameter);
 			
 			htmlFragment = VelocityUtil.processTemplate(SortElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, velocityContext);
 		}
