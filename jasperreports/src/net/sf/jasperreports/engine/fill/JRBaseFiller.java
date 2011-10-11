@@ -1568,6 +1568,17 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider, JRVirtualP
 	{
 		return mainDataset.getVariableValue(variableName);
 	}
+	
+	/**
+	 * Returns the value of a parameter.
+	 * 
+	 * @param parameterName the parameter name
+	 * @return the parameter value
+	 */
+	public Object getParameterValue(String parameterName)
+	{
+		return mainDataset.getParameterValue(parameterName);
+	}
 
 	/**
 	 * Resloves elements which are to be evaluated at band level.

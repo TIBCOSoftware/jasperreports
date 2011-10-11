@@ -25,6 +25,7 @@ package net.sf.jasperreports.crosstabs;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -61,7 +62,14 @@ public interface JRCrosstab extends JRElement
 	 * set for a crosstab will override the property.
 	 * 
 	 * <p>
-	 * The default value of this property is <code>false</code>, i.e. crosstabs
+	 * The property value set at report level will be used when the crosstab
+	 * flag is not set.  If neither the crosstab flag and report level property
+	 * exist and the {@link JRParameter#IS_IGNORE_PAGINATION} parameter is set to
+	 * true, the crosstab width is ignored.  Otherwise, the global property value
+	 * will be used.
+	 * 
+	 * <p>
+	 * The default global value of this property is <code>false</code>, i.e. crosstabs
 	 * will break by default at the width set for the crosstab report element.
 	 * 
 	 * @see #setIgnoreWidth(Boolean)
@@ -309,7 +317,8 @@ public interface JRCrosstab extends JRElement
 	 * 
 	 * <p>
 	 * The default value of this flag is given by the 
-	 * {@link #PROPERTY_IGNORE_WIDTH} property.
+	 * {@link #PROPERTY_IGNORE_WIDTH} property and the 
+	 * {@link JRParameter#IS_IGNORE_PAGINATION} parameter.
 	 * 
 	 * @param ignoreWidth whether the element width is to be ignored by the crosstab,
 	 * or <code>null</code> if the default setting is to be used
