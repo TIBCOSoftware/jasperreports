@@ -90,7 +90,7 @@
 				<reportElement x="0" y="0" width="515" height="70"/>
 				<jr:table
 					xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
-					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="TableDataset">
 					</datasetRun>
 					<jr:columnGroup width="515">
@@ -148,11 +148,11 @@
 								<jr:cell height="0"/>
 							</jr:groupHeader>
 							<jr:columnHeader height="20">
-								<textField>
+								<staticText>
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="205" height="20" forecolor="#FFFFFF" backcolor="#333333"/>
 									<textElement/>
-									<textFieldExpression class="java.lang.String"><![CDATA["Name"]]></textFieldExpression>
-								</textField>
+									<text><![CDATA[Name]]></text>
+								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell height="15">
 								<textField isStretchWithOverflow="true">
