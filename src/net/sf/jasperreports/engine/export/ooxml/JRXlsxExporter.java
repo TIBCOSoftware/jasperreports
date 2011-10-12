@@ -148,6 +148,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature nature;
 	
+	protected String sheetAutoFilter;		
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -765,7 +767,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			drawingRelsHelper.exportFooter();
 			drawingRelsHelper.close();
 		}
-//		sheetAutoFilter = null;
 	}
 
 
@@ -1396,9 +1397,25 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	@Override
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
+		float sheetRatio = 0f;
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			int width = xCuts.getCustomWidth(col)!= null ? xCuts.getCustomWidth(col) : xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
+			Float ratio = xCuts.getWidthRatio(col);
+			if(ratio != null && ratio > sheetRatio)
+			{
+				sheetRatio = ratio;
+			}
+		}
+		if(sheetRatio == 0f)
+		{
+			sheetRatio = columnWidthRatio > 0f ? columnWidthRatio : 1f;
+		}
+		
+		for(int col = 0; col < xCuts.size() - 1; col++)
+		{
+			int width = xCuts.getCustomWidth(col)!= null 
+				? xCuts.getCustomWidth(col) 
+				: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
 			
 			setColumnWidth(
 				col, 
@@ -1409,7 +1426,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	
 	protected void removeColumn(int col) {
 		//column width was already set to zero
 	}
@@ -1472,6 +1488,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		sheetAutoFilter = autoFilterRange;
 		
+	}
+	
+	protected void resetAutoFilters()
+	{
+		super.resetAutoFilters();
+		sheetAutoFilter = null;
 	}
 	
 }

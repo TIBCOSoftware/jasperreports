@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -534,11 +535,17 @@ public class JRGridLayout
 		}
 
 		Integer columnCustomWidth = nature.getCustomColumnWidth(element);
-		if (columnCustomWidth != null)
+		if (columnCustomWidth != null && (xCuts.getCustomWidth(col1) == null || xCuts.getCustomWidth(col1) < columnCustomWidth))
 		{
 			xCuts.setCustomWidth(col1, columnCustomWidth);
 		}
 
+		Float widthRatio = nature.getColumnWidthRatio(element);
+		if(widthRatio != null && (xCuts.getWidthRatio(col1) == null || xCuts.getWidthRatio(col1) < widthRatio))
+		{
+			xCuts.setWidthRatio(col1, widthRatio);
+		}
+		
 		if (nature.isSpanCells())
 		{
 			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);

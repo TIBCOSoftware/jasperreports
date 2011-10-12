@@ -175,15 +175,27 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	}
 
 	public Integer getCustomColumnWidth(JRPrintElement element) {
-		if (
-				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH)
-				)
-			{
-				// we make this test to avoid reaching the global default value of the property directly
-				// and thus skipping the report level one, if present
-				return JRProperties.getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
-			}
-			return null;
+		if (element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRProperties.getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
+		}
+		return null;
 	}
+	
+	public Float getColumnWidthRatio(JRPrintElement element) {
+		if (element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return JRProperties.getFloatProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+		}
+		return null;
+	}
+	
 }

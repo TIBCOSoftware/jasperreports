@@ -215,6 +215,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_AUTO_FILTER_START = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.start";
 	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
 	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
+	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
 	
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -310,15 +311,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int gridRowFreezeIndex;
 	protected int gridColumnFreezeIndex;
 	
-	protected String sheetAutoFilter;		
-	protected String autoFilterStart;		
-	protected String autoFilterEnd;		
-
 	protected int maxRowFreezeIndex;
 	protected int maxColumnFreezeIndex;
 	
 	protected boolean isFreezeRowEdge;
 	protected boolean isFreezeColumnEdge;
+	
+	protected String autoFilterStart;		
+	protected String autoFilterEnd;		
+
+	protected Float columnWidthRatio;
 	/**
 	 *
 	 */
@@ -596,6 +598,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				Math.max(0, getColumnIndex(JRProperties.getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN))), 
 				MAX_COLUMN_INDEX
 				);	
+		columnWidthRatio = JRProperties.getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 	}
 
 	protected abstract void setBackground();
@@ -943,10 +946,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
-		else if(sheetAutoFilter != null)
-		{
-			setAutoFilter(sheetAutoFilter);
-		}
 		
 		if (createXCuts && isRemoveEmptySpaceBetweenColumns)
 		{
@@ -965,6 +964,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
+		float sheetRatio = 0f;
+		for(int col = 0; col < xCuts.size() - 1; col++)
+		{
+			Float ratio = xCuts.getWidthRatio(col);
+			if(ratio != null && ratio > sheetRatio)
+			{
+				sheetRatio = ratio;
+			}
+		}
+		if(sheetRatio == 0f)
+		{
+			sheetRatio = columnWidthRatio > 0f ? columnWidthRatio : 1f;
+		}
+		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
 			if (
@@ -972,7 +985,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| !xCuts.isAutoFit(col)
 				)
 			{
-				int width = xCuts.getCustomWidth(col)!= null ? xCuts.getCustomWidth(col) : xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col);
+				int width = xCuts.getCustomWidth(col)!= null 
+					? xCuts.getCustomWidth(col) 
+					: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
 				setColumnWidth(col, width);
 			}
 		}
@@ -1385,7 +1400,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected void resetAutoFilters()
 	{
-		sheetAutoFilter = null;
 		autoFilterStart = null;
 		autoFilterEnd = null;
 	}

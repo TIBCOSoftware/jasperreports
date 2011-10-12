@@ -83,6 +83,10 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public Integer getCustomColumnWidth(JRPrintElement element);
 
+	/**
+	 * 
+	 */
+	public Float getColumnWidthRatio(JRPrintElement element);
 	
 	/**
 	 * Flag that specifies that empty cells are to be horizontally merged.

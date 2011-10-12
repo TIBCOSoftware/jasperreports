@@ -46,6 +46,7 @@ public class Cut
 	private int usage;
 	private Boolean autoFit;
 	private Integer customWidth;
+	private Float widthRatio;
 	
 	public Cut()
 	{
@@ -89,13 +90,26 @@ public class Cut
 	}
 	
 	public Integer getCustomWidth() {
-		return customWidth;
+		return this.customWidth;
 	}
 
 	public void setCustomWidth(Integer customWidth) {
 		if(this.customWidth == null || (customWidth != null && this.customWidth < customWidth))
 		{
 			this.customWidth = customWidth;
+		}
+	}
+
+	public Float getWidthRatio()
+	{
+		return this.widthRatio;
+	}
+
+	public void setWidthRatio(Float widthRatio)
+	{
+		if(this.widthRatio == null || (widthRatio != null && this.widthRatio < widthRatio))
+		{
+			this.widthRatio = widthRatio;
 		}
 	}
 }

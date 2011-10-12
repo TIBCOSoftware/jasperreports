@@ -173,4 +173,10 @@ public class JRHtmlExporterNature implements ExporterNature
 	{
 		return null;
 	}
+	
+	public Float getColumnWidthRatio(JRPrintElement element) 
+	{
+		return null;
+	}
+	
 }

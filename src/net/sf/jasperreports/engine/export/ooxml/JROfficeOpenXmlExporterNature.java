@@ -133,5 +133,10 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 	{
 		return null;
 	}
+
+	public Float getColumnWidthRatio(JRPrintElement element) 
+	{
+		return null;
+	}
 	
 }
