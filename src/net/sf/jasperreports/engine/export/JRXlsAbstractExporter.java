@@ -213,6 +213,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
 	public static final String PROPERTY_AUTO_FILTER = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter";
+	public static final String PROPERTY_AUTO_FILTER_START = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.start";
+	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
 	public static final String PROPERTY_CUSTOM_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.custom.column.width";
 	
 	
@@ -309,7 +311,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int gridRowFreezeIndex;
 	protected int gridColumnFreezeIndex;
 	
-	protected String autoFilter;		
+	protected String documentAutoFilter;		
+	protected String sheetAutoFilter;		
+	protected String autoFilterStart;		
+	protected String autoFilterEnd;		
 
 	protected int maxRowFreezeIndex;
 	protected int maxColumnFreezeIndex;
@@ -594,7 +599,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				MAX_COLUMN_INDEX
 				);	
 		
-		autoFilter = 
+		documentAutoFilter = 
 				JRProperties.getProperty(
 					jasperPrint,
 					PROPERTY_AUTO_FILTER
@@ -651,14 +656,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
 						sheetNamesIndex++;
+						resetAutoFilters();
 						if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
 						{
 							setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 						}
-						if(autoFilter != null)
-						{
-							setAutoFilter(autoFilter);
-						}
+
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0);
 					}
@@ -671,15 +674,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					// we need to count all sheets generated for all exported documents
 					sheetIndex++;
 					sheetNamesIndex++;
+					resetAutoFilters();
 
 					if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
 					{
 						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-					}
-					
-					if(autoFilter != null)
-					{
-						setAutoFilter(autoFilter);
 					}
 					
 					/*
@@ -769,6 +768,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				{
 					removeEmptyColumns(xCuts);
 				}
+				
 				createSheet(getSheetName(null));
 				setColumnWidths(xCuts);
 				startRow = 0;
@@ -776,14 +776,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				skippedRows = y;
 				sheetIndex++;
 				sheetNamesIndex++;
+				resetAutoFilters();
+				
 				if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
 				{
 					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 				}
-				if(autoFilter != null)
-				{
-					setAutoFilter(autoFilter);
-				}
+
 			}
 			
 			if (
@@ -868,10 +867,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							setSheetName(sheetName);
 						}
 
+						boolean start = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
+						if(start)
+						{
+							autoFilterStart = getColumnName(colIndex) + rowIndex;
+						}
+						
+						boolean end = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_END, false);
+						if(end)
+						{
+							autoFilterEnd = getColumnName(colIndex) + rowIndex;
+						}
+						
 						String autoFilterRange = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
+						
 						if(autoFilterRange != null)
 						{
-							setAutoFilter(autoFilterRange);
+							sheetAutoFilter = autoFilterRange;
 						}
 						
 						if (element instanceof JRPrintLine)
@@ -938,6 +950,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			}
 		}
 
+		if(autoFilterStart != null)
+		{
+			setAutoFilter(autoFilterStart + ":" + (autoFilterEnd != null ? autoFilterEnd : autoFilterStart));
+		}
+		else if(autoFilterEnd != null)
+		{
+			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
+		}
+		else if(sheetAutoFilter != null)
+		{
+			setAutoFilter(sheetAutoFilter);
+		}
+		else if(documentAutoFilter != null)
+		{
+			setAutoFilter(documentAutoFilter);
+		}
+		
 		if (createXCuts && isRemoveEmptySpaceBetweenColumns)
 		{
 			removeEmptyColumns(xCuts);
@@ -1357,9 +1386,27 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return index;
 	}
 	
+	/**
+	 * 
+	 * @return the calculated column index
+	 */
+	protected String getColumnName(int columnIndex)
+	{
+		int i = columnIndex/26 + 64;
+		int j = columnIndex%26 + 65;
+		return (i > 64 ? String.valueOf((char)i) : "") + (char)j;
+	}
+	
 	protected void setFreezePane(int rowIndex, int colIndex)
 	{
 		setFreezePane(rowIndex, colIndex, false, false);
+	}
+	
+	protected void resetAutoFilters()
+	{
+		sheetAutoFilter = null;
+		autoFilterStart = null;
+		autoFilterEnd = null;
 	}
 	
 	protected abstract ExporterNature getNature();
