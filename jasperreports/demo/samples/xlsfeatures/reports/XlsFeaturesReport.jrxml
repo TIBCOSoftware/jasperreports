@@ -51,7 +51,6 @@
 			<textField bookmarkLevel="2">
 				<reportElement x="0" y="0" width="55" height="15">
 					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$F{id}.equals(17) ? "C4:D4" : null]]></propertyExpression>
-					<propertyExpression name="net.sf.jasperreports.export.xls.outline.level"><![CDATA[$F{city}]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
