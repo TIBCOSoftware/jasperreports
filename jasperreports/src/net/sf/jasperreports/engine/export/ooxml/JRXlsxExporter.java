@@ -148,8 +148,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected ExporterNature nature;
 	
-	protected String sheetAutoFilter;
-	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -754,7 +752,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					sheetIndex, 
 					jasperPrint, 
 					isIgnorePageMargins, 
-					sheetAutoFilter == null ? autoFilter : sheetAutoFilter
+					sheetAutoFilter
 					);
 			sheetHelper.close();
 
@@ -767,7 +765,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			drawingRelsHelper.exportFooter();
 			drawingRelsHelper.close();
 		}
-		sheetAutoFilter = null;
+//		sheetAutoFilter = null;
 	}
 
 
