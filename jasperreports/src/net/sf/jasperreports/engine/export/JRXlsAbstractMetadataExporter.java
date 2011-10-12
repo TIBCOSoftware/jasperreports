@@ -298,11 +298,6 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 				setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 			}
 			
-			String autoFilterRange = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
-			if(autoFilterRange != null)
-			{
-				setAutoFilter(autoFilterRange);
-			}
 		}
 		// write last row
 		if (columnNames.size() > 0)
@@ -310,6 +305,19 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			writeCurrentRow(currentRow, repeatedValues);
 		}
 
+		if(autoFilterStart != null)
+		{
+			setAutoFilter(autoFilterStart + ":" + (autoFilterEnd != null ? autoFilterEnd : autoFilterStart));
+		}
+		else if(autoFilterEnd != null)
+		{
+			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
+		}
+		else if(sheetAutoFilter != null)
+		{
+			setAutoFilter(sheetAutoFilter);
+		}
+		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();

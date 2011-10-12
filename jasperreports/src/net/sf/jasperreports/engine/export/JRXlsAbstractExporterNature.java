@@ -177,12 +177,12 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	public Integer getCustomColumnWidth(JRPrintElement element) {
 		if (
 				element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_CUSTOM_COLUMN_WIDTH)
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH)
 				)
 			{
 				// we make this test to avoid reaching the global default value of the property directly
 				// and thus skipping the report level one, if present
-				return JRProperties.getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_CUSTOM_COLUMN_WIDTH, 0);
+				return JRProperties.getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
 			}
 			return null;
 	}
