@@ -82,7 +82,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="55" y="0" width="205" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.start"><![CDATA[$F{id}.equals(17) ? "true" : "false"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.start"><![CDATA[$F{id}.equals(28) ? "true" : "false"]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
@@ -93,8 +93,8 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="260" y="0" width="255" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.end"><![CDATA[$F{id}.equals(17) ? "true" : "false"]]></propertyExpression>
-					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(17) ? "0.75f" : null]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.end"><![CDATA[$F{id}.equals(28) ? "true" : "false"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(28) ? "0.75f" : null]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5"/>
