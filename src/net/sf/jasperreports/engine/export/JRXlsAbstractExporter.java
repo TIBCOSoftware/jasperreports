@@ -212,10 +212,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
-	public static final String PROPERTY_AUTO_FILTER = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter";
 	public static final String PROPERTY_AUTO_FILTER_START = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.start";
 	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
-	public static final String PROPERTY_CUSTOM_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.custom.column.width";
+	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
 	
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -311,7 +310,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int gridRowFreezeIndex;
 	protected int gridColumnFreezeIndex;
 	
-	protected String documentAutoFilter;		
 	protected String sheetAutoFilter;		
 	protected String autoFilterStart;		
 	protected String autoFilterEnd;		
@@ -598,12 +596,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				Math.max(0, getColumnIndex(JRProperties.getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN))), 
 				MAX_COLUMN_INDEX
 				);	
-		
-		documentAutoFilter = 
-				JRProperties.getProperty(
-					jasperPrint,
-					PROPERTY_AUTO_FILTER
-					);
 	}
 
 	protected abstract void setBackground();
@@ -868,22 +860,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 
 						boolean start = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
-						if(start)
+						if(start && rowIndex < MAX_ROW_INDEX)
 						{
-							autoFilterStart = getColumnName(colIndex) + rowIndex;
+							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
 						}
 						
 						boolean end = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_END, false);
-						if(end)
+						if(end && rowIndex < MAX_ROW_INDEX)
 						{
-							autoFilterEnd = getColumnName(colIndex) + rowIndex;
-						}
-						
-						String autoFilterRange = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
-						
-						if(autoFilterRange != null)
-						{
-							sheetAutoFilter = autoFilterRange;
+							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
 						}
 						
 						if (element instanceof JRPrintLine)
@@ -961,10 +946,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		else if(sheetAutoFilter != null)
 		{
 			setAutoFilter(sheetAutoFilter);
-		}
-		else if(documentAutoFilter != null)
-		{
-			setAutoFilter(documentAutoFilter);
 		}
 		
 		if (createXCuts && isRemoveEmptySpaceBetweenColumns)
