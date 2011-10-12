@@ -114,7 +114,6 @@
 				}		
 			});
 		} else {
-//			console.log("filterdiv: " + uid + " already exists");
 			// update existing filter with values from filtersJsonString
 			var arrFilters = jQuery.parseJSON(filtersJsonString);
 			var found = false;
@@ -125,10 +124,15 @@
 				for (var i=0, ln = arrFilters.length; i < ln; i++) {
 					var filter = arrFilters[i];
 					if (filter.field === currentFilterField) {
-						console.log('found filter for field: ' + currentFilterField);
 						jQuery('.filterValueStart', filterDiv).val(filter.filterValueStart);
 						jQuery('.filterValueEnd', filterDiv).val(filter.filterValueEnd);
 						jQuery('.filterOperatorTypeValueSelector', filterDiv).val(filter.filterTypeOperator);
+						
+						if (filter.filterTypeOperator && filter.filterTypeOperator.toLowerCase().indexOf('between') != -1) {
+							jQuery('.filterValueEnd', filterDiv).removeClass('hidden').removeAttr('disabled');
+						} else {
+							jQuery('.filterValueEnd', filterDiv).addClass('hidden').attr('disabled', true);
+						}
 						found = true;
 						break;
 					}
