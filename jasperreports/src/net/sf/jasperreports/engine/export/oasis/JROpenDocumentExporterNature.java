@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -145,6 +147,11 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	 *
 	 */
 	public Integer getCustomColumnWidth(JRPrintElement element)
+	{
+		return null;
+	}
+
+	public Float getColumnWidthRatio(JRPrintElement element) 
 	{
 		return null;
 	}

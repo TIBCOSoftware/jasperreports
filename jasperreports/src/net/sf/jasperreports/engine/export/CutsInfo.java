@@ -112,6 +112,11 @@ public class CutsInfo
 		getCut(index).setCustomWidth(customWidth);
 	}
 	
+	public void setWidthRatio(int index, float customWidth)
+	{
+		getCut(index).setWidthRatio(customWidth);
+	}
+	
 	public boolean addCutOffset(Integer cutOffset)
 	{
 		int idx = Collections.binarySearch(cutOffsets, cutOffset);
@@ -151,6 +156,14 @@ public class CutsInfo
 	public Integer getCustomWidth(int index)//FIXMEXLS do this in Cut
 	{
 		return getCut(index).getCustomWidth();
+	}
+
+	/**
+	 * 
+	 */
+	public Float getWidthRatio(int index)//FIXMEXLS do this in Cut
+	{
+		return getCut(index).getWidthRatio();
 	}
 
 	/**

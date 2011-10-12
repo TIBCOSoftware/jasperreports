@@ -313,11 +313,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 		{
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
-		else if(sheetAutoFilter != null)
-		{
-			setAutoFilter(sheetAutoFilter);
-		}
-		
+
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
