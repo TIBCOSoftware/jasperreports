@@ -42,17 +42,22 @@
 			});
 			
 			filterDiv
-				.draggable()
-				.bind('keypress', function(event) {
-					var target = jQuery(event.target),
-						thisFilterDiv = jQuery(this);
-					
-					// 'Enter' key press for filter value triggers 'contextual' submit
-					if (target.is('.filterValue') && event.keyCode == 13) {
-						event.preventDefault();
-						jQuery('.submitFilter', thisFilterDiv).trigger('click');
+				.draggable();
+			
+			// 'Enter' key press for filter value triggers 'contextual' submit
+			jQuery('.filterValue', filterDiv).bind('keypress', function(event) {
+				if (event.keyCode == 13) {
+					event.preventDefault();
+					if ('createTouch' in document) {	// trigger does not seem to work on safari mobile; doing workaround
+						var el = jQuery('.submitFilter', filterDiv).get(0);
+						var evt = document.createEvent("MouseEvents");
+						evt.initMouseEvent("touchend", true, true);
+						el.dispatchEvent(evt);
+					} else {
+						jQuery('.submitFilter', filterDiv).trigger('click');
 					}
-				});
+				}
+			});
 			
 			jQuery('.submitFilter', filterDiv).live(('createTouch' in document) ? 'touchend' : 'click', function(event){
 				var params = {},
