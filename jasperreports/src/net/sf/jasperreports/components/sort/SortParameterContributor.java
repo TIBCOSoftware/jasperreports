@@ -153,6 +153,7 @@ public class SortParameterContributor implements ParameterContributor
 						filterForCurrentField.setFilterTypeOperator(paramFilterTypeOperator);
 						filterForCurrentField.setFilterValueEnd(paramFieldValueEnd);
 						filterForCurrentField.setFilterValueStart(paramFieldValueStart);
+						filterForCurrentField.setIsValid(null);
 						combined = new CompositeDatasetFilter(filters);
 					} else {
 						DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);

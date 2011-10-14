@@ -64,6 +64,8 @@ public class FieldFilter implements DatasetFilter
 	private DatasetFillContext context;
 	private Locale locale;
 	
+	private Boolean isValid;
+	
 	FilterTypesEnum filterTypeEnum;
 
 	/**
@@ -95,6 +97,14 @@ public class FieldFilter implements DatasetFilter
 			return false;
 		}
 		
+		if (isValid == null) {
+			isValid = isValid(value.getClass());
+		}
+		
+		if (!isValid) {
+			return true;
+		}
+		
 		boolean result = true;
 		
 		switch (filterTypeEnum) {
@@ -123,6 +133,20 @@ public class FieldFilter implements DatasetFilter
 		return compareNumbers((Number) value, compareStart, compareEnd, numericEnum);
 	}
 	
+	protected boolean isValid(Class<?> clazz) {
+		try {
+			if (filterValueStart != null && filterValueStart.length() > 0){
+				convertStringValue(filterValueStart, clazz);
+			}
+			if (filterValueEnd != null && filterValueEnd.length() > 0){
+				convertStringValue(filterValueEnd, clazz);
+			}
+		} catch (RuntimeException re){
+			return false;
+		}
+		return true;
+	}
+	
 	protected boolean dateMatch(Object value, FilterTypeDateOperatorsEnum dateEnum) {
 		Date compareStart = null, compareEnd = null;
 		if (filterValueStart != null && filterValueStart.length() > 0){
@@ -138,6 +162,7 @@ public class FieldFilter implements DatasetFilter
 		return compareText((String) value, filterValueStart, textEnum);
 	}
 	
+	//FIXMEJIVE getConvertBean and convertStringValue methods are taken from JRAbstractTextDataSource; maybe they should be moved to a utility class
 	protected Object convertStringValue(String text, Class<?> valueClass)
 	{
 		Object value = null;
@@ -336,6 +361,14 @@ public class FieldFilter implements DatasetFilter
 
 	public FilterTypesEnum getFilterTypeEnum() {
 		return filterTypeEnum;
+	}
+
+	public Boolean getIsValid() {
+		return isValid;
+	}
+
+	public void setIsValid(Boolean isValid) {
+		this.isValid = isValid;
 	}
 
 }
