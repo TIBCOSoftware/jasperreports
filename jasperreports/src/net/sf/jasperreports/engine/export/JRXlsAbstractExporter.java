@@ -216,6 +216,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
 	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
+	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.outline.level.";
 	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
