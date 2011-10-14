@@ -217,7 +217,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
 	
-	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
 	
@@ -967,7 +966,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		float sheetRatio = 0f;
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			Float ratio = xCuts.getWidthRatio(col);
+			Float ratio = xCuts.getWidthRatio();
 			if(ratio != null && ratio > sheetRatio)
 			{
 				sheetRatio = ratio;
