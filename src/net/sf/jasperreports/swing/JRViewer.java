@@ -213,6 +213,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 		return new JRViewerToolbar(viewerContext);
 	}
 
+	//FIXME add a method to do addHyperlinkListener without subclassing
 	protected JRViewerPanel createViewerPanel()
 	{
 		return new JRViewerPanel(viewerContext);
