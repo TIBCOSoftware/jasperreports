@@ -44,6 +44,8 @@ public class Cut
 	
 	private int position;
 	private int usage;
+	
+	//TODO: to extend the Cut class in order to add attributes to be used in particular output formats only; 
 	private Boolean autoFit;
 	private Integer customWidth;
 	
@@ -93,10 +95,7 @@ public class Cut
 	}
 
 	public void setCustomWidth(Integer customWidth) {
-		if(this.customWidth == null || (customWidth != null && this.customWidth < customWidth))
-		{
-			this.customWidth = customWidth;
-		}
+		this.customWidth = customWidth;
 	}
 
 }
