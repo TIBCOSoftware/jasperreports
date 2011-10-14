@@ -71,6 +71,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
 	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
+	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter_wrong.png";
 	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_up.png";
 	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_down.png";
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
@@ -109,7 +110,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
-			
+
 			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
 			
 			if (log.isDebugEnabled()) {
@@ -141,6 +142,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			{
 				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
+			String imagesResourcePath = (appContextPath == null ? "" : appContextPath) + webResourcesBasePath;//FIXMEJIVE
+
 			velocityContext.put("resourceSortJs", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_SORT_JS);
 			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
 			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
@@ -162,13 +165,12 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterColumnNameLabel", sortColumnLabel != null ? sortColumnLabel : "");
 			velocityContext.put("filterTableNameParam", SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			velocityContext.put("filterTableNameValue", sortDatasetName);
-			velocityContext.put("filterCloseDialogImageResource", (appContextPath == null ? "" : appContextPath) + webResourcesBasePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);//FIXMEJIVE
-			velocityContext.put("filterSymbolImageResource", (appContextPath == null ? "" : appContextPath) + webResourcesBasePath + SortElementHtmlHandler.RESOURCE_FILTER_SYMBOL);//FIXMEJIVE
+			velocityContext.put("filterCloseDialogImageResource", imagesResourcePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);
 
 			velocityContext.put("filterTypeParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE);
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
 			velocityContext.put("filterTypeOperatorParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
-			
+
 			velocityContext.put("filterTypeValuesMap", translatedOperators);
 			
 			velocityContext.put("filterValueStartParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE_START);
@@ -194,10 +196,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				String sortOrder = !isAscending ? SortElement.SORT_ORDER_NONE : SortElement.SORT_ORDER_DESC;
 				velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortDatasetName));
 				velocityContext.put("isSorted", true);
-				velocityContext
-						.put("sortSymbolResource",
-								isAscending ? (appContextPath == null ? "" : appContextPath) + webResourcesBasePath	+ RESOURCE_SORT_SYMBOL_ASC
-										: (appContextPath == null ? "" : appContextPath) + webResourcesBasePath + RESOURCE_SORT_SYMBOL_DESC);
+				velocityContext.put("sortSymbolResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC);
 			}
 			
 			// existing filters
@@ -209,6 +208,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			boolean isFiltered = false;
 			boolean enableFilterEndParameter = false;
 			List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+			String filterSymbolImageResource = imagesResourcePath + SortElementHtmlHandler.RESOURCE_FILTER_SYMBOL;
 
 			if (sortDatasetName != null && sortDatasetName.equals(currentDataset))
 			{
@@ -230,10 +230,15 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 					if (filterTypeOperatorValue != null && filterTypeOperatorValue.toLowerCase().contains("between")) {
 						enableFilterEndParameter = true;
 					}
+					if (!ff.getIsValid()) {
+						filterSymbolImageResource = imagesResourcePath + SortElementHtmlHandler.RESOURCE_WRONG_FILTER_SYMBOL;
+					}
 					
 				}
 			}
+			
 			velocityContext.put("isFiltered", isFiltered);
+			velocityContext.put("filterSymbolImageResource", filterSymbolImageResource);
 			velocityContext.put("filterToRemoveParamName", SortElement.REQUEST_PARAMETER_REMOVE_FILTER);
 			velocityContext.put("filterToRemoveParamvalue", sortColumnName);
 			velocityContext.put("filtersJsonString", getJsonString(fieldFilters));
