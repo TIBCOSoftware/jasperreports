@@ -43,6 +43,7 @@ public interface GenericElementGraphics2DHandler extends GenericElementHandler
 	 * @param grx the graphic context
 	 * @param element the generic element to export
 	 */
+	//FIXME grx and maybe offset could have been passed as part of the context
 	void exportElement(JRGraphics2DExporterContext context, JRGenericPrintElement element, Graphics2D grx, Offset offset);
 
 }
