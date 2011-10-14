@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -74,7 +73,7 @@ public class JRGridLayout
 	private boolean hasBottomMargin = true;
 	private boolean hasLeftMargin = true;
 	private boolean hasRightMargin = true;
-
+	
 	private boolean isNested;
 
 	/**
@@ -541,9 +540,9 @@ public class JRGridLayout
 		}
 
 		Float widthRatio = nature.getColumnWidthRatio(element);
-		if(widthRatio != null && (xCuts.getWidthRatio(col1) == null || xCuts.getWidthRatio(col1) < widthRatio))
+		if(widthRatio != null && (xCuts.getWidthRatio() == null || xCuts.getWidthRatio() < widthRatio))
 		{
-			xCuts.setWidthRatio(col1, widthRatio);
+			xCuts.setWidthRatio(widthRatio);
 		}
 		
 		if (nature.isSpanCells())

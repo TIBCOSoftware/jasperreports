@@ -1400,7 +1400,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		float sheetRatio = 0f;
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			Float ratio = xCuts.getWidthRatio(col);
+			Float ratio = xCuts.getWidthRatio();
 			if(ratio != null && ratio > sheetRatio)
 			{
 				sheetRatio = ratio;
