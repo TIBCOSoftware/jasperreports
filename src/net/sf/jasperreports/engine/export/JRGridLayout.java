@@ -555,7 +555,7 @@ public class JRGridLayout
 		}
 		
 		Byte rowLevel = nature.getRowLevel(element);
-		if(rowLevel != null && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
+		if(rowLevel != null && rowLevel > 0 && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
 		{
 			yCuts.setRowLevel(row1,rowLevel);
 			setRowLevelRange(rowLevel, row1);
@@ -600,12 +600,14 @@ public class JRGridLayout
 						setRowLevelRange(rowLevel, row1);
 					}
 					
-					yCuts.setRowLevel(row1,rowLevel);
+					if(rowLevel != null && rowLevel > 0 && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
+					{
+						yCuts.setRowLevel(row1,rowLevel);
+					}
 				}
 			}
 		}
-				
-		
+
 		if (nature.isSpanCells())
 		{
 			OccupiedGridCell occupiedGridCell = new OccupiedGridCell(gridCell);
@@ -1022,6 +1024,7 @@ public class JRGridLayout
 	
 	protected void setRowLevelRange(Byte level, int rowIndex)
 	{
+
 		for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
 		{
 			if(rowLevelsCache.get(rowLevel) == null)
@@ -1037,9 +1040,9 @@ public class JRGridLayout
 			else
 			{
 				IntegerRange range = rangeList.get(rangeList.size()-1);
-				if(range.getEndIndex().equals(Integer.valueOf(rowIndex-1)))
+				if(range.getStartIndex().equals(Integer.valueOf(rowIndex+1)))
 				{
-					range.setEndIndex(rowIndex);
+					range.setStartIndex(rowIndex);
 				}
 				else
 				{

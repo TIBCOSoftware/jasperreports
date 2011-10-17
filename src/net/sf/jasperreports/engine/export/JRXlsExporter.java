@@ -1796,17 +1796,20 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	@Override
 	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
-		TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
-		if(levels != null)
+		if(rowLevelsCache != null)
 		{
-			Byte level = levels.last();
-			while(level != null)
+			TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
+			if(!levels.isEmpty())
 			{
-				for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+				Byte level = levels.last();
+				while(level != null)
 				{
-					sheet.groupRow(range.getStartIndex(), range.getEndIndex());
+					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+					{
+						sheet.groupRow(range.getStartIndex(), range.getEndIndex());
+					}
+					level = levels.lower(level);
 				}
-				level = levels.lower(level);
 			}
 		}
 	}
