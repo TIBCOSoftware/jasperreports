@@ -28,6 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -192,6 +193,34 @@ public class XlsxSheetHelper extends BaseHelper
 		{
 			throw new JRRuntimeException(e);
 		}
+	}
+	
+	/**
+	 *
+	 */
+	public void exportRow(int rowHeight, CutsInfo yCuts) 
+	{
+		if (rowIndex > 0)
+		{
+			write("</row>\n");
+		}
+		else
+		{
+			if (!colsWriter.isEmpty())
+			{
+				write("<cols>\n");
+				colsWriter.writeData(writer);
+				write("</cols>\n");
+			}
+			write("<sheetData>\n");
+		}
+		rowIndex++;
+		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\""); 
+		if(yCuts != null && yCuts.getRowLevel(rowIndex) != null)
+		{
+			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex-1) + "\"");
+		}
+		write(">\n");
 	}
 	
 	/**

@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport 
-	xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-	name="XlsFeaturesReport" 
-	pageWidth="595" 
-	pageHeight="842" 
-	columnWidth="515" 
-	leftMargin="40" 
-	rightMargin="40" 
-	topMargin="0" 
-	bottomMargin="5">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XlsFeaturesReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="5">
 	<property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -32,37 +21,65 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[state]]></fieldDescription>
 	</field>
-	<sortField name="city" order="Descending"/>
+	<sortField name="city"/>
 	<sortField name="name"/>
+	<group name="cityGroup" >
+		<groupExpression><![CDATA[$F{city}]]></groupExpression>
+		<groupFooter>
+			<band height="10"/>
+		</groupFooter>
+	</group>
+	<group name="initialNameGroup" >
+		<groupExpression><![CDATA[$F{name}.substring(0,1)]]></groupExpression>
+		<groupFooter>
+			<band height="2"/>
+		</groupFooter>
+	</group>
 	<pageHeader>
 		<band height="80">
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16"/>
 				</textElement>
 				<text><![CDATA[XLS Features Report]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#666666">
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666">
 					<property name="net.sf.jasperreports.export.xls.auto.filter.start" value="true"/>
+					<property name="net.sf.jasperreports.export.xls.column.width" value="110"/>
 				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[City]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</box>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="60" width="205" height="20" forecolor="#FFFFFF" backcolor="#666666">
-					<property name="net.sf.jasperreports.export.xls.column.width" value="150"/>
-				</reportElement>
+				<reportElement style="Sans_Bold" mode="Opaque" x="159" y="60" width="137" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
 				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="60" width="255" height="20" forecolor="#FFFFFF" backcolor="#666666">
+				<reportElement style="Sans_Bold" mode="Opaque" x="296" y="60" width="219" height="20" forecolor="#FFFFFF" backcolor="#666666">
 					<property name="net.sf.jasperreports.export.xls.auto.filter.end" value="true"/>
 					<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Right"/>
 					<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>
 				</reportElement>
+				<box>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</box>
 				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
@@ -70,9 +87,25 @@
 	</pageHeader>
 	<detail>
 		<band height="15">
-			<textField bookmarkLevel="2">
-				<reportElement x="0" y="0" width="55" height="15"/>
+			<textField>
+				<reportElement x="0" y="0" width="104" height="15">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level"><![CDATA[$V{PAGE_COUNT} % 5 < 3 ? "1" : "2"]]></propertyExpression>
+					<!-- propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{city}]]></propertyExpression-->
+				</reportElement>
 				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="104" y="0" width="55" height="15">
+					<!-- propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{name}.substring(0,1)]]></propertyExpression-->
+				</reportElement>
+				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
@@ -81,10 +114,11 @@
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="55" y="0" width="205" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.start"><![CDATA[$F{id}.equals(28) ? "true" : "false"]]></propertyExpression>
+				<reportElement positionType="Float" x="159" y="0" width="137" height="15">
+					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.start"><![CDATA[$F{id}.equals(1000) ? "true" : "false"]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 				</box>
@@ -92,14 +126,12 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="260" y="0" width="255" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.end"><![CDATA[$F{id}.equals(28) ? "true" : "false"]]></propertyExpression>
+				<reportElement positionType="Float" x="296" y="0" width="219" height="15">
+					<property name="net.sf.jasperreports.export.xls.auto.filter.end" value="true"/>
 					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(28) ? "0.75f" : null]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
+					<pen lineWidth="0.5"/>
 				</box>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{address}]]></textFieldExpression>

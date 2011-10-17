@@ -42,8 +42,10 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeSet;
 
 import jxl.CellView;
 import jxl.JXLException;
@@ -93,8 +95,10 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -337,6 +341,11 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
+	protected void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException
+	{
+		setRowHeight(rowIndex, lastRowHeight);
+	}
+	
 	protected void setCell(JRExporterGridCell gridCell, int x, int y)
 	{
 	}
@@ -2380,6 +2389,29 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	{
 		// TODO support auto filter feature
 		
+	}
+
+	@Override
+	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
+		TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
+		if(levels != null)
+		{
+			Byte level = levels.last();
+			while(level != null)
+			{
+				for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+				{
+					try {
+						sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
+					} catch (RowsExceededException e) {
+						throw new JRRuntimeException(e);
+					} catch (WriteException e) {
+						throw new JRRuntimeException(e);
+					}
+				}
+				level = levels.lower(level);
+			}
+		}
 	}
 }
 

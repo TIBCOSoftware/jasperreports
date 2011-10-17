@@ -48,6 +48,7 @@ public class Cut
 	//TODO: to extend the Cut class in order to add attributes to be used in particular output formats only; 
 	private Boolean autoFit;
 	private Integer customWidth;
+	private Byte rowLevel;
 	
 	public Cut()
 	{
@@ -96,6 +97,16 @@ public class Cut
 
 	public void setCustomWidth(Integer customWidth) {
 		this.customWidth = customWidth;
+	}
+
+	public Byte getRowLevel()
+	{
+		return this.rowLevel;
+	}
+
+	public void setRowLevel(Byte rowLevel)
+	{
+		this.rowLevel = rowLevel;
 	}
 
 }

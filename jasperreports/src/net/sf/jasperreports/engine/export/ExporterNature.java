@@ -29,8 +29,11 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -97,6 +100,16 @@ public interface ExporterNature extends ExporterFilter
 	 * 
 	 * @return whether empty cells are to be horizontally merged
 	 */
-	public abstract boolean isHorizontallyMergeEmptyCells();
+	public boolean isHorizontallyMergeEmptyCells();
+	
+	/**
+	 * 
+	 */
+	public Byte getRowLevel(JRPrintElement element);
+	
+	/**
+	 * 
+	 */
+	public List<JRProperties.PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
 
 }

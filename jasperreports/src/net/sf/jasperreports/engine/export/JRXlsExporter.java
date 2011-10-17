@@ -47,6 +47,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
@@ -333,6 +334,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				}
 				
 			}
+			for(int i=0; i < workbook.getNumberOfSheets(); i++)
+			{
+				workbook.getSheetAt(i).setForceFormulaRecalculation(true);
+			}
 			
 			workbook.write(os);
 		}
@@ -356,6 +361,11 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 
 		row.setHeightInPoints(lastRowHeight);
+	}
+
+	protected void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts)
+	{
+		setRowHeight(rowIndex, lastRowHeight);
 	}
 
 	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
@@ -1781,6 +1791,24 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected void setAutoFilter(String autoFilterRange)
 	{
 		sheet.setAutoFilter(CellRangeAddress.valueOf(autoFilterRange));
+	}
+
+
+	@Override
+	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
+		TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
+		if(levels != null)
+		{
+			Byte level = levels.last();
+			while(level != null)
+			{
+				for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+				{
+					sheet.groupRow(range.getStartIndex(), range.getEndIndex());
+				}
+				level = levels.lower(level);
+			}
+		}
 	}
 }
 

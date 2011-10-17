@@ -69,6 +69,7 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
+import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -1457,12 +1458,21 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	protected void setRowHeight(
-		int rowIndex, 
-		int rowHeight
-		) throws JRException 
-	{
-		sheetHelper.exportRow(rowHeight);
-	}
+			int rowIndex, 
+			int rowHeight
+			) throws JRException 
+		{
+		setRowHeight(rowIndex, rowHeight, null);
+		}
+
+	protected void setRowHeight(
+			int rowIndex, 
+			int rowHeight,
+			CutsInfo yCuts
+			) throws JRException 
+		{
+			sheetHelper.exportRow(rowHeight, yCuts);
+		}
 
 	/**
 	 *
@@ -1494,6 +1504,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		super.resetAutoFilters();
 		sheetAutoFilter = null;
+	}
+
+
+	@Override
+	protected void setRowLevels(Map<Byte, List<IntegerRange>> rowLevelsCache) {
+		// TODO: nothing to do here
 	}
 	
 }

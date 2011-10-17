@@ -56,6 +56,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -216,7 +217,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
 	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
-	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.outline.level.";
+	public static final String PROPERTY_ROW_LEVEL = JRProperties.PROPERTY_PREFIX + "export.xls.row.level";
+	public static final String PROPERTY_GROUP_ROW_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.level.";
 	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
@@ -795,7 +797,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					rowIndex,
 					isCollapseRowSpan
 						?  layout.getMaxRowHeight(y)
-						: JRGridLayout.getRowHeight(gridRow)
+						: JRGridLayout.getRowHeight(gridRow),
+					yCuts
 					);
 
 				int emptyCols = 0;
@@ -952,11 +955,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			removeEmptyColumns(xCuts);
 		}
 		
+		setRowLevels(layout.getRowLevelsCache());
+		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
 		}
-
+		
 		// Return the number of rows added
 		return rowIndex;
 	}
@@ -1384,7 +1389,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	/**
 	 * 
-	 * @return the calculated column index
+	 * @return the calculated column name
 	 */
 	protected String getColumnName(int columnIndex)
 	{
@@ -1418,6 +1423,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
 
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException;
+
 	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 
 	protected abstract void addBlankCell(JRExporterGridCell gridCell, int colIndex, int rowIndex) throws JRException;
@@ -1441,5 +1448,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void setSheetName(String sheetName);
 	
 	protected abstract void setAutoFilter(String autoFilterRange);
+	
+	protected abstract void setRowLevels(Map<Byte, List<IntegerRange>> rowLevelsCache);
 	
 }
