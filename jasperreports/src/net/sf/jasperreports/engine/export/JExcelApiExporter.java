@@ -2393,23 +2393,26 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	@Override
 	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
-		TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
-		if(levels != null)
+		if(rowLevelsCache != null)
 		{
-			Byte level = levels.last();
-			while(level != null)
+			TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
+			if(!levels.isEmpty())
 			{
-				for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+				Byte level = levels.last();
+				while(level != null)
 				{
-					try {
-						sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
-					} catch (RowsExceededException e) {
-						throw new JRRuntimeException(e);
-					} catch (WriteException e) {
-						throw new JRRuntimeException(e);
+					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+					{
+						try {
+							sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
+						} catch (RowsExceededException e) {
+							throw new JRRuntimeException(e);
+						} catch (WriteException e) {
+							throw new JRRuntimeException(e);
+						}
 					}
+					level = levels.lower(level);
 				}
-				level = levels.lower(level);
 			}
 		}
 	}

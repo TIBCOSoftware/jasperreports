@@ -218,7 +218,7 @@ public class XlsxSheetHelper extends BaseHelper
 		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\""); 
 		if(yCuts != null && yCuts.getRowLevel(rowIndex) != null)
 		{
-			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex-1) + "\"");
+			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex) + "\"");
 		}
 		write(">\n");
 	}
