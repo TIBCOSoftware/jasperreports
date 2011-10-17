@@ -29,10 +29,13 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -179,4 +182,14 @@ public class JRHtmlExporterNature implements ExporterNature
 		return null;
 	}
 	
+	public Byte getRowLevel(JRPrintElement element)
+	{
+		return null;
+	}
+
+	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
+	{
+		return null;
+	}
+
 }

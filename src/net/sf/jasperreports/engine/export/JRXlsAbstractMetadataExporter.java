@@ -314,6 +314,8 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
 
+		setRowLevels(null);
+		
 		if (progressMonitor != null)
 		{
 			progressMonitor.afterPageExport();
@@ -699,6 +701,8 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	protected abstract void removeColumn(int col);
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
+
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException;
 
 	protected abstract void exportText(JRPrintText textElement) throws JRException;
 

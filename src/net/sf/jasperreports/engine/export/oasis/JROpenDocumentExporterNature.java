@@ -29,12 +29,15 @@
 
 package net.sf.jasperreports.engine.export.oasis;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -156,4 +159,14 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 		return null;
 	}
 	
+	public Byte getRowLevel(JRPrintElement element)
+	{
+		return null;
+	}
+
+	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
+	{
+		return null;
+	}
+
 }

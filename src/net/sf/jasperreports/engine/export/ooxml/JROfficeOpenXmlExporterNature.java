@@ -29,9 +29,12 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
+import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -139,4 +142,14 @@ public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
 		return null;
 	}
 	
+	public Byte getRowLevel(JRPrintElement element)
+	{
+		return null;
+	}
+
+	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
+	{
+		return null;
+	}
+
 }

@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -44,6 +46,8 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
+import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -75,6 +79,9 @@ public class JRGridLayout
 	private boolean hasRightMargin = true;
 	
 	private boolean isNested;
+	
+	private Map<Byte, List<IntegerRange>> rowLevelsCache;
+	private Map<Byte, String> rowLevelNames;
 
 	/**
 	 * Constructor.
@@ -136,6 +143,7 @@ public class JRGridLayout
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
 		virtualFrameIndex = elements.size();
+		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
 
 		layoutGrid(createWrappers(null, elements, address));
 
@@ -176,6 +184,7 @@ public class JRGridLayout
 		this.isNested = true;
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
+		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
 
 		layoutGrid(wrappers);
 
@@ -525,7 +534,7 @@ public class JRGridLayout
 		Boolean rowAutoFit = nature.getRowAutoFit(element);
 		if (rowAutoFit != null)
 		{
-			yCuts.setAutoFit(col1, rowAutoFit.booleanValue());
+			yCuts.setAutoFit(row1, rowAutoFit.booleanValue());
 		}
 		Boolean columnAutoFit = nature.getColumnAutoFit(element);
 		if (columnAutoFit != null)
@@ -544,6 +553,58 @@ public class JRGridLayout
 		{
 			xCuts.setWidthRatio(widthRatio);
 		}
+		
+		Byte rowLevel = nature.getRowLevel(element);
+		if(rowLevel != null && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
+		{
+			yCuts.setRowLevel(row1,rowLevel);
+			setRowLevelRange(rowLevel, row1);
+		}
+		else
+		{
+			List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
+			if(rowLevelSuffixes != null)
+			{
+				rowLevel = -1;
+				String groupName = null;
+				for(JRProperties.PropertySuffix suffix : rowLevelSuffixes)
+				{
+					if(Byte.valueOf(suffix.getSuffix()) > rowLevel)
+					{
+						rowLevel = Byte.valueOf(suffix.getSuffix());
+						groupName = suffix.getValue();
+					}
+				}
+				if(groupName != null)
+				{
+					if(rowLevelNames == null)
+					{
+						rowLevelNames = new HashMap<Byte,String>();
+					}
+					String levelName = rowLevelNames.get(rowLevel);
+					if(levelName == null || !groupName.equals(levelName))
+					{
+						rowLevelNames.put(rowLevel, groupName);
+						
+						for(byte level = 1; level <= rowLevel; level++)
+						{
+							if(rowLevelsCache.get(rowLevel) == null)
+							{
+								rowLevelsCache.put(rowLevel, new ArrayList<IntegerRange>());
+							}
+							rowLevelsCache.get(rowLevel).add(new IntegerRange(row1,row1));
+						}
+					}
+					else
+					{
+						setRowLevelRange(rowLevel, row1);
+					}
+					
+					yCuts.setRowLevel(row1,rowLevel);
+				}
+			}
+		}
+				
 		
 		if (nature.isSpanCells())
 		{
@@ -958,7 +1019,55 @@ public class JRGridLayout
 
 		return wrappers;
 	}
+	
+	protected void setRowLevelRange(Byte level, int rowIndex)
+	{
+		for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
+		{
+			if(rowLevelsCache.get(rowLevel) == null)
+			{
+				rowLevelsCache.put(rowLevel, new ArrayList<IntegerRange>());
+			}
+			List<IntegerRange> rangeList = rowLevelsCache.get(rowLevel);
+			
+			if(rangeList.isEmpty())
+			{
+				rangeList.add(new IntegerRange(rowIndex,rowIndex));
+			}
+			else
+			{
+				IntegerRange range = rangeList.get(rangeList.size()-1);
+				if(range.getEndIndex().equals(Integer.valueOf(rowIndex-1)))
+				{
+					range.setEndIndex(rowIndex);
+				}
+				else
+				{
+					rangeList.add(new IntegerRange(rowIndex,rowIndex));
+				}
+			}
+		}
+	}
+	
+	public List<IntegerRange> getRowRanges(Byte level)
+	{
+		return rowLevelsCache == null ? null : rowLevelsCache.get(level);
+	}
 
+	public SortedSet<Byte> getRowLevels()
+	{
+		if(rowLevelsCache == null)
+		{
+			return null;
+		}
+		return new TreeSet<Byte>(rowLevelsCache.keySet());
+	}
+	
+	public Map<Byte, List<IntegerRange>> getRowLevelsCache()
+	{
+		return this.rowLevelsCache;
+	}
+	
 	/**
 	 *
 	 */
@@ -1013,5 +1122,66 @@ public class JRGridLayout
 		}
 	}
 
+	public class IntegerRange
+	{
+		private Integer startIndex;
+		private Integer endIndex;
+		
+		public IntegerRange()
+		{			
+		}
+		
+		public IntegerRange(Integer startIndex)
+		{		
+			this(startIndex, null);
+		}
+		
+		public IntegerRange(Integer startIndex,Integer endIndex)
+		{		
+			this.startIndex = startIndex;
+			this.endIndex = endIndex;
+		}
 
+		public Integer getStartIndex()
+		{
+			return this.startIndex;
+		}
+
+		public void setStartIndex(Integer startIndex)
+		{
+			this.startIndex = startIndex;
+		}
+
+		public Integer getEndIndex()
+		{
+			return this.endIndex;
+		}
+
+		public void setEndIndex(Integer endIndex)
+		{
+			this.endIndex = endIndex;
+		}
+		
+		public boolean equals(Object obj)
+		{
+			if (obj == this)
+			{
+				return true;
+			}
+
+			IntegerRange range = (IntegerRange) obj;
+
+			return (startIndex == null ? range.startIndex == null : startIndex.equals(range.startIndex)) 
+				&& (endIndex == null ? range.endIndex == null : endIndex.equals(range.endIndex));
+		}
+
+		public int hashCode()
+		{
+			ObjectUtils.HashCode hash = ObjectUtils.hash();
+			hash.add(startIndex);
+			hash.add(endIndex);
+			return hash.getHashCode();
+		}
+		
+	}
 }

@@ -114,6 +114,11 @@ public class CutsInfo
 		getCut(index).setCustomWidth(customWidth);
 	}
 	
+	public void setRowLevel(int index, byte rowLevel)
+	{
+		getCut(index).setRowLevel(rowLevel);
+	}
+	
 	public boolean addCutOffset(Integer cutOffset)
 	{
 		int idx = Collections.binarySearch(cutOffsets, cutOffset);
@@ -153,6 +158,14 @@ public class CutsInfo
 	public Integer getCustomWidth(int index)//FIXMEXLS do this in Cut
 	{
 		return getCut(index).getCustomWidth();
+	}
+
+	/**
+	 * 
+	 */
+	public Byte getRowLevel(int index)//FIXMEXLS do this in Cut
+	{
+		return getCut(index).getRowLevel();
 	}
 
 	/**
