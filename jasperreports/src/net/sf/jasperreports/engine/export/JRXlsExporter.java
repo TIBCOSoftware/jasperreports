@@ -1790,7 +1790,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	@Override
 	protected void setAutoFilter(String autoFilterRange)
 	{
-		sheet.setAutoFilter(CellRangeAddress.valueOf(autoFilterRange));
+//		sheet.setAutoFilter(CellRangeAddress.valueOf(autoFilterRange));
 	}
 
 
@@ -1802,10 +1802,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			if(!levels.isEmpty())
 			{
 				Byte level = levels.last();
+				
 				while(level != null)
 				{
+					System.out.println("********************** level: "+level);
 					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
 					{
+						System.out.println("********************** range start: "+range.getStartIndex());
+						System.out.println("********************** range end: "+range.getEndIndex());
+
 						sheet.groupRow(range.getStartIndex(), range.getEndIndex());
 					}
 					level = levels.lower(level);
