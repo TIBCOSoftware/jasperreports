@@ -563,7 +563,7 @@ public class JRGridLayout
 		else
 		{
 			List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
-			if(rowLevelSuffixes != null)
+			if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
 			{
 				rowLevel = -1;
 				String groupName = null;
@@ -588,11 +588,12 @@ public class JRGridLayout
 						
 						for(byte level = 1; level <= rowLevel; level++)
 						{
-							if(rowLevelsCache.get(rowLevel) == null)
+							if(rowLevelsCache.get(level) == null)
 							{
-								rowLevelsCache.put(rowLevel, new ArrayList<IntegerRange>());
+								List<IntegerRange> rangeList = new ArrayList<IntegerRange>();
+								rangeList.add(new IntegerRange(row1,row1));
+								rowLevelsCache.put(level, rangeList);
 							}
-							rowLevelsCache.get(rowLevel).add(new IntegerRange(row1,row1));
 						}
 					}
 					else
@@ -1024,21 +1025,19 @@ public class JRGridLayout
 	
 	protected void setRowLevelRange(Byte level, int rowIndex)
 	{
-
+		List<IntegerRange> rangeList = null;
+		
 		for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
 		{
 			if(rowLevelsCache.get(rowLevel) == null)
 			{
-				rowLevelsCache.put(rowLevel, new ArrayList<IntegerRange>());
-			}
-			List<IntegerRange> rangeList = rowLevelsCache.get(rowLevel);
-			
-			if(rangeList.isEmpty())
-			{
+				rangeList = new ArrayList<IntegerRange>();
 				rangeList.add(new IntegerRange(rowIndex,rowIndex));
+				rowLevelsCache.put(rowLevel, rangeList);
 			}
 			else
 			{
+				rangeList = rowLevelsCache.get(rowLevel);
 				IntegerRange range = rangeList.get(rangeList.size()-1);
 				if(range.getStartIndex().equals(Integer.valueOf(rowIndex+1)))
 				{
