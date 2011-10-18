@@ -200,18 +200,6 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		return null;
 	}
 
-	public Byte getRowLevel(JRPrintElement element) {
-		if (element.hasProperties()
-				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_ROW_LEVEL)
-				)
-		{
-			// we make this test to avoid reaching the global default value of the property directly
-			// and thus skipping the report level one, if present
-			return Byte.valueOf(JRProperties.getProperty(element, JRXlsAbstractExporter.PROPERTY_ROW_LEVEL));
-		}
-		return null;
-	}
-	
 	public List<JRProperties.PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
 	{
 		if (element.hasProperties())

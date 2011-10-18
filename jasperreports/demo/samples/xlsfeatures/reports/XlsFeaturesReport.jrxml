@@ -23,13 +23,14 @@
 	</field>
 	<sortField name="city"/>
 	<sortField name="name"/>
+	<filterExpression><![CDATA[$F{city}.equals("Dallas") ? Boolean.TRUE : Boolean.FALSE]]></filterExpression>
 	<group name="cityGroup" >
 		<groupExpression><![CDATA[$F{city}]]></groupExpression>
 		<groupHeader>
-			<band height="1">
+			<band height="5">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="1" forecolor="#000000">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level"><![CDATA[$F{city}.equals("Dallas") ? "1" : null]]></propertyExpression>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="5" forecolor="#000000">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[null]]></propertyExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[]]></text>
@@ -37,10 +38,10 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="10">
+			<band height="5">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level"><![CDATA[$F{city}.equals("Dallas") ? "1" : null]]></propertyExpression>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="5" forecolor="#000000">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{city}.equals("Dallas") ? $F{city} : null]]></propertyExpression>
 				</reportElement>
 				<textElement/>
 				<text><![CDATA[]]></text>
@@ -50,8 +51,27 @@
 	</group>
 	<group name="initialNameGroup" >
 		<groupExpression><![CDATA[$F{name}.substring(0,1)]]></groupExpression>
+		<groupHeader>
+			<band height="2">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="2" forecolor="#000000">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[null]]></propertyExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			</band>
+		</groupHeader>
 		<groupFooter>
-			<band height="2"/>
+			<band height="2">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="2" forecolor="#000000">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{city}.equals("Dallas") ? $F{name}.substring(0,1) : null]]></propertyExpression>
+				</reportElement>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			</band>
 		</groupFooter>
 	</group>
 	<pageHeader>
@@ -107,9 +127,7 @@
 	<detail>
 		<band height="15">
 			<textField>
-				<reportElement x="0" y="0" width="104" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{city}.equals("Dallas") ? $F{city} : null]]></propertyExpression>
-				</reportElement>
+				<reportElement x="0" y="0" width="104" height="15"/>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -119,9 +137,7 @@
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{city}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="0" width="55" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{city}.equals("Dallas") ? $F{name}.substring(0,1) : null]]></propertyExpression>
-				</reportElement>
+				<reportElement x="104" y="0" width="55" height="15"/>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
