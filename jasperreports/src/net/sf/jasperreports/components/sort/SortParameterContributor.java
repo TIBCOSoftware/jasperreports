@@ -125,6 +125,7 @@ public class SortParameterContributor implements ParameterContributor
 			
 			String paramFilterType = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE);
 			String paramFilterTypeOperator = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
+			String paramFilterPattern = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_PATTERN);
 			
 			DatasetFilter existingFilter = (DatasetFilter) reportContext.getParameterValue(currentTableFiltersParam);
 			DatasetFilter combined = null; 
@@ -156,12 +157,14 @@ public class SortParameterContributor implements ParameterContributor
 						filterForCurrentField.setIsValid(null);
 						combined = new CompositeDatasetFilter(filters);
 					} else {
-						DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+						FieldFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+						filter.setFilterPattern(paramFilterPattern);
 						combined = CompositeDatasetFilter.combine(existingFilter, filter);
 					}
 				} 
 				else {
-					DatasetFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+					FieldFilter filter = new FieldFilter(paramFieldName, paramFieldValueStart, paramFieldValueEnd, paramFilterType, paramFilterTypeOperator);
+					filter.setFilterPattern(paramFilterPattern);
 					combined = CompositeDatasetFilter.combine(existingFilter, filter);
 				}
 			}
@@ -211,7 +214,7 @@ public class SortParameterContributor implements ParameterContributor
 				((JRDesignSortField)sortFields.get(indexOfExistingSortField)).setOrder(newSortField.getOrderValue());
 			}
 			
-		} else if (newSortField.getOrderValue() != null) {
+		} else if (newSortField.getOrderValue() != null) { // this is necessary because a dummy order - None - is introduced
 			sortFields.add(newSortField);
 		}
 	}
