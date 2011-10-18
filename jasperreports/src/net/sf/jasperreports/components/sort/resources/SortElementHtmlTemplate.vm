@@ -34,6 +34,9 @@
 			                "	<input class='postable forClear' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
 			                "	<input class='postable filterField' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
 			                "	<input class='postable' type='hidden' name='${filterTypeParamName}' value='${filterTypeParamNameValue}' />",
+			                	#if(${filterPatternParamValue})
+			                "	<input class='postable' type='hidden' name='${filterPatternParamName}' value='${filterPatternParamValue}' />",
+			                	#end
 			                "	<label class='filterColumnNameLabel' for='${filterTypeOperatorParamName}'>${filterColumnNameLabel}</label>",
 							"	<select class='postable filterOperatorTypeValueSelector' name='${filterTypeOperatorParamName}'>",
 								#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
@@ -47,14 +50,12 @@
 			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' value='${filterValueStartParamValue}' style='width: 80px;' />",
 			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='${filterValueEndParamName}'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
-			                	#if (${isFiltered})
 			                "	<input class='forClear' type='hidden' name='${filterToRemoveParamName}' value='${filterToRemoveParamvalue}' />",
-			                "	<input class='clearFilter' type='button' value='Clear' />",
-			                	#end
+			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
 			                "</form>",
 			                "</div>"];
 			                
-		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv, ${filtersJsonString}]);
+		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
 	} ());
 </script>
 #end

@@ -108,8 +108,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				sortHandlerColor = Color.WHITE;
 			}
 			
-
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
+			
+			String filterPattern = element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_PATTERN);
 
 			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
 			
@@ -170,6 +171,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterTypeParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE);
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
 			velocityContext.put("filterTypeOperatorParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
+			
+			velocityContext.put("filterPatternParamName", SortElement.REQUEST_PARAMETER_FILTER_PATTERN);
+			velocityContext.put("filterPatternParamValue", filterPattern);
 
 			velocityContext.put("filterTypeValuesMap", translatedOperators);
 			
@@ -241,8 +245,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterSymbolImageResource", filterSymbolImageResource);
 			velocityContext.put("filterToRemoveParamName", SortElement.REQUEST_PARAMETER_REMOVE_FILTER);
 			velocityContext.put("filterToRemoveParamvalue", sortColumnName);
-			velocityContext.put("filtersJsonString", getJsonString(fieldFilters));
 			
+			String filtersJsonString = getJsonString(fieldFilters).replaceAll("\\\"", "\\\\\\\"");
+			if (log.isDebugEnabled()) {
+				log.debug("filtersJsonString: " + filtersJsonString);
+			}
+			velocityContext.put("filtersJsonString", filtersJsonString);
+
 			velocityContext.put("filterValueStartParamValue", filterValueStart);
 			velocityContext.put("filterValueEndParamValue", filterValueEnd);
 			velocityContext.put("filterTypeOperatorParamValue", filterTypeOperatorValue);
@@ -364,5 +373,5 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		
 		return writer.getBuffer().toString();
 	}
-	
- }
+
+}
