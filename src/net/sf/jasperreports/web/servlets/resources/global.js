@@ -331,12 +331,9 @@ jQuery.noConflict();
 					reqParams = jg.getUrlParameters(decodeURIComponent(requestedUrl)),
 					contextReqParams = jg.getUrlParameters(decodeURIComponent(contextUrl));
 				
-//				jg.logObject('params', params);
-//				jg.logObject('contextReqParams', contextReqParams);
-//				jg.logObject('reqParams', reqParams);
-				
 				// mix params with contextReqParams and reqParams in order to preserve previous params; the order matters
-				var newParams = jg.merge({}, [contextReqParams, reqParams, params]);
+//				var newParams = jg.merge({}, [contextReqParams, reqParams, params]);
+				var newParams = jg.merge({}, [reqParams, params]);
 				
 				// update context url
 				executionContextElement.attr('data-contexturl', jg.extendUrl(reqUrlBase, newParams));
