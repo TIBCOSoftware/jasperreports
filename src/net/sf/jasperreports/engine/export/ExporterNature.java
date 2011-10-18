@@ -105,11 +105,6 @@ public interface ExporterNature extends ExporterFilter
 	/**
 	 * 
 	 */
-	public Byte getRowLevel(JRPrintElement element);
-	
-	/**
-	 * 
-	 */
 	public List<JRProperties.PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
 
 }

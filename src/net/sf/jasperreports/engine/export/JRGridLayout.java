@@ -82,6 +82,7 @@ public class JRGridLayout
 	
 	private Map<Byte, List<IntegerRange>> rowLevelsCache;
 	private Map<Byte, String> rowLevelNames;
+	private Byte currentLevel;
 
 	/**
 	 * Constructor.
@@ -144,6 +145,7 @@ public class JRGridLayout
 
 		virtualFrameIndex = elements.size();
 		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
+		currentLevel = 0;
 
 		layoutGrid(createWrappers(null, elements, address));
 
@@ -185,7 +187,8 @@ public class JRGridLayout
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
-
+		currentLevel = 0;
+		
 		layoutGrid(wrappers);
 
 		if (nature.isSplitSharedRowSpan())
@@ -554,60 +557,71 @@ public class JRGridLayout
 			xCuts.setWidthRatio(widthRatio);
 		}
 		
-		Byte rowLevel = nature.getRowLevel(element);
-		if(rowLevel != null && rowLevel > 0 && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
+//		Byte rowLevel = nature.getRowLevel(element);
+//		
+//		if(isValidLevel(rowLevel) && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
+//		{
+//			yCuts.setRowLevel(row1,rowLevel);
+//			setRowLevelsRange(rowLevel, row1);
+//		}
+//		else
+//		{
+		List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
+		if(rowLevelSuffixes == null || rowLevelSuffixes.isEmpty())
 		{
-			yCuts.setRowLevel(row1,rowLevel);
-			setRowLevelRange(rowLevel, row1);
-		}
-		else
-		{
-			List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
-			if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
+			if(isValidLevel(currentLevel))
 			{
-				rowLevel = -1;
-				String groupName = null;
-				for(JRProperties.PropertySuffix suffix : rowLevelSuffixes)
-				{
-					if(Byte.valueOf(suffix.getSuffix()) > rowLevel)
-					{
-						rowLevel = Byte.valueOf(suffix.getSuffix());
-						groupName = suffix.getValue();
-					}
-				}
-				if(groupName != null)
-				{
-					if(rowLevelNames == null)
-					{
-						rowLevelNames = new HashMap<Byte,String>();
-					}
-					String levelName = rowLevelNames.get(rowLevel);
-					if(levelName == null || !groupName.equals(levelName))
-					{
-						rowLevelNames.put(rowLevel, groupName);
-						
-						for(byte level = 1; level <= rowLevel; level++)
-						{
-							if(rowLevelsCache.get(level) == null)
-							{
-								List<IntegerRange> rangeList = new ArrayList<IntegerRange>();
-								rangeList.add(new IntegerRange(row1,row1));
-								rowLevelsCache.put(level, rangeList);
-							}
-						}
-					}
-					else
-					{
-						setRowLevelRange(rowLevel, row1);
-					}
-					
-					if(rowLevel != null && rowLevel > 0 && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
-					{
-						yCuts.setRowLevel(row1,rowLevel);
-					}
-				}
+				setRowLevelsRange(currentLevel, row1);
 			}
 		}
+		else	
+		{
+			Byte rowLevel = 0;
+			String groupName = null;
+			for(JRProperties.PropertySuffix suffix : rowLevelSuffixes)
+			{
+				if(Byte.valueOf(suffix.getSuffix()) > rowLevel)
+				{
+					rowLevel = Byte.valueOf(suffix.getSuffix());
+					groupName = suffix.getValue();
+				}
+			}
+			
+			if(!isValidLevel(rowLevel))
+			{
+				// the outline grouping exit condition 
+				currentLevel = rowLevel;
+			}
+			else if(groupName == null)
+			{
+				// the outline grouping exit condition 
+				currentLevel = 0;
+			}
+			else
+			{
+				if(rowLevelNames == null)
+				{
+					rowLevelNames = new HashMap<Byte,String>();
+				}
+				String levelName = rowLevelNames.get(rowLevel);
+				
+				if(!rowLevel.equals(currentLevel) 
+						|| (rowLevel.equals(currentLevel) && (levelName == null || !groupName.equals(levelName))))
+				{
+					rowLevelNames.put(rowLevel, groupName);
+					
+					List<IntegerRange> rangeList = rowLevelsCache.get(rowLevel);
+					if(rangeList == null)
+					{
+						rangeList = new ArrayList<IntegerRange>();
+						rowLevelsCache.put(rowLevel, rangeList);
+					}
+					rangeList.add(new IntegerRange(row1,row1));
+				}
+				setRowLevelsRange(rowLevel, row1);
+			}
+		}
+//		}
 
 		if (nature.isSpanCells())
 		{
@@ -1023,32 +1037,39 @@ public class JRGridLayout
 		return wrappers;
 	}
 	
-	protected void setRowLevelRange(Byte level, int rowIndex)
+	protected void setRowLevelsRange(Byte level, int rowIndex)
 	{
-		List<IntegerRange> rangeList = null;
-		
-		for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
+		if(isValidLevel(level))
 		{
-			if(rowLevelsCache.get(rowLevel) == null)
-			{
-				rangeList = new ArrayList<IntegerRange>();
-				rangeList.add(new IntegerRange(rowIndex,rowIndex));
-				rowLevelsCache.put(rowLevel, rangeList);
-			}
-			else
+			List<IntegerRange> rangeList = null;
+			
+			for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
 			{
 				rangeList = rowLevelsCache.get(rowLevel);
-				IntegerRange range = rangeList.get(rangeList.size()-1);
-				if(range.getStartIndex().equals(Integer.valueOf(rowIndex+1)))
+				if(rangeList == null)
 				{
-					range.setStartIndex(rowIndex);
+					rangeList = new ArrayList<IntegerRange>();
+					rowLevelsCache.put(rowLevel, rangeList);
 				}
-				else
+				if(rangeList.isEmpty())
 				{
 					rangeList.add(new IntegerRange(rowIndex,rowIndex));
 				}
+				else
+				{
+					IntegerRange range = rangeList.get(rangeList.size()-1);
+					if(!range.getStartIndex().equals(Integer.valueOf(rowIndex)))
+					{
+						range.setStartIndex(rowIndex);
+					}
+				}
+			}
+			if(yCuts.getRowLevel(rowIndex) == null || yCuts.getRowLevel(rowIndex) < level)
+			{
+				yCuts.setRowLevel(rowIndex,level);
 			}
 		}
+		currentLevel = level;
 	}
 	
 	public List<IntegerRange> getRowRanges(Byte level)
@@ -1068,6 +1089,11 @@ public class JRGridLayout
 	public Map<Byte, List<IntegerRange>> getRowLevelsCache()
 	{
 		return this.rowLevelsCache;
+	}
+	
+	protected boolean isValidLevel(Byte level)
+	{
+		return level != null && level > 0 && level < 8;
 	}
 	
 	/**
@@ -1162,6 +1188,26 @@ public class JRGridLayout
 		public void setEndIndex(Integer endIndex)
 		{
 			this.endIndex = endIndex;
+		}
+		
+		public void increaseStartIndex()
+		{
+			this.startIndex++;
+		}
+		
+		public void increaseEndIndex()
+		{
+			this.endIndex++;
+		}
+		
+		public void decreaseStartIndex()
+		{
+			this.startIndex--;
+		}
+		
+		public void decreaseEndIndex()
+		{
+			this.endIndex--;
 		}
 		
 		public boolean equals(Object obj)

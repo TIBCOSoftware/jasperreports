@@ -149,11 +149,6 @@ public class JRCsvExporterNature implements ExporterNature
 		return null;
 	}
 	
-	public Byte getRowLevel(JRPrintElement element)
-	{
-		return null;
-	}
-
 	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
 	{
 		return null;
