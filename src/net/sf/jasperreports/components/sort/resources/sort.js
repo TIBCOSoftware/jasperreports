@@ -138,6 +138,10 @@
 						} else {
 							jQuery('.filterValueEnd', filterDiv).addClass('hidden').attr('disabled', true);
 						}
+						
+						// show clear button
+						jQuery('.clearFilter', filterDiv).show();
+						
 						found = true;
 						break;
 					}
@@ -148,6 +152,9 @@
 					jQuery('.filterValueStart', filterDiv).val("");
 					jQuery('.filterValueEnd', filterDiv).val("");
 					jQuery('.filterOperatorTypeValueSelector :selected', filterDiv).attr('selected', false);
+					
+					// hide clear button
+					jQuery('.clearFilter', filterDiv).hide();
 				}
 			}
 		}
