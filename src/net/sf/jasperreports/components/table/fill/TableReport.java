@@ -400,15 +400,15 @@ public class TableReport implements JRReport
 		protected JRDesignFrame createColumnCell(Column column, Cell cell)
 		{
 			JRDesignFrame frame = super.createColumnCell(column, cell);
-			JRExpressionChunk sortExpression = getColumnSortExpression(column);
-			if (sortExpression != null)
+			JRTextField sortTextField = getColumnSortTextField(column);
+			if (sortTextField != null)
 			{
-				addSortElement(column, frame, sortExpression);
+				addSortElement(column, frame, sortTextField.getExpression().getChunks()[0], sortTextField.getPattern());
 			}
 			return frame;
 		}
 
-		protected JRExpressionChunk getColumnSortExpression(Column column)
+		protected JRTextField getColumnSortTextField(Column column)
 		{
 			Cell detailCell = column.getDetailCell();
 			List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
@@ -430,13 +430,13 @@ public class TableReport implements JRReport
 			JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
 			if (chunks == null || chunks.length != 1
 					|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
-						&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
+					&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
 			{
 				return null;
 			}
 			
 			// success
-			return chunks[0];
+			return text;
 		}
 
         protected JRExpression getColumnHeaderLabelExpression(Cell header)
@@ -463,7 +463,7 @@ public class TableReport implements JRReport
         }
 
 		protected void addSortElement(Column column, JRDesignFrame frame,
-				JRExpressionChunk sortExpression)
+				JRExpressionChunk sortExpression, String filterPattern)
 		{
 			Cell header = column.getColumnHeader();
 
@@ -513,6 +513,7 @@ public class TableReport implements JRReport
 			{
 				genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_FILTER_TYPE, filterType.getName());
 			}
+			genericElement.getPropertiesMap().setProperty(SortElement.PROPERTY_FILTER_PATTERN, filterPattern);
 			
 			frame.addElement(genericElement);
 		}

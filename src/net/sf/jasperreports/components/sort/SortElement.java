@@ -65,9 +65,11 @@ public interface SortElement {
 	public static final String REQUEST_PARAMETER_DATASET_RUN = "jr.dsr";//FIXMEJIVE this parameter cannot uniquely identify a dataset run that repeats; check it
 	public static final String REQUEST_PARAMETER_FILTER_TYPE = "jr.fltrTp"; 
 	public static final String REQUEST_PARAMETER_FILTER_TYPE_OPERATOR = "jr.fltrTpOprtr"; 
+	public static final String REQUEST_PARAMETER_FILTER_PATTERN = "jr.fltrPtrn"; 
 	
 	public static final String PROPERTY_DATASET_RUN = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_DATASET_RUN;
 	public static final String PROPERTY_FILTER_TYPE = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_TYPE;
+	public static final String PROPERTY_FILTER_PATTERN = JRProperties.PROPERTY_PREFIX + "export." + SortElement.REQUEST_PARAMETER_FILTER_PATTERN;
 
     public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
 	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
