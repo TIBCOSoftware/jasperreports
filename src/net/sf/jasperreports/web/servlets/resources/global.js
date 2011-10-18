@@ -451,8 +451,8 @@ jQuery.noConflict();
 					if (target.is('.enabledPaginationButton')) {
 						var parent = jQuery(this),
 							currentHref = parent.attr('data-url'),
-							currentPage = parent.attr('data-currentpage'),
-							totalPages = parent.attr('data-totalpages'),
+							currentPage = parseInt(parent.attr('data-currentpage')),
+							totalPages = parseInt(parent.attr('data-totalpages')),
 							requestedPage,
 							pageParam= 'jr.page=',
 							ctx;
