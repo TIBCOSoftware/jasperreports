@@ -34,6 +34,7 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRDateLocaleConverter;
 import net.sf.jasperreports.engine.util.JRFloatLocaleConverter;
@@ -120,63 +121,21 @@ public abstract class JRAbstractTextDataSource implements JRDataSource
 		}
 		return value;
 	}
-	
+
+	/**
+	 * @deprecated Replaced by {@link FormatUtils#getFormattedNumber(NumberFormat, String, Class)}
+	 */
 	protected Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class<?> valueClass) throws ParseException
 	{
-		if (valueClass.equals(Byte.class)) 
-		{
-			return new Byte((numberFormat.parse(fieldValue)).byteValue());
-		}
-		else if (valueClass.equals(Integer.class)) 
-		{
-			return Integer.valueOf((numberFormat.parse(fieldValue)).intValue());
-		}
-		else if (valueClass.equals(Long.class)) 
-		{
-			return new Long((numberFormat.parse(fieldValue)).longValue());
-		}
-		else if (valueClass.equals(Short.class)) 
-		{
-			return new Short((numberFormat.parse(fieldValue)).shortValue());
-		}
-		else if (valueClass.equals(Double.class)) 
-		{
-			return new Double((numberFormat.parse(fieldValue)).doubleValue());
-		}
-		else if (valueClass.equals(Float.class)) 
-		{
-			return new Float((numberFormat.parse(fieldValue)).floatValue());
-		}
-		else if (valueClass.equals(BigDecimal.class)) 
-		{
-			return new BigDecimal((numberFormat.parse(fieldValue)).toString());
-		}
-		else if (valueClass.equals(BigInteger.class)) 
-		{
-			return new BigInteger(String.valueOf(numberFormat.parse(fieldValue).longValue()));
-		}
-		else if(valueClass.equals(java.lang.Number.class)) 
-		{
-			return numberFormat.parse(fieldValue);
-		}
-		return null;
+		return FormatUtils.getFormattedNumber(numberFormat, fieldValue, valueClass);
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link FormatUtils#getFormattedDate(DateFormat, String, Class)}
+	 */
 	protected Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class<?> valueClass) throws ParseException 
 	{
-		if (valueClass.equals(java.util.Date.class)) 
-		{
-			return dateFormat.parse(fieldValue);
-		}
-		else if (valueClass.equals(java.sql.Timestamp.class)) 
-		{
-			return new java.sql.Timestamp(dateFormat.parse(fieldValue).getTime());
-		}
-		else if (valueClass.equals(java.sql.Time.class)) 
-		{
-			return new java.sql.Time(dateFormat.parse(fieldValue).getTime());
-		}
-		return null;
+		return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
 	}
 
 	protected LocaleConvertUtilsBean getConvertBean() 
