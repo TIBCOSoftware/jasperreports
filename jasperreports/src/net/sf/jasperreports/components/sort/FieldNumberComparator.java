@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.sort;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -38,7 +39,18 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 
 
 	public FieldNumberComparator(String filterPattern, Locale locale) {
-		formatter = getFormatFactory().createNumberFormat(filterPattern != null ? filterPattern : FormatUtils.DEFAULT_NUMBER_PATTERN, locale);
+		if (locale == null) {
+			formatter = NumberFormat.getNumberInstance();
+		} else {
+			formatter = NumberFormat.getNumberInstance(locale);
+		}
+		
+		if (filterPattern != null && filterPattern.trim().length() > 0) {
+			
+			if (formatter instanceof DecimalFormat) {
+				((DecimalFormat) formatter).applyPattern(filterPattern);
+			}
+		}
 	}
 	
 	@Override
