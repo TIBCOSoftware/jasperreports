@@ -16,8 +16,8 @@
 '>
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
 		<span style='color: #${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
-			#if (${isSorted})<img src='${sortSymbolResource}' /> #end 
-			#if (${isFiltered}) <img src='${filterSymbolImageResource}' class='filterSymbol_${filterActiveInactive}' /> #end
+			#if (${isSorted})<img class='sortSymbolImage' src='${sortSymbolResource}' /> #end 
+			#if (${isFiltered}) <img class='filterSymbolImage filterSymbol_${filterActiveInactive}' src='${filterSymbolImageResource}' /> #end
 		</span>
 	</span>
 	

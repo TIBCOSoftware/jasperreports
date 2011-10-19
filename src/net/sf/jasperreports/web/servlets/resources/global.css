@@ -137,5 +137,14 @@
 	display: none;
 }
 
+.sortSymbolImage {
+	border: 0px;
+	margin: 0px;
+}
+
+.filterSymbolImage {
+	border: 0px;
+	margin: 0px;
+}
 /************************ </FILTER DIV> ***************************/
 
