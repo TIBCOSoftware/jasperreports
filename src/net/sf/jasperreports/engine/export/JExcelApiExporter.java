@@ -98,7 +98,6 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -2404,7 +2403,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
 					{
 						try {
-							sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
+							if(range.getEndIndex() > range.getStartIndex())
+							{
+								sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
+							}
 						} catch (RowsExceededException e) {
 							throw new JRRuntimeException(e);
 						} catch (WriteException e) {

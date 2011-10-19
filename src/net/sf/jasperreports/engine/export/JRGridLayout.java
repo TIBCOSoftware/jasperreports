@@ -590,6 +590,7 @@ public class JRGridLayout
 			if(!isValidLevel(rowLevel))
 			{
 				// the outline grouping exit condition 
+				setRowLevelsRange(currentLevel, row1);
 				currentLevel = rowLevel;
 			}
 			else if(groupName == null)
@@ -1058,7 +1059,7 @@ public class JRGridLayout
 				else
 				{
 					IntegerRange range = rangeList.get(rangeList.size()-1);
-					if(!range.getStartIndex().equals(Integer.valueOf(rowIndex)))
+					if(range.getStartIndex().equals(rowIndex+1))
 					{
 						range.setStartIndex(rowIndex);
 					}
