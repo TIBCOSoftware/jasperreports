@@ -36,8 +36,6 @@ import java.util.Date;
  */
 public class FormatUtils {
 	
-	public static final String DEFAULT_NUMBER_PATTERN = "#,##0.##";
-	
 	/**
 	 * Creates a number from a string value
 	 * 
