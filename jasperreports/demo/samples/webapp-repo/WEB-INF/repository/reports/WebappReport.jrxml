@@ -89,35 +89,39 @@
 	<pageHeader>
 		<band height="20">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" style="pageHeader"/>
+				<reportElement mode="Opaque" x="0" y="4" width="55" height="16" style="pageHeader"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" style="pageHeader"/>
-				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Id" sortFieldType="Field" handlerHorizontalAlign="Right" >
-					<c:symbol>
-						<font size="12"/>
+				<reportElement mode="Opaque" x="0" y="4" width="55" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Id" handlerHorizontalAlign="Right" handlerColor="yellow">
+						<font size="10"/>
 					</c:symbol>
 				</c:sort>
 			</componentElement>
 			<staticText>
-				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" style="pageHeader"/>
+				<reportElement mode="Opaque" x="55" y="4" width="205" height="16" style="pageHeader"/>
 				<textElement/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" style="pageHeader"/>
-				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Name" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				<reportElement mode="Opaque" x="55" y="4" width="205" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Name" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				</c:sort>
 			</componentElement>
 			<staticText>
-				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" style="pageHeader"/>
+				<reportElement mode="Opaque" x="260" y="4" width="255" height="16" style="pageHeader"/>
 				<textElement/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" style="pageHeader"/>
-				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" sortFieldName="Street" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				<reportElement mode="Opaque" x="260" y="4" width="255" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Street" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				</c:sort>
 			</componentElement>
 		</band>
 	</pageHeader>
