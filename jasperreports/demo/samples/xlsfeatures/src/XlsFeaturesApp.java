@@ -242,6 +242,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
 			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 			
 			exporter.exportReport();
 	
@@ -271,6 +272,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
 			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 	
 			exporter.exportReport();
 	
@@ -409,6 +411,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
 			exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
 			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+			exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.FALSE);
 			
 			exporter.exportReport();
 	

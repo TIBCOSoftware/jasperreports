@@ -1,94 +1,52 @@
-"Dallas",47,"Janet Fuller","445 Upland Pl.","Trial"
-"Lyon",38,"Andrew Heiniger","347 College Av.","Active"
-"Dallas",43,"Susanne Smith","2 Upland Pl.","Active"
-"Berne",22,"Bill Ott","250 - 20th Ave.","Active"
-"Boston",32,"Michael Ott","339 College Av.","Trial"
-"Dallas",4,"Sylvia Ringer","365 College Av.","Active"
-"Boston",23,"Julia Heiniger","358 College Av.","Active"
-"Chicago",39,"Mary Karsen","202 College Av.","Active"
-"Dallas",40,"Shelly Miller","440 - 20th Ave.","Trial"
-"Berne",9,"James Schneider","277 Seventh Av.","Active"
-"Dallas",36,"John Steel","276 Upland Pl.","Suspended"
-"Chicago",35,"George Karsen","412 College Av.","Suspended"
-"Dallas",37,"Jack Clancy","19 Seventh Av.","Deleted"
-"Lyon",2,"Anne Miller","20 Upland Pl.","Active"
-"Dallas",0,"Sandra Steel","429 Seventh Av.","Active"
-"Lyon",28,"Susanne White","74 - 20th Ave.","Deleted"
-"Paris",5,"Laura Miller","294 Seventh Av.","Active"
-"Lyon",17,"Laura Ott","443 Seventh Av.","Active"
-"New York",46,"Andrew May","172 Seventh Av.","Active"
-"New York",44,"Jenny Ott","361 College Av.","Active"
-"Dallas",19,"Steven Heiniger","86 - 20th Ave.","Active"
-"Chicago",11,"Julia White","412 Upland Pl.","Active"
-"Dallas",10,"Jane Fuller","135 Upland Pl.","Active"
-"New York",41,"Bill King","546 College Av.","Deleted"
-"Oslo",45,"Janet May","396 Seventh Av.","Active"
-"Paris",18,"Sylvia Fuller","158 - 20th Ave.","Trial"
-"San Francisco",48,"Robert White","549 Seventh Av.","Active"
-"Paris",25,"Karin Steel","269 College Av.","Suspended"
-"San Francisco",7,"James Peterson","231 Upland Pl.","Active"
-"Oslo",42,"Robert Ott","503 Seventh Av.","Trial"
-"Lyon",100,"Jill Miller","201 Upland Pl.","Active"
-"Dallas",200,"Stuart Steel","49 Seventh Av.","Active"
-"Lyon",208,"John White","75 20th Ave.","Deleted"
-"Paris",105,"Laura Smith","24 Seventh Av.","Active"
-"Lyon",170,"Ellen Ott","44 Seventh Av.","Active"
-"New York",406,"Andrew Thorpe","12 Seventh Av.","Active"
-"New York",404,"Mary Collins","36 College Av.","Active"
-"Dallas",190,"Andrea Heiniger","186 - 20th Ave.","Active"
-"Chicago",101,"Dorothy White","12 Upland Pl.","Active"
-"Dallas",103,"Audrey Fuller","15 Upland Pl.","Active"
-"New York",410,"Bill Barow","54 College Av.","Deleted"
-"Oslo",450,"Millie May","39 Seventh Av.","Active"
-"Paris",180,"Clara Fuller","188 - 20th Ave.","Trial"
-"San Francisco",480,"Mark Winston","59 Seventh Av.","Active"
-"Paris",250,"Doris Stone","69 College Av.","Suspended"
-"San Francisco",700,"James Robson","21 Upland Pl.","Active"
-"Oslo",420,"Robert Turman","50 Seventh Av.","Trial"
-"Dallas",247,"Janet Fuller","445 Upland Pl.","Trial"
-"Lyon",238,"Maurice Heiniger","47 College Av.","Active"
-"Dallas",243,"Anna Smith","42 Upland Pl.","Active"
-"Berne",222,"Ben Kott","250 - 20th Ave.","Active"
-"Boston",232,"Michael Ott","339 College Av.","Trial"
-"Dallas",224,"Albert Ringer","35 College Av.","Active"
-"Boston",223,"Leda Hennig","358 College Av.","Active"
-"Chicago",239,"Merryl Karsen","22 College Av.","Active"
-"Dallas",240,"Alicia Foster","44 - 20th Ave.","Trial"
-"Berne",229,"Jerome Schiller","77 Seventh Av.","Active"
-"Dallas",236,"Martin Steele","26 Upland Pl.","Suspended"
-"Chicago",235,"George Jonas","412 College Av.","Suspended"
-"Dallas",237,"Michael Terry","194 Seventh Av.","Deleted"
-"Lyon",202,"Anne Smith","201 Upland Pl.","Active"
-"Dallas",200,"Moira Rees","49 Seventh Av.","Active"
-"Lyon",228,"Susanne Holcomb","742 - 20th Ave.","Deleted"
-"Paris",225,"Laurent Dufois","29 Seventh Av.","Active"
-"Lyon",217,"Laura Johnson","443 Seventh Av.","Active"
-"New York",1000,"Andrew Leton","178 Seventh Av.","Active"
-"New York",244,"Sylvie Pedroso","321 College Av.","Active"
-"Dallas",219,"Marine Albright","286 - 20th Ave.","Active"
-"Chicago",211,"Jenny Coleman","42 Upland Pl.","Active"
-"Dallas",210,"Aura Forsythe","139 Upland Pl.","Active"
-"New York",241,"Ramon Moya","541 College Av.","Deleted"
-"Oslo",245,"Irene Meier","391 Seventh Av.","Active"
-"Paris",218,"Corinne Redford","155 - 20th Ave.","Trial"
-"San Francisco",248,"Robert Leroy","546 Seventh Av.","Active"
-"Paris",225,"Sibille Miron","267 College Av.","Suspended"
-"San Francisco",227,"John Parker","234 Upland Pl.","Active"
-"Oslo",242,"Ray Meno","508 Seventh Av.","Trial"
-"Lyon",2100,"Stan Doran","21 Upland Pl.","Active"
-"Dallas",2200,"Sean Potter","419 Seventh Av.","Active"
-"Lyon",2208,"John Dermott","175 20th Ave.","Deleted"
-"Paris",2105,"Jane Smith","214 Seventh Av.","Active"
-"Lyon",2170,"Selena Ortiz","144 Seventh Av.","Active"
-"New York",2406,"Andrew Stone","112 Seventh Av.","Active"
-"New York",2404,"Dora Levine","136 College Av.","Active"
-"Dallas",2190,"Anders Holbson","86 - 20th Ave.","Active"
-"Chicago",2101,"Diane Brown","121 Upland Pl.","Active"
-"Dallas",2103,"Miley Howard","151 Upland Pl.","Active"
-"New York",2410,"Paul Burton","524 College Av.","Deleted"
-"Oslo",2450,"Kelly River","329 Seventh Av.","Active"
-"Paris",2180,"Robert Thomas","183 - 20th Ave.","Trial"
-"San Francisco",2480,"Coleman Howard","359 Seventh Av.","Active"
-"Paris",2250,"George Mindel","369 College Av.","Suspended"
-"San Francisco",2700,"Richard Smith","211 Upland Pl.","Active"
-"Oslo",2420,"Tim Coleman","510 Seventh Av.","Trial"
+Chicago,35,Gabriel Dienst,412 College Av.,Suspended
+Chicago,2101,Gary Brown,121 Upland Pl.,Active
+Chicago,211,Gene Coleman,42 Upland Pl.,Active
+Chicago,101,Glenn Soren,12 Upland Pl.,Active
+Chicago,235,Markus Jonas,412 College Av.,Suspended
+Chicago,39,Mary Lindt,202 College Av.,Active
+Chicago,11,Melanie Williams,412 Upland Pl.,Active
+Chicago,239,Merryl Stuart,22 College Av.,Active
+Dallas,224,Albert Ringer,35 College Av.,Active
+Dallas,240,Alicia Foster,44 - 20th Ave.,Trial
+Dallas,2190,Anders Holbson,86 - 20th Ave.,Active
+Dallas,190,Andrea Heiniger,186 - 20th Ave.,Active
+Dallas,243,Anna Smith,42 Upland Pl.,Active
+Dallas,103,Audrey Fuller,15 Upland Pl.,Active
+Dallas,210,Aura Forsythe,139 Upland Pl.,Active
+Dallas,37,Jack Clancy,19 Seventh Av.,Deleted
+Dallas,10,Jane Fuller,135 Upland Pl.,Active
+Dallas,47,Janet Fuller,445 Upland Pl.,Trial
+Dallas,247,Janet Fuller,445 Upland Pl.,Trial
+Dallas,36,John Steel,276 Upland Pl.,Suspended
+Dallas,219,Marine Albright,286 - 20th Ave.,Active
+Dallas,236,Martin Steele,26 Upland Pl.,Suspended
+Dallas,237,Michael Terry,194 Seventh Av.,Deleted
+Dallas,2103,Miley Howard,151 Upland Pl.,Active
+Dallas,200,Moira Rees,49 Seventh Av.,Active
+Dallas,0,Sandra Steel,429 Seventh Av.,Active
+Dallas,2200,Sean Potter,419 Seventh Av.,Active
+Dallas,40,Shelly Miller,440 - 20th Ave.,Trial
+Dallas,19,Steven Heiniger,86 - 20th Ave.,Active
+Dallas,200,Stuart Steel,49 Seventh Av.,Active
+Dallas,43,Susanne Smith,2 Upland Pl.,Active
+Dallas,4,Sylvia Ringer,365 College Av.,Active
+New York,1000,Andrew Leton,178 Seventh Av.,Active
+New York,46,Andrew May,172 Seventh Av.,Active
+New York,2406,Andrew Stone,112 Seventh Av.,Active
+New York,406,Andrew Thorpe,12 Seventh Av.,Active
+New York,410,Bill Barow,54 College Av.,Deleted
+New York,41,Bill King,546 College Av.,Deleted
+New York,2404,Beatrice Levine,136 College Av.,Active
+New York,44,Jennifer Ott,361 College Av.,Active
+New York,404,Rose Collins,36 College Av.,Active
+New York,2410,Ryan Morello,524 College Av.,Deleted
+New York,241,Ramon Moya,541 College Av.,Deleted
+New York,244,Rick Pedroso,321 College Av.,Active
+San Francisco,2480,Cole Howard,359 Seventh Av.,Active
+San Francisco,7,James Peterson,231 Upland Pl.,Active
+San Francisco,700,Judith Robson,21 Upland Pl.,Active
+San Francisco,227,John Parker,234 Upland Pl.,Active
+San Francisco,480,Jane Winston,59 Seventh Av.,Active
+San Francisco,2700,Richard Smith,211 Upland Pl.,Active
+San Francisco,248,Robert Leroy,546 Seventh Av.,Active
+San Francisco,48,Robert White,549 Seventh Av.,Active
