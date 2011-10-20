@@ -70,10 +70,14 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
-	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
-	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter_wrong.png";
-	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_up.png";
-	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_down.png";
+//	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
+//	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter_wrong.png";
+//	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_up.png";
+//	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_ud_down.png";
+	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/funnel16x16.ico";
+	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/funnel16x16_wrong.ico";
+	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/SortAscending16x16.ico";
+	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/SortDescending16x16.ico";
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
 	
 	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
@@ -277,6 +281,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		
 		ReportContext reportContext = context.getExporter().getReportContext();
 		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
+		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
 		
 		hyperlink.setHyperlinkParameters(parameters);
 		
@@ -290,6 +295,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
 		ReportContext reportContext = context.getExporter().getReportContext();
 		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
+		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
 		
 		hyperlink.setHyperlinkParameters(parameters);
 		
