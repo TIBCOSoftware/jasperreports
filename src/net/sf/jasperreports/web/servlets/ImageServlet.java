@@ -90,7 +90,7 @@ public class ImageServlet extends HttpServlet
 		}
 		else
 		{
-			WebReportContext webReportContext = WebReportContext.getInstance(request, false, false);
+			WebReportContext webReportContext = WebReportContext.getInstance(request, false);
 			
 			if (webReportContext == null)
 			{
