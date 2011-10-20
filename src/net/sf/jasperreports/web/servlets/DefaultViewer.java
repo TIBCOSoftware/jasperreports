@@ -71,6 +71,7 @@ public class DefaultViewer extends AbstractViewer
 		headerContext.put("showToolbar", Boolean.TRUE);
 		headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
 		headerContext.put("currentUrl", getCurrentUrl(request, webReportContext));
+		headerContext.put("strRunReportParam", ReportServlet.REQUEST_PARAMETER_RUN_REPORT + "=false");
 
 		JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
 		headerContext.put("totalPages", jasperPrint.getPages().size());

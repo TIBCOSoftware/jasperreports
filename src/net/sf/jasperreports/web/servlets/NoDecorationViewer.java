@@ -45,16 +45,11 @@ public class NoDecorationViewer extends AbstractViewer
 	private static final String RESOURCE_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/global.js";
 	private static final String RESOURCE_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/global.css";
 
-	private static final String APPLICATION_CONTEXT_PATH_VAR = "APPLICATION_CONTEXT_PATH";
-
-	private static final String REQUEST_PARAMETER_PAGE = "jr.page";
-	private static final String PARAMETER_TOOLBAR = "toolbar";
 	private static final String PARAMETER_IS_AJAX= "isajax";
 	
 	private static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/dashboard/HeaderTemplate.vm";
 	private static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/dashboard/BetweenPagesTemplate.vm";
 	private static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/dashboard/FooterTemplate.vm";
-	private static final String TEMPLATE_EXCEPTION= "net/sf/jasperreports/web/servlets/resources/dashboard/ExceptionTemplate.vm";
 
 	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext)
 	{
@@ -72,7 +67,8 @@ public class NoDecorationViewer extends AbstractViewer
 		headerContext.put("showToolbar", Boolean.TRUE);
 		headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
 		headerContext.put("currentUrl", getCurrentUrl(request, webReportContext));
-
+		headerContext.put("strRunReportParam", ReportServlet.REQUEST_PARAMETER_RUN_REPORT + "=false");
+		
 		JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
 		headerContext.put("totalPages", jasperPrint.getPages().size());
 
