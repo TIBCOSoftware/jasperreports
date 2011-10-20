@@ -434,7 +434,7 @@ jQuery.noConflict();
 			}
 		};
 		
-		jg.initToolbar = function(toolbarId) {
+		jg.initToolbar = function(toolbarId, strRunReportParam) {
 			var toolbar = jQuery('#' + toolbarId);
 			
 			jg.updateToolbarPaginationButtons(toolbar);
@@ -454,7 +454,7 @@ jQuery.noConflict();
 							currentPage = parseInt(parent.attr('data-currentpage')),
 							totalPages = parseInt(parent.attr('data-totalpages')),
 							requestedPage,
-							pageParam= 'jr.page=',
+							pageParam = (strRunReportParam != null ? strRunReportParam + '&' : '') + 'jr.page=',
 							ctx;
 						
 						if (target.is('.pageFirst')) {
