@@ -213,10 +213,78 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
-	public static final String PROPERTY_AUTO_FILTER_START = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.start";
-	public static final String PROPERTY_AUTO_FILTER_END = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter.end";
+	
+	/**
+	 * This element-level property is used to indicate the boundaries of the autofilter data range in the current sheet. 
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>Start</code> - The current cell will be marked as autofilter heading cell, and column data below/to the right of 
+	 * this cell can be considered as part of the autofilter data range. The starting point of the autofilter data range will be 
+	 * the next cell below the current cell (ie if the current cell reference is B4, the autofilter range will start with the "B5" 
+	 * cell reference: "B5:M20").
+	 * <br/>
+	 * If multiple autofilter <code>Start</code> values are found in the same sheet, only the last one will be considered. If the 
+	 * <code>Start</code> value is present but no <code>End</code> value is found in the sheet, then only the current column will 
+	 * be considered for the data range.
+	 * <br/>
+	 * If the autofilter <code>Start</code> value is set on the same row as the autofilter <code>End</code> value, the data range 
+	 * will include all data below this heading row, placed between the start column and the end column.</li>
+	 * <li><code>End</code> - The current cell will be marked as autofilter ending cell, and column data in this cell and 
+	 * above/to the left can be considered as part of the autofilter data range. The ending cell in the data range is the 
+	 * current cell reference (ie if the current cell reference is M20, the autofilter range will end in "M20": "B5:M20"). 
+	 * The heading cell for the current column will be placed in the same column on the row containing the autofilter <code>Start</code> value. 
+	 * <br/>
+	 * <b>Caution:</b> If no autofilter <code>Start</code> value is found in the sheet, the autofilter <code>End</code> value will be considered 
+	 * as <code>Start</code> value instead. 
+	 * <br/>
+	 * If multiple autofilter <code>End</code> value are found in the same sheet, only the last one will be considered. 
+	 * <br/>
+	 * If the autofilter <code>Start</code> value is set on the same row as the autofilter <code>End</code> value, the data range 
+	 * will include all data below this heading row, placed between the start column and the end column.</li>
+	 * </ul>
+	 * 
+	 * @see JRProperties
+	 */
+	public static final String PROPERTY_AUTO_FILTER = JRProperties.PROPERTY_PREFIX + "export.xls.auto.filter";
+	
+	/**
+	 * Element-level property used to adjust the column width to values suitable for Excel output, taking into account 
+	 * that column widths are measured in Excel in Normal style default character width units. The pixel-to-character width 
+	 * translation depends on the default normal style character width, so it cannot be always accurately fitted. In this case, 
+	 * one can adjust the current column width by setting this property with an integer value measured in pixels. The JR engine 
+	 * will perform the pixel-to-character width mapping using this value instead of the element's <code>width</code> attribute.
+	 * <br/>
+	 * If defined, this property will override the {@link #PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for the current column
+	 * 
+	 * @see #PROPERTY_COLUMN_WIDTH_RATIO
+	 * @see JRProperties
+	 */
 	public static final String PROPERTY_COLUMN_WIDTH = JRProperties.PROPERTY_PREFIX + "export.xls.column.width";
+
+	/**
+	 * Property used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
+	 * values suitable for Excel output. Usually column widths are measured by Excel in Normal style default character width 
+	 * units, while the JR engine uses pixels as default size units. When exporting the report to the Excel output format, the 
+	 * pixel-to-character width translation depends on the normal style default character width provided by the Excel instance, 
+	 * so it cannot be always accurately fitted. In this case, one can alter the generated column widths by setting this property 
+	 * with a float value representing the adjustment ratio. The property can be set:
+	 * <ul>
+	 * <li>globally - then all the columns in all documents exported to the Excel output format will be adjusted with the same width ratio</li>
+	 * <li>at report level - then all the columns in the document will be adjusted with the same width ratio</li>
+	 * <li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
+	 * </ul> 
+	 * Global settings are overriden by report level settings and report level settings are overriden by element level settings. If 
+	 * present, a {@link #PROPERTY_COLUMN_WIDTH PROPERTY_COLUMN_WIDTH} property will override the 
+	 * {@link #PROPERTY_COLUMN_WIDTH_RATIO PROPERTY_COLUMN_WIDTH_RATIO} value for that column only.
+	 * 
+	 * @see #PROPERTY_COLUMN_WIDTH
+	 * @see JRProperties
+	 */
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
+	
+	/**
+	 * 
+	 */
 	public static final String PROPERTY_GROUP_ROW_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.level.";
 	
 	public static final int MAX_ROW_INDEX = 65535;
@@ -864,16 +932,29 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							setSheetName(sheetName);
 						}
 
-						boolean start = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
-						if(start && rowIndex < MAX_ROW_INDEX)
+//						boolean start = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
+//						if(start && rowIndex < MAX_ROW_INDEX)
+//						{
+//							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
+//						}
+//						
+//						boolean end = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_END, false);
+//						if(end && rowIndex < MAX_ROW_INDEX)
+//						{
+//							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
+//						}
+//						
+						if(rowIndex < MAX_ROW_INDEX)
 						{
-							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
-						}
-						
-						boolean end = JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FILTER_END, false);
-						if(end && rowIndex < MAX_ROW_INDEX)
-						{
-							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
+							String autofilter = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
+							if("Start".equals(autofilter))
+							{
+								autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
+							}
+							else if("End".equals(autofilter))
+							{
+								autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
+							}
 						}
 						
 						if (element instanceof JRPrintLine)
