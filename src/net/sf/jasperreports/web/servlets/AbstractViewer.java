@@ -28,6 +28,7 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -103,21 +104,24 @@ public abstract class AbstractViewer
 	{
 		String newQueryString = "";
 		
-		Enumeration<String> paramNames = request.getParameterNames();
-		while (paramNames.hasMoreElements()) {
-			String paramName = paramNames.nextElement();
-			if (!paramName.equals(AbstractViewer.REQUEST_PARAMETER_PAGE)) {
-				newQueryString += paramName + "=" + request.getParameter(paramName) + "&";
-			}
-		}
+//		Enumeration<String> paramNames = request.getParameterNames();
+//		while (paramNames.hasMoreElements()) {
+//			String paramName = paramNames.nextElement();
+//			if (!paramName.equals(AbstractViewer.REQUEST_PARAMETER_PAGE)) {
+//				newQueryString += paramName + "=" + request.getParameter(paramName) + "&";
+//			}
+//		}
+//		
+//		newQueryString = newQueryString.substring(0, newQueryString.lastIndexOf("&"));
 		
-		newQueryString = newQueryString.substring(0, newQueryString.lastIndexOf("&"));
+//		if (!newQueryString.contains(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID))
+//		{
+//			newQueryString += "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+//		}
 		
-		if (!newQueryString.contains(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID))
-		{
-			newQueryString += "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
-		}
-		
+		newQueryString = ReportServlet.REQUEST_PARAMETER_REPORT_URI + "=" + webReportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI) + 
+					"&" + SortElement.REQUEST_PARAMETER_DATASET_RUN + "=" + webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN) +
+					"&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 		return request.getContextPath() + request.getServletPath() + "?" + newQueryString;
 	}
 
