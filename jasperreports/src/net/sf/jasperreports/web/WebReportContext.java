@@ -28,7 +28,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ReportContext;
 
@@ -64,19 +63,11 @@ public class WebReportContext implements ReportContext
 	{
 		return getInstance(request, true);
 	}
-	
-	/**
-	 * 
-	 */
-	public static final WebReportContext getInstance(HttpServletRequest request, boolean create)
-	{
-		return getInstance(request, create, true);
-	}
 
 	/**
 	 *
 	 */
-	public static final WebReportContext getInstance(HttpServletRequest request, boolean create, boolean resetJasperPrint)
+	public static final WebReportContext getInstance(HttpServletRequest request, boolean create)
 	{
 		WebReportContext webReportContext = null;
 
@@ -97,15 +88,6 @@ public class WebReportContext implements ReportContext
 			webReportContext.setRequest(request);
 			webReportContext.setParameterValue("net.sf.jasperreports.web.app.context.path", request.getContextPath());
 			webReportContext.setParameterValue(JRParameter.REPORT_CONTEXT, webReportContext);
-			
-			// the jasperPrint parameter must be reset for sort/filter
-			if (resetJasperPrint && 
-					(webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_FILTER_FIELD) != null ||
-					webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA) != null || 
-					webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_REMOVE_FILTER) != null)) 
-			{
-				webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, null);
-			}
 		}
 		
 		return webReportContext;
