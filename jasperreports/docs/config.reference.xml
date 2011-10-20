@@ -179,19 +179,20 @@
       <property ref="net.sf.jasperreports.export.text.character.width"/>
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
+      <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
+      
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
       <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
       <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
       <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
-      
       <property ref="net.sf.jasperreports.export.xls.column.name"/>
       <property ref="net.sf.jasperreports.export.xls.column.names"/>
-      
+      <property ref="net.sf.jasperreports.export.xls.column.width"/>
+      <property ref="net.sf.jasperreports.export.xls.column.width.ratio"/>
+
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
-      
       <property ref="net.sf.jasperreports.export.xls.data"/>
-      
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
@@ -2183,6 +2184,45 @@ Property whose value is used as default state of the <api href="net/sf/jasperrep
     <since>3.6.1</since>
   </configProperty>
   
+ 
+  <!-- net.sf.jasperreports.export.xls.auto.filter -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.auto.filter">
+    <description>
+This element-level property is used to indicate the boundaries of the autofilter data range in the current sheet. 
+Allowed values are:
+<ul>
+<li><code>Start</code> - The current cell will be marked as autofilter heading cell, and column data below/to the right of 
+this cell can be considered as part of the autofilter data range. The starting point of the autofilter data range will be 
+the next cell below the current cell (ie if the current cell reference is B4, the autofilter range will start with the "B5" 
+cell reference: "B5:M20").
+<br/>
+If multiple autofilter <code>Start</code> values are found in the same sheet, only the last one will be considered. If the 
+<code>Start</code> value is present but no <code>End</code> value is found in the sheet, then only the current column will 
+be considered for the data range.
+<br/>
+If the autofilter <code>Start</code> value is set on the same row as the autofilter <code>End</code> value, the data range 
+will include all data below this heading row, placed between the start column and the end column.</li>
+<li><code>End</code> - The current cell will be marked as autofilter ending cell, and column data in this cell and 
+above/to the left can be considered as part of the autofilter data range. The ending cell in the data range is the 
+current cell reference (ie if the current cell reference is M20, the autofilter range will end in "M20": "B5:M20"). 
+The heading cell for the current column will be placed in the same column on the row containing the autofilter <code>Start</code> value. 
+<br/>
+<b>Caution:</b> If no autofilter <code>Start</code> value is found in the sheet, the autofilter <code>End</code> value will be considered 
+as <code>Start</code> value instead. 
+<br/>
+If multiple autofilter <code>End</code> values are found in the same sheet, only the last one will be considered. 
+<br/>
+If the autofilter <code>Start</code> value is set on the same row as the autofilter <code>End</code> value, the data range 
+will include all data below this heading row, placed between the start column and the end column.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FILTER</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.2</since>
+  </configProperty>
+  
   
   <!-- net.sf.jasperreports.export.text.page.height -->
   
@@ -2238,6 +2278,52 @@ The order of the columns is important and for accurate results they should be in
     <default>N/A</default>
     <scope>Report</scope>
     <since>4.0.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.column.width -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.column.width">
+    <description>
+Element-level property used to adjust the column width to values suitable for Excel output, taking into account 
+that column widths are measured in Excel in Normal style default character width units. The pixel-to-character width 
+translation depends on the default normal style character width, so it cannot be always accurately fitted. In this case, 
+one can adjust the current column width by setting this property with an integer value measured in pixels. The JR engine 
+will perform the pixel-to-character width mapping using this value instead of the element's <code>width</code> attribute.
+<br/>
+If defined, this property will override the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> 
+value for the current column
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.column.width.ratio -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.column.width.ratio">
+    <description>
+Property used to adjust all column widths in a document or sheet with the same width ratio, in order to get column width 
+values suitable for Excel output. Usually column widths are measured by Excel in Normal style default character width 
+units, while the JR engine uses pixels as default size units. When exporting the report to the Excel output format, the 
+pixel-to-character width translation depends on the normal style default character width provided by the Excel instance, 
+so it cannot be always accurately fitted. In this case, one can alter the generated column widths by setting this property 
+with a float value representing the adjustment ratio. The property can be set:
+<ul>
+<li>globally - then all the columns in all documents exported to the Excel output format will be adjusted with the same width ratio</li>
+<li>at report level - then all the columns in the document will be adjusted with the same width ratio</li>
+<li>at element level - then all the columns in the current sheet will be adjusted with the same width ratio</li>
+</ul> 
+Global settings are overriden by report level settings and report level settings are overriden by element level settings. If 
+present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">PROPERTY_COLUMN_WIDTH</api> property will override the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO">PROPERTY_COLUMN_WIDTH_RATIO</api> value for that column only.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.2</since>
   </configProperty>
   
   
@@ -2519,7 +2605,7 @@ The property is available for:
   <configProperty name="net.sf.jasperreports.export.xls.freeze.column.edge">
     <description>
 Property that indicates the vertical edge of the freeze pane, relative to the current cell. If set, it overrides the 
-<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN</api> value. 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN">PROPERTY_FREEZE_COLUMN</api> value. 
 <br/>
 Allowed values are:
 <ul>
@@ -2571,7 +2657,7 @@ The property is available for:
   <configProperty name="net.sf.jasperreports.export.xls.freeze.row.edge">
     <description>
 Property that indicates the horizontal edge of the freeze pane, relative to the current cell. If set, it overrides the 
-<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW</api> value.
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW">PROPERTY_FREEZE_ROW</api> value.
 <br/>
 Allowed values are:
 <ul>
