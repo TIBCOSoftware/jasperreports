@@ -107,7 +107,7 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666">
-					<property name="net.sf.jasperreports.export.xls.auto.filter.start" value="true"/>
+					<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
 					<property name="net.sf.jasperreports.export.xls.column.width" value="110"/>
 				</reportElement>
 				<box>
@@ -137,7 +137,6 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="316" y="60" width="199" height="20" forecolor="#FFFFFF" backcolor="#666666">
-					<property name="net.sf.jasperreports.export.xls.auto.filter.end" value="true"/>
 					<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Right"/>
 					<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>
 				</reportElement>
@@ -176,7 +175,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="159" y="0" width="157" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter.start"><![CDATA[$F{id}.equals(44) ? "true" : "false"]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$F{id}.equals(44) ? "Start" : null]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
@@ -188,7 +187,7 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="316" y="0" width="199" height="15">
-					<property name="net.sf.jasperreports.export.xls.auto.filter.end" value="true"/>
+					<propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"><![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]></propertyExpression>
 					<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]]></propertyExpression>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
