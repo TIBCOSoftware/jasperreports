@@ -26,6 +26,7 @@
 				<include name="**/*.png"/>
 				<include name="**/*.GIF"/>
 				<include name="**/*.gif"/>
+				<include name="**/*.ico"/>
 				<include name="**/*TokenTypes.txt"/>
 				<include name="**/*.vm"/>
 				<include name="**/*.js"/>
