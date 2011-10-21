@@ -143,6 +143,11 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 	 */
 	protected void setOrigin(JROrigin origin)
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Origin " + origin + " for band " + getId());
+		}
+		
 		this.origin = origin;
 		this.filler.getJasperPrint().addOrigin(origin);
 	}

@@ -23,72 +23,51 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPrintFrame;
 
 /**
- * Utility class used to pair two objects.
+ * Print element visitor that counts deep elements by recursively visiting
+ * {@link JRPrintFrame} containers.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-//FIXME use generics everywhere
-public class Pair<T, U> implements Serializable
+//we need a mutable integer argument, using AtomicInteger
+public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicInteger>
 {
-	private static final long serialVersionUID = 1; //too late to replace this now
-	
-	private final T o1;
-	private final U o2;
-	private final int hash;
 
+	private static final DeepPrintElementCounter INSTANCE = new DeepPrintElementCounter();
 	
 	/**
-	 * Create a pair instance.
+	 * Calculates the deep element count of an element.
 	 * 
-	 * @param o1 the first member of the pair
-	 * @param o2 the second member of the pair
+	 * @param element
+	 * @return
 	 */
-	public Pair(T o1, U o2)
+	public static int count(JRPrintElement element)
 	{
-		this.o1 = o1;
-		this.o2 = o2;
-		this.hash = computeHash();
-	}
-
-	private int computeHash()
-	{
-		int hashCode = o1 == null ? 0 : o1.hashCode();
-		hashCode *= 31;
-		hashCode += o2 == null ? 0 : o2.hashCode();
-		return hashCode;
-	}
-
-	public boolean equals(Object o)
-	{
-		if (o == this)
+		if (element == null)
 		{
-			return true;
+			return 0;
 		}
 		
-		if (o == null || !(o instanceof Pair))
-		{
-			return false;
-		}
-		
-		Pair<?, ?> p = (Pair<?, ?>) o;
-		
-		return (p.o1 == null ? o1 == null : (o1 != null && p.o1.equals(o1))) &&
-			(p.o2 == null ? o2 == null : (o2 != null && p.o2.equals(o2)));
-	}
-
-	public int hashCode()
-	{
-		return hash;
+		AtomicInteger count = new AtomicInteger(0);
+		element.accept(INSTANCE, count);
+		return count.get();
 	}
 	
-	public String toString()
+	protected DeepPrintElementCounter()
 	{
-		return "(" + String.valueOf(o1) + ", " + String.valueOf(o2) + ")";
+		super(true);
 	}
 
+	@Override
+	protected void visitElement(JRPrintElement element, AtomicInteger count)
+	{
+		count.incrementAndGet();		
+	}
+	
 }

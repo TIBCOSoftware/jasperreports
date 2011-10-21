@@ -23,72 +23,60 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import java.io.Serializable;
-
+import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPrintEllipse;
+import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.PrintElementVisitor;
 
 /**
- * Utility class used to pair two objects.
+ * Base print element visitor implementation with empty methods.
+ * 
+ * The class is meant to be extended by visitors that only want to implement specific methods.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-//FIXME use generics everywhere
-public class Pair<T, U> implements Serializable
+public abstract class DefaultPrintElementVisitor<T> implements
+		PrintElementVisitor<T>
 {
-	private static final long serialVersionUID = 1; //too late to replace this now
 	
-	private final T o1;
-	private final U o2;
-	private final int hash;
-
-	
-	/**
-	 * Create a pair instance.
-	 * 
-	 * @param o1 the first member of the pair
-	 * @param o2 the second member of the pair
-	 */
-	public Pair(T o1, U o2)
+	public void visit(JRPrintText textElement, T arg)
 	{
-		this.o1 = o1;
-		this.o2 = o2;
-		this.hash = computeHash();
+		//NOP
 	}
 
-	private int computeHash()
+	public void visit(JRPrintImage image, T arg)
 	{
-		int hashCode = o1 == null ? 0 : o1.hashCode();
-		hashCode *= 31;
-		hashCode += o2 == null ? 0 : o2.hashCode();
-		return hashCode;
+		//NOP
 	}
 
-	public boolean equals(Object o)
+	public void visit(JRPrintRectangle rectangle, T arg)
 	{
-		if (o == this)
-		{
-			return true;
-		}
-		
-		if (o == null || !(o instanceof Pair))
-		{
-			return false;
-		}
-		
-		Pair<?, ?> p = (Pair<?, ?>) o;
-		
-		return (p.o1 == null ? o1 == null : (o1 != null && p.o1.equals(o1))) &&
-			(p.o2 == null ? o2 == null : (o2 != null && p.o2.equals(o2)));
+		//NOP
 	}
 
-	public int hashCode()
+	public void visit(JRPrintLine line, T arg)
 	{
-		return hash;
+		//NOP
 	}
-	
-	public String toString()
+
+	public void visit(JRPrintEllipse ellipse, T arg)
 	{
-		return "(" + String.valueOf(o1) + ", " + String.valueOf(o2) + ")";
+		//NOP
+	}
+
+	public void visit(JRPrintFrame frame, T arg)
+	{
+		//NOP
+	}
+
+	public void visit(JRGenericPrintElement printElement, T arg)
+	{
+		//NOP
 	}
 
 }

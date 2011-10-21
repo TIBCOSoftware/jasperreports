@@ -57,7 +57,6 @@ public class JRFillContext
 	private Map<Object,JRTemplate> loadedTemplates;
 	private DeduplicableRegistry deduplicableRegistry;
 	private boolean usingVirtualizer;
-	private boolean perPageBoundElements;
 	private JRPrintPage printPage;
 	private boolean ignorePagination;
 	private JRQueryExecuter queryExecuter;
@@ -68,6 +67,7 @@ public class JRFillContext
 	private Locale masterLocale;
 	private TimeZone masterTimeZone;
 	
+	private final AtomicInteger fillerIdSeq = new AtomicInteger();
 	private final AtomicInteger fillElementSeq = new AtomicInteger();
 
 	
@@ -199,31 +199,6 @@ public class JRFillContext
 	public boolean isUsingVirtualizer()
 	{
 		return usingVirtualizer;
-	}
-
-	
-	/**
-	 * Sets the flag indicating whether fillers should keep per page bound
-	 * element maps.
-	 * 
-	 * @param perPageBoundElements the value of the flag
-	 * @see #isPerPageBoundElements()
-	 */
-	public void setPerPageBoundElements(boolean perPageBoundElements)
-	{
-		this.perPageBoundElements = perPageBoundElements;
-	}
-
-	
-	/**
-	 * Decides whether fillers should keep per page bound element maps.
-	 * 
-	 * @return <code>true</code> if and only if fillers should keep per page bound element maps
-	 * @see #setPerPageBoundElements(boolean)
-	 */
-	public boolean isPerPageBoundElements()
-	{
-		return perPageBoundElements;
 	}
 	
 	
@@ -442,5 +417,10 @@ public class JRFillContext
 	public int generateFillElementId() 
 	{
 		return fillElementSeq.incrementAndGet();
+	}
+	
+	protected int generatedFillerId()
+	{
+		return fillerIdSeq.incrementAndGet();
 	}
 }

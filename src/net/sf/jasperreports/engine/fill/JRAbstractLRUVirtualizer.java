@@ -480,6 +480,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		String uid = o.getUID();
 		if (isPagedOutAndTouch(o, uid))
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("internalizing " + o);
+			}
+			
 			// unvirtualize
 			try
 			{
@@ -491,14 +496,14 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				throw new JRRuntimeException(e);
 			}
 
-			o.afterInternalization();
-
 			synchronized (this)
 			{
 				setLastObject(o);
 				pagedOut.remove(uid);
 				pagedIn.put(uid, o);
 			}
+
+			o.afterInternalization();
 		}
 	}
 
@@ -522,6 +527,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		String uid = o.getUID();
 		if (!isPagedOut(uid))
 		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("externalizing " + o);
+			}
+			
 			o.beforeExternalization();
 
 			// virtualize
@@ -567,7 +577,6 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		try
 		{
 			ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out);
-			oos.writeObject(o.getIdentityData());
 			oos.writeObject(o.getVirtualData());
 			oos.flush();
 		}
@@ -593,7 +602,6 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		try
 		{
 			ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in);
-			o.setIdentityData(ois.readObject());
 			o.setVirtualData(ois.readObject());
 		}
 		catch (IOException e)

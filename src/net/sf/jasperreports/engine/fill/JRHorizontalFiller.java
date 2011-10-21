@@ -238,11 +238,6 @@ public class JRHorizontalFiller extends JRBaseFiller
 			//{
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
-
-			if (fillContext.isUsingVirtualizer())
-			{
-				removePageIdentityDataProvider();
-			}
 		}
 
 		if (fillContext.isIgnorePagination())
@@ -1906,20 +1901,10 @@ public class JRHorizontalFiller extends JRBaseFiller
 				printPageStretchHeight = offsetY + bottomMargin;
 			//}
 
-			if (fillContext.isUsingVirtualizer())
-			{
-				removePageIdentityDataProvider();
-			}
-
 			suspendSubreportRunner();
 		}
 
 		printPage = newPage();
-
-		if (isSubreport() && fillContext.isUsingVirtualizer())
-		{
-			addPageIdentityDataProvider();
-		}
 
 		if (isResetPageNumber)
 		{
