@@ -32,38 +32,36 @@ import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 /**
  * @author John Bindel
  * @version $Id$
+ * 
+ * @param <T> the type of the virtual data object, see {@link #getVirtualData()}
  */
-public interface JRVirtualizable {
+//FIXME use generics everywhere
+public interface JRVirtualizable<T> {
 	/**
 	 * Used by the virtualizer to identify the data for this object.
 	 */
 	String getUID();
-
+	
+	/**
+	 * Ensure that the virtual data is set to the object.
+	 */
+	void ensureVirtualData();
+	
 	/**
 	 * Used by the virtualizer to set data.
 	 */
-	void setVirtualData(Object o);
+	void setVirtualData(T o);
 
 	/**
 	 * Used by the virtualizer to get data.
 	 */
-	Object getVirtualData();
+	T getVirtualData();
 
 	/**
 	 * Used by the virtualizer to remove the data from the object in memory so
 	 * that it may be garbage collected.
 	 */
 	void removeVirtualData();
-
-	/**
-	 * Used by the virtualizer to set identity data.
-	 */
-	void setIdentityData(Object id);
-
-	/**
-	 * Used by the virtualizer to get identity data.
-	 */
-	Object getIdentityData();
 	
 	
 	/**

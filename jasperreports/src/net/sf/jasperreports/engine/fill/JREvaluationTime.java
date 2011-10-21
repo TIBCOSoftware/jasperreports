@@ -183,4 +183,15 @@ public final class JREvaluationTime implements Serializable
 	{
 		return hash;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "{type: " + type
+				+ ", group: " + groupName
+				+ ", band: " + bandId
+				+ "}";
+	}
+	
+	
 }

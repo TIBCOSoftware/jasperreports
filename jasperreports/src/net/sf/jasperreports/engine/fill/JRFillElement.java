@@ -159,7 +159,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			this.expressionEvaluator = factory.getExpressionEvaluator();
 			this.defaultStyleProvider = factory.getDefaultStyleProvider();
 			
-			elementId = filler.getFillContext().generateFillElementId();
+			elementId = filler.assignElementId(this);
 
 			/*   */
 			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());

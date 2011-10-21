@@ -156,6 +156,16 @@ public class JROrigin implements JRCloneable, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "{reportName: " + reportName 
+				+ ", groupName: " + groupName 
+				+ ",bandType: " + bandTypeValue + "}";
+	}
+
+
 
 	/*
 	 * These fields are only for serialization backward compatibility.
