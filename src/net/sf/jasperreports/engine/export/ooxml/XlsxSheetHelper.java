@@ -216,7 +216,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		rowIndex++;
 		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\""); 
-		if(yCuts != null && yCuts.getRowLevel(rowIndex) != null)
+		if(yCuts != null && yCuts.size() > rowIndex && yCuts.getRowLevel(rowIndex) != null)
 		{
 			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex) + "\"");
 		}
