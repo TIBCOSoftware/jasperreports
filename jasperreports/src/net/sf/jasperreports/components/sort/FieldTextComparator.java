@@ -43,8 +43,7 @@ public class FieldTextComparator extends AbstractFieldComparator<String> {
 	@Override
 	public boolean compare (String filterTypeOperator) {
 		boolean defaultResult = true, 
-				result = defaultResult, 
-				gotCompareWith = compareStart != null;
+				result = defaultResult;
 		
 		try {
 			initValues();
@@ -54,32 +53,34 @@ public class FieldTextComparator extends AbstractFieldComparator<String> {
 		
 		FilterTypeTextOperatorsEnum textEnum = FilterTypeTextOperatorsEnum.getByEnumConstantName(filterTypeOperator);
 		
-		if (gotCompareWith) {
+		if (compareStart != null) {
+			String lcCompareStart = compareStart.toLowerCase();
+			String lcCompareTo = compareTo.toLowerCase();
 			switch (textEnum) {
-			case CONTAINS:
-				result = compareTo.contains(compareStart);
-				break;
-			case DOES_NOT_CONTAIN:
-				result = !compareTo.contains(compareStart);
-				break;
-			case DOES_NOT_END_WITH:
-				result = !compareTo.endsWith(compareStart);
-				break;
-			case DOES_NOT_START_WITH:
-				result = !compareTo.startsWith(compareStart);
-				break;
-			case ENDS_WITH:
-				result = compareTo.endsWith(compareStart);
-				break;
-			case EQUALS:
-				result = compareTo.equals(compareStart);
-				break;
-			case IS_NOT_EQUAL_TO:
-				result = !compareTo.equals(compareStart);
-				break;
-			case STARTS_WITH:
-				result = compareTo.startsWith(compareStart);
-				break;
+				case CONTAINS:
+					result = lcCompareTo.contains(lcCompareStart);
+					break;
+				case DOES_NOT_CONTAIN:
+					result = !lcCompareTo.contains(lcCompareStart);
+					break;
+				case DOES_NOT_END_WITH:
+					result = !lcCompareTo.endsWith(lcCompareStart);
+					break;
+				case DOES_NOT_START_WITH:
+					result = !lcCompareTo.startsWith(lcCompareStart);
+					break;
+				case ENDS_WITH:
+					result = lcCompareTo.endsWith(lcCompareStart);
+					break;
+				case EQUALS:
+					result = lcCompareTo.equals(lcCompareStart);
+					break;
+				case IS_NOT_EQUAL_TO:
+					result = !lcCompareTo.equals(lcCompareStart);
+					break;
+				case STARTS_WITH:
+					result = lcCompareTo.startsWith(lcCompareStart);
+					break;
 			}
 		}
 
