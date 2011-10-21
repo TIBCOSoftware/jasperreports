@@ -27,12 +27,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -74,30 +72,6 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 		}
 
 		return contributors;
-	}
-	
-	/**
-	 *
-	 */
-	protected JRAbstractScriptlet getScriptlet(String scriptletClassName) throws JRException
-	{
-		JRAbstractScriptlet scriptlet = null;
-
-		try
-		{
-			Class<?> scriptletClass = JRClassLoader.loadClassForName(scriptletClassName);	
-			scriptlet = (JRAbstractScriptlet) scriptletClass.newInstance();
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new JRException("Error loading scriptlet class : " + scriptletClassName, e);
-		}
-		catch (Exception e)
-		{
-			throw new JRException("Error creating scriptlet class instance : " + scriptletClassName, e);
-		}
-		
-		return scriptlet;
 	}
 	
 }

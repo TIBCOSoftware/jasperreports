@@ -28,27 +28,6 @@ package net.sf.jasperreports.charts;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRLinePlot extends JRCategoryPlot
+public interface JRLinePlot extends JRCategoryPlot, JRCommonLinePlot
 {
-	
-	/**
-	 * 
-	 */
-	public Boolean getShowLines();
-	
-	/**
-	 * 
-	 */
-	public void setShowLines(Boolean isShowLines);
-	
-	/**
-	 * 
-	 */
-	public Boolean getShowShapes();
-
-	/**
-	 * 
-	 */
-	public void setShowShapes(Boolean isShowShapes);
-	
 }

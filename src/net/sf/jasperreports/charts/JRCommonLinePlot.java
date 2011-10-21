@@ -23,44 +23,32 @@
  */
 package net.sf.jasperreports.charts;
 
-import net.sf.jasperreports.engine.JRChartPlot;
-import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRLinePlot.java 4614 2011-09-18 09:21:57Z teodord $
  */
-public interface JRScatterPlot extends JRChartPlot, JRXAxisFormat, JRYAxisFormat, JRCommonLinePlot
+public interface JRCommonLinePlot
 {
 	
 	/**
 	 * 
 	 */
-	public JRExpression getXAxisLabelExpression();
+	public Boolean getShowLines();
+	
+	/**
+	 * 
+	 */
+	public void setShowLines(Boolean isShowLines);
+	
+	/**
+	 * 
+	 */
+	public Boolean getShowShapes();
 
 	/**
 	 * 
 	 */
-	public JRExpression getYAxisLabelExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getDomainAxisMinValueExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getDomainAxisMaxValueExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getRangeAxisMinValueExpression();
-
-	/**
-	 * 
-	 */
-	public JRExpression getRangeAxisMaxValueExpression();
-
+	public void setShowShapes(Boolean isShowShapes);
+	
 }
