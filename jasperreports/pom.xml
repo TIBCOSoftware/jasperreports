@@ -68,6 +68,7 @@
 					<include>**/*.png</include>
 					<include>**/*.GIF</include>
 					<include>**/*.gif</include>
+					<include>**/*.ico</include>
 					<include>**/*TokenTypes.txt</include>
 					<include>**/*.vm</include>
 					<include>**/*.js</include>
