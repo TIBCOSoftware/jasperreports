@@ -2418,5 +2418,29 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			}
 		}
 	}
+	
+	
+	protected void setColumnAutoFit(int col)
+	{
+		CellView cv = new CellView();
+		cv.setAutosize(true);
+		sheet.setColumnView(col, cv);
+	}
+	
+	protected void setRowAutoFit(int rowIndex, CutsInfo yCuts) throws JRException
+	{
+		try
+		{
+			CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
+			cv.setAutosize(true);
+			sheet.setRowView(rowIndex, cv);
+		}
+		catch (RowsExceededException e)
+		{
+			throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
+		}
+	}
+	
+	
 }
 
