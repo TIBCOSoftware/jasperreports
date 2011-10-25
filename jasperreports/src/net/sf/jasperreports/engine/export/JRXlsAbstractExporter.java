@@ -1,5 +1,5 @@
 /*
- * JasperReports - Free Java Reporting Library.
+setcolumn * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2001 - 2011 Jaspersoft Corporation. All rights reserved.
  * http://www.jaspersoft.com
  *
@@ -860,13 +860,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
 
-				setRowHeight(
-					rowIndex,
-					isCollapseRowSpan
-						?  layout.getMaxRowHeight(y)
-						: JRGridLayout.getRowHeight(gridRow),
-					yCuts
-					);
+				if(yCuts.isAutoFit(y))
+				{
+					setRowAutoFit(rowIndex, yCuts);
+				}
+				else
+				{
+					setRowHeight(
+						rowIndex,
+						isCollapseRowSpan
+							?  layout.getMaxRowHeight(y)
+							: JRGridLayout.getRowHeight(gridRow),
+						yCuts
+						);
+				}
 
 				int emptyCols = 0;
 				for(int colIndex = 0; colIndex < gridRow.length; colIndex++)
@@ -1074,6 +1081,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					? xCuts.getCustomWidth(col) 
 					: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
 				setColumnWidth(col, width);
+			}
+			else if(xCuts.isAutoFit(col))
+			{
+				setColumnAutoFit(col);
 			}
 		}
 	}
@@ -1498,7 +1509,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 
 	protected abstract void setColumnWidth(int col, int width);
-
+	
+	protected abstract void setColumnAutoFit(int col);
+	
+	protected abstract void setRowAutoFit(int row, CutsInfo yCuts) throws JRException;
+	
 	protected abstract void removeColumn(int col);
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;

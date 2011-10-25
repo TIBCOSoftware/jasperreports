@@ -1492,7 +1492,16 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		//TODO: set sheet name for element-level sheet name properties
 	}
 
-
+	protected void setColumnAutoFit(int col)
+	{
+		sheetHelper.exportColumn(col, true);
+	}
+	
+	protected void setRowAutoFit(int row, CutsInfo yCuts) throws JRException
+	{
+		setRowHeight(row, 0, yCuts);
+	}
+	
 	@Override
 	protected void setAutoFilter(String autoFilterRange)
 	{

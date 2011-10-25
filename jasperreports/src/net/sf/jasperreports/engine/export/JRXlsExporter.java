@@ -1786,6 +1786,21 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		workbook.setSheetName(workbook.getSheetIndex(sheet) , sheetName);
 	}
 
+	
+	protected void setColumnAutoFit(int col)
+	{
+		sheet.autoSizeColumn(col, false);
+	}
+	
+	protected void setRowAutoFit(int rowIndex, CutsInfo yCuts) throws JRException
+	{
+		row = sheet.getRow(rowIndex);
+		if (row == null)
+		{
+			row = sheet.createRow(rowIndex);
+		}
+	}
+	
 
 	@Override
 	protected void setAutoFilter(String autoFilterRange)

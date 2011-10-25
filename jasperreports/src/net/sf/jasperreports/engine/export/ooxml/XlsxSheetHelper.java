@@ -195,6 +195,18 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 	}
 	
+	public void exportColumn(int colIndex, boolean isAutofit) 
+	{
+		try
+		{
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\""  + (isAutofit ? " bestFit=\"1\"" : "") + "/>\n");
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+	}
+
 	/**
 	 *
 	 */
@@ -216,6 +228,7 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 		rowIndex++;
 		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\""); 
+		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCuts.isAutoFit(rowIndex) ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
 		if(yCuts != null && yCuts.size() > rowIndex && yCuts.getRowLevel(rowIndex) != null)
 		{
 			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex) + "\"");
@@ -245,6 +258,7 @@ public class XlsxSheetHelper extends BaseHelper
 		rowIndex++;
 		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\">\n");
 	}
+	
 	
 	/**
 	 *
