@@ -96,7 +96,9 @@
 	<pageHeader>
 		<band height="80">
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.0"><![CDATA[null]]></propertyExpression>
+				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
 				</box>
@@ -153,7 +155,9 @@
 	<detail>
 		<band height="15">
 			<textField>
-				<reportElement x="0" y="0" width="104" height="15"/>
+				<reportElement x="0" y="0" width="104" height="15">
+					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{name}.substring(0,1)]]></propertyExpression>				
+				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
