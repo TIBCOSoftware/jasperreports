@@ -860,20 +860,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
 
-				if(yCuts.isAutoFit(y))
-				{
-					setRowAutoFit(rowIndex, yCuts);
-				}
-				else
-				{
-					setRowHeight(
-						rowIndex,
-						isCollapseRowSpan
-							?  layout.getMaxRowHeight(y)
-							: JRGridLayout.getRowHeight(gridRow),
-						yCuts
-						);
-				}
+				setRowHeight(
+					rowIndex,
+					isCollapseRowSpan
+						?  layout.getMaxRowHeight(y)
+						: JRGridLayout.getRowHeight(gridRow),
+					yCuts.getCut(y)
+					);
 
 				int emptyCols = 0;
 				for(int colIndex = 0; colIndex < gridRow.length; colIndex++)
@@ -1512,13 +1505,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected abstract void setColumnAutoFit(int col);
 	
-	protected abstract void setRowAutoFit(int row, CutsInfo yCuts) throws JRException;
-	
 	protected abstract void removeColumn(int col);
 
-	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
-
-	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException;
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException;
 
 	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 

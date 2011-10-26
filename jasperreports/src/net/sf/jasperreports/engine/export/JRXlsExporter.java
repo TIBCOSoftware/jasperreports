@@ -352,20 +352,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		sheet.setColumnWidth(col, Math.min(43 * width, 256*255));
 	}
 
-	protected void setRowHeight(int rowIndex, int lastRowHeight)
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut)
 	{
 		row = sheet.getRow(rowIndex);
+		
 		if (row == null)
 		{
 			row = sheet.createRow(rowIndex);
 		}
 
-		row.setHeightInPoints(lastRowHeight);
-	}
-
-	protected void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts)
-	{
-		setRowHeight(rowIndex, lastRowHeight);
+		if (!yCut.isAutoFit())
+		{
+			row.setHeightInPoints(lastRowHeight);
+		}
 	}
 
 	protected void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex)
@@ -1790,15 +1789,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected void setColumnAutoFit(int col)
 	{
 		sheet.autoSizeColumn(col, false);
-	}
-	
-	protected void setRowAutoFit(int rowIndex, CutsInfo yCuts) throws JRException
-	{
-		row = sheet.getRow(rowIndex);
-		if (row == null)
-		{
-			row = sheet.createRow(rowIndex);
-		}
 	}
 	
 

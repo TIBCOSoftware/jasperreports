@@ -74,7 +74,7 @@ public class Cut
 		this.usage = usage;
 	}
 
-	public boolean getAutoFit()
+	public boolean isAutoFit()
 	{
 		return autoFit == null ? false : autoFit.booleanValue();
 	}

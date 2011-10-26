@@ -700,9 +700,12 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 
 	protected abstract void removeColumn(int col);
 
-	protected abstract void setRowHeight(int rowIndex, int lastRowHeight) throws JRException;
+	protected void setRowHeight(int rowIndex, int lastRowHeight) throws JRException
+	{
+		setRowHeight(rowIndex, lastRowHeight, null);
+	}
 
-	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException;
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException;
 
 	protected abstract void exportText(JRPrintText textElement) throws JRException;
 

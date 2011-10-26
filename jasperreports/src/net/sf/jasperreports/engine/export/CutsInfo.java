@@ -149,7 +149,7 @@ public class CutsInfo
 	 */
 	public boolean isAutoFit(int index)//FIXMEXLS do this in Cut
 	{
-		return getCut(index).getAutoFit();
+		return getCut(index).isAutoFit();
 	}
 
 	/**
