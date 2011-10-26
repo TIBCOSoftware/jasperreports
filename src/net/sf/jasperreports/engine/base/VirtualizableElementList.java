@@ -109,6 +109,31 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		return store.set(index, element);
 	}
 
+	private void createBlockList()
+	{
+		ElementsBlockList blockList = new ElementsBlockList((ElementsBlock) store);
+		blockList.addBlock();
+		
+		store = blockList;
+	}
+
+	@Override
+	public boolean add(JRPrintElement element)
+	{
+		cacheInContext(element);
+
+		if (!store.add(element))
+		{
+			// we had a single block and it overflowed.
+			// create a block list.
+			createBlockList();
+			
+			// add again, block list never overflows.
+			store.add(element);
+		}
+		return true;
+	}
+
 	@Override
 	public void add(int index, JRPrintElement element)
 	{
@@ -118,10 +143,8 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		{
 			// we had a single block and it overflowed.
 			// create a block list.
-			ElementsBlockList blockList = new ElementsBlockList((ElementsBlock) store);
-			blockList.addBlock();
+			createBlockList();
 			
-			store = blockList;
 			// add again, block list never overflows.
 			store.add(index, element);
 		}
@@ -140,6 +163,11 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		store.dispose();
 		initStore();
 	}
+
+	public void dispose()
+	{
+		store.dispose();
+	}
 	
 	//FIXME implement faster bulk methods such as addAll
 }
@@ -149,6 +177,8 @@ interface ElementStore
 	int size();
 
 	JRPrintElement get(int index);
+
+	boolean add(JRPrintElement element);
 
 	boolean add(int index, JRPrintElement element);
 
@@ -185,10 +215,13 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		this.context = context;
 		this.uid = makeUID();
 		
+		if (log.isDebugEnabled())
+		{
+			log.debug("generated uid " + uid + " for " + this);
+		}
+		
 		this.elements = new ArrayList<JRPrintElement>();
 		this.deepElementCount = 0;
-		
-		register();
 	}
 
 	private void register()
@@ -221,15 +254,30 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		return elements.size();
 	}
 
-	public JRPrintElement get(int index)
+	public boolean isEmpty()
 	{
 		ensureVirtualData();
+		return elements.isEmpty();
+	}
+
+	public JRPrintElement get(int index)
+	{
+		ensureDataAndTouch();
 		return elements.get(index);
 	}
 
-	public boolean add(int index, JRPrintElement element, boolean force)
+	protected boolean preAdd(JRPrintElement element, boolean force)
 	{
-		ensureVirtualData();
+		boolean empty = elements != null && elements.isEmpty();
+		if (empty)
+		{
+			// if there are no elements, the object has not yet been registered with the virtualizer
+			register();
+		}
+		else
+		{
+			ensureDataAndTouch();
+		}
 		
 		// check whether we passed the element count threshold.
 		// if the list is empty, allow at least one element to be added
@@ -251,8 +299,32 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 		
 		deepElementCount += elementCount;
-		elements.add(index, element);
 		return true;
+	}
+
+	public boolean add(JRPrintElement element, boolean force)
+	{
+		boolean adding = preAdd(element, force);
+		if (adding)
+		{
+			elements.add(element);
+		}
+		return adding;
+	}
+	
+	public boolean add(JRPrintElement element)
+	{
+		return add(element, false);
+	}
+
+	public boolean add(int index, JRPrintElement element, boolean force)
+	{
+		boolean adding = preAdd(element, force);
+		if (adding)
+		{
+			elements.add(index, element);
+		}
+		return adding;
 	}
 	
 	public boolean add(int index, JRPrintElement element)
@@ -262,7 +334,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public JRPrintElement set(int index, JRPrintElement element)
 	{
-		ensureVirtualData();
+		ensureDataAndTouch();
 		
 		JRPrintElement oldElement = elements.get(index);
 		deepElementCount -= DeepPrintElementCounter.count(oldElement);
@@ -273,11 +345,18 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public JRPrintElement remove(int index)
 	{
-		ensureVirtualData();
+		ensureDataAndTouch();
 		
 		JRPrintElement element = elements.remove(index);
 		// decrement the deep count
 		deepElementCount -= DeepPrintElementCounter.count(element);
+
+		if (elements.isEmpty())
+		{
+			// if the list is empty now, deregister with the virtualizer.
+			// this helps with subreports by immediately releasing the external storage.
+			deregister();
+		}
 
 		return element;
 	}
@@ -287,10 +366,33 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		return uid;
 	}
 
+	private void ensureDataAndTouch()
+	{
+		if (elements == null)
+		{
+			ensureData();
+		}
+		else
+		{
+			if (context.getVirtualizer() != null)
+			{
+				context.getVirtualizer().touch(this);
+			}
+		}
+	}
+	
 	public void ensureVirtualData()
 	{
+		if (elements == null)
+		{
+			ensureData();
+		}
+	}
+
+	private void ensureData()
+	{
 		if (context.getVirtualizer() != null)
-		{			
+		{
 			context.getVirtualizer().requestData(this);
 		}
 	}
@@ -357,13 +459,16 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		elements = (List<JRPrintElement>) elementsStream.readObject();
 		context.restoreElementsData(elements);
 		
-		register();
+		if (!elements.isEmpty())
+		{
+			register();
+		}
 	}
 
 	
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
-		ensureVirtualData();
+		ensureDataAndTouch();
 		beforeExternalization();
 		
 		try
@@ -397,11 +502,20 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public void dispose()
 	{
+		// if empty, the object is not registered
+		if (elements == null || !elements.isEmpty())
+		{
+			deregister();
+		}
+		// removeVirtualData?  letting GC do his thing for now.
+	}
+
+	private void deregister()
+	{
 		if (context.getVirtualizer() != null)
 		{
 			context.getVirtualizer().deregisterObject(this);
 		}
-		// removeVirtualData?  letting GC do his thing for now.
 	}
 }
 
@@ -474,6 +588,22 @@ class ElementsBlockList implements ElementStore, Serializable
 		return blocks[blockIndex].get(index - offsets[blockIndex]);
 	}
 
+	public boolean add(JRPrintElement element)
+	{
+		// allow the last block to overflow.
+		if (!blocks[blockCount - 1].add(element, false))
+		{
+			// the last block overflowed, create a new one
+			addBlock();
+			
+			// add the element to the new block
+			blocks[blockCount - 1].add(element, true);
+		}
+
+		++size;
+		return true;
+	}
+
 	public boolean add(int index, JRPrintElement element)
 	{
 		int blockIndex = blockIndex(index);
@@ -536,11 +666,8 @@ class ElementsBlockList implements ElementStore, Serializable
 		}
 		
 		// if the block was left empty and this is not the only block, get rid of it
-		if (blockCount > 1 && block.size() == 0)
+		if (blockCount > 1 && block.isEmpty())
 		{
-			// dispose the block
-			block.dispose();
-			
 			// shift the remaining blocks
 			for (int idx = blockIndex + 1; idx < blockCount; ++idx)
 			{

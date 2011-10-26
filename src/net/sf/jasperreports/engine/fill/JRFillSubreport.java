@@ -55,6 +55,7 @@ import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.design.JRDesignSubreportReturnValue;
 import net.sf.jasperreports.engine.design.JRValidationException;
 import net.sf.jasperreports.engine.design.JRValidationFault;
@@ -688,6 +689,14 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (!filling && toPrint && reprinted)
 		{
 			rewind();
+		}
+		
+		if (printPage instanceof JRVirtualPrintPage)
+		{
+			// if the previous page was virtualized, dispose it as soon as possible.
+			// this normally already happened when we added the elements to the master page,
+			// but there are cases (e.g. overflow) when a page is not added to the master.
+			((JRVirtualPrintPage) printPage).dispose();
 		}
 		
 		subreportFiller.setPageHeight(availableHeight - getRelativeY());

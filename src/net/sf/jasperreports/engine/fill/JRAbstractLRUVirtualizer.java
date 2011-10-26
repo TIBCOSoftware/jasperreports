@@ -111,7 +111,8 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 				if (!found)
 				{
-					throw new JRRuntimeException("The virtualizer is used by more contexts than its in-memory cache size " + getMaximumSize());
+					log.warn("The virtualizer is used by more contexts than its in-memory cache size " + getMaximumSize());
+					return;
 				}
 
 				Object key = entry.getKey();
@@ -418,10 +419,15 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		setLastObject(o);
 		JRVirtualizable old = pagedIn.put(o.getUID(), o);
-		if (old != null)
+		if (old != null && old != o)
 		{
 			pagedIn.put(o.getUID(), old);
 			throw new IllegalStateException("Wrong object stored with UID \"" + o.getUID() + "\"");
+		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("registered object " + o + " with id " + o.getUID());
 		}
 	}
 
@@ -464,6 +470,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			// We don't really care if someone deregisters an object
 			// that's not registered.
 		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("deregistered object " + o + " with id " + o.getUID());
+		}
 	}
 
 	public synchronized void touch(JRVirtualizable o)
@@ -482,7 +493,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("internalizing " + o);
+				log.debug("internalizing " + uid);
 			}
 			
 			// unvirtualize
@@ -529,7 +540,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("externalizing " + o);
+				log.debug("externalizing " + uid);
 			}
 			
 			o.beforeExternalization();

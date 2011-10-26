@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.Iterator;
-import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -1127,7 +1126,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			}
 
 			/*   */
-			fillSummaryOverflow(printBand);
+			fillSummaryOverflow();
 			
 			//DONE
 		}
@@ -1201,7 +1200,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			offsetY += printBand.getHeight();
 
 			/*   */
-			fillSummaryOverflow(printBand);
+			fillSummaryOverflow();
 		}
 		
 		//DONE
@@ -1263,7 +1262,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 				
 				/*   */
-				fillSummaryOverflow(printBand);
+				fillSummaryOverflow();
 
 				//DONE
 			}
@@ -1325,7 +1324,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				offsetY += printBand.getHeight();
 
 				/*   */
-				fillSummaryOverflow(printBand);
+				fillSummaryOverflow();
 				
 				//DONE
 			}
@@ -1383,7 +1382,7 @@ public class JRVerticalFiller extends JRBaseFiller
 			offsetY += printBand.getHeight();
 
 			/*   */
-			fillSummaryOverflow(printBand);
+			fillSummaryOverflow();
 			
 			//DONE
 		}
@@ -1442,7 +1441,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 
 				/*   */
-				fillSummaryOverflow(printBand);
+				fillSummaryOverflow();
 				
 				//DONE
 			}
@@ -1532,7 +1531,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				}
 
 				/*   */
-				fillSummaryOverflow(printBand);
+				fillSummaryOverflow();
 				
 				//DONE
 			}
@@ -1595,7 +1594,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				offsetY += printBand.getHeight();
 
 				/*   */
-				fillSummaryOverflow(printBand);
+				fillSummaryOverflow();
 			}
 			
 			//DONE
@@ -1660,7 +1659,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					offsetY += printBand.getHeight();
 
 					/*   */
-					fillSummaryOverflow(printBand);
+					fillSummaryOverflow();
 				}
 				
 				//DONE
@@ -1702,7 +1701,7 @@ public class JRVerticalFiller extends JRBaseFiller
 					}
 
 					/*   */
-					fillSummaryOverflow(printBand);
+					fillSummaryOverflow();
 				}
 				else
 				{
@@ -1718,7 +1717,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	private void fillSummaryOverflow(JRPrintBand printBand) throws JRException
+	private void fillSummaryOverflow() throws JRException
 	{
 		while (summary.willOverflow())
 		{
@@ -1741,7 +1740,7 @@ public class JRVerticalFiller extends JRBaseFiller
 				fillPageHeader(JRExpression.EVALUATION_DEFAULT);
 			}
 			
-			printBand = summary.fill(pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0));
+			JRPrintBand printBand = summary.fill(pageHeight - bottomMargin - offsetY - (isSummaryWithPageHeaderAndFooter?pageFooter.getHeight():0));
 
 			fillBand(printBand);
 			offsetY += printBand.getHeight();
@@ -2086,18 +2085,12 @@ public class JRVerticalFiller extends JRBaseFiller
 	 */
 	protected void fillBand(JRPrintBand band)
 	{
-		List<JRPrintElement> elements = band.getElements();
-
-		if (elements != null && elements.size() > 0)
+		for(Iterator<JRPrintElement> it = band.iterateElements(); it.hasNext();)
 		{
-			JRPrintElement element = null;
-			for(Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
-			{
-				element = it.next();
-				element.setX(element.getX() + offsetX);
-				element.setY(element.getY() + offsetY);
-				printPage.addElement(element);
-			}
+			JRPrintElement element = it.next();
+			element.setX(element.getX() + offsetX);
+			element.setY(element.getY() + offsetY);
+			printPage.addElement(element);
 		}
 	}
 

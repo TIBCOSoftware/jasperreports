@@ -243,4 +243,12 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	{
 		out.writeObject(elements);
 	}
+
+	/**
+	 * Disposes this page's data.
+	 */
+	public void dispose()
+	{
+		elements.dispose();
+	}
 }
