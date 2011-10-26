@@ -333,25 +333,36 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 	}
 
-	protected void setRowHeight(int y, int lastRowHeight) throws JRException
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException
 	{
-		try
+		if (yCut != null && yCut.isAutoFit())
 		{
-			CellView cv = sheet.getRowView(y);
-			if(cv == null || cv.getSize() < LengthUtil.twip(lastRowHeight))
+			try
 			{
-				sheet.setRowView(y, LengthUtil.twip(lastRowHeight));
+				CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
+				cv.setAutosize(true);
+				sheet.setRowView(rowIndex, cv);
+			}
+			catch (RowsExceededException e)
+			{
+				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
 			}
 		}
-		catch (RowsExceededException e)
+		else
 		{
-			throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + y, e);
+			try
+			{
+				CellView cv = sheet.getRowView(rowIndex);
+				if(cv == null || cv.getSize() < LengthUtil.twip(lastRowHeight))
+				{
+					sheet.setRowView(rowIndex, LengthUtil.twip(lastRowHeight));
+				}
+			}
+			catch (RowsExceededException e)
+			{
+				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
+			}
 		}
-	}
-	
-	protected void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException
-	{
-		setRowHeight(rowIndex, lastRowHeight);
 	}
 
 	protected void removeColumn(int col)
@@ -2386,19 +2397,5 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		sheet.setColumnView(col, cv);
 	}
 	
-	protected void setRowAutoFit(int rowIndex, CutsInfo yCuts) throws JRException
-	{
-		try
-		{
-			CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
-			cv.setAutosize(true);
-			sheet.setRowView(rowIndex, cv);
-		}
-		catch (RowsExceededException e)
-		{
-			throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
-		}
-	}
-
 }
 

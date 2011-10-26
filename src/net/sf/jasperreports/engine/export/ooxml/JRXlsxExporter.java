@@ -58,6 +58,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
+import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
@@ -65,11 +66,11 @@ import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGridLayout;
+import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
-import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -1459,19 +1460,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void setRowHeight(
 			int rowIndex, 
-			int rowHeight
-			) throws JRException 
-		{
-		setRowHeight(rowIndex, rowHeight, null);
-		}
-
-	protected void setRowHeight(
-			int rowIndex, 
 			int rowHeight,
-			CutsInfo yCuts
+			Cut yCut
 			) throws JRException 
 		{
-			sheetHelper.exportRow(rowHeight, yCuts);
+			sheetHelper.exportRow(rowHeight, yCut);
 		}
 
 	/**
@@ -1495,11 +1488,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setColumnAutoFit(int col)
 	{
 		sheetHelper.exportColumn(col, true);
-	}
-	
-	protected void setRowAutoFit(int row, CutsInfo yCuts) throws JRException
-	{
-		setRowHeight(row, 0, yCuts);
 	}
 	
 	@Override

@@ -328,21 +328,32 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		sheet.setColumnView(col, cv);
 	}
 
-	protected void setRowHeight(int y, int lastRowHeight) throws JRException
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException
 	{
-		try
+		if (yCut.isAutoFit())
 		{
-			sheet.setRowView(y, LengthUtil.twip(lastRowHeight));
+			try
+			{
+				CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
+				cv.setAutosize(true);
+				sheet.setRowView(rowIndex, cv);
+			}
+			catch (RowsExceededException e)
+			{
+				throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
+			}
 		}
-		catch (RowsExceededException e)
+		else
 		{
-			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			try
+			{
+				sheet.setRowView(rowIndex, LengthUtil.twip(lastRowHeight));
+			}
+			catch (RowsExceededException e)
+			{
+				throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+			}
 		}
-	}
-
-	protected void setRowHeight(int rowIndex, int lastRowHeight, CutsInfo yCuts) throws JRException
-	{
-		setRowHeight(rowIndex, lastRowHeight);
 	}
 	
 	protected void setCell(JRExporterGridCell gridCell, int x, int y)
@@ -2426,21 +2437,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		cv.setAutosize(true);
 		sheet.setColumnView(col, cv);
 	}
-	
-	protected void setRowAutoFit(int rowIndex, CutsInfo yCuts) throws JRException
-	{
-		try
-		{
-			CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
-			cv.setAutosize(true);
-			sheet.setRowView(rowIndex, cv);
-		}
-		catch (RowsExceededException e)
-		{
-			throw new JRException("Too many rows in sheet " + sheet.getName() + ": " + rowIndex, e);
-		}
-	}
-	
 	
 }
 

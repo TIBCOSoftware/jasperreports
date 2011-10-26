@@ -28,7 +28,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.CutsInfo;
+import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
@@ -210,7 +210,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportRow(int rowHeight, CutsInfo yCuts) 
+	public void exportRow(int rowHeight, Cut yCut) 
 	{
 		if (rowIndex > 0)
 		{
@@ -227,11 +227,11 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		write("<row r=\"" + rowIndex + "\" customHeight=\"1\" ht=\"" + rowHeight + "\""); 
-		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCuts.isAutoFit(rowIndex) ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
-		if(yCuts != null && yCuts.size() > rowIndex && yCuts.getRowLevel(rowIndex) != null)
+		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
+		if(yCut != null && yCut.getRowLevel() != null)
+		//if(yCuts != null && yCuts.size() > rowIndex && yCuts.getRowLevel(rowIndex) != null)//FIXME rowIndex is 1 based
 		{
-			write(" outlineLevel=\"" + yCuts.getRowLevel(rowIndex) + "\"");
+			write(" outlineLevel=\"" + yCut.getRowLevel() + "\"");
 		}
 		write(">\n");
 	}
