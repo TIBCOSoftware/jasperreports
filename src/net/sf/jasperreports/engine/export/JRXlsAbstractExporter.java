@@ -35,8 +35,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -815,6 +817,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 
 		CutsInfo yCuts = layout.getYCuts();
+		
+		XlsRowLevelInfo levelInfo = new XlsRowLevelInfo(); 
 
 		int skippedRows = 0;
 		int rowIndex = startRow;
@@ -833,6 +837,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					removeEmptyColumns(xCuts);
 				}
 				
+				setRowLevels(levelInfo, null);
+
 				createSheet(getSheetName(null));
 				setColumnWidths(xCuts);
 				startRow = 0;
@@ -860,12 +866,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCellColSpan = 0;
 				int emptyCellWidth = 0;
 
+				mergeAndSetRowLevels(levelInfo, yCuts.getRowLevelMap(y), rowIndex);
+
 				setRowHeight(
 					rowIndex,
 					isCollapseRowSpan
-						?  layout.getMaxRowHeight(y)
+						?  layout.getMaxRowHeight(y)//FIXME consider putting these in cuts
 						: JRGridLayout.getRowHeight(gridRow),
-					yCuts.getCut(y)
+					yCuts.getCut(y),
+					levelInfo
 					);
 
 				int emptyCols = 0;
@@ -1035,7 +1044,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			removeEmptyColumns(xCuts);
 		}
 		
-		setRowLevels(layout.getRowLevelsCache());
+		setRowLevels(levelInfo, null);
 		
 		if (progressMonitor != null)
 		{
@@ -1047,6 +1056,70 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	}
 
 
+	protected void mergeAndSetRowLevels(XlsRowLevelInfo levelInfo, SortedMap<String, Boolean> rowLevelMap, int rowIndex)
+	{
+		SortedMap<String, Integer> crtLevelMap = levelInfo.getLevelMap();
+
+		if (rowLevelMap != null)
+		{
+			for(String level : rowLevelMap.keySet())
+			{
+				Boolean isEndMarker = rowLevelMap.get(level);
+				
+				//check if this level group is already open
+				if (crtLevelMap.containsKey(level))
+				{
+					//the level group is already open
+					
+					if (isEndMarker)
+					{
+						//the level group needs to be closed, together with all its child level groups
+						setRowLevels(levelInfo, level);
+
+						//clean up current level group and nested level groups as they were closed 
+						for(Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						{
+							if (level.compareTo(it.next()) <= 0)
+							{
+								it.remove();
+							}
+						}
+					}
+				}
+				else
+				{
+					//the level group is not yet open
+
+					//we check to see if this level is higher than existing levels
+					if (crtLevelMap.size() > 0 && level.compareTo(crtLevelMap.firstKey()) < 0)
+					{
+						//the level is higher than existing levels, so it has to close them all
+						setRowLevels(levelInfo, level);
+						
+						//clean up nested level groups as they were closed; the current one is not yet among them 
+						for(Iterator<String> it = crtLevelMap.keySet().iterator(); it.hasNext();)
+						{
+							if (level.compareTo(it.next()) < 0)
+							{
+								it.remove();
+							}
+						}
+					}
+					
+					//create the current level group
+//					XlsRowLevelRange range = new XlsRowLevelRange();
+//					range.setStartIndex(rowIndex);
+					//range.setEndIndex(rowIndex);
+					//range.setName(groupName);
+					crtLevelMap.put(level, rowIndex);
+				}
+			}
+		}
+
+		levelInfo.setEndIndex(rowIndex);
+	}
+	
+	
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
 		float sheetRatio = 0f;
@@ -1507,7 +1580,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected abstract void removeColumn(int col);
 
-	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException;
+	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
 
 	protected abstract void setCell(JRExporterGridCell gridCell, int colIndex, int rowIndex);
 
@@ -1533,6 +1606,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected abstract void setAutoFilter(String autoFilterRange);
 	
-	protected abstract void setRowLevels(Map<Byte, List<IntegerRange>> rowLevelsCache);
+	protected abstract void setRowLevels(XlsRowLevelInfo levelInfo, String level);
 	
 }

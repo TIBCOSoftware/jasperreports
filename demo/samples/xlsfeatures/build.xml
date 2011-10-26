@@ -113,7 +113,7 @@
 
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
-		<echo message=" CSV Data Source Sample"/>
+		<echo message=" XLS Features Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
 		<antcall target="javac" />

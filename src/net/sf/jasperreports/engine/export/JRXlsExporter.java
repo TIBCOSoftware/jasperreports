@@ -352,7 +352,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		sheet.setColumnWidth(col, Math.min(43 * width, 256*255));
 	}
 
-	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut)
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo)
 	{
 		row = sheet.getRow(rowIndex);
 		
@@ -1800,29 +1800,24 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 
 	@Override
-	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
-		if(rowLevelsCache != null)
+	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
+	{
+		Map<String, Integer> levelMap = levelInfo.getLevelMap();
+		if(levelMap != null && levelMap.size() > 0)
 		{
-			TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
-			if(!levels.isEmpty())
+			for(String l : levelMap.keySet())
 			{
-				Byte level = levels.last();
-				
-				while(level != null)
+				if (level == null || l.compareTo(level) >= 0)
 				{
-					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+					Integer startIndex = levelMap.get(l);
+					if(levelInfo.getEndIndex() > startIndex)
 					{
-						if(range.getEndIndex() > range.getStartIndex())
-						{
-							sheet.groupRow(range.getStartIndex(), range.getEndIndex());
-						}
+						sheet.groupRow(startIndex, levelInfo.getEndIndex());
 					}
-					level = levels.lower(level);
 				}
 			}
 		}
 	}
-}
 
 
 /**

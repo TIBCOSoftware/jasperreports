@@ -35,8 +35,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -80,10 +80,6 @@ public class JRGridLayout
 	
 	private boolean isNested;
 	
-	private Map<Byte, List<IntegerRange>> rowLevelsCache;
-	private Map<Byte, String> rowLevelNames;
-	private Byte currentLevel;
-
 	/**
 	 * Constructor.
 	 *
@@ -144,8 +140,6 @@ public class JRGridLayout
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
 
 		virtualFrameIndex = elements.size();
-		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
-		currentLevel = 0;
 
 		layoutGrid(createWrappers(null, elements, address));
 
@@ -186,8 +180,6 @@ public class JRGridLayout
 		this.isNested = true;
 
 		boxesCache = new HashMap<BoxKey,JRLineBox>();
-		rowLevelsCache = new HashMap<Byte,List<IntegerRange>>();
-		currentLevel = 0;
 		
 		layoutGrid(wrappers);
 
@@ -556,73 +548,21 @@ public class JRGridLayout
 		{
 			xCuts.setWidthRatio(widthRatio);
 		}
-		
-//		Byte rowLevel = nature.getRowLevel(element);
-//		
-//		if(isValidLevel(rowLevel) && (yCuts.getRowLevel(row1) == null || yCuts.getRowLevel(row1) < rowLevel))
-//		{
-//			yCuts.setRowLevel(row1,rowLevel);
-//			setRowLevelsRange(rowLevel, row1);
-//		}
-//		else
-//		{
+
 		List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
-		if(rowLevelSuffixes == null || rowLevelSuffixes.isEmpty())
+		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
 		{
-			if(isValidLevel(currentLevel))
-			{
-				setRowLevelsRange(currentLevel, row1);
-			}
-		}
-		else	
-		{
-			Byte rowLevel = 0;
-			String groupName = null;
+			SortedMap<String, Boolean> levelMap = new TreeMap<String, Boolean>();
 			for(JRProperties.PropertySuffix suffix : rowLevelSuffixes)
 			{
-				if(Byte.valueOf(suffix.getSuffix()) > rowLevel)
-				{
-					rowLevel = Byte.valueOf(suffix.getSuffix());
-					groupName = suffix.getValue();
-				}
-			}
-			
-			if(!isValidLevel(rowLevel))
-			{
-				// the outline grouping exit condition 
-				setRowLevelsRange(currentLevel, row1);
-				currentLevel = rowLevel;
-			}
-			else if(groupName == null)
-			{
-				// the outline grouping exit condition 
-				currentLevel = 0;
-			}
-			else
-			{
-				if(rowLevelNames == null)
-				{
-					rowLevelNames = new HashMap<Byte,String>();
-				}
-				String levelName = rowLevelNames.get(rowLevel);
+				String level = suffix.getSuffix();
+				String marker = suffix.getValue();
 				
-				if(!rowLevel.equals(currentLevel) 
-						|| (rowLevel.equals(currentLevel) && (levelName == null || !groupName.equals(levelName))))
-				{
-					rowLevelNames.put(rowLevel, groupName);
-					
-					List<IntegerRange> rangeList = rowLevelsCache.get(rowLevel);
-					if(rangeList == null)
-					{
-						rangeList = new ArrayList<IntegerRange>();
-						rowLevelsCache.put(rowLevel, rangeList);
-					}
-					rangeList.add(new IntegerRange(row1,row1));
-				}
-				setRowLevelsRange(rowLevel, row1);
+				levelMap.put(level, "end".equalsIgnoreCase(marker));
 			}
+			yCuts.setRowLevelMap(row1, levelMap);
 		}
-//		}
+		
 
 		if (nature.isSpanCells())
 		{
@@ -1038,64 +978,6 @@ public class JRGridLayout
 		return wrappers;
 	}
 	
-	protected void setRowLevelsRange(Byte level, int rowIndex)
-	{
-		if(isValidLevel(level))
-		{
-			List<IntegerRange> rangeList = null;
-			
-			for(byte rowLevel = 1; rowLevel <= level; rowLevel++)
-			{
-				rangeList = rowLevelsCache.get(rowLevel);
-				if(rangeList == null)
-				{
-					rangeList = new ArrayList<IntegerRange>();
-					rowLevelsCache.put(rowLevel, rangeList);
-				}
-				if(rangeList.isEmpty())
-				{
-					rangeList.add(new IntegerRange(rowIndex,rowIndex));
-				}
-				else
-				{
-					IntegerRange range = rangeList.get(rangeList.size()-1);
-					if(range.getStartIndex().equals(rowIndex+1))
-					{
-						range.setStartIndex(rowIndex);
-					}
-				}
-			}
-			if(yCuts.getRowLevel(rowIndex) == null || yCuts.getRowLevel(rowIndex) < level)
-			{
-				yCuts.setRowLevel(rowIndex,level);
-			}
-		}
-		currentLevel = level;
-	}
-	
-	public List<IntegerRange> getRowRanges(Byte level)
-	{
-		return rowLevelsCache == null ? null : rowLevelsCache.get(level);
-	}
-
-	public SortedSet<Byte> getRowLevels()
-	{
-		if(rowLevelsCache == null)
-		{
-			return null;
-		}
-		return new TreeSet<Byte>(rowLevelsCache.keySet());
-	}
-	
-	public Map<Byte, List<IntegerRange>> getRowLevelsCache()
-	{
-		return this.rowLevelsCache;
-	}
-	
-	protected boolean isValidLevel(Byte level)
-	{
-		return level != null && level > 0 && level < 8;
-	}
 	
 	/**
 	 *

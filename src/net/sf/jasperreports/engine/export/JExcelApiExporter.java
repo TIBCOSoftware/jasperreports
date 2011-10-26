@@ -328,7 +328,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		sheet.setColumnView(col, cv);
 	}
 
-	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException
 	{
 		if (yCut.isAutoFit())
 		{
@@ -2402,31 +2402,33 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	}
 
 	@Override
-	protected void setRowLevels(Map<Byte, List<JRGridLayout.IntegerRange>> rowLevelsCache) {
-		if(rowLevelsCache != null)
+	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
+	{
+		Map<String, Integer> levelMap = levelInfo.getLevelMap();
+		try 
 		{
-			TreeSet<Byte> levels = new TreeSet<Byte>(rowLevelsCache.keySet());
-			if(!levels.isEmpty())
+			if(levelMap != null && levelMap.size() > 0)
 			{
-				Byte level = levels.last();
-				while(level != null)
+				for(String l : levelMap.keySet())
 				{
-					for(JRGridLayout.IntegerRange range : rowLevelsCache.get(level))
+					if (level == null || l.compareTo(level) >= 0)
 					{
-						try {
-							if(range.getEndIndex() > range.getStartIndex())
-							{
-								sheet.setRowGroup(range.getStartIndex(), range.getEndIndex(), false)  ;
-							}
-						} catch (RowsExceededException e) {
-							throw new JRRuntimeException(e);
-						} catch (WriteException e) {
-							throw new JRRuntimeException(e);
+						Integer startIndex = levelMap.get(l);
+						if(levelInfo.getEndIndex() > startIndex)
+						{
+							sheet.setRowGroup(startIndex, levelInfo.getEndIndex(), false);
 						}
 					}
-					level = levels.lower(level);
 				}
 			}
+		}
+		catch (RowsExceededException e) 
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (WriteException e) 
+		{
+			throw new JRRuntimeException(e);
 		}
 	}
 	
