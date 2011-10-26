@@ -47,7 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRCommonGraphicElement;
 import net.sf.jasperreports.engine.JRCommonText;
@@ -1818,6 +1817,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			}
 		}
 	}
+}
 
 
 /**

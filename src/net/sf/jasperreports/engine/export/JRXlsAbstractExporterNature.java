@@ -204,7 +204,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 	{
 		if (element.hasProperties())
 		{
-			return JRProperties.getProperties(element,JRXlsAbstractExporter.PROPERTY_GROUP_ROW_LEVEL_PREFIX);
+			return JRProperties.getProperties(element,JRXlsAbstractExporter.PROPERTY_OUTLINE_LEVEL_PREFIX);
 		}
 		return null;
 		

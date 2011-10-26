@@ -58,7 +58,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.export.JRGridLayout.IntegerRange;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -287,7 +286,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	public static final String PROPERTY_GROUP_ROW_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.level.";
+	public static final String PROPERTY_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.outline.level.";
 	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
