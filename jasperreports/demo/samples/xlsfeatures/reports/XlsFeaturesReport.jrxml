@@ -28,9 +28,7 @@
 		<groupHeader>
 			<band height="15">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#c0c0c0" style="Sans_Bold">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{city}]]></propertyExpression>
-				</reportElement>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#c0c0c0" style="Sans_Bold"/>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
 				</box>
@@ -45,7 +43,7 @@
 			<band height="20">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{city}]]></propertyExpression>
+					<property name="net.sf.jasperreports.export.xls.row.level.1" value="end"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -64,7 +62,7 @@
 			<band height="10">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.1"><![CDATA[$F{name}.substring(0,1)]]></propertyExpression>
+					<property name="net.sf.jasperreports.export.xls.row.level.1" value="body"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -80,7 +78,7 @@
 			<band height="10">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{name}.substring(0,1)]]></propertyExpression>
+					<property name="net.sf.jasperreports.export.xls.row.level.2" value="end"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -96,9 +94,7 @@
 	<pageHeader>
 		<band height="80">
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.0"><![CDATA[null]]></propertyExpression>
-				</reportElement>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
 				</box>
@@ -156,7 +152,7 @@
 		<band height="15">
 			<textField>
 				<reportElement x="0" y="0" width="104" height="15">
-					<propertyExpression name="net.sf.jasperreports.export.xls.row.level.2"><![CDATA[$F{name}.substring(0,1)]]></propertyExpression>				
+					<property name="net.sf.jasperreports.export.xls.row.level.2" value="body"/>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>

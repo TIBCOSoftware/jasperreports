@@ -29,6 +29,8 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.util.SortedMap;
+
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -48,7 +50,7 @@ public class Cut
 	//TODO: to extend the Cut class in order to add attributes to be used in particular output formats only; 
 	private Boolean autoFit;
 	private Integer customWidth;
-	private Byte rowLevel;
+	private SortedMap<String, Boolean> rowLevelMap;//FIXME move this in special Cut implementation for rows/y
 	
 	public Cut()
 	{
@@ -99,14 +101,14 @@ public class Cut
 		this.customWidth = customWidth;
 	}
 
-	public Byte getRowLevel()
+	public SortedMap<String, Boolean> getRowLevelMap()
 	{
-		return this.rowLevel;
+		return this.rowLevelMap;
 	}
 
-	public void setRowLevel(Byte rowLevel)
+	public void setRowLevelMap(SortedMap<String, Boolean> rowLevelMap)
 	{
-		this.rowLevel = rowLevel;
+		this.rowLevelMap = rowLevelMap;
 	}
 
 }

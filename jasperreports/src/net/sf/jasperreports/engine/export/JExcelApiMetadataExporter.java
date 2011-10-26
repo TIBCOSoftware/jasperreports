@@ -333,7 +333,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 	}
 
-	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut) throws JRException
+	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException
 	{
 		if (yCut != null && yCut.isAutoFit())
 		{
@@ -2386,7 +2386,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 	}
 
 	@Override
-	protected void setRowLevels(Map<Byte, List<IntegerRange>> rowLevelsCache) {
+	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) {
 		// TODO set row levels
 	}
 	

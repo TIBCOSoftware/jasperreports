@@ -32,6 +32,7 @@ package net.sf.jasperreports.engine.export;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -114,9 +115,9 @@ public class CutsInfo
 		getCut(index).setCustomWidth(customWidth);
 	}
 	
-	public void setRowLevel(int index, byte rowLevel)
+	public void setRowLevelMap(int index, SortedMap<String, Boolean> levelMap)
 	{
-		getCut(index).setRowLevel(rowLevel);
+		getCut(index).setRowLevelMap(levelMap);
 	}
 	
 	public boolean addCutOffset(Integer cutOffset)
@@ -163,9 +164,9 @@ public class CutsInfo
 	/**
 	 * 
 	 */
-	public Byte getRowLevel(int index)//FIXMEXLS do this in Cut
+	public SortedMap<String, Boolean> getRowLevelMap(int index)//FIXMEXLS do this in Cut
 	{
-		return getCut(index).getRowLevel();
+		return getCut(index).getRowLevelMap();
 	}
 
 	/**

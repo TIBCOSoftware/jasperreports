@@ -71,6 +71,7 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
+import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
@@ -1461,10 +1462,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setRowHeight(
 			int rowIndex, 
 			int rowHeight,
-			Cut yCut
+			Cut yCut,
+			XlsRowLevelInfo levelInfo
 			) throws JRException 
 		{
-			sheetHelper.exportRow(rowHeight, yCut);
+			sheetHelper.exportRow(rowHeight, yCut, levelInfo);
 		}
 
 	/**
@@ -1505,8 +1507,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 
 	@Override
-	protected void setRowLevels(Map<Byte, List<IntegerRange>> rowLevelsCache) {
-		// TODO: nothing to do here
+	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
+	{
+		//nothing to do here; it's done on setRowHeight
 	}
 	
 }
