@@ -47,7 +47,6 @@ import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.ObjectUtils;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -1033,86 +1032,4 @@ public class JRGridLayout
 		}
 	}
 
-	public class IntegerRange
-	{
-		private Integer startIndex;
-		private Integer endIndex;
-		
-		public IntegerRange()
-		{			
-		}
-		
-		public IntegerRange(Integer startIndex)
-		{		
-			this(startIndex, null);
-		}
-		
-		public IntegerRange(Integer startIndex,Integer endIndex)
-		{		
-			this.startIndex = startIndex;
-			this.endIndex = endIndex;
-		}
-
-		public Integer getStartIndex()
-		{
-			return this.startIndex;
-		}
-
-		public void setStartIndex(Integer startIndex)
-		{
-			this.startIndex = startIndex;
-		}
-
-		public Integer getEndIndex()
-		{
-			return this.endIndex;
-		}
-
-		public void setEndIndex(Integer endIndex)
-		{
-			this.endIndex = endIndex;
-		}
-		
-		public void increaseStartIndex()
-		{
-			this.startIndex++;
-		}
-		
-		public void increaseEndIndex()
-		{
-			this.endIndex++;
-		}
-		
-		public void decreaseStartIndex()
-		{
-			this.startIndex--;
-		}
-		
-		public void decreaseEndIndex()
-		{
-			this.endIndex--;
-		}
-		
-		public boolean equals(Object obj)
-		{
-			if (obj == this)
-			{
-				return true;
-			}
-
-			IntegerRange range = (IntegerRange) obj;
-
-			return (startIndex == null ? range.startIndex == null : startIndex.equals(range.startIndex)) 
-				&& (endIndex == null ? range.endIndex == null : endIndex.equals(range.endIndex));
-		}
-
-		public int hashCode()
-		{
-			ObjectUtils.HashCode hash = ObjectUtils.hash();
-			hash.add(startIndex);
-			hash.add(endIndex);
-			return hash.getHashCode();
-		}
-		
-	}
 }

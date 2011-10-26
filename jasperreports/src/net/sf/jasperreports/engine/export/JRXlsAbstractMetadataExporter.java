@@ -314,7 +314,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
 
-		setRowLevels(null);
+		setRowLevels(null, null);
 		
 		if (progressMonitor != null)
 		{

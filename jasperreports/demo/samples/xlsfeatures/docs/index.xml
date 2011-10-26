@@ -148,9 +148,9 @@ is no autofilter <code>End</code> value defined on the second sheet, the data ra
 <br/>
 <br/>
 Another noticeable feature is the row outline grouping on different indentation levels. To turn this feature on, one has to know which group each row belongs to, and which 
-outline level corresponds to this group. All these informations are managed using a property formed with the fixed <code>net.sf.jasperreports.export.xls.row.level</code> 
-prefix followed by a numeric suffix representing the outline level: <code>net.sf.jasperreports.export.xls.row.level.&lt;suffix&gt;</code>. For instance, the 
-<code>net.sf.jasperreports.export.xls.row.level.2</code> property means that its value is correlated with the outline level 2, so the current row belongs to a row group with 
+outline level corresponds to this group. All these informations are managed using a property formed with the fixed <code>net.sf.jasperreports.export.xls.outline.level</code> 
+prefix followed by a numeric suffix representing the outline level: <code>net.sf.jasperreports.export.xls.outline.level.&lt;suffix&gt;</code>. For instance, the 
+<code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with the outline level 2, so the current row belongs to a row group with 
 outline level 2. According to Office Open XML specs, allowed values for outline levels are integer values from 1 to 7.
 <br/>
 The value of this property could be any valid expression (usually it can be set to the group name in JR). While this expression remain unchanged, all consecutive rows 
