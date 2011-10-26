@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.fill;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -42,7 +44,9 @@ public class JRPrintBand implements JRPrintElementContainer
 	 *
 	 */
 	private int height;
-	private List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+	// adding both elements and OffsetElements to this list
+	private List<Object> elements = new ArrayList<Object>();
+	private boolean iterated = false;
 
 	
 	/**
@@ -66,7 +70,22 @@ public class JRPrintBand implements JRPrintElementContainer
 	 */
 	public List<JRPrintElement> getElements()
 	{
-		return this.elements;
+		// should not be called
+		throw new UnsupportedOperationException();
+	}
+	
+	public Iterator<JRPrintElement> iterateElements()
+	{
+		// we only allow one iteration of the elements because we apply 
+		// the offsets during iteration
+		if (iterated)
+		{
+			// this should not happen
+			throw new IllegalStateException("Elements already iterated");
+		}
+		
+		iterated = true;
+		return new ElementsIterator(elements);
 	}
 	
 	/**
@@ -76,6 +95,108 @@ public class JRPrintBand implements JRPrintElementContainer
 	{
 		this.elements.add(element);
 	}
+	
+	public void addOffsetElements(Collection<? extends JRPrintElement> elements, int offsetX, int offsetY)
+	{
+		if (elements.isEmpty())
+		{
+			// nothing to do
+			return;
+		}
 		
+		OffsetElements offsetElements = new OffsetElements(elements, offsetX, offsetY);
+		this.elements.add(offsetElements);
+	}
+		
+	protected static class OffsetElements
+	{
+		private final Collection<? extends JRPrintElement> elements;
+		private final int offsetX;
+		private final int offsetY;
+		
+		public OffsetElements(Collection<? extends JRPrintElement> elements,
+				int offsetX, int offsetY)
+		{
+			this.elements = elements;
+			this.offsetX = offsetX;
+			this.offsetY = offsetY;
+		}
+	}
+	
+	protected static class ElementsIterator implements Iterator<JRPrintElement>
+	{
+		private final Iterator<Object> iterator;
+		
+		private OffsetElements subElements;
+		private Iterator<? extends JRPrintElement> subIterator;
 
+		public ElementsIterator(List<Object> elements)
+		{
+			this.iterator = elements.iterator();
+		}
+
+		public boolean hasNext()
+		{
+			return (subIterator != null && subIterator.hasNext()) || iterator.hasNext();
+		}
+
+		public JRPrintElement next()
+		{
+			JRPrintElement element = null;
+			// try to get the element from the sublist
+			if (subIterator != null)
+			{
+				if (subIterator.hasNext())
+				{
+					element = subIterator.next();
+					// remove the element from the sublist.  this helps with virtualized subreport pages 
+					// by releasing the external data and allowing the master page to reuse the storage.
+					subIterator.remove();
+					
+					// apply the offsets
+					setSubOffsets(element);
+				}
+				else
+				{
+					subIterator = null;
+					subElements = null;
+				}
+			}
+			
+			// if no sublist element, get from the main list
+			if (element == null)
+			{
+				Object next = iterator.next();
+				if (next instanceof JRPrintElement)
+				{
+					element = (JRPrintElement) next;
+				}
+				else
+				{
+					subElements = (OffsetElements) next;
+					subIterator = subElements.elements.iterator();
+
+					// we're only adding non empty sublists, hence not checking hasNext()
+					element = subIterator.next();
+					subIterator.remove();
+					
+					// apply the offsets
+					setSubOffsets(element);
+				}
+			}
+			
+			return element;
+		}
+
+		protected void setSubOffsets(JRPrintElement element)
+		{
+			element.setX(subElements.offsetX + element.getX());
+			element.setY(subElements.offsetY + element.getY());
+		}
+
+		public void remove()
+		{
+			throw new UnsupportedOperationException();
+		}
+	}
 }

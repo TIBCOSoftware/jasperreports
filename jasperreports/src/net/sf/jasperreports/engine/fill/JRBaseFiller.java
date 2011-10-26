@@ -207,7 +207,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected JRFillBand noData;
 
-	protected JRVirtualizer virtualizer;
+	protected JRVirtualizationContext virtualizationContext;
 	protected ElementEvaluationVirtualizationListener virtualizationListener;
 
 	protected ClassLoader reportClassLoader;
@@ -857,9 +857,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				parentFiller.unregisterSubfiller(this);
 			}
 			
-			if (parentFiller == null && fillContext.isUsingVirtualizer())
+			if (fillContext.isUsingVirtualizer())
 			{
-				fillContext.getVirtualizationContext().removeListener(virtualizationListener);
+				// removing the listener
+				virtualizationContext.removeListener(virtualizationListener);
 			}
 
 			fillingThread = null;
@@ -1148,10 +1149,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected void setParameters(Map<String,Object> parameterValues) throws JRException
 	{
-		if (!isSubreport())
-		{
-			initVirtualizationContext(parameterValues);
-		}
+		initVirtualizationContext(parameterValues);
 
 		setFormatFactory(parameterValues);
 
@@ -1172,23 +1170,52 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected void initVirtualizationContext(Map<String, Object> parameterValues)
 	{
-		/* Virtualizer */
-		virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
-		if (virtualizer == null)
+		if (isSubreport())
 		{
-			return;
+			if (fillContext.isUsingVirtualizer())
+			{
+				// creating a subcontext for the subreport.
+				// this allows setting a separate listener, and guarantees that
+				// the current subreport page is not externalized.
+				virtualizationContext = new JRVirtualizationContext(fillContext.getVirtualizationContext());
+				
+				// setting per subreport page size
+				setVirtualPageSize(parameterValues);
+				
+				virtualizationListener = new ElementEvaluationVirtualizationListener(this);
+				virtualizationContext.addListener(virtualizationListener);
+			}
 		}
-		
-		if (log.isDebugEnabled())
+		else
 		{
-			log.debug("Fill " + fillerId + ": using virtualizer " + virtualizer);
-		}
+			/* Virtualizer */
+			JRVirtualizer virtualizer = (JRVirtualizer) parameterValues.get(JRParameter.REPORT_VIRTUALIZER);
+			if (virtualizer == null)
+			{
+				return;
+			}
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": using virtualizer " + virtualizer);
+			}
 
-		fillContext.setUsingVirtualizer(true);
-		
-		JRVirtualizationContext virtualizationContext = fillContext.getVirtualizationContext();
-		virtualizationContext.setVirtualizer(virtualizer);
-		
+			fillContext.setUsingVirtualizer(true);
+			
+			virtualizationContext = fillContext.getVirtualizationContext();
+			virtualizationContext.setVirtualizer(virtualizer);
+			
+			setVirtualPageSize(parameterValues);
+			
+			virtualizationListener = new ElementEvaluationVirtualizationListener(this);
+			virtualizationContext.addListener(virtualizationListener);
+			
+			JRVirtualizationContext.register(virtualizationContext, jasperPrint);
+		}
+	}
+
+	protected void setVirtualPageSize(Map<String, Object> parameterValues)
+	{
 		// see if we have a parameter for the page size
 		Integer virtualPageSize = (Integer) parameterValues.get(
 				JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE);
@@ -1213,12 +1240,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			// override the default
 			virtualizationContext.setPageElementSize(virtualPageSize);
 		}
-		
-		
-		virtualizationListener = new ElementEvaluationVirtualizationListener(this);
-		virtualizationContext.addListener(virtualizationListener);
-		
-		JRVirtualizationContext.register(virtualizationContext, jasperPrint);
 	}
 
 
@@ -1483,9 +1504,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	{
 		JRPrintPage page;
 
-		if (virtualizer != null)
+		if (fillContext.isUsingVirtualizer())
 		{
-			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizer, fillContext.getVirtualizationContext());
+			JRVirtualPrintPage virtualPage = new JRVirtualPrintPage(jasperPrint, virtualizationContext);
 			page = virtualPage;
 		}
 		else
@@ -2079,20 +2100,20 @@ class ElementEvaluationVirtualizationListener implements VirtualizationListener<
 {
 	private static final Log log = LogFactory.getLog(ElementEvaluationAction.class);
 	
-	private final JRBaseFiller masterFiller;
+	private final JRBaseFiller mainFiller;
 	
 	public ElementEvaluationVirtualizationListener(JRBaseFiller filler)
 	{
-		this.masterFiller = filler;
+		this.mainFiller = filler;
 	}
 
 	public void beforeExternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		setElementEvaluationsToPage(masterFiller, object);
+		setElementEvaluationsToPage(mainFiller, object);
 		
-		if (masterFiller.subfillers != null)
+		if (mainFiller.subfillers != null)
 		{
-			for (JRBaseFiller subfiller : masterFiller.subfillers.values())
+			for (JRBaseFiller subfiller : mainFiller.subfillers.values())
 			{
 				setElementEvaluationsToPage(subfiller, object);
 			}
@@ -2153,11 +2174,11 @@ class ElementEvaluationVirtualizationListener implements VirtualizationListener<
 	
 	public void afterInternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		getElementEvaluationsFromPage(masterFiller, object);
+		getElementEvaluationsFromPage(mainFiller, object);
 		
-		if (masterFiller.subfillers != null)
+		if (mainFiller.subfillers != null)
 		{
-			for (JRBaseFiller subfiller : masterFiller.subfillers.values())
+			for (JRBaseFiller subfiller : mainFiller.subfillers.values())
 			{
 				getElementEvaluationsFromPage(subfiller, object);
 			}

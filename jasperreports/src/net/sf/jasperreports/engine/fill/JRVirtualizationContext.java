@@ -93,6 +93,17 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		pageElementSize = JRProperties.getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
 	}
 
+	protected JRVirtualizationContext(JRVirtualizationContext parentContext)
+	{
+		this.virtualizer = parentContext.virtualizer;
+
+		// using the same caches as the parent
+		this.cachedRenderers = parentContext.cachedRenderers;
+		this.cachedTemplates = parentContext.cachedTemplates;
+
+		this.pageElementSize = parentContext.pageElementSize;
+	}
+	
 	/**
 	 * Adds a virtualization listener.
 	 * 
