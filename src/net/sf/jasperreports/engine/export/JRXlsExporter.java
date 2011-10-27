@@ -346,9 +346,20 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setColumnWidth(int col, int width)
+	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
-		sheet.setColumnWidth(col, Math.min(43 * width, 256*255));
+		if (!autoFit)
+		{
+			sheet.setColumnWidth(col, Math.min(43 * width, 256*255));
+		}
+	}
+
+	protected void updateColumn(int col, boolean autoFit)
+	{
+		if (autoFit)
+		{
+			sheet.autoSizeColumn(col, false);
+		}
 	}
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo)
@@ -1785,12 +1796,6 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	}
 
 	
-	protected void setColumnAutoFit(int col)
-	{
-		sheet.autoSizeColumn(col, false);
-	}
-	
-
 	@Override
 	protected void setAutoFilter(String autoFilterRange)
 	{

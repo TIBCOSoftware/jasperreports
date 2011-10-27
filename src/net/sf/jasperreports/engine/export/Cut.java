@@ -76,6 +76,28 @@ public class Cut
 		this.usage = usage;
 	}
 
+	/**
+	 * Decides whether a cut is empty or not.
+	 * 
+	 * @param index the cut index
+	 * @return <code>true</code> if and only if the cut is not empty
+	 */
+	public boolean isCutNotEmpty()
+	{
+		return ((getUsage() & Cut.USAGE_NOT_EMPTY) > 0);
+	}
+
+	/**
+	 * Decides whether a cut is occupied by spanning cells or not.
+	 * 
+	 * @param index the cut index
+	 * @return <code>true</code> if and only if the cut is not empty
+	 */
+	public boolean isCutSpanned()
+	{
+		return ((getUsage() & Cut.USAGE_SPANNED) > 0);
+	}
+
 	public boolean isAutoFit()
 	{
 		return autoFit == null ? false : autoFit.booleanValue();

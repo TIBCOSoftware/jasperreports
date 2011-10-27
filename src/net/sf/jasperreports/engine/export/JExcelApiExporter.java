@@ -42,10 +42,8 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TreeSet;
 
 import jxl.CellView;
 import jxl.JXLException;
@@ -321,10 +319,23 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 
-	protected void setColumnWidth(int col, int width)
+	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
 		CellView cv = new CellView();
-		cv.setSize(43 * width);
+		if (!autoFit)
+		{
+			cv.setSize(43 * width);
+		}
+		sheet.setColumnView(col, cv);
+	}
+
+	protected void updateColumn(int col, boolean autoFit)
+	{
+		CellView cv = new CellView();
+		if (autoFit)
+		{
+			cv.setAutosize(true);
+		}
 		sheet.setColumnView(col, cv);
 	}
 
@@ -335,6 +346,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			try
 			{
 				CellView cv = sheet.getRowView(rowIndex) == null ? new CellView() : sheet.getRowView(rowIndex);
+				cv.setSize(LengthUtil.twip(lastRowHeight));//the row autofit does not work even if you comment out this line; but you can try again
 				cv.setAutosize(true);
 				sheet.setRowView(rowIndex, cv);
 			}
@@ -2432,13 +2444,6 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 	
-	
-	protected void setColumnAutoFit(int col)
-	{
-		CellView cv = new CellView();
-		cv.setAutosize(true);
-		sheet.setColumnView(col, cv);
-	}
 	
 }
 
