@@ -286,7 +286,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 * 
 	 */
-	public static final String PROPERTY_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.outline.level.";
+	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.outline.level.";
 	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
