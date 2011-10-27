@@ -195,7 +195,11 @@
 				 */
 	            sortlinks.bind("touchstart",function(event){
 	                event.preventDefault();
-	
+
+	                // change sortSymbol hover image
+	                var sortImage = jQuery('.sortSymbolImage', jQuery(this));
+	                sortImage.attr("src", sortImage.attr('data-hover'));
+	                
 	                !event.isStartData && (js.touchStartOn = {
 	                    element: event.target,
 	                    timeStamp: event.timeStamp
@@ -212,7 +216,7 @@
 	                    event.stopPropagation();
 	                    return false;
 	                }
-	
+        			
 	                var currentHref = jQuery(this).attr("href"),
 	                    ctx = gm.getExecutionContext(this, currentHref, null);
 	
@@ -242,6 +246,11 @@
 	                    });
 	
 	                    filterDiv.show();
+	                    
+		                // change sortSymbol hover image
+		                var sortImage = jQuery('.sortSymbolImage', jQuery(this));
+		                sortImage.attr("src", sortImage.attr('data-src'));
+
 	                }
 	            });
 			} else {
@@ -294,6 +303,17 @@
 		            	*/
 	                }
 	            });
+	            
+	            jQuery('.sortlink').hover(
+	            		function() {
+	            			var target = jQuery('.sortSymbolImage', jQuery(this));
+	            			target.attr("src", target.attr('data-hover'));
+	        			}, 
+	        			function() {
+	        				var target = jQuery('.sortSymbolImage', jQuery(this));
+	        				target.attr("src", target.attr('data-src'));
+	        			}
+	        	);
 	            
 	            /*
 	            jQuery('.sortlink').live('mouseover', function(event) {
