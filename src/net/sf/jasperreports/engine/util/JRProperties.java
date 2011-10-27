@@ -652,6 +652,42 @@ public final class JRProperties
 		
 		return value;
 	}
+
+	/**
+	 * Returns the value of a property, looking for it in several properties holders
+	 * and then in the system properties.
+	 * 
+	 * @param key the key
+	 * @param propertiesHolders the properties holders
+	 * @return the property value
+	 */
+	public static String getProperty (String key, JRPropertiesHolder ... propertiesHolders)
+	{
+		String value = null;
+		main: for (JRPropertiesHolder propertiesHolder : propertiesHolders)
+		{
+			while (propertiesHolder != null)
+			{
+				if (propertiesHolder.hasProperties())
+				{
+					String prop = propertiesHolder.getPropertiesMap().getProperty(key);
+					if (prop != null)
+					{
+						value = prop;
+						break main;
+					}
+				}
+				propertiesHolder = propertiesHolder.getParentProperties();
+			}
+		}
+		
+		if (value == null)
+		{
+			value = props.getProperty(key);
+		}
+		
+		return value;
+	}
 	
 	/**
 	 * Returns the value of a property, looking first in the supplied properties map

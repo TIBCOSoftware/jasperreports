@@ -68,7 +68,7 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 		JRHyperlinkProducer hyperlinkProducer = 
 			new HtmlExporterHyperlinkProducerAdapter(exporterContext);
 		
-		StringBuffer flashVarsBuf = new StringBuffer();
+		StringBuilder flashVarsBuf = new StringBuilder();
 		for (Iterator<String> it = element.getParameterNames().iterator(); it.hasNext();)
 		{
 			String paramName = it.next();
@@ -98,8 +98,9 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 		String id = "jrflash_" + System.identityHashCode(element);
 		int width = element.getWidth();
 		int height = element.getHeight();
+		String allowScriptAccess = FlashUtils.getAllowScriptAccess(exporterContext, element);
 		
-		StringBuffer out = new StringBuffer();
+		StringBuilder out = new StringBuilder();
 		out.append("\n<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"");
 		out.append(width);
 		out.append("\" height=\"");
@@ -107,7 +108,9 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 		out.append("\" id=\"");
 		out.append(id);
 		out.append("\">\n");
-		out.append("<param name=\"allowScriptAccess\" value=\"always\"/>\n");
+		out.append("<param name=\"allowScriptAccess\" value=\"");
+		out.append(allowScriptAccess);
+		out.append("\"/>\n");
 		out.append("<param name=\"movie\" value=\"");
 		out.append(swfURL);
 		out.append("\"/>\n");
@@ -125,7 +128,9 @@ public class FlashHtmlHandler implements GenericElementHtmlHandler//FIXME need t
 		out.append(height);
 		out.append("\" name=\"");
 		out.append(id);
-		out.append("\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"/>\n");
+		out.append("\" allowScriptAccess=\"");
+		out.append(allowScriptAccess);
+		out.append("\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"/>\n");
 		out.append("</object>\n");
 		return out.toString();
 	}
