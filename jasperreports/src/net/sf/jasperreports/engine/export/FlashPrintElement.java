@@ -87,6 +87,15 @@ public final class FlashPrintElement
 	 */
 	public static final String PROPERTY_IGNORE_SIZE = JRProperties.PROPERTY_PREFIX + "export.swf.ignore.size";
 	
+	/**
+	 * Property that determines the value of the allowScriptAccess parameter for Flash elements.
+	 * 
+	 * <p>
+	 * The property can be set at element, report and system levels.
+	 */
+	public static final String PROPERTY_ALLOW_SCRIPT_ACCESS = 
+			JRProperties.PROPERTY_PREFIX + "export.flash.element.allow.script.access";
+	
 	private static final GenericElementHandlerBundle HANDLER_BUNDLE = new GenericElementHandlerBundle()
 	{
 		public String getNamespace()
