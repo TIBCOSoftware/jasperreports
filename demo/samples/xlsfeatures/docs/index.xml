@@ -150,15 +150,78 @@ is no autofilter <code>End</code> value defined on the second sheet, the data ra
 <br/>
 Another noticeable feature is the row outline grouping on different indentation levels. To turn this feature on, one has to know which group each row belongs to, and which 
 outline level corresponds to this group. All these informations are managed using a property formed with the fixed <code>net.sf.jasperreports.export.xls.outline.level</code> 
-prefix followed by a numeric suffix representing the outline level: <code>net.sf.jasperreports.export.xls.outline.level.&lt;suffix&gt;</code>. For instance, the 
-<code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with the outline level 2, so the current row belongs to a row group with 
-outline level 2. According to Office Open XML specs, allowed values for outline levels are integer values from 1 to 7.
+prefix followed by a suffix representing the outline level: <code>net.sf.jasperreports.export.xls.outline.level.&lt;suffix&gt;</code>. It's recommended to use the outline level 
+itself as property suffix, but it's not mandatory. The suffix may take any other string value, but one has to keep in mind that suffixes are used as sorted row level descriptors. 
+For instance, the suffix "aaa" &lt; "bbb", therefore the outline level associated with the suffix "aaa" will be smaller than the level associated with "bbb". To have the most 
+simple and intuitive representation of the outline level property, the best practice is to use the row level as property suffix.
 <br/>
-The value of this property could be any valid expression (usually it can be set to the group name in JR). While this expression remain unchanged, all consecutive rows 
-following the current row will be grouped together on the same level. When the expression value changes . To finish a given row group with a given indentation level one 
-can to change the property value either to another not <code>null</code> value (and in this case another group with the same outline level will be started), or explicitly to 
-<code>null</code> (in this case no other group will be started).
+Doing so, a <code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with the outline level 2, so the current row belongs to a 
+row group with outline level 2. According to Office Open XML specs, allowed values for outline levels are positive integer values from 1 to 7.
+<br/>
+The value of this property could be any expression (including <code>null</code>). When such a property occurrence is met, the suffix indicates the outline level for that row. 
+If multiple properties with the same prefix are defined for the same row, the deepest outline level is considered for that row.
+To end an outline row group one has to set the related outline level property with the <code>End</code> value. This is a special property value which instructs the JR engine 
+that the current row group of that level ends on that row. 
 This is the most simple way to perform outline row grouping at Excel export time. The report sample shows an example of howto:
+<pre><![CDATA[
+	<group name="cityGroup" >
+			...
+		<groupFooter>
+			<band height="20">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
+				</reportElement>
+				...
+			</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="initialNameGroup" >
+		<groupExpression><![CDATA[$F{name}.substring(0,1)]] ></groupExpression>
+		<groupHeader>
+			<band height="10">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="body"/>
+				</reportElement>
+				...
+			</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="10">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
+				</reportElement>
+				...
+			</textField>
+			</band>
+		</groupFooter>
+	</group>
+	...
+	<detail>
+		<band height="15">
+			<textField>
+				<reportElement x="0" y="0" width="104" height="15">
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="body"/>
+				</reportElement>
+				...
+			</textField>
+			...
+		</band>
+	</detail>
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xlsfeatures</code> within the JasperReports source project and run the 
+<code>&gt; ant clean javac compile fill xls jxl xlsx</code> command.
+<br/>
+It will generate the three Excel document types based on the sample report in the <code>demo/samples/xlsfeatures/build/reports</code> directory. 
     </content>
   </feature>
 
