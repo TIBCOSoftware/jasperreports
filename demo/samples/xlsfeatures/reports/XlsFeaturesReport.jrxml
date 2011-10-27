@@ -43,7 +43,7 @@
 			<band height="20">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.outline.level.1" value="end"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="end"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -62,7 +62,7 @@
 			<band height="10">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.outline.level.1" value="body"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="body"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -78,7 +78,7 @@
 			<band height="10">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.outline.level.2" value="end"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="end"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -107,6 +107,7 @@
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666">
 					<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
 					<property name="net.sf.jasperreports.export.xls.column.width" value="110"/>
+					<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
 				</reportElement>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
@@ -135,7 +136,6 @@
 			</staticText>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="316" y="60" width="199" height="20" forecolor="#FFFFFF" backcolor="#666666">
-					<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Right"/>
 					<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>
 				</reportElement>
 				<box>
@@ -152,7 +152,7 @@
 		<band height="15">
 			<textField>
 				<reportElement x="0" y="0" width="104" height="15">
-					<property name="net.sf.jasperreports.export.xls.outline.level.2" value="body"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="body"/>
 				</reportElement>
 				<box leftPadding="10" rightPadding="10">
 					<topPen lineWidth="0.5"/>
