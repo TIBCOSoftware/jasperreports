@@ -1820,6 +1820,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 					}
 				}
 			}
+			sheet.setRowSumsBelow(false);
 		}
 	}
 }
