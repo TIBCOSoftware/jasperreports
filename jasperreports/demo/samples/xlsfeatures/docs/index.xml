@@ -75,7 +75,7 @@ First, the <code>net.sf.jasperreports.export.xls.column.width.ratio</code> prope
 This means that all column widths in the document should be multiplied by a 1.25 factor, unless conditions with higher priority are met. This is what happens in the first 
 page of the generated document for all columns excepting <code>City</code> one, with the fixed 110 pixels width (see the <code>net.sf.jasperreports.export.xls.column.width.ratio</code>)
 property discussed above. But on the second page one can see that columns are no more enlarged, on the contrary, they are visibly narrowed down. This is because the 
-<code>Address</code> textfield in the detail section contains a conditional property expression which overrides the document-level setting:
+<code>Street</code> textfield in the detail section contains a conditional property expression which overrides the document-level setting:
 <pre><![CDATA[
   	<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>]]></pre>
 When the record with field value <code>id = 44</code> is rendered (and this happens in the second page) the condition is satisfied, so all columns on the current sheet 
@@ -107,12 +107,13 @@ The element-level properties can take a predefined set of values: <code>Left</co
 <code>net.sf.jasperreports.export.xls.freeze.row.edge</code>.
 </li>
 </ul>
-The last 2 freeze pane properties are illustrated in the JRXML sample report: 
+The last 2 freeze pane properties are illustrated in the JRXML sample report: the column edge is set for the <code>City</code> element and the row 
+edge is set for the <code>Street</code> element, both in the page header
 <pre><![CDATA[
   	<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
   	<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>]]></pre>
-These settings of the "Street" element in the page header instruct the engine that the left columns to the "Street" element and all rows above, including the 
-current row, are "frozen".			
+These settings instruct the engine that the left columns to the <code>City</code> element and all rows above, 
+including the current row, are "frozen".			
 <br/>
 <br/>
 <b>The Autofilter Property</b>    
@@ -134,8 +135,8 @@ To see how it works, take a look at the following settings in the JRXML sample:
 for the <code>City</code> element in the page header; all column data lists will be placed on this row, and the data range will start immediately below this cell</li>
 <li><code>&lt;propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"&gt;&lt;![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]&gt;&lt;/propertyExpression/&gt;</code> 
 <br/>
-for the <code>Address</code> field in the detail section; therefore for the first page only the data range will end on the last <code>Address</code> detail cell (because all 
-<code>Address</code> detail cells do provide this property). For all other pages there is no autofilter <code>End</code> value defined, and the data range contains only data in 
+for the <code>Street</code> field in the detail section; therefore for the first page only the data range will end on the last <code>Street</code> detail cell (because all 
+<code>Street</code> detail cells do provide this property). For all other pages there is no autofilter <code>End</code> value defined, and the data range contains only data in 
 the column enclosing the autofilter <code>Start</code> value.</li>
 <li><code>&lt;propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"&gt;&lt;![CDATA[$F{id}.equals(44) ? "Start" : null]]&gt;&lt;/propertyExpression/&gt;</code> 
 <br/>
