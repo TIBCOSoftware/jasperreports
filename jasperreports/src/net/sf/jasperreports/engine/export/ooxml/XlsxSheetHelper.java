@@ -184,11 +184,13 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportColumn(int colIndex, int colWidth) 
+	public void exportColumn(int colIndex, int colWidth, boolean autoFit) 
 	{
 		try
 		{
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\" width=\"" + (3f * colWidth / 18f) + "\"/>\n");
+			//colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : (" width=\"" + (3f * colWidth / 18f) + "\"")) + "/>\n");
+			//the col autofit does not work even if you comment out this line and use the above one; but you can try again
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : "") + " width=\"" + (3f * colWidth / 18f) + "\"/>\n");
 		}
 		catch (IOException e)
 		{
@@ -196,18 +198,6 @@ public class XlsxSheetHelper extends BaseHelper
 		}
 	}
 	
-	public void exportColumn(int colIndex, boolean isAutofit) 
-	{
-		try
-		{
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\""  + (isAutofit ? " bestFit=\"1\"" : "") + "/>\n");
-		}
-		catch (IOException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-
 	/**
 	 *
 	 */
@@ -228,7 +218,9 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
+		//write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
+		//the row autofit does not work even if you comment out this line and use the above one; but you can try again
+		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : "") + " ht=\"" + rowHeight + "\"");
 		if (levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");

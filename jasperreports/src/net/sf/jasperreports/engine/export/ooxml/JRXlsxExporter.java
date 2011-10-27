@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.Cut;
-import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
@@ -1393,30 +1392,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	/**
-	 *
-	 */
-	@Override
-	protected void setColumnWidths(CutsInfo xCuts)
-	{
-		Float ratio = xCuts.getWidthRatio();
-		float sheetRatio = ratio != null && ratio > 0f ? ratio : columnWidthRatio > 0f ? columnWidthRatio : 1f;
-		
-		for(int col = 0; col < xCuts.size() - 1; col++)
-		{
-			int width = xCuts.getCustomWidth(col)!= null 
-				? xCuts.getCustomWidth(col) 
-				: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
-			
-			setColumnWidth(
-				col, 
-				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)) || !xCuts.isAutoFit(col)) 
-					? width 
-					: 0
-				);
-		}
-	}
-
 	protected void removeColumn(int col) {
 		//column width was already set to zero
 	}
@@ -1441,9 +1416,14 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 
 
-	protected void setColumnWidth(int col, int width) 
+	protected void setColumnWidth(int col, int width, boolean autoFit) 
 	{
-		sheetHelper.exportColumn(col, width);
+		sheetHelper.exportColumn(col, width, autoFit);
+	}
+
+
+	protected void updateColumn(int col, boolean autoFit) 
+	{
 	}
 
 
@@ -1475,11 +1455,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		//TODO: set sheet name for element-level sheet name properties
 	}
 
-	protected void setColumnAutoFit(int col)
-	{
-		sheetHelper.exportColumn(col, true);
-	}
-	
 	@Override
 	protected void setAutoFilter(String autoFilterRange)
 	{

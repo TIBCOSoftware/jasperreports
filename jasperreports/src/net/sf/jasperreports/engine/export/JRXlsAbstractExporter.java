@@ -772,10 +772,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						startRow = exportPage(page, xCuts, startRow);
 					}
 					
-					if (isRemoveEmptySpaceBetweenColumns)
-					{
-						removeEmptyColumns(xCuts);
-					}
+					updateColumns(xCuts);
 				}
 			}
 		}
@@ -831,10 +828,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				|| yCuts.isBreak(y) 
 				)
 			{
-				if (isRemoveEmptySpaceBetweenColumns)
-				{
-					removeEmptyColumns(xCuts);
-				}
+				updateColumns(xCuts);
 				
 				setRowLevels(levelInfo, null);
 
@@ -1038,9 +1032,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			setAutoFilter(autoFilterEnd + ":" + autoFilterEnd);
 		}
 		
-		if (createXCuts && isRemoveEmptySpaceBetweenColumns)
+		if (createXCuts)
 		{
-			removeEmptyColumns(xCuts);
+			updateColumns(xCuts);
 		}
 		
 		setRowLevels(levelInfo, null);
@@ -1122,34 +1116,35 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
 		Float ratio = xCuts.getWidthRatio();
-		float sheetRatio = ratio != null && ratio > 0f ? ratio : columnWidthRatio > 0f ? columnWidthRatio : 1f;
+		float sheetRatio = 
+			(ratio != null && ratio > 0f) 
+			? ratio 
+			: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
 		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
-			if (
-				(!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
-				|| !xCuts.isAutoFit(col)
-				)
+			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
 				int width = xCuts.getCustomWidth(col)!= null 
 					? xCuts.getCustomWidth(col) 
 					: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
-				setColumnWidth(col, width);
-			}
-			else if(xCuts.isAutoFit(col))
-			{
-				setColumnAutoFit(col);
+				setColumnWidth(col, width, xCuts.isAutoFit(col));
 			}
 		}
 	}
 
-	protected void removeEmptyColumns(CutsInfo xCuts)
+	protected void updateColumns(CutsInfo xCuts)
 	{
 		for(int col = xCuts.size() - 1; col >= 0; col--)
 		{
-			if (!(xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
+			Cut xCut = xCuts.getCut(col);
+			if (isRemoveEmptySpaceBetweenColumns && (!(xCut.isCutNotEmpty() || xCut.isCutSpanned())))
 			{
 				removeColumn(col);
+			}
+			if (xCuts.isAutoFit(col))
+			{
+				updateColumn(col, xCut.isAutoFit());
 			}
 		}
 	}
@@ -1562,11 +1557,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 	protected abstract void closeWorkbook(OutputStream os) throws JRException;
 
-	protected abstract void setColumnWidth(int col, int width);
-	
-	protected abstract void setColumnAutoFit(int col);
+	protected abstract void setColumnWidth(int col, int width, boolean autoFit);
 	
 	protected abstract void removeColumn(int col);
+
+	protected abstract void updateColumn(int col, boolean autoFit);
 
 	protected abstract void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException;
 

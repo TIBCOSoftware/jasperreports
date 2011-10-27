@@ -177,8 +177,7 @@ public class CutsInfo
 	 */
 	public boolean isCutNotEmpty(int index)//FIXMEXLS do this in Cut
 	{
-		Cut cut = getCut(index);
-		return ((cut.getUsage() & Cut.USAGE_NOT_EMPTY) > 0);
+		return getCut(index).isCutNotEmpty();
 	}
 
 	/**
@@ -189,8 +188,7 @@ public class CutsInfo
 	 */
 	public boolean isCutSpanned(int index)
 	{
-		Cut cut = getCut(index);
-		return ((cut.getUsage() & Cut.USAGE_SPANNED) > 0);
+		return getCut(index).isCutSpanned();
 	}
 
 	/**

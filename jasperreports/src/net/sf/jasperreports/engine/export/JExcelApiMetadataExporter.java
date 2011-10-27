@@ -320,13 +320,26 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		}
 	}
 
-	protected void setColumnWidth(int col, int width)
+	protected void setColumnWidth(int col, int width, boolean autoFit)
 	{
-		CellView cv = sheet.getColumnView(col);
-		if(cv == null || cv.getSize() < 43 * width)
+		if (!autoFit)
 		{
-			cv = new CellView();
-			cv.setSize(43 * width);
+			CellView cv = sheet.getColumnView(col);
+			if(cv == null || cv.getSize() < 43 * width)
+			{
+				cv = new CellView();
+				cv.setSize(43 * width);
+				sheet.setColumnView(col, cv);
+			}
+		}
+	}
+
+	protected void updateColumn(int col, boolean autoFit)
+	{
+		if (autoFit)
+		{
+			CellView cv = new CellView();
+			cv.setAutosize(true);
 			sheet.setColumnView(col, cv);
 		}
 	}
@@ -2386,13 +2399,6 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 	@Override
 	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) {
 		// TODO set row levels
-	}
-	
-	protected void setColumnAutoFit(int col)
-	{
-		CellView cv = new CellView();
-		cv.setAutosize(true);
-		sheet.setColumnView(col, cv);
 	}
 	
 }
