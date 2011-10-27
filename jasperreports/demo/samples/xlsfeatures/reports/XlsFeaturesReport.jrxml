@@ -43,7 +43,7 @@
 			<band height="20">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="end"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
@@ -78,7 +78,7 @@
 			<band height="10">
 			<textField>
 				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="end"/>
+					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
 				</reportElement>
 				<box>
 					<pen lineWidth="0.5" lineColor="#000000"/>
