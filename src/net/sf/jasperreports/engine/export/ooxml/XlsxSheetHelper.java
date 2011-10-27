@@ -94,7 +94,7 @@ public class XlsxSheetHelper extends BaseHelper
 		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 
-		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
+		write("<sheetPr><outlinePr summaryBelow=\"0\"/></sheetPr><dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
 		if(rowFreeze > 0 || columnFreeze > 0)
 		{
 			write(">\n<pane xSplit=\"" + columnFreeze + "\" ySplit=\"" + rowFreeze +"\"");
