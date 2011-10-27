@@ -94,14 +94,13 @@
 /************************ <FILTER DIV> ***************************/
 .filterdiv {
 	text-align: center; 
-	/*width: 430px; 
-	height: 60px; */
 	background-color: #FFFFFF;
-	-moz-box-shadow: 0 0 5px 5px #888;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
 	-webkit-box-shadow: 0 0 5px 5px#888;
 	box-shadow: 0 0 5px 5px #888;
 	-moz-border-radius: 5px;
-	border-radius: 5px;
+	border-radius: 5px;*/
+	border: 1px solid black;	
 }
 
 .hidefilter {
