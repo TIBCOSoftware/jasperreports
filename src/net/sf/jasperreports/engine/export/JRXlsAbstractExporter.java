@@ -1121,19 +1121,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
-		float sheetRatio = 0f;
-		for(int col = 0; col < xCuts.size() - 1; col++)
-		{
-			Float ratio = xCuts.getWidthRatio();
-			if(ratio != null && ratio > sheetRatio)
-			{
-				sheetRatio = ratio;
-			}
-		}
-		if(sheetRatio == 0f)
-		{
-			sheetRatio = columnWidthRatio > 0f ? columnWidthRatio : 1f;
-		}
+		Float ratio = xCuts.getWidthRatio();
+		float sheetRatio = ratio != null && ratio > 0f ? ratio : columnWidthRatio > 0f ? columnWidthRatio : 1f;
 		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
