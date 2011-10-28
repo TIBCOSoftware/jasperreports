@@ -77,6 +77,7 @@
       <property ref="net.sf.jasperreports.style.evaluation.time.enabled"/>
       <property ref="net.sf.jasperreports.subreport.runner.factory"/>
       <property ref="net.sf.jasperreports.virtualizer.files.delete.on.exit"/>
+      <property ref="net.sf.jasperreports.virtual.page.element.size"/>
     </content>
   </category>
   
@@ -136,6 +137,7 @@
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
       <property ref="net.sf.jasperreports.export.html.accessible"/>
@@ -231,6 +233,7 @@
       <property ref="net.sf.jasperreports.export.xml.page.count"/>
       <property ref="net.sf.jasperreports.export.xml.start.page.index"/>
       <property ref="net.sf.jasperreports.export.xml.validation"/>
+      <property ref="net.sf.jasperreports.export.xml.parser.factory"/>
     </content>
   </category>
   
@@ -1021,6 +1024,33 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <scope>Global</scope>
     <since>1.2.3</since>
   </configProperty>
+
+
+  <!-- net.sf.jasperreports.virtual.page.element.size -->
+  
+  <configProperty name="net.sf.jasperreports.virtual.page.element.size">
+    <description>
+Property that determines how many print elements will make up a virtual page handled as a unit by the virtualizer.
+
+<p>
+For most paginated reports, a virtual page corresponds to a report page.
+But for non-paginated reports and for reports having very large pages, a report page is broken into several virtual pages which are handled individually by the virtualizer.
+</p>
+
+<p>
+This property provides the size of a virtual page in print elements.
+Note that virtual page sizes will actually vary around the configured size since there are cases when fewer elements remain on a report page and cases when the configured size is exceeded due to print frames being included at the end of virtual page.
+</p>
+ 
+<p>
+If set to 0 or negative, report pages will not be broken into several virtual pages.
+</p>
+    </description>
+    <api>net/sf/jasperreports/engine/base/JRVirtualPrintPage.html#PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE</api>
+    <default>2000</default>
+    <scope>Global | Report</scope>
+    <since>4.1.3</since>
+  </configProperty>
   
   
   <!-- net.sf.jasperreports.subreport.runner.factory -->
@@ -1479,6 +1509,23 @@ Property that forces the XML validation, when a document exported to XML format 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xml.parser.factory -->
+  
+  <configProperty name="net.sf.jasperreports.export.xml.parser.factory">
+    <description>
+Property that gives a parser factory class which should be used 
+for parsing XML exports.
+<br/>
+By default, this property is set to use <api href="net/sf/jasperreports/engine/xml/PrintSaxParserFactory.html">PrintSaxParserFactory</api> 
+as report parser factory.
+    </description>
+    <api>net/sf/jasperreports/engine/xml/JRSaxParserFactory.html#PROPERTY_PRINT_PARSER_FACTORY</api>
+    <default><code>net.sf.jasperreports.engine.xml.PrintSaxParserFactory</code></default>
+    <scope>Global</scope>
+    <since>4.1.3</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.default.pdf.font.name -->
   
   <configProperty name="net.sf.jasperreports.default.pdf.font.name">
@@ -1783,6 +1830,19 @@ This property is used to mark text elements as being hidden either for printing 
     <default>false</default>
     <scope>Element</scope>
     <since>3.7.6</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.flash.element.allow.script.access -->
+  
+  <configProperty name="net.sf.jasperreports.export.flash.element.allow.script.access">
+    <description>
+Property that determines the value of the allowScriptAccess parameter for Flash elements.
+    </description>
+    <api>net/sf/jasperreports/engine/export/FlashPrintElement.html#PROPERTY_ALLOW_SCRIPT_ACCESS</api>
+    <default>sameDomain</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.1.3</since>
   </configProperty>
   
   
