@@ -2220,7 +2220,7 @@ will include all data below this heading row, placed between the start column an
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FILTER</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>4.2</since>
+    <since>4.1.3</since>
   </configProperty>
   
   
@@ -2297,7 +2297,7 @@ value for the current column
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>4.2</since>
+    <since>4.1.3</since>
   </configProperty>
   
   
@@ -2323,7 +2323,7 @@ present, a <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.h
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO</api>
     <default>N/A</default>
     <scope>Global | Report | Element</scope>
-    <since>4.2</since>
+    <since>4.1.3</since>
   </configProperty>
   
   
@@ -2764,7 +2764,7 @@ on the current row.
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_ROW_OUTLINE_LEVEL_PREFIX</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>4.2</since>
+    <since>4.1.3</since>
   </configProperty>
   
   
@@ -2889,7 +2889,7 @@ If several elements in the sheet contain this property, the engine will consider
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAME</api>
     <default>N/A</default>
     <scope>Element</scope>
-    <since>4.2</since>
+    <since>4.1.3</since>
   </configProperty>
   
   
