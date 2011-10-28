@@ -806,10 +806,26 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public void start()
 	{
+		// resetting the variables is required for cases such as sort fields which
+		// iterate and calculate variables.
+		resetVariables();
+		
 		reportCount = 0;
 	}
 
 	
+	protected void resetVariables()
+	{
+		if (variables != null)
+		{
+			for (JRFillVariable variable : variables)
+			{
+				variable.reset();
+			}
+		}
+	}
+
+
 	/**
 	 * Moves to the next record in the data source.
 	 * 
