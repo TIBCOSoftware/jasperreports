@@ -834,6 +834,19 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public boolean next() throws JRException
 	{
+		return next(true);
+	}
+
+
+	/**
+	 * Moves to the next record in the data source.
+	 * 
+	 * @param filter whether to apply the dataset filter and max count
+	 * @return <code>true</code> if the data source was not exhausted
+	 * @throws JRException
+	 */
+	protected boolean next(boolean filter) throws JRException
+	{
 		boolean hasNext = false;
 
 		if (dataSource != null)
@@ -841,13 +854,16 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			boolean includeRow = true;
 			do
 			{
-				hasNext = advanceDataSource();
+				hasNext = advanceDataSource(filter);
 				if (hasNext)
 				{
 					setOldValues();
 
 					calculator.estimateVariables();
-					includeRow = evaluateFilter();
+					if (filter)
+					{
+						includeRow = evaluateFilter();
+					}
 					
 					if (!includeRow)
 					{
@@ -916,10 +932,17 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	}
 
 
-	protected boolean advanceDataSource() throws JRException
+	protected boolean advanceDataSource(boolean limit) throws JRException
 	{
 		boolean hasNext;
-		hasNext = (reportMaxCount == null || reportMaxCount.intValue() > reportCount) && dataSource.next();
+		if (limit && reportMaxCount != null && reportCount >= reportMaxCount.intValue())
+		{
+			hasNext = false;
+		}
+		else
+		{
+			hasNext = dataSource.next();
+		}
 		return hasNext;
 	}
 	
