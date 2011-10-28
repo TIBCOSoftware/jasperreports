@@ -2,8 +2,18 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.1.3 (2011-xx-xx, SVN xxxx)
+JasperReports 4.1.3 (2011-10-28, SVN xxxx)
 ---------------------------------------------
+
+- new XLS/XLSX export configuration properties added for advanced features 
+including auto-filter, row outline collapse/expand grouping and custom column width; 
+
+- enhanced support for interactive sorting and filtering, with more filter criteria 
+available depending on column data type and possibility to sort and filter on multiple
+columns at the same time; 
+
+- improved virtualization by consolidating styling information for repeating subreports
+and by splitting large pages into smaller virtualized pieces for non-paginated reports;
 
 - minor bug fixes and improvements;
 
