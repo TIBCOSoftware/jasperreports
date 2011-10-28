@@ -87,7 +87,8 @@ public class FillBarChart extends BaseFillComponent implements JRFillCloneable
 				fillContext.getDefaultStyleProvider(),
 				CHART_PRINT_TYPE);
 		
-		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(template);
+		JRTemplateGenericPrintElement printElement = new JRTemplateGenericPrintElement(
+				template, elementId);
 		printElement.setX(element.getX());
 		printElement.setY(fillContext.getElementPrintY());
 		printElement.setWidth(element.getWidth());
