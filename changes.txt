@@ -2,7 +2,7 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.1.3 (2011-10-28, SVN xxxx)
+JasperReports 4.1.3 (2011-10-28, SVN 4774)
 ---------------------------------------------
 
 - new XLS/XLSX export configuration properties added for advanced features 
@@ -14,6 +14,9 @@ columns at the same time;
 
 - improved virtualization by consolidating styling information for repeating subreports
 and by splitting large pages into smaller virtualized pieces for non-paginated reports;
+
+- the XML exporter was changed to use namespaces and thus allow pluggable generic element 
+parameter value handlers; 
 
 - minor bug fixes and improvements;
 

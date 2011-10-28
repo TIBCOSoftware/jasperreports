@@ -117,6 +117,7 @@
 				<include name="**/net/sf/jasperreports/charts/util/TimeSeriesLabelGenerator.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/XYDatasetLabelGenerator.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/XYZElement.class"/>
+				<include name="**/net/sf/jasperreports/engine/Deduplicable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractRenderer.class"/>
@@ -263,6 +264,7 @@
 				<include name="**/net/sf/jasperreports/engine/util/JRTextAttribute.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/JRTypeSniffer.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/MaxFontSizeFinder*.class"/>
+				<include name="**/net/sf/jasperreports/engine/util/ObjectUtils*.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ParagraphUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/ProtectionDomainFactory.class"/>
 				<include name="**/net/sf/jasperreports/engine/util/SimpleFileResolver.class"/>
