@@ -284,16 +284,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_COLUMN_WIDTH_RATIO = JRProperties.PROPERTY_PREFIX + "export.xls.column.width.ratio";
 	
 	/**
-	 * Property prefix used to indicate the starting and the ending row of an outline row group and the outline level. The suffix 
+	 * Property prefix used to indicate the current outline row level, and when necessary, the ending row of the current outline row 
+	 * group with the given level. The suffix 
 	 * of these properties is associated with the outline level, while the property value indicates if the current row group should 
-	 * continue or should end. A recommended practice is to use the outline level itself as property suffix, although this is not 
+	 * continue or should end. The most recommended practice is to use the outline level itself as property suffix, although this is not 
 	 * mandatory. The suffix may take any other string value, but one has to keep in mind that suffixes are used as sorted row level 
 	 * descriptors. For instance, because "aaa" &lt; "bbb", the outline level associated with the "aaa" suffix will be smaller than 
 	 * the level associated with the "bbb" suffix. The most intuitive representation of the row levels uses the row level as property suffix.
 	 * <br/>
-	 * In this case, a <code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with 
-	 * the outline level 2, so the current row belongs to a row group with outline level 2. Based on Office Open XML specs, allowed 
-	 * values for outline levels are positive integers from 1 to 7.
+	 * In such a case, The <code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with 
+	 * the outline level 2, so the current row belongs to a level 2 row group. Based on Office Open XML specs, allowed values for outline 
+	 * levels are positive integers from 1 to 7.
 	 * <br/>
 	 * The value of this property could be any expression (including <code>null</code>). When such a property occurrence is met, the suffix 
 	 * indicates the outline level for that row. If multiple properties with the same prefix are defined for the same row, the deepest 
