@@ -23,7 +23,7 @@ How to turn on Excel specific features to improve the generated document in Exce
     </documentedBy>
   	<otherSample ref="xlsformula"/>
     <content>
-<b>The Pixel-Perfect Document Representation and Excel Output Format</b>    
+<b>Pixel-Perfect Document Representation and Excel Output Format</b>    
 <br/>
 <br/>
 One of the main purposes of the JasperReports engine is to prepare documents ready to be printed out in a pixel-perfect representation. 
@@ -41,7 +41,7 @@ That's why a number of custom export properties were added, in order to allow th
 document layout. This sample shows one by one these recently added properties and how they work.
 <br/>
 <br/>
-<b>The Column Width Adjustment Properties</b>    
+<b>Column Width Adjustment Properties</b>    
 <br/>
 <br/>
 One of the most frequently encountered problems when exporting documents to Excel consists in the inadequate resulting column width. In some cases one could 
@@ -71,13 +71,13 @@ settings at document level. This behavior is illustrated in the sample as it fol
 <br/>
 First, the <code>net.sf.jasperreports.export.xls.column.width.ratio</code> property is declared at document level:
 <pre><![CDATA[
-  	<property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>]]></pre>
+  <property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>]]></pre>
 This means that all column widths in the document should be multiplied by a 1.25 factor, unless conditions with higher priority are met. This is what happens in the first 
 page of the generated document for all columns excepting <code>City</code> one, with the fixed 110 pixels width (see the <code>net.sf.jasperreports.export.xls.column.width.ratio</code>)
 property discussed above. But on the second page one can see that columns are no more enlarged, on the contrary, they are visibly narrowed down. This is because the 
 <code>Street</code> textfield in the detail section contains a conditional property expression which overrides the document-level setting:
 <pre><![CDATA[
-  	<propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>]]></pre>
+  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>]]></pre>
 When the record with field value <code>id = 44</code> is rendered (and this happens in the second page) the condition is satisfied, so all columns on the current sheet 
 will be multiplied by 0.75 instead of 1.25. The <code>City</code> column width remains unchanged on the second page too.
 </li>
@@ -110,8 +110,8 @@ The element-level properties can take a predefined set of values: <code>Left</co
 The last 2 freeze pane properties are illustrated in the JRXML sample report: the column edge is set for the <code>City</code> element and the row 
 edge is set for the <code>Street</code> element, both in the page header
 <pre><![CDATA[
-  	<property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
-  	<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>]]></pre>
+  <property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
+  <property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>]]></pre>
 These settings instruct the engine that the left columns to the <code>City</code> element and all rows above, 
 including the current row, are "frozen".			
 <br/>
@@ -164,54 +164,54 @@ To end an outline row group one has to set the related outline level property wi
 that the current row group of that level ends on that row. 
 This is the most simple way to perform outline row grouping at Excel export time. The report sample shows an example of howto:
 <pre><![CDATA[
-	<group name="cityGroup" >
-			...
-		<groupFooter>
-			<band height="20">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
-				</reportElement>
-				...
-			</textField>
-			</band>
-		</groupFooter>
-	</group>
-	<group name="initialNameGroup" >
-		<groupExpression><![CDATA[$F{name}.substring(0,1)]] ></groupExpression>
-		<groupHeader>
-			<band height="10">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="body"/>
-				</reportElement>
-				...
-			</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="10">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
-				</reportElement>
-				...
-			</textField>
-			</band>
-		</groupFooter>
-	</group>
-	...
-	<detail>
-		<band height="15">
-			<textField>
-				<reportElement x="0" y="0" width="104" height="15">
-					<property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="body"/>
-				</reportElement>
-				...
-			</textField>
-			...
-		</band>
-	</detail>
+<group name="cityGroup" >
+  ...
+  <groupFooter>
+    <band height="20">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupFooter>
+</group>
+<group name="initialNameGroup" >
+  ...
+  <groupHeader>
+    <band height="10">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="Body"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupHeader>
+  <groupFooter>
+    <band height="10">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupFooter>
+</group>
+...
+<detail>
+  <band height="15">
+    <textField>
+      <reportElement x="0" y="0" width="104" height="15">
+        <property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="Body"/>
+      </reportElement>
+      ...
+    </textField>
+    ...
+  </band>
+</detail>
 ]]></pre>
 <b>Running the Sample</b>
 <br/>
