@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl">
+		<map-to xml="dsDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="factoryClass" type="string">
+			<bind-xml name="factoryClass" node="element"/>
+		</field>
+		<field name="methodToCall" type="string">
+			<bind-xml name="methodToCall" node="element"/>
+		</field>
+		<field name="classpath" type="string" collection="arraylist">
+			<bind-xml name="classpath" node="element"/>
+		</field>
+	</class>
+</mapping>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>horizontal</name>
+  <title>Horizontal Sample</title>
+  <description>Shows how multi-column report templates could be filled horizontally.</description>
+
+  <mainFeature ref="horizontal"/>
+  
+  <!-- horizontal -->
+  
+  <feature name="horizontal" title="Creating Horizontally-Filled, Multi-Column Reports">
+    <description>
+How to create multi-column, horizontally filled reports.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    <b>Filling Report Templates</b>
+    <br/>
+    <br/>
+The report-filling process manipulates sets of data to produce high-quality documents. 
+It represents a very important piece of JasperReports library functionality, because it 
+completes a precompiled report template with its meaningful data. The result is a final document 
+ready to be viewed, printed, or exported to other formats. 
+This is the main purpose of any reporting tool. 
+<br/>
+The following things should be supplied to the report-filling process as input: 
+<ul>
+<li>A compiled report template</li>
+<li>Report parameters</li>
+<li>A data source</li>
+</ul>
+The <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class is usually used for 
+filling a report template with data. This class has various methods that fill report 
+templates located on disk, come from input streams, or are supplied directly as in-memory 
+<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> objects.
+<br/>
+The report-filling methods in the <api href="net/sf/jasperreports/engine/JasperFillManager.html">JasperFillManager</api> class 
+always produce an output that corresponds to the type of input received. When 
+receiving a file name for the report template, the generated report is also placed in a file 
+on disk. When the report template is read from an input stream, the generated report is 
+written to an output stream, etc.
+<br/>
+The various utility methods for filling the reports may not be sufficient for a particular 
+application. In such cases, manually loading the report template objects before passing them 
+to the report-filling routines shoud be considered. A report template can be loaded using the 
+<api href="net/sf/jasperreports/engine/util/JRLoader.html">JRLoader</api> utility class. 
+This way, one can retrieve report template properties, such as the report name, to construct the name of the 
+resulting document and place it at the desired disk location.
+<br/>
+The report-filling manager class covers only the most common scenarios. However, one 
+can always customize the report-filling process using the library’s basic functionality. 
+<br/>
+<br/>
+<b>Reporting Data</b>
+<br/>
+<br/>
+JasperReports can make use of any data that the parent application might have for 
+generating reports because it relies on two simple things: the report parameters and the 
+report data source.
+<ul>
+<li><b>Report parameters</b> represent single-named values that are passed to the engine at 
+report-filling time. The report parameter values are always packed in a <code>java.util.Map</code> object, 
+having the parameter names as keys.</li>
+<li><b>Data sources</b> represent a set of tabular data made of virtual rows and columns that the engine uses 
+for iteration during the report-filling process. Normally, the engine works with an instance of the 
+<api href="net/sf/jasperreports/engine/util/JRDataSource.html">JRDataSource</api> interface, from which it extracts the 
+data when filling the report. If no data source can be retrieved using this interface, there is another possibility to
+get a data source: the manager class provides a set of report-filling methods that receive a 
+<code>java.sql.Connection</code> object as a parameter. This way, data can be retrieved by executing a query on a 
+database related to this connection parameter. 
+More on data sources can be found at <b>Data Source / Query Executer</b> section 
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/sample.reference.html#DataSourceQueryExecuter" target="_blank">here</a>.
+</li>
+</ul>
+<b>Filling order</b>
+<br/>
+<br/>
+JasperReports templates allow documents to be structured into multiple columns, like a newspaper. 
+The <code>column-count</code> attribute in the &lt;jasperReport /&gt; root element specifies the number of columns in the document. 
+If this number is not specified, a single-column document is considered by default. 
+When multiple-column report templates are used, the order used for filling those 
+columns is important. 
+<br/>
+There are two possible column filling orders, specified by the <code>printOrder</code> attribute in the &lt;jasperReport /&gt; element:
+<ul>
+<li><b>Vertical</b> - the filling process run first from top to bottom and then from left to right; the first column is entirely filled, then the second one, the third, etc.</li>
+<li><b>Horizontal</b> - the filling process run first from left to right and then from top to bottom; the first row is filled in any column, then the second row, etc.</li>
+</ul>
+When filling report templates horizontally, dynamic text fields inside the detail section 
+do not stretch to their entire text content, because this might cause misalignment on the 
+horizontal axis of subsequent detail sections. The detail band actually behaves the same 
+as the page and column footers, preserving its declared height when horizontal filling is 
+used.
+<br/>
+The reports/HorizontalReport.jrxml template in this sample contains a 3-column report filled horizontally. 
+In order to do that, the only needed steps are:
+<ul>
+<li>set the column count: <code>columnCount="3"</code></li>
+<li>set the print (filling) order: <code>printOrder="Horizontal"</code></li>
+<li>set the column width and column spacing, according them to the available page width and margins: <code>pageWidth="595" pageHeight="842" columnWidth="175" columnSpacing="5" leftMargin="30" rightMargin="30"</code></li>
+</ul>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/hsqldb</code> within the JasperReports source project and run the <code>&gt; ant runServer</code> command. 
+It will start the HSQLDB server shipped with the JasperReports distribution package. Let this terminal running the HSQLDB server.  
+<br/>
+Open a new command prompt/terminal window and set the current folder to <code>demo/samples/horizontal</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/horizontal/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

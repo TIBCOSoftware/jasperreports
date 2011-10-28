@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>subreport</name>
+  <title>Subreport Sample</title>
+  <description>Shows how subreport could be used to create complex document layouts.</description>
+
+  <mainFeature ref="subreports"/>
+  
+  <!-- subreports -->
+  
+  <feature name="subreports" title="Subreports">
+    <description>
+How to use the built-in subreport element to create nested content.
+    </description>
+    <since>0.3.0</since>
+    <documentedBy>
+      <author>
+    	<name>Luke Shannon</name>
+    	<email>lshannon@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+<b>What is a Subreport</b><br/>
+A Subreport is a JasperReports Template thats embedded within another JasperReports template (which we will refer to as the Master report).
+<br/>
+As the Master report executes, each time the Subreport element is reached it is executed and its content seamlessly embedded into the output of the Master report.
+<br/>
+The end result is a single output containing the blended contents of the Master report and each subreport execution.<br/>
+Subreports can be nested.
+<br/>
+<br/>
+<b>When to Use Subreports</b><br/>
+There are several situations when you wish to embed one report into other. Examples of such situations are:
+<ul>
+	<li>Isolating a common layout that is used in a series of reports</li>
+	<li>Processing records from a query different from the Master report's query</li>
+</ul>
+This current example demonstrates the latter case.
+<br/>
+<br/>
+    <b>Running the Sample</b>
+    <br/>
+    <i>Prerequisites</i><br/>
+    Ant is required. By running 'ant --version' you will be able to check if ant is set up on your system (at least version 1.5 is required):<br />
+    <pre>
+    <![CDATA[
+    C:\>ant -version Apache Ant version 1.8.0 compiled on February 1 2010
+	]]>
+	</pre>
+	You can obtain ant from http://ant.apache.org/, instructions for installation can be found there as well.
+	<br/>
+	<br/>
+    <i>Starting the Data Source</i>
+    <br/>
+    In a command prompt/terminal window browse to the demo/hsqldb folder of the JasperReports source and run the command 'ant runServer'.
+    <br/>
+    Leave window/terminal running (see below for sample output).
+    <br/>
+    <pre>
+    <![CDATA[
+    C:\js-workspace\jasperreports\demo\hsqldb>ant runServer
+	Buildfile: C:\js-workspace\jasperreports\demo\hsqldb\build.xml
+
+	runServer:
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) entered
+     [java] [Server@83cc67]: [Thread[main,5,main]]: checkRunning(false) exited
+     [java] [Server@83cc67]: Startup sequence initiated from main() method
+     [java] [Server@83cc67]: Loaded properties from [C:\js-workspace\jasperreports\demo\hsqldb\server.properties]
+     [java] [Server@83cc67]: Initiating startup sequence...
+     [java] [Server@83cc67]: Server socket opened successfully in 19 ms.
+     [java] [Server@83cc67]: Database [index=0, id=0, db=file:test, alias=] opened sucessfully in 1104 ms.
+     [java] [Server@83cc67]: Startup sequence completed in 1125 ms.
+     [java] [Server@83cc67]: 2010-03-10 11:32:30.423 HSQLDB server 1.8.0 is online
+     [java] [Server@83cc67]: To close normally, connect and execute SHUTDOWN SQL
+     [java] [Server@83cc67]: From command line, use [Ctrl]+[C] to abort abruptly
+    ]]>
+	</pre>
+    <i>Generating the Report</i>
+    <br/>
+    Open up a separate command prompt/terminal window and browse to the root directory of the sample.
+    <br/>
+    By running 'ant -p' you will be presented with a list of options available. Of interest in this list is all the exporters available for testing.
+    <br/>
+    Each export type will generate a output type in the build/report folder.
+    <br/>
+    By running the command 'ant' the following actions will be performed:
+    <br/>
+    <ul>
+    <li>All java code will be compiled to produce class files.</li>
+    <li>JRXML fills will be compiled by JasperReports to produce a .jasperfile (this is a serialized version of a JasperReports object).</li>
+    <li>The report will be filled with data and the resulting object, JasperPrint, will be serialized to the file system as a .jrprint.</li>
+    <li>All the exporters the sample is configured to test will run.</li>
+    </ul>
+    <br/>
+    You can now run 'ant view' to see a version of the report in the JasperViewer (an applet contained in the JasperReports package which can be used to view a .jrprint object).
+    <br/>
+    Each of the these task can be ran separately as well:
+    <br/>
+    <ul>
+    	<li>ant clean - removes all generated files.</li>
+    	<li>ant javac - compiles all java code, this should be done before running further tasks.</li>
+    	<li>ant compile - compiles the JRXML generating a .jasper file.</li>
+    	<li>ant fill - fills the report with data, some reports use the empty data source, others use the HSQL DB and other an inline data source. A .jrprint object is generated in this step.</li>
+    	<li>ant view - opens the report in the JasperViewer</li>
+    	<li>ant pdf - generates a PDF (other exporters are available run 'ant -p' for a full list)</li>
+    </ul>
+    <b>Note:</b> All generated files can be found in build/reports.
+    <br/>
+    You now have a working version of the report you can review.
+    <br/>
+	<br/>
+<b>Configuring a Subreport</b> <br/>
+The first thing to note is any JasperReport can be used as a Subreport. However, once a report has embedded into another as a Subreport, the Master report is now responsible for:
+<ul>
+	<li>Supplying the Subreport with a JRDataSource</li>
+	<li>Specifying an expression to locate the report design</li>
+	<li>Passing Parameters into the Subreport</li>
+</ul>
+The Subreport can return data to the main report using variables.
+<br/>
+In this example the Master Report contains the Address and Product reports embedded as Subreport elements.
+<br/>
+Lets begin by review the configuration of the Subreport element for the Products Subreport.
+<pre>
+	<![CDATA[
+<subreport>
+	<reportElement isPrintRepeatedValues="false" x="5" y="25" width="325" height="20" isRemoveLineWhenBlank="true" backcolor="#ffcc99"/>
+	<subreportParameter name="City">
+		<subreportParameterExpression><![ CDATA[$F{City} ]] ></subreportParameterExpression>
+	</subreportParameter>
+	<connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+	<returnValue subreportVariable="PriceSum" toVariable="ProductTotalPrice" calculation="Sum"/>
+	<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![ CDATA[$P{ProductsSubreport}]] ></subreportExpression>
+</subreport>
+	]]>
+</pre>
+This element is in the Detail band of the Master report. This means this Subreport will be executed with each record in the Master report's Result Set.
+<br/>
+<br/>
+<i>subreportParameter</i><br/>
+This tag indicates a Parameter in the Product report is being filled by the Master report. In this case, its the City field in the Master report<br/>
+filling the City Parameter of the Product report.<br/>
+If we look at the query of the Product report we see that the value of the City parameter is injected into the Query to constrain the Results:
+ <pre>
+ 	<![CDATA[
+SELECT Product.ID AS ID, Product.Name AS Name, 
+Positions.Quantity AS Quantity, Positions.Price AS Price
+FROM Positions, Product, Document, Address
+WHERE Positions.DocumentID = Document.ID AND
+Document.AddressID = Address.ID AND
+Positions.ProductID = Product.ID AND
+Address.City = $P{City}
+ORDER BY Product.ID
+ 	]]>
+ </pre>
+ What this means is the Product report executes for each row in the Master report's ResultSet and displays results related to the city field in that row <br/>
+ (Remember: Fields map to the data source, in this case to columns returned in the Result Set).<br/>
+ For more information on modifying report queries please view the <a href="../query/index.html">Query Sample</a>.
+ <br/>
+ <br/>
+ <i>connectionExpression</i><br/>
+ This tag specifies the JRDataSource to be used to fill the subreport. In this case the built in parameter $P{REPORT_CONNECTION} is used.<br/>
+ This parameter contains a reference to JDBC Connection that was used to fill the Master Report. This is best practice when working with Subreports <br/>
+ which need to be filled with the same JDBC Connection as the Master report.<br/>
+ In situations where your Subreport doesn't use a data source (the report may just contain some text and/or images) a reference to the<br/>
+  JREmptyDataSource can be passed in here:
+<br/>
+<pre>
+	<![CDATA[
+<dataSourceExpression><![ CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]] ></dataSourceExpression>
+	]]>
+</pre>
+ <br/>
+ <i>returnValue</i><br/>
+ This tag indicates the value passed from the subreport to the Master report. The calulcation indicates if the value should be accumlated or just passed directly up.<br/>
+ In this case the calculation is Sum, meaning the PriceSum variable in the Subreport is going to be accumlated for each Subreport execution and stored in the <br/>
+ ProductTotalPrice variable of the master report. If the desired effect is to just pass a variable from the Subreport to the Master, then a calculation type of <br/>
+ None should be used.
+ <br/>
+ <br/>
+ <i>subreport Expression</i><br/>
+ This tag indicates where the design of the Subreport can be located. Note the class. In this example the expression is returning a JasperReports object.<br/>
+ The subreport expression represents a very powerful place for extensions/integratoins. Ternary operators can be used here to load different Subreports based on different <br/>
+ conditions in the report. Also external Java classes can be called in this expression, provided they return a JasperReport reference, the subreport design can be obtained <br/>
+ or created using Java. In the SubreportApp.java the JasperReport reference is obtained by loading a .jasper (serialized JasperReport object) file from the file system. 
+ <pre>
+ <![CDATA[
+ JasperReport subreport = (JasperReport)JRLoader.loadObjectFromFile("build/reports/ProductReport.jasper");
+ ]]>
+ </pre>
+ Lets review the Address Report configuration.<br/>
+ <pre>
+ 	<![CDATA[
+<subreport>
+	 <reportElement positionType="Float" x="335" y="25" width="175" height="20" isRemoveLineWhenBlank="true" backcolor="#99ccff"/>
+	 <subreportParameter name="City">
+	   <subreportParameterExpression><![ CDATA[$F{City}]] ></subreportParameterExpression>
+	 </subreportParameter>
+	 <connectionExpression><![ CDATA[$P{REPORT_CONNECTION}]] ></connectionExpression>
+	 <returnValue subreportVariable="REPORT_COUNT" toVariable="CityAddressCount"/>
+	 <subreportExpression class="java.lang.String"><![CDATA["AddressReport.jasper"]] ></subreportExpression>
+</subreport>
+	]]>
+ </pre>
+ The main differences are here:
+ <ol>
+ 	<li>returnValue: No calculation is set. The default is None, which means the variable REPORT_COUNT variable in the subreport will be passed directly to the Master.</li>
+	<li>subreportExpression: In this case the expression class is a String and the expression is the location on the file system for the compiled version of the JRXML.</li>
+</ol>
+<br/>
+<br/>
+<b>Is there performance concerns with Subreports?</b><br/>
+The answer to this depends on your system, data source and your report design. A few points to note on Subreports:
+<ul>
+<li>Each subreport execution may spawn a new thread (see below).</li>
+<li>As the subreport executes more objects will be created in Heap Memory.</li>
+</ul>
+On the subject of threads. Support for Java continuations has been added as an alternative to threads. This was done using the Jakarta Commons Javaflow library.<br/>
+The JasperReports property: net.sf.jasperreports.subreport.runner.factory can be used with the following two settings:
+<ul>
+	<li>net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory</li>
+	<li>net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory</li>
+</ul>
+By default net.sf.jasperreports.engine.fill.JRThreadSubreportRunnerFactory is used, however if net.sf.jasperreports.engine.fill.JRContinuationSubreportRunnerFactory<br/>
+is set, then a Javaflow approach will be used to fill the reports rather than threads. If this option is choosen, then the Jakarta Commons Javaflow jar must be<br/>
+included in the application classpath. This jar can be found in the lib directory of the JasperReport reports project distribution package.<br/>
+The jasperreports-javaflow.properties file illustrates how this property could be set in a actual implementation.<br/>
+Other alternatives for processing different queries in the same report are usage of the <a href="../list/index.html">List</a> element and <a href="../charts/index.html">Sub Datasets</a>.
+<br/>
+	<br/>
+	<b>Further Resources:</b>
+    <br/>
+    JasperReports Ultimate Guide (available from the JasperSoft eShop)<br/>
+    iReport Ultimate Guide (available from the JasperSoft eShop)<br/>
+    </content>
+  </feature>
+
+</sample>

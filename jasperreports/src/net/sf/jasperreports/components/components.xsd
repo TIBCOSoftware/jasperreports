@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://jasperreports.sourceforge.net/jasperreports/components"
+	xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components"
+	xmlns:jr="http://jasperreports.sourceforge.net/jasperreports"
+	elementFormDefault="qualified">
+
+	<import namespace="http://jasperreports.sourceforge.net/jasperreports" />
+
+	<element name="list" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
+						<element ref="c:listContents" />
+					</sequence>
+					<attribute name="printOrder" use="optional" default="Vertical">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Vertical" />
+								<enumeration value="Horizontal" />
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="ignoreWidth" type="boolean" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="listContents">
+		<complexType>
+			<sequence>
+				<choice minOccurs="0" maxOccurs="unbounded">
+					<element ref="jr:break" />
+					<element ref="jr:line" />
+					<element ref="jr:rectangle" />
+					<element ref="jr:ellipse" />
+					<element ref="jr:image" />
+					<element ref="jr:staticText" />
+					<element ref="jr:textField" />
+					<element ref="jr:subreport" />
+					<element ref="jr:pieChart" />
+					<element ref="jr:pie3DChart" />
+					<element ref="jr:barChart" />
+					<element ref="jr:bar3DChart" />
+					<element ref="jr:xyBarChart" />
+					<element ref="jr:stackedBarChart" />
+					<element ref="jr:stackedBar3DChart" />
+					<element ref="jr:lineChart" />
+					<element ref="jr:xyLineChart" />
+					<element ref="jr:areaChart" />
+					<element ref="jr:xyAreaChart" />
+					<element ref="jr:scatterChart" />
+					<element ref="jr:bubbleChart" />
+					<element ref="jr:timeSeriesChart" />
+					<element ref="jr:highLowChart" />
+					<element ref="jr:candlestickChart" />
+					<element ref="jr:meterChart" />
+					<element ref="jr:thermometerChart" />
+					<element ref="jr:multiAxisChart" />
+					<element ref="jr:stackedAreaChart" />
+					<element ref="jr:ganttChart" />
+					<element ref="jr:elementGroup" />
+					<element ref="jr:crosstab" />
+					<element ref="jr:frame" />
+					<element ref="jr:componentElement" />
+					<element ref="jr:genericElement" />
+				</choice>
+			</sequence>
+			<attribute name="height" use="required" type="unsignedInt"/>
+			<attribute name="width" use="optional" type="unsignedInt"/>
+		</complexType>
+	</element>
+	
+	<element name="barbecue" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element name="codeExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="applicationIdentifierExpression" minOccurs="0">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="type" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="2of7"/>
+								<enumeration value="3of9"/>
+								<enumeration value="Bookland"/>
+								<enumeration value="Codabar"/>
+								<enumeration value="Code128"/>
+								<enumeration value="Code128A"/>
+								<enumeration value="Code128B"/>
+								<enumeration value="Code128C"/>
+								<enumeration value="Code39"/>
+								<enumeration value="Code39 (Extended)"/>
+								<enumeration value="EAN128"/>
+								<enumeration value="EAN13"/>
+								<enumeration value="GlobalTradeItemNumber"/>
+								<enumeration value="Int2of5"/>
+								<enumeration value="Monarch"/>
+								<enumeration value="NW7"/>
+								<enumeration value="PDF417"/>
+								<enumeration value="PostNet"/>
+								<enumeration value="RandomWeightUPCA"/>
+								<enumeration value="PDF417"/>
+								<enumeration value="SCC14ShippingCode"/>
+								<enumeration value="ShipmentIdentificationNumber"/>
+								<enumeration value="SSCC18"/>
+								<enumeration value="Std2of5"/>
+								<enumeration value="UCC128"/>
+								<enumeration value="UPCA"/>
+								<enumeration value="USD3"/>
+								<enumeration value="USD4"/>
+								<enumeration value="USPS"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="drawText" type="boolean" use="optional" default="false"/>
+					<attribute name="checksumRequired" type="boolean" use="optional" default="false"/>
+					<attribute name="barWidth" use="optional" type="unsignedInt"/>
+					<attribute name="barHeight" use="optional" type="unsignedInt"/>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+					
+					<attribute name="rotation" use="optional">
+					    <annotation>
+					     <documentation>Type of orientation for the barcode object.</documentation>
+					    </annotation>
+					    <simpleType>
+					     <restriction base="string">
+					      <enumeration value="None">
+							<annotation>
+							 <documentation>None.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="Left">
+							<annotation>
+							 <documentation>The barcode is rotated with 90 degrees anticlockwise.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="Right">
+							<annotation>
+							 <documentation>The barcode is rotated with 90 degrees clockwise.</documentation>
+							</annotation>
+						  </enumeration>
+					      <enumeration value="UpsideDown">
+							<annotation>
+							 <documentation>The barcode is rotated with 180 degrees.</documentation>
+							</annotation>
+						  </enumeration>
+					     </restriction>
+					    </simpleType>
+					   </attribute>
+					
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<complexType name="Barcode4j">
+		<complexContent>
+			<extension base="jr:componentType">
+				<sequence>
+					<element name="codeExpression">
+						<complexType mixed="true"/>
+					</element>
+					<element name="patternExpression" minOccurs="0">
+						<complexType mixed="true"/>
+					</element>
+				</sequence>
+				<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+				<attribute name="evaluationGroup" type="string" use="optional"/>
+				<attribute name="orientation" use="optional" default="0">
+					<simpleType>
+						<restriction base="int">
+							<enumeration value="0"/>
+							<enumeration value="90"/>
+							<enumeration value="180"/>
+							<enumeration value="270"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+				<attribute name="moduleWidth" use="optional" type="double"/>
+				<attribute name="textPosition" use="optional">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="none"/>
+							<enumeration value="bottom"/>
+							<enumeration value="top"/>
+						</restriction>
+					</simpleType>
+				</attribute>
+				<attribute name="quietZone" use="optional" type="double"/>
+				<attribute name="verticalQuietZone" use="optional" type="double"/>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="ChecksumMode4j">
+		<restriction base="string">
+			<enumeration value="auto"/>
+			<enumeration value="ignore"/>
+			<enumeration value="add"/>
+			<enumeration value="check"/>
+		</restriction>
+	</simpleType>
+
+	<element name="Codabar" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="wideFactor" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<complexType name="Barcode4JCode128">
+		<complexContent>
+			<extension base="c:Barcode4j">
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="Code128" substitutionGroup="jr:component" type="c:Barcode4JCode128">
+	</element>
+
+	<element name="EAN128" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4JCode128">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="DataMatrix" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="shape" use="optional">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="force-none"/>
+								<enumeration value="force-square"/>
+								<enumeration value="force-rectangle"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Code39" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+					<attribute name="displayChecksum" use="optional" type="boolean"/>
+					<attribute name="displayStartStop" use="optional" type="boolean"/>
+					<attribute name="extendedCharSetEnabled" use="optional" type="boolean"/>
+					<attribute name="intercharGapWidth" use="optional" type="double"/>
+					<attribute name="wideFactor" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="Interleaved2Of5" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+					<attribute name="displayChecksum" use="optional" type="boolean"/>
+					<attribute name="wideFactor" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="UPCA" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="UPCE" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="EAN13" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="EAN8" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<complexType name="Barcode4JFourState">
+		<complexContent>
+			<extension base="c:Barcode4j">
+				<attribute name="ascenderHeight" use="optional" type="double"/>
+				<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+				<attribute name="intercharGapWidth" use="optional" type="double"/>
+				<attribute name="trackHeight" use="optional" type="double"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="RoyalMailCustomer" substitutionGroup="jr:component" type="c:Barcode4JFourState">
+	</element>
+	
+	<element name="USPSIntelligentMail" substitutionGroup="jr:component" type="c:Barcode4JFourState">
+	</element>
+	
+	<element name="POSTNET" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="shortBarHeight" use="optional" type="double"/>
+					<attribute name="baselinePosition" use="optional">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="top"/>
+								<enumeration value="bottom"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
+					<attribute name="displayChecksum" use="optional" type="boolean"/>
+					<attribute name="intercharGapWidth" use="optional" type="double"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="PDF417" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="c:Barcode4j">
+					<attribute name="minColumns" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="1"/>
+								<maxInclusive value="30"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="maxColumns" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="1"/>
+								<maxInclusive value="30"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="minRows" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="3"/>
+								<maxInclusive value="90"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="maxRows" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="3"/>
+								<maxInclusive value="90"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+					<attribute name="widthToHeightRatio" use="optional" type="double"/>
+					<attribute name="errorCorrectionLevel" use="optional">
+						<simpleType>
+							<restriction base="unsignedInt">
+								<minInclusive value="0"/>
+								<maxInclusive value="8"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<element name="map" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element name="latitudeExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="longitudeExpression">
+							<complexType mixed="true"/>
+						</element>
+						<element name="zoomExpression" minOccurs="0" maxOccurs="1">
+							<complexType mixed="true"/>
+						</element>
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="sort" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="c:symbol" minOccurs="0" maxOccurs="1"/>
+					</sequence>
+					<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+					<attribute name="evaluationGroup" type="string" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="symbol">
+		<annotation>
+			<documentation>Specifies style options for the sort symbol.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="jr:font" minOccurs="0" maxOccurs="1"/>
+			</sequence>
+			<attribute name="sortFieldName" type="string"/>
+			<attribute name="handlerColor" type="string" use="optional"/>
+			<attribute name="sortFieldType" use="optional" default="Field">
+				<annotation>
+					<documentation>Sort field type.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Field">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Variable">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
+			
+			<attribute name="handlerVerticalAlign" use="optional">
+				<annotation>
+					<documentation>Vertical handler alignment.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Top">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Middle">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Bottom">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
+			
+			<attribute name="handlerHorizontalAlign" use="optional">
+				<annotation>
+					<documentation>Horizontal handler alignment.</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Left">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Center">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+						<enumeration value="Right">
+							<annotation>
+								<documentation></documentation>
+							</annotation>
+						</enumeration>
+					</restriction>
+				</simpleType>
+			</attribute>
+	 </complexType>
+	</element>
+	
+	<element name="table" substitutionGroup="jr:component">
+		<complexType>
+			<complexContent>
+				<extension base="jr:componentType">
+					<sequence>
+						<element ref="jr:datasetRun" minOccurs="1" maxOccurs="1" />
+						<choice minOccurs="1" maxOccurs="unbounded">
+							<element ref="c:columnGroup"/>
+							<element ref="c:column"/>
+						</choice>
+					</sequence>
+					<attribute name="whenNoDataType" use="optional" default="Blank">
+						<annotation>
+							<documentation>Allows users to customize the behavior of the table when there are now rows in the data source.</documentation>
+						</annotation>
+						<simpleType>
+					 	<restriction base="string">
+							<enumeration value="Blank">
+							<annotation>
+								<documentation>The table output will be blank.</documentation>
+							</annotation>
+							</enumeration>
+							<enumeration value="AllSectionsNoDetail">
+							<annotation>
+								<documentation>All the table sections except the detail section will get printed.</documentation>
+							</annotation>
+							</enumeration>
+						</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+
+	<complexType name="BaseColumn">
+		<sequence>
+			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
+			<element name="tableHeader" type="c:TableCell" minOccurs="0"/>
+			<element name="tableFooter" type="c:TableCell" minOccurs="0"/>
+			<element name="groupHeader" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="groupFooter" type="c:TableGroupCell" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="columnHeader" type="c:TableCell" minOccurs="0"/>
+			<element name="columnFooter" type="c:TableCell" minOccurs="0"/>
+		</sequence>
+		<attribute name="width" use="required" type="unsignedInt"/>
+	</complexType>
+	
+	<element name="columnGroup">
+		<complexType>
+			<complexContent>
+				<extension base="c:BaseColumn">
+					<sequence>
+						<choice minOccurs="1" maxOccurs="unbounded">
+							<element ref="c:columnGroup"/>
+							<element ref="c:column"/>
+						</choice>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<element name="column">
+		<complexType>
+			<complexContent>
+				<extension base="c:BaseColumn">
+					<sequence>
+						<element name="detailCell" type="c:TableCell"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	
+	<complexType name="TableGroupCell">
+		<sequence>
+			<element name="cell" type="c:TableCell"/>
+		</sequence>
+		<attribute name="groupName" use="required" type="string"/>
+	</complexType>
+	
+	<complexType name="TableCell">
+		<sequence>
+			<element ref="jr:box" minOccurs="0" maxOccurs="1"/>
+			<choice minOccurs="0" maxOccurs="unbounded">
+				<element ref="jr:break" />
+				<element ref="jr:line" />
+				<element ref="jr:rectangle" />
+				<element ref="jr:ellipse" />
+				<element ref="jr:image" />
+				<element ref="jr:staticText" />
+				<element ref="jr:textField" />
+				<element ref="jr:subreport" />
+				<element ref="jr:pieChart" />
+				<element ref="jr:pie3DChart" />
+				<element ref="jr:barChart" />
+				<element ref="jr:bar3DChart" />
+				<element ref="jr:xyBarChart" />
+				<element ref="jr:stackedBarChart" />
+				<element ref="jr:stackedBar3DChart" />
+				<element ref="jr:lineChart" />
+				<element ref="jr:xyLineChart" />
+				<element ref="jr:areaChart" />
+				<element ref="jr:xyAreaChart" />
+				<element ref="jr:scatterChart" />
+				<element ref="jr:bubbleChart" />
+				<element ref="jr:timeSeriesChart" />
+				<element ref="jr:highLowChart" />
+				<element ref="jr:candlestickChart" />
+				<element ref="jr:meterChart" />
+				<element ref="jr:thermometerChart" />
+				<element ref="jr:multiAxisChart" />
+				<element ref="jr:stackedAreaChart" />
+				<element ref="jr:ganttChart" />
+				<element ref="jr:elementGroup" />
+				<element ref="jr:crosstab" />
+				<element ref="jr:frame" />
+				<element ref="jr:componentElement" />
+				<element ref="jr:genericElement" />
+			</choice>
+		</sequence>
+		<attribute name="style" use="optional" type="string"/>
+		<attribute name="height" use="required" type="unsignedInt"/>
+		<attribute name="rowSpan" use="optional" type="unsignedInt"/>
+	</complexType>
+	
+	<element name="spiderChart" substitutionGroup="jr:component">
+	  <complexType>
+	    <complexContent>
+		  <extension base="jr:componentType">
+			<sequence>
+			  <element ref="c:chartSettings" />
+			  <element ref="c:spiderDataset" />
+			  <element ref="c:spiderPlot" />
+			</sequence>
+			<attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
+			<attribute name="evaluationGroup" type="string" use="optional"/>
+		  </extension>
+	    </complexContent>
+	  </complexType>
+	</element>
+
+ <element name="chartSettings">
+  <complexType>
+   <sequence>
+    <element ref="jr:chartTitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartSubtitle" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:chartLegend" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="isShowLegend" use="optional">
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="true"/>
+      <enumeration value="false"/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name="backcolor" type="string" use="optional">
+	<annotation>
+ 	 <documentation>Background color of the chart</documentation>
+	</annotation>
+   </attribute>
+   <attribute name="hyperlinkType" type="string" use="optional"/>
+   <attribute name="hyperlinkTarget" type="string" use="optional"/>
+   <attribute name="bookmarkLevel" type="NMTOKEN" use="optional" default="0"/>
+   <attribute name="customizerClass" type="string" use="optional"/>
+   <attribute name="renderType" type="string" use="optional"/>
+  </complexType>
+ </element>
+
+	<element name="spiderPlot">
+	  <annotation>
+		<documentation>Plot options for a <elem>spiderChart</elem>.</documentation>
+	  </annotation>
+	  <complexType>
+		<sequence>
+		  <element ref="jr:labelFont" minOccurs="0" maxOccurs="1" />
+		  <element name="maxValueExpression" minOccurs="0" maxOccurs="1">
+			<complexType mixed="true" />
+		  </element>
+		</sequence>
+		<attribute name="rotation" use="optional">
+		  <annotation>
+				<documentation>Specifies the mode the radar axis are drawn (clockwise or anticlockwise).</documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="Clockwise" />
+			  <enumeration value="Anticlockwise" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="tableOrder" use="optional">
+		  <annotation>
+			<documentation>Specifies whether the data series are stored in rows or in columns.</documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="Row" />
+			  <enumeration value="Column" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="isWebFilled" use="optional">
+		  <annotation>
+			<documentation>Specifies if the web polygons are filled or not </documentation>
+		  </annotation>
+		  <simpleType>
+			<restriction base="string">
+			  <enumeration value="true" />
+			  <enumeration value="false" />
+			</restriction>
+		  </simpleType>
+		</attribute>
+		<attribute name="startAngle" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the starting angle for the spider chart axis. </documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="headPercent" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the head radius percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="interiorGap" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the interior gap percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="axisLineColor" type="string" use="optional">
+		  <annotation>
+			<documentation>Specifies the color to use when drawing the line showing the axis.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="axisLineWidth" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the axis line width.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="labelGap" type="NMTOKEN" use="optional">
+		  <annotation>
+			<documentation>Specifies the axis label gap percent.</documentation>
+		  </annotation>
+		</attribute>
+		<attribute name="labelColor" type="string" use="optional">
+		  <annotation>
+			<documentation>Specifies the label foreground color.</documentation>
+		  </annotation>
+		</attribute>
+	   <attribute name="backcolor" type="string" use="optional">
+		<annotation>
+	 	 <documentation>Background color of the chart</documentation>
+		</annotation>
+	   </attribute>
+	   <attribute name="backgroundAlpha" type="NMTOKEN" use="optional">
+		<annotation>
+	 	 <documentation>Alpha (transparency) parameter for the background.</documentation>
+		</annotation>
+	   </attribute>
+	   <attribute name="foregroundAlpha" type="NMTOKEN" use="optional">
+		<annotation>
+	 	 <documentation>Alpha (transparency) parameter for the foreground.</documentation>
+		</annotation>
+	   </attribute>
+	  </complexType>
+	</element>
+
+	 <element name="spiderDataset">
+	  <annotation>
+	   <documentation>Creates a dataset with one or more series and values associated with categories</documentation>
+	  </annotation>
+	  <complexType>
+	   <sequence>
+	    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+	    <element ref="jr:categorySeries" minOccurs="0" maxOccurs="unbounded"/>
+	   </sequence>
+	  </complexType>
+	 </element>
+	
+
+</schema>

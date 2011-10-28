@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>openflashchart</name>
+  <title>Open Flash Chart Component Sample</title>
+  <description>Shows how Open Flash Charts could be included in HTML and PDF reports using a specially designed component.</description>
+
+  <mainFeature ref="openflashchart"/>
+  
+  <!-- openflashchart -->
+  
+  <feature name="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)">
+    <description>
+How to implement a custom component to wrap charts rendered by the <a href="http://teethgrinder.co.uk/open-flash-chart/">Open Flash Chart</a> library. 
+    </description>
+    <since>3.1.2</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

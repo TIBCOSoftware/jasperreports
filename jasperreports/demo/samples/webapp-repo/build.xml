@@ -1,0 +1,157 @@
+<project name="webapp" default="javac" basedir=".">
+
+	<description>Shows how reporting functionality could be added to a Web application.</description>
+
+	<property name="projectname" value="jasperreports" />
+	<property name="war.name" value="${projectname}.war" />
+	
+	<path id="classpath">
+		<pathelement location="./WEB-INF/classes/"/>
+		<pathelement location="../../../build/classes" />
+		<pathelement location="../../fonts/" />
+		<fileset dir="../../../lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="prepare" description="Copies the required JAR files from the project's /lib directory">
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../dist">
+				<include name="**/jasperreports-*.jar"/>
+				<exclude name="**/jasperreports-javaflow-*.jar"/>
+				<exclude name="**/jasperreports-applet-*.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="./WEB-INF/lib">
+			<fileset dir="../../../lib">
+				<include name="**/log4j-*.jar"/>
+				<include name="**/commons-*.jar"/>
+				<include name="**/i*ext*.jar"/>
+				<include name="**/*jdt*.jar"/>
+				<include name="**/poi*.jar"/>
+				<include name="**/jxl*.jar"/>
+				<include name="**/png-encoder*.jar"/>
+				<include name="**/spring*.jar"/>
+				<include name="**/castor*.jar"/>
+				<include name="**/velocity*.jar"/>
+				<include name="**/jackson-*.jar"/>
+				<exclude name="**/commons-javaflow-*.jar"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
+		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
+			<classpath>
+				<pathelement location="./WEB-INF/classes/"/>
+				<pathelement location="../../../build/classes"/>
+				<fileset dir="../../../lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<delete>
+			<fileset dir="." includes="**/*.class" />
+			<fileset dir="." includes="**/*.war" />
+			<fileset dir="." includes="**/*.jar" />
+		</delete>
+	</target>
+
+	<target name="war" depends="javac" description="Builds the Web application .war file.">
+		<war warfile="${war.name}" webxml="./WEB-INF/web.xml">
+			<fileset dir="." includes="**/*.css" />
+			<fileset dir="." includes="**/*.html" />
+			<fileset dir="." includes="**/*.class" excludes="**/WEB-INF/classes/**/*.class"/>
+			<fileset dir="." includes="**/*.jar" excludes="**/WEB-INF/lib/**/*.jar"/>
+			<fileset dir="." includes="**/WEB-INF/classes/**/*.java"/>
+			<fileset dir="." includes="**/images/**/*.*" />
+			<fileset dir="." includes="**/jasperreports/**/*.*" />
+			<fileset dir="." includes="**/jquery/**/*.*" />
+			<fileset dir="." includes="**/WEB-INF/repository/**/*.*" />
+			<classes dir="./WEB-INF/classes/">
+				<include name="**/*.class" />
+				<include name="**/*.properties" />
+			</classes>
+			<lib dir="./WEB-INF/lib/">
+				<include name="*.jar" />
+			</lib>
+		</war>
+	</target>
+	
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" Webapp Repository Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+	</target>
+	
+	
+	<property file="build.properties"/>
+	
+	<target name="isTomcatRunning">
+		<echo message="Checking Tomcat Status" />
+		<condition property="tomcat.running">
+	     	<socket server="${tomcat.host}" port="${tomcat.port}" /> 
+	    </condition>
+	</target>
+	
+	<target name="startTomcat" depends="isTomcatRunning" unless="tomcat.running">
+		<echo message="Starting Tomcat" />
+	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" spawn="true">
+	        <jvmarg value="-Djava.util.logging.config.file=${tomcat.home}/conf/logging.properties" />
+	        <jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+	        <jvmarg value="-Xmx512m" />
+	        <jvmarg value="-XX:MaxPermSize=256m" />
+	        <jvmarg value="-Djava.endorsed.dirs=${tomcat.home}/endorsed" />
+	        <jvmarg value="-Dcatalina.base=${tomcat.home}" />
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	        <jvmarg value="-Djava.io.tmpdir=${tomcat.home}/temp" />
+	        <jvmarg value="-Dlog4j.debug" />
+	    </java>
+	</target>
+
+	<target name="stopTomcat" depends="isTomcatRunning" if="tomcat.running">
+		<echo message="Stopping Tomcat" />
+	    <java jar="${tomcat.home}/bin/bootstrap.jar" fork="true" >
+	        <jvmarg value="-Dcatalina.home=${tomcat.home}" />
+	        <arg line="stop"/>
+	    </java>
+	</target>
+
+	<target name="jasperreportsAntCleanJar">
+		<ant antfile="${jasperreports.ant.file}" target="clean" inheritall="false"/>
+		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
+	</target>
+	
+	<target name="copyWarToTomcat" depends="clean, war">
+		<copy todir="${tomcat.home}/webapps" file="${basedir}/${war.name}" />
+	</target>
+	
+	<target name="cleanTomcat">
+		<delete includeemptydirs="true">
+			<fileset dir="${tomcat.home}/temp">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${tomcat.home}/work/Catalina">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="${tomcat.home}/webapps">
+				<include name="${war.name}" />
+				<include name="${projectname}/**" />
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="deploy">
+		<antcall target="stopTomcat" />
+		<antcall target="jasperreportsAntCleanJar" />
+		<antcall target="cleanTomcat" />
+		<antcall target="copyWarToTomcat" />
+		<antcall target="startTomcat" inheritall="false" />
+	</target>
+		
+</project>
