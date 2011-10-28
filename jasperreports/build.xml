@@ -2,7 +2,7 @@
 
 	<description>Helps build the JasperReports distribution files.</description>
 
-	<property name="version" value="4.1.3"/>
+	<property name="version" value="4.5.0"/>
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
@@ -368,7 +368,7 @@
 	</target>
 
 	<property name="sf.net" value="false"/>
-	<property name="svn" value="jr-4-1-3"/>
+	<property name="svn" value="jr-4-5-0"/>
 
 	<target name="schemaref" description="Generates the Schema Reference.">
 		<mkdir dir="./dist/docs"/> 
