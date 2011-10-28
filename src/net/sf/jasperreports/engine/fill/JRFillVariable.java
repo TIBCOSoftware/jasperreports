@@ -88,6 +88,18 @@ public class JRFillVariable implements JRVariable, JRCalculable
 	}
 
 
+	protected void reset()
+	{
+		previousOldValue = null;
+		oldValue = null;
+		estimatedValue = null;
+		incrementedValue = null;
+		value = null;
+		isInitialized = false;
+		savedValue = null;
+	}
+
+
 	/**
 	 *
 	 */
