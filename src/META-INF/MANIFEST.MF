@@ -1,12 +1,12 @@
 Built-By: Jaspersoft Corporation
 Specification-Title: JasperReports Library
-Specification-Version: 4.1.3
+Specification-Version: 4.5.0
 Specification-Vendor: Jaspersoft Corporation
 Implementation-Title: net.sf.jasperreports.engine
-Implementation-Version: 4.1.3
+Implementation-Version: 4.5.0
 Implementation-Vendor: Jaspersoft Corporation
 Bundle-Name: JasperReports Library
-Bundle-Version: 4.1.3
+Bundle-Version: 4.5.0
 Bundle-Vendor: Jaspersoft Corporation
 Bundle-SymbolicName: net.sf.jasperreports.engine
 Bundle-ClassPath: .
