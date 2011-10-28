@@ -364,5 +364,16 @@ class SortFillDatasetRun extends JRFillDatasetRun
 		}
 		records.add(record);
 	}
+
+
+	@Override
+	protected boolean advanceDataset() throws JRException
+	{
+		// do not filter records before sorting in order to support "Top 5 sorted" cases.
+		// FIXME optimize by filtering when the filters are on fields (and other cases).
+		return dataset.next(false);
+	}
+	
+	
 }
 

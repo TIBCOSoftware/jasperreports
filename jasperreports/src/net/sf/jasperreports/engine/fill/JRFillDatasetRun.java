@@ -165,11 +165,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 		init();
 
-		if (dataset.next())
+		if (advanceDataset())
 		{
 			detail();
 
-			while (dataset.next())
+			while (advanceDataset())
 			{
 				checkInterrupted();
 
@@ -179,6 +179,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 			}
 		}
 
+	}
+
+	protected boolean advanceDataset() throws JRException
+	{
+		return dataset.next();
 	}
 
 	
