@@ -96,6 +96,21 @@ public class StandardSpiderDataset extends JRDesignElementDataset implements Spi
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CATEGORY_SERIES, 
 				categorySeries, categorySeriesList.size() - 1);
 	}
+	
+	/**
+	 *
+	 */
+	public void addCategorySeries(int index, JRCategorySeries categorySeries)
+	{
+		if(index >=0 && index < categorySeriesList.size())
+			categorySeriesList.add(index, categorySeries);
+		else{
+			categorySeriesList.add(categorySeries);
+			index = categorySeriesList.size() - 1;
+		}
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_CATEGORY_SERIES, 
+				categorySeries, index);
+	}
 
 	/**
 	 *
