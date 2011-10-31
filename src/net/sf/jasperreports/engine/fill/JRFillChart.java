@@ -1128,10 +1128,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 		// Now handle all the extra axes, if any.
 		int axisNumber = 0;
 		while (iter.hasNext())
-		{
-			axisNumber++;
+		{			
 			JRFillChartAxis chartAxis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = chartAxis.getFillChart();
+			Boolean b = (Boolean) evaluateExpression(fillChart.getPrintWhenExpression(), evaluation);
+			if(b==null || !b)
+				continue;
+			axisNumber++;
 			JFreeChart axisChart = fillChart.evaluateChart(evaluation);
 			ChartHyperlinkProvider axisHyperlinkProvider = fillChart.getHyperlinkProvider();
 
