@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,17 +70,16 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JRDesignRectangle;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -141,7 +141,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	private CrosstabFiller crosstabFiller;
 	private int overflowStartPage;
 	
-	private List<JRPrintElement> fillElements;
+	private List<JRTemplatePrintFrame> printFrames;
 	
 	public JRFillCrosstab(JRBaseFiller filler, JRCrosstab crosstab, JRFillObjectFactory factory)
 	{
@@ -452,7 +452,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			variables[i].setInitialized(true);
 		}
 		
-		fillElements = null;
+		printFrames = null;
 	}
 
 	protected void evaluate(byte evaluation) throws JRException
@@ -577,11 +577,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setReprinted(true);
 		}
 
+		printFrames = new ArrayList<JRTemplatePrintFrame>();
 		crosstabFiller.fill(availableHeight - getRelativeY());
 
-		if (crosstabFiller.hasFilledRows())
+		if (!printFrames.isEmpty())
 		{
-			// crosstab content has been filled, rest overflowPage
+			// crosstab content has been filled, reset overflowPage
 			overflowStartPage = 0;
 		}
 		else
@@ -605,83 +606,67 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		return willOverflow;
 	}
 
-	protected JRPrintElement fill()
+	protected void addCrosstabChunk(List<JRPrintElement> elements, int yOffset)
 	{
-		JRPrintRectangle printRectangle = null;
+		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getTemplateFrame(), elementId);
+		printFrame.setX(0);
+		printFrame.setY(yOffset);
 		
-		printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), elementId);
-		printRectangle.setX(getX());
-		printRectangle.setY(getRelativeY());
-		printRectangle.setWidth(getWidth());
-		printRectangle.setHeight(getStretchHeight());
+		Collections.sort(elements, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
 
-		fillElements = crosstabFiller.getPrintElements();
-
-		if (ignoreWidth && !fillElements.isEmpty())
+		int xLimit = Integer.MIN_VALUE;
+		int yLimit = Integer.MIN_VALUE;
+		for (Iterator<JRPrintElement> it = elements.iterator(); it.hasNext();)
 		{
-			int xLimit = getXLimit(fillElements);
-			// if the elements exceed the design crosstab width
-			if (xLimit > getWidth())
+			JRPrintElement element = it.next();
+			if (element.getX() + element.getWidth() > xLimit)
 			{
-				// increase the rectangle width
-				printRectangle.setWidth(xLimit);
-				if (getRunDirectionValue() == RunDirectionEnum.RTL)
-				{
-					// if RTL filling, move the rectangle to the left
-					printRectangle.setX(getX() + getWidth() - xLimit);
-				}
+				xLimit = element.getX() + element.getWidth();
+			}
+			if (element.getY() + element.getHeight() > yLimit)
+			{
+				yLimit = element.getY() + element.getHeight();
 			}
 		}
+		
+		printFrame.setWidth(xLimit);
+		if (getRunDirectionValue() == RunDirectionEnum.RTL)
+		{
+			// if RTL filling, move the frame to the left
+			printFrame.setX(getWidth() - xLimit);
+		}
+		printFrame.setHeight(yLimit);
 		
 		if (getRunDirectionValue() == RunDirectionEnum.RTL)
 		{
-			mirrorPrintElements(fillElements);
+			mirrorPrintElements(elements, xLimit);
 		}
-
-		return printRectangle;
+		
+		// dump all elements into the print frame
+		printFrame.addElements(elements);
+		
+		// add this frame to the list to the list of crosstab chunks
+		printFrames.add(printFrame);
 	}
 	
-	protected int getXLimit(List<JRPrintElement> printElements)
+	protected JRPrintElement fill()
 	{
-		int limit = Integer.MIN_VALUE;
-		for (Iterator<JRPrintElement> it = printElements.iterator(); it.hasNext();)
-		{
-			JRPrintElement element = it.next();
-			if (element.getX() + element.getWidth() > limit)
-			{
-				limit = element.getX() + element.getWidth();
-			}
-		}
-		return limit;
+		// don't return anything, see getPrintElements()
+		return null;
 	}
 
-	protected JRTemplateRectangle getJRTemplateRectangle()
+	protected JRTemplateFrame getTemplateFrame()
 	{
-		return (JRTemplateRectangle) getElementTemplate();
+		return (JRTemplateFrame) getElementTemplate();
 	}
 
 	protected JRTemplateElement createElementTemplate()
 	{
-		JRDesignRectangle rectangle = new JRDesignRectangle();
-
-		rectangle.setKey(getKey());
-		rectangle.setPositionType(getPositionTypeValue());
-		// rectangle.setPrintRepeatedValues(isPrintRepeatedValues());
-		rectangle.setMode(getModeValue());
-		rectangle.setX(getX());
-		rectangle.setY(getY());
-		rectangle.setWidth(getWidth());
-		rectangle.setHeight(getHeight());
-		rectangle.setRemoveLineWhenBlank(isRemoveLineWhenBlank());
-		rectangle.setPrintInFirstWholeBand(isPrintInFirstWholeBand());
-		rectangle.setPrintWhenDetailOverflows(isPrintWhenDetailOverflows());
-		rectangle.setPrintWhenGroupChanges(getPrintWhenGroupChanges());
-		rectangle.setForecolor(getForecolor());
-		rectangle.setBackcolor(getBackcolor());
-		rectangle.getLinePen().setLineWidth(0f);
-
-		return new JRTemplateRectangle(getElementOrigin(), 
-				filler.getJasperPrint().getDefaultStyleProvider(), rectangle);
+		JRTemplateFrame template = new JRTemplateFrame(getElementOrigin(), 
+				filler.getJasperPrint().getDefaultStyleProvider());
+		template.setElement(this);
+		template.copyBox(getLineBox());
+		return template;
 	}
 
 	protected void rewind()
@@ -691,17 +676,17 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		overflowStartPage = 0;
 	}
 
-	protected List<JRPrintElement> getPrintElements()
+	protected List<? extends JRPrintElement> getPrintElements()
 	{
-		return fillElements;
+		return printFrames;
 	}
 
-	protected void mirrorPrintElements(List<JRPrintElement> printElements)
+	protected void mirrorPrintElements(List<JRPrintElement> printElements, int width)
 	{
 		for (Iterator<JRPrintElement> it = printElements.iterator(); it.hasNext();)
 		{
 			JRPrintElement element = it.next();
-			int mirrorX = getWidth() - element.getX() - element.getWidth();
+			int mirrorX = width - element.getX() - element.getWidth();
 			element.setX(mirrorX);
 		}
 	}
@@ -827,6 +812,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	protected class CrosstabFiller
 	{
 		private int yOffset;
+		private int yChunkOffset;
 		private boolean willOverflow;
 
 		private int[] rowHeadersXOffsets;
@@ -990,14 +976,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			printRows.clear();
 
 			yOffset = 0;
+			yChunkOffset = 0;
 			willOverflow = false;
 			
 			fillVerticalCrosstab(availableHeight);
-		}
-		
-		protected boolean hasFilledRows()
-		{
-			return !printRows.isEmpty();
 		}
 		
 		protected boolean willOverflow()
@@ -1007,7 +989,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		protected int getUsedHeight()
 		{
-			return yOffset;
+			return yChunkOffset + yOffset;
 		}
 		
 		protected boolean ended()
@@ -1020,6 +1002,10 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			if (!hasData)
 			{
 				fillNoDataCell(availableHeight);			
+				if (!printRows.isEmpty())
+				{
+					addFilledRows();
+				}
 				return;
 			}
 			
@@ -1063,6 +1049,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				printRows.addAll(columnHeaderRows);
 			}
 			
+			if (!printRows.isEmpty())
+			{
+				addFilledRows();
+			}
+			
 			if (lastRowIndex >= rowHeadersData[0].length)
 			{
 				startColumnIndex = lastColumnIndex;
@@ -1071,8 +1062,15 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				{
 					startRowIndex = lastRowIndex = 0;
 
-					yOffset += getColumnBreakOffset();
-					fillVerticalCrosstab(availableHeight);
+					// set the chunk offset and compute the remaining height
+					yChunkOffset = yOffset + getColumnBreakOffset();
+					int remainingHeight = availableHeight - yChunkOffset;
+					
+					// reset the elements offset
+					yOffset = 0;
+					
+					// fill a new chunk
+					fillVerticalCrosstab(remainingHeight);
 					return;
 				}
 			}
@@ -1092,6 +1090,21 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			willOverflow = !fillEnded;
 		}
 
+		protected void addFilledRows()
+		{
+			List<JRPrintElement> prints = new ArrayList<JRPrintElement>();
+			for (Iterator<List<JRPrintElement>> it = printRows.iterator(); it.hasNext();)
+			{
+				List<JRPrintElement> rowPrints = it.next();
+				prints.addAll(rowPrints);
+			}
+			
+			// add the crosstan chunk to the element
+			addCrosstabChunk(prints, yChunkOffset);
+			
+			// clear the added rows
+			printRows.clear();
+		}
 		
 		protected List<HeaderCell[]> getGroupHeaders(
 				int available, 
@@ -1962,21 +1975,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return printRows.get(printRows.size() - 1);
 		}
 
-		protected List<JRPrintElement> getPrintElements()
-		{
-			List<JRPrintElement> prints = new ArrayList<JRPrintElement>();
-			
-			for (Iterator<List<JRPrintElement>> it = printRows.iterator(); it.hasNext();)
-			{
-				List<JRPrintElement> rowPrints = it.next();
-				prints.addAll(rowPrints);
-			}
-			
-			Collections.sort(prints, new JRYXComparator());//FIXME make singleton comparator; same for older comparator
-			
-			return prints;
-		}
-
 		protected void setGroupVariables(JRFillCrosstabGroup[] groups, Bucket[] bucketValues)
 		{
 			for (int i = 0; i < groups.length; i++)
@@ -2198,6 +2196,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	public void setIgnoreWidth(boolean ignoreWidth)
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	public Color getDefaultLineColor()
+	{
+		return parentCrosstab.getDefaultLineColor();
+	}
+
+	public JRLineBox getLineBox()
+	{
+		return parentCrosstab.getLineBox();
 	}
 
 }

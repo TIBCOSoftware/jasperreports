@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs.design;
 
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -56,10 +57,12 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.type.CalculationEnum;
@@ -130,6 +133,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 	protected JRDesignCellContents whenNoDataCell;
 	protected JRDesignCellContents headerCell;
 	protected Boolean ignoreWidth;
+	protected JRLineBox lineBox;
 	
 	private class MeasureClassChangeListener implements PropertyChangeListener, Serializable
 	{
@@ -186,6 +190,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		addBuiltinVariables();
 		
 		dataset = new JRDesignCrosstabDataset();
+		lineBox = new JRBaseLineBox(this);
 	}
 
 	private void addBuiltinParameters()
@@ -1577,6 +1582,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		
 		clone.parametersMapExpression = JRCloneUtils.nullSafeClone(parametersMapExpression);
 		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
+		clone.lineBox = lineBox.clone(clone);
 		
 		// keep group and measure cloned variables to reuse the clone instances
 		// in the variables list
@@ -1755,6 +1761,16 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 
+	public Color getDefaultLineColor()
+	{
+		return getForecolor();
+	}
+
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
+	}
+
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
@@ -1771,6 +1787,11 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
+		}
+		
+		if (lineBox == null)
+		{
+			lineBox = new JRBaseLineBox(this);
 		}
 	}
 

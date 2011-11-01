@@ -2978,6 +2978,7 @@ public class JRApiWriter
 			write( crosstabName + ".setIgnoreWidth({0});\n", getBooleanText(crosstab.getIgnoreWidth()));
 	
 			writeReportElement( crosstab, crosstabName);
+			writeBox( crosstab.getLineBox(), crosstabName + ".getLineBox()");
 	
 			JRCrosstabParameter[] parameters = crosstab.getParameters();
 			if (parameters != null)

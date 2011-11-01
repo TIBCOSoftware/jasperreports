@@ -599,11 +599,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							Collection<JRPrintElement> printElements = subreport.getPrintElements();
 							addSubElements(printContainer, element, printElements);
 						}
-						else if (element instanceof JRFillCrosstab)
-						{
-							List<JRPrintElement> printElements = ((JRFillCrosstab) element).getPrintElements();
-							addSubElements(printContainer, element, printElements);
-						}
+					}
+					// crosstabs do not return a fill() element
+					else if (element instanceof JRFillCrosstab)
+					{
+						List<? extends JRPrintElement> printElements = ((JRFillCrosstab) element).getPrintElements();
+						addSubElements(printContainer, element, printElements);
 					}
 				}
 			}
@@ -614,7 +615,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	}
 
 
-	protected void addSubElements(JRPrintElementContainer printContainer, JRFillElement element, Collection<JRPrintElement> printElements)
+	protected void addSubElements(JRPrintElementContainer printContainer, JRFillElement element, 
+			Collection<? extends JRPrintElement> printElements)
 	{
 		if (printContainer instanceof JRPrintBand)
 		{
@@ -627,7 +629,7 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		{
 			if (printElements != null && printElements.size() > 0)
 			{
-				for(Iterator<JRPrintElement> it = printElements.iterator(); it.hasNext();)
+				for(Iterator<? extends JRPrintElement> it = printElements.iterator(); it.hasNext();)
 				{
 					JRPrintElement printElement =it.next();
 					printElement.setX(element.getX() + printElement.getX());

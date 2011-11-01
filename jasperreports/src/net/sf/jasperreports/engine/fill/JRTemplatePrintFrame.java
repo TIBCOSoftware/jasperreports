@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -82,6 +83,11 @@ public class JRTemplatePrintFrame extends JRTemplatePrintElement implements JRPr
 	public void addElement(JRPrintElement element)
 	{
 		elements.add(element);
+	}
+
+	public void addElements(Collection<? extends JRPrintElement> elements)
+	{
+		this.elements.addAll(elements);
 	}
 
 	/**

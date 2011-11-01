@@ -2510,6 +2510,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_ignoreWidth, crosstab.getIgnoreWidth());
 
 		writeReportElement(crosstab);
+		writeBox(crosstab.getLineBox());
 
 		JRCrosstabParameter[] parameters = crosstab.getParameters();
 		if (parameters != null)
