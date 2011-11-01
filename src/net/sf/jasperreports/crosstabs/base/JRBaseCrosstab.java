@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs.base;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Iterator;
@@ -42,9 +43,11 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.base.JRBaseElement;
+import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -80,6 +83,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 	protected JRCellContents whenNoDataCell;
 	protected JRCellContents headerCell;
 	protected Boolean ignoreWidth;
+	protected JRLineBox lineBox;
 	
 	public JRBaseCrosstab(JRCrosstab crosstab, JRBaseObjectFactory factory, int id)
 	{
@@ -104,6 +108,7 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		copyCells(crosstab, factory);
 		
 		whenNoDataCell = factory.getCell(crosstab.getWhenNoDataCell());
+		lineBox = crosstab.getLineBox().clone(this);
 	}
 
 	/**
@@ -405,6 +410,16 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		setIgnoreWidth(Boolean.valueOf(ignoreWidth));
 	}
 	
+	public Color getDefaultLineColor()
+	{
+		return getForecolor();
+	}
+
+	public JRLineBox getLineBox()
+	{
+		return lineBox;
+	}
+
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
@@ -421,6 +436,11 @@ public class JRBaseCrosstab extends JRBaseElement implements JRCrosstab
 		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_3_7_2)
 		{
 			runDirectionValue = RunDirectionEnum.getByValue(runDirection);
+		}
+		
+		if (lineBox == null)
+		{
+			lineBox = new JRBaseLineBox(this);
 		}
 	}
 

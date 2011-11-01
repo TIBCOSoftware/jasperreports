@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.crosstabs;
 
+import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
@@ -36,7 +37,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCrosstab extends JRElement
+public interface JRCrosstab extends JRElement, JRBoxContainer
 {
 	/**
 	 * The default offset used for column breaks.
