@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Flavius Sana (flavius_sana@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat
+public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValueAxisFormat, JRCommonLinePlot
 {
 
 	/**
@@ -62,15 +62,5 @@ public interface JRTimeSeriesPlot extends JRChartPlot, JRTimeAxisFormat, JRValue
 	 * 
 	 */
 	public JRExpression getRangeAxisMaxValueExpression();
-
-	/**
-	 * 
-	 */
-	public Boolean getShowLines();
-	
-	/**
-	 * 
-	 */
-	public Boolean getShowShapes();
 	
 }
