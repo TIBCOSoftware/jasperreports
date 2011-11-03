@@ -1063,8 +1063,9 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					startRowIndex = lastRowIndex = 0;
 
 					// set the chunk offset and compute the remaining height
-					yChunkOffset += yOffset + getColumnBreakOffset();
-					int remainingHeight = availableHeight - yChunkOffset;
+					int yAdvance = yOffset + getColumnBreakOffset();
+					yChunkOffset += yAdvance;
+					int remainingHeight = availableHeight - yAdvance;
 					
 					// reset the elements offset
 					yOffset = 0;
