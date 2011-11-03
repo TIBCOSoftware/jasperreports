@@ -944,7 +944,7 @@ public final class JRProperties
 	protected static void transfer(JRPropertiesMap source,
 			JRPropertiesHolder destination, String tranferPropertiesPrefix)
 	{
-		List<PropertySuffix> transferPrefixProps = getProperties(tranferPropertiesPrefix);
+		List<PropertySuffix> transferPrefixProps = getProperties(tranferPropertiesPrefix);//FIXME cache this
 		for (Iterator<PropertySuffix> prefixIt = transferPrefixProps.iterator(); prefixIt.hasNext();)
 		{
 			JRProperties.PropertySuffix transferPrefixProp = prefixIt.next();
