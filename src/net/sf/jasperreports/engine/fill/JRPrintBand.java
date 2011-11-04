@@ -98,7 +98,7 @@ public class JRPrintBand implements JRPrintElementContainer
 	
 	public void addOffsetElements(Collection<? extends JRPrintElement> elements, int offsetX, int offsetY)
 	{
-		if (elements.isEmpty())
+		if (elements == null || elements.isEmpty())
 		{
 			// nothing to do
 			return;
