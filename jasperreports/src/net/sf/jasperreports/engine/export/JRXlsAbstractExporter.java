@@ -34,11 +34,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -62,6 +64,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -308,6 +311,26 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	public static final int MAX_ROW_INDEX = 65535;
 	public static final int MAX_COLUMN_INDEX = 255;
+
+	/**
+	 * Property that determines whether date values are to be translated to the timezone
+	 * that was used to fill the report.
+	 * 
+	 * <p>
+	 * By default, date values are exported to Excel using the default timezone of the system.
+	 * Setting this property to <code>true</code> instructs the exporter to use he report fill
+	 * timezone to export date values.
+	 * 
+	 * <p>
+	 * The property only has effect when {@link JRXlsAbstractExporterParameter#IS_DETECT_CELL_TYPE} is set.
+	 * 
+	 * <p>
+	 * The property can be set globally, at report level and at element level.
+	 * The default value is <code>false</code>.
+	 * 
+	 * @since 4.5.0
+	 */
+	public static final String PROPERTY_USE_TIMEZONE = JRProperties.PROPERTY_PREFIX + "export.xls.use.timezone";
 	
 	protected static class TextAlignHolder
 	{
@@ -1565,6 +1588,19 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		autoFilterStart = null;
 		autoFilterEnd = null;
+	}
+	
+	protected Date translateDateValue(JRPrintText text, Date value)
+	{
+		String prop = JRProperties.getProperty(PROPERTY_USE_TIMEZONE, 
+				text, jasperPrint);
+		if (JRProperties.asBoolean(prop))
+		{
+			// translate the date to the timezone used at fill time
+			TimeZone tz = getTextTimeZone(text);
+			value = JRDataUtils.translateToTimezone(value, tz);
+		}
+		return value;
 	}
 	
 	protected abstract ExporterNature getNature();

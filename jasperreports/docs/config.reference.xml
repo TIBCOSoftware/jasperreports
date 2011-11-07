@@ -225,6 +225,7 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
       <property ref="net.sf.jasperreports.export.xls.write.header"/>
@@ -2608,6 +2609,24 @@ Specifies whether the empty spacer rows should be removed or not.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.use.timezone -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.use.timezone">
+    <description>
+Property that determines whether date values are to be translated to the timezone that was used to fill the report.
+<br/>
+By default, date values are exported to Excel using the default timezone of the system.
+Setting this property to <code>true</code> instructs the exporter to use he report fill timezone to export date values.
+<br/>
+The property only has effect when <code>net.sf.jasperreports.export.xls.detect.cell.type</code> is set.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_USE_TIMEZONE</api>
+    <default>false</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.5.0</since>
   </configProperty>
   
   
