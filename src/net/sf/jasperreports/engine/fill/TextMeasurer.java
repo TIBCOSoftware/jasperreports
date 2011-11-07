@@ -72,10 +72,14 @@ import org.apache.commons.logging.LogFactory;
 public class TextMeasurer implements JRTextMeasurer
 {
 	private static final Log log = LogFactory.getLog(TextMeasurer.class);
+	
+	//FIXME remove this after measureSimpleText() is proven to be stable
+	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRProperties.PROPERTY_PREFIX + "measure.simple.text";
 
 	private JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
 	
+	private boolean measureSimpleTexts;
 	private final Map<FontKey, FontInfo> fontInfos = new HashMap<FontKey, FontInfo>();
 
 	/**
@@ -239,6 +243,8 @@ public class TextMeasurer implements JRTextMeasurer
 					(JRPropertiesHolder)textElement.getDefaultStyleProvider()
 					);
 		}
+		
+		measureSimpleTexts = JRProperties.getBooleanProperty(this.propertiesHolder, PROPERTY_MEASURE_SIMPLE_TEXTS, true);
 	}
 	
 	/**
@@ -332,7 +338,7 @@ public class TextMeasurer implements JRTextMeasurer
 		/*   */
 		initialize(styledText, remainingTextStart, availableStretchHeight, canOverflow);
 
-		if (measureSimpleText(styledText, remainingTextStart))
+		if (measureSimpleTexts && measureSimpleText(styledText, remainingTextStart))
 		{
 			// simple text measured
 			return measuredState;
