@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -793,13 +794,15 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		{
 			baseStyle.setDisplayFormat(getDateFormat(getConvertedPattern(textElement, textValue.getPattern())));//FIXMEFORMAT why no null test here like in number?
 			WritableCellFormat cellStyle = getLoadedCellStyle(baseStyle);
-			if (textValue.getValue() == null)
+			Date date = textValue.getValue();
+			if (date == null)
 			{
 				result = blank(cellStyle);
 			}
 			else
-			{
-				result = new DateTime(x, y, textValue.getValue(), cellStyle);
+ 			{
+				date = translateDateValue(textElement, date);
+				result = new DateTime(x, y, date, cellStyle);
 			}
 		}
 

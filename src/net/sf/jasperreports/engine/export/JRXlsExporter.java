@@ -42,6 +42,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -672,13 +673,15 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 							)
 						);
 					HSSFCellStyle cellStyle = initCreateCell(gridCell, colIndex, rowIndex, baseStyle);
-					if (textValue.getValue() == null)
+					Date date = textValue.getValue();
+					if (date == null)
 					{
 						cell.setCellType(HSSFCell.CELL_TYPE_BLANK);
 					}
 					else
 					{
-						cell.setCellValue(textValue.getValue());
+						date = translateDateValue(textElement, date);
+						cell.setCellValue(date);
 					}
 					endCreateCell(cellStyle);
 				}
