@@ -132,7 +132,7 @@ public class ReportServlet extends HttpServlet
 		HttpServletResponse response
 		) throws IOException, ServletException
 	{
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=UTF-8");
 		
 		// Set to expire far in the past.
 		response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
