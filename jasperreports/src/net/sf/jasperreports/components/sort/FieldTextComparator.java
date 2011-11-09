@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.util.Locale;
+
 import net.sf.jasperreports.engine.JRRuntimeException;
 
 /**
@@ -30,9 +32,11 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @version $Id$
  */
 public class FieldTextComparator extends AbstractFieldComparator<String> {
-	
 
-	public FieldTextComparator() {
+	private Locale locale;
+
+	public FieldTextComparator(Locale locale) {
+		this.locale = locale;
 	}
 	
 	@Override
@@ -54,8 +58,8 @@ public class FieldTextComparator extends AbstractFieldComparator<String> {
 		FilterTypeTextOperatorsEnum textEnum = FilterTypeTextOperatorsEnum.getByEnumConstantName(filterTypeOperator);
 		
 		if (compareStart != null) {
-			String lcCompareStart = compareStart.toLowerCase();
-			String lcCompareTo = compareTo.toLowerCase();
+			String lcCompareStart = compareStart.toLowerCase(locale);
+			String lcCompareTo = compareTo.toLowerCase(locale);
 			switch (textEnum) {
 				case CONTAINS:
 					result = lcCompareTo.contains(lcCompareStart);
