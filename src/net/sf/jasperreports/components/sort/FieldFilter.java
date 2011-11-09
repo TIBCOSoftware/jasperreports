@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.sort;
 
+import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.DatasetFilter;
@@ -77,7 +78,7 @@ public class FieldFilter implements DatasetFilter {
 					.createFieldComparator(
 							filterTypeEnum,
 							filterPattern,
-							context.getLocale(),
+							context.getLocale() != null ? context.getLocale() : Locale.getDefault(),
 							(TimeZone) context.getParameterValue(JRParameter.REPORT_TIME_ZONE));
 		}
 	}

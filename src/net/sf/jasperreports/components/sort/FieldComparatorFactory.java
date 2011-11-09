@@ -40,7 +40,7 @@ public class FieldComparatorFactory {
 			case NUMERIC:
 				return new FieldNumberComparator(filterPattern, locale);
 			case TEXT:
-				return new FieldTextComparator();
+				return new FieldTextComparator(locale);
 			default: 
 				return null;
 		}
