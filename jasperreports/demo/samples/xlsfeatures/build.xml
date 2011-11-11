@@ -108,17 +108,12 @@
 	</target>
 
 	<target name="clean" description="Deletes all the generated files.">
-		<ant dir="../" target="clean-sample"/>
-	</target>
-
-	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
 		<echo message=" XLS Features Sample"/>
 		<echo message="==================================="/>
-		<antcall target="clean" />
-		<antcall target="javac" />
-		<antcall target="compile" />
-		<ant dir="../" target="test"/>
+		<ant dir="../" target="clean-sample"/>
 	</target>
+
+	<target name="test" description="Runs the sample." depends="clean,javac,compile,fill,xls,jxl,xlsx,pdf"/>
 
 </project>
