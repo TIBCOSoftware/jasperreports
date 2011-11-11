@@ -82,23 +82,15 @@ export parameter at runtime, with the same inconvenient as shown in the <a href=
 Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
 <br/>
-To see it in action, take a look at the current date textfield in the JRXML sample:
+To see it in action, take a look at the current date textfield in the JRXML <code>&lt;pageHeader/&gt;</code> section:
 <pre><![CDATA[
   <textField pattern="EEE, MMM d, yyyy">
   <reportElement style="Sans_Bold" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000">
     <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
   </reportElement>
-  <box>
-    <leftPen lineWidth="0.5" lineColor="#000000"/>
-    <bottomPen lineWidth="0.5" lineColor="#000000"/>
-    <rightPen lineWidth="0.5" lineColor="#000000"/>
-  </box>
-  <textElement textAlignment="Center" verticalAlignment="Top">
-    <font size="12"/>
-  </textElement>
-  <textFieldExpression><![CDATA[$P{ReportDate}]] ></textFieldExpression>
+  ...
   </textField>]]></pre>
-In this case the <code>EEE, MMM d, yyyy</code> pattern, completely valid in Java but representing unreadable content for Excel, is replaced with the equivalent 
+In this case the <code>EEE, MMM d, yyyy</code> pattern, completely valid in Java but generating unreadable content for Excel, is replaced with the equivalent 
 <code>ddd, mmm d, yyyy</code> pattern when exporting report to Excel.
 <br/>
 <br/>
