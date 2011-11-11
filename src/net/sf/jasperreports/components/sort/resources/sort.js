@@ -255,11 +255,11 @@
 	            });
 			} else {
 				// add event for clickable sortlinks (up/down arrows)
-//				jQuery('.sortlink').live('click', function(event){
-				jQuery('a').live('click', function(event) {
+//				jQuery('a').live('click', function(event) {
+				jQuery('.sortlink').live('click', function(event){
 	                event.preventDefault();
 	                var currentHref = jQuery(this).attr("href"),
-	                    ctx = gm.getExecutionContext(this, currentHref, null);
+	                	ctx = gm.getExecutionContext(this, currentHref, null);
 	
 	                if (ctx) {
 	                    ctx.run();
@@ -304,16 +304,16 @@
 	                }
 	            });
 	            
-	            jQuery('.sortlink').hover(
-	            		function() {
-	            			var target = jQuery('.sortSymbolImage', jQuery(this));
-	            			target.attr("src", target.attr('data-hover'));
-	        			}, 
-	        			function() {
-	        				var target = jQuery('.sortSymbolImage', jQuery(this));
-	        				target.attr("src", target.attr('data-src'));
-	        			}
-	        	);
+	            jQuery('.sortlink').live('mouseenter', function(event) {
+	            	var target = jQuery('.sortSymbolImage', jQuery(this));
+	            	target.attr("src", target.attr('data-hover'));
+	            	
+	            });
+
+	            jQuery('.sortlink').live('mouseleave', function(event) {
+	            	var target = jQuery('.sortSymbolImage', jQuery(this));
+	            	target.attr("src", target.attr('data-src'));
+	            });
 	            
 	            /*
 	            jQuery('.sortlink').live('mouseover', function(event) {

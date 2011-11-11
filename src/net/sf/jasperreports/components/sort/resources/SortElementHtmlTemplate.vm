@@ -8,12 +8,13 @@
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
-	style='display: table; position: absolute; left: ${elementX}; top: ${elementY};
-		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign};
+	style="display: table; position: absolute; left: ${elementX}; top: ${elementY};
+		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign}; text-decoration: none;
+		background-image: url('${transparentPixelSrc}'); 
 		#if(${backgroundColor}) 
 			background-color: \#${backgroundColor};
 		#end
-'>
+">
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
 		<span style='color: #${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
 			#if (${isSorted})

@@ -70,6 +70,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
+	private static final String RESOURCE_TRANSPARENT_PIXEL = "net/sf/jasperreports/engine/images/pixel.GIF";
 	
 	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
 	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter_wrong.png";
@@ -159,6 +160,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
 			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
+			velocityContext.put("transparentPixelSrc", imagesResourcePath + SortElementHtmlHandler.RESOURCE_TRANSPARENT_PIXEL);
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
