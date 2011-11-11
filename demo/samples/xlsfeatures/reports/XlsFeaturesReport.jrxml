@@ -5,7 +5,9 @@
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
+	<parameter name="ReportDate" class="java.util.Date"/>
 	<parameter name="DataFile" class="java.lang.String"/>
+	<parameter name="Customers" class="java.lang.String"/>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
@@ -93,16 +95,32 @@
 	</group>
 	<pageHeader>
 		<band height="80">
-			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="60" forecolor="#000000"/>
+			<textField>
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="515" height="30" forecolor="#000000"/>
 				<box>
-					<pen lineWidth="0.5" lineColor="#000000"/>
+					<topPen lineWidth="0.5" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="16"/>
 				</textElement>
-				<text><![CDATA[XLS Features Report]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, MMM d, yyyy">
+				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000">
+					<property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportDate}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="60" width="104" height="20" forecolor="#FFFFFF" backcolor="#666666">
 					<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
@@ -113,16 +131,18 @@
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[City]]></text>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[State]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#666666"/>
+				<reportElement style="Sans_Bold" mode="Opaque" x="104" y="60" width="55" height="20" forecolor="#FFFFFF" backcolor="#666666">
+					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]]></propertyExpression>
+				</reportElement>
 				<box>
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
@@ -131,7 +151,7 @@
 					<leftPen lineWidth="0.5" lineColor="#000000"/>
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
@@ -143,7 +163,7 @@
 					<bottomPen lineWidth="0.5" lineColor="#000000"/>
 					<rightPen lineWidth="0.5" lineColor="#000000"/>
 				</box>
-				<textElement/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Street]]></text>
 			</staticText>
 		</band>
@@ -160,7 +180,7 @@
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{city}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{state}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="104" y="0" width="55" height="15"/>
@@ -171,7 +191,6 @@
 				</box>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="159" y="0" width="157" height="15">
