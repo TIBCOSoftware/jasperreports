@@ -50,7 +50,7 @@ either can rely on the engine's default sheet naming procedure, or they can prov
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> export parameter. This second option is 
 very useful when dynamic sheet names are involved, but it cannot cover all possible situations. One of the main troubles when using the 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> parameter is the impossibility to be set 
-at design time, so it has to be java hardcoded at runtime. 
+at design time, so it has to be Java hardcoded at runtime. 
 <br/>
 To solve such kind of problems, a new export custom property was added: 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api>. 
@@ -77,7 +77,7 @@ Here comes the <code>pattern</code> attribute of textfields to solve the problem
 where such a pattern should be translated in order to be recognized in Excel.
 <br/>
 An older way to realize this translation is to use the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#FORMAT_PATTERNS_MAP">FORMAT_PATTERNS_MAP</api> 
-export parameter at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the Java hardcoding.
+export parameter at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the need of Java hardcoding at runtime.
 <br/>
 Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
