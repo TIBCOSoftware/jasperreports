@@ -22,6 +22,7 @@
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -99,7 +100,9 @@ public class XlsFeaturesApp extends AbstractSampleApp
 		// data source filling
 		{
 			Map parameters = new HashMap();
-			parameters.put("ReportTitle", "Address Report");
+			parameters.put("ReportTitle", "Customers Report");
+			parameters.put("Customers", "Customers");
+			parameters.put("ReportDate", new Date());
 			parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
 
 			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
