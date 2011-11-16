@@ -97,15 +97,19 @@ public class XlsxSheetHelper extends BaseHelper
 		write("<sheetPr><outlinePr summaryBelow=\"0\"/></sheetPr><dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
 		if(rowFreeze > 0 || columnFreeze > 0)
 		{
-			write(">\n<pane xSplit=\"" + columnFreeze + "\" ySplit=\"" + rowFreeze +"\"");
+			String cFreeze = columnFreeze > 0 ? " xSplit=\"" + columnFreeze + "\"" : "";
+			String rFreeze = rowFreeze > 0 ? " ySplit=\"" + rowFreeze +"\"" : "";
+			write(">\n<pane" + cFreeze + rFreeze);
 			String columnName = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
 				? "A" 
 				: JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
 			write(" topLeftCell=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
-			write(" activePane=\"bottomRight\" state=\"frozen\"/>\n");
-			write("<selection pane=\"topRight\"/>\n");
-			write("<selection pane=\"bottomLeft\"/>\n");
-			write("<selection pane=\"bottomRight\"/>\n");
+			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
+			write(" activePane=\"" +activePane + "\" state=\"frozen\"/>\n");
+			write("<selection pane=\"" +activePane + "\"");
+			write(" activeCell=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
+			write(" sqref=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
+			write("/>\n");
 			write("</sheetView>\n</sheetViews>\n");
 		}
 		else
