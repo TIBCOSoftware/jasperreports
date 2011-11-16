@@ -309,9 +309,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_ROW_OUTLINE_LEVEL_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.row.outline.level.";
 	
-	public static final int MAX_ROW_INDEX = 65535;
-	public static final int MAX_COLUMN_INDEX = 255;
-
 	/**
 	 * Property that determines whether date values are to be translated to the timezone
 	 * that was used to fill the report.
@@ -701,14 +698,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		setSheetNames();
 		
-		gridRowFreezeIndex = Math.min(
-				Math.max(0, JRProperties.getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1), 
-				MAX_ROW_INDEX
-				);
-		gridColumnFreezeIndex = Math.min(
-				Math.max(0, getColumnIndex(JRProperties.getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN))), 
-				MAX_COLUMN_INDEX
-				);	
+		gridRowFreezeIndex = Math.max(0, JRProperties.getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1);
+		gridColumnFreezeIndex = Math.max(0, getColumnIndex(JRProperties.getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
 		columnWidthRatio = JRProperties.getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 	}
 
@@ -987,17 +978,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 //							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
 //						}
 //						
-						if(rowIndex < MAX_ROW_INDEX)
+						String autofilter = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
+						if("Start".equals(autofilter))
 						{
-							String autofilter = JRProperties.getProperty(element, PROPERTY_AUTO_FILTER);
-							if("Start".equals(autofilter))
-							{
-								autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
-							}
-							else if("End".equals(autofilter))
-							{
-								autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
-							}
+							autoFilterStart = getColumnName(colIndex) + (rowIndex + 1);
+						}
+						else if("End".equals(autofilter))
+						{
+							autoFilterEnd = getColumnName(colIndex) + (rowIndex + 1);
 						}
 						
 						if (element instanceof JRPrintLine)

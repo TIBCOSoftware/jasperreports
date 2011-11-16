@@ -103,12 +103,12 @@ public class XlsxSheetHelper extends BaseHelper
 			String columnName = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
 				? "A" 
 				: JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
-			write(" topLeftCell=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
+			write(" topLeftCell=\"" + columnName + (rowFreeze + 1) + "\"");
 			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
 			write(" activePane=\"" +activePane + "\" state=\"frozen\"/>\n");
 			write("<selection pane=\"" +activePane + "\"");
-			write(" activeCell=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
-			write(" sqref=\"" + columnName + Math.min(65536, rowFreeze +1) + "\"");
+			write(" activeCell=\"" + columnName + (rowFreeze + 1) + "\"");
+			write(" sqref=\"" + columnName + (rowFreeze + 1) + "\"");
 			write("/>\n");
 			write("</sheetView>\n</sheetViews>\n");
 		}
