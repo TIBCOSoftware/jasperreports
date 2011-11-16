@@ -33,8 +33,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import jxl.Cell;
@@ -64,7 +64,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
-	private Map<String, Integer> columnNames = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
 	private int recordIndex = -1;
 
@@ -253,7 +253,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 		}
 		else
 		{
-			Map<String, Integer> newColumnNames = new HashMap<String, Integer>();
+			Map<String, Integer> newColumnNames = new LinkedHashMap<String, Integer>();
 			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
 				Integer columnIndex = it.next();

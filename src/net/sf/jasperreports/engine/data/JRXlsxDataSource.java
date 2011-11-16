@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
@@ -66,7 +67,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	private int sheetIndex;
 	private DateFormat dateFormat = new SimpleDateFormat();
 	private NumberFormat numberFormat = new DecimalFormat();
-	private Map<String, Integer> columnNames = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
 	private int recordIndex = -1;
 
@@ -260,13 +261,13 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 				}
 				else
 				{
-					columnNames.put("COLUMN_"+columnIndex, Integer.valueOf(columnIndex));
+					columnNames.put("COLUMN_" + columnIndex, Integer.valueOf(columnIndex));
 				}
 			}
 		}
 		else
 		{
-			Map<String, Integer> newColumnNames = new HashMap<String, Integer>();
+			Map<String, Integer> newColumnNames = new LinkedHashMap<String, Integer>();
 			for(Iterator<Integer> it = columnNames.values().iterator(); it.hasNext();)
 			{
 				Integer columnIndex = it.next();
