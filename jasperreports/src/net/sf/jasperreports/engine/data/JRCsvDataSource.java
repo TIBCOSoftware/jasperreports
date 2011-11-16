@@ -37,7 +37,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +71,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	private NumberFormat numberFormat;
 	private char fieldDelimiter = ',';
 	private String recordDelimiter = "\n";
-	private Map<String, Integer> columnNames = new HashMap<String, Integer>();
+	private Map<String, Integer> columnNames = new LinkedHashMap<String, Integer>();
 	private boolean useFirstRowAsHeader;
 
 	private List<String> fields;
@@ -199,7 +199,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				if (useFirstRowAsHeader) 
 				{
 					parseRow();
-					this.columnNames = new HashMap<String, Integer>();
+					this.columnNames = new LinkedHashMap<String, Integer>();
 					for (int i = 0; i < fields.size(); i++) {
 						String name = fields.get(i);
 						this.columnNames.put(name, Integer.valueOf(i));
@@ -653,7 +653,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 		{
 			throw new JRRuntimeException("Cannot modify data source properties after data reading has started");
 		}
-		this.columnNames = new HashMap<String, Integer>();
+		this.columnNames = new LinkedHashMap<String, Integer>();
 		for (int i = 0; i < columnNames.length; i++)
 		{
 			this.columnNames.put(columnNames[i], Integer.valueOf(i));
