@@ -45,6 +45,9 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRVirtualizationHelper;
+import net.sf.jasperreports.engine.JRVirtualizer;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -887,6 +890,121 @@ public final class JRLoader
 		return is;
 	}
 	
+	/**
+	 * Loads a JasperPrint object from a file, optionally using a virtualizer for
+	 * the object.
+	 * 
+	 * @param fileName the file name
+	 * @param virtualizer the virtualizer
+	 * @return a JasperPrint object
+	 * @throws JRException
+	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 */
+	public static JasperPrint loadJasperPrintFromFile(String fileName, JRVirtualizer virtualizer) throws JRException
+	{
+		if (virtualizer != null)
+		{
+			JRVirtualizationHelper.setThreadVirtualizer(virtualizer);
+		}
+		try
+		{
+			return (JasperPrint) loadObjectFromFile(fileName);
+		}
+		finally
+		{
+			if (virtualizer != null)
+			{
+				JRVirtualizationHelper.clearThreadVirtualizer();
+			}
+		}
+	}
+	
+	/**
+	 * Loads a JasperPrint object from a file, optionally using a virtualizer for
+	 * the object.
+	 * 
+	 * @param file the file
+	 * @param virtualizer the virtualizer
+	 * @return a JasperPrint object
+	 * @throws JRException
+	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 */
+	public static JasperPrint loadJasperPrint(File file, JRVirtualizer virtualizer) throws JRException
+	{
+		if (virtualizer != null)
+		{
+			JRVirtualizationHelper.setThreadVirtualizer(virtualizer);
+		}
+		try
+		{
+			return (JasperPrint) loadObject(file);
+		}
+		finally
+		{
+			if (virtualizer != null)
+			{
+				JRVirtualizationHelper.clearThreadVirtualizer();
+			}
+		}
+	}
+
+	/**
+	 * Loads a JasperPrint object from a URL, optionally using a virtualizer for
+	 * the object.
+	 * 
+	 * @param url the URL
+	 * @param virtualizer the virtualizer
+	 * @return a JasperPrint object
+	 * @throws JRException
+	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 */
+	public static JasperPrint loadJasperPrint(URL url, JRVirtualizer virtualizer) throws JRException
+	{
+		if (virtualizer != null)
+		{
+			JRVirtualizationHelper.setThreadVirtualizer(virtualizer);
+		}
+		try
+		{
+			return (JasperPrint) loadObject(url);
+		}
+		finally
+		{
+			if (virtualizer != null)
+			{
+				JRVirtualizationHelper.clearThreadVirtualizer();
+			}
+		}
+	}
+	
+	/**
+	 * Loads a JasperPrint object from a stream, optionally using a virtualizer for
+	 * the object.
+	 * 
+	 * @param is the stream
+	 * @param virtualizer the virtualizer
+	 * @return a JasperPrint object
+	 * @throws JRException
+	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 */
+	public static JasperPrint loadJasperPrint(InputStream is, JRVirtualizer virtualizer) throws JRException
+	{
+		if (virtualizer != null)
+		{
+			JRVirtualizationHelper.setThreadVirtualizer(virtualizer);
+		}
+		try
+		{
+			return (JasperPrint) loadObject(is);
+		}
+		finally
+		{
+			if (virtualizer != null)
+			{
+				JRVirtualizationHelper.clearThreadVirtualizer();
+			}
+		}
+	}
 	
 	private JRLoader()
 	{
