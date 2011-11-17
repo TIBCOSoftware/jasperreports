@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
@@ -45,32 +46,46 @@ public final class RepositoryUtil
 
 	private static ThreadLocalStack localContextStack = new ThreadLocalStack();//FIXMEREPO final?
 	
-	private static List<RepositoryService> repositoryServices;//FIXMEREPO should this be lazy loaded or not? maybe thread local?
+	private static AtomicReference<List<RepositoryService>> repositoryServices = 
+			new AtomicReference<List<RepositoryService>>();//FIXMEREPO should this be lazy loaded or not? maybe thread local?
 	
 	/**
 	 * 
 	 */
 	private static List<RepositoryService> getRepositoryServices()
 	{
-		if (repositoryServices == null)
+		List<RepositoryService> services = repositoryServices.get();
+		if (services != null)
 		{
-			List<RepositoryServiceFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
-					RepositoryServiceFactory.class);
-			if (factories == null || factories.size() == 0)
+			return services;
+		}
+		
+		//FIXME we should cache this per thread class loader
+		List<RepositoryServiceFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
+				RepositoryServiceFactory.class);
+		List<RepositoryService> servicesList;
+		if (factories == null || factories.size() == 0)
+		{
+			servicesList = new ArrayList<RepositoryService>(1);
+			servicesList.add(new DefaultRepositoryService());//FIXMEREPO cache
+		}
+		else
+		{
+			servicesList = new ArrayList<RepositoryService>(factories.size());
+			for (RepositoryServiceFactory factory : factories)
 			{
-				repositoryServices = new ArrayList<RepositoryService>(1);
-				repositoryServices.add(new DefaultRepositoryService());//FIXMEREPO cache
-			}
-			else
-			{
-				repositoryServices = new ArrayList<RepositoryService>(factories.size());
-				for (RepositoryServiceFactory factory : factories)
-				{
-					repositoryServices.add(factory.getRepositoryService());
-				}
+				servicesList.add(factory.getRepositoryService());
 			}
 		}
-		return repositoryServices;
+		
+		// set if not already set
+		if (repositoryServices.compareAndSet(null, servicesList))
+		{
+			return servicesList;
+		}
+		
+		// already set in the meantime by another thread
+		return repositoryServices.get();
 	}
 	
 	
