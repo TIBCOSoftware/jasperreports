@@ -141,7 +141,8 @@ public class XlsxStyleHelper extends BaseHelper
 				+ "\" fontId=\"" + styleInfo.fontIndex
 				+ "\" fillId=\"" + (styleIndex.intValue() + 1)
 				+ "\" borderId=\"" + styleInfo.borderIndex
-				+ "\" xfId=\"" + styleIndex + "\">"
+				+ "\" xfId=\"" + styleIndex + "\""
+				+ " applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\">"
 				+ "<alignment wrapText=\"" + styleInfo.isWrapText + "\""
 				+ (styleInfo.horizontalAlign == null ? "" : " horizontal=\"" + styleInfo.horizontalAlign + "\"")
 				+ (styleInfo.verticalAlign == null ? "" : " vertical=\"" + styleInfo.verticalAlign + "\"")
@@ -184,10 +185,10 @@ public class XlsxStyleHelper extends BaseHelper
 		write("<border><left/><right/><top/><bottom/><diagonal/></border>\n");
 		bordersWriter.writeData(writer);
 		write("</borders>\n");
-		//write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/></cellStyleXfs>\n");
+		//write("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\"/></cellStyleXfs>\n");
 
 		write("<cellXfs>\n");// count=\"1\">\n");
-		write("<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/>\n");
+		write("<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\" applyAlignment=\"1\" applyProtection=\"1\" applyNumberFormat=\"1\" applyFont=\"1\" applyFill=\"1\" applyBorder=\"1\"/>\n");
 		cellXfsWriter.writeData(writer);
 		write("</cellXfs>\n");
 		
