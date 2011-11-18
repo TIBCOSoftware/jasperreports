@@ -259,11 +259,11 @@ public abstract class JRAbstractExporter implements JRExporter
 				Float floatValue = (Float)parameters.get(parameter);
 				if (floatValue == null)
 				{
-					return JRProperties.getIntegerProperty(property);
+					return JRProperties.getFloatProperty(property);
 				}
 				else
 				{
-					return floatValue.intValue();
+					return floatValue.floatValue();
 				}
 			}
 			else
