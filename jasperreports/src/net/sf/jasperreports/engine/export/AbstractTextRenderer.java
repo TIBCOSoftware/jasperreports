@@ -278,7 +278,7 @@ public abstract class AbstractTextRenderer
 			{
 				renderParagraph(allParagraphs, lastParagraphStart, lastParagraphText);
 
-				lastParagraphStart = tokenPosition;
+				lastParagraphStart = tokenPosition + (tkzer.hasMoreTokens() || tokenPosition == 0 ? 1 : 0);
 				lastParagraphText = null;
 			}
 			else
