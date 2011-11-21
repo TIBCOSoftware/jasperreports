@@ -397,7 +397,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 	    <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
        </xsl:choose>
       </xsl:attribute><span class="element"><xsl:value-of select="@name"/></span></xsl:when>
-      <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:otherwise>
+      <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select='substring-after(@ref,":")'/></xsl:attribute><span class="element"><xsl:value-of select='substring-after(@ref,":")'/></span></xsl:otherwise>
      </xsl:choose>
     </xsl:element>
     <xsl:choose><xsl:when test="@maxOccurs='unbounded' or ../@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose></td>
