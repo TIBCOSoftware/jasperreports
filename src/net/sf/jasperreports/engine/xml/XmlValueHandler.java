@@ -41,7 +41,7 @@ public interface XmlValueHandler
 	/**
 	 * Returns the namespace of the elements generated on XML export.
 	 * 
-	 * @return
+	 * @return the namespace of the elements generated on XML export
 	 */
 	XmlHandlerNamespace getNamespace();
 

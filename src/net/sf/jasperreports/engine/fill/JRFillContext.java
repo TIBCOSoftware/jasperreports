@@ -411,7 +411,7 @@ public class JRFillContext
 	 * This method is called once by each fill element, and the returned Id is used
 	 * for the generated print elements.
 	 * 
-	 * @return
+	 * @return a generated Id for a fill element
 	 * @see JRPrintElement#getSourceElementId()
 	 */
 	public int generateFillElementId() 

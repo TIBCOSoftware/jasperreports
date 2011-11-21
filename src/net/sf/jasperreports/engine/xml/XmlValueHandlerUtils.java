@@ -50,7 +50,7 @@ public class XmlValueHandlerUtils
 	/**
 	 * Returns the singleton instance.
 	 * 
-	 * @return
+	 * @return the singleton instance
 	 */
 	public static XmlValueHandlerUtils instance()
 	{
@@ -65,9 +65,9 @@ public class XmlValueHandlerUtils
 	}
 	
 	/**
-	 * Returns a list of XML value handlers.
+	 * Returns the list of XML value handlers.
 	 * 
-	 * @return
+	 * @return the list of XML value handlers
 	 */
 	public List<XmlValueHandler> getHandlers()
 	{
@@ -93,7 +93,7 @@ public class XmlValueHandlerUtils
 	 * @param exporter the exporter
 	 * @return <code>true</code> iff a handler that supports the value was found
 	 * @throws IOException
-	 * @see {@link XmlValueHandler#writeToXml(Object, JRXmlExporter)}
+	 * @see XmlValueHandler#writeToXml(Object, JRXmlExporter)
 	 */
 	public boolean writeToXml(Object value, JRXmlExporter exporter) throws IOException
 	{

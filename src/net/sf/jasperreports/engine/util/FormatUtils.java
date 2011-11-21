@@ -42,7 +42,7 @@ public class FormatUtils {
 	 * @param numberFormat
 	 * @param fieldValue
 	 * @param valueClass
-	 * @return
+	 * @return the number as parsed from the string
 	 * @throws ParseException
 	 */
 	public static Number getFormattedNumber(NumberFormat numberFormat, String fieldValue, Class<?> valueClass) throws ParseException {
@@ -92,7 +92,7 @@ public class FormatUtils {
 	 * @param dateFormat
 	 * @param fieldValue
 	 * @param valueClass
-	 * @return
+	 * @return the date as parsed from the string
 	 * @throws ParseException
 	 */
 	public static Date getFormattedDate(DateFormat dateFormat, String fieldValue, Class<?> valueClass) throws ParseException {

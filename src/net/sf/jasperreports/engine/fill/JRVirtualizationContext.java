@@ -243,7 +243,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	/**
 	 * Caches the template of an element.
 	 * 
-	 * @param template 
+	 * @param element the element whose template to cache 
 	 */
 	public void cacheTemplate(JRPrintElement element)
 	{
@@ -319,7 +319,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	/**
 	 * Returns the virtual page size used by the report.
 	 * 
-	 * @return
+	 * @return the virtual page size used by the report
 	 * @see JRVirtualPrintPage#PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE
 	 */
 	public int getPageElementSize()
@@ -330,7 +330,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	/**
 	 * Set the virtual page size used by the report.
 	 * 
-	 * @param elementPageSize
+	 * @param pageElementSize the virtual page size
 	 * @see JRVirtualPrintPage#PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE
 	 */
 	public void setPageElementSize(int pageElementSize)

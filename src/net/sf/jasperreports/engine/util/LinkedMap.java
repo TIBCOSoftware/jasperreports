@@ -127,7 +127,7 @@ public class LinkedMap<K, V>
 	/**
 	 * Determines whether the list is empty.
 	 * 
-	 * @return
+	 * @return whether the list is empty
 	 */
 	public boolean isEmpty()
 	{
@@ -137,7 +137,7 @@ public class LinkedMap<K, V>
 	/**
 	 * Removes and returns the first element in the list.
 	 * 
-	 * @return
+	 * @return the first element in the list
 	 */
 	public V pop()
 	{

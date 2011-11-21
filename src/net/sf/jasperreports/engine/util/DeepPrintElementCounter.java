@@ -45,7 +45,7 @@ public class DeepPrintElementCounter extends UniformPrintElementVisitor<AtomicIn
 	 * Calculates the deep element count of an element.
 	 * 
 	 * @param element
-	 * @return
+	 * @return the deep element count of the element
 	 */
 	public static int count(JRPrintElement element)
 	{
