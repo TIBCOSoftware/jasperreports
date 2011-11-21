@@ -42,7 +42,7 @@ public class XmlHandlerNamespace
 	 * <p>
 	 * The XML representation of the values will use this namespace.
 	 * 
-	 * @return 
+	 * @return the namespace used by the handler
 	 */
 	public String getNamespaceURI()
 	{
@@ -65,7 +65,7 @@ public class XmlHandlerNamespace
 	 * <p>
 	 * This would be listed in <code>schemaLocation</code> XML attributes.
 	 * 
-	 * @return 
+	 * @return the public location of the handler XML schema
 	 */
 	public String getPublicSchemaLocation()
 	{

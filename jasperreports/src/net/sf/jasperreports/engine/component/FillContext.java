@@ -58,7 +58,7 @@ public interface FillContext extends JRFillExpressionEvaluator
 	/**
 	 * Returns the fill element Id associated to the component element.
 	 * 
-	 * @return
+	 * @return the Id of the component fill element
 	 * @see JRPrintElement#getSourceElementId()
 	 */
 	int getElementSourceId();

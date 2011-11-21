@@ -87,7 +87,7 @@ public class JRJdbcQueryExecuterFactory implements JRQueryExecuterFactory
 	 * and fields in the report. 
 	 * </p>
 	 * 
-	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone)
+	 * @see JRResultSetDataSource#setTimeZone(java.util.TimeZone, boolean)
 	 */
 	public static final String PROPERTY_TIME_ZONE = JRProperties.PROPERTY_PREFIX + "jdbc.time.zone";
 

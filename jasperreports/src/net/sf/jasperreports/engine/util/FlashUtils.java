@@ -66,7 +66,7 @@ public class FlashUtils
 	 * 
 	 * @param context
 	 * @param element
-	 * @return
+	 * @return the value of the allowScriptAccess parameter to use for the element
 	 * @see FlashPrintElement#PROPERTY_ALLOW_SCRIPT_ACCESS
 	 */
 	public static String getAllowScriptAccess(

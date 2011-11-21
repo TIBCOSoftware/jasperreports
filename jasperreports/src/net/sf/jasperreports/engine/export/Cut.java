@@ -77,9 +77,8 @@ public class Cut
 	}
 
 	/**
-	 * Decides whether a cut is empty or not.
+	 * Decides whether this cut is empty or not.
 	 * 
-	 * @param index the cut index
 	 * @return <code>true</code> if and only if the cut is not empty
 	 */
 	public boolean isCutNotEmpty()
@@ -88,9 +87,8 @@ public class Cut
 	}
 
 	/**
-	 * Decides whether a cut is occupied by spanning cells or not.
+	 * Decides whether this cut is occupied by spanning cells or not.
 	 * 
-	 * @param index the cut index
 	 * @return <code>true</code> if and only if the cut is not empty
 	 */
 	public boolean isCutSpanned()

@@ -95,8 +95,8 @@ public abstract class BaseFillComponent implements FillComponent
 	 * This operations should be performed on {@link JRTemplateElement element templates}
 	 * in order to prevent creation of a large number of identical instances.
 	 * 
-	 * @param object
-	 * @return
+	 * @param object the object to deduplicate
+	 * @return a duplicate of the object if found, or the passed object if not
 	 */
 	protected <T extends Deduplicable> T deduplicate(T object)
 	{

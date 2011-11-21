@@ -118,7 +118,7 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 * Returns a numerical Id associated to the fill element that generated 
 	 * this print element.
 	 * 
-	 * @return
+	 * @return the Id of the fill element that generated this element
 	 */
 	public int getSourceElementId();
 	

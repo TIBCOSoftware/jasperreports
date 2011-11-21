@@ -898,7 +898,7 @@ public final class JRLoader
 	 * @param virtualizer the virtualizer
 	 * @return a JasperPrint object
 	 * @throws JRException
-	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 * @see JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)
 	 */
 	public static JasperPrint loadJasperPrintFromFile(String fileName, JRVirtualizer virtualizer) throws JRException
 	{
@@ -927,7 +927,7 @@ public final class JRLoader
 	 * @param virtualizer the virtualizer
 	 * @return a JasperPrint object
 	 * @throws JRException
-	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 * @see JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)
 	 */
 	public static JasperPrint loadJasperPrint(File file, JRVirtualizer virtualizer) throws JRException
 	{
@@ -956,7 +956,7 @@ public final class JRLoader
 	 * @param virtualizer the virtualizer
 	 * @return a JasperPrint object
 	 * @throws JRException
-	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 * @see JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)
 	 */
 	public static JasperPrint loadJasperPrint(URL url, JRVirtualizer virtualizer) throws JRException
 	{
@@ -985,7 +985,7 @@ public final class JRLoader
 	 * @param virtualizer the virtualizer
 	 * @return a JasperPrint object
 	 * @throws JRException
-	 * @see {@link JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)}
+	 * @see JRVirtualizationHelper#setThreadVirtualizer(JRVirtualizer)
 	 */
 	public static JasperPrint loadJasperPrint(InputStream is, JRVirtualizer virtualizer) throws JRException
 	{

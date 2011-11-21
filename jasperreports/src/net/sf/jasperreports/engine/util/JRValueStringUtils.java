@@ -91,7 +91,7 @@ public final class JRValueStringUtils
 	 * Determines if there's a built-in serializer for the value type.
 	 * 
 	 * @param valueClass the value type
-	 * @return
+	 * @return whether the value type is handled by a built-in serializer
 	 */
 	public static boolean hasSerializer(String valueClass)
 	{

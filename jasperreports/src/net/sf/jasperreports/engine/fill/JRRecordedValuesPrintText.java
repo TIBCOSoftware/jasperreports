@@ -42,7 +42,7 @@ public class JRRecordedValuesPrintText extends JRTemplatePrintText implements JR
 	/**
 	 * 
 	 * @param text
-	 * @deprecated provide a source Id via {@link #JRTemplatePrintText(JRTemplateText, int)}
+	 * @deprecated provide a source Id via {@link #JRRecordedValuesPrintText(JRTemplateText, int)}
 	 */
 	public JRRecordedValuesPrintText(JRTemplateText text)
 	{

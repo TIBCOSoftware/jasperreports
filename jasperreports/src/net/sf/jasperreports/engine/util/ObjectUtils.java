@@ -190,7 +190,7 @@ public class ObjectUtils
 	/**
 	 * Returns a fresh hash code creator.
 	 * 
-	 * @return
+	 * @return a fresh hash code creator
 	 */
 	public static HashCode hash()
 	{
@@ -202,7 +202,7 @@ public class ObjectUtils
 	 * 
 	 * @param o1
 	 * @param o2
-	 * @return
+	 * @return whether the two objects are the same as instances
 	 */
 	public static boolean equalsIdentity(Object o1, Object o2)
 	{
@@ -217,7 +217,7 @@ public class ObjectUtils
 	 * 
 	 * @param o1
 	 * @param o2
-	 * @return
+	 * @return whether the two objects are identical
 	 */
 	public static boolean identical(Object o1, Object o2)
 	{
@@ -234,7 +234,7 @@ public class ObjectUtils
 	 * 
 	 * @param v1
 	 * @param v2
-	 * @return
+	 * @return whether the two arrays are identical
 	 * @see #identical(Object, Object)
 	 */
 	public static boolean identical(Object[] v1, Object[] v2)
@@ -267,7 +267,7 @@ public class ObjectUtils
 	 * 
 	 * @param l1
 	 * @param l2
-	 * @return
+	 * @return whether the two lists of objects are identical
 	 * @see #identical(Object, Object)
 	 */
 	public static boolean identical(List<?> l1, List<?> l2)
@@ -303,7 +303,7 @@ public class ObjectUtils
 	 * 
 	 * @param o1
 	 * @param o2
-	 * @return
+	 * @return whether the two objects are equal
 	 */
 	public static boolean equals(Object o1, Object o2)
 	{
@@ -315,7 +315,7 @@ public class ObjectUtils
 	 * 
 	 * @param o1
 	 * @param o2
-	 * @return
+	 * @return whether the two enum values are equal
 	 */
 	public static <T extends Enum<T>> boolean equals(Enum<T> o1, Enum<T> o2)
 	{
@@ -327,7 +327,7 @@ public class ObjectUtils
 	 * 
 	 * @param b1
 	 * @param b2
-	 * @return
+	 * @return whether the two values are equal
 	 */
 	public static boolean equals(boolean b1, boolean b2)
 	{
@@ -339,7 +339,7 @@ public class ObjectUtils
 	 * 
 	 * @param i1
 	 * @param i2
-	 * @return
+	 * @return whether the two values are equal
 	 */
 	public static boolean equals(int i1, int i2)
 	{
@@ -351,7 +351,7 @@ public class ObjectUtils
 	 * 
 	 * @param p1
 	 * @param p2
-	 * @return
+	 * @return whether the two property sets are identical
 	 */
 	public static boolean equals(JRPropertiesMap p1, JRPropertiesMap p2)
 	{
