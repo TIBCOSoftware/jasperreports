@@ -389,6 +389,25 @@
 		</xslt>
 	</target>
 	
+	<target name="componentschemaref" description="Generates the Schema Reference.">
+		<mkdir dir="./dist/docs"/> 
+		<copy todir="./dist/docs">
+			<fileset dir="docs">
+				<include name="resources/*.*"/>
+			</fileset>
+		</copy>
+		<xslt basedir="src/net/sf/jasperreports/components" in="src/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
+			<param name="sf.net" expression="${sf.net}"/>
+			<param name="version" expression="${version}"/>
+			<classpath>
+				<fileset dir="./lib">
+					<include name="**/*.jar"/>
+				</fileset>
+				<pathelement location="./build/classes"/>
+			</classpath>
+		</xslt>
+	</target>
+	
 	<target name="configref" description="Generates the Configuration Reference.">
 		<mkdir dir="./dist/docs"/> 
 		<copy todir="./dist/docs">
@@ -446,6 +465,6 @@
 		</copy>
 	</target>
 	
-	<target name="docs" depends="javadoc, schemaref, configref, sampleref" description="Generates all documentation."/>
+	<target name="docs" depends="javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
 
 </project>
