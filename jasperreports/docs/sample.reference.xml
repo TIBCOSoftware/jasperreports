@@ -17,9 +17,6 @@
     <content>
       <feature name="alterdesign" sample="alterdesign" title="Altering Compiled Report Templates"/>
       <feature name="alternaterowcolor" sample="scriptlet" title="Alternate Row Colors In The Detail Section"/>
-      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)" complete="false"/>
-      <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)" complete="false"/>
-	  <feature name="barcodes" sample="barcode4j" title="Barcodes" complete="false"/>
       <feature name="charts" sample="charts" title="Charts"/>
       <feature name="chartcustomizers" sample="charts" title="Altering Charts (Chart Customizers)"/>
       <feature name="chartthemes" sample="chartthemes" title="Enhancing Charts Look and Feel (Chart Themes)"/>
@@ -33,13 +30,8 @@
       <feature name="i18n" sample="i18n" title="Internationalized Report Templates"/>
       <feature name="images" sample="images" title="Images"/>
       <feature name="groups" sample="jasper" title="Data Grouping"/>
-      <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
-      <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)" complete="false"/>
-      <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
       <feature name="landscape" sample="landscape" title="Creating Landscape Orientation Report Templates"/>
-      <feature name="list" sample="list" title="Using the Built-in List Component" complete="false"/>
       <feature name="markup" sample="markup" title="Creating Styled Text Using a Markup Language"/>
-      <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
       <feature name="rotation" sample="rotation" title="Rotated Text"/>
       <feature name="shapes" sample="shapes" title="Lines, Rectangles, Ellipses (Shapes)"/>
       <feature name="stretch" sample="stretch" title="Stretching Text Fields"/>
@@ -50,6 +42,22 @@
       <feature name="templates" sample="templates" title="Style Templates"/>
       <feature name="unicode" sample="unicode" title="Creating Reports in Any Language Using Unicode Support"/>
       <feature name="watermark" sample="hyperlink" title="Creating Watermarks and Page Backgrounds"/>
+    </content>
+  </category>
+  
+  <category>
+    <name>Components</name>
+    <content>
+      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)" complete="false"/>
+	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
+      <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
+      <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
+      <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)" complete="false"/>
+      <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
+      <feature name="list" sample="list" title="Using the Built-in List Component" complete="false"/>
+      <feature name="map" sample="map" title="Using the Built-in Map Component"/>
+      <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
+      <feature name="table" sample="table" title="Using the Built-in Table Component" complete="false"/>
     </content>
   </category>
   
