@@ -1097,6 +1097,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			
 
 			jfreeChart = fillChart.evaluateChart(evaluation);
+			//FIXME honor printWhenExpression
 			// Override the plot from the first axis with the plot for the multi-axis
 			// chart.
 			//FIXME is the above comment true? 
@@ -1131,9 +1132,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 		{			
 			JRFillChartAxis chartAxis = (JRFillChartAxis)iter.next();
 			JRFillChart fillChart = chartAxis.getFillChart();
-			Boolean b = (Boolean) evaluateExpression(fillChart.getPrintWhenExpression(), evaluation);
-			if(b==null || !b)
+
+			fillChart.evaluatePrintWhenExpression(evaluation);
+			if (!(fillChart.isPrintWhenExpressionNull() || fillChart.isPrintWhenTrue()))
+			{
 				continue;
+			}
+
 			axisNumber++;
 			JFreeChart axisChart = fillChart.evaluateChart(evaluation);
 			ChartHyperlinkProvider axisHyperlinkProvider = fillChart.getHyperlinkProvider();
