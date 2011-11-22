@@ -64,7 +64,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	private JRFillCellContents original;
 	
 	private final JRCellContents parentCell;
-	private String cellType;
+	private final String cellType;
 	
 	private JRLineBox lineBox;
 	
@@ -403,12 +403,6 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 
 	protected void setCellProperties(JRTemplatePrintFrame printCell)
 	{
-		if (cellType != null)
-		{
-			printCell.getPropertiesMap().setProperty(
-					JRCellContents.PROPERTY_TYPE, cellType);
-		}
-		
 		if (verticalSpan > 1)
 		{
 			printCell.getPropertiesMap().setProperty(
@@ -431,6 +425,8 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		{
 			template = new JRTemplateFrame(getOrigin(), 
 					filler.getJasperPrint().getDefaultStyleProvider(), this);
+			template.getPropertiesMap().setProperty(
+					JRCellContents.PROPERTY_TYPE, cellType);
 			
 			template = filler.fillContext.deduplicate(template);
 			templateFrames.put(style, template);
