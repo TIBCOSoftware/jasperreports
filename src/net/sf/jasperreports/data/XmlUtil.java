@@ -40,6 +40,7 @@ import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
+import org.exolab.castor.xml.XMLContext;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
@@ -143,7 +144,7 @@ public class XmlUtil
 		
 		try
 		{
-			Unmarshaller unmarshaller = new Unmarshaller(mapping);
+			Unmarshaller unmarshaller = new Unmarshaller(mapping);//FIXME initialization is not thread safe
 			unmarshaller.setWhitespacePreserve(true);
 			object = unmarshaller.unmarshal(new InputSource(is));
 		}
@@ -161,6 +162,25 @@ public class XmlUtil
 		}
 		
 		return object;
+	}
+	
+	public static Object read(InputStream is, XMLContext context)
+	{
+		try
+		{
+			Unmarshaller unmarshaller = context.createUnmarshaller();//FIXME initialization is not thread safe
+			unmarshaller.setWhitespacePreserve(true);
+			Object object = unmarshaller.unmarshal(new InputSource(is));
+			return object;
+		}
+		catch (MarshalException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (ValidationException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 	
