@@ -104,6 +104,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <span class="element"><xsl:element name="a">
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
+<xsl:attribute name="href">components.schema.reference.html</xsl:attribute>Components Schema Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
