@@ -118,7 +118,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <tr valign="middle">
     <td nowrap="true">
-<span class="title">JasperReports - Schema Reference (version <xsl:value-of select="$version"/>)</span>
+<span class="title">JasperReports - Components Schema Reference (version <xsl:value-of select="$version"/>)</span>
     </td>
     <td align="right">
 <img src="resources/jasperreports.png" border="0"/>
@@ -189,42 +189,38 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td colspan="5"><hr size="1"/></td>
   </tr>
   <tr>
-    <td colspan="5"><span class="name"><xsl:value-of select="@name"/>
-    <xsl:choose>
-	  <xsl:when test="../../../../@name"> (in <xsl:value-of select="../../../../@name"/>)</xsl:when>
-	  <xsl:when test="../../../@name"> (in <xsl:value-of select="../../../@name"/>)</xsl:when>
-    </xsl:choose>
-    </span>
-    </td>
+    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span></td>
   </tr>
-  <!-- 
-  <tr>
-    <td></td>
-    <td>
-<xsl:apply-templates select="deprecation"/>
-    </td>
-  </tr>
-  -->
-  <xsl:choose>
-    <xsl:when test="xsd:complexType/xsd:complexContent/xsd:extension">
-      <xsl:apply-templates select="xsd:complexType/xsd:complexContent/xsd:extension"/>
-    </xsl:when>
-    <xsl:otherwise>
-      <tr>
-        <td></td>
-        <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
-      </tr>
-      <xsl:apply-templates select="xsd:complexType/xsd:sequence"/>
-      <xsl:if test="xsd:complexType/xsd:attribute">
-      <tr>
-        <td></td>
-	    <td colspan="4"><span class="label"><br/>Attributes</span></td>
-      </tr>
-      <xsl:apply-templates select="xsd:complexType/xsd:attribute"/>
-      </xsl:if>
-    </xsl:otherwise>
-  </xsl:choose>
+   <xsl:apply-templates select="xsd:complexType"/>
+  </xsl:for-each>
   
+  <xsl:for-each select="//xsd:complexType[@name]">
+  <xsl:sort select="@name"/>
+  <tr>
+    <td colspan="5" align="right"><br/><xsl:element name="a"><xsl:attribute name="name">
+	<xsl:choose>
+	  <xsl:when test="../../../../@name"><xsl:value-of select="concat(../../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:when test="../../../@name"><xsl:value-of select="concat(../../../@name,'_', @name)"/></xsl:when>
+	  <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute></xsl:element><a href="#top" class="toc">top</a></td>
+  </tr>
+  <tr>
+    <td colspan="5"><hr size="1"/></td>
+  </tr>
+  <tr>
+    <td colspan="5"><span class="name"><xsl:value-of select="@name"/></span>
+    </td>
+  </tr>
+    <xsl:apply-templates select="xsd:complexContent"/>
+  <xsl:apply-templates select="xsd:sequence"/>
+  <xsl:if test="xsd:attribute">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Attributes</span></td>
+    </tr>
+  <xsl:apply-templates select="xsd:attribute"/>
+  </xsl:if>
   </xsl:for-each>
   <tr>
     <td colspan="5"><br/><br/></td>
@@ -244,18 +240,9 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
-<xsl:template match="xsd:complexType/xsd:complexContent/xsd:extension">
-  <xsl:if test="@base">
-    <tr>
-      <td></td>
-	  <td colspan="4"><span class="label"><br/>Extends: <xsl:value-of select='substring-after(@base,":")'/>.</span></td>
-    </tr>
-  </xsl:if>
-  <tr>
-    <td></td>
-    <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
-  </tr>
-  <xsl:apply-templates select="xsd:complexType/xsd:sequence"/>
+<xsl:template match="xsd:complexType">
+  <xsl:apply-templates select="xsd:complexContent"/>
+  <xsl:apply-templates select="xsd:sequence"/>
   <xsl:if test="xsd:attribute">
   <tr>
     <td></td>
@@ -263,11 +250,32 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <xsl:apply-templates select="xsd:attribute"/>
   </xsl:if>
-  <xsl:apply-templates/>
 </xsl:template>
 
-<xsl:template match="xsd:complexType/xsd:sequence">
+<xsl:template match="xsd:complexContent">
+  <xsl:apply-templates select="xsd:extension"/>
+</xsl:template>
+
+
+<xsl:template match="xsd:extension">
+  <xsl:if test="@base">
+    <tr>
+      <td></td>
+	  <td colspan="4"><span class="label"><br/>Parent type: </span><xsl:element name="a"><xsl:attribute name="href"><xsl:if test='starts-with(@base,"jr:")'>schema.reference.html</xsl:if>#<xsl:value-of select='substring-after(@base,":")'/></xsl:attribute><xsl:attribute name="target">_blank</xsl:attribute><span class="toc"><xsl:value-of select='substring-after(@base,":")'/></span></xsl:element>.</td>
+    </tr>
+  </xsl:if>
+  <tr>
+    <td></td>
+    <td colspan="4"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
+  </tr>
   <xsl:apply-templates select="xsd:sequence"/>
+  <xsl:if test="xsd:attribute">
+  <tr>
+    <td></td>
+	<td colspan="4"><span class="label"><br/>Attributes</span></td>
+  </tr>
+  <xsl:apply-templates select="xsd:attribute"/>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="xsd:sequence">
@@ -277,7 +285,6 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <xsl:apply-templates/>
 </xsl:template>
-
 
 <xsl:template match="xsd:annotation/xsd:documentation">
   <xsl:apply-templates/>
@@ -348,78 +355,6 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   <span class="value"><xsl:element name="dt"><xsl:value-of select="."/></xsl:element></span>
 </xsl:template>
 
-
-<xsl:template match="xsd:complexType/xsd:attribute">
-  <tr>
-    <td colspan="2"></td>
-	<td colspan="3"><br/><span class="attribute"><xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="href">#<xsl:value-of select="concat(../../@name,'_', @name)"/></xsl:attribute><xsl:attribute name="class">attribute</xsl:attribute><xsl:value-of select="@name"/></xsl:element></span></td>
-  </tr>
-  <tr>
-    <td colspan="3"></td>
-	<td colspan="2"><xsl:apply-templates select="xsd:annotation/xsd:documentation"/></td>
-  </tr>
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Type: </span><span class="description"><xsl:value-of select="@type"/></span></td>
-  </tr>
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Use: </span><span class="description"><xsl:value-of select="@use"/></span></td>
-  </tr>
-  <xsl:if test="xsd:simpleType/xsd:restriction/xsd:enumeration">
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Values </span></td>
-  </tr>
-  <tr>
-    <td colspan="4"></td>
-    <td>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <xsl:apply-templates select="xsd:simpleType/xsd:restriction/xsd:enumeration"/>
-      </table>
-	</td>
-  </tr>
-  </xsl:if>
-  <xsl:if test="@type='jr:basicEvaluationTime'">
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Values </span></td>
-  </tr>
-  <tr>
-    <td colspan="4"></td>
-    <td>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <xsl:apply-templates select="../../../xsd:simpleType[@name='basicEvaluationTime']"/>
-      </table>
-	</td>
-  </tr>
-  </xsl:if>
-  <xsl:if test="@type='jr:complexEvaluationTime'">
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Values </span></td>
-  </tr>
-  <tr>
-    <td colspan="4"></td>
-    <td>
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <xsl:apply-templates select="../../../xsd:simpleType[@name='complexEvaluationTime']"/>
-      </table>
-	</td>
-  </tr>
-  </xsl:if>
-  <xsl:if test="@default">
-  <tr>
-    <td colspan="3"></td>
-    <td colspan="2"><span class="label">Default: </span><span class="description"><xsl:value-of select="@default"/></span></td>
-  </tr>
-  </xsl:if>
-  <!--
-  <tr>
-    <td colspan="5"/>
-  </tr>
-  -->
-</xsl:template>
 
 <xsl:template match="xsd:attribute">
   <tr>
@@ -517,7 +452,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 </xsl:template>
 
 
-<xsl:template match="xsd:complexType/xsd:sequence/xsd:choice">
+<xsl:template match="xsd:choice">
   <tr>
   	<td colspan="2"></td>
     <td colspan="3">
@@ -531,7 +466,8 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 	    <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
        </xsl:choose>
       </xsl:attribute><span class="element"><xsl:value-of select="@name"/></span></xsl:when>
-      <xsl:otherwise><xsl:attribute name="href">#<xsl:value-of select="substring(@ref,4)"/></xsl:attribute><span class="element"><xsl:value-of select="substring(@ref,4)"/></span></xsl:otherwise>
+      <xsl:otherwise><xsl:attribute name="href"><xsl:if test='starts-with(@ref,"jr:")'>schema.reference.html</xsl:if>#<xsl:value-of select='substring-after(@ref,":")'/></xsl:attribute>
+        <xsl:if test='starts-with(@ref,"jr:")'><xsl:attribute name="target">_blank</xsl:attribute></xsl:if><span class="element"><xsl:value-of select='substring-after(@ref,":")'/></span></xsl:otherwise>
      </xsl:choose>
     </xsl:element>
     <xsl:choose><xsl:when test="@maxOccurs='unbounded'"><span class="description">*</span></xsl:when><xsl:when test="@maxOccurs='1' or ../@maxOccurs='1'"><span class="description">?</span></xsl:when></xsl:choose>
