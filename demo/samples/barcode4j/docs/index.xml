@@ -105,11 +105,11 @@ Shows how to render barcodes in a report, using the barcode component based on t
 <b>The Barcode4J Library</b>    
 <br/>
 <br/>
-Today barcodes are present almost everywhere: in wholesales as well as in retails, on our bills, in airports, libraries, banks, hospitals, hotels, theaters, 
-amusement parks, on the internet, and the list can continue... Due to this ubiquity, there is an increasing need of barcode components in the reporting area. 
-The more symbologies are supported, the more powerful the reporting engine becomes. To cover as many as possible situations, JR provides 2 already 
-implemented barcode components, but it also makes room for any other complementary implementation. This sample illustrates how can be used the component based on 
-the open source Barcode4J library.
+Today barcodes are present almost everywhere: in wholesales as well as in retails, on the bills, in airports, libraries, banks, hospitals, hotels, theaters, 
+amusement parks, on the internet, and the list could continue... Due to this ubiquity, there is an increasing need of barcode components in the reporting area. 
+Powerful reporting engines should now provide support for as many as possible barcode symbologies. To cover a large category of customer needs, JR comes with 2 
+built-in barcode components, and in addition, it also makes room for other complementary implementations. This sample illustrates how to use the built-in 
+component based on the open source Barcode4J library.
 <br/>
 The Barcode4J library supports the following symbologies:
 <ul>
