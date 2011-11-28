@@ -114,6 +114,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			}
 			
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_TYPE));
+			if (filterType == null)//FIXMEJIVE
+			{
+				return null;
+			}
 			
 			String filterPattern = element.getPropertiesMap().getProperty(SortElement.PROPERTY_FILTER_PATTERN);
 
