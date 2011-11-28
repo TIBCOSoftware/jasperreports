@@ -147,260 +147,28 @@ It also provides support for multiple output formats:
 <br/>
 <br/>
 Each of supported symbologies enumerated above is characterized by a specific structure of elements and attributes described 
-in the <a href="http://jasperreports.sourceforge.net/xsd/components.xsd">components.xsd</a> schema:
-<pre><![CDATA[
-<complexType name="Barcode4j">
-  <complexContent>
-    <extension base="jr:componentType">
-      <sequence>
-        <element name="codeExpression">
-          <complexType mixed="true"/>
-        </element>
-        <element name="patternExpression" minOccurs="0">
-          <complexType mixed="true"/>
-        </element>
-      </sequence>
-      <attribute name="evaluationTime" type="jr:basicEvaluationTime" use="optional" default="Now"/>
-      <attribute name="evaluationGroup" type="string" use="optional"/>
-      <attribute name="orientation" use="optional" default="0">
-        <simpleType>
-          <restriction base="int">
-            <enumeration value="0"/>
-            <enumeration value="90"/>
-            <enumeration value="180"/>
-            <enumeration value="270"/>
-          </restriction>
-        </simpleType>
-      </attribute>
-      <attribute name="moduleWidth" use="optional" type="double"/>
-      <attribute name="textPosition" use="optional">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="none"/>
-            <enumeration value="bottom"/>
-            <enumeration value="top"/>
-          </restriction>
-        </simpleType>
-      </attribute>
-      <attribute name="quietZone" use="optional" type="double"/>
-      <attribute name="verticalQuietZone" use="optional" type="double"/>
-    </extension>
-  </complexContent>
-</complexType>
-
-<simpleType name="ChecksumMode4j">
-  <restriction base="string">
-    <enumeration value="auto"/>
-    <enumeration value="ignore"/>
-    <enumeration value="add"/>
-    <enumeration value="check"/>
-  </restriction>
-</simpleType>
-
-<element name="Codabar" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="wideFactor" use="optional" type="double"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<complexType name="Barcode4JCode128">
-  <complexContent>
-    <extension base="c:Barcode4j">
-    </extension>
-  </complexContent>
-</complexType>
-
-<element name="Code128" substitutionGroup="jr:component" type="c:Barcode4JCode128">
-</element>
-
-<element name="EAN128" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4JCode128">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="DataMatrix" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="shape" use="optional">
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="force-none"/>
-              <enumeration value="force-square"/>
-              <enumeration value="force-rectangle"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="Code39" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-        <attribute name="displayChecksum" use="optional" type="boolean"/>
-        <attribute name="displayStartStop" use="optional" type="boolean"/>
-        <attribute name="extendedCharSetEnabled" use="optional" type="boolean"/>
-        <attribute name="intercharGapWidth" use="optional" type="double"/>
-        <attribute name="wideFactor" use="optional" type="double"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="Interleaved2Of5" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-        <attribute name="displayChecksum" use="optional" type="boolean"/>
-        <attribute name="wideFactor" use="optional" type="double"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="UPCA" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="UPCE" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="EAN13" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="EAN8" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<complexType name="Barcode4JFourState">
-  <complexContent>
-    <extension base="c:Barcode4j">
-      <attribute name="ascenderHeight" use="optional" type="double"/>
-      <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-      <attribute name="intercharGapWidth" use="optional" type="double"/>
-      <attribute name="trackHeight" use="optional" type="double"/>
-    </extension>
-  </complexContent>
-</complexType>
-
-<element name="RoyalMailCustomer" substitutionGroup="jr:component" type="c:Barcode4JFourState">
-</element>
-
-<element name="USPSIntelligentMail" substitutionGroup="jr:component" type="c:Barcode4JFourState">
-</element>
-
-<element name="POSTNET" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="shortBarHeight" use="optional" type="double"/>
-        <attribute name="baselinePosition" use="optional">
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="top"/>
-              <enumeration value="bottom"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="checksumMode" use="optional" type="c:ChecksumMode4j"/>
-        <attribute name="displayChecksum" use="optional" type="boolean"/>
-        <attribute name="intercharGapWidth" use="optional" type="double"/>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>
-
-<element name="PDF417" substitutionGroup="jr:component">
-  <complexType>
-    <complexContent>
-      <extension base="c:Barcode4j">
-        <attribute name="minColumns" use="optional">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <minInclusive value="1"/>
-              <maxInclusive value="30"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="maxColumns" use="optional">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <minInclusive value="1"/>
-              <maxInclusive value="30"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="minRows" use="optional">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <minInclusive value="3"/>
-              <maxInclusive value="90"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="maxRows" use="optional">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <minInclusive value="3"/>
-              <maxInclusive value="90"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-        <attribute name="widthToHeightRatio" use="optional" type="double"/>
-        <attribute name="errorCorrectionLevel" use="optional">
-          <simpleType>
-            <restriction base="unsignedInt">
-              <minInclusive value="0"/>
-              <maxInclusive value="8"/>
-            </restriction>
-          </simpleType>
-        </attribute>
-      </extension>
-    </complexContent>
-  </complexType>
-</element>]]></pre>
-As shown in above schema, each symbology extends the same basic structure named <code>Barcode4j</code>. A <code>Barcode4j</code> 
-element is characterized by the following series of elements:
+in the <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html">components.xsd</a> 
+schema. All of them are based on the same 
+<a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Barcode4j">Barcode4j</a> 
+parent element, and differences are given by their specific extracontent:
+<ul>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Codabar">Codabar</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code39">Code39</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Code128">Code128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN8">EAN8</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN13">EAN13</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#EAN128">EAN128</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#DataMatrix">DataMatrix</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Interleaved2Of5">Interleaved2Of5</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#PDF417">PDF417</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#POSTNET">POSTNET</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#RoyalMailCustomer">RoyalMailCustomer</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCA">UPCA</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCE">UPCE</a></li>
+<li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#USPSIntelligentMail">USPSIntelligentMail</a></li>
+</ul>
+The basic <a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Barcode4j">Barcode4j</a> structure 
+is characterized by the following series of elements:
 <ul>
 <li><code>codeExpression</code></li>
 <li><code>patternExpression</code></li>
