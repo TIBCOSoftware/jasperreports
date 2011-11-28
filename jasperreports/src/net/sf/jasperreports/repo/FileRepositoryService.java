@@ -40,6 +40,8 @@ import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
 import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.xml.XMLContext;
 import org.xml.sax.InputSource;
 
 
@@ -53,19 +55,50 @@ public class FileRepositoryService extends DefaultRepositoryService
 	/**
 	 * 
 	 */
-	private static final Mapping mapping = new Mapping();
-	static
+	private static volatile XMLContext xmlContext;
+	
+	XMLContext getXmlContext()
 	{
-		loadMapping(mapping, "net/sf/jasperreports/data/csv/CsvDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/ds/DataSourceDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/empty/EmptyDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/jdbc/JdbcDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/jndi/JndiDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/provider/DataSourceProviderDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/qe/QueryExecuterDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/xls/XlsDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/xml/RemoteXmlDataAdapterImpl.xml");
-		loadMapping(mapping, "net/sf/jasperreports/data/xml/XmlDataAdapterImpl.xml");
+		if (xmlContext != null)
+		{
+			return xmlContext;
+		}
+		
+		synchronized (FileRepositoryService.class)
+		{
+			// double check
+			if (xmlContext != null)
+			{
+				return xmlContext;
+			}
+			
+			XMLContext context = new XMLContext();
+
+			Mapping mapping  = context.createMapping();
+			loadMapping(mapping, "net/sf/jasperreports/data/csv/CsvDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/ds/DataSourceDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/empty/EmptyDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/jdbc/JdbcDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/jndi/JndiDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/provider/DataSourceProviderDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/qe/QueryExecuterDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/xls/XlsDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/xml/RemoteXmlDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/xml/XmlDataAdapterImpl.xml");
+			
+			try
+			{
+				context.addMapping(mapping);
+			}
+			catch (MappingException e)
+			{
+				throw new JRRuntimeException("Failed to load Castor mappings", e);
+			}
+			
+			xmlContext = context;
+		}
+		
+		return xmlContext;
 	}
 	
 	/**
@@ -213,7 +246,7 @@ public class FileRepositoryService extends DefaultRepositoryService
 			{
 				try
 				{
-					dataAdapter = (DataAdapter)XmlUtil.read(is, mapping);
+					dataAdapter = (DataAdapter)XmlUtil.read(is, getXmlContext());
 				}
 				finally
 				{
