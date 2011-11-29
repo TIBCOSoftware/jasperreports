@@ -48,7 +48,7 @@
   <category>
     <name>Components</name>
     <content>
-      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)" complete="false"/>
+      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
