@@ -57,6 +57,8 @@ public class XlsxCellHelper extends BaseHelper
 	private XlsxStyleHelper styleHelper;
 //	private XlsxBorderHelper borderHelper;
 	
+	private final TypeTextValueHandler textValueHandler = new TypeTextValueHandler();
+	
 	/**
 	 *
 	 */
@@ -106,17 +108,15 @@ public class XlsxCellHelper extends BaseHelper
 		boolean isLocked
 		) 
 	{
-		TypeTextValueHandler handler = TypeTextValueHandler.getInstance();
-		
 		try
 		{
 			if (textValue != null)
 			{
-				textValue.handle(handler);
+				textValue.handle(textValueHandler);
 			}
 			else
 			{
-				handler.handle((StringTextValue)null);
+				textValueHandler.handle((StringTextValue)null);
 			}
 		}
 		catch (JRException e)
@@ -125,7 +125,7 @@ public class XlsxCellHelper extends BaseHelper
 		}
 
 		write("  <c r=\"" + getColumIndexLetter(colIndex) + (rowIndex + 1) + "\" s=\"" + styleHelper.getCellStyle(gridCell, pattern, locale, isWrapText, isHidden, isLocked) + "\"");
-		String type = handler.getType();
+		String type = textValueHandler.getType();
 		if (type != null)
 		{
 			write(" t=\"" + type + "\"");
@@ -314,15 +314,9 @@ public class XlsxCellHelper extends BaseHelper
 
 class TypeTextValueHandler implements TextValueHandler 
 {
-	private static final TypeTextValueHandler INSTANCE = new TypeTextValueHandler();
-
 	private String type;
 	
-	private TypeTextValueHandler(){
-	}
-	
-	public static TypeTextValueHandler getInstance(){
-		return INSTANCE;
+	TypeTextValueHandler(){
 	}
 	
 	public void handle(BooleanTextValue textValue) throws JRException {
