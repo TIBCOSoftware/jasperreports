@@ -147,9 +147,9 @@ It also provides support for multiple output formats:
 <br/>
 <br/>
 Each of supported symbologies enumerated above is characterized by a specific structure of elements and attributes described 
-in the <a href="../components.schema.reference.html">components.xsd</a> 
+in the <a href="../../components.schema.reference.html">components.xsd</a> 
 schema. All of them are based on the same 
-<a href="../components.schema.reference.html#Barcode4j">Barcode4j</a> 
+<a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> 
 parent element, and differences are given by their specific extracontent:
 <ul>
 <li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#Codabar">Codabar</a></li>
@@ -167,7 +167,7 @@ parent element, and differences are given by their specific extracontent:
 <li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#UPCE">UPCE</a></li>
 <li><a href="http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/components.schema.reference.html#USPSIntelligentMail">USPSIntelligentMail</a></li>
 </ul>
-The basic <a href="../components.schema.reference.html#Barcode4j">Barcode4j</a> structure 
+The basic <a href="../../components.schema.reference.html#Barcode4j">Barcode4j</a> structure 
 is characterized by the following series of elements:
 <ul>
 <li><code>codeExpression</code></li>
