@@ -109,7 +109,6 @@
 								<enumeration value="PDF417"/>
 								<enumeration value="PostNet"/>
 								<enumeration value="RandomWeightUPCA"/>
-								<enumeration value="PDF417"/>
 								<enumeration value="SCC14ShippingCode"/>
 								<enumeration value="ShipmentIdentificationNumber"/>
 								<enumeration value="SSCC18"/>
