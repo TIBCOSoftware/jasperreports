@@ -2091,7 +2091,9 @@ It specifies whether the PDF exporter should use a <a href="http://itext.ugent.b
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+    <!--
     <deprecated>4.1.1</deprecated>
+    -->
   </configProperty>
   
   
