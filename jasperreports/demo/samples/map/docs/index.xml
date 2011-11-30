@@ -29,7 +29,7 @@ The JR built-in <code>map</code> component is based on the public
 <a href="http://code.google.com/apis/maps/documentation/javascript/reference.html">Google Maps APIs</a>. 
 It exposes some of the main characteristics necessary to generate the most common maps, but feature upgrades 
 for this component are planned for future development. The current <code>map</code> component description is found 
-in the <a href="http://jasperreports.sourceforge.net/xsd/components.xsd">components.xsd</a> schema:
+in the <a href="../../components.schema.reference.html">components.xsd</a> schema:
 <pre><![CDATA[
 <element name="map" substitutionGroup="jr:component">
   <complexType>
