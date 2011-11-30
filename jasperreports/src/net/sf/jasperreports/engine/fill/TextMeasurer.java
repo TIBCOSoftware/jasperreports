@@ -57,6 +57,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.engine.util.MaxFontSizeFinder;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 import org.apache.commons.logging.Log;
@@ -76,7 +77,7 @@ public class TextMeasurer implements JRTextMeasurer
 	//FIXME remove this after measureSimpleText() is proven to be stable
 	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRProperties.PROPERTY_PREFIX + "measure.simple.text";
 
-	private JRCommonText textElement;
+	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
 	
 	private boolean measureSimpleTexts;
@@ -85,22 +86,22 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	//private MaxFontSizeFinder maxFontSizeFinder;
+	private MaxFontSizeFinder maxFontSizeFinder;
 	
-	private int width;
+	protected int width;
 	private int height;
 	private int topPadding;
-	private int leftPadding;
+	protected int leftPadding;
 	private int bottomPadding;
-	private int rightPadding;
+	protected int rightPadding;
 	private JRParagraph jrParagraph;
 
-	//private float formatWidth;
-	private int maxHeight;
+	private float formatWidth;
+	protected int maxHeight;
 	private boolean canOverflow;
 	private Map<Attribute,Object> globalAttributes;
-	private TextMeasuredState measuredState;
-	private TextMeasuredState prevMeasuredState;
+	protected TextMeasuredState measuredState;
+	protected TextMeasuredState prevMeasuredState;
 	
 	protected static class TextMeasuredState implements JRMeasuredText, Cloneable
 	{
@@ -108,8 +109,11 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		protected int textOffset;
 		protected int lines;
+		protected int fontSizeSum;
+		protected int firstLineMaxFontSize;
 		protected int paragraphStartLine;
 		protected float textHeight;
+		protected float firstLineLeading;
 		protected boolean isLeftToRight = true;
 		protected String textSuffix;
 		
@@ -136,6 +140,20 @@ public class TextMeasurer implements JRTextMeasurer
 			return textHeight;
 		}
 		
+		public float getLineSpacingFactor()
+		{
+			if (lines > 0 && fontSizeSum > 0)
+			{
+				return textHeight / fontSizeSum;
+			}
+			return 0;
+		}
+		
+		public float getLeadingOffset()
+		{
+			return firstLineLeading - firstLineMaxFontSize * getLineSpacingFactor();
+		}
+
 		public String getTextSuffix()
 		{
 			return textSuffix;
@@ -307,10 +325,10 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 		
-		//maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
+		maxFontSizeFinder = MaxFontSizeFinder.getInstance(!JRCommonText.MARKUP_NONE.equals(textElement.getMarkup()));
 
-//		formatWidth = width - leftPadding - rightPadding;
-//		formatWidth = formatWidth < 0 ? 0 : formatWidth;
+		formatWidth = width - leftPadding - rightPadding;
+		formatWidth = formatWidth < 0 ? 0 : formatWidth;
 		maxHeight = height + availableStretchHeight - topPadding - bottomPadding;
 		maxHeight = maxHeight < 0 ? 0 : maxHeight;
 		this.canOverflow = canOverflow;
@@ -459,7 +477,7 @@ public class TextMeasurer implements JRTextMeasurer
 		
 		String text = styledText.getText();
 		if (text.length() == 0 //this should not happen but still checking
-				|| text.indexOf('\n') >= 0 || text.indexOf('\b') >= 0)
+				|| text.indexOf('\n') >= 0 || text.indexOf('\t') >= 0)
 		{
 			// we don't handle newlines and tabs here
 			return false;
@@ -582,6 +600,7 @@ public class TextMeasurer implements JRTextMeasurer
 		measuredState.isLeftToRight = isLeftToRight(text);
 		if (fitsHeight)
 		{
+			measuredState.lines = 1;
 			measuredState.textOffset = text.length();
 			measuredState.textHeight = (float) bounds.getHeight();
 		}
@@ -590,6 +609,10 @@ public class TextMeasurer implements JRTextMeasurer
 			measuredState.textOffset = 0;
 			measuredState.textHeight = 0;
 		}
+
+		measuredState.firstLineLeading = - (float)bounds.getY();
+		measuredState.fontSizeSum = size.intValue();
+		measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
 		
 		return true;
 	}
@@ -845,6 +868,7 @@ public class TextMeasurer implements JRTextMeasurer
 		return truncateSuffx;
 	}
 	
+
 	protected boolean renderNextLine(LineBreakMeasurer lineMeasurer, AttributedCharacterIterator paragraph, List<Integer> tabIndexes, int[] currentTabHolder, TabStop[] nextTabStopHolder, boolean[] requireNextWordHolder)
 	{
 		boolean lineComplete = false;
@@ -1022,22 +1046,28 @@ public class TextMeasurer implements JRTextMeasurer
 			measuredState.textHeight = newTextHeight;
 			measuredState.lines++;
 
-//			measuredState.fontSizeSum += 
-//				maxFontSizeFinder.findMaxFontSize(
-//					new AttributedString(
-//						paragraph, 
-//						lineStartPosition, 
-//						lineStartPosition + characterCount
-//						).getIterator(),
-//					textElement.getFontSize()
-//					);
+			if (
+				(tabIndexes == null || tabIndexes.size() == 0)
+				&& !hasParagraphIndents() 
+				)
+			{
+				measuredState.fontSizeSum += 
+					maxFontSizeFinder.findMaxFontSize(
+						new AttributedString(
+							paragraph, 
+							lineStartPosition, 
+							lineStartPosition + characterCount
+							).getIterator(),
+						textElement.getFontSize()
+						);
 
-//			if (measuredState.lines == 1)
-//			{
-//				measuredState.firstLineLeading = measuredState.textHeight;
-//				measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
-//			}
-
+				if (measuredState.lines == 1)
+				{
+					measuredState.firstLineLeading = measuredState.textHeight;
+					measuredState.firstLineMaxFontSize = measuredState.fontSizeSum;
+				}
+			}
+			
 			// here is the Y offset where we would draw the line
 			//lastDrawPosY = drawPosY;
 			//
