@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import java.text.AttributedString;
+
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -30,23 +33,24 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfWriter;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: PdfTextRenderer.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class PdfTextRenderer extends AbstractPdfTextRenderer
+public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 {
 	/**
 	 * 
 	 */
-	public static PdfTextRenderer getInstance()
+	public static SimplePdfTextRenderer getInstance()
 	{
 		return 
-			new PdfTextRenderer(
+			new SimplePdfTextRenderer(
 				JRProperties.getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT)
 				);
 	}
@@ -55,46 +59,50 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 	/**
 	 * 
 	 */
-	public PdfTextRenderer(boolean ignoreMissingFont)
+	public SimplePdfTextRenderer(boolean ignoreMissingFont)
 	{
 		super(ignoreMissingFont);
 	}
 	
 	
 	/**
+	 *
+	 */
+	protected Phrase getPhrase(JRStyledText styledText, JRPrintText textElement)
+	{
+		String text = styledText.getText();
+
+		AttributedString as = styledText.getAttributedString();
+
+		return pdfExporter.getPhrase(as, text, textElement);
+	}
+
+	
+	/**
 	 * 
 	 */
-	public void draw()
+	public void render()
 	{
-		TabSegment segment = segments.get(segmentIndex);
-		
-		float advance = segment.layout.getAdvance();
-		
 		ColumnText colText = new ColumnText(pdfContentByte);
 		colText.setSimpleColumn(
-			pdfExporter.getPhrase(segment.as, segment.text, text),
-			x + drawPosX + leftOffsetFactor * advance,// + leftPadding
+			getPhrase(styledText, text),
+			x + leftPadding,
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
 				- topPadding
 				- verticalAlignOffset
-				//- text.getLeadingOffset()
-				+ lineHeight
-				- drawPosY,
-			x + drawPosX  + segment.layout.getAdvance() + rightOffsetFactor * advance,// + leftPadding
+				- text.getLeadingOffset(),
+				//+ text.getLineSpacingFactor() * text.getFont().getSize(),
+			x + width - rightPadding,
 			pdfExporter.exporterContext.getExportedReport().getPageHeight()
 				- y
-				- topPadding
-				- verticalAlignOffset
-				//- text.getLeadingOffset()
-				-400//+ lineHeight//FIXMETAB
-				- drawPosY,
+				- height
+				+ bottomPadding,
 			0,//text.getLineSpacingFactor(),// * text.getFont().getSize(),
-			horizontalAlignment
+			horizontalAlignment == Element.ALIGN_JUSTIFIED_ALL ? Element.ALIGN_JUSTIFIED : horizontalAlignment
 			);
 
-		//colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
-		colText.setLeading(lineHeight);
+		colText.setLeading(0, text.getLineSpacingFactor());// * text.getFont().getSize());
 		colText.setRunDirection(
 			text.getRunDirectionValue() == RunDirectionEnum.LTR
 			? PdfWriter.RUN_DIRECTION_LTR : PdfWriter.RUN_DIRECTION_RTL
@@ -109,6 +117,13 @@ public class PdfTextRenderer extends AbstractPdfTextRenderer
 			throw new JRRuntimeException(e);
 		}
 	}
-	
 
+
+	/**
+	 * 
+	 */
+	public void draw()
+	{
+		//nothing to do
+	}
 }
