@@ -631,9 +631,20 @@ public class TextMeasurer implements JRTextMeasurer
 	
 	protected boolean hasParagraphIndents()
 	{
-		return (jrParagraph.getFirstLineIndent() != null && jrParagraph.getFirstLineIndent().intValue() > 0)
-				|| (jrParagraph.getLeftIndent() != null && jrParagraph.getLeftIndent().intValue() > 0)
-				|| (jrParagraph.getRightIndent() != null && jrParagraph.getRightIndent().intValue() > 0);
+		Integer firstLineIndent = jrParagraph.getFirstLineIndent();
+		if (firstLineIndent != null && firstLineIndent.intValue() > 0)
+		{
+			return true;
+		}
+		
+		Integer leftIndent = jrParagraph.getLeftIndent();
+		if (leftIndent != null && leftIndent.intValue() > 0)
+		{
+			return true;
+		}
+		
+		Integer rightIndent = jrParagraph.getRightIndent();
+		return rightIndent != null && rightIndent.intValue() > 0;
 	}
 
 	/**
