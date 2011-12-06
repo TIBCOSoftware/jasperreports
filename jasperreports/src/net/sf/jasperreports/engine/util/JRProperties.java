@@ -27,11 +27,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
@@ -131,9 +134,10 @@ public final class JRProperties
 	 */
 	public static final String QUERY_EXECUTER_FACTORY_PREFIX = PROPERTY_PREFIX + "query.executer.factory.";
 	
-	protected static Properties props;
+	// FIXME remove volatile after we get rid of restoreProperties()
+	protected static volatile ConcurrentHashMap<String, String> properties;
 	
-	protected static Properties savedProps;
+	protected static HashMap<String, String> savedProps;
 	
 	static
 	{
@@ -149,23 +153,33 @@ public final class JRProperties
 		{
 			Properties defaults = getDefaults();
 			String propFile = getSystemProperty(PROPERTIES_FILE);
+			Properties loadedProps;
 			if (propFile == null)
 			{
-				props = loadProperties(DEFAULT_PROPERTIES_FILE, defaults);
-				if (props == null)
+				loadedProps = loadProperties(DEFAULT_PROPERTIES_FILE, defaults);
+				if (loadedProps == null)
 				{
-					props = new Properties(defaults);
+					loadedProps = new Properties(defaults);
 				}
 			}
 			else
 			{
-				props = loadProperties(propFile, defaults);
-				if (props == null)
+				loadedProps = loadProperties(propFile, defaults);
+				if (loadedProps == null)
 				{
 					throw new JRRuntimeException("Could not load properties file \"" + propFile + "\"");
 				}
 			}
 
+			//FIXME configurable concurrency level?
+			properties = new ConcurrentHashMap<String, String>();
+			for (Enumeration<?> names = loadedProps.propertyNames(); names.hasMoreElements();)
+			{
+				String name = (String) names.nextElement();
+				String value = loadedProps.getProperty(name);
+				properties.put(name, value);
+			}
+			
 			loadSystemProperties();
 		}
 		catch (JRException e)
@@ -258,7 +272,7 @@ public final class JRProperties
 		String val = getSystemProperty(sysKey);
 		if (val != null)
 		{
-			props.setProperty(propKey, val);
+			properties.put(propKey, val);
 		}
 	}
 
@@ -322,7 +336,7 @@ public final class JRProperties
 	 */
 	public static String getProperty (String key)
 	{
-		return props.getProperty(key);
+		return properties.get(key);
 	}
 	
 	/**
@@ -333,7 +347,7 @@ public final class JRProperties
 	 */
 	public static boolean getBooleanProperty (String key)
 	{
-		return asBoolean(props.getProperty(key));
+		return asBoolean(properties.get(key));
 	}
 	
 	/**
@@ -344,7 +358,7 @@ public final class JRProperties
 	 */
 	public static int getIntegerProperty (String key)
 	{
-		return asInteger(props.getProperty(key));
+		return asInteger(properties.get(key));
 	}
 
 	/**
@@ -355,7 +369,7 @@ public final class JRProperties
 	 */
 	public static float getFloatProperty (String key)
 	{
-		return asFloat(props.getProperty(key));
+		return asFloat(properties.get(key));
 	}
 
 	/**
@@ -399,7 +413,7 @@ public final class JRProperties
 	 */
 	public static void setProperty (String key, String value)
 	{
-		props.setProperty(key, value);
+		properties.put(key, value);
 	}
 	
 	/**
@@ -410,7 +424,7 @@ public final class JRProperties
 	 */
 	public static void setProperty (String key, boolean value)
 	{
-		props.setProperty(key, String.valueOf(value));
+		properties.put(key, String.valueOf(value));
 	}
 	
 	/**
@@ -428,7 +442,7 @@ public final class JRProperties
 	 */
 	public static void removePropertyValue (String key)
 	{
-		props.remove(key);
+		properties.remove(key);
 	}
 	
 	/**
@@ -436,9 +450,10 @@ public final class JRProperties
 	 * 
 	 * @see #restoreProperties() 
 	 */
+	//FIXME implement per thread properties instead of this
 	public static void backupProperties ()
 	{
-		savedProps = (Properties) props.clone();
+		savedProps = new HashMap<String, String>(properties);
 	}
 	
 	/**
@@ -446,14 +461,15 @@ public final class JRProperties
 	 * 
 	 * @see #backupProperties() 
 	 */
+	//FIXME implement per thread properties instead of this
 	public static void restoreProperties ()
 	{
 		if (savedProps != null)
 		{
 			try
 			{
-				props.clear();
-				props.putAll(savedProps);
+				ConcurrentHashMap<String, String> newProps = new ConcurrentHashMap<String, String>(savedProps);
+				properties = newProps;
 			}
 			finally
 			{
@@ -506,13 +522,13 @@ public final class JRProperties
 	{
 		int prefixLength = prefix.length();
 		List<PropertySuffix> values = new ArrayList<PropertySuffix>();
-		for (Enumeration<String> names = (Enumeration<String>)props.propertyNames(); names.hasMoreElements();)
+		for (Map.Entry<String, String> entry : properties.entrySet())
 		{
-			String name = names.nextElement();
+			String name = entry.getKey();
 			if (name.startsWith(prefix))
 			{
 				String suffix = name.substring(prefixLength);
-				String value = props.getProperty(name);
+				String value = entry.getValue();
 				values.add(new PropertySuffix(name, suffix, value));
 			}
 		}
@@ -647,7 +663,7 @@ public final class JRProperties
 		
 		if (value == null)
 		{
-			value = props.getProperty(key);
+			value = properties.get(key);
 		}
 		
 		return value;
@@ -683,7 +699,7 @@ public final class JRProperties
 		
 		if (value == null)
 		{
-			value = props.getProperty(key);
+			value = properties.get(key);
 		}
 		
 		return value;
@@ -707,7 +723,7 @@ public final class JRProperties
 		
 		if (value == null)
 		{
-			value = props.getProperty(key);
+			value = properties.get(key);
 		}
 		
 		return value;
@@ -856,7 +872,7 @@ public final class JRProperties
 	 */
 	public static long getLongProperty (String key)
 	{
-		return asLong(props.getProperty(key));
+		return asLong(properties.get(key));
 	}
 
 	/**
@@ -971,7 +987,7 @@ public final class JRProperties
 	 */
 	public static Character getCharacterProperty(String key)
 	{
-		return asCharacter(props.getProperty(key));
+		return asCharacter(properties.get(key));
 	}
 
 	/**
