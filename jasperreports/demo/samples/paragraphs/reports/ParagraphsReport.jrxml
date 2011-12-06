@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ParagraphsReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30">
+	<style name="dede" fontName="DejaVu Sans" isDefault="true">
+		<paragraph leftIndent="35" rightIndent="20" firstLineIndent="20"/>
+	</style>
+	<title>
+		<band height="250">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="40" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="80" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="120" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="160" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="200" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="5" width="255" height="40" backcolor="#FFFF88" positionType="Float"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="300" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="340" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="380" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="420" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="460" y="0" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="500" y="0" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="300" y="5" width="255" height="40" backcolor="#FFFF88" positionType="Float"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using default tab stop width of 40 pixels. The following names are tab stop aligned to the left, while the overall text alignment is right:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="50" width="33" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="33" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="40" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="80" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="120" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="160" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="200" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="55" width="255" height="40" backcolor="#88FFFF" positionType="Float"/>
+				<textElement textAlignment="Left">
+					<paragraph lineSpacing="Proportional" lineSpacingSize="2">
+						<tabStop position="33" alignment="Center"/>
+					</paragraph>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using a custom tab stop centered at position 33. The rest of the names are tab stop aligned to the left, while the overall text alignment is also left:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="300" y="50" width="33" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="333" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="340" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="380" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="420" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="460" y="50" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="500" y="50" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="300" y="55" width="255" height="40" backcolor="#88FFFF" positionType="Float"/>
+				<textElement textAlignment="Right">
+					<paragraph lineSpacing="Fixed" lineSpacingSize="20">
+						<tabStop position="33" alignment="Center"/>
+					</paragraph>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using a custom tab stop centered at position 33. The rest of the names are tab stop aligned to the left, while the overall text alignment is right:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="40" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="80" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="120" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="160" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="200" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="105" width="255" height="40" backcolor="#88FF88" positionType="Float"/>
+				<textElement>
+					<paragraph>
+						<tabStop alignment="Right" position="40"/>
+						<tabStop alignment="Right" position="80"/>
+						<tabStop alignment="Right" position="120"/>
+						<tabStop alignment="Right" position="160"/>
+						<tabStop alignment="Right" position="200"/>
+					</paragraph>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using custom tab stops right aligned and 40 pixels apart. The overall text alignment is left:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="300" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="340" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="380" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="420" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="460" y="100" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="500" y="100" width="40" height="5" backcolor="#FFAAAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="300" y="105" width="255" height="40" backcolor="#88FF88" positionType="Float"/>
+				<textElement textAlignment="Right">
+					<paragraph>
+						<tabStop alignment="Right" position="40"/>
+						<tabStop alignment="Right" position="80"/>
+						<tabStop alignment="Right" position="120"/>
+						<tabStop alignment="Right" position="160"/>
+						<tabStop alignment="Right" position="200"/>
+					</paragraph>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Text field element using custom tab stops right aligned and 40 pixels apart. The overall text alignment is also right:\n\tpig\tchicken\tsheep\thorse\tgoat\n\tlion\tgiraffe\thippopotamus\tleopard\telephant\thyena\n\tparis\tlondon\trome\tamsterdam\toslo"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="150" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="40" y="150" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="80" y="150" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="155" width="150" height="40" backcolor="#FF88FF" positionType="Float"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="405" y="150" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="445" y="150" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="485" y="150" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="405" y="155" width="150" height="40" backcolor="#FF88FF" positionType="Float"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\n\tB\t\tB2\tB3 thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="200" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="40" y="200" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="80" y="200" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="0" y="205" width="150" height="40" backcolor="#FF88FF" positionType="Float"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Opaque" x="405" y="200" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="445" y="200" width="40" height="5" backcolor="#AAFFAA" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="485" y="200" width="40" height="5" backcolor="#AAAAFF" positionType="Float"/>
+				<graphicElement>
+					<pen lineWidth="0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="405" y="205" width="150" height="40" backcolor="#FF88FF" positionType="Float"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["A\n\tB\t\tB2\tB3_thisisalongwordnotfittinginoneline\n\t\tC\tC2\nD\tD2\tD3"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

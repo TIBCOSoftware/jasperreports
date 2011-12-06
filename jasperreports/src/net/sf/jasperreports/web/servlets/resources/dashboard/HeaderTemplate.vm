@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset='UTF-8'"/>
+	<style type="text/css">
+		a {text-decoration: none}
+	</style>
+    #if(!${isAjax})
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-1.6.4.min.js'></script>
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>
+    	<script type='text/javascript' src='${globaljs}'></script>
+		<script type='text/javascript'>
+    		JasperReports.modules.global.APPLICATION_CONTEXT_PATH = '${contextPath}';
+    	</script>    
+    #end
+	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
+   	<link type='text/css' rel='stylesheet' href='${globalcss}'></link>
+</head>
+<body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#FFFFFF">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr><td width="100%" align="left" style="border-style: solid; border-width: 0px; border-color: #FFFFFF; background-color: #FFFFFF;">

@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT jasperReport (property*, import*, template*, reportFont*, style*, subDataset*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*, background?, title?, pageHeader?, columnHeader?, detail?, columnFooter?, pageFooter?, lastPageFooter?, summary?, noData?)>
+<!ATTLIST jasperReport
+	name CDATA #REQUIRED
+	language CDATA "java"
+	columnCount NMTOKEN "1"
+	printOrder (Vertical | Horizontal) "Vertical"
+	pageWidth NMTOKEN "595"
+	pageHeight NMTOKEN "842"
+	orientation (Portrait | Landscape) "Portrait"
+	whenNoDataType (NoPages | BlankPage | AllSectionsNoDetail | NoDataSection) "NoPages"
+	columnWidth NMTOKEN "555"
+	columnSpacing NMTOKEN "0"
+	leftMargin NMTOKEN "20"
+	rightMargin NMTOKEN "20"
+	topMargin NMTOKEN "30"
+	bottomMargin NMTOKEN "30"
+	isTitleNewPage (true | false) "false"
+	isSummaryNewPage (true | false) "false"
+	isFloatColumnFooter (true | false) "false"
+	scriptletClass CDATA #IMPLIED
+	resourceBundle CDATA #IMPLIED
+	whenResourceMissingType (Null | Empty | Key | Error) "Null"
+	isIgnorePagination (true | false) "false"
+	formatFactoryClass CDATA #IMPLIED
+>
+
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+>
+
+<!ELEMENT propertyExpression (#PCDATA)>
+<!ATTLIST propertyExpression
+	name CDATA #REQUIRED
+>
+
+<!ELEMENT import EMPTY>
+<!ATTLIST import
+	value CDATA #REQUIRED
+>
+
+<!ELEMENT template (#PCDATA)>
+<!ATTLIST template
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JRTemplate) "java.lang.String"
+>
+
+<!ELEMENT reportFont EMPTY>
+<!ATTLIST reportFont
+	name CDATA #REQUIRED
+	isDefault (true | false) "false"
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+
+<!ELEMENT style (pen?, box?, conditionalStyle*)>
+<!ATTLIST style
+	name CDATA #IMPLIED
+	isDefault (true | false) "false"
+	style CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) #IMPLIED
+	radius NMTOKEN #IMPLIED
+	scaleImage (Clip | FillFrame | RetainShape | RealHeight | RealSize) #IMPLIED
+	hAlign (Left | Center | Right | Justified) #IMPLIED
+	vAlign (Top | Middle | Bottom) #IMPLIED
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
+	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
+	isStyledText (true | false) #IMPLIED
+	markup CDATA #IMPLIED
+	fontName CDATA #IMPLIED
+	fontSize NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+	pattern CDATA #IMPLIED
+	isBlankWhenNull (true | false) #IMPLIED
+>
+
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+
+<!ELEMENT conditionalStyle (conditionExpression?, style)>
+
+<!ELEMENT conditionExpression (#PCDATA)>
+
+<!ELEMENT subDataset (property*, parameter*, queryString?, field*, sortField*, variable*, filterExpression?, group*)>
+<!ATTLIST subDataset
+	name CDATA #REQUIRED
+	scriptletClass CDATA #IMPLIED
+	resourceBundle CDATA #IMPLIED
+	whenResourceMissingType (Null | Empty | Key | Error) "Null"
+>
+
+<!ELEMENT parameter (property*, parameterDescription?, defaultValueExpression?)>
+<!ATTLIST parameter
+	name CDATA #REQUIRED
+	class CDATA "java.lang.String"
+	isForPrompting (true | false) "true"
+>
+<!ELEMENT parameterDescription (#PCDATA)>
+<!ELEMENT defaultValueExpression (#PCDATA)>
+
+<!ELEMENT queryString (#PCDATA)>
+<!ATTLIST queryString
+	language CDATA "sql"
+>
+
+<!ELEMENT field (property*, fieldDescription?)>
+<!ATTLIST field
+	name CDATA #REQUIRED
+	class CDATA "java.lang.String"
+>
+<!ELEMENT fieldDescription (#PCDATA)>
+
+<!ELEMENT sortField EMPTY>
+<!ATTLIST sortField
+	name CDATA #REQUIRED
+	order (Ascending | Descending) "Ascending"
+>
+
+<!ELEMENT variable (variableExpression?, initialValueExpression?)>
+<!ATTLIST variable
+	name CDATA #REQUIRED
+	class CDATA "java.lang.String"
+	resetType (None | Report | Page | Column | Group) "Report"
+	resetGroup CDATA #IMPLIED
+	incrementType (None | Report | Page | Column | Group) "None"
+	incrementGroup CDATA #IMPLIED
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | System | First) "Nothing"
+	incrementerFactoryClass CDATA #IMPLIED
+>
+<!ELEMENT variableExpression (#PCDATA)>
+<!ELEMENT initialValueExpression (#PCDATA)>
+
+<!ELEMENT filterExpression (#PCDATA)>
+
+<!ELEMENT group (groupExpression?, groupHeader?, groupFooter?)>
+<!ATTLIST group
+	name CDATA #REQUIRED
+	isStartNewColumn (true | false) "false"
+	isStartNewPage (true | false) "false"
+	isResetPageNumber (true | false) "false"
+	isReprintHeaderOnEachPage (true | false) "false"
+	minHeightToStartNewPage NMTOKEN "0"
+>
+<!ELEMENT groupExpression (#PCDATA)>
+<!ELEMENT groupHeader (band?)>
+<!ELEMENT groupFooter (band?)>
+
+<!ELEMENT background (band?)>
+<!ELEMENT title (band?)>
+<!ELEMENT pageHeader (band?)>
+<!ELEMENT columnHeader (band?)>
+<!ELEMENT detail (band?)>
+<!ELEMENT columnFooter (band?)>
+<!ELEMENT pageFooter (band?)>
+<!ELEMENT lastPageFooter (band?)>
+<!ELEMENT summary (band?)>
+<!ELEMENT noData (band?)>
+
+<!ELEMENT band (printWhenExpression?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | ganttChart | elementGroup | crosstab | frame)*)>
+<!ATTLIST band
+	height NMTOKEN "0"
+	isSplitAllowed (true | false) "true"
+>
+
+<!ELEMENT break (reportElement)>
+<!ATTLIST break
+	type (Page | Column) "Page"
+>
+
+<!ELEMENT line (reportElement, graphicElement?)>
+<!ATTLIST line
+	direction (TopDown | BottomUp) "TopDown"
+>
+
+<!ELEMENT reportElement (property*, propertyExpression*, printWhenExpression?)>
+<!ATTLIST reportElement
+	key CDATA #IMPLIED
+	style CDATA #IMPLIED
+	positionType (Float | FixRelativeToTop | FixRelativeToBottom) "FixRelativeToTop"
+	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) "NoStretch"
+	isPrintRepeatedValues (true | false) "true"
+	mode (Opaque | Transparent) #IMPLIED
+	x NMTOKEN #REQUIRED
+	y NMTOKEN #REQUIRED
+	width NMTOKEN #REQUIRED
+	height NMTOKEN #REQUIRED
+	isRemoveLineWhenBlank (true | false) "false"
+	isPrintInFirstWholeBand (true | false) "false"
+	isPrintWhenDetailOverflows (true | false) "false"
+	printWhenGroupChanges CDATA #IMPLIED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+>
+<!ELEMENT printWhenExpression (#PCDATA)>
+
+<!ELEMENT graphicElement (pen?)>
+<!ATTLIST graphicElement
+	stretchType (NoStretch | RelativeToTallestObject | RelativeToBandHeight) #IMPLIED
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) #IMPLIED
+>
+
+<!ELEMENT rectangle (reportElement, graphicElement?)>
+<!ATTLIST rectangle
+	radius NMTOKEN #IMPLIED
+>
+
+<!ELEMENT ellipse (reportElement, graphicElement?)>
+
+<!ELEMENT image (reportElement, box?, graphicElement?, imageExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST image
+	scaleImage (Clip | FillFrame | RetainShape | RealHeight | RealSize) #IMPLIED
+	hAlign (Left | Center | Right) #IMPLIED
+	vAlign (Top | Middle | Bottom) #IMPLIED
+	isUsingCache (true | false) #IMPLIED
+	isLazy (true | false) "false"
+	onErrorType (Error | Blank | Icon) "Error"
+	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
+	evaluationGroup CDATA #IMPLIED
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+	bookmarkLevel NMTOKEN "0"
+>
+<!ELEMENT imageExpression (#PCDATA)>
+<!ATTLIST imageExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | java.awt.Image | net.sf.jasperreports.engine.JRRenderable) "java.lang.String"
+>
+
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
+<!ATTLIST box
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
+
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+
+<!ELEMENT anchorNameExpression (#PCDATA)>
+<!ELEMENT hyperlinkReferenceExpression (#PCDATA)>
+<!ELEMENT hyperlinkAnchorExpression (#PCDATA)>
+<!ELEMENT hyperlinkPageExpression (#PCDATA)>
+<!ELEMENT hyperlinkTooltipExpression (#PCDATA)>
+
+<!ELEMENT hyperlinkParameter (hyperlinkParameterExpression)>
+<!ATTLIST hyperlinkParameter
+	name CDATA #REQUIRED
+>
+
+<!ELEMENT hyperlinkParameterExpression (#PCDATA)>
+<!ATTLIST hyperlinkParameterExpression
+	class CDATA "java.lang.String"
+>
+
+
+<!ELEMENT staticText (reportElement, box?, textElement?, text?)>
+<!ELEMENT text (#PCDATA)>
+
+<!ELEMENT textElement (font?)>
+<!ATTLIST textElement
+	textAlignment (Left | Center | Right | Justified) #IMPLIED
+	verticalAlignment (Top | Middle | Bottom) #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
+	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
+	isStyledText (true | false) #IMPLIED
+	markup CDATA #IMPLIED
+>
+
+<!ELEMENT font EMPTY>
+<!ATTLIST font
+	reportFont CDATA #IMPLIED
+	fontName CDATA #IMPLIED
+	size NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+>
+
+<!ELEMENT textField (reportElement, box?, textElement?, textFieldExpression?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST textField
+	isStretchWithOverflow (true | false) "false"
+	evaluationTime (Now | Report | Page | Column | Group | Band | Auto) "Now"
+	evaluationGroup CDATA #IMPLIED
+	pattern CDATA #IMPLIED
+	isBlankWhenNull (true | false) #IMPLIED
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+	bookmarkLevel NMTOKEN "0"
+>
+<!ELEMENT textFieldExpression (#PCDATA)>
+<!ATTLIST textFieldExpression
+	class (java.lang.Boolean | java.lang.Byte | java.util.Date | java.sql.Timestamp | java.sql.Time | java.lang.Double | java.lang.Float | java.lang.Integer | java.lang.Long | java.lang.Short | java.math.BigDecimal | java.lang.Number | java.lang.String) "java.lang.String"
+>
+
+<!ELEMENT subreport (reportElement, parametersMapExpression?, subreportParameter*, (connectionExpression | dataSourceExpression)?, returnValue*, subreportExpression?)>
+<!ATTLIST subreport
+	isUsingCache (true | false) #IMPLIED
+>
+<!ELEMENT parametersMapExpression (#PCDATA)>
+<!ELEMENT subreportParameter (subreportParameterExpression?)>
+<!ATTLIST subreportParameter
+	name CDATA #REQUIRED
+>
+<!ELEMENT subreportParameterExpression (#PCDATA)>
+
+<!ELEMENT returnValue EMPTY>
+<!ATTLIST returnValue
+	subreportVariable CDATA #IMPLIED
+	toVariable CDATA #IMPLIED
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
+	incrementerFactoryClass CDATA #IMPLIED
+>
+
+<!ELEMENT connectionExpression (#PCDATA)>
+<!ELEMENT dataSourceExpression (#PCDATA)>
+<!ELEMENT subreportExpression (#PCDATA)>
+<!ATTLIST subreportExpression
+	class (java.lang.String | java.io.File | java.net.URL | java.io.InputStream | net.sf.jasperreports.engine.JasperReport | dori.jasper.engine.JasperReport) "java.lang.String"
+>
+
+<!ELEMENT elementGroup (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | ganttChart | elementGroup | crosstab | frame)*>
+
+<!ELEMENT chart (reportElement, box?, chartTitle?, chartSubtitle?, chartLegend?, anchorNameExpression?, hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST chart
+	isShowLegend (true | false) #IMPLIED
+	evaluationTime (Now | Report | Page | Column | Group | Band) "Now"
+	evaluationGroup CDATA #IMPLIED
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+	bookmarkLevel NMTOKEN "0"
+	customizerClass CDATA #IMPLIED
+	renderType CDATA #IMPLIED
+>
+<!ELEMENT chartTitle (font?, titleExpression?)>
+<!ATTLIST chartTitle
+	position (Top | Bottom | Left | Right) #IMPLIED
+	color CDATA #IMPLIED
+>
+<!ELEMENT titleExpression (#PCDATA)>
+<!ELEMENT chartSubtitle (font?, subtitleExpression?)>
+<!ATTLIST chartSubtitle
+	color CDATA #IMPLIED
+>
+<!ELEMENT subtitleExpression (#PCDATA)>
+<!ELEMENT chartLegend (font?)>
+<!ATTLIST chartLegend
+	textColor CDATA #IMPLIED
+	backgroundColor CDATA #IMPLIED
+	position (Top | Bottom | Left | Right) #IMPLIED
+>
+
+<!ELEMENT pieChart (chart, pieDataset, piePlot)>
+<!ELEMENT pieDataset (dataset?, keyExpression?, valueExpression?, labelExpression?, sectionHyperlink?)>
+<!ELEMENT keyExpression (#PCDATA)>
+<!ELEMENT valueExpression (#PCDATA)>
+<!ELEMENT labelExpression (#PCDATA)>
+
+<!ELEMENT sectionHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST sectionHyperlink
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+>
+
+<!ELEMENT piePlot (plot)>
+<!ATTLIST piePlot
+	isCircular (true | false) #IMPLIED
+>
+
+<!ELEMENT dataset (incrementWhenExpression?, datasetRun?)>
+<!ATTLIST dataset
+	resetType (None | Report | Page | Column | Group) "Report"
+	resetGroup CDATA #IMPLIED
+	incrementType (None | Report | Page | Column | Group) "None"
+	incrementGroup CDATA #IMPLIED
+>
+
+<!ELEMENT incrementWhenExpression (#PCDATA)>
+
+<!ELEMENT datasetRun (parametersMapExpression?, datasetParameter*, (connectionExpression | dataSourceExpression)?)>
+<!ATTLIST datasetRun
+	subDataset CDATA #REQUIRED
+>
+
+<!ELEMENT datasetParameter (datasetParameterExpression?)>
+<!ATTLIST datasetParameter
+	name CDATA #REQUIRED
+>
+
+<!ELEMENT datasetParameterExpression (#PCDATA)>
+
+<!ELEMENT plot (seriesColor*) >
+<!ATTLIST plot
+	backcolor CDATA #IMPLIED
+	orientation (Horizontal | Vertical) #IMPLIED
+	backgroundAlpha NMTOKEN #IMPLIED
+	foregroundAlpha NMTOKEN #IMPLIED
+	labelRotation CDATA #IMPLIED
+>
+
+<!ELEMENT seriesColor EMPTY>
+<!ATTLIST seriesColor
+	seriesOrder CDATA #REQUIRED
+	color CDATA #REQUIRED
+>
+
+<!ELEMENT pie3DChart (chart, pieDataset, pie3DPlot)>
+<!ELEMENT pie3DPlot (plot)>
+<!ATTLIST pie3DPlot
+	depthFactor CDATA  #IMPLIED
+	isCircular (true | false) #IMPLIED
+>
+
+<!ELEMENT barChart (chart, categoryDataset, barPlot)>
+<!ELEMENT categoryDataset (dataset?, categorySeries*)>
+<!ELEMENT categorySeries (seriesExpression?, categoryExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
+<!ELEMENT seriesExpression (#PCDATA)>
+<!ELEMENT categoryExpression (#PCDATA)>
+
+<!ELEMENT itemHyperlink (hyperlinkReferenceExpression?, hyperlinkAnchorExpression?, hyperlinkPageExpression?, hyperlinkTooltipExpression?, hyperlinkParameter*)>
+<!ATTLIST itemHyperlink
+	hyperlinkType CDATA #IMPLIED
+	hyperlinkTarget CDATA #IMPLIED
+>
+
+<!ELEMENT barPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST barPlot
+	isShowLabels (true | false ) #IMPLIED
+	isShowTickMarks (true | false) #IMPLIED
+	isShowTickLabels (true | false) #IMPLIED
+>
+<!ELEMENT categoryAxisLabelExpression (#PCDATA)>
+<!ELEMENT valueAxisLabelExpression (#PCDATA)>
+<!ELEMENT categoryAxisFormat (axisFormat)>
+<!ELEMENT valueAxisFormat (axisFormat)>
+
+<!ELEMENT axisFormat (labelFont?, tickLabelFont?)>
+<!ATTLIST axisFormat
+	labelColor CDATA #IMPLIED
+	tickLabelColor CDATA #IMPLIED
+	tickLabelMask CDATA #IMPLIED
+	axisLineColor CDATA #IMPLIED
+>
+<!ELEMENT labelFont (font?)>
+<!ELEMENT tickLabelFont (font?)>
+
+<!ELEMENT bar3DChart (chart, categoryDataset, bar3DPlot)>
+<!ELEMENT bar3DPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST bar3DPlot
+	isShowLabels (true | false ) #IMPLIED
+	xOffset CDATA #IMPLIED
+	yOffset CDATA #IMPLIED
+>
+
+<!ELEMENT xyBarChart (chart, (timePeriodDataset | timeSeriesDataset | xyDataset ), barPlot)>
+
+<!ELEMENT timePeriodDataset (dataset?, timePeriodSeries*)>
+<!ELEMENT timePeriodSeries (seriesExpression?, startDateExpression?, endDateExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
+<!ELEMENT startDateExpression (#PCDATA)>
+<!ELEMENT endDateExpression (#PCDATA)>
+
+<!ELEMENT stackedBarChart (chart, categoryDataset, barPlot)>
+<!ELEMENT stackedAreaChart (chart, categoryDataset, areaPlot)>
+
+<!ELEMENT stackedBar3DChart (chart, categoryDataset, bar3DPlot)>
+
+<!ELEMENT lineChart (chart, categoryDataset, linePlot)>
+<!ELEMENT linePlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST linePlot
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
+>
+
+<!ELEMENT xyLineChart (chart, xyDataset, linePlot)>
+<!ELEMENT xyDataset (dataset?, xySeries*)>
+<!ELEMENT xySeries (seriesExpression?, xValueExpression?, yValueExpression?, labelExpression?, itemHyperlink?)>
+<!ELEMENT xValueExpression (#PCDATA)>
+<!ELEMENT yValueExpression (#PCDATA)>
+
+<!ELEMENT areaChart (chart, categoryDataset, areaPlot)>
+<!ELEMENT areaPlot (plot, categoryAxisLabelExpression?, categoryAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+
+<!ELEMENT xyAreaChart (chart, xyDataset, areaPlot)>
+
+<!ELEMENT scatterChart (chart, xyDataset, scatterPlot)>
+<!ELEMENT scatterPlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
+<!ATTLIST scatterPlot
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
+>
+<!ELEMENT xAxisLabelExpression (#PCDATA)>
+<!ELEMENT yAxisLabelExpression (#PCDATA)>
+<!ELEMENT xAxisFormat (axisFormat)>
+<!ELEMENT yAxisFormat (axisFormat)>
+
+<!ELEMENT bubbleChart (chart, xyzDataset, bubblePlot)>
+<!ELEMENT xyzDataset (dataset?, xyzSeries*)>
+<!ELEMENT xyzSeries (seriesExpression?, xValueExpression?, yValueExpression?, zValueExpression?, itemHyperlink?)>
+<!ELEMENT bubblePlot (plot, xAxisLabelExpression?, xAxisFormat?, yAxisLabelExpression?, yAxisFormat?)>
+<!ATTLIST bubblePlot
+	scaleType (BothAxes | DomainAxis | RangeAxis) #IMPLIED
+>
+<!ELEMENT zValueExpression (#PCDATA)>
+
+<!ELEMENT timeSeriesDataset (dataset?, timeSeries*)>
+<!ATTLIST timeSeriesDataset
+	timePeriod (Year | Quarter | Month | Week | Day | Hour | Minute | Second | Milisecond ) "Day"
+>
+<!ELEMENT timeSeries (seriesExpression?, timePeriodExpression?, valueExpression?, labelExpression?, itemHyperlink?)>
+<!ELEMENT timePeriodExpression (#PCDATA)>
+
+<!ELEMENT timeSeriesChart (chart, timeSeriesDataset, timeSeriesPlot)>
+<!ELEMENT timeSeriesPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST timeSeriesPlot
+	isShowLines (true | false) #IMPLIED
+	isShowShapes (true | false) #IMPLIED
+>
+<!ELEMENT timeAxisLabelExpression (#PCDATA)>
+<!ELEMENT timeAxisFormat (axisFormat)>
+
+<!ELEMENT highLowChart (chart, highLowDataset, highLowPlot)>
+<!ELEMENT highLowDataset (dataset?, seriesExpression?, dateExpression?, highExpression?, lowExpression?, openExpression?, closeExpression?, volumeExpression?, itemHyperlink?)>
+<!ELEMENT highLowPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST highLowPlot
+	isShowCloseTicks (true | false) #IMPLIED
+	isShowOpenTicks (true | false) #IMPLIED
+>
+<!ELEMENT dateExpression (#PCDATA)>
+<!ELEMENT highExpression (#PCDATA)>
+<!ELEMENT lowExpression (#PCDATA)>
+<!ELEMENT openExpression (#PCDATA)>
+<!ELEMENT closeExpression (#PCDATA)>
+<!ELEMENT volumeExpression (#PCDATA)>
+
+<!ELEMENT candlestickChart (chart, highLowDataset, candlestickPlot)>
+<!ELEMENT candlestickPlot (plot, timeAxisLabelExpression?, timeAxisFormat?, valueAxisLabelExpression?, valueAxisFormat?)>
+<!ATTLIST candlestickPlot
+	isShowVolume (true | false) #IMPLIED
+>
+
+<!ELEMENT meterChart (chart, valueDataset, meterPlot)>
+<!ELEMENT valueDataset (dataset?, valueExpression )>
+<!ELEMENT meterPlot (plot, valueDisplay?, dataRange, meterInterval*)>
+<!ATTLIST meterPlot
+	shape (chord | circle | pie) #IMPLIED
+	angle CDATA #IMPLIED
+	units CDATA #IMPLIED
+	tickInterval CDATA #IMPLIED
+	meterColor CDATA #IMPLIED
+	needleColor CDATA #IMPLIED
+	tickColor CDATA #IMPLIED
+>
+
+<!ELEMENT valueDisplay (font?)>
+<!ATTLIST valueDisplay
+	color CDATA #IMPLIED
+	mask CDATA #IMPLIED
+>
+
+<!ELEMENT dataRange (lowExpression, highExpression)>
+
+<!ELEMENT meterInterval (dataRange)>
+<!ATTLIST meterInterval
+	label CDATA #IMPLIED
+	color CDATA #IMPLIED
+	alpha CDATA #IMPLIED
+>
+
+<!ELEMENT thermometerChart (chart, valueDataset, thermometerPlot)>
+<!ELEMENT thermometerPlot (plot, valueDisplay?, dataRange, lowRange?, mediumRange?, highRange?)>
+<!ATTLIST thermometerPlot
+	valueLocation ( none | left | right | bulb ) "bulb"
+	isShowValueLines ( true | false) "false"
+	mercuryColor CDATA #IMPLIED
+>
+
+<!ELEMENT lowRange (dataRange)>
+<!ELEMENT mediumRange (dataRange)>
+<!ELEMENT highRange (dataRange)>
+
+
+<!ELEMENT multiAxisChart (chart, multiAxisPlot)>
+<!ELEMENT multiAxisPlot (plot, axis+)>
+<!ELEMENT axis (barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | stackedAreaChart | ganttChart)>
+<!ATTLIST axis
+	position (leftOrTop | rightOrBottom) #IMPLIED
+>
+
+<!ELEMENT ganttChart (chart, ganttDataset, barPlot)>
+<!ELEMENT ganttDataset (dataset?, ganttSeries*)>
+<!ELEMENT ganttSeries (seriesExpression?, taskExpression, subtaskExpression, startDateExpression?, endDateExpression?, percentExpression?)>
+<!ELEMENT taskExpression (#PCDATA)>
+<!ELEMENT subtaskExpression (#PCDATA)>
+<!ELEMENT percentExpression (#PCDATA)>
+
+<!ELEMENT crosstab (reportElement, crosstabParameter*, parametersMapExpression?, crosstabDataset?, crosstabHeaderCell?, rowGroup*, columnGroup*, measure*, crosstabCell*, whenNoDataCell?)>
+<!ATTLIST crosstab
+	isRepeatColumnHeaders (true | false) "true"
+	isRepeatRowHeaders (true | false) "true"
+	columnBreakOffset NMTOKEN "10"
+	runDirection (LTR | RTL) "LTR"
+>
+
+<!ELEMENT crosstabParameter (parameterValueExpression?)>
+<!ATTLIST crosstabParameter
+	name CDATA #REQUIRED
+	class CDATA "java.lang.String"
+>
+
+<!ELEMENT parameterValueExpression (#PCDATA)>
+
+<!ELEMENT crosstabDataset (dataset?)>
+<!ATTLIST crosstabDataset
+	isDataPreSorted (true | false) "false"
+>
+
+<!ELEMENT crosstabHeaderCell (cellContents)>
+
+<!ELEMENT rowGroup (bucket, crosstabRowHeader?, crosstabTotalRowHeader?)>
+<!ATTLIST rowGroup
+	name CDATA #REQUIRED
+	width NMTOKEN #REQUIRED
+	totalPosition (Start | End | None) "None"
+	headerPosition (Top | Middle | Bottom | Stretch) "Top"
+>
+
+<!ELEMENT crosstabRowHeader (cellContents?)>
+
+<!ELEMENT crosstabTotalRowHeader (cellContents?)>
+
+<!ELEMENT columnGroup (bucket, crosstabColumnHeader?, crosstabTotalColumnHeader?)>
+<!ATTLIST columnGroup
+	name CDATA #REQUIRED
+	height NMTOKEN #REQUIRED
+	totalPosition (Start | End | None) "None"
+	headerPosition (Left | Center | Right | Stretch) "Left"
+>
+
+<!ELEMENT crosstabColumnHeader (cellContents?)>
+
+<!ELEMENT crosstabTotalColumnHeader (cellContents?)>
+
+<!ELEMENT bucket (bucketExpression?, comparatorExpression?)>
+<!ATTLIST bucket
+	order (Ascending | Descending) "Ascending"
+>
+
+<!ELEMENT bucketExpression (#PCDATA)>
+<!ATTLIST bucketExpression
+	class CDATA #REQUIRED
+>
+
+<!ELEMENT comparatorExpression (#PCDATA)>
+
+<!ELEMENT measure (measureExpression?)>
+<!ATTLIST measure
+	name CDATA #REQUIRED
+	class CDATA #IMPLIED
+	calculation (Nothing | Count | DistinctCount | Sum | Average | Lowest | Highest | StandardDeviation | Variance | First) "Nothing"
+	incrementerFactoryClass CDATA #IMPLIED
+	percentageOf (None | GrandTotal) "None"
+	percentageCalculatorClass CDATA #IMPLIED
+>
+
+<!ELEMENT measureExpression (#PCDATA)>
+
+<!ELEMENT crosstabCell (cellContents?)>
+<!ATTLIST crosstabCell
+	width NMTOKEN #IMPLIED
+	height NMTOKEN #IMPLIED
+	rowTotalGroup CDATA #IMPLIED
+	columnTotalGroup CDATA #IMPLIED
+>
+
+<!ELEMENT cellContents (box?, (line | rectangle | ellipse | image | staticText | textField | elementGroup | frame)*)>
+<!ATTLIST cellContents
+	backcolor CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	style CDATA #IMPLIED
+>
+
+<!ELEMENT whenNoDataCell (cellContents)>
+
+<!ELEMENT frame (reportElement, box?, (break | line | rectangle | ellipse | image | staticText | textField | subreport | pieChart | pie3DChart | barChart | bar3DChart | xyBarChart | stackedBarChart | stackedBar3DChart| lineChart | xyLineChart | areaChart | xyAreaChart | scatterChart | bubbleChart | timeSeriesChart | highLowChart | candlestickChart | meterChart | thermometerChart | multiAxisChart | stackedAreaChart | ganttChart | elementGroup | crosstab | frame)*)>

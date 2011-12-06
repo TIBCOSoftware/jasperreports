@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT jasperTemplate (template*, style*)>
+
+<!ELEMENT template (#PCDATA)>
+
+<!ELEMENT style (pen?, box?, paragraph?)>
+<!ATTLIST style
+	name CDATA #REQUIRED
+	isDefault (true | false) #IMPLIED
+	style CDATA #IMPLIED
+	mode (Opaque | Transparent) #IMPLIED
+	forecolor CDATA #IMPLIED
+	backcolor CDATA #IMPLIED
+	pen (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	fill (Solid) #IMPLIED
+	radius NMTOKEN #IMPLIED
+	scaleImage (Clip | FillFrame | RetainShape) #IMPLIED
+	hAlign (Left | Center | Right | Justified) #IMPLIED
+	vAlign (Top | Middle | Bottom) #IMPLIED
+	border (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	borderColor CDATA #IMPLIED
+	padding NMTOKEN #IMPLIED
+	topBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	topBorderColor CDATA #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	leftBorderColor CDATA #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	bottomBorderColor CDATA #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightBorder (None | Thin | 1Point | 2Point | 4Point | Dotted) #IMPLIED
+	rightBorderColor CDATA #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+	rotation (None | Left | Right | UpsideDown) #IMPLIED
+	lineSpacing (Single | 1_1_2 | Double) #IMPLIED
+	isStyledText (true | false) #IMPLIED
+	markup CDATA #IMPLIED
+	fontName CDATA #IMPLIED
+	fontSize NMTOKEN #IMPLIED
+	isBold (true | false) #IMPLIED
+	isItalic (true | false) #IMPLIED
+	isUnderline (true | false) #IMPLIED
+	isStrikeThrough (true | false) #IMPLIED
+	pdfFontName CDATA #IMPLIED
+	pdfEncoding CDATA #IMPLIED
+	isPdfEmbedded (true | false) #IMPLIED
+	pattern CDATA #IMPLIED
+	isBlankWhenNull (true | false) #IMPLIED
+>
+
+<!ELEMENT pen EMPTY>
+<!ATTLIST pen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+
+<!ELEMENT box (pen?, topPen?, leftPen?, bottomPen?, rightPen?)>
+<!ATTLIST box
+	padding NMTOKEN #IMPLIED
+	topPadding NMTOKEN #IMPLIED
+	leftPadding NMTOKEN #IMPLIED
+	bottomPadding NMTOKEN #IMPLIED
+	rightPadding NMTOKEN #IMPLIED
+>
+
+<!ELEMENT topPen EMPTY>
+<!ATTLIST topPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT leftPen EMPTY>
+<!ATTLIST leftPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT bottomPen EMPTY>
+<!ATTLIST bottomPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+<!ELEMENT rightPen EMPTY>
+<!ATTLIST rightPen
+	lineWidth NMTOKEN #IMPLIED
+	lineStyle (Solid | Dashed | Dotted | Double) #IMPLIED
+	lineColor CDATA #IMPLIED
+>
+
+<!ELEMENT paragraph (tabStop*)>
+<!ATTLIST paragraph
+	lineSpacing (Single | 1_1_2 | Double | AtLeast | Fixed | Proportional) #IMPLIED
+	lineSpacingSize NMTOKEN #IMPLIED
+	firstLineIndent NMTOKEN #IMPLIED
+	leftIndent NMTOKEN #IMPLIED
+	rightIndent NMTOKEN #IMPLIED
+	spacingBefore NMTOKEN #IMPLIED
+	spacingAfter NMTOKEN #IMPLIED
+	tabStopWidth NMTOKEN #IMPLIED
+>
+
+<!ELEMENT tabStop EMPTY>
+<!ATTLIST tabStop
+	alignment (Left | Center | Right) #IMPLIED
+	position NMTOKEN #REQUIRED
+>

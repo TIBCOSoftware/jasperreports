@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sf.jasperreports</groupId>
+	<artifactId>jasperreports-ofc</artifactId>
+	<version>4.5.0</version>
+	<packaging>jar</packaging>
+	<name>JasperReports Open Flash Chart Component</name>
+	<url>http://jasperreports.sourceforge.net</url>
+	<description>Open Flash Chart Component for the JasperReports Library</description>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<url>http://jasperreports.sourceforge.net/license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:http://jasperforge.org/svn/repos/jasperreports</connection>
+		<tag>jr-4-5-0</tag>
+		<url>http://jasperforge.org/scm/viewvc.php/?root=jasperreports</url>
+	</scm>
+	<repositories>
+		<repository>
+			<id>jasperreports</id>
+			<url>http://jasperreports.sourceforge.net/maven2</url>
+		</repository>
+	</repositories>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/jasperreports_extension.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.xsd</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Built-By>Jaspersoft</Built-By>
+						</manifestEntries>
+						<manifestSections>
+							<manifestSection>
+								<name>net/sf/jasperreports/components/ofc</name>
+								<manifestEntries>
+									<Specification-Title>JasperReports Open Flash Chart Components</Specification-Title>
+									<Specification-Version>${pom.version}</Specification-Version>
+									<Specification-Vendor>Jaspersoft</Specification-Vendor>
+									<Implementation-Title>net.sf.jasperreports.components.ofc</Implementation-Title>
+									<Implementation-Version>${pom.version}</Implementation-Version>
+									<Implementation-Vendor>Jaspersoft</Implementation-Vendor>
+								</manifestEntries>
+							</manifestSection>
+						</manifestSections>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>4.5.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>json</groupId>
+			<artifactId>json-org</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>
+

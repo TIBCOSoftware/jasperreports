@@ -1,0 +1,3180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+ <xsd:element name="jasperReport">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="import" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="template" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="reportFont" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="style" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="subDataset" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="parameter" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="queryString" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="sortField" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="variable" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="filterExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="background" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="title" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="pageHeader" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="columnHeader" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="detail" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="columnFooter" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="pageFooter" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="lastPageFooter" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="summary" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="noData" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="language" type="xsd:string" use="optional" default="java"/>
+   <xsd:attribute name="columnCount" type="xsd:NMTOKEN" use="optional" default="1"/>
+   <xsd:attribute name="printOrder" use="optional" default="Vertical">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Vertical"/>
+      <xsd:enumeration value="Horizontal"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pageWidth" type="xsd:NMTOKEN" use="optional" default="595"/>
+   <xsd:attribute name="pageHeight" type="xsd:NMTOKEN" use="optional" default="842"/>
+   <xsd:attribute name="orientation" use="optional" default="Portrait">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Portrait"/>
+      <xsd:enumeration value="Landscape"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="whenNoDataType" use="optional" default="NoPages">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NoPages"/>
+      <xsd:enumeration value="BlankPage"/>
+      <xsd:enumeration value="AllSectionsNoDetail"/>
+      <xsd:enumeration value="NoDataSection"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="columnWidth" type="xsd:NMTOKEN" use="optional" default="555"/>
+   <xsd:attribute name="columnSpacing" type="xsd:NMTOKEN" use="optional" default="0"/>
+   <xsd:attribute name="leftMargin" type="xsd:NMTOKEN" use="optional" default="20"/>
+   <xsd:attribute name="rightMargin" type="xsd:NMTOKEN" use="optional" default="20"/>
+   <xsd:attribute name="topMargin" type="xsd:NMTOKEN" use="optional" default="30"/>
+   <xsd:attribute name="bottomMargin" type="xsd:NMTOKEN" use="optional" default="30"/>
+   <xsd:attribute name="isTitleNewPage" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isSummaryNewPage" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isFloatColumnFooter" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="scriptletClass" type="xsd:string" use="optional"/>
+   <xsd:attribute name="resourceBundle" type="xsd:string" use="optional"/>
+   <xsd:attribute name="whenResourceMissingType" use="optional" default="Null">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Null"/>
+      <xsd:enumeration value="Empty"/>
+      <xsd:enumeration value="Key"/>
+      <xsd:enumeration value="Error"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isIgnorePagination" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="formatFactoryClass" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="property">
+  <xsd:complexType>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="value" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="propertyExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="import">
+  <xsd:complexType>
+   <xsd:attribute name="value" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="template">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" use="optional" default="java.lang.String">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="java.lang.String"/>
+      <xsd:enumeration value="java.io.File"/>
+      <xsd:enumeration value="java.net.URL"/>
+      <xsd:enumeration value="java.io.InputStream"/>
+      <xsd:enumeration value="net.sf.jasperreports.engine.JRTemplate"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="reportFont">
+  <xsd:complexType>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="isDefault" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="fontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="size" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="isBold" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isItalic" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isUnderline" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStrikeThrough" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pdfFontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pdfEncoding" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isPdfEmbedded" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="style">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="conditionalStyle" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isDefault" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="style" type="xsd:string" use="optional"/>
+   <xsd:attribute name="mode" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Opaque"/>
+      <xsd:enumeration value="Transparent"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="forecolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pen" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="fill" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="radius" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="scaleImage" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Clip"/>
+      <xsd:enumeration value="FillFrame"/>
+      <xsd:enumeration value="RetainShape"/>
+      <xsd:enumeration value="RealHeight"/>
+      <xsd:enumeration value="RealSize"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="Justified"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="vAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="border" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="borderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="padding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="topBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="topBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="topPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="leftBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="leftBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="leftPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="bottomBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="bottomBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="bottomPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="rightBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="rightBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="rightPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="rotation" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="UpsideDown"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineSpacing" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Single"/>
+      <xsd:enumeration value="1_1_2"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStyledText" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="markup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="fontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="fontSize" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="isBold" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isItalic" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isUnderline" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStrikeThrough" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pdfFontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pdfEncoding" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isPdfEmbedded" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pattern" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isBlankWhenNull" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pen">
+  <xsd:complexType>
+   <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="lineStyle" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+      <xsd:enumeration value="Dashed"/>
+      <xsd:enumeration value="Dotted"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="conditionalStyle">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="conditionExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="style"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="conditionExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="parameter" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="queryString" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="sortField" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="variable" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="filterExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="scriptletClass" type="xsd:string" use="optional"/>
+   <xsd:attribute name="resourceBundle" type="xsd:string" use="optional"/>
+   <xsd:attribute name="whenResourceMissingType" use="optional" default="Null">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Null"/>
+      <xsd:enumeration value="Empty"/>
+      <xsd:enumeration value="Key"/>
+      <xsd:enumeration value="Error"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="parameter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="parameterDescription" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="defaultValueExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="class" type="xsd:string" use="optional" default="java.lang.String"/>
+   <xsd:attribute name="isForPrompting" use="optional" default="true">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="parameterDescription">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="defaultValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="queryString">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="language" type="xsd:string" use="optional" default="sql"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="field">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="fieldDescription" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="class" type="xsd:string" use="optional" default="java.lang.String"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="fieldDescription">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="sortField">
+  <xsd:complexType>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="order" use="optional" default="Ascending">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Ascending"/>
+      <xsd:enumeration value="Descending"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="variable">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="variableExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="initialValueExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="class" type="xsd:string" use="optional" default="java.lang.String"/>
+   <xsd:attribute name="resetType" use="optional" default="Report">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="resetGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="incrementType" use="optional" default="None">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="incrementGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="calculation" use="optional" default="Nothing">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Nothing"/>
+      <xsd:enumeration value="Count"/>
+      <xsd:enumeration value="DistinctCount"/>
+      <xsd:enumeration value="Sum"/>
+      <xsd:enumeration value="Average"/>
+      <xsd:enumeration value="Lowest"/>
+      <xsd:enumeration value="Highest"/>
+      <xsd:enumeration value="StandardDeviation"/>
+      <xsd:enumeration value="Variance"/>
+      <xsd:enumeration value="System"/>
+      <xsd:enumeration value="First"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="incrementerFactoryClass" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="variableExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="initialValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="filterExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="group">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="groupExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="groupHeader" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="groupFooter" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="isStartNewColumn" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStartNewPage" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isResetPageNumber" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isReprintHeaderOnEachPage" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="minHeightToStartNewPage" type="xsd:NMTOKEN" use="optional" default="0"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="groupExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="groupHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="groupFooter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="background">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="title">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pageHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="columnHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="detail">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="columnFooter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pageFooter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="lastPageFooter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="summary">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="noData">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="band" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="band">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="printWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+     <xsd:element ref="break"/>
+     <xsd:element ref="line"/>
+     <xsd:element ref="rectangle"/>
+     <xsd:element ref="ellipse"/>
+     <xsd:element ref="image"/>
+     <xsd:element ref="staticText"/>
+     <xsd:element ref="textField"/>
+     <xsd:element ref="subreport"/>
+     <xsd:element ref="pieChart"/>
+     <xsd:element ref="pie3DChart"/>
+     <xsd:element ref="barChart"/>
+     <xsd:element ref="bar3DChart"/>
+     <xsd:element ref="xyBarChart"/>
+     <xsd:element ref="stackedBarChart"/>
+     <xsd:element ref="stackedBar3DChart"/>
+     <xsd:element ref="lineChart"/>
+     <xsd:element ref="xyLineChart"/>
+     <xsd:element ref="areaChart"/>
+     <xsd:element ref="xyAreaChart"/>
+     <xsd:element ref="scatterChart"/>
+     <xsd:element ref="bubbleChart"/>
+     <xsd:element ref="timeSeriesChart"/>
+     <xsd:element ref="highLowChart"/>
+     <xsd:element ref="candlestickChart"/>
+     <xsd:element ref="meterChart"/>
+     <xsd:element ref="thermometerChart"/>
+     <xsd:element ref="multiAxisChart"/>
+     <xsd:element ref="stackedAreaChart"/>
+     <xsd:element ref="ganttChart"/>
+     <xsd:element ref="elementGroup"/>
+     <xsd:element ref="crosstab"/>
+     <xsd:element ref="frame"/>
+    </xsd:choice>
+   </xsd:sequence>
+   <xsd:attribute name="height" type="xsd:NMTOKEN" use="optional" default="0"/>
+   <xsd:attribute name="isSplitAllowed" use="optional" default="true">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="break">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+   </xsd:sequence>
+   <xsd:attribute name="type" use="optional" default="Page">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="line">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="graphicElement" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="direction" use="optional" default="TopDown">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="TopDown"/>
+      <xsd:enumeration value="BottomUp"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="reportElement">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="property" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="printWhenExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="key" type="xsd:string" use="optional"/>
+   <xsd:attribute name="style" type="xsd:string" use="optional"/>
+   <xsd:attribute name="positionType" use="optional" default="FixRelativeToTop">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Float"/>
+      <xsd:enumeration value="FixRelativeToTop"/>
+      <xsd:enumeration value="FixRelativeToBottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="stretchType" use="optional" default="NoStretch">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NoStretch"/>
+      <xsd:enumeration value="RelativeToTallestObject"/>
+      <xsd:enumeration value="RelativeToBandHeight"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isPrintRepeatedValues" use="optional" default="true">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="mode" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Opaque"/>
+      <xsd:enumeration value="Transparent"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="x" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="y" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="width" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="height" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="isRemoveLineWhenBlank" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isPrintInFirstWholeBand" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isPrintWhenDetailOverflows" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="printWhenGroupChanges" type="xsd:string" use="optional"/>
+   <xsd:attribute name="forecolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="printWhenExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="graphicElement">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="pen" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="stretchType" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="NoStretch"/>
+      <xsd:enumeration value="RelativeToTallestObject"/>
+      <xsd:enumeration value="RelativeToBandHeight"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pen" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="fill" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="rectangle">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="graphicElement" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="radius" type="xsd:NMTOKEN" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="ellipse">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="graphicElement" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="image">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="graphicElement" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="imageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="scaleImage" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Clip"/>
+      <xsd:enumeration value="FillFrame"/>
+      <xsd:enumeration value="RetainShape"/>
+      <xsd:enumeration value="RealHeight"/>
+      <xsd:enumeration value="RealSize"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="vAlign" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isUsingCache" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isLazy" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="onErrorType" use="optional" default="Error">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Error"/>
+      <xsd:enumeration value="Blank"/>
+      <xsd:enumeration value="Icon"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationTime" use="optional" default="Now">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Now"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+      <xsd:enumeration value="Band"/>
+      <xsd:enumeration value="Auto"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
+   <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="imageExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" use="optional" default="java.lang.String">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="java.lang.String"/>
+      <xsd:enumeration value="java.io.File"/>
+      <xsd:enumeration value="java.net.URL"/>
+      <xsd:enumeration value="java.io.InputStream"/>
+      <xsd:enumeration value="java.awt.Image"/>
+      <xsd:enumeration value="net.sf.jasperreports.engine.JRRenderable"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="box">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="pen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="topPen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="leftPen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="bottomPen" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="rightPen" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="border" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="borderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="padding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="topBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="topBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="topPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="leftBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="leftBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="leftPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="bottomBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="bottomBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="bottomPadding" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="rightBorder" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Thin"/>
+      <xsd:enumeration value="1Point"/>
+      <xsd:enumeration value="2Point"/>
+      <xsd:enumeration value="4Point"/>
+      <xsd:enumeration value="Dotted"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="rightBorderColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="rightPadding" type="xsd:NMTOKEN" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="topPen">
+  <xsd:complexType>
+   <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="lineStyle" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+      <xsd:enumeration value="Dashed"/>
+      <xsd:enumeration value="Dotted"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="leftPen">
+  <xsd:complexType>
+   <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="lineStyle" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+      <xsd:enumeration value="Dashed"/>
+      <xsd:enumeration value="Dotted"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bottomPen">
+  <xsd:complexType>
+   <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="lineStyle" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+      <xsd:enumeration value="Dashed"/>
+      <xsd:enumeration value="Dotted"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="rightPen">
+  <xsd:complexType>
+   <xsd:attribute name="lineWidth" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="lineStyle" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Solid"/>
+      <xsd:enumeration value="Dashed"/>
+      <xsd:enumeration value="Dotted"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="anchorNameExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkReferenceExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkAnchorExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkPageExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkTooltipExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkParameter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="hyperlinkParameterExpression"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="hyperlinkParameterExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" type="xsd:string" use="optional" default="java.lang.String"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="staticText">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="textElement" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="text" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="text">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="textElement">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="textAlignment" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="Justified"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="verticalAlignment" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="rotation" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="UpsideDown"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="lineSpacing" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Single"/>
+      <xsd:enumeration value="1_1_2"/>
+      <xsd:enumeration value="Double"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStyledText" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="markup" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="font">
+  <xsd:complexType>
+   <xsd:attribute name="reportFont" type="xsd:string" use="optional"/>
+   <xsd:attribute name="fontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="size" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="isBold" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isItalic" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isUnderline" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isStrikeThrough" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="pdfFontName" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pdfEncoding" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isPdfEmbedded" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="textField">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="textElement" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="textFieldExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="isStretchWithOverflow" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationTime" use="optional" default="Now">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Now"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+      <xsd:enumeration value="Band"/>
+      <xsd:enumeration value="Auto"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="pattern" type="xsd:string" use="optional"/>
+   <xsd:attribute name="isBlankWhenNull" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
+   <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="textFieldExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" use="optional" default="java.lang.String">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="java.lang.Boolean"/>
+      <xsd:enumeration value="java.lang.Byte"/>
+      <xsd:enumeration value="java.util.Date"/>
+      <xsd:enumeration value="java.sql.Timestamp"/>
+      <xsd:enumeration value="java.sql.Time"/>
+      <xsd:enumeration value="java.lang.Double"/>
+      <xsd:enumeration value="java.lang.Float"/>
+      <xsd:enumeration value="java.lang.Integer"/>
+      <xsd:enumeration value="java.lang.Long"/>
+      <xsd:enumeration value="java.lang.Short"/>
+      <xsd:enumeration value="java.math.BigDecimal"/>
+      <xsd:enumeration value="java.lang.Number"/>
+      <xsd:enumeration value="java.lang.String"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subreport">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="subreportParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:choice minOccurs="0" maxOccurs="1">
+     <xsd:element ref="connectionExpression"/>
+     <xsd:element ref="dataSourceExpression"/>
+    </xsd:choice>
+    <xsd:element ref="returnValue" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="subreportExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isUsingCache" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="parametersMapExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subreportParameter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="subreportParameterExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subreportParameterExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="returnValue">
+  <xsd:complexType>
+   <xsd:attribute name="subreportVariable" type="xsd:string" use="optional"/>
+   <xsd:attribute name="toVariable" type="xsd:string" use="optional"/>
+   <xsd:attribute name="calculation" use="optional" default="Nothing">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Nothing"/>
+      <xsd:enumeration value="Count"/>
+      <xsd:enumeration value="DistinctCount"/>
+      <xsd:enumeration value="Sum"/>
+      <xsd:enumeration value="Average"/>
+      <xsd:enumeration value="Lowest"/>
+      <xsd:enumeration value="Highest"/>
+      <xsd:enumeration value="StandardDeviation"/>
+      <xsd:enumeration value="Variance"/>
+      <xsd:enumeration value="First"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="incrementerFactoryClass" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="connectionExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="dataSourceExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subreportExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" use="optional" default="java.lang.String">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="java.lang.String"/>
+      <xsd:enumeration value="java.io.File"/>
+      <xsd:enumeration value="java.net.URL"/>
+      <xsd:enumeration value="java.io.InputStream"/>
+      <xsd:enumeration value="net.sf.jasperreports.engine.JasperReport"/>
+      <xsd:enumeration value="dori.jasper.engine.JasperReport"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="elementGroup">
+  <xsd:complexType>
+   <xsd:choice minOccurs="0" maxOccurs="unbounded">
+    <xsd:element ref="break"/>
+    <xsd:element ref="line"/>
+    <xsd:element ref="rectangle"/>
+    <xsd:element ref="ellipse"/>
+    <xsd:element ref="image"/>
+    <xsd:element ref="staticText"/>
+    <xsd:element ref="textField"/>
+    <xsd:element ref="subreport"/>
+    <xsd:element ref="pieChart"/>
+    <xsd:element ref="pie3DChart"/>
+    <xsd:element ref="barChart"/>
+    <xsd:element ref="bar3DChart"/>
+    <xsd:element ref="xyBarChart"/>
+    <xsd:element ref="stackedBarChart"/>
+    <xsd:element ref="stackedBar3DChart"/>
+    <xsd:element ref="lineChart"/>
+    <xsd:element ref="xyLineChart"/>
+    <xsd:element ref="areaChart"/>
+    <xsd:element ref="xyAreaChart"/>
+    <xsd:element ref="scatterChart"/>
+    <xsd:element ref="bubbleChart"/>
+    <xsd:element ref="timeSeriesChart"/>
+    <xsd:element ref="highLowChart"/>
+    <xsd:element ref="candlestickChart"/>
+    <xsd:element ref="meterChart"/>
+    <xsd:element ref="thermometerChart"/>
+    <xsd:element ref="multiAxisChart"/>
+    <xsd:element ref="stackedAreaChart"/>
+    <xsd:element ref="ganttChart"/>
+    <xsd:element ref="elementGroup"/>
+    <xsd:element ref="crosstab"/>
+    <xsd:element ref="frame"/>
+   </xsd:choice>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="chart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="chartTitle" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="chartSubtitle" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="chartLegend" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="anchorNameExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLegend" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationTime" use="optional" default="Now">
+ <xsd:simpleType>
+  <xsd:restriction base="xsd:string">
+   <xsd:enumeration value="Now"/>
+   <xsd:enumeration value="Report"/>
+   <xsd:enumeration value="Page"/>
+   <xsd:enumeration value="Column"/>
+   <xsd:enumeration value="Group"/>
+   <xsd:enumeration value="Band"/>
+  </xsd:restriction>
+ </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="evaluationGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
+   <xsd:attribute name="bookmarkLevel" type="xsd:NMTOKEN" use="optional" default="0"/>
+   <xsd:attribute name="customizerClass" type="xsd:string" use="optional"/>
+   <xsd:attribute name="renderType" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="chartTitle">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="titleExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="position" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Bottom"/>
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Right"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="color" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="titleExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="chartSubtitle">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="subtitleExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="color" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subtitleExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="chartLegend">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="textColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="backgroundColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="position" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Bottom"/>
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Right"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pieChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="pieDataset"/>
+    <xsd:element ref="piePlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pieDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="keyExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="labelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="sectionHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="keyExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="valueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="labelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="sectionHyperlink">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="piePlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+   </xsd:sequence>
+   <xsd:attribute name="isCircular" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="dataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="incrementWhenExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="datasetRun" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="resetType" use="optional" default="Report">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="resetGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="incrementType" use="optional" default="None">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="Report"/>
+      <xsd:enumeration value="Page"/>
+      <xsd:enumeration value="Column"/>
+      <xsd:enumeration value="Group"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="incrementGroup" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="incrementWhenExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="datasetRun">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:choice minOccurs="0" maxOccurs="1">
+     <xsd:element ref="connectionExpression"/>
+     <xsd:element ref="dataSourceExpression"/>
+    </xsd:choice>
+   </xsd:sequence>
+   <xsd:attribute name="subDataset" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="datasetParameter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="datasetParameterExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="datasetParameterExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="plot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesColor" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="orientation" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Horizontal"/>
+      <xsd:enumeration value="Vertical"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="backgroundAlpha" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="foregroundAlpha" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="labelRotation" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="seriesColor">
+  <xsd:complexType>
+   <xsd:attribute name="seriesOrder" type="xsd:string" use="required"/>
+   <xsd:attribute name="color" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pie3DChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="pieDataset"/>
+    <xsd:element ref="pie3DPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="pie3DPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+   </xsd:sequence>
+   <xsd:attribute name="depthFactor" type="xsd:string" use="optional" default="0.2"/>
+   <xsd:attribute name="isCircular" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="barChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="barPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="categoryDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categorySeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="categorySeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categoryExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="labelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="seriesExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="categoryExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="itemHyperlink">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="hyperlinkReferenceExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkAnchorExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkPageExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkTooltipExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="hyperlinkParameter" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="hyperlinkType" type="xsd:string" use="optional" default="None"/>
+   <xsd:attribute name="hyperlinkTarget" type="xsd:string" use="optional" default="Self"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="barPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLabels" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowTickMarks" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowTickLabels" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="categoryAxisLabelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="valueAxisLabelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="categoryAxisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="axisFormat"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="valueAxisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="axisFormat"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="axisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="labelFont" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="tickLabelFont" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="labelColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="tickLabelColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="tickLabelMask" type="xsd:string" use="optional"/>
+   <xsd:attribute name="axisLineColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="labelFont">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="tickLabelFont">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bar3DChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="bar3DPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bar3DPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLabels" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="xOffset" type="xsd:string" use="optional"/>
+   <xsd:attribute name="yOffset" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyBarChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:choice>
+     <xsd:element ref="timePeriodDataset"/>
+     <xsd:element ref="timeSeriesDataset"/>
+     <xsd:element ref="xyDataset"/>
+    </xsd:choice>
+    <xsd:element ref="barPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timePeriodDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timePeriodSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timePeriodSeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="labelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="startDateExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="endDateExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="stackedBarChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="barPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="stackedAreaChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="areaPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="stackedBar3DChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="bar3DPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="lineChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="linePlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="linePlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLines" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowShapes" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyLineChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="xyDataset"/>
+    <xsd:element ref="linePlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xySeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xySeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xValueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yValueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="labelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="yValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="areaChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="categoryDataset"/>
+    <xsd:element ref="areaPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="areaPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="categoryAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="categoryAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyAreaChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="xyDataset"/>
+    <xsd:element ref="areaPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="scatterChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="xyDataset"/>
+    <xsd:element ref="scatterPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="scatterPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="xAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLines" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowShapes" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xAxisLabelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="yAxisLabelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xAxisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="axisFormat"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="yAxisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="axisFormat"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bubbleChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="xyzDataset"/>
+    <xsd:element ref="bubblePlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyzDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xyzSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="xyzSeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xValueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yValueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="zValueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bubblePlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="xAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="xAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="yAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="scaleType" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BothAxes"/>
+      <xsd:enumeration value="DomainAxis"/>
+      <xsd:enumeration value="RangeAxis"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="zValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeSeriesDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timeSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="timePeriod" use="optional" default="Day">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Year"/>
+      <xsd:enumeration value="Quarter"/>
+      <xsd:enumeration value="Month"/>
+      <xsd:enumeration value="Week"/>
+      <xsd:enumeration value="Day"/>
+      <xsd:enumeration value="Hour"/>
+      <xsd:enumeration value="Minute"/>
+      <xsd:enumeration value="Second"/>
+      <xsd:enumeration value="Milisecond"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeSeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timePeriodExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="labelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timePeriodExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeSeriesChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="timeSeriesDataset"/>
+    <xsd:element ref="timeSeriesPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeSeriesPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowLines" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowShapes" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeAxisLabelExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="timeAxisFormat">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="axisFormat"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="highLowChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="highLowDataset"/>
+    <xsd:element ref="highLowPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="highLowDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="dateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="highExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="lowExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="openExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="closeExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="volumeExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="itemHyperlink" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="highLowPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowCloseTicks" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowOpenTicks" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="dateExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="highExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="lowExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="openExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="closeExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="volumeExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="candlestickChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="highLowDataset"/>
+    <xsd:element ref="candlestickPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="candlestickPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="timeAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="timeAxisFormat" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisLabelExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueAxisFormat" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isShowVolume" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="meterChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="valueDataset"/>
+    <xsd:element ref="meterPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="valueDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="valueExpression"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="meterPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="valueDisplay" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="dataRange"/>
+    <xsd:element ref="meterInterval" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="shape" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="chord"/>
+      <xsd:enumeration value="circle"/>
+      <xsd:enumeration value="pie"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="angle" type="xsd:string" use="optional"/>
+   <xsd:attribute name="units" type="xsd:string" use="optional"/>
+   <xsd:attribute name="tickInterval" type="xsd:string" use="optional"/>
+   <xsd:attribute name="meterColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="needleColor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="tickColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="valueDisplay">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="font" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="color" type="xsd:string" use="optional"/>
+   <xsd:attribute name="mask" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="dataRange">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="lowExpression"/>
+    <xsd:element ref="highExpression"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="meterInterval">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataRange"/>
+   </xsd:sequence>
+   <xsd:attribute name="label" type="xsd:string" use="optional"/>
+   <xsd:attribute name="color" type="xsd:string" use="optional"/>
+   <xsd:attribute name="alpha" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="thermometerChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="valueDataset"/>
+    <xsd:element ref="thermometerPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="thermometerPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="valueDisplay" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="dataRange"/>
+    <xsd:element ref="lowRange" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="mediumRange" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="highRange" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="valueLocation" use="optional" default="bulb">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="none"/>
+      <xsd:enumeration value="left"/>
+      <xsd:enumeration value="right"/>
+      <xsd:enumeration value="bulb"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isShowValueLines" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="mercuryColor" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="lowRange">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataRange"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="mediumRange">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataRange"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="highRange">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataRange"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="multiAxisChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="multiAxisPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="multiAxisPlot">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="plot"/>
+    <xsd:element ref="axis" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="axis">
+  <xsd:complexType>
+   <xsd:choice>
+    <xsd:element ref="barChart"/>
+    <xsd:element ref="bar3DChart"/>
+    <xsd:element ref="xyBarChart"/>
+    <xsd:element ref="stackedBarChart"/>
+    <xsd:element ref="stackedBar3DChart"/>
+    <xsd:element ref="lineChart"/>
+    <xsd:element ref="xyLineChart"/>
+    <xsd:element ref="areaChart"/>
+    <xsd:element ref="xyAreaChart"/>
+    <xsd:element ref="scatterChart"/>
+    <xsd:element ref="bubbleChart"/>
+    <xsd:element ref="timeSeriesChart"/>
+    <xsd:element ref="highLowChart"/>
+    <xsd:element ref="candlestickChart"/>
+    <xsd:element ref="stackedAreaChart"/>
+    <xsd:element ref="ganttChart"/>
+   </xsd:choice>
+   <xsd:attribute name="position" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="leftOrTop"/>
+      <xsd:enumeration value="rightOrBottom"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstab">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="crosstabParameter" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="parametersMapExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="crosstabDataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="crosstabHeaderCell" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="rowGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="columnGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="measure" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="crosstabCell" minOccurs="0" maxOccurs="unbounded"/>
+    <xsd:element ref="whenNoDataCell" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isRepeatColumnHeaders" use="optional" default="true">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="isRepeatRowHeaders" use="optional" default="true">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="columnBreakOffset" type="xsd:NMTOKEN" use="optional" default="10"/>
+   <xsd:attribute name="runDirection" use="optional" default="LTR">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="LTR"/>
+      <xsd:enumeration value="RTL"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabParameter">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="parameterValueExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="class" type="xsd:string" use="optional" default="java.lang.String"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="parameterValueExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="isDataPreSorted" use="optional" default="false">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="true"/>
+      <xsd:enumeration value="false"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabHeaderCell">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="rowGroup">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="bucket"/>
+    <xsd:element ref="crosstabRowHeader" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="crosstabTotalRowHeader" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="width" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="totalPosition" use="optional" default="None">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Start"/>
+      <xsd:enumeration value="End"/>
+      <xsd:enumeration value="None"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="headerPosition" use="optional" default="Top">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Top"/>
+      <xsd:enumeration value="Middle"/>
+      <xsd:enumeration value="Bottom"/>
+      <xsd:enumeration value="Stretch"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabRowHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabTotalRowHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="columnGroup">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="bucket"/>
+    <xsd:element ref="crosstabColumnHeader" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="crosstabTotalColumnHeader" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="height" type="xsd:NMTOKEN" use="required"/>
+   <xsd:attribute name="totalPosition" use="optional" default="None">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Start"/>
+      <xsd:enumeration value="End"/>
+      <xsd:enumeration value="None"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="headerPosition" use="optional" default="Left">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Left"/>
+      <xsd:enumeration value="Center"/>
+      <xsd:enumeration value="Right"/>
+      <xsd:enumeration value="Stretch"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabColumnHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabTotalColumnHeader">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bucket">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="bucketExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="comparatorExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="order" use="optional" default="Ascending">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Ascending"/>
+      <xsd:enumeration value="Descending"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="bucketExpression">
+  <xsd:complexType mixed="true">
+   <xsd:attribute name="class" type="xsd:string" use="required"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="comparatorExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="measure">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="measureExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="name" type="xsd:string" use="required"/>
+   <xsd:attribute name="class" type="xsd:string" use="optional"/>
+   <xsd:attribute name="calculation" use="optional" default="Nothing">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Nothing"/>
+      <xsd:enumeration value="Count"/>
+      <xsd:enumeration value="DistinctCount"/>
+      <xsd:enumeration value="Sum"/>
+      <xsd:enumeration value="Average"/>
+      <xsd:enumeration value="Lowest"/>
+      <xsd:enumeration value="Highest"/>
+      <xsd:enumeration value="StandardDeviation"/>
+      <xsd:enumeration value="Variance"/>
+      <xsd:enumeration value="First"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="incrementerFactoryClass" type="xsd:string" use="optional"/>
+   <xsd:attribute name="percentageOf" use="optional" default="None">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="GrandTotal"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="percentageCalculatorClass" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="measureExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="crosstabCell">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   <xsd:attribute name="width" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="height" type="xsd:NMTOKEN" use="optional"/>
+   <xsd:attribute name="rowTotalGroup" type="xsd:string" use="optional"/>
+   <xsd:attribute name="columnTotalGroup" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="cellContents">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+     <xsd:element ref="line"/>
+     <xsd:element ref="rectangle"/>
+     <xsd:element ref="ellipse"/>
+     <xsd:element ref="image"/>
+     <xsd:element ref="staticText"/>
+     <xsd:element ref="textField"/>
+     <xsd:element ref="elementGroup"/>
+     <xsd:element ref="frame"/>
+    </xsd:choice>
+   </xsd:sequence>
+   <xsd:attribute name="backcolor" type="xsd:string" use="optional"/>
+   <xsd:attribute name="mode" use="optional">
+    <xsd:simpleType>
+     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Opaque"/>
+      <xsd:enumeration value="Transparent"/>
+     </xsd:restriction>
+    </xsd:simpleType>
+   </xsd:attribute>
+   <xsd:attribute name="style" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="whenNoDataCell">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="cellContents"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="frame">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="reportElement"/>
+    <xsd:element ref="box" minOccurs="0" maxOccurs="1"/>
+    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+     <xsd:element ref="break"/>
+     <xsd:element ref="line"/>
+     <xsd:element ref="rectangle"/>
+     <xsd:element ref="ellipse"/>
+     <xsd:element ref="image"/>
+     <xsd:element ref="staticText"/>
+     <xsd:element ref="textField"/>
+     <xsd:element ref="subreport"/>
+     <xsd:element ref="pieChart"/>
+     <xsd:element ref="pie3DChart"/>
+     <xsd:element ref="barChart"/>
+     <xsd:element ref="bar3DChart"/>
+     <xsd:element ref="xyBarChart"/>
+     <xsd:element ref="stackedBarChart"/>
+     <xsd:element ref="stackedBar3DChart"/>
+     <xsd:element ref="lineChart"/>
+     <xsd:element ref="xyLineChart"/>
+     <xsd:element ref="areaChart"/>
+     <xsd:element ref="xyAreaChart"/>
+     <xsd:element ref="scatterChart"/>
+     <xsd:element ref="bubbleChart"/>
+     <xsd:element ref="timeSeriesChart"/>
+     <xsd:element ref="highLowChart"/>
+     <xsd:element ref="candlestickChart"/>
+     <xsd:element ref="meterChart"/>
+     <xsd:element ref="thermometerChart"/>
+     <xsd:element ref="multiAxisChart"/>
+     <xsd:element ref="stackedAreaChart"/>
+     <xsd:element ref="ganttChart"/>
+     <xsd:element ref="elementGroup"/>
+     <xsd:element ref="crosstab"/>
+     <xsd:element ref="frame"/>
+    </xsd:choice>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttChart">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="chart"/>
+    <xsd:element ref="ganttDataset"/>
+    <xsd:element ref="barPlot"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttDataset">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="dataset" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="ganttSeries" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="ganttSeries">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:element ref="seriesExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="taskExpression"/>
+    <xsd:element ref="subtaskExpression"/>
+    <xsd:element ref="startDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="endDateExpression" minOccurs="0" maxOccurs="1"/>
+    <xsd:element ref="percentExpression" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+  </xsd:complexType>
+ </xsd:element>
+ 
+ <xsd:element name="taskExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="subtaskExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+ <xsd:element name="percentExpression">
+  <xsd:complexType mixed="true">
+  </xsd:complexType>
+ </xsd:element>
+
+</xsd:schema>

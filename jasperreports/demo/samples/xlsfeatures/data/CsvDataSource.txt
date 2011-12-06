@@ -1,0 +1,52 @@
+Chicago,35,Gabriel Dienst,412 College Av.,Trial
+Chicago,2101,Gary Brown,121 Upland Pl.,Active
+Chicago,211,Gene Coleman,42 Upland Pl.,Active
+Chicago,101,Glenn Soren,12 Upland Pl.,Active
+Chicago,235,Markus Jonas,412 College Av.,Trial
+Chicago,39,Mary Lindt,202 College Av.,Active
+Chicago,11,Melanie Williams,412 Upland Pl.,Active
+Chicago,239,Merryl Stuart,22 College Av.,Active
+Dallas,224,Albert Ringer,35 College Av.,Active
+Dallas,240,Alicia Foster,44 - 20th Ave.,Trial
+Dallas,2190,Anders Holbson,86 - 20th Ave.,Active
+Dallas,190,Andrea Heiniger,186 - 20th Ave.,Active
+Dallas,243,Anna Smith,42 Upland Pl.,Active
+Dallas,103,Audrey Fuller,15 Upland Pl.,Active
+Dallas,210,Aura Forsythe,139 Upland Pl.,Active
+Dallas,37,Jack Clancy,19 Seventh Av.,Closed
+Dallas,10,Jane Fuller,135 Upland Pl.,Active
+Dallas,47,Janet Fuller,445 Upland Pl.,Trial
+Dallas,247,Janet Fuller,445 Upland Pl.,Trial
+Dallas,36,John Steel,276 Upland Pl.,Trial
+Dallas,219,Marine Albright,286 - 20th Ave.,Active
+Dallas,236,Martin Steele,26 Upland Pl.,Trial
+Dallas,237,Michael Terry,194 Seventh Av.,Closed
+Dallas,2103,Miley Howard,151 Upland Pl.,Active
+Dallas,200,Moira Rees,49 Seventh Av.,Active
+Dallas,0,Sandra Steel,429 Seventh Av.,Active
+Dallas,2200,Sean Potter,419 Seventh Av.,Active
+Dallas,40,Shelly Miller,440 - 20th Ave.,Trial
+Dallas,19,Steven Heiniger,86 - 20th Ave.,Active
+Dallas,200,Stuart Steel,49 Seventh Av.,Active
+Dallas,43,Susanne Smith,2 Upland Pl.,Active
+Dallas,4,Sylvia Ringer,365 College Av.,Active
+New York,1000,Andrew Leton,178 Seventh Av.,Active
+New York,46,Andrew May,172 Seventh Av.,Active
+New York,2406,Andrew Stone,112 Seventh Av.,Active
+New York,406,Andrew Thorpe,12 Seventh Av.,Active
+New York,410,Bill Barow,54 College Av.,Closed
+New York,41,Bill King,546 College Av.,Closed
+New York,2404,Beatrice Levine,136 College Av.,Active
+New York,44,Jennifer Ott,361 College Av.,Active
+New York,404,Rose Collins,36 College Av.,Active
+New York,2410,Ryan Morello,524 College Av.,Closed
+New York,241,Ramon Moya,541 College Av.,Closed
+New York,244,Rick Pedroso,321 College Av.,Active
+San Francisco,2480,Cole Howard,359 Seventh Av.,Active
+San Francisco,7,James Peterson,231 Upland Pl.,Active
+San Francisco,700,Judith Robson,21 Upland Pl.,Active
+San Francisco,227,John Parker,234 Upland Pl.,Active
+San Francisco,480,Jane Winston,59 Seventh Av.,Active
+San Francisco,2700,Richard Smith,211 Upland Pl.,Active
+San Francisco,248,Robert Leroy,546 Seventh Av.,Active
+San Francisco,48,Robert White,549 Seventh Av.,Active

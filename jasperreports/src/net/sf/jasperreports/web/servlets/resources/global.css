@@ -1,0 +1,149 @@
+.hidden {
+	display: none;	
+}
+
+.globalError {
+	font-family: sans, arial;
+	font-size: 10px;
+	color: red;
+}
+
+.selected {
+	background-color: gray;
+	border: 1px solid red;
+}
+
+.dashboardDiv {
+	position: relative;
+	z-index: 2; 
+	width: 200px; 
+	text-align: left;
+	background-color: #ADD8E6;
+}
+
+.db_cbbutton {
+	cursor: pointer;
+	display: block;	
+}
+
+/************************ <TOOLBAR> ****************************/
+.enabledPaginationButton {
+	cursor: pointer;
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.disabledPaginationButton {
+	cursor: default;
+	filter: alpha(opacity=30);
+	opacity: 0.3;
+}
+/************************ </TOOLBAR> ***************************/
+
+/************************ <TAB PANE> ***************************/
+
+.tabButtons {
+	width: 100%;
+	height: 31px;
+}
+
+.tabHeaderRegular {
+	float: left;
+	border-style: solid none none solid; 
+	border-color: black;
+	border-width: 1px;
+	border-top-right-radius: 10px 20px;
+	cursor: pointer;
+}
+
+.tabHeaderLast {
+	float: left;
+	border-style: solid solid none solid; 
+	border-color: black;
+	border-width: 1px;
+	border-top-right-radius: 10px 20px;
+	cursor: pointer;
+}
+
+.tabBodyContainer {
+	height: 100%;
+}
+
+.tabBody {
+	border: 1px solid black;
+	/*width: 100%;*/
+	height: 100%;
+	/*background-color: gray;*/
+}
+
+.tabBodyResult {
+	width: 100%; 
+	height: 100%; 
+}
+
+.activeTab {
+	background-color: #66CCFF; 
+}
+
+.inactiveTab {
+	background-color: #99FFFF; 
+}
+
+/************************ </TAB PANE> ***************************/
+
+/************************ <FILTER DIV> ***************************/
+.filterdiv {
+	text-align: center; 
+	background-color: #FFFFFF;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px#888;
+	box-shadow: 0 0 5px 5px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;*/
+	border: 1px solid black;	
+}
+
+.hidefilter {
+	position: absolute; 
+	top: 2px; 
+	right: 2px; 
+	cursor: pointer;
+}
+
+.filterOperatorTypeValueSelector {
+	display: inline;
+	width: 140px;
+}
+
+.filterColumnNameLabel {
+	color: gray;
+	display: inline;
+	font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.filterDivForm {
+	padding: 16px;
+}
+
+.filterSymbol_Active {
+	
+}
+
+.filterSymbol_Inactive {
+	display: none;
+}
+
+.sortSymbolImage {
+	border: 0px;
+	margin: 0px;
+}
+
+.filterSymbolImage {
+	border: 0px;
+	margin: 0px;
+}
+/************************ </FILTER DIV> ***************************/
+

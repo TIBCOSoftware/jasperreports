@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>list</name>
+  <title>List Component Sample</title>
+  <description>Illustrates the usage of the list component element.</description>
+
+  <mainFeature ref="list"/>
+  
+  <!-- list -->
+  
+  <feature name="list" title="Using the Built-in List Component">
+    <description>
+How to render simple listings using the built-in list component and a subdataset.
+    </description>
+    <since>3.5.1</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

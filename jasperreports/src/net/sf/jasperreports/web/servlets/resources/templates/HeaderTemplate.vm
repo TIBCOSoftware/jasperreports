@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset='UTF-8'"/>
+	<style type="text/css">
+		a {text-decoration: none}
+	</style>
+    #if(!${isAjax})
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-1.6.4.min.js'></script>
+    	<script type='text/javascript' src='${contextPath}/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>
+    	<script type='text/javascript' src='${globaljs}'></script>
+    	<script type='text/javascript'>
+    		JasperReports.modules.global.APPLICATION_CONTEXT_PATH = '${contextPath}';
+    	</script>
+    #end
+   	<link type='text/css' rel='stylesheet' href='${contextPath}/jquery/theme/jquery.ui.all.css'></link> 
+   	<link type='text/css' rel='stylesheet' href='${globalcss}'></link>
+</head>
+<body text="#000000" link="#000000" alink="#000000" vlink="#000000" bgcolor="#999999">
+<div class='mainReportDiv' style='width: 100%; height: 100%; overflow: auto'>
+#if(${showToolbar})
+	<div id='${toolbarId}' class='toolbarDiv' style='position: absolute; width: 400px; height: 40px; background-color: grey; z-index: 999998'
+			data-url='${currentUrl}'
+			data-totalpages='${totalPages}'
+			data-currentpage='${currentPage}'> 
+		<img class='pageFirst' src='${contextPath}/jasperreports/images/first.GIF' /><img class='pagePrevious' src='${contextPath}/jasperreports/images/previous.GIF' /><img class='pageNext' src='${contextPath}/jasperreports/images/next.GIF' /><img class='pageLast' src='${contextPath}/jasperreports/images/last.GIF' />
+	</div>
+	<script type='text/javascript'>
+		JasperReports.modules.global.initToolbar('${toolbarId}', '${strRunReportParam}');
+	</script>
+#end
+<div class='result'>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr><td width="50%">&nbsp;</td>
+<td align="center" style="border-style: solid; border-width: 1px; border-color: #000000; background-color: #FFFFFF;">
+	

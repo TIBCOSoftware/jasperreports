@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<jasperReport
+		xmlns="http://jasperreports.sourceforge.net/jasperreports"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+		name="WebappReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="scriptlets.WebappScriptlet">
+	<property name="net.sf.jasperreports.data.adapter" value="/data/WebappDataSourceAdapter.xml"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" isDefault="false" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<style name="pageHeader" isDefault="false" style="Sans_Bold" forecolor="#ffffff" backcolor="#333333"/>
+	<parameter name="ReportTitle" class="java.lang.String">
+	</parameter>
+	<parameter name="BaseDir" class="java.io.File">
+	</parameter>
+	<field name="Id" class="java.lang.Integer">
+	</field>
+	<field name="Name" class="java.lang.String">
+	</field>
+	<field name="Street" class="java.lang.String">
+	</field>
+	<field name="City" class="java.lang.String">
+	</field>
+	<sortField name="City" order="Ascending"/>
+	<variable name="CityNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
+		<initialValueExpression><![CDATA[($V{CityNumber} != null)?(Integer.valueOf($V{CityNumber}.intValue() + 1)):(Integer.valueOf(1))]]></initialValueExpression>
+	</variable>
+	<variable name="AllCities" class="java.lang.String" calculation="System">
+	</variable>
+	<group name="CityGroup" minHeightToStartNewPage="60">
+		<groupExpression><![CDATA[$F{City}]]></groupExpression>
+		<groupHeader>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="4" width="515" height="15" style="Sans_Bold" backcolor="#c0c0c0" mode="Opaque"/>
+				<box>
+					<bottomPen lineWidth="1"/>
+				</box>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{City})]]></textFieldExpression>
+			</textField>
+		</band>
+		</groupHeader>
+		<groupFooter>
+		<band height="20">
+			<line>
+				<reportElement x="0" y="-1" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<staticText>
+				<reportElement x="400" y="0" width="60" height="15" style="Sans_Bold"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Count :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="0" width="30" height="15" style="Sans_Bold"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CityGroup_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="60">
+			<frame>
+				<reportElement x="0" y="0" width="515" height="50" backcolor="#E0E0E0"/>
+				<box>
+					<topPen lineWidth="1"/>
+				</box>
+				<image scaleImage="Clip" hyperlinkType="Reference">
+					<reportElement x="5" y="5" width="165" height="40"/>
+					<graphicElement/>
+					<imageExpression><![CDATA["/images/jasperreports.png"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://jasperreports.sourceforge.net"]]></hyperlinkReferenceExpression>
+				</image>
+				<textField isBlankWhenNull="true">
+					<reportElement x="175" y="5" width="335" height="40"/>
+					<textElement textAlignment="Right">
+						<font size="22"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="4" width="55" height="16" style="pageHeader"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="0" y="4" width="55" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Id" handlerHorizontalAlign="Right" handlerColor="yellow">
+						<font size="10"/>
+					</c:symbol>
+				</c:sort>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="4" width="205" height="16" style="pageHeader"/>
+				<textElement/>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="55" y="4" width="205" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Name" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				</c:sort>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="260" y="4" width="255" height="16" style="pageHeader"/>
+				<textElement/>
+				<text><![CDATA[Street]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement mode="Opaque" x="260" y="4" width="255" height="16" style="pageHeader"/>
+				<c:sort xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<c:symbol sortFieldName="Street" sortFieldType="Field" handlerHorizontalAlign="Right"/>
+				</c:sort>
+			</componentElement>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="4" width="50" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{Id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="55" y="4" width="200" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="260" y="4" width="255" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Street}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="0" y="19" width="515" height="1" forecolor="#808080"/>
+				<graphicElement/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40">
+			<line>
+				<reportElement x="0" y="10" width="515" height="1"/>
+				<graphicElement/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="80">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="175" y="20" width="165" height="15" style="Sans_Italic"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["There were " + 
+					String.valueOf($V{REPORT_COUNT}) + 
+					" address records on this report from the following cities : \n" +
+					$V{AllCities} + "."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="175" y="40" width="165" height="15" forecolor="#993300" style="Sans_Bold"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[((scriptlets.WebappScriptlet)$P{REPORT_SCRIPTLET}).hello()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

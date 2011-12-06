@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HyperlinkReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isTitleNewPage="true" isSummaryNewPage="true">
+	<background>
+		<band height="742">
+			<image scaleImage="Clip" vAlign="Bottom">
+				<reportElement x="0" y="0" width="150" height="742"/>
+				<imageExpression class="java.lang.String"><![CDATA["jr.watermark.gif"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="145">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#FF99CC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="5" y="5" width="450" height="20"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["This is the TITLE section"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["title"]]></anchorNameExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="35" width="300" height="15" forecolor="#0000FF"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
+					<hyperlinkTooltipExpression><![CDATA["Skip to the summary section"]]></hyperlinkTooltipExpression>
+				</textField>
+				<textField hyperlinkType="LocalPage">
+					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000">
+						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["First Page"]]></propertyExpression>
+					</reportElement>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
+					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
+				</textField>
+				<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
+					<reportElement x="5" y="95" width="200" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
+				</textField>
+				<image hAlign="Center" vAlign="Middle" hyperlinkType="Reference" hyperlinkTarget="Blank">
+					<reportElement x="230" y="90" width="200" height="30"/>
+					<imageExpression class="java.lang.String"><![CDATA["google.gif"]]></imageExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
+					<hyperlinkTooltipExpression><![CDATA["Searching for something?"]]></hyperlinkTooltipExpression>
+				</image>
+				<textField hyperlinkType="RemoteAnchor">
+					<reportElement x="5" y="125" width="350" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to another PDF file (in fact, we use the same file)."]]></textFieldExpression>
+					<hyperlinkReferenceExpression><![CDATA["./HyperlinkReport.pdf"]]></hyperlinkReferenceExpression>
+					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="145">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#CCFFCC"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="5" y="5" width="450" height="20"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["This is the HEADER section of the page number " + String.valueOf($V{PAGE_NUMBER}) + "."]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["pageHeader_" + String.valueOf($V{PAGE_NUMBER})]]></anchorNameExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="65" width="300" height="15" forecolor="#0000FF"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="95" width="300" height="15" forecolor="#FFCC00"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the footer of this page."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["pageFooter_" + String.valueOf($V{PAGE_NUMBER})]]></hyperlinkAnchorExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20"/>
+	</detail>
+	<pageFooter>
+		<band height="145">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#FFFF99"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="5" y="5" width="450" height="20"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["This is the FOOTER section of the page number " + String.valueOf($V{PAGE_NUMBER}) + "."]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["pageFooter_" + String.valueOf($V{PAGE_NUMBER})]]></anchorNameExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="65" width="300" height="15" forecolor="#0000FF"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the summary section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["summary"]]></hyperlinkAnchorExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="95" width="300" height="15" forecolor="#008000"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the header of this page."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["pageHeader_" + String.valueOf($V{PAGE_NUMBER})]]></hyperlinkAnchorExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="145">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="145" backcolor="#99CCFF"/>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="5" y="5" width="450" height="20"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["This is the SUMMARY section"]]></textFieldExpression>
+					<anchorNameExpression><![CDATA["summary"]]></anchorNameExpression>
+				</textField>
+				<textField hyperlinkType="LocalAnchor">
+					<reportElement x="5" y="35" width="300" height="15" forecolor="#FF0000">
+						<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA["Third Page"]]></propertyExpression>					
+					</reportElement>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the title section."]]></textFieldExpression>
+					<hyperlinkAnchorExpression><![CDATA["title"]]></hyperlinkAnchorExpression>
+				</textField>
+				<textField hyperlinkType="LocalPage">
+					<reportElement x="5" y="65" width="300" height="15" forecolor="#008000"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to the second page."]]></textFieldExpression>
+					<hyperlinkPageExpression><![CDATA[Integer.valueOf(2)]]></hyperlinkPageExpression>
+				</textField>
+				<textField hyperlinkType="Reference">
+					<reportElement x="5" y="95" width="300" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA["  >> Click here to go to www.google.com"]]></textFieldExpression>
+					<hyperlinkReferenceExpression><![CDATA["http://www.google.com"]]></hyperlinkReferenceExpression>
+				</textField>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

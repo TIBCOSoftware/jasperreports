@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>xlsfeatures</name>
+  <title>Advanced Excel Features</title>
+  <description>Shows how the specific Excel features could be turned on when exporting to Excel formats.</description>
+
+  <mainFeature ref="xlsfeatures"/>
+  
+  <!-- xlsfeatures -->
+  
+  <feature name="xlsfeatures" title="Advanced Excel Features">
+    <description>
+How to turn on Excel specific features to improve the generated document in Excel formats.
+    </description>
+    <since>1.2.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="xlsformula"/>
+    <content>
+<b>Pixel-Perfect Document Representation and Excel Output Format</b>    
+<br/>
+<br/>
+One of the main purposes of the JasperReports engine is to prepare documents ready to be printed out in a pixel-perfect representation. 
+In this approach objects own dimensions, absolute and relative positions within the document should be totally preserved. This is completely 
+convenient for usually read-only or layout-oriented output formats, such as PDF or Graphics2D, but could generate some inconvenients for 
+data-oriented output formats like the Excel-based ones. In this case more important than the pixel-perfectness of the document is to allow 
+the generated data in the report to be properly manipulated by the Excel engine, therefore to generate as much as possible Excel-like documents, 
+instead of rigorously pixel-perfect ones.
+<br/>
+More, there are certain features at the moment available for Excel documents only, such as freezing panes, grouping rows, stretching row heights 
+or column widths, applying formulas, etc. To provide support for all these specific features in generated Excel documents would amazingly increase 
+their functionality and applicability.
+<br/>
+That's why a number of custom export properties were added, in order to allow the Excel features to take precedence over the fixed pixel-perfect 
+document layout. This sample shows one by one these recently added properties and how they work.
+<br/>
+<br/>
+<b><a name="dynamicSheetNames">Dynamic</a> Sheet Names</b>    
+<br/>
+<br/>
+One of the main preoccupations when exporting to Excel output format is to ensure that every sheet in the document has a proper name, because no-named 
+sheets are not allowed in Excel. Older JasperReports versions provided several ways to accomplish this, to cover as many as possible situations. Users 
+either can rely on the engine's default sheet naming procedure, or they can provide themselves  custom sheet names at runtime based on the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> export parameter. This second option is 
+very useful when dynamic sheet names are involved, but it cannot cover all possible situations. One of the main troubles when using the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> parameter is the impossibility to be set 
+at design time, so it has to be Java hardcoded at runtime. 
+<br/>
+To solve such kind of problems, a new export custom property was added: 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_SHEET_NAME">net.sf.jasperreports.export.xls.sheet.name</api>. 
+It may be set at element level and, if present, it overrides all other settings for the current sheet name (ie the sheet name provided by the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#SHEET_NAMES">SHEET_NAMES</api> parameter or by the document-level 
+sheet names properties). Since this new property supports also expressions, it's completely suitable for dynamic sheet names.
+<br/>
+In our sample one could see an example of usage in the text element labeled <code>ID</code> in the page header:
+<pre><![CDATA[
+  <propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$P{Customers}+ " " + $V{PAGE_NUMBER}]] ></propertyExpression>]]></pre>
+Therefore each sheet will be labeled with the <code>Customers i</code> text instead of the default <code>Page i</code> (where <code>i</code> stands for 
+the sheet index).
+<br/>
+<br/>
+<b>Format Pattern Property</b>    
+<br/>
+<br/>
+Format patterns are useful when data have to be presented in a completely readable and meaningful form. To see an example, dates are often stored as numbers 
+(the number of milliseconds that have passed since January 1, 1970 00:00:00.000 GMT). But reading such kind of numbers does not fit our usual representation of a 
+date, with  perfectly delimited year, month and day fields. A format pattern is absolutely necessary here, to get a meaningful representation of these numbers. 
+<br/> 
+Here comes the <code>pattern</code> attribute of textfields to solve the problem. For almost all output formats, excepting the Excel ones. That's because the 
+<code>pattern</code> attribute contains standard Java format patterns. Unfortunately, not all patterns valid for Java are valid for Excel too. There are situations 
+where such a pattern should be translated in order to be recognized in Excel.
+<br/>
+An older way to realize this translation is to use the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#FORMAT_PATTERNS_MAP">FORMAT_PATTERNS_MAP</api> 
+export parameter at runtime, with the same inconvenient as shown in the <a href="#dynamicSheetNames">Dynamic Sheet Names</a> section: the need of Java hardcoding at runtime.
+<br/>
+Instead of this, now one has the possibility to specify the proper format pattern for Excel right in the report sample, at element level, using the custom property 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN">net.sf.jasperreports.export.xls.pattern</api>
+<br/>
+To see it in action, take a look at the current date textfield in the JRXML <code>&lt;pageHeader/&gt;</code> section:
+<pre><![CDATA[
+  <textField pattern="EEE, MMM d, yyyy">
+  <reportElement style="Sans_Bold" mode="Opaque" x="0" y="30" width="515" height="30" forecolor="#000000">
+    <property name="net.sf.jasperreports.export.xls.pattern" value="ddd, mmm d, yyyy"/>
+  </reportElement>
+  ...
+  </textField>]]></pre>
+In this case the <code>EEE, MMM d, yyyy</code> pattern, completely valid in Java but generating unreadable content for Excel, is replaced with the equivalent 
+<code>ddd, mmm d, yyyy</code> pattern when exporting report to Excel.
+<br/>
+<br/>
+<b>Column Width Adjustment Properties</b>    
+<br/>
+<br/>
+One of the most frequently encountered problems when exporting documents to Excel consists in the inadequate resulting column width. In some cases one could 
+observe that the generated column width differs completely from the expected one. This is due to the fact that Excel uses character-width units 
+to measure column widths, while all sizes defined in a JasperReport document are measured in pixels. Because one cannot guess at design time which 
+will be the default font set in the Excel Normal style template, the JR engine performs an approximative calculation which doesn't fit always the 
+Excel's own calculations. In all these cases, we have the possibility to adjust the column width by setting a more appropriate width (in pixels) for 
+that column, in order to minimize the difference between JR and Excel calculations. The <code>net.sf.jasperreports.export.xls.column.width</code> 
+and <code>net.sf.jasperreports.export.xls.column.width.ratio</code> properties are introduced to accomplish this task. 
+<ul>
+<li>If the width adjustment is required for particular columns, it could be done using the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">net.sf.jasperreports.export.xls.column.width</api> property. 
+Its value is represented in pixels, and can be set at element level only, to values greater or less than the element's width. When exporting to Excel, the 
+value of this property will be considered instead. One can see this property set in the sample JRXML file for the element labeled <code>State</code>:
+<pre><![CDATA[
+  <property name="net.sf.jasperreports.export.xls.column.width" value="110"/>]]></pre>
+This means that the column width is no more dependent on element widths on that column, its value being calculated as the equivalent value in character widths 
+for 110 pixels. When running the sample one can see that the <code>State</code> column width remains fixed while other column widths are changing according to other settings 
+present in the report.</li>
+<li>If the width adjustment is required for all columns in a sheet or in the entire document, the use of the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH">net.sf.jasperreports.export.xls.column.width</api> property per 
+each distinct column could be bypassed with the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_COLUMN_WIDTH_RATIO">net.sf.jasperreports.export.xls.column.width.ratio</api> property. 
+Its value, a floating point number, represents the ratio used to adjust all column widths in the sheet or in the document. When it's defined at report level all columns in 
+the document will be affected, and when it's defined at element level only columns present in the current sheet will be affected. Settings at element level override 
+settings at document level. This behavior is illustrated in the sample as it follows:
+<br/>
+First, the <code>net.sf.jasperreports.export.xls.column.width.ratio</code> property is declared at document level:
+<pre><![CDATA[
+  <property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>]]></pre>
+This means that all column widths in the document should be multiplied by a 1.25 factor, unless conditions with higher priority are met. This is what happens in the first 
+page of the generated document for all columns excepting <code>State</code> one, with the fixed 110 pixels width (see the <code>net.sf.jasperreports.export.xls.column.width.ratio</code>)
+property discussed above. But on the second page one can see that columns are no more enlarged, on the contrary, they are visibly narrowed down. This is because the 
+<code>Street</code> textfield in the detail section contains a conditional property expression which overrides the document-level setting:
+<pre><![CDATA[
+  <propertyExpression name="net.sf.jasperreports.export.xls.column.width.ratio"><![CDATA[$F{id}.equals(44) ? "0.75f" : null]] ></propertyExpression>]]></pre>
+When the record with field value <code>id = 44</code> is rendered (and this happens in the second page) the condition is satisfied, so all columns on the current sheet 
+will be multiplied by 0.75 instead of 1.25. The <code>State</code> column width remains unchanged on the second page too.
+</li>
+</ul>
+<b>Freeze Pane Properties</b>    
+<br/>
+<br/>
+Freeze panes represent an Excel-specific feature with considerable visual impact, so they have their well deserved place among special features supported by JR. 
+There are multiple ways to define freeze panes in JR and they can also be combined, in order to cover a large variety of situations.
+<ul>
+<li>The first category of properties contain settings for the entire document. There are separate properties for rows and column in order to allow possible 
+combinations with properties at element level. The 2 document-level properties are 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW">net.sf.jasperreports.export.xls.freeze.row</api> and</li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN">net.sf.jasperreports.export.xls.freeze.column</api></li>
+</ul> 
+Their values should represent valid row indexes and column names in Excel. The freeze row (or column) property defined at report level can be combined with a 
+freeze column (or row) property defined at element level to delimit the freeze pane edges. As usual, element-level settings will override document-level settings.</li>
+<li>The element-level properties define the freeze pane edges for the current sheet only. If multiple elements in the same sheet provide freeze pane properties, the 
+maximum values for these properties are taken into account. Element-level properties are 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_ROW_EDGE">net.sf.jasperreports.export.xls.freeze.row.edge</api> and</li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FREEZE_COLUMN_EDGE">net.sf.jasperreports.export.xls.freeze.column.edge</api></li>
+</ul>
+The element-level properties can take a predefined set of values: <code>Left</code> and <code>Right</code> for the 
+<code>net.sf.jasperreports.export.xls.freeze.column.edge</code>, <code>Top</code> and <code>Bottom</code> for the 
+<code>net.sf.jasperreports.export.xls.freeze.row.edge</code>.
+</li>
+</ul>
+The last 2 freeze pane properties are illustrated in the JRXML sample report: the column edge is set for the <code>State</code> element and the row 
+edge is set for the <code>Street</code> element, both in the page header
+<pre><![CDATA[
+  <property name="net.sf.jasperreports.export.xls.freeze.column.edge" value="Left"/>
+  <property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Bottom"/>]]></pre>
+These settings instruct the engine that the left columns to the <code>State</code> element and all rows above, 
+including the current row, are "frozen".			
+<br/>
+<br/>
+<b>The Autofilter Property</b>    
+<br/>
+<br/>
+In editable Excel documents data can be autofiltered allowing users to show/hide only the desired data in a range. This feature is also supported in JR when the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FILTER">net.sf.jasperreports.export.xls.auto.filter</api> property is explicitly 
+set. This is an element-level property and may have 2 allowed values:
+<ul>
+<li><code>Start</code> - the data range starts immediately below the current cell; on the current row will be placed the autofilter lists with column data.</li>
+<li><code>End</code> - the data range ends with the current cell (and row and column).</li>
+</ul>
+If multiple <code>Start</code> or <code>End</code> values are found in the same sheet, only the last encountered are considered.
+<br/> 			
+To see how it works, take a look at the following settings in the JRXML sample:
+<ul>
+<li><code>&lt;property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/&gt;</code> 
+<br/>
+for the <code>State</code> element in the page header; all column data lists will be placed on this row, and the data range will start immediately below this cell</li>
+<li><code>&lt;propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"&gt;&lt;![CDATA[$V{PAGE_NUMBER}.equals(1) ? "End" : null]]&gt;&lt;/propertyExpression/&gt;</code> 
+<br/>
+for the <code>Street</code> field in the detail section; therefore for the first page only the data range will end on the last <code>Street</code> detail cell (because all 
+<code>Street</code> detail cells do provide this property). For all other pages there is no autofilter <code>End</code> value defined, and the data range contains only data in 
+the column enclosing the autofilter <code>Start</code> value.</li>
+<li><code>&lt;propertyExpression name="net.sf.jasperreports.export.xls.auto.filter"&gt;&lt;![CDATA[$F{id}.equals(44) ? "Start" : null]]&gt;&lt;/propertyExpression/&gt;</code> 
+<br/>
+for the <code>Name</code> textfield in the detail section. There are 2 occurrences of the autofilter <code>Start</code> value in the second sheet. One is given by the setting 
+of the <code>State</code> element in the page header, the other is set in the <code>Name</code> detail textfield. At export time, the last encountered setting is provided by the 
+detail element, therefore in the second sheet the data range will start on the <code>Name</code> column, immediately below the row with field value<code>id=44</code>. Because there 
+is no autofilter <code>End</code> value defined on the second sheet, the data range contains only current column data.</li>
+</ul>
+<b>The Outline Row Level Property</b>    
+<br/>
+<br/>
+Another noticeable feature is the row outline grouping on different indentation levels. To turn this feature on, one has to know which group each row belongs to, and which 
+outline level corresponds to this group. All these informations are managed using a property formed with the fixed <code>net.sf.jasperreports.export.xls.outline.level</code> 
+prefix followed by a suffix representing the outline level: <code>net.sf.jasperreports.export.xls.outline.level.&lt;suffix&gt;</code>. It's recommended to use the outline level 
+itself as property suffix, but it's not mandatory. The suffix may take any other string value, but one has to keep in mind that suffixes are used as sorted row level descriptors. 
+For instance, the suffix "aaa" &lt; "bbb", therefore the outline level associated with the suffix "aaa" will be smaller than the level associated with "bbb". To have the most 
+simple and intuitive representation of the outline level property, the best practice is to use the row level as property suffix.
+<br/>
+Doing so, a <code>net.sf.jasperreports.export.xls.outline.level.2</code> property means that its value is correlated with the outline level 2, so the current row belongs to a 
+row group with outline level 2. According to Office Open XML specs, allowed values for outline levels are positive integer values from 1 to 7.
+<br/>
+The value of this property could be any expression (including <code>null</code>). When such a property occurrence is met, the suffix indicates the outline level for that row. 
+If multiple properties with the same prefix are defined for the same row, the deepest outline level is considered for that row.
+To end an outline row group one has to set the related outline level property with the <code>End</code> value. This is a special property value which instructs the JR engine 
+that the current row group of that level ends on that row. 
+This is the most simple way to perform outline row grouping at Excel export time. The report sample shows an example of howto:
+<pre><![CDATA[
+<group name="cityGroup" >
+  ...
+  <groupFooter>
+    <band height="20">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="15" forecolor="#000000" backcolor="#e0e0e0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="End"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupFooter>
+</group>
+<group name="initialNameGroup" >
+  ...
+  <groupHeader>
+    <band height="10">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#a0a0a0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.1" value="Body"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupHeader>
+  <groupFooter>
+    <band height="10">
+      <textField>
+        <reportElement mode="Opaque" x="0" y="0" width="515" height="10" forecolor="#000000" backcolor="#b0b0b0" style="Sans_Bold">
+          <property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="End"/>
+        </reportElement>
+        ...
+      </textField>
+    </band>
+  </groupFooter>
+</group>
+...
+<detail>
+  <band height="15">
+    <textField>
+      <reportElement x="0" y="0" width="104" height="15">
+        <property name="net.sf.jasperreports.export.xls.row.outline.level.2" value="Body"/>
+      </reportElement>
+      ...
+    </textField>
+    ...
+  </band>
+</detail>
+]]></pre>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/xlsfeatures</code> within the JasperReports source project and run the 
+<code>&gt; ant test</code> command.
+<br/>
+It will generate the three Excel document types based on the sample report in the <code>demo/samples/xlsfeatures/build/reports</code> directory and an equivalent PDF document to compare to. 
+    </content>
+  </feature>
+
+  <!-- xlsfeatures -->
+  
+</sample>

@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>
+JasperReports - Web Application Sample
+</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="Style">
+</head>
+
+<body bgcolor="white">
+<a name="top">
+
+<table width="700" cellpadding="0" cellspacing="0" border="0">
+  <tr class="doc">
+    <td width="100">
+    <table width="100%" cellpadding="10" cellspacing="1" border="0" bgcolor="#000000">
+    <tr><td bgcolor="#FFFFFF" align="center"><img src="images/jasperreports.png" border="0" height="25"/></td></tr>
+    </table>
+    </td>
+    <td width="600">&nbsp;&nbsp;&nbsp;<span class="header">compile JRXML</span></td>
+  </tr>
+  <tr valign="top">
+    <td class="doc">
+      <table width="100%" cellpadding="1" cellspacing="1" border="0">
+        <tr><td class="doc">&nbsp;</td></tr>
+        <tr><td class="menu">&nbsp;<a href="index.html" class="menu">home</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="compile.html" class="menu">compile JRXML</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="fill.html" class="menu">fill report</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="export.html" class="menu">export report</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="applets.html" class="menu">applet viewer</span></a></td></tr>
+        <tr><td class="menu">&nbsp;<a href="flash.html" class="menu">flash viewer</span></a></td></tr>
+      </table>
+    </td>
+    <td>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="5%">&nbsp;</td>
+    <td width="90%">
+      <br>
+      <span class="title">&nbsp;</span>
+      <br>
+    </td>
+    <td width="5%">&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td>&nbsp;</td>
+    <td class="justify">
+      <span class="title">JRXML Report Design Compilation</span>
+      <br>
+      <br>
+      <span class="desc"><u><b>Note : </b><i>In the majority of cases, the JRXML report template compilation process is an application build-time process and not a runtime process.</i></u></span>
+      <br>
+      <br>
+      <span class="desc">Normally, report templates have to be compiled only once, just like we compile Java source files and then we deploy them with the application. If the report templates are not dynamic, there is no point on recompiling them at runtime. Report definitions are static and only the data supplied to them is different with every report filling operation.</span>
+      <br>
+      <br>
+      <span class="desc">However, sometimes applications do require runtime report template compilation, so here you can see how this can be achieved in Web environment.</span>
+      <br>
+      <br>
+      <span class="desc">The following example performs the compilation of the <code>WebappReport.jrxml</code> file and produces the <code>WebappReport.jasper</code> file.</span>
+      <br>
+      <br>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="desc">JSP Example</span></td>
+          <td><a href="jsp/compile.jsp" target="_blank"><img src="images/execute.gif" border="0" align="top"></a></td>
+          <td><a href="jsp/compile.jsp" target="_blank"><span class="desc">execute</span></a></td>
+          <td><a href="jsp/source.jsp?filename=/jsp/compile.jsp" target="_blank"><img src="images/source.gif" border="0" align="top"></a></td>
+          <td><a href="jsp/source.jsp?filename=/jsp/compile.jsp" target="_blank"><span class="desc">source</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="desc">Servlet Example</span></td>
+          <td><a href="servlets/compile" target="_blank"><img src="images/execute.gif" border="0" align="top"></a></td>
+          <td><a href="servlets/compile" target="_blank"><span class="desc">execute</span></a></td>
+          <td><a href="jsp/source.jsp?filename=/WEB-INF/classes/servlets/CompileServlet.java" target="_blank"><img src="images/source.gif" border="0" align="top"></a></td>
+          <td><a href="jsp/source.jsp?filename=/WEB-INF/classes/servlets/CompileServlet.java" target="_blank"><span class="desc">source</span></a></td>
+        </tr>
+      </table>
+      <br>
+      <br>
+    </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+      <br>
+      <br>
+    </td>
+  </tr>
+  <tr><td colspan="2"><hr size="1"></td></tr>
+  <tr><td colspan="2" align="center"><span class="small">Copyright &copy; 2001-2009 Jaspersoft Corporation </span><a href="http://www.jaspersoft.com" target="_blank"><span class="small">www.jaspersoft.com</span></a></td></tr>
+</table>
+
+</body>
+</html>
