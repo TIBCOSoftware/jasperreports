@@ -2,8 +2,24 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.5.0 (2011-11-xx, SVN xxxx)
+JasperReports 4.5.1 (201x-xx-xx, SVN xxxx)
 ---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
+JasperReports 4.5.0 (2011-12-06, SVN 4839)
+---------------------------------------------
+
+- border and padding style properties added to crosstab elements;
+
+- optimized text measurement for short and simple texts, to speed up report filling process;
+
+- new "net.sf.jasperreports.export.xls.use.timezone" export configuration property added
+to force translation of date values during XLS export, to the timezone used to fill the report;
 
 - minor bug fixes and improvements;
 
