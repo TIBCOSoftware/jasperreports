@@ -86,6 +86,7 @@ public final class CrosstabConverter extends FrameConverter
 		JRBasePrintFrame printFrame = new JRBasePrintFrame(reportConverter.getDefaultStyleProvider());
 		JRCrosstab crosstab = (JRCrosstab)element; 
 		
+		printFrame.copyBox(crosstab.getLineBox());
 		copyElement(reportConverter, crosstab, printFrame);
 		
 		List<JRPrintElement> children = getCrosstabChildren(reportConverter, crosstab);
