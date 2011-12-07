@@ -577,10 +577,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			setReprinted(true);
 		}
 
-		JRLineBox lineBox = getLineBox();
-		int padding = lineBox.getTopPadding() + lineBox.getBottomPadding();
 		printFrames = new ArrayList<JRTemplatePrintFrame>();
-		crosstabFiller.fill(availableHeight - getRelativeY() - padding);
+		crosstabFiller.fill(availableHeight - getRelativeY());
 
 		if (!printFrames.isEmpty())
 		{
@@ -603,7 +601,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		boolean willOverflow = crosstabFiller.willOverflow();
-		setStretchHeight(willOverflow ? availableHeight - getRelativeY() : (crosstabFiller.getUsedHeight() + padding));
+		if (willOverflow)
+		{
+			setStretchHeight(availableHeight - getRelativeY());
+		}
+		else if (!printFrames.isEmpty())
+		{
+			JRTemplatePrintFrame lastFrame = printFrames.get(printFrames.size() - 1);
+			int usedHeight = lastFrame.getY() + lastFrame.getHeight();
+			setStretchHeight(usedHeight);
+		}
 		
 		return willOverflow;
 	}
@@ -993,11 +1000,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			return willOverflow;
 		}
 		
-		protected int getUsedHeight()
-		{
-			return yChunkOffset + yOffset;
-		}
-		
 		protected boolean ended()
 		{
 			return hasData ? (startRowIndex >= rowHeadersData[0].length && startColumnIndex >= columnHeadersData[0].length) : noDataCellPrinted;
@@ -1005,7 +1007,11 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		
 		protected void fillVerticalCrosstab(int availableHeight) throws JRException
 		{
-			if (availableHeight < 0)
+			JRLineBox lineBox = getLineBox();
+			int padding = lineBox.getTopPadding() + lineBox.getBottomPadding();
+			int contentsHeight = availableHeight - padding;
+			
+			if (contentsHeight < 0)
 			{
 				willOverflow = true;
 				return;
@@ -1013,7 +1019,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			if (!hasData)
 			{
-				fillNoDataCell(availableHeight);			
+				fillNoDataCell(contentsHeight);			
 				if (!printRows.isEmpty())
 				{
 					addFilledRows();
@@ -1026,7 +1032,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			if (startColumnIndex == lastColumnIndex)
 			{
-				JRLineBox lineBox = getLineBox();
 				int availableWidth = getWidth() - lineBox.getLeftPadding() - lineBox.getRightPadding();
 
 				columnHeaders = getGroupHeaders(availableWidth - rowHeadersXOffset, columnXOffsets, columnBreakable, startColumnIndex, columnHeadersData, columnGroups);
@@ -1042,14 +1047,14 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			List<List<JRPrintElement>> columnHeaderRows = null;
 			if (printColumnHeaders)
 			{
-				columnHeaderRows = fillColumnHeaders(rowHeadersXOffset, availableHeight - yOffset);
+				columnHeaderRows = fillColumnHeaders(rowHeadersXOffset, contentsHeight - yOffset);
 				if (willOverflow)
 				{
 					return;
 				}
 			}
 
-			int lastRowIndex = fillRows(rowHeadersXOffset, availableHeight - yOffset);
+			int lastRowIndex = fillRows(rowHeadersXOffset, contentsHeight - yOffset);
 
 			if (lastRowIndex == startRowIndex)
 			{
@@ -1076,8 +1081,6 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 					startRowIndex = lastRowIndex = 0;
 
 					// set the chunk offset and compute the remaining height
-					JRLineBox lineBox = getLineBox();
-					int padding = lineBox.getTopPadding() + lineBox.getBottomPadding();
 					int yAdvance = yOffset + getColumnBreakOffset() + padding;
 					yChunkOffset += yAdvance;
 					int remainingHeight = availableHeight - yAdvance;
@@ -1091,6 +1094,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				}
 			}
 
+			//FIXME is this needed?  we do setStretchHeight in prepare()
 			boolean fillEnded = lastRowIndex >= rowHeadersData[0].length && lastColumnIndex >= columnHeadersData[0].length;
 			if (fillEnded)
 			{
