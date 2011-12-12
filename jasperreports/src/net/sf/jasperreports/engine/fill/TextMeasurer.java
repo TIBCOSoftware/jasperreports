@@ -573,6 +573,7 @@ public class TextMeasurer implements JRTextMeasurer
 			}
 		}
 		
+		//FIXME complex scripts still do TextLayout and Bidi here
 		Rectangle2D bounds = fontInfo.font.getStringBounds(text, getFontRenderContext());
 		
 		// adding the measurement to the font info statistics
@@ -623,8 +624,9 @@ public class TextMeasurer implements JRTextMeasurer
 		if (Bidi.requiresBidi(text.toCharArray(), 0, text.length()))
 		{
 			// determining the text direction
-			Bidi bidi = new Bidi(text, 0);
-			leftToRight = bidi.isLeftToRight();
+			// using default LTR as there's no way to have other default in the text
+			Bidi bidi = new Bidi(text, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
+			leftToRight = bidi.baseIsLeftToRight();
 		}
 		return leftToRight;
 	}
