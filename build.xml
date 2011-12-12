@@ -370,13 +370,19 @@
 	<property name="sf.net" value="false"/>
 	<property name="svn" value="jr-4-5-1"/>
 
-	<target name="schemaref" description="Generates the Schema Reference.">
+	<target name="preparedocs" description="Prepares Documentation Folder.">
 		<mkdir dir="./dist/docs"/> 
 		<copy todir="./dist/docs">
 			<fileset dir="docs">
 				<include name="resources/*.*"/>
 			</fileset>
+			<fileset dir="docs">
+				<include name="*.pdf"/>
+			</fileset>
 		</copy>
+	</target>
+	
+	<target name="schemaref" description="Generates the Schema Reference.">
 		<xslt basedir="src/net/sf/jasperreports/engine/dtds" in="src/net/sf/jasperreports/engine/dtds/jasperreport.xsd" destdir="dist/docs" style="docs/schema.reference.xsl" out="./dist/docs/schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -389,13 +395,7 @@
 		</xslt>
 	</target>
 	
-	<target name="componentschemaref" description="Generates the Schema Reference.">
-		<mkdir dir="./dist/docs"/> 
-		<copy todir="./dist/docs">
-			<fileset dir="docs">
-				<include name="resources/*.*"/>
-			</fileset>
-		</copy>
+	<target name="componentschemaref" description="Generates the Component Schema Reference.">
 		<xslt basedir="src/net/sf/jasperreports/components" in="src/net/sf/jasperreports/components/components.xsd" destdir="dist/docs" style="docs/components.schema.reference.xsl" out="./dist/docs/components.schema.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -409,12 +409,6 @@
 	</target>
 	
 	<target name="configref" description="Generates the Configuration Reference.">
-		<mkdir dir="./dist/docs"/> 
-		<copy todir="./dist/docs">
-			<fileset dir="docs">
-				<include name="resources/*.*"/>
-			</fileset>
-		</copy>
 		<xslt basedir="docs" in="docs/config.reference.xml" destdir="dist/docs" style="docs/config.reference.xsl" out="./dist/docs/config.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -428,12 +422,6 @@
 	</target>
 	
 	<target name="sampleref" description="Generates the Sample Reference.">
-		<mkdir dir="./dist/docs"/> 
-		<copy todir="./dist/docs">
-			<fileset dir="docs">
-				<include name="resources/*.*"/>
-			</fileset>
-		</copy>
 		<xslt basedir="docs" in="docs/sample.reference.xml" destdir="dist/docs" style="docs/sample.reference.xsl" out="./dist/docs/sample.reference.html">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -465,6 +453,6 @@
 		</copy>
 	</target>
 	
-	<target name="docs" depends="javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
+	<target name="docs" depends="preparedocs, javadoc, schemaref, componentschemaref, configref, sampleref" description="Generates all documentation."/>
 
 </project>
