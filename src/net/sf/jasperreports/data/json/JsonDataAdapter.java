@@ -21,58 +21,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data;
+package net.sf.jasperreports.data.json;
 
-import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import net.sf.jasperreports.data.DataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: CsvDataAdapter.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class ClassNameFieldHandler extends GeneralizedFieldHandler
-{
-	/**
-	 *
-	 */
-	public ClassNameFieldHandler()
-	{
-		super();
-	}
-	
-	/**
-	 *
-	 */
-	public Object convertUponGet(Object value)
-	{
-		if (value == null)
-		{
-			return null;
-		}
-		return ((Class<?>)value).getName();
-	}
+public interface JsonDataAdapter extends DataAdapter {
 
-	/**
-	 *
-	 */
-	public Object convertUponSet(Object value)
-	{
-		return null;
-	}
-	
-	/**
-	 *
-	 */
-	public Class<?> getFieldType()
-	{
-		return Class.class;
-	}
+	public String getSelectExpression();
 
-	/**
-	 *
-	 */
-	public Object newInstance(Object parent) throws IllegalStateException
-	{
-		return null;
-	}
+	public void setSelectExpression(String selectExpression);
+
+	public String getFileName();
+
+	public void setFileName(String fileName);
+
+	public Locale getLocale();
+
+	public void setLocale(Locale locale);
+
+	public TimeZone getTimeZone();
+
+	public void setTimeZone(TimeZone timeZone);
+
+	public boolean isUseConnection();
+	
+	public void setUseConnection(boolean useConnection);
+
+	public String getDatePattern();
+
+	public void setDatePattern(String datePattern);
+
+	public String getNumberPattern();
+
+	public void setNumberPattern(String numberPattern);
 }
