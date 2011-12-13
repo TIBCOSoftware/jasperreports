@@ -32,7 +32,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -45,6 +44,7 @@ import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
 import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
@@ -226,11 +226,9 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			byte[] buffer = new byte[length];
 			in.readFully(buffer);
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
-			ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
+			VirtualizationObjectInputStream elementsStream = new VirtualizationObjectInputStream(inputStream, virtualizationContext);
 			@SuppressWarnings("unchecked")
-			List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();
-			// restore elements data after internalization
-			virtualizationContext.restoreElementsData(elementsList);
+			List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();// TODO lucianc test
 			
 			// create a new list for the elements
 			elements = new VirtualizableElementList(virtualizationContext);

@@ -249,11 +249,12 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	protected final Map<ClassLoader,Integer> classLoadersIndexes = new HashMap<ClassLoader,Integer>();
 	protected final List<ClassLoader> classLoadersList = new ArrayList<ClassLoader>();
 
-	protected class ClassLoaderAnnotationObjectOutputStream extends ObjectOutputStream
+	protected class ClassLoaderAnnotationObjectOutputStream extends VirtualizationObjectOutputStream
 	{
-		public ClassLoaderAnnotationObjectOutputStream(OutputStream out) throws IOException
+		public ClassLoaderAnnotationObjectOutputStream(OutputStream out, 
+				JRVirtualizationContext virtualizationContext) throws IOException
 		{
-			super(out);
+			super(out, virtualizationContext);
 		}
 
 		protected void annotateClass(Class<?> clazz) throws IOException
@@ -284,11 +285,12 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	protected class ClassLoaderAnnotationObjectInputStream extends ObjectInputStream
+	protected class ClassLoaderAnnotationObjectInputStream extends VirtualizationObjectInputStream
 	{
-		public ClassLoaderAnnotationObjectInputStream(InputStream in) throws IOException
+		public ClassLoaderAnnotationObjectInputStream(InputStream in, 
+				JRVirtualizationContext virtualizationContext) throws IOException
 		{
-			super(in);
+			super(in, virtualizationContext);
 		}
 
 		protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException
@@ -587,7 +589,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out);
+			ObjectOutputStream oos = new ClassLoaderAnnotationObjectOutputStream(out, o.getContext());
 			oos.writeObject(o.getVirtualData());
 			oos.flush();
 		}
@@ -612,7 +614,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		try
 		{
-			ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in);
+			ObjectInputStream ois = new ClassLoaderAnnotationObjectInputStream(in, o.getContext());
 			o.setVirtualData(ois.readObject());
 		}
 		catch (IOException e)
