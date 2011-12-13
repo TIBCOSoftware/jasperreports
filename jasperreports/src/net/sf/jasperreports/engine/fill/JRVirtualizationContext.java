@@ -45,9 +45,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
-import net.sf.jasperreports.engine.util.CompositePrintElementVisitor;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
-import net.sf.jasperreports.engine.util.DefaultPrintElementVisitor;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 
@@ -87,7 +85,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 */
 	public JRVirtualizationContext()
 	{
-		cachedRenderers = new HashMap<String,JRRenderable>();
+		cachedRenderers = new HashMap<String,JRRenderable>();//FIXME concurrent
 		cachedTemplates = new HashMap<String,JRTemplateElement>();
 		
 		pageElementSize = JRProperties.getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
@@ -141,19 +139,14 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 				listener.beforeExternalization(object);	
 			}
 		}
-
-		setElementsExternalData(object.getVirtualData().getElements());
 	}
 	
 	public void afterExternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		restoreElementsData(object.getVirtualData().getElements());
 	}
 	
 	public void afterInternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		restoreElementsData(object.getVirtualData().getElements());
-		
 		if (listeners != null)
 		{
 			for (VirtualizationListener<VirtualElementsData> listener : listeners)
@@ -373,24 +366,6 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			virtualizer = threadVirtualizer;
 		}
 	}
-
-	protected void setElementsExternalData(Collection<? extends JRPrintElement> elements)
-	{
-		@SuppressWarnings("unchecked")
-		PrintElementVisitor<Void> visitor = new CompositePrintElementVisitor<Void>(
-				new ExternalizationTemplateVisitor(),
-				new ExternalizationImageVisitor());
-		traverseDeepElements(visitor, elements);
-	}
-
-	public void restoreElementsData(Collection<? extends JRPrintElement> elements)
-	{
-		@SuppressWarnings("unchecked")
-		PrintElementVisitor<Void> visitor = new CompositePrintElementVisitor<Void>(
-				new InternalizationTemplateVisitor(),
-				new InternalizationImageVisitor());
-		traverseDeepElements(visitor, elements);
-	}
 	
 	/**
 	 * Traverses all the elements on the page, including the ones placed inside
@@ -435,118 +410,59 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		}	
 	}
 	
-	protected class ExternalizationTemplateVisitor extends UniformPrintElementVisitor<Void>
+	public Object replaceSerializedObject(Object obj)
 	{
-		private final Map<String, JRVirtualPrintPage.JRIdHolderTemplateElement> idTemplates = 
-				new HashMap<String, JRVirtualPrintPage.JRIdHolderTemplateElement>();
-
-		@Override
-		protected void visitElement(JRPrintElement element, Void arg)
+		Object replace = obj;
+		if (obj instanceof JRTemplateElement)
 		{
-			// replacing element template with dummy template that only stores the template ID
-			if (element instanceof JRTemplatePrintElement)
+			JRTemplateElement template = (JRTemplateElement) obj;
+			String templateId = template.getId();
+			if (hasCachedTemplate(templateId))
 			{
-				setExternalizationTemplate((JRTemplatePrintElement) element);
+				replace = new JRVirtualPrintPage.JRIdHolderTemplateElement(templateId);
 			}
-		}
-
-		protected void setExternalizationTemplate(JRTemplatePrintElement templateElement)
-		{
-			JRTemplateElement template = templateElement.getTemplate();
-			if (template != null)
+			else
 			{
-				if (hasCachedTemplate(template.getId()))
+				if (log.isDebugEnabled())
 				{
-					String templateId = template.getId();
-					JRVirtualPrintPage.JRIdHolderTemplateElement idTemplate = idTemplates.get(templateId);
-					if (idTemplate == null)
-					{
-						idTemplate = new JRVirtualPrintPage.JRIdHolderTemplateElement(templateId);
-						idTemplates.put(templateId, idTemplate);
-					}
-					templateElement.setTemplate(idTemplate);
-				}
-				else
-				{
-					if (log.isDebugEnabled())
-					{
-						log.debug("Template " + template + " having id " + template.getId() + " not found in virtualization context cache");
-					}
+					log.debug("Template " + template + " having id " + template.getId() + " not found in virtualization context cache");
 				}
 			}
 		}
+		else if (obj instanceof JRRenderable)
+		{
+			JRRenderable renderer = (JRRenderable) obj;
+			if (hasCachedRenderer(renderer.getId()))
+			{
+				replace = new JRVirtualPrintPage.JRIdHolderRenderer(renderer);
+			}
+		}
+		return replace;
 	}
 	
-	protected class ExternalizationImageVisitor extends DefaultPrintElementVisitor<Void>
+	public Object resolveSerializedObject(Object obj)
 	{
-		@Override
-		public void visit(JRPrintImage image, Void arg)
+		Object resolve = obj;
+		if (obj instanceof JRVirtualPrintPage.JRIdHolderTemplateElement)
 		{
-			// replacing image renderer cached in the virtualization context 
-			// with dummy renderer that only stores the renderer ID
-			setExternalizationRenderer(image);
-		}
-
-		protected void setExternalizationRenderer(JRPrintImage image)
-		{
-			JRRenderable renderer = image.getRenderer();
-			if (renderer != null && hasCachedRenderer(renderer.getId()))
+			JRVirtualPrintPage.JRIdHolderTemplateElement template = (JRVirtualPrintPage.JRIdHolderTemplateElement) obj;
+			JRTemplateElement cachedTemplate = getCachedTemplate(template.getId());
+			if (cachedTemplate == null)
 			{
-				image.setRenderer(new JRVirtualPrintPage.JRIdHolderRenderer(renderer));
+				throw new JRRuntimeException("Template " + template.getId() + " not found in virtualization context.");
 			}
+			resolve = cachedTemplate;
 		}
-	}
-	
-	protected class InternalizationTemplateVisitor extends UniformPrintElementVisitor<Void>
-	{
-
-		@Override
-		protected void visitElement(JRPrintElement element, Void arg)
-		{			
-			if (element instanceof JRTemplatePrintElement)
-			{
-				// restore the cached element template from the virtualization context
-				restoreTemplate((JRTemplatePrintElement) element);
-			}
-		}
-
-		protected void restoreTemplate(JRTemplatePrintElement element)
+		else if (obj instanceof JRVirtualPrintPage.JRIdHolderRenderer)
 		{
-			JRTemplateElement template = element.getTemplate();
-			if (template != null && template instanceof JRVirtualPrintPage.JRIdHolderTemplateElement)
+			JRVirtualPrintPage.JRIdHolderRenderer renderer = (JRVirtualPrintPage.JRIdHolderRenderer) obj;
+			JRRenderable cachedRenderer = getCachedRenderer(renderer.getId());
+			if (cachedRenderer == null)
 			{
-				JRTemplateElement cachedTemplate = getCachedTemplate(template.getId());
-				if (cachedTemplate == null)
-				{
-					throw new JRRuntimeException("Template " + template.getId() + " not found in virtualization context.");
-				}
-
-				element.setTemplate(cachedTemplate);
+				throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
 			}
+			resolve = cachedRenderer;
 		}
-	}
-	
-	protected class InternalizationImageVisitor extends DefaultPrintElementVisitor<Void>
-	{
-		@Override
-		public void visit(JRPrintImage image, Void arg)
-		{
-			// restore the cached image rendere from the virtualization context
-			restoreRenderer(image);
-		}
-
-		protected void restoreRenderer(JRPrintImage image)
-		{
-			JRRenderable renderer = image.getRenderer();
-			if (renderer != null && renderer instanceof JRVirtualPrintPage.JRIdHolderRenderer)
-			{
-				JRRenderable cachedRenderer = getCachedRenderer(renderer.getId());
-				if (cachedRenderer == null)
-				{
-					throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");
-				}
-				image.setRenderer(cachedRenderer);
-			}
-		}		
+		return resolve;
 	}
 }

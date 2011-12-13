@@ -26,8 +26,6 @@ package net.sf.jasperreports.engine.base;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -40,6 +38,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
+import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
+import net.sf.jasperreports.engine.fill.VirtualizationObjectOutputStream;
 import net.sf.jasperreports.engine.util.DeepPrintElementCounter;
 
 import org.apache.commons.logging.Log;
@@ -455,9 +455,8 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		byte[] buffer = new byte[length];
 		in.readFully(buffer);
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
-		ObjectInputStream elementsStream = new ObjectInputStream(inputStream);
+		VirtualizationObjectInputStream elementsStream = new VirtualizationObjectInputStream(inputStream, context);
 		elements = (List<JRPrintElement>) elementsStream.readObject();
-		context.restoreElementsData(elements);
 		
 		if (!elements.isEmpty())
 		{
@@ -479,7 +478,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 			out.writeObject(context);
 
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			ObjectOutputStream stream = new ObjectOutputStream(bout);
+			VirtualizationObjectOutputStream stream = new VirtualizationObjectOutputStream(bout, context);
 			stream.writeObject(elements);
 			stream.flush();
 
