@@ -341,12 +341,118 @@ Shows how to export the report to CSV format using metadata associated with repo
     <since>4.0.0</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
-[Under Construction]
+<subtitle name="excel_output">Pixel-Perfect Requirement and Excel Output Format</subtitle>
+<br/>
+<br/>
+Documents stored in a <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object are ready to be printed out in a pixel-perfect 
+representation. This means that objects' own dimensions, absolute and relative positions within the document are completely preserved. The pixel-perfect 
+representation is a must for the read-only or layout-oriented output formats, such as PDF or Graphics2D, but it could generate some inconvenients for 
+data-oriented output formats like the Excel-based ones. In this case more important than the pixel-perfectness of the document is to allow 
+the generated data in the report to be properly manipulated by the Excel engine, therefore to generate as much as possible Excel-like documents. When opening 
+an Excel document, ideally is to see:
+<ul>
+<li>data with correct field type (numeric, currency, date, etc);</li>
+<li>no extra columns/rows added by the grid generation constraints;</li>
+<li>no page margins and other padding settings;</li>
+<li>no page numbers;</li>
+<li>no repetition of page headers;</li>
+<li>data organized in columns/rows in order to allow formula calculations;</li>
+<li>some report sections to be excluded/hidden;</li>
+<li>outline data grouping;</li>
+<li>etc.</li>
+</ul>
+<subtitle name="csv_metadata_export">The CSV Metadata Exporter</subtitle>
+<br/>
+<br/>
+A possibility to extract relevant data from a pixel-perfect <api href="net/sf/jasperreports/engine/JasperPrint.html">JasperPrint</api> object in order to generate a 
+data-oriented document, is to customize the export. Some properties are needed to tell the JR engine which elements should be exported and where should they be placed 
+in the current sheet. The <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporter.html">JRCsvMetadataExporter</api> is designed to process such kind of 
+metadata information and to generate consistent columns of data, with or without column headers on their top. 
+<br/>
+Before starting the export work, the CSV metadata exporter looks for the presence of the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">net.sf.jasperreports.export.csv.column.names.{suffix}</api> 
+properties at report level. If present, they provide a comma-separated list of column names, each one referencing a column that should be exported. For 
+accurate results it's recommended that the column names in the list to follow the same order as the original columns.
+<br/>
+Below is an example of <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> usage:
+<pre><![CDATA[
+JRCsvMetadataExporter exporter = new JRCsvMetadataExporter();
+exporter.setParameter(JRCsvMetadataExporterParameter.COLUMN_NAMES, new String[]{"Name,Id"});]]></pre>
+It ensures that only 2 columns will be printed out: the column with names and the column with Ids.   
+<br/>
+Now, that we have the column names, it's time to see which elements will be exported into these columns and how. Let's introduce the other metadata properties:
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">net.sf.jasperreports.export.csv.column.name</api> 
+- this is an important element-level property. If the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent property) is not 
+present, this property specifies the name of an exported column and assumes that the current element will be placed in that column. If the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent prop) was defined, 
+the name specified by this property must be one of the names in the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter. The element will be placed in 
+that column.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_WRITE_HEADER">net.sf.jasperreports.export.csv.write.header</api> - 
+a report-level flag property indicating whether the column names should be exported as column headers or not. The equivalent export parameter is 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#WRITE_HEADER">WRITE_HEADER</api>. the default value is <code>false</code>.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE">net.sf.jasperreports.export.csv.repeat.value</api> - 
+an element-level flag property indicating whether the value associated to that column should be repeated or not when it is missing.</li>
+<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.csv.data</api> - 
+element-level property containing the exported value for that element. By default is considered the text value of the report element itself.</li>
+</ul>
+In this sample only five columns are exported to CSV format: <code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and 
+<code>OrderDate</code>. Column headers are not exported and for the <code>ShipCity</code> column the exported data is customized using the 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.csv.data</api> property. All 
+these settings apply to the &lt;detail/&gt; section:
+<pre><![CDATA[
+<detail>
+  <band height="13">
+  ...
+    <textField>
+      <reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11">
+        <property name="net.sf.jasperreports.export.csv.column.name" value="Order"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField isStretchWithOverflow="true">
+      <reportElement positionType="Float" x="40" y="0" width="110" height="11">
+        <property name="net.sf.jasperreports.export.csv.column.name" value="ShipCity"/>
+        ...
+        <propertyExpression name="net.sf.jasperreports.export.csv.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
+        ...
+      </reportElement>
+    </textField>
+    <textField isBlankWhenNull="true">
+      <reportElement x="155" y="0" width="25" height="11">
+        <property name="net.sf.jasperreports.export.csv.column.name" value="ShipRegion"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField pattern="dd/MM/yyyy">
+      <reportElement x="185" y="0" width="50" height="11">
+        <property name="net.sf.jasperreports.export.csv.column.name" value="OrderDate"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField pattern="0.00">
+      <reportElement x="235" y="0" width="35" height="11">
+        <property name="net.sf.jasperreports.export.csv.column.name" value="Freight"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    ...
+  </band>
+</detail>]]></pre>
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.csv</code>.
     </content>
   </feature>
 
