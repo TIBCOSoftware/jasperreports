@@ -188,7 +188,7 @@ report user (example: A user may provide a start and end date for which they wan
 	As shown above, complex queries generation might depend on parameter values. JasperReports provides built-in support for 
 	several SQL clause functions which require some additional processing: 
 	<ol>
-	<li><b>The <code>${IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{IN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -212,7 +212,7 @@ report user (example: A user may provide a start and end date for which they wan
 	(e.g. <code>0 = 0</code>). 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{NOTIN, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -238,7 +238,7 @@ report user (example: A user may provide a start and end date for which they wan
 	</ol>
 	Since JasperReports v4.0.1, the following built-in clause functions are also available:
 	<ol start="3">
-	<li><b>The <code>${EQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{EQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -253,7 +253,7 @@ report user (example: A user may provide a start and end date for which they wan
 	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NULL</code> clause. 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${NOTEQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{NOTEQUAL, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -268,7 +268,7 @@ report user (example: A user may provide a start and end date for which they wan
 	If the parameter's value is null, the function generates a <code>&lt;column_name&gt; IS NOT NULL</code> clause. 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${LESS, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{LESS, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -289,7 +289,7 @@ report user (example: A user may provide a start and end date for which they wan
 	can use the <code>&lt;column_name&gt; &lt; $P{&lt;parameter_name&gt;}</code> instead.
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${LESS], &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{LESS], &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -310,7 +310,7 @@ report user (example: A user may provide a start and end date for which they wan
 	can use the <code>&lt;column_name&gt; &lt;= $P{&lt;parameter_name&gt;}</code> instead.
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -331,7 +331,7 @@ report user (example: A user may provide a start and end date for which they wan
 	can use the <code>&lt;column_name&gt; &gt; $P{&lt;parameter_name&gt;}</code> instead.
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${[GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{[GREATER, &lt;column_name&gt;, &lt;parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects three mandatory clause tokens: 
@@ -352,7 +352,7 @@ report user (example: A user may provide a start and end date for which they wan
 	can use the <code>&lt;column_name&gt; &gt;= $P{&lt;parameter_name&gt;}</code> instead.
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects four mandatory clause tokens: 
@@ -378,7 +378,7 @@ report user (example: A user may provide a start and end date for which they wan
 	(e.g. <code>0 = 0</code>). 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${[BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{[BETWEEN, &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects four mandatory clause tokens: 
@@ -404,7 +404,7 @@ report user (example: A user may provide a start and end date for which they wan
 	(e.g. <code>0 = 0</code>). 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects four mandatory clause tokens: 
@@ -430,7 +430,7 @@ report user (example: A user may provide a start and end date for which they wan
 	(e.g. <code>0 = 0</code>). 
 	<br/>&#160;
 	</li>
-	<li><b>The <code>${[BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
+	<li><b>The <code>$X{[BETWEEN], &lt;column_name&gt;, &lt;left_parameter_name&gt;, &lt;right_parameter_name&gt;}</code> clause function</b> 
 	<br/>
 	<br/>
 	The function expects four mandatory clause tokens: 
