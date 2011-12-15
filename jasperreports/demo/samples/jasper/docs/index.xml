@@ -8,6 +8,7 @@
 
   <mainFeature ref="groups"/>
   <mainFeature ref="csvmetadataexport"/>
+  <mainFeature ref="xlsmetadataexport"/>
   <mainFeature ref="conditionalstyles"/>
   
   <!-- groups -->
@@ -453,6 +454,97 @@ these settings apply to the &lt;detail/&gt; section:
 </detail>]]></pre>
 After running the <code>&gt;ant test view</code> command the data-centric document exported with the CSV metadata exporter will be available in the 
 <code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.metadata.csv</code>.
+    </content>
+  </feature>
+
+  <!-- xlsmetadataexport -->
+  
+  <feature name="xlsmetadataexport" title="Exporting to XLS Format Using Report Metadata">
+    <description>
+Shows how to export the report to XLS format using metadata associated with report elements at design time, to mark data columns.
+    </description>
+    <since>4.0.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+<subtitle name="xls_metadata_export">The JExcelApi Metadata Exporter</subtitle>
+<br/>
+<br/>
+As shown in the section <a href="#csv_metadata_export">above</a>, the CSV metadata exporter is a very useful tool when data-oriented outputs are preferred. The only 
+problem is that any format setting is dropped when the CSV file is saved. CSVs do not store layout and style, they only keep data safe. Sometimes this is not enough 
+for complex documents. Sometimes data needs to be presented in a meaningful way, column headers should be centered, totals should appear in a bold style, some cells 
+might require a particular background, etc. There is a need to keep together relevant data with their style and formatting information. Since the CSV metadata exporter 
+is limited to data only, another metadata-based exporter comes to solve the problem. This is the 
+<api href="net/sf/jasperreports/engine/export/JExcelApiMetadataExporter.html">JExcelApiMetadataExporter</api>. It relies on equivalent metadata properties and parameters 
+having the same meanings, but dedicated to the XLS output format:
+Before starting the export work, the CSV metadata exporter looks for the presence of the 
+<ul>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">net.sf.jasperreports.export.xls.column.names.{suffix}</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">net.sf.jasperreports.export.xls.column.name</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_WRITE_HEADER">net.sf.jasperreports.export.xls.write.header</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE">net.sf.jasperreports.export.xls.repeat.value</api></li>
+<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.xls.data</api></li>
+</ul>
+In this sample the same five columns are exported to XLS format: <code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and 
+<code>OrderDate</code>. Column headers are not exported and for the <code>ShipCity</code> column the exported data is customized using the 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.xls.data</api> property. All 
+these settings apply to the &lt;detail/&gt; section:
+<pre><![CDATA[
+<detail>
+  <band height="13">
+  ...
+    <textField>
+      <reportElement style="OrderIdStyle" x="1" y="0" width="35" height="11">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="Order"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField isStretchWithOverflow="true">
+      <reportElement positionType="Float" x="40" y="0" width="110" height="11">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipCity"/>
+        ...
+        <propertyExpression name="net.sf.jasperreports.export.xls.data"><![CDATA[$F{ShipCity}]] ></propertyExpression>
+        ...
+      </reportElement>
+    </textField>
+    <textField isBlankWhenNull="true">
+      <reportElement x="155" y="0" width="25" height="11">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="ShipRegion"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField pattern="dd/MM/yyyy">
+      <reportElement x="185" y="0" width="50" height="11">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="OrderDate"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    <textField pattern="0.00">
+      <reportElement x="235" y="0" width="35" height="11">
+        ...
+        <property name="net.sf.jasperreports.export.xls.column.name" value="Freight"/>
+        ...
+      </reportElement>
+      ...
+    </textField>
+    ...
+  </band>
+</detail>]]></pre>
+After running the <code>&gt;ant test view</code> command the data-centric document exported with the JExcelApi metadata exporter will be available in the 
+<code>demo/samples/jasper/build/reports</code> directory as <code>FirstJasper.jxl.metadata.xls</code>. Notice the differences between this one and the 
+<code>FirstJasper.metadata.csv</code> CSV document.
     </content>
   </feature>
 
