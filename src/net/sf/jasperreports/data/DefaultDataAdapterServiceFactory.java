@@ -31,6 +31,8 @@ import net.sf.jasperreports.data.ds.DataSourceDataAdapter;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapterService;
 import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
+import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
+import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.data.jndi.JndiDataAdapter;
@@ -129,6 +131,10 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		else if (dataAdapter instanceof JsonDataAdapter)
 		{
 			dataAdapterService = new JsonDataAdapterService((JsonDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof HibernateDataAdapter)
+		{
+			dataAdapterService = new HibernateDataAdapterService((HibernateDataAdapter)dataAdapter);
 		}
 		
 		return dataAdapterService;
