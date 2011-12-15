@@ -85,12 +85,22 @@ public class HibernateDataAdapterService extends AbstractDataAdapterService {
 									propHibernate);
 						}
 						if (hbmDA.isUseAnnotation()) {
-							// AnnotationConfiguration conf = new
-							// org.hibernate.cfg.AnnotationConfiguration()
-							// .configure();
-							// configure
-							// .setProperty(Environment.CONNECTION_PROVIDER,
-							// "com.jaspersoft.ireport.designer.connection.HibernateConnectionProvider");
+							try {// this one is optional
+								Class<?> anclazz = JRClassLoader
+										.loadClassForRealName("org.hibernate.cfg.AnnotationConfiguration");
+								Object conf = anclazz.newInstance();
+								conf.getClass()
+										.getMethod("configure", new Class[] {})
+										.invoke(conf, new Object[] {});
+
+								clazz.getMethod("setProperty", String.class,
+										String.class)
+										.invoke(configure,
+												"hibernate.connection.provider_class",
+												"com.jaspersoft.ireport.designer.connection.HibernateConnectionProvider");
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 
 						Object bsf = clazz.getMethod("buildSessionFactory",
