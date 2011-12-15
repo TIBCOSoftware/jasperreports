@@ -135,6 +135,7 @@
 		<antcall target="javac" />
 		<antcall target="compile" />
 		<ant dir="../" target="test"/>
+		<antcall target="jxlMetadata" />
 	</target>
 
 </project>
