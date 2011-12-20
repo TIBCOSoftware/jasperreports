@@ -24,7 +24,6 @@
 package net.sf.jasperreports.web.servlets;
 
 import java.io.PrintWriter;
-import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -48,6 +47,9 @@ public abstract class AbstractViewer
 
 	public static final String REQUEST_PARAMETER_PAGE = "jr.page";
 	
+	protected static final String TEMPLATE_HEADER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplateNoPages.vm";
+	protected static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
+	
 	/**
 	 *
 	 */
@@ -60,22 +62,27 @@ public abstract class AbstractViewer
 		JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
 		
 		JRXhtmlExporter exporter = new JRXhtmlExporter();
-	
+		boolean hasPages = true;
+		
 		exporter.setReportContext(webReportContext);
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
 		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
 
-		String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
-		if (reportPage == null) 
+		if (jasperPrint.getPages().size() > 0) 
 		{
-			reportPage = "0";
+			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
+			if (reportPage == null) {
+				reportPage = "0";
+			}
+			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.parseInt(reportPage));
+		} else {
+			hasPages = false;
 		}
-		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.parseInt(reportPage));
 		
-		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext));
+		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages));
 		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
-		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext));
+		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages));
 		
 		exporter.setParameter(
 			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
@@ -125,10 +132,10 @@ public abstract class AbstractViewer
 		return request.getContextPath() + request.getServletPath() + "?" + newQueryString;
 	}
 
-	protected abstract String getHeader(HttpServletRequest request, WebReportContext webReportContext); 
+	protected abstract String getHeader(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages); 
 
 	protected abstract String getBetweenPages(HttpServletRequest request, WebReportContext webReportContext); 
 
-	protected abstract String getFooter(HttpServletRequest request, WebReportContext webReportContext); 
+	protected abstract String getFooter(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages); 
 
 }
