@@ -751,9 +751,10 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		if (sheetHelper != null)
 		{
+			JasperPrint jrPrint = reportIndex > 0 ? (isOnePagePerSheet && pageIndex == 0  || !isOnePagePerSheet ? jasperPrintList.get(reportIndex-1) : jasperPrint) : jasperPrint;
 			sheetHelper.exportFooter(
 					sheetIndex, 
-					jasperPrint, 
+					jrPrint, 
 					isIgnorePageMargins, 
 					sheetAutoFilter
 					);
