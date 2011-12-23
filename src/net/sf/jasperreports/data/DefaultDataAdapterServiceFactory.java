@@ -29,6 +29,8 @@ import net.sf.jasperreports.data.csv.CsvDataAdapter;
 import net.sf.jasperreports.data.csv.CsvDataAdapterService;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapter;
 import net.sf.jasperreports.data.ds.DataSourceDataAdapterService;
+import net.sf.jasperreports.data.ejbql.EjbqlDataAdapter;
+import net.sf.jasperreports.data.ejbql.EjbqlDataAdapterService;
 import net.sf.jasperreports.data.empty.EmptyDataAdapter;
 import net.sf.jasperreports.data.empty.EmptyDataAdapterService;
 import net.sf.jasperreports.data.hibernate.HibernateDataAdapter;
@@ -41,6 +43,8 @@ import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
 import net.sf.jasperreports.data.json.JsonDataAdapter;
 import net.sf.jasperreports.data.json.JsonDataAdapterService;
+import net.sf.jasperreports.data.mondrian.MondrianDataAdapter;
+import net.sf.jasperreports.data.mondrian.MondrianDataAdapterService;
 import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapter;
 import net.sf.jasperreports.data.provider.DataSourceProviderDataAdapterService;
 import net.sf.jasperreports.data.qe.QueryExecuterDataAdapter;
@@ -53,6 +57,8 @@ import net.sf.jasperreports.data.xml.RemoteXmlDataAdapter;
 import net.sf.jasperreports.data.xml.RemoteXmlDataAdapterService;
 import net.sf.jasperreports.data.xml.XmlDataAdapter;
 import net.sf.jasperreports.data.xml.XmlDataAdapterService;
+import net.sf.jasperreports.data.xmla.XmlaDataAdapter;
+import net.sf.jasperreports.data.xmla.XmlaDataAdapterService;
 
 
 /**
@@ -141,6 +147,18 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		else if (dataAdapter instanceof SpringHibernateDataAdapter)
 		{
 			dataAdapterService = new SpringHibernateDataAdapterService((SpringHibernateDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof EjbqlDataAdapter)
+		{
+			dataAdapterService = new EjbqlDataAdapterService((EjbqlDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof MondrianDataAdapter)
+		{
+			dataAdapterService = new MondrianDataAdapterService((MondrianDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter instanceof XmlaDataAdapter)
+		{
+			dataAdapterService = new XmlaDataAdapterService((XmlaDataAdapter)dataAdapter);
 		}
 		
 		return dataAdapterService;
