@@ -21,93 +21,79 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.data.mondrian;
+package net.sf.jasperreports.data.xmla;
 
-import java.util.Map;
-
-import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapter;
-
+import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JdbcDataAdapterImpl.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id: CsvDataAdapterImpl.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class JdbcDataAdapterImpl extends AbstractClasspathAwareDataAdapter implements JdbcDataAdapter
-{
-	private String driver;
+public class XmlaDataAdapterImpl extends AbstractDataAdapter implements
+		XmlaDataAdapter {
+	private String xmlaUrl;
+	private String datasource;
+	private String catalog;
+	private String cube;
+
 	private String username;
 	private String password = null;
-	private String url;
-	private String database;
 	private boolean savePassword;
-	private String serverAddress;
-	private Map<String, String> properties;
-	
-	public JdbcDataAdapterImpl() {
-		setName("New JDBC Data Adapter");
+
+	public String getXmlaUrl() {
+		return xmlaUrl;
 	}
 
-	public String getDatabase() {
-		return database;
+	public void setXmlaUrl(String xmlaUrl) {
+		this.xmlaUrl = xmlaUrl;
 	}
-	
-	public void setDatabase(String database) {
-		this.database = database;
+
+	public String getDatasource() {
+		return datasource;
 	}
-	
-	public String getDriver() {
-		return driver;
+
+	public void setDatasource(String datasource) {
+		this.datasource = datasource;
 	}
-	
-	public void setDriver(String driver) {
-		this.driver = driver;
+
+	public String getCatalog() {
+		return catalog;
 	}
-	
+
+	public void setCatalog(String catalog) {
+		this.catalog = catalog;
+	}
+
+	public String getCube() {
+		return cube;
+	}
+
+	public void setCube(String cube) {
+		this.cube = cube;
+	}
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public boolean isSavePassword() {
 		return savePassword;
 	}
-	
+
 	public void setSavePassword(boolean savePassword) {
 		this.savePassword = savePassword;
 	}
-	
-	public String getUrl() {
-		return url;
-	}
-	
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
-	public String getServerAddress() {
-		return this.serverAddress;
-	}
-	
-	public void setServerAddress(String serverAddress) {
-		this.serverAddress = serverAddress;
-	}
 
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
-	}
-
-	public Map<String, String> getProperties() {
-		return properties;
-	}
 }
