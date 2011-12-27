@@ -38,6 +38,7 @@ import net.sf.jasperreports.data.hibernate.HibernateDataAdapterService;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapter;
 import net.sf.jasperreports.data.hibernate.spring.SpringHibernateDataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
+import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.data.jndi.JndiDataAdapter;
 import net.sf.jasperreports.data.jndi.JndiDataAdapterService;
@@ -104,10 +105,6 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		{
 			dataAdapterService = new EmptyDataAdapterService((EmptyDataAdapter)dataAdapter);
 		}
-		else if (dataAdapter instanceof JdbcDataAdapter)
-		{
-			dataAdapterService = new JdbcDataAdapterService((JdbcDataAdapter)dataAdapter);
-		}
 		else if (dataAdapter instanceof JndiDataAdapter)
 		{
 			dataAdapterService = new JndiDataAdapterService((JndiDataAdapter)dataAdapter);//FIXME maybe want some cache here
@@ -159,6 +156,10 @@ public class DefaultDataAdapterServiceFactory implements DataAdapterServiceFacto
 		else if (dataAdapter instanceof XmlaDataAdapter)
 		{
 			dataAdapterService = new XmlaDataAdapterService((XmlaDataAdapter)dataAdapter);
+		}
+		else if (dataAdapter.getClass().getName().equals(JdbcDataAdapterImpl.class.getName()))
+		{
+			dataAdapterService = new JdbcDataAdapterService((JdbcDataAdapter)dataAdapter);
 		}
 		
 		return dataAdapterService;
