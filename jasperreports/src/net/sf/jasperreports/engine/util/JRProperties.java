@@ -744,6 +744,20 @@ public final class JRProperties
 		
 		return value == null ? defaultValue : asBoolean(value);
 	}
+	
+	/**
+	 * Returns the value of a property as a Boolean object, looking first in the supplied properties holder
+	 * and then in the system properties.
+	 * 
+	 * @param propertiesHolder the properties holder
+	 * @param key the key
+	 * @return the property value or <code>null</code> if the property is not defined
+	 */
+	public static Boolean getBooleanProperty (JRPropertiesHolder propertiesHolder, String key)
+	{
+		String value = getProperty(propertiesHolder, key);
+		return value == null ? null : Boolean.valueOf(value);
+	}
 
 	/**
 	 * Returns the value of a property as a boolean, looking first in the supplied properties map
