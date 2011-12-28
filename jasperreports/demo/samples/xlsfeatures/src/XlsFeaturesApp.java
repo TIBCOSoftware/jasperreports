@@ -84,12 +84,17 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
 
 			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			JRCsvDataSource dataSource = new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"));
-			dataSource.setRecordDelimiter("\r\n");
-//				dataSource.setUseFirstRowAsHeader(true);
-			dataSource.setColumnNames(columnNames);
-			
-			JasperFillManager.fillReportToFile("build/reports/XlsFeaturesReport.jasper", parameters, dataSource);
+			JRCsvDataSource[] dataSources = new JRCsvDataSource[] {
+				new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt")),
+				new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"))
+			};
+			File[] files = getFiles(new File("build/reports"), "jasper");
+			for(int i = 0; i< files.length; i++)
+			{
+				dataSources[i].setRecordDelimiter("\r\n");
+				dataSources[i].setColumnNames(columnNames);
+				JasperFillManager.fillReportToFile(files[i].getPath(), parameters, dataSources[i]);
+			}
 			System.err.println("Report : XlsFeaturesReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
@@ -168,8 +173,8 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			File sourceFile = files[i];
 	
 			JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
-	
-			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
+			String extension = jasperPrint.getName().contains("Macro") ? ".xlsm" : ".xlsx";
+			File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + extension);
 			
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			
@@ -181,7 +186,7 @@ public class XlsFeaturesApp extends AbstractSampleApp
 			
 			exporter.exportReport();
 	
-			System.err.println("Report : " + sourceFile + ". XLSX creation time : " + (System.currentTimeMillis() - start));
+			System.err.println("Report : " + sourceFile + ". "+ extension.toUpperCase() + " creation time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	

@@ -37,6 +37,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -63,6 +64,7 @@ import jxl.format.Pattern;
 import jxl.format.RGB;
 import jxl.format.UnderlineStyle;
 import jxl.format.VerticalAlignment;
+import jxl.read.biff.BiffException;
 import jxl.write.Blank;
 import jxl.write.DateFormat;
 import jxl.write.DateTime;
@@ -284,10 +286,32 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		{
 			WorkbookSettings settings = new WorkbookSettings();
 			settings.setUseTemporaryFileDuringWrite(useTempFile);
-			workbook = Workbook.createWorkbook(os, settings);
+			
+			if(workbookTemplatePath != null)
+			{
+				Workbook template = Workbook.getWorkbook(new File(workbookTemplatePath));
+				workbook = Workbook.createWorkbook(os, template, settings);
+				if(!keepTemplateSheets)
+				{
+					for(int i = 0; i < workbook.getNumberOfSheets(); i++)
+					{
+						workbook.removeSheet(i);
+					}
+				}
+				else
+				{
+					sheetIndex += workbook.getNumberOfSheets();
+				}
+			}
+			else
+			{
+				workbook = Workbook.createWorkbook(os, settings);
+			}
 		}
 		catch (IOException e)
 		{
+			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+		} catch (BiffException e) {
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
 		}
 	}

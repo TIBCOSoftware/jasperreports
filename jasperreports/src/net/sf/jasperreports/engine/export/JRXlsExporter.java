@@ -36,6 +36,8 @@ import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
@@ -65,6 +67,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseFont;
@@ -93,6 +96,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.usermodel.HSSFName;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
@@ -101,6 +105,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -195,7 +200,36 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void openWorkbook(OutputStream os)
 	{
-		workbook = new HSSFWorkbook();
+		if(workbookTemplatePath != null)
+		{
+			try 
+			{
+				workbook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(workbookTemplatePath)));
+				if(!keepTemplateSheets)
+				{
+					for(int i = 0; i < workbook.getNumberOfSheets(); i++)
+					{
+						workbook.removeSheetAt(i);
+					}
+				}
+				else
+				{
+					sheetIndex += workbook.getNumberOfSheets();
+				}
+			} 
+			catch (FileNotFoundException e) 
+			{
+				throw new JRRuntimeException(e);
+			} 
+			catch (IOException e) 
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		else
+		{
+			workbook = new HSSFWorkbook();
+		}
 		emptyCellStyle = workbook.createCellStyle();
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());
 		emptyCellStyle.setFillPattern(backgroundMode);

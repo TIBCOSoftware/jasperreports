@@ -329,6 +329,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_USE_TIMEZONE = JRProperties.PROPERTY_PREFIX + "export.xls.use.timezone";
 	
+	public static final String PROPERTY_WORKBOOK_TEMPLATE_PATH = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template.path";
+	public static final String PROPERTY_KEEP_TEMPLATE_SHEETS = JRProperties.PROPERTY_PREFIX + "export.xls.keep.template.sheets";
+
+	
 	protected static class TextAlignHolder
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
@@ -429,6 +433,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected String autoFilterEnd;		
 
 	protected Float columnWidthRatio;
+	
+	protected Boolean keepTemplateSheets;
+	protected String workbookTemplatePath;		
+	
 	/**
 	 *
 	 */
@@ -692,6 +700,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		formatPatternsMap = (Map<String,String>)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 		
+		workbookTemplatePath = workbookTemplatePath == null ? JRProperties.getProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE_PATH) : workbookTemplatePath;
+		keepTemplateSheets = keepTemplateSheets ==  null ? JRProperties.getBooleanProperty(jasperPrint, PROPERTY_KEEP_TEMPLATE_SHEETS) : keepTemplateSheets;
 	}
 
 	protected void setExporterHints()
@@ -1428,7 +1438,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getBooleanProperty(element, PROPERTY_WRAP_TEXT, wrapText);
+			return (JRProperties.getBooleanProperty(element, PROPERTY_WRAP_TEXT, wrapText) 
+					|| JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FIT_ROW, wrapText));
 		}
 		return wrapText;
 	}
@@ -1590,6 +1601,30 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		}
 		return value;
 	}
+	
+	// property setters
+	
+	public boolean isKeepTemplateSheets() {
+		return keepTemplateSheets;
+	}
+
+
+	public void setKeepTemplateSheets(boolean keepTemplateSheets) {
+		this.keepTemplateSheets = keepTemplateSheets;
+	}
+
+
+	public String getWorkbookTemplatePath() {
+		return workbookTemplatePath;
+	}
+
+
+	public void setWorkbookTemplatePath(String workbookTemplatePath) {
+		this.workbookTemplatePath = workbookTemplatePath;
+	}
+
+
+	//abstract methods
 	
 	protected abstract ExporterNature getNature();
 

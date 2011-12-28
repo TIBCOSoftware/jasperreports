@@ -24,9 +24,14 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
+import java.util.zip.ZipFile;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
+import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 /**
@@ -62,6 +67,27 @@ public class XlsxZip extends FileBufferedZip
 		addEntry(contentTypesEntry);
 		
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
+	}
+	
+	/**
+	 * 
+	 */
+	public XlsxZip(String templatePath) throws IOException
+	{
+		this();
+		
+		if(templatePath != null)
+		{
+			ZipFile template = new ZipFile(templatePath);
+			if(template != null)
+			{
+				try {
+					addEntry(new FileBufferedZipEntry("xl/vbaProject.bin", JRLoader.loadBytes(template.getInputStream(template.getEntry("xl/vbaProject.bin")))));
+				} catch (JRException e) {
+					throw new JRRuntimeException(e);
+				}
+			}
+		}
 	}
 	
 	/**
