@@ -107,6 +107,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xlsx.";
 
+	public static final String PROPERTY_MACRO_TEMPLATE_PATH = JRProperties.PROPERTY_PREFIX + "export.xlsx.macro.template.path";
 	/**
 	 *
 	 */
@@ -151,6 +152,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected String sheetAutoFilter;		
 	
+	protected String macroTemplatePath;		
+	
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -175,6 +179,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		super.setParameters();
 
 		nature = new JRXlsxExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
+		macroTemplatePath =  macroTemplatePath == null ? JRProperties.getProperty(jasperPrint, PROPERTY_MACRO_TEMPLATE_PATH) : macroTemplatePath;
 		
 //		password = 
 //			getStringParameter(
@@ -688,7 +693,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //				}
 //			}
 
-			relsHelper.exportFooter();
+			relsHelper.exportFooter(macroTemplatePath);
 
 			relsHelper.close();
 			
@@ -1362,7 +1367,21 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		try
 		{
-			xlsxZip = new XlsxZip();
+			if(macroTemplatePath != null)
+			{
+				if(macroTemplatePath != null)
+				{
+					xlsxZip = new XlsxZip(macroTemplatePath);
+				}
+				else
+				{
+					throw new JRRuntimeException("There is no path declared for template file");
+				}
+			}
+			else
+			{
+				xlsxZip = new XlsxZip();
+			}
 
 			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
@@ -1371,7 +1390,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			relsHelper.exportHeader();
 
 			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
-			ctHelper.exportHeader();
+			ctHelper.exportHeader(macroTemplatePath);
 			
 			styleHelper = 
 				new XlsxStyleHelper(
@@ -1474,6 +1493,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
 	{
 		//nothing to do here; it's done on setRowHeight
+	}
+	
+	public String getMacroTemplatePath() {
+		return macroTemplatePath;
+	}
+
+
+	public void setMacroTemplatePath(String macroTemplatePath) {
+		this.macroTemplatePath = macroTemplatePath;
 	}
 	
 }

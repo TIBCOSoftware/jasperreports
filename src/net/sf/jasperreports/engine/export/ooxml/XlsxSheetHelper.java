@@ -81,7 +81,7 @@ public class XlsxSheetHelper extends BaseHelper
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 
 		write("<dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"/></sheetViews>\n");
-		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
+		write("<sheetFormatPr/>\n");
 	}
 	
 	/**
@@ -192,7 +192,8 @@ public class XlsxSheetHelper extends BaseHelper
 		{
 			//colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : (" width=\"" + (3f * colWidth / 18f) + "\"")) + "/>\n");
 			//the col autofit does not work even if you comment out this line and use the above one; but you can try again
-			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : "") + " width=\"" + (3f * colWidth / 18f) + "\"/>\n");
+			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\"" + (autoFit ? " customWidth=\"0\" bestFit=\"1\"" : " customWidth=\"1\"") + " width=\"" + (3f * colWidth / 18f) + "\"/>\n");
+//			colsWriter.write("<col min=\"" + (colIndex + 1) + "\" max=\"" + (colIndex + 1) + "\" customWidth=\"1\"" + (autoFit ? " bestFit=\"1\"" : " width=\"" + (3f * colWidth / 18f) + "\"")+"/>\n");
 		}
 		catch (IOException e)
 		{
@@ -220,9 +221,7 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		//write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : " ht=\"" + rowHeight + "\""));
-		//the row autofit does not work even if you comment out this line and use the above one; but you can try again
-		write("<row r=\"" + rowIndex + "\" customHeight=\"1\""  + (yCut.isAutoFit() ? " bestFit=\"1\"" : "") + " ht=\"" + rowHeight + "\"");
+		write("<row r=\"" + rowIndex + "\""  + (yCut.isAutoFit() ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
 		if (levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");
