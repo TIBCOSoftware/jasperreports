@@ -87,6 +87,7 @@ public class DefaultRepositoryService implements RepositoryService
 	public void revertContext()
 	{
 		RepositoryContext context = localContext.get();
+		localContext.remove();
 		
 		ClassLoader classLoader = (ClassLoader)context.getValue(JRParameter.REPORT_CLASS_LOADER);
 		URLStreamHandlerFactory urlHandlerFactory = (URLStreamHandlerFactory)context.getValue(JRParameter.REPORT_URL_HANDLER_FACTORY);
