@@ -311,13 +311,22 @@ public class JavaScriptEvaluator extends JREvaluator
 		Object value = compiledExpression.exec(context, scope);
 		
 		Object javaValue;
-		try
+		// not converting Number objects because the generic conversion call below
+		// always converts to Double
+		if (value == null || value instanceof Number)
 		{
-			javaValue = Context.jsToJava(value, Object.class);
+			javaValue = value;
 		}
-		catch (EvaluatorException e)
+		else
 		{
-			throw new JRRuntimeException(e);
+			try
+			{
+				javaValue = Context.jsToJava(value, Object.class);
+			}
+			catch (EvaluatorException e)
+			{
+				throw new JRRuntimeException(e);
+			}
 		}
 		return javaValue;
 	}
