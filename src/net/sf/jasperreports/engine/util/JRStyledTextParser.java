@@ -389,7 +389,7 @@ public class JRStyledTextParser implements ErrorHandler
 				sbuffer.append(SPACE);
 				sbuffer.append(ATTRIBUTE_href);
 				sbuffer.append(EQUAL_QUOTE);
-				sbuffer.append(href);
+				sbuffer.append(JRStringUtil.htmlEncode(href));
 				sbuffer.append(QUOTE);
 			}
 			
