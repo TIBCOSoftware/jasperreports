@@ -75,16 +75,24 @@ public class FileRepositoryService extends DefaultRepositoryService
 			XMLContext context = new XMLContext();
 
 			Mapping mapping  = context.createMapping();
+			loadMapping(mapping, "net/sf/jasperreports/data/bean/BeanDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/csv/CsvDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/ds/DataSourceDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/ejbql/EjbqlDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/empty/EmptyDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/hibernate/HibernateDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/hibernate/spring/SpringHibernateDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/jdbc/JdbcDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/jndi/JndiDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/json/JsonDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/mondrian/MondrianDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/provider/DataSourceProviderDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/qe/QueryExecuterDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/xls/XlsDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/xlsx/XlsxDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/xml/RemoteXmlDataAdapterImpl.xml");
 			loadMapping(mapping, "net/sf/jasperreports/data/xml/XmlDataAdapterImpl.xml");
+			loadMapping(mapping, "net/sf/jasperreports/data/xmla/XmlaDataAdapterImpl.xml");
 			
 			try
 			{
