@@ -24,17 +24,15 @@
 package net.sf.jasperreports.repo;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
+import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.ContextClassLoaderObjectInputStream;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
@@ -45,7 +43,7 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class DefaultRepositoryService implements RepositoryService
+public class DefaultRepositoryService implements StreamRepositoryService
 {
 //	/**
 //	 * 
@@ -145,6 +143,14 @@ public class DefaultRepositoryService implements RepositoryService
 	/**
 	 * 
 	 */
+	public OutputStream getOutputStream(String uri)
+	{
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * 
+	 */
 	public Resource getResource(String uri)
 	{
 		throw new JRRuntimeException("Not implemented.");//FIXMEREPO
@@ -163,70 +169,22 @@ public class DefaultRepositoryService implements RepositoryService
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
-		if (ReportResource.class.getName().equals(resourceType.getName()))
+		PersistenceService persistenceService = null;
+		
+		if (InputStreamResource.class.getName().equals(resourceType.getName()))//FIXMEREPO use extensions
 		{
-			ReportResource resource = null;
-			JasperReport report = (JasperReport)loadObject(uri);
-			if (report != null)
-			{
-				resource = new ReportResource();
-				resource.setReport(report);
-			}
-			return (K)resource;
+			return (K)new StreamPersistenceService().load(uri, this);
+		}
+		else if (ReportResource.class.getName().equals(resourceType.getName()))//FIXMEREPO use extensions
+		{
+			return (K)new SerializedReportPersistenceService().load(uri, this);
+		}
+		else if (DataAdapter.class.isAssignableFrom(resourceType))
+		{
+			return (K)new CastorDataAdapterPersistenceService().load(uri, this);
 		}
 		
-		ObjectResource resource = null;
-		Object object = loadObject(uri);
-		if (object != null)
-		{
-			resource = new ObjectResource();
-			resource.setValue(object);
-		}
-		return (K)resource;
-	}
-
-	/**
-	 *
-	 */
-	private Object loadObject(String location)
-	{
-		Object obj = null;
-
-		InputStream is = getInputStream(location);
-		
-		if (is != null)
-		{
-			ObjectInputStream ois = null;
-
-			try
-			{
-				ois = new ContextClassLoaderObjectInputStream(is);
-				obj = ois.readObject();
-			}
-			catch (IOException e)
-			{
-				throw new JRRuntimeException("Error loading object from : " + location, e);
-			}
-			catch (ClassNotFoundException e)
-			{
-				throw new JRRuntimeException("Class not found when loading object from : " + location, e);
-			}
-			finally
-			{
-				if (is != null)
-				{
-					try
-					{
-						is.close();
-					}
-					catch(IOException e)
-					{
-					}
-				}
-			}
-		}
-
-		return obj;
+		return (K)new SerializedObjectPersistenceService().load(uri, this);
 	}
 
 

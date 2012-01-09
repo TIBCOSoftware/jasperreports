@@ -23,50 +23,38 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
-
-
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FileRepositoryService.java 4819 2011-11-28 15:24:25Z lucianc $
  */
-public interface RepositoryService
+public class CastorMapping
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
-
-	/**
-	 * 
-	 */
-	public void setContext(RepositoryContext context);
-
-	/**
-	 * 
-	 */
-	public void revertContext();
-
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
+	private String path;
 	
 	/**
 	 * 
 	 */
-	public Resource getResource(String uri);
-	
+	public CastorMapping(String path)
+	{
+		this.path = path;
+	}
+
 	/**
 	 * 
 	 */
-	public void saveResource(String uri, Resource resource);
-	
+	public String getPath()
+	{
+		return path;
+	}
+
 	/**
 	 * 
 	 */
-	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
+	public void setPath(String path)
+	{
+		this.path = path;
+	}
 }

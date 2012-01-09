@@ -31,42 +31,36 @@ import java.io.InputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: RepositoryService.java 4603 2011-09-13 12:35:32Z lucianc $
  */
-public interface RepositoryService
+public class StreamPersistenceService implements PersistenceService
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
 
 	/**
 	 * 
 	 */
-	public void setContext(RepositoryContext context);
+	public Resource load(String uri, RepositoryService repositoryService)
+	{
+		InputStreamResource resource = null; 
 
-	/**
-	 * 
-	 */
-	public void revertContext();
+		StreamRepositoryService streamRepositoryService = (StreamRepositoryService)repositoryService;
+		
+		InputStream is = streamRepositoryService.getInputStream(uri);
+		if (is != null)
+		{
+			resource = new InputStreamResource();
+			resource.setInputStream(is);
+		}
 
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
+		return resource;
+	}
 	
 	/**
 	 * 
 	 */
-	public Resource getResource(String uri);
+	public void save(Resource resource, String uri, RepositoryService repositoryService)
+	{
+		//FIXMEREPO get code from FileRepositoryServie
+	}
 	
-	/**
-	 * 
-	 */
-	public void saveResource(String uri, Resource resource);
-	
-	/**
-	 * 
-	 */
-	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
 }
