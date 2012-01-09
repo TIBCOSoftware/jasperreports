@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
+import net.sf.jasperreports.engine.JasperReport;
 
 
 
@@ -31,42 +31,27 @@ import java.io.InputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: RepositoryService.java 4603 2011-09-13 12:35:32Z lucianc $
  */
-public interface RepositoryService
+public class SerializedReportPersistenceService extends SerializedObjectPersistenceService
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
 
 	/**
 	 * 
 	 */
-	public void setContext(RepositoryContext context);
-
-	/**
-	 * 
-	 */
-	public void revertContext();
-
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
+	public Resource load(String uri, RepositoryService repositoryService)
+	{
+		ReportResource reportResource = null;
+		
+		ObjectResource resource = (ObjectResource)super.load(uri, repositoryService);
+		
+		if (resource != null)
+		{
+			reportResource = new ReportResource();
+			reportResource.setReport((JasperReport)resource.getValue());
+		}
+		
+		return reportResource;
+	}
 	
-	/**
-	 * 
-	 */
-	public Resource getResource(String uri);
-	
-	/**
-	 * 
-	 */
-	public void saveResource(String uri, Resource resource);
-	
-	/**
-	 * 
-	 */
-	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
 }

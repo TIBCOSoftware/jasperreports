@@ -192,20 +192,20 @@ public final class RepositoryUtil
 	 */
 	private static InputStream findInputStream(String location) throws JRException
 	{
-		InputStream inputStream = null;
+		InputStreamResource inputStreamResource = null;
 		List<RepositoryService> services = getRepositoryServices();
 		if (services != null)
 		{
 			for (RepositoryService service : services)
 			{
-				inputStream = service.getInputStream(location);
-				if (inputStream != null)
+				inputStreamResource = service.getResource(location, InputStreamResource.class);
+				if (inputStreamResource != null)
 				{
 					break;
 				}
 			}
 		}
-		return inputStream;
+		return inputStreamResource == null ? null : inputStreamResource.getInputStream();
 	}
 	
 	

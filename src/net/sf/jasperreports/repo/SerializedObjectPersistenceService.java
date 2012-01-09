@@ -23,7 +23,12 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.io.IOException;
 import java.io.InputStream;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 
 
@@ -31,42 +36,53 @@ import java.io.InputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: RepositoryService.java 4603 2011-09-13 12:35:32Z lucianc $
  */
-public interface RepositoryService
+public class SerializedObjectPersistenceService implements PersistenceService
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
 
 	/**
 	 * 
 	 */
-	public void setContext(RepositoryContext context);
+	public Resource load(String uri, RepositoryService repositoryService)
+	{
+		ObjectResource resource = null; 
 
-	/**
-	 * 
-	 */
-	public void revertContext();
+		InputStreamResource isResource = repositoryService.getResource(uri, InputStreamResource.class);
+		
+		InputStream is = isResource == null ? null : isResource.getInputStream();
+		if (is != null)
+		{
+			resource = new ObjectResource();
+			try
+			{
+				resource.setValue(JRLoader.loadObject(is));
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			finally
+			{
+				try
+				{
+					is.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
 
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
+		return resource;
+	}
 	
 	/**
 	 * 
 	 */
-	public Resource getResource(String uri);
+	public void save(Resource resource, String uri, RepositoryService repositoryService)
+	{
+		//FIXMEREPO get code from FileRepositoryServie
+	}
 	
-	/**
-	 * 
-	 */
-	public void saveResource(String uri, Resource resource);
-	
-	/**
-	 * 
-	 */
-	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
 }

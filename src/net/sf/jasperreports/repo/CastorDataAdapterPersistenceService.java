@@ -23,50 +23,32 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
-
-
+import net.sf.jasperreports.data.DataAdapter;
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FileRepositoryService.java 4819 2011-11-28 15:24:25Z lucianc $
  */
-public interface RepositoryService
+public class CastorDataAdapterPersistenceService extends CastorObjectPersistenceService
 {
-	/**
-	 * 
-	 *
-	public <T extends RepositoryContext> T createContext();
 
 	/**
 	 * 
 	 */
-	public void setContext(RepositoryContext context);
+	public Resource load(String uri, RepositoryService repositoryService) //FIXMEREPO consider changing the DataAdapter as resource
+	{
+		DataAdapter dataAdapter = null;
+		
+		ObjectResource resource = (ObjectResource)super.load(uri, repositoryService);
+		
+		if (resource != null)
+		{
+			dataAdapter = (DataAdapter)resource.getValue();
+		}
+		
+		return dataAdapter;
+	}
 
-	/**
-	 * 
-	 */
-	public void revertContext();
-
-	/**
-	 * @deprecated Replaced by {@link StreamRepositoryService#getInputStream(String)}.
-	 */
-	public InputStream getInputStream(String uri);
-	
-	/**
-	 * 
-	 */
-	public Resource getResource(String uri);
-	
-	/**
-	 * 
-	 */
-	public void saveResource(String uri, Resource resource);
-	
-	/**
-	 * 
-	 */
-	public <K extends Resource> K getResource(String uri, Class<K> resourceType);
 }
