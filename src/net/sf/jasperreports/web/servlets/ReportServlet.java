@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.web.servlets;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -37,15 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.FileResolver;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRResourcesUtil;
-import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.repo.WebFileRepositoryService;
 import net.sf.jasperreports.web.WebReportContext;
 
 
@@ -57,13 +51,13 @@ public class ReportServlet extends HttpServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
-	public static final String PROPERTY_REPOSITORY_ROOT = "net.sf.jasperreports.web.repository.root";//FIXMEJIVE make this config in file repository?
+	//public static final String PROPERTY_REPOSITORY_ROOT = "net.sf.jasperreports.web.repository.root";
 	public static final String DEFAULT_REPOSITORY_ROOT = "WEB-INF/repository";
 
 	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
 	public static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpg";
 	public static final String REQUEST_PARAMETER_RUN_REPORT = "jr.run";
-	public static final String REQUEST_PARAMETER_REPORT_JRXML = "jr.jrxml";
+	//public static final String REQUEST_PARAMETER_REPORT_JRXML = "jr.jrxml";
 	public static final String REQUEST_PARAMETER_REPORT_VIEWER = "jr.vwr";
 
 //	public static final String REPORT_ACTION = "report.action";
@@ -71,12 +65,12 @@ public class ReportServlet extends HttpServlet
 //	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
 	
 
-	private File repositoryRoot;
-	private SimpleFileResolver fileResolver;
+//	private File repositoryRoot;
+//	private SimpleFileResolver fileResolver;
 	
 	/**
 	 * 
-	 */
+	 *
 	public File getRepositoryRoot() 
 	{
 		return repositoryRoot;
@@ -85,7 +79,7 @@ public class ReportServlet extends HttpServlet
 	
 	/**
 	 * 
-	 */
+	 *
 	public FileResolver getFileResolver() 
 	{
 		return fileResolver;
@@ -99,28 +93,30 @@ public class ReportServlet extends HttpServlet
 	{
 		super.init(config);
 		
-		String repo = getInitParameter("repository.root"); //this is used in Jetty config
-		if (repo == null)
-		{
-			repo = JRProperties.getProperty(PROPERTY_REPOSITORY_ROOT);//FIXMEJIVE constant
-		}
-		if (repo == null)
-		{
-			repo = DEFAULT_REPOSITORY_ROOT;
-		}
+//		String repo = getInitParameter("repository.root"); //this is used in Jetty config
+//		if (repo == null)
+//		{
+//			repo = JRProperties.getProperty(PROPERTY_REPOSITORY_ROOT);//FIXMEJIVE constant
+//		}
+//		if (repo == null)
+//		{
+//			repo = DEFAULT_REPOSITORY_ROOT;
+//		}
+//		
+//		repositoryRoot = new File(repo);
+//		if (!repositoryRoot.isAbsolute())
+//		{
+//			String realPath = config.getServletContext().getRealPath("/");
+//			if (realPath != null)
+//			{
+//				repositoryRoot = new File(new File(realPath), repo);
+//			}
+//		}
+//		
+//		fileResolver = new SimpleFileResolver(repositoryRoot);
+//		fileResolver.setResolveAbsolutePath(true);
 		
-		repositoryRoot = new File(repo);
-		if (!repositoryRoot.isAbsolute())
-		{
-			String realPath = config.getServletContext().getRealPath("/");
-			if (realPath != null)
-			{
-				repositoryRoot = new File(new File(realPath), repo);
-			}
-		}
-		
-		fileResolver = new SimpleFileResolver(repositoryRoot);
-		fileResolver.setResolveAbsolutePath(true);
+		WebFileRepositoryService.setApplicationRealPath(config.getServletContext().getRealPath("/"));
 	}
 	
 
@@ -206,9 +202,9 @@ public class ReportServlet extends HttpServlet
 //					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, parameters);
 //				}
 			
-			webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-//				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-			JRResourcesUtil.setThreadFileResolver(fileResolver);
+//			webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
+////				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
+//			JRResourcesUtil.setThreadFileResolver(fileResolver);
 			
 			Boolean isIgnorePagination = Boolean.valueOf(request.getParameter(REQUEST_PARAMETER_IGNORE_PAGINATION));
 			if (isIgnorePagination != null) 
@@ -219,13 +215,14 @@ public class ReportServlet extends HttpServlet
 			
 			JasperReport jasperReport = null; 
 			
-			String jrxml = request.getParameter(REQUEST_PARAMETER_REPORT_JRXML);
-			if (jrxml != null && jrxml.trim().length() > 0)
-			{
-				jrxml = jrxml.trim();
-				jasperReport =  JasperCompileManager.compileReport(new ByteArrayInputStream(jrxml.getBytes()));
-			}
-			else if (reportUri != null && reportUri.trim().length() > 0)
+//			String jrxml = request.getParameter(REQUEST_PARAMETER_REPORT_JRXML);
+//			if (jrxml != null && jrxml.trim().length() > 0)
+//			{
+//				jrxml = jrxml.trim();
+//				jasperReport =  JasperCompileManager.compileReport(new ByteArrayInputStream(jrxml.getBytes()));
+//			}
+//			else 
+			if (reportUri != null && reportUri.trim().length() > 0)
 			{
 				reportUri = reportUri.trim();
 

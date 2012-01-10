@@ -29,7 +29,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
-import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -169,22 +168,12 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
-		PersistenceService persistenceService = null;
-		
-		if (InputStreamResource.class.getName().equals(resourceType.getName()))//FIXMEREPO use extensions
+		PersistenceService persistenceService = PersistenceUtil.getPersistenceService(DefaultRepositoryService.class, resourceType);
+		if (persistenceService != null)
 		{
-			return (K)new StreamPersistenceService().load(uri, this);
+			return (K)persistenceService.load(uri, this);
 		}
-		else if (ReportResource.class.getName().equals(resourceType.getName()))//FIXMEREPO use extensions
-		{
-			return (K)new SerializedReportPersistenceService().load(uri, this);
-		}
-		else if (DataAdapter.class.isAssignableFrom(resourceType))
-		{
-			return (K)new CastorDataAdapterPersistenceService().load(uri, this);
-		}
-		
-		return (K)new SerializedObjectPersistenceService().load(uri, this);
+		return null;
 	}
 
 

@@ -26,21 +26,16 @@ package net.sf.jasperreports.repo;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: DefaultRepositoryServiceExtensionsRegistryFactory.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class DefaultRepositoryServiceExtensionsRegistryFactory implements ExtensionsRegistryFactory
+public class DefaultRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-	private static final ExtensionsRegistry repositoryServiceExtensionsRegistry = 
-			new SingletonExtensionRegistry<RepositoryServiceFactory>(
-					RepositoryServiceFactory.class, DefaultRepositoryServiceFactory.getInstance());
-	
 	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
-		return repositoryServiceExtensionsRegistry;
+		return DefaultRepositoryExtensionRegistry.getInstance();
 	}
 }

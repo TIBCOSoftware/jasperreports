@@ -23,34 +23,24 @@
  */
 package net.sf.jasperreports.repo;
 
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: FileRepositoryServiceExtensionsRegistryFactory.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public final class FileRepositoryServiceFactory implements RepositoryServiceFactory
+public class FileRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {
-
-	private static final FileRepositoryServiceFactory INSTANCE = new FileRepositoryServiceFactory();
+	private static final ExtensionsRegistry extensionsRegistry = 
+			new SingletonExtensionRegistry<PersistenceServiceFactory>(
+					PersistenceServiceFactory.class, FileRepositoryPersistenceServiceFactory.getInstance());
 	
-	private FileRepositoryServiceFactory()
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties) 
 	{
+		return extensionsRegistry;
 	}
-	
-	/**
-	 * 
-	 */
-	public static FileRepositoryServiceFactory getInstance()
-	{
-		return INSTANCE;
-	}
-
-	/**
-	 *
-	 */
-	public RepositoryService getRepositoryService()
-	{
-		return new FileRepositoryService();
-	}
-	
 }
