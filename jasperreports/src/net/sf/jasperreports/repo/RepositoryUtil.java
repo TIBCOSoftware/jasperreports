@@ -26,7 +26,6 @@ package net.sf.jasperreports.repo;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -54,34 +53,20 @@ public final class RepositoryUtil
 	 */
 	private static List<RepositoryService> getRepositoryServices()
 	{
-		List<RepositoryService> services = repositoryServices.get();
-		if (services != null)
+		List<RepositoryService> cachedServices = repositoryServices.get();
+		if (cachedServices != null)
 		{
-			return services;
+			return cachedServices;
 		}
 		
 		//FIXME we should cache this per thread class loader
-		List<RepositoryServiceFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
-				RepositoryServiceFactory.class);
-		List<RepositoryService> servicesList;
-		if (factories == null || factories.size() == 0)
-		{
-			servicesList = new ArrayList<RepositoryService>(1);
-			servicesList.add(new DefaultRepositoryService());//FIXMEREPO cache
-		}
-		else
-		{
-			servicesList = new ArrayList<RepositoryService>(factories.size());
-			for (RepositoryServiceFactory factory : factories)
-			{
-				servicesList.add(factory.getRepositoryService());
-			}
-		}
+		List<RepositoryService> services = 
+			ExtensionsEnvironment.getExtensionsRegistry().getExtensions(RepositoryService.class);
 		
 		// set if not already set
-		if (repositoryServices.compareAndSet(null, servicesList))
+		if (repositoryServices.compareAndSet(null, services))
 		{
-			return servicesList;
+			return services;
 		}
 		
 		// already set in the meantime by another thread

@@ -24,13 +24,13 @@
 package net.sf.jasperreports.repo;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import net.sf.jasperreports.data.DataAdapter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
@@ -43,6 +43,34 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  */
 public class FileRepositoryService implements StreamRepositoryService
 {
+	private String root;
+	private boolean resolveAbsolutePath;
+	
+	/**
+	 * 
+	 */
+	public FileRepositoryService(String root, boolean resolveAbsolutePath)
+	{
+		this.root = root;
+		this.resolveAbsolutePath = resolveAbsolutePath;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setRoot(String root)
+	{
+		this.root = root;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getRoot()
+	{
+		return root;
+	}
+	
 	/**
 	 * 
 	 */
@@ -59,32 +87,44 @@ public class FileRepositoryService implements StreamRepositoryService
 	 */
 	public InputStream getInputStream(String uri)
 	{
-		try
-		{
-//			URL url = JRResourcesUtil.createURL(uri, null);
-//			if (url != null)
-//			{
-//				return JRLoader.getInputStream(url);
-//			}
+		File file = null;
 
-			File file = JRResourcesUtil.resolveFile(uri, null);//FIXMEREPO give up file resolver and configure file repo service directly
-			if (file != null)
+		if (uri != null)
+		{
+			file = new File(getRoot(), uri);
+			if (!file.exists() || !file.isFile())
 			{
-				return JRLoader.getInputStream(file);
+				if (resolveAbsolutePath)
+				{
+					file = new File(uri);
+					if (!file.exists() || !file.isFile())
+					{
+						file = null;
+					}
+				}
+				else
+				{
+					file = null;
+				}
 			}
 
-//			url = JRResourcesUtil.findClassLoaderResource(uri, null);
-//			if (url != null)
-//			{
-//				return JRLoader.getInputStream(url);
-//			}
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
 		}
 		
-		return null;
+		InputStream is = null;
+
+		if (file != null)
+		{
+			try
+			{
+				is = new FileInputStream(file);
+			}
+			catch (IOException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		
+		return is;
 	}
 	
 	/**
@@ -130,20 +170,11 @@ public class FileRepositoryService implements StreamRepositoryService
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
-		if (InputStreamResource.class.getName().equals(resourceType.getName()))
+		PersistenceService persistenceService = PersistenceUtil.getPersistenceService(FileRepositoryService.class, resourceType);
+		if (persistenceService != null)
 		{
-			return (K)new StreamPersistenceService().load(uri, this);
+			return (K)persistenceService.load(uri, this);
 		}
-		else if (ReportResource.class.getName().equals(resourceType.getName()))
-		{
-			return (K)new ReportPersistenceService().load(uri, this);
-		}
-		else if (DataAdapter.class.isAssignableFrom(resourceType))
-		{
-			return (K)new CastorDataAdapterPersistenceService().load(uri, this);
-		}
-		
 		return null;
-		//return (K)super.getResource(uri, resourceType);
 	}
 }

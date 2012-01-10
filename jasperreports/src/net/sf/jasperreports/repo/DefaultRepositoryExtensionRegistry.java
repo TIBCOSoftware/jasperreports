@@ -23,16 +23,43 @@
  */
 package net.sf.jasperreports.repo;
 
+import java.util.Collections;
+import java.util.List;
 
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: SingletonExtensionRegistry.java 4600 2011-09-12 10:32:17Z teodord $
  */
-public interface RepositoryServiceFactory
+public class DefaultRepositoryExtensionRegistry implements ExtensionsRegistry
 {
 	/**
 	 * 
 	 */
-	public RepositoryService getRepositoryService();
+	private static final DefaultRepositoryExtensionRegistry INSTANCE =  new DefaultRepositoryExtensionRegistry();
+	
+	/**
+	 * 
+	 */
+	public static DefaultRepositoryExtensionRegistry getInstance()
+	{
+		return INSTANCE;
+	}
+	
+	/**
+	 * 
+	 */
+	public <T> List<T> getExtensions(Class<T> extensionType)
+	{
+		if (RepositoryService.class.equals(extensionType))
+		{
+			return (List<T>) Collections.singletonList(new DefaultRepositoryService());//FIXMEREPO check if this can be singleton
+		}
+		else if (PersistenceServiceFactory.class.equals(extensionType))
+		{
+			return (List<T>) Collections.singletonList(DefaultRepositoryPersistenceServiceFactory.getInstance());
+		}
+		return null;
+	}
 }
