@@ -564,7 +564,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					rotation, 
 					cellFont,
 					gridCell,
-					isWrapText(text),
+					isWrapText(text) || nature.getColumnAutoFit(text),
 					isCellLocked(text)
 					);
 
