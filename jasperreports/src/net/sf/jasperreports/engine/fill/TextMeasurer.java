@@ -100,6 +100,8 @@ public class TextMeasurer implements JRTextMeasurer
 	protected int maxHeight;
 	private boolean canOverflow;
 	private Map<Attribute,Object> globalAttributes;
+	private boolean ignoreMissingFont;
+	
 	protected TextMeasuredState measuredState;
 	protected TextMeasuredState prevMeasuredState;
 	
@@ -334,6 +336,9 @@ public class TextMeasurer implements JRTextMeasurer
 		this.canOverflow = canOverflow;
 		this.globalAttributes = styledText.getGlobalAttributes();
 		
+		ignoreMissingFont = JRProperties.getBooleanProperty(propertiesHolder, 
+				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false);
+		
 		boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
 		
@@ -363,9 +368,7 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 
 		AttributedCharacterIterator allParagraphs = 
-			styledText.getAwtAttributedString(
-				JRProperties.getBooleanProperty(propertiesHolder, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
-				).getIterator();
+			styledText.getAwtAttributedString(ignoreMissingFont).getIterator();
 
 		int tokenPosition = remainingTextStart;
 		int lastParagraphStart = remainingTextStart;
@@ -552,7 +555,7 @@ public class TextMeasurer implements JRTextMeasurer
 			if (font == null)
 			{
 				// checking AWT font
-				JRFontUtil.checkAwtFont(family, false);
+				JRFontUtil.checkAwtFont(family, ignoreMissingFont);
 				// creating AWT font
 				font = Font.getFont(run.attributes);
 			}
