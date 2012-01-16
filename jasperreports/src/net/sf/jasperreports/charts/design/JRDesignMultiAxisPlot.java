@@ -49,8 +49,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	public static final String PROPERTY_CHART = "chart";
 	
 	public static final String PROPERTY_AXES = "axes";
-	
-	private JRDesignChart chart;
+	 
 	/**
 	 *
 	 */
@@ -78,7 +77,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		axes.add(axis);
 		if (axes.size() == 1)
 		{
-			chart.setDataset(axis.getChart().getDataset());
+			getChart().setDataset(axis.getChart().getDataset());
 		}
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, axes.size() - 1);
 	}
@@ -94,7 +93,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		axes.add(index, axis);
 		if (axes.size() == 1)
 		{
-			chart.setDataset(axis.getChart().getDataset());
+			getChart().setDataset(axis.getChart().getDataset());
 		}
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, index);
 	}
@@ -110,7 +109,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 			if (idx >= 0)
 			{
 				axes.remove(idx);
-				chart.setDataset(axis.getChart().getDataset());
+				getChart().setDataset(axis.getChart().getDataset());
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_AXES, axis, idx);
 			}
 		}
@@ -126,7 +125,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		for(Iterator<JRChartAxis> it = tmpList.iterator(); it.hasNext();){
 			removeAxis(it.next());
 		}
-		chart.setDataset(null);
+		getChart().setDataset(null);
 	}
 
 	/**
@@ -135,9 +134,9 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 	 *
 	 * @return the chart object for this plot
 	 */
-	public JRChart getChart()
+	public JRDesignChart getChart()
 	{
-			return chart;
+			return (JRDesignChart) chart;
 	}
 
 	/**
