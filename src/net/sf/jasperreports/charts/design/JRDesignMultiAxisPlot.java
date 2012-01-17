@@ -77,7 +77,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		axes.add(axis);
 		if (axes.size() == 1)
 		{
-			getChart().setDataset(axis.getChart().getDataset());
+			((JRDesignChart) getChart()).setDataset(axis.getChart().getDataset());
 		}
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, axes.size() - 1);
 	}
@@ -93,7 +93,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		axes.add(index, axis);
 		if (axes.size() == 1)
 		{
-			getChart().setDataset(axis.getChart().getDataset());
+			((JRDesignChart) getChart()).setDataset(axis.getChart().getDataset());
 		}
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_AXES, axis, index);
 	}
@@ -109,7 +109,7 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 			if (idx >= 0)
 			{
 				axes.remove(idx);
-				getChart().setDataset(axis.getChart().getDataset());
+				((JRDesignChart) getChart()).setDataset(axis.getChart().getDataset());
 				getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_AXES, axis, idx);
 			}
 		}
@@ -125,19 +125,19 @@ public class JRDesignMultiAxisPlot extends JRBaseMultiAxisPlot
 		for(Iterator<JRChartAxis> it = tmpList.iterator(); it.hasNext();){
 			removeAxis(it.next());
 		}
-		getChart().setDataset(null);
+		((JRDesignChart) getChart()).setDataset(null);
 	}
-
-	/**
-	 * Returns the definition of the multiple axis chart.  This is separate
-	 * from and distinct that the definition of the nested charts.
-	 *
-	 * @return the chart object for this plot
-	 */
-	public JRDesignChart getChart()
-	{
-			return (JRDesignChart) chart;
-	}
+//
+//	/**
+//	 * Returns the definition of the multiple axis chart.  This is separate
+//	 * from and distinct that the definition of the nested charts.
+//	 *
+//	 * @return the chart object for this plot
+//	 */
+//	public JRChart getChart()
+//	{
+//			return chart;
+//	}
 
 	/**
 	 * Sets the chart object that this plot belongs to.  The chart object defines
