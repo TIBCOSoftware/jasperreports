@@ -159,8 +159,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 								+ url);
 					}
 					
-					JRPropertiesMap props = JRPropertiesMap.loadProperties(url);
-					registries = loadRegistries(props);
+					registries = loadRegistries(url);
 					
 					classLoaderRegistries.put(url, registries);
 				}
@@ -191,8 +190,10 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 		}
 	}
 	
-	protected List<ExtensionsRegistry> loadRegistries(JRPropertiesMap properties)
+	protected List<ExtensionsRegistry> loadRegistries(URL url)
 	{
+		JRPropertiesMap properties = JRPropertiesMap.loadProperties(url);
+		
 		List<ExtensionsRegistry> registries = new ArrayList<ExtensionsRegistry>();
 		List<PropertySuffix> factoryProps = JRProperties.getProperties(properties, 
 				PROPERTY_REGISTRY_FACTORY_PREFIX);
@@ -218,7 +219,7 @@ public class DefaultExtensionsRegistry implements ExtensionsRegistry
 			{
 				//skip this registry
 				log.error("Error instantiating extensions registry for " 
-						+ registryId, e);
+						+ registryId + " from " + url, e);
 			}
 		}
 		return registries;
