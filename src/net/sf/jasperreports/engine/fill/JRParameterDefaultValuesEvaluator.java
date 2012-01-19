@@ -88,6 +88,7 @@ public final class JRParameterDefaultValuesEvaluator
 		}
 		finally
 		{
+			fillDataset.disposeParameterContributors();
 			RepositoryUtil.revertRepositoryContext();
 		}
 	}

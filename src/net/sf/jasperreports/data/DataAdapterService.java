@@ -36,11 +36,6 @@ public interface DataAdapterService extends ParameterContributor
 	/**
 	 *
 	 */
-	public void dispose();
-
-	/**
-	 *
-	 */
 	public void test() throws JRException;
 
 }

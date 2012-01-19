@@ -38,4 +38,9 @@ public interface ParameterContributor
 	 */
 	public void contributeParameters(Map<String, Object> parameters) throws JRException;
 	
+	/**
+	 *
+	 */
+	public void dispose();
+
 }

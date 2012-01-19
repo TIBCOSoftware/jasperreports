@@ -138,6 +138,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		finally
 		{
 			dataset.closeDatasource();
+			dataset.disposeParameterContributors();
 			dataset.restoreElementDatasets();
 		}
 	}

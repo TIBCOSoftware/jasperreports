@@ -218,6 +218,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected Integer reportMaxCount;
 
 	private JRQueryExecuter queryExecuter;
+	private List<ParameterContributor> parameterContributors;
 	
 	protected DatasetFilter filter;
 
@@ -589,14 +590,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		scriptlets = createScriptlets(parameterValues);
 		delegateScriptlet.setData(parametersMap, fieldsMap, variablesMap, groups);//FIXMESCRIPTLET use some context
 
-		List<ParameterContributor> contributors = getParameterContributors(new ParameterContributorContext(parameterValues, this));//FIXMEJIVE null?
-		if (contributors != null)
-		{
-			for(ParameterContributor contributor : contributors)
-			{
-				contributor.contributeParameters(parameterValues);
-			}
-		}
+		contributeParameters(parameterValues);
 		
 		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
@@ -669,6 +663,39 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	}
 
 
+
+
+	/**
+	 * 
+	 */
+	public void contributeParameters(Map<String,Object> parameterValues) throws JRException
+	{
+		parameterContributors = getParameterContributors(new ParameterContributorContext(parameterValues, this));//FIXMEJIVE null?
+		if (parameterContributors != null)
+		{
+			for(ParameterContributor contributor : parameterContributors)
+			{
+				contributor.contributeParameters(parameterValues);
+			}
+		}
+	}
+
+	
+	/**
+	 * 
+	 */
+	public void disposeParameterContributors()
+	{
+		if (parameterContributors != null)
+		{
+			for(ParameterContributor contributor : parameterContributors)
+			{
+				contributor.dispose();
+			}
+		}
+	}
+
+	
 	/**
 	 *
 	 */

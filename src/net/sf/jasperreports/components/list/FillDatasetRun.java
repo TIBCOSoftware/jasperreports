@@ -125,7 +125,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		{
 			dataset.setConnectionParameterValue(parameterValues, connection);
 		}
-		
+
 		copyConnectionParameter(parameterValues);
 		dataset.initCalculator();
 		dataset.setParameterValues(parameterValues);
@@ -163,6 +163,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		}
 		
 		dataset.closeDatasource();
+		dataset.disposeParameterContributors();
 	}
 	
 	public void rewind() throws JRException
