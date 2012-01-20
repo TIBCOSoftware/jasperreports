@@ -764,10 +764,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						sheetIndex++;
 						sheetNamesIndex++;
 						resetAutoFilters();
-						if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-						{
-							setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-						}
+
+						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 
 						/*   */
 						exportPage(page, /*xCuts*/null, /*startRow*/0);
@@ -783,10 +781,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					sheetNamesIndex++;
 					resetAutoFilters();
 
-					if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-					{
-						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-					}
+					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 					
 					/*
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
@@ -883,10 +878,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				sheetNamesIndex++;
 				resetAutoFilters();
 				
-				if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-				{
-					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-				}
+				setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 
 			}
 			
@@ -1580,7 +1572,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected void setFreezePane(int rowIndex, int colIndex)
 	{
-		setFreezePane(rowIndex, colIndex, false, false);
+		if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
+		{
+			setFreezePane(rowIndex, colIndex, false, false);
+		}
 	}
 	
 	protected void resetAutoFilters()

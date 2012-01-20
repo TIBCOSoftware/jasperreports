@@ -179,10 +179,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 						rowIndex = 0;
 						resetAutoFilters();
 						
-						if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-						{
-							setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-						}
+						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 						
 						/*   */
 						exportPage(page);
@@ -198,10 +195,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 					sheetNamesIndex++;
 					resetAutoFilters();
 					
-					if(gridRowFreezeIndex > 0 || gridColumnFreezeIndex > 0)
-					{
-						setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-					}
+					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
 					
 					if (filter instanceof ResetableExporterFilter)
 					{
