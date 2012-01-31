@@ -154,6 +154,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected String macroTemplatePath;		
 	
+	protected JasperPrint currentSheetJasperPrint;		
+	
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
@@ -716,6 +718,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		closeSheet();
 		
+		currentSheetJasperPrint = jasperPrint;
+		
 		wbHelper.exportSheet(sheetIndex + 1, name);
 		ctHelper.exportSheet(sheetIndex + 1);
 		relsHelper.exportSheet(sheetIndex + 1);
@@ -756,13 +760,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		if (sheetHelper != null)
 		{
-			JasperPrint jrPrint = reportIndex > 0 ? (isOnePagePerSheet && pageIndex == 0  || !isOnePagePerSheet ? jasperPrintList.get(reportIndex-1) : jasperPrint) : jasperPrint;
 			sheetHelper.exportFooter(
-					sheetIndex, 
-					jrPrint, 
-					isIgnorePageMargins, 
-					sheetAutoFilter
-					);
+				sheetIndex, 
+				currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+				isIgnorePageMargins, 
+				sheetAutoFilter
+				);
 			sheetHelper.close();
 
 			sheetRelsHelper.exportFooter();
