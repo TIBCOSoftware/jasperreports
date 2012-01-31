@@ -105,7 +105,6 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 <xsl:attribute name="href">JasperReports-Ultimate-Guide-3.pdf</xsl:attribute>JasperReports Ultimate Guide</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">sample.reference.html</xsl:attribute>Sample Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">schema.reference.html</xsl:attribute>Schema Reference</xsl:element> - <xsl:element name="a">
-<xsl:attribute name="href">components.schema.reference.html</xsl:attribute>Components Schema Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href">config.reference.html</xsl:attribute>Configuration Reference</xsl:element> - <xsl:element name="a">
 <xsl:attribute name="href"><xsl:value-of select="$api.url"/>index.html</xsl:attribute>API (Javadoc)</xsl:element></span>
 <br/>
@@ -133,10 +132,36 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 <br/>
 
-<span class="description">This document describes the structure of the JRXML report template files for the JasperReports library.</span>
+<span class="description">This document describes the JRXML structure of the report template files for the JasperReports Library.</span>
 
-<br/>
-<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td style="width: 20px;"><br/></td>
+    <td><br/></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <span class="label"><br/>Schemas</span>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <span class="toc">Report Schema Reference</span>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <span class="toc"><a href="components.schema.reference.html">Components Schema Reference</a></span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <span class="label"><br/>Report Schema Reference</span>
+    </td>
+  </tr>
+</table>
 
 <table width="100%" cellspacing="0" cellpadding="5" border="0">
   <tr valign="top">
