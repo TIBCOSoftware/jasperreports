@@ -107,6 +107,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xlsx.";
 
+	/**
+	 * Property used to store the location of an existing workbook template containing a macro object. 
+	 * The macro object will be copied into the generated document if the template location is valid. 
+	 * Macros can be loaded from Excel macro-enabled template files (*.xltm) as well as from valid 
+	 * Excel macro-enabled documents (*.xlsm).
+	 * 
+	 * @see JRProperties
+	 * @since 4.5.1
+	 */
 	public static final String PROPERTY_MACRO_TEMPLATE = JRProperties.PROPERTY_PREFIX + "export.xlsx.macro.template";
 	/**
 	 *

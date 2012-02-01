@@ -182,6 +182,8 @@
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
+      <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
+      <property ref="net.sf.jasperreports.export.xls.auto.fit.row"/>
       
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
       <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
@@ -227,8 +229,12 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
+      <property ref="net.sf.jasperreports.export.xls.workbook.template"/>
+      <property ref="net.sf.jasperreports.export.xls.workbook.template.keep.sheets"/>
       <property ref="net.sf.jasperreports.export.xls.wrap.text"/>
       <property ref="net.sf.jasperreports.export.xls.write.header"/>
+      
+      <property ref="net.sf.jasperreports.export.xlsx.macro.template"/>
       
       <property ref="net.sf.jasperreports.export.xml.end.page.index"/>
       <property ref="net.sf.jasperreports.export.xml.page.count"/>
@@ -2287,6 +2293,44 @@ will include all data below this heading row, placed between the start column an
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.auto.fit.column -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.auto.fit.column">
+    <description>
+Flag property that indicates whether Excel should autofit the current column width.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FIT_COLUMN</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>4.5.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.auto.fit.row -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.auto.fit.row">
+    <description>
+Flag property that indicates whether Excel should autofit the current row height.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_AUTO_FIT_ROW</api>
+    <default>false</default>
+    <scope>Element</scope>
+    <since>4.5.1</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.text.page.height -->
   
   <configProperty name="net.sf.jasperreports.export.text.page.height">
@@ -2643,6 +2687,52 @@ Specifies whether the page background should be white or the default XLS backgro
     <default>true</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.workbook.template -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.workbook.template">
+    <description>
+Property used to store the location of an existing workbook template. The content of an existing workbook document 
+or template can be embedded into exported document if the template location is known. In this case the content of 
+the template will be exported first and the content of the exported report will be appended to this one. Macros and 
+other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
+Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
+<br/>
+This property is used in Excel exporters based either on Apache POI APIs 
+(<api href="net/sf/jasperreports/engine/export/JRXlsExporter.html">JRXlsExporter</api>) or on JExcelApi library 
+(<api href="net/sf/jasperreports/engine/export/JExcelApiExporter.html">JExcelApiExporter</api>). There's no similar property 
+for the <api href="net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html">JRXlsxExporter</api>.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_WORKBOOK_TEMPLATE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.5.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.workbook.template.keep.sheets -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.workbook.template.keep.sheets">
+    <description>
+Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
+is important to embed in a generated document only macros and/or other global settings from an existing template, but 
+without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
+to be exported.
+<br/>
+This property is used in conjunction with <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_WORKBOOK_TEMPLATE">PROPERTY_WORKBOOK_TEMPLATE</api>.
+<br/>
+Allowed values are:
+<ul>
+<li><code>true</code></li>
+<li><code>false</code> - this is the default value.</li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>4.5.1</since>
   </configProperty>
   
   
@@ -3105,6 +3195,22 @@ Property that specifies whether the export header (the column names) should be w
     <default>false</default>
     <scope>Element</scope>
     <since>4.0.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xlsx.macro.template -->
+  
+  <configProperty name="net.sf.jasperreports.export.xlsx.macro.template">
+    <description>
+Property used to store the location of an existing workbook template containing a macro object. 
+The macro object will be copied into the generated document if the template location is valid. 
+Macros can be loaded from Excel macro-enabled template files (*.xltm) as well as from valid 
+Excel macro-enabled documents (*.xlsm).
+    </description>
+    <api>net/sf/jasperreports/engine/export/ooxml/JRXlsxExporter.html#PROPERTY_MACRO_TEMPLATE</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.5.1</since>
   </configProperty>
   
   

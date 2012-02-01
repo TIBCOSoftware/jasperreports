@@ -215,7 +215,30 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_FREEZE_COLUMN_EDGE = JRProperties.PROPERTY_PREFIX + "export.xls.freeze.column.edge";
 	
+	/**
+	 * Flag property that indicates whether Excel should autofit the current row height.
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>true</code></li>
+	 * <li><code>false</code> - this is the default value.</li>
+	 * </ul>
+	 * 
+	 * @see JRProperties
+	 * @since 4.5.1
+	 */
 	public static final String PROPERTY_AUTO_FIT_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.row";
+	
+	/**
+	 * Flag property that indicates whether Excel should autofit the current column width.
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>true</code></li>
+	 * <li><code>false</code> - this is the default value.</li>
+	 * </ul>
+	 * 
+	 * @see JRProperties
+	 * @since 4.5.1
+	 */
 	public static final String PROPERTY_AUTO_FIT_COLUMN = JRProperties.PROPERTY_PREFIX + "export.xls.auto.fit.column";
 	
 	/**
@@ -329,7 +352,38 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_USE_TIMEZONE = JRProperties.PROPERTY_PREFIX + "export.xls.use.timezone";
 	
+	/**
+	 * Property used to store the location of an existing workbook template. The content of an existing workbook document 
+	 * or template can be embedded into exported document if the template location is known. In this case the content of 
+	 * the template will be exported first and the content of the exported report will be appended to this one. Macros and 
+	 * other settings in the existing template will be also preserved in the generated document. Templates can be loaded from 
+	 * Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
+	 * <p>
+	 * This property is used in Excel exporters based either on Apache POI APIs ({@link JRXlsExporter}) or on JExcelApi library 
+	 * ({@link JExcelApiExporter}). There's no similar property for the {@link JRXlsxExporter}.
+	 * 
+	 * @see JRProperties
+	 * @since 4.5.1
+	 */
 	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template";
+	
+	/**
+	 * Flag property that specifies whether to keep the sheets of the existing template into generated document. Sometimes 
+	 * is important to embed in a generated document only macros and/or other global settings from an existing template, but 
+	 * without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
+	 * to be exported.
+	 * <p>
+	 * This property is used in conjunction with {@link JRXlsAbstractExporterParameter#PROPERTY_WORKBOOK_TEMPLATE}.
+	 * <p>
+	 * Allowed values are:
+	 * <ul>
+	 * <li><code>true</code></li>
+	 * <li><code>false</code> - this is the default value.</li>
+	 * </ul>
+	 * 
+	 * @see JRProperties
+	 * @since 4.5.1
+	 */
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template.keep.sheets";
 
 	
