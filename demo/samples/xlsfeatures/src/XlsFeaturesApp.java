@@ -73,29 +73,19 @@ public class XlsFeaturesApp extends AbstractSampleApp
 	 */
 	public void fill() throws JRException
 	{
-		long start = System.currentTimeMillis();
+		Map parameters = new HashMap();
+		parameters.put("ReportTitle", "Customers Report");
+		parameters.put("Customers", "Customers");
+		parameters.put("ReportDate", new Date());
+		parameters.put("DataFile", "CsvDataSource.txt - CSV query executer");
 
-		// data source filling
+		File[] files = getFiles(new File("build/reports"), "jasper");
+		for(int i = 0; i< files.length; i++)
 		{
-			Map parameters = new HashMap();
-			parameters.put("ReportTitle", "Customers Report");
-			parameters.put("Customers", "Customers");
-			parameters.put("ReportDate", new Date());
-			parameters.put("DataFile", "CsvDataSource.txt - CSV data source");
-
-			String[] columnNames = new String[]{"city", "id", "name", "address", "state"};
-			JRCsvDataSource[] dataSources = new JRCsvDataSource[] {
-				new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt")),
-				new JRCsvDataSource(JRLoader.getLocationInputStream("data/CsvDataSource.txt"))
-			};
-			File[] files = getFiles(new File("build/reports"), "jasper");
-			for(int i = 0; i< files.length; i++)
-			{
-				dataSources[i].setRecordDelimiter("\r\n");
-				dataSources[i].setColumnNames(columnNames);
-				JasperFillManager.fillReportToFile(files[i].getPath(), parameters, dataSources[i]);
-			}
-			System.err.println("Report : XlsFeaturesReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+			long start = System.currentTimeMillis();
+			File sourceFile = files[i];
+			JasperFillManager.fillReportToFile(sourceFile.getPath(), parameters);
+			System.err.println("Report : " + sourceFile + ". Filling time : " + (System.currentTimeMillis() - start));
 		}
 	}
 	
