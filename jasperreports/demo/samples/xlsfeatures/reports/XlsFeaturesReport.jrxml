@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="XlsFeaturesReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="0" bottomMargin="5">
+	<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
+	<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>
 	<property name="net.sf.jasperreports.export.xls.column.width.ratio" value="1.25f"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
@@ -8,6 +10,10 @@
 	<parameter name="ReportDate" class="java.util.Date"/>
 	<parameter name="DataFile" class="java.lang.String"/>
 	<parameter name="Customers" class="java.lang.String"/>
+	<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
+		<defaultValueExpression><![CDATA["\r\n"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="csv"/>
 	<field name="id" class="java.lang.Integer">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
