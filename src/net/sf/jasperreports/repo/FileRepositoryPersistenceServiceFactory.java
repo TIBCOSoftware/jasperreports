@@ -53,11 +53,15 @@ public class FileRepositoryPersistenceServiceFactory implements PersistenceServi
 		{
 			if (InputStreamResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new StreamPersistenceService();
+				return (M)new InputStreamPersistenceService();
+			}
+			else if (OutputStreamResource.class.getName().equals(resourceType.getName()))
+			{
+				return (M)new OutputStreamPersistenceService();
 			}
 			else if (ReportResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new ReportPersistenceService();
+				return (M)new SerializedReportPersistenceService();
 			}
 			else if (DataAdapter.class.isAssignableFrom(resourceType))
 			{

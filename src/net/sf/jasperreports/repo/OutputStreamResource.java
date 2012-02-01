@@ -23,66 +23,29 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.File;
-import java.io.InputStream;
-
+import java.io.OutputStream;
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FileRepositoryService.java 4882 2012-01-09 14:54:19Z teodord $
+ * @version $Id: ReportResource.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class WebFileRepositoryService extends FileRepositoryService
+public class OutputStreamResource extends ObjectResource
 {
-	private String root;
-	private static String applicationRealPath;
-	private String realRoot;
-	
 	/**
 	 * 
 	 */
-	public WebFileRepositoryService(String root, boolean resolveAbsolutePath)
+	public OutputStream getOutputStream()
 	{
-		super(root, resolveAbsolutePath);
-		
-		this.root = root;
+		return (OutputStream)getValue();
 	}
 	
 	/**
 	 * 
 	 */
-	public static void setApplicationRealPath(String appRealPath)
+	public void setOutputStream(OutputStream outputStream)
 	{
-		applicationRealPath = appRealPath;
-	}
-	
-	/**
-	 * 
-	 */
-	public static String getApplicationRealPath()
-	{
-		return applicationRealPath;
-	}
-
-	@Override
-	public String getRoot()
-	{
-		if (realRoot == null && applicationRealPath != null)
-		{
-			realRoot = new File(new File(applicationRealPath), root).getAbsolutePath();
-		}
-		return realRoot;
-	}
-
-	@Override
-	public InputStream getInputStream(String uri)
-	{
-		if (getRoot() != null)
-		{
-			return super.getInputStream(uri);
-		}
-		
-		return null;
+		setValue(outputStream);
 	}
 }

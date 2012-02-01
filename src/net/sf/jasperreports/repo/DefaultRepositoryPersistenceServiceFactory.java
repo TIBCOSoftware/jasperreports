@@ -53,12 +53,16 @@ public class DefaultRepositoryPersistenceServiceFactory implements PersistenceSe
 		{
 			if (InputStreamResource.class.getName().equals(resourceType.getName()))
 			{
-				return (M)new StreamPersistenceService();
+				return (M)new InputStreamPersistenceService();
 			}
-//			else if (ReportResource.class.getName().equals(resourceType.getName()))
-//			{
-//				return (M)new ReportPersistenceService();
-//			}
+			else if (OutputStreamResource.class.getName().equals(resourceType.getName()))
+			{
+				return (M)new OutputStreamPersistenceService();
+			}
+			else if (ReportResource.class.getName().equals(resourceType.getName()))
+			{
+				return (M)new SerializedReportPersistenceService();
+			}
 			else if (DataAdapter.class.isAssignableFrom(resourceType))
 			{
 				return (M)new CastorDataAdapterPersistenceService();

@@ -23,66 +23,44 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.File;
 import java.io.InputStream;
+
 
 
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FileRepositoryService.java 4882 2012-01-09 14:54:19Z teodord $
+ * @version $Id: RepositoryService.java 4603 2011-09-13 12:35:32Z lucianc $
  */
-public class WebFileRepositoryService extends FileRepositoryService
+public class InputStreamPersistenceService implements PersistenceService
 {
-	private String root;
-	private static String applicationRealPath;
-	private String realRoot;
-	
-	/**
-	 * 
-	 */
-	public WebFileRepositoryService(String root, boolean resolveAbsolutePath)
-	{
-		super(root, resolveAbsolutePath);
-		
-		this.root = root;
-	}
-	
-	/**
-	 * 
-	 */
-	public static void setApplicationRealPath(String appRealPath)
-	{
-		applicationRealPath = appRealPath;
-	}
-	
-	/**
-	 * 
-	 */
-	public static String getApplicationRealPath()
-	{
-		return applicationRealPath;
-	}
 
-	@Override
-	public String getRoot()
+	/**
+	 * 
+	 */
+	public Resource load(String uri, RepositoryService repositoryService)
 	{
-		if (realRoot == null && applicationRealPath != null)
-		{
-			realRoot = new File(new File(applicationRealPath), root).getAbsolutePath();
-		}
-		return realRoot;
-	}
+		InputStreamResource resource = null; 
 
-	@Override
-	public InputStream getInputStream(String uri)
-	{
-		if (getRoot() != null)
-		{
-			return super.getInputStream(uri);
-		}
+		StreamRepositoryService streamRepositoryService = (StreamRepositoryService)repositoryService;
 		
-		return null;
+		InputStream is = streamRepositoryService.getInputStream(uri);
+		if (is != null)
+		{
+			resource = new InputStreamResource();
+			resource.setInputStream(is);
+		}
+
+		return resource;
 	}
+	
+	/**
+	 * 
+	 */
+	public void save(Resource resource, String uri, RepositoryService repositoryService)
+	{
+		//FIXMEREPO probably nothing to do
+	}
+	
 }

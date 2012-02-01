@@ -25,10 +25,12 @@ package net.sf.jasperreports.repo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 
 
@@ -82,7 +84,33 @@ public class SerializedObjectPersistenceService implements PersistenceService
 	 */
 	public void save(Resource resource, String uri, RepositoryService repositoryService)
 	{
-		//FIXMEREPO get code from FileRepositoryServie
+		ObjectResource objectResource = (ObjectResource)resource;
+		
+		OutputStreamResource osResource = repositoryService.getResource(uri, OutputStreamResource.class);
+		
+		OutputStream os = osResource == null ? null : osResource.getOutputStream();
+		if (os != null)
+		{
+			try
+			{
+				JRSaver.saveObject(objectResource.getValue(), os);
+			}
+			catch (JRException e)
+			{
+				throw new JRRuntimeException(e);
+			}
+			finally
+			{
+				try
+				{
+					os.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
+		
 	}
 	
 }
