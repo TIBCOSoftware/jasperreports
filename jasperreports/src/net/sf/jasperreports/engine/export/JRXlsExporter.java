@@ -36,9 +36,8 @@ import java.awt.Rectangle;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedCharacterIterator.Attribute;
@@ -87,6 +86,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -96,7 +96,6 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator;
 import org.apache.poi.hssf.usermodel.HSSFName;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
@@ -200,24 +199,37 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 
 	protected void openWorkbook(OutputStream os)
 	{
-		if(workbookTemplatePath != null)
+		if (workbookTemplate == null)
 		{
+			workbook = new HSSFWorkbook();
+		}
+		else
+		{
+			InputStream templateIs = null;
 			try 
 			{
-				workbook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(workbookTemplatePath)));
-				if(!keepTemplateSheets)
+				templateIs = RepositoryUtil.getInputStream(workbookTemplate);
+				if (templateIs == null)
 				{
-					for(int i = 0; i < workbook.getNumberOfSheets(); i++)
-					{
-						workbook.removeSheetAt(i);
-					}
+					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);
 				}
 				else
 				{
-					sheetIndex += workbook.getNumberOfSheets();
+					workbook = new HSSFWorkbook(new POIFSFileSystem(templateIs));
+					if (keepTemplateSheets)
+					{
+						sheetIndex += workbook.getNumberOfSheets();
+					}
+					else
+					{
+						for(int i = 0; i < workbook.getNumberOfSheets(); i++)
+						{
+							workbook.removeSheetAt(i);
+						}
+					}
 				}
 			} 
-			catch (FileNotFoundException e) 
+			catch (JRException e) 
 			{
 				throw new JRRuntimeException(e);
 			} 
@@ -225,10 +237,19 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			{
 				throw new JRRuntimeException(e);
 			}
-		}
-		else
-		{
-			workbook = new HSSFWorkbook();
+			finally
+			{
+				if (templateIs != null)
+				{
+					try
+					{
+						templateIs.close();
+					}
+					catch (IOException e)
+					{
+					}
+				}
+			}
 		}
 		emptyCellStyle = workbook.createCellStyle();
 		emptyCellStyle.setFillForegroundColor((new HSSFColor.WHITE()).getIndex());

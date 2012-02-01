@@ -107,7 +107,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected static final String XLSX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xlsx.";
 
-	public static final String PROPERTY_MACRO_TEMPLATE_PATH = JRProperties.PROPERTY_PREFIX + "export.xlsx.macro.template.path";
+	public static final String PROPERTY_MACRO_TEMPLATE = JRProperties.PROPERTY_PREFIX + "export.xlsx.macro.template";
 	/**
 	 *
 	 */
@@ -152,7 +152,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected String sheetAutoFilter;		
 	
-	protected String macroTemplatePath;		
+	protected String macroTemplate;		
 	
 	protected JasperPrint currentSheetJasperPrint;		
 	
@@ -181,7 +181,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		super.setParameters();
 
 		nature = new JRXlsxExporterNature(filter, isIgnoreGraphics, isIgnorePageMargins);
-		macroTemplatePath =  macroTemplatePath == null ? JRProperties.getProperty(jasperPrint, PROPERTY_MACRO_TEMPLATE_PATH) : macroTemplatePath;
+
+		macroTemplate =  macroTemplate == null ? JRProperties.getProperty(jasperPrint, PROPERTY_MACRO_TEMPLATE) : macroTemplate;
 		
 //		password = 
 //			getStringParameter(
@@ -695,7 +696,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //				}
 //			}
 
-			relsHelper.exportFooter(macroTemplatePath);
+			relsHelper.exportFooter();
 
 			relsHelper.close();
 			
@@ -1370,30 +1371,21 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		try
 		{
-			if(macroTemplatePath != null)
-			{
-				if(macroTemplatePath != null)
-				{
-					xlsxZip = new XlsxZip(macroTemplatePath);
-				}
-				else
-				{
-					throw new JRRuntimeException("There is no path declared for template file");
-				}
-			}
-			else
-			{
-				xlsxZip = new XlsxZip();
-			}
+			xlsxZip = new XlsxZip();
 
 			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
 
 			relsHelper = new XlsxRelsHelper(xlsxZip.getRelsEntry().getWriter());
-			relsHelper.exportHeader();
-
 			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
-			ctHelper.exportHeader(macroTemplatePath);
+			if(macroTemplate != null)
+			{
+				xlsxZip.addMacro(macroTemplate);
+				relsHelper.setContainsMacro(true);
+				ctHelper.setContainsMacro(true);
+			}
+			relsHelper.exportHeader();
+			ctHelper.exportHeader();
 			
 			styleHelper = 
 				new XlsxStyleHelper(
@@ -1499,12 +1491,12 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	}
 	
 	public String getMacroTemplatePath() {
-		return macroTemplatePath;
+		return macroTemplate;
 	}
 
 
-	public void setMacroTemplatePath(String macroTemplatePath) {
-		this.macroTemplatePath = macroTemplatePath;
+	public void setMacroTemplate(String macroTemplate) {
+		this.macroTemplate = macroTemplate;
 	}
 	
 }

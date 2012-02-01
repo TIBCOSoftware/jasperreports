@@ -37,8 +37,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -117,6 +117,7 @@ import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -281,37 +282,62 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void openWorkbook(OutputStream os) throws JRException
 	{
+		WorkbookSettings settings = new WorkbookSettings();
+		settings.setUseTemporaryFileDuringWrite(useTempFile);
+		
+		InputStream templateIs = null;
+
 		try
 		{
-			WorkbookSettings settings = new WorkbookSettings();
-			settings.setUseTemporaryFileDuringWrite(useTempFile);
-			
-			if(workbookTemplatePath != null)
+			if (workbookTemplate == null)
 			{
-				Workbook template = Workbook.getWorkbook(new File(workbookTemplatePath));
-				workbook = Workbook.createWorkbook(os, template, settings);
-				if(!keepTemplateSheets)
-				{
-					for(int i = 0; i < workbook.getNumberOfSheets(); i++)
-					{
-						workbook.removeSheet(i);
-					}
-				}
-				else
-				{
-					sheetIndex += workbook.getNumberOfSheets();
-				}
+				workbook = Workbook.createWorkbook(os, settings);
 			}
 			else
 			{
-				workbook = Workbook.createWorkbook(os, settings);
+				templateIs = RepositoryUtil.getInputStream(workbookTemplate);
+				if (templateIs == null)
+				{
+					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);
+				}
+				else
+				{
+					Workbook template = Workbook.getWorkbook(templateIs);
+					workbook = Workbook.createWorkbook(os, template, settings);
+					if(!keepTemplateSheets)
+					{
+						for(int i = 0; i < workbook.getNumberOfSheets(); i++)
+						{
+							workbook.removeSheet(i);
+						}
+					}
+					else
+					{
+						sheetIndex += workbook.getNumberOfSheets();
+					}
+				}
 			}
 		}
 		catch (IOException e)
 		{
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
-		} catch (BiffException e) {
+		}
+		catch (BiffException e) 
+		{
 			throw new JRException("Error generating XLS report : " + jasperPrint.getName(), e);
+		}
+		finally
+		{
+			if (templateIs != null)
+			{
+				try
+				{
+					templateIs.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
 		}
 	}
 

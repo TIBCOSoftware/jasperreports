@@ -32,8 +32,8 @@ import java.io.Writer;
  */
 public class XlsxRelsHelper extends BaseHelper
 {
-
-	int index = 0;
+	private boolean containsMacro;
+	
 	/**
 	 * 
 	 */
@@ -45,11 +45,23 @@ public class XlsxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
+	public void setContainsMacro(boolean containsMacro)
+	{
+		this.containsMacro = containsMacro;
+	}
+
+	/**
+	 * 
+	 */
 	public void exportHeader()
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">\n");
-		write(" <Relationship Id=\"rId0\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/>\n");
+		write(" <Relationship Id=\"rIdSt\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles\" Target=\"styles.xml\"/>\n");
+		if (containsMacro)
+		{
+			write(" <Relationship Id=\"rIdMc\" Type=\"http://schemas.microsoft.com/office/2006/relationships/vbaProject\" Target=\"vbaProject.bin\"/>\n");
+		}
 //		write(" <Relationship Id=\"rIdCa\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/calcChain\" Target=\"calcChain.xml\"/>\n");
 //		write(" <Relationship Id=\"rIdSh\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings\" Target=\"sharedStrings.xml\"/>\n");
 	}
@@ -60,7 +72,6 @@ public class XlsxRelsHelper extends BaseHelper
 	public void exportSheet(int index)
 	{
 		write(" <Relationship Id=\"rId" + index + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet\" Target=\"worksheets/sheet" + index + ".xml\"/>\n");
-		this.index = index;
 	}
 	
 //	/**
@@ -74,14 +85,9 @@ public class XlsxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportFooter(String macroTemplatePath)
+	public void exportFooter()
 	{
-		if(macroTemplatePath != null)
-		{
-			write(" <Relationship Id=\"rId" + (++index) + "\" Type=\"http://schemas.microsoft.com/office/2006/relationships/vbaProject\" Target=\"vbaProject.bin\"/>\n");
-		}
 		write("</Relationships>\n");
-		this.index = 0;
 	}
 	
 }

@@ -329,8 +329,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_USE_TIMEZONE = JRProperties.PROPERTY_PREFIX + "export.xls.use.timezone";
 	
-	public static final String PROPERTY_WORKBOOK_TEMPLATE_PATH = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template.path";
-	public static final String PROPERTY_KEEP_TEMPLATE_SHEETS = JRProperties.PROPERTY_PREFIX + "export.xls.keep.template.sheets";
+	public static final String PROPERTY_WORKBOOK_TEMPLATE = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template";
+	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRProperties.PROPERTY_PREFIX + "export.xls.workbook.template.keep.sheets";
 
 	
 	protected static class TextAlignHolder
@@ -435,7 +435,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected Float columnWidthRatio;
 	
 	protected Boolean keepTemplateSheets;
-	protected String workbookTemplatePath;		
+	protected String workbookTemplate;
 	
 	/**
 	 *
@@ -700,8 +700,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		
 		formatPatternsMap = (Map<String,String>)getParameter(JRXlsExporterParameter.FORMAT_PATTERNS_MAP);
 		
-		workbookTemplatePath = workbookTemplatePath == null ? JRProperties.getProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE_PATH) : workbookTemplatePath;
-		keepTemplateSheets = keepTemplateSheets ==  null ? JRProperties.getBooleanProperty(jasperPrint, PROPERTY_KEEP_TEMPLATE_SHEETS) : keepTemplateSheets;
+		workbookTemplate = workbookTemplate == null ? JRProperties.getProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE) : workbookTemplate;
+		keepTemplateSheets = keepTemplateSheets ==  null ? JRProperties.getBooleanProperty(jasperPrint, PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS) : keepTemplateSheets;
 	}
 
 	protected void setExporterHints()
@@ -1599,23 +1599,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	// property setters
 	
-	public boolean isKeepTemplateSheets() {
+	public boolean isWorkbookTemplateKeepSheets() {
 		return keepTemplateSheets;
 	}
 
 
-	public void setKeepTemplateSheets(boolean keepTemplateSheets) {
+	public void setWorkbookTemplateKeepSheets(boolean keepTemplateSheets) {
 		this.keepTemplateSheets = keepTemplateSheets;
 	}
 
 
-	public String getWorkbookTemplatePath() {
-		return workbookTemplatePath;
+	public String getWorkbookTemplate() {
+		return workbookTemplate;
 	}
 
 
-	public void setWorkbookTemplatePath(String workbookTemplatePath) {
-		this.workbookTemplatePath = workbookTemplatePath;
+	public void setWorkbookTemplate(String workbookTemplate) {
+		this.workbookTemplate = workbookTemplate;
 	}
 
 

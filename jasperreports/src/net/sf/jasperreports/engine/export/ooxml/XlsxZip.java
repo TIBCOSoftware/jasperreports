@@ -24,14 +24,16 @@
 package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.IOException;
-import java.util.zip.ZipFile;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
-import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
-import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 
 /**
@@ -67,27 +69,6 @@ public class XlsxZip extends FileBufferedZip
 		addEntry(contentTypesEntry);
 		
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
-	}
-	
-	/**
-	 * 
-	 */
-	public XlsxZip(String templatePath) throws IOException
-	{
-		this();
-		
-		if(templatePath != null)
-		{
-			ZipFile template = new ZipFile(templatePath);
-			if(template != null)
-			{
-				try {
-					addEntry(new FileBufferedZipEntry("xl/vbaProject.bin", JRLoader.loadBytes(template.getInputStream(template.getEntry("xl/vbaProject.bin")))));
-				} catch (JRException e) {
-					throw new JRRuntimeException(e);
-				}
-			}
-		}
 	}
 	
 	/**
@@ -168,6 +149,87 @@ public class XlsxZip extends FileBufferedZip
 		exportZipEntries.add(drawingRelsEntry);
 
 		return drawingRelsEntry;
+	}
+
+	/**
+	 * 
+	 */
+	public void addMacro(String template)
+	{
+		InputStream templateIs = null;
+		ZipInputStream templateZipIs = null;
+		try
+		{
+			templateIs = RepositoryUtil.getInputStream(template);
+			if (templateIs == null)
+			{
+				throw new JRRuntimeException("Macro template not found at : " + template);
+			}
+			else
+			{
+				templateZipIs = new ZipInputStream(templateIs);
+				
+				ZipEntry entry = null;
+				while ((entry = templateZipIs.getNextEntry()) != null)
+				{
+					if ("xl/vbaProject.bin".equals(entry.getName()))
+					{
+						break;
+					}
+				}
+				
+				if (entry != null)
+				{
+					ExportZipEntry macroEntry = createEntry("xl/vbaProject.bin");
+					OutputStream entryOs = macroEntry.getOutputStream();
+
+					long entryLength = entry.getSize();
+					
+					byte[] bytes = new byte[10000];
+					int ln = 0;
+					long readBytesLength = 0;
+					while (readBytesLength < entryLength && (ln = templateZipIs.read(bytes)) >= 0)
+					{
+						readBytesLength += ln;
+						entryOs.write(bytes, 0, ln);
+					}
+					
+					exportZipEntries.add(macroEntry);
+				}
+			}
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		catch (IOException e)
+		{
+			throw new JRRuntimeException(e);
+		}
+		finally
+		{
+			if (templateZipIs != null)
+			{
+				try
+				{
+					templateZipIs.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+
+			if (templateIs != null)
+			{
+				try
+				{
+					templateIs.close();
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		}
 	}
 	
 }
