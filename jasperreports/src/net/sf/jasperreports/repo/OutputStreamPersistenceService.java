@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.InputStream;
+import java.io.OutputStream;
 
 
 
@@ -33,7 +33,7 @@ import java.io.InputStream;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: RepositoryService.java 4603 2011-09-13 12:35:32Z lucianc $
  */
-public class StreamPersistenceService implements PersistenceService
+public class OutputStreamPersistenceService implements PersistenceService
 {
 
 	/**
@@ -41,15 +41,15 @@ public class StreamPersistenceService implements PersistenceService
 	 */
 	public Resource load(String uri, RepositoryService repositoryService)
 	{
-		InputStreamResource resource = null; 
+		OutputStreamResource resource = null; 
 
 		StreamRepositoryService streamRepositoryService = (StreamRepositoryService)repositoryService;
 		
-		InputStream is = streamRepositoryService.getInputStream(uri);
-		if (is != null)
+		OutputStream os = streamRepositoryService.getOutputStream(uri);
+		if (os != null)
 		{
-			resource = new InputStreamResource();
-			resource.setInputStream(is);
+			resource = new OutputStreamResource();
+			resource.setOutputStream(os);
 		}
 
 		return resource;
@@ -60,7 +60,7 @@ public class StreamPersistenceService implements PersistenceService
 	 */
 	public void save(Resource resource, String uri, RepositoryService repositoryService)
 	{
-		//FIXMEREPO get code from FileRepositoryServie
+		//FIXMEREPO probably nothing to do
 	}
 	
 }

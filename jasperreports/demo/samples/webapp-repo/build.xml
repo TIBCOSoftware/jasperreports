@@ -1,4 +1,4 @@
-<project name="webapp" default="javac" basedir=".">
+<project name="webapp" default="compile" basedir=".">
 
 	<description>Shows how reporting functionality could be added to a Web application.</description>
 
@@ -42,25 +42,34 @@
 
 	<target name="javac" depends="prepare" description="Compiles the java source files of the web application.">
 		<javac srcdir="./WEB-INF/classes/" destdir="./WEB-INF/classes/" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
-			<classpath>
-				<pathelement location="./WEB-INF/classes/"/>
-				<pathelement location="../../../build/classes"/>
-				<fileset dir="../../../lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
+			<classpath refid="classpath"/>
 		</javac>
 	</target>
+
+	<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+		<classpath refid="classpath"/>
+	</taskdef>
+
+	<target name="compile" depends="javac" description="Compiles the report design files of the web application."> 
+		<jrc 
+				srcdir="./WEB-INF/repository/"
+				destdir="./WEB-INF/repository/"
+				xmlvalidation="true">
+			<classpath refid="classpath"/>
+			<include name="**/*.jrxml"/>
+		</jrc>
+	</target> 
 
 	<target name="clean" description="Deletes all the generated files.">
 		<delete>
 			<fileset dir="." includes="**/*.class" />
 			<fileset dir="." includes="**/*.war" />
 			<fileset dir="." includes="**/*.jar" />
+			<fileset dir="." includes="**/*.jasper" />
 		</delete>
 	</target>
 
-	<target name="war" depends="javac" description="Builds the Web application .war file.">
+	<target name="war" depends="compile" description="Builds the Web application .war file.">
 		<war warfile="${war.name}" webxml="./WEB-INF/web.xml">
 			<fileset dir="." includes="**/*.css" />
 			<fileset dir="." includes="**/*.html" />
@@ -70,7 +79,7 @@
 			<fileset dir="." includes="**/images/**/*.*" />
 			<fileset dir="." includes="**/jasperreports/**/*.*" />
 			<fileset dir="." includes="**/jquery/**/*.*" />
-			<fileset dir="." includes="**/WEB-INF/repository/**/*.*" />
+			<fileset dir="." includes="**/WEB-INF/repository/**/*.*" excludes="**/WEB-INF/repository/**/*.jrxml"/>
 			<classes dir="./WEB-INF/classes/">
 				<include name="**/*.class" />
 				<include name="**/*.properties" />
@@ -86,7 +95,7 @@
 		<echo message=" Webapp Repository Sample"/>
 		<echo message="==================================="/>
 		<antcall target="clean" />
-		<antcall target="javac" />
+		<antcall target="compile" />
 	</target>
 	
 	
@@ -124,9 +133,9 @@
 
 	<target name="jasperreportsAntCleanJar">
 		<ant antfile="${jasperreports.ant.file}" target="clean" inheritall="false"/>
-		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
+		<ant antfile="${jasperreports.ant.file}" target="plainjar" inheritall="false"/>
 	</target>
-	
+
 	<target name="copyWarToTomcat" depends="clean, war">
 		<copy todir="${tomcat.home}/webapps" file="${basedir}/${war.name}" />
 	</target>
@@ -153,5 +162,12 @@
 		<antcall target="copyWarToTomcat" />
 		<antcall target="startTomcat" inheritall="false" />
 	</target>
-		
+
+	<target name="deploy_nostart">
+		<antcall target="stopTomcat" />
+		<antcall target="jasperreportsAntCleanJar" />
+		<antcall target="cleanTomcat" />
+		<antcall target="copyWarToTomcat" />
+	</target>
+
 </project>
