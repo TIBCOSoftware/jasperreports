@@ -32,6 +32,8 @@ import java.io.Writer;
  */
 public class XlsxContentTypesHelper extends BaseHelper
 {
+	private boolean containsMacro;
+	
 	/**
 	 * 
 	 */
@@ -43,20 +45,19 @@ public class XlsxContentTypesHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader()
+	public void setContainsMacro(boolean containsMacro)
 	{
-		exportHeader(null);
+		this.containsMacro = containsMacro;
 	}
-	
+
 	/**
 	 *
 	 */
-	public void exportHeader(String macroTemplatePath)
+	public void exportHeader()
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\">\n");
-		boolean containsMacros = macroTemplatePath != null;
-		if(containsMacros)
+		if (containsMacro)
 		{
 			write("  <Default Extension=\"bin\" ContentType=\"application/vnd.ms-office.vbaProject\"/>\n");
 		}
@@ -66,13 +67,16 @@ public class XlsxContentTypesHelper extends BaseHelper
 		write("  <Default Extension=\"tiff\" ContentType=\"image/tiff\"/>\n");
 		write("  <Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/>\n");
 		write("  <Default Extension=\"xml\" ContentType=\"application/xml\"/>\n");
-		if(containsMacros)
+		if (containsMacro)
 		{
 			write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.ms-excel.sheet.macroEnabled.main+xml\"/>\n");
 			write("  <Override PartName=\"/xl/vbaProject.bin\" ContentType=\"application/vnd.ms-office.vbaProject\"/>\n");
 		}
+		else
+		{
+			write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
+		}
 		write("  <Override PartName=\"/xl/styles.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml\"/>\n");
-		write("  <Override PartName=\"/xl/workbook.xml\" ContentType=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml\"/>\n");
 	}
 	
 
