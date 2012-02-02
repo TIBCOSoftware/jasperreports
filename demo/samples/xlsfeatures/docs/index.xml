@@ -23,7 +23,7 @@ How to turn on Excel specific features to improve the generated document in Exce
     </documentedBy>
   	<otherSample ref="xlsformula"/>
     <content>
-<b>Pixel-Perfect Document Representation and Excel Output Format</b>    
+<subtitle name="overview">Pixel-Perfect Document Representation and Excel Output Format</subtitle>    
 <br/>
 <br/>
 One of the main purposes of the JasperReports engine is to prepare documents ready to be printed out in a pixel-perfect representation. 
@@ -41,7 +41,7 @@ That's why a number of custom export properties were added, in order to allow th
 document layout. This sample shows one by one these recently added properties and how they work.
 <br/>
 <br/>
-<b><a name="dynamicSheetNames">Dynamic</a> Sheet Names</b>    
+<subtitle name="dynamicSheetNames">Dynamic Sheet Names</subtitle>    
 <br/>
 <br/>
 One of the main preoccupations when exporting to Excel output format is to ensure that every sheet in the document has a proper name, because no-named 
@@ -65,7 +65,7 @@ Therefore each sheet will be labeled with the <code>Customers i</code> text inst
 the sheet index).
 <br/>
 <br/>
-<b>Format Pattern Property</b>    
+<subtitle name="formatPattern">Format Pattern Property</subtitle>    
 <br/>
 <br/>
 Format patterns are useful when data have to be presented in a completely readable and meaningful form. To see an example, dates are often stored as numbers 
@@ -94,7 +94,7 @@ In this case the <code>EEE, MMM d, yyyy</code> pattern, completely valid in Java
 <code>ddd, mmm d, yyyy</code> pattern when exporting report to Excel.
 <br/>
 <br/>
-<b>Column Width Adjustment Properties</b>    
+<subtitle name="columnWidthAdjustment">Column Width Adjustment Properties</subtitle>    
 <br/>
 <br/>
 One of the most frequently encountered problems when exporting documents to Excel consists in the inadequate resulting column width. In some cases one could 
@@ -135,7 +135,7 @@ When the record with field value <code>id = 44</code> is rendered (and this happ
 will be multiplied by 0.75 instead of 1.25. The <code>State</code> column width remains unchanged on the second page too.
 </li>
 </ul>
-<b>Freeze Pane Properties</b>    
+<subtitle name="freezePane">Freeze Pane Properties</subtitle>    
 <br/>
 <br/>
 Freeze panes represent an Excel-specific feature with considerable visual impact, so they have their well deserved place among special features supported by JR. 
@@ -169,7 +169,7 @@ These settings instruct the engine that the left columns to the <code>State</cod
 including the current row, are "frozen".			
 <br/>
 <br/>
-<b>The Autofilter Property</b>    
+<subtitle name="autofilter">The Autofilter Property</subtitle>    
 <br/>
 <br/>
 In editable Excel documents data can be autofiltered allowing users to show/hide only the desired data in a range. This feature is also supported in JR when the 
@@ -198,7 +198,7 @@ of the <code>State</code> element in the page header, the other is set in the <c
 detail element, therefore in the second sheet the data range will start on the <code>Name</code> column, immediately below the row with field value<code>id=44</code>. Because there 
 is no autofilter <code>End</code> value defined on the second sheet, the data range contains only current column data.</li>
 </ul>
-<b>The Outline Row Level Property</b>    
+<subtitle name="outlineRow">The Outline Row Level Property</subtitle>    
 <br/>
 <br/>
 Another noticeable feature is the row outline grouping on different indentation levels. To turn this feature on, one has to know which group each row belongs to, and which 
@@ -266,7 +266,66 @@ This is the most simple way to perform outline row grouping at Excel export time
   </band>
 </detail>
 ]]></pre>
-<b>Running the Sample</b>
+<subtitle name="template">Embedding Content from External Documents into the Generated Document</subtitle>
+<br/>
+<br/>
+Generated documents usually represent standalone, self-consistent pieces of information and don't require 
+additional content from other documents in order to become meaningful. But sometimes a generated document 
+may not uncover the whole picture. Let's imagine, for instance, a book where chapters are appended one at 
+a time after they are completed. Or an Excel document where sheets are organized per years. Each new year 
+comes with a new sheet to be added into the existing document. In this case there should be a possibility 
+to concatenate our generated document with other existing ones.
+<br/>
+A solution would be to use the batch export functionality as explained in the 
+<a href="../batchexport.html#batchexport">Batch Export Sample</a>. The main inconvenient here is that all 
+documents to be concatenated should be available as JasperPrint objects. But what if we have no JasperPrint 
+objects, but valid Excel documents instead? The batch export has no answers for this.
+<br/>
+In order to solve this category of requirements, two new exporter properties were added starting with v4.5.1:
+<ul>
+<li><code>net.sf.jasperreports.export.xls.workbook.template</code> - one can use this property to store the 
+location of an existing Excel workbook template. The content of the exported report will be appended to the 
+content of the template document at export time. All settings of the template document along with its embedded 
+binary objects will be also exported into the generated document. Templates can be loaded from 
+Excel template files (*.xlt) as well as from valid Excel documents (*.xls).
+<br/>
+This property may be used in Excel exporters based either on Apache POI APIs (such as JRXlsExporter) or on the 
+JExcelApi library (the JExcelApiExporter). There's no similar property for the JRXlsxExporter.</li>
+<li><code>net.sf.jasperreports.export.xls.workbook.template.keep.sheets</code> - specifies whether to keep the 
+sheets of the existing template into generated document. Sometimes only macros and/or other global settings from 
+an existing template are needed in the generated document, without keeping actual content of the template document. 
+If set to false, this property prevent the template sheets to be also exported.
+<br/>
+This property is used in conjunction with <code>net.sf.jasperreports.export.xls.workbook.template</code> described above.
+</li>
+</ul>
+To see how these properties work, see how they are set in the <code>demo/samples/xlsfeatures/reports/MacroReport.jrxml</code> 
+file. Excel template files are saved in the <code>demo/samples/xlsfeatures/data</code> directory, where you could examine the 
+<code>macro.xlt</code> template for this particular case. 
+<br/>
+After running the sample take a look at generated <code>MacroReport.xls</code> and <code>MacroReport.jxl.xls</code> reports. 
+You will see that the first sheet of these reports was loaded from the template file. In the following sheets, you can run 
+the macro imported from the template file by pressing CTRL+SHIFT+T and see how fonts and column width changed.
+<br/>
+<br/>
+<subtitle name="macroTemplate">Importing Macros into the Generated XLSX Document</subtitle>
+<br/>
+<br/>
+For the moment embedding entire content from external documents does not apply to the <code>JRXlsxExporter</code>. But 
+one has at least the possibility to import macros from an existing template into the generated document. To do so, just 
+use the related <code>net.sf.jasperreports.export.xlsx.macro.template</code> property that stores the location of 
+an existing workbook template containing the macro object.
+<br/>
+The binary object found in the template document will be copied into the generated document. 
+<br/>
+Macros can be loaded from Excel macro-enabled template files (*.xltm) as well as from valid Excel macro-enabled documents (*.xlsm).
+<br/>
+See how this property was set in the <code>demo/samples/xlsfeatures/reports/MacroReport.jrxml</code> 
+file and examine the <code>macro.xltm</code> template in the <code>data</code> directory. Then take a look at the generated 
+<code>MacroReport.xlsx</code> document and press CTRL+SHIFT+T after selecting a cell to run the macro.
+<br/>
+<br/>
+<subtitle name="runningSample">Running the Sample</subtitle>
 <br/>
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
