@@ -1484,8 +1484,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return (JRProperties.getBooleanProperty(element, PROPERTY_WRAP_TEXT, wrapText) 
-					|| JRProperties.getBooleanProperty(element, PROPERTY_AUTO_FIT_ROW, wrapText));
+			return (JRProperties.getBooleanProperty(element, PROPERTY_WRAP_TEXT, wrapText));
 		}
 		return wrapText;
 	}
