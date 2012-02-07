@@ -1415,15 +1415,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		// sheet name specified; assuming it is first occurrence
 		int crtIndex = Integer.valueOf(1);
 		String txtIndex = "";
-
-		if(sheetNamesMap.containsKey(sheetName))
+		String validSheetName = sheetName.length() < 32 ? sheetName : sheetName.substring(0, 31);
+		
+		if(sheetNamesMap.containsKey(validSheetName))
 		{
 			// sheet names must be unique; altering sheet name using number of occurrences
-			crtIndex = sheetNamesMap.get(sheetName).intValue() + 1;
+			crtIndex = sheetNamesMap.get(validSheetName).intValue() + 1;
 			txtIndex = String.valueOf(crtIndex);
 		}
 
-		sheetNamesMap.put(sheetName, crtIndex);
+		sheetNamesMap.put(validSheetName, crtIndex);
 
 		String name = sheetName;
 		if(txtIndex.length() > 0)
