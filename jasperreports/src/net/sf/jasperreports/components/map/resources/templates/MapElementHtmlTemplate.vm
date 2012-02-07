@@ -16,7 +16,7 @@
 	</div>
 
 #if (${gotReportContext})
-	<script type='text/javascript'>
+	<script class='jasperreports' type='text/javascript'>
 		JasperReports.modules.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', function() {
 			var jm = JasperReports.modules.map; 
 			
