@@ -86,6 +86,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -1469,46 +1470,106 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		if (box != null)
 		{
-			addedToStyle |= appendPen(
-				styleBuffer,
-				box.getTopPen(),
-				"top"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getTopPadding(),
-				"top"
-				);
-			addedToStyle |= appendPen(
-				styleBuffer,
-				box.getLeftPen(),
-				"left"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getLeftPadding(),
-				"left"
-				);
-			addedToStyle |= appendPen(
-				styleBuffer,
-				box.getBottomPen(),
-				"bottom"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getBottomPadding(),
-				"bottom"
-				);
-			addedToStyle |= appendPen(
-				styleBuffer,
-				box.getRightPen(),
-				"right"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getRightPadding(),
-				"right"
-				);
+			LineStyleEnum tps = box.getTopPen().getLineStyleValue();
+			LineStyleEnum lps = box.getLeftPen().getLineStyleValue();
+			LineStyleEnum bps = box.getBottomPen().getLineStyleValue();
+			LineStyleEnum rps = box.getRightPen().getLineStyleValue();
+			
+			float tpw = box.getTopPen().getLineWidth().floatValue();
+			float lpw = box.getLeftPen().getLineWidth().floatValue();
+			float bpw = box.getBottomPen().getLineWidth().floatValue();
+			float rpw = box.getRightPen().getLineWidth().floatValue();
+			
+			if (0f < tpw && tpw < 1f) {
+				tpw = 1f;
+			}
+			if (0f < lpw && lpw < 1f) {
+				lpw = 1f;
+			}
+			if (0f < bpw && bpw < 1f) {
+				bpw = 1f;
+			}
+			if (0f < rpw && rpw < 1f) {
+				rpw = 1f;
+			}
+			
+			Color tpc = box.getTopPen().getLineColor();
+			
+			// try to compact all borders into one css property
+			if (tps == lps &&												// same line style
+					tps == bps &&
+					tps == rps &&
+					tpw == lpw &&											// same line width
+					tpw == bpw &&
+					tpw == rpw &&
+					tpc.equals(box.getLeftPen().getLineColor()) &&			// same line color
+					tpc.equals(box.getBottomPen().getLineColor()) &&
+					tpc.equals(box.getRightPen().getLineColor())) 
+			{
+				addedToStyle |= appendPen(
+						styleBuffer,
+						box.getTopPen(),
+						null
+						);
+			} else {
+				addedToStyle |= appendPen(
+					styleBuffer,
+					box.getTopPen(),
+					"top"
+					);
+				addedToStyle |= appendPen(
+					styleBuffer,
+					box.getLeftPen(),
+					"left"
+					);
+				addedToStyle |= appendPen(
+					styleBuffer,
+					box.getBottomPen(),
+					"bottom"
+					);
+				addedToStyle |= appendPen(
+					styleBuffer,
+					box.getRightPen(),
+					"right"
+					);
+			}
+			
+			Integer tp = box.getTopPadding();
+			Integer lp = box.getLeftPadding();
+			Integer bp = box.getBottomPadding();
+			Integer rp = box.getRightPadding();
+			
+			// try to compact all paddings into one css property
+			if (tp == lp && tp == bp && tp == rp)
+			{
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						tp,
+						null
+						);
+			} else 
+			{
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getTopPadding(),
+						"top"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getLeftPadding(),
+						"left"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getBottomPadding(),
+						"bottom"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getRightPadding(),
+						"right"
+						);
+			}
 		}
 		
 		return addedToStyle;
@@ -2142,27 +2203,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				sb.append("-");
 				sb.append(side);
 			}
-			sb.append("-style: ");
-			sb.append(borderStyle);
-			sb.append("; ");
-
-			sb.append("border");
-			if (side != null)
-			{
-				sb.append("-");
-				sb.append(side);
-			}
-			sb.append("-width: ");
+			
+			sb.append(": ");
 			sb.append(toSizeUnit((int)borderWidth));
-			sb.append("; ");
+			
+			sb.append(" ");
+			sb.append(borderStyle);
 
-			sb.append("border");
-			if (side != null)
-			{
-				sb.append("-");
-				sb.append(side);
-			}
-			sb.append("-color: #");
+			sb.append(" #");
 			sb.append(JRColorUtil.getColorHexa(pen.getLineColor()));
 			sb.append("; ");
 
