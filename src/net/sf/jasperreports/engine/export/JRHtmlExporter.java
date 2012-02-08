@@ -1807,26 +1807,42 @@ public class JRHtmlExporter extends JRAbstractExporter
 		
 		if (box != null)
 		{
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getTopPadding(),
-				"top"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getLeftPadding(),
-				"left"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getBottomPadding(),
-				"bottom"
-				);
-			addedToStyle |= appendPadding(
-				styleBuffer,
-				box.getRightPadding(),
-				"right"
-				);
+			Integer tp = box.getTopPadding();
+			Integer lp = box.getLeftPadding();
+			Integer bp = box.getBottomPadding();
+			Integer rp = box.getRightPadding();
+			
+			// try to compact all paddings into one css property
+			if (tp == lp && tp == bp && tp == rp)
+			{
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						tp,
+						null
+						);
+			} else 
+			{
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getTopPadding(),
+						"top"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getLeftPadding(),
+						"left"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getBottomPadding(),
+						"bottom"
+						);
+				addedToStyle |= appendPadding(
+						styleBuffer,
+						box.getRightPadding(),
+						"right"
+						);
+			}
 		}
 		
 		return addedToStyle;
