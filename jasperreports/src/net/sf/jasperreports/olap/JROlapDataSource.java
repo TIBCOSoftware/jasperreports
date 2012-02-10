@@ -334,7 +334,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 
 				processMappingMembers(mapping);
 
-				FieldMatcher fieldMatcher = createFieldMatcher(mapping);
+				FieldMatcher fieldMatcher = createFieldMatcher(field, mapping);
 				fieldMatchers.put(field.getName(), fieldMatcher);
 			}
 		}
@@ -356,7 +356,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		}
 	}
 
-	private FieldMatcher createFieldMatcher(Mapping mapping)
+	private FieldMatcher createFieldMatcher(JRField field, Mapping mapping)
 	{
 		FieldMatcher fieldMatcher;
 		if (mapping instanceof MemberMapping)
@@ -366,7 +366,7 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		else if (mapping instanceof DataMapping)
 		{
 			dataField = true;
-			fieldMatcher = new DataFieldMatcher((DataMapping) mapping);
+			fieldMatcher = new DataFieldMatcher(field, (DataMapping) mapping);
 		}
 		else
 		{
@@ -560,9 +560,11 @@ public class JROlapDataSource implements JRDataSource, MappingMetadata
 		private final net.sf.jasperreports.olap.mapping.Member[] members;
 		private int[] positions;
 
-		public DataFieldMatcher(DataMapping mapping)
+		public DataFieldMatcher(JRField field, DataMapping mapping)
 		{
-			this.formatted = mapping.isFormatted();
+			// only using FormattedData mappings for String fields 
+			// for other fields, FormattedData mappings are treated in the same way as Data mappings
+			this.formatted = mapping.isFormatted() && String.class.equals(field.getValueClass());
 
 			List<AxisPosition> mappingPositions = mapping.getPositions();
 			if (mappingPositions == null)
