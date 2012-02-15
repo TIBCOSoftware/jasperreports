@@ -132,6 +132,15 @@ public class JRBaseConditionalStyle extends JRBaseStyle implements JRConditional
 			return false;
 		}
 		
+		// comparing expression Ids as well because deduplication is performed
+		// before condition evaluation
+		Integer expressionId = conditionExpression == null ? null : conditionExpression.getId();
+		Integer otherExpressionId = style.conditionExpression == null ? null : style.conditionExpression.getId();
+		if (!ObjectUtils.equals(expressionId, otherExpressionId))
+		{
+			return false;
+		}
+		
 		String expressionText = conditionExpression == null ? null : conditionExpression.getText();
 		String otherExpressionText = style.conditionExpression == null ? null : style.conditionExpression.getText();
 		return ObjectUtils.equals(expressionText, otherExpressionText);
