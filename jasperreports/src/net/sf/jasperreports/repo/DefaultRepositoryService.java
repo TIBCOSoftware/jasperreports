@@ -84,7 +84,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	public void revertContext()
 	{
 		RepositoryContext context = localContext.get();
-		localContext.remove();
+		//localContext.remove();//this causes NPE on subreports with Javaflow
 		
 		ClassLoader classLoader = (ClassLoader)context.getValue(JRParameter.REPORT_CLASS_LOADER);
 		URLStreamHandlerFactory urlHandlerFactory = (URLStreamHandlerFactory)context.getValue(JRParameter.REPORT_URL_HANDLER_FACTORY);
