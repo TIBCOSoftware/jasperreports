@@ -30,6 +30,8 @@ import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
+import net.sf.jasperreports.engine.component.BaseComponentContext;
+import net.sf.jasperreports.engine.component.ComponentContext;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -61,6 +63,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	private ChartSettings chartSettings;
 	private SpiderDataset dataset;
 	private SpiderPlot plot;
+	private ComponentContext context;
 	
 	public SpiderChartComponent()
 	{
@@ -70,6 +73,7 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 	{
 		this.evaluationTime = chartComponent.getEvaluationTime();
 		this.evaluationGroup = chartComponent.getEvaluationGroup();
+		this.context = new BaseComponentContext(chartComponent.getContext(), baseFactory);
 		
 		this.chartSettings = new StandardChartSettings(chartComponent.getChartSettings(), baseFactory);//FIXMENOW check use of constructor here
 		this.dataset = new StandardSpiderDataset((SpiderDataset)chartComponent.getDataset(), baseFactory);
@@ -191,4 +195,12 @@ public class SpiderChartComponent implements ChartComponent, JRChangeEventsSuppo
 		return eventSupport;
 	}
 	
+	public ComponentContext getContext() {
+		return context;
+	}
+
+	public void setContext(ComponentContext context) {
+		this.context = context;
+	}
+
 }
