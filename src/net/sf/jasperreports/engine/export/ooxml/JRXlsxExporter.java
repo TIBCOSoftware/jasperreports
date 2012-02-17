@@ -1277,7 +1277,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			new TextValueHandler() 
 			{
 				public void handle(BooleanTextValue textValue) throws JRException {
-					sheetHelper.write("<v>" + textValue.getValue() + "</v>\n");
+					sheetHelper.write("<v>" + textValue.getValue() + "</v>");
 				}
 				
 				public void handle(DateTextValue textValue) throws JRException {
