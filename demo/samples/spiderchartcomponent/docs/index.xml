@@ -215,6 +215,8 @@ The resulting spider chart will have a green background, an italicized title and
 background color and font size, and a plot with rotation anticlockwise, start angle = 39deg, red axis, yellow backcolor and 
 italicized bold labels on axis. See also how the interior gaps and axis line widths were set.
 <br/>
+Note also that the plot outline in the spider chart is customized via the SpiderChartCustomizer class.
+<br/>
 <br/>
 <b>Running the Sample</b>
 <br/>
