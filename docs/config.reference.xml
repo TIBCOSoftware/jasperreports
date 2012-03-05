@@ -107,8 +107,10 @@
     <content>
       <property ref="net.sf.jasperreports.chart.dial.value.display.visible"/>
       <property ref="net.sf.jasperreports.chart.dial.label"/>
+      <property ref="net.sf.jasperreports.chart.domain.axis.integer.unit"/>
       <property ref="net.sf.jasperreports.chart.domain.axis.tick.count"/>
       <property ref="net.sf.jasperreports.chart.domain.axis.tick.interval"/>
+      <property ref="net.sf.jasperreports.chart.range.axis.integer.unit"/>
       <property ref="net.sf.jasperreports.chart.range.axis.tick.count"/>
       <property ref="net.sf.jasperreports.chart.range.axis.tick.interval"/>
     </content>
@@ -1281,6 +1283,20 @@ Property containing the label text attached to the measured value in a meter or 
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.chart.domain.axis.integer.unit -->
+  
+  <configProperty name="net.sf.jasperreports.chart.domain.axis.integer.unit">
+    <description>
+Flag property enabling the JFreeCharts engine to use integer tick units on a domain value axis. If set to true, it will take precedence over the 
+<code>net.sf.jasperreports.chart.domain.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.domain.axis.tick.count</code> properties.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_DOMAIN_AXIS_INTEGER_UNIT</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.6.0</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.chart.domain.axis.tick.count -->
   
   <configProperty name="net.sf.jasperreports.chart.domain.axis.tick.count">
@@ -1309,6 +1325,20 @@ By default it is not set.
     <default>N/A</default>
     <scope>Element</scope>
     <since>3.1.4</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.chart.domain.axis.integer.unit -->
+  
+  <configProperty name="net.sf.jasperreports.chart.range.axis.integer.unit">
+    <description>
+Flag property enabling the JFreeCharts engine to use integer tick units on a range value axis. If set to true, it will take precedence over the 
+<code>net.sf.jasperreports.chart.range.axis.tick.interval</code> and <code>net.sf.jasperreports.chart.range.axis.tick.count</code> properties.
+    </description>
+    <api>net/sf/jasperreports/engine/fill/DefaultChartTheme.html#PROPERTY_RANGE_AXIS_INTEGER_UNIT</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.6.0</since>
   </configProperty>
   
   
