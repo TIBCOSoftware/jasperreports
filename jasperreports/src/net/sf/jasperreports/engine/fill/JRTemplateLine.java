@@ -133,6 +133,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 	{
 		ObjectUtils.HashCode hash = ObjectUtils.hash();
 		addGraphicHash(hash);
+		hash.add(directionValue);
 		return hash.getHashCode();
 	}
 
@@ -150,7 +151,7 @@ public class JRTemplateLine extends JRTemplateGraphicElement
 		}
 		
 		JRTemplateLine template = (JRTemplateLine) object;
-		return graphicIdentical(template);
+		return graphicIdentical(template) && ObjectUtils.equals(directionValue, template.directionValue);
 	}
 
 }
