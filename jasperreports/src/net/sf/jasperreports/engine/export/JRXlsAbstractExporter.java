@@ -62,6 +62,7 @@ import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
@@ -1240,7 +1241,10 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
+		JRStyledTextAttributeSelector selector = textElement.getModeValue() == ModeEnum.OPAQUE 
+				? JRStyledTextAttributeSelector.ALL 
+				: JRStyledTextAttributeSelector.NO_BACKCOLOR;
+		return textElement.getFullStyledText(selector);
 	}
 
 	/**
