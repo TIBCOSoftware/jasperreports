@@ -60,6 +60,7 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
@@ -373,7 +374,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 * without keeping the own sheets of the template document. If set to false, this property prevent the template sheets 
 	 * to be exported.
 	 * <p>
-	 * This property is used in conjunction with {@link JRXlsAbstractExporterParameter#PROPERTY_WORKBOOK_TEMPLATE}.
+	 * This property is used in conjunction with {@link JRXlsAbstractExporter#PROPERTY_WORKBOOK_TEMPLATE}.
 	 * <p>
 	 * Allowed values are:
 	 * <ul>
