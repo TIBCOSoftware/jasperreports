@@ -204,11 +204,13 @@ public interface ChartThemesConstants
 	public static final String RANGE_AXIS_MAX_VALUE = "rangeAxisMaxValue";
 	public static final String RANGE_AXIS_TICK_COUNT = "rangeAxisTickCount";
 	public static final String RANGE_AXIS_TICK_INTERVAL = "rangeAxisTickInterval";
+	public static final String RANGE_AXIS_INTEGER_UNIT = "rangeAxisIntegerUnit";
 	public static final String RANGE_AXIS_TIME_PERIOD_UNIT = "rangeAxisTimePeriodUnit";
 	public static final String DOMAIN_AXIS_MIN_VALUE = "domainAxisMinValue";
 	public static final String DOMAIN_AXIS_MAX_VALUE = "domainAxisMaxValue";
 	public static final String DOMAIN_AXIS_TICK_COUNT = "domainAxisTickCount";
 	public static final String DOMAIN_AXIS_TICK_INTERVAL = "domainAxisTickInterval";
+	public static final String DOMAIN_AXIS_INTEGER_UNIT = "domainAxisIntegerUnit";
 	public static final String DOMAIN_AXIS_TIME_PERIOD_UNIT = "domainAxisTimePeriodUnit";
 	
 	// chart type names

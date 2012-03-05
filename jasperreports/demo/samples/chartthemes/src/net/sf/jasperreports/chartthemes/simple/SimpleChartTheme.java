@@ -2784,20 +2784,25 @@ public class SimpleChartTheme implements ChartTheme
 	{
 		Integer tickCount = null;
 		Number tickInterval = null;
+		boolean axisIntegerUnit = false;
 		
 		if(getChart().hasProperties())
 		{
 			String tickCountProperty = null;
 			String tickIntervalProperty = null;
+			String axisIntegerUnitProperty = null;
+			
 			if(axisSettings == getChartThemeSettings().getRangeAxisSettings())
 			{
 				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_COUNT);
 				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_INTERVAL);
+				axisIntegerUnitProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_INTEGER_UNIT);
 			}
 			else
 			{
 				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_COUNT);
 				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_INTERVAL);
+				axisIntegerUnitProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_INTEGER_UNIT);
 			}
 			if(tickCountProperty != null && tickCountProperty.trim().length() > 0)
 			{
@@ -2807,14 +2812,22 @@ public class SimpleChartTheme implements ChartTheme
 			{
 				tickInterval = Double.valueOf(tickIntervalProperty);
 			}
+			if(axisIntegerUnitProperty != null && axisIntegerUnitProperty.trim().length() > 0)
+			{
+				axisIntegerUnit = Boolean.valueOf(axisIntegerUnitProperty);
+			}
 		}
 		else
 		{
 			tickCount = axisSettings.getTickCount();
 			tickInterval = axisSettings.getTickInterval();
+			if(axisSettings.getAxisIntegerUnit() != null)
+			{
+				axisIntegerUnit =  axisSettings.getAxisIntegerUnit();
+			}
 		}
 		
-		if(tickInterval == null && tickCount == null)
+		if(!axisIntegerUnit && tickInterval == null && tickCount == null)
 		{
 			return;
 		}
@@ -2823,7 +2836,11 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
 			int axisRange = (int)numberAxis.getRange().getLength();
-			if(axisRange > 0)
+			if(axisIntegerUnit)
+			{
+				numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
+			else if(axisRange > 0)
 			{
 				if(tickInterval != null)
 				{

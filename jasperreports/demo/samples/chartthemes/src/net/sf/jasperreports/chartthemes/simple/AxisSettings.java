@@ -70,6 +70,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	public static final String PROPERTY_tickMarksVisible = "tickMarksVisible";
 	public static final String PROPERTY_tickCount = "tickCount";
 	public static final String PROPERTY_tickInterval = "tickInterval";
+	public static final String PROPERTY_axisIntegerUnit = "axisIntegerUnit";
 
 	/**
 	 *
@@ -96,6 +97,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	private Boolean tickMarksVisible;
 	private Integer tickCount;
 	private Number tickInterval;
+	private Boolean axisIntegerUnit;
 	
 	/**
 	 *
@@ -431,7 +433,7 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 	{
 		return tickMarksVisible;
 	}
-
+	
 	/**
 	 * @param tickMarksVisible the tickMarksVisible to set
 	 */
@@ -440,6 +442,24 @@ public class AxisSettings implements JRChangeEventsSupport, Serializable
 		Boolean old = getTickMarksVisible();
 		this.tickMarksVisible = tickMarksVisible;
 		getEventSupport().firePropertyChange(PROPERTY_tickMarksVisible, old, getTickMarksVisible());
+	}
+	
+	/**
+	 * @return the axisIntegerUnit
+	 */
+	public Boolean getAxisIntegerUnit()
+	{
+		return axisIntegerUnit;
+	}
+
+	/**
+	 * @param axisIntegerUnit the axisIntegerUnit to set
+	 */
+	public void setAxisIntegerUnit(Boolean axisIntegerUnit)
+	{
+		Boolean old = getAxisIntegerUnit();
+		this.axisIntegerUnit = axisIntegerUnit;
+		getEventSupport().firePropertyChange(PROPERTY_axisIntegerUnit, old, getAxisIntegerUnit());
 	}
 
 	/**
