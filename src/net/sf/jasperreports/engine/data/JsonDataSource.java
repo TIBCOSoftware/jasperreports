@@ -236,7 +236,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * 
 	 * @param rootNode
 	 * @param jsonExpression
-	 * @return
 	 * @throws JRException
 	 */
 	protected JsonNode getJsonData(JsonNode rootNode, String jsonExpression) throws JRException {
@@ -295,8 +294,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * Extracts the JSON nodes that match the attribute expression
 	 * 
 	 * @param rootNode
-	 * @param pathWithAttributeExpression: e.g. Orders(CustomerId == HILAA)
-	 * @return
+	 * @param pathWithAttributeExpression : e.g. Orders(CustomerId == HILAA)
 	 * @throws JRException
 	 */
 	protected JsonNode goDownPathWithAttribute(JsonNode rootNode, String pathWithAttributeExpression) throws JRException {
@@ -357,7 +355,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * 
 	 * @param rootNode
 	 * @param simplePath - a simple field name, with no selection by attribute
-	 * @return
 	 */
 	protected JsonNode goDownPath(JsonNode rootNode, String simplePath) {
 		if(rootNode != null && !rootNode.isMissingNode()) {
@@ -384,7 +381,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 * 
 	 * @param operand
 	 * @param attributeExpression
-	 * @return
 	 * @throws JRException
 	 */
 	protected boolean isValidExpression(JsonNode operand, String attributeExpression) throws JRException{
