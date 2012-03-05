@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>webapp-repo</name>
+  <title>Webapp Repository Sample</title>
+  <description>Shows how reporting functionality could be added to a Web application.</description>
+
+  <mainFeature ref="webapp-repo"/>
+  
+  <!-- webapp-repo -->
+  
+  <feature name="webapp-repo" title="Deploying Reports in Web Applications">
+    <description>
+How to add reporting functionality to a Web application.
+    </description>
+    <since>4.1.1</since>
+    <documentedBy>
+      <author>
+    	<name>Teodor Danciu</name>
+    	<email>teodord@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+    <content>
+    </content>
+  </feature>
+
+</sample>
+

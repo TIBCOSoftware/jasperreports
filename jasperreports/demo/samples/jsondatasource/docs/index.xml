@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>jsondatasource</name>
+  <title>JSON Data Source Sample</title>
+  <description></description>
+
+  <mainFeature ref="jsondatasource"/>
+  
+  <!-- jsondatasource -->
+  
+  <feature name="jsondatasource" title="JSON Data Source">
+    <description>How to fill a report using data from an JSON file.</description>
+    <since></since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+	</content>
+  </feature>
+
+</sample>

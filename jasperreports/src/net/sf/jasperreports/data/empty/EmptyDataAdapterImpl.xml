@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.empty.EmptyDataAdapterImpl">
+		<map-to xml="emptyDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="recordCount" type="int">
+			<bind-xml name="recordCount" node="element"/>
+		</field>
+	</class>
+</mapping>

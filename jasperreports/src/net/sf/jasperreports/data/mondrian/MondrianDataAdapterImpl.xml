@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+
+<mapping>
+	<class name="net.sf.jasperreports.data.mondrian.MondrianDataAdapterImpl">
+		<map-to xml="mondrianDataAdapter"/>
+		<field name="class" type="java.lang.Class" handler="net.sf.jasperreports.data.ClassNameFieldHandler">
+			<bind-xml name="class" node="attribute"/>
+		</field>
+		<field name="name" type="string">
+			<bind-xml name="name" node="element"/>
+		</field>
+		<field name="driver" type="string">
+			<bind-xml name="driver" node="element"/>
+		</field>
+		<field name="username" type="string">
+			<bind-xml name="username" node="element"/>
+		</field>
+		<field name="password" type="string">
+			<bind-xml name="password" node="element"/>
+		</field>
+		<field name="savePassword" type="boolean">
+			<bind-xml name="savePassword" node="element"/>
+		</field>
+		<field name="url" type="string">
+			<bind-xml name="url" node="element"/>
+		</field>
+		<field name="database" type="string">
+			<bind-xml name="database" node="element"/>
+		</field>
+		<field name="serverAddress" type="string">
+			<bind-xml name="serverAddress" node="element"/>
+		</field>
+		<field name="classpath" type="string" collection="arraylist">
+			<bind-xml name="classpath" node="element"/>
+		</field>
+		<field name="properties" collection="hashtable">
+			  <bind-xml name="properties">
+                  <class name="org.exolab.castor.mapping.MapItem">
+                    <field name="key" type="java.lang.String">
+						<bind-xml name="key" node="element"/> 
+					</field>
+					<field name="value" type="java.util.HashSet">
+						<bind-xml name="value" node="element"/> 
+					</field> 
+                  </class>
+              </bind-xml>
+		</field>
+		<field name="catalogURI" type="string">
+			<bind-xml name="catalogURI" node="element"/>
+		</field>
+		 
+	</class>
+</mapping>

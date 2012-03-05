@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>ejbql</name>
+  <title>EJBQL Sample</title>
+  <description>Shows how EJBQL could be used in reports.</description>
+
+  <mainFeature ref="ejbql"/>
+  <secondaryFeature name="queryexecuters" sample="hibernate" title="Query Executers"/>
+  
+  <!-- ejbql -->
+  
+  <feature name="ejbql" title="EJBQL Query Executer">
+    <description>
+How to fill reports using embedded EJBQL queries.
+    </description>
+    <since>1.2.3</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="csvdatasource"/>
+  	<otherSample ref="hibernate"/>
+  	<otherSample ref="mondrian"/>
+  	<otherSample ref="xmldatasource"/>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

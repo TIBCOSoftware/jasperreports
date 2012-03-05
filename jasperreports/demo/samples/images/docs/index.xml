@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>images</name>
+  <title>Images Sample</title>
+  <description>Shows how images could be used in a report template.</description>
+
+  <mainFeature ref="images"/>
+  
+  <!-- images -->
+  
+  <feature name="images" title="Images">
+    <description>
+How to render images in reports using the build-in image element.
+    </description>
+    <since>0.1.0</since>
+    <documentedBy>
+      <author>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
+      </author>
+    </documentedBy>
+  	<otherSample ref="horizontal"/>
+  	<otherSample ref="jasper"/>
+    <content>
+<b>Images in JasperReports</b>
+<br/>
+<br/>
+Below is an image.
+<br/>
+<img src="dukesign.jpg"/>
+<br/>
+<br/>
+Images are the most complex graphic objects in a report. Just as for text field elements, 
+their content is dynamically evaluated at runtime, using a report expression. The process of 
+image rendering depends on a set of attributes and expressions available for the <code>&lt;image/&gt;</code> element.
+<br/>
+<br/>
+<b>Image Attributes</b>
+<ul>
+<li><code>scaleImage</code> - indicates how should be rendered the image when its actual size does not fit the size of the image report element. 
+This is because in a lot of situations images are loaded at runtime and there is no way to know their exact size when creating the report template. 
+Possible values for this attribute are:
+<ul>
+<li><code>Clip</code> - if the actual image is larger than the image element size, it will be cut off so that it keeps its original resolution, 
+and only the region that fits the specified size will be displayed.
+</li>
+<li><code>FillFrame</code> - if the dimensions of the actual image do not fit those 
+specified for the image element that displays it, the image is forced to obey them 
+and stretch itself so that it fits in the designated output area. It will be deformed if 
+necessary.</li>
+<li><code>RetainShape</code> - if the actual image does not fit into the image 
+element, it can be adapted to those dimensions while keeping its original undeformed proportions.</li>
+<li><code>RealHeight</code> - the image can be stretched vertically to 
+match the actual image height, while preserving the declared width of the image element.</li>
+<li><code>RealSize</code> - the image can be stretched vertically to 
+match the actual image height, while adjusting the width of the image element to match the actual image width.</li>
+</ul>
+</li>
+<li>If the scale type for the image is <code>Clip</code> or <code>RetainShape</code> and the actual image is smaller 
+than its defined size in the report template or does not have the same proportions, the 
+image might not occupy all the space allocated to it in the report template. In these conditions the image can be both 
+horizontally and vertically aligned within its report element. Two attributes are responsible for the image alignment:
+<ul>
+<li><code>hAlign</code> - specifies the horizontal alignment. Possible values are: <code>Left</code>, <code>Center</code>, <code>Right</code>.</li>
+<li><code>vAlign</code> - specifies the vertical alignment. Possible values are: <code>Top</code>, <code>Middle</code>, <code>Bottom</code>.</li>
+</ul>
+</li>
+<li><code>isUsingCache</code> - flag that indicates if an image should be loaded each time it gets displayed in a report, or 
+if it should be loaded only once and then stored in a memory cache for better performance. For images with static content applying the 
+caching mechanism is strongly recommended. When one set the <code>isUsingCache</code> attribute to 
+<code>true</code>, the reporting engine will try to recognize previously loaded images using their specified source. 
+This caching functionality is available for image elements whose expressions return 
+objects of any type as the image source. The <code>isUsingCache</code> flag is set to <code>true</code> by 
+default for images having <code>java.lang.String</code> expressions and to <code>false</code> for all other 
+types. </li>
+<li><code>isLazy</code> - flag that specifies whether the image should be loaded and processed during report filling or 
+during exporting, in case that the image is not available at fill time. By default this flag is set to <code>false</code>. 
+When it is set to <code>true</code>, an image path String is stored at fill time instead of the image itself, and during the 
+exporting process the image will be loaded from the location read from this path String. For example, this sample contains an 
+image element pointing to the JasperReports logo, which is lazy loaded from the project’s web site.</li>
+<li><code>onErrorType</code> - if an image is unavailable when the engine tries to load it, some kind of output should be provided 
+instead. The <code>onErrorType</code> attribute specifies this output. Possible values are:
+<ul>
+<li><code>Error</code> - an exception is thrown if the engine cannot load the image.</li>
+<li><code>Blank</code> - any image-loading exception is ignored and nothing will appear in the generated document.</li>
+<li><code>Icon</code> -  the engine will put a small specific icon in the document to indicate that the actual image is missing.</li>
+</ul>
+</li>
+<li><code>evaluationTime</code> - specify the moment when the image expression gets evaluated. Possible values are:
+<ul>
+<li><code>Now</code> - the image expression is evaluated when the current band is filled.</li>
+<li><code>Report</code> - the image expression is evaluated when the end of the report is reached.</li>
+<li><code>Page</code> -  the image expression is evaluated when the end of the current page is reached.</li>
+<li><code>Column</code> - the image expression is evaluated when the end of the current column is reached.</li>
+<li><code>Group</code> - the image expression is evaluated when the group specified by the <code>evaluationGroup</code> attribute changes.</li>
+<li><code>Auto</code> - each variable participating in the image expression is evaluated at a time corresponding to its reset type.</li>
+</ul>
+</li>
+<li><code>evaluationGroup</code> - the group involved in the image evaluation process when the <code>evaluationTime</code> attribute is set to <code>Group</code>.</li>
+</ul>
+<b>Image Expression</b>
+<br/>
+<br/>
+The value returned by the image expression is the source for the image to be displayed. 
+The image expression is introduced by the <code>&lt;imageExpression/&gt;</code> element and can return 
+values from only the limited range of classes listed following:
+<ul>
+<li><code>java.lang.String</code></li>
+<li><code>java.io.File</code></li>
+<li><code>java.net.URL</code></li>
+<li><code>java.io.InputStream</code></li>
+<li><code>java.awt.Image</code></li>
+<li><code>net.sf.jasperreports.engine.JRRenderable</code></li>
+</ul>
+<b>Image Hyperlinks</b>
+<br/>
+<br/>
+In JasperReports image elements provide hyperlink support. All available hyperlink expressions are allowed to be part of an <code>&lt;image/&gt;</code> element. 
+See also the <a href="../hyperlink/index.html#hyperlinks">hyperlink</a> sample.
+<br/>
+<br/>
+<b>Image Examples</b>
+<br/>
+<br/>
+This reports/ImagesReport.jrxml report template contains a series of image examples, having a specific combination of the attributes above.
+<br/>
+The first image in the report is loaded from the <a href="http://jasperreports.sourceforge.net">http://jasperreports.sourceforge.net</a> web site at export time.
+<br/> 
+<br/> 
+<code>
+&#160;&#160;&lt;image scaleImage="Clip" onErrorType="Icon" isLazy="true"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="150" height="40"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;imageExpression class="java.lang.String"&gt;&lt;![CDATA["http://jasperreports.sourceforge.net/jasperreports.png"]]&gt;&lt;/imageExpression&gt;
+<br/>
+&#160;&#160;&lt;/image&gt;
+</code>
+<br/>
+<br/>
+The last image in the report template is loaded from the <code>src/dukesign.jpg</code> file in this sample and is scaled to its real height. 
+The image expression's class is missing, therefore it is assumed to be <code>java.lang.String</code>. The image style is <code>imageBox</code>, 
+a report style defined for images with visible border lines.
+<br/>
+<br/>
+<code>
+&#160;&#160;&lt;image scaleImage="RealHeight"&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;reportElement x="0" y="0" width="100" height="40" style="imageBox"/&gt;
+<br/>
+&#160;&#160;&#160;&#160;&lt;imageExpression&gt;&lt;![CDATA["dukesign.jpg"]]&gt;&lt;/imageExpression&gt;
+<br/>
+&#160;&#160;&lt;/image&gt;
+</code>
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/images</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/images/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+    </content>
+  </feature>
+
+</sample>

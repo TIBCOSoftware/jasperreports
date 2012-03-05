@@ -1,0 +1,170 @@
+.menu
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#FFFFFF;
+	background:#999999;
+	text-decoration:none
+}
+
+.menu:hover
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#000000;
+	background:#999999;
+	text-decoration:none
+}
+
+.mnew
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#990000;
+	background:#999999;
+	text-decoration:none
+}
+
+.header
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	color:#FFFFFF;
+	background:#808080;
+}
+
+.doc
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	font-weight:bold;
+	color:#000000;
+	background:#808080;
+}
+
+.title
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+}
+
+.bold
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+}
+
+.bnew
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	color:#990000;
+}
+
+.elem
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+	background:#EEEEEE;
+}
+
+.attr
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:bold;
+	font-style:italic;
+	color:#000000;
+}
+
+.val
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-style:italic;
+	color:#000000;
+}
+
+.normal
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#000000;
+}
+
+.justify
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#000000;
+	text-align:justify;
+}
+
+.desc
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	font-weight:normal;
+	color:#000000;
+}
+
+.notImpl
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:10pt;
+	color:#FF0000;
+}
+
+.note
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:8pt;
+	font-style:italic;
+	color:#000000;
+}
+
+.small
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:8pt;
+	color:#000000;
+}
+
+.version
+{
+	font-decoration:none;
+	font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
+	font-size:8pt;
+	font-style:italic;
+	color:#FFFFFF;
+}

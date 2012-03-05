@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>antupdate</name>
+  <title>Ant Update Sample</title>
+  <description>Shows how multiple JRXML files can be updated in batch mode using the ANT build tool.</description>
+
+  <mainFeature ref="antupdate"/>
+  <secondaryFeature name="antcompile" sample="antcompile" title="Compiling Multiple Report Template Files Using the Ant Build Tool"/>
+  <secondaryFeature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
+  
+  <!-- antupdate -->
+  
+  <feature name="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool">
+    <description>
+How to update all your JRXML report source files using the Ant build tool, in order to perform the same modification on them 
+or to bring them up-to-date with respect to the JasperReports Schema Reference.
+    </description>
+    <since>3.7.1</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+	<!--
+The JRXML files represent the source files for static report templates. These report templates need to be 
+prepared for use at runtime by compiling them into <code>*.jasper</code> files, which are basically serialized 
+<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> objects, ready for filling with data.
+<br/>
+<br/>
+Report template source files having the <code>*.jrxml</code> file extensions are compiled into serialized object files 
+having the <code>*.jasper</code> file extension, just like Java source files having the <code>*.java</code> file extension 
+are transformed into Java bytecode binary files with the <code>*.class</code> file extension.
+<br/>
+The transformation of <code>*.jrxml</code> files into <code>*.jasper</code> files should be part of the application 
+build process, just as the compilation of <code>*.java</code> files into <code>*.class</code> files is.
+In the majority of cases, when the report templates are static and do not change at runtime (only data feed into them changes), 
+there is no point in deploying source JRXML files  with the application.
+<br/>
+After all, when deploying a Java application, you deploy <code>*.class</code> files, packaged up in JARs, not source <code>*.java</code> files. 
+The same technique is applicable to JR report template files, where compiled <code>*.jasper</code> files should be created 
+at application built time and then deployed as part of the application classpath as resources.
+<br/>
+<br/>
+The JasperReports library provides a built-in Ant task for compiling source JRXML report template files into <code>*.jasper</code> files. 
+This task is represented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompilerTask</api> task and 
+works very similar to the Ant built-in <a href="http://ant.apache.org/manual/CoreTasks/javac.html">Javac</a> task.
+<br/>
+<br/>
+This task scans source folders and looks up for report template files (usually having the JRXML file extension) 
+and compiles them into <code>*.jasper</code> files which are placed into a destination folder hierarchy.
+<br/>
+The destination folder tree is similar to the source folder tree, meaning that the relative location of source files from 
+the root source folder is preserved for the resulting <code>*.jasper</code> files.
+<br/>
+<br/>
+Similar to the <code>Javac</code> task, the source folders can be specified using either the <code>srcdir</code> attribute 
+of the task (when there is only one root source folder) or using a nested <code>&lt;src&gt;</code> tag (when source files 
+are scattered across multiple paths).
+<br/>
+<br/>
+Open the <code>build.xml</code> file in the current sample and notice how the custom Ant task called <code>jrc</code> is defined:
+<br/>
+<br/>
+<pre><![CDATA[
+<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
+  <classpath refid="classpath"/>
+</taskdef>
+]]>
+</pre>
+This task definition uses a <code>&lt;classpath&gt;</code> element which contains the JasperReports JAR and all its required dependencies.
+<br/>
+<br/>
+Then, the custom <code>jrc</code> task is used to compile report templates having the <code>*.jrxml</code> file extension found under 
+the sample's <code>reports</code> folder. This source folder is specified using the <code>srcdir</code> attribute of the <code>jrc</code> task 
+in the <code>compile1</code> target of the <code>build.xml</code> file:
+<br/>
+<br/>
+<pre><![CDATA[
+<target name="compile1"> 
+  <mkdir dir="./build/reports"/> 
+  <jrc 
+    srcdir="./reports"
+    destdir="./build/reports"
+    tempdir="./build/reports"
+    keepjava="true"
+    xmlvalidation="true">
+   <classpath refid="runClasspath"/>
+   <include name="**/*.jrxml"/>
+  </jrc>
+</target> 
+]]>
+</pre>
+The <code>compile2</code> target in the same <code>build.xml</code> file performs the same report compilation process, 
+but the source folder is specified using a nested <code>&lt;src&gt;</code> tag with filesets. The nested source tag allows compiling report 
+templates that are scattered through many different locations and are not grouped under a single root report source folder.
+<br/>
+<br/>
+<pre><![CDATA[
+<target name="compile2">
+  <mkdir dir="./build/reports"/> 
+  <jrc 
+    destdir="./build/reports"
+    tempdir="./build/reports"
+    keepjava="true"
+    xmlvalidation="true">
+   <src>
+    <fileset dir="./reports">
+     <include name="**/*.jrxml"/>
+    </fileset>
+   </src>
+   <classpath refid="runClasspath"/>
+  </jrc> 
+</target> 
+]]>
+</pre>
+Notice that both report compilation targets have a <code>&lt;classpath&gt;</code> nested element, used to specify the classpath used by the report 
+compiler. This so called run-classpath contains classes that are referenced inside the report templates themselves, such as scriptlet classes, 
+chart customizers and so forth.
+<br/>
+In this particular sample, both source JRXML files make use of such helper classes found in the <code>src</code> folder of the samples. 
+These helper classes have to be compiled before the report templates are compiled, using the <code>javac</code> target of the <code>build.xml</code> file.
+<br/>
+<br/>
+In addition to the <code>srcdir</code> and the <code>destdir</code> attributes, the <code>jrc</code> custom Ant task shipped with JasperReports 
+supports the following attributes:
+<br/>
+<br/>
+<ul>
+<li><code>compiler</code> : Name of the class that implements the <api href="net/sf/jasperreports/engine/design/JRCompiler.html">JRCompiler</api> interface to be used for compiling the reports (optional).</li>
+<li><code>xmlvalidation</code> : Flag to indicate whether the XML validation should be performed on the source report template files (<code>true</code> by default).</li>
+<li><code>tempdir</code> : Location to store the temporarily generated files (the current working directory by default).</li>
+<li><code>keepjava</code> : Flag to indicate if the temporary Java files generated on the fly should be kept and not deleted automatically (<code>false</code> by default).</li>
+</ul>
+<br/>
+<br/>
+In our sample, we use the default report compiler, which is the JDT-based compiler, because the JDT JAR is found in the classpath. 
+This compiler works on the assumption that report expressions are Java expressions and thus it produces a Java class file dynamically containing 
+all the report expressions and compiles it using the JDT Java compiler. Normally, this report compiler does all the Java class file generation 
+and compilation in-memory and does not work with actual files on disk, which makes it very flexible and easy to deploy in all environments. 
+However, if the <code>keepjava</code> flag is turned to <code>true</code>, it will save the report's temporary Java source file on disk, 
+in the specified <code>tempdir</code>. This is useful for debugging report expressions in certain cases.
+<br/>
+<br/>
+Depending on the report expression language they are mapped to, other report compiler implementations might produce script files instead of Java files, 
+for report expression evaluation. The <code>keepjava</code> and the <code>tempdir</code> attributes will still work for them, except that the files 
+that will be kept into the temporary location will not be Java source files but script files, also helpful for debugging.
+-->
+    </content>
+  </feature>
+
+</sample>

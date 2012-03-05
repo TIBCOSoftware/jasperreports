@@ -1,0 +1,76 @@
+<project name="xlsfeatures" default="test" basedir=".">
+
+	<description>Shows how the specific XLS features could be used  when exporting to Excel formats.</description>
+
+	<property name="sample.dir" value="xlsfeatures"/>
+	<property name="sample.base.name" value="XlsFeatures" />
+	<property name="sample.app.name" value="${sample.base.name}App" />
+	<property name="sample.report.name" value="${sample.base.name}Report" />
+	
+	<target name="javac" description="Compiles the java source files of the test application.">
+		<ant dir="../" target="javac"/>
+	</target>
+
+	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
+		<ant dir="../" target="compile"/>
+	</target>
+
+	<target name="fill" description="Fills the compiled report design with data and produces the .jrprint file.">
+		<ant dir="../" target="fill"/>
+	</target>
+
+	<target name="view" description="Launches the report viewer to preview the report stored in the .jrprint file.">
+		<ant dir="../" target="view"/>
+	</target>
+
+	<target name="viewXml" description="Launches the report viewer to preview the generated report stored in an XML file.">
+		<ant dir="../" target="viewXml"/>
+	</target>
+
+	<target name="xls" description="Generates an XLS version of the report by converting the .jrprint file using the POI library.">
+		<ant dir="../" target="xls"/>
+	</target>
+
+	<target name="jxl" description="Generates an XLS version of the report by converting the .jrprint file using the JExcelApi library.">
+		<ant dir="../" target="jxl"/>
+	</target>
+
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
+	</target>
+
+	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
+		<ant dir="../" target="viewDesignXml"/>
+	</target>
+
+	<target name="viewDesign" description="Launches the design viewer to preview the compiled report design.">
+		<ant dir="../" target="viewDesign"/>
+	</target>
+
+	<target name="decompile" description="Decompiles a .jasper file into a .jrxml file.">
+		<ant dir="../" target="decompile"/>
+	</target>
+
+	<target name="writeApi" description="Generates a .java version of the report by converting the .jrxml file.">
+		<ant dir="../" target="writeApi"/>
+	</target>
+
+	<target name="writeApiXml" description="Generates a .jrxml version of the report by executing the API version of the report design.">
+		<ant dir="../" target="writeApiXml"/>
+	</target>
+
+	<target name="clean" description="Deletes all the generated files.">
+		<ant dir="../" target="clean-sample"/>
+	</target>
+
+	<target name="test" description="Runs the sample.">
+		<echo message="==================================="/>
+		<echo message=" XLS Features Sample"/>
+		<echo message="==================================="/>
+		<antcall target="clean" />
+		<antcall target="javac" />
+		<antcall target="compile" />
+		<ant dir="../" target="test"/>
+	</target>
+
+</project>

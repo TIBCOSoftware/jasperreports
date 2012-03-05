@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sample>
+
+  <name>text</name>
+  <title>Text Export Sample</title>
+  <description>Shows how the pure text exporter could be used to export reports to simple text files.</description>
+
+  <mainFeature ref="textexport"/>
+  
+  <!-- textexport -->
+  
+  <feature name="textexport" title="Exporting to Pure Text Format">
+    <description>
+How to export reports to plain text files.
+    </description>
+    <since>1.0.1</since>
+    <documentedBy>
+      <author>
+    	<name></name>
+    	<email></email>
+      </author>
+    </documentedBy>
+    <content>
+[Under Construction]
+    </content>
+  </feature>
+
+</sample>

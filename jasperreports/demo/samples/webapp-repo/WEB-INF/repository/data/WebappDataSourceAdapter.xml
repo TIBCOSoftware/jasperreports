@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsDataAdapter class="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl">
+	<name>Webapp Data Source</name>
+	<factoryClass>datasource.WebappDataSource</factoryClass>
+	<methodToCall>createInstance</methodToCall>
+</dsDataAdapter>
+
