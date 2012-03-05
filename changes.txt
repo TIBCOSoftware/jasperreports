@@ -2,8 +2,23 @@
 JasperReports Change Log
 ===================================
 
-JasperReports 4.5.1 (201x-xx-xx, SVN xxxx)
+JasperReports 4.5.1 (2012-03-05, SVN 5027)
 ---------------------------------------------
+
+- the JSON data source and the respective JSON query executer were moved 
+from the samples folder to the core library;
+
+- support for macros added in XLS and XSLX exporters;
+
+- the repository APIs were enhanced with support for pluggable persistence 
+services to load and store resources in the repository;
+
+- the "net.sf.jasperreports.export.pdf.force.linebreak.policy" configuration 
+property is un-deprecated, as a partial revert of the changes made in 4.1.1 with 
+regards to PDF text rendering; These changes were partially reverted as they affected 
+the performance of the PDF exporter when dealing with simple texts. The AWT-based text 
+rendering is now performed only on complex text fields that contain tab characters 
+for tab stop alignment or contain multiple paragraphs, with variable paragraph styling.
 
 - minor bug fixes and improvements;
 
