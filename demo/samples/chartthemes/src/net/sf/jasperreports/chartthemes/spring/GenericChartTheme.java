@@ -2545,20 +2545,25 @@ public class GenericChartTheme implements ChartTheme
 	{
 		Integer tickCount = null;
 		Number tickInterval = null;
+		boolean axisIntegerUnit = false;
 		
 		if(getChart().hasProperties())
 		{
 			String tickCountProperty = null;
 			String tickIntervalProperty = null;
+			String axisIntegerUnitProperty = null;
+			
 			if(isRangeAxis)
 			{
 				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_COUNT);
 				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_TICK_INTERVAL);
+				axisIntegerUnitProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_RANGE_AXIS_INTEGER_UNIT);
 			}
 			else
 			{
 				tickCountProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_COUNT);
 				tickIntervalProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_TICK_INTERVAL);
+				axisIntegerUnitProperty = getChart().getPropertiesMap().getProperty(DefaultChartTheme.PROPERTY_DOMAIN_AXIS_INTEGER_UNIT);
 			}
 			if(tickCountProperty != null && tickCountProperty.trim().length() > 0)
 			{
@@ -2568,6 +2573,10 @@ public class GenericChartTheme implements ChartTheme
 			{
 				tickInterval = Double.valueOf(tickIntervalProperty);
 			}
+			if(axisIntegerUnitProperty != null && axisIntegerUnitProperty.trim().length() > 0)
+			{
+				axisIntegerUnit = Boolean.valueOf(axisIntegerUnitProperty);
+			}
 		}
 		else
 		{
@@ -2575,15 +2584,23 @@ public class GenericChartTheme implements ChartTheme
 			{
 				tickCount = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_COUNT);
 				tickInterval = (Number)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL);
+				if(getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_INTEGER_UNIT) != null)
+				{
+					axisIntegerUnit = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.RANGE_AXIS_INTEGER_UNIT);
+				}
 			}
 			else
 			{
 				tickCount = (Integer)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT);
 				tickInterval = (Number)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL);
+				if(getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_INTEGER_UNIT) != null)
+				{
+					axisIntegerUnit = (Boolean)getDefaultValue(defaultAxisPropertiesMap, ChartThemesConstants.DOMAIN_AXIS_INTEGER_UNIT);
+				}
 			}
 		}
 		
-		if (tickInterval == null && tickCount == null)
+		if(!axisIntegerUnit && tickInterval == null && tickCount == null)
 		{
 			return;
 		}
@@ -2610,7 +2627,12 @@ public class GenericChartTheme implements ChartTheme
 		{
 			NumberAxis numberAxis = (NumberAxis)axis;
 			int axisRange = (int)numberAxis.getRange().getLength();
-			if(axisRange > 0)
+			
+			if(axisIntegerUnit)
+			{
+				numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
+			else if(axisRange > 0)
 			{
 				if(tickInterval != null)
 				{

@@ -269,6 +269,9 @@
 		<field name="tickInterval" type="java.lang.Number">
 			<bind-xml node="attribute"/>
 		</field>
+		<field name="axisIntegerUnit" type="java.lang.Boolean">
+			<bind-xml node="attribute"/>
+		</field>
 	</class>
 	
 	<class name="net.sf.jasperreports.engine.base.JRBaseFont">

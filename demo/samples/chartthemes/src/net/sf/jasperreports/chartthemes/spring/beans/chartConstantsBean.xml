@@ -203,11 +203,13 @@
 	<util:constant id="rangeAxisMaxValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_MAX_VALUE"/>
 	<util:constant id="rangeAxisTickCount" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TICK_COUNT"/>
 	<util:constant id="rangeAxisTickInterval" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TICK_INTERVAL"/>
+	<util:constant id="rangeAxisIntegerUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_INTEGER_UNIT"/>
 	<util:constant id="rangeAxisTimePeriodUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.RANGE_AXIS_TIME_PERIOD_UNIT"/>
 	<util:constant id="domainAxisMinValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_MIN_VALUE"/>
 	<util:constant id="domainAxisMaxValue" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_MAX_VALUE"/>
 	<util:constant id="domainAxisTickCount" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TICK_COUNT"/>
 	<util:constant id="domainAxisTickInterval" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TICK_INTERVAL"/>
+	<util:constant id="domainAxisIntegerUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_INTEGER_UNIT"/>
 	<util:constant id="domainAxisTimePeriodUnit" static-field="net.sf.jasperreports.chartthemes.spring.ChartThemesConstants.DOMAIN_AXIS_TIME_PERIOD_UNIT"/>
 
 	<!-- chart type names -->
