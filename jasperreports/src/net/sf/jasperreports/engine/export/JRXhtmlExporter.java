@@ -172,7 +172,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	
 	protected int reportIndex;
 	protected int pageIndex;
-	protected List<Integer> frameIndexStack;
+	protected List<FrameInfo> frameInfoStack;
 	protected int elementIndex;
 	protected int topLimit;
 	protected int leftLimit;
@@ -679,7 +679,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			+ ";height:" + toSizeUnit(bottomLimit - topLimit) + ";\">\n"
 			);
 
-		frameIndexStack = new ArrayList<Integer>();
+		frameInfoStack = new ArrayList<FrameInfo>();
 		
 		exportElements(page.getElements());
 
@@ -754,7 +754,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		StringBuffer styleBuffer = new StringBuffer();
 
-		appendPositionStyle(line, styleBuffer);
+		appendPositionStyle(line, line.getLinePen(), styleBuffer);
 		appendSizeStyle(line, line.getLinePen(), styleBuffer);
 		appendBackcolorStyle(line, styleBuffer);
 		
@@ -811,7 +811,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		StringBuffer styleBuffer = new StringBuffer();
 
-		appendPositionStyle(element, styleBuffer);
+		appendPositionStyle(element, element.getLinePen(), styleBuffer);
 		appendSizeStyle(element, element.getLinePen(), styleBuffer);
 		appendBackcolorStyle(element, styleBuffer);
 		
@@ -1044,11 +1044,21 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (text.getRotationValue() == RotationEnum.NONE)
 		{
-			appendPositionStyle(text, divStyleBuffer);
-//			appendSizeStyle(text, text, styleBuffer);
-			styleBuffer.append("width: 100%; height: 100%;");
+			appendPositionStyle(text, text, divStyleBuffer);
 			appendSizeStyle(text, text, divStyleBuffer);
 			appendBorderStyle(text.getLineBox(), divStyleBuffer);
+
+			appendPositionStyle(
+				text.getLineBox().getLeftPadding() - getInsideBorderOffset(text.getLineBox().getLeftPen().getLineWidth(), false),
+				text.getLineBox().getTopPadding() - getInsideBorderOffset(text.getLineBox().getTopPen().getLineWidth(), false), 
+				styleBuffer
+				);
+			appendSizeStyle(
+				text.getWidth() - text.getLineBox().getLeftPadding() - text.getLineBox().getRightPadding(), 
+				text.getHeight() - text.getLineBox().getTopPadding() - text.getLineBox().getBottomPadding(), 
+				styleBuffer
+				);
+//			styleBuffer.append("width: 100%; height: 100%;");
 		}
 		else
 		{
@@ -1069,8 +1079,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			{
 				case LEFT : 
 				{
-					translateX = - (text.getHeight() - text.getWidth()) / 2;
-					translateY = (text.getHeight() - text.getWidth()) / 2;
+					translateX = 
+						- (text.getHeight()
+							- text.getLineBox().getTopPadding()
+							- text.getLineBox().getBottomPadding()
+						- (text.getWidth() 
+							- text.getLineBox().getLeftPadding()
+							- text.getLineBox().getRightPadding()
+							)) / 2;
+					translateY = 
+						(text.getHeight() 
+							- text.getLineBox().getTopPadding()
+							- text.getLineBox().getBottomPadding()
+						- (text.getWidth() 
+							- text.getLineBox().getLeftPadding()
+							- text.getLineBox().getRightPadding()
+							)) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
 					rotationIE = 3;
@@ -1080,8 +1104,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 				case RIGHT : 
 				{
-					translateX = - (text.getHeight() - text.getWidth()) / 2;
-					translateY = (text.getHeight() - text.getWidth()) / 2;
+					translateX = 
+						- (text.getHeight() 
+							- text.getLineBox().getTopPadding()
+							- text.getLineBox().getBottomPadding()
+						- (text.getWidth() 
+							- text.getLineBox().getLeftPadding()
+							- text.getLineBox().getRightPadding()
+							)) / 2;
+					translateY = 
+						(text.getHeight() 
+							- text.getLineBox().getTopPadding()
+							- text.getLineBox().getBottomPadding()
+						- (text.getWidth() 
+							- text.getLineBox().getLeftPadding()
+							- text.getLineBox().getRightPadding()
+							)) / 2;
 					rotatedText.setWidth(text.getHeight());
 					rotatedText.setHeight(text.getWidth());
 					rotationIE = 1;
@@ -1102,11 +1140,22 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				}
 			}
 			
-			appendPositionStyle(rotatedText, divStyleBuffer);
-			appendSizeStyle(rotatedText, rotatedText, styleBuffer);
+			appendPositionStyle(text, text, divStyleBuffer);
 			appendSizeStyle(text, text, divStyleBuffer);
 			appendBorderStyle(text.getLineBox(), divStyleBuffer);
 
+			appendPositionStyle(
+				text.getLineBox().getLeftPadding() - getInsideBorderOffset(text.getLineBox().getLeftPen().getLineWidth(), false), 
+				text.getLineBox().getTopPadding() - getInsideBorderOffset(text.getLineBox().getTopPen().getLineWidth(), false), 
+				styleBuffer
+				);
+			appendSizeStyle(
+				rotatedText.getWidth() - rotatedText.getLineBox().getLeftPadding() - rotatedText.getLineBox().getRightPadding(), 
+				rotatedText.getHeight() - rotatedText.getLineBox().getTopPadding() - rotatedText.getLineBox().getBottomPadding(), 
+				styleBuffer
+				);
+//			appendSizeStyle(rotatedText, rotatedText, styleBuffer);
+			
 			styleBuffer.append("-webkit-transform: translate(" + translateX + "px," + translateY + "px) ");
 			styleBuffer.append("rotate(" + rotationAngle + "deg); ");
 			styleBuffer.append("-moz-transform: translate(" + translateX + "px," + translateY + "px) ");
@@ -1576,14 +1625,14 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	}
 
 
-	protected int getInsideBorderOffset(float borderWidth)
+	protected int getInsideBorderOffset(float borderWidth, boolean small)
 	{
 		int intBorderWidth = (int)borderWidth;
 		if (0f < borderWidth && borderWidth < 1f)
 		{
 			intBorderWidth = 1;
 		}
-		return intBorderWidth / 2 + intBorderWidth % 2;
+		return intBorderWidth / 2 + (small ? 0 : intBorderWidth % 2);
 	}
 		
 	
@@ -1597,21 +1646,19 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			widthDiff = 
 				box.getLeftPadding().intValue() + box.getRightPadding().intValue()
-				+ getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
-				+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+				+ getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), false)
+				+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue(), true);
 			heightDiff =
 				box.getTopPadding().intValue() + box.getBottomPadding().intValue()
-				+ getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
-				+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+				+ getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), false)
+				+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue(), true);
 		}
 		
-		styleBuffer.append("width:");
-		styleBuffer.append(toSizeUnit(element.getWidth() - widthDiff));
-		styleBuffer.append(";");
-
-		styleBuffer.append("height:");
-		styleBuffer.append(toSizeUnit(element.getHeight() - heightDiff));
-		styleBuffer.append(";");
+		appendSizeStyle(
+			element.getWidth() - widthDiff,
+			element.getHeight() - heightDiff,
+			styleBuffer
+			);
 	}
 
 
@@ -1621,27 +1668,83 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (pen != null)
 		{
-			diff = 2 * getInsideBorderOffset(pen.getLineWidth().floatValue());
+			diff = 
+				getInsideBorderOffset(pen.getLineWidth().floatValue(), false) 
+				+ getInsideBorderOffset(pen.getLineWidth().floatValue(), true);
 		}
 		
+		appendSizeStyle(
+			element.getWidth() - diff,
+			element.getHeight() - diff,
+			styleBuffer
+			);
+	}
+
+
+	protected void appendSizeStyle(int width, int height, StringBuffer styleBuffer)
+	{
 		styleBuffer.append("width:");
-		styleBuffer.append(toSizeUnit(element.getWidth() - diff));
+		styleBuffer.append(toSizeUnit(width));
 		styleBuffer.append(";");
 
 		styleBuffer.append("height:");
-		styleBuffer.append(toSizeUnit(element.getHeight() - diff));
+		styleBuffer.append(toSizeUnit(height));
 		styleBuffer.append(";");
 	}
 
 
-	protected void appendPositionStyle(JRPrintElement element, StringBuffer styleBuffer)
+	protected void appendPositionStyle(JRPrintElement element, JRBoxContainer boxContainer, StringBuffer styleBuffer)
+	{
+		int leftOffset = 0;
+		int topOffset = 0;
+
+		JRLineBox box = boxContainer == null ? null :  boxContainer.getLineBox();
+		if (box != null)
+		{
+			leftOffset = 
+				getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), true);
+			topOffset = 
+				getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), true);
+		}
+		
+		FrameInfo frameInfo = frameInfoStack.size() == 0 ? null : frameInfoStack.get(frameInfoStack.size() - 1); 
+		
+		appendPositionStyle(
+			element.getX() - leftOffset - (frameInfo == null ? leftLimit : frameInfo.leftInsideBorderOffset),
+			element.getY() - topOffset - (frameInfo == null ? topLimit : frameInfo.topInsideBorderOffset),
+			styleBuffer
+			);
+	}
+
+
+	protected void appendPositionStyle(JRPrintElement element, JRPen pen, StringBuffer styleBuffer)
+	{
+		int offset = 0;
+
+		if (pen != null)
+		{
+			offset = 
+				getInsideBorderOffset(pen.getLineWidth().floatValue(), true);
+		}
+		
+		FrameInfo frameInfo = frameInfoStack.size() == 0 ? null : frameInfoStack.get(frameInfoStack.size() - 1); 
+		
+		appendPositionStyle(
+			element.getX() - offset - (frameInfo == null ? leftLimit : frameInfo.leftInsideBorderOffset),
+			element.getY() - offset - (frameInfo == null ? topLimit : frameInfo.topInsideBorderOffset),
+			styleBuffer
+			);
+	}
+
+
+	protected void appendPositionStyle(int x, int y, StringBuffer styleBuffer)
 	{
 		styleBuffer.append("position:absolute;");
 		styleBuffer.append("left:");
-		styleBuffer.append(toSizeUnit(element.getX() - (frameIndexStack.size() == 0 ? leftLimit : 0)));
+		styleBuffer.append(toSizeUnit(x));
 		styleBuffer.append(";");
 		styleBuffer.append("top:");
-		styleBuffer.append(toSizeUnit(element.getY() - (frameIndexStack.size() == 0 ? topLimit : 0)));
+		styleBuffer.append(toSizeUnit(y));
 		styleBuffer.append(";");
 	}
 
@@ -1709,7 +1812,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 
 		StringBuffer styleBuffer = new StringBuffer();
-		appendPositionStyle(image, styleBuffer);
+		appendPositionStyle(image, image, styleBuffer);
 		appendSizeStyle(image, image, styleBuffer);
 		appendBackcolorStyle(image, styleBuffer);
 		
@@ -1862,11 +1965,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						leftDiff = box.getLeftPadding().intValue();
 						topDiff = box.getTopPadding().intValue();
 						widthDiff = 
-							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue(), true);
 						heightDiff =
-							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue(), true);
 					}
 					
 					writer.write(" style=\"position:absolute;left:");
@@ -1911,11 +2014,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						leftDiff = box.getLeftPadding().intValue();
 						topDiff = box.getTopPadding().intValue();
 						widthDiff = 
-							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue(), true);
 						heightDiff =
-							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue(), true);
 					}
 					
 					writer.write(" style=\"position:absolute;left:");
@@ -1969,11 +2072,11 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						leftDiff = box.getLeftPadding().intValue();
 						topDiff = box.getTopPadding().intValue();
 						widthDiff = 
-							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getRightPen().getLineWidth().floatValue(), true);
 						heightDiff =
-							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue())
-							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue());
+							getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), false)
+							+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue(), true);
 					}
 					
 					if (availableImageHeight > 0)
@@ -2041,9 +2144,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected JRPrintElementIndex getElementIndex()
 	{
 		StringBuffer sbuffer = new StringBuffer();
-		for (int i = 0; i < frameIndexStack.size(); i++)
+		for (int i = 0; i < frameInfoStack.size(); i++)
 		{
-			Integer frameIndex = frameIndexStack.get(i);
+			FrameInfo frameInfo = frameInfoStack.get(i);
+			Integer frameIndex = frameInfo.elementIndex;
 
 			sbuffer.append(frameIndex).append("_");
 		}
@@ -2295,7 +2399,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		appendId(frame);
 
 		StringBuffer styleBuffer = new StringBuffer();
-		appendPositionStyle(frame, styleBuffer);
+		appendPositionStyle(frame, frame, styleBuffer);
 		appendSizeStyle(frame, frame, styleBuffer);
 		appendBackcolorStyle(frame, styleBuffer);
 		appendBorderStyle(frame.getLineBox(), styleBuffer);
@@ -2309,11 +2413,21 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		writer.write(">\n");
 		
-		frameIndexStack.add(Integer.valueOf(elementIndex));
+		FrameInfo frameInfo = new FrameInfo();
+		frameInfo.elementIndex = elementIndex;
+		JRLineBox box = frame.getLineBox();
+		if (box != null)
+		{
+			frameInfo.leftInsideBorderOffset =
+				- box.getLeftPadding() + getInsideBorderOffset(box.getLeftPen().getLineWidth().floatValue(), false);
+			frameInfo.topInsideBorderOffset =
+				- box.getTopPadding() + getInsideBorderOffset(box.getTopPen().getLineWidth().floatValue(), false);
+		}
+		frameInfoStack.add(frameInfo);
 
 		exportElements(frame.getElements());
 
-		frameIndexStack.remove(frameIndexStack.size() - 1);
+		frameInfoStack.remove(frameInfoStack.size() - 1);
 
 		writer.write("</div>\n");
 	}
@@ -2415,6 +2529,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected String getExporterKey()
 	{
 		return XHTML_EXPORTER_KEY;
+	}
+	
+	private static class FrameInfo
+	{
+		protected int elementIndex;
+		protected int leftInsideBorderOffset;
+		protected int topInsideBorderOffset;
 	}
 }
 
