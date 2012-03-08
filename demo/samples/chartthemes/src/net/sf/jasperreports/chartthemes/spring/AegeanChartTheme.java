@@ -681,14 +681,14 @@ public class AegeanChartTheme extends GenericChartTheme
 	
 			double lowerBound = ChartThemesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
 			double upperBound = ChartThemesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
-	
+			int tickCount = jrPlot.getTickCount() != null && jrPlot.getTickCount() > 1 ? jrPlot.getTickCount() : 7;
 			scale =
 				new ScaledDialScale(
 					lowerBound,
 					upperBound,
 					210,
 					-240,
-					(upperBound - lowerBound)/6,
+					(upperBound - lowerBound)/(tickCount-1),
 					1
 					);
 			if((lowerBound == (int)lowerBound &&

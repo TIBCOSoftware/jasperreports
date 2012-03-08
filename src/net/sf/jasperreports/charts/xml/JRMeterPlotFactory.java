@@ -48,6 +48,7 @@ public class JRMeterPlotFactory extends JRBaseFactory
 	public static final String ATTRIBUTE_meterColor = "meterColor";
 	public static final String ATTRIBUTE_needleColor = "needleColor";
 	public static final String ATTRIBUTE_tickColor = "tickColor";
+	public static final String ATTRIBUTE_tickCount = "tickCount";
 
 	/**
 	 *
@@ -97,6 +98,12 @@ public class JRMeterPlotFactory extends JRBaseFactory
 		if (tickColor != null && tickColor.length() > 0)
 		{
 			meterPlot.setTickColor(JRColorUtil.getColor(tickColor, null));
+		}
+		
+		String tickCount = atts.getValue(ATTRIBUTE_tickCount);
+		if (tickCount != null && tickCount.length() > 0)
+		{
+			meterPlot.setTickCount(Integer.valueOf(tickCount));
 		}
 
 		return meterPlot;

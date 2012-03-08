@@ -128,6 +128,14 @@ public class JRFillMeterPlot extends JRFillChartPlot implements JRMeterPlot
 	{
 		return ((JRMeterPlot)parent).getTickColor();
 	}
+	
+	/**
+	 *
+	 */
+	public Integer getTickCount()
+	{
+		return ((JRMeterPlot)parent).getTickCount();
+	}
 
 	public JRFont getTickLabelFont()
 	{

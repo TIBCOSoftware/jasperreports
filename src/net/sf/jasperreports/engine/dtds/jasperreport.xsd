@@ -5550,6 +5550,11 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    	 <documentation>The color of the meter ticks, if any.</documentation>
   	</annotation>
    </attribute>
+   <attribute name="tickCount" type="string" use="optional">
+  	<annotation>
+   	 <documentation>The number of major ticks on the meter scale.</documentation>
+  	</annotation>
+   </attribute>
   </complexType>
  </element>
 

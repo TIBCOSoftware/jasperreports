@@ -67,6 +67,8 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 	
 	public static final String PROPERTY_TICK_COLOR = "tickColor";
 	
+	public static final String PROPERTY_TICK_COUNT = "tickCount";
+	
 	public static final String PROPERTY_TICK_INTERVAL = "tickInterval";
 	
 	public static final String PROPERTY_UNITS = "units";
@@ -246,6 +248,18 @@ public class JRDesignMeterPlot extends JRBaseMeterPlot
 		Object old = this.tickColor;
 		this.tickColor = tickColor;
 		getEventSupport().firePropertyChange(PROPERTY_TICK_COLOR, old, this.tickColor);
+	}
+	
+	/**
+	 * Sets the number of major tick marks on the meter scale.
+	 *
+	 * @param tickCount the number of major tick marks
+	 */
+	public void setTickCount(Integer tickCount)
+	{
+		Object old = this.tickCount;
+		this.tickCount = tickCount;
+		getEventSupport().firePropertyChange(PROPERTY_TICK_COUNT, old, this.tickCount);
 	}
 	
 	/**

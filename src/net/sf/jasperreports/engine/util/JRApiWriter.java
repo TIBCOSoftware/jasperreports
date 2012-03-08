@@ -2753,6 +2753,7 @@ public class JRApiWriter
 				write( plotName + ".setMeterBackgroundColor({0});\n", plot.getMeterBackgroundColor());
 				write( plotName + ".setNeedleColor({0});\n", plot.getNeedleColor());
 				write( plotName + ".setTickColor({0});\n", plot.getTickColor());
+				write( plotName + ".setTickCount({0});\n", plot.getTickCount());
 				
 				writePlot( plot, plotName);
 				if (plot.getTickLabelFont() != null)

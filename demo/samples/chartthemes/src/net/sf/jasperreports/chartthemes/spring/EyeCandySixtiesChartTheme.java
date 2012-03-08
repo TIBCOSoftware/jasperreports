@@ -895,14 +895,14 @@ public class EyeCandySixtiesChartTheme extends GenericChartTheme
 	
 			double lowerBound = ChartThemesUtilities.getTruncatedValue(range.getLowerBound(), dialUnitScale);
 			double upperBound = ChartThemesUtilities.getTruncatedValue(range.getUpperBound(), dialUnitScale);
-	
+			int tickCount = jrPlot.getTickCount() != null && jrPlot.getTickCount() > 1 ? jrPlot.getTickCount() : 7;
 			scale =
 				new StandardDialScale(
 					lowerBound,
 					upperBound,
 					225,
 					-270,
-					(upperBound - lowerBound)/6,
+					(upperBound - lowerBound)/(tickCount-1),
 					15
 					);
 			if((lowerBound == (int)lowerBound &&
