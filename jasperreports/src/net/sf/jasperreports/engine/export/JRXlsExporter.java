@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -775,9 +776,9 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		if(anchorName != null)
 		{
 			HSSFName aName = workbook.createName();
-//			aName.setNameName(JRStringUtil.getJavaIdentifier(anchorName));
+			aName.setNameName(JRStringUtil.getJavaIdentifier(anchorName));
 			aName.setSheetIndex(workbook.getSheetIndex(sheet));
-			CellReference cRef = new CellReference(rowIndex, colIndex);
+			CellReference cRef = new CellReference(rowIndex, colIndex, true, true);
 			aName.setRefersToFormula(cRef.formatAsString());
 			anchorNames.put(anchorName, aName);
 		}
