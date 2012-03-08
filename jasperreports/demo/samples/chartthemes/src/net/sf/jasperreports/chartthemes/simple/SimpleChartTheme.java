@@ -1924,14 +1924,14 @@ public class SimpleChartTheme implements ChartTheme
 		dialPlot.setBackground(db);
 		Range range = convertRange(jrPlot.getDataRange());
 		//double bound = Math.max(Math.abs(range.getUpperBound()), Math.abs(range.getLowerBound()));
-
+		int tickCount = jrPlot.getTickCount() != null && jrPlot.getTickCount() > 1 ? jrPlot.getTickCount() : 7;
 		StandardDialScale scale =
 			new StandardDialScale(
 				range.getLowerBound(),
 				range.getUpperBound(),
 				225,
 				-270,
-				(range.getUpperBound() - range.getLowerBound())/6,
+				(range.getUpperBound() - range.getLowerBound())/(tickCount-1),
 				15
 				);
 		scale.setTickRadius(0.9);

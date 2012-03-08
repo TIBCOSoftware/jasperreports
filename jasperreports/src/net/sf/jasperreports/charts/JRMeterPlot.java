@@ -102,6 +102,13 @@ public interface JRMeterPlot extends JRChartPlot
 	 * @return the spacing between the ticks on the face of the meter
 	 */
 	public Double getTickIntervalDouble();
+	
+	/**
+	 * Returns the number of major ticks on the meter scale.
+	 *
+	 * @return the spacing between the ticks on the face of the meter
+	 */
+	public Integer getTickCount();
 
 	/**
 	 * Returns the background color of the meter.  This is the color of the meter's face.

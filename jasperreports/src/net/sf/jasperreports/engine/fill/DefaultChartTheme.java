@@ -1902,13 +1902,14 @@ public class DefaultChartTheme implements ChartTheme
 		DialBackground db = new DialBackground(jrPlot.getBackcolor());
 		dialPlot.setBackground(db);
 		Range range = convertRange(jrPlot.getDataRange());
+		int tickCount = jrPlot.getTickCount() != null && jrPlot.getTickCount() > 1 ? jrPlot.getTickCount() : 7;
 		StandardDialScale scale =
 			new StandardDialScale(
 				range.getLowerBound(),
 				range.getUpperBound(),
 				225,
 				-270,
-				(range.getUpperBound() - range.getLowerBound())/6,
+				(range.getUpperBound() - range.getLowerBound())/(tickCount-1),
 				15
 				);
 		scale.setTickRadius(0.9);
@@ -1983,7 +1984,7 @@ public class DefaultChartTheme implements ChartTheme
 		
 		if(label != null)
 		{
-			JRFont displayFont = jrPlot.getValueDisplay().getFont();//FIXMECHART value display might be null; above this is checked; here is not
+			JRFont displayFont = display == null ? null : display.getFont();
 			
 			String[] textLines = label.split("\\n");
 			for(int i = 0; i < textLines.length; i++)
@@ -1993,7 +1994,10 @@ public class DefaultChartTheme implements ChartTheme
 				{
 					dialAnnotation.setFont(JRFontUtil.getAwtFont(displayFont, getLocale()));
 				}
-				dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
+				if(display != null && display.getColor() != null)
+				{
+					dialAnnotation.setPaint(jrPlot.getValueDisplay().getColor());
+				}
 				dialAnnotation.setRadius(Math.sin(Math.PI/4.0) + i/10.0);
 				dialAnnotation.setAnchor(TextAnchor.CENTER);
 				dialPlot.addLayer(dialAnnotation);
