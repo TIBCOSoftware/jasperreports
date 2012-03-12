@@ -23,8 +23,9 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 /**
@@ -44,7 +45,7 @@ public final class HtmlPrintElementUtils
 	/**
 	 * Property that holds the {@link HtmlPrintElementFactory html print element factory} class name.
 	 */
-	public static final String PROPERTY_HTML_PRINTELEMENT_FACTORY = JRProperties.PROPERTY_PREFIX + "html.printelement.factory";
+	public static final String PROPERTY_HTML_PRINTELEMENT_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "html.printelement.factory";
 	
 	private static final JRSingletonCache cache = new JRSingletonCache(HtmlPrintElementFactory.class);
 	
@@ -58,7 +59,7 @@ public final class HtmlPrintElementUtils
 	 */
 	public static HtmlPrintElementFactory getHtmlPrintElementFactory() throws JRException
 	{
-		String factoryClassName = JRProperties.getProperty(PROPERTY_HTML_PRINTELEMENT_FACTORY);
+		String factoryClassName = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty(PROPERTY_HTML_PRINTELEMENT_FACTORY);
 		if (factoryClassName == null)
 		{
 			factoryClassName = DefaultHtmlPrintElementFactory.class.getName();
