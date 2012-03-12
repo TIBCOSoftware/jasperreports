@@ -44,7 +44,7 @@
 		</antlr>
 	</target>
 
-	<target name="plainjar" depends="compile">
+	<target name="jar" depends="compile" description="Builds the JasperReports JAR file.">
 		<mkdir dir="./dist"/> 
 		<jar jarfile="./dist/jasperreports-${version}.jar" manifest="src/META-INF/MANIFEST.MF">
 			<fileset dir="./build/classes"/>
@@ -55,7 +55,7 @@
 		</jar>
 	</target>
 	
-	<target name="jar" depends="plainjar, javaflow, applet, fonts" description="Builds the JasperReports JAR files."/>
+	<target name="alljars" depends="jar, javaflow, applet, fonts" description="Builds all JasperReports JAR files."/>
 
 	<target name="javaflow" depends="compile" description="Builds the JavaFlow instrumentated JAR file.">
 		<taskdef name="javaflow" classname="org.apache.commons.javaflow.ant.AntRewriteTask">

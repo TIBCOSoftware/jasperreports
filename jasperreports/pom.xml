@@ -221,7 +221,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.2</version>
+			<version>2.4</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -443,13 +443,13 @@
 		</dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-lgpl</artifactId>
-            <version>1.7.4</version>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>1.9.4</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-lgpl</artifactId>
-            <version>1.7.4</version>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.4</version>
         </dependency>
 	</dependencies>
 </project>
