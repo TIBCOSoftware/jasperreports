@@ -34,8 +34,10 @@ import java.util.Map;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsDataSource;
 import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
 
@@ -46,9 +48,20 @@ import net.sf.jasperreports.engine.query.JRXlsQueryExecuterFactory;
 public class XlsDataAdapterService extends AbstractDataAdapterService 
 {
 	
+	/**
+	 * 
+	 */
+	public XlsDataAdapterService(JasperReportsContext jasperReportsContext, XlsDataAdapter xlsDataAdapter)
+	{
+		super(jasperReportsContext, xlsDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #XlsDataAdapterService(JasperReportsContext, XlsDataAdapter)}.
+	 */
 	public XlsDataAdapterService(XlsDataAdapter xlsDataAdapter)
 	{
-		super(xlsDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), xlsDataAdapter);
 	}
 	
 	public XlsDataAdapter getXlsDataAdapter()

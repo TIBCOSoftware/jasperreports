@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintEllipse;
@@ -33,14 +34,15 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 import org.apache.commons.logging.Log;
@@ -57,27 +59,41 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	private static final Log log = LogFactory.getLog(PrintDrawVisitor.class);
 	
 	private Graphics2D grx;
-	private LineDrawer lineDrawer = new LineDrawer();
-	private RectangleDrawer rectangleDrawer = new RectangleDrawer();
-	private EllipseDrawer ellipseDrawer = new EllipseDrawer();
-	private ImageDrawer imageDrawer = new ImageDrawer();
+	private final JasperReportsContext jasperReportsContext;
+	private final LineDrawer lineDrawer;
+	private final RectangleDrawer rectangleDrawer;
+	private final EllipseDrawer ellipseDrawer;
+	private final ImageDrawer imageDrawer;
 	private TextDrawer textDrawer;
 	private FrameDrawer frameDrawer;
 
+	public PrintDrawVisitor(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.lineDrawer = new LineDrawer(jasperReportsContext);
+		this.rectangleDrawer = new RectangleDrawer(jasperReportsContext);
+		this.ellipseDrawer = new EllipseDrawer(jasperReportsContext);
+		this.imageDrawer = new ImageDrawer(jasperReportsContext);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #PrintDrawVisitor(JasperReportsContext)}.
+	 */
 	public PrintDrawVisitor()
 	{
+		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 	public void setTextRenderer(JRReport report)
 	{
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
-				JRProperties.getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
-				JRProperties.getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
+				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
 		
-		textDrawer = new TextDrawer(textRenderer);
-		frameDrawer = new FrameDrawer(null, textRenderer);
+		textDrawer = new TextDrawer(jasperReportsContext, textRenderer);
+		frameDrawer = new FrameDrawer(jasperReportsContext, null, textRenderer);
 	}
 
 	public void setTextDrawer(TextDrawer textDrawer)
@@ -177,7 +193,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	public void visit(JRGenericPrintElement printElement, Offset offset)
 	{
 		GenericElementGraphics2DHandler handler = 
-			(GenericElementGraphics2DHandler)GenericElementHandlerEnviroment.getHandler(
+			(GenericElementGraphics2DHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					printElement.getGenericType(), 
 					JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY
 					);

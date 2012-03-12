@@ -27,9 +27,11 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.InputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,30 +46,71 @@ public class JasperDesignViewer extends javax.swing.JFrame
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	/** Creates new form JasperDesignViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, String, boolean)}.
+	 */
 	public JasperDesignViewer(String sourceFile, boolean isXML)  throws JRException
 	{
-		initComponents();
-
-		JRDesignViewer viewer = new JRDesignViewer(sourceFile, isXML);
-		this.pnlMain.add(viewer, BorderLayout.CENTER);
+		this(DefaultJasperReportsContext.getInstance(), sourceFile, isXML);
 	}
 	
-	/** Creates new form JasperDesignViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, InputStream, boolean)}.
+	 */
 	public JasperDesignViewer(InputStream is, boolean isXML) throws JRException
 	{
-		initComponents();
-
-		JRDesignViewer viewer = new JRDesignViewer(is, isXML);
-		this.pnlMain.add(viewer, BorderLayout.CENTER);
+		this(DefaultJasperReportsContext.getInstance(), is, isXML);
 	}
 	
-	/** Creates new form JasperDesignViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, JRReport)}.
+	 */
 	public JasperDesignViewer(JRReport report) throws JRException
+	{
+		this(DefaultJasperReportsContext.getInstance(), report);
+	}
+	
+	/**
+	 * 
+	 */
+	public JasperDesignViewer(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile, 
+		boolean isXML
+		)  throws JRException
 	{
 		initComponents();
 
-		JRDesignViewer viewer = new JRDesignViewer(report);
+		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, sourceFile, isXML);
+		this.pnlMain.add(viewer, BorderLayout.CENTER);
+	}
+	
+	/**
+	 * 
+	 */
+	public JasperDesignViewer(
+		JasperReportsContext jasperReportsContext,
+		InputStream is, 
+		boolean isXML
+		) throws JRException
+	{
+		initComponents();
+
+		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, is, isXML);
+		this.pnlMain.add(viewer, BorderLayout.CENTER);
+	}
+	
+	/**
+	 * 
+	 */
+	public JasperDesignViewer(
+		JasperReportsContext jasperReportsContext,
+		JRReport report
+		) throws JRException
+	{
+		initComponents();
+
+		JRDesignViewer viewer = new JRDesignViewer(jasperReportsContext, report);
 		this.pnlMain.add(viewer, BorderLayout.CENTER);
 	}
 	
@@ -120,8 +163,8 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}//GEN-LAST:event_exitForm
 	
 	/**
-	* @param args the command line arguments
-	*/
+	 * @param args the command line arguments
+	 */
 	public static void main(String args[]) 
 	{
 		String fileName = null;
@@ -169,8 +212,8 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	*
-	*/
+	 *
+	 */
 	private static void usage()
 	{
 		System.out.println( "JasperDesignViewer usage:" );
@@ -178,29 +221,64 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	*
-	*/
+	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, String, boolean)}.
+	 */
 	public static void viewReportDesign(String sourceFile, boolean isXML) throws JRException
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(sourceFile, isXML);
-		jasperDesignViewer.setVisible(true);
+		viewReportDesign(DefaultJasperReportsContext.getInstance(), sourceFile, isXML);
 	}
 	
 	/**
-	*
-	*/
+	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, InputStream, boolean)}.
+	 */
 	public static void viewReportDesign(InputStream is, boolean isXML) throws JRException
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(is, isXML);
+		viewReportDesign(DefaultJasperReportsContext.getInstance(), is, isXML);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, JRReport)}.
+	 */
+	public static void viewReportDesign(JRReport report) throws JRException
+	{
+		viewReportDesign(DefaultJasperReportsContext.getInstance(), report);
+	}
+	
+	/**
+	 *
+	 */
+	public static void viewReportDesign(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile, 
+		boolean isXML
+		) throws JRException
+	{
+		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(jasperReportsContext, sourceFile, isXML);
 		jasperDesignViewer.setVisible(true);
 	}
 	
 	/**
-	*
-	*/
-	public static void viewReportDesign(JRReport report) throws JRException
+	 *
+	 */
+	public static void viewReportDesign(
+		JasperReportsContext jasperReportsContext,
+		InputStream is, 
+		boolean isXML
+		) throws JRException
 	{
-		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(report);
+		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(jasperReportsContext, is, isXML);
+		jasperDesignViewer.setVisible(true);
+	}
+	
+	/**
+	 *
+	 */
+	public static void viewReportDesign(
+		JasperReportsContext jasperReportsContext,
+		JRReport report
+		) throws JRException
+	{
+		JasperDesignViewer jasperDesignViewer = new JasperDesignViewer(jasperReportsContext, report);
 		jasperDesignViewer.setVisible(true);
 	}
 	

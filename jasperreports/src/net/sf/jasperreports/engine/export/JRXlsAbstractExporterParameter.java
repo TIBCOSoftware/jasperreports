@@ -24,7 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
@@ -60,9 +60,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_ONE_PAGE_PER_SHEET = JRProperties.PROPERTY_PREFIX + "export.xls.one.page.per.sheet";
+	public static final String PROPERTY_ONE_PAGE_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.one.page.per.sheet";
 
 
 	/**
@@ -76,9 +76,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.rows";
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.rows";
 
 
 	/**
@@ -92,9 +92,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = JRProperties.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.remove.empty.space.between.columns";
 
 
 	/**
@@ -109,9 +109,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is set by default (<code>true</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.white.page.background";
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.white.page.background";
 
 
 	/**
@@ -143,9 +143,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_DETECT_CELL_TYPE = JRProperties.PROPERTY_PREFIX + "export.xls.detect.cell.type";
+	public static final String PROPERTY_DETECT_CELL_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.detect.cell.type";
 
 
 	/**
@@ -166,18 +166,18 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * These properties are by default not set.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.names.";
+	public static final String PROPERTY_SHEET_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.names.";
 
 
 	/**
 	 * Property used to set the name of the sheet containing a given element. Its value overrides the report-level settings for the sheet name. 
 	 * If several elements in the sheet contain this property, the engine will consider the value of the last exported element's property.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SHEET_NAME = JRProperties.PROPERTY_PREFIX + "export.xls.sheet.name";
+	public static final String PROPERTY_SHEET_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.sheet.name";
 
 
 	/**
@@ -197,9 +197,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
+	public static final String PROPERTY_FONT_SIZE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.font.size.fix.enabled";
 
 
 	/**
@@ -207,9 +207,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_IMAGE_BORDER_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + "export.xls.image.border.fix.enabled";
+	public static final String PROPERTY_IMAGE_BORDER_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.image.border.fix.enabled";
 
 
 	/**
@@ -235,9 +235,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default to zero.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_MAXIMUM_ROWS_PER_SHEET = JRProperties.PROPERTY_PREFIX + "export.xls.max.rows.per.sheet";
+	public static final String PROPERTY_MAXIMUM_ROWS_PER_SHEET = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.max.rows.per.sheet";
 
 
 	/**
@@ -251,9 +251,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_IGNORE_GRAPHICS = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.graphics";
+	public static final String PROPERTY_IGNORE_GRAPHICS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.graphics";
 
 
 	/**
@@ -267,9 +267,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLLAPSE_ROW_SPAN = JRProperties.PROPERTY_PREFIX + "export.xls.collapse.row.span";
+	public static final String PROPERTY_COLLAPSE_ROW_SPAN = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.collapse.row.span";
 
 
 	/**
@@ -283,9 +283,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_IGNORE_CELL_BORDER = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
+	public static final String PROPERTY_IGNORE_CELL_BORDER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.cell.border";
 
 
 	/**
@@ -299,9 +299,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_IGNORE_CELL_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.ignore.cell.background";
+	public static final String PROPERTY_IGNORE_CELL_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.cell.background";
 
 
 	/**
@@ -315,9 +315,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>null</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.xls.password";
+	public static final String PROPERTY_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.password";
 
 	
 	/**
@@ -350,9 +350,9 @@ public class JRXlsAbstractExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRProperties.PROPERTY_PREFIX + "export.xls.create.custom.palette";
+	public static final String PROPERTY_CREATE_CUSTOM_PALETTE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.create.custom.palette";
 
 
 }

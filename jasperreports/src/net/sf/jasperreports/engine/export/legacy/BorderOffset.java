@@ -32,6 +32,7 @@
 package net.sf.jasperreports.engine.export.legacy;
 
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 
@@ -44,7 +45,7 @@ public abstract class BorderOffset
 	/**
 	 * 
 	 */
-	public static final String PROPERTY_LEGACY_BORDER_OFFSET = JRProperties.PROPERTY_PREFIX + "export.legacy.border.offset";
+	public static final String PROPERTY_LEGACY_BORDER_OFFSET = JRPropertiesUtil.PROPERTY_PREFIX + "export.legacy.border.offset";
 	
 	/**
 	 * 

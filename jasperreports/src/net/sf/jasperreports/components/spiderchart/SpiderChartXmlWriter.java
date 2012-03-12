@@ -27,9 +27,11 @@ import java.io.IOException;
 
 import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.charts.ChartSettings;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -68,6 +70,24 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 	public static final String ATTRIBUTE_labelColor = "labelColor";
 
 	
+	private JasperReportsContext jasperReportsContext;
+	
+	/**
+	 * @deprecated Replaced by {@link #SpiderChartXmlWriter(JasperReportsContext)}.
+	 */
+	public SpiderChartXmlWriter()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+	/**
+	 * 
+	 */
+	public SpiderChartXmlWriter(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
 	{
@@ -75,8 +95,8 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
 		
 		String namespaceURI = componentKey.getNamespace();
-		String schemaLocation = ComponentsEnvironment
-			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		String schemaLocation = 
+			ComponentsEnvironment.getInstance(jasperReportsContext).getBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
 		XmlNamespace componentNamespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
 				schemaLocation);
 

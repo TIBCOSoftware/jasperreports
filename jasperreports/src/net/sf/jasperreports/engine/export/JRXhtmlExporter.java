@@ -54,6 +54,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRException;
@@ -77,10 +78,14 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -94,7 +99,6 @@ import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -114,13 +118,13 @@ public class JRXhtmlExporter extends JRAbstractExporter
 {
 	private static final Log log = LogFactory.getLog(JRXhtmlExporter.class);
 	
-	private static final String XHTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xhtml.";
+	private static final String XHTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xhtml.";
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String XHTML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xhtml";
+	public static final String XHTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xhtml";
 	
 	/**
 	 *
@@ -205,16 +209,31 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected Map<String,String> fontMap;
 
-	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
+	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 
 	protected boolean hyperlinkStarted;	
 	
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
+	/**
+	 * @deprecated Replaced by {@link #JRXhtmlExporter(JasperReportsContext)}.
+	 */
 	public JRXhtmlExporter()
 	{
+		this(DefaultJasperReportsContext.getInstance());
 	}
 
+	
+	/**
+	 *
+	 */
+	public JRXhtmlExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+
+		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);		
+	}
+	
 
 	/**
 	 *
@@ -475,7 +494,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						JRPrintElementIndex imageIndex = it.next();
 	
 						JRPrintImage image = getImage(jasperPrintList, imageIndex);
-						JRRenderable renderer = image.getRenderer();
+						Renderable renderer = image.getRenderable();
 						if (renderer.getType() == JRRenderable.TYPE_SVG)
 						{
 							renderer =
@@ -486,7 +505,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 									);
 						}
 	
-						byte[] imageData = renderer.getImageData();
+						byte[] imageData = renderer.getImageData(jasperReportsContext);
 	
 						File imageFile = new File(imagesDir, getImageName(imageIndex));
 						FileOutputStream fos = null;
@@ -674,7 +693,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		
 		writer.write(
-			"<div style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
+			"<div class=\"jrPage\" style=\"" + (isWhitePageBackground ? "background-color: #FFFFFF;" : "") 
 			+ "position:relative;width:" + toSizeUnit(rightLimit - leftLimit) 
 			+ ";height:" + toSizeUnit(bottomLimit - topLimit) + ";\">\n"
 			);
@@ -1436,7 +1455,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);		
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkTypeValue())
@@ -1842,7 +1861,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			writer.write("\"></a>");
 		}
 		
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 		JRRenderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null 
 				&& renderer instanceof JRImageMapRenderer
@@ -1901,7 +1920,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 										);
 							}
-							imageNameToImageDataMap.put(imageName, renderer.getImageData());
+							imageNameToImageDataMap.put(imageName, renderer.getImageData(jasperReportsContext));
 						}
 						//END - backward compatibility with the IMAGE_MAP parameter
 					}
@@ -1992,9 +2011,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					if (!image.isLazy())
 					{
 						// Image load might fail. 
-						JRRenderable tmpRenderer = 
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						Renderable tmpRenderer = 
+							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)
 						{
@@ -2050,9 +2069,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					if (!image.isLazy())
 					{
 						// Image load might fail. 
-						JRRenderable tmpRenderer = 
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						Renderable tmpRenderer = 
+							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)
 						{
@@ -2330,15 +2349,25 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	private void appendId(JRPrintElement element) throws IOException
 	{
-		String id = JRProperties.getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
+		String id = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_ID);
 		if (id != null)
 		{
 			writer.write(" id=\"" + id + "\"");
 		}
-		String clazz = JRProperties.getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
+		String clazz = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_CLASS);
 		if (clazz != null)
 		{
 			writer.write(" class=\"" + clazz + "\"");
+		}
+		String popupId = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_ID);
+		if (popupId != null)
+		{
+			writer.write(" data-popupId=\"" + popupId + "\"");
+		}
+		String popupColumn = getPropertiesUtil().getProperty(element, JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN);
+		if (popupColumn != null)
+		{
+			writer.write(" data-popupColumn=\"" + popupColumn + "\"");
 		}
 	}
 	
@@ -2406,10 +2435,18 @@ public class JRXhtmlExporter extends JRAbstractExporter
 
 		if (styleBuffer.length() > 0)
 		{
-			writer.write(" style=\"overflow:hidden;");
+			writer.write(" style=\"");//overflow:hidden;");
 			writer.write(styleBuffer.toString());
 			writer.write("\"");
 		}
+		
+		if (frame.getPropertiesMap() != null && frame.getPropertiesMap().containsProperty(JRHtmlExporter.PROPERTY_HTML_UUID)) {
+			writer.write(" data-uuid=\"");
+			writer.write(frame.getUUID().toString());
+			writer.write("\"");
+			writer.write(" class=\"jrtableframe\"");
+		}
+
 
 		writer.write(">\n");
 		
@@ -2436,7 +2473,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected void exportGenericElement(JRGenericPrintElement element) throws IOException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
-				GenericElementHandlerEnviroment.getHandler(
+				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
 						element.getGenericType(), XHTML_EXPORTER_KEY);
 		
 		if (handler == null)

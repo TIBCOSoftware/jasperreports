@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
 
@@ -50,11 +51,23 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_HTML = ".html"; 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRHtmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JRHtmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRHtmlSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -105,7 +118,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRHtmlExporter exporter = new JRHtmlExporter();
+			JRHtmlExporter exporter = new JRHtmlExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport(); 

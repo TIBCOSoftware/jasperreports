@@ -33,7 +33,9 @@ package net.sf.jasperreports.engine.export.draw;
 
 import java.awt.Graphics2D;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -53,12 +55,25 @@ public class TextDrawer extends ElementDrawer<JRPrintText>
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #TextDrawer(JasperReportsContext, AwtTextRenderer)}.
 	 */
 	public TextDrawer(
 		AwtTextRenderer textRenderer
 		)
 	{
+		this(DefaultJasperReportsContext.getInstance(), textRenderer);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public TextDrawer(
+		JasperReportsContext jasperReportsContext,
+		AwtTextRenderer textRenderer
+		)
+	{
+		super(jasperReportsContext);
 		this.textRenderer = textRenderer;
 	}
 	

@@ -26,99 +26,67 @@ package net.sf.jasperreports.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.components.sort.SortElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.repo.WebFileRepositoryService;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.web.WebReportContext;
+import net.sf.jasperreports.web.actions.AbstractAction;
+import net.sf.jasperreports.web.actions.Action;
+import net.sf.jasperreports.web.commands.CommandStack;
+import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
+import net.sf.jasperreports.web.util.VelocityUtil;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.VelocityContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ReportServlet extends HttpServlet
+public class ReportServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private static final Log log = LogFactory.getLog(ReportServlet.class);
+	
+	private static final String RESOURCE_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/global.js";
+	private static final String RESOURCE_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/global.css";
 
-	//public static final String PROPERTY_REPOSITORY_ROOT = "net.sf.jasperreports.web.repository.root";
-	public static final String DEFAULT_REPOSITORY_ROOT = "WEB-INF/repository";
+	private static final String PARAMETER_IS_AJAX= "isajax";
+	
+	private static final String TEMPLATE_HEADER= "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplate.vm";
+	private static final String TEMPLATE_BETWEEN_PAGES= "net/sf/jasperreports/web/servlets/resources/templates/BetweenPagesTemplate.vm";
+	private static final String TEMPLATE_FOOTER= "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplate.vm";
+	
+	protected static final String TEMPLATE_HEADER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplateNoPages.vm";
+	protected static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
+	
+	public static final String PATH = "/servlets/report";
 
 	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
 	public static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpg";
 	public static final String REQUEST_PARAMETER_RUN_REPORT = "jr.run";
-	//public static final String REQUEST_PARAMETER_REPORT_JRXML = "jr.jrxml";
 	public static final String REQUEST_PARAMETER_REPORT_VIEWER = "jr.vwr";
+	public static final String REQUEST_PARAMETER_ASYNC = "jr.async";
+	public static final String REQUEST_PARAMETER_ACTION = "jr.action";
+	public static final String REQUEST_PARAMETER_TOOLBAR_ID = "jr.toolbar";
+	public static final String REQUEST_PARAMETER_PAGE = "jr.page";
+	public static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr.pagetimestamp";
 
-//	public static final String REPORT_ACTION = "report.action";
-//	public static final String REPORT_CLEAR_SESSION = "report.clear"; 
-//	public static final String REPORT_CONTEXT_PREFIX = "fillContext_"; 
-	
-
-//	private File repositoryRoot;
-//	private SimpleFileResolver fileResolver;
-	
-	/**
-	 * 
-	 *
-	public File getRepositoryRoot() 
-	{
-		return repositoryRoot;
-	}
-
-	
-	/**
-	 * 
-	 *
-	public FileResolver getFileResolver() 
-	{
-		return fileResolver;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public void init(ServletConfig config) throws ServletException 
-	{
-		super.init(config);
-		
-//		String repo = getInitParameter("repository.root"); //this is used in Jetty config
-//		if (repo == null)
-//		{
-//			repo = JRProperties.getProperty(PROPERTY_REPOSITORY_ROOT);//FIXMEJIVE constant
-//		}
-//		if (repo == null)
-//		{
-//			repo = DEFAULT_REPOSITORY_ROOT;
-//		}
-//		
-//		repositoryRoot = new File(repo);
-//		if (!repositoryRoot.isAbsolute())
-//		{
-//			String realPath = config.getServletContext().getRealPath("/");
-//			if (realPath != null)
-//			{
-//				repositoryRoot = new File(new File(realPath), repo);
-//			}
-//		}
-//		
-//		fileResolver = new SimpleFileResolver(repositoryRoot);
-//		fileResolver.setResolveAbsolutePath(true);
-		
-		WebFileRepositoryService.setApplicationRealPath(config.getServletContext().getRealPath("/"));
-	}
-	
 
 	/**
 	 *
@@ -146,20 +114,18 @@ public class ReportServlet extends HttpServlet
 		try
 		{
 			runReport(request, webReportContext);
-			
-			String viewer = request.getParameter(REQUEST_PARAMETER_REPORT_VIEWER);
-			if (viewer == null || viewer.trim().length() == 0)
-			{
-				new DefaultViewer().render(request, webReportContext, out);
-			}
-			else
-			{
-				//FIXMEJIVE
-				new NoDecorationViewer().render(request, webReportContext, out);
-			}
+			render(request, webReportContext, out);
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
+			// try to undo
+			CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
+			if (commandStack != null) {
+				commandStack.undo();				
+			}
+			
+			log.error("Error on report execution", e);
+			
 			out.println("<html>");//FIXMEJIVE do we need to render this? or should this be done by the viewer?
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
@@ -178,6 +144,7 @@ public class ReportServlet extends HttpServlet
 			out.println("</body>");
 			out.println("</html>");
 		}
+		
 	}
 
 
@@ -189,97 +156,200 @@ public class ReportServlet extends HttpServlet
 		WebReportContext webReportContext
 		) throws JRException //IOException, ServletException
 	{
-		JasperPrint jasperPrint = (JasperPrint)webReportContext.getParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT);
+		JasperPrintAccessor jasperPrintAccessor = 
+			(JasperPrintAccessor) webReportContext.getParameterValue(
+				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR
+			);
+
 		String run = request.getParameter(REQUEST_PARAMETER_RUN_REPORT);
-		if (jasperPrint == null || Boolean.valueOf(run))
+		if (jasperPrintAccessor == null || Boolean.valueOf(run))
 		{
 			String reportUri = request.getParameter(REQUEST_PARAMETER_REPORT_URI);
-			
-//				Map<String, Object> parameters = (Map<String, Object>)request.getSession().getAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri);  
-//				if (parameters == null) 
-//				{
-//					parameters = new HashMap<String, Object>();
-//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, parameters);
-//				}
-			
-//			webReportContext.setParameterValue(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-////				parameters.put(JRParameter.REPORT_FILE_RESOLVER, getFileResolver());//FIXME create file resolver for parent folder
-//			JRResourcesUtil.setThreadFileResolver(fileResolver);
+			if (reportUri != null)
+			{
+				webReportContext.setParameterValue(REQUEST_PARAMETER_REPORT_URI, reportUri);
+			}
 			
 			Boolean isIgnorePagination = Boolean.valueOf(request.getParameter(REQUEST_PARAMETER_IGNORE_PAGINATION));
 			if (isIgnorePagination != null) 
 			{
 				webReportContext.setParameterValue(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
-				//parameters.put(JRParameter.IS_IGNORE_PAGINATION, isIgnorePagination);
 			}		
 			
-			JasperReport jasperReport = null; 
-			
-//			String jrxml = request.getParameter(REQUEST_PARAMETER_REPORT_JRXML);
-//			if (jrxml != null && jrxml.trim().length() > 0)
-//			{
-//				jrxml = jrxml.trim();
-//				jasperReport =  JasperCompileManager.compileReport(new ByteArrayInputStream(jrxml.getBytes()));
-//			}
-//			else 
-			if (reportUri != null && reportUri.trim().length() > 0)
+			String async = request.getParameter(REQUEST_PARAMETER_ASYNC);
+			if (async != null)
 			{
-				reportUri = reportUri.trim();
-
-				jasperReport = RepositoryUtil.getReport(reportUri);
-			}
-			
-			if (jasperReport == null)
-			{
-				throw new JRException("Report not found at : " + reportUri);
+				webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, Boolean.valueOf(async));
 			}
 
-			//webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_REPORT, jasperReport);
+			Action action = getAction(webReportContext, request.getParameter(REQUEST_PARAMETER_ACTION));
+
+			Controller controller = new Controller(getJasperReportsContext());
 			
-//				Map parameters = new HashMap();
-			
-//				String clearSession = request.getParameter(REPORT_CLEAR_SESSION);
-//				if (clearSession != null && clearSession.equalsIgnoreCase("true")) {
-//					request.getSession().setAttribute(ReportServlet.REPORT_CONTEXT_PREFIX + reportUri, null);
-//				}
-			
-			/* data adapter - start */
-//			String dataAdapterUri = jasperReport.getProperty("net.sf.jasperreports.data.adapter");
-//			if (dataAdapterUri != null)
-//			{
-//				//repoService.setFileResolver(fileResolver);
-//
-//				DataAdapter dataAdapter = (DataAdapter)RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
-//				DataAdapterService dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
-//				
-//				Map<String, Object> dasParams = dataAdapterService.getParameters();
-//				//parameters.putAll(dasParams);
-//				webReportContext.setParameterValues(dasParams);
-//			}
-			/* data adapter - end */
-			
-			jasperPrint = 
-				JasperFillManager.fillReport(
-					jasperReport, 
-					webReportContext.getParameterValues()
-					);
-						
-			webReportContext.setParameterValue(WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT, jasperPrint);
+			controller.runReport(webReportContext, action);
 		}
 	}
 
 
-	public static String extractReportUri(String paramReportUri) //FIXMEJIVE consider moving from here
+	/**
+	 * 
+	 */
+	public void render(
+			HttpServletRequest request,
+			WebReportContext webReportContext,
+			PrintWriter writer
+			) throws JRException //IOException, ServletException
 	{
-		String lcReportUri = paramReportUri.toLowerCase();
-		if (lcReportUri.endsWith(".jasper"))
+		JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
+				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+		Integer pageCount = jasperPrintAccessor.getTotalPageCount();
+		// if the page count is null, it means that the fill is not yet done but there is at least a page
+		boolean hasPages = pageCount == null || pageCount > 0;//FIXMEJIVE we should call pageStatus here
+		
+		JRXhtmlExporter exporter = new JRXhtmlExporter(getJasperReportsContext());
+
+		ReportPageStatus pageStatus;
+		if (hasPages)
 		{
-			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jasper"));
+			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
+			int pageIdx = reportPage == null ? 0 : Integer.parseInt(reportPage);
+			String pageTimestamp = request.getParameter(REQUEST_PARAMETER_PAGE_TIMESTAMP);
+			Long timestamp = pageTimestamp == null ? null : Long.valueOf(pageTimestamp);
+			
+			pageStatus = jasperPrintAccessor.pageStatus(pageIdx, timestamp);
+			
+			if (pageStatus.getError() != null)
+			{
+				throw new JRRuntimeException("Error occurred during report generation", pageStatus.getError());
+			}
+			
+			if (!pageStatus.pageExists())
+			{
+				throw new JRRuntimeException("Page " + pageIdx + " not found in report");
+			}
+			
+			exporter.setParameter(JRExporterParameter.PAGE_INDEX, pageIdx);
 		}
-		else if (lcReportUri.endsWith(".jrxml"))
+		else
 		{
-			paramReportUri = paramReportUri.substring(0, lcReportUri.lastIndexOf(".jrxml"));
+			pageStatus = ReportPageStatus.PAGE_FINAL;
 		}
-		return paramReportUri;
+		
+		exporter.setReportContext(webReportContext);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrintAccessor.getJasperPrint());
+		exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, writer);
+		exporter.setParameter(JRHtmlExporterParameter.IMAGES_URI, "image?" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId() + "&image=");
+		
+		exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, getHeader(request, webReportContext, hasPages, pageStatus));
+		exporter.setParameter(JRHtmlExporterParameter.BETWEEN_PAGES_HTML, getBetweenPages(request, webReportContext));
+		exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, getFooter(request, webReportContext, hasPages, pageStatus));
+		
+		exporter.setParameter(
+			JRHtmlExporterParameter.HYPERLINK_PRODUCER_FACTORY, 
+			ReportExecutionHyperlinkProducerFactory.getInstance(request)
+			);
+		
+		//TODO lucianc do not export if the page has not modified
+		exporter.exportReport();
+
 	}
+
+
+	/**
+	 * 
+	 */
+	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages, 
+			ReportPageStatus pageStatus)
+	{
+		VelocityContext headerContext = new VelocityContext();
+		if (hasPages) 
+		{
+			String webResourcesBasePath = JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");//FIXMEJIVE reuse this code
+			if (webResourcesBasePath == null)
+			{
+				webResourcesBasePath = request.getContextPath() + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+			}
+			headerContext.put("isAjax", request.getParameter(PARAMETER_IS_AJAX) != null && request.getParameter(PARAMETER_IS_AJAX).equals("true"));
+			headerContext.put("contextPath", request.getContextPath());
+			headerContext.put("globaljs", webResourcesBasePath + RESOURCE_GLOBAL_JS);
+			headerContext.put("globalcss", webResourcesBasePath + RESOURCE_GLOBAL_CSS);
+	//		headerContext.put("showToolbar", request.getParameter(PARAMETER_TOOLBAR) != null && request.getParameter(PARAMETER_TOOLBAR).equals("true"));
+			headerContext.put("showToolbar", Boolean.TRUE);
+			headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
+			headerContext.put("currentUrl", getCurrentUrl(request, webReportContext));
+			headerContext.put("strRunReportParam", ReportServlet.REQUEST_PARAMETER_RUN_REPORT + "=false");
+	
+			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
+					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+			headerContext.put("totalPages", jasperPrintAccessor.getTotalPageCount());
+	
+			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
+			headerContext.put("currentPage", (reportPage != null ? reportPage : "0"));
+			
+			if (!pageStatus.isPageFinal())
+			{
+				headerContext.put("pageTimestamp", String.valueOf(pageStatus.getTimestamp()));
+			}
+			
+			return VelocityUtil.processTemplate(TEMPLATE_HEADER, headerContext);
+		} else 
+		{
+			return VelocityUtil.processTemplate(TEMPLATE_HEADER_NOPAGES, headerContext);
+		}
+	}
+
+
+	/**
+	 * 
+	 */
+	protected String getBetweenPages(HttpServletRequest request, WebReportContext webReportContext) 
+	{
+		VelocityContext betweenPagesContext = new VelocityContext();
+		return VelocityUtil.processTemplate(TEMPLATE_BETWEEN_PAGES, betweenPagesContext);
+	}
+
+
+	/**
+	 * 
+	 */
+	protected String getFooter(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages, 
+			ReportPageStatus pageStatus) 
+	{
+		VelocityContext footerContext = new VelocityContext();
+		if (hasPages) {
+			return VelocityUtil.processTemplate(TEMPLATE_FOOTER, footerContext);
+		} else 
+		{
+			return VelocityUtil.processTemplate(TEMPLATE_FOOTER_NOPAGES, footerContext);
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected String getCurrentUrl(HttpServletRequest request, WebReportContext webReportContext) 
+	{
+		String newQueryString = ReportServlet.REQUEST_PARAMETER_REPORT_URI + "=" + webReportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI) + 
+					"&" + SortElement.REQUEST_PARAMETER_DATASET_RUN + "=" + webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN) +
+					"&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+//		return request.getContextPath() + request.getServletPath() + "?" + newQueryString;
+		return request.getContextPath() + ReportServlet.PATH + "?" + newQueryString;
+	}
+
+
+	/**
+	 *
+	 */
+	private Action getAction(ReportContext webReportContext, String jsonData)
+	//private Action getAction(ReportContext webReportContext, String reportUri, String jsonData)
+	{
+		AbstractAction result = (AbstractAction)JacksonUtil.getInstance(getJasperReportsContext()).load(jsonData, AbstractAction.class);
+		if (result != null) 
+		{
+			result.init(getJasperReportsContext(), webReportContext);//, reportUri);
+		}
+		return result;
+	}
+
 }

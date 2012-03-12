@@ -42,10 +42,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRBand;
@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -69,10 +70,13 @@ import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
+import net.sf.jasperreports.engine.base.VirtualizablePageElements;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -87,12 +91,10 @@ import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.LinkedMap;
+import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
-import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.repo.SimpleRepositoryContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -120,6 +122,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	private JRStyledTextParser styledTextParser = JRStyledTextParser.getInstance();
 
+	private FillListener fillListener;
+	
 	/**
 	 *
 	 */
@@ -210,20 +214,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	protected JRVirtualizationContext virtualizationContext;
 	protected ElementEvaluationVirtualizationListener virtualizationListener;
 
-	protected ClassLoader reportClassLoader;
-
 	protected FormatFactory formatFactory;
-
-	protected URLStreamHandlerFactory urlHandlerFactory;
-
-	protected FileResolver fileResolver;
 
 	protected JRFillContext fillContext;
 
 	/**
 	 * Bound element maps indexed by {@link JREvaluationTime JREvaluationTime} objects.
 	 */
-	protected Map<JREvaluationTime, LinkedMap<Object, EvaluationBoundAction>> boundElements;
+	// we can use HashMap because the map is initialized in the beginning and doesn't change afterwards
+	protected HashMap<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundElements;
 
 	/**
 	 *
@@ -255,6 +254,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 * Map of datasets ({@link JRFillDataset JRFillDataset} objects} indexed by name.
 	 */
 	protected Map<String,JRFillDataset> datasetMap;
+
+	/**
+	 *
+	 */
+	private JasperReportsContext jasperReportsContext;
+	private JRPropertiesUtil propertiesUtil;
 
 	/**
 	 * The report.
@@ -294,20 +299,33 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected boolean isLastPageFooter;
 
-	protected JRBaseFiller(JasperReport jasperReport, JREvaluator initEvaluator, JRFillSubreport parentElement) throws JRException
+	/**
+	 *
+	 */
+	protected JRBaseFiller(
+		JasperReportsContext jasperReportsContext, 
+		JasperReport jasperReport, 
+		JREvaluator initEvaluator, 
+		JRFillSubreport parentElement
+		) throws JRException
 	{
-		this(jasperReport, (DatasetExpressionEvaluator) initEvaluator, parentElement);
+		this(jasperReportsContext, jasperReport, (DatasetExpressionEvaluator) initEvaluator, parentElement);
 	}
 
 	/**
 	 *
 	 */
-	protected JRBaseFiller(JasperReport jasperReport, 
-			DatasetExpressionEvaluator initEvaluator, 
-			JRFillSubreport parentElement) throws JRException
+	protected JRBaseFiller(
+		JasperReportsContext jasperReportsContext, 
+		JasperReport jasperReport, 
+		DatasetExpressionEvaluator initEvaluator, 
+		JRFillSubreport parentElement
+		) throws JRException
 	{
 		JRGraphEnvInitializer.initializeGraphEnv();
 
+		setJasperReportsContext(jasperReportsContext);
+		
 		this.jasperReport = jasperReport;
 
 		/*   */
@@ -355,12 +373,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		jasperPrint = new JasperPrint();
 		
-		JRProperties.transferProperties(jasperReport, jasperPrint, 
+		getPropertiesUtil().transferProperties(jasperReport, jasperPrint, 
 				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 		
 		if (initEvaluator == null)
 		{
-			calculator = JRFillDataset.createCalculator(jasperReport, jasperReport.getMainDataset());
+			calculator = JRFillDataset.createCalculator(jasperReportsContext, jasperReport, jasperReport.getMainDataset());
 		}
 		else
 		{
@@ -376,6 +394,15 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		createDatasets();
 		mainDataset = factory.getDataset(jasperReport.getMainDataset());
+		
+		if (parentFiller == null)
+		{
+			FillDatasetPosition masterFillPosition = new FillDatasetPosition(null);
+			// adding this attribute only to have something at root level
+			masterFillPosition.addAttribute("report", jasperReport.getName());
+			mainDataset.setFillPosition(masterFillPosition);
+		}
+		
 		groups = mainDataset.groups;
 
 		createReportTemplates(factory);
@@ -651,6 +678,31 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	/**
 	 *
 	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+
+	/**
+	 *
+	 */
+	protected void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+	}
+
+	/**
+	 *
+	 */
+	public JRPropertiesUtil getPropertiesUtil()
+	{
+		return propertiesUtil;
+	}
+
+	/**
+	 *
+	 */
 	public JRStyledTextParser getStyledTextParser()
 	{
 		return styledTextParser;
@@ -733,6 +785,16 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	 */
 	protected abstract void setPageHeight(int pageHeight);
 
+	
+	/**
+	 * Adds a fill lister to be notified by events that occur during the fill.
+	 * 
+	 * @param fillListener the listener to add
+	 */
+	public void addFillListener(FillListener fillListener)
+	{
+		this.fillListener = CompositeFillListener.addListener(this.fillListener, fillListener);
+	}
 
 	public JasperPrint fill(Map<String,Object> parameterValues, Connection conn) throws JRException
 	{
@@ -774,6 +836,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	public JasperPrint fill(Map<String,Object> parameterValues) throws JRException
 	{
+		setParametersToContext(parameterValues);
+		
 		if (parameterValues == null)
 		{
 			parameterValues = new HashMap<String,Object>();
@@ -786,14 +850,10 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		fillingThread = Thread.currentThread();
 		
-		RepositoryUtil.setRepositoryContext(new SimpleRepositoryContext(parameterValues));
-
-		reportClassLoader = (ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER);
-		urlHandlerFactory = (URLStreamHandlerFactory)parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY);
-		fileResolver = (FileResolver)parameterValues.get(JRParameter.REPORT_FILE_RESOLVER);
-		
 		try
 		{
+			createBoundElemementMaps();
+
 			if (parentFiller != null)
 			{
 				parentFiller.registerSubfiller(this);
@@ -827,8 +887,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				}
 			}
 
-			createBoundElemementMaps();
-
 			/*   */
 			mainDataset.start();
 
@@ -844,6 +902,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			if (log.isDebugEnabled())
 			{
 				log.debug("Fill " + fillerId + ": ended");
+			}
+			
+			if (parentFiller == null)
+			{
+				// commit the cached data
+				fillContext.cacheDone();
 			}
 
 			return jasperPrint;
@@ -868,11 +932,39 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 			//kill the subreport filler threads
 			killSubfillerThreads();
-
-			RepositoryUtil.revertRepositoryContext();
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	private void setParametersToContext(Map<String,Object> parameterValues)
+	{
+		if (
+			parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER)
+			|| parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY)
+			|| parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER)
+			)
+		{
+			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+
+			if (parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
+			{
+				localJasperReportsContext.setClassLoader((ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER));
+			}
+
+			if (parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY))
+			{
+				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY));
+			}
+
+			if (parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER))
+			{
+				localJasperReportsContext.setFileResolver((FileResolver)parameterValues.get(JRParameter.REPORT_FILE_RESOLVER));
+			}
+			
+			setJasperReportsContext(localJasperReportsContext);
+		}
+	}
+		
 	public void addPrintStyle(JRStyle style) throws JRException
 	{
 		jasperPrint.addStyle(style, true);
@@ -1047,7 +1139,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				{
 					//template not yet loaded
 					JRTemplate includedTemplate = JRFillReportTemplate.loadTemplate(
-							location, fillContext);
+							location, this);
 					collectStyles(includedTemplate, externalStyles, 
 							loadedLocations, templateParentLocations);
 					
@@ -1090,7 +1182,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	private void createBoundElemementMaps()
 	{
-		boundElements = new HashMap<JREvaluationTime, LinkedMap<Object, EvaluationBoundAction>>();
+		boundElements = new HashMap<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>>();
 
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_REPORT);
 		createBoundElementMaps(JREvaluationTime.EVALUATION_TIME_PAGE);
@@ -1114,8 +1206,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	private void createBoundElementMaps(JREvaluationTime evaluationTime)
 	{
-		LinkedMap<Object, EvaluationBoundAction> boundElementsMap = 
-				new LinkedMap<Object, EvaluationBoundAction>();
+		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> boundElementsMap = 
+				new LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>();
 		boundElements.put(evaluationTime, boundElementsMap);
 	}
 
@@ -1156,6 +1248,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		setIgnorePagination(parameterValues);
 
+		if (parentFiller == null)
+		{
+			ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
+			fillContext.setReportContext(reportContext);
+		}
+
 		mainDataset.setParameterValues(parameterValues);
 		mainDataset.initDatasource();
 
@@ -1178,7 +1276,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 				// creating a subcontext for the subreport.
 				// this allows setting a separate listener, and guarantees that
 				// the current subreport page is not externalized.
-				virtualizationContext = new JRVirtualizationContext(fillContext.getVirtualizationContext());
+				virtualizationContext = new JRVirtualizationContext(fillContext.getVirtualizationContext());//FIXME lucianc clear this context from the virtualizer
 				
 				// setting per subreport page size
 				setVirtualPageSize(parameterValues);
@@ -1214,6 +1312,22 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			JRVirtualizationContext.register(virtualizationContext, jasperPrint);
 		}
 	}
+	
+	protected void lockVirtualizationContext()
+	{
+		if (virtualizationContext != null)
+		{
+			virtualizationContext.lock();
+		}
+	}
+	
+	protected void unlockVirtualizationContext()
+	{
+		if (virtualizationContext != null)
+		{
+			virtualizationContext.unlock();
+		}
+	}
 
 	protected void setVirtualPageSize(Map<String, Object> parameterValues)
 	{
@@ -1227,7 +1341,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 					JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE);
 			if (pageSizeProp != null)
 			{
-				virtualPageSize = JRProperties.asInteger(pageSizeProp);
+				virtualPageSize = JRPropertiesUtil.asInteger(pageSizeProp);
 			}
 		}
 		
@@ -1437,12 +1551,41 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 	protected void resolveBoundElements(JREvaluationTime evaluationTime, byte evaluation) throws JRException
 	{
-		LinkedMap<Object, EvaluationBoundAction> boundElementsMap = boundElements.get(evaluationTime);
+		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> pagesMap = boundElements.get(evaluationTime);
 		
-		while (!boundElementsMap.isEmpty())
+		lockVirtualizationContext();
+		try
 		{
-			EvaluationBoundAction action = boundElementsMap.pop();
-			action.execute(evaluation, evaluationTime);
+			synchronized (pagesMap)
+			{
+				for (Iterator<Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>>> pagesIt = pagesMap.entrySet().iterator();
+						pagesIt.hasNext(); )
+				{
+					Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>> pageEntry = pagesIt.next();
+					int pageIdx = pageEntry.getKey().index;
+					
+					LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pageEntry.getValue();
+					// execute the actions
+					while (!boundElementsMap.isEmpty())
+					{
+						EvaluationBoundAction action = boundElementsMap.pop();
+						action.execute(evaluation, evaluationTime);
+					}
+					
+					// remove the entry from the pages map
+					pagesIt.remove();
+					
+					// call the listener to signal that the page has been modified
+					if (fillListener != null)
+					{
+						fillListener.pageUpdated(jasperPrint, pageIdx);
+					}
+				}
+			}
+		}
+		finally
+		{
+			unlockVirtualizationContext();
 		}
 	}
 
@@ -1612,7 +1755,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	{
 		if (subfillers == null)
 		{
-			subfillers = new HashMap<Integer, JRBaseFiller>();
+			subfillers = new ConcurrentHashMap<Integer, JRBaseFiller>(16, 0.75f, 1);
 		}
 
 		subfillers.put(subfiller.fillerId, subfiller);
@@ -1634,6 +1777,13 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			if (log.isDebugEnabled())
 			{
 				log.debug("Fill " + fillerId + ": adding page " + (jasperPrint.getPages().size() + 1));
+			}
+			
+			// notify that the previous page was generated
+			int pageCount = jasperPrint.getPages().size();
+			if (pageCount > 0 && fillListener != null)
+			{
+				fillListener.pageGenerated(jasperPrint, pageCount - 1);
 			}
 
 			jasperPrint.addPage(page);
@@ -1772,8 +1922,123 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 					+ " for evaluation " + evaluationTime);
 		}
 		
-		LinkedMap<Object, EvaluationBoundAction> boundElementsMap = boundElements.get(evaluationTime);
-		boundElementsMap.add(printElement, new ElementEvaluationAction(element, printElement));
+		// get the pages map for the evaluation
+		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> pagesMap = boundElements.get(evaluationTime);
+		
+		lockVirtualizationContext();
+		try
+		{
+			synchronized (pagesMap)
+			{
+				// the key contains the page and its index; the index is only stored so that we have it in resolveBoundElements
+				PageKey pageKey = new PageKey(printPage, jasperPrint.getPages().size() - 1);
+				
+				// get the actions map for the current page, creating if it does not yet exist
+				LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pagesMap.get(pageKey);
+				if (boundElementsMap == null)
+				{
+					boundElementsMap = new LinkedMap<Object, EvaluationBoundAction>();
+					pagesMap.put(pageKey, boundElementsMap);
+				}
+				
+				// add the delayed element action to the map
+				boundElementsMap.add(printElement, new ElementEvaluationAction(element, printElement));
+			}
+		}
+		finally
+		{
+			unlockVirtualizationContext();
+		}
+	}
+
+	protected void subreportPageFilled(JRPrintPage subreportPage)
+	{
+		PageKey subreportKey = new PageKey(subreportPage);
+		PageKey parentKey = new PageKey(parentFiller.printPage);
+		
+		// move all delayed elements from the subreport page to the master page
+		moveBoundActions(subreportKey, parentKey);
+	}
+
+	protected void moveBoundActions(PageKey subreportKey, PageKey parentKey)
+	{
+		for (LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map : boundElements.values())
+		{
+			lockVirtualizationContext();
+			try
+			{
+				synchronized (map)
+				{
+					LinkedMap<Object, EvaluationBoundAction> subreportMap = map.remove(subreportKey);
+					if (subreportMap != null && !subreportMap.isEmpty())
+					{
+						LinkedMap<Object, EvaluationBoundAction> masterMap = map.get(parentKey);
+						if (masterMap == null)
+						{
+							masterMap = new LinkedMap<Object, EvaluationBoundAction>();
+							map.put(parentKey, masterMap);
+						}
+						
+						masterMap.addAll(subreportMap);
+					}
+				}
+			}
+			finally
+			{
+				unlockVirtualizationContext();
+			}
+		}
+		
+		if (subfillers != null)//recursive
+		{
+			for (JRBaseFiller subfiller : subfillers.values())
+			{
+				subfiller.moveBoundActions(subreportKey, parentKey);
+			}
+		}
+	}
+
+	protected boolean isPageFinal(int pageIdx)
+	{
+		JRPrintPage page = jasperPrint.getPages().get(pageIdx);
+		return !hasBoundActions(page);
+	}
+
+	protected boolean hasBoundActions(JRPrintPage page)
+	{
+		for (LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map : boundElements.values())
+		{
+			lockVirtualizationContext();
+			try
+			{
+				synchronized (map)
+				{
+					LinkedMap<Object, EvaluationBoundAction> boundMap = map.get(new PageKey(page));
+					if (boundMap != null && !boundMap.isEmpty())
+					{
+						return true;
+					}
+				}
+			}
+			finally
+			{
+				unlockVirtualizationContext();
+			}
+		}
+		
+		if (subfillers != null)
+		{
+			for (JRBaseFiller subfiller : subfillers.values())
+			{
+				// recursive
+				if (subfiller.hasBoundActions(page))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	protected JRFillGroup getGroup(String groupName)
@@ -1947,7 +2212,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		fillElements.put(id, fillElement);
 		return id;
 	}
-
 }
 
 
@@ -2011,7 +2275,7 @@ class SavePoint
 	{
 		for(int i = endElementIndex - 1; i >= startElementIndex; i--)
 		{
-			elementsToMove.add(page.getElements().remove(i));
+			elementsToMove.add(page.getElements().remove(i));//FIXME this breaks delayed evaluations
 		}
 	}
 
@@ -2047,6 +2311,40 @@ class SavePoint
 		}
 	}
 
+}
+
+class PageKey
+{
+	final JRPrintPage page;
+	final int index;
+	
+	public PageKey(JRPrintPage page, int index)
+	{
+		this.page = page;
+		this.index = index;
+	}
+	
+	public PageKey(JRPrintPage page)
+	{
+		this(page, 0);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return page.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof PageKey))
+		{
+			return false;
+		}
+		
+		return page.equals(((PageKey) obj).page);
+	}
 }
 
 /**
@@ -2110,118 +2408,166 @@ class ElementEvaluationVirtualizationListener implements VirtualizationListener<
 
 	public void beforeExternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		setElementEvaluationsToPage(mainFiller, object);
-		
-		if (mainFiller.subfillers != null)
+		JRVirtualizationContext virtualizationContext = object.getContext();
+		virtualizationContext.lock();
+		try
 		{
-			for (JRBaseFiller subfiller : mainFiller.subfillers.values())
-			{
-				setElementEvaluationsToPage(subfiller, object);
-			}
+			setElementEvaluationsToPage(mainFiller, object);
+		}
+		finally
+		{
+			virtualizationContext.unlock();
 		}
 	}
 
 	protected void setElementEvaluationsToPage(final JRBaseFiller filler, final JRVirtualizable<VirtualElementsData> object)
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("filler " + filler.fillerId + " setting element evaluation for elements in " + object.getUID());
+		}
+		
+		JRVirtualPrintPage page = ((VirtualizablePageElements) object).getPage();// ugly but needed for now
+		PageKey pageKey = new PageKey(page);
 		VirtualElementsData virtualData = object.getVirtualData();
-		for (Entry<JREvaluationTime, LinkedMap<Object, EvaluationBoundAction>> boundMapEntry : filler.boundElements.entrySet())
+		
+		for (Map.Entry<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
+			filler.boundElements.entrySet())
 		{
 			final JREvaluationTime evaluationTime = boundMapEntry.getKey();
-			final LinkedMap<Object, EvaluationBoundAction> map = boundMapEntry.getValue();
-			if (!map.isEmpty())
+			LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
+			
+			synchronized (map)
 			{
-				// collection delayed evaluations for elements that are about to be externalized.
-				// the evaluations store the ID of the fill elements in order to serialize the data.
-				final Map<JRPrintElement, Integer> elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
+				final LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
 				
-				// create a deep element visitor
-				PrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
+				if (actionsMap != null && !actionsMap.isEmpty())
 				{
-					@Override
-					protected void visitElement(JRPrintElement element, Void arg)
+					// collection delayed evaluations for elements that are about to be externalized.
+					// the evaluations store the ID of the fill elements in order to serialize the data.
+					final Map<JRPrintElement, Integer> elementEvaluations = new LinkedHashMap<JRPrintElement, Integer>();
+					
+					// FIXME optimize for pages with a single virtual block
+					// create a deep element visitor
+					PrintElementVisitor<Void> visitor = new UniformPrintElementVisitor<Void>(true)
 					{
-						// remove the action from the map because we're saving it as part of the page.
-						// ugly cast but acceptable for now.
-						ElementEvaluationAction action = (ElementEvaluationAction) map.remove(element);
-						if (action != null)
+						@Override
+						protected void visitElement(JRPrintElement element, Void arg)
 						{
-							elementEvaluations.put(element, action.element.elementId);
-							
-							if (log.isDebugEnabled())
+							// remove the action from the map because we're saving it as part of the page.
+							// ugly cast but acceptable for now.
+							ElementEvaluationAction action = (ElementEvaluationAction) actionsMap.remove(element);
+							if (action != null)
 							{
-								log.debug("filler " + filler.fillerId + " saving evaluation " + evaluationTime + " of element " + element 
-										+ " on object " + object);
+								elementEvaluations.put(element, action.element.elementId);
+								
+								if (log.isDebugEnabled())
+								{
+									log.debug("filler " + filler.fillerId + " saving evaluation " + evaluationTime + " of element " + element 
+											+ " on object " + object);
+								}
 							}
 						}
-					}
-				};
-				
-				for (JRPrintElement element : virtualData.getElements())
-				{
-					element.accept(visitor, null);
-				}
-				
-				if (!elementEvaluations.isEmpty())
-				{
-					// save the evaluations in the virtual data
-					virtualData.setElementEvaluations(filler.fillerId, evaluationTime, elementEvaluations);
+					};
 					
-					// add an action for the page so that it gets devirtualized on resolveBoundElements
-					map.add(null, new VirtualizedPageEvaluationAction(object));
+					for (JRPrintElement element : virtualData.getElements())
+					{
+						element.accept(visitor, null);
+					}
+					
+					if (!elementEvaluations.isEmpty())
+					{
+						// save the evaluations in the virtual data
+						virtualData.setElementEvaluations(filler.fillerId, evaluationTime, elementEvaluations);
+						
+						// add an action for the page so that it gets devirtualized on resolveBoundElements
+						actionsMap.add(null, new VirtualizedPageEvaluationAction(object));
+					}
 				}
+			}
+		}
+		
+		if (filler.subfillers != null)//recursive
+		{
+			for (JRBaseFiller subfiller : filler.subfillers.values())
+			{
+				setElementEvaluationsToPage(subfiller, object);
 			}
 		}
 	}
 	
 	public void afterInternalization(JRVirtualizable<VirtualElementsData> object)
 	{
-		getElementEvaluationsFromPage(mainFiller, object);
-		
-		if (mainFiller.subfillers != null)
+		JRVirtualizationContext virtualizationContext = object.getContext();
+		virtualizationContext.lock();
+		try
 		{
-			for (JRBaseFiller subfiller : mainFiller.subfillers.values())
-			{
-				getElementEvaluationsFromPage(subfiller, object);
-			}
+			getElementEvaluationsFromPage(mainFiller, object);
+		}
+		finally
+		{
+			virtualizationContext.unlock();
 		}
 	}
 
 	protected void getElementEvaluationsFromPage(JRBaseFiller filler, JRVirtualizable<VirtualElementsData> object)
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("filler " + filler.fillerId + " recreating element evaluation for elements in " + object.getUID());
+		}
+		
+		JRVirtualPrintPage page = ((VirtualizablePageElements) object).getPage();// ugly but needed for now
+		PageKey pageKey = new PageKey(page);
 		VirtualElementsData elementsData = object.getVirtualData();
-		for (Entry<JREvaluationTime, LinkedMap<Object, EvaluationBoundAction>> boundMapEntry : filler.boundElements.entrySet())
+		
+		for (Map.Entry<JREvaluationTime, LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>>> boundMapEntry : 
+			filler.boundElements.entrySet())
 		{
 			JREvaluationTime evaluationTime = boundMapEntry.getKey();
-			LinkedMap<Object, EvaluationBoundAction> map = boundMapEntry.getValue();
+			LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> map = boundMapEntry.getValue();
 			
-			// get the delayed evaluations from the devirtualized data and add it back
-			// to the filler delayed evaluation maps.
-			Map<JRPrintElement, Integer> elementEvaluations = elementsData.getElementEvaluations(filler.fillerId, evaluationTime);
-			if (elementEvaluations != null)
+			synchronized (map)
 			{
-				for (Map.Entry<JRPrintElement, Integer> entry : elementEvaluations.entrySet())
+				LinkedMap<Object, EvaluationBoundAction> actionsMap = map.get(pageKey);
+				
+				// get the delayed evaluations from the devirtualized data and add it back
+				// to the filler delayed evaluation maps.
+				Map<JRPrintElement, Integer> elementEvaluations = elementsData.getElementEvaluations(filler.fillerId, evaluationTime);
+				if (elementEvaluations != null)
 				{
-					JRPrintElement element = entry.getKey();
-					int fillElementId = entry.getValue();
-					JRFillElement fillElement = filler.fillElements.get(fillElementId);
-					
-					if (log.isDebugEnabled())
+					for (Map.Entry<JRPrintElement, Integer> entry : elementEvaluations.entrySet())
 					{
-						log.debug("filler " + filler.fillerId + " got evaluation " + evaluationTime + " on " + element 
-								+ " from object " + object + ", using " + fillElement);
+						JRPrintElement element = entry.getKey();
+						int fillElementId = entry.getValue();
+						JRFillElement fillElement = filler.fillElements.get(fillElementId);
+						
+						if (log.isDebugEnabled())
+						{
+							log.debug("filler " + filler.fillerId + " got evaluation " + evaluationTime + " on " + element 
+									+ " from object " + object + ", using " + fillElement);
+						}
+						
+						if (fillElement == null)
+						{
+							throw new JRRuntimeException("Fill element with id " + fillElementId + " not found");
+						}
+						
+						// add first so that it will be executed immediately
+						actionsMap.addFirst(element, new ElementEvaluationAction(fillElement, element));
 					}
-					
-					if (fillElement == null)
-					{
-						throw new JRRuntimeException("Fill element with id " + fillElementId + " not found");
-					}
-					
-					// add first so that it will be executed immediately
-					map.addFirst(element, new ElementEvaluationAction(fillElement, element));
 				}
 			}
 		}
-	}	
+		
+		if (filler.subfillers != null)//recursive
+		{
+			for (JRBaseFiller subfiller : filler.subfillers.values())
+			{
+				getElementEvaluationsFromPage(subfiller, object);
+			}
+		}
+	}
 }
 
 /**
@@ -2240,7 +2586,7 @@ class VirtualizedPageEvaluationAction implements EvaluationBoundAction
 	public void execute(byte evaluation, JREvaluationTime evaluationTime)
 			throws JRException
 	{
-		// this forces devirtualization
+		// this forces devirtualization and queues the element evaluations via setElementEvaluationsToPage
 		object.ensureVirtualData();
 	}
 }

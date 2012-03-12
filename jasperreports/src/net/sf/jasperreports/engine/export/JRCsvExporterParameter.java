@@ -29,7 +29,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
@@ -65,9 +65,9 @@ public class JRCsvExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #FIELD_DELIMITER FIELD_DELIMITER} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FIELD_DELIMITER = JRProperties.PROPERTY_PREFIX + "export.csv.field.delimiter";
+	public static final String PROPERTY_FIELD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.field.delimiter";
 
 
 	/**
@@ -80,9 +80,9 @@ public class JRCsvExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #RECORD_DELIMITER RECORD_DELIMITER} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_RECORD_DELIMITER = JRProperties.PROPERTY_PREFIX + "export.csv.record.delimiter";
+	public static final String PROPERTY_RECORD_DELIMITER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.record.delimiter";
 
 
 }

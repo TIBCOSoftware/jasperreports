@@ -31,10 +31,12 @@ package net.sf.jasperreports.engine.design;
 import java.io.Serializable;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.collections.ReferenceMap;
 
@@ -58,7 +60,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	 * the classpath of a web application which is often reloaded.  In such
 	 * scenarios, set this property to false.
 	 */
-	public static final String PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED = JRProperties.PROPERTY_PREFIX + 
+	public static final String PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + 
 			"evaluator.class.reference.fix.enabled";
 	
 	// @JVM Crash workaround
@@ -70,9 +72,21 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 	private static Map<Object,Map<String,Class<?>>> classCache = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.SOFT);
 
 	
+	/**
+	 * 
+	 */
+	protected JRAbstractJavaCompiler(JasperReportsContext jasperReportsContext, boolean needsSourceFiles)
+	{
+		super(jasperReportsContext, needsSourceFiles);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRAbstractJavaCompiler(JasperReportsContext, boolean)}.
+	 */
 	protected JRAbstractJavaCompiler(boolean needsSourceFiles)
 	{
-		super(needsSourceFiles);
+		this(DefaultJasperReportsContext.getInstance(), needsSourceFiles);
 	}
 
 
@@ -89,7 +103,7 @@ public abstract class JRAbstractJavaCompiler extends JRAbstractCompiler
 				putClassInCache(className, clazz);
 			}
 			
-			if (JRProperties.getBooleanProperty(PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED))
+			if (JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_EVALUATOR_CLASS_REFERENCE_FIX_ENABLED))
 			{
 				//FIXME multiple classes per thread?
 				classFromBytesRef.set(clazz);

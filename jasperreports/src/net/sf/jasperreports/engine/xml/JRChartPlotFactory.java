@@ -56,7 +56,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 		PlotOrientationEnum orientation = PlotOrientationEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_orientation));
 		if (orientation != null)
 		{
-			plot.setOrientation(orientation.getOrientation());
+			plot.setOrientation(orientation);
 		}
 		String foregroundAlpha = atts.getValue(JRXmlConstants.ATTRIBUTE_foregroundAlpha);
 		if (foregroundAlpha != null && foregroundAlpha.length() > 0)

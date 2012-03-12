@@ -30,8 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRCsvDataSource;
 import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 
@@ -42,9 +44,20 @@ import net.sf.jasperreports.engine.query.JRCsvQueryExecuterFactory;
 public class CsvDataAdapterService extends AbstractDataAdapterService 
 {
 	
+	/**
+	 * 
+	 */
+	public CsvDataAdapterService(JasperReportsContext jasperReportsContext, CsvDataAdapter csvDataAdapter)
+	{
+		super(jasperReportsContext, csvDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #CsvDataAdapterService(JasperReportsContext, CsvDataAdapter)}.
+	 */
 	public CsvDataAdapterService(CsvDataAdapter csvDataAdapter)
 	{
-		super(csvDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), csvDataAdapter);
 	}
 	
 	public CsvDataAdapter getCsvDataAdapter()

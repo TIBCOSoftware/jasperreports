@@ -31,26 +31,34 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
+import net.sf.jasperreports.components.sort.actions.SortAction;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.WebReportContext;
+import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.VelocityUtil;
@@ -147,7 +155,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
 			
 			VelocityContext velocityContext = new VelocityContext();
-			String webResourcesBasePath = JRProperties.getProperty("net.sf.jasperreports.web.resources.base.path");
+			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
 			{
 				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
@@ -197,7 +205,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
 
-			String sortField = getCurrentSortField(reportContext, sortDatasetName, sortColumnName, sortColumnType);
+			String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortDatasetName, sortColumnName, sortColumnType);
 			if (sortField == null) 
 			{
 				velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortDatasetName));
@@ -280,11 +288,24 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		hyperlink.setLinkType("ReportExecution");
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-		parameters.addParameter(new JRPrintHyperlinkParameter(
-				SortElement.REQUEST_PARAMETER_SORT_DATA,
+//		parameters.addParameter(
+//			new JRPrintHyperlinkParameter(
+//				SortElement.REQUEST_PARAMETER_SORT_DATA,
+//				String.class.getName(), 
+//				SortElementUtils.packSortColumnInfo(sortColumnName, sortColumnType, sortOrder))
+//				);
+//		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_DATASET_RUN, String.class.getName(), sortTableName));
+		parameters.addParameter(
+			new JRPrintHyperlinkParameter(
+				ReportServlet.REQUEST_PARAMETER_ACTION, 
 				String.class.getName(), 
-				SortElementUtils.packSortColumnInfo(sortColumnName, sortColumnType, sortOrder)));
-		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_DATASET_RUN, String.class.getName(), sortTableName));
+				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"8b9779e9-6eb5-4b3f-a03b-3db4633e8e89\"," +
+				"\"sortColumnName\":\"" + sortColumnName + "\"," +
+				"\"sortColumnType\":\"" + sortColumnType + "\"," +
+				"\"sortOrder\":\"" + sortOrder + "\"," +
+				"\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"}}"
+				)
+			);
 		
 		ReportContext reportContext = context.getExporter().getReportContext();
 		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
@@ -309,39 +330,53 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return context.getHyperlinkURL(hyperlink);
 	}
 
-	private String getCurrentSortField(ReportContext reportContext, String sortDatasetName, String sortColumnName, String sortColumnType) 
+	private String getCurrentSortField(JasperReportsContext jasperReportsContext, ReportContext reportContext, String uuid, String sortDatasetName, String sortColumnName, String sortColumnType) 
 	{
-		String currentSortDataset = (String) reportContext.getParameterValue(
-				SortElement.REQUEST_PARAMETER_DATASET_RUN);
-		if (sortDatasetName == null || !sortDatasetName.equals(currentSortDataset))
-		{
-			// sorting is on a different dataset
-			return null;
-		}
-		
-		String currentTableSortFieldsParam = currentSortDataset + SortElement.SORT_FIELDS_PARAM_SUFFIX;
-		@SuppressWarnings("unchecked")
-		List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
-		String sortField = null;
+//		String currentSortDataset = (String) reportContext.getParameterValue(
+//				SortElement.REQUEST_PARAMETER_DATASET_RUN);
+//		if (sortDatasetName == null || !sortDatasetName.equals(currentSortDataset))
+//		{
+//			// sorting is on a different dataset
+//			return null;
+//		}
+//		
+//		String currentTableSortFieldsParam = currentSortDataset + SortElement.SORT_FIELDS_PARAM_SUFFIX;
+//		@SuppressWarnings("unchecked")
+//		List<JRSortField> existingFields = (List<JRSortField>) reportContext.getParameterValue(currentTableSortFieldsParam);
 
-		if (existingFields != null && existingFields.size() > 0) {
-			for (JRSortField field: existingFields) {
-				if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
-					sortField = sortColumnName + SortElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + SortElement.SORT_COLUMN_TOKEN_SEPARATOR;
-					switch (field.getOrderValue()) {
-						case ASCENDING:
-							sortField += SortElement.SORT_ORDER_ASC;
-							break;
-						case DESCENDING:
-							sortField += SortElement.SORT_ORDER_DESC;
-							break;
+		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		SortAction action = new SortAction();
+		action.init(jasperReportsContext, reportContext);
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		if (target != null)
+		{
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getMainDataset();
+			
+			List<JRSortField> existingFields =  dataset.getSortFieldsList();
+			String sortField = null;
+	
+			if (existingFields != null && existingFields.size() > 0) {
+				for (JRSortField field: existingFields) {
+					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
+						sortField = sortColumnName + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR;
+						switch (field.getOrderValue()) {
+							case ASCENDING:
+								sortField += HeaderToolbarElement.SORT_ORDER_ASC;
+								break;
+							case DESCENDING:
+								sortField += HeaderToolbarElement.SORT_ORDER_DESC;
+								break;
+						}
+						break;
 					}
-					break;
 				}
 			}
+		
+			return sortField;
 		}
 		
-		return sortField;
+		return null;
 	}
 	
 	public boolean toExport(JRGenericPrintElement element) {
@@ -386,5 +421,4 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		
 		return writer.getBuffer().toString();
 	}
-
 }

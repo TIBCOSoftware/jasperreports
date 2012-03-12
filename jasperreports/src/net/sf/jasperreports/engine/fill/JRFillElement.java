@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
@@ -55,7 +56,6 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -218,6 +218,14 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	}
 
 
+	/**
+	 *
+	 */
+	public UUID getUUID()
+	{
+		return parent.getUUID();
+	}
+	
 	/**
 	 *
 	 */
@@ -1380,13 +1388,13 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected void transferProperties(JRTemplateElement template)
 	{
-		JRProperties.transferProperties(parent, template, 
+		filler.getPropertiesUtil().transferProperties(parent, template, 
 				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 	}
 	
 	protected void transferProperties(JRPrintElement element)
 	{
-		JRProperties.transferProperties(dynamicProperties, element, 
+		filler.getPropertiesUtil().transferProperties(dynamicProperties, element, 
 				JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 	}
 	
@@ -1439,7 +1447,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	
 	protected boolean isDelayedStyleEvaluation()
 	{
-		return JRProperties.getBooleanProperty(this, 
+		return filler.getPropertiesUtil().getBooleanProperty(this, 
 				JRStyle.PROPERTY_EVALUATION_TIME_ENABLED, false);
 	}
 }

@@ -23,18 +23,24 @@
  */
 package net.sf.jasperreports.data.xml;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -44,9 +50,25 @@ import org.w3c.dom.Document;
 public class XmlDataAdapterService extends AbstractDataAdapterService
 {
 
+	private static final Log log = LogFactory.getLog(XmlDataAdapterService.class);
+
+	/**
+	 * 
+	 */
+	public XmlDataAdapterService(
+		JasperReportsContext jasperReportsContext,
+		XmlDataAdapter xmlDataAdapter
+		) 
+	{
+		super(jasperReportsContext, xmlDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #XmlDataAdapterService(JasperReportsContext, XmlDataAdapter)}.
+	 */
 	public XmlDataAdapterService(XmlDataAdapter xmlDataAdapter) 
 	{
-		super(xmlDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), xmlDataAdapter);
 	}
 	
 	public XmlDataAdapter getXmlDataAdapter()
@@ -72,8 +94,23 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 				else
 				{
 				*/
-					Document document = JRXmlUtils.parse( new File(xmlDataAdapter.getFileName()));
-					parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStream2(xmlDataAdapter.getFileName());
+					try
+					{
+						Document document = JRXmlUtils.parse(dataStream);
+						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+					}
+					finally
+					{
+						try
+						{
+							dataStream.close();
+						}
+						catch (IOException e)
+						{
+							log.warn("Failed to close input stream for " + xmlDataAdapter.getFileName());
+						}
+					}
 				//}
 				
 				
@@ -99,7 +136,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 			}
 			else
 			{
-				JRXmlDataSource ds = new JRXmlDataSource(xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression()); 
+				JRXmlDataSource ds = new JRXmlDataSource(getJasperReportsContext(), xmlDataAdapter.getFileName(), xmlDataAdapter.getSelectExpression()); 
 
 				Locale locale = xmlDataAdapter.getLocale();
 				if (locale != null) {

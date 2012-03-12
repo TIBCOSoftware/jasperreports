@@ -28,6 +28,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * A context that represents information about an export process.
@@ -44,6 +45,11 @@ public interface JRExporterContext
 	 * @return current exporter
 	 */
 	JRExporter getExporter();
+
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext();
 
 	/**
 	 * Returns the report which is currently exported.

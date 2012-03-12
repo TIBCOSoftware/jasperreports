@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -40,11 +39,11 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public interface JRFont extends JRStyleContainer
 {
 
-	public static final String DEFAULT_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.font.name";
-	public static final String DEFAULT_FONT_SIZE = JRProperties.PROPERTY_PREFIX + "default.font.size";
-	public static final String DEFAULT_PDF_FONT_NAME = JRProperties.PROPERTY_PREFIX + "default.pdf.font.name";
-	public static final String DEFAULT_PDF_ENCODING = JRProperties.PROPERTY_PREFIX + "default.pdf.encoding";
-	public static final String DEFAULT_PDF_EMBEDDED = JRProperties.PROPERTY_PREFIX + "default.pdf.embedded";
+	public static final String DEFAULT_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.name";
+	public static final String DEFAULT_FONT_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.font.size";
+	public static final String DEFAULT_PDF_FONT_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.font.name";
+	public static final String DEFAULT_PDF_ENCODING = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.encoding";
+	public static final String DEFAULT_PDF_EMBEDDED = JRPropertiesUtil.PROPERTY_PREFIX + "default.pdf.embedded";
 
 	/**
 	 *

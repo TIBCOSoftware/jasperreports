@@ -39,11 +39,11 @@ import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.Measure
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.fill.JRCalculable;
 import net.sf.jasperreports.engine.fill.JRFillCrosstab;
 import net.sf.jasperreports.engine.type.CalculationEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Crosstab bucketing engine.
@@ -54,7 +54,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public class BucketingService
 {
 	
-	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRProperties.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
+	public static final String PROPERTY_BUCKET_MEASURE_LIMIT = JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.bucket.measure.limit";
 	
 	protected static final byte DIMENSION_ROW = 0;
 
@@ -155,7 +155,7 @@ public class BucketingService
 		
 		zeroUserMeasureValues = initUserMeasureValues();
 		
-		bucketMeasureLimit = JRProperties.getIntegerProperty(PROPERTY_BUCKET_MEASURE_LIMIT, 0);
+		bucketMeasureLimit = JRPropertiesUtil.getInstance(fillCrosstab.getFiller().getJasperReportsContext()).getIntegerProperty(PROPERTY_BUCKET_MEASURE_LIMIT, 0);
 	}
 
 

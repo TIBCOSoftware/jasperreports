@@ -35,7 +35,9 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.util.JRPenUtil;
@@ -47,7 +49,24 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  */
 public class LineDrawer extends ElementDrawer<JRPrintLine>
 {
-
+	/**
+	 * @deprecated Replaced by {@link #LineDrawer(JasperReportsContext)}.
+	 */
+	public LineDrawer()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public LineDrawer(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
+	
 	/**
 	 *
 	 */

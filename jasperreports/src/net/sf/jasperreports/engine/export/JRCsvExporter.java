@@ -30,9 +30,11 @@ package net.sf.jasperreports.engine.export;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -44,7 +46,24 @@ import net.sf.jasperreports.engine.util.JRStyledText;
  */
 public class JRCsvExporter extends JRAbstractCsvExporter
 {
+	/**
+	 * @deprecated Replaced by {@link #JRCsvExporter(JasperReportsContext)}.
+	 */
+	public JRCsvExporter()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
 
+	
+	/**
+	 *
+	 */
+	public JRCsvExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+
+	
 	/**
 	 *
 	 */

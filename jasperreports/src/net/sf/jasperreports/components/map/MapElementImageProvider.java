@@ -23,11 +23,13 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
@@ -40,7 +42,15 @@ import net.sf.jasperreports.engine.type.VerticalAlignEnum;
  */
 public class MapElementImageProvider
 {
+	/**
+	 * @deprecated Replaced by {@link #getImage(JasperReportsContext, JRGenericPrintElement)}.
+	 */
 	public static JRPrintImage getImage(JRGenericPrintElement element) throws JRException
+	{
+		return getImage(DefaultJasperReportsContext.getInstance(), element);
+	}
+		
+	public static JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException
 	{
 		
 		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
@@ -86,16 +96,16 @@ public class MapElementImageProvider
 		printImage.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
 		printImage.setVerticalAlignment(VerticalAlignEnum.TOP);
 		
-		JRRenderable cacheRenderer = (JRRenderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
+		Renderable cacheRenderer = (Renderable)element.getParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER);
 
 		if(cacheRenderer == null)
 		{
-			cacheRenderer = JRImageRenderer.getInstance(imageLocation, OnErrorTypeEnum.ERROR, false);
-			cacheRenderer.getImageData();
+			cacheRenderer = RenderableUtil.getInstance(jasperReportsContext).getRenderable(imageLocation, OnErrorTypeEnum.ERROR, false);
+			cacheRenderer.getImageData(jasperReportsContext);
 			element.setParameterValue(MapPrintElement.PARAMETER_CACHE_RENDERER, cacheRenderer);
 		}
 
-		printImage.setRenderer(cacheRenderer);
+		printImage.setRenderable(cacheRenderer);
 		
 		return printImage;
 	}

@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRReportCompileData;
+import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateFrame;
 import net.sf.jasperreports.engine.fill.JRTemplatePrintFrame;
@@ -244,7 +245,7 @@ public class FillTable extends BaseFillComponent
 		
 		if (log.isDebugEnabled())
 		{
-			String tableReportXml = JRXmlWriter.writeReport(tableReport, "UTF-8");
+			String tableReportXml = new JRXmlWriter(fillContext.getFiller().getJasperReportsContext()).write(tableReport, "UTF-8");
 			log.debug("Generated table report:\n" + tableReportXml);
 		}
 		
@@ -318,6 +319,8 @@ public class FillTable extends BaseFillComponent
 	public JRPrintElement fill()
 	{
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
+		printFrame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_UUID, fillContext.getComponentElement().getUUID().toString());
+
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setWidth(fillWidth);
@@ -353,6 +356,8 @@ public class FillTable extends BaseFillComponent
 				printFrame.addElement(element);
 			}
 		}
+		
+		fillSubreport.subreportPageFilled();
 		
 		return printFrame;
 	}

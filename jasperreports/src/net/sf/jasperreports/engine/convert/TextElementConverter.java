@@ -31,15 +31,10 @@
  */
 package net.sf.jasperreports.engine.convert;
 
-import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.fill.JRMeasuredText;
-import net.sf.jasperreports.engine.fill.JRTextMeasurer;
-import net.sf.jasperreports.engine.util.JRStyledText;
-import net.sf.jasperreports.engine.util.JRStyledTextParser;
 import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 
@@ -77,47 +72,11 @@ public abstract class TextElementConverter extends ElementConverter
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link JRTextMeasurerUtil#measureTextElement(net.sf.jasperreports.engine.JasperReportsContext, JRPrintText)}.
 	 */
-	public static void measureTextElement(JRPrintText printText)//FIXMEHANDLER consider putting in JRTextMeasurerUtil
+	public static void measureTextElement(JRPrintText printText)
 	{
-		String text = printText.getText();
-		
-		JRTextMeasurer textMeasurer = JRTextMeasurerUtil.createTextMeasurer(printText);//FIXME use element properties?
-		
-		if (text == null)
-		{
-			text = "";
-		}
-		JRStyledText styledText = 
-			JRStyledTextParser.getInstance().getStyledText(
-				JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText), 
-				text, 
-				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
-				JRStyledTextAttributeSelector.getTextLocale(printText)
-				);
-		
-		JRMeasuredText measuredText = textMeasurer.measure(
-				styledText, 
-				0,
-				0,
-				false
-				);
-		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
-		printText.setLeadingOffset(measuredText.getLeadingOffset());
-		printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
-		
-		int textEnd = measuredText.getTextOffset();
-		String printedText;
-		if (JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()))
-		{
-			printedText = JRStyledTextParser.getInstance().write(styledText, 0, textEnd);
-		}
-		else
-		{
-			printedText = text.substring(0, textEnd);
-		}
-		printText.setText(printedText);
+		JRTextMeasurerUtil.getInstance(DefaultJasperReportsContext.getInstance()).measureTextElement(printText);
 	}
 
 

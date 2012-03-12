@@ -29,8 +29,8 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRTemplateImage;
@@ -144,12 +144,13 @@ public class BarcodeFillComponent extends BaseFillComponent
 	{
 		if (message != null)
 		{
-			BarcodeImageProducer imageProducer = BarcodeUtils.getImageProducer(
+			BarcodeImageProducer imageProducer = BarcodeUtils.getInstance(fillContext.getFiller().getJasperReportsContext()).getProducer(
 					fillContext.getComponentElement());
-			JRRenderable barcodeImage = imageProducer.createImage(
+			Renderable barcodeImage = imageProducer.createImage(
+					fillContext.getFiller().getJasperReportsContext(),
 					fillContext.getComponentElement(), 
 					barcode, message, barcodeComponent.getOrientation());
-			image.setRenderer(barcodeImage);
+			image.setRenderable(barcodeImage);
 		}
 	}
 

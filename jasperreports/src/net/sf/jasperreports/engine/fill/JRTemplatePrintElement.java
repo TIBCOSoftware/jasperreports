@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -111,6 +112,14 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	/**
 	 *
 	 */
+	public UUID getUUID()
+	{
+		return template.getUUID();
+	}
+
+	/**
+	 *
+	 */
 	public JROrigin getOrigin()
 	{
 		return template.getOrigin();
@@ -136,7 +145,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public ModeEnum getModeValue()
 	{
-		return this.template.getModeValue();
+		return template.getModeValue();
 	}
 	
 	/**
@@ -144,7 +153,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public ModeEnum getOwnModeValue()
 	{
-		return this.template.getOwnModeValue();
+		return template.getOwnModeValue();
 	}
 	
 	/**
@@ -159,7 +168,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public int getX()
 	{
-		return this.x;
+		return x;
 	}
 	
 	/**
@@ -175,7 +184,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public int getY()
 	{
-		return this.y;
+		return y;
 	}
 	
 	/**
@@ -191,7 +200,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public int getWidth()
 	{
-		return this.width;
+		return width;
 	}
 	
 	/**
@@ -207,7 +216,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public int getHeight()
 	{
-		return this.height;
+		return height;
 	}
 	
 	/**
@@ -223,7 +232,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getForecolor()
 	{
-		return this.template.getForecolor();
+		return template.getForecolor();
 	}
 	
 	/**
@@ -231,7 +240,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getOwnForecolor()
 	{
-		return this.template.getOwnForecolor();
+		return template.getOwnForecolor();
 	}
 	
 	/**
@@ -246,7 +255,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getBackcolor()
 	{
-		return this.template.getBackcolor();
+		return template.getBackcolor();
 	}
 
 	/**
@@ -254,7 +263,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public Color getOwnBackcolor()
 	{
-		return this.template.getOwnBackcolor();
+		return template.getOwnBackcolor();
 	}
 
 	/**
@@ -276,9 +285,9 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 		
 		if (properties != null)
 		{
-			if (this.template != null && this.template.hasProperties())
+			if (template != null && template.hasProperties())
 			{
-				properties.setBaseProperties(this.template.getPropertiesMap());
+				properties.setBaseProperties(template.getPropertiesMap());
 			}
 			else
 			{

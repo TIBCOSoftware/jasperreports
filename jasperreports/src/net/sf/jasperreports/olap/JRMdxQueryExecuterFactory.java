@@ -28,9 +28,10 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.JRAbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JREmptyQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuter;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
 
@@ -42,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRMdxQueryExecuterFactory implements JRQueryExecuterFactory
+public class JRMdxQueryExecuterFactory extends JRAbstractQueryExecuterFactory
 {
 	
 	private static final Log log = LogFactory.getLog(JRMdxQueryExecuterFactory.class);
@@ -64,16 +65,20 @@ public class JRMdxQueryExecuterFactory implements JRQueryExecuterFactory
 		return MDX_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException
 	{
 		JRQueryExecuter queryExecuter;
 		if (getParameterValue(parameters, JRMondrianQueryExecuterFactory.PARAMETER_MONDRIAN_CONNECTION) != null)
 		{
-			queryExecuter = new JRMondrianQueryExecuter(dataset, parameters);
+			queryExecuter = new JRMondrianQueryExecuter(jasperReportsContext, dataset, parameters);
 		}
 		else if (getParameterValue(parameters, JRXmlaQueryExecuterFactory.PARAMETER_XMLA_URL) != null)
 		{
-			queryExecuter = new JRXmlaQueryExecuter(dataset, parameters);
+			queryExecuter = new JRXmlaQueryExecuter(jasperReportsContext, dataset, parameters);
 		}
 		else
 		{

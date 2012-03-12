@@ -54,7 +54,7 @@ public class DrawVisitor extends UniformElementVisitor
 	protected PrintDrawVisitor drawVisitor;
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #DrawVisitor(ReportConverter, Graphics2D)}.
 	 */
 	public DrawVisitor(JRReport report, Graphics2D grx)
 	{
@@ -69,7 +69,7 @@ public class DrawVisitor extends UniformElementVisitor
 	public DrawVisitor(ReportConverter reportConverter, Graphics2D grx)
 	{
 		this.convertVisitor = new ConvertVisitor(reportConverter);
-		this.drawVisitor = new PrintDrawVisitor();
+		this.drawVisitor = new PrintDrawVisitor(reportConverter.getJasperReportsContext());
 		setTextRenderer(reportConverter.getReport());
 		setGraphics2D(grx);
 		this.drawVisitor.setClip(true);

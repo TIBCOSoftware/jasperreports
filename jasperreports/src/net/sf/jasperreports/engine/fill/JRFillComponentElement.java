@@ -62,7 +62,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		super(filler, element, factory);
 		
 		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
 		fillComponent = manager.getComponentFillFactory().toFillComponent(element.getComponent(), factory);
 		fillComponent.initialize(this);
 	}
@@ -73,7 +73,7 @@ public class JRFillComponentElement extends JRFillElement implements JRComponent
 		super(element, factory);
 		
 		ComponentKey componentKey = element.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getInstance(filler.getJasperReportsContext()).getManager(componentKey);
 		fillComponent = manager.getComponentFillFactory().cloneFillComponent(element.fillComponent, factory);
 		fillComponent.initialize(this);
 	}

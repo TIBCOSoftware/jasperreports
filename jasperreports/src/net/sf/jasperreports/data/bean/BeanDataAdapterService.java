@@ -29,8 +29,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -44,8 +46,20 @@ import net.sf.jasperreports.engine.util.JRClassLoader;
 public class BeanDataAdapterService extends AbstractClasspathAwareDataAdapterService 
 {
 
-	public BeanDataAdapterService(BeanDataAdapter beanDataAdapter) {
-		super(beanDataAdapter);
+	/**
+	 * 
+	 */
+	public BeanDataAdapterService(JasperReportsContext jasperReportsContext, BeanDataAdapter beanDataAdapter) 
+	{
+		super(jasperReportsContext, beanDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #BeanDataAdapterService(JasperReportsContext, BeanDataAdapter)}.
+	 */
+	public BeanDataAdapterService(BeanDataAdapter beanDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), beanDataAdapter);
 	}
 
 	public BeanDataAdapter getBeanDataAdapter() {

@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -34,6 +36,6 @@ public interface DataAdapterServiceFactory
 	/**
 	 *
 	 */
-	public DataAdapterService getDataAdapterService(DataAdapter dataAdapter);
-  
+	public DataAdapterService getDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter);
+
 }

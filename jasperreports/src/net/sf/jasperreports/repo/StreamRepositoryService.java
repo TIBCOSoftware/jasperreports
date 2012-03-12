@@ -37,6 +37,7 @@ public interface StreamRepositoryService extends RepositoryService
 	/**
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public InputStream getInputStream(String uri);
 	
 	/**

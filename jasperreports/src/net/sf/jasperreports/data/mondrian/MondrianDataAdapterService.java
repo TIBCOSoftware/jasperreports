@@ -30,8 +30,10 @@ import mondrian.olap.Connection;
 import mondrian.olap.DriverManager;
 import mondrian.olap.Util;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 
 /**
@@ -42,8 +44,20 @@ public class MondrianDataAdapterService extends JdbcDataAdapterService {
 
 	private Connection connection = null;
 
-	public MondrianDataAdapterService(MondrianDataAdapter jdbcDataAdapter) {
-		super(jdbcDataAdapter);
+	/**
+	 * 
+	 */
+	public MondrianDataAdapterService(JasperReportsContext jasperReportsContext, MondrianDataAdapter jdbcDataAdapter) 
+	{
+		super(jasperReportsContext, jdbcDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #MondrianDataAdapterService(JasperReportsContext, MondrianDataAdapter)}.
+	 */
+	public MondrianDataAdapterService(MondrianDataAdapter jdbcDataAdapter) 
+	{
+		super(DefaultJasperReportsContext.getInstance(), jdbcDataAdapter);
 	}
 
 	public MondrianDataAdapter getJdbcDataAdapter() {

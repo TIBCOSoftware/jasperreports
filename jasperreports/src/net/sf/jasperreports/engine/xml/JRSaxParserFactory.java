@@ -25,7 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.SAXParser;
 
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
  * A factory of {@link SAXParser} objects used by JasperReports
@@ -45,7 +45,7 @@ public interface JRSaxParserFactory
 	 * By default, this property is set to use {@link JRReportSaxParserFactory}
 	 * as report parser factory.
 	 */
-	String PROPERTY_REPORT_PARSER_FACTORY = JRProperties.PROPERTY_PREFIX + "compiler.xml.parser.factory";
+	String PROPERTY_REPORT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.parser.factory";
 
 	/**
 	 * A property that gives a parser factory class which should be used
@@ -55,7 +55,7 @@ public interface JRSaxParserFactory
 	 * By default, this property is set to use {@link PrintSaxParserFactory}
 	 * as report parser factory.
 	 */
-	String PROPERTY_PRINT_PARSER_FACTORY = JRProperties.PROPERTY_PREFIX + "export.xml.parser.factory";
+	String PROPERTY_PRINT_PARSER_FACTORY = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.parser.factory";
 	
 	/**
 	 * Creates a SAX parser.

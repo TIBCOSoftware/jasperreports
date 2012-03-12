@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 
@@ -37,13 +36,13 @@ public interface JRParagraph extends JRStyleContainer
 	/**
 	 * 
 	 */
-	public static final String DEFAULT_LINE_SPACING_SIZE = JRProperties.PROPERTY_PREFIX + "default.line.spacing.size";
-	public static final String DEFAULT_FIRST_LINE_INDENT = JRProperties.PROPERTY_PREFIX + "default.first.line.indent";
-	public static final String DEFAULT_LEFT_INDENT = JRProperties.PROPERTY_PREFIX + "default.left.indent";
-	public static final String DEFAULT_RIGHT_INDENT = JRProperties.PROPERTY_PREFIX + "default.right.indent";
-	public static final String DEFAULT_SPACING_BEFORE = JRProperties.PROPERTY_PREFIX + "default.spacing.before";
-	public static final String DEFAULT_SPACING_AFTER = JRProperties.PROPERTY_PREFIX + "default.spacing.after";
-	public static final String DEFAULT_TAB_STOP_WIDTH = JRProperties.PROPERTY_PREFIX + "default.tab.stop.width";
+	public static final String DEFAULT_LINE_SPACING_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.line.spacing.size";
+	public static final String DEFAULT_FIRST_LINE_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.first.line.indent";
+	public static final String DEFAULT_LEFT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.left.indent";
+	public static final String DEFAULT_RIGHT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.right.indent";
+	public static final String DEFAULT_SPACING_BEFORE = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.before";
+	public static final String DEFAULT_SPACING_AFTER = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.after";
+	public static final String DEFAULT_TAB_STOP_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "default.tab.stop.width";
 
 	/**
 	 * 

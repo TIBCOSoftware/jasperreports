@@ -30,8 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
-
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -40,14 +41,28 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  */
 public class FileRepositoryService implements StreamRepositoryService
 {
+	private JasperReportsContext jasperReportsContext;
 	private String root;
 	private boolean resolveAbsolutePath;//FIXMEREPO consider giving up on this
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #FileRepositoryService(JasperReportsContext, String, boolean)}. 
 	 */
 	public FileRepositoryService(String root, boolean resolveAbsolutePath)
 	{
+		this(DefaultJasperReportsContext.getInstance(), root, resolveAbsolutePath);
+	}
+	
+	/**
+	 * 
+	 */
+	public FileRepositoryService(
+		JasperReportsContext jasperReportsContext,
+		String root, 
+		boolean resolveAbsolutePath
+		)
+	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.root = root;
 		this.resolveAbsolutePath = resolveAbsolutePath;
 	}
@@ -69,12 +84,15 @@ public class FileRepositoryService implements StreamRepositoryService
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
-	public void setContext(RepositoryContext context) //FIXMEREPO the context is useless here; consider refactoring
+	public void setContext(RepositoryContext context)
 	{
 	}
 	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void revertContext()
 	{
 	}
@@ -166,7 +184,7 @@ public class FileRepositoryService implements StreamRepositoryService
 	 */
 	public void saveResource(String uri, Resource resource)
 	{
-		PersistenceService persistenceService = PersistenceUtil.getPersistenceService(FileRepositoryService.class, resource.getClass());
+		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(FileRepositoryService.class, resource.getClass());
 		if (persistenceService != null)
 		{
 			persistenceService.save(resource, uri, this);
@@ -178,7 +196,7 @@ public class FileRepositoryService implements StreamRepositoryService
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
-		PersistenceService persistenceService = PersistenceUtil.getPersistenceService(FileRepositoryService.class, resourceType);
+		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(FileRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
 			return (K)persistenceService.load(uri, this);

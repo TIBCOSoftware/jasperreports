@@ -28,15 +28,16 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.JRAbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 
 
 /**
  * @author Michael G�nther (m.guenther at users.sourceforge.net)
  * @version $Id$
  */
-public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
+public class JRXmlaQueryExecuterFactory extends JRAbstractQueryExecuterFactory
 {
 
 	public final static String PARAMETER_XMLA_URL = "XMLA_URL";
@@ -63,9 +64,13 @@ public class JRXmlaQueryExecuterFactory implements JRQueryExecuterFactory
 		return XMLA_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters) throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String, ? extends JRValueParameter> parameters
+		) throws JRException
 	{
-		return new JRXmlaQueryExecuter(dataset, parameters);
+		return new JRXmlaQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className)

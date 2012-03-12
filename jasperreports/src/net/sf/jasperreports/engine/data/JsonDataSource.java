@@ -34,9 +34,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
@@ -119,12 +121,23 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 
 	/**
 	 * Creates a data source instance that reads JSON data from a given location
+	 * @param jasperReportsContext the JasperReportsContext
 	 * @param location a String representing JSON data source
+	 * @param selectExpression a String representing the select expression
 	 */
-	public JsonDataSource(String location, String selectExpression) throws JRException {
-		this(RepositoryUtil.getInputStream(location), selectExpression);
+	public JsonDataSource(JasperReportsContext jasperReportsContext, String location, String selectExpression) throws JRException 
+	{
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location), selectExpression);
 		
 		toClose = true;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JsonDataSource(JasperReportsContext, String, String)}.
+	 */
+	public JsonDataSource(String location, String selectExpression) throws JRException 
+	{
+		this(DefaultJasperReportsContext.getInstance(), location, selectExpression);
 	}
 	
 	/*
@@ -203,17 +216,17 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 			{
 				try {
 					if (valueClass.equals(String.class)) {
-						value = selectedObject.getValueAsText();
+						value = selectedObject.asText();
 						
 					} else if (valueClass.equals(Boolean.class)) {
 						value = selectedObject.getBooleanValue();
 						
 					} else if (Number.class.isAssignableFrom(valueClass)) {
-							value = convertStringValue(selectedObject.getValueAsText(), valueClass);
+							value = convertStringValue(selectedObject.asText(), valueClass);
 							
 					}
 					else if (Date.class.isAssignableFrom(valueClass)) {
-							value = convertStringValue(selectedObject.getValueAsText(), valueClass);
+							value = convertStringValue(selectedObject.asText(), valueClass);
 							
 					} else {
 						throw new JRException("Field '" + jrField.getName() + "' is of class '" + valueClass.getName() + "' and cannot be converted");

@@ -95,14 +95,13 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
@@ -148,7 +147,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected JRFillChartDataset dataset;
 	protected JRChartPlot plot;
 
-	protected JRRenderable renderer;
+	protected Renderable renderer;
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
@@ -305,13 +304,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 		renderType = chart.getRenderType();
 		if(renderType == null)
 		{
-			renderType = JRProperties.getProperty(getParentProperties(), JRChart.PROPERTY_CHART_RENDER_TYPE);
+			renderType = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_RENDER_TYPE);
 		}
 		
 		themeName = chart.getTheme();
 		if(themeName == null)
 		{
-			themeName = JRProperties.getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
+			themeName = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
 		}
 	}
 
@@ -668,7 +667,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	/**
 	 *
 	 */
-	protected JRRenderable getRenderer()
+	protected Renderable getRenderable()
 	{
 		return renderer;
 	}
@@ -771,7 +770,8 @@ public class JRFillChart extends JRFillElement implements JRChart
 		Rectangle2D rectangle = new Rectangle2D.Double(0,0,getWidth(),getHeight());
 
 		renderer = 
-			ChartUtil.getChartRendererFactory(getRenderType()).getRenderer(
+			ChartUtil.getInstance(filler.getJasperReportsContext()).getChartRenderableFactory(getRenderType()).getRenderable(
+				filler.getJasperReportsContext(),
 				chart, 
 				chartHyperlinkProvider,
 				rectangle
@@ -791,7 +791,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		evaluateProperties(evaluation);
 		evaluateDatasetRun(evaluation);
 
-		ChartTheme theme = ChartUtil.getChartTheme(themeName);
+		ChartTheme theme = ChartUtil.getInstance(filler.getJasperReportsContext()).getTheme(themeName);
 		
 		if (getChartType() == JRChart.CHART_TYPE_MULTI_AXIS)
 		{
@@ -880,7 +880,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 			if (
 				isToPrint &&
 				isRemoveLineWhenBlank() &&
-				getRenderer() == null
+				getRenderable() == null
 				)
 			{
 				isToPrint = false;
@@ -951,7 +951,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	protected void copy(JRPrintImage printImage)
 	{
-		printImage.setRenderer(getRenderer());
+		printImage.setRenderable(getRenderable());
 		printImage.setAnchorName(getAnchorName());
 		printImage.setHyperlinkReference(getHyperlinkReference());
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());

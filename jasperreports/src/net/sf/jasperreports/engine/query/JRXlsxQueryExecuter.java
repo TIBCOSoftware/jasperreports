@@ -35,19 +35,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.apache.poi.ss.usermodel.Workbook;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * XLS query executer implementation.
@@ -61,8 +62,24 @@ public class JRXlsxQueryExecuter extends JRAbstractQueryExecuter {
 	
 	private JRXlsxDataSource datasource;
 	
-	protected JRXlsxQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) {
-		super(dataset, parametersMap);
+	/**
+	 * 
+	 */
+	protected JRXlsxQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parametersMap
+		) 
+	{
+		super(jasperReportsContext, dataset, parametersMap);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXlsxQueryExecuter(JasperReportsContext, JRDataset, Map)}.
+	 */
+	protected JRXlsxQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	public JRDataSource createDatasource() throws JRException {
@@ -81,7 +98,7 @@ public class JRXlsxQueryExecuter extends JRAbstractQueryExecuter {
 					} else {
 						String xlsxSource = getStringParameterOrProperty(JRXlsxQueryExecuterFactory.XLSX_SOURCE);
 						if (xlsxSource != null) {
-							datasource = new JRXlsxDataSource(xlsxSource);
+							datasource = new JRXlsxDataSource(getJasperReportsContext(), xlsxSource);
 						} else {
 							if (log.isWarnEnabled()){
 								log.warn("No XLS source was provided.");
@@ -108,7 +125,7 @@ public class JRXlsxQueryExecuter extends JRAbstractQueryExecuter {
 					columnNamesList = Arrays.asList(columnNamesArray);
 				} else {
 					String propertiesPrefix = JRXlsxQueryExecuterFactory.XLSX_COLUMN_NAMES;
-					List<PropertySuffix> properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
+					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) {
 						columnNamesList = new ArrayList<String>();
 						for(int i = 0; i < properties.size(); i++) {
@@ -154,7 +171,7 @@ public class JRXlsxQueryExecuter extends JRAbstractQueryExecuter {
 					columnIndexesList = Arrays.asList(columnIndexesArray);
 				} else {
 					String propertiesPrefix = JRXlsxQueryExecuterFactory.XLSX_COLUMN_INDEXES;
-					List<PropertySuffix> properties = JRProperties.getAllProperties(dataset, propertiesPrefix);
+					List<PropertySuffix> properties = getPropertiesUtil().getAllProperties(dataset, propertiesPrefix);
 					if (properties != null && !properties.isEmpty()) {
 						columnIndexesList = new ArrayList<Integer>();
 						for(int i = 0; i < properties.size(); i++) {

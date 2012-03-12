@@ -23,17 +23,22 @@
  */
 package net.sf.jasperreports.data.xml;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -42,11 +47,27 @@ import org.w3c.dom.Document;
  */
 public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 {
+	private static final Log log = LogFactory.getLog(RemoteXmlDataAdapterService.class);
+	
 	public static final String XML_URL = "XML_URL";
 
+	/**
+	 * 
+	 */
+	public RemoteXmlDataAdapterService(
+		JasperReportsContext jasperReportsContext,
+		RemoteXmlDataAdapter remoteXmlDataAdapter
+		) 
+	{
+		super(jasperReportsContext, remoteXmlDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #RemoteXmlDataAdapterService(JasperReportsContext, RemoteXmlDataAdapter)}. 
+	 */
 	public RemoteXmlDataAdapterService(RemoteXmlDataAdapter remoteXmlDataAdapter) 
 	{
-		super(remoteXmlDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), remoteXmlDataAdapter);
 	}
 	
 	public RemoteXmlDataAdapter getRemoteXmlDataAdapter() 
@@ -73,8 +94,23 @@ public class RemoteXmlDataAdapterService extends XmlDataAdapterService
 				}
 				else 
 				{
-					Document document = JRXmlUtils.parse(new File(fileName));
-					parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStream2(remoteXmlDataAdapter.getFileName());
+					try
+					{
+						Document document = JRXmlUtils.parse(dataStream);
+						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
+					}
+					finally
+					{
+						try
+						{
+							dataStream.close();
+						}
+						catch (IOException e)
+						{
+							log.warn("Failed to close input stream for " + remoteXmlDataAdapter.getFileName());
+						}
+					}
 				}
 				
 				Locale locale = remoteXmlDataAdapter.getLocale();

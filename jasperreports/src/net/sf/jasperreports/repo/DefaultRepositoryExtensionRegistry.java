@@ -26,6 +26,7 @@ package net.sf.jasperreports.repo;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 /**
@@ -54,7 +55,7 @@ public class DefaultRepositoryExtensionRegistry implements ExtensionsRegistry
 	{
 		if (RepositoryService.class.equals(extensionType))
 		{
-			return (List<T>) Collections.singletonList(new DefaultRepositoryService());//FIXMEREPO check if this can be singleton
+			return (List<T>) Collections.singletonList(new DefaultRepositoryService(DefaultJasperReportsContext.getInstance()));//FIXMEREPO check if this can be singleton
 		}
 		else if (PersistenceServiceFactory.class.equals(extensionType))
 		{

@@ -26,7 +26,8 @@ package net.sf.jasperreports.engine.export;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -38,11 +39,22 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public class DefaultHyperlinkTargetProducerFactory extends JRHyperlinkTargetProducerFactory
 {
+	private JasperReportsContext jasperReportsContext;
+	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #DefaultHyperlinkTargetProducerFactory(JasperReportsContext)}.
 	 */
 	public DefaultHyperlinkTargetProducerFactory()
 	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+	/**
+	 *
+	 */
+	public DefaultHyperlinkTargetProducerFactory(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
 	}
 
 	/**
@@ -55,7 +67,7 @@ public class DefaultHyperlinkTargetProducerFactory extends JRHyperlinkTargetProd
 			return null;
 		}
 
-		List<JRHyperlinkTargetProducerFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
+		List<JRHyperlinkTargetProducerFactory> factories = jasperReportsContext.getExtensions(
 				JRHyperlinkTargetProducerFactory.class);
 		for (Iterator<JRHyperlinkTargetProducerFactory> it = factories.iterator(); it.hasNext();)
 		{

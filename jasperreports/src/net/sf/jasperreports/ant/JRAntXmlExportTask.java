@@ -32,13 +32,12 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
@@ -65,7 +64,7 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRAntXmlExportTask extends MatchingTask
+public class JRAntXmlExportTask extends JRBaseAntTask
 {
 
 
@@ -149,41 +148,32 @@ public class JRAntXmlExportTask extends MatchingTask
 
 		reportFilesMap = new HashMap<String, String>();
 
-		JRProperties.backupProperties();
-		
+		//JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);//FIXMECONTEXT is this needed? what about the one below?
+
+		AntClassLoader classLoader = null;
+		if (classpath != null)
+		{
+			jasperReportsContext.setProperty(JRCompiler.COMPILER_CLASSPATH, String.valueOf(classpath));
+			
+			ClassLoader parentClassLoader = getClass().getClassLoader();
+			classLoader = new AntClassLoader(parentClassLoader, getProject(), classpath, true);
+			classLoader.setThreadContextLoader();
+		}
+
 		try
 		{
-			//JRProperties.setProperty(JRProperties.COMPILER_XML_VALIDATION, xmlvalidation);//FIXME is this needed?
-
-			AntClassLoader classLoader = null;
-			if (classpath != null)
-			{
-				JRProperties.setProperty(JRProperties.COMPILER_CLASSPATH, String.valueOf(classpath));
-				
-				ClassLoader parentClassLoader = getClass().getClassLoader();
-				classLoader = new AntClassLoader(parentClassLoader, getProject(), classpath, true);
-				classLoader.setThreadContextLoader();
-			}
-
-			try
-			{
-				/*   */
-				scanSrc();
-				/*   */
-				export();
-			}
-			finally
-			{
-				if (classLoader != null)
-				{
-					classLoader.resetThreadContextLoader();
-				}				
-			}			
+			/*   */
+			scanSrc();
+			/*   */
+			export();
 		}
 		finally
 		{
-			JRProperties.restoreProperties();
-		}
+			if (classLoader != null)
+			{
+				classLoader.resetThreadContextLoader();
+			}				
+		}			
 	}
 	
 	
@@ -312,7 +302,7 @@ public class JRAntXmlExportTask extends MatchingTask
 
 					JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(srcFileName);
 					
-					JasperExportManager.exportReportToXmlFile(jasperPrint, destFileName, false);
+					JasperExportManager.getInstance(jasperReportsContext).exportToXmlFile(jasperPrint, destFileName, false);
 					
 					System.out.println("OK.");
 				}

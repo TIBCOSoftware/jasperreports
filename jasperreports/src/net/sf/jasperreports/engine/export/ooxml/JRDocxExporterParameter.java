@@ -25,7 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
@@ -65,9 +65,9 @@ public class JRDocxExporterParameter extends JRExporterParameter
 	 * <p>
 	 * The property itself defaults to <code>true</code>.
 	 * </p>
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.frames.as.nested.tables";
 	
 
 	/**
@@ -89,9 +89,9 @@ public class JRDocxExporterParameter extends JRExporterParameter
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.docx.flexible.row.height";
+	public static final String PROPERTY_FLEXIBLE_ROW_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.flexible.row.height";
 	
 
 }

@@ -26,20 +26,32 @@ package net.sf.jasperreports.data.xmla;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
  * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class XmlaDataAdapterService extends AbstractDataAdapterService {
+public class XmlaDataAdapterService extends AbstractDataAdapterService 
+{
 
-	public XmlaDataAdapterService(XmlaDataAdapter jsonDataAdapter) {
-		super(jsonDataAdapter);
+	/**
+	 * 
+	 */
+	public XmlaDataAdapterService(JasperReportsContext jasperReportsContext, XmlaDataAdapter jsonDataAdapter) 
+	{
+		super(jasperReportsContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #XmlaDataAdapterService(JasperReportsContext, XmlaDataAdapter)}.
+	 */
+	public XmlaDataAdapterService(XmlaDataAdapter jsonDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public XmlaDataAdapter getHibernateDataAdapter() {

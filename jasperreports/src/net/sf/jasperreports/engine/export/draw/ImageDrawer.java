@@ -36,10 +36,13 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 
 
@@ -49,7 +52,24 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  */
 public class ImageDrawer extends ElementDrawer<JRPrintImage>
 {
-
+	/**
+	 * @deprecated Replaced by {@link #ImageDrawer(JasperReportsContext)}.
+	 */
+	public ImageDrawer()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public ImageDrawer(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -78,7 +98,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 		int availableImageHeight = printImage.getHeight() - topPadding - bottomPadding;
 		availableImageHeight = (availableImageHeight < 0)?0:availableImageHeight;
 		
-		JRRenderable renderer = printImage.getRenderer();
+		Renderable renderer = printImage.getRenderable();
 		
 		if (
 			renderer != null &&
@@ -90,10 +110,10 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			{
 				// Image renderers are all asked for their image data and dimension at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
+				renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForImageData(renderer, printImage.getOnErrorTypeValue());
 				if (renderer != null)
 				{
-					renderer = JRImageRenderer.getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
+					renderer = RenderableUtil.getInstance(getJasperReportsContext()).getOnErrorRendererForDimension(renderer, printImage.getOnErrorTypeValue());
 				}
 			}
 		}
@@ -107,7 +127,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 			int normalWidth = availableImageWidth;
 			int normalHeight = availableImageHeight;
 
-			Dimension2D dimension = renderer.getDimension();
+			Dimension2D dimension = renderer.getDimension(getJasperReportsContext());
 			if (dimension != null)
 			{
 				normalWidth = (int)dimension.getWidth();
@@ -177,6 +197,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 					try
 					{
 						renderer.render(
+							getJasperReportsContext(),
 							grx, 
 							new Rectangle(
 								printImage.getX() + leftPadding + offsetX + xoffset, 
@@ -196,6 +217,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 				case FILL_FRAME :
 				{
 					renderer.render(
+						getJasperReportsContext(),
 						grx,
 						new Rectangle(
 							printImage.getX() + leftPadding + offsetX, 
@@ -229,6 +251,7 @@ public class ImageDrawer extends ElementDrawer<JRPrintImage>
 						int yoffset = (int)(yalignFactor * (availableImageHeight - normalHeight));
 
 						renderer.render(
+							getJasperReportsContext(),
 							grx,
 							new Rectangle(
 								printImage.getX() + leftPadding + offsetX + xoffset, 

@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRException;
@@ -72,10 +73,13 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -84,7 +88,6 @@ import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -113,17 +116,17 @@ public class JRXmlExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.xml.";
+	private static final String XML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.";
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String XML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "xml";
+	public static final String XML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "xml";
 
-	private static final String PROPERTY_START_PAGE_INDEX = JRProperties.PROPERTY_PREFIX + "export.xml.start.page.index";
-	private static final String PROPERTY_END_PAGE_INDEX = JRProperties.PROPERTY_PREFIX + "export.xml.end.page.index";
-	private static final String PROPERTY_PAGE_COUNT = JRProperties.PROPERTY_PREFIX + "export.xml.page.count";
+	private static final String PROPERTY_START_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.start.page.index";
+	private static final String PROPERTY_END_PAGE_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.end.page.index";
+	private static final String PROPERTY_PAGE_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.page.count";
 	protected static final String DEFAULT_XML_ENCODING = "UTF-8";
 	protected static final String DEFAULT_OBJECT_TYPE = "java.lang.String";
 	protected static final String XML_FILES_SUFFIX = "_files";
@@ -167,6 +170,24 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 	protected JRXmlExporterContext exporterContext = new ExporterContext();
 
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlExporter(JasperReportsContext)}.
+	 */
+	public JRXmlExporter()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+	
+	/**
+	 *
+	 */
+	public JRXmlExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
 
 	/**
 	 *
@@ -799,7 +820,7 @@ public class JRXmlExporter extends JRAbstractExporter
 		exportGraphicElement(image);
 		
 
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 		if (renderer != null)
 		{
 			xmlWriter.startElement(JRXmlConstants.ELEMENT_imageSource);
@@ -825,7 +846,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			{
 				try
 				{
-					ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData());
+					ByteArrayInputStream bais = new ByteArrayInputStream(renderer.getImageData(jasperReportsContext));
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					
 					Base64Encoder encoder = new Base64Encoder(bais, baos);
@@ -847,7 +868,7 @@ public class JRXmlExporter extends JRAbstractExporter
 				else
 				{
 					imageSource = IMAGE_PREFIX + getNextImageId();
-					imageNameToImageDataMap.put(imageSource, renderer.getImageData());
+					imageNameToImageDataMap.put(imageSource, renderer.getImageData(jasperReportsContext));
 					
 					imageSource = new File(imagesDir, imageSource).getPath();
 					rendererToImagePathMap.put(renderer, imageSource);
@@ -1121,7 +1142,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportGenericElement(JRGenericPrintElement element) throws IOException
 	{
 		GenericElementXmlHandler handler = (GenericElementXmlHandler) 
-		GenericElementHandlerEnviroment.getHandler(
+		GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 				element.getGenericType(), getExporterKey());
 
 		if (handler != null)

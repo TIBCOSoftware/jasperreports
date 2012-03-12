@@ -33,7 +33,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -105,6 +105,6 @@ public interface ExporterNature extends ExporterFilter
 	/**
 	 * 
 	 */
-	public List<JRProperties.PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
+	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
 
 }

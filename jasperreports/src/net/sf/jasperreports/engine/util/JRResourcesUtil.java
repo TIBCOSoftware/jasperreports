@@ -41,13 +41,31 @@ import java.util.ResourceBundle;
  */
 public final class JRResourcesUtil
 {
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static FileResolver globalFileResolver;
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static ThreadLocalStack localFileResolverStack = new ThreadLocalStack();
 
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static URLStreamHandlerFactory globalURLHandlerFactory;
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static ThreadLocalStack localURLHandlerFactoryStack = new ThreadLocalStack();
 
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static ClassLoader globalClassLoader;
+	/** 
+	 * @deprecated To be removed.
+	 */
 	private static ThreadLocalStack localClassLoaderStack = new ThreadLocalStack();
 
 	
@@ -93,7 +111,7 @@ public final class JRResourcesUtil
 	 */
 	public static URLStreamHandler getURLHandler(String spec, URLStreamHandlerFactory urlHandlerFact)
 	{
-		URLStreamHandlerFactory urlHandlerFactory = getURLHandlerFactory(urlHandlerFact);
+		URLStreamHandlerFactory urlHandlerFactory = urlHandlerFact;//getURLHandlerFactory(urlHandlerFact);
 
 		URLStreamHandler handler = null;
 		if (urlHandlerFactory != null)
@@ -166,6 +184,7 @@ public final class JRResourcesUtil
 	 * @return a file resolver
 	 * @see #setGlobalFileResolver(FileResolver)
 	 * @see #setThreadFileResolver(FileResolver)
+	 * @deprecated To be removed.
 	 */
 	public static FileResolver getFileResolver(FileResolver fileRes)
 	{
@@ -187,6 +206,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the global file resolver
 	 * @see #setGlobalFileResolver(FileResolver)
+	 * @deprecated To be removed.
 	 */
 	public static FileResolver getGlobalFileResolver()
 	{
@@ -199,6 +219,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the thread local file resolver.
 	 * @see #setThreadFileResolver(FileResolver)
+	 * @deprecated To be removed.
 	 */
 	public static FileResolver getThreadFileResolver()
 	{
@@ -212,6 +233,7 @@ public final class JRResourcesUtil
 	 * @param fileResolver a file resolver.
 	 * @see #getFileResolver(FileResolver)
 	 * @see #resetThreadFileResolver()
+	 * @deprecated To be removed.
 	 */
 	public static void setThreadFileResolver(FileResolver fileResolver)
 	{
@@ -221,6 +243,7 @@ public final class JRResourcesUtil
 	
 	/**
 	 * Resets the the thread local file resolver to its previous value.
+	 * @deprecated To be removed.
 	 */
 	public static void resetThreadFileResolver()
 	{
@@ -232,6 +255,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @param fileResolver the file resolver
 	 * @see #getFileResolver(FileResolver)
+	 * @deprecated To be removed.
 	 */
 	public static void setGlobalFileResolver(FileResolver fileResolver)
 	{
@@ -248,7 +272,7 @@ public final class JRResourcesUtil
 	 */
 	public static File resolveFile(String location, FileResolver fileRes)
 	{
-		FileResolver fileResolver = getFileResolver(fileRes);
+		FileResolver fileResolver = fileRes;//getFileResolver(fileRes);
 		
 		if (fileResolver != null)
 		{
@@ -279,6 +303,7 @@ public final class JRResourcesUtil
 	 * @return an URL steam handler factory
 	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
 	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
+	 * @deprecated To be removed.
 	 */
 	public static URLStreamHandlerFactory getURLHandlerFactory(URLStreamHandlerFactory urlHandlerFact)
 	{
@@ -300,6 +325,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the global URL stream handler factory
 	 * @see #setGlobalURLHandlerFactory(URLStreamHandlerFactory)
+	 * @deprecated To be removed.
 	 */
 	public static URLStreamHandlerFactory getGlobalURLStreamHandlerFactory()
 	{
@@ -312,6 +338,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the thread local URL stream handler factory.
 	 * @see #setThreadURLHandlerFactory(URLStreamHandlerFactory)
+	 * @deprecated To be removed.
 	 */
 	public static URLStreamHandlerFactory getThreadURLStreamHandlerFactory()
 	{
@@ -325,6 +352,7 @@ public final class JRResourcesUtil
 	 * @param urlHandlerFactory an URL stream handler factory.
 	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
 	 * @see #resetThreadURLHandlerFactory()
+	 * @deprecated To be removed.
 	 */
 	public static void setThreadURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
 	{
@@ -334,6 +362,7 @@ public final class JRResourcesUtil
 	
 	/**
 	 * Resets the the thread local URL stream handler factory to its previous value.
+	 * @deprecated To be removed.
 	 */
 	public static void resetThreadURLHandlerFactory()
 	{
@@ -345,6 +374,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @param urlHandlerFactory the URL stream handler factory
 	 * @see #getURLHandlerFactory(URLStreamHandlerFactory)
+	 * @deprecated To be removed.
 	 */
 	public static void setGlobalURLHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
 	{
@@ -366,6 +396,7 @@ public final class JRResourcesUtil
 	 * @return a class loader.
 	 * @see #setGlobalClassLoader(ClassLoader)
 	 * @see #setThreadClassLoader(ClassLoader)
+	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getClassLoader(ClassLoader clsLoader)
 	{
@@ -387,6 +418,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the global class loader.
 	 * @see #setGlobalClassLoader(ClassLoader)
+	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getGlobalClassLoader()
 	{
@@ -399,6 +431,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @return the thread local class loader.
 	 * @see #setThreadClassLoader(ClassLoader)
+	 * @deprecated To be removed.
 	 */
 	public static ClassLoader getThreadClassLoader()
 	{
@@ -412,6 +445,7 @@ public final class JRResourcesUtil
 	 * @param classLoader a class loader
 	 * @see #getClassLoader(ClassLoader)
 	 * @see #resetThreadURLHandlerFactory()
+	 * @deprecated To be removed.
 	 */
 	public static void setThreadClassLoader(ClassLoader classLoader)
 	{
@@ -421,6 +455,7 @@ public final class JRResourcesUtil
 	
 	/**
 	 * Resets the the thread local class loader to its previous value.
+	 * @deprecated To be removed.
 	 */
 	public static void resetClassLoader()
 	{
@@ -433,6 +468,7 @@ public final class JRResourcesUtil
 	 * 
 	 * @param classLoader the class loader
 	 * @see #getClassLoader(ClassLoader)
+	 * @deprecated To be removed.
 	 */
 	public static void setGlobalClassLoader(ClassLoader classLoader)
 	{
@@ -511,7 +547,7 @@ public final class JRResourcesUtil
 	 */
 	public static URL findClassLoaderResource(String location, ClassLoader clsLoader)
 	{
-		ClassLoader classLoader = getClassLoader(clsLoader);
+		ClassLoader classLoader = clsLoader;//getClassLoader(clsLoader);
 		
 		URL url = null;
 		
@@ -585,7 +621,7 @@ public final class JRResourcesUtil
 	{
 		ResourceBundle resourceBundle = null;
 		
-		ClassLoader classLoader = getClassLoader(clsLoader);
+		ClassLoader classLoader = clsLoader;//getClassLoader(clsLoader);
 		if (classLoader != null)
 		{
 			try

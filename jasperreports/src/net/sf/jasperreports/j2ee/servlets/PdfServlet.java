@@ -32,6 +32,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -68,7 +69,7 @@ public class PdfServlet extends BaseHttpServlet
 		if (isBuffered.booleanValue())
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 			
@@ -129,7 +130,7 @@ public class PdfServlet extends BaseHttpServlet
 		{
 			response.setContentType("application/pdf");
 
-			JRPdfExporter exporter = new JRPdfExporter();
+			JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
 			OutputStream ouputStream = response.getOutputStream();

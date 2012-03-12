@@ -24,7 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 /**
  * Contains parameters useful for export in plain text format.
@@ -58,9 +58,9 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is not set by default.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CHARACTER_WIDTH = JRProperties.PROPERTY_PREFIX + "export.text.character.width";
+	public static final String PROPERTY_CHARACTER_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.width";
 
 
 	/**
@@ -74,9 +74,9 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is not set by default.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CHARACTER_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.text.character.height";
+	public static final String PROPERTY_CHARACTER_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.character.height";
 
 
 	/**
@@ -90,9 +90,9 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is not set by default.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PAGE_WIDTH = JRProperties.PROPERTY_PREFIX + "export.text.page.width";
+	public static final String PROPERTY_PAGE_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.width";
 
 
 	/**
@@ -106,9 +106,9 @@ public class JRTextExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is not set by default.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PAGE_HEIGHT = JRProperties.PROPERTY_PREFIX + "export.text.page.height";
+	public static final String PROPERTY_PAGE_HEIGHT = JRPropertiesUtil.PROPERTY_PREFIX + "export.text.page.height";
 
 
 	/**

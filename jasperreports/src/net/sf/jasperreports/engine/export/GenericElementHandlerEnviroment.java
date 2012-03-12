@@ -28,8 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -54,8 +56,43 @@ public final class GenericElementHandlerEnviroment
 	private static final Log log = LogFactory.getLog(
 			GenericElementHandlerEnviroment.class);
 	
-	private static final ReferenceMap handlersCache = new ReferenceMap(
+	private final ReferenceMap handlersCache = new ReferenceMap(
 			ReferenceMap.WEAK, ReferenceMap.HARD);
+	
+	private JasperReportsContext jasperReportsContext;
+	private static GenericElementHandlerEnviroment defaultInstance;
+
+
+	/**
+	 *
+	 */
+	private GenericElementHandlerEnviroment(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static GenericElementHandlerEnviroment getDefaultInstance()
+	{
+		if (defaultInstance == null)
+		{
+			defaultInstance = new GenericElementHandlerEnviroment(DefaultJasperReportsContext.getInstance());
+		}
+		return defaultInstance;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static GenericElementHandlerEnviroment getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new GenericElementHandlerEnviroment(jasperReportsContext);
+	}
+	
 	
 	/**
 	 * Returns a handler for a generic print element type and an exporter
@@ -74,10 +111,10 @@ public final class GenericElementHandlerEnviroment
 	 * @throws JRRuntimeException if a handler does not exist for the 
 	 * combination of element type and exporter key
 	 */
-	public static GenericElementHandler getHandler(JRGenericElementType type,
+	public GenericElementHandler getElementHandler(JRGenericElementType type,
 			String exporterKey)
 	{
-		Map<String,GenericElementHandlerBundle> handlerBundles = getHandlerBundles();
+		Map<String,GenericElementHandlerBundle> handlerBundles = getBundles();
 		GenericElementHandlerBundle bundle = handlerBundles.get(type.getNamespace());
 		if (bundle == null)
 		{
@@ -88,7 +125,7 @@ public final class GenericElementHandlerEnviroment
 		return bundle.getHandler(type.getName(), exporterKey);
 	}
 
-	protected static Map<String,GenericElementHandlerBundle> getHandlerBundles()
+	protected Map<String,GenericElementHandlerBundle> getBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		Map<String,GenericElementHandlerBundle> handlerBundles;
@@ -97,17 +134,16 @@ public final class GenericElementHandlerEnviroment
 			handlerBundles = (Map<String,GenericElementHandlerBundle>) handlersCache.get(cacheKey);
 			if (handlerBundles == null)
 			{
-				handlerBundles = loadHandlerBundles();
+				handlerBundles = loadBundles();
 				handlersCache.put(cacheKey, handlerBundles);
 			}
 		}
 		return handlerBundles;
 	}
 
-	protected static Map<String,GenericElementHandlerBundle> loadHandlerBundles()
+	protected Map<String,GenericElementHandlerBundle> loadBundles()
 	{
-		List<GenericElementHandlerBundle> bundleList = ExtensionsEnvironment.getExtensionsRegistry()
-				.getExtensions(GenericElementHandlerBundle.class);
+		List<GenericElementHandlerBundle> bundleList = jasperReportsContext.getExtensions(GenericElementHandlerBundle.class);
 		Map<String,GenericElementHandlerBundle> bundles = new HashMap<String,GenericElementHandlerBundle>();
 		for (Iterator<GenericElementHandlerBundle> it = bundleList.iterator(); it.hasNext();)
 		{
@@ -125,9 +161,29 @@ public final class GenericElementHandlerEnviroment
 		}
 		return bundles;
 	}
-
 	
-	private GenericElementHandlerEnviroment()
+	/**
+	 * @deprecated Replaced by {@link #getElementHandler(JRGenericElementType, String)}.
+	 */
+	public static GenericElementHandler getHandler(JRGenericElementType type,
+			String exporterKey)
 	{
+		return getDefaultInstance().getElementHandler(type, exporterKey);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #getBundles()}.
+	 */
+	protected static Map<String,GenericElementHandlerBundle> getHandlerBundles()
+	{
+		return getDefaultInstance().getBundles();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #loadBundles()}.
+	 */
+	protected static Map<String,GenericElementHandlerBundle> loadHandlerBundles()
+	{
+		return getDefaultInstance().loadBundles();
 	}
 }

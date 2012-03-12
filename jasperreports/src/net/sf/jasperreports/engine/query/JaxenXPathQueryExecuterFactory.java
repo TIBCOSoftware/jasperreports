@@ -27,8 +27,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Jaxen XPath query executer factory.
@@ -61,7 +62,7 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	 * the prefixed properties not to be searched for.  
 	 * </p>
 	 */
-	public final static String XML_NAMESPACE_PREFIX = JRProperties.PROPERTY_PREFIX + "xml.namespace.";
+	public final static String XML_NAMESPACE_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "xml.namespace.";
 	
 	/**
 	 * Boolean parameter/property that specifies whether the XML document should be parsed for namespaces or not.
@@ -81,7 +82,7 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 	 * </p>
 	 * It defaults to <code>false</code>
 	 */
-	public final static String XML_DETECT_NAMESPACES = JRProperties.PROPERTY_PREFIX + "xml.detect.namespaces";
+	public final static String XML_DETECT_NAMESPACES = JRPropertiesUtil.PROPERTY_PREFIX + "xml.detect.namespaces";
 	
 	private final static Object[] JAXEN_XPATH_BUILTIN_PARAMETERS = {
 		PARAMETER_XML_DATA_DOCUMENT,  "org.w3c.dom.Document",
@@ -98,10 +99,13 @@ public class JaxenXPathQueryExecuterFactory extends JRXPathQueryExecuterFactory
 		return JAXEN_XPATH_BUILTIN_PARAMETERS;
 	}
 	
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
-			throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException
 	{
-		return new JaxenXPathQueryExecuter(dataset, parameters);
+		return new JaxenXPathQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 }

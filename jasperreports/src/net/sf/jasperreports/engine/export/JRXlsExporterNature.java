@@ -29,8 +29,10 @@
 
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -41,19 +43,32 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 {
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRXlsExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
 	 */
 	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		super(filter, isIgnoreGraphics);
+		super(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRXlsExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
 	 */
 	public JRXlsExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
-		super(filter, isIgnoreGraphics, isIgnorePageMargins);
+		super(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
+	}
+
+	/**
+	 * 
+	 */
+	public JRXlsExporterNature(
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter, 
+		boolean isIgnoreGraphics, 
+		boolean isIgnorePageMargins
+		)
+	{
+		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 
 	public boolean isToExport(JRPrintElement element)
@@ -62,7 +77,7 @@ public class JRXlsExporterNature extends JRXlsAbstractExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericElement.getGenericType(), JRXlsExporter.XLS_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

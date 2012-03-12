@@ -27,7 +27,6 @@ import java.awt.Color;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -47,12 +46,12 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	 * <p>
 	 * Defaults to <code>draw</code>.
 	 */
-	public static final String PROPERTY_CHART_RENDER_TYPE = JRProperties.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
+	public static final String PROPERTY_CHART_RENDER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.render.type";//FIXMECHART javadoc comment
 
 	/**
 	 * Property used to specify the chart theme name.
 	 */
-	public static final String PROPERTY_CHART_THEME = JRProperties.PROPERTY_PREFIX + "chart.theme";
+	public static final String PROPERTY_CHART_THEME = JRPropertiesUtil.PROPERTY_PREFIX + "chart.theme";
 
 
 	/**

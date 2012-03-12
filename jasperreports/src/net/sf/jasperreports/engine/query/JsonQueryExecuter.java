@@ -28,9 +28,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 
 import org.apache.commons.logging.Log;
@@ -48,10 +50,25 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 	
 	private JsonDataSource datasource;
 	
+	/**
+	 * 
+	 */
+	public JsonQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset, 
+		Map parametersMap
+		)
+	{
+		super(jasperReportsContext, dataset, parametersMap);
+		parseQuery();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JsonQueryExecuter(JasperReportsContext, JRDataset, Map)}.
+	 */
 	public JsonQueryExecuter(JRDataset dataset, Map parametersMap)
 	{
-		super(dataset, parametersMap);
-		parseQuery();
+		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
 	protected String getParameterReplacement(String parameterName)
@@ -67,7 +84,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 		} else {
 			String jsonSource = getStringParameterOrProperty(JsonQueryExecuterFactory.JSON_SOURCE);
 			if (jsonSource != null) {
-					datasource = new JsonDataSource(jsonSource, getQueryString());
+					datasource = new JsonDataSource(getJasperReportsContext(), jsonSource, getQueryString());
 			} else {
 				if (log.isWarnEnabled()) {
 					log.warn("No JSON source was provided.");

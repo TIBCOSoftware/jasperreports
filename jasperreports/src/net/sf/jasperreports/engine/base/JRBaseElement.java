@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -83,6 +84,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 *
 	 */
+	protected UUID uuid;
 	protected String key;
 	protected PositionTypeEnum positionTypeValue;
 	protected StretchTypeEnum stretchTypeValue = StretchTypeEnum.NO_STRETCH;
@@ -138,6 +140,7 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		parentStyle = factory.getStyle(element.getStyle());
 		parentStyleNameReference = element.getStyleNameReference();
 
+		uuid = element.getUUID();
 		key = element.getKey();
 		positionTypeValue = element.getPositionTypeValue();
 		stretchTypeValue = element.getStretchTypeValue();
@@ -204,9 +207,21 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 	/**
 	 *
 	 */
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
+	}
+
+	/**
+	 *
+	 */
 	public String getKey()
 	{
-		return this.key;
+		return key;
 	}
 
 	/**

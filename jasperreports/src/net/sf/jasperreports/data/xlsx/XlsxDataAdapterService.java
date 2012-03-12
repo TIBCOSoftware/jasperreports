@@ -30,8 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRXlsxDataSource;
 import net.sf.jasperreports.engine.query.JRXlsxQueryExecuterFactory;
 
@@ -44,9 +46,20 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class XlsxDataAdapterService extends AbstractDataAdapterService 
 {
 	
+	/**
+	 * 
+	 */
+	public XlsxDataAdapterService(JasperReportsContext jasperReportsContext, XlsxDataAdapter xlsxDataAdapter)
+	{
+		super(jasperReportsContext, xlsxDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #XlsxDataAdapterService(JasperReportsContext, XlsxDataAdapter)}.
+	 */
 	public XlsxDataAdapterService(XlsxDataAdapter xlsxDataAdapter)
 	{
-		super(xlsxDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), xlsxDataAdapter);
 	}
 	
 	public XlsxDataAdapter getXlsxDataAdapter()

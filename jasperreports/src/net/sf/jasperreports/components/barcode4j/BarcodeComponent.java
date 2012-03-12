@@ -30,13 +30,13 @@ import java.io.Serializable;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.krysalis.barcode4j.HumanReadablePlacement;
 
@@ -49,7 +49,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 {
 
 	public static final String PROPERTY_PREFIX = 
-		JRProperties.PROPERTY_PREFIX + "components.barcode4j.";
+		JRPropertiesUtil.PROPERTY_PREFIX + "components.barcode4j.";
 
 	public static final int ORIENTATION_UP = 0;
 	public static final int ORIENTATION_LEFT = 90;

@@ -28,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -88,6 +89,14 @@ public abstract class JRDesignElement extends JRBaseElement
 	}
 
 
+	/**
+	 *
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+	}
+		
 	/**
 	 * Sets the unique identifier for the element.
 	 */

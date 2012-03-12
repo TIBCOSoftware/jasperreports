@@ -25,6 +25,7 @@ package net.sf.jasperreports.j2ee.servlets;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
@@ -43,7 +44,7 @@ public class XlsxServlet extends AbstractXlsServlet
 	 */
 	protected JRXlsAbstractExporter getXlsExporter()
 	{
-		return new JRXlsxExporter();
+		return new JRXlsxExporter(DefaultJasperReportsContext.getInstance());
 	}
 
 	@Override

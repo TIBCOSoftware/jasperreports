@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -30,6 +33,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -58,7 +62,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/**
 	 *
 	 */
-	private JRRenderable renderer;
+	private Renderable renderable;
 	private String anchorName;
 	private String hyperlinkReference;
 	private String hyperlinkAnchor;
@@ -94,21 +98,37 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 		super(image, sourceElementId);
 	}
-
+	
 	/**
 	 *
 	 */
-	public JRRenderable getRenderer()
+	public Renderable getRenderable()
 	{
-		return this.renderer;
+		return renderable;
 	}
 		
 	/**
 	 *
 	 */
+	public void setRenderable(Renderable renderable)
+	{
+		this.renderable = renderable;
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #getRenderable()}.
+	 */
+	public JRRenderable getRenderer()
+	{
+		return getRenderable();
+	}
+		
+	/**
+	 * @deprecated Replaced by {@link #setRenderable(Renderable)}.
+	 */
 	public void setRenderer(JRRenderable renderer)
 	{
-		this.renderer = renderer;
+		this.renderer = renderer;//FIXMECONTEXT
 	}
 		
 	/**
@@ -387,6 +407,35 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	{
 		this.hyperlinkTooltip = hyperlinkTooltip;
 	}
+
+	
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private JRRenderable renderer;
+
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+
+		if (renderer != null && renderable == null)
+		{
+			if (renderer instanceof Renderable)
+			{
+				renderable = (Renderable)renderer;
+			}
+			else
+			{
+				//FIXMECONTEXT
+			}
+		}
+	}
+
 
 	public <T> void accept(PrintElementVisitor<T> visitor, T arg)
 	{

@@ -37,9 +37,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRAbstractJavaCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -63,9 +65,20 @@ public class JRGroovyCompiler extends JRAbstractJavaCompiler
 
 	protected static final String SOURCE_ENCODING = "UTF-8";
 	
+	/**
+	 * 
+	 */
+	public JRGroovyCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext, false);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JRGroovyCompiler(JasperReportsContext)}.
+	 */
 	public JRGroovyCompiler()
 	{
-		super(false);
+		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 

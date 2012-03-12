@@ -50,6 +50,7 @@ public class SpiderChartDigester implements XmlDigesterConfigurer
 		addSpiderChartRules(digester);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void addSpiderChartRules(Digester digester)
 	{
 		String componentNamespace = digester.getRuleNamespaceURI();

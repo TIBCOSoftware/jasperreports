@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
@@ -39,7 +40,6 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -63,8 +63,36 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public final class JasperCompileManager
 {
+	private JasperReportsContext jasperReportsContext;
 
 
+	/**
+	 *
+	 */
+	private JasperCompileManager(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static JasperCompileManager getDefaultInstance()
+	{
+		return new JasperCompileManager(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JasperCompileManager getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new JasperCompileManager(jasperReportsContext);
+	}
+	
+	
 	/**
 	 * Compiles the XML report design file specified by the parameter.
 	 * The result of this operation is another file that will contain the serialized  
@@ -75,7 +103,7 @@ public final class JasperCompileManager
 	 * @param sourceFileName XML source file name
 	 * @return resulting file name containing a serialized {@link net.sf.jasperreports.engine.JasperReport} object 
 	 */
-	public static String compileReportToFile(String sourceFileName) throws JRException
+	public String compileToFile(String sourceFileName) throws JRException
 	{
 		File sourceFile = new File(sourceFileName);
 
@@ -100,7 +128,7 @@ public final class JasperCompileManager
 	 * @param sourceFileName XML source file name
 	 * @param destFileName   file name to place the result into
 	 */
-	public static void compileReportToFile(
+	public void compileToFile(
 		String sourceFileName,
 		String destFileName
 		) throws JRException
@@ -120,7 +148,7 @@ public final class JasperCompileManager
 	 * @param jasperDesign source report design object
 	 * @param destFileName file name to place the compiled report design into
 	 */
-	public static void compileReportToFile(
+	public void compileToFile(
 		JasperDesign jasperDesign,
 		String destFileName
 		) throws JRException
@@ -138,7 +166,7 @@ public final class JasperCompileManager
 	 * @param sourceFileName XML source file name
 	 * @return compiled report design object 
 	 */
-	public static JasperReport compileReport(String sourceFileName) throws JRException
+	public  JasperReport compile(String sourceFileName) throws JRException
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(sourceFileName);
 
@@ -154,7 +182,7 @@ public final class JasperCompileManager
 	 * @param inputStream  XML source input stream
 	 * @param outputStream output stream to write the compiled report design to
 	 */
-	public static void compileReportToStream(
+	public void compileToStream(
 		InputStream inputStream,
 		OutputStream outputStream
 		) throws JRException
@@ -173,7 +201,7 @@ public final class JasperCompileManager
 	 * @param jasperDesign source report design object
 	 * @param outputStream output stream to write the compiled report design to
 	 */
-	public static void compileReportToStream(
+	public void compileToStream(
 		JasperDesign jasperDesign,
 		OutputStream outputStream
 		) throws JRException
@@ -191,7 +219,7 @@ public final class JasperCompileManager
 	 * @param inputStream XML source input stream
 	 * @return compiled report design object 
 	 */
-	public static JasperReport compileReport(InputStream inputStream) throws JRException
+	public JasperReport compile(InputStream inputStream) throws JRException
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 
@@ -207,7 +235,7 @@ public final class JasperCompileManager
 	 * @return compiled report design object 
 	 * @see net.sf.jasperreports.engine.design.JRCompiler
 	 */
-	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
+	public JasperReport compile(JasperDesign jasperDesign) throws JRException
 	{
 		return getCompiler(jasperDesign).compileReport(jasperDesign);
 	}
@@ -221,7 +249,7 @@ public final class JasperCompileManager
 	 * @return collection of {@link JRValidationFault JRValidationFault} if problems are found
 	 * @see net.sf.jasperreports.engine.design.JRVerifier
 	 */
-	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
+	public Collection<JRValidationFault> verify(JasperDesign jasperDesign)
 	{
 		return JRVerifier.verifyDesign(jasperDesign);
 	}
@@ -230,7 +258,7 @@ public final class JasperCompileManager
 	/**
 	 * 
 	 */
-	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
+	public JREvaluator getEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
 		JRCompiler compiler = getCompiler(jasperReport);
 		
@@ -241,7 +269,7 @@ public final class JasperCompileManager
 	/**
 	 * 
 	 */
-	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
+	public JREvaluator getEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
 		JRCompiler compiler = getCompiler(jasperReport);
 		
@@ -252,7 +280,7 @@ public final class JasperCompileManager
 	/**
 	 * 
 	 */
-	public static JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
+	public JREvaluator getEvaluator(JasperReport jasperReport) throws JRException
 	{
 		return loadEvaluator(jasperReport, jasperReport.getMainDataset());
 	}
@@ -267,7 +295,7 @@ public final class JasperCompileManager
 	 * @param sourceFileName source file name containing the report design object
 	 * @return XML representation of the report design
 	 */
-	public static String writeReportToXmlFile(
+	public String writeToXmlFile(
 		String sourceFileName
 		) throws JRException
 	{
@@ -295,7 +323,7 @@ public final class JasperCompileManager
 	 * @param sourceFileName source file name containing the report design object
 	 * @param destFileName   output file name to write the XML report design representation to
 	 */
-	public static void writeReportToXmlFile(
+	public void writeToXmlFile(
 		String sourceFileName, 
 		String destFileName
 		) throws JRException
@@ -317,12 +345,12 @@ public final class JasperCompileManager
 	 * @param destFileName output file name to write the XML report design representation to
 	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
-	public static void writeReportToXmlFile(
+	public void writeToXmlFile(
 		JRReport report,
 		String destFileName
 		) throws JRException
 	{
-		JRXmlWriter.writeReport(
+		new JRXmlWriter(jasperReportsContext).write(
 			report,
 			destFileName,
 			"UTF-8"
@@ -337,7 +365,7 @@ public final class JasperCompileManager
 	 * @param inputStream  source input stream to read the report design object from
 	 * @param outputStream output stream to write the XML report design representation to
 	 */
-	public static void writeReportToXmlStream(
+	public void writeToXmlStream(
 		InputStream inputStream, 
 		OutputStream outputStream
 		) throws JRException
@@ -356,12 +384,12 @@ public final class JasperCompileManager
 	 * @param outputStream output stream to write the XML report design representation to
 	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
-	public static void writeReportToXmlStream(
+	public void writeToXmlStream(
 		JRReport report, 
 		OutputStream outputStream
 		) throws JRException
 	{
-		JRXmlWriter.writeReport(
+		new JRXmlWriter(jasperReportsContext).write(
 			report, 
 			outputStream,
 			"UTF-8"
@@ -377,23 +405,216 @@ public final class JasperCompileManager
 	 * @return XML representation of the report design
 	 * @see net.sf.jasperreports.engine.xml.JRXmlWriter
 	 */
+	public String writeToXml(JRReport report)
+	{
+		return new JRXmlWriter(jasperReportsContext).write(report, "UTF-8");
+	}
+
+
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #compileToFile(String)}.
+	 */
+	public static String compileReportToFile(String sourceFileName) throws JRException
+	{
+		return getDefaultInstance().compileToFile(sourceFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compileToFile(String, String)}.
+	 */
+	public static void compileReportToFile(
+		String sourceFileName,
+		String destFileName
+		) throws JRException
+	{
+		getDefaultInstance().compileToFile(sourceFileName, destFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compileToFile(JasperDesign, String)}.
+	 */
+	public static void compileReportToFile(
+		JasperDesign jasperDesign,
+		String destFileName
+		) throws JRException
+	{
+		getDefaultInstance().compileToFile(jasperDesign, destFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compile(String)}. 
+	 */
+	public static JasperReport compileReport(String sourceFileName) throws JRException
+	{
+		return getDefaultInstance().compile(sourceFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compileToStream(InputStream, OutputStream)}.
+	 */
+	public static void compileReportToStream(
+		InputStream inputStream,
+		OutputStream outputStream
+		) throws JRException
+	{
+		getDefaultInstance().compileToStream(inputStream, outputStream);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compileToStream(JasperDesign, OutputStream)}.
+	 */
+	public static void compileReportToStream(
+		JasperDesign jasperDesign,
+		OutputStream outputStream
+		) throws JRException
+	{
+		getDefaultInstance().compileToStream(jasperDesign, outputStream);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compile(InputStream)}.
+	 */
+	public static JasperReport compileReport(InputStream inputStream) throws JRException
+	{
+		return getDefaultInstance().compile(inputStream);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #compile(JasperDesign)}.
+	 */
+	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
+	{
+		return getDefaultInstance().compile(jasperDesign);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #verify(JasperDesign)}.
+	 */
+	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
+	{
+		return getDefaultInstance().verify(jasperDesign);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getEvaluator(JasperReport, JRDataset)}.
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
+	{
+		return getDefaultInstance().getEvaluator(jasperReport, dataset);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getEvaluator(JasperReport, JRCrosstab)}. 
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
+	{
+		return getDefaultInstance().getEvaluator(jasperReport, crosstab);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getEvaluator(JasperReport)}.
+	 */
+	public static JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
+	{
+		return getDefaultInstance().getEvaluator(jasperReport);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #writeToXmlFile(String)}.
+	 */
+	public static String writeReportToXmlFile(
+		String sourceFileName
+		) throws JRException
+	{
+		return getDefaultInstance().writeToXmlFile(sourceFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #writeToXmlFile(String, String)}.
+	 */
+	public static void writeReportToXmlFile(
+		String sourceFileName, 
+		String destFileName
+		) throws JRException
+	{
+		getDefaultInstance().writeToXmlFile(
+			sourceFileName, 
+			destFileName
+			);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #writeToXmlFile(JRReport, String)}.
+	 */
+	public static void writeReportToXmlFile(
+		JRReport report,
+		String destFileName
+		) throws JRException
+	{
+		getDefaultInstance().writeToXmlFile(report, destFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #writeToXmlStream(InputStream, OutputStream)}.
+	 */
+	public static void writeReportToXmlStream(
+		InputStream inputStream, 
+		OutputStream outputStream
+		) throws JRException
+	{
+		getDefaultInstance().writeToXmlStream(inputStream, outputStream);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #writeToXmlStream(JRReport, OutputStream)}.
+	 */
+	public static void writeReportToXmlStream(
+		JRReport report, 
+		OutputStream outputStream
+		) throws JRException
+	{
+		getDefaultInstance().writeToXmlStream(report, outputStream);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #writeToXml(JRReport)}.
+	 */
 	public static String writeReportToXml(JRReport report)
 	{
-		return JRXmlWriter.writeReport(report, "UTF-8");
+		return getDefaultInstance().writeToXml(report);
 	}
 
 
 	/**
 	 *
 	 */
-	private static JRCompiler getJavaCompiler()
+	private JRCompiler getJavaCompiler()
 	{
 		JRCompiler compiler = null;
 
 		try 
 		{
 			JRClassLoader.loadClassForRealName("org.eclipse.jdt.internal.compiler.Compiler");
-			compiler = new JRJdtCompiler();
+			compiler = new JRJdtCompiler(jasperReportsContext);
 		}
 		catch (Exception e)
 		{
@@ -404,7 +625,7 @@ public final class JasperCompileManager
 			try 
 			{
 				JRClassLoader.loadClassForRealName("com.sun.tools.javac.Main");
-				compiler = new JRJdk13Compiler();
+				compiler = new JRJdk13Compiler(jasperReportsContext);
 			}
 			catch (Exception e)
 			{
@@ -413,7 +634,7 @@ public final class JasperCompileManager
 
 		if (compiler == null)
 		{
-			compiler = new JRJavacCompiler();
+			compiler = new JRJavacCompiler(jasperReportsContext);
 		}
 		
 		return compiler;
@@ -423,7 +644,7 @@ public final class JasperCompileManager
 	/**
 	 *
 	 */
-	private static JRCompiler getCompiler(JasperReport jasperReport) throws JRException
+	private JRCompiler getCompiler(JasperReport jasperReport) throws JRException
 	{
 		JRCompiler compiler = null;
 		
@@ -466,7 +687,8 @@ public final class JasperCompileManager
 
 		try
 		{
-			compiler = (JRCompiler)compilerClass.newInstance();
+			Constructor  constructor = compilerClass.getConstructor(JasperReportsContext.class);
+			compiler = (JRCompiler)constructor.newInstance(jasperReportsContext);
 		}
 		catch (Exception e)
 		{
@@ -481,7 +703,7 @@ public final class JasperCompileManager
 	/**
 	 *
 	 */
-	private static JRCompiler getCompiler(JasperDesign jasperDesign) throws JRException
+	private JRCompiler getCompiler(JasperDesign jasperDesign) throws JRException
 	{
 		JRCompiler compiler = null;
 
@@ -489,7 +711,7 @@ public final class JasperCompileManager
 		if (compilerClassName == null || compilerClassName.trim().length() == 0)
 		{
 			String language = jasperDesign.getLanguage();
-			compilerClassName = JRProperties.getProperty(JRCompiler.COMPILER_PREFIX + language);
+			compilerClassName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_PREFIX + language);
 			if (compilerClassName == null || compilerClassName.trim().length() == 0)
 			{
 				if (JRReport.LANGUAGE_JAVA.equals(language))
@@ -521,13 +743,8 @@ public final class JasperCompileManager
 	 *
 	 */
 	@SuppressWarnings("deprecation")
-	private static String getCompilerClassProperty()
+	private String getCompilerClassProperty()
 	{
-		return JRProperties.getProperty(JRProperties.COMPILER_CLASS);
-	}
-
-	
-	private JasperCompileManager()
-	{
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_CLASS);
 	}
 }

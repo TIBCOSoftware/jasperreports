@@ -32,6 +32,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -67,7 +68,7 @@ public class RtfServlet extends BaseHttpServlet
 		if (isBuffered.booleanValue())
 		{
 			FileBufferedOutputStream fbos = new FileBufferedOutputStream();
-			JRRtfExporter exporter = new JRRtfExporter();
+			JRRtfExporter exporter = new JRRtfExporter(DefaultJasperReportsContext.getInstance());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fbos);
 
@@ -129,7 +130,7 @@ public class RtfServlet extends BaseHttpServlet
 			response.setContentType("application/rtf");
 			response.setHeader("Content-Disposition", "inline; filename=\"file.rtf\"");
 
-			JRRtfExporter exporter = new JRRtfExporter();
+			JRRtfExporter exporter = new JRRtfExporter(DefaultJasperReportsContext.getInstance());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrintList);
 			
 			OutputStream ouputStream = response.getOutputStream();

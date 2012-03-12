@@ -25,7 +25,9 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Base class for multiple class compilers.
@@ -35,6 +37,21 @@ import net.sf.jasperreports.engine.JRException;
  */
 public abstract class JRAbstractMultiClassCompiler extends JRAbstractClassCompiler
 {
+	/**
+	 * 
+	 */
+	public JRAbstractMultiClassCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRAbstractMultiClassCompiler(JasperReportsContext)}.
+	 */
+	public JRAbstractMultiClassCompiler()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
 
 	public String compileClass(File sourceFile, String classpath) throws JRException
 	{

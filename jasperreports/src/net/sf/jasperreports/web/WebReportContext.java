@@ -45,14 +45,19 @@ public class WebReportContext implements ReportContext
 	private static final String SESSION_ATTRIBUTE_REPORT_CONTEXT_ID_PREFIX = "net.sf.jasperreports.web.report.context_";
 	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr.ctxid";
 
+	/**
+	 * @deprecated, use {@link #REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR} instead
+	 */
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
+	
+	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR = "net.sf.jasperreports.web.jasper_print.accessor";
 	//public static final String REPORT_CONTEXT_PARAMETER_JASPER_REPORT = "net.sf.jasperreports.web.jasper_report";
 	
 	/**
 	 *
 	 */
 	//private ThreadLocal<HttpServletRequest> threadLocalRequest = new ThreadLocal<HttpServletRequest>();//FIXMEJIVE
-	private HttpServletRequest request;
+	private Map<String, String> requestParameters = new HashMap<String, String>();
 	private Map<String, Object> parameterValues;
 	private String id;
 	
@@ -85,7 +90,7 @@ public class WebReportContext implements ReportContext
 		
 		if (webReportContext != null)
 		{
-			webReportContext.setRequest(request);
+			//webReportContext.setRequest(request);
 			webReportContext.setParameterValue("net.sf.jasperreports.web.app.context.path", request.getContextPath());
 			webReportContext.setParameterValue(JRParameter.REPORT_CONTEXT, webReportContext);
 		}
@@ -116,20 +121,18 @@ public class WebReportContext implements ReportContext
 
 	/**
 	 *
-	 */
-	public HttpServletRequest getRequest()
-	{
-		//return threadLocalRequest.get();
-		return request;
-	}
-
-	/**
 	 *
-	 */
 	public void setRequest(HttpServletRequest request)
 	{
 		//threadLocalRequest.set(request);
-		this.request = request;
+		requestParameters.clear();
+		for(@SuppressWarnings("unchecked") Enumeration<String> params = request.getParameterNames(); 
+				params.hasMoreElements(); )
+		{
+			String param = params.nextElement();
+			String value = request.getParameter(param);// do getValues here?
+			requestParameters.put(param, value);
+		}
 	}
 
 	/**
@@ -145,8 +148,7 @@ public class WebReportContext implements ReportContext
 	 */
 	public Object getParameterValue(String parameterName)
 	{
-		HttpServletRequest request = getRequest();
-		String requestParameterValue = request.getParameter(parameterName);
+		String requestParameterValue = requestParameters.get(parameterName);
 		if (requestParameterValue != null)
 		{
 			return requestParameterValue;
@@ -160,8 +162,7 @@ public class WebReportContext implements ReportContext
 	 */
 	public boolean containsParameter(String parameterName)
 	{
-		HttpServletRequest request = getRequest();
-		String requestParameterValue = request.getParameter(parameterName);
+		String requestParameterValue = requestParameters.get(parameterName);
 		if (requestParameterValue != null)
 		{
 			return true;

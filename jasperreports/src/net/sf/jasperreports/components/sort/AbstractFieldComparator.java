@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.sort;
 
 import java.text.Format;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
 
@@ -74,7 +75,7 @@ public abstract class AbstractFieldComparator<T> {
 		try {
 			initValues();
 		} catch (Exception e) {
-			return false;
+			throw new JRRuntimeException(e);
 		}
 		return true;
 	}

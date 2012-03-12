@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -187,6 +188,11 @@ public class JRDesignDatasetRun extends JRBaseDatasetRun implements JRChangeEven
 		JRDatasetParameter[] params = new JRDatasetParameter[parametersList.size()];
 		parametersList.toArray(params);
 		return params;
+	}
+
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	/**

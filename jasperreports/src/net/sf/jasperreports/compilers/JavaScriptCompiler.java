@@ -27,8 +27,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -51,9 +53,17 @@ public class JavaScriptCompiler extends JRAbstractCompiler
 	/**
 	 * Creates a JavaScript compiler.
 	 */
+	public JavaScriptCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext, false);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JavaScriptCompiler(JasperReportsContext)}.
+	 */
 	public JavaScriptCompiler()
 	{
-		super(false);
+		this(DefaultJasperReportsContext.getInstance());
 	}
 
 	protected void checkLanguage(String language) throws JRException

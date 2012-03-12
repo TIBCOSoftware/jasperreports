@@ -25,7 +25,7 @@ package net.sf.jasperreports.components.barcode4j;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.convert.ReportConverter;
@@ -52,19 +52,23 @@ public class BarcodeDesignConverter implements ComponentDesignConverter
 		reportConverter.copyBaseAttributes(element, printImage);
 		printImage.setScaleImage(ScaleImageEnum.RETAIN_SHAPE);
 		
-		JRRenderable barcodeImage = evaluateBarcode(reportConverter, element);
-		printImage.setRenderer(barcodeImage);
+		Renderable barcodeImage = evaluateBarcode(reportConverter, element);
+		printImage.setRenderable(barcodeImage);
 		
 		return printImage;
 	}
 
-	protected JRRenderable evaluateBarcode(ReportConverter reportConverter,
+	protected Renderable evaluateBarcode(ReportConverter reportConverter,
 			JRComponentElement element)
 	{
 		try
 		{
-			BarcodeDesignEvaluator evaluator = new BarcodeDesignEvaluator(element, 
-					reportConverter.getDefaultStyleProvider());
+			BarcodeDesignEvaluator evaluator = 
+				new BarcodeDesignEvaluator(
+					reportConverter.getJasperReportsContext(),
+					element, 
+					reportConverter.getDefaultStyleProvider()
+					);
 			return evaluator.evaluateImage();
 		}
 		catch (Exception e)

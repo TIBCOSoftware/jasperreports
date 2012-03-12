@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -103,7 +102,7 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		{
 			splitType = 
 				SplitTypeEnum.getByName(
-					JRProperties.getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
+					filler.getPropertiesUtil().getProperty(filler.getJasperReport(), JRBand.PROPERTY_SPLIT_TYPE)
 					);
 		}
 		

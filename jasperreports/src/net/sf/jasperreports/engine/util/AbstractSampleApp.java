@@ -34,7 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -51,6 +53,15 @@ public abstract class AbstractSampleApp
 	public abstract void test() throws JRException;
 
 
+	/**
+	 *
+	 */
+	public static JasperReportsContext getJasperReportsContext()
+	{
+		return DefaultJasperReportsContext.getInstance();
+	}
+	
+	
 	/**
 	 *
 	 */

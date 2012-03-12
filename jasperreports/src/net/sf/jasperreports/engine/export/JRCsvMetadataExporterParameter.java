@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.export;
 
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
@@ -54,15 +54,15 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	/**
 	 * Properties having this prefix contain comma-separated column names.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.csv.column.names";
+	public static final String PROPERTY_COLUMN_NAMES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.names";
 	
 	
 	/**
 	 * A boolean that specifies whether the export header (the column names) should be written or not.
 	 * 
-	 *  @see JRProperties
+	 *  @see JRPropertiesUtil
 	 */
 	public static final JRCsvMetadataExporterParameter WRITE_HEADER = new JRCsvMetadataExporterParameter("Write Header");
 	
@@ -73,18 +73,18 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WRITE_HEADER = JRProperties.PROPERTY_PREFIX + "export.csv.write.header";
+	public static final String PROPERTY_WRITE_HEADER = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.write.header";
 
 	
 	/**
 	 * A string that represents the name for the column that should appear in the CSV export.
 	 * It must be one of the values in {@link #COLUMN_NAMES COLUMN_NAMES}, if provided. 
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COLUMN_NAME = JRProperties.PROPERTY_PREFIX + "export.csv.column.name";
+	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.column.name";
 	
 	
 	/**
@@ -94,9 +94,9 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_REPEAT_VALUE = JRProperties.PROPERTY_PREFIX + "export.csv.repeat.value";
+	public static final String PROPERTY_REPEAT_VALUE = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.repeat.value";
 	
 	
 	/**
@@ -105,8 +105,8 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	 * The property itself defaults to the text value of the report element that this property is assigned to.
 	 * </p>
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_DATA = JRProperties.PROPERTY_PREFIX + "export.csv.data";
+	public static final String PROPERTY_DATA = JRPropertiesUtil.PROPERTY_PREFIX + "export.csv.data";
 	
 }

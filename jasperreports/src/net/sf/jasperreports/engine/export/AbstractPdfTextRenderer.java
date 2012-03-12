@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 
 import com.lowagie.text.Element;
@@ -47,11 +49,20 @@ public abstract class AbstractPdfTextRenderer extends AbstractTextRenderer
 
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #AbstractPdfTextRenderer(JasperReportsContext, boolean)}.
 	 */
 	public AbstractPdfTextRenderer(boolean ignoreMissingFont)
 	{
-		super(false, ignoreMissingFont);
+		this(DefaultJasperReportsContext.getInstance(), ignoreMissingFont);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public AbstractPdfTextRenderer(JasperReportsContext jasperReportsContext, boolean ignoreMissingFont)
+	{
+		super(jasperReportsContext, false, ignoreMissingFont);
 	}
 	
 	

@@ -30,8 +30,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -52,12 +54,20 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 		this.component = component;
 	}
 	
-	public Dimension2D getDimension()
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		return component.getSize();
 	}
 
-	public void render(Graphics2D grx, Rectangle2D rectangle) 
+	/**
+	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 */
+	public Dimension2D getDimension()
+	{
+		return getDimension(DefaultJasperReportsContext.getInstance());
+	}
+
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		AffineTransform origTransform = grx.getTransform();
 		try
@@ -83,4 +93,11 @@ public class AwtComponentRenderer extends JRAbstractSvgRenderer
 		}
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
+	public void render(Graphics2D grx, Rectangle2D rectangle) 
+	{
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
+	}
 }

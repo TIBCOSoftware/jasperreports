@@ -173,6 +173,7 @@ import org.xml.sax.SAXParseException;
  * @author Peter Severin (peter_p_s@users.sourceforge.net)
  * @version $Id$
  */
+@SuppressWarnings("deprecation")
 public final class JRXmlDigesterFactory
 {
 

@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
@@ -60,6 +62,9 @@ public class JRFillContext
 	private JRPrintPage printPage;
 	private boolean ignorePagination;
 	private JRQueryExecuter queryExecuter;
+	
+	private ReportContext reportContext;
+	private DataCacheHandler cacheHandler;
 
 	private JRVirtualizationContext virtualizationContext;
 	
@@ -422,5 +427,57 @@ public class JRFillContext
 	protected int generatedFillerId()
 	{
 		return fillerIdSeq.incrementAndGet();
+	}
+
+	public ReportContext getReportContext()
+	{
+		return reportContext;
+	}
+
+	public void setReportContext(ReportContext reportContext)
+	{
+		this.reportContext = reportContext;
+		
+		this.cacheHandler = (DataCacheHandler) getContextParameterValue(
+				DataCacheHandler.PARAMETER_DATA_CACHE_HANDLER);
+		if (cacheHandler != null && cacheHandler.isCachingEnabled())
+		{
+			
+		}
+	}
+
+	protected Object getContextParameterValue(String parameterName)
+	{
+		if (reportContext == null)
+		{
+			return null;
+		}
+
+		Object value = reportContext.getParameterValue(parameterName);
+		return value;
+	}
+
+	public DataCacheHandler getCacheHandler()
+	{
+		return cacheHandler;
+	}
+
+	public boolean hasCachedData(FillDatasetPosition position)
+	{
+		if (cacheHandler != null && cacheHandler.isCachingEnabled() 
+				&& cacheHandler.isCachePopulated())
+		{
+			return cacheHandler.hasCachedData(position);
+		}
+		
+		return false;
+	}
+	
+	public void cacheDone()
+	{
+		if (cacheHandler != null && cacheHandler.isCachingEnabled())
+		{
+			cacheHandler.setCachePopulated();
+		}
 	}
 }

@@ -41,10 +41,13 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -117,13 +120,23 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	
 	/**
 	 * Creates a datasource instance that reads XLS data from a given location.
+	 * @param jasperReportsContext the JasperReportsContext
 	 * @param location a String representing XLS data source
 	 * @throws IOException 
 	 */
+	public JRXlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
+	{
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location));
+		this.closeInputStream = true;
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #JRXlsDataSource(JasperReportsContext, String)}.
+	 */
 	public JRXlsDataSource(String location) throws JRException, IOException
 	{
-		this(RepositoryUtil.getInputStream(location));
-		this.closeInputStream = true;
+		this(DefaultJasperReportsContext.getInstance(), location);
 	}
 	
 
@@ -206,7 +219,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			{
 				if (numberFormat != null)
 				{
-					return getFormattedNumber(numberFormat, fieldValue, valueClass);
+					return FormatUtils.getFormattedNumber(numberFormat, fieldValue, valueClass);
 				}
 				else 
 				{
@@ -216,7 +229,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 			else if (Date.class.isAssignableFrom(valueClass)){
 				if (dateFormat != null)
 				{
-					return getFormattedDate(dateFormat, fieldValue, valueClass);
+					return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
 				} 
 				else
 				{

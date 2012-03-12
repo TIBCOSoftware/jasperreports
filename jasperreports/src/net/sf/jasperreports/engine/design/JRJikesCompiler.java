@@ -27,7 +27,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -36,7 +38,21 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class JRJikesCompiler extends JRAbstractMultiClassCompiler
 {
+	/**
+	 * 
+	 */
+	public JRJikesCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
 
+	/**
+	 * @deprecated Replaced by {@link #JRJikesCompiler(JasperReportsContext)}.
+	 */
+	public JRJikesCompiler()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
 
 	/**
 	 *

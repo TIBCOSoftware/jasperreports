@@ -40,13 +40,41 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public final class JasperRunManager
 {
+	private JasperReportsContext jasperReportsContext;
 
 
+	/**
+	 *
+	 */
+	private JasperRunManager(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static JasperRunManager getDefaultInstance()
+	{
+		return new JasperRunManager(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JasperRunManager getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new JasperRunManager(jasperReportsContext);
+	}
+	
+	
 	/**
 	 * Fills a report and saves it directly into a PDF file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static String runReportToPdfFile(
+	public String runToPdfFile(
 		String sourceFileName, 
 		Map<String,Object> params, 
 		Connection conn
@@ -57,16 +85,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters =jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -82,7 +112,7 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static String runReportToPdfFile(
+	public String runToPdfFile(
 		String sourceFileName, 
 		Map<String,Object> params 
 		) throws JRException
@@ -92,16 +122,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -111,17 +143,19 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a PDF file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static void runReportToPdfFile(
+	public void runToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, conn);
 
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 	}
 
 
@@ -135,16 +169,18 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static void runReportToPdfFile(
+	public void runToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters);
 
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 	}
 
 	
@@ -152,17 +188,19 @@ public final class JasperRunManager
 	 * Fills a report and sends it directly to an OutputStream in PDF format. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static void runReportToPdfStream(
+	public void runToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, conn);
 
-		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfStream(jasperPrint, outputStream);
 	}
 
 
@@ -176,16 +214,18 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static void runReportToPdfStream(
+	public void runToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters);
 
-		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfStream(jasperPrint, outputStream);
 	}
 
 	
@@ -193,16 +233,18 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		String sourceFileName, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, conn);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 
@@ -216,15 +258,17 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		String sourceFileName, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 	
@@ -232,16 +276,18 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		InputStream inputStream, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, conn);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 
@@ -255,15 +301,17 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		InputStream inputStream, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 	
@@ -271,16 +319,18 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		JasperReport jasperReport, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 
@@ -294,15 +344,17 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		JasperReport jasperReport, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 	
@@ -310,7 +362,7 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a PDF file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static String runReportToPdfFile(
+	public String runToPdfFile(
 		String sourceFileName, 
 		Map<String,Object> params, 
 		JRDataSource jrDataSource
@@ -321,16 +373,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pdf");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -340,18 +394,20 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a PDF file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static void runReportToPdfFile(
+	public void runToPdfFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, jrDataSource);
 
 		/*   */
-		JasperExportManager.exportReportToPdfFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfFile(jasperPrint, destFileName);
 	}
 
 	
@@ -359,17 +415,19 @@ public final class JasperRunManager
 	 * Fills a report and sends it directly to an OutputStream in PDF format. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static void runReportToPdfStream(
+	public void runToPdfStream(
 		InputStream inputStream, 
 		OutputStream outputStream, 
 		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, jrDataSource);
 
-		JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+		JasperExportManager.getInstance(jasperReportsContext).exportToPdfStream(jasperPrint, outputStream);
 	}
 
 	
@@ -377,16 +435,18 @@ public final class JasperRunManager
 	 * Fills a report and sends it to an output stream in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		String sourceFileName, 
 		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, jrDataSource);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 	
@@ -394,16 +454,18 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		InputStream inputStream, 
 		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(inputStream, parameters, jrDataSource);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 	
@@ -411,16 +473,18 @@ public final class JasperRunManager
 	 * Fills a report and returns byte array object containing the report in PDF format.
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static byte[] runReportToPdf(
+	public byte[] runToPdf(
 		JasperReport jasperReport, 
 		Map<String,Object> parameters, 
 		JRDataSource jrDataSource
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
 
-		return JasperExportManager.exportReportToPdf(jasperPrint);
+		return JasperExportManager.getInstance(jasperReportsContext).exportToPdf(jasperPrint);
 	}
 
 
@@ -428,7 +492,7 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a HTML file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static String runReportToHtmlFile(
+	public String runToHtmlFile(
 		String sourceFileName, 
 		Map<String,Object> params, 
 		Connection conn
@@ -439,16 +503,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, conn);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -464,7 +530,7 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static String runReportToHtmlFile(
+	public String runToHtmlFile(
 		String sourceFileName, 
 		Map<String,Object> params 
 		) throws JRException
@@ -474,16 +540,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -493,17 +561,19 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a HTML file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static void runReportToHtmlFile(
+	public void runToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map<String,Object> parameters, 
 		Connection conn
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, conn);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, conn);
 
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 	}
 
 
@@ -517,16 +587,18 @@ public final class JasperRunManager
 	 * @throws JRException
 	 * @see net.sf.jasperreports.engine.fill.JRFiller#fillReport(JasperReport, Map)
 	 */
-	public static void runReportToHtmlFile(
+	public void runToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
 		Map<String,Object> parameters 
 		) throws JRException
 	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters);
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters);
 
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 	}
 
 
@@ -534,7 +606,7 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a HTML file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
-	public static String runReportToHtmlFile(
+	public String runToHtmlFile(
 		String sourceFileName, 
 		Map<String,Object> params, 
 		JRDataSource jrDataSource
@@ -545,16 +617,18 @@ public final class JasperRunManager
 		/*   */
 		JasperReport jasperReport = (JasperReport)JRLoader.loadObject(sourceFile);
 
-		Map<String,Object> parameters = JasperFillManager.setFileResolver(sourceFile, params);
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		Map<String,Object> parameters = jasperFillManager.setFileResolver(sourceFile, params);
 
 		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrDataSource);
+		JasperPrint jasperPrint = jasperFillManager.fill(jasperReport, parameters, jrDataSource);
 
 		/*   */
 		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".html");
 		String destFileName = destFile.toString();
 
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
 		
 		return destFileName;
 	}
@@ -564,6 +638,325 @@ public final class JasperRunManager
 	 * Fills a report and saves it directly into a HTML file. 
 	 * The intermediate JasperPrint object is not saved on disk.
 	 */
+	public void runToHtmlFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		JasperFillManager jasperFillManager = JasperFillManager.getInstance(jasperReportsContext);
+		
+		/*   */
+		JasperPrint jasperPrint = jasperFillManager.fill(sourceFileName, parameters, jrDataSource);
+
+		/*   */
+		JasperExportManager.getInstance(jasperReportsContext).exportToHtmlFile(jasperPrint, destFileName);
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, Map, Connection)}.
+	 */
+	public static String runReportToPdfFile(
+		String sourceFileName, 
+		Map<String,Object> params, 
+		Connection conn
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdfFile(sourceFileName, params, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, Map)}.
+	 */
+	public static String runReportToPdfFile(
+		String sourceFileName, 
+		Map<String,Object> params 
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdfFile(sourceFileName, params);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map, Connection)}.
+	 */
+	public static void runReportToPdfFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfFile(sourceFileName, destFileName, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map)}.
+	 */
+	public static void runReportToPdfFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfFile(sourceFileName, destFileName, parameters);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map, Connection)}.
+	 */
+	public static void runReportToPdfStream(
+		InputStream inputStream, 
+		OutputStream outputStream, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfStream(inputStream, outputStream, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map)}.
+	 */
+	public static void runReportToPdfStream(
+		InputStream inputStream, 
+		OutputStream outputStream, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfStream(inputStream, outputStream, parameters);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(String, Map, Connection)}.
+	 */
+	public static byte[] runReportToPdf(
+		String sourceFileName, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(sourceFileName, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(String, Map)}.
+	 */
+	public static byte[] runReportToPdf(
+		String sourceFileName, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(sourceFileName, parameters);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map, Connection)}.
+	 */
+	public static byte[] runReportToPdf(
+		InputStream inputStream, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(inputStream, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map)}.
+	 */
+	public static byte[] runReportToPdf(
+		InputStream inputStream, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(inputStream, parameters);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map, Connection)}. 
+	 */
+	public static byte[] runReportToPdf(
+		JasperReport jasperReport, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(jasperReport, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map)}.
+	 */
+	public static byte[] runReportToPdf(
+		JasperReport jasperReport, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(jasperReport, parameters);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, Map, JRDataSource)}.
+	 */
+	public static String runReportToPdfFile(
+		String sourceFileName, 
+		Map<String,Object> params, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdfFile(sourceFileName, params, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map, JRDataSource)}.
+	 */
+	public static void runReportToPdfFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfFile(sourceFileName, destFileName, parameters, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map, JRDataSource)}.
+	 */
+	public static void runReportToPdfStream(
+		InputStream inputStream, 
+		OutputStream outputStream, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		getDefaultInstance().runToPdfStream(inputStream, outputStream, parameters, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(String, Map, JRDataSource)}.
+	 */
+	public static byte[] runReportToPdf(
+		String sourceFileName, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(sourceFileName, parameters, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map, JRDataSource)}.
+	 */
+	public static byte[] runReportToPdf(
+		InputStream inputStream, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(inputStream, parameters, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map, JRDataSource)}.
+	 */
+	public static byte[] runReportToPdf(
+		JasperReport jasperReport, 
+		Map<String,Object> parameters, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		return getDefaultInstance().runToPdf(jasperReport, parameters, jrDataSource);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map, Connection)}.
+	 */
+	public static String runReportToHtmlFile(
+		String sourceFileName, 
+		Map<String,Object> params, 
+		Connection conn
+		) throws JRException
+	{
+		return getDefaultInstance().runToHtmlFile(sourceFileName, params, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map)}.
+	 */
+	public static String runReportToHtmlFile(
+		String sourceFileName, 
+		Map<String,Object> params 
+		) throws JRException
+	{
+		return getDefaultInstance().runToHtmlFile(sourceFileName, params);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map, Connection)}.
+	 */
+	public static void runReportToHtmlFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters, 
+		Connection conn
+		) throws JRException
+	{
+		getDefaultInstance().runToHtmlFile(sourceFileName, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map)}.
+	 */
+	public static void runReportToHtmlFile(
+		String sourceFileName, 
+		String destFileName, 
+		Map<String,Object> parameters 
+		) throws JRException
+	{
+		getDefaultInstance().runToHtmlFile(sourceFileName, destFileName, parameters);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map, JRDataSource)}.
+	 */
+	public static String runReportToHtmlFile(
+		String sourceFileName, 
+		Map<String,Object> params, 
+		JRDataSource jrDataSource
+		) throws JRException
+	{
+		return getDefaultInstance().runToHtmlFile(sourceFileName, params, jrDataSource);
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map, JRDataSource)}.
+	 */
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
 		String destFileName, 
@@ -571,15 +964,6 @@ public final class JasperRunManager
 		JRDataSource jrDataSource
 		) throws JRException
 	{
-		/*   */
-		JasperPrint jasperPrint = JasperFillManager.fillReport(sourceFileName, parameters, jrDataSource);
-
-		/*   */
-		JasperExportManager.exportReportToHtmlFile(jasperPrint, destFileName);
-	}
-
-	
-	private JasperRunManager()
-	{
+		getDefaultInstance().runToHtmlFile(sourceFileName, destFileName, parameters, jrDataSource);
 	}
 }

@@ -76,7 +76,7 @@ public final class ComponentElementConverter extends ElementConverter
 		ComponentKey componentKey = componentElement.getComponentKey();
 		if (componentKey != null)
 		{
-			ComponentManager manager = ComponentsEnvironment.getComponentManager(
+			ComponentManager manager = ComponentsEnvironment.getInstance(reportConverter.getJasperReportsContext()).getManager(
 					componentKey);
 			if (manager != null && manager.getDesignConverter() != null)
 			{

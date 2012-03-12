@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
 
@@ -49,11 +50,23 @@ public class JROdtSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_ODT = ".odt";
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JROdtSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JROdtSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JROdtSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -100,7 +113,7 @@ public class JROdtSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JROdtExporter exporter = new JROdtExporter();
+			JROdtExporter exporter = new JROdtExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport();

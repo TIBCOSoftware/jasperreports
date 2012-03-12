@@ -34,22 +34,25 @@ package net.sf.jasperreports.engine.export.oasis;
 import java.awt.geom.Dimension2D;
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintEllipse;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.ExporterNature;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.apache.commons.logging.Log;
@@ -67,13 +70,13 @@ public class JROdsExporter extends JROpenDocumentExporter
 {
 	private static final Log log = LogFactory.getLog(JROdsExporter.class);
 	
-	protected static final String ODS_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.ods.";
+	protected static final String ODS_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.ods.";
 	
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String ODS_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "ods";
+	public static final String ODS_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "ods";
 	
 	protected class ExporterContext extends BaseExporterContext implements JROdsExporterContext
 	{
@@ -95,6 +98,24 @@ public class JROdsExporter extends JROpenDocumentExporter
 		}
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #JROdsExporter(JasperReportsContext)}.
+	 */
+	public JROdsExporter()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 *
+	 */
+	public JROdsExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+
+
 	/**
 	 *
 	 * @see net.sf.jasperreports.engine.export.oasis.JROpenDocumentExporter#getExporterNature(net.sf.jasperreports.engine.export.ExporterFilter)
@@ -241,7 +262,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 
 		tableBuilder.buildCellHeader(styleCache.getCellStyle(gridCell), gridCell.getColSpan(), gridCell.getRowSpan());
 
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 
 		if (
 			renderer != null &&
@@ -253,7 +274,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 			{
 				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
+				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
 			}
 		}
 		else
@@ -286,9 +307,9 @@ public class JROdsExporter extends JROpenDocumentExporter
 					if (!image.isLazy())
 					{
 						// Image load might fail.
-						JRRenderable tmpRenderer =
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						Renderable tmpRenderer =
+							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)
 						{
@@ -371,7 +392,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 	protected void exportGenericElement(TableBuilder tableBuilder, JRGenericPrintElement element, JRExporterGridCell gridCell) throws IOException, JRException
 	{
 		GenericElementOdsHandler handler = (GenericElementOdsHandler) 
-		GenericElementHandlerEnviroment.getHandler(
+		GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
 				element.getGenericType(), ODS_EXPORTER_KEY);
 
 		if (handler != null)

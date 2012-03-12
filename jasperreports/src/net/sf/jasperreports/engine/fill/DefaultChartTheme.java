@@ -69,11 +69,11 @@ import net.sf.jasperreports.engine.JRChartPlot.JRSeriesColor;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -149,14 +149,14 @@ public class DefaultChartTheme implements ChartTheme
 	/**
 	 *
 	 */
-	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRProperties.PROPERTY_PREFIX + "chart.dial.value.display.visible";
-	public static final String PROPERTY_DIAL_LABEL = JRProperties.PROPERTY_PREFIX + "chart.dial.label";
-	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRProperties.PROPERTY_PREFIX + "chart.range.axis.tick.count";
-	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRProperties.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
-	public static final String PROPERTY_RANGE_AXIS_INTEGER_UNIT = JRProperties.PROPERTY_PREFIX + "chart.range.axis.integer.unit";
-	public static final String PROPERTY_DOMAIN_AXIS_TICK_COUNT = JRProperties.PROPERTY_PREFIX + "chart.domain.axis.tick.count";
-	public static final String PROPERTY_DOMAIN_AXIS_TICK_INTERVAL = JRProperties.PROPERTY_PREFIX + "chart.domain.axis.tick.interval";
-	public static final String PROPERTY_DOMAIN_AXIS_INTEGER_UNIT = JRProperties.PROPERTY_PREFIX + "chart.domain.axis.integer.unit";
+	public static final String PROPERTY_DIAL_VALUE_DISPLAY_VISIBLE = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.value.display.visible";
+	public static final String PROPERTY_DIAL_LABEL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.dial.label";
+	public static final String PROPERTY_RANGE_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.count";
+	public static final String PROPERTY_RANGE_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.tick.interval";
+	public static final String PROPERTY_RANGE_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.range.axis.integer.unit";
+	public static final String PROPERTY_DOMAIN_AXIS_TICK_COUNT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.count";
+	public static final String PROPERTY_DOMAIN_AXIS_TICK_INTERVAL = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.tick.interval";
+	public static final String PROPERTY_DOMAIN_AXIS_INTEGER_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "chart.domain.axis.integer.unit";
 
 	/**
 	 *
@@ -607,7 +607,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
@@ -642,7 +642,7 @@ public class DefaultChartTheme implements ChartTheme
 					evaluateTextExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
 					evaluateTextExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
 					(CategoryDataset)getDataset(),
-					getPlot().getOrientation(),
+					getPlot().getOrientationValue().getOrientation(),
 					isShowLegend(),
 					true,
 					false );
@@ -734,7 +734,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -825,7 +825,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBubblePlot)getPlot()).getXAxisLabelExpression()),
 				evaluateTextExpression(((JRBubblePlot)getPlot()).getYAxisLabelExpression()),
 				 (XYZDataset)getDataset(),
-				 getPlot().getOrientation(),
+				 getPlot().getOrientationValue().getOrientation(),
 				 isShowLegend(),
 				 true,
 				 false);
@@ -955,7 +955,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression( ((JRLinePlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRLinePlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
@@ -1181,7 +1181,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRScatterPlot)getPlot()).getXAxisLabelExpression()),
 				evaluateTextExpression(((JRScatterPlot)getPlot()).getYAxisLabelExpression() ),
 				(XYDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false);
@@ -1228,7 +1228,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBar3DPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBar3DPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -1282,7 +1282,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRBarPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -1338,7 +1338,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression()),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(CategoryDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -1377,7 +1377,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getCategoryAxisLabelExpression() ),
 				evaluateTextExpression(((JRAreaPlot)getPlot()).getValueAxisLabelExpression()),
 				(XYDataset)getDataset(),
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -1426,7 +1426,7 @@ public class DefaultChartTheme implements ChartTheme
 				isDate,
 				evaluateTextExpression(((JRBarPlot)getPlot()).getValueAxisLabelExpression()),
 				tmpDataset,
-				getPlot().getOrientation(),
+				getPlot().getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false
@@ -1491,7 +1491,7 @@ public class DefaultChartTheme implements ChartTheme
 				evaluateTextExpression(linePlot.getCategoryAxisLabelExpression()),
 				evaluateTextExpression(linePlot.getValueAxisLabelExpression() ),
 				(XYDataset)getDataset(),
-				linePlot.getOrientation(),
+				linePlot.getOrientationValue().getOrientation(),
 				isShowLegend(),
 				true,
 				false);

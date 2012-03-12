@@ -41,9 +41,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -157,11 +160,12 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given location, using the default encoding.
+	 * @param jasperReportsContext the JasperReportsContext
 	 * @param location a String representing CSV data source
 	 */
-	public JRCsvDataSource(String location) throws JRException
+	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException
 	{
-		this(RepositoryUtil.getInputStream(location));
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location));
 		
 		toClose = true;
 	}
@@ -169,13 +173,33 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 	/**
 	 * Creates a datasource instance that reads CSV data from a given location, using the specified encoding.
+	 * @param jasperReportsContext the JasperReportsContext
 	 * @param location a String representing CSV data source
+	 * @param charsetName the encoding to use
+	 */
+	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location, String charsetName) throws JRException, UnsupportedEncodingException
+	{
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location), charsetName);
+		
+		toClose = true;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRCsvDataSource(JasperReportsContext, String)}.
+	 */
+	public JRCsvDataSource(String location) throws JRException
+	{
+		this(DefaultJasperReportsContext.getInstance(), location);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRCsvDataSource(JasperReportsContext, String, String)}.
 	 */
 	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
-		this(RepositoryUtil.getInputStream(location), charsetName);
-		
-		toClose = true;
+		this(DefaultJasperReportsContext.getInstance(), location, charsetName);
 	}
 
 
@@ -257,7 +281,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				{
 					if (numberFormat != null)
 					{
-						return getFormattedNumber(numberFormat, fieldValue, valueClass);
+						return FormatUtils.getFormattedNumber(numberFormat, fieldValue, valueClass);
 					}
 					else 
 					{
@@ -267,7 +291,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 				else if (Date.class.isAssignableFrom(valueClass)){
 					if (dateFormat != null)
 					{
-						return getFormattedDate(dateFormat, fieldValue, valueClass);
+						return FormatUtils.getFormattedDate(dateFormat, fieldValue, valueClass);
 					} 
 					else
 					{

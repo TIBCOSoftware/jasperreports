@@ -47,6 +47,7 @@ import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -96,7 +97,7 @@ public class ComponentsExtensionsRegistryFactory implements
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		ComponentsXmlHandler xmlHandler = new ComponentsXmlHandler();
+		ComponentsXmlHandler xmlHandler = new ComponentsXmlHandler(DefaultJasperReportsContext.getInstance());
 		
 		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
 		parser.setNamespace(NAMESPACE);

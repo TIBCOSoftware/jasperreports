@@ -31,11 +31,11 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.design.JRCompiler;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRApiWriter;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.ReportCreator;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.resources.FileResource;
@@ -72,7 +71,7 @@ import org.apache.tools.ant.util.SourceFileScanner;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRAntApiWriteTask extends MatchingTask
+public class JRAntApiWriteTask extends JRBaseAntTask
 {
 
 
@@ -166,48 +165,39 @@ public class JRAntApiWriteTask extends MatchingTask
 
 		reportFilesMap = new HashMap<String, String>();
 
-		JRProperties.backupProperties();
-		
+		AntClassLoader classLoader = null;
+		if (classpath != null)
+		{
+			jasperReportsContext.setProperty(JRCompiler.COMPILER_CLASSPATH, String.valueOf(classpath));
+			
+			ClassLoader parentClassLoader = getClass().getClassLoader();
+			classLoader = new AntClassLoader(parentClassLoader, getProject(), classpath, true);
+			classLoader.setThreadContextLoader();
+		}
+
 		try
 		{
-			AntClassLoader classLoader = null;
-			if (classpath != null)
-			{
-				JRProperties.setProperty(JRProperties.COMPILER_CLASSPATH, String.valueOf(classpath));
-				
-				ClassLoader parentClassLoader = getClass().getClassLoader();
-				classLoader = new AntClassLoader(parentClassLoader, getProject(), classpath, true);
-				classLoader.setThreadContextLoader();
-			}
-
-			try
+			/*   */
+			scanSrc();
+			
+			if (runApi)
 			{
 				/*   */
-				scanSrc();
-				
-				if (runApi)
-				{
-					/*   */
-					runApi();
-				}
-				else
-				{
-					/*   */
-					writeApi();
-				}
+				runApi();
 			}
-			finally
+			else
 			{
-				if (classLoader != null)
-				{
-					classLoader.resetThreadContextLoader();
-				}				
-			}			
+				/*   */
+				writeApi();
+			}
 		}
 		finally
 		{
-			JRProperties.restoreProperties();
-		}
+			if (classLoader != null)
+			{
+				classLoader.resetThreadContextLoader();
+			}				
+		}			
 	}
 	
 	
@@ -367,7 +357,7 @@ public class JRAntApiWriteTask extends MatchingTask
 						}
 					}
 					
-					JRApiWriter.writeReport(report, destFileName);
+					new JRApiWriter(jasperReportsContext).write(report, destFileName);
 					
 					System.out.println("OK.");
 				}
@@ -418,7 +408,7 @@ public class JRAntApiWriteTask extends MatchingTask
 					Class<?> reportCreatorClass = JRClassLoader.loadClassFromFile(null, new File(srcFileName));
 					ReportCreator reportCreator = (ReportCreator)reportCreatorClass.newInstance();
 					JasperDesign jasperDesign = reportCreator.create();
-					JRXmlWriter.writeReport(jasperDesign, destFileName, "UTF-8");
+					new JRXmlWriter(jasperReportsContext).write(jasperDesign, destFileName, "UTF-8");
 
 					System.out.println("OK.");
 				}

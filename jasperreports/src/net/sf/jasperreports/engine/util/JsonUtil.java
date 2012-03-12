@@ -69,7 +69,7 @@ public class JsonUtil {
 			if (!contextNode.path(attribute).isValueNode()) {
 				result = false;	
 			} else {
-				String contextValue = contextNode.path(attribute).getValueAsText();
+				String contextValue = contextNode.path(attribute).asText();
 				switch(operator) {
 				case LT:
 					try {

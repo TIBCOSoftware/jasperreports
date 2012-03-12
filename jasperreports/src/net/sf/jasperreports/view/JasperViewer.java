@@ -33,10 +33,13 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +67,9 @@ public class JasperViewer extends javax.swing.JFrame
 	private boolean isExitOnClose = true;
 	
 	
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		String sourceFile, 
 		boolean isXMLFile
@@ -74,7 +79,9 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		InputStream is,
 		boolean isXMLFile
@@ -84,7 +91,9 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		JasperPrint jasperPrint
 		)
@@ -93,7 +102,9 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		String sourceFile,
 		boolean isXMLFile,
@@ -104,7 +115,9 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		InputStream is,
 		boolean isXMLFile,
@@ -115,7 +128,9 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		JasperPrint jasperPrint,
 		boolean isExitOnClose
@@ -125,12 +140,77 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 */
 	public JasperViewer(
 		String sourceFile,
 		boolean isXMLFile,
 		boolean isExitOnClose,
 		Locale locale
+		)  throws JRException
+	{
+		this(
+			DefaultJasperReportsContext.getInstance(), 
+			sourceFile, 
+			isXMLFile, 
+			isExitOnClose, 
+			locale, 
+			null
+			);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 */
+	public JasperViewer(
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale
+		) throws JRException
+	{
+		this(
+			DefaultJasperReportsContext.getInstance(), 
+			is, 
+			isXMLFile, 
+			isExitOnClose, 
+			locale, 
+			null
+			);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 */
+	public JasperViewer(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
+		this(
+			DefaultJasperReportsContext.getInstance(), 
+			jasperPrint, 
+			isExitOnClose, 
+			locale, 
+			null
+			);
+	}
+
+
+	/**
+	 * 
+	 */
+	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale,
+		ResourceBundle resBundle
 		)  throws JRException
 	{
 		if (locale != null)
@@ -141,17 +221,21 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(sourceFile, isXMLFile, locale);
+		this.viewer = new JRViewer(jasperReportsContext, sourceFile, isXMLFile, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * 
+	 */
 	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
 		InputStream is,
 		boolean isXMLFile,
 		boolean isExitOnClose,
-		Locale locale
+		Locale locale,
+		ResourceBundle resBundle
 		) throws JRException
 	{
 		if (locale != null)
@@ -162,16 +246,20 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(is, isXMLFile, locale);
+		this.viewer = new JRViewer(jasperReportsContext, is, isXMLFile, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
 	}
 
 
-	/** Creates new form JasperViewer */
+	/**
+	 * 
+	 */
 	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
 		JasperPrint jasperPrint,
 		boolean isExitOnClose,
-		Locale locale
+		Locale locale,
+		ResourceBundle resBundle
 		)
 	{
 		if (locale != null)
@@ -182,8 +270,49 @@ public class JasperViewer extends javax.swing.JFrame
 
 		initComponents();
 
-		this.viewer = new JRViewer(jasperPrint, locale);
+		this.viewer = new JRViewer(jasperReportsContext, jasperPrint, locale, resBundle);
 		this.pnlMain.add(this.viewer, BorderLayout.CENTER);
+	}
+
+
+	/**
+	 * 
+	 */
+	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		)  throws JRException
+	{
+		this(jasperReportsContext, sourceFile, isXMLFile, isExitOnClose, null, null);
+	}
+
+
+	/**
+	 * 
+	 */
+	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		this(jasperReportsContext, is, isXMLFile, isExitOnClose, null, null);
+	}
+
+
+	/**
+	 * 
+	 */
+	public JasperViewer(
+		JasperReportsContext jasperReportsContext,
+		JasperPrint jasperPrint,
+		boolean isExitOnClose
+		)
+	{
+		this(jasperReportsContext, jasperPrint, isExitOnClose, null, null);
 	}
 
 
@@ -337,7 +466,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -348,7 +477,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -359,7 +488,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint
@@ -369,7 +498,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -381,7 +510,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -393,7 +522,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint,
@@ -404,7 +533,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -413,18 +542,18 @@ public class JasperViewer extends javax.swing.JFrame
 		Locale locale
 		) throws JRException
 	{
-		JasperViewer jasperViewer =
-			new JasperViewer(
-				sourceFile,
-				isXMLFile,
-				isExitOnClose,
-				locale
-				);
-		jasperViewer.setVisible(true);
+		viewReport(
+			DefaultJasperReportsContext.getInstance(),
+			sourceFile,
+			isXMLFile,
+			isExitOnClose,
+			locale,
+			null
+			);
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -433,12 +562,54 @@ public class JasperViewer extends javax.swing.JFrame
 		Locale locale
 		) throws JRException
 	{
+		viewReport(
+			DefaultJasperReportsContext.getInstance(),
+			is,
+			isXMLFile,
+			isExitOnClose,
+			locale,
+			null
+			);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 */
+	public static void viewReport(
+		JasperPrint jasperPrint,
+		boolean isExitOnClose,
+		Locale locale
+		)
+	{
+		viewReport(
+			DefaultJasperReportsContext.getInstance(),
+			jasperPrint,
+			isExitOnClose,
+			locale,
+			null
+			);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale,
+		ResourceBundle resBundle
+		) throws JRException
+	{
 		JasperViewer jasperViewer =
 			new JasperViewer(
-				is,
+				jasperReportsContext,
+				sourceFile,
 				isXMLFile,
 				isExitOnClose,
-				locale
+				locale,
+				resBundle
 				);
 		jasperViewer.setVisible(true);
 	}
@@ -447,18 +618,104 @@ public class JasperViewer extends javax.swing.JFrame
 	 *
 	 */
 	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose,
+		Locale locale,
+		ResourceBundle resBundle
+		) throws JRException
+	{
+		JasperViewer jasperViewer =
+			new JasperViewer(
+				jasperReportsContext,
+				is,
+				isXMLFile,
+				isExitOnClose,
+				locale,
+				resBundle
+				);
+		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
 		JasperPrint jasperPrint,
 		boolean isExitOnClose,
-		Locale locale
+		Locale locale,
+		ResourceBundle resBundle
 		)
 	{
 		JasperViewer jasperViewer =
 			new JasperViewer(
+				jasperReportsContext,
 				jasperPrint,
 				isExitOnClose,
-				locale
+				locale,
+				resBundle
 				);
 		jasperViewer.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
+		String sourceFile,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		viewReport(
+			jasperReportsContext,
+			sourceFile,
+			isXMLFile,
+			isExitOnClose,
+			null,
+			null
+			);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
+		InputStream is,
+		boolean isXMLFile,
+		boolean isExitOnClose
+		) throws JRException
+	{
+		viewReport(
+			jasperReportsContext,
+			is,
+			isXMLFile,
+			isExitOnClose,
+			null,
+			null
+			);
+	}
+
+	/**
+	 *
+	 */
+	public static void viewReport(
+		JasperReportsContext jasperReportsContext,
+		JasperPrint jasperPrint,
+		boolean isExitOnClose
+		)
+	{
+		viewReport(
+			jasperReportsContext,
+			jasperPrint,
+			isExitOnClose,
+			null,
+			null
+			);
 	}
 
 

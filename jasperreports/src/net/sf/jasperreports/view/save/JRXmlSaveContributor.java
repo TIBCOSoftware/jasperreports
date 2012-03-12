@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporterParameter;
 import net.sf.jasperreports.view.JRSaveContributor;
@@ -51,11 +52,23 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JRXmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRXmlSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -106,7 +119,7 @@ public class JRXmlSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRXmlExporter exporter = new JRXmlExporter();
+			JRXmlExporter exporter = new JRXmlExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.setParameter(JRXmlExporterParameter.IS_EMBEDDING_IMAGES, Boolean.FALSE);

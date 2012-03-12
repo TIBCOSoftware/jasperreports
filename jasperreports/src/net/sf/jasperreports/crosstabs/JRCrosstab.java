@@ -27,9 +27,9 @@ import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Crosstab element interface.
@@ -76,7 +76,7 @@ public interface JRCrosstab extends JRElement, JRBoxContainer
 	 * @see #setIgnoreWidth(Boolean)
 	 */
 	public static final String PROPERTY_IGNORE_WIDTH = 
-		JRProperties.PROPERTY_PREFIX + "crosstab.ignore.width";
+		JRPropertiesUtil.PROPERTY_PREFIX + "crosstab.ignore.width";
 	 
 	
 	/**

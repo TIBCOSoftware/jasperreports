@@ -28,8 +28,14 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 
@@ -47,17 +53,43 @@ public class SimpleFontFace implements FontFace
 	private String file;
 	private Font font;
 	
+	
 	/**
 	 * 
 	 */
-	public SimpleFontFace(String file)
+	public static SimpleFontFace getInstance(JasperReportsContext jasperReportsContext, String fontName)
+	{
+		SimpleFontFace fontFace = null;
+
+		if (fontName != null)
+		{
+			if (fontName.trim().toUpperCase().endsWith(".TTF"))
+			{
+				fontFace = new SimpleFontFace(fontName);
+			}
+			else
+			{
+				JRFontUtil.checkAwtFont(fontName, JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT));
+				
+				fontFace = new SimpleFontFace(new Font(fontName, Font.PLAIN, JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(JRFont.DEFAULT_FONT_SIZE)));
+			}
+		}
+		
+		return fontFace;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public SimpleFontFace(JasperReportsContext jasperReportsContext, String file)
 	{
 		this.file = file;
 
 		InputStream is = null;
 		try
 		{
-			is = RepositoryUtil.getInputStream(file);
+			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(file);
 		}
 		catch(JRException e)
 		{
@@ -88,6 +120,15 @@ public class SimpleFontFace implements FontFace
 		}
 	}
 	
+
+	/**
+	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext, String)}.
+	 */
+	public SimpleFontFace(String file)
+	{
+		this(DefaultJasperReportsContext.getInstance(), file);
+	}
+
 	/**
 	 * 
 	 */

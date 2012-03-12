@@ -26,10 +26,12 @@ package net.sf.jasperreports.engine.fill;
 import java.sql.Connection;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -43,13 +45,14 @@ public final class JRFiller
 	/**
 	 *
 	 */
-	public static JasperPrint fillReport(
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
 		JasperReport jasperReport,
 		Map<String,Object> parameters,
 		Connection conn
 		) throws JRException
 	{
-		JRBaseFiller filler = createFiller(jasperReport);
+		JRBaseFiller filler = createFiller(jasperReportsContext, jasperReport);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -69,13 +72,14 @@ public final class JRFiller
 	/**
 	 *
 	 */
-	public static JasperPrint fillReport(
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
 		JasperReport jasperReport,
 		Map<String,Object> parameters,
 		JRDataSource dataSource
 		) throws JRException
 	{
-		JRBaseFiller filler = createFiller(jasperReport);
+		JRBaseFiller filler = createFiller(jasperReportsContext, jasperReport);
 		
 		JasperPrint jasperPrint = null;
 		
@@ -109,9 +113,13 @@ public final class JRFiller
 	 * @return the filled report
 	 * @throws JRException
 	 */
-	public static JasperPrint fillReport(JasperReport jasperReport, Map<String,Object> parameters) throws JRException
+	public static JasperPrint fill(
+		JasperReportsContext jasperReportsContext,
+		JasperReport jasperReport, 
+		Map<String,Object> parameters
+		) throws JRException
 	{
-		JRBaseFiller filler = createFiller(jasperReport);
+		JRBaseFiller filler = createFiller(jasperReportsContext, jasperReport);
 
 		try
 		{
@@ -126,7 +134,10 @@ public final class JRFiller
 	}
 
 
-	public static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException
+	/**
+	 *
+	 */
+	public static JRBaseFiller createFiller(JasperReportsContext jasperReportsContext, JasperReport jasperReport) throws JRException
 	{
 		JRBaseFiller filler = null;
 
@@ -134,16 +145,60 @@ public final class JRFiller
 		{
 			case HORIZONTAL :
 			{
-				filler = new JRHorizontalFiller(jasperReport);
+				filler = new JRHorizontalFiller(jasperReportsContext, jasperReport);
 				break;
 			}
 			case VERTICAL :
 			{
-				filler = new JRVerticalFiller(jasperReport);
+				filler = new JRVerticalFiller(jasperReportsContext, jasperReport);
 				break;
 			}
 		}
 		return filler;
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #fill(JasperReportsContext, JasperReport, Map, Connection)}.
+	 */
+	public static JasperPrint fillReport(
+		JasperReport jasperReport,
+		Map<String,Object> parameters,
+		Connection conn
+		) throws JRException
+	{
+		return fill(DefaultJasperReportsContext.getInstance(), jasperReport, parameters, conn);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #fill(JasperReportsContext, JasperReport, Map, JRDataSource)}.
+	 */
+	public static JasperPrint fillReport(
+		JasperReport jasperReport,
+		Map<String,Object> parameters,
+		JRDataSource dataSource
+		) throws JRException
+	{
+		return fill(DefaultJasperReportsContext.getInstance(), jasperReport, parameters, dataSource);
+	}
+	
+
+	/**
+	 * @deprecated Replaced by {@link #fill(JasperReportsContext, JasperReport, Map)}.
+	 */
+	public static JasperPrint fillReport(JasperReport jasperReport, Map<String,Object> parameters) throws JRException
+	{
+		return fill(DefaultJasperReportsContext.getInstance(), jasperReport, parameters);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #createFiller(JasperReportsContext, JasperReport)}.
+	 */
+	public static JRBaseFiller createFiller(JasperReport jasperReport) throws JRException
+	{
+		return createFiller(DefaultJasperReportsContext.getInstance(), jasperReport);
 	}
 	
 	

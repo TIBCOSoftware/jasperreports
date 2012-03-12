@@ -26,9 +26,11 @@ package net.sf.jasperreports.data.provider;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -40,9 +42,23 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 {
 	private JRDataSourceProvider provider = null;
 
+	/**
+	 * 
+	 */
 	public DataSourceProviderDataAdapterService(
-			DataSourceProviderDataAdapter dsDataAdapter) {
-		super(dsDataAdapter);
+		JasperReportsContext jasperReportsContext,
+		DataSourceProviderDataAdapter dsDataAdapter
+		) 
+	{
+		super(jasperReportsContext, dsDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #DataSourceProviderDataAdapterService(JasperReportsContext, DataSourceProviderDataAdapter)}.
+	 */
+	public DataSourceProviderDataAdapterService(DataSourceProviderDataAdapter dsDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), dsDataAdapter);
 	}
 
 	public DataSourceProviderDataAdapter getDataSourceProviderDataAdapter() {

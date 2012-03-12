@@ -37,12 +37,14 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -116,7 +118,15 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		this.areaHyperlinks = areaHyperlinks;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
+	}
+	
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		ensureSvg();
 
@@ -135,7 +145,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		}
 	}
 
-	public Dimension2D getDimension()
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		try
 		{
@@ -148,16 +158,32 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		}
 	}
 
-	protected synchronized void ensureData() throws JRException
+	/**
+	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 */
+	public Dimension2D getDimension()
+	{
+		return getDimension(DefaultJasperReportsContext.getInstance());
+	}
+
+	protected synchronized void ensureData(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		if (svgText == null
 				&& svgData == null && svgDataLocation != null)
 		{
-			svgData = RepositoryUtil.getBytes(svgDataLocation);
+			svgData = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(svgDataLocation);
 		}
 	}
 
-	protected synchronized void ensureSvg() throws JRException
+	/**
+	 * @deprecated Replaced by {@link #ensureData(JasperReportsContext)}.
+	 */
+	protected synchronized void ensureData() throws JRException
+	{
+		ensureData(DefaultJasperReportsContext.getInstance());
+	}
+
+	protected synchronized void ensureSvg(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		if (rootNode != null)
 		{
@@ -199,6 +225,18 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 		}
 	}
 	
+
+	/**
+	 * @deprecated Replaced by {@link #ensureSvg(JasperReportsContext)}.
+	 */
+	protected synchronized void ensureSvg() throws JRException
+	{
+		ensureSvg(DefaultJasperReportsContext.getInstance());
+	}
+	
+	/**
+	 * 
+	 */
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
 		render(grx, rectangle);
@@ -302,10 +340,24 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	 * @return a SVG renderer
 	 * @throws JRException
 	 * @see RepositoryUtil#getBytes(String)
+	 * @deprecated Replaced by {@link #getInstanceFromLocation(JasperReportsContext, String)}.
 	 */
 	public static BatikRenderer getInstanceFromLocation(String location) throws JRException
 	{
-		byte[] data = RepositoryUtil.getBytes(location);
+		return getInstanceFromLocation(DefaultJasperReportsContext.getInstance(), location);
+	}
+
+	/**
+	 * Creates a SVG renderer by loading data from a generic location.
+	 *
+	 * @param location the location
+	 * @return a SVG renderer
+	 * @throws JRException
+	 * @see RepositoryUtil#getBytes(String)
+	 */
+	public static BatikRenderer getInstanceFromLocation(JasperReportsContext jasperReportsContext, String location) throws JRException
+	{
+		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(location);
 		return new BatikRenderer(data, null);
 	}
 

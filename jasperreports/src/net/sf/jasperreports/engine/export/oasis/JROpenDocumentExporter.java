@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -68,6 +69,8 @@ import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterFilter;
@@ -127,17 +130,28 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	 */
 	protected Map<String,String> fontMap;
 
-	protected LinkedList<Color> backcolorStack;
+	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
 
 	protected StyleCache styleCache;
 
 	protected ExporterNature nature;
 
+	/**
+	 * @deprecated Replaced by {@link #JROpenDocumentExporter(JasperReportsContext)}.
+	 */
 	public JROpenDocumentExporter()
 	{
-		backcolorStack = new LinkedList<Color>();
-		backcolor = null;
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 *
+	 */
+	public JROpenDocumentExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
 	}
 
 
@@ -352,7 +366,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 				JRPrintElementIndex imageIndex = it.next();
 
 				JRPrintImage image = getImage(jasperPrintList, imageIndex);
-				JRRenderable renderer = image.getRenderer();
+				Renderable renderer = image.getRenderable();
 				if (renderer.getType() == JRRenderable.TYPE_SVG)
 				{
 					renderer =
@@ -366,7 +380,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 				oasisZip.addEntry(//FIXMEODT optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"Pictures/" + getImageName(imageIndex),
-						renderer.getImageData()
+						renderer.getImageData(jasperReportsContext)
 						)
 					);
 			}
@@ -1073,7 +1087,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkTypeValue())

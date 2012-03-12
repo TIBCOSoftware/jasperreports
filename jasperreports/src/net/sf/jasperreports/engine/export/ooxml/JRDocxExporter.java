@@ -41,11 +41,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -58,11 +58,15 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ElementGridCell;
@@ -102,15 +106,15 @@ public class JRDocxExporter extends JRAbstractExporter
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String DOCX_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "docx";
+	public static final String DOCX_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "docx";
 	
-	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.docx.";
+	protected static final String DOCX_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.";
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
 	 * @see JRProperties
 	 */
-	public static final String PROPERTY_HIDDEN_TEXT = JRProperties.PROPERTY_PREFIX + "export.docx.hidden.text";
+	public static final String PROPERTY_HIDDEN_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.hidden.text";
 
 	/**
 	 *
@@ -145,7 +149,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	protected Map<String,String> fontMap;
 
-	protected LinkedList<Color> backcolorStack;
+	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
 
 	private DocxRunHelper runHelper;
@@ -178,10 +182,21 @@ public class JRDocxExporter extends JRAbstractExporter
 	}
 	
 	
+	/**
+	 * @deprecated Replaced by {@link #JRDocxExporter(JasperReportsContext)}.
+	 */
 	public JRDocxExporter()
 	{
-		backcolorStack = new LinkedList<Color>();
-		backcolor = null;
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 *
+	 */
+	public JRDocxExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
 	}
 
 
@@ -287,13 +302,13 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
 	{
 		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
@@ -310,10 +325,10 @@ public class JRDocxExporter extends JRAbstractExporter
 		if(element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericPrintElement = (JRGenericPrintElement)element;
-			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getHandler(
+			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericPrintElement.getGenericType(), 
 					DOCX_EXPORTER_KEY
-					)).getImage(genericPrintElement);
+					)).getImage(jasperReportsContext, genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;
@@ -391,7 +406,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				JRPrintElementIndex imageIndex = it.next();
 
 				JRPrintImage image = getImage(jasperPrintList, imageIndex);
-				JRRenderable renderer = image.getRenderer();
+				Renderable renderer = image.getRenderable();
 				if (renderer.getType() == JRRenderable.TYPE_SVG)
 				{
 					renderer =
@@ -414,7 +429,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				docxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 					new FileBufferedZipEntry(
 						"word/media/" + imageName + "." + extension,
-						renderer.getImageData()
+						renderer.getImageData(jasperReportsContext)
 						)
 					);
 				
@@ -735,7 +750,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				text.getStyle(), 
 				styledText, 
 				getTextLocale(text),
-				JRProperties.getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
+				getPropertiesUtil().getBooleanProperty(text, PROPERTY_HIDDEN_TEXT, false),
 				startedHyperlink
 				);
 		}
@@ -816,7 +831,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		docHelper.write("<w:p>");//FIXMEDOCX why is this here and not further down?
 
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 
 		if (
 			renderer != null &&
@@ -828,7 +843,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			{
 				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
-				renderer = JRImageRenderer.getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
+				renderer = RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForImageData(renderer, image.getOnErrorTypeValue());
 			}
 		}
 		else
@@ -845,9 +860,9 @@ public class JRDocxExporter extends JRAbstractExporter
 			double normalHeight = availableImageHeight;
 
 			// Image load might fail.
-			JRRenderable tmpRenderer =
-				JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+			Renderable tmpRenderer =
+				RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+			Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 			// If renderer was replaced, ignore image dimension.
 			if (tmpRenderer == renderer && dimension != null)
 			{
@@ -1225,7 +1240,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected void exportGenericElement(DocxTableHelper tableHelper, JRGenericPrintElement element, JRExporterGridCell gridCell)
 	{
 		GenericElementDocxHandler handler = (GenericElementDocxHandler) 
-		GenericElementHandlerEnviroment.getHandler(
+		GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
 				element.getGenericType(), DOCX_EXPORTER_KEY);
 
 		if (handler != null)
@@ -1383,7 +1398,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkTypeValue())
@@ -1494,7 +1509,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	protected ExporterNature getExporterNature(ExporterFilter filter) 
 	{
-		return new JRDocxExporterNature(filter, deepGrid);
+		return new JRDocxExporterNature(jasperReportsContext, filter, deepGrid);
 	}
 
 	/**

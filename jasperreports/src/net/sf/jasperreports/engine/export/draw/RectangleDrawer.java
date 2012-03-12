@@ -36,7 +36,9 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -49,7 +51,24 @@ import net.sf.jasperreports.engine.util.JRPenUtil;
  */
 public class RectangleDrawer extends ElementDrawer<JRPrintRectangle>
 {
-
+	/**
+	 * @deprecated Replaced by {@link #RectangleDrawer(JasperReportsContext)}.
+	 */
+	public RectangleDrawer()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public RectangleDrawer(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
+	
+	
 	/**
 	 *
 	 */

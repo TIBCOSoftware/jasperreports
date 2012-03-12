@@ -24,6 +24,8 @@
 package net.sf.jasperreports.repo;
 
 import net.sf.jasperreports.data.DataAdapter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 
@@ -33,7 +35,23 @@ import net.sf.jasperreports.data.DataAdapter;
  */
 public class CastorDataAdapterPersistenceService extends CastorObjectPersistenceService
 {
+	/**
+	 * @deprecated Replaced by {@link #CastorDataAdapterPersistenceService(JasperReportsContext)}. 
+	 */
+	public CastorDataAdapterPersistenceService()
+	{
+		super(DefaultJasperReportsContext.getInstance());
+	}
+	
+	/**
+	 * 
+	 */
+	public CastorDataAdapterPersistenceService(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+	}
 
+	
 	/**
 	 * 
 	 */

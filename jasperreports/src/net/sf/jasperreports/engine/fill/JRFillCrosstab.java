@@ -75,6 +75,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
@@ -82,7 +83,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 import org.jfree.data.general.Dataset;
@@ -189,7 +189,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				PROPERTY_IGNORE_WIDTH);
 		if (reportProperty != null)
 		{
-			return JRProperties.asBoolean(reportProperty);
+			return JRPropertiesUtil.asBoolean(reportProperty);
 		}
 		
 		// report pagination parameter from the master filler
@@ -201,7 +201,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 		
 		// global property
-		return JRProperties.getBooleanProperty(PROPERTY_IGNORE_WIDTH);
+		return filler.getPropertiesUtil().getBooleanProperty(PROPERTY_IGNORE_WIDTH);
 	}
 
 	/**
@@ -354,11 +354,16 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
+	public JRBaseFiller getFiller()
+	{
+		return filler;
+	}
+
 	protected void loadEvaluator(JasperReport jasperReport)
 	{
 		try
 		{
-			JREvaluator evaluator = JasperCompileManager.loadEvaluator(jasperReport, parentCrosstab);
+			JREvaluator evaluator = JasperCompileManager.getInstance(filler.getJasperReportsContext()).getEvaluator(jasperReport, parentCrosstab);
 			crosstabEvaluator = new JRCrosstabExpressionEvaluator(evaluator);
 		}
 		catch (JRException e)

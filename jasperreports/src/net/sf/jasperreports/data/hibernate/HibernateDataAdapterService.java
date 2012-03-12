@@ -31,7 +31,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRHibernateQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -47,8 +49,20 @@ public class HibernateDataAdapterService extends AbstractDataAdapterService {
 			.getLog(HibernateDataAdapterService.class);
 	private Object session;
 
-	public HibernateDataAdapterService(HibernateDataAdapter jsonDataAdapter) {
-		super(jsonDataAdapter);
+	/**
+	 * 
+	 */
+	public HibernateDataAdapterService(JasperReportsContext jasperReportsContext, HibernateDataAdapter jsonDataAdapter) 
+	{
+		super(jasperReportsContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #HibernateDataAdapterService(JasperReportsContext, HibernateDataAdapter)}.
+	 */
+	public HibernateDataAdapterService(HibernateDataAdapter jsonDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public HibernateDataAdapter getHibernateDataAdapter() {

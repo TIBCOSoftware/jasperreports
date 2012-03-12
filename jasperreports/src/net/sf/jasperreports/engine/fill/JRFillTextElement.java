@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -115,7 +114,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 	private void createTextMeasurer()
 	{
-		textMeasurer = JRTextMeasurerUtil.createTextMeasurer(this);
+		textMeasurer = JRTextMeasurerUtil.getInstance(filler.getJasperReportsContext()).createTextMeasurer(this);
 	}
 
 	protected void ensureTextMeasurer()
@@ -851,13 +850,13 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		return text;
 	}
 
-	protected static MarkupProcessor getMarkupProcessor(String markup)
+	protected MarkupProcessor getMarkupProcessor(String markup)
 	{
 		MarkupProcessor markupProcessor = markupProcessors.get(markup);
 		
 		if (markupProcessor == null)
 		{
-			String factoryClass = JRProperties.getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
+			String factoryClass = filler.getPropertiesUtil().getProperty(MarkupProcessorFactory.PROPERTY_MARKUP_PROCESSOR_FACTORY_PREFIX + markup);
 			if (factoryClass == null)
 			{
 				throw new JRRuntimeException("No markup processor factory specifyed for '" + markup + "' markup.");
@@ -888,7 +887,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		String fullText = fullStyledText.getText();
 		
 		boolean keepAllText = !canOverflow() 
-				&& JRProperties.getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
+				&& filler.getPropertiesUtil().getBooleanProperty(this, JRTextElement.PROPERTY_PRINT_KEEP_FULL_TEXT, false);
 		if (keepAllText)
 		{
 			//assert getTextStart() == 0

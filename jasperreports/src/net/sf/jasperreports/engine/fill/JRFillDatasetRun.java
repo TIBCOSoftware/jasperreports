@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.fill;
 
 import java.sql.Connection;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -34,6 +35,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
+import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 
@@ -53,6 +55,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	protected final JRBaseFiller filler;
 
+	protected final JRDatasetRun parentDatasetRun;
 	protected final JRFillDataset dataset;
 
 	protected JRExpression parametersMapExpression;
@@ -85,6 +88,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 		this.filler = filler;
 		this.dataset = dataset;
 
+		this.parentDatasetRun = datasetRun;
 		parametersMapExpression = datasetRun.getParametersMapExpression();
 		parameters = datasetRun.getParameters();
 		connectionExpression = datasetRun.getConnectionExpression();
@@ -114,10 +118,19 @@ public class JRFillDatasetRun implements JRDatasetRun
 
 		try
 		{
+			// set fill position for caching
+			FillDatasetPosition datasetPosition = new FillDatasetPosition(filler.mainDataset.fillPosition);
+			datasetPosition.addAttribute("datasetRunUUID", getUUID());
+			datasetPosition.addAttribute("rowIndex", filler.mainDataset.getCacheRecordIndex());		
+			dataset.setFillPosition(datasetPosition);
+			
 			if (dataSourceExpression != null)
 			{
-				JRDataSource dataSource = (JRDataSource) filler.evaluateExpression(dataSourceExpression, evaluation);
-				dataset.setDatasourceParameterValue(parameterValues, dataSource);
+				if (!filler.fillContext.hasCachedData(datasetPosition))
+				{
+					JRDataSource dataSource = (JRDataSource) filler.evaluateExpression(dataSourceExpression, evaluation);
+					dataset.setDatasourceParameterValue(parameterValues, dataSource);
+				}
 			}
 			else if (connectionExpression != null)
 			{
@@ -255,6 +268,11 @@ public class JRFillDatasetRun implements JRDatasetRun
 	protected JRFillDataset getDataset()
 	{
 		return dataset;
+	}
+
+	public UUID getUUID()
+	{
+		return parentDatasetRun.getUUID();
 	}
 	
 	/**

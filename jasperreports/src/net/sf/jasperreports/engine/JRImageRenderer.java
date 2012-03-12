@@ -104,47 +104,29 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String)}.
 	 */
 	public static JRRenderable getInstance(String imageLocation) throws JRException
 	{
-		return getInstance(imageLocation, OnErrorTypeEnum.ERROR, true);
+		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation);
 	}
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		return getInstance(imageLocation, onErrorType, true);
+		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation, onErrorType);
 	}
 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(String, OnErrorTypeEnum, boolean)}.
 	 */
 	public static JRRenderable getInstance(String imageLocation, OnErrorTypeEnum onErrorType, boolean isLazy) throws JRException
 	{
-		if (imageLocation == null)
-		{
-			return null;
-		}
-
-		if (isLazy)
-		{
-			return new JRImageRenderer(imageLocation);
-		}
-
-		try
-		{
-			byte[] data = RepositoryUtil.getBytes(imageLocation);
-			return new JRImageRenderer(data);
-		}
-		catch (JRException e)
-		{
-			return getOnErrorRenderer(onErrorType, e);
-		}
+		return RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageLocation, onErrorType, isLazy);
 	}
 
 	
@@ -211,6 +193,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
 	 * @param onErrorType one of the error type constants defined in the {@link OnErrorTypeEnum}.
 	 * @return the image renderer instance
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, byte, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(Image image, byte imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -274,7 +257,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRendererForDimension(Renderable, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getOnErrorRendererForDimension(JRRenderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -291,7 +274,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getOnErrorRendererForImageData(Renderable, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getOnErrorRendererForImageData(JRRenderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -310,17 +293,26 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	public static JRImageRenderer getOnErrorRendererForImage(JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
+	public static JRImageRenderer getOnErrorRendererForImage(JasperReportsContext jasperReportsContext, JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		try
 		{
-			renderer.getImage();
+			renderer.getImage(jasperReportsContext);
 			return renderer;
 		}
 		catch (JRException e)
 		{
 			return getOnErrorRenderer(onErrorType, e); 
 		}
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getOnErrorRendererForImage(JasperReportsContext, JRImageRenderer, OnErrorTypeEnum)}.
+	 */
+	public static JRImageRenderer getOnErrorRendererForImage(JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
+	{
+		return getOnErrorRendererForImage(DefaultJasperReportsContext.getInstance(), renderer, onErrorType);
 	}
 
 
@@ -357,14 +349,23 @@ public class JRImageRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	public Image getImage() throws JRException
+	public Image getImage(JasperReportsContext jasperReportsContext) throws JRException
 	{
 		if (awtImageRef == null || awtImageRef.get() == null)
 		{
-			Image awtImage = JRImageLoader.loadImage(getImageData());
+			Image awtImage = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(getImageData(jasperReportsContext));
 			awtImageRef = new SoftReference<Image>(awtImage);
 		}
 		return awtImageRef.get();
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getImage(JasperReportsContext))}.
+	 */
+	public Image getImage() throws JRException
+	{
+		return getImage(DefaultJasperReportsContext.getInstance());
 	}
 
 
@@ -393,23 +394,31 @@ public class JRImageRenderer extends JRAbstractRenderer
 	
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
 	 */
 	public Dimension2D getDimension() throws JRException
 	{
-		Image img = getImage();
-		return new Dimension(img.getWidth(null), img.getHeight(null));
+		return getDimension(DefaultJasperReportsContext.getInstance());
 	}
 
 
 	/**
 	 *
 	 */
-	public byte[] getImageData() throws JRException
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		Image img = getImage(jasperReportsContext);
+		return new Dimension(img.getWidth(null), img.getHeight(null));
+	}
+
+
+	@Override
+	public byte[] getImageData(JasperReportsContext jasperReportsContext)
+			throws JRException
 	{
 		if (imageData == null)
 		{
-			imageData = RepositoryUtil.getBytes(imageLocation);
+			imageData = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(imageLocation);
 			
 			if(imageData != null) 
 			{
@@ -422,11 +431,29 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableService#getImageData(JasperReportsContext))}.
+	 */
+	public byte[] getImageData() throws JRException
+	{
+		return getImageData(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
-		Image img = getImage();
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
+	}
+
+
+	/**
+	 *
+	 */
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		Image img = getImage(jasperReportsContext);
 
 		grx.drawImage(
 			img, 

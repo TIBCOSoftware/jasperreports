@@ -31,41 +31,64 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsAbstractExporterNature implements ExporterNature
+public class JRXlsAbstractExporterNature extends AbstractExporterNature
 {
 	
-	public static final String PROPERTY_BREAK_BEFORE_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.before.row";
-	public static final String PROPERTY_BREAK_AFTER_ROW = JRProperties.PROPERTY_PREFIX + "export.xls.break.after.row";
+	public static final String PROPERTY_BREAK_BEFORE_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.before.row";
+	public static final String PROPERTY_BREAK_AFTER_ROW = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.break.after.row";
 
-	protected ExporterFilter filter;
 	protected boolean isIgnoreGraphics;
 	protected boolean isIgnorePageMargins;
 
 	/**
 	 * 
 	 */
-	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	protected JRXlsAbstractExporterNature(
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter, 
+		boolean isIgnoreGraphics,
+		boolean isIgnorePageMargins
+		)
 	{
-		this(filter, isIgnoreGraphics, false);
+		super(jasperReportsContext, filter);
+		this.isIgnoreGraphics = isIgnoreGraphics;
+		this.isIgnorePageMargins = isIgnorePageMargins;
 	}
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRXlsAbstractExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}. 
+	 */
+	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
+	{
+		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JRXlsAbstractExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}. 
 	 */
 	protected JRXlsAbstractExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
 	{
-		this.filter = filter;
-		this.isIgnoreGraphics = isIgnoreGraphics;
-		this.isIgnorePageMargins = isIgnorePageMargins;
+		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
+	}
+	
+	/**
+	 *
+	 */
+	public JRPropertiesUtil getPropertiesUtil()
+	{
+		return propertiesUtil;
 	}
 	
 	/**
@@ -154,7 +177,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, false);
+			return getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, false);
 		}
 		return null;
 	}
@@ -171,7 +194,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
+			return getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
 		}
 		return null;
 	}
@@ -183,7 +206,7 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
+			return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, 0);
 		}
 		return null;
 	}
@@ -195,16 +218,16 @@ public class JRXlsAbstractExporterNature implements ExporterNature
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
-			return JRProperties.getFloatProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+			return getPropertiesUtil().getFloatProperty(element, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 		}
 		return null;
 	}
 
-	public List<JRProperties.PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
+	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
 	{
 		if (element.hasProperties())
 		{
-			return JRProperties.getProperties(element,JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
+			return JRPropertiesUtil.getProperties(element,JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX);
 		}
 		return null;
 		

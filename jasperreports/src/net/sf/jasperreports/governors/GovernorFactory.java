@@ -28,10 +28,10 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactoryContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -61,20 +61,20 @@ public final class GovernorFactory implements ScriptletFactory
 	{
 		List<JRAbstractScriptlet> scriptlets = new ArrayList<JRAbstractScriptlet>();
 
-		boolean maxPagesEnabled = JRProperties.getBooleanProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES_ENABLED, true);
+		boolean maxPagesEnabled = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getBooleanProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES_ENABLED, true);
 		if (maxPagesEnabled)
 		{
-			int maxPages = JRProperties.getIntegerProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES, 0);
+			int maxPages = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getIntegerProperty(context.getDataset(), MaxPagesGovernor.PROPERTY_MAX_PAGES, 0);
 			if (maxPages > 0)
 			{
 				scriptlets.add(new MaxPagesGovernor(maxPages));
 			}
 		}
 		
-		boolean timeoutEnabled = JRProperties.getBooleanProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT_ENABLED, true);
+		boolean timeoutEnabled = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getBooleanProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT_ENABLED, true);
 		if (timeoutEnabled)
 		{
-			long timeout = JRProperties.getLongProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
+			long timeout = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getLongProperty(context.getDataset(), TimeoutGovernor.PROPERTY_TIMEOUT, 0);
 			if (timeout > 0)
 			{
 				scriptlets.add(new TimeoutGovernor(timeout));

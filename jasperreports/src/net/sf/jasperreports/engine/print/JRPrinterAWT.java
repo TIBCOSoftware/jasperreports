@@ -33,9 +33,11 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
@@ -55,6 +57,7 @@ public class JRPrinterAWT implements Printable
 	/**
 	 *
 	 */
+	private JasperReportsContext jasperReportsContext;
 	private JasperPrint jasperPrint;
 	private int pageOffset;
 
@@ -64,14 +67,24 @@ public class JRPrinterAWT implements Printable
 	 */
 	protected JRPrinterAWT(JasperPrint jrPrint) throws JRException
 	{
-		JRGraphEnvInitializer.initializeGraphEnv();
-		
-		jasperPrint = jrPrint;
+		this(DefaultJasperReportsContext.getInstance(), jrPrint);
 	}
 
 
 	/**
 	 *
+	 */
+	public JRPrinterAWT(JasperReportsContext jasperReportsContext, JasperPrint jasperPrint) throws JRException
+	{
+		JRGraphEnvInitializer.initializeGraphEnv();
+		
+		this.jasperReportsContext = jasperReportsContext;
+		this.jasperPrint = jasperPrint;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #printPages(int, int, boolean)}.
 	 */
 	public static boolean printPages(
 		JasperPrint jrPrint,
@@ -90,7 +103,7 @@ public class JRPrinterAWT implements Printable
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #printPageToImage(int, float)}.
 	 */
 	public static Image printPageToImage(
 		JasperPrint jrPrint,
@@ -106,7 +119,7 @@ public class JRPrinterAWT implements Printable
 	/**
 	 *
 	 */
-	private boolean printPages(
+	public boolean printPages(
 		int firstPageIndex,
 		int lastPageIndex,
 		boolean withPrintDialog
@@ -220,7 +233,7 @@ public class JRPrinterAWT implements Printable
 
 		try
 		{
-			JRGraphics2DExporter exporter = new JRGraphics2DExporter();
+			JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
 			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
@@ -243,7 +256,7 @@ public class JRPrinterAWT implements Printable
 	/**
 	 *
 	 */
-	private Image printPageToImage(int pageIndex, float zoom) throws JRException
+	public Image printPageToImage(int pageIndex, float zoom) throws JRException
 	{
 		Image pageImage = new BufferedImage(
 			(int)(jasperPrint.getPageWidth() * zoom) + 1,
@@ -251,8 +264,8 @@ public class JRPrinterAWT implements Printable
 			BufferedImage.TYPE_INT_RGB
 			);
 
-		JRGraphics2DExporter exporter = new JRGraphics2DExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
+		JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, pageImage.getGraphics());
 		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 		exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(zoom));

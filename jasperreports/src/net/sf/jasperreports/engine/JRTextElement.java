@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -50,7 +49,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * <ul>
 	 * 	<li>at {@link JRTextElement text element} level</li>
 	 * 	<li>at {@link JRReport report} level</li>
-	 * 	<li>globally in jasperreports.properties or via {@link JRProperties}</li>
+	 * 	<li>globally in jasperreports.properties or via {@link JRPropertiesUtil}</li>
 	 * </ul> 
 	 * </p>
 	 * 
@@ -58,7 +57,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * @see JRPrintText#getText()
 	 * @see JRPrintText#getTextTruncateIndex()
 	 */
-	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRProperties.PROPERTY_PREFIX + "print.keep.full.text";
+	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "print.keep.full.text";
 	
 	/**
 	 * Boolean property that determines whether text elements are to be truncated
@@ -75,7 +74,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
 	 * </p>
 	 */
-	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRProperties.PROPERTY_PREFIX + "text.truncate.at.char";
+	public static final String PROPERTY_TRUNCATE_AT_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.at.char";
 
 	/**
 	 * Property whose value is used as a suffix for the truncated text.
@@ -90,7 +89,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * The property can be set at the same levels as {@link #PROPERTY_PRINT_KEEP_FULL_TEXT}.
 	 * </p>
 	 */
-	public static final String PROPERTY_TRUNCATE_SUFFIX = JRProperties.PROPERTY_PREFIX + "text.truncate.suffix";
+	public static final String PROPERTY_TRUNCATE_SUFFIX = JRPropertiesUtil.PROPERTY_PREFIX + "text.truncate.suffix";
 	
 	/**
 	 * Boolean property that determines whether the positions where text line
@@ -119,7 +118,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * 
 	 * @see JRPrintText#getLineBreakOffsets()
 	 */
-	public static final String PROPERTY_SAVE_LINE_BREAKS = JRProperties.PROPERTY_PREFIX 
+	public static final String PROPERTY_SAVE_LINE_BREAKS = JRPropertiesUtil.PROPERTY_PREFIX 
 			+ "text.save.line.breaks";
 	
 }

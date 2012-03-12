@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fonts;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 /**
@@ -52,7 +53,7 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 				fontFamilies = new ArrayList<FontFamily>();
 				for (String location : fontFamiliesLocations)
 				{
-					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(location));
+					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(DefaultJasperReportsContext.getInstance(), location));
 				}
 			}
 			return (List<T>) fontFamilies;

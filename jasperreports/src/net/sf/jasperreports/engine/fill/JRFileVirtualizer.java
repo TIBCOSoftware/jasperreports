@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.util.JRProperties;
@@ -67,7 +68,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 	 * Temporary files will be deleted by explicitly calling {@link #cleanup() cleanup()} or from the virtualizer
 	 * <code>finalize()</code> method.
 	 */
-	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRProperties.PROPERTY_PREFIX + "virtualizer.files.delete.on.exit";
+	public static final String PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT = JRPropertiesUtil.PROPERTY_PREFIX + "virtualizer.files.delete.on.exit";
 
 	private final String directory;
 

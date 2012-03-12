@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
+import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 
 /**
@@ -84,7 +85,7 @@ public final class TextFieldConverter extends TextElementConverter
 		
 		printText.setText(JRExpressionUtil.getExpressionText(textField.getExpression()));
 		
-		measureTextElement(printText);
+		JRTextMeasurerUtil.getInstance(reportConverter.getJasperReportsContext()).measureTextElement(printText);
 
 		return printText;
 	}

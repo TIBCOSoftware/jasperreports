@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRElement;
@@ -46,6 +47,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportTemplate;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -55,6 +57,7 @@ import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTemplateReference;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.base.JRBasePrintPage;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -62,7 +65,6 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRExpressionUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 
 import org.apache.commons.collections.SequencedHashMap;
@@ -79,6 +81,7 @@ public class ReportConverter
 	private static final Log log = LogFactory.getLog(ReportConverter.class);
 	public static final Color GRID_LINE_COLOR = new Color(170, 170, 255);
 	
+	private final JasperReportsContext jasperReportsContext;
 	private final JRReport report;
 	private JasperPrint jasperPrint;
 	private JRPrintPage page;
@@ -102,8 +105,9 @@ public class ReportConverter
 	/**
 	 *
 	 */
-	public ReportConverter(JRReport report, boolean ignoreContent)
+	public ReportConverter(JasperReportsContext jasperReportsContext, JRReport report, boolean ignoreContent)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.report = report;
 		
 		if (report instanceof JasperDesign)
@@ -112,6 +116,14 @@ public class ReportConverter
 		}
 		
 		convert(ignoreContent);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #ReportConverter(JasperReportsContext, JRReport, boolean)}.
+	 */
+	public ReportConverter(JRReport report, boolean ignoreContent)
+	{
+		this(DefaultJasperReportsContext.getInstance(), report, ignoreContent);
 	}
 	
 	/**
@@ -126,7 +138,7 @@ public class ReportConverter
 		//jasperPrint.setLocaleCode(JRDataUtils.getLocaleCode(Locale.getDefault()));
 		//jasperPrint.setTimeZoneId(JRDataUtils.getTimeZoneId(TimeZone.getDefault()));
 		//FIXMEFONT the locale is important for font
-		//jasperPrint.setLocaleCode(report.getProperty(JRProperties.PROPERTY_PREFIX + "locale"));
+		//jasperPrint.setLocaleCode(report.getProperty(JRPropertiesUtil.PROPERTY_PREFIX + "locale"));
 		//JRStyledTextAttributeSelector.setLocale(locale);
 		jasperPrint.setName(report.getName());
 		jasperPrint.setOrientation(report.getOrientationValue());
@@ -137,7 +149,7 @@ public class ReportConverter
 		jasperPrint.setBottomMargin(report.getBottomMargin());
 		jasperPrint.setRightMargin(report.getRightMargin());
 		
-		JRProperties.transferProperties(report, jasperPrint, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
+		JRPropertiesUtil.getInstance(jasperReportsContext).transferProperties(report, jasperPrint, JasperPrint.PROPERTIES_PRINT_TRANSFER_PREFIX);
 
 		setStyles(report);
 
@@ -305,7 +317,7 @@ public class ReportConverter
 		JRTemplate template;
 		try
 		{
-			template = JRXmlTemplateLoader.load(location);
+			template = JRXmlTemplateLoader.getInstance(getJasperReportsContext()).loadTemplate(location);
 		}
 		catch (Exception e)
 		{
@@ -498,6 +510,15 @@ public class ReportConverter
 	}	
 
 
+	/**
+	 * 
+	 */	
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+	
+	
 	/**
 	 * 
 	 */	

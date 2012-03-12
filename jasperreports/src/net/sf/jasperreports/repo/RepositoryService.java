@@ -41,12 +41,12 @@ public interface RepositoryService
 	public <T extends RepositoryContext> T createContext();
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public void setContext(RepositoryContext context);
 
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public void revertContext();
 
