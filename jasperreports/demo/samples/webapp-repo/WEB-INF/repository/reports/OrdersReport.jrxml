@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrdersReport" pageWidth="515" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="500" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="8" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="8" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="TableDataset">
+		<parameter name="CustomerID" class="java.lang.String"/>
+		<queryString language="xPath">
+			<![CDATA[/Northwind/Orders[CustomerID='$P{CustomerID}']]]>
+		</queryString>
+		<field name="ShippedDate" class="java.util.Date">
+			<fieldDescription><![CDATA[ShippedDate]]></fieldDescription>
+		</field>
+		<field name="ShipCountry" class="java.lang.String">
+			<fieldDescription><![CDATA[ShipCountry]]></fieldDescription>
+		</field>
+		<field name="ShipAddress" class="java.lang.String">
+			<fieldDescription><![CDATA[ShipAddress]]></fieldDescription>
+		</field>
+		<field name="Id" class="java.lang.String">
+			<fieldDescription><![CDATA[OrderID]]></fieldDescription>
+		</field>
+		<field name="ShipName" class="java.lang.String">
+			<fieldDescription><![CDATA[ShipName]]></fieldDescription>
+		</field>
+		<field name="Freight" class="java.lang.Float">
+			<fieldDescription><![CDATA[Freight]]></fieldDescription>
+		</field>
+		<field name="ShipCity" class="java.lang.String">
+			<fieldDescription><![CDATA[ShipCity]]></fieldDescription>
+		</field>
+		<field name="OrderDate" class="java.util.Date">
+			<fieldDescription><![CDATA[OrderDate]]></fieldDescription>
+		</field>
+		<variable name="TotalFreight" class="java.lang.Float" calculation="Sum">
+			<variableExpression><![CDATA[$F{Freight}]]></variableExpression>
+			<initialValueExpression>new Float(0)</initialValueExpression>
+		</variable>
+	</subDataset>
+						<parameter name="XML_DATA_DOCUMENT" class="java.lang.Object"/>
+						<parameter name="XML_DATE_PATTERN" class="java.lang.Object"/>
+						<parameter name="XML_NUMBER_PATTERN" class="java.lang.Object"/>
+						<parameter name="XML_LOCALE" class="java.lang.Object"/>
+						<parameter name="XML_TIME_ZONE" class="java.lang.Object"/>
+	<parameter name="CustomerID" class="java.lang.String"/>
+	<title>
+		<band height="45">
+			<componentElement>
+				<reportElement x="0" y="0" width="500" height="40"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="TableDataset">
+						<datasetParameter name="XML_DATA_DOCUMENT">
+							<datasetParameterExpression><![CDATA[$P{XML_DATA_DOCUMENT}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="XML_DATE_PATTERN">
+							<datasetParameterExpression><![CDATA[$P{XML_DATE_PATTERN}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="XML_NUMBER_PATTERN">
+							<datasetParameterExpression><![CDATA[$P{XML_NUMBER_PATTERN}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="XML_LOCALE">
+							<datasetParameterExpression><![CDATA[$P{XML_LOCALE}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="XML_TIME_ZONE">
+							<datasetParameterExpression><![CDATA[$P{XML_TIME_ZONE}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="CustomerID">
+							<datasetParameterExpression><![CDATA[$P{CustomerID}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="55">
+						<jr:tableFooter height="10">
+							<textField>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="51" height="10" backcolor="#33CCCC"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA["Total: " + $V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="48" height="10" backcolor="#CCFFFF"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField>
+								<reportElement x="0" y="0" width="51" height="10"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{Id}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70">
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Order Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd">
+								<reportElement positionType="Float" x="0" y="2" width="67" height="10"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{OrderDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70">
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="67" height="10" backcolor="#CCFFFF"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Ship Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField isStretchWithOverflow="true" pattern="yyyy, MMM dd" isBlankWhenNull="true">
+								<reportElement positionType="Float" x="0" y="2" width="67" height="10"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{ShippedDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55">
+						<jr:tableFooter height="10">
+							<textField pattern="#,##0.00">
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#33CCCC"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{TotalFreight}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="52" height="10" backcolor="#CCFFFF"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Freight]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField isStretchWithOverflow="true" pattern="#,##0.00">
+								<reportElement positionType="Float" x="0" y="2" width="52" height="10"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{Freight}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="105">
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="100" height="10" backcolor="#CCFFFF"/>
+								<textElement/>
+								<text><![CDATA[Ship to]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField isStretchWithOverflow="true">
+								<reportElement positionType="Float" x="0" y="2" width="100" height="10"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{ShipName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="150">
+						<jr:columnHeader height="14">
+							<staticText>
+								<reportElement style="Sans_Bold" mode="Opaque" x="0" y="0" width="140" height="10" backcolor="#CCFFFF"/>
+								<textElement/>
+								<text><![CDATA[Address]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="14">
+							<textField isStretchWithOverflow="true">
+								<reportElement positionType="Float" x="0" y="2" width="145" height="10"/>
+								<textElement/>
+								<textFieldExpression><![CDATA[$F{ShipAddress} + "\n" + $F{ShipCity} + ", " + $F{ShipCountry}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+</jasperReport>
