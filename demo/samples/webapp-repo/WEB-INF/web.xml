@@ -8,6 +8,20 @@
 	<display-name>JasperReports</display-name>
 
 
+	<context-param>
+		<description>This is a context parameter example</description>
+		<param-name>net.sf.jasperreports.web.file.repository.root</param-name>
+		<param-value>/WEB-INF/repository</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>net.sf.jasperreports.web.listeners.JasperReportsContextListener</listener-class>
+	</listener>	
+
+	<servlet>
+		<servlet-name>ViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>ReportServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ReportServlet</servlet-class>
@@ -22,6 +36,10 @@
 	</servlet>
 	
 
+	<servlet-mapping>
+		<servlet-name>ViewerServlet</servlet-name>
+		<url-pattern>/servlets/viewer</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ReportServlet</servlet-name>
 		<url-pattern>/servlets/report</url-pattern>

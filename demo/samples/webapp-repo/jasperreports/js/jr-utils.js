@@ -19,7 +19,7 @@
 				reporturl: null,
 				toolbar: true,
 				scriptname: '_jqueryscript',
-				jqueryurl: 'jquery/js/jquery-1.6.4.min.js'
+				jqueryurl: 'jquery/js/jquery-1.7.1.min.js'
 		};
 
 		if (objOptions) {
