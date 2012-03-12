@@ -54,7 +54,7 @@
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)" complete="false"/>
       <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
-      <feature name="list" sample="list" title="Using the Built-in List Component" complete="false"/>
+      <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="map" sample="map" title="Using the Built-in Map Component"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
       <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
