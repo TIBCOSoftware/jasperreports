@@ -30,6 +30,8 @@
       <property ref="net.sf.jasperreports.jdbc.result.set.type"/>
       <property ref="net.sf.jasperreports.query.chunk.token.separators"/>
       <property ref="net.sf.jasperreports.query.executer.factory.{language}"/>
+      <property ref="net.sf.jasperreports.xls.source"/>
+      <property ref="net.sf.jasperreports.xml.source"/>
       <property ref="net.sf.jasperreports.xpath.executer.factory"/>
     </content>
   </category>
