@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRCommonElement;
@@ -64,6 +65,7 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	/**
 	 *
 	 */
+	private UUID uuid;
 	private String key;
 	private ModeEnum modeValue;
 	private Color forecolor;
@@ -119,13 +121,27 @@ public abstract class JRTemplateElement implements JRCommonElement, Serializable
 	{
 		parentStyle = element.getStyle();
 		
-		setKey(element.getKey());
+		uuid = element.getUUID();
+		
+		key = element.getKey();
 		
 		modeValue = element.getOwnModeValue();
 		forecolor = element.getOwnForecolor();
 		backcolor = element.getOwnBackcolor();
 	}
 	
+	/**
+	 *
+	 */
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
+	}
+
 	/**
 	 *
 	 */

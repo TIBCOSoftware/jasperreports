@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -48,7 +49,7 @@ public class JRBasePrintPage implements JRPrintPage, Serializable
 	/**
 	 *
 	 */
-	protected List<JRPrintElement> elements = new ArrayList<JRPrintElement>();
+	protected List<JRPrintElement> elements = Collections.synchronizedList(new ArrayList<JRPrintElement>());
 
 	
 	public JRBasePrintPage()

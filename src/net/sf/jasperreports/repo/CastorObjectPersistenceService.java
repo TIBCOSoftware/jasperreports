@@ -23,21 +23,12 @@
  */
 package net.sf.jasperreports.repo;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-import net.sf.jasperreports.data.XmlUtil;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.xml.XMLContext;
-import org.xml.sax.InputSource;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.util.CastorUtil;
 
 
 
@@ -47,69 +38,24 @@ import org.xml.sax.InputSource;
  */
 public class CastorObjectPersistenceService implements PersistenceService
 {
+	private JasperReportsContext jasperReportsContext;
+	
+	/**
+	 * @deprecated Replaced by {@link #CastorObjectPersistenceService(JasperReportsContext)}. 
+	 */
+	public CastorObjectPersistenceService()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
 	/**
 	 * 
 	 */
-	private static volatile XMLContext xmlContext;
-	
-	XMLContext getXmlContext()
+	public CastorObjectPersistenceService(JasperReportsContext jasperReportsContext)
 	{
-		if (xmlContext != null)
-		{
-			return xmlContext;
-		}
-		
-		synchronized (CastorObjectPersistenceService.class)
-		{
-			// double check
-			if (xmlContext != null)
-			{
-				return xmlContext;
-			}
-			
-			XMLContext context = new XMLContext();
-
-			Mapping mapping  = context.createMapping();
-			
-			List<CastorMapping> castorMappings = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(CastorMapping.class);
-			for (CastorMapping castorMapping : castorMappings)
-			{
-				loadMapping(mapping, castorMapping.getPath());
-			}
-			
-			try
-			{
-				context.addMapping(mapping);
-			}
-			catch (MappingException e)
-			{
-				throw new JRRuntimeException("Failed to load Castor mappings", e);
-			}
-			
-			xmlContext = context;
-		}
-		
-		return xmlContext;
+		this.jasperReportsContext = jasperReportsContext;
 	}
-	
-	/**
-	 *
-	 */
-	private static void loadMapping(Mapping mapping, String mappingFile)
-	{
-		try
-		{
-			byte[] mappingFileData = JRLoader.loadBytesFromResource(mappingFile);
-			InputSource mappingSource = new InputSource(new ByteArrayInputStream(mappingFileData));
 
-			mapping.loadMapping(mappingSource);
-		}
-		catch (JRException e)
-		{
-			throw new JRRuntimeException(e);
-		}
-	}
-	
 	
 	/**
 	 * 
@@ -126,7 +72,7 @@ public class CastorObjectPersistenceService implements PersistenceService
 			resource = new ObjectResource();
 			try
 			{
-				resource.setValue(XmlUtil.read(is, getXmlContext()));
+				resource.setValue(CastorUtil.getInstance(jasperReportsContext).read(is));
 			}
 			finally
 			{
@@ -151,5 +97,4 @@ public class CastorObjectPersistenceService implements PersistenceService
 	{
 		//FIXMEREPO
 	}
-
 }

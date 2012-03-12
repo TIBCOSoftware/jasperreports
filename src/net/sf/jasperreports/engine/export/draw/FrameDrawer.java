@@ -38,10 +38,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
@@ -74,34 +76,52 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 	/**
 	 *
 	 */
-	private PrintDrawVisitor drawVisitor;
+	private final PrintDrawVisitor drawVisitor;
 
 	private JRGraphics2DExporterContext exporterContext;
 	
 	/**
+	 * @deprecated Replaced by {@link #FrameDrawer(JasperReportsContext, ExporterFilter, AwtTextRenderer)}.
+	 */
+	public FrameDrawer(
+		ExporterFilter filter,
+		AwtTextRenderer textRenderer
+		)
+	{
+		this(DefaultJasperReportsContext.getInstance(), filter, textRenderer);
+	}
+		
+	/**
 	 *
 	 */
 	public FrameDrawer(
-			ExporterFilter filter,
-			AwtTextRenderer textRenderer
-			)
-		{
-			this(null, filter, textRenderer);
-		}
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter,
+		AwtTextRenderer textRenderer
+		)
+	{
+		super(jasperReportsContext);
+
+		this.filter = filter;
 		
+		drawVisitor = new PrintDrawVisitor(jasperReportsContext);
+		drawVisitor.setTextDrawer(new TextDrawer(jasperReportsContext, textRenderer));
+		drawVisitor.setFrameDrawer(this);
+	}
+		
+	/**
+	 * 
+	 */
 	public FrameDrawer(
-			JRGraphics2DExporterContext exporterContext, 
-			ExporterFilter filter,
-			AwtTextRenderer textRenderer
-			)
-		{
-			this.filter = filter;
-			this.exporterContext = exporterContext;
-			
-			drawVisitor = new PrintDrawVisitor();
-			drawVisitor.setTextDrawer(new TextDrawer(textRenderer));
-			drawVisitor.setFrameDrawer(this);
-		}
+		JRGraphics2DExporterContext exporterContext, 
+		ExporterFilter filter,
+		AwtTextRenderer textRenderer
+		)
+	{
+		this(exporterContext.getJasperReportsContext(), filter, textRenderer);
+
+		this.exporterContext = exporterContext;
+	}
 		
 	
 	/**
@@ -206,7 +226,7 @@ public class FrameDrawer extends ElementDrawer<JRPrintFrame>
 				boolean isGenericElement = element instanceof JRGenericPrintElement;
 				JRGenericPrintElement genericElement =  isGenericElement ? (JRGenericPrintElement)element : null;
 				GenericElementGraphics2DHandler handler = isGenericElement 
-						? (GenericElementGraphics2DHandler)GenericElementHandlerEnviroment.getHandler(genericElement.getGenericType(), JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY)
+						? (GenericElementGraphics2DHandler)GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(genericElement.getGenericType(), JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY)
 						: null;
 				
 				boolean isGenericElementToExport = isGenericElement && handler != null && handler.toExport(genericElement); 

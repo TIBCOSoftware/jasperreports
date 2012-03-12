@@ -34,8 +34,11 @@ import net.sf.jasperreports.charts.type.EdgeEnum;
 import net.sf.jasperreports.charts.util.ChartUtil;
 import net.sf.jasperreports.components.charts.ChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartSettings;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.JFreeChart;
@@ -66,17 +69,31 @@ public class SpiderChartRendererEvaluator
 	
 	private static DefaultCategoryDataset sampleDataset;
 	
+	/**
+	 * @deprecated Replaced by {@link #evaluateRenderer(JasperReportsContext, JRComponentElement, SpiderChartSharedBean, ChartCustomizer, String, String)}. 
+	 */
+	public static JRRenderable evaluateRenderer(
+		JRComponentElement element, 
+		SpiderChartSharedBean spiderchartBean, 
+		ChartCustomizer chartCustomizer, 
+		String defaultRenderType,
+		String datasetType
+		)
+	{
+		return evaluateRenderable(DefaultJasperReportsContext.getInstance(), element, spiderchartBean, chartCustomizer, defaultRenderType, datasetType);
+	}
 	
 	/**
 	 * 
 	 */
-	public static JRRenderable evaluateRenderer(
-			JRComponentElement element, 
-			SpiderChartSharedBean spiderchartBean, 
-			ChartCustomizer chartCustomizer, 
-			String defaultRenderType,
-			String datasetType
-			)
+	public static Renderable evaluateRenderable(
+		JasperReportsContext jasperReportsContext,
+		JRComponentElement element, 
+		SpiderChartSharedBean spiderchartBean, 
+		ChartCustomizer chartCustomizer, 
+		String defaultRenderType,
+		String datasetType
+		)
 	{
 		SpiderChartComponent chartComponent = (SpiderChartComponent) element.getComponent();
 		ChartSettings chartSettings = chartComponent.getChartSettings();
@@ -249,7 +266,8 @@ public class SpiderChartRendererEvaluator
 		}
 		
 		return 
-			ChartUtil.getChartRendererFactory(renderType).getRenderer(
+			ChartUtil.getInstance(jasperReportsContext).getChartRenderableFactory(renderType).getRenderable(
+				jasperReportsContext,
 				jfreechart, 
 				spiderchartBean.getHyperlinkProvider(),
 				rectangle

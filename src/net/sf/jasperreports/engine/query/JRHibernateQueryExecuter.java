@@ -31,16 +31,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRHibernateIterateDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateListDataSource;
 import net.sf.jasperreports.engine.data.JRHibernateScrollDataSource;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 import org.apache.commons.logging.Log;
@@ -92,13 +93,19 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	private boolean isClearCache;
 
 	
-	public JRHibernateQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters)
+	/**
+	 * 
+	 */
+	public JRHibernateQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, Map<String, ? extends JRValueParameter> parameters
+		)
 	{
-		super(dataset, parameters);
+		super(jasperReportsContext, dataset, parameters);
 		
 		session = (Session) getParameterValue(JRHibernateQueryExecuterFactory.PARAMETER_HIBERNATE_SESSION);
 		reportMaxCount = (Integer) getParameterValue(JRParameter.REPORT_MAX_COUNT);
-		isClearCache = JRProperties.getBooleanProperty(dataset, 
+		isClearCache = getPropertiesUtil().getBooleanProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_CLEAR_CACHE,
 				false);
 
@@ -108,6 +115,15 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		
 		parseQuery();
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #JRHibernateQueryExecuter(JasperReportsContext, JRDataset, Map)}. 
+	 */
+	public JRHibernateQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters)
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
 	
 	
@@ -140,9 +156,9 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	{
 		JRDataSource resDatasource;
 		
-		String runType = JRProperties.getProperty(dataset, 
+		String runType = getPropertiesUtil().getProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_RUN_TYPE);
-		boolean useFieldDescriptions = JRProperties.getBooleanProperty(dataset, 
+		boolean useFieldDescriptions = getPropertiesUtil().getBooleanProperty(dataset, 
 				JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_FIELD_MAPPING_DESCRIPTIONS,
 				true);
 		
@@ -150,7 +166,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				int pageSize = JRProperties.getIntegerProperty(dataset, 
+				int pageSize = getPropertiesUtil().getIntegerProperty(dataset, 
 						JRHibernateQueryExecuterFactory.PROPERTY_HIBERNATE_QUERY_LIST_PAGE_SIZE,
 						0);
 
@@ -208,7 +224,7 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 		}
 		query.setReadOnly(true);
 		
-		int fetchSize = JRProperties.getIntegerProperty(dataset,
+		int fetchSize = getPropertiesUtil().getIntegerProperty(dataset,
 				JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
 				0);
 		if (fetchSize != 0)

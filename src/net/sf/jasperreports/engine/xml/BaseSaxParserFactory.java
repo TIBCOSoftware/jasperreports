@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -70,7 +71,7 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 	 */
 	// the property was initially created for JRXMLs, but now it's used for XML exports as well.
 	// if required at some point, we can create a separate property. 
-	public static final String PROPERTY_CACHE_SCHEMAS = JRProperties.PROPERTY_PREFIX
+	public static final String PROPERTY_CACHE_SCHEMAS = JRPropertiesUtil.PROPERTY_PREFIX
 		+ "compiler.xml.parser.cache.schemas";
 
 	protected static final String PACKAGE_PREFIX_XERCES = "org.apache.xerces";

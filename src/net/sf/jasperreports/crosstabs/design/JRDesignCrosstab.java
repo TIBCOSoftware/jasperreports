@@ -147,6 +147,7 @@ public class JRDesignCrosstab extends JRDesignElement implements JRCrosstab
 
 	private PropertyChangeListener measureClassChangeListener = new MeasureClassChangeListener();
 	
+	@SuppressWarnings("deprecation")
 	private static final Object[] BUILT_IN_PARAMETERS = new Object[] { 
 		JRParameter.REPORT_CONTEXT, ReportContext.class, 
 		JRParameter.REPORT_PARAMETERS_MAP, java.util.Map.class, 

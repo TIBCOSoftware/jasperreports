@@ -38,9 +38,12 @@ public class JROriginExporterFilterFactory implements ExporterFilterFactory
 	{
 		String originFilterPrefix = exporterContext.getExportPropertiesPrefix() 
 				+ JROriginExporterFilter.PROPERTY_EXCLUDE_ORIGIN_PREFIX;
-		return JROriginExporterFilter.getFilter(
+		return 
+			JROriginExporterFilter.getFilter(
+				exporterContext.getJasperReportsContext(),
 				exporterContext.getExportedReport().getPropertiesMap(), 
-				originFilterPrefix);
+				originFilterPrefix
+				);
 	}
 
 }

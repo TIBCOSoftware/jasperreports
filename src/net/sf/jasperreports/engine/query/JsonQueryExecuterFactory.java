@@ -27,9 +27,8 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * JSON query executer factory.
@@ -40,7 +39,7 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JsonQueryExecuterFactory implements JRQueryExecuterFactory
+public class JsonQueryExecuterFactory extends JRAbstractQueryExecuterFactory
 {
 	/**
 	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the JSON data.
@@ -57,17 +56,17 @@ public class JsonQueryExecuterFactory implements JRQueryExecuterFactory
 	 * 	<li>a url</li>
 	 * </ul>
 	 */
-	public static final String JSON_SOURCE = JRProperties.PROPERTY_PREFIX + "json.source";
+	public static final String JSON_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "json.source";
 	
 	/**
 	 * Parameter holding the format pattern used to instantiate java.util.Date instances.
 	 */
-	public final static String JSON_DATE_PATTERN = JRProperties.PROPERTY_PREFIX + "json.date.pattern";
+	public final static String JSON_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "json.date.pattern";
 	
 	/**
 	 * Parameter holding the format pattern used to instantiate java.lang.Number instances.
 	 */
-	public final static String JSON_NUMBER_PATTERN = JRProperties.PROPERTY_PREFIX + "json.number.pattern";
+	public final static String JSON_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "json.number.pattern";
 
 	/**
 	 * Parameter holding the value of the datasource Locale
@@ -79,7 +78,7 @@ public class JsonQueryExecuterFactory implements JRQueryExecuterFactory
 	 * <p/>
 	 * The allowed format is: language[_country[_variant]] 
 	 */
-	public static final String JSON_LOCALE_CODE = JRProperties.PROPERTY_PREFIX + "json.locale.code";
+	public static final String JSON_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "json.locale.code";
 	
 	/**
 	 * Parameter holding the value of the datasource Timezone
@@ -89,7 +88,7 @@ public class JsonQueryExecuterFactory implements JRQueryExecuterFactory
 	/**
 	 * Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the JSON data.
 	 */
-	public static final String JSON_TIMEZONE_ID = JRProperties.PROPERTY_PREFIX + "json.timezone.id";
+	public static final String JSON_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "json.timezone.id";
 	
 	private final static Object[] JSON_BUILTIN_PARAMETERS = {
 		JSON_INPUT_STREAM, "java.io.InputStream",
@@ -107,10 +106,13 @@ public class JsonQueryExecuterFactory implements JRQueryExecuterFactory
 		return JSON_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map parameters)
-			throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset, 
+		Map parameters
+		) throws JRException
 	{
-		return new JsonQueryExecuter(dataset, parameters);
+		return new JsonQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className)

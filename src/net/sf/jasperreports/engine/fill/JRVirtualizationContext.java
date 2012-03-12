@@ -26,11 +26,12 @@ package net.sf.jasperreports.engine.fill;
 import java.io.IOException;
 import java.io.ObjectInputStream.GetField;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.PrintElementVisitor;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
@@ -72,7 +74,8 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	private Map<String,JRRenderable> cachedRenderers;
 	private Map<String,JRTemplateElement> cachedTemplates;
 	
-	private boolean readOnly;
+	private volatile boolean readOnly;
+	private volatile boolean disposed;
 	
 	private int pageElementSize;
 	
@@ -80,15 +83,19 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	
 	private transient volatile PrintElementVisitor<Void> cacheTemplateVisitor;
 	
+	private transient ReentrantLock lock;
+	
 	/**
 	 * Constructs a context.
 	 */
 	public JRVirtualizationContext()
 	{
-		cachedRenderers = new HashMap<String,JRRenderable>();//FIXME concurrent
-		cachedTemplates = new HashMap<String,JRTemplateElement>();
+		cachedRenderers = new ConcurrentHashMap<String,JRRenderable>(16, 0.75f, 1);
+		cachedTemplates = new ConcurrentHashMap<String,JRTemplateElement>(16, 0.75f, 1);
 		
 		pageElementSize = JRProperties.getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
+		
+		initLock();
 	}
 
 	protected JRVirtualizationContext(JRVirtualizationContext parentContext)
@@ -100,6 +107,14 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		this.cachedTemplates = parentContext.cachedTemplates;
 
 		this.pageElementSize = parentContext.pageElementSize;
+		
+		// always locking the master context
+		this.lock = parentContext.lock;
+	}
+	
+	private void initLock()
+	{
+		lock = new ReentrantLock();
 	}
 	
 	/**
@@ -111,7 +126,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	{
 		if (listeners == null)
 		{
-			listeners = new ArrayList<VirtualizationListener<VirtualElementsData>>(1);
+			listeners = new CopyOnWriteArrayList<VirtualizationListener<VirtualElementsData>>();
 		}
 		
 		listeners.add(listener);
@@ -163,7 +178,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 */
 	public void cacheRenderer(JRPrintImage image)
 	{
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 		if (renderer != null)
 		{
 			cachedRenderers.put(renderer.getId(), renderer);
@@ -356,6 +371,8 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 				JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0));
 		
 		setThreadVirtualizer();
+		
+		initLock();
 	}
 
 	private void setThreadVirtualizer()
@@ -464,5 +481,57 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 			resolve = cachedRenderer;
 		}
 		return resolve;
+	}
+
+	/**
+	 * Acquires a lock on this context.
+	 */
+	public void lock()
+	{
+		try
+		{
+			lock.lockInterruptibly();
+		}
+		catch (InterruptedException e)
+		{
+			throw new JRRuntimeException("Interrupted while locking virtualization context", e);
+		}
+	}
+
+	/**
+	 * Attempts to acquire a lock on this context.
+	 * 
+	 * @return true iff the lock was acquired on the context
+	 */
+	public boolean tryLock()
+	{
+		return lock.tryLock();
+	}
+
+	/**
+	 * Releases the lock previously acquired on this context.
+	 */
+	public void unlock()
+	{
+		lock.unlock();
+	}
+	
+	/**
+	 * Marks this context as disposed in order to instruct the virtualizer
+	 * that pages owned by this context are no longer used.
+	 */
+	public void dispose()
+	{
+		disposed = true;
+	}
+	
+	/**
+	 * Determines if this context is marked as disposed.
+	 * 
+	 * @return whether this context has been marked as disposed
+	 */
+	public boolean isDisposed()
+	{
+		return disposed;
 	}
 }

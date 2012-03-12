@@ -396,7 +396,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 
 				if (contributor == null)
 				{
-					contributor = new JRPrintSaveContributor(getLocale(), viewerContext.getResourceBundle());
+					contributor = new JRPrintSaveContributor(viewerContext.getJasperReportsContext(), getLocale(), viewerContext.getResourceBundle());
 				}
 			}
 
@@ -430,7 +430,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 						try
 						{
 							btnPrint.setEnabled(false);
-							JasperPrintManager.printReport(viewerContext.getJasperPrint(), true);
+							JasperPrintManager.getInstance(viewerContext.getJasperReportsContext()).print(viewerContext.getJasperPrint(), true);
 						}
 						catch (Exception ex)
 						{
@@ -691,7 +691,7 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 			{
 				Class<?> saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
 				Constructor<?> constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
-				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), viewerContext.getResourceBundle()});
+				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{viewerContext.getJasperReportsContext(), getLocale(), viewerContext.getResourceBundle()});
 				saveContributors.add(saveContrib);
 			}
 			catch (Exception e)

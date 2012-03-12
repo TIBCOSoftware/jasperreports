@@ -1,0 +1,211 @@
+/************************ <FILTER DIV> ***************************/
+.filterdiv {
+	text-align: center; 
+	background-color: #FFFFFF;
+	/*-moz-box-shadow: 0 0 5px 5px #888;
+	-webkit-box-shadow: 0 0 5px 5px#888;
+	box-shadow: 0 0 5px 5px #888;
+	-moz-border-radius: 5px;
+	border-radius: 5px;*/
+	border: 1px solid black;	
+}
+
+.hidefilter {
+	position: absolute; 
+	top: 2px; 
+	right: 2px; 
+	cursor: pointer;
+}
+
+.filterOperatorTypeValueSelector {
+	display: inline;
+	width: 140px;
+}
+
+.filterColumnNameLabel {
+	color: gray;
+	display: inline;
+	font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.filterDivForm {
+	padding: 16px;
+	width: 300px;
+}
+
+.filterDivFormExpanded {
+	width: 380px;
+}
+
+.hoverbtn {
+	border: 0;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 15px;
+}
+
+.sortAscBtnDefault {
+	background-image: url('../jasperreports/images/headertoolbar/sort_asc.png');
+}
+
+.sortAscBtnDefaultHover, .sortAscBtnEnabled, .sortAscBtnEnabledHover{
+	background-image: url('../jasperreports/images/headertoolbar/sort_asc_over.png');
+}
+
+.sortDescBtnDefault {
+	background-image: url('../jasperreports/images/headertoolbar/sort_desc.png');
+}
+
+.sortDescBtnDefaultHover, .sortDescBtnEnabled, .sortDescBtnEnabledHover{
+	background-image: url('../jasperreports/images/headertoolbar/sort_desc_over.png');
+}
+
+.filterBtnDisabled, .filterBtnDefault {
+	background-image: url('../jasperreports/images/headertoolbar/filter.png');
+}
+
+.filterBtnDefaultHover, .filterBtnEnabled, .filterBtnEnabledHover {
+	background-image: url('../jasperreports/images/headertoolbar/filter_over.png');
+}
+
+.filterBtnWrong, .filterBtnWrongHover {
+	background-image: url('../jasperreports/images/headertoolbar/filter_wrong.png');
+}
+
+.columnHeader {
+	cursor: pointer;
+}
+
+.filterValue {
+	width: 80px;
+}
+/************************ </FILTER DIV> ***************************/
+
+/********************** <COLUMN SELECTION> ************************/
+.popupdiv {
+	display: none; 
+	height: 20px;
+	position: absolute; 
+	width: 100px; 
+}
+
+.headerToolbar {
+	background-color: rgb(0, 51, 102); 
+	background-color: rgba(0, 51, 102, 0.6);
+	height: 20px; 
+	padding: 3px 0 0 3px;
+	position:absolute; 
+	text-align: left;
+	top: -20px; 
+	width: 100px; 
+}
+
+.headerToolbarMaskDefaultStyle {
+	background-color: rgb(0, 51, 102); 
+	background-color: rgba(0, 51, 102, 0.6);
+}
+
+.headerToolbarMaskDroppable {
+	background-color: rgb(0, 10, 80); 
+	background-color: rgba(0, 10, 80, 0.3);
+}
+/********************** </COLUMN SELECTION> ***********************/
+
+/********************** <FORMAT DIALOG> ***********************/
+.formatDialog {
+	border: 1px solid black;
+	color: grey;
+	display: none;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	height: 432px;
+	width: 395px;
+	
+	border-radius: 5px;
+}
+
+.formatHeaderUL {
+	background-color: lightgrey;
+	border-bottom: 1px solid grey;
+	height: 20px;
+	list-style-type: none;
+	margin: 0px;
+	padding: 5px 10px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.formatTitle {
+	font-weight: bold;
+}
+
+.formatTab {
+	border: 1px solid grey;
+	border-bottom: none;
+	background-color: lightgray;
+	display: inline-block;
+	height: 13px;
+	margin: 0;
+	padding: 2px 4px 4px 4px;
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	top: 5px;
+	width: 100px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.formatTabSelected {
+	background-color: white;
+	border-bottom: none;
+	font-weight: bold;
+	cursor: default;
+	position: relative;
+	top: 0px;
+	height: 19px;
+}
+
+.formatLI {
+	display: inline;
+}
+
+.tabHeadingsLi {
+	padding-left: 45px;
+}
+
+.formatTabBody {
+	background-color: white;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	display: none;
+}
+
+.selectedTabBody {
+	display: block;
+}
+
+.formatTabBody label {
+	display: inline-block;
+	font-size: 11px;
+	width: 85px;
+}
+
+.headingsTabContent {
+	height: 381px;
+	padding: 10px 15px;
+	width: 365px;
+}
+
+.valuesTabContent {
+	height: 381px;
+	padding: 10px 15px;
+	width: 365px;
+}

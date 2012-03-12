@@ -25,12 +25,14 @@ package net.sf.jasperreports.engine.xml;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSimpleTemplate;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTemplate;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.RuleSet;
@@ -116,12 +118,12 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 	 * 
 	 * @return a template XML digester
 	 */
-	public JRXmlDigester createDigester()
+	public JRXmlDigester createDigester(JasperReportsContext jasperReportsContext)
 	{
 		JRXmlDigester digester = new JRXmlDigester();
 		try
 		{
-			configureDigester(digester);
+			configureDigester(jasperReportsContext, digester);
 		}
 		catch (SAXException e)
 		{
@@ -134,9 +136,25 @@ public class JRXmlTemplateDigesterFactory implements ErrorHandler
 		return digester;
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #createDigester(JasperReportsContext)}.
+	 */
+	public JRXmlDigester createDigester()
+	{
+		return createDigester(DefaultJasperReportsContext.getInstance());
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #configureDigester(JasperReportsContext, Digester)}.
+	 */
 	protected void configureDigester(Digester digester) throws SAXException, ParserConfigurationException 
 	{
-		boolean validating = JRProperties.getBooleanProperty(JRProperties.COMPILER_XML_VALIDATION);
+		configureDigester(DefaultJasperReportsContext.getInstance(), digester);
+	}
+	
+	protected void configureDigester(JasperReportsContext jasperReportsContext, Digester digester) throws SAXException, ParserConfigurationException 
+	{
+		boolean validating = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRReportSaxParserFactory.COMPILER_XML_VALIDATION);
 		
 		digester.setErrorHandler(this);
 		digester.setValidating(validating);

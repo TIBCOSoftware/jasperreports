@@ -26,7 +26,9 @@ package net.sf.jasperreports.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,22 +39,41 @@ public abstract class AbstractDataAdapterService implements DataAdapterService
 	/**
 	 *
 	 */
+	private final JasperReportsContext jasperReportsContext;
 	private String name;
 	private DataAdapter dataAdapter;
 
 	/**
-	 * FIXME consider removing
+	 * @deprecated Replaced by {@link #AbstractDataAdapterService(JasperReportsContext, DataAdapter)}. 
 	 */
 	public AbstractDataAdapterService()
 	{
+		this(DefaultJasperReportsContext.getInstance(), null);
+	}
+	  
+	/**
+	 * @deprecated Replaced by {@link #AbstractDataAdapterService(JasperReportsContext, DataAdapter)}. 
+	 */
+	public AbstractDataAdapterService(DataAdapter dataAdapter)
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataAdapter);
 	}
 	  
 	/**
 	 *
 	 */
-	public AbstractDataAdapterService(DataAdapter dataAdapter)
+	public AbstractDataAdapterService(JasperReportsContext jasperReportsContext, DataAdapter dataAdapter)
 	{
 		this.dataAdapter = dataAdapter;
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	  
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
 	}
 	  
 	/**

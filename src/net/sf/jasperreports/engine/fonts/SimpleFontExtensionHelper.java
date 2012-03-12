@@ -42,8 +42,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -140,15 +142,23 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #loadFontFamilies(JasperReportsContext, String)}.
 	 */
 	public List<FontFamily> loadFontFamilies(String file)
+	{
+		return loadFontFamilies(DefaultJasperReportsContext.getInstance(), file);
+	}
+	
+	/**
+	 *
+	 */
+	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, String file)
 	{
 		InputStream is = null; 
 		
 		try
 		{
-			is = RepositoryUtil.getInputStream(file);
+			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(file);
 			return loadFontFamilies(is);
 		}
 		catch (JRException e)
@@ -173,14 +183,14 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	public List<FontFamily> loadFontFamilies(InputStream is)
+	private List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, InputStream is)
 	{
 		List<FontFamily> fontFamilies = null;
 
 		try
 		{
 			Document document = documentBuilder.parse(new InputSource(new InputStreamReader(is, "UTF-8")));
-			fontFamilies = parseFontFamilies(document.getDocumentElement());
+			fontFamilies = parseFontFamilies(jasperReportsContext, document.getDocumentElement());
 		}
 		catch (SAXException e)
 		{
@@ -194,11 +204,19 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		return fontFamilies;
 	}
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public List<FontFamily> loadFontFamilies(InputStream is)
+	{
+		return loadFontFamilies(DefaultJasperReportsContext.getInstance(), is);
+	}
 
 	/**
 	 *
 	 */
-	private List<FontFamily> parseFontFamilies(Node fontFamiliesNode) throws SAXException
+	private List<FontFamily> parseFontFamilies(JasperReportsContext jasperReportsContext, Node fontFamiliesNode) throws SAXException
 	{
 		List<FontFamily> fontFamilies = new ArrayList<FontFamily>();
 		
@@ -211,7 +229,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 				&& NODE_fontFamily.equals(node.getNodeName())
 				)
 			{
-				fontFamilies.add(parseFontFamily(node));
+				fontFamilies.add(parseFontFamily(jasperReportsContext, node));
 			}
 		}
 		
@@ -221,9 +239,9 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private FontFamily parseFontFamily(Node fontFamilyNode) throws SAXException
+	private FontFamily parseFontFamily(JasperReportsContext jasperReportsContext, Node fontFamilyNode) throws SAXException
 	{
-		SimpleFontFamily fontFamily = new SimpleFontFamily();
+		SimpleFontFamily fontFamily = new SimpleFontFamily(jasperReportsContext);
 		
 		NamedNodeMap nodeAttrs = fontFamilyNode.getAttributes();
 		

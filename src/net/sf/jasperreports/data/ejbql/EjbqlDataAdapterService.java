@@ -29,7 +29,9 @@ import java.util.Map;
 import javax.persistence.Persistence;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -45,8 +47,20 @@ public class EjbqlDataAdapterService extends AbstractDataAdapterService {
 			.getLog(EjbqlDataAdapterService.class);
 	private Object em = null;
 
-	public EjbqlDataAdapterService(EjbqlDataAdapter jsonDataAdapter) {
-		super(jsonDataAdapter);
+	/**
+	 * 
+	 */
+	public EjbqlDataAdapterService(JasperReportsContext jasperReportsContext, EjbqlDataAdapter jsonDataAdapter) 
+	{
+		super(jasperReportsContext, jsonDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #EjbqlDataAdapterService(JasperReportsContext, EjbqlDataAdapter)}. 
+	 */
+	public EjbqlDataAdapterService(EjbqlDataAdapter jsonDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public EjbqlDataAdapter getEjbqlDataAdapter() {

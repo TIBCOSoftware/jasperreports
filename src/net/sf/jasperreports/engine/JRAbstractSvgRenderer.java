@@ -30,7 +30,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -67,9 +66,18 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	/**
 	 *
 	 */
-	public Dimension2D getDimension()
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		return null;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 */
+	public Dimension2D getDimension()
+	{
+		return getDimension(DefaultJasperReportsContext.getInstance());
 	}
 
 
@@ -83,14 +91,23 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getImageData(JasperReportsContext)}.
 	 */
 	public byte[] getImageData() throws JRException
 	{
-		int dpi = JRProperties.getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
+		return getImageData(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 *
+	 */
+	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		int dpi = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
 		double scale = dpi/72d;
 		
-		Dimension2D dimension = getDimension();
+		Dimension2D dimension = getDimension(jasperReportsContext);
 		if (dimension != null)
 		{
 			byte imageType = getImageType();
@@ -112,10 +129,10 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 				g.setColor(backcolor);
 				g.fillRect(0, 0, (int)dimension.getWidth(), (int)dimension.getHeight());
 			}
-			render(g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
+			render(jasperReportsContext, g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
 			g.dispose();
 			
-			return JRImageLoader.loadImageDataFromAWTImage(bi, getImageType());
+			return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageType());
 		}
 		return null;
 	}

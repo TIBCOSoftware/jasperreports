@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
@@ -56,6 +57,6 @@ public interface GenericElementDocxHandler extends GenericElementHandler
 	 * @param element the generic element to export
 	 * @return JRPrintImage the equivalent image
 	 */
-	JRPrintImage getImage(JRGenericPrintElement element) throws JRException;
+	JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException;
 	
 }

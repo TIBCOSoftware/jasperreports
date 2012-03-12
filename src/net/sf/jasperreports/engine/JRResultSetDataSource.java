@@ -50,7 +50,6 @@ import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRImageLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -68,6 +67,7 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
+	private JasperReportsContext jasperReportsContext;
 	private ResultSet resultSet;
 	private Map<String,Integer> columnIndexMap = new HashMap<String,Integer>();
 
@@ -79,9 +79,19 @@ public class JRResultSetDataSource implements JRDataSource
 	/**
 	 *
 	 */
-	public JRResultSetDataSource(ResultSet rs)
+	public JRResultSetDataSource(JasperReportsContext jasperReportsContext, ResultSet resultSet)
 	{
-		resultSet = rs;
+		this.jasperReportsContext = jasperReportsContext;
+		this.resultSet = resultSet;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRResultSetDataSource(JasperReportsContext, ResultSet)}.
+	 */
+	public JRResultSetDataSource(ResultSet resultSet)
+	{
+		this(DefaultJasperReportsContext.getInstance(), resultSet);
 	}
 
 
@@ -296,7 +306,7 @@ public class JRResultSetDataSource implements JRDataSource
 					}
 					else
 					{
-						objValue = JRImageLoader.loadImage(bytes);
+						objValue = JRImageLoader.getInstance(jasperReportsContext).loadAwtImageFromBytes(bytes);
 					}					
 				}
 				else
@@ -582,7 +592,7 @@ public class JRResultSetDataSource implements JRDataSource
 					JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE))
 			{
 				// read the field level property
-				String timezoneId = JRProperties.getProperty(field, 
+				String timezoneId = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(field, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
 						: TimeZone.getTimeZone(timezoneId);

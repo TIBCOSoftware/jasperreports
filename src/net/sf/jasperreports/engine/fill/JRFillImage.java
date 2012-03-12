@@ -42,6 +42,8 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -68,7 +70,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	private JRRenderable renderer;
+	private Renderable renderer;
 	private boolean hasOverflowed;
 	private Integer imageHeight;
 	private Integer imageWidth;
@@ -349,7 +351,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	/**
 	 *
 	 */
-	protected JRRenderable getRenderer()
+	protected Renderable getRenderable()
 	{
 		return this.renderer;
 	}
@@ -455,7 +457,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 		JRExpression expression = this.getExpression();
 
-		JRRenderable newRenderer = null;
+		Renderable newRenderer = null;
 		
 		Object source = evaluateExpression(expression, evaluation);
 		if (source != null)
@@ -468,35 +470,35 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			
 			if (isUsingCache && filler.fillContext.hasLoadedImage(source))
 			{
-				newRenderer = filler.fillContext.getLoadedImage(source).getRenderer();
+				newRenderer = filler.fillContext.getLoadedImage(source).getRenderable();
 			}
 			else
 			{
 				if (source instanceof Image)
 				{
 					Image img = (Image) source;
-					newRenderer = JRImageRenderer.getInstance(img, getOnErrorTypeValue());
+					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(img, getOnErrorTypeValue());
 				}
 				else if (source instanceof InputStream)
 				{
 					InputStream is = (InputStream) source;
-					newRenderer = JRImageRenderer.getInstance(is, getOnErrorTypeValue());
+					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(is, getOnErrorTypeValue());
 				}
 				else if (source instanceof URL)
 				{
 					URL url = (URL) source;
-					newRenderer = JRImageRenderer.getInstance(url, getOnErrorTypeValue());
+					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(url, getOnErrorTypeValue());
 				}
 				else if (source instanceof File)
 				{
 					File file = (File) source;
-					newRenderer = JRImageRenderer.getInstance(file, getOnErrorTypeValue());
+					newRenderer = RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(file, getOnErrorTypeValue());
 				}
 				else if (source instanceof String)
 				{
 					String location = (String) source;
 					newRenderer = 
-						JRImageRenderer.getInstance(
+						RenderableUtil.getInstance(filler.getJasperReportsContext()).getRenderable(
 							location, 
 							getOnErrorTypeValue(), 
 							isLazy()//, 
@@ -505,9 +507,13 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 //							filler.fileResolver
 							);
 				}
+				else if (source instanceof Renderable)
+				{
+					newRenderer = (Renderable) source;
+				}
 				else if (source instanceof JRRenderable)
 				{
-					newRenderer = (JRRenderable) source;
+					//FIXMECONTEXT newRenderer = (JRRenderable) source;
 				}
 				else
 				{
@@ -521,7 +527,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				if (isUsingCache)
 				{
 					JRPrintImage img = new JRTemplatePrintImage(getJRTemplateImage(), elementId);
-					img.setRenderer(newRenderer);
+					img.setRenderable(newRenderer);
 					filler.fillContext.registerLoadedImage(source, img);
 				}
 			}
@@ -595,7 +601,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			if (
 				isToPrint && 
 				this.isRemoveLineWhenBlank() &&
-				this.getRenderer() == null
+				this.getRenderable() == null
 				)
 			{
 				isToPrint = false;
@@ -697,7 +703,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		imageWidth = null;
 		imageX = null;
 		
-		Dimension2D imageSize = renderer == null ? null : renderer.getDimension();
+		Dimension2D imageSize = renderer == null ? null : renderer.getDimension(filler.getJasperReportsContext());
 		if (imageSize == null)
 		{
 			return true;
@@ -812,7 +818,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			printImage.setWidth(imageWidth.intValue());
 		}
 		
-		printImage.setRenderer(this.getRenderer());
+		printImage.setRenderable(this.getRenderable());
 		printImage.setAnchorName(this.getAnchorName());
 		printImage.setHyperlinkReference(this.getHyperlinkReference());
 		printImage.setHyperlinkAnchor(this.getHyperlinkAnchor());

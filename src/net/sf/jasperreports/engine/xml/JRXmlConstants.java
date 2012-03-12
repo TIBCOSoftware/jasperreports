@@ -476,6 +476,7 @@ public final class JRXmlConstants
 	 */
 	public static final String ELEMENT_reportElement = "reportElement";
 
+	public static final String ATTRIBUTE_uuid = "uuid";
 	public static final String ATTRIBUTE_key = "key";
 	public static final String ATTRIBUTE_positionType = "positionType";
 	public static final String ATTRIBUTE_stretchType = "stretchType";

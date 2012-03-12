@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -71,7 +72,8 @@ public class SortParameterContributor implements ParameterContributor
 			String reportActionData = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_SORT_DATA);
 			String paramTableName = (String)reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			
-			String currentDataset = JRAbstractCompiler.getUnitName(context.getJasperReport(), context.getDataset());
+			JasperReport jasperReport = (JasperReport)context.getParameterValues().get(JRParameter.JASPER_REPORT);
+			String currentDataset = JRAbstractCompiler.getUnitName(jasperReport, context.getDataset());
 			if (paramTableName == null || !paramTableName.equals(currentDataset))
 			{
 				return;

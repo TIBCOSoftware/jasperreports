@@ -25,7 +25,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
@@ -76,9 +76,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRProperties.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
+	public static final String PROPERTY_CREATE_BATCH_MODE_BOOKMARKS = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.create.batch.mode.bookmarks";
 
 	
 	/**
@@ -92,9 +92,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_COMPRESSED = JRProperties.PROPERTY_PREFIX + "export.pdf.compressed";
+	public static final String PROPERTY_COMPRESSED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.compressed";
 
 
 	/**
@@ -108,9 +108,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_ENCRYPTED = JRProperties.PROPERTY_PREFIX + "export.pdf.encrypted";
+	public static final String PROPERTY_ENCRYPTED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.encrypted";
 
 
 	/**
@@ -124,9 +124,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_128_BIT_KEY = JRProperties.PROPERTY_PREFIX + "export.pdf.128.bit.key";
+	public static final String PROPERTY_128_BIT_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.128.bit.key";
 
 
 	/**
@@ -138,9 +138,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #USER_PASSWORD USER_PASSWORD} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_USER_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.pdf.user.password";
+	public static final String PROPERTY_USER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.user.password";
 
 
 	/**
@@ -153,9 +153,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #OWNER_PASSWORD OWNER_PASSWORD} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_OWNER_PASSWORD = JRProperties.PROPERTY_PREFIX + "export.pdf.owner.password";
+	public static final String PROPERTY_OWNER_PASSWORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.owner.password";
 
 
 	/**
@@ -178,9 +178,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * Property whose value is used as default for the {@link #PDF_VERSION PDF_VERSION} export parameter.
 	 * Possible values of the this property are 2, 3, 4, 5, 6 and 7.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PDF_VERSION = JRProperties.PROPERTY_PREFIX + "export.pdf.version";
+	public static final String PROPERTY_PDF_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.version";
 
 
 	/**
@@ -234,7 +234,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * 
 	 * @see #FORCE_LINEBREAK_POLICY
 	 */
-	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRProperties.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
+	public static final String PROPERTY_FORCE_LINEBREAK_POLICY = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.linebreak.policy";
 	
 	
 	/**
@@ -260,7 +260,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * Property that provides a default value for the {@link #FORCE_SVG_SHAPES FORCE_SVG_SHAPES}
 	 * PDF exporter parameter.
 	 */
-	public static final String PROPERTY_FORCE_SVG_SHAPES = JRProperties.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
+	public static final String PROPERTY_FORCE_SVG_SHAPES = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.force.svg.shapes";
 
 	
 	/**
@@ -272,9 +272,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #PDF_JAVASCRIPT PDF_JAVASCRIPT} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PDF_JAVASCRIPT = JRProperties.PROPERTY_PREFIX + "export.pdf.javascript";
+	public static final String PROPERTY_PDF_JAVASCRIPT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.javascript";
 
 
 	/**
@@ -288,9 +288,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * By default, this property is set to {@link #PRINT_SCALING_DEFAULT}.
 	 *
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PRINT_SCALING = JRProperties.PROPERTY_PREFIX + "export.pdf.print.scaling";
+	public static final String PROPERTY_PRINT_SCALING = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.print.scaling";
 
 	
 	/**
@@ -302,9 +302,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #IS_TAGGED} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_TAGGED = JRProperties.PROPERTY_PREFIX + "export.pdf.tagged";
+	public static final String PROPERTY_TAGGED = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tagged";
 
 
 	/**
@@ -316,9 +316,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #TAG_LANGUAGE} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_TAG_LANGUAGE = JRProperties.PROPERTY_PREFIX + "export.pdf.tag.language";
+	public static final String PROPERTY_TAG_LANGUAGE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.tag.language";
 
 
 	/**
@@ -345,7 +345,7 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * @since 3.7.3
 	 */
 	public static final String PROPERTY_COLLAPSE_MISSING_BOOKMARK_LEVELS = 
-		JRProperties.PROPERTY_PREFIX + "export.pdf.collapse.missing.bookmark.levels";
+		JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.collapse.missing.bookmark.levels";
 	
 	
 	/**
@@ -366,9 +366,9 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * By default, this property is set to {@link #PDFA_CONFORMANCE_NONE}.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_PDFA_CONFORMANCE = JRProperties.PROPERTY_PREFIX + "export.pdfa.conformance";
+	public static final String PROPERTY_PDFA_CONFORMANCE = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.conformance";
 	
 	
 	/**
@@ -380,6 +380,6 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #PDFA_ICC_PROFILE_PATH} export parameter.
 	 */
-	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRProperties.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
+	public static final String PROPERTY_PDFA_ICC_PROFILE_PATH = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdfa.icc.profile.path";
 	
 }

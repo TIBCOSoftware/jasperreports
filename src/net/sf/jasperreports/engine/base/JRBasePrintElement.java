@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
@@ -53,6 +54,7 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected UUID uuid;
 	protected JROrigin origin;
 	protected String key;
 	
@@ -91,6 +93,18 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 		return defaultStyleProvider;
 	}
 	
+	/**
+	 *
+	 */
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
+	}
+
 	/**
 	 *
 	 */

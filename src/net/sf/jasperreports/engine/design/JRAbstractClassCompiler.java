@@ -25,8 +25,10 @@ package net.sf.jasperreports.engine.design;
 
 import java.io.File;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 
@@ -38,9 +40,21 @@ public abstract class JRAbstractClassCompiler extends JRAbstractJavaCompiler imp
 {
 
 
+	/**
+	 * 
+	 */
+	protected JRAbstractClassCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext, true);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRAbstractClassCompiler(JasperReportsContext)}.
+	 */
 	protected JRAbstractClassCompiler()
 	{
-		super(true);
+		this(DefaultJasperReportsContext.getInstance());
 	}
 
 

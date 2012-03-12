@@ -34,20 +34,34 @@ public class ParameterContributorContext
 {
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	private JasperReport jasperReport;
+	private JasperReportsContext jasperReportsContext;
 	private JRDataset dataset;
 	private Map<String,Object> parameterValues;
 
 	/**
 	 *
 	 */
-	public ParameterContributorContext(Map<String,Object> parameterValues, JRDataset dataset)
+	public ParameterContributorContext(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset,
+		Map<String,Object> parameterValues
+		)
 	{
-		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
+		this.jasperReportsContext = jasperReportsContext;
 		this.dataset = dataset;
 		this.parameterValues = parameterValues;
+		this.jasperReport = (JasperReport)parameterValues.get(JRParameter.JASPER_REPORT);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #ParameterContributorContext(JasperReportsContext, JRDataset, Map)}.
+	 */
+	public ParameterContributorContext(Map<String,Object> parameterValues, JRDataset dataset)
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataset, parameterValues);
 	}
 
 	/**
@@ -61,10 +75,19 @@ public class ParameterContributorContext
 	 * 
 	 * @return the current {@link JasperReport} object
 	 * @see #getDataset()
+	 * @deprecated To be removed.
 	 */
 	public JasperReport getJasperReport()
 	{
 		return jasperReport;
+	}
+	
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
 	}
 	
 	/**

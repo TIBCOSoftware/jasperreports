@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
@@ -687,7 +688,7 @@ public final class JRLoader
 			
 			if (is == null)
 			{
-				is = JRProperties.class.getResourceAsStream("/" + resource);
+				is = JRPropertiesUtil.class.getResourceAsStream("/" + resource);
 			}
 		}
 
@@ -856,7 +857,7 @@ public final class JRLoader
 			
 			if (location == null)
 			{
-				location = JRProperties.class.getResource("/" + resource);
+				location = JRPropertiesUtil.class.getResource("/" + resource);
 			}
 		}
 

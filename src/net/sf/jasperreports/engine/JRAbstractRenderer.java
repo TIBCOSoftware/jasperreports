@@ -23,13 +23,17 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.awt.Graphics2D;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRAbstractRenderer implements JRRenderable
+public abstract class JRAbstractRenderer implements Renderable
 {
 
 	/**
@@ -60,4 +64,33 @@ public abstract class JRAbstractRenderer implements JRRenderable
 		return id;
 	}
 
+	
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		return getDimension();
+	}
+
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		return getImageData();
+	}
+
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		render(grx, rectangle);
+	}
 }

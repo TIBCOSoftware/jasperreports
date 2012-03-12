@@ -29,8 +29,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
@@ -97,8 +99,20 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 //		return classLoader;
 //	}
 
-	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) {
-		super(jdbcDataAdapter);
+	/**
+	 * 
+	 */
+	public JdbcDataAdapterService(JasperReportsContext jasperReportsContext, JdbcDataAdapter jdbcDataAdapter) 
+	{
+		super(jasperReportsContext, jdbcDataAdapter);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JdbcDataAdapterService(JasperReportsContext, JdbcDataAdapter)}.
+	 */
+	public JdbcDataAdapterService(JdbcDataAdapter jdbcDataAdapter) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), jdbcDataAdapter);
 	}
 
 	public JdbcDataAdapter getJdbcDataAdapter() {

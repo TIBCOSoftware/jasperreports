@@ -26,9 +26,11 @@ package net.sf.jasperreports.engine.xml;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.RenderableUtil;
 
 import org.w3c.tools.codec.Base64Decoder;
 
@@ -85,7 +87,7 @@ public class JRPrintImageSourceObject
 				Base64Decoder decoder = new Base64Decoder(bais, baos);
 				decoder.process();
 				
-				printImage.setRenderer(JRImageRenderer.getInstance(baos.toByteArray()));//, JRImage.ON_ERROR_TYPE_ERROR));
+				printImage.setRenderable(JRImageRenderer.getInstance(baos.toByteArray()));//, JRImage.ON_ERROR_TYPE_ERROR));
 			}
 			catch (Exception e)
 			{
@@ -94,7 +96,7 @@ public class JRPrintImageSourceObject
 		}
 		else
 		{
-			printImage.setRenderer(JRImageRenderer.getInstance(imageSource));
+			printImage.setRenderable(RenderableUtil.getInstance(DefaultJasperReportsContext.getInstance()).getRenderable(imageSource));//FIXMECONTEXT this might just be OK since the image is lazy anyway
 		}
 	}
 	

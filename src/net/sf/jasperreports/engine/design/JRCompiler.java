@@ -26,9 +26,9 @@ package net.sf.jasperreports.engine.design;
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.JREvaluator;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -38,14 +38,43 @@ import net.sf.jasperreports.engine.util.JRProperties;
 public interface JRCompiler
 {
 
+	/**
+	 * The name of the class to be used for report compilation.
+	 * <p>
+	 * No default value.
+	 * 
+	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.design.JRCompiler#COMPILER_PREFIX}.
+	 */
+	public static final String COMPILER_CLASS = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.class";
 
 	/**
 	 * Prefix for properties that map report compilers to expression languages.
 	 * <p/>
 	 * Properties having this prefix are used to indicate the JRCompiler implementation to be used when compiling
-	 * report designs that rely on the expression language specified as propety suffix.
+	 * report designs that rely on the expression language specified as property suffix.
 	 */
-	public static final String COMPILER_PREFIX = JRProperties.PROPERTY_PREFIX + "compiler.";
+	public static final String COMPILER_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.";
+	
+	/**
+	 * Whether to keep the java file generated when the report is compiled.
+	 * <p>
+	 * Defaults to <code>false</code>.
+	 */
+	public static final String COMPILER_KEEP_JAVA_FILE = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.keep.java.file";
+	
+	/**
+	 * The temporary directory used by the report compiler. 
+	 * <p>
+	 * Defaults to <code>System.getProperty("user.dir")</code>.
+	 */
+	public static final String COMPILER_TEMP_DIR = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.temp.dir";
+	
+	/**
+	 * The classpath used by the report compiler. 
+	 * <p>
+	 * Defaults to <code>System.getProperty("java.class.path")</code>.
+	 */
+	public static final String COMPILER_CLASSPATH = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.classpath";
 
 	
 	/**

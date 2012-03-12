@@ -29,7 +29,6 @@ import java.io.InputStream;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -40,64 +39,94 @@ import net.sf.jasperreports.engine.util.JRProperties;
  */
 public final class JasperPrintManager
 {
+	private JasperReportsContext jasperReportsContext;
+
 
 	/**
 	 *
 	 */
-	public static boolean printReport(
+	private JasperPrintManager(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static JasperPrintManager getDefaultInstance()
+	{
+		return new JasperPrintManager(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JasperPrintManager getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new JasperPrintManager(jasperReportsContext);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public boolean print(
 		String sourceFileName,
 		boolean withPrintDialog
 		) throws JRException
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
-		return printReport(jasperPrint, withPrintDialog);
+		return print(jasperPrint, withPrintDialog);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printReport(
+	public boolean print(
 		InputStream inputStream,
 		boolean withPrintDialog
 		) throws JRException
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
 
-		return printReport(jasperPrint, withPrintDialog);
+		return print(jasperPrint, withPrintDialog);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printReport(
+	public boolean print(
 		JasperPrint jasperPrint,
 		boolean withPrintDialog
 		) throws JRException
 	{
 		//artf1936
-		boolean checkAvailablePrinters = JRProperties.getBooleanProperty(jasperPrint, PROPERTY_CHECK_AVAILABLE_PRINTERS, true);
+		boolean checkAvailablePrinters = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, PROPERTY_CHECK_AVAILABLE_PRINTERS, true);
 		if (checkAvailablePrinters && !(unixSunJDK || JRPrintServiceExporter.checkAvailablePrinters())) 
 		{
 			throw new JRException("No printer available.");
 		}
 		//END - artf1936
 		
-		return printPages(
-			jasperPrint,
-			0,
-			jasperPrint.getPages().size() - 1,
-			withPrintDialog
-			);
+		return 
+			print(
+				jasperPrint,
+				0,
+				jasperPrint.getPages().size() - 1,
+				withPrintDialog
+				);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPage(
+	public boolean print(
 		String sourceFileName,
 		int pageIndex,
 		boolean withPrintDialog
@@ -105,14 +134,14 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
-		return printPage(jasperPrint, pageIndex, withPrintDialog);
+		return print(jasperPrint, pageIndex, withPrintDialog);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPage(
+	public boolean print(
 		InputStream inputStream,
 		int pageIndex,
 		boolean withPrintDialog
@@ -120,32 +149,33 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
 
-		return printPage(jasperPrint, pageIndex, withPrintDialog);
+		return print(jasperPrint, pageIndex, withPrintDialog);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPage(
+	public boolean print(
 		JasperPrint jasperPrint,
 		int pageIndex,
 		boolean withPrintDialog
 		) throws JRException
 	{
-		return printPages(
-			jasperPrint,
-			pageIndex,
-			pageIndex,
-			withPrintDialog
-			);
+		return 
+			print(
+				jasperPrint,
+				pageIndex,
+				pageIndex,
+				withPrintDialog
+				);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPages(
+	public boolean print(
 		String sourceFileName,
 		int firstPageIndex,
 		int lastPageIndex,
@@ -154,19 +184,20 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
-		return printPages(
-			jasperPrint,
-			firstPageIndex,
-			lastPageIndex,
-			withPrintDialog
-			);
+		return 
+			print(
+				jasperPrint,
+				firstPageIndex,
+				lastPageIndex,
+				withPrintDialog
+				);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPages(
+	public boolean print(
 		InputStream inputStream,
 		int firstPageIndex,
 		int lastPageIndex,
@@ -175,38 +206,39 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
 
-		return printPages(
-			jasperPrint,
-			firstPageIndex,
-			lastPageIndex,
-			withPrintDialog
-			);
+		return 
+			print(
+				jasperPrint,
+				firstPageIndex,
+				lastPageIndex,
+				withPrintDialog
+				);
 	}
 
 
 	/**
 	 *
 	 */
-	public static boolean printPages(
+	public boolean print(
 		JasperPrint jasperPrint,
 		int firstPageIndex,
 		int lastPageIndex,
 		boolean withPrintDialog
 		) throws JRException
 	{
-		return JRPrinterAWT.printPages(
-			jasperPrint,
-			firstPageIndex,
-			lastPageIndex,
-			withPrintDialog
-			);
+		return 
+			new JRPrinterAWT(jasperReportsContext, jasperPrint).printPages(
+				firstPageIndex,
+				lastPageIndex,
+				withPrintDialog
+				);
 	}
 
 
 	/**
 	 *
 	 */
-	public static Image printPageToImage(
+	public Image printToImage(
 		String sourceFileName,
 		int pageIndex,
 		float zoom
@@ -214,14 +246,14 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObjectFromFile(sourceFileName);
 
-		return printPageToImage(jasperPrint, pageIndex, zoom);
+		return printToImage(jasperPrint, pageIndex, zoom);
 	}
 
 
 	/**
 	 *
 	 */
-	public static Image printPageToImage(
+	public Image printToImage(
 		InputStream inputStream,
 		int pageIndex,
 		float zoom
@@ -229,12 +261,168 @@ public final class JasperPrintManager
 	{
 		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(inputStream);
 
-		return printPageToImage(jasperPrint, pageIndex, zoom);
+		return printToImage(jasperPrint, pageIndex, zoom);
 	}
 
 
 	/**
 	 *
+	 */
+	public Image printToImage(
+		JasperPrint jasperPrint,
+		int pageIndex,
+		float zoom
+		) throws JRException
+	{
+		return new JRPrinterAWT(jasperReportsContext, jasperPrint).printPageToImage(pageIndex, zoom);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(String, boolean)}.
+	 */
+	public static boolean printReport(
+		String sourceFileName,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(sourceFileName, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(InputStream, boolean)}.
+	 */
+	public static boolean printReport(
+		InputStream inputStream,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(inputStream, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(JasperPrint, boolean)}.
+	 */
+	public static boolean printReport(
+		JasperPrint jasperPrint,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(jasperPrint, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(String, int, boolean)}.
+	 */
+	public static boolean printPage(
+		String sourceFileName,
+		int pageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(sourceFileName, pageIndex, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(InputStream, int, boolean)}.
+	 */
+	public static boolean printPage(
+		InputStream inputStream,
+		int pageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(inputStream, pageIndex, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(JasperPrint, int, boolean)}.
+	 */
+	public static boolean printPage(
+		JasperPrint jasperPrint,
+		int pageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(jasperPrint, pageIndex, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(String, int, int, boolean)}.
+	 */
+	public static boolean printPages(
+		String sourceFileName,
+		int firstPageIndex,
+		int lastPageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(sourceFileName, firstPageIndex, lastPageIndex, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(InputStream, int, int, boolean)}.
+	 */
+	public static boolean printPages(
+		InputStream inputStream,
+		int firstPageIndex,
+		int lastPageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(inputStream, firstPageIndex, lastPageIndex, withPrintDialog);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #print(JasperPrint, int, int, boolean)}.
+	 */
+	public static boolean printPages(
+		JasperPrint jasperPrint,
+		int firstPageIndex,
+		int lastPageIndex,
+		boolean withPrintDialog
+		) throws JRException
+	{
+		return getDefaultInstance().print(jasperPrint, firstPageIndex, lastPageIndex, withPrintDialog); 
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #printToImage(String, int, float)}.
+	 */
+	public static Image printPageToImage(
+		String sourceFileName,
+		int pageIndex,
+		float zoom
+		) throws JRException
+	{
+		return getDefaultInstance().printToImage(sourceFileName, pageIndex, zoom);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #printToImage(InputStream, int, float)}.
+	 */
+	public static Image printPageToImage(
+		InputStream inputStream,
+		int pageIndex,
+		float zoom
+		) throws JRException
+	{
+		return getDefaultInstance().printToImage(inputStream, pageIndex, zoom);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #printToImage(JasperPrint, int, float)}.
 	 */
 	public static Image printPageToImage(
 		JasperPrint jasperPrint,
@@ -242,7 +430,7 @@ public final class JasperPrintManager
 		float zoom
 		) throws JRException
 	{
-		return JRPrinterAWT.printPageToImage(jasperPrint, pageIndex, zoom);
+		return getDefaultInstance().printToImage(jasperPrint, pageIndex, zoom);
 	}
 
 
@@ -251,7 +439,7 @@ public final class JasperPrintManager
 	 * <p/>
 	 * This property is by default set to <code>true</code>.
 	 */
-	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRProperties.PROPERTY_PREFIX + "awt.check.available.printers";
+	public static final String PROPERTY_CHECK_AVAILABLE_PRINTERS = JRPropertiesUtil.PROPERTY_PREFIX + "awt.check.available.printers";
 
 	/* http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6604109 (artf2423) workaround */
 	protected static final boolean unixSunJDK;
@@ -268,10 +456,5 @@ public final class JasperPrintManager
 			found = false;
 		}
 		unixSunJDK = found;
-	}
-	
-	
-	private JasperPrintManager()
-	{
 	}
 }

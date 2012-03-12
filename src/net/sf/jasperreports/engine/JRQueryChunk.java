@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.query.JRClauseFunction;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -43,7 +42,7 @@ public interface JRQueryChunk extends JRCloneable
 	 * </p>
 	 */
 	public static final String PROPERTY_CHUNK_TOKEN_SEPARATOR = 
-		JRProperties.PROPERTY_PREFIX + "query.chunk.token.separators";
+		JRPropertiesUtil.PROPERTY_PREFIX + "query.chunk.token.separators";
 
 
 	/**

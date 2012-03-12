@@ -28,8 +28,10 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Am image renderer used to mark the unused vertical space in a list
@@ -62,8 +64,19 @@ public class UnusedSpaceImageRenderer extends JRAbstractSvgRenderer
 		this.clip = clip;
 	}
 	
-	public void render(Graphics2D grx, Rectangle2D rectangle)
-			throws JRException
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
+	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);	
+	}
+	
+	public void render(
+		JasperReportsContext jasperReportsContext,
+		Graphics2D grx, 
+		Rectangle2D rectangle
+		) throws JRException
 	{
 		Graphics2D graphics = (Graphics2D) grx.create();
 		graphics.translate(rectangle.getX(), rectangle.getY());

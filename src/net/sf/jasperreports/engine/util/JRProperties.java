@@ -36,10 +36,16 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRCompiler;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.xml.JRReportSaxParserFactory;
+import net.sf.jasperreports.engine.xml.PrintSaxParserFactory;
 
 /**
  * Class that provides static methods for loading, getting and setting properties.
@@ -57,6 +63,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @deprecated Replaced by {@link JRPropertiesUtil}.
  */
 public final class JRProperties
 {
@@ -67,11 +74,13 @@ public final class JRProperties
 	
 	/**
 	 * The prefix used by all properties.
+	 * @deprecated Replaced by {@link JRPropertiesUtil#PROPERTY_PREFIX}.
 	 */
 	public static final String PROPERTY_PREFIX = "net.sf.jasperreports.";
 	
 	/**
 	 * The name of the system property that specifies the properties file name.
+	 * @deprecated Replaced by {@link DefaultJasperReportsContext#PROPERTIES_FILE}.
 	 */
 	public static final String PROPERTIES_FILE = PROPERTY_PREFIX + "properties";
 	
@@ -88,6 +97,7 @@ public final class JRProperties
 	 * Whether to validate the xml report when compiling.
 	 * <p>
 	 * Defaults to <code>true</code>.
+	 * @deprecated Replaced by {@link JRReportSaxParserFactory#COMPILER_XML_VALIDATION}.
 	 */
 	public static final String COMPILER_XML_VALIDATION = PROPERTY_PREFIX + "compiler.xml.validation";
 	
@@ -95,6 +105,7 @@ public final class JRProperties
 	 * Whether to keep the java file generated when the report is compiled.
 	 * <p>
 	 * Defaults to <code>false</code>.
+	 * @deprecated Replaced by {@link JRCompiler#COMPILER_KEEP_JAVA_FILE}.
 	 */
 	public static final String COMPILER_KEEP_JAVA_FILE = PROPERTY_PREFIX + "compiler.keep.java.file";
 	
@@ -102,6 +113,7 @@ public final class JRProperties
 	 * The temporary directory used by the report compiler. 
 	 * <p>
 	 * Defaults to <code>System.getProperty("user.dir")</code>.
+	 * @deprecated Replaced by {@link JRCompiler#COMPILER_TEMP_DIR}.
 	 */
 	public static final String COMPILER_TEMP_DIR = PROPERTY_PREFIX + "compiler.temp.dir";
 	
@@ -109,6 +121,7 @@ public final class JRProperties
 	 * The classpath used by the report compiler. 
 	 * <p>
 	 * Defaults to <code>System.getProperty("java.class.path")</code>.
+	 * @deprecated Replaced by {@link JRCompiler#COMPILER_CLASSPATH}.
 	 */
 	public static final String COMPILER_CLASSPATH = PROPERTY_PREFIX + "compiler.classpath";
 	
@@ -116,16 +129,19 @@ public final class JRProperties
 	 * Validation flag used by the XML exporter.
 	 * <p>
 	 * Defaults to <code>true</code>.
+	 * @deprecated Replaced by {@link PrintSaxParserFactory#EXPORT_XML_VALIDATION}.
 	 */
 	public static final String EXPORT_XML_VALIDATION = PROPERTY_PREFIX + "export.xml.validation";
 	
 	/**
 	 * Prefix of properties that specify font files for the PDF exporter.
+	 * @deprecated Replaced by {@link JRPdfExporter#PDF_FONT_FILES_PREFIX}.
 	 */
 	public static final String PDF_FONT_FILES_PREFIX = PROPERTY_PREFIX + "export.pdf.font.";
 	
 	/**
 	 * Prefix of properties that specify font directories for the PDF exporter.
+	 * @deprecated Replaced by {@link JRPdfExporter#PDF_FONT_DIRS_PREFIX}.
 	 */
 	public static final String PDF_FONT_DIRS_PREFIX = PROPERTY_PREFIX + "export.pdf.fontdir.";
 	

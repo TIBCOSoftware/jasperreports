@@ -26,8 +26,10 @@ package net.sf.jasperreports.compilers;
 import java.io.File;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRAbstractCompiler;
 import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
@@ -50,9 +52,21 @@ public class JRBshCompiler extends JRAbstractCompiler
 	public static final String LANGUAGE_BSH = "bsh";
 
 
+	/**
+	 * 
+	 */
+	public JRBshCompiler(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext, false);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRBshCompiler(JasperReportsContext)}.
+	 */
 	public JRBshCompiler()
 	{
-		super(false);
+		this(DefaultJasperReportsContext.getInstance());
 	}
 
 

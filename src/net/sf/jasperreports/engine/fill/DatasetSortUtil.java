@@ -118,7 +118,7 @@ public class DatasetSortUtil
 				)
 			);
 		
-		return new ListOfArrayDataSource(records, sortInfo.fieldNames.toArray(new String[sortInfo.fieldNames.size()]));
+		return new SortedDataSource(records, sortInfo.fieldNames.toArray(new String[sortInfo.fieldNames.size()]));
 	}
 
 
@@ -304,6 +304,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 
 	private JRSortField[] allSortFields;
 	private SortInfo sortInfo;
+	private int recordIndex;
 	private List<Object[]> records;
 
 	
@@ -323,6 +324,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	
 	public List<Object[]> sort() throws JRException
 	{
+		recordIndex = 0;
 		records = new ArrayList<Object[]>();
 
 		try
@@ -346,7 +348,7 @@ class SortFillDatasetRun extends JRFillDatasetRun
 		super.detail();
 		
 		JRField[] fields = dataset.getFields();
-		Object[] record = new Object[sortInfo.fieldNames.size()];
+		Object[] record = new Object[sortInfo.fieldNames.size() + 1];
 		if(fields != null)
 		{
 			for(int i = 0; i < fields.length; i++)
@@ -362,6 +364,11 @@ class SortFillDatasetRun extends JRFillDatasetRun
 				record[sortInfo.sortFieldInfo[i].index] = dataset.getVariableValue(sortField.getName());
 			}
 		}
+		
+		// store the original record index
+		++recordIndex;
+		record[sortInfo.fieldNames.size()] = recordIndex;
+		
 		records.add(record);
 	}
 
@@ -377,3 +384,24 @@ class SortFillDatasetRun extends JRFillDatasetRun
 	
 }
 
+/**
+ * {@link ListOfArrayDataSource} extension that stores original record indexes.
+ */
+class SortedDataSource extends ListOfArrayDataSource
+{
+
+	private final int recordIndexPosition;
+	
+	public SortedDataSource(List<Object[]> records, String[] columnNames)
+	{
+		super(records, columnNames);
+		
+		recordIndexPosition = columnNames.length;
+	}
+
+	@Override
+	public int getRecordIndex()
+	{
+		return (Integer) currentRecord[recordIndexPosition];
+	}
+}

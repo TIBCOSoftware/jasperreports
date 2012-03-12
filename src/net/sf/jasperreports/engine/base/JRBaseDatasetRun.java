@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.base;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
@@ -42,6 +43,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	protected UUID uuid;
 	protected String datasetName;
 	protected JRExpression parametersMapExpression;
 	protected JRDatasetParameter[] parameters;
@@ -81,6 +83,15 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 				parameters[i] = factory.getDatasetParameter(datasetParams[i]);
 			}
 		}
+	}
+
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
 	}
 
 	public String getDatasetName()

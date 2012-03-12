@@ -37,12 +37,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,9 +86,12 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 	Constructor<?> constrNameEnvAnsBin2Args;
 	Constructor<?> constrNameEnvAnsCompUnit2Args;
 
-	public JRJdtCompiler ()
+	/**
+	 * 
+	 */
+	public JRJdtCompiler(JasperReportsContext jasperReportsContext)
 	{
-		super(false);
+		super(jasperReportsContext, false);
 		
 		classLoader = getClassLoader();
 
@@ -121,6 +126,15 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 				throw new JRRuntimeException("Not able to load JDT classes", ex);
 			}
 		}
+	}	
+	
+
+	/**
+	 * @deprecated Replaced by {@link #JRJdtCompiler(JasperReportsContext)}.
+	 */
+	public JRJdtCompiler()
+	{
+		this(DefaultJasperReportsContext.getInstance());
 	}	
 	
 
@@ -501,10 +515,10 @@ public class JRJdtCompiler extends JRAbstractJavaCompiler
 //			settings.put(CompilerOptions.OPTION_LocalVariableAttribute, CompilerOptions.GENERATE);
 //		}
 		
-		List<JRProperties.PropertySuffix> properties = JRProperties.getProperties(JDT_PROPERTIES_PREFIX);
-		for (Iterator<JRProperties.PropertySuffix> it = properties.iterator(); it.hasNext();)
+		List<JRPropertiesUtil.PropertySuffix> properties = JRPropertiesUtil.getInstance(jasperReportsContext).getProperties(JDT_PROPERTIES_PREFIX);
+		for (Iterator<JRPropertiesUtil.PropertySuffix> it = properties.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix property = it.next();
+			JRPropertiesUtil.PropertySuffix property = it.next();
 			String propVal = property.getValue();
 			if (propVal != null && propVal.length() > 0)
 			{

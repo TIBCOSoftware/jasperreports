@@ -29,9 +29,10 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
@@ -44,66 +45,78 @@ import net.sf.jasperreports.engine.util.JRResourcesUtil;
  */
 public class DefaultRepositoryService implements StreamRepositoryService
 {
-//	/**
-//	 * 
-//	 */
-//	public DefaultRepositoryContext createContext() 
-//	{
-//		return new DefaultRepositoryContext();
-//	}
-	
-	private ThreadLocal<RepositoryContext> localContext = new ThreadLocal<RepositoryContext>();
+	/**
+	 * 
+	 */
+	private JasperReportsContext jasperReportsContext;
 
 	/**
 	 * 
 	 */
-	public void setContext(RepositoryContext context) 
-	{
-		localContext.set(context);
-		
-		ClassLoader classLoader = (ClassLoader)context.getValue(JRParameter.REPORT_CLASS_LOADER);
-		URLStreamHandlerFactory urlHandlerFactory = (URLStreamHandlerFactory)context.getValue(JRParameter.REPORT_URL_HANDLER_FACTORY);
-		FileResolver fileResolver = (FileResolver)context.getValue(JRParameter.REPORT_FILE_RESOLVER);
+	private ClassLoader classLoader;
+	private URLStreamHandlerFactory urlHandlerFactory;
+	private FileResolver fileResolver;
 
-		if (classLoader != null)
-		{
-			JRResourcesUtil.setThreadClassLoader(classLoader);
-		}
-		
-		if (urlHandlerFactory != null)
-		{
-			JRResourcesUtil.setThreadURLHandlerFactory(urlHandlerFactory);
-		}
-		
-		if (fileResolver != null)
-		{
-			JRResourcesUtil.setThreadFileResolver(fileResolver);
-		}
+	/**
+	 * @deprecated Replaced by {@link #DefaultRepositoryService(JasperReportsContext)}.
+	 */
+	public DefaultRepositoryService() 
+	{
+		this(DefaultJasperReportsContext.getInstance());
 	}
 	
+	/**
+	 *
+	 */
+	public DefaultRepositoryService(JasperReportsContext jasperReportsContext) 
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	/**
+	 *
+	 */
+	public void setClassLoader(ClassLoader classLoader) 
+	{
+		this.classLoader = classLoader;
+	}
+	
+	/**
+	 *
+	 */
+	public void setURLStreamHandlerFactory(URLStreamHandlerFactory urlHandlerFactory) 
+	{
+		this.urlHandlerFactory = urlHandlerFactory;
+	}
+	
+	/**
+	 *
+	 */
+	public void setFileResolver(FileResolver fileResolver) 
+	{
+		this.fileResolver = fileResolver;
+	}
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public FileResolver getFileResolver() 
+	{
+		return fileResolver;
+	}
+	
+	/**
+	 * @deprecated To be removed.
+	 */
+	public void setContext(RepositoryContext context) 
+	{
+	}
+	
+	/**
+	 * @deprecated To be removed.
+	 */
 	public void revertContext()
 	{
-		RepositoryContext context = localContext.get();
-		//localContext.remove();//this causes NPE on subreports with Javaflow
-		
-		ClassLoader classLoader = (ClassLoader)context.getValue(JRParameter.REPORT_CLASS_LOADER);
-		URLStreamHandlerFactory urlHandlerFactory = (URLStreamHandlerFactory)context.getValue(JRParameter.REPORT_URL_HANDLER_FACTORY);
-		FileResolver fileResolver = (FileResolver)context.getValue(JRParameter.REPORT_FILE_RESOLVER);
-
-		if (classLoader != null)
-		{
-			JRResourcesUtil.resetClassLoader();
-		}
-		
-		if (urlHandlerFactory != null)
-		{
-			JRResourcesUtil.resetThreadURLHandlerFactory();
-		}
-		
-		if (fileResolver != null)
-		{
-			JRResourcesUtil.resetThreadFileResolver();
-		}
 	}
 
 	/**
@@ -113,19 +126,19 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	{
 		try
 		{
-			URL url = JRResourcesUtil.createURL(uri, null);
+			URL url = JRResourcesUtil.createURL(uri, urlHandlerFactory);
 			if (url != null)
 			{
 				return JRLoader.getInputStream(url);
 			}
 
-			File file = JRResourcesUtil.resolveFile(uri, null);
+			File file = JRResourcesUtil.resolveFile(uri, fileResolver);
 			if (file != null)
 			{
 				return JRLoader.getInputStream(file);
 			}
 
-			url = JRResourcesUtil.findClassLoaderResource(uri, null);
+			url = JRResourcesUtil.findClassLoaderResource(uri, classLoader);
 			if (url != null)
 			{
 				return JRLoader.getInputStream(url);
@@ -168,7 +181,7 @@ public class DefaultRepositoryService implements StreamRepositoryService
 	 */
 	public <K extends Resource> K getResource(String uri, Class<K> resourceType)
 	{
-		PersistenceService persistenceService = PersistenceUtil.getPersistenceService(DefaultRepositoryService.class, resourceType);
+		PersistenceService persistenceService = PersistenceUtil.getInstance(jasperReportsContext).getService(DefaultRepositoryService.class, resourceType);
 		if (persistenceService != null)
 		{
 			return (K)persistenceService.load(uri, this);

@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine;
 
 import java.awt.Color;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.PositionTypeEnum;
@@ -66,6 +67,11 @@ public abstract class ElementDecorator implements JRElement
 	public JRElementGroup getElementGroup()
 	{
 		return element.getElementGroup();
+	}
+
+	public UUID getUUID()
+	{
+		return element.getUUID();
 	}
 
 	public String getKey()

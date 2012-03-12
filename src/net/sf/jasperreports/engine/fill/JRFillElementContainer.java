@@ -598,6 +598,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 							
 							Collection<JRPrintElement> printElements = subreport.getPrintElements();
 							addSubElements(printContainer, element, printElements);
+							
+							subreport.subreportPageFilled();
 						}
 					}
 					// crosstabs do not return a fill() element

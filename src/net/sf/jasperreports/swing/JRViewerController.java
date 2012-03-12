@@ -32,10 +32,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 import net.sf.jasperreports.engine.xml.JRPrintXmlLoader;
 
@@ -54,6 +57,8 @@ public class JRViewerController
 	protected static final int TYPE_INPUT_STREAM = 2;
 	protected static final int TYPE_OBJECT = 3;
 	
+	private JasperReportsContext jasperReportsContext;
+	private LocalJasperReportsContext localJasperReportsContext;
 	private ResourceBundle resourceBundle;
 	private Locale locale;
 	private final List<JRViewerListener> listeners = new ArrayList<JRViewerListener>();
@@ -61,7 +66,6 @@ public class JRViewerController
 	protected int type = TYPE_FILE_NAME;
 	protected boolean isXML;
 	protected String reportFileName;
-	protected SimpleFileResolver fileResolver;
 	protected boolean reloadSupported;
 	
 	private JasperPrint jasperPrint;
@@ -70,8 +74,25 @@ public class JRViewerController
 	private boolean fitPage;
 	private boolean fitWidth;
 
+	/**
+	 * @deprecated Replaced by {@link #JRViewerController(JasperReportsContext, Locale, ResourceBundle)}. 
+	 */
 	public JRViewerController(Locale locale, ResourceBundle resBundle)
 	{
+		this(DefaultJasperReportsContext.getInstance(), locale, resBundle);
+	}
+
+	/**
+	 * 
+	 */
+	public JRViewerController(
+		JasperReportsContext jasperReportsContext,
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		
 		if (locale != null)
 		{
 			this.locale = locale;
@@ -128,8 +149,16 @@ public class JRViewerController
 		type = TYPE_FILE_NAME;
 		this.isXML = isXmlReport;
 		reportFileName = fileName;
-		fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
+
+		SimpleFileResolver fileResolver = new SimpleFileResolver(Arrays.asList(new File[]{new File(fileName).getParentFile(), new File(".")}));
 		fileResolver.setResolveAbsolutePath(true);
+		if (localJasperReportsContext == null)
+		{
+			localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+			jasperReportsContext = localJasperReportsContext;
+		}
+		localJasperReportsContext.setFileResolver(fileResolver);
+		
 		reloadSupported = true;
 		fireListeners(JRViewerEvent.EVENT_REPORT_LOADED);
 		setPageIndex(0);
@@ -241,6 +270,11 @@ public class JRViewerController
 		}
 	}
 	
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return jasperReportsContext;
+	}
+
 	public ResourceBundle getResourceBundle()
 	{
 		return resourceBundle;
@@ -256,9 +290,12 @@ public class JRViewerController
 		return resourceBundle.getString(key);
 	}
 
+	/**
+	 * @deprecated To be removed.
+	 */
 	public FileResolver getFileResolver()
 	{
-		return type == TYPE_FILE_NAME ? fileResolver : null;
+		return type == TYPE_FILE_NAME && localJasperReportsContext != null ? localJasperReportsContext.getFileResolver() : null;
 	}
 
 	public JasperPrint getJasperPrint()

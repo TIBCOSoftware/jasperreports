@@ -56,6 +56,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -78,10 +79,14 @@ import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
@@ -93,7 +98,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -115,13 +119,13 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 	private static final Log log = LogFactory.getLog(JRHtmlExporter.class);
 
-	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.html.";
+	private static final String HTML_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.";
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String HTML_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "html";
+	public static final String HTML_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "html";
 	
 	/**
 	 *
@@ -137,6 +141,11 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 *
 	 */
 	public static final String PROPERTY_HTML_POPUP_COLUMN = HTML_EXPORTER_PROPERTIES_PREFIX + "popupcolumn";
+
+	/**
+	 *
+	 */
+	public static final String PROPERTY_HTML_UUID = HTML_EXPORTER_PROPERTIES_PREFIX + "uuid";
 
 	/**
 	 *
@@ -233,10 +242,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 	 */
 	protected Map<String,String> fontMap;
 
-	private LinkedList<Color> backcolorStack;
+	private LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	private Color backcolor;
 
-	protected JRHyperlinkTargetProducerFactory targetProducerFactory = new DefaultHyperlinkTargetProducerFactory();		
+	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 
 	protected boolean hyperlinkStarted;
 	protected int thDepth;
@@ -245,10 +254,23 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
+	/**
+	 * @deprecated Replaced by {@link #JRHtmlExporter(JasperReportsContext)}.
+	 */
 	public JRHtmlExporter()
 	{
-		backcolorStack = new LinkedList<Color>();
-		backcolor = null;
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
+	 *
+	 */
+	public JRHtmlExporter(JasperReportsContext jasperReportsContext)
+	{
+		super(jasperReportsContext);
+
+		targetProducerFactory = new DefaultHyperlinkTargetProducerFactory(jasperReportsContext);		
 	}
 
 
@@ -427,7 +449,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					);
 			
 			accessibleHtml = 
-				JRProperties.getBooleanProperty(
+				getPropertiesUtil().getBooleanProperty(
 					jasperPrint,
 					PROPERTY_ACCESSIBLE,
 					false
@@ -445,7 +467,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					true
 					);
 			
-			nature = new JRHtmlExporterNature(filter, deepGrid, isIgnorePageMargins);
+			nature = new JRHtmlExporterNature(jasperReportsContext, filter, deepGrid, isIgnorePageMargins);
 	
 			flushOutput = getBooleanParameter(JRHtmlExporterParameter.FLUSH_OUTPUT, 
 					JRHtmlExporterParameter.PROPERTY_FLUSH_OUTPUT, 
@@ -589,9 +611,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 	
 					if (isPxImageLoaded)
 					{
-						JRRenderable pxRenderer =
-							JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
-						byte[] imageData = pxRenderer.getImageData();
+						Renderable pxRenderer =
+							RenderableUtil.getInstance(jasperReportsContext).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
+						byte[] imageData = pxRenderer.getImageData(jasperReportsContext);
 	
 						File imageFile = new File(imagesDir, "px");
 						FileOutputStream fos = null;
@@ -625,7 +647,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						JRPrintElementIndex imageIndex = it.next();
 	
 						JRPrintImage image = getImage(jasperPrintList, imageIndex);
-						JRRenderable renderer = image.getRenderer();
+						Renderable renderer = image.getRenderable();
 						if (renderer.getType() == JRRenderable.TYPE_SVG)
 						{
 							renderer =
@@ -636,7 +658,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 									);
 						}
 	
-						byte[] imageData = renderer.getImageData();
+						byte[] imageData = renderer.getImageData(jasperReportsContext);
 	
 						File imageFile = new File(imagesDir, getImageName(imageIndex));
 						FileOutputStream fos = null;
@@ -1086,12 +1108,12 @@ public class JRHtmlExporter extends JRAbstractExporter
 			JRPrintElement element = gridCell.getWrapper().getElement();
 			if (element != null)
 			{
-				String id = JRProperties.getProperty(element, PROPERTY_HTML_ID);
+				String id = getPropertiesUtil().getProperty(element, PROPERTY_HTML_ID);
 				if (id != null)
 				{
 					writer.write(" id=\"" + id +"\"");
 				}
-				String clazz = JRProperties.getProperty(element, PROPERTY_HTML_CLASS);
+				String clazz = getPropertiesUtil().getProperty(element, PROPERTY_HTML_CLASS);
 				if (clazz != null)
 				{
 					writer.write(" class=\"" + clazz +"\"");
@@ -1649,7 +1671,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected String getHyperlinkURL(JRPrintHyperlink link)
 	{
 		String href = null;
-		JRHyperlinkProducer customHandler = getCustomHandler(link);		
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);		
 		if (customHandler == null)
 		{
 			switch(link.getHyperlinkTypeValue())
@@ -1960,7 +1982,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			writer.write("\"/>");
 		}
 		
-		JRRenderable renderer = image.getRenderer();
+		Renderable renderer = image.getRenderable();
 		JRRenderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null 
 				&& renderer instanceof JRImageMapRenderer
@@ -2019,7 +2041,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 										ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null
 										);
 							}
-							imageNameToImageDataMap.put(imageName, renderer.getImageData());
+							imageNameToImageDataMap.put(imageName, renderer.getImageData(jasperReportsContext));
 						}
 						//END - backward compatibility with the IMAGE_MAP parameter
 					}
@@ -2096,9 +2118,9 @@ public class JRHtmlExporter extends JRAbstractExporter
 					if (!image.isLazy())
 					{
 						// Image load might fail. 
-						JRRenderable tmpRenderer = 
-							JRImageRenderer.getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
-						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension();
+						Renderable tmpRenderer = 
+							RenderableUtil.getInstance(jasperReportsContext).getOnErrorRendererForDimension(renderer, image.getOnErrorTypeValue());
+						Dimension2D dimension = tmpRenderer == null ? null : tmpRenderer.getDimension(jasperReportsContext);
 						// If renderer was replaced, ignore image dimension.
 						if (tmpRenderer == renderer && dimension != null)
 						{
@@ -2253,10 +2275,10 @@ public class JRHtmlExporter extends JRAbstractExporter
 		//backward compatibility with the IMAGE_MAP parameter
 		if (imageNameToImageDataMap != null && !imageNameToImageDataMap.containsKey("px"))
 		{
-			JRRenderable pxRenderer =
-				JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
+			Renderable pxRenderer =
+				RenderableUtil.getInstance(jasperReportsContext).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
 			rendererToImagePathMap.put(pxRenderer.getId(), imagesURI + "px");
-			imageNameToImageDataMap.put("px", pxRenderer.getImageData());
+			imageNameToImageDataMap.put("px", pxRenderer.getImageData(jasperReportsContext));
 		}
 		//END - backward compatibility with the IMAGE_MAP parameter
 	}
@@ -2452,7 +2474,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			JRExporterGridCell gridCell, int rowHeight) throws IOException
 	{
 		GenericElementHtmlHandler handler = (GenericElementHtmlHandler) 
-				GenericElementHandlerEnviroment.getHandler(
+				GenericElementHandlerEnviroment.getInstance(getJasperReportsContext()).getElementHandler(
 						element.getGenericType(), HTML_EXPORTER_KEY);
 		
 		if (handler == null)

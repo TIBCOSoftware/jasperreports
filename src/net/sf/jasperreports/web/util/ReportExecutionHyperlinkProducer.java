@@ -64,7 +64,8 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	public String getHyperlink(JRPrintHyperlink hyperlink) 
 	{
 		String appContext = request.getContextPath();
-		String servletPath = request.getServletPath();
+//		String servletPath = request.getServletPath();
+		String servletPath = ReportServlet.PATH;
 		String reportUri = request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
 		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);

@@ -39,7 +39,7 @@ import net.sf.jasperreports.engine.fill.DatasetFillContext;
  */
 public class FieldFilter implements DatasetFilter {
 
-	private final String field;
+	private String field;
 
 	private String filterValueStart;
 	private String filterValueEnd;
@@ -55,6 +55,9 @@ public class FieldFilter implements DatasetFilter {
 	private FilterTypesEnum filterTypeEnum;
 	
 	private AbstractFieldComparator<?> fieldComparator;
+	
+	public FieldFilter() {
+	}
 	
 	/**
 	 * Creates a field filter.

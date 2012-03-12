@@ -24,23 +24,13 @@
 package net.sf.jasperreports.components.map;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementGraphics2DHandler;
-import net.sf.jasperreports.engine.export.GenericElementXlsHandler;
-import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterContext;
-import net.sf.jasperreports.engine.export.JRGridLayout;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterContext;
-import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.draw.ImageDrawer;
 import net.sf.jasperreports.engine.export.draw.Offset;
-import net.sf.jasperreports.engine.export.draw.PrintDrawVisitor;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -69,7 +59,7 @@ public class MapElementGraphics2DHandler implements GenericElementGraphics2DHand
 			
 			imageDrawer.draw(
 					grx,
-					MapElementImageProvider.getImage(element), 
+					MapElementImageProvider.getImage(exporterContext.getJasperReportsContext(), element), 
 					offset.getX(), 
 					offset.getY()
 					);

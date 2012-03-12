@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.xml;
 
+import java.util.UUID;
+
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 
 import org.xml.sax.Attributes;
@@ -39,6 +41,12 @@ public class JRDatasetRunFactory extends JRBaseFactory
 		JRDesignDatasetRun datasetRun = new JRDesignDatasetRun();
 		
 		datasetRun.setDatasetName(atts.getValue(JRXmlConstants.ATTRIBUTE_subDataset));
+		
+		String uuid = atts.getValue(JRXmlConstants.ATTRIBUTE_uuid);
+		if (uuid != null)
+		{
+			datasetRun.setUUID(UUID.fromString(uuid));
+		}
 		
 		return datasetRun;
 	}

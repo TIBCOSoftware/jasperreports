@@ -40,14 +40,16 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.draw.FrameDrawer;
 import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
 
@@ -73,15 +75,15 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	 * 
 	 * @see net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter#MINIMIZE_PRINTER_JOB_SIZE
 	 */
-	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRProperties.PROPERTY_PREFIX + "export.graphics2d.min.job.size";
+	public static final String MINIMIZE_PRINTER_JOB_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.min.job.size";
 
-	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRProperties.PROPERTY_PREFIX + "export.graphics2d.";
+	private static final String GRAPHICS2D_EXPORTER_PROPERTIES_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.graphics2d.";
 
 	/**
 	 * The exporter key, as used in
 	 * {@link GenericElementHandlerEnviroment#getHandler(net.sf.jasperreports.engine.JRGenericElementType, String)}.
 	 */
-	public static final String GRAPHICS2D_EXPORTER_KEY = JRProperties.PROPERTY_PREFIX + "graphics2d";
+	public static final String GRAPHICS2D_EXPORTER_KEY = JRPropertiesUtil.PROPERTY_PREFIX + "graphics2d";
 	
 	/**
 	 *
@@ -104,10 +106,21 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected JRGraphics2DExporterContext exporterContext = new ExporterContext();
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #JRGraphics2DExporter(JasperReportsContext)}.
 	 */
 	public JRGraphics2DExporter() throws JRException
 	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+
+	/**
+	 *
+	 */
+	public JRGraphics2DExporter(JasperReportsContext jasperReportsContext) throws JRException
+	{
+		super(jasperReportsContext);
+		
 		JRGraphEnvInitializer.initializeGraphEnv();
 	}
 	
@@ -148,7 +161,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 			}
 			
 			BorderOffset.setLegacy(
-				JRProperties.getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
+				getPropertiesUtil().getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
 				);
 
 			/*   */
@@ -183,7 +196,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		Boolean isMinimizePrinterJobSizeParam = (Boolean) parameters.get(JRGraphics2DExporterParameter.MINIMIZE_PRINTER_JOB_SIZE);
 		if (isMinimizePrinterJobSizeParam == null)
 		{
-			isMinimizePrinterJobSize = JRProperties.getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);//FIXMENOW check other potential report properties
+			isMinimizePrinterJobSize = getPropertiesUtil().getBooleanProperty(MINIMIZE_PRINTER_JOB_SIZE);//FIXMENOW check other potential report properties
 		}
 		else
 		{
@@ -193,7 +206,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		textRenderer = 
 			new AwtTextRenderer(
 				isMinimizePrinterJobSize,
-				JRProperties.getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
+				getPropertiesUtil().getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
 	}
 

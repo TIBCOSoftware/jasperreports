@@ -29,10 +29,10 @@
 
 package net.sf.jasperreports.engine.export;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -43,19 +43,32 @@ public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 {
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JExcelApiExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
 	 */
 	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics)
 	{
-		super(filter, isIgnoreGraphics);
+		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, false);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JExcelApiExporterNature(JasperReportsContext, ExporterFilter, boolean, boolean)}.
+	 */
+	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	{
+		this(DefaultJasperReportsContext.getInstance(), filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 	
 	/**
 	 * 
 	 */
-	protected JExcelApiExporterNature(ExporterFilter filter, boolean isIgnoreGraphics, boolean isIgnorePageMargins)
+	protected JExcelApiExporterNature(
+		JasperReportsContext jasperReportsContext,
+		ExporterFilter filter, 
+		boolean isIgnoreGraphics, 
+		boolean isIgnorePageMargins
+		)
 	{
-		super(filter, isIgnoreGraphics, isIgnorePageMargins);
+		super(jasperReportsContext, filter, isIgnoreGraphics, isIgnorePageMargins);
 	}
 	
 	/**
@@ -67,7 +80,7 @@ public class JExcelApiExporterNature extends JRXlsAbstractExporterNature
 		if (element instanceof JRGenericPrintElement)
 		{
 			JRGenericPrintElement genericElement = (JRGenericPrintElement) element;
-			GenericElementHandler handler = GenericElementHandlerEnviroment.getHandler(
+			GenericElementHandler handler = GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericElement.getGenericType(), JExcelApiExporter.JXL_EXPORTER_KEY);
 			if (handler == null || !handler.toExport(genericElement))
 			{

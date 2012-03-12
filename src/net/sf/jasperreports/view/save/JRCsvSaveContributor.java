@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
 
@@ -49,11 +50,23 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_CSV = ".csv"; 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRCsvSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JRCsvSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRCsvSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -100,7 +113,7 @@ public class JRCsvSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRCsvExporter exporter = new JRCsvExporter();
+			JRCsvExporter exporter = new JRCsvExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport();

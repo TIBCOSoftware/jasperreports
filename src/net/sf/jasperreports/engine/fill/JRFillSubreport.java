@@ -63,7 +63,6 @@ import net.sf.jasperreports.engine.design.JRVerifier;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -89,6 +88,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	 */
 	private Map<String, Object> parameterValues;
 	private JRSubreportParameter[] parameters;
+	private FillDatasetPosition datasetPosition;
 	private Connection connection;
 	private JRDataSource dataSource;
 	private JasperReport jasperReport;
@@ -252,9 +252,18 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		if (printPage != null)
 		{
 			printElements = printPage.getElements();
+			//FIXME lucianc immediately dispose the page if virtualized
 		}
 		
 		return printElements;
+	}
+
+	public void subreportPageFilled()
+	{
+		if (printPage != null)
+		{
+			subreportFiller.subreportPageFilled(printPage);
+		}
 	}
 
 
@@ -314,7 +323,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 				}
 				else if (source instanceof java.lang.String)
 				{
-					report = RepositoryUtil.getReport((String)source);
+					report = RepositoryUtil.getInstance(filler.getJasperReportsContext()).getReport(filler.getFillContext().getReportContext(), (String)source);
 //						(JasperReport)JRLoader.loadObjectFromLocation(
 //							(String)source, 
 //							filler.reportClassLoader,
@@ -348,13 +357,25 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		if (jasperReport != null)
 		{
+			JRFillDataset parentDataset = expressionEvaluator.getFillDataset();
+			datasetPosition = new FillDatasetPosition(parentDataset.fillPosition);
+			datasetPosition.addAttribute("subreportUUID", getUUID());
+			datasetPosition.addAttribute("rowIndex", parentDataset.getCacheRecordIndex());		
+			
 			/*   */
 			connection = (Connection) evaluateExpression(
 					getConnectionExpression(), evaluation);
 	
-			/*   */
-			dataSource = (JRDataSource) evaluateExpression(
-					getDataSourceExpression(), evaluation);
+			if (filler.fillContext.hasCachedData(datasetPosition))
+			{
+				// TODO lucianc put something here so that data adapters know not to create a data source
+				dataSource = null;
+			}
+			else
+			{
+				dataSource = (JRDataSource) evaluateExpression(
+						getDataSourceExpression(), evaluation);
+			}
 			
 			parameterValues = 
 				evaluateParameterValues(evaluation);
@@ -408,7 +429,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 
 	protected DatasetExpressionEvaluator createEvaluator() throws JRException
 	{
-		return JasperCompileManager.loadEvaluator(jasperReport);
+		return JasperCompileManager.getInstance(filler.getJasperReportsContext()).getEvaluator(jasperReport);
 	}
 
 
@@ -423,12 +444,12 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		{
 			case HORIZONTAL :
 			{
-				subreportFiller = new JRHorizontalFiller(jasperReport, evaluator, this);
+				subreportFiller = new JRHorizontalFiller(filler.getJasperReportsContext(), jasperReport, evaluator, this);
 				break;
 			}
 			case VERTICAL :
 			{
-				subreportFiller = new JRVerticalFiller(jasperReport, evaluator, this);
+				subreportFiller = new JRVerticalFiller(filler.getJasperReportsContext(), jasperReport, evaluator, this);
 				break;
 			}
 			default :
@@ -439,6 +460,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		
 		runner = getRunnerFactory().createSubreportRunner(this, subreportFiller);
 		subreportFiller.setSubreportRunner(runner);
+		
+		subreportFiller.mainDataset.setFillPosition(datasetPosition);
 	}
 
 
@@ -602,24 +625,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			parameterValues.put(JRParameter.REPORT_FORMAT_FACTORY, filler.getFormatFactory());
 		}
 
-		if (!parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER) &&
-				filler.reportClassLoader != null)
-		{
-			parameterValues.put(JRParameter.REPORT_CLASS_LOADER, filler.reportClassLoader);
-		}
-
-		if (!parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY) &&
-				filler.urlHandlerFactory != null)
-		{
-			parameterValues.put(JRParameter.REPORT_URL_HANDLER_FACTORY, filler.urlHandlerFactory);
-		}
-		
-		if (!parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER) &&
-				filler.fileResolver != null)
-		{
-			parameterValues.put(JRParameter.REPORT_FILE_RESOLVER, filler.fileResolver);
-		}
-		
 		if (!parameterValues.containsKey(JRParameter.REPORT_CONTEXT))
 		{
 			ReportContext context = (ReportContext) filler.getMainDataset().getParameterValue(
@@ -1140,9 +1145,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		return null;
 	}
 	
-	protected static JRSubreportRunnerFactory getRunnerFactory() throws JRException
+	protected JRSubreportRunnerFactory getRunnerFactory() throws JRException
 	{
-		String factoryClassName = JRProperties.getProperty(JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY);
+		String factoryClassName = filler.getPropertiesUtil().getProperty(JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY);
 		if (factoryClassName == null)
 		{
 			throw new JRException("Property \"" + JRSubreportRunnerFactory.SUBREPORT_RUNNER_FACTORY + "\" must be set");

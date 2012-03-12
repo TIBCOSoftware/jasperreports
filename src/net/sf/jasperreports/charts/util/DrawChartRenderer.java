@@ -27,11 +27,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.jfree.chart.JFreeChart;
 
@@ -53,12 +55,20 @@ public class DrawChartRenderer extends JRAbstractSvgRenderer implements JRImageM
 		this.chartHyperlinkProvider = chartHyperlinkProvider;
 	}
 
-	public void render(Graphics2D grx, Rectangle2D rectangle) 
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) 
 	{
 		if (chart != null)
 		{
 			chart.draw(grx, rectangle);
 		}
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
+	public void render(Graphics2D grx, Rectangle2D rectangle) 
+	{
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 	
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) 

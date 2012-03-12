@@ -39,13 +39,13 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,7 +87,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	 * The default value is 2000.
 	 */
 	public static final String PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE = 
-			JRProperties.PROPERTY_PREFIX + "virtual.page.element.size";
+			JRPropertiesUtil.PROPERTY_PREFIX + "virtual.page.element.size";
 	
 	private VirtualizableElementList elements;
 	
@@ -109,7 +109,7 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	{
 		super();
 		
-		this.elements = new VirtualizableElementList(virtualizationContext);
+		this.elements = new VirtualizableElementList(virtualizationContext, this);
 		
 		if (log.isDebugEnabled())
 		{
@@ -228,10 +228,10 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 			VirtualizationObjectInputStream elementsStream = new VirtualizationObjectInputStream(inputStream, virtualizationContext);
 			@SuppressWarnings("unchecked")
-			List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();// TODO lucianc test
+			List<JRPrintElement> elementsList = (List<JRPrintElement>) elementsStream.readObject();
 			
 			// create a new list for the elements
-			elements = new VirtualizableElementList(virtualizationContext);
+			elements = new VirtualizableElementList(virtualizationContext, this);
 			elements.addAll(elementsList);
 		}
 	}

@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.export.FlashPrintElement;
 import net.sf.jasperreports.engine.export.JRExporterContext;
@@ -72,7 +73,7 @@ public class FlashUtils
 	public static String getAllowScriptAccess(
 			JRExporterContext context, JRGenericPrintElement element)
 	{
-		return JRProperties.getProperty(FlashPrintElement.PROPERTY_ALLOW_SCRIPT_ACCESS, 
+		return JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(FlashPrintElement.PROPERTY_ALLOW_SCRIPT_ACCESS, 
 				element, context.getExportedReport());
 	}
 }

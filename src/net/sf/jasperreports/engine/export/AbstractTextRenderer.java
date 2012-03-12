@@ -32,9 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
@@ -50,6 +52,7 @@ public abstract class AbstractTextRenderer
 {
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
+	protected final JasperReportsContext jasperReportsContext;
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -87,12 +90,26 @@ public abstract class AbstractTextRenderer
 	 * 
 	 */
 	public AbstractTextRenderer(
+		JasperReportsContext jasperReportsContext,
 		boolean isMinimizePrinterJobSize,
 		boolean ignoreMissingFont
 		)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
+	}
+	
+	
+	/**
+	 * @deprecated Replaced by {@link #AbstractTextRenderer(JasperReportsContext, boolean, boolean)}. 
+	 */
+	public AbstractTextRenderer(
+		boolean isMinimizePrinterJobSize,
+		boolean ignoreMissingFont
+		)
+	{
+		this(DefaultJasperReportsContext.getInstance(), isMinimizePrinterJobSize, ignoreMissingFont);
 	}
 	
 	

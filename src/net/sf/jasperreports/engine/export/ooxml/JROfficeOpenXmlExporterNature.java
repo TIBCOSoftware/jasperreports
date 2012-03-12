@@ -31,25 +31,33 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.export.AbstractExporterNature;
 import net.sf.jasperreports.engine.export.ExporterFilter;
-import net.sf.jasperreports.engine.export.ExporterNature;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JROfficeOpenXmlExporterNature implements ExporterNature
+public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNature
 {
-	protected ExporterFilter filter;
-
 	/**
 	 * 
 	 */
+	public JROfficeOpenXmlExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
+	{
+		super(jasperReportsContext, filter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JROfficeOpenXmlExporterNature(JasperReportsContext, ExporterFilter)}. 
+	 */
 	public JROfficeOpenXmlExporterNature(ExporterFilter filter)
 	{
-		this.filter = filter;
+		this(DefaultJasperReportsContext.getInstance(), filter);
 	}
 	
 	/**

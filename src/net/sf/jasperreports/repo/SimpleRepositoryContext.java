@@ -28,6 +28,7 @@ import java.util.Map;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated To be removed.
  */
 public class SimpleRepositoryContext implements RepositoryContext
 {

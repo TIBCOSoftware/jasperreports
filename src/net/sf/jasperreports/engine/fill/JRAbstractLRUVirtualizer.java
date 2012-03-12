@@ -33,21 +33,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
-import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 
-import org.apache.commons.collections.LRUMap;
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,68 +85,18 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	 */
 	protected class Cache
 	{
-		protected class LRUScanMap extends LRUMap
-		{
-			private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-			public LRUScanMap(int maxSize)
-			{
-				super(maxSize);
-			}
-
-			protected void removeLRU()
-			{
-				Map.Entry<?,?> entry = getFirst();
-				boolean found = isRemovable(entry);
-				if (!found)
-				{
-					Iterator<Map.Entry<?,?>> entriesIt = entrySet().iterator();
-					entriesIt.next(); //skipping the first, which is already checked
-					while(!found && entriesIt.hasNext())
-					{
-						entry = entriesIt.next();
-						found = isRemovable(entry);
-					}
-				}
-
-				if (!found)
-				{
-					log.warn("The virtualizer is used by more contexts than its in-memory cache size " + getMaximumSize());
-					return;
-				}
-
-				Object key = entry.getKey();
-				Object value = entry.getValue();
-				this.remove(key);
-				processRemovedLRU(key,value);
-			}
-
-			protected boolean isRemovable(Map.Entry<?,?> entry)
-			{
-				JRVirtualizable value = getMapValue(entry.getValue());
-				return value == null || !lastObjectSet.containsKey(value);
-			}
-
-			protected void processRemovedLRU(Object key, Object value)
-			{
-				JRVirtualizable o = getMapValue(value);
-				if (o != null)
-				{
-					virtualizeData(o);
-				}
-			}
-		}
-
+		private final int maxSize;
 		private final ReferenceQueue<JRVirtualizable> refQueue;
-		private final LRUScanMap map;
+		private final LinkedHashMap<String, CacheReference> map;
 
 		Cache(int maxSize)
 		{
-			map = new LRUScanMap(maxSize);
+			this.maxSize = maxSize;
+			map = new LinkedHashMap<String, CacheReference>(16, 0.75f, true);
 			refQueue = new ReferenceQueue<JRVirtualizable>();
 		}
 
-		protected JRVirtualizable getMapValue(Object val)
+		protected JRVirtualizable getMapValue(CacheReference val)
 		{
 			JRVirtualizable o;
 			if (val == null)
@@ -155,20 +105,19 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 			else
 			{
-				Reference<JRVirtualizable> ref = (Reference<JRVirtualizable>) val;
-				if (ref.isEnqueued())
+				if (val.isEnqueued())
 				{
 					o = null;
 				}
 				else
 				{
-					o = ref.get();
+					o = val.get();
 				}
 			}
 			return o;
 		}
 
-		protected Object toMapValue(JRVirtualizable val)
+		protected CacheReference toMapValue(JRVirtualizable val)
 		{
 			return val == null ? null : new CacheReference(val, refQueue);
 		}
@@ -182,6 +131,13 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			}
 		}
 
+		public boolean contains(String id)
+		{
+			purge();
+			
+			return map.containsKey(id);
+		}
+		
 		public JRVirtualizable get(String id)
 		{
 			purge();
@@ -196,6 +152,45 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 			return getMapValue(map.put(id, toMapValue(o)));
 		}
 
+		public List<JRVirtualizable> evictionCandidates()
+		{
+			if (map.size() <= maxSize)
+			{
+				return Collections.<JRVirtualizable>emptyList();
+			}
+			
+			int candidateCount = map.size() - maxSize;
+			List<JRVirtualizable> candidates = new ArrayList<JRVirtualizable>();
+			Iterator<Entry<String, CacheReference>> mapIterator = map.entrySet().iterator();
+			while (candidates.size() < candidateCount && mapIterator.hasNext())
+			{
+				Entry<String, CacheReference> entry = mapIterator.next();
+				JRVirtualizable value = getMapValue(entry.getValue());
+				
+				if (value == null)
+				{
+					// this entry will get removed by purge()
+					--candidateCount;
+				}
+				else if (isEvictable(value))
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("LRU eviction candidate: " + entry.getKey());
+					}
+					
+					candidates.add(value);
+				}
+			}
+
+			if (candidates.size() < candidateCount)
+			{
+				log.debug("The virtualizer is used by more contexts than its in-memory cache size " + maxSize);
+			}
+			
+			return candidates;
+		}
+		
 		public JRVirtualizable remove(String id)
 		{
 			purge();
@@ -323,7 +318,7 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	private final ReferenceMap pagedOut;
 
-	protected JRVirtualizable lastObject;
+	protected volatile JRVirtualizable lastObject;
 	protected ReferenceMap lastObjectMap;
 	protected ReferenceMap lastObjectSet;
 
@@ -361,9 +356,12 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 
 	protected final void setLastObject(JRVirtualizable o)
 	{
-		if (lastObject != o)
+		if (o != null && lastObject != o)
 		{
-			if (o != null)
+			// lastObject is mostly an optimization, we don't care if we don't have atomic operations here
+			this.lastObject = o;
+			
+			synchronized (this)
 			{
 				JRVirtualizationContext context = o.getContext();
 				Object ownerLast = lastObjectMap.get(context);
@@ -377,7 +375,6 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 					lastObjectSet.put(o, Boolean.TRUE);
 				}
 			}
-			this.lastObject = o;
 		}
 	}
 
@@ -417,19 +414,96 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		return readOnly || o.getContext().isReadOnly();
 	}
 
-	public synchronized void registerObject(JRVirtualizable o)
+	public void registerObject(JRVirtualizable o)
 	{
-		setLastObject(o);
-		JRVirtualizable old = pagedIn.put(o.getUID(), o);
-		if (old != null && old != o)
+		if (log.isDebugEnabled())
 		{
-			pagedIn.put(o.getUID(), old);
-			throw new IllegalStateException("Wrong object stored with UID \"" + o.getUID() + "\"");
+			log.debug("registering " + o.getUID());
+		}
+		
+		synchronized (this)
+		{
+			setLastObject(o);
+			JRVirtualizable old = pagedIn.put(o.getUID(), o);
+			if (old != null && old != o)
+			{
+				pagedIn.put(o.getUID(), old);
+				throw new IllegalStateException("Wrong object stored with UID \"" + o.getUID() + "\"");
+			}
 		}
 		
 		if (log.isDebugEnabled())
 		{
 			log.debug("registered object " + o + " with id " + o.getUID());
+		}
+		
+		evict();
+	}
+
+	protected boolean isEvictable(JRVirtualizable value)
+	{
+		return value.getContext().isDisposed() || !lastObjectSet.containsKey(value);
+	}
+
+	protected void evict()
+	{
+		//FIXME lucianc also attempt to evict on non-put operations if the last evict was not successful 
+		//FIXME lucianc prevent two threads from attempting to evict the same objects 
+		
+		List<JRVirtualizable> candidates;
+		synchronized (this)
+		{
+			candidates = pagedIn.evictionCandidates();
+		}
+		
+		for (JRVirtualizable o : candidates)
+		{
+			String uid = o.getUID();
+			if (o.getContext().tryLock())
+			{
+				try
+				{
+					boolean evictable;
+					synchronized (this)
+					{
+						// check again due to sequential locking
+						evictable = pagedIn.contains(uid) && isEvictable(o);
+						if (evictable)
+						{
+							pagedIn.remove(uid);
+						}
+					}
+					
+					if (evictable)
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("evicting " + uid);
+						}
+						
+						//FIXME lucianc if the context is disposed, this is not needed
+						virtualizeData(o);
+					}
+					else
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug("no longer evictable: " + uid);
+						}
+					}
+				}
+				finally
+				{
+					o.getContext().unlock();
+				}
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("couldn't lock for eviction " + uid);
+				}
+			}
 		}
 	}
 
@@ -437,6 +511,11 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 	{
 		String uid = o.getUID();
 
+		if (log.isDebugEnabled())
+		{
+			log.debug("deregistering " + uid);
+		}
+		
 		//try to remove virtual data
 		try
 		{
@@ -457,6 +536,13 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 				{
 					pagedIn.put(uid, oldIn);
 					throw new IllegalStateException("Wrong object stored with UID \"" + o.getUID() + "\"");
+				}
+				
+				Object contextLast = lastObjectMap.get(o.getContext());
+				if (contextLast == o)
+				{
+					lastObjectMap.remove(o.getContext());
+					lastObjectSet.remove(o);
 				}
 			}
 			else
@@ -479,44 +565,69 @@ public abstract class JRAbstractLRUVirtualizer implements JRVirtualizer
 		}
 	}
 
-	public synchronized void touch(JRVirtualizable o)
+	public void touch(JRVirtualizable o)
 	{
 		// If we just touched this object, don't touch it again.
 		if (this.lastObject != o)
 		{
-			setLastObject(pagedIn.get(o.getUID()));
+			//FIXME lucianc this doesn't scale well with concurrency
+			// get the object from the map to update LRU order
+			JRVirtualizable internalObject;
+			synchronized (this)
+			{
+				internalObject = pagedIn.get(o.getUID());
+			}
+			
+			setLastObject(internalObject);
 		}
 	}
 
 	public void requestData(JRVirtualizable o)
 	{
 		String uid = o.getUID();
-		if (isPagedOutAndTouch(o, uid))
+		boolean evictRequired = false;
+		
+		o.getContext().lock();
+		try
 		{
-			if (log.isDebugEnabled())
+			if (isPagedOutAndTouch(o, uid))
 			{
-				log.debug("internalizing " + uid);
-			}
-			
-			// unvirtualize
-			try
-			{
-				pageIn(o);
-			}
-			catch (IOException e)
-			{
-				log.error("Error devirtualizing object", e);
-				throw new JRRuntimeException(e);
-			}
+				if (log.isDebugEnabled())
+				{
+					log.debug("internalizing " + uid);
+				}
+				
+				// unvirtualize
+				try
+				{
+					pageIn(o);
+				}
+				catch (IOException e)
+				{
+					log.error("Error devirtualizing object", e);
+					throw new JRRuntimeException(e);
+				}
 
-			synchronized (this)
-			{
-				setLastObject(o);
-				pagedOut.remove(uid);
-				pagedIn.put(uid, o);
-			}
+				synchronized (this)
+				{
+					setLastObject(o);
+					pagedOut.remove(uid);
+					pagedIn.put(uid, o);
+				}
 
-			o.afterInternalization();
+				o.afterInternalization();
+				
+				evictRequired = true;
+			}
+		}
+		finally
+		{
+			o.getContext().unlock();
+		}
+		
+		if (evictRequired)
+		{
+			evict();
 		}
 	}
 

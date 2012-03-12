@@ -46,6 +46,7 @@ import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.TabStop;
@@ -75,7 +76,7 @@ public class TextMeasurer implements JRTextMeasurer
 	private static final Log log = LogFactory.getLog(TextMeasurer.class);
 	
 	//FIXME remove this after measureSimpleText() is proven to be stable
-	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRProperties.PROPERTY_PREFIX + "measure.simple.text";
+	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text";
 
 	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;

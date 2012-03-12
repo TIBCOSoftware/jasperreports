@@ -30,8 +30,10 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
@@ -40,10 +42,22 @@ import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
  * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public class JsonDataAdapterService extends AbstractDataAdapterService {
+public class JsonDataAdapterService extends AbstractDataAdapterService 
+{
+	/**
+	 * 
+	 */
+	public JsonDataAdapterService(JasperReportsContext jasperReportsContext, JsonDataAdapter jsonDataAdapter) 
+	{
+		super(jasperReportsContext, jsonDataAdapter);
+	}
 
-	public JsonDataAdapterService(JsonDataAdapter jsonDataAdapter) {
-		super(jsonDataAdapter);
+	/**
+	 * @deprecated Replaced by {@link #JsonDataAdapterService(JasperReportsContext, JsonDataAdapter)}.
+	 */
+	public JsonDataAdapterService(JsonDataAdapter jsonDataAdapter) 
+	{
+		super(DefaultJasperReportsContext.getInstance(), jsonDataAdapter);
 	}
 
 	public JsonDataAdapter getJsonDataAdapter() {
@@ -91,9 +105,12 @@ public class JsonDataAdapterService extends AbstractDataAdapterService {
 					throw new JRException(e);
 				}
 			} else {
-				JsonDataSource ds = new JsonDataSource(
+				JsonDataSource ds = 
+					new JsonDataSource(
+						getJasperReportsContext(),
 						jsonDataAdapter.getFileName(),
-						jsonDataAdapter.getSelectExpression());
+						jsonDataAdapter.getSelectExpression()
+						);
 
 				Locale locale = jsonDataAdapter.getLocale();
 				if (locale != null) {

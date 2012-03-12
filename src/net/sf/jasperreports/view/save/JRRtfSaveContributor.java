@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
 
@@ -49,11 +50,23 @@ public class JRRtfSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_RTF = ".rtf";
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRRtfSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JRRtfSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRRtfSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -100,7 +113,7 @@ public class JRRtfSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRRtfExporter exporter = new JRRtfExporter();
+			JRRtfExporter exporter = new JRRtfExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.exportReport();

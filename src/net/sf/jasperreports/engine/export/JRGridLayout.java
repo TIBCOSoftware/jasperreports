@@ -43,10 +43,10 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -548,11 +548,11 @@ public class JRGridLayout
 			xCuts.setWidthRatio(widthRatio);
 		}
 
-		List<JRProperties.PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
+		List<PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
 		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
 		{
 			SortedMap<String, Boolean> levelMap = new TreeMap<String, Boolean>();
-			for(JRProperties.PropertySuffix suffix : rowLevelSuffixes)
+			for(PropertySuffix suffix : rowLevelSuffixes)
 			{
 				String level = suffix.getSuffix();
 				String marker = suffix.getValue();

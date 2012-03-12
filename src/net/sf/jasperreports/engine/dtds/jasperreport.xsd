@@ -1856,6 +1856,11 @@
     <element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
    </sequence>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify elements accross multiple report templates.</documentation>
+	</annotation>
+   </attribute>  
    <attribute name="key" type="string" use="optional">
 	<annotation>
 	 <documentation>This attribute is used to identify band elements by their "key" when wanting to alter their settings at runtime. The key value must be unique for elements within report band.</documentation>
@@ -4170,6 +4175,11 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
  	 <documentation>The name of the <elem>subdataset</elem> to instantiate.</documentation>
 	</annotation>
    </attribute>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify elements accross multiple report templates.</documentation>
+	</annotation>
+   </attribute>  
   </complexType>
  </element>
 

@@ -70,8 +70,10 @@ import net.sf.jasperreports.components.table.StandardTableFactory;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.TableReportContextXmlRule;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -98,6 +100,23 @@ import org.apache.commons.digester.Digester;
  */
 public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXmlWriter
 {
+	private JasperReportsContext jasperReportsContext;
+	
+	/**
+	 * @deprecated Replaced by {@link #ComponentsXmlHandler(JasperReportsContext)}.
+	 */
+	public ComponentsXmlHandler()
+	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+
+	/**
+	 * 
+	 */
+	public ComponentsXmlHandler(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
 
 	public void configureDigester(Digester digester)
 	{
@@ -127,6 +146,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		digester.addSetNext(listContentsPattern, "setContents");
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void addBarbecueRules(Digester digester)
 	{
 		String barcodePattern = "*/componentElement/barbecue";
@@ -199,6 +219,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				"*/componentElement/PDF417", PDF417Component.class);
 	}
 	
+	@SuppressWarnings("deprecation")
 	protected <T> void addBaseBarcode4jRules(Digester digester, 
 			String barcodePattern, Class<T> barcodeComponentClass)
 	{
@@ -263,6 +284,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				JRExpression.class.getName());
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void addTableRules(Digester digester)
 	{
 		String tablePattern = "*/componentElement/table";
@@ -370,12 +392,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		else if (component instanceof SpiderChartComponent)
 		{
 			SpiderChartComponent spiderChart = (SpiderChartComponent) component;
-			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter();
+			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(jasperReportsContext);
 			spiderChartWriter.writeToXml(componentKey, spiderChart, reportWriter);
 		}
 		else if (component instanceof SortComponent)
 		{
-			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter();
+			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(jasperReportsContext);
 			sortWriter.writeToXml(componentKey, component, reportWriter);
 		}
 		else if (component instanceof MapComponent)

@@ -29,10 +29,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.ThreadLocalStack;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 
 
 /**
@@ -43,15 +45,53 @@ public final class RepositoryUtil
 {
 	//private static final Log log = LogFactory.getLog(RepositoryUtil.class);
 
-	private static ThreadLocalStack localContextStack = new ThreadLocalStack();//FIXMEREPO final?
+	/**
+	 * @deprecated To be removed.
+	 */
+	private static ThreadLocalStack localContextStack = new ThreadLocalStack();
 	
-	private static AtomicReference<List<RepositoryService>> repositoryServices = 
-			new AtomicReference<List<RepositoryService>>();//FIXMEREPO should this be lazy loaded or not? maybe thread local?
+	/**
+	 * @deprecated To be removed.
+	 */
+	private static final ThreadLocal<ReportContext> threadReportContext = new InheritableThreadLocal<ReportContext>();
+
+	private AtomicReference<List<RepositoryService>> repositoryServices = new AtomicReference<List<RepositoryService>>();
+	
+
+	private JasperReportsContext jasperReportsContext;
+
+
+	/**
+	 *
+	 */
+	private RepositoryUtil(JasperReportsContext jasperReportsContext)//FIXMECONTEXT try to reuse utils as much as you can
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static RepositoryUtil getDefaultInstance()
+	{
+		return new RepositoryUtil(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static RepositoryUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new RepositoryUtil(jasperReportsContext);
+	}
+	
 	
 	/**
 	 * 
 	 */
-	private static List<RepositoryService> getRepositoryServices()
+	private List<RepositoryService> getServices()
 	{
 		List<RepositoryService> cachedServices = repositoryServices.get();
 		if (cachedServices != null)
@@ -59,9 +99,7 @@ public final class RepositoryUtil
 			return cachedServices;
 		}
 		
-		//FIXME we should cache this per thread class loader
-		List<RepositoryService> services = 
-			ExtensionsEnvironment.getExtensionsRegistry().getExtensions(RepositoryService.class);
+		List<RepositoryService> services = jasperReportsContext.getExtensions(RepositoryService.class);
 		
 		// set if not already set
 		if (repositoryServices.compareAndSet(null, services))
@@ -75,6 +113,15 @@ public final class RepositoryUtil
 	
 	
 	/**
+	 * @deprecated Replaced by {@link #getServices()}.
+	 */
+	public static List<RepositoryService> getRepositoryServices()
+	{
+		return getDefaultInstance().getServices();
+	}
+	
+	
+	/**
 	 * 
 	 *
 	private static RepositoryContext getRepositoryContext()
@@ -84,7 +131,7 @@ public final class RepositoryUtil
 	
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static void setRepositoryContext(RepositoryContext context)
 	{
@@ -101,7 +148,7 @@ public final class RepositoryUtil
 	
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public static void revertRepositoryContext()
 	{
@@ -119,26 +166,79 @@ public final class RepositoryUtil
 	
 	
 	/**
+	 * @deprecated To be removed.
+	 */
+	public static ReportContext getThreadReportContext()
+	{
+		return threadReportContext.get();
+	}
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public static void setThreadReportContext(ReportContext reportContext)
+	{
+		threadReportContext.set(reportContext);
+	}
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public static void resetThreadReportContext()
+	{
+		threadReportContext.set(null);
+	}
+
+	
+	/**
 	 *
 	 */
-	public static JasperReport getReport(String location) throws JRException
+	public JasperReport getReport(ReportContext reportContext, String location) throws JRException 
 	{
-		ReportResource resource = getResource(location, ReportResource.class);
-		if (resource == null)
+		JasperReport jasperReport = null;
+		
+		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		if (cache != null)
 		{
-			throw new JRException("Report not found at : " + location);
+			jasperReport = cache.getJasperReport(location);
 		}
-		return resource.getReport();
+
+		if (jasperReport == null)
+		{
+			ReportResource resource = getResource2(location, ReportResource.class);
+			if (resource == null)
+			{
+				throw new JRException("Report not found at : " + location);
+			}
+
+			jasperReport = resource.getReport();
+
+			if (cache != null)
+			{
+				cache.set(location, jasperReport);
+			}
+		}
+
+		return jasperReport;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getReport(ReportContext, String)}.
+	 */
+	public static JasperReport getReport(String location) throws JRException 
+	{
+		return getDefaultInstance().getReport(getThreadReportContext(), location);
 	}
 
 
 	/**
 	 * 
 	 */
-	public static <K extends Resource> K getResource(String location, Class<K> resourceType) throws JRException
+	public <K extends Resource> K getResource2(String location, Class<K> resourceType) throws JRException //FIXMECONTEXT check its name
 	{
 		K resource = null;
-		List<RepositoryService> services = getRepositoryServices();
+		List<RepositoryService> services = getServices();
 		if (services != null)
 		{
 			for (RepositoryService service : services)
@@ -159,9 +259,18 @@ public final class RepositoryUtil
 
 
 	/**
+	 * @deprecated Replaced by {@link #getResource2(String, Class)}.
+	 */
+	public static <K extends Resource> K getResource(String location, Class<K> resourceType) throws JRException
+	{
+		return getDefaultInstance().getResource2(location, resourceType);
+	}
+
+
+	/**
 	 *
 	 */
-	public static InputStream getInputStream(String location) throws JRException
+	public InputStream getInputStream2(String location) throws JRException
 	{
 		InputStream is = findInputStream(location);
 		if (is == null)
@@ -170,15 +279,24 @@ public final class RepositoryUtil
 		}
 		return is;
 	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getInputStream2(String)}.
+	 */
+	public static InputStream getInputStream(String location) throws JRException
+	{
+		return getDefaultInstance().getInputStream2(location);
+	}
 	
 	
 	/**
 	 *
 	 */
-	private static InputStream findInputStream(String location) throws JRException
+	private InputStream findInputStream(String location) throws JRException
 	{
 		InputStreamResource inputStreamResource = null;
-		List<RepositoryService> services = getRepositoryServices();
+		List<RepositoryService> services = getServices();
 		if (services != null)
 		{
 			for (RepositoryService service : services)
@@ -197,7 +315,7 @@ public final class RepositoryUtil
 	/**
 	 *
 	 */
-	public static byte[] getBytes(String location) throws JRException
+	public byte[] getBytes2(String location) throws JRException
 	{
 		InputStream is = findInputStream(location);
 		
@@ -252,12 +370,13 @@ public final class RepositoryUtil
 
 		return baos.toByteArray();
 	}
-
-
+	
+	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getBytes2(String)}.
 	 */
-	private RepositoryUtil()
+	public static byte[] getBytes(String location) throws JRException
 	{
+		return getDefaultInstance().getBytes2(location);
 	}
 }

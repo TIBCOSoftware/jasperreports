@@ -27,7 +27,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * XPath query executer factory.
@@ -38,7 +40,7 @@ import net.sf.jasperreports.engine.JRValueParameter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
+public class JRXPathQueryExecuterFactory extends JRAbstractQueryExecuterFactory
 {
 	/**
 	 * Built-in parameter holding the value of the org.w3c.dom.Document used to run the XPath query.
@@ -46,19 +48,44 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	public final static String PARAMETER_XML_DATA_DOCUMENT = "XML_DATA_DOCUMENT";
 	
 	/**
+	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the XML data.
+	 */
+	public static final String XML_INPUT_STREAM = "XML_INPUT_STREAM";
+	
+	/**
+	 * Built-in parameter holding the value of the <code>java.io.File</code> to be used for obtaining the XML data.
+	 */
+	public static final String XML_FILE = "XML_FILE";
+	
+	/**
+	 * Built-in parameter/property holding the value of the <code>java.lang.String</code> source to be used for obtaining the XML data.
+	 */
+	public static final String XML_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "xml.source";
+	
+	/**
 	 * Parameter holding the format pattern used to instantiate java.util.Date instances.
 	 */
 	public final static String XML_DATE_PATTERN = "XML_DATE_PATTERN";
 	
+	/**
+	 * Property holding the value of the date format pattern to be used when parsing the XML data.
+	 */
+	public static final String PROPERTY_XML_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xml.date.pattern";
+
 	/**
 	 * Parameter holding the format pattern used to instantiate java.lang.Number instances.
 	 */
 	public final static String XML_NUMBER_PATTERN = "XML_NUMBER_PATTERN";
 
 	/**
+	 * Property holding the value of the number format pattern to be used when parsing the XLS data.
+	 */
+	public static final String PROPERTY_XML_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xml.number.pattern";
+	
+	/**
 	 * Parameter holding the value of the datasource Locale
 	 */
-	public final static String XML_LOCALE = "XML_LOCALE";
+	public final static String XML_LOCALE = "XML_LOCALE";//FIXME make properties for locale and timezone too; just like in csv
 	
 	/**
 	 * Parameter holding the value of the datasource Timezone
@@ -67,6 +94,9 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 	
 	private final static Object[] XPATH_BUILTIN_PARAMETERS = {
 		PARAMETER_XML_DATA_DOCUMENT,  "org.w3c.dom.Document",
+		XML_INPUT_STREAM, "java.io.InputStream",
+		XML_FILE, "java.io.File",
+		XML_SOURCE, "java.lang.String",
 		XML_DATE_PATTERN, "java.lang.String",
 		XML_NUMBER_PATTERN, "java.lang.String",
 		XML_LOCALE, "java.util.Locale",
@@ -78,10 +108,13 @@ public class JRXPathQueryExecuterFactory implements JRQueryExecuterFactory
 		return XPATH_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
-			throws JRException
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException
 	{
-		return new JRXPathQueryExecuter(dataset, parameters);
+		return new JRXPathQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className)

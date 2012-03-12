@@ -30,6 +30,7 @@ import net.sf.jasperreports.charts.JRTimeAxisFormat;
 import net.sf.jasperreports.charts.JRValueAxisFormat;
 import net.sf.jasperreports.charts.JRXAxisFormat;
 import net.sf.jasperreports.charts.JRYAxisFormat;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartPlot;
@@ -43,6 +44,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.JRTextField;
@@ -66,6 +68,17 @@ public final class JRStyleResolver
 {
 
 	private static final Integer INTEGER_ZERO = Integer.valueOf(0);
+
+	private static final JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance());//FIXMECONTEXT there is little we can do about this
+
+	/**
+	 *
+	 */
+	private static JRPropertiesUtil getPropertiesUtil()
+	{
+		return propertiesUtil;
+	}
+
 
 	/**
 	 *
@@ -615,7 +628,7 @@ public final class JRStyleResolver
 				return lineSpacingSize;
 			}
 		}
-		return JRProperties.getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
+		return getPropertiesUtil().getFloatProperty(JRParagraph.DEFAULT_LINE_SPACING_SIZE);
 	}
 
 	/**
@@ -637,7 +650,7 @@ public final class JRStyleResolver
 				return firstLineIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_FIRST_LINE_INDENT);
 	}
 
 	/**
@@ -659,7 +672,7 @@ public final class JRStyleResolver
 				return leftIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_LEFT_INDENT);
 	}
 
 	/**
@@ -681,7 +694,7 @@ public final class JRStyleResolver
 				return rightIndent;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_RIGHT_INDENT);
 	}
 
 	/**
@@ -703,7 +716,7 @@ public final class JRStyleResolver
 				return spacingBefore;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_SPACING_BEFORE);
 	}
 
 	/**
@@ -725,7 +738,7 @@ public final class JRStyleResolver
 				return spacingAfter;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_SPACING_AFTER);
 	}
 
 	/**
@@ -747,7 +760,7 @@ public final class JRStyleResolver
 				return tabStopWidth;
 			}
 		}
-		return JRProperties.getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
+		return getPropertiesUtil().getIntegerProperty(JRParagraph.DEFAULT_TAB_STOP_WIDTH);
 	}
 
 	/**
@@ -985,7 +998,7 @@ public final class JRStyleResolver
 				return fontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 	
 	/**
@@ -1007,7 +1020,7 @@ public final class JRStyleResolver
 				return fontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_FONT_NAME);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_FONT_NAME);
 	}
 
 	/**
@@ -1188,7 +1201,7 @@ public final class JRStyleResolver
 				return fontSize.intValue();
 			}
 		}
-		return JRProperties.getIntegerProperty(JRFont.DEFAULT_FONT_SIZE);
+		return getPropertiesUtil().getIntegerProperty(JRFont.DEFAULT_FONT_SIZE);
 	}
 	
 	/**
@@ -1228,7 +1241,7 @@ public final class JRStyleResolver
 				return pdfFontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 	
 	/**
@@ -1250,7 +1263,7 @@ public final class JRStyleResolver
 				return pdfFontName;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_PDF_FONT_NAME);
 	}
 
 	/**
@@ -1272,7 +1285,7 @@ public final class JRStyleResolver
 				return pdfEncoding;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 	
 	/**
@@ -1294,7 +1307,7 @@ public final class JRStyleResolver
 				return pdfEncoding;
 			}
 		}
-		return JRProperties.getProperty(JRFont.DEFAULT_PDF_ENCODING);
+		return getPropertiesUtil().getProperty(JRFont.DEFAULT_PDF_ENCODING);
 	}
 
 	/**
@@ -1316,7 +1329,7 @@ public final class JRStyleResolver
 				return pdfEmbedded.booleanValue();
 			}
 		}
-		return JRProperties.getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
+		return getPropertiesUtil().getBooleanProperty(JRFont.DEFAULT_PDF_EMBEDDED);
 	}
 	
 	/**

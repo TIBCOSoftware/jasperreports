@@ -25,8 +25,13 @@ package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 import net.sf.jasperreports.engine.fill.JRTextMeasurerFactory;
 
@@ -40,7 +45,27 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurerFactory;
  */
 public final class JRTextMeasurerUtil
 {
+	private JasperReportsContext jasperReportsContext;
 
+
+	/**
+	 *
+	 */
+	private JRTextMeasurerUtil(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static JRTextMeasurerUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new JRTextMeasurerUtil(jasperReportsContext);
+	}
+	
+	
 	/**
 	 * Property that specifies a text measurer factory.
 	 * 
@@ -64,7 +89,7 @@ public final class JRTextMeasurerUtil
 	 * @see JRTextMeasurerFactory
 	 */
 	public static final String PROPERTY_TEXT_MEASURER_FACTORY = 
-		JRProperties.PROPERTY_PREFIX + "text.measurer.factory";
+		JRPropertiesUtil.PROPERTY_PREFIX + "text.measurer.factory";
 	
 	private static final JRSingletonCache<JRTextMeasurerFactory> cache = 
 			new JRSingletonCache<JRTextMeasurerFactory>(JRTextMeasurerFactory.class);
@@ -80,7 +105,7 @@ public final class JRTextMeasurerUtil
 	 * @param text the text object
 	 * @return a text measurer for the text object
 	 */
-	public static JRTextMeasurer createTextMeasurer(JRCommonText text)
+	public JRTextMeasurer createTextMeasurer(JRCommonText text)
 	{
 		JRPropertiesHolder propertiesHolder =
 			text instanceof JRPropertiesHolder ? (JRPropertiesHolder) text : null;
@@ -95,7 +120,7 @@ public final class JRTextMeasurerUtil
 	 * can be <code>null</code>
 	 * @return a text measurer for the text object
 	 */
-	public static JRTextMeasurer createTextMeasurer(JRCommonText text, JRPropertiesHolder propertiesHolder)
+	public JRTextMeasurer createTextMeasurer(JRCommonText text, JRPropertiesHolder propertiesHolder)
 	{
 		JRTextMeasurerFactory factory = getTextMeasurerFactory(propertiesHolder);
 		return factory.createMeasurer(text);
@@ -107,7 +132,7 @@ public final class JRTextMeasurerUtil
 	 * @param propertiesHolder the properties holder
 	 * @return the text measurer factory
 	 */
-	public static JRTextMeasurerFactory getTextMeasurerFactory(JRPropertiesHolder propertiesHolder)
+	public JRTextMeasurerFactory getTextMeasurerFactory(JRPropertiesHolder propertiesHolder)
 	{
 		String factoryClass = getTextMeasurerFactoryClass(propertiesHolder);
 		try
@@ -120,20 +145,60 @@ public final class JRTextMeasurerUtil
 		}
 	}
 
-	protected static String getTextMeasurerFactoryClass(JRPropertiesHolder propertiesHolder)
+	protected String getTextMeasurerFactoryClass(JRPropertiesHolder propertiesHolder)
 	{
-		String factory = JRProperties.getProperty(propertiesHolder, PROPERTY_TEXT_MEASURER_FACTORY);
+		String factory = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, PROPERTY_TEXT_MEASURER_FACTORY);
 		String factoryClassProperty = PROPERTY_TEXT_MEASURER_FACTORY + '.' + factory;
-		String factoryClass = JRProperties.getProperty(propertiesHolder, factoryClassProperty);
+		String factoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, factoryClassProperty);
 		if (factoryClass == null)
 		{
 			factoryClass = factory;
 		}
 		return factoryClass;
 	}
-	
 
-	private JRTextMeasurerUtil()
+	
+	/**
+	 * 
+	 */
+	public void measureTextElement(JRPrintText printText)
 	{
+		String text = printText.getText();
+		
+		JRTextMeasurer textMeasurer = createTextMeasurer(printText);//FIXME use element properties?
+		
+		if (text == null)
+		{
+			text = "";
+		}
+		JRStyledText styledText = 
+			JRStyledTextParser.getInstance().getStyledText(
+				JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText), 
+				text, 
+				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
+				JRStyledTextAttributeSelector.getTextLocale(printText)
+				);
+		
+		JRMeasuredText measuredText = textMeasurer.measure(
+				styledText, 
+				0,
+				0,
+				false
+				);
+		printText.setTextHeight(measuredText.getTextHeight() < printText.getHeight() ? measuredText.getTextHeight() : printText.getHeight());
+		printText.setLeadingOffset(measuredText.getLeadingOffset());
+		printText.setLineSpacingFactor(measuredText.getLineSpacingFactor());
+		
+		int textEnd = measuredText.getTextOffset();
+		String printedText;
+		if (JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()))
+		{
+			printedText = JRStyledTextParser.getInstance().write(styledText, 0, textEnd);
+		}
+		else
+		{
+			printedText = text.substring(0, textEnd);
+		}
+		printText.setText(printedText);
 	}
 }

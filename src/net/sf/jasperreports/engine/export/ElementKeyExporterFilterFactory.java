@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 
 /**
  * Factory of {@link ElementKeyExporterFilter} instances.
@@ -69,7 +70,7 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 	{
 		String excludeKeyPrefix = 
 			exporterContext.getExportPropertiesPrefix() + PROPERTY_EXCLUDED_KEY_PREFIX;
-		List<JRProperties.PropertySuffix> props = JRProperties.getProperties(
+		List<PropertySuffix> props = JRPropertiesUtil.getProperties(
 				exporterContext.getExportedReport(), excludeKeyPrefix);
 		ExporterFilter filter;
 		if (props.isEmpty())
@@ -79,9 +80,9 @@ public class ElementKeyExporterFilterFactory implements ExporterFilterFactory
 		else
 		{
 			Set<String> excludedKeys = new HashSet<String>();
-			for (Iterator<JRProperties.PropertySuffix> it = props.iterator(); it.hasNext();)
+			for (Iterator<PropertySuffix> it = props.iterator(); it.hasNext();)
 			{
-				JRProperties.PropertySuffix prop = it.next();
+				PropertySuffix prop = it.next();
 				String key = prop.getValue();
 				if (key == null || key.length() == 0)
 				{

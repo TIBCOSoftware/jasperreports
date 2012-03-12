@@ -25,8 +25,8 @@ package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRTextElement;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -127,9 +127,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRProperties.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
+	public static final String PROPERTY_REMOVE_EMPTY_SPACE_BETWEEN_ROWS = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.remove.emtpy.space.between.rows";
 
 
 	/**
@@ -144,9 +144,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is set by default (<code>true</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRProperties.PROPERTY_PREFIX + "export.xls.white.page.background";
+	public static final String PROPERTY_WHITE_PAGE_BACKGROUND = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.white.page.background";
 
 
 	/**
@@ -161,9 +161,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is set by default (<code>true</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRProperties.PROPERTY_PREFIX + "export.html.using.images.to.align";
+	public static final String PROPERTY_USING_IMAGES_TO_ALIGN = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.using.images.to.align";
 
 
 	/**
@@ -183,9 +183,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * <p/>
 	 * This property is by default not set (<code>false</code>).
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_WRAP_BREAK_WORD = JRProperties.PROPERTY_PREFIX + "export.html.wrap.break.word";
+	public static final String PROPERTY_WRAP_BREAK_WORD = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.wrap.break.word";
 
 
 	/**
@@ -198,9 +198,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	/**
 	 * Property whose value is used as default for the {@link #SIZE_UNIT SIZE_UNIT} export parameter.
 	 * 
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_SIZE_UNIT = JRProperties.PROPERTY_PREFIX + "export.html.size.unit";
+	public static final String PROPERTY_SIZE_UNIT = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.size.unit";
 
 
 	/**
@@ -239,9 +239,9 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * <p>
 	 * The propery itself defaults to <code>true</code>.
 	 * </p>
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
-	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRProperties.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
+	public static final String PROPERTY_FRAMES_AS_NESTED_TABLES = JRPropertiesUtil.PROPERTY_PREFIX + "export.html.frames.as.nested.tables";
 	
 
 	/**
@@ -266,5 +266,5 @@ public class JRHtmlExporterParameter extends JRExporterParameter
 	 * </p>
 	 */
 	public static final String PROPERTY_FLUSH_OUTPUT = 
-		JRProperties.PROPERTY_PREFIX + "export.html.flush.output";
+		JRPropertiesUtil.PROPERTY_PREFIX + "export.html.flush.output";
 }

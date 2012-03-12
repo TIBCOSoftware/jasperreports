@@ -45,7 +45,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
-	private JRRenderable renderer;
+	private Renderable renderer;
 	private Dimension2D elementDimension;
 	private Color backcolor;
 
@@ -54,7 +54,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	 *
 	 */
 	public JRWrappingSvgRenderer(
-		JRRenderable renderer, 
+		Renderable renderer, 
 		Dimension2D elementDimension,
 		Color backcolor
 		)
@@ -64,17 +64,32 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		this.backcolor = backcolor;
 	}
 
+	
+	/**
+	 * @deprecated Replaced by {@link #JRWrappingSvgRenderer(Renderable, Dimension2D, Color)}.
+	 */
+	public JRWrappingSvgRenderer(
+		JRRenderable renderer, 
+		Dimension2D elementDimension,
+		Color backcolor
+		)
+	{
+		//FIXMECONTEXT this.renderer = renderer;
+		this.elementDimension = elementDimension;
+		this.backcolor = backcolor;
+	}
+
 
 	/**
 	 *
 	 */
-	public Dimension2D getDimension()
+	public Dimension2D getDimension(JasperReportsContext jasperReportsContext)
 	{
 		Dimension2D imageDimension = null;
 		try
 		{
 			// use original dimension if possible
-			imageDimension = renderer.getDimension();
+			imageDimension = renderer.getDimension(jasperReportsContext);
 		}
 		catch (JRException e)
 		{
@@ -92,6 +107,15 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 
 
 	/**
+	 * @deprecated Replaced by {@link #getDimension(JasperReportsContext)}.
+	 */
+	public Dimension2D getDimension()
+	{
+		return getDimension(DefaultJasperReportsContext.getInstance());
+	}
+
+
+	/**
 	 *
 	 */
 	public Color getBackcolor()
@@ -103,9 +127,17 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 	/**
 	 *
 	 */
+	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
+	{
+		renderer.render(jasperReportsContext, grx, rectangle);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #render(JasperReportsContext, Graphics2D, Rectangle2D)}.
+	 */
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
-		renderer.render(grx, rectangle);
+		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 
 	protected Graphics2D createGraphics(BufferedImage bi)

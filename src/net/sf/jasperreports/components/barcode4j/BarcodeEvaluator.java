@@ -42,8 +42,11 @@ public class BarcodeEvaluator extends AbstractBarcodeEvaluator
 	
 	public BarcodeEvaluator(FillContext fillContext, byte evaluationType)
 	{
-		super(fillContext.getComponentElement(), 
-				fillContext.getDefaultStyleProvider());
+		super(
+			fillContext.getFiller().getJasperReportsContext(), 
+			fillContext.getComponentElement(), 
+			fillContext.getDefaultStyleProvider()
+			);
 		
 		this.fillContext = fillContext;
 		this.evaluationType = evaluationType;

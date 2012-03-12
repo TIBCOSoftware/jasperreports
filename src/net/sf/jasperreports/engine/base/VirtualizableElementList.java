@@ -61,17 +61,17 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 
 	private ElementStore store;
 	
-	public VirtualizableElementList(JRVirtualizationContext virtualizationContext)
+	public VirtualizableElementList(JRVirtualizationContext virtualizationContext, JRVirtualPrintPage page)
 	{
 		this.virtualizationContext = virtualizationContext;
 		
-		initStore();
+		initStore(page);
 	}
 
-	private void initStore()
+	private void initStore(JRVirtualPrintPage page)
 	{
 		// start with a simple block to reduce memory consumption for small pages
-		this.store = new ElementsBlock(virtualizationContext);
+		this.store = new ElementsBlock(virtualizationContext, page);
 		
 		if (log.isDebugEnabled())
 		{
@@ -79,7 +79,7 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 		}
 	}
 
-	public void set(List<JRPrintElement> elements)
+	public synchronized void set(List<JRPrintElement> elements)
 	{
 		clear();
 		addAll(elements);
@@ -91,19 +91,19 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	}
 
 	@Override
-	public JRPrintElement get(int index)
+	public synchronized JRPrintElement get(int index)
 	{
 		return store.get(index);
 	}
 
 	@Override
-	public int size()
+	public synchronized int size()
 	{
 		return store.size();
 	}
 
 	@Override
-	public JRPrintElement set(int index, JRPrintElement element)
+	public synchronized JRPrintElement set(int index, JRPrintElement element)
 	{
 		cacheInContext(element);
 		return store.set(index, element);
@@ -118,7 +118,7 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	}
 
 	@Override
-	public boolean add(JRPrintElement element)
+	public synchronized boolean add(JRPrintElement element)
 	{
 		cacheInContext(element);
 
@@ -135,7 +135,7 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	}
 
 	@Override
-	public void add(int index, JRPrintElement element)
+	public synchronized void add(int index, JRPrintElement element)
 	{
 		cacheInContext(element);
 
@@ -151,20 +151,21 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	}
 
 	@Override
-	public JRPrintElement remove(int index)
+	public synchronized JRPrintElement remove(int index)
 	{
 		return store.remove(index);
 	}
 
 	@Override
-	public void clear()
+	public synchronized void clear()
 	{
 		// recreating the store
+		JRVirtualPrintPage page = store.getPage();
 		store.dispose();
-		initStore();
+		initStore(page);
 	}
 
-	public void dispose()
+	public synchronized void dispose()
 	{
 		store.dispose();
 	}
@@ -172,7 +173,7 @@ public class VirtualizableElementList extends AbstractList<JRPrintElement> imple
 	//FIXME implement faster bulk methods such as addAll
 }
 
-interface ElementStore
+interface ElementStore extends VirtualizablePageElements
 {
 	int size();
 
@@ -207,12 +208,17 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 	private String uid;
 	
 	private List<JRPrintElement> elements;
+	private transient volatile int size;
 	private transient VirtualElementsData virtualData;
 	private transient int deepElementCount;
 	
-	public ElementsBlock(JRVirtualizationContext context)
+	// only kept during the fill and does not get restored on deserialization
+	private transient JRVirtualPrintPage page;
+	
+	public ElementsBlock(JRVirtualizationContext context, JRVirtualPrintPage page)
 	{
 		this.context = context;
+		this.page = page;
 		this.uid = makeUID();
 		
 		if (log.isDebugEnabled())
@@ -221,7 +227,19 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		}
 		
 		this.elements = new ArrayList<JRPrintElement>();
+		this.size = 0;
 		this.deepElementCount = 0;
+	}
+
+	private void lockContext()
+	{
+		//FIXME locking the whole context is too much, ideally we'd have a lock for this object only
+		context.lock();
+	}
+
+	private void unlockContext()
+	{
+		context.unlock();
 	}
 
 	private void register()
@@ -249,21 +267,26 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public int size()
 	{
-		//FIXME store the size separate from the list?
-		ensureVirtualData();
-		return elements.size();
+		return size;
 	}
 
 	public boolean isEmpty()
 	{
-		ensureVirtualData();
-		return elements.isEmpty();
+		return size == 0;
 	}
 
 	public JRPrintElement get(int index)
 	{
-		ensureDataAndTouch();
-		return elements.get(index);
+		lockContext();
+		try
+		{
+			ensureDataAndTouch();
+			return elements.get(index);
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	protected boolean preAdd(JRPrintElement element, boolean force)
@@ -304,12 +327,21 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public boolean add(JRPrintElement element, boolean force)
 	{
-		boolean adding = preAdd(element, force);
-		if (adding)
+		lockContext();
+		try
 		{
-			elements.add(element);
+			boolean adding = preAdd(element, force);
+			if (adding)
+			{
+				elements.add(element);
+				++size;
+			}
+			return adding;
 		}
-		return adding;
+		finally
+		{
+			unlockContext();
+		}
 	}
 	
 	public boolean add(JRPrintElement element)
@@ -319,12 +351,21 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public boolean add(int index, JRPrintElement element, boolean force)
 	{
-		boolean adding = preAdd(element, force);
-		if (adding)
+		lockContext();
+		try
 		{
-			elements.add(index, element);
+			boolean adding = preAdd(element, force);
+			if (adding)
+			{
+				elements.add(index, element);
+				++size;
+			}
+			return adding;
 		}
-		return adding;
+		finally
+		{
+			unlockContext();
+		}
 	}
 	
 	public boolean add(int index, JRPrintElement element)
@@ -334,31 +375,49 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public JRPrintElement set(int index, JRPrintElement element)
 	{
-		ensureDataAndTouch();
-		
-		JRPrintElement oldElement = elements.get(index);
-		deepElementCount -= DeepPrintElementCounter.count(oldElement);
-		deepElementCount += DeepPrintElementCounter.count(element);
-		
-		return elements.set(index, element);
+		lockContext();
+		try
+		{
+			ensureDataAndTouch();
+			
+			JRPrintElement oldElement = elements.get(index);
+			deepElementCount -= DeepPrintElementCounter.count(oldElement);
+			deepElementCount += DeepPrintElementCounter.count(element);
+			
+			return elements.set(index, element);
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public JRPrintElement remove(int index)
 	{
-		ensureDataAndTouch();
-		
-		JRPrintElement element = elements.remove(index);
-		// decrement the deep count
-		deepElementCount -= DeepPrintElementCounter.count(element);
-
-		if (elements.isEmpty())
+		lockContext();
+		try
 		{
-			// if the list is empty now, deregister with the virtualizer.
-			// this helps with subreports by immediately releasing the external storage.
-			deregister();
-		}
+			ensureDataAndTouch();
+			
+			JRPrintElement element = elements.remove(index);
+			--size;
+			
+			// decrement the deep count
+			deepElementCount -= DeepPrintElementCounter.count(element);
 
-		return element;
+			if (elements.isEmpty())
+			{
+				// if the list is empty now, deregister with the virtualizer.
+				// this helps with subreports by immediately releasing the external storage.
+				deregister();
+			}
+
+			return element;
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 	
 	public String getUID()
@@ -383,9 +442,17 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 	
 	public void ensureVirtualData()
 	{
-		if (elements == null)
+		lockContext();
+		try
 		{
-			ensureData();
+			if (elements == null)
+			{
+				ensureData();
+			}
+		}
+		finally
+		{
+			unlockContext();
 		}
 	}
 
@@ -399,8 +466,17 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public void setVirtualData(VirtualElementsData virtualData)
 	{
-		this.virtualData = virtualData;
-		this.elements = virtualData.getElements();
+		lockContext();
+		try
+		{
+			this.virtualData = virtualData;
+			this.elements = virtualData.getElements();
+			//FIXME recheck size?
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public VirtualElementsData getVirtualData()
@@ -410,25 +486,57 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public void removeVirtualData()
 	{
-		virtualData = null;
-		elements = null;
+		lockContext();
+		try
+		{
+			virtualData = null;
+			elements = null;
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public void beforeExternalization()
 	{
-		virtualData = new VirtualElementsData(elements);
-		context.beforeExternalization(this);
+		lockContext();
+		try
+		{
+			virtualData = new VirtualElementsData(elements);
+			context.beforeExternalization(this);
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public void afterExternalization()
 	{
-		context.afterExternalization(this);
+		lockContext();
+		try
+		{
+			context.afterExternalization(this);
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public void afterInternalization()
 	{
-		context.afterInternalization(this);
-		virtualData = null;
+		lockContext();
+		try
+		{
+			context.afterInternalization(this);
+			virtualData = null;
+		}
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	public JRVirtualizationContext getContext()
@@ -457,6 +565,7 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(buffer, 0, buffer.length);
 		VirtualizationObjectInputStream elementsStream = new VirtualizationObjectInputStream(inputStream, context);
 		elements = (List<JRPrintElement>) elementsStream.readObject();
+		size = elements.size();
 		
 		if (!elements.isEmpty())
 		{
@@ -467,28 +576,36 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 	
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
-		ensureDataAndTouch();
-		beforeExternalization();
-		
+		lockContext();
 		try
 		{
-			// maybe we should no longer serialize the id, as a new one is
-			// generated on deserialization
-			out.writeObject(uid);
-			out.writeObject(context);
+			ensureDataAndTouch();
+			beforeExternalization();
+			
+			try
+			{
+				// maybe we should no longer serialize the id, as a new one is
+				// generated on deserialization
+				out.writeObject(uid);
+				out.writeObject(context);
 
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			VirtualizationObjectOutputStream stream = new VirtualizationObjectOutputStream(bout, context);
-			stream.writeObject(elements);
-			stream.flush();
+				ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				VirtualizationObjectOutputStream stream = new VirtualizationObjectOutputStream(bout, context);
+				stream.writeObject(elements);
+				stream.flush();
 
-			byte[] bytes = bout.toByteArray();
-			out.writeInt(bytes.length);
-			out.write(bytes);
+				byte[] bytes = bout.toByteArray();
+				out.writeInt(bytes.length);
+				out.write(bytes);
+			}
+			finally
+			{
+				afterExternalization();
+			}
 		}
 		finally
 		{
-			afterExternalization();
+			unlockContext();
 		}
 	}
 
@@ -501,12 +618,20 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 
 	public void dispose()
 	{
-		// if empty, the object is not registered
-		if (elements == null || !elements.isEmpty())
+		lockContext();
+		try
 		{
-			deregister();
+			// if empty, the object is not registered
+			if (elements == null || !elements.isEmpty())
+			{
+				deregister();
+			}
+			// removeVirtualData?  letting GC do his thing for now.
 		}
-		// removeVirtualData?  letting GC do his thing for now.
+		finally
+		{
+			unlockContext();
+		}
 	}
 
 	private void deregister()
@@ -515,6 +640,11 @@ class ElementsBlock implements JRVirtualizable<VirtualElementsData>, ElementStor
 		{
 			context.getVirtualizer().deregisterObject(this);
 		}
+	}
+	
+	public JRVirtualPrintPage getPage()
+	{
+		return page;
 	}
 }
 
@@ -549,7 +679,7 @@ class ElementsBlockList implements ElementStore, Serializable
 	{
 		incrementBlocks();
 		
-		ElementsBlock block = new ElementsBlock(blocks[0].getContext());
+		ElementsBlock block = new ElementsBlock(blocks[0].getContext(), blocks[0].getPage());
 		blocks[blockCount] = block;
 		offsets[blockCount] = size;
 		++blockCount;
@@ -716,5 +846,10 @@ class ElementsBlockList implements ElementStore, Serializable
 		// caching last index for fast serial access
 		lastIndex = blockIndex;
 		return blockIndex;
+	}
+
+	public JRVirtualPrintPage getPage()
+	{
+		return blocks[0].getPage();
 	}
 }

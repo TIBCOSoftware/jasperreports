@@ -1,0 +1,133 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2011 Jaspersoft Corporation. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.engine.util;
+
+import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.SimpleJasperReportsContext;
+import net.sf.jasperreports.repo.DefaultRepositoryService;
+import net.sf.jasperreports.repo.RepositoryService;
+
+
+/**
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRCloneable.java 4595 2011-09-08 15:55:10Z teodord $
+ */
+public class LocalJasperReportsContext extends SimpleJasperReportsContext
+{
+	/**
+	 *
+	 */
+	private List<RepositoryService> localRepositoryServices;
+	private DefaultRepositoryService localRepositoryService;
+
+	/**
+	 *
+	 */
+	public LocalJasperReportsContext(JasperReportsContext parent)
+	{
+		super(parent);
+	}
+
+	/**
+	 *
+	 */
+	private DefaultRepositoryService getLocalRepositoryService()
+	{
+		if (localRepositoryService == null)
+		{
+			localRepositoryService = new DefaultRepositoryService(this);
+		}
+		return localRepositoryService;
+	}
+
+	/**
+	 *
+	 */
+	public void setClassLoader(ClassLoader classLoader)
+	{
+		getLocalRepositoryService().setClassLoader(classLoader);
+	}
+
+	/**
+	 *
+	 */
+	public void setURLStreamHandlerFactory(URLStreamHandlerFactory urlHandlerFactory)
+	{
+		getLocalRepositoryService().setURLStreamHandlerFactory(urlHandlerFactory);
+	}
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public FileResolver getFileResolver()
+	{
+		return localRepositoryService == null ? null : localRepositoryService.getFileResolver();
+	}
+
+	/**
+	 *
+	 */
+	public void setFileResolver(FileResolver fileResolver)
+	{
+		getLocalRepositoryService().setFileResolver(fileResolver);
+	}
+
+	@Override
+	public <T> List<T> getExtensions(Class<T> extensionType)
+	{
+		if (
+			localRepositoryService != null
+			&& RepositoryService.class.equals(extensionType)
+			)
+		{
+			// we cache repository service extensions from parent and replace the DefaultRepositoryService instance, if present among them 
+			if (localRepositoryServices == null)
+			{
+				List<RepositoryService> repoServices = super.getExtensions(RepositoryService.class);
+				if (repoServices != null && repoServices.size() > 0)
+				{
+					localRepositoryServices = new ArrayList<RepositoryService>();
+					for (RepositoryService repoService : repoServices)
+					{
+						if (repoService instanceof DefaultRepositoryService)
+						{
+							localRepositoryServices.add(localRepositoryService);
+						}
+						else
+						{
+							localRepositoryServices.add(repoService);
+						}
+					}
+				}
+			}
+			return (List<T>)localRepositoryServices;
+		}
+		return super.getExtensions(extensionType);
+	}
+	
+}

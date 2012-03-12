@@ -28,13 +28,14 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.component.Component;
+import net.sf.jasperreports.engine.component.ContextAwareComponent;
 
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface TableComponent extends Component, JRCloneable
+public interface TableComponent extends ContextAwareComponent, JRCloneable
 {
 
 	JRDatasetRun getDatasetRun();

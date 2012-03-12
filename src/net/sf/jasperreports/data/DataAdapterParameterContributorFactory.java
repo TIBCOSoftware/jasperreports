@@ -28,10 +28,10 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ParameterContributorFactory;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 /**
@@ -62,11 +62,11 @@ public final class DataAdapterParameterContributorFactory implements ParameterCo
 	{
 		List<ParameterContributor> contributors = new ArrayList<ParameterContributor>();
 
-		String dataAdapterUri = JRProperties.getProperty(context.getDataset(), "net.sf.jasperreports.data.adapter");
+		String dataAdapterUri = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(context.getDataset(), "net.sf.jasperreports.data.adapter");
 		if (dataAdapterUri != null)
 		{
-			DataAdapter dataAdapter = RepositoryUtil.getResource(dataAdapterUri, DataAdapter.class);
-			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getDataAdapterService(dataAdapter);
+			DataAdapter dataAdapter = RepositoryUtil.getInstance(context.getJasperReportsContext()).getResource2(dataAdapterUri, DataAdapter.class);
+			ParameterContributor dataAdapterService = DataAdapterServiceUtil.getInstance(context.getJasperReportsContext()).getService(dataAdapter);
 			
 			return Collections.singletonList(dataAdapterService);
 		}

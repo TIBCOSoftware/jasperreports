@@ -66,14 +66,14 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.view.JRHyperlinkListener;
 
 import org.apache.commons.logging.Log;
@@ -484,7 +484,6 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
 			exporter.setParameter(JRExporterParameter.OFFSET_X, Integer.valueOf(1)); //lblPage border
 			exporter.setParameter(JRExporterParameter.OFFSET_Y, Integer.valueOf(1));
-			exporter.setParameter(JRExporterParameter.FILE_RESOLVER, viewerContext.getFileResolver());
 			exporter.exportReport();
 		}
 		catch(Exception e)
@@ -510,7 +509,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 	protected JRGraphics2DExporter getGraphics2DExporter() throws JRException
 	{
-		return new JRGraphics2DExporter();
+		return new JRGraphics2DExporter(viewerContext.getJasperReportsContext());
 	}
 
 	protected void paintPageError(Graphics2D grx)
@@ -686,7 +685,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		pnlPage.setMinimumSize(dim);
 		pnlPage.setPreferredSize(dim);
 
-		long maxImageSize = JRProperties.getLongProperty(JRViewer.VIEWER_RENDER_BUFFER_MAX_SIZE);
+		long maxImageSize = JRPropertiesUtil.getInstance(viewerContext.getJasperReportsContext()).getLongProperty(JRViewer.VIEWER_RENDER_BUFFER_MAX_SIZE);
 		boolean renderImage;
 		if (maxImageSize <= 0)
 		{
@@ -730,7 +729,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 		{
 			try
 			{
-				image = JasperPrintManager.printPageToImage(viewerContext.getJasperPrint(), viewerContext.getPageIndex(), realZoom);
+				image = JasperPrintManager.getInstance(viewerContext.getJasperReportsContext()).printToImage(viewerContext.getJasperPrint(), viewerContext.getPageIndex(), realZoom);
 			}
 			catch (Exception e)
 			{
@@ -790,7 +789,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 				JRImageMapRenderer imageMap = null;
 				if (element instanceof JRPrintImage)
 				{
-					JRRenderable renderer = ((JRPrintImage) element).getRenderer();
+					Renderable renderer = ((JRPrintImage) element).getRenderable();
 					if (renderer instanceof JRImageMapRenderer)
 					{
 						imageMap = (JRImageMapRenderer) renderer;

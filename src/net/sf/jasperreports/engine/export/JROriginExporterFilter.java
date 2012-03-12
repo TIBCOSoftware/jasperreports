@@ -34,12 +34,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.BandTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -114,25 +116,39 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 		return false;
 	}
 	
-	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap, String originFilterPrefix)
+	public static JROriginExporterFilter getFilter(
+		JasperReportsContext jasperReportsContext,
+		JRPropertiesMap propertiesMap, 
+		String originFilterPrefix
+		)
 	{
 		JROriginExporterFilter filter = null;
 		
-		filter = addOriginsToFilter(filter, propertiesMap, originFilterPrefix, false);
-		filter = addOriginsToFilter(filter, propertiesMap, originFilterPrefix + KEEP_FIRST_PREFIX, true);
+		filter = addOriginsToFilter(jasperReportsContext, filter, propertiesMap, originFilterPrefix, false);
+		filter = addOriginsToFilter(jasperReportsContext, filter, propertiesMap, originFilterPrefix + KEEP_FIRST_PREFIX, true);
 		
 		return filter;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link #getFilter(JasperReportsContext, JRPropertiesMap, String)}.
+	 */
+	public static JROriginExporterFilter getFilter(JRPropertiesMap propertiesMap, String originFilterPrefix)
+	{
+		return getFilter(DefaultJasperReportsContext.getInstance(), propertiesMap, originFilterPrefix);
+	}
+	
 	private static JROriginExporterFilter addOriginsToFilter(
+		JasperReportsContext jasperReportsContext,
 		JROriginExporterFilter filter, 
 		JRPropertiesMap propertiesMap, 
 		String originFilterPrefix,
 		boolean keepFirst
 		)
 	{
-		List<PropertySuffix> properties = JRProperties.getProperties(originFilterPrefix + BAND_PREFIX);
-		properties.addAll(JRProperties.getProperties(propertiesMap, originFilterPrefix + BAND_PREFIX));
+		JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		List<PropertySuffix> properties = propUtil.getProperties(originFilterPrefix + BAND_PREFIX);
+		properties.addAll(JRPropertiesUtil.getProperties(propertiesMap, originFilterPrefix + BAND_PREFIX));
 		
 		if (!properties.isEmpty())
 		{
@@ -144,14 +160,14 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 				String suffix = propertySuffix.getSuffix();
 				BandTypeEnum bandType = 
 					BandTypeEnum.getByName(
-						JRProperties.getProperty(propertiesMap, propertySuffix.getKey())
+						propUtil.getProperty(propertiesMap, propertySuffix.getKey())
 						);
 				if (bandType != null)
 				{
 					filter.addOrigin(
 						new JROrigin(
-							JRProperties.getProperty(propertiesMap, originFilterPrefix + REPORT_PREFIX + suffix),
-							JRProperties.getProperty(propertiesMap, originFilterPrefix + GROUP_PREFIX + suffix),
+							propUtil.getProperty(propertiesMap, originFilterPrefix + REPORT_PREFIX + suffix),
+							propUtil.getProperty(propertiesMap, originFilterPrefix + GROUP_PREFIX + suffix),
 							bandType
 							),
 						keepFirst

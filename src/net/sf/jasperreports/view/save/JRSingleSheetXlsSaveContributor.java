@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.view.JRSaveContributor;
@@ -50,11 +51,23 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_XLS = ".xls"; 
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #JRSingleSheetXlsSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
 	 */
 	public JRSingleSheetXlsSaveContributor(Locale locale, ResourceBundle resBundle)
 	{
 		super(locale, resBundle);
+	}
+	
+	/**
+	 * 
+	 */
+	public JRSingleSheetXlsSaveContributor(
+		JasperReportsContext jasperReportsContext, 
+		Locale locale, 
+		ResourceBundle resBundle
+		)
+	{
+		super(jasperReportsContext, locale, resBundle);
 	}
 	
 	/**
@@ -101,7 +114,7 @@ public class JRSingleSheetXlsSaveContributor extends JRSaveContributor
 					)
 			)
 		{
-			JRXlsExporter exporter = new JRXlsExporter();
+			JRXlsExporter exporter = new JRXlsExporter(getJasperReportsContext());
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint); 
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file);
 			exporter.setParameter(JRXlsAbstractExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);

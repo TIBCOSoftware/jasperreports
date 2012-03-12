@@ -32,6 +32,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -227,7 +228,7 @@ public class XmlServlet extends BaseHttpServlet
 	 */
 	public JRXmlExporter getExporter()
 	{
-		return new JRXmlExporter();
+		return new JRXmlExporter(DefaultJasperReportsContext.getInstance());
 	}
 }
 

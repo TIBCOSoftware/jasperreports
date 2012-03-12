@@ -25,7 +25,8 @@ package net.sf.jasperreports.repo;
 
 import java.util.List;
 
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -34,15 +35,45 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
  */
 public final class PersistenceUtil
 {
+	private JasperReportsContext jasperReportsContext;
+
+
+	/**
+	 *
+	 */
+	private PersistenceUtil(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static PersistenceUtil getDefaultInstance()
+	{
+		return new PersistenceUtil(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static PersistenceUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new PersistenceUtil(jasperReportsContext);
+	}
+	
+	
 	/**
 	 * 
 	 */
-	public static PersistenceService getPersistenceService(Class repositoryServiceType, Class resourceType)
+	public PersistenceService getService(Class repositoryServiceType, Class resourceType)
 	{
-		List<PersistenceServiceFactory> factories = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(PersistenceServiceFactory.class);
+		List<PersistenceServiceFactory> factories = jasperReportsContext.getExtensions(PersistenceServiceFactory.class);
 		for (PersistenceServiceFactory factory : factories)
 		{
-			PersistenceService service = factory.getPersistenceService(repositoryServiceType, resourceType);
+			PersistenceService service = factory.getPersistenceService(jasperReportsContext, repositoryServiceType, resourceType);
 			if (service != null)
 			{
 				return service;
@@ -51,12 +82,13 @@ public final class PersistenceUtil
 		//throw new JRRuntimeException("No persistence service registered for the '" + repositoryServiceType.getName() + "' repository type and '" + resourceType.getName() + "' resource type.");
 		return null;
 	}
-
-
+	
+	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getService(Class, Class)}.
 	 */
-	private PersistenceUtil()
+	public static PersistenceService getPersistenceService(Class repositoryServiceType, Class resourceType)//FIXMECONTEXT might not need to deprecate, just remove
 	{
+		return getDefaultInstance().getService(repositoryServiceType, resourceType);
 	}
 }

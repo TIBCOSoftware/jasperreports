@@ -139,7 +139,7 @@ public class BarbecueFillComponent extends BaseFillComponent
 		BarbecueRenderer renderer = new BarbecueRenderer(barcode);
 		renderer.setRotation(BarbecueStyleResolver.getRotationValue(fillContext.getComponentElement()));
 		
-		image.setRenderer(renderer);
+		image.setRenderable(renderer);
 	}
 
 	protected JRTemplateImage getTemplateImage()

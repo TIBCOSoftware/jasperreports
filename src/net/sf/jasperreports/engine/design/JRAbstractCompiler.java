@@ -33,14 +33,16 @@ import java.util.Random;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
@@ -55,6 +57,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	private static final int NAME_SUFFIX_RANDOM_MAX = 1000000;
 	private static final Random random = new Random();
 	
+	protected final JasperReportsContext jasperReportsContext;
 	private final boolean needsSourceFiles;
 
 	/**
@@ -64,9 +67,19 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 * <p>
 	 * If true, the generated code is saved in source files to be used by the compiler.
 	 */
+	protected JRAbstractCompiler(JasperReportsContext jasperReportsContext, boolean needsSourceFiles)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.needsSourceFiles = needsSourceFiles;
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #JRAbstractCompiler(JasperReportsContext, boolean)}.
+	 */
 	protected JRAbstractCompiler(boolean needsSourceFiles)
 	{
-		this.needsSourceFiles = needsSourceFiles;
+		this(DefaultJasperReportsContext.getInstance(), needsSourceFiles);
 	}
 
 	
@@ -142,11 +155,11 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		String nameSuffix = createNameSuffix();
 		
 		// check if saving source files is required
-		boolean isKeepJavaFile = JRProperties.getBooleanProperty(JRProperties.COMPILER_KEEP_JAVA_FILE);
+		boolean isKeepJavaFile = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(JRCompiler.COMPILER_KEEP_JAVA_FILE);
 		File tempDirFile = null;
 		if (isKeepJavaFile || needsSourceFiles)
 		{
-			String tempDirStr = JRProperties.getProperty(JRProperties.COMPILER_TEMP_DIR);
+			String tempDirStr = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_TEMP_DIR);
 
 			tempDirFile = new File(tempDirStr);
 			if (!tempDirFile.exists() || !tempDirFile.isDirectory())
@@ -180,7 +193,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 		
 		//TODO component - component compilation units?
 
-		String classpath = JRProperties.getProperty(JRProperties.COMPILER_CLASSPATH);
+		String classpath = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(JRCompiler.COMPILER_CLASSPATH);
 		
 		try
 		{
@@ -252,7 +265,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	
 	private void verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector) throws JRException
 	{
-		Collection<JRValidationFault> brokenRules = JRVerifier.verifyDesign(jasperDesign, expressionCollector);
+		Collection<JRValidationFault> brokenRules = JRVerifier.verifyDesign(jasperReportsContext, jasperDesign, expressionCollector);
 		if (brokenRules != null && brokenRules.size() > 0)
 		{
 			throw new JRValidationException(brokenRules);
@@ -378,7 +391,7 @@ public abstract class JRAbstractCompiler implements JRCompiler
 	 * Returns the name of the source file where generated source code for an unit is saved.
 	 * <p>
 	 * If the compiler needs source files for compilation
-	 * or {@link JRProperties#COMPILER_KEEP_JAVA_FILE COMPILER_KEEP_JAVA_FILE} is set, the generated source
+	 * or {@link JRCompiler#COMPILER_KEEP_JAVA_FILE COMPILER_KEEP_JAVA_FILE} is set, the generated source
 	 * will be saved in a file having the name returned by this method.
 	 * 
 	 * @param unitName the unit name

@@ -35,8 +35,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
-import net.sf.jasperreports.engine.util.JRProperties;
-
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -47,7 +45,7 @@ public interface JRRenderable extends Serializable
 	/**
 	 * Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
 	 */
-	public static final String PROPERTY_IMAGE_DPI = JRProperties.PROPERTY_PREFIX + "image.dpi";
+	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";
 
 
 	/**
@@ -106,19 +104,19 @@ public interface JRRenderable extends Serializable
 	public byte getImageType();
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link Renderable#getDimension(JasperReportsContext)}.
 	 */
 	public Dimension2D getDimension() throws JRException;
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link Renderable#getImageData(JasperReportsContext)}.
 	 */
 	public byte[] getImageData() throws JRException;
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link Renderable#render(JasperReportsContext, Graphics2D, Rectangle2D)}.
 	 */
 	public void render(Graphics2D grx, Rectangle2D rectangle) throws JRException;
 

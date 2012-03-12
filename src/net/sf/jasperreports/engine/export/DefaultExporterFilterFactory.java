@@ -27,9 +27,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Default exporter filter factory.
@@ -48,7 +50,7 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 	 * The prefix of properties that are used to register filter factories.
 	 */
 	public static final String PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX = 
-		JRProperties.PROPERTY_PREFIX + "export.filter.factory.";
+		JRPropertiesUtil.PROPERTY_PREFIX + "export.filter.factory.";
 	
 	/**
 	 * The method searches for all filter factories registered via
@@ -94,18 +96,26 @@ public class DefaultExporterFilterFactory implements ExporterFilterFactory
 		return filter;
 	}
 
-	protected List<ExporterFilterFactory> getAllFilterFactories(JasperPrint report) throws JRException
+	protected List<ExporterFilterFactory> getAllFilterFactories(JasperReportsContext jasperReportsContext, JasperPrint report) throws JRException
 	{
-		List<JRProperties.PropertySuffix> factoryProps = JRProperties.getAllProperties(report, 
+		List<JRPropertiesUtil.PropertySuffix> factoryProps = JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(report, 
 				PROPERTY_EXPORTER_FILTER_FACTORY_PREFIX);
 		List<ExporterFilterFactory> factories = new ArrayList<ExporterFilterFactory>(factoryProps.size());
-		for (Iterator<JRProperties.PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
+		for (Iterator<JRPropertiesUtil.PropertySuffix> it = factoryProps.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix prop = it.next();
+			JRPropertiesUtil.PropertySuffix prop = it.next();
 			ExporterFilterFactory factory = getFilterFactory(prop.getValue());
 			factories.add(factory);
 		}
 		return factories;
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getAllFilterFactories(JasperReportsContext, JasperPrint)}.
+	 */
+	protected List<ExporterFilterFactory> getAllFilterFactories(JasperPrint report) throws JRException
+	{
+		return getAllFilterFactories(DefaultJasperReportsContext.getInstance(), report);
 	}
 	
 	protected ExporterFilterFactory getFilterFactory(String factoryClassName) throws JRException

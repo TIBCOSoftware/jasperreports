@@ -26,8 +26,9 @@ package net.sf.jasperreports.data;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -37,17 +38,47 @@ import net.sf.jasperreports.extensions.ExtensionsEnvironment;
 public final class DataAdapterServiceUtil
 {
 
+	private JasperReportsContext jasperReportsContext;
+
+
 	/**
 	 *
 	 */
-	public static DataAdapterService getDataAdapterService(DataAdapter dataAdapter)
+	private DataAdapterServiceUtil(JasperReportsContext jasperReportsContext)
 	{
-		List<DataAdapterServiceFactory> bundles = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static DataAdapterServiceUtil getDefaultInstance()
+	{
+		return new DataAdapterServiceUtil(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static DataAdapterServiceUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new DataAdapterServiceUtil(jasperReportsContext);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public DataAdapterService getService(DataAdapter dataAdapter)
+	{
+		List<DataAdapterServiceFactory> bundles = jasperReportsContext.getExtensions(
 				DataAdapterServiceFactory.class);
 		for (Iterator<DataAdapterServiceFactory> it = bundles.iterator(); it.hasNext();)
 		{
 			DataAdapterServiceFactory factory = it.next();
-			DataAdapterService service = factory.getDataAdapterService(dataAdapter);
+			DataAdapterService service = factory.getDataAdapterService(jasperReportsContext, dataAdapter);
 			if (service != null)
 			{
 				return service;
@@ -57,10 +88,11 @@ public final class DataAdapterServiceUtil
 	}
   
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getService(DataAdapter)}.
 	 */
-	private DataAdapterServiceUtil()
+	public static DataAdapterService getDataAdapterService(DataAdapter dataAdapter)
 	{
+		return getDefaultInstance().getService(dataAdapter);
 	}
  
 }

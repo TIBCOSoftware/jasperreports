@@ -40,6 +40,7 @@ import java.util.TimeZone;
 
 import javax.sql.rowset.CachedRowSet;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
@@ -48,7 +49,7 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -108,9 +109,16 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	private TimeZone timeZone;
 	private boolean timeZoneOverride;
 	
-	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
+	/**
+	 * 
+	 */
+	public JRJdbcQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		)
 	{
-		super(dataset, parameters);
+		super(jasperReportsContext, dataset, parameters);
 		
 		connection = (Connection) getParameterValue(JRParameter.REPORT_CONNECTION);
 		if (connection == null)
@@ -128,6 +136,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		registerFunctions();
 		
 		parseQuery();		
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRJdbcQueryExecuter(JasperReportsContext, JRDataset, Map)}.
+	 */
+	public JRJdbcQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
 
 	
@@ -164,7 +180,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		}
 		else
 		{
-			timezoneId = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
+			timezoneId = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 		}
 		timeZone = timezoneId == null || timezoneId.length() == 0 ? null : TimeZone.getTimeZone(timezoneId);
 	}
@@ -221,7 +237,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 				{
 					resultSet = statement.executeQuery();
 				}
-				dataSource = new JRResultSetDataSource(resultSet);
+				dataSource = new JRResultSetDataSource(getJasperReportsContext(), resultSet);
 				dataSource.setTimeZone(timeZone, timeZoneOverride);
 			}
 			catch (SQLException e)
@@ -247,9 +263,9 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 		{
 			try
 			{
-				String type = JRProperties.getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
-				String concurrency = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
-				String holdability = JRProperties.getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
+				String type = getPropertiesUtil().getProperty(dataset,	JRJdbcQueryExecuterFactory.PROPERTY_JDBC_RESULT_SET_TYPE);
+				String concurrency = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_CONCURRENCY);
+				String holdability = getPropertiesUtil().getProperty(dataset, JRJdbcQueryExecuterFactory.PROPERTY_JDBC_HOLDABILITY);
 				
 				if (type == null && concurrency == null && holdability == null)
 				{
@@ -281,7 +297,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					}
 				}
 				
-				int fetchSize = JRProperties.getIntegerProperty(dataset,
+				int fetchSize = getPropertiesUtil().getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_FETCH_SIZE,
 						0);
 				if (fetchSize != 0)
@@ -289,7 +305,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					statement.setFetchSize(fetchSize);
 				}
 				
-				int maxFieldSize = JRProperties.getIntegerProperty(dataset,
+				int maxFieldSize = getPropertiesUtil().getIntegerProperty(dataset,
 						JRJdbcQueryExecuterFactory.PROPERTY_JDBC_MAX_FIELD_SIZE,
 						0);//FIXMENOW check the default of all zero default properties
 				if(maxFieldSize != 0)
@@ -618,7 +634,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE))
 			{
 				// read the parameter level property
-				String timezoneId = JRProperties.getProperty(properties, 
+				String timezoneId = getPropertiesUtil().getProperty(properties, 
 						JRJdbcQueryExecuterFactory.PROPERTY_TIME_ZONE);
 				tz = (timezoneId == null || timezoneId.length() == 0) ? null 
 						: TimeZone.getTimeZone(timezoneId);

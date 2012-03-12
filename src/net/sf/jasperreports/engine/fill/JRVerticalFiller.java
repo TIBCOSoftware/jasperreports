@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.FooterPositionEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
@@ -52,17 +53,24 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport) throws JRException
+	protected JRVerticalFiller(
+		JasperReportsContext jasperReportsContext, 
+		JasperReport jasperReport
+		) throws JRException
 	{
-		this(jasperReport, null, null);
+		this(jasperReportsContext, jasperReport, null, null);
 	}
 
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, JRFillSubreport parentElement) throws JRException
+	protected JRVerticalFiller(
+		JasperReportsContext jasperReportsContext, 
+		JasperReport jasperReport, 
+		JRFillSubreport parentElement
+		) throws JRException
 	{
-		super(jasperReport, null, parentElement);
+		super(jasperReportsContext, jasperReport, null, parentElement);
 
 		setPageHeight(pageHeight);
 	}
@@ -70,11 +78,14 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, 
-			DatasetExpressionEvaluator evaluator, 
-			JRFillSubreport parentElement) throws JRException
+	protected JRVerticalFiller(
+		JasperReportsContext jasperReportsContext,
+		JasperReport jasperReport, 
+		DatasetExpressionEvaluator evaluator, 
+		JRFillSubreport parentElement
+		) throws JRException
 	{
-		super(jasperReport, evaluator, parentElement);
+		super(jasperReportsContext, jasperReport, evaluator, parentElement);
 
 		setPageHeight(pageHeight);
 	}
@@ -82,9 +93,14 @@ public class JRVerticalFiller extends JRBaseFiller
 	/**
 	 *
 	 */
-	protected JRVerticalFiller(JasperReport jasperReport, JREvaluator evaluator, JRFillSubreport parentElement) throws JRException
+	protected JRVerticalFiller(
+		JasperReportsContext jasperReportsContext, 
+		JasperReport jasperReport, 
+		JREvaluator evaluator, 
+		JRFillSubreport parentElement
+		) throws JRException
 	{
-		this(jasperReport, (DatasetExpressionEvaluator) evaluator, parentElement);
+		this(jasperReportsContext, jasperReport, (DatasetExpressionEvaluator) evaluator, parentElement);
 	}
 
 

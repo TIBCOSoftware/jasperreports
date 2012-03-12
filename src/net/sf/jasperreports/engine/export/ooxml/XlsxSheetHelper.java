@@ -26,14 +26,15 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.Cut;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.XlsRowLevelInfo;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -54,11 +55,13 @@ public class XlsxSheetHelper extends BaseHelper
 	 *
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
+	private JasperReportsContext jasperReportsContext;
 
 	/**
 	 * 
 	 */
 	public XlsxSheetHelper(
+		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		XlsxSheetRelsHelper sheetRelsHelper,
 		boolean isCollapseRowSpan
@@ -66,6 +69,7 @@ public class XlsxSheetHelper extends BaseHelper
 	{
 		super(writer);
 		
+		this.jasperReportsContext = jasperReportsContext;
 		this.sheetRelsHelper = sheetRelsHelper;
 		this.isCollapseRowSpan = isCollapseRowSpan;
 	}
@@ -98,9 +102,9 @@ public class XlsxSheetHelper extends BaseHelper
 		if(rowFreeze > 0 || columnFreeze > 0)
 		{
 			write(">\n<pane" + (columnFreeze > 0 ? (" xSplit=\"" + columnFreeze + "\"") : "") + (rowFreeze > 0 ? (" ySplit=\"" + rowFreeze + "\"") : ""));
-			String columnName = JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
+			String columnName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
 				? "A" 
-				: JRProperties.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
+				: JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
 			write(" topLeftCell=\"" + columnName + (rowFreeze + 1) + "\"");
 			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
 			write(" activePane=\"" + activePane + "\" state=\"frozen\"/>\n");

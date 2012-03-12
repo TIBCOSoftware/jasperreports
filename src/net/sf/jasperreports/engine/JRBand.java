@@ -24,7 +24,6 @@
 package net.sf.jasperreports.engine;
 
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 
 /**
@@ -41,7 +40,7 @@ public interface JRBand extends JRElementGroup
 	/**
 	 * 
 	 */
-	public static final String PROPERTY_SPLIT_TYPE = JRProperties.PROPERTY_PREFIX + "band.split.type";
+	public static final String PROPERTY_SPLIT_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "band.split.type";
 
 
 	/**

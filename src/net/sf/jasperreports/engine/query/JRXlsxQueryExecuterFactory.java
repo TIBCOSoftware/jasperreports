@@ -27,8 +27,9 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Query executer factory for XLSX file type.
@@ -39,7 +40,8 @@ import net.sf.jasperreports.engine.util.JRProperties;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
+public class JRXlsxQueryExecuterFactory extends JRAbstractQueryExecuterFactory 
+{
 
 	/**
 	 * Built-in parameter holding the value of the <code>jxl.Workbook</code> to be used for obtaining the XLSX data.
@@ -59,7 +61,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	/**
 	 * Built-in parameter holding the value of the <code>java.lang.String</code> source to be used for obtaining the XLSX data.
 	 */
-	public static final String XLSX_SOURCE = JRProperties.PROPERTY_PREFIX + "xlsx.source";
+	public static final String XLSX_SOURCE = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.source";
 	
 	/**
 	 * Built-in parameter/property holding the value of the columns to be extracted from the XLSX source.
@@ -67,7 +69,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	 * It can also be used as the prefix for custom dataset properties specifying the names of the XLSX columns in the format:
 	 * <code>net.sf.jasperreports.xlsx.column.names.{arbitrary_name}=value1[, value2, ...]</code>
 	 */
-	public static final String XLSX_COLUMN_NAMES = JRProperties.PROPERTY_PREFIX + "xlsx.column.names";
+	public static final String XLSX_COLUMN_NAMES = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.column.names";
 
 	/**
 	 * Built-in parameter/property holding the value of the column indexs to be extracted from the XLSX source.
@@ -75,7 +77,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	 * It can also be used as the prefix for custom dataset properties specifying the names of the XLSX column indexes in the format:
 	 * <code>net.sf.jasperreports.xls.column.indexes.{arbitrary_name}=value1[, value2, ...]</code>
 	 */
-	public static final String XLSX_COLUMN_INDEXES = JRProperties.PROPERTY_PREFIX + "xlsx.column.indexes";
+	public static final String XLSX_COLUMN_INDEXES = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.column.indexes";
 
 	/**
 	 * Built-in parameter holding the value of the columns to be extracted from the XLSX source, as a <code>java.lang.String[]</code> object. 
@@ -103,7 +105,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	 * <p/>
 	 * The allowed format is: language[_country[_variant]] 
 	 */
-	public static final String XLSX_LOCALE_CODE = JRProperties.PROPERTY_PREFIX + "xlsx.locale.code";
+	public static final String XLSX_LOCALE_CODE = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.locale.code";
 	
 	/**
 	 * Built-in parameter holding the <code>java.util.TimeZone</code> value of the timezone to be used when parsing the XLSX data.
@@ -113,7 +115,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	/**
 	 * Built-in parameter/property holding the <code>java.lang.String</code> value of the time zone id to be used when parsing the XLSX data.
 	 */
-	public static final String XLSX_TIMEZONE_ID = JRProperties.PROPERTY_PREFIX + "xlsx.timezone.id";
+	public static final String XLSX_TIMEZONE_ID = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.timezone.id";
 	
 	/**
 	 * Built-in parameter holding the value of the <code>java.text.DateFormat</code> used to format date columns from the XLSX source.
@@ -123,7 +125,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	/**
 	 * Built-in parameter/property holding the value of the date format pattern to be used when parsing the XLSX data.
 	 */
-	public static final String XLSX_DATE_PATTERN = JRProperties.PROPERTY_PREFIX + "xlsx.date.pattern";
+	public static final String XLSX_DATE_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.date.pattern";
 
 	/**
 	 * Built-in parameter holding the value of the <code>java.text.NumberFormat</code> used to format numeric columns from the XLSX source.
@@ -133,7 +135,7 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 	/**
 	 * Built-in parameter/property holding the value of the number format pattern to be used when parsing the XLSX data.
 	 */
-	public static final String XLSX_NUMBER_PATTERN = JRProperties.PROPERTY_PREFIX + "xlsx.number.pattern";
+	public static final String XLSX_NUMBER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "xlsx.number.pattern";
 	
 	/**
 	 * Built-in parameter/property specifying whether or not the column names should be obtained 
@@ -167,9 +169,13 @@ public class JRXlsxQueryExecuterFactory implements JRQueryExecuterFactory {
 		return XLSX_BUILTIN_PARAMETERS;
 	}
 
-	public JRQueryExecuter createQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters)
-			throws JRException {
-		return new JRXlsxQueryExecuter(dataset, parameters);
+	public JRQueryExecuter createQueryExecuter(
+		JasperReportsContext jasperReportsContext,
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) throws JRException 
+	{
+		return new JRXlsxQueryExecuter(jasperReportsContext, dataset, parameters);
 	}
 
 	public boolean supportsQueryParameterType(String className) {

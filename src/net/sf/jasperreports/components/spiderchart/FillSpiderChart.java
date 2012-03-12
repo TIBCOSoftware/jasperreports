@@ -34,8 +34,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
 import net.sf.jasperreports.engine.fill.JRFillCloneFactory;
@@ -76,7 +76,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	
 	private JRFillExpressionEvaluator expressionEvaluator;
 	private ChartHyperlinkProvider chartHyperlinkProvider;
-	private JRRenderable renderer;
+	private Renderable renderer;
 	private String customizerClass;
 	protected ChartCustomizer chartCustomizer;
 
@@ -152,12 +152,15 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 			}
 		}
 		
-		renderer = SpiderChartRendererEvaluator.evaluateRenderer(
+		renderer = 
+			SpiderChartRendererEvaluator.evaluateRenderable(
+				fillContext.getFiller().getJasperReportsContext(),
 				element, 
 				spiderChartSharedBean, 
 				chartCustomizer, 
 				JRChart.RENDER_TYPE_DRAW, 
-				SpiderChartRendererEvaluator.FILL_DATASET);
+				SpiderChartRendererEvaluator.FILL_DATASET
+				);
 	}
 
 
@@ -208,7 +211,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 
 	protected void copy(JRPrintImage printImage)
 	{
-		printImage.setRenderer(getRenderer());
+		printImage.setRenderable(getRenderable());
 		printImage.setAnchorName(getAnchorName());
 		printImage.setHyperlinkReference(getHyperlinkReference());
 		printImage.setHyperlinkAnchor(getHyperlinkAnchor());
@@ -319,7 +322,7 @@ public class FillSpiderChart extends BaseFillComponent implements JRFillCloneabl
 	/**
 	 * @return the renderer
 	 */
-	public JRRenderable getRenderer() {
+	public Renderable getRenderable() {
 		return renderer;
 	}
 

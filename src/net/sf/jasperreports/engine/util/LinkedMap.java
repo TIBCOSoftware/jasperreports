@@ -181,4 +181,17 @@ public class LinkedMap<K, V>
 		entry.next.prev = entry.prev;
 		return entry.value;
 	}
+
+	/**
+	 * Adds all entries from the map to this map, preserving the order.
+	 * 
+	 * @param map
+	 */
+	public void addAll(LinkedMap<K, V> map)
+	{
+		for (LinkedValue<K, V> entry = map.header.next; entry != map.header; entry = entry.next)
+		{
+			add(entry.key, entry.value);
+		}
+	}
 }

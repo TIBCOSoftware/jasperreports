@@ -34,11 +34,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
@@ -75,9 +76,9 @@ public class ImageServlet extends BaseHttpServlet
 		{
 			try
 			{
-				JRRenderable pxRenderer = 
-					JRImageRenderer.getInstance("net/sf/jasperreports/engine/images/pixel.GIF");
-				imageData = pxRenderer.getImageData();
+				Renderable pxRenderer = 
+					RenderableUtil.getInstance(getJasperReportsContext()).getRenderable("net/sf/jasperreports/engine/images/pixel.GIF");
+				imageData = pxRenderer.getImageData(getJasperReportsContext());
 				imageMimeType = JRRenderable.MIME_TYPE_GIF;
 			}
 			catch (JRException e)
@@ -96,7 +97,7 @@ public class ImageServlet extends BaseHttpServlet
 			
 			JRPrintImage image = JRHtmlExporter.getImage(jasperPrintList, imageName);
 			
-			JRRenderable renderer = image.getRenderer();
+			Renderable renderer = image.getRenderable();
 			if (renderer.getType() == JRRenderable.TYPE_SVG)
 			{
 				renderer = 
@@ -111,7 +112,7 @@ public class ImageServlet extends BaseHttpServlet
 			
 			try
 			{
-				imageData = renderer.getImageData();
+				imageData = renderer.getImageData(getJasperReportsContext());
 			}
 			catch (JRException e)
 			{

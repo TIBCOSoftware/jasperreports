@@ -61,6 +61,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculator;
 import net.sf.jasperreports.crosstabs.fill.JRPercentageCalculatorFactory;
 import net.sf.jasperreports.crosstabs.type.CrosstabPercentageEnum;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChart;
@@ -88,6 +89,7 @@ import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRQueryChunk;
@@ -104,12 +106,13 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.fill.JRExtendedIncrementerFactory;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -118,7 +121,6 @@ import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 
 import org.apache.commons.logging.Log;
@@ -188,10 +190,10 @@ public class JRVerifier
 	 * when the report is configured to check for overlaps.
 	 */
 	public static final String PROPERTY_ALLOW_ELEMENT_OVERLAP = 
-		JRProperties.PROPERTY_PREFIX + "allow.element.overlap";
+		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.overlap";
 	
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH =
-		JRProperties.PROPERTY_PREFIX + "allow.element.negative.width";
+		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.width";
 	
 	/**
 	 * Property that determines whether elements positioned at negative Y offsets 
@@ -218,7 +220,7 @@ public class JRVerifier
 	 * @since 3.7.3
 	 */
 	public static final String PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y =
-		JRProperties.PROPERTY_PREFIX + "allow.element.negative.y";
+		JRPropertiesUtil.PROPERTY_PREFIX + "allow.element.negative.y";
 
 	/**
 	 * @deprecated To be removed.
@@ -230,6 +232,7 @@ public class JRVerifier
 	/**
 	 *
 	 */
+	private JasperReportsContext jasperReportsContext;
 	private JasperDesign jasperDesign;
 	private Collection<JRValidationFault> brokenRules;
 
@@ -241,17 +244,33 @@ public class JRVerifier
 	private final boolean allowElementNegativeY;
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #JRVerifier(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
 	 */
-	protected JRVerifier(JasperDesign jrDesign)
+	protected JRVerifier(JasperDesign jasperDesign)
 	{
-		this(jrDesign, null);
+		this(DefaultJasperReportsContext.getInstance(), jasperDesign, null);
 	}
 
 
-	protected JRVerifier(JasperDesign jrDesign, JRExpressionCollector expressionCollector)
+	/**
+	 * @deprecated Replaced by {@link #JRVerifier(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
+	 */
+	protected JRVerifier(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
 	{
-		jasperDesign = jrDesign;
+		this(DefaultJasperReportsContext.getInstance(), jasperDesign, expressionCollector);
+	}
+
+	/**
+	 * 
+	 */
+	protected JRVerifier(
+		JasperReportsContext jasperReportsContext,
+		JasperDesign jasperDesign, 
+		JRExpressionCollector expressionCollector
+		)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.jasperDesign = jasperDesign;
 		brokenRules = new ArrayList<JRValidationFault>();
 
 		if (expressionCollector != null)
@@ -263,8 +282,8 @@ public class JRVerifier
 			this.expressionCollector = JRExpressionCollector.collector(jasperDesign);
 		}
 		
-		allowElementNegativeWidth = JRProperties.getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
-		allowElementNegativeY = JRProperties.getBooleanProperty(jasperDesign, 
+		allowElementNegativeWidth = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
+		allowElementNegativeY = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
 				PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y, true);
 	}
 
@@ -309,6 +328,14 @@ public class JRVerifier
 	}
 
 	/**
+	 * @deprecated Replaced by {@link #verifyDesign(JasperReportsContext, JasperDesign, JRExpressionCollector)}.
+	 */
+	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
+	{
+		return verifyDesign(DefaultJasperReportsContext.getInstance(), jasperDesign, expressionCollector);
+	}
+
+	/**
 	 * Validates a {@link JasperDesign report design}.
 	 *
 	 * @param jasperDesign the report design
@@ -318,9 +345,13 @@ public class JRVerifier
 	 * @return a list of {@link JRValidationFault design faults};
 	 * 	the report design is valid if and only if the list is empty
 	 */
-	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign, JRExpressionCollector expressionCollector)
+	public static Collection<JRValidationFault> verifyDesign(
+		JasperReportsContext jasperReportsContext,
+		JasperDesign jasperDesign, 
+		JRExpressionCollector expressionCollector
+		)
 	{
-		JRVerifier verifier = new JRVerifier(jasperDesign, expressionCollector);
+		JRVerifier verifier = new JRVerifier(jasperReportsContext, jasperDesign, expressionCollector);
 		return verifier.verifyDesign();
 	}
 
@@ -658,7 +689,7 @@ public class JRVerifier
 		if (query != null)
 		{
 			String language = query.getLanguage();
-			JRQueryExecuterFactory queryExecuterFactory = null;
+			QueryExecuterFactory queryExecuterFactory = null;
 			if (language == null || language.length() == 0)
 			{
 				addBrokenRule("Query language not set.", query);
@@ -667,7 +698,7 @@ public class JRVerifier
 			{
 				try
 				{
-					queryExecuterFactory = JRQueryExecuterUtils.getQueryExecuterFactory(query.getLanguage());
+					queryExecuterFactory = JRQueryExecuterUtils.getInstance(jasperReportsContext).getExecuterFactory(query.getLanguage());
 				}
 				catch (JRException e1)
 				{
@@ -1265,7 +1296,7 @@ public class JRVerifier
 
 	protected boolean toVerifyElementOverlap()
 	{
-		return !JRProperties.getBooleanProperty(jasperDesign, 
+		return !JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, 
 				PROPERTY_ALLOW_ELEMENT_OVERLAP, 
 				true);
 	}
@@ -1274,7 +1305,7 @@ public class JRVerifier
 	{
 		// check whether the element has been marked to allow to overwrite
 		return element.hasProperties()
-			&& JRProperties.asBoolean(element.getPropertiesMap().getProperty(
+			&& JRPropertiesUtil.asBoolean(element.getPropertiesMap().getProperty(
 							PROPERTY_ALLOW_ELEMENT_OVERLAP));
 	}
 	
@@ -2389,7 +2420,7 @@ public class JRVerifier
 			if (properties.containsProperty(PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y))
 			{
 				// use element level property
-				allow = JRProperties.asBoolean(properties.getProperty(
+				allow = JRPropertiesUtil.asBoolean(properties.getProperty(
 						PROPERTY_ALLOW_ELEMENT_NEGATIVE_Y));
 			}
 		}
@@ -2442,8 +2473,8 @@ public class JRVerifier
 		
 		if (componentKey != null && component != null)
 		{
-			ComponentCompiler compiler = ComponentsEnvironment.
-				getComponentManager(componentKey).getComponentCompiler();
+			ComponentCompiler compiler = 
+				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentCompiler();
 			pushCurrentComponentElement(element);
 			try
 			{

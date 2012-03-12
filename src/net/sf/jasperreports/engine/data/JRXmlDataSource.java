@@ -30,15 +30,19 @@ package net.sf.jasperreports.engine.data;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignField;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuter;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils;
+import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -140,6 +144,8 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 
 	private final JRXPathExecuter xPathExecuter;
 	
+	private InputStream inputStream;
+	private boolean closeInputStream;
 	
 	// -----------------------------------------------------------------
 	// Constructors
@@ -151,8 +157,15 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param document the document
 	 * @throws JRException if the data source cannot be created
 	 */
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, Document document) throws JRException {
+		this(jasperReportsContext, document, ".");
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, Document)}.
+	 */
 	public JRXmlDataSource(Document document) throws JRException {
-		this(document, ".");
+		this(DefaultJasperReportsContext.getInstance(), document);
 	}
 
 	/**
@@ -164,14 +177,27 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param selectExpression the XPath select expression
 	 * @throws JRException if the data source cannot be created
 	 */
-	public JRXmlDataSource(Document document, String selectExpression)
-			throws JRException {
+	public JRXmlDataSource(
+		JasperReportsContext jasperReportsContext,
+		Document document, 
+		String selectExpression
+		) throws JRException 
+	{
 		this.document = document;
 		this.selectExpression = selectExpression;
 		
-		this.xPathExecuter = JRXPathExecuterUtils.getXPathExecuter();
+		this.xPathExecuter = JRXPathExecuterUtils.getXPathExecuter(jasperReportsContext);
 		
 		moveFirst();
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, Document, String)}.
+	 */
+	public JRXmlDataSource(Document document, String selectExpression) throws JRException 
+	{
+		this(DefaultJasperReportsContext.getInstance(), document, selectExpression);
 	}
 
 
@@ -181,8 +207,16 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param in the input stream
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, InputStream in) throws JRException 
+	{
+		this(jasperReportsContext, in, ".");
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, InputStream)}. 
+	 */
 	public JRXmlDataSource(InputStream in) throws JRException {
-		this(in, ".");
+		this(DefaultJasperReportsContext.getInstance(), in);
 	}
 
 	/**
@@ -191,9 +225,24 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @see JRXmlDataSource#JRXmlDataSource(InputStream) 
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String) 
 	 */
+	public JRXmlDataSource(
+		JasperReportsContext jasperReportsContext,
+		InputStream in, 
+		String selectExpression
+		) throws JRException 
+	{
+		this(jasperReportsContext, JRXmlUtils.parse(new InputSource(in)), selectExpression);
+		
+		this.inputStream = in;
+		this.closeInputStream = false;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, InputStream, String)}. 
+	 */
 	public JRXmlDataSource(InputStream in, String selectExpression)
 			throws JRException {
-		this(JRXmlUtils.parse(new InputSource(in)), selectExpression);
+		this(DefaultJasperReportsContext.getInstance(), in, selectExpression);
 	}
 
 	/**
@@ -203,8 +252,15 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param uri the system identifier
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, String uri) throws JRException {
+		this(jasperReportsContext, uri, ".");
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, String)}. 
+	 */
 	public JRXmlDataSource(String uri) throws JRException {
-		this(uri, ".");
+		this(DefaultJasperReportsContext.getInstance(), uri);
 	}
 
 	/**
@@ -213,9 +269,26 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @see JRXmlDataSource#JRXmlDataSource(String) 
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String) 
 	 */
+	public JRXmlDataSource(
+		JasperReportsContext jasperReportsContext, 
+		String uri, 
+		String selectExpression
+		) throws JRException 
+	{
+		this(
+			jasperReportsContext, 
+			RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(uri), 
+			selectExpression
+			);
+		this.closeInputStream = true;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, String, String)}. 
+	 */
 	public JRXmlDataSource(String uri, String selectExpression)
 			throws JRException {
-		this(JRXmlUtils.parse(uri), selectExpression);
+		this(DefaultJasperReportsContext.getInstance(), uri, selectExpression);
 	}
 
 	/**
@@ -224,8 +297,15 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @param file the file
 	 * @see JRXmlDataSource#JRXmlDataSource(Document) 
 	 */
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file) throws JRException {
+		this(jasperReportsContext, file, ".");
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, File)}. 
+	 */
 	public JRXmlDataSource(File file) throws JRException {
-		this(file, ".");
+		this(DefaultJasperReportsContext.getInstance(), file);
 	}
 
 	/**
@@ -234,9 +314,17 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	 * @see JRXmlDataSource#JRXmlDataSource(File) 
 	 * @see JRXmlDataSource#JRXmlDataSource(Document, String) 
 	 */
+	public JRXmlDataSource(JasperReportsContext jasperReportsContext, File file, String selectExpression)
+			throws JRException {
+		this(jasperReportsContext, JRXmlUtils.parse(file), selectExpression);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, File, String)}. 
+	 */
 	public JRXmlDataSource(File file, String selectExpression)
 			throws JRException {
-		this(JRXmlUtils.parse(file), selectExpression);
+		this(DefaultJasperReportsContext.getInstance(), file, selectExpression);
 	}
 	
 	// -----------------------------------------------------------------
@@ -469,6 +557,24 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		return result.toString();
 	}
 	
+	/**
+	 * Closes the reader. Users of this data source should close it after usage.
+	 */
+	public void close()
+	{
+		try
+		{
+			if (closeInputStream)
+			{
+				inputStream.close();
+			}
+		}
+		catch(IOException e)
+		{
+			//nothing to do
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		JRXmlDataSource ds = new JRXmlDataSource(new FileInputStream("northwind.xml"), "/Northwind/Customers");
 		JRDesignField field = new JRDesignField();

@@ -33,6 +33,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.util.CastorUtil;
 
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -48,6 +49,7 @@ import org.xml.sax.InputSource;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
+ * @deprecated Replaced by {@link CastorUtil}.
  */
 public class XmlUtil
 {

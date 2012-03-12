@@ -31,26 +31,34 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRCsvExporterNature implements ExporterNature
+public class JRCsvExporterNature extends AbstractExporterNature
 {
-	
-	private ExporterFilter filter;
 	
 	/**
 	 * 
 	 */
+	public JRCsvExporterNature(JasperReportsContext jasperReportsContext, ExporterFilter filter)
+	{
+		super(jasperReportsContext, filter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JRCsvExporterNature(JasperReportsContext, ExporterFilter)}. 
+	 */
 	public JRCsvExporterNature(ExporterFilter filter)
 	{
-		this.filter = filter;
+		this(DefaultJasperReportsContext.getInstance(), filter);
 	}
 	
 	/**

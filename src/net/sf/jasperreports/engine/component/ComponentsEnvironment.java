@@ -29,9 +29,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.extensions.ExtensionsEnvironment;
-import net.sf.jasperreports.extensions.ExtensionsRegistry;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -53,21 +54,56 @@ public final class ComponentsEnvironment
 	
 	private static final Log log = LogFactory.getLog(ComponentsEnvironment.class);
 	
-	private static final ReferenceMap cache = new ReferenceMap(
+	private final ReferenceMap cache = new ReferenceMap(
 			ReferenceMap.WEAK, ReferenceMap.HARD);
+	
+	private JasperReportsContext jasperReportsContext;
+	private static ComponentsEnvironment defaultInstance;
+
+
+	/**
+	 *
+	 */
+	private ComponentsEnvironment(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 */
+	private static ComponentsEnvironment getDefaultInstance()
+	{
+		if (defaultInstance == null)
+		{
+			defaultInstance = new ComponentsEnvironment(DefaultJasperReportsContext.getInstance());
+		}
+		return defaultInstance;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static ComponentsEnvironment getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new ComponentsEnvironment(jasperReportsContext);
+	}
+	
 	
 	/**
 	 * Returns the set of all component bundles present in the registry. 
 	 * 
 	 * @return the set of component bundles
 	 */
-	public static Collection<ComponentsBundle> getComponentBundles()
+	public Collection<ComponentsBundle> getBundles()
 	{
 		Map<String, ComponentsBundle> components = getCachedComponentBundles();
 		return components.values();
 	}
 	
-	protected static Map<String, ComponentsBundle> getCachedComponentBundles()
+	protected Map<String, ComponentsBundle> getCachedBundles()
 	{
 		Object cacheKey = ExtensionsEnvironment.getExtensionsCacheKey();
 		synchronized (cache)
@@ -82,11 +118,10 @@ public final class ComponentsEnvironment
 		}
 	}
 
-	protected static Map<String, ComponentsBundle> findComponentBundles()
+	protected Map<String, ComponentsBundle> findBundles()
 	{
 		Map<String, ComponentsBundle> components = new HashMap<String, ComponentsBundle>();
-		ExtensionsRegistry extensionsRegistry = ExtensionsEnvironment.getExtensionsRegistry();
-		List<ComponentsBundle> bundles = extensionsRegistry.getExtensions(ComponentsBundle.class);
+		List<ComponentsBundle> bundles = jasperReportsContext.getExtensions(ComponentsBundle.class);
 		for (Iterator<ComponentsBundle> it = bundles.iterator(); it.hasNext();)
 		{
 			ComponentsBundle bundle = it.next();
@@ -111,7 +146,7 @@ public final class ComponentsEnvironment
 	 * @throws JRRuntimeException if no bundle corresponding to the namespace
 	 * is found in the registry
 	 */
-	public static ComponentsBundle getComponentsBundle(String namespace)
+	public ComponentsBundle getBundle(String namespace)
 	{
 		Map<String, ComponentsBundle> components = getCachedComponentBundles();
 		ComponentsBundle componentsBundle = components.get(namespace);
@@ -132,7 +167,7 @@ public final class ComponentsEnvironment
 	 * @throws JRRuntimeException if the registry does not contain the specified
 	 * component type
 	 */
-	public static ComponentManager getComponentManager(ComponentKey componentKey)
+	public ComponentManager getManager(ComponentKey componentKey)
 	{
 		String namespace = componentKey.getNamespace();
 		ComponentsBundle componentsBundle = getComponentsBundle(namespace);
@@ -140,9 +175,44 @@ public final class ComponentsEnvironment
 		String name = componentKey.getName();
 		return componentsBundle.getComponentManager(name);
 	}
-	
 
-	private ComponentsEnvironment()
+	/**
+	 * @deprecated Replaced by {@link #getBundles()}.
+	 */
+	public static Collection<ComponentsBundle> getComponentBundles()
 	{
+		return getDefaultInstance().getBundles();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getCachedBundles()}.
+	 */
+	protected static Map<String, ComponentsBundle> getCachedComponentBundles()
+	{
+		return getDefaultInstance().getCachedBundles();
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #findBundles()}. 
+	 */
+	protected static Map<String, ComponentsBundle> findComponentBundles()
+	{
+		return getDefaultInstance().findBundles();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getBundle(String)}.
+	 */
+	public static ComponentsBundle getComponentsBundle(String namespace)
+	{
+		return getDefaultInstance().getBundle(namespace);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #getManager(ComponentKey)}.
+	 */
+	public static ComponentManager getComponentManager(ComponentKey componentKey)
+	{
+		return getDefaultInstance().getManager(componentKey);
 	}
 }

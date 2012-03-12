@@ -33,9 +33,10 @@ package net.sf.jasperreports.engine.convert;
 
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.base.JRBasePrintImage;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -71,15 +72,15 @@ public class ElementIconConverter extends ElementConverter
 		printImage.getLineBox().setPadding(3);
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
 		
-		printImage.setRenderer(getRenderer());
+		printImage.setRenderable(getRenderer(reportConverter.getJasperReportsContext()));
 		return printImage;
 	}
 
-	protected JRRenderable getRenderer()
+	protected Renderable getRenderer(JasperReportsContext jasperReportsContext)
 	{
 		try
 		{
-			return JRImageRenderer.getInstance(
+			return RenderableUtil.getInstance(jasperReportsContext).getRenderable(
 					iconLocation, 
 					OnErrorTypeEnum.ERROR);
 		}

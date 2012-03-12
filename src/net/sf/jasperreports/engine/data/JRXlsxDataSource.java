@@ -33,15 +33,17 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.FormatUtils;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -120,13 +122,23 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 	
 	/**
 	 * Creates a datasource instance that reads XLSX data from a given location.
+	 * @param jasperReportsContext the JasperReportsContext
 	 * @param location a String representing XLSX data source
 	 * @throws IOException 
 	 */
+	public JRXlsxDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
+	{
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location));
+		this.closeInputStream = true;
+	}
+
+	
+	/**
+	 * @deprecated Replaced by {@link #JRXlsxDataSource(JasperReportsContext, String)}.
+	 */
 	public JRXlsxDataSource(String location) throws JRException, IOException
 	{
-		this(RepositoryUtil.getInputStream(location));
-		this.closeInputStream = true;
+		this(DefaultJasperReportsContext.getInstance(), location);
 	}
 	
 
@@ -216,7 +228,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			{
 				if (numberFormat != null)
 				{
-					return getFormattedNumber(numberFormat, String.valueOf(cell.getNumericCellValue()), valueClass);
+					return FormatUtils.getFormattedNumber(numberFormat, String.valueOf(cell.getNumericCellValue()), valueClass);
 				}
 				else 
 				{
@@ -226,7 +238,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 			else if (Date.class.isAssignableFrom(valueClass)){
 				if (dateFormat != null)
 				{
-					return getFormattedDate(dateFormat, String.valueOf(cell.getDateCellValue()), valueClass);
+					return FormatUtils.getFormattedDate(dateFormat, String.valueOf(cell.getDateCellValue()), valueClass);
 				} 
 				else
 				{

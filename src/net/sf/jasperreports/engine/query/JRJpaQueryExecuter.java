@@ -32,16 +32,18 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRJpaDataSource;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
-import net.sf.jasperreports.engine.util.JRProperties.PropertySuffix;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -104,7 +106,8 @@ import org.apache.commons.logging.LogFactory;
  * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJpaQueryExecuterFactory
  */
-public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
+public class JRJpaQueryExecuter extends JRAbstractQueryExecuter 
+{
 
 	private static final Log log = LogFactory.getLog(JRJpaQueryExecuter.class);
 	
@@ -113,8 +116,16 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 	private EntityManager em;
 	private Query query;
 	
-	public JRJpaQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) {
-		super(dataset, parameters);
+	/**
+	 * 
+	 */
+	public JRJpaQueryExecuter(
+		JasperReportsContext jasperReportsContext, 
+		JRDataset dataset, 
+		Map<String,? extends JRValueParameter> parameters
+		) 
+	{
+		super(jasperReportsContext, dataset, parameters);
 		
 		em = (EntityManager)getParameterValue(JRJpaQueryExecuterFactory.PARAMETER_JPA_ENTITY_MANAGER);
 		reportMaxCount = (Integer)getParameterValue(JRParameter.REPORT_MAX_COUNT);
@@ -124,6 +135,14 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		}
 	
 		parseQuery();
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #JRJpaQueryExecuter(JasperReportsContext, JRDataset, Map)}.
+	 */
+	public JRJpaQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) 
+	{
+		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
 	
 	public JRDataSource createDatasource() throws JRException {
@@ -190,7 +209,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		// Second, set query hints supplied by report properties which start with JREjbPersistenceQueryExecuterFactory.PROPERTY_JPA_PERSISTENCE_QUERY_HINT_PREFIX
 		// Example: net.sf.jasperreports.ejbql.query.hint.fetchSize
 		// This property will result in a query hint set with the name: fetchSize
-		List<PropertySuffix> properties = JRProperties.getProperties(dataset, 
+		List<PropertySuffix> properties = JRPropertiesUtil.getProperties(dataset, 
 				JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_HINT_PREFIX);
 		for (Iterator<PropertySuffix> it = properties.iterator(); it.hasNext();) {
 			PropertySuffix property = it.next();
@@ -214,7 +233,7 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter {
 		JRDataSource resDatasource;
 		
 		try {
-			int pageSize = JRProperties.getIntegerProperty(dataset, 
+			int pageSize = getPropertiesUtil().getIntegerProperty(dataset, 
 					JRJpaQueryExecuterFactory.PROPERTY_JPA_QUERY_PAGE_SIZE,
 					0);
 

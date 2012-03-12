@@ -26,9 +26,11 @@ package net.sf.jasperreports.data.empty;
 import java.util.Map;
 
 import net.sf.jasperreports.data.AbstractDataAdapterService;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,9 +39,20 @@ import net.sf.jasperreports.engine.JRParameter;
 public class EmptyDataAdapterService extends AbstractDataAdapterService 
 {
 	
+	/**
+	 * 
+	 */
+	public EmptyDataAdapterService(JasperReportsContext jasperReportsContext, EmptyDataAdapter emptyDataAdapter)
+	{
+		super(jasperReportsContext, emptyDataAdapter);
+	}
+	
+	/**
+	 * @deprecated Replaced by {@link #EmptyDataAdapterService(JasperReportsContext, EmptyDataAdapter)}.
+	 */
 	public EmptyDataAdapterService(EmptyDataAdapter emptyDataAdapter)
 	{
-		super(emptyDataAdapter);
+		this(DefaultJasperReportsContext.getInstance(), emptyDataAdapter);
 	}
 	
 	public EmptyDataAdapter getEmptyDataAdapter()

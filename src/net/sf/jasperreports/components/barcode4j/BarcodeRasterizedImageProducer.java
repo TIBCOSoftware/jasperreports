@@ -28,9 +28,10 @@ import java.io.ByteArrayOutputStream;
 
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRImageRenderer;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 
 import org.krysalis.barcode4j.BarcodeGenerator;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
@@ -52,18 +53,23 @@ public class BarcodeRasterizedImageProducer implements BarcodeImageProducer
 	public static final String PROPERTY_ANTIALIAS = 
 		BarcodeComponent.PROPERTY_PREFIX + "image.antiAlias";
 	
-	public JRRenderable createImage(JRComponentElement componentElement, 
-			BarcodeGenerator barcode, String message, int orientation)
+	public Renderable createImage(
+		JasperReportsContext jasperReportsContext,
+		JRComponentElement componentElement, 
+		BarcodeGenerator barcode, 
+		String message, 
+		int orientation
+		)
 	{
 		try
 		{
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			
-			int resolution = JRProperties.getIntegerProperty(
+			int resolution = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 					componentElement, PROPERTY_RESOLUTION, 300);
-			boolean gray = JRProperties.getBooleanProperty(
+			boolean gray = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 					componentElement, PROPERTY_GRAY, true);
-			boolean antiAlias = JRProperties.getBooleanProperty(
+			boolean antiAlias = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(
 					componentElement, PROPERTY_ANTIALIAS, true);
 			int imageType = gray ? BufferedImage.TYPE_BYTE_GRAY 
 					: BufferedImage.TYPE_BYTE_BINARY;
