@@ -28,7 +28,6 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
-import net.sf.jasperreports.engine.convert.TextElementConverter;
 import net.sf.jasperreports.engine.export.ElementGridCell;
 import net.sf.jasperreports.engine.export.ElementWrapper;
 import net.sf.jasperreports.engine.export.GenericElementHandler;
@@ -38,6 +37,7 @@ import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
+import net.sf.jasperreports.engine.util.JRTextMeasurerUtil;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -69,7 +69,7 @@ public class BaseChartHandler implements GenericElementHandler
 		text.getLineBox().getPen().setLineColor(Color.black);
 		text.getLineBox().getPen().setLineStyle(LineStyleEnum.DASHED);
 		
-		TextElementConverter.measureTextElement(text);
+		JRTextMeasurerUtil.getInstance(exporterContext.getJasperReportsContext()).measureTextElement(text);
 		
 		return text;
 	}
