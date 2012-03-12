@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementXlsxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
@@ -53,7 +54,7 @@ public class ChartXlsxHandler extends BaseChartHandler implements GenericElement
 		exporter.exportText((JRPrintText)newGridCell.getElement(), newGridCell, colIndex, rowIndex);
 	}
 
-	public JRPrintImage getImage(JRGenericPrintElement element) throws JRException 
+	public JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException 
 	{
 		return null;
 	}
