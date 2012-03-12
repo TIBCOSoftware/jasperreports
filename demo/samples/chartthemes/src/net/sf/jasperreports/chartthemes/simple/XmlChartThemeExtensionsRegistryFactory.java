@@ -37,7 +37,8 @@ import java.util.zip.ZipOutputStream;
 
 import net.sf.jasperreports.chartthemes.ChartThemeMapBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.util.JRProperties;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
@@ -54,7 +55,7 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	 * 
 	 */
 	public final static String XML_CHART_THEME_PROPERTY_PREFIX = 
-		JRProperties.PROPERTY_PREFIX + "xml.chart.theme.";
+		JRPropertiesUtil.PROPERTY_PREFIX + "xml.chart.theme.";
 	public final static String PROPERTY_XML_CHART_THEME_REGISTRY_FACTORY =
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_FACTORY_PREFIX + "xml.chart.themes";
 	
@@ -64,12 +65,12 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{
-		List themeProperties = JRProperties.getProperties(properties, 
+		List themeProperties = JRPropertiesUtil.getProperties(properties, 
 				XML_CHART_THEME_PROPERTY_PREFIX);
 		Map themes = new HashMap();
 		for (Iterator it = themeProperties.iterator(); it.hasNext();)
 		{
-			JRProperties.PropertySuffix themeProp = (JRProperties.PropertySuffix) it.next();
+			PropertySuffix themeProp = (PropertySuffix) it.next();
 			String themeName = themeProp.getSuffix();
 			String themeLocation = themeProp.getValue();
 			XmlChartTheme theme = new XmlChartTheme(themeLocation);
