@@ -391,6 +391,18 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_WORKBOOK_TEMPLATE_KEEP_SHEETS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.workbook.template.keep.sheets";
 
 	
+	/**
+	 * Flag property that indicates whether local anchors should be ignored when elements are exported to Excel. The default value is <code>false</code>.
+	 * <p>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * </ul>
+	 */
+	public static final String PROPERTY_IGNORE_ANCHORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.anchors";
+	
+
 	protected static class TextAlignHolder
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
@@ -490,6 +502,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected Boolean keepTemplateSheets;
 	protected String workbookTemplate;
 	
+	protected boolean ignoreAnchors;
+
 	/**
 	 *
 	 */
@@ -782,6 +796,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1);
 		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
 		columnWidthRatio = getPropertiesUtil().getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
 	}
 
 	protected abstract void setBackground();
@@ -1692,6 +1707,16 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		this.workbookTemplate = workbookTemplate;
 	}
 
+	
+	public boolean isIgnoreAnchors() {
+		return ignoreAnchors;
+	}
+
+
+	public void setIgnoreAnchors(boolean ignoreAnchors) {
+		this.ignoreAnchors = ignoreAnchors;
+	}
+	
 
 	//abstract methods
 	
