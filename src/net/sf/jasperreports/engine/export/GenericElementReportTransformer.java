@@ -27,11 +27,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,22 +48,42 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class GenericElementReportTransformer
 {
-	
 	private static final Log log = LogFactory.getLog(GenericElementReportTransformer.class);
 	
 	protected static class TransformerContext implements GenericElementTransformerContext
 	{
+		private final JasperReportsContext jasperReportsContext;
 		private final JasperPrint report;
 
-		public TransformerContext(JasperPrint report)
+		public TransformerContext(
+			JasperReportsContext jasperReportsContext,
+			JasperPrint report
+			)
 		{
+			this.jasperReportsContext = jasperReportsContext;
 			this.report = report;
+		}
+
+		public JasperReportsContext getJasperReportsContext()
+		{
+			return jasperReportsContext;
 		}
 
 		public JasperPrint getReport()
 		{
 			return report;
 		}
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #transformGenericElements(JasperReportsContext, JasperPrint, String)}.
+	 */
+	public static void transformGenericElements(
+		JasperPrint report, 
+		String transformerExportKey
+		)
+	{
+		transformGenericElements(DefaultJasperReportsContext.getInstance(), report, transformerExportKey);
 	}
 
 	/**
@@ -73,10 +95,13 @@ public final class GenericElementReportTransformer
 	 * @see GenericElementTransformer
 	 * @see GenericElementHandlerBundle#getHandler(String, String)
 	 */
-	public static void transformGenericElements(JasperPrint report, 
-			String transformerExportKey)
+	public static void transformGenericElements(
+		JasperReportsContext jasperReportsContext,
+		JasperPrint report, 
+		String transformerExportKey
+		)
 	{
-		TransformerContext transformerContext = new TransformerContext(report);
+		TransformerContext transformerContext = new TransformerContext(jasperReportsContext, report);
 		List<JRPrintPage> pages = report.getPages();
 		for (Iterator<JRPrintPage> pageIt = pages.iterator(); pageIt.hasNext();)
 		{
@@ -99,7 +124,7 @@ public final class GenericElementReportTransformer
 				JRGenericPrintElement genericElement = 
 					(JRGenericPrintElement) element;
 				GenericElementTransformer handler = 
-						(GenericElementTransformer) GenericElementHandlerEnviroment.getHandler(
+						(GenericElementTransformer) GenericElementHandlerEnviroment.getInstance(context.getJasperReportsContext()).getElementHandler(
 						genericElement.getGenericType(), transformerExportKey);
 				if (handler != null && handler.toExport(genericElement))
 				{
