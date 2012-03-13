@@ -230,7 +230,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			InputStream templateIs = null;
 			try 
 			{
-				templateIs = RepositoryUtil.getInputStream(workbookTemplate);
+				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(workbookTemplate);
 				if (templateIs == null)
 				{
 					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);

@@ -29,8 +29,10 @@ import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZip;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -46,16 +48,31 @@ public class XlsxZip extends FileBufferedZip
 	/**
 	 * 
 	 */
+	private final JasperReportsContext jasperReportsContext;
+
+	/**
+	 * 
+	 */
 	private ExportZipEntry workbookEntry;
 	private ExportZipEntry stylesEntry;
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
 	
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #XlsxZip(JasperReportsContext)}.
 	 */
 	public XlsxZip() throws IOException
 	{
+		this(DefaultJasperReportsContext.getInstance());
+	}
+	
+	/**
+	 * 
+	 */
+	public XlsxZip(JasperReportsContext jasperReportsContext) throws IOException
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		
 		workbookEntry = createEntry("xl/workbook.xml");
 		addEntry(workbookEntry);
 		
@@ -70,7 +87,7 @@ public class XlsxZip extends FileBufferedZip
 		
 		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
 	}
-	
+
 	/**
 	 *
 	 */
@@ -160,7 +177,7 @@ public class XlsxZip extends FileBufferedZip
 		ZipInputStream templateZipIs = null;
 		try
 		{
-			templateIs = RepositoryUtil.getInputStream(template);
+			templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(template);
 			if (templateIs == null)
 			{
 				throw new JRRuntimeException("Macro template not found at : " + template);
