@@ -127,7 +127,7 @@ public class MeasureDefinition
 	 */
 	public JRExtendedIncrementer getIncrementer()
 	{
-		return incrementerFactory.getExtendedIncrementer(calculation.getValue());//FIXMEENUM should we create new method in interface?
+		return incrementerFactory.getExtendedIncrementer(calculation);
 	}
 	
 	protected boolean isSystemDefined()
