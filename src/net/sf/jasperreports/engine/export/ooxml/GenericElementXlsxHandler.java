@@ -63,6 +63,6 @@ public interface GenericElementXlsxHandler extends GenericElementHandler
 	 * @param element the generic element to export
 	 * @return JRPrintImage the equivalent image
 	 */
-	JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element) throws JRException;
+	JRPrintImage getImage(JRXlsxExporterContext exporterContext, JRGenericPrintElement element) throws JRException;
 	
 }

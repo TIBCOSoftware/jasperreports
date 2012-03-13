@@ -160,6 +160,8 @@ public class JRDocxExporter extends JRAbstractExporter
 
 	protected boolean flexibleRowHeight;
 	
+	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
+	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
 	{
@@ -328,7 +330,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			return ((GenericElementDocxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericPrintElement.getGenericType(), 
 					DOCX_EXPORTER_KEY
-					)).getImage(jasperReportsContext, genericPrintElement);
+					)).getImage(mainExporterContext, genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;

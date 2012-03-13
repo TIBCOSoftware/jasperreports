@@ -166,6 +166,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected JasperPrint currentSheetJasperPrint;		
 	
+	protected JRXlsxExporterContext exporterContext = new ExporterContext();
+
 	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsxExporterContext
 	{
@@ -242,7 +244,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			return ((GenericElementXlsxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericPrintElement.getGenericType(), 
 					XLSX_EXPORTER_KEY
-					)).getImage(jasperReportsContext, genericPrintElement);
+					)).getImage(exporterContext, genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;
@@ -1363,8 +1365,6 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		if (handler != null)
 		{
-			JRXlsxExporterContext exporterContext = new ExporterContext();
-
 			handler.exportElement(exporterContext, element, gridCell, colIndex, rowIndex);
 		}
 		else
