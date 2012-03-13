@@ -141,6 +141,7 @@ public class JRPptxExporter extends JRAbstractExporter
 
 	private PptxRunHelper runHelper;
 
+	protected JRPptxExporterContext exporterContext = new ExporterContext();
 
 	protected class ExporterContext extends BaseExporterContext implements JRPptxExporterContext
 	{
@@ -304,7 +305,7 @@ public class JRPptxExporter extends JRAbstractExporter
 			return ((GenericElementPptxHandler)GenericElementHandlerEnviroment.getInstance(jasperReportsContext).getElementHandler(
 					genericPrintElement.getGenericType(), 
 					PPTX_EXPORTER_KEY
-					)).getImage(jasperReportsContext, genericPrintElement);
+					)).getImage(exporterContext, genericPrintElement);
 		}
 		
 		return (JRPrintImage) element;
@@ -1587,7 +1588,6 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		if (handler != null)
 		{
-			JRPptxExporterContext exporterContext = new ExporterContext();
 			handler.exportElement(exporterContext, element);
 		}
 		else
