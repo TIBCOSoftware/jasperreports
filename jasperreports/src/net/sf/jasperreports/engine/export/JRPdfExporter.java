@@ -223,10 +223,8 @@ public class JRPdfExporter extends JRAbstractExporter
 
 	private BookmarkStack bookmarkStack;
 
-	/**
-	 * @deprecated
-	 */
-	private Map<FontKey,PdfFont> fontMap;
+	@SuppressWarnings("deprecation")
+	private Map<FontKey,PdfFont> pdfFontMap;
 
 	private SplitCharacter splitCharacter;
 	
@@ -364,8 +362,7 @@ public class JRPdfExporter extends JRAbstractExporter
 						JRPdfExporterParameter.PROPERTY_PDF_VERSION
 						);
 
-			fontMap = (Map<FontKey,PdfFont>) parameters.get(JRExporterParameter.FONT_MAP);
-
+			setFontMap();
 			setSplitCharacter();
 			setHyperlinkProducerFactory();
 
@@ -443,6 +440,13 @@ public class JRPdfExporter extends JRAbstractExporter
 		{
 			resetExportContext();
 		}
+	}
+
+
+	@SuppressWarnings("deprecation")
+	protected void setFontMap()
+	{
+		pdfFontMap = (Map<FontKey,PdfFont>) parameters.get(JRExporterParameter.FONT_MAP);
 	}
 
 
@@ -1834,6 +1838,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	 * @param setFontLines whether to set underline and strikethrough as font style
 	 * @return the PDF font for the specified attributes
 	 */
+	@SuppressWarnings("deprecation")
 	protected Font getFont(Map<Attribute,Object> attributes, Locale locale, boolean setFontLines)
 	{
 		JRFont jrFont = new JRBaseFont(attributes);
@@ -1858,7 +1863,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 		if (fontMap != null && fontMap.containsKey(key))
 		{
-			pdfFont = fontMap.get(key);
+			pdfFont = pdfFontMap.get(key);
 		}
 		else
 		{

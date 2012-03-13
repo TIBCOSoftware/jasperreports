@@ -134,11 +134,6 @@ public class JRPptxExporter extends JRAbstractExporter
 	 */
 	protected int slideIndex;
 	
-	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
 	private PptxRunHelper runHelper;
 
 	protected JRPptxExporterContext exporterContext = new ExporterContext();
@@ -213,7 +208,7 @@ public class JRPptxExporter extends JRAbstractExporter
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //			hyperlinksMap = new HashMap();
 
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
 
 			setHyperlinkProducerFactory();
 

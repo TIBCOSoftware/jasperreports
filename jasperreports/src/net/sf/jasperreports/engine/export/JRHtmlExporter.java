@@ -236,12 +236,6 @@ public class JRHtmlExporter extends JRAbstractExporter
 
 	protected StringProvider emptyCellStringProvider;
 
-
-	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
 	private LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	private Color backcolor;
 
@@ -455,7 +449,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					false
 					);
 			
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
 						
 			setHyperlinkProducerFactory();
 

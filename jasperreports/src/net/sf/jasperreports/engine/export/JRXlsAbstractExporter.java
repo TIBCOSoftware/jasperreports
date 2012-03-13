@@ -451,11 +451,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected int pageIndex;
 
 	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
-	/**
 	 *
 	 */
 	protected JRFont defaultFont;
@@ -713,7 +708,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				false
 				);
 
-		fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+		setFontMap();
 
 		setHyperlinkProducerFactory();
 

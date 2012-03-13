@@ -130,11 +130,6 @@ public class JRRtfExporter extends JRAbstractExporter
 	// z order of the graphical objects in .rtf file
 	private int zorder = 1;
 
-	/**
-	 * @deprecated
-	 */
-	private Map<String,String> fontMap;
-
 	protected class ExporterContext extends BaseExporterContext implements JRRtfExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -195,8 +190,10 @@ public class JRRtfExporter extends JRAbstractExporter
 			colors = new ArrayList<Color>();
 			colors.add(null);
 
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
+
 			setHyperlinkProducerFactory();
+			
 			StringBuffer sb = (StringBuffer)parameters.get(JRExporterParameter.OUTPUT_STRING_BUFFER);
 			if (sb != null) {
 				StringBuffer buffer = exportReportToBuffer();
