@@ -43,6 +43,7 @@ public class JRChartPlotFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	public Object createObject(Attributes atts)
 	{
 		JRChartPlot plot = (JRChartPlot) digester.peek();
