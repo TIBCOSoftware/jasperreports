@@ -125,11 +125,6 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected String encoding;
 
 
-	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
 
@@ -194,7 +189,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 //			imageMaps = new HashMap();
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
 
 			setHyperlinkProducerFactory();
 

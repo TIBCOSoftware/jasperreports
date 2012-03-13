@@ -144,11 +144,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected int tableIndex;
 	protected boolean startPage;
 
-	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
 
@@ -236,7 +231,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //			hyperlinksMap = new HashMap();
 
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
 
 			setHyperlinkProducerFactory();
 

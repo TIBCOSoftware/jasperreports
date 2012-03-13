@@ -204,11 +204,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	protected String htmlFooter;
 
 
-	/**
-	 * @deprecated
-	 */
-	protected Map<String,String> fontMap;
-
 	protected JRHyperlinkTargetProducerFactory targetProducerFactory;		
 
 	protected boolean hyperlinkStarted;	
@@ -349,7 +344,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 					false
 					);
 			
-			fontMap = (Map<String,String>) parameters.get(JRExporterParameter.FONT_MAP);
+			setFontMap();
 						
 			setHyperlinkProducerFactory();
 			
