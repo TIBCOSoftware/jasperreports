@@ -1393,7 +1393,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		try
 		{
-			xlsxZip = new XlsxZip();
+			xlsxZip = new XlsxZip(jasperReportsContext);
 
 			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
