@@ -210,6 +210,7 @@
       <property ref="net.sf.jasperreports.export.xls.freeze.column.edge"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.row"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.row.edge"/>
+      <property ref="net.sf.jasperreports.export.xls.ignore.anchors"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
@@ -2576,6 +2577,20 @@ Specifies whether the font size should be decreased so that texts fit into the s
     <default>false</default>
     <scope>Global | Report</scope>
     <since>2.0.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.ignore.anchors -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.ignore.anchors">
+    <description>
+Flag property that indicates whether local anchors should be ignored when elements are exported to Excel. If set to <code>true</code>, local anchors will be excluded from export. 
+Otherwise they will be exported along with elements they belong to.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_IGNORE_ANCHORS</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>4.6.0</since>
   </configProperty>
   
   
