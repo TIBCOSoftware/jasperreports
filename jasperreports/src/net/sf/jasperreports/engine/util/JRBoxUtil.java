@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.util;
 
 import java.awt.Color;
 
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.base.JRBoxPen;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -260,7 +259,7 @@ public final class JRBoxUtil
 	 */
 	@SuppressWarnings("deprecation")
 	public static void setBoxToLineBox(
-		JRBox box,
+		net.sf.jasperreports.engine.JRBox box,
 		JRLineBox lineBox
 		)
 	{

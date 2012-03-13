@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
-import net.sf.jasperreports.engine.JRBox;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
@@ -244,7 +243,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	/**
 	 * @deprecated
 	 */
-	private JRBox box;
+	private net.sf.jasperreports.engine.JRBox box;
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
