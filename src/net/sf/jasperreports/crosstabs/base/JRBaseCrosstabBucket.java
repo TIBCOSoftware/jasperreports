@@ -157,6 +157,7 @@ public class JRBaseCrosstabBucket implements JRCrosstabBucket, Serializable
 	 */
 	private byte order;
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
