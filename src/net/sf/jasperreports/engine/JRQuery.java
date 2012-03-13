@@ -37,7 +37,7 @@ package net.sf.jasperreports.engine;
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @see net.sf.jasperreports.engine.query.JRQueryExecuterFactory
+ * @see net.sf.jasperreports.engine.query.QueryExecuterFactory
  */
 public interface JRQuery extends JRCloneable
 {
@@ -58,7 +58,7 @@ public interface JRQuery extends JRCloneable
 	 * Returns the query language.
 	 * <p/>
 	 * Based on the query language, a corresponding
-	 * {@link net.sf.jasperreports.engine.query.JRQueryExecuterFactory JRQueryExecuterFactory} is used to create
+	 * {@link net.sf.jasperreports.engine.query.QueryExecuterFactory QueryExecuterFactory} is used to create
 	 * a {@link net.sf.jasperreports.engine.query.JRQueryExecuter JRQueryExecuter} instance.  The query executer
 	 * is responsible for executing the query and creating a {@link JRDataSource JRDataSource} from the result.
 	 * 
