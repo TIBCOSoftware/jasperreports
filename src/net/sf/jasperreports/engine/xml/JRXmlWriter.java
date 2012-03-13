@@ -1659,6 +1659,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 *
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	private void writePlot(JRChartPlot plot) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_plot);

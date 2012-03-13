@@ -83,6 +83,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	protected JRBaseChartPlot(JRChartPlot plot, JRChart chart)
 	{
 		this.chart = chart;
@@ -106,6 +107,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 	/**
 	 *
 	 */
+	@SuppressWarnings("deprecation")
 	protected JRBaseChartPlot(JRChartPlot plot, JRBaseObjectFactory factory)
 	{
 		factory.put(plot, this);
