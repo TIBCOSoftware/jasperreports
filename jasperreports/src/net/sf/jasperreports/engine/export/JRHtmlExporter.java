@@ -201,7 +201,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected Writer writer;
 	protected JRExportProgressMonitor progressMonitor;
 	protected Map<String,String> rendererToImagePathMap;
-	protected Map<Pair,String> imageMaps;
+	protected Map<Pair<String, Rectangle>,String> imageMaps;
 	protected Map<String,byte[]> imageNameToImageDataMap;
 	protected List<JRPrintElementIndex> imagesToProcess;
 	protected boolean isPxImageLoaded;
@@ -344,7 +344,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					);
 	
 			rendererToImagePathMap = new HashMap<String,String>();
-			imageMaps = new HashMap<Pair,String>();
+			imageMaps = new HashMap<Pair<String, Rectangle>,String>();
 			imagesToProcess = new ArrayList<JRPrintElementIndex>();
 			isPxImageLoaded = false;
 	
@@ -2049,7 +2049,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					
 					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 					{
-						imageMapName = imageMaps.get(new Pair(renderer.getId(), renderingArea));
+						imageMapName = imageMaps.get(new Pair<String, Rectangle>(renderer.getId(), renderingArea));
 					}
 	
 					if (imageMapName == null)
@@ -2059,7 +2059,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 						
 						if (renderer.getType() == JRRenderable.TYPE_IMAGE)
 						{
-							imageMaps.put(new Pair(renderer.getId(), renderingArea), imageMapName);
+							imageMaps.put(new Pair<String, Rectangle>(renderer.getId(), renderingArea), imageMapName);
 						}
 					}
 				}
