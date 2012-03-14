@@ -55,10 +55,10 @@ import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
+import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintAnchorIndex;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -786,13 +786,13 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 			{
 				JRPrintElement element = it.next();
 
-				JRImageMapRenderer imageMap = null;
+				ImageMapRenderable imageMap = null;
 				if (element instanceof JRPrintImage)
 				{
 					Renderable renderer = ((JRPrintImage) element).getRenderable();
-					if (renderer instanceof JRImageMapRenderer)
+					if (renderer instanceof ImageMapRenderable)
 					{
-						imageMap = (JRImageMapRenderer) renderer;
+						imageMap = (ImageMapRenderable) renderer;
 						if (!imageMap.hasImageAreaHyperlinks())
 						{
 							imageMap = null;
@@ -871,7 +871,7 @@ public class JRViewerPanel extends JPanel implements JRHyperlinkListener, JRView
 
 		protected final List<JRPrintImageAreaHyperlink> imageAreaHyperlinks;
 
-		public ImageMapPanel(Rectangle renderingArea, JRImageMapRenderer imageMap)
+		public ImageMapPanel(Rectangle renderingArea, ImageMapRenderable imageMap)
 		{
 			try
 			{

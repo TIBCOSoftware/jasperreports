@@ -74,12 +74,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		Color backcolor
 		)
 	{
-		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
-		if (renderable == null)
-		{
-			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderer);
-		}
-		this.renderer = renderable;
+		this.renderer = RenderableUtil.getWrappingRenderable(renderer);
 		this.elementDimension = elementDimension;
 		this.backcolor = backcolor;
 	}

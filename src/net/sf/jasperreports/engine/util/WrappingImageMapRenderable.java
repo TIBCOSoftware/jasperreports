@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.renderers;
+package net.sf.jasperreports.engine.util;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -30,48 +30,52 @@ import java.util.List;
 import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageRenderer;
+import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 
 /**
- * @author Sanda Zaharia (shertage@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRAbstractRenderer.java 5050 2012-03-12 10:11:26Z teodord $
+ * @deprecated To be removed.
  */
-public class JRSimpleImageMapRenderer extends JRImageRenderer implements ImageMapRenderable
+public class WrappingImageMapRenderable extends WrappingRenderable implements ImageMapRenderable
 {
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-	
-	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
-	
 	/**
-	 * 
+	 *
 	 */
-	public JRSimpleImageMapRenderer(byte[] imageData, List<JRPrintImageAreaHyperlink> areaHyperlinks) 
-	{
-		super(imageData);
-		this.areaHyperlinks = areaHyperlinks;
-	}
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	/**
-	 * @deprecated To be removed.
+	 *
 	 */
-	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(grx, rectangle);
-		
-		return areaHyperlinks;
-	}
+	private JRImageMapRenderer imageMapRenderer;
+	
 	
 	/**
 	 *
 	 */
-	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException 
+	public WrappingImageMapRenderable(JRImageMapRenderer imageMapRenderer)
 	{
-		return areaHyperlinks;
+		super(imageMapRenderer);
+		this.imageMapRenderer = imageMapRenderer;
 	}
 
-	public boolean hasImageAreaHyperlinks()
-	{
-		return areaHyperlinks != null && !areaHyperlinks.isEmpty();
+
+	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx,
+			Rectangle2D rectangle) throws JRException {
+		return imageMapRenderer.renderWithHyperlinks(grx, rectangle);
 	}
+
+
+	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(
+			Rectangle2D renderingArea) throws JRException {
+		return imageMapRenderer.getImageAreaHyperlinks(renderingArea);
+	}
+
+
+	public boolean hasImageAreaHyperlinks() {
+		return imageMapRenderer.hasImageAreaHyperlinks();
+	}
+
+
 }

@@ -57,11 +57,11 @@ import java.util.Map;
 
 import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRImageRenderer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
@@ -1979,8 +1979,8 @@ public class JRHtmlExporter extends JRAbstractExporter
 		Renderable renderer = image.getRenderable();
 		Renderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null 
-				&& renderer instanceof JRImageMapRenderer
-				&& ((JRImageMapRenderer) renderer).hasImageAreaHyperlinks();
+				&& renderer instanceof ImageMapRenderable
+				&& ((ImageMapRenderable) renderer).hasImageAreaHyperlinks();
 
 		boolean hasHyperlinks = false;
 
@@ -2055,7 +2055,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 					if (imageMapName == null)
 					{
 						imageMapName = "map_" + getElementIndex(gridCell).toString();
-						imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
+						imageMapAreas = ((ImageMapRenderable) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 						
 						if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 						{

@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @deprecated
+ * @deprecated Replaced by {@link Renderable}.
  */
 public interface JRRenderable extends Serializable
 {

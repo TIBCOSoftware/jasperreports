@@ -38,10 +38,10 @@ import java.net.URLStreamHandlerFactory;
 import java.util.List;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.ImageMapRenderable;
 import net.sf.jasperreports.engine.JRAbstractSvgRenderer;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRImageMapRenderer;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -68,7 +68,7 @@ import org.w3c.dom.svg.SVGPreserveAspectRatio;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRenderer
+public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRenderable
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
@@ -235,7 +235,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	}
 	
 	/**
-	 * 
+	 * @deprecated To be removed.
 	 */
 	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException
 	{
@@ -245,7 +245,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements JRImageMapRe
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
+	 *
 	 */
 	public List<JRPrintImageAreaHyperlink> getImageAreaHyperlinks(Rectangle2D renderingArea) throws JRException
 	{

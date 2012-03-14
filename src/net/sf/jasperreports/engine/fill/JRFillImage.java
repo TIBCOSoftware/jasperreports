@@ -519,8 +519,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				else if (deprecatedRenderable != null)
 				{
 					@SuppressWarnings("deprecation")
-					net.sf.jasperreports.engine.util.WrappingRenderable wrappingRenderable = 
-						new net.sf.jasperreports.engine.util.WrappingRenderable(deprecatedRenderable);
+					Renderable wrappingRenderable = 
+						RenderableUtil.getWrappingRenderable(deprecatedRenderable);
 					newRenderer = wrappingRenderable;
 				}
 				else
