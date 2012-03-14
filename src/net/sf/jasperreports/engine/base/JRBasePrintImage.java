@@ -140,7 +140,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
 		if (renderable == null)
 		{
-			//renderable = new  //FIXMECONTEXT
+			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderable);
 		}
 		setRenderable(renderable);
 	}
@@ -564,6 +564,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	private net.sf.jasperreports.engine.JRRenderable renderer;
 
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -636,7 +637,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 			}
 			else
 			{
-				//FIXMECONTEXT
+				renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderer);
 			}
 		}
 	}

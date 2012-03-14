@@ -127,7 +127,12 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	 */
 	public void setRenderer(net.sf.jasperreports.engine.JRRenderable renderer)
 	{
-		this.renderer = renderer;//FIXMECONTEXT
+		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
+		if (renderable == null)
+		{
+			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderable);
+		}
+		setRenderable(renderable);
 	}
 		
 	/**
@@ -411,13 +416,13 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 	/*
 	 * These fields are only for serialization backward compatibility.
 	 */
-	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
 	/**
 	 * @deprecated
 	 */
 	private net.sf.jasperreports.engine.JRRenderable renderer;
 
 	
+	@SuppressWarnings("deprecation")
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		in.defaultReadObject();
@@ -430,7 +435,7 @@ public class JRTemplatePrintImage extends JRTemplatePrintGraphicElement implemen
 			}
 			else
 			{
-				//FIXMECONTEXT
+				renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderer);
 			}
 		}
 	}
