@@ -79,7 +79,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -93,6 +92,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.ScaleImageEnum;
@@ -490,7 +490,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	
 						JRPrintImage image = getImage(jasperPrintList, imageIndex);
 						Renderable renderer = image.getRenderable();
-						if (renderer.getType() == JRRenderable.TYPE_SVG)
+						if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 						{
 							renderer =
 								new JRWrappingSvgRenderer(
@@ -1857,7 +1857,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		}
 		
 		Renderable renderer = image.getRenderable();
-		JRRenderable originalRenderer = renderer;
+		Renderable originalRenderer = renderer;
 		boolean imageMapRenderer = renderer != null 
 				&& renderer instanceof JRImageMapRenderer
 				&& ((JRImageMapRenderer) renderer).hasImageAreaHyperlinks();
@@ -1885,7 +1885,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			
 			if (renderer != null)
 			{
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 				{
 					imagePath = rendererToImagePathMap.get(renderer.getId());
 				}
@@ -1906,7 +1906,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						//backward compatibility with the IMAGE_MAP parameter
 						if (imageNameToImageDataMap != null)
 						{
-							if (renderer.getType() == JRRenderable.TYPE_SVG)
+							if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 							{
 								renderer =
 									new JRWrappingSvgRenderer(
@@ -1927,7 +1927,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				{
 					Rectangle renderingArea = new Rectangle(image.getWidth(), image.getHeight());
 					
-					if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+					if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 					{
 						imageMapName = imageMaps.get(new Pair<String,Rectangle>(renderer.getId(), renderingArea));
 					}
@@ -1937,7 +1937,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						imageMapName = "map_" + getElementIndex().toString();
 						imageMapAreas = ((JRImageMapRenderer) originalRenderer).getImageAreaHyperlinks(renderingArea);//FIXMECHART
 						
-						if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+						if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 						{
 							imageMaps.put(new Pair<String,Rectangle>(renderer.getId(), renderingArea), imageMapName);
 						}

@@ -96,7 +96,6 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintLine;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -112,9 +111,11 @@ import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -1028,7 +1029,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				// Image renderers are all asked for their image data and dimension at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
@@ -1117,7 +1118,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			{
 				case CLIP:
 				{
-					int dpi = getPropertiesUtil().getIntegerProperty(JRRenderable.PROPERTY_IMAGE_DPI, 72);
+					int dpi = getPropertiesUtil().getIntegerProperty(Renderable.PROPERTY_IMAGE_DPI, 72);
 					double scale = dpi/72d;
 					
 					BufferedImage bi = 
@@ -1154,7 +1155,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					bottomOffset = bottomPadding;
 					rightOffset = rightPadding;
 
-					imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, JRRenderable.IMAGE_TYPE_PNG);
+					imageData = JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, ImageTypeEnum.PNG);
 
 					break;
 				}

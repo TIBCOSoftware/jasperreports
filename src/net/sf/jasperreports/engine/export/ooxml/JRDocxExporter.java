@@ -59,7 +59,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
@@ -80,13 +79,14 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
-import net.sf.jasperreports.engine.util.JRTypeSniffer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -404,7 +404,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 				JRPrintImage image = getImage(jasperPrintList, imageIndex);
 				Renderable renderer = image.getRenderable();
-				if (renderer.getType() == JRRenderable.TYPE_SVG)
+				if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 				{
 					renderer =
 						new JRWrappingSvgRenderer(
@@ -414,10 +414,10 @@ public class JRDocxExporter extends JRAbstractExporter
 							);
 				}
 
-				String mimeType = JRTypeSniffer.getImageMimeType(renderer.getImageType());
+				String mimeType = renderer.getImageTypeValue().getMimeType();
 				if (mimeType == null)
 				{
-					mimeType = JRRenderable.MIME_TYPE_JPEG;
+					mimeType = ImageTypeEnum.JPEG.getMimeType();
 				}
 				String extension = mimeType.substring(mimeType.lastIndexOf('/') + 1);
 				
@@ -836,7 +836,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				// Non-lazy image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
@@ -1045,13 +1045,13 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public String getImagePath(JRRenderable renderer, boolean isLazy, JRExporterGridCell gridCell)
+	public String getImagePath(Renderable renderer, boolean isLazy, JRExporterGridCell gridCell)
 	{
 		String imagePath = null;
 
 		if (renderer != null)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer.getId()))
 			{
 				imagePath = rendererToImagePathMap.get(renderer.getId());
 			}

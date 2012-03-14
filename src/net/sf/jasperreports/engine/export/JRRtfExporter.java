@@ -68,7 +68,6 @@ import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
@@ -78,9 +77,11 @@ import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -1098,7 +1099,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				// Image renderers are all asked for their image data at some point.
 				// Better to test and replace the renderer now, in case of lazy load error.
@@ -1112,7 +1113,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		if (renderer != null)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_SVG)
+			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 			{
 				renderer =
 					new JRWrappingSvgRenderer(
@@ -1272,7 +1273,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			exportHyperlink(printImage);
 			
 			writer.write("{\\sp{\\sn pib}{\\sv {\\pict");
-			if (renderer.getImageType() == JRRenderable.IMAGE_TYPE_JPEG)
+			if (renderer.getImageTypeValue() == ImageTypeEnum.JPEG)
 			{
 				writer.write("\\jpegblip");
 			}

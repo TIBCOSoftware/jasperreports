@@ -34,13 +34,37 @@ import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRRenderable.java 4988 2012-02-09 10:48:26Z teodord $
  */
+@SuppressWarnings("deprecation")
 public interface Renderable extends JRRenderable
 {
+	/**
+	 * Specifies the image resolution in dots-per-inch, for the images created by the engine when rasterizing SVGs or when clipping other renderers.
+	 */
+	public static final String PROPERTY_IMAGE_DPI = JRPropertiesUtil.PROPERTY_PREFIX + "image.dpi";
+
+	/**
+	 *
+	 */
+	public String getId();
+
+	/**
+	 *
+	 */
+	public RenderableTypeEnum getTypeValue();
+
+	/**
+	 *
+	 */
+	public ImageTypeEnum getImageTypeValue();
+
 	/**
 	 *
 	 */

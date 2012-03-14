@@ -78,7 +78,6 @@ import net.sf.jasperreports.engine.JRPrintRectangle;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
@@ -93,6 +92,7 @@ import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
 import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -218,7 +218,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected Map<JRRenderable,com.lowagie.text.Image> loadedImagesMap;
+	protected Map<Renderable,com.lowagie.text.Image> loadedImagesMap;
 	protected Image pxImage;
 
 	private BookmarkStack bookmarkStack;
@@ -642,7 +642,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 			{
 				setJasperPrint(jasperPrintList.get(reportIndex));
-				loadedImagesMap = new HashMap<JRRenderable,com.lowagie.text.Image>();
+				loadedImagesMap = new HashMap<Renderable,com.lowagie.text.Image>();
 				
 				Rectangle pageSize;
 				switch (jasperPrint.getOrientationValue())
@@ -1201,7 +1201,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			availableImageHeight > 0
 			)
 		{
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				// Image renderers are all asked for their image data at some point. 
 				// Better to test and replace the renderer now, in case of lazy load error.
@@ -1223,7 +1223,7 @@ public class JRPdfExporter extends JRAbstractExporter
 			float scaledWidth = availableImageWidth;
 			float scaledHeight = availableImageHeight;
 
-			if (renderer.getType() == JRRenderable.TYPE_IMAGE)
+			if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE)
 			{
 				com.lowagie.text.Image image = null;
 

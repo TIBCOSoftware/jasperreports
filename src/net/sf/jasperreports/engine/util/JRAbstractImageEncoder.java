@@ -28,7 +28,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
@@ -42,7 +42,7 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 	/**
 	 *
 	 */
-	public byte[] encode(Image image, byte imageType) throws JRException
+	public byte[] encode(Image image, ImageTypeEnum imageType) throws JRException
 	{
 		BufferedImage bi = null;
 		
@@ -58,7 +58,7 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 					image.getHeight(null),
 					// avoid creating JPEG images with transparency that would result 
 					// in invalid image files for some viewers (browsers)
-					(imageType == JRRenderable.IMAGE_TYPE_GIF || imageType == JRRenderable.IMAGE_TYPE_PNG)  
+					(imageType == ImageTypeEnum.GIF || imageType == ImageTypeEnum.PNG)  
 						? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
 					);
 
@@ -74,7 +74,7 @@ public abstract class JRAbstractImageEncoder implements JRImageEncoder
 	/**
 	 *
 	 */
-	public abstract byte[] encode(BufferedImage bi, byte imageType) throws JRException;
+	public abstract byte[] encode(BufferedImage bi, ImageTypeEnum imageType) throws JRException;
 
 
 }

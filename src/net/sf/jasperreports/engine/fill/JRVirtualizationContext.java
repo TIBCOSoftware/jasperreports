@@ -37,7 +37,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizationHelper;
@@ -71,7 +70,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 
 	private transient JRVirtualizer virtualizer;
 	
-	private Map<String,JRRenderable> cachedRenderers;
+	private Map<String,Renderable> cachedRenderers;
 	private Map<String,JRTemplateElement> cachedTemplates;
 	
 	private volatile boolean readOnly;
@@ -90,7 +89,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 */
 	public JRVirtualizationContext()
 	{
-		cachedRenderers = new ConcurrentHashMap<String,JRRenderable>(16, 0.75f, 1);
+		cachedRenderers = new ConcurrentHashMap<String,Renderable>(16, 0.75f, 1);
 		cachedTemplates = new ConcurrentHashMap<String,JRTemplateElement>(16, 0.75f, 1);
 		
 		pageElementSize = JRProperties.getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
@@ -192,7 +191,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	 * @param id the ID
 	 * @return the cached image renderer for the ID
 	 */
-	public JRRenderable getCachedRenderer(String id)
+	public Renderable getCachedRenderer(String id)
 	{
 		return cachedRenderers.get(id);
 	}
@@ -363,7 +362,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		GetField fields = in.readFields();
-		cachedRenderers = (Map<String, JRRenderable>) fields.get("cachedRenderers", null);
+		cachedRenderers = (Map<String, Renderable>) fields.get("cachedRenderers", null);
 		cachedTemplates = (Map<String, JRTemplateElement>) fields.get("cachedTemplates", null);
 		readOnly = fields.get("readOnly", false);
 		// use configured default if serialized by old version
@@ -446,9 +445,9 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 				}
 			}
 		}
-		else if (obj instanceof JRRenderable)
+		else if (obj instanceof Renderable)
 		{
-			JRRenderable renderer = (JRRenderable) obj;
+			Renderable renderer = (Renderable) obj;
 			if (hasCachedRenderer(renderer.getId()))
 			{
 				replace = new JRVirtualPrintPage.JRIdHolderRenderer(renderer);
@@ -473,7 +472,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		else if (obj instanceof JRVirtualPrintPage.JRIdHolderRenderer)
 		{
 			JRVirtualPrintPage.JRIdHolderRenderer renderer = (JRVirtualPrintPage.JRIdHolderRenderer) obj;
-			JRRenderable cachedRenderer = getCachedRenderer(renderer.getId());
+			Renderable cachedRenderer = getCachedRenderer(renderer.getId());
 			if (cachedRenderer == null)
 			{
 				throw new JRRuntimeException("Renderer " + renderer.getId() + " not found in virtualization context.");

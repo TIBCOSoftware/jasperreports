@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
@@ -137,13 +138,22 @@ public final class JRImageLoader
 
 
 	/**
+	 * @deprecated Replaced by {@link #loadBytesFromAwtImage(Image, ImageTypeEnum)}.
+	 */
+	public byte[] loadBytesFromAwtImage(Image image, byte imageType) throws JRException
+	{
+		return loadBytesFromAwtImage(image, ImageTypeEnum.getByValue(imageType));
+	}
+
+
+	/**
 	 * Encoding the image object using an image encoder that supports the supplied image type.
 	 * 
 	 * @param image the java.awt.Image object to encode
 	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
 	 * @return the encoded image data
 	 */
-	public byte[] loadBytesFromAwtImage(Image image, byte imageType) throws JRException
+	public byte[] loadBytesFromAwtImage(Image image, ImageTypeEnum imageType) throws JRException
 	{
 		return imageEncoder.encode(image, imageType);
 	}
