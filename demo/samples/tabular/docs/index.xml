@@ -28,16 +28,16 @@ How to create tables using text elements and their border.
 <subtitle name="overview">Table-like Structures - Overview</subtitle>
 <br/>
 <br/>
-When data has to be organized in distinct rows and columns in order to be displayed a table structure should be created, or at 
-least emulated. Until the built-in <a href="../table/index.html">table component</a> was included in the JasperReports library, 
+Whenever data has to be organized in distinct rows and columns, a table structure should be created, or at least emulated, in order to 
+display these data. Before the built-in <a href="../table/index.html">table component</a> being included in the JasperReports library, 
 the most common way to represent tabular data was to create table-like structures based on particular styles and layout configuration 
-of the report elements. For instance, if elements in a detail band are configured with the same y-coordinate and the same height, they 
-will result perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, generating 
+of the report elements. For instance, if elements in a detail band are configured to share the same y-coordinate and the same height, they 
+will result as perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, leading to 
 a table-like structure organized in rows and columns.
 <br/>
-In order to obtain excellent results with table-like structures, it's recommended to carefully set the involved layout attributes and styles, 
-in order to get elements perfectly aligned, horizontally and vertically. Styles could be used to individualize cell borders, backgrounds, 
-forecolors, cell paddings, alternative row colors, etc.
+To obtain excellent results with table-like structures, it's recommended to carefully set the involved layout attributes and styles, 
+in order to get elements perfectly aligned, horizontally and vertically. Styles and <code>box</code> elements may also be used to 
+individualize cell borders, backgrounds, forecolors, cell paddings, alternative row colors, etc.
 <br/>
 Attributes that should be carefully handled are:
 <ul>
