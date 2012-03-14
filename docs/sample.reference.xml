@@ -58,7 +58,7 @@
       <feature name="map" sample="map" title="Using the Built-in Map Component"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
       <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
-      <feature name="table" sample="table" title="Using the Built-in Table Component" complete="false"/>
+      <feature name="table" sample="table" title="Using the Built-in Table Component"/>
     </content>
   </category>
   
