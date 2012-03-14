@@ -35,7 +35,7 @@ of the report elements. For instance, if elements in a detail band are configure
 will result as perfectly aligned in a row at runtime. This row layout is then repeated for each iteration through the datasource, leading to 
 a table-like structure organized in rows and columns.
 <br/>
-To obtain excellent results with table-like structures, it's recommended to carefully set the involved layout attributes and styles, 
+To obtain excellent results with table-like structures, it's recommended to carefully set the related layout attributes and styles, 
 in order to get elements perfectly aligned, horizontally and vertically. Styles and <code>box</code> elements may also be used to 
 individualize cell borders, backgrounds, forecolors, cell paddings, alternative row colors, etc.
 <br/>
