@@ -140,7 +140,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
 		if (renderable == null)
 		{
-			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderable);
+			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderer);
 		}
 		setRenderable(renderable);
 	}
