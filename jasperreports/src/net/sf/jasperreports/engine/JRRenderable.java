@@ -95,19 +95,19 @@ public interface JRRenderable extends Serializable
 	/**
 	 * @deprecated Replaced by {@link ImageTypeEnum#GIF}.
 	 */
-	public static final String MIME_TYPE_GIF  = ImageTypeEnum.GIF.getMimeType();
+	public static final String MIME_TYPE_GIF  = "image/gif";
 	/**
 	 * @deprecated Replaced by {@link ImageTypeEnum#JPEG}.
 	 */
-	public static final String MIME_TYPE_JPEG = ImageTypeEnum.JPEG.getMimeType();
+	public static final String MIME_TYPE_JPEG = "image/jpeg";
 	/**
 	 * @deprecated Replaced by {@link ImageTypeEnum#PNG}.
 	 */
-	public static final String MIME_TYPE_PNG  = ImageTypeEnum.PNG.getMimeType();
+	public static final String MIME_TYPE_PNG  = "image/png";
 	/**
 	 * @deprecated Replaced by {@link ImageTypeEnum#TIFF}.
 	 */
-	public static final String MIME_TYPE_TIFF = ImageTypeEnum.TIFF.getMimeType();
+	public static final String MIME_TYPE_TIFF = "image/tiff";
 	
 
 	/**

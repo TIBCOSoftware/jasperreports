@@ -473,6 +473,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			}
 			else
 			{
+				@SuppressWarnings("deprecation")
+				net.sf.jasperreports.engine.JRRenderable deprecatedRenderable = 
+					source instanceof net.sf.jasperreports.engine.JRRenderable 
+					? (net.sf.jasperreports.engine.JRRenderable)source 
+					: null;
+
 				if (source instanceof Image)
 				{
 					Image img = (Image) source;
@@ -510,9 +516,12 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					newRenderer = (Renderable) source;
 				}
-				else if (source instanceof net.sf.jasperreports.engine.JRRenderable)
+				else if (deprecatedRenderable != null)
 				{
-					//FIXMECONTEXT newRenderer = (JRRenderable) source;
+					@SuppressWarnings("deprecation")
+					net.sf.jasperreports.engine.util.WrappingRenderable wrappingRenderable = 
+						new net.sf.jasperreports.engine.util.WrappingRenderable(deprecatedRenderable);
+					newRenderer = wrappingRenderable;
 				}
 				else
 				{

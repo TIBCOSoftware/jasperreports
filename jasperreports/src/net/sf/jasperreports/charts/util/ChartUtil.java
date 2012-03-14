@@ -269,7 +269,9 @@ public final class ChartUtil
 			ChartHyperlinkProvider chartHyperlinkProvider,
 			Rectangle2D rectangle) 
 		{
-			return null;//FIXMECONTEXT wrap renderable
+			net.sf.jasperreports.engine.JRRenderable deprecatedRenderer 
+				= getRenderer(chart, chartHyperlinkProvider, rectangle);
+			return deprecatedRenderer == null ? null : new net.sf.jasperreports.engine.util.WrappingRenderable(deprecatedRenderer);
 		}
 	}
 }
