@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
+import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
@@ -271,7 +272,7 @@ public final class ChartUtil
 		{
 			net.sf.jasperreports.engine.JRRenderable deprecatedRenderer 
 				= getRenderer(chart, chartHyperlinkProvider, rectangle);
-			return deprecatedRenderer == null ? null : new net.sf.jasperreports.engine.util.WrappingRenderable(deprecatedRenderer);
+			return RenderableUtil.getWrappingRenderable(deprecatedRenderer);
 		}
 	}
 }

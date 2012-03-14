@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -31,17 +30,16 @@ import java.util.List;
 /**
  * Image renderer able to produce image maps.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
- * @deprecated Replaced by {@link ImageMapRenderable}.
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: JRImageMapRenderer.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public interface JRImageMapRenderer extends JRRenderable
+@SuppressWarnings("deprecation")
+public interface ImageMapRenderable extends Renderable, JRImageMapRenderer
 {
 
 	/**
 	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
 	 *
-	 * @deprecated Replaced by {@link #renderWithHyperlinks(Graphics2D, Rectangle2D)}
 	 * @param renderingArea the area on which the image would be rendered
 	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
 	 * @throws JRException
@@ -54,14 +52,5 @@ public interface JRImageMapRenderer extends JRRenderable
 	 * @return whether the renderer actually includes any image map areas
 	 */
 	boolean hasImageAreaHyperlinks();
-	
-	/**
-	 * Returns the list of {@link JRPrintImageAreaHyperlink image map areas}.
-	 * 
-	 * @param rectangle the area on which the image would be rendered
-	 * @return a list of {@link JRPrintImageAreaHyperlink JRPrintImageAreaHyperlink} instances.
-	 * @throws JRException
-	 */
-	public List<JRPrintImageAreaHyperlink> renderWithHyperlinks(Graphics2D grx, Rectangle2D rectangle) throws JRException;
 
 }

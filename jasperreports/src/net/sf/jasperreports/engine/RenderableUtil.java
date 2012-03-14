@@ -293,4 +293,38 @@ public class RenderableUtil
 	}
 
 
+	/**
+	 * @deprecated To be removed.
+	 */
+	public static Renderable getWrappingRenderable(JRRenderable deprecatedRenderer)
+	{
+		Renderable renderable = null;
+		if (deprecatedRenderer != null)
+		{
+			renderable = deprecatedRenderer instanceof Renderable ? (Renderable)deprecatedRenderer : null;
+			if (renderable == null)
+			{
+				renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(deprecatedRenderer);
+			}
+		}
+		return renderable;
+	}
+
+
+	/**
+	 * @deprecated To be removed.
+	 */
+	public static Renderable getWrappingRenderable(JRImageMapRenderer deprecatedRenderer)
+	{
+		Renderable renderable = null;
+		if (deprecatedRenderer != null)
+		{
+			renderable = deprecatedRenderer instanceof Renderable ? (Renderable)deprecatedRenderer : null;
+			if (renderable == null)
+			{
+				renderable = new net.sf.jasperreports.engine.util.WrappingImageMapRenderable(deprecatedRenderer);
+			}
+		}
+		return renderable;
+	}
 }
