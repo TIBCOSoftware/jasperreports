@@ -21,6 +21,7 @@ How to render simple listings using the built-in list component and a subdataset
     	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
+    <otherSample ref="table"/>
     <content>
 <subtitle name="overview">The Built-in List Component - Overview</subtitle>
 <br/>
