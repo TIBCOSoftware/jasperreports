@@ -27,9 +27,10 @@ How to render tabular data using the built-in table component and a subdataset.
 <subtitle name="overview">The Built-in Table Component - Overview</subtitle>
 <br/>
 <br/>
-Tables represent one of the most popular layout for data reporting, especially when numeric data are involved. Usually, tables 
-consists in a group of distinct columns with the same number of rows, populated with data. Such kind of simple tabular layout 
-can be designed either using report elements along with their border to form a table-like structure (as shown in the 
+Tables represent one of the most popular layout for data reporting, especially when numeric data are involved. Tables are 
+necessary when data has to be organized in distinct rows and columns in order to be displayed. One could consider tables as 
+groups of distinct columns sharing the same number of rows, populated with significant data. Such kind of simple tabular layout 
+could be designed using either report elements along with their border to form a table-like structure (as shown in the 
 <a href="../tabular/index.html">Tabular Sample</a>), or a built-in list component with elements organized on a row in the list content 
 (see the <a href="../list/index.html">Built-in List Component Sample</a>).
 <br/>
