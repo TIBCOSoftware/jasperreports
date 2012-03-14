@@ -77,7 +77,7 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
 		if (renderable == null)
 		{
-			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderable);
+			renderable = new net.sf.jasperreports.engine.util.WrappingRenderable(renderer);
 		}
 		this.renderer = renderable;
 		this.elementDimension = elementDimension;
