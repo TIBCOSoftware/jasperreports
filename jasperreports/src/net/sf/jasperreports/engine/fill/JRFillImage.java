@@ -40,7 +40,6 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -511,7 +510,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 				{
 					newRenderer = (Renderable) source;
 				}
-				else if (source instanceof JRRenderable)
+				else if (source instanceof net.sf.jasperreports.engine.JRRenderable)
 				{
 					//FIXMECONTEXT newRenderer = (JRRenderable) source;
 				}

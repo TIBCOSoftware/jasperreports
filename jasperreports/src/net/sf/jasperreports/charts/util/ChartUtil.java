@@ -38,7 +38,6 @@ import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintImageArea;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
@@ -255,7 +254,7 @@ public final class ChartUtil
 			this.factory = factory;
 		}
 
-		public JRRenderable getRenderer(
+		public net.sf.jasperreports.engine.JRRenderable getRenderer(
 			JFreeChart chart,
 			ChartHyperlinkProvider chartHyperlinkProvider,
 			Rectangle2D rectangle

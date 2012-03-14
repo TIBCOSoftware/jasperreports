@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.util;
 import java.awt.Image;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
@@ -39,6 +40,6 @@ public interface JRImageEncoder
 	/**
 	 *
 	 */
-	public byte[] encode(Image image, byte imageType) throws JRException;
+	public byte[] encode(Image image, ImageTypeEnum imageType) throws JRException;
 
 }

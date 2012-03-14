@@ -32,12 +32,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -62,7 +66,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	private byte[] imageData;
 	private String imageLocation;
-	private byte imageType = IMAGE_TYPE_UNKNOWN;
+	private ImageTypeEnum imageTypeValue = ImageTypeEnum.UNKNOWN;
 
 	/**
 	 *
@@ -79,7 +83,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 		
 		if(imageData != null) 
 		{
-			imageType = JRTypeSniffer.getImageType(imageData);
+			imageTypeValue = JRTypeSniffer.getImageTypeValue(imageData);
 		}
 			
 	}
@@ -165,11 +169,11 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(Image img, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte type = JRRenderable.IMAGE_TYPE_JPEG;
+		ImageTypeEnum type = ImageTypeEnum.JPEG;
 		if (img instanceof RenderedImage)
 		{
 			ColorModel colorModel = ((RenderedImage) img).getColorModel();
@@ -177,11 +181,11 @@ public class JRImageRenderer extends JRAbstractRenderer
 			if (colorModel.hasAlpha() 
 					&& colorModel.getTransparency() != Transparency.OPAQUE)
 			{
-				type = JRRenderable.IMAGE_TYPE_PNG;
+				type = ImageTypeEnum.PNG;
 			}
 		}
 		
-		return getInstance(img, type, onErrorType);
+		return getInstance(img, type.getValue(), onErrorType);
 	}
 
 
@@ -209,7 +213,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(InputStream, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -225,7 +229,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(URL, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(URL url, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -241,7 +245,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(File, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(File file, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -379,18 +383,39 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTypeValue()}.
 	 */
 	public byte getType()
 	{
-		return TYPE_IMAGE;
+		return getTypeValue().getValue();
 	}
 	
 	
-	public byte getImageType() {
-		return imageType;
+	/**
+	 * @deprecated Replaced by {@link #getImageTypeValue()}.
+	 */
+	public byte getImageType() 
+	{
+		return getImageTypeValue().getValue();
 	}
 	
+
+	/**
+	 *
+	 */
+	public RenderableTypeEnum getTypeValue()
+	{
+		return RenderableTypeEnum.IMAGE;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public ImageTypeEnum getImageTypeValue()
+	{
+		return imageTypeValue;
+	}
 	
 
 	/**
@@ -422,7 +447,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 			
 			if(imageData != null) 
 			{
-				imageType = JRTypeSniffer.getImageType(imageData);
+				imageTypeValue = JRTypeSniffer.getImageTypeValue(imageData);
 			}
 		}
 
@@ -465,5 +490,24 @@ public class JRImageRenderer extends JRAbstractRenderer
 			);
 	}
 
+	
+	/*
+	 * These fields are only for serialization backward compatibility.
+	 */
+	private int PSEUDO_SERIAL_VERSION_UID = JRConstants.PSEUDO_SERIAL_VERSION_UID; //NOPMD
+	/**
+	 * @deprecated
+	 */
+	private byte imageType;
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (PSEUDO_SERIAL_VERSION_UID < JRConstants.PSEUDO_SERIAL_VERSION_UID_4_6_0)
+		{
+			imageTypeValue = ImageTypeEnum.getByValue(imageType);
+		}
+	}
 
 }

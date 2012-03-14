@@ -40,12 +40,15 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.fill.JRTemplateElement;
 import net.sf.jasperreports.engine.fill.JRVirtualizationContext;
 import net.sf.jasperreports.engine.fill.VirtualizationObjectInputStream;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -142,13 +145,13 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 	 * virtualization context based on the ID.
 	 */
 	// we have to keep these two classes here so that we're able to deserialize old reports
-	public static class JRIdHolderRenderer implements JRRenderable
+	public static class JRIdHolderRenderer implements Renderable
 	{
 		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 		
 		protected final String id;
 		
-		public JRIdHolderRenderer(JRRenderable renderer)
+		public JRIdHolderRenderer(Renderable renderer)
 		{
 			this.id = renderer.getId();
 		}
@@ -158,27 +161,56 @@ public class JRVirtualPrintPage implements JRPrintPage, Serializable
 			return id;
 		}
 
+		@SuppressWarnings("deprecation")
 		public byte getType()
 		{
-			return TYPE_IMAGE;
+			return RenderableTypeEnum.IMAGE.getValue();
 		}
 
+		@SuppressWarnings("deprecation")
 		public byte getImageType()
 		{
-			return IMAGE_TYPE_UNKNOWN;
+			return ImageTypeEnum.UNKNOWN.getValue();
 		}
 
+		@SuppressWarnings("deprecation")
 		public Dimension2D getDimension() throws JRException
 		{
 			return null;
 		}
 
+		@SuppressWarnings("deprecation")
 		public byte[] getImageData() throws JRException
 		{
 			return null;
 		}
 
+		@SuppressWarnings("deprecation")
 		public void render(Graphics2D grx, Rectangle2D rectanle) throws JRException
+		{
+		}
+
+		public RenderableTypeEnum getTypeValue()
+		{
+			return RenderableTypeEnum.IMAGE;
+		}
+
+		public ImageTypeEnum getImageTypeValue()
+		{
+			return ImageTypeEnum.UNKNOWN;
+		}
+
+		public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
+		{
+			return null;
+		}
+
+		public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
+		{
+			return null;
+		}
+
+		public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectanle) throws JRException
 		{
 		}
 	}

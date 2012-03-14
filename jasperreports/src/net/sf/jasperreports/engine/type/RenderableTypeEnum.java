@@ -21,99 +21,86 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine;
+package net.sf.jasperreports.engine.type;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
-
-import net.sf.jasperreports.engine.type.ImageTypeEnum;
-import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-
+import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: ModeEnum.java 4595 2011-09-08 15:55:10Z teodord $
  */
-public abstract class JRAbstractRenderer implements Renderable
+public enum RenderableTypeEnum implements JREnum
 {
+	/**
+	 * Specifies that the renderable is rendering an image.
+	 */ 
+	IMAGE((byte)1, "Image"),
+	
+	/**
+	 * Specifies that the renderable is rendering a SVG.
+	 */ 
+	SVG((byte)2, "SVG");
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	private final transient byte value;
+	private final transient String name;
+
+	private RenderableTypeEnum(byte value, String name)
+	{
+		this.value = value;
+		this.name = name;
+	}
 
 	/**
 	 *
 	 */
-	private String id;
-	
-	
-	/**
-	 *
-	 */
-	public JRAbstractRenderer()
+	public Byte getValueByte()
 	{
-		id = System.currentTimeMillis() + "-" + Math.random();
+		return new Byte(value);
 	}
 	
-
 	/**
 	 *
 	 */
-	public String getId()
+	public final byte getValue()
 	{
-		return id;
+		return value;
 	}
-
 	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public RenderableTypeEnum getTypeValue()
+	public String getName()
 	{
-		return RenderableTypeEnum.getByValue(getType());
+		return name;
 	}
-
-
+	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public ImageTypeEnum getImageTypeValue()
+	public static RenderableTypeEnum getByName(String name)
 	{
-		return ImageTypeEnum.getByValue(getImageType());
+		return (RenderableTypeEnum)EnumUtil.getByName(values(), name);
 	}
-
-
+	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public Dimension2D getDimension(JasperReportsContext jasperReportsContext) throws JRException
+	public static RenderableTypeEnum getByValue(Byte value)
 	{
-		return getDimension();
+		return (RenderableTypeEnum)EnumUtil.getByValue(values(), value);
 	}
-
-
+	
 	/**
 	 *
 	 */
-	@SuppressWarnings("deprecation")
-	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
+	public static RenderableTypeEnum getByValue(byte value)
 	{
-		return getImageData();
+		return getByValue(new Byte(value));
 	}
-
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("deprecation")
-	public void render(JasperReportsContext jasperReportsContext, Graphics2D grx, Rectangle2D rectangle) throws JRException
-	{
-		render(grx, rectangle);
-	}
+	
 }

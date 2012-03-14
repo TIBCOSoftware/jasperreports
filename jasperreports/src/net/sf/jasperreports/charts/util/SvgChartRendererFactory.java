@@ -29,7 +29,6 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
@@ -53,7 +52,7 @@ public class SvgChartRendererFactory implements ChartRenderableFactory
 	/**
 	 * @deprecated Replaced by {@link #getRenderable(JasperReportsContext, JFreeChart, ChartHyperlinkProvider, Rectangle2D)}.
 	 */
-	public JRRenderable getRenderer(
+	public net.sf.jasperreports.engine.JRRenderable getRenderer(
 		JFreeChart chart, 
 		ChartHyperlinkProvider chartHyperlinkProvider,
 		Rectangle2D rectangle

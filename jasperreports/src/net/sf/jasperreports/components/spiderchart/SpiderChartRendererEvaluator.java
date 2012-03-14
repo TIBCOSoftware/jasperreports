@@ -36,7 +36,6 @@ import net.sf.jasperreports.components.charts.ChartCustomizer;
 import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -72,7 +71,7 @@ public class SpiderChartRendererEvaluator
 	/**
 	 * @deprecated Replaced by {@link #evaluateRenderer(JasperReportsContext, JRComponentElement, SpiderChartSharedBean, ChartCustomizer, String, String)}. 
 	 */
-	public static JRRenderable evaluateRenderer(
+	public static net.sf.jasperreports.engine.JRRenderable evaluateRenderer(
 		JRComponentElement element, 
 		SpiderChartSharedBean spiderchartBean, 
 		ChartCustomizer chartCustomizer, 

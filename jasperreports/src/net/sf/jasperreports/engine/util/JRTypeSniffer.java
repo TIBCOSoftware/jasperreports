@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 
 
 /**
@@ -126,65 +126,45 @@ public final class JRTypeSniffer
 	}
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #getImageTypeValue(byte[])}.
 	 */
 	public static byte getImageType(byte[] data) 
 	{
-		if (JRTypeSniffer.isGIF(data)) 
-		{
-			return JRRenderable.IMAGE_TYPE_GIF;
-		}
-		else if (JRTypeSniffer.isJPEG(data)) 
-		{
-			return JRRenderable.IMAGE_TYPE_JPEG;
-		}
-		else if (JRTypeSniffer.isPNG(data)) 
-		{
-			return JRRenderable.IMAGE_TYPE_PNG;
-		}
-		else if (JRTypeSniffer.isTIFF(data)) 
-		{
-			return JRRenderable.IMAGE_TYPE_TIFF;
-		}
-		
-		return JRRenderable.IMAGE_TYPE_UNKNOWN;
+		return getImageTypeValue(data).getValue();
 	}
 
 	/**
-	 *
+	 * 
+	 */
+	public static ImageTypeEnum getImageTypeValue(byte[] data) 
+	{
+		if (JRTypeSniffer.isGIF(data)) 
+		{
+			return ImageTypeEnum.GIF;
+		}
+		else if (JRTypeSniffer.isJPEG(data)) 
+		{
+			return ImageTypeEnum.JPEG;
+		}
+		else if (JRTypeSniffer.isPNG(data)) 
+		{
+			return ImageTypeEnum.PNG;
+		}
+		else if (JRTypeSniffer.isTIFF(data)) 
+		{
+			return ImageTypeEnum.TIFF;
+		}
+		
+		return ImageTypeEnum.UNKNOWN;
+	}
+
+	/**
+	 * @deprecated Replaced by {@link ImageTypeEnum}.
 	 */
 	public static String getImageMimeType(byte imageType) 
 	{
-		String mimeType = null;
-		
-		switch (imageType)
-		{
-			case JRRenderable.IMAGE_TYPE_GIF :
-			{
-				mimeType = JRRenderable.MIME_TYPE_GIF;
-				break;
-			}
-			case JRRenderable.IMAGE_TYPE_JPEG :
-			{
-				mimeType = JRRenderable.MIME_TYPE_JPEG;
-				break;
-			}
-			case JRRenderable.IMAGE_TYPE_PNG :
-			{
-				mimeType = JRRenderable.MIME_TYPE_PNG;
-				break;
-			}
-			case JRRenderable.IMAGE_TYPE_TIFF :
-			{
-				mimeType = JRRenderable.MIME_TYPE_TIFF;
-				break;
-			}
-			default :
-			{
-			}
-		}
-
-		return mimeType;
+		ImageTypeEnum imageTypeEnum = ImageTypeEnum.getByValue(imageType);
+		return imageTypeEnum == null ? null : imageTypeEnum.getMimeType();
 	}
 
 	

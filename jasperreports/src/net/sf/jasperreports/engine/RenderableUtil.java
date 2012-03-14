@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -43,12 +44,6 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  */
 public class RenderableUtil
 {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 	/**
 	 *
 	 */
@@ -131,7 +126,7 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(Image img, OnErrorTypeEnum onErrorType) throws JRException
 	{
-		byte type = JRRenderable.IMAGE_TYPE_JPEG;
+		ImageTypeEnum type = ImageTypeEnum.JPEG;
 		if (img instanceof RenderedImage)
 		{
 			ColorModel colorModel = ((RenderedImage) img).getColorModel();
@@ -139,7 +134,7 @@ public class RenderableUtil
 			if (colorModel.hasAlpha() 
 					&& colorModel.getTransparency() != Transparency.OPAQUE)
 			{
-				type = JRRenderable.IMAGE_TYPE_PNG;
+				type = ImageTypeEnum.PNG;
 			}
 		}
 		
@@ -156,7 +151,7 @@ public class RenderableUtil
 	 * @param onErrorType one of the error type constants defined in the {@link OnErrorTypeEnum}.
 	 * @return the image renderer instance
 	 */
-	public Renderable getRenderable(Image image, byte imageType, OnErrorTypeEnum onErrorType) throws JRException
+	public Renderable getRenderable(Image image, ImageTypeEnum imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
 		try
 		{

@@ -26,7 +26,6 @@ package net.sf.jasperreports.charts.util;
 import java.awt.geom.Rectangle2D;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 
@@ -53,7 +52,7 @@ public class DrawChartRendererFactory implements ChartRenderableFactory
 	/**
 	 * @deprecated Replaced by {@link #getRenderable(JasperReportsContext, JFreeChart, ChartHyperlinkProvider, Rectangle2D)}.
 	 */
-	public JRRenderable getRenderer(
+	public net.sf.jasperreports.engine.JRRenderable getRenderer(
 		JFreeChart chart, 
 		ChartHyperlinkProvider chartHyperlinkProvider, 
 		Rectangle2D rectangle

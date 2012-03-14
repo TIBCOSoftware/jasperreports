@@ -74,7 +74,6 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRWrappingSvgRenderer;
@@ -87,6 +86,7 @@ import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
@@ -142,7 +142,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected String encoding;
 	
 	protected JRExportProgressMonitor progressMonitor;
-	protected Map<JRRenderable,String> rendererToImagePathMap;
+	protected Map<Renderable,String> rendererToImagePathMap;
 	protected Map<String,byte[]> imageNameToImageDataMap;
 //	protected Map fontsMap = new HashMap();
 	protected Map<String,JRStyle> stylesMap = new HashMap<String,JRStyle>();
@@ -317,7 +317,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	{
 		//if (!isEmbeddingImages)
 		{
-			rendererToImagePathMap = new HashMap<JRRenderable,String>();
+			rendererToImagePathMap = new HashMap<Renderable,String>();
 			imageNameToImageDataMap = new HashMap<String,byte[]>();
 		}
 				
@@ -828,7 +828,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	
 			String imageSource = "";
 			
-			if (renderer.getType() == JRRenderable.TYPE_SVG)
+			if (renderer.getTypeValue() == RenderableTypeEnum.SVG)
 			{
 				renderer = 
 					new JRWrappingSvgRenderer(
@@ -861,7 +861,7 @@ public class JRXmlExporter extends JRAbstractExporter
 			}
 			else
 			{
-				if (renderer.getType() == JRRenderable.TYPE_IMAGE && rendererToImagePathMap.containsKey(renderer))
+				if (renderer.getTypeValue() == RenderableTypeEnum.IMAGE && rendererToImagePathMap.containsKey(renderer))
 				{
 					imageSource = rendererToImagePathMap.get(renderer);
 				}

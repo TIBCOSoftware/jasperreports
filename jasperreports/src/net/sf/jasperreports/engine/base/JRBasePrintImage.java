@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
-import net.sf.jasperreports.engine.JRRenderable;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -128,7 +127,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #getRenderable()}.
 	 */
-	public JRRenderable getRenderer()
+	public net.sf.jasperreports.engine.JRRenderable getRenderer()
 	{
 		return getRenderable();
 	}
@@ -136,7 +135,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated Replaced by {@link #setRenderable(Renderable)}.
 	 */
-	public void setRenderer(JRRenderable renderer)
+	public void setRenderer(net.sf.jasperreports.engine.JRRenderable renderer)
 	{
 		Renderable renderable = renderer instanceof Renderable ? (Renderable)renderer : null;
 		if (renderable == null)
@@ -562,7 +561,7 @@ public class JRBasePrintImage extends JRBasePrintGraphicElement implements JRPri
 	/**
 	 * @deprecated
 	 */
-	private JRRenderable renderer;
+	private net.sf.jasperreports.engine.JRRenderable renderer;
 
 	
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException

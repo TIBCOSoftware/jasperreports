@@ -29,6 +29,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
+import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 
 
@@ -46,20 +48,38 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #getTypeValue()}.
 	 */
 	public byte getType()
 	{
-		return TYPE_SVG;
+		return getTypeValue().getValue();
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #getImageTypeValue()}.
+	 */
+	public byte getImageType()
+	{
+		return getImageTypeValue().getValue();
 	}
 
 
 	/**
 	 *
 	 */
-	public byte getImageType()
+	public RenderableTypeEnum getTypeValue()
 	{
-		return IMAGE_TYPE_PNG;
+		return RenderableTypeEnum.SVG;
+	}
+
+
+	/**
+	 *
+	 */
+	public ImageTypeEnum getImageTypeValue()
+	{
+		return ImageTypeEnum.PNG;
 	}
 
 
@@ -110,14 +130,14 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 		Dimension2D dimension = getDimension(jasperReportsContext);
 		if (dimension != null)
 		{
-			byte imageType = getImageType();
+			ImageTypeEnum imageType = getImageTypeValue();
 			BufferedImage bi =
 				new BufferedImage(
 					(int) (scale * dimension.getWidth()),
 					(int) (scale * dimension.getHeight()),
 					// avoid creating JPEG images with transparency that would result 
 					// in invalid image files for some viewers (browsers)
-					(imageType == JRRenderable.IMAGE_TYPE_GIF || imageType == JRRenderable.IMAGE_TYPE_PNG)  
+					(imageType == ImageTypeEnum.GIF || imageType == ImageTypeEnum.PNG)  
 						? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB 
 					);
 
@@ -132,7 +152,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 			render(jasperReportsContext, g, new Rectangle((int)dimension.getWidth(), (int)dimension.getHeight()));
 			g.dispose();
 			
-			return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageType());
+			return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageTypeValue());
 		}
 		return null;
 	}
