@@ -32,7 +32,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -70,15 +69,6 @@ public class CastorUtil
 	private CastorUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static CastorUtil getDefaultInstance()
-	{
-		return new CastorUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
