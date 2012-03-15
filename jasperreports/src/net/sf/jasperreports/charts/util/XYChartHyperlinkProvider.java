@@ -64,7 +64,7 @@ public class XYChartHyperlinkProvider implements ChartHyperlinkProvider
 			{
 				Number x = dataset.getX(itemEntity.getSeriesIndex(), itemEntity.getItem());
 				Number y = dataset.getY(itemEntity.getSeriesIndex(), itemEntity.getItem());
-				Pair xyKey = new Pair(x, y);
+				Pair<Number,Number> xyKey = new Pair<Number,Number>(x, y);
 				printHyperlink = serieHyperlinks.get(xyKey);
 			}
 		}
