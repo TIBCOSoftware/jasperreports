@@ -687,7 +687,8 @@ public final class JasperCompileManager
 
 		try
 		{
-			Constructor  constructor = compilerClass.getConstructor(JasperReportsContext.class);
+			@SuppressWarnings("rawtypes")
+			Constructor  constructor = compilerClass.getConstructor(JasperReportsContext.class);//FIXMECONTEXT check all constructors like that
 			compiler = (JRCompiler)constructor.newInstance(jasperReportsContext);
 		}
 		catch (Exception e)
