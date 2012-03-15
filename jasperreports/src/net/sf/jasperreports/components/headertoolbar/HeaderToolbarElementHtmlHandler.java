@@ -50,11 +50,14 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -120,10 +123,20 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 	
+	
+	private static class CustomJRExporterParameter extends JRExporterParameter{
+
+		protected CustomJRExporterParameter(String name) {
+			super(name);
+		}
+	}
+	
+	private static final CustomJRExporterParameter param = new HeaderToolbarElementHtmlHandler.CustomJRExporterParameter("exporter_first_attempt");
 
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		boolean templateAlreadyLoaded = false;
+		boolean exporterFirstAttempt = true;
 
 		String htmlFragment = null;
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -132,12 +145,22 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			
 			String tableUUID = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_TABLE_UUID);
 			String sortColumnName = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_NAME);
-
+			VelocityContext velocityContext = new VelocityContext();
+			
 			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID) != null) {
 				templateAlreadyLoaded = true;
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID, true);
+				setAllColumnNames(element, context.getJasperReportsContext(), velocityContext);
 			}
+			
+			if (context.getExportParameters().containsKey(param) && (Boolean)context.getExportParameters().get(param)) {
+				exporterFirstAttempt = false;
+			} else {
+				context.getExportParameters().put(param, Boolean.TRUE);
+			}
+			
+			velocityContext.put("exporterFirstAttempt", exporterFirstAttempt);
 			
 			String sortColumnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_LABEL);
 			String sortColumnType = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_TYPE);
@@ -145,6 +168,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			String popupId = (String) element.getParameterValue("popupId");
 			Integer columnIndex = (Integer) element.getParameterValue("columnIndex");
 			
+			velocityContext.put("columnLabel", sortColumnLabel);
 			
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
 			if (filterType == null)//FIXMEJIVE
@@ -190,7 +214,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			
 			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
 			
-			VelocityContext velocityContext = new VelocityContext();
 			velocityContext.put("valuesFormatPatternMap", valuesFormatPatternMap);
 			velocityContext.put("formatPatternLabel", formatPatternLabel);
 			velocityContext.put("templateAlreadyLoaded", templateAlreadyLoaded);
@@ -211,11 +234,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("elementHeight", element.getHeight());
 			velocityContext.put("transparentPixelSrc", imagesResourcePath + HeaderToolbarElementHtmlHandler.RESOURCE_TRANSPARENT_PIXEL);
 			
-			velocityContext.put("isFilterable", filterType != null);
-			velocityContext.put("filterDivId", "filter_" + sortColumnName);
-			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
-			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
-			velocityContext.put("filterColumnName", sortColumnName);
 			velocityContext.put("filterColumnNameLabel", sortColumnLabel != null ? sortColumnLabel : "");
 			velocityContext.put("filterCloseDialogImageResource", imagesResourcePath + HeaderToolbarElementHtmlHandler.RESOURCE_IMAGE_CLOSE);
 			
@@ -521,7 +539,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
 				
-				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnValueTextElement(column);
+				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
 					colValueData.setHeadingName(sortColumnLabel);
@@ -540,6 +558,42 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			}
 		}
 		velocityContext.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colValueData));
+	}
+	public static class ColumnInfo {
+		private String index;
+		private String label;
+		private boolean enabled;
+		
+		private ColumnInfo(String index, String label, boolean enabled) {
+			this.index = index;
+			this.label = label;
+			this.enabled = enabled;
+		}
+		
+		public String getIndex() {
+			return index;
+		}
+		
+		public String getLabel() {
+			return label;
+		}
+		
+		public boolean getEnabled() {
+			return enabled;
+		}
+	}
+
+	private void setAllColumnNames(JRGenericPrintElement element, JasperReportsContext jasperReportsContext, VelocityContext velocityContext) {
+		
+		List<PropertySuffix> props =  JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(element, HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX);
+		Map<String, ColumnInfo> columnNames = new HashMap<String, ColumnInfo>();
+
+		for (PropertySuffix prop: props) {
+			String columnName = prop.getValue() != null ? prop.getValue() : "Column_" + prop.getSuffix();
+			columnNames.put(prop.getSuffix(), new ColumnInfo(prop.getSuffix(), columnName, false));
+		}
+		
+		velocityContext.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
 	}
 
 }
