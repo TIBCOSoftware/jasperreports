@@ -1,0 +1,97 @@
+/*
+ * JasperReports - Free Java Reporting Library.
+ * Copyright (C) 2001 - 2011 Jaspersoft Corporation. All rights reserved.
+ * http://www.jaspersoft.com
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is part of JasperReports.
+ *
+ * JasperReports is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JasperReports is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
+ */
+package net.sf.jasperreports.data.cache;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+/**
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id$
+ */
+public class BigDecimalValues implements ColumnValues, Serializable
+{
+
+	private final ColumnValues unscaledValues;
+	private final ColumnValues scaleValues;
+
+	public BigDecimalValues(ColumnValues unscaledValues,
+			ColumnValues scaleValues)
+	{
+		if (unscaledValues.size() != scaleValues.size())
+		{
+			throw new IllegalArgumentException();
+		}
+		
+		this.unscaledValues = unscaledValues;
+		this.scaleValues = scaleValues;
+	}
+
+	public int size()
+	{
+		return unscaledValues.size();
+	}
+
+	public ColumnValuesIterator iterator()
+	{
+		ColumnValuesIterator unscaledIterator = unscaledValues.iterator();
+		ColumnValuesIterator scaleIterator = scaleValues.iterator();
+		return new BigDecimalValuesIterator(unscaledIterator, scaleIterator);
+	}
+
+}
+
+class BigDecimalValuesIterator implements ColumnValuesIterator
+{
+
+	private final ColumnValuesIterator unscaledIterator;
+	private final ColumnValuesIterator scaleIterator;
+
+	public BigDecimalValuesIterator(ColumnValuesIterator unscaledIterator,
+			ColumnValuesIterator scaleIterator)
+	{
+		this.unscaledIterator = unscaledIterator;
+		this.scaleIterator = scaleIterator;
+	}
+
+	public void moveFirst()
+	{
+		unscaledIterator.moveFirst();
+		scaleIterator.moveFirst();
+	}
+
+	public boolean next()
+	{
+		return unscaledIterator.next() && scaleIterator.next();
+	}
+
+	public Object get()
+	{
+		BigInteger unscaled = (BigInteger) unscaledIterator.get();
+		int scale = ((Number) scaleIterator.get()).intValue();
+		return new BigDecimal(unscaled, scale);
+	}
+
+}

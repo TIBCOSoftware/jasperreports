@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.web.servlets;
 
-import net.sf.jasperreports.data.cache.ArrayListDataCacheHandler;
+import net.sf.jasperreports.data.cache.ColumnDataCacheHandler;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -127,7 +127,7 @@ public class Controller
 		if (dataCacheHandler == null)
 		{
 			//initialize the data cache handler
-			dataCacheHandler = new ArrayListDataCacheHandler();
+			dataCacheHandler = new ColumnDataCacheHandler();
 			
 			if (log.isDebugEnabled())
 			{
