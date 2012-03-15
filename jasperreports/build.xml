@@ -435,6 +435,7 @@
 			</classpath>
 		</xslt>
 		<mkdir dir="./dist/docs/sample.reference"/> 
+		<mkdir dir="./dist/docs/resources"/> 
 		<xslt basedir="demo/samples" destdir="dist/docs/sample.reference" style="./docs/sample.xsl">
 			<param name="sf.net" expression="${sf.net}"/>
 			<param name="version" expression="${version}"/>
@@ -451,6 +452,12 @@
 			<regexpmapper from="^(.*)/docs/(.*)$$" to="\1/\2" handledirsep="true"/>
 			<fileset dir="./demo/samples">
 				<exclude name="**/docs/*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="./dist/docs/resources">
+			<fileset dir="./docs/resources">
+				<include name="**/*.gif"/>
+				<include name="**/*.png"/>
 			</fileset>
 		</copy>
 	</target>
