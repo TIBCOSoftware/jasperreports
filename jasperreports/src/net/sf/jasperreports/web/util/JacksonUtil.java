@@ -26,7 +26,6 @@ package net.sf.jasperreports.web.util;
 import java.io.IOException;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
@@ -60,15 +59,6 @@ public class JacksonUtil
 	private JacksonUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-	}
-	
-	
-	/**
-	 *
-	 */
-	private static JacksonUtil getDefaultInstance()
-	{
-		return new JacksonUtil(DefaultJasperReportsContext.getInstance());
 	}
 	
 	

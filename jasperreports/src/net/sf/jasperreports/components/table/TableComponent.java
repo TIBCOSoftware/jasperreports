@@ -27,7 +27,6 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRDatasetRun;
-import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 
 
