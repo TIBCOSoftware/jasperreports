@@ -55,6 +55,7 @@ public class JRStyledText implements Cloneable
 	public static final String PROPERTY_AWT_IGNORE_MISSING_FONT = JRPropertiesUtil.PROPERTY_PREFIX + "awt.ignore.missing.font";
 	
 	private static final String PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED = JRPropertiesUtil.PROPERTY_PREFIX + "awt.superscript.fix.enabled";
+	@SuppressWarnings("deprecation")
 	private static final boolean AWT_SUPERSCRIPT_FIX_ENABLED = 
 		System.getProperty("java.version").startsWith("1.6") 
 		&& JRProperties.getBooleanProperty(PROPERTY_AWT_SUPERSCRIPT_FIX_ENABLED);

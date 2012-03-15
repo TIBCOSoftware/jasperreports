@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,10 +67,11 @@ public class JRReportSaxParserFactory extends BaseSaxParserFactory
 	 */
 	public static final String COMPILER_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "compiler.xml.validation";
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected boolean isValidating()
 	{
-		return JRProperties.getBooleanProperty(COMPILER_XML_VALIDATION);
+		return net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(COMPILER_XML_VALIDATION);
 	}
 	
 	@Override

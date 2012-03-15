@@ -73,6 +73,7 @@ public class Java15BigDecimalHandler implements BigDecimalHandler
 		this.mathContexts = new ThreadLocal<MathContext[]>();
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static int readConfiguredPrecision()
 	{
 		return JRProperties.getIntegerProperty(PROPERTY_MINIMUM_PRECISION);

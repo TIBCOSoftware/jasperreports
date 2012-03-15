@@ -854,7 +854,7 @@ public class JasperDesign extends JRBaseReport
 
 
 	/**
-	 *
+	 * @deprecated To be removed.
 	 */
 	public JRSortField removeSortField(String fieldName)
 	{
