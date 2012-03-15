@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
@@ -63,6 +64,7 @@ public class JRFillContext
 	private boolean ignorePagination;
 	private JRQueryExecuter queryExecuter;
 	
+	private JasperReportsContext jasperReportsContext;
 	private ReportContext reportContext;
 	private DataCacheHandler cacheHandler;
 
@@ -79,8 +81,10 @@ public class JRFillContext
 	/**
 	 * Constructs a fill context.
 	 */
-	public JRFillContext()
+	public JRFillContext(JasperReportsContext jasperReportsContext)
 	{
+		this.jasperReportsContext = jasperReportsContext;
+		
 		loadedImages = new HashMap<Object,JRPrintImage>();
 		loadedSubreports = new HashMap<Object,JasperReport>();
 		loadedTemplates = new HashMap<Object,JRTemplate>();
@@ -189,7 +193,7 @@ public class JRFillContext
 		this.usingVirtualizer = usingVirtualizer;
 		if (usingVirtualizer && virtualizationContext == null)
 		{
-			virtualizationContext = new JRVirtualizationContext();
+			virtualizationContext = new JRVirtualizationContext(jasperReportsContext);
 		}
 	}
 	
