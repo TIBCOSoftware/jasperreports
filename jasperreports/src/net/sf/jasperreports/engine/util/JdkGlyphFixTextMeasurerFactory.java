@@ -23,9 +23,10 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;
-import net.sf.jasperreports.engine.fill.JRTextMeasurerFactory;
 
 /**
  * Factory of {@link JdkGlyphFixTextMeasurer} instances.
@@ -40,9 +41,17 @@ public class JdkGlyphFixTextMeasurerFactory implements JRTextMeasurerFactory
 	/**
 	 * Creates a {@link JdkGlyphFixTextMeasurer} instance.
 	 */
+	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
+	{
+		return new JdkGlyphFixTextMeasurer(jasperReportsContext, text);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
+	 */
 	public JRTextMeasurer createMeasurer(JRCommonText text)
 	{
-		return new JdkGlyphFixTextMeasurer(text);
+		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);
 	}
 
 }

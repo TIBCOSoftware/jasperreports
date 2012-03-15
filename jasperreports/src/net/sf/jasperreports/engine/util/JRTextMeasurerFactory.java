@@ -21,25 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine.util;
 
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 
 /**
  * Text measurer factory.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRTextMeasurerFactory.java 4595 2011-09-08 15:55:10Z teodord $
  * @see JRTextMeasurer
- * @deprecated Replaced by {@link net.sf.jasperreports.engine.util.JRTextMeasurerFactory}.
  */
-public interface JRTextMeasurerFactory
+@SuppressWarnings("deprecation")
+public interface JRTextMeasurerFactory extends net.sf.jasperreports.engine.fill.JRTextMeasurerFactory
 {
 
 	/**
-	 * @deprecated Replaced by {@link net.sf.jasperreports.engine.util.JRTextMeasurerFactory#createMeasurer(JasperReportsContext, JRCommonText)}.
+	 * Creates a text measurer for a text object.
+	 * 
+	 * @param text the text object
+	 * @return a text measurer
 	 */
-	JRTextMeasurer createMeasurer(JRCommonText text);
+	JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text);
 	
 }
