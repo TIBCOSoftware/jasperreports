@@ -871,8 +871,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 			printRows = new ArrayList<List<JRPrintElement>>();
 			
-			rowCountVar = (JRFillVariable) variablesMap.get(JRCrosstab.VARIABLE_ROW_COUNT);
-			colCountVar = (JRFillVariable) variablesMap.get(JRCrosstab.VARIABLE_COLUMN_COUNT);
+			rowCountVar = variablesMap.get(JRCrosstab.VARIABLE_ROW_COUNT);
+			colCountVar = variablesMap.get(JRCrosstab.VARIABLE_COLUMN_COUNT);
 		}
 		
 		protected void initCrosstab()

@@ -210,7 +210,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					try
 					{
 						Class<? extends CachedRowSet> clazz = (Class<? extends CachedRowSet>)Class.forName(CACHED_ROWSET_CLASS);
-						Constructor<? extends CachedRowSet> constructor = (Constructor<? extends CachedRowSet>)clazz.getConstructor();
+						Constructor<? extends CachedRowSet> constructor = clazz.getConstructor();
 						resultSet = constructor.newInstance();
 					}
 					catch (Exception e)

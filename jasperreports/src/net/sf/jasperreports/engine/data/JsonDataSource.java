@@ -207,6 +207,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		}
 		Object value = null;
 		
+		@SuppressWarnings("rawtypes")
 		Class valueClass = jrField.getValueClass();
 		JsonNode selectedObject = getJsonData(currentJsonNode, expression);
 		
