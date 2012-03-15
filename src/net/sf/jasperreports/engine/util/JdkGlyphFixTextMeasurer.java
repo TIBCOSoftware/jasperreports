@@ -23,9 +23,11 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRMeasuredText;
 import net.sf.jasperreports.engine.fill.TextMeasurer;
 
@@ -107,13 +109,21 @@ public class JdkGlyphFixTextMeasurer extends TextMeasurer
 	 * 
 	 * @param textElement the text element
 	 */
+	public JdkGlyphFixTextMeasurer(JasperReportsContext jasperReportsContext, JRCommonText textElement)
+	{
+		super(jasperReportsContext, textElement);
+		
+		attempts = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_ATTEMPTS, DEFAULT_ATTEMPTS);
+		sleep = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_ATTEMPT_SLEEP, DEFAULT_ATTEMPT_SLEEP);
+		catchEmptyStacktrace = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(PROPERTY_CATCH_EMPTY_STACKTRACE);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #JdkGlyphFixTextMeasurer(JasperReportsContext, JRCommonText)}.
+	 */
 	public JdkGlyphFixTextMeasurer(JRCommonText textElement)
 	{
-		super(textElement);
-		
-		attempts = JRProperties.getIntegerProperty(PROPERTY_ATTEMPTS, DEFAULT_ATTEMPTS);
-		sleep = JRProperties.getIntegerProperty(PROPERTY_ATTEMPT_SLEEP, DEFAULT_ATTEMPT_SLEEP);
-		catchEmptyStacktrace = JRProperties.getBooleanProperty(PROPERTY_CATCH_EMPTY_STACKTRACE);
+		this(DefaultJasperReportsContext.getInstance(), textElement);
 	}
 
 	/**

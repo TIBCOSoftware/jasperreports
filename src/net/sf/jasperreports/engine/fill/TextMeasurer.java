@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
@@ -49,12 +50,12 @@ import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
 import net.sf.jasperreports.engine.util.JRFontUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
@@ -78,6 +79,7 @@ public class TextMeasurer implements JRTextMeasurer
 	//FIXME remove this after measureSimpleText() is proven to be stable
 	public static final String PROPERTY_MEASURE_SIMPLE_TEXTS = JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text";
 
+	protected JasperReportsContext jasperReportsContext;
 	protected JRCommonText textElement;
 	private JRPropertiesHolder propertiesHolder;
 	
@@ -252,8 +254,9 @@ public class TextMeasurer implements JRTextMeasurer
 	/**
 	 * 
 	 */
-	public TextMeasurer(JRCommonText textElement)
+	public TextMeasurer(JasperReportsContext jasperReportsContext, JRCommonText textElement)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.textElement = textElement;
 		this.propertiesHolder = textElement instanceof JRPropertiesHolder ? (JRPropertiesHolder) textElement : null;//FIXMENOW all elements are now properties holders, so interfaces might be rearranged
 		if (textElement.getDefaultStyleProvider() instanceof JRPropertiesHolder)
@@ -265,7 +268,15 @@ public class TextMeasurer implements JRTextMeasurer
 					);
 		}
 		
-		measureSimpleTexts = JRProperties.getBooleanProperty(this.propertiesHolder, PROPERTY_MEASURE_SIMPLE_TEXTS, true);
+		measureSimpleTexts = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(this.propertiesHolder, PROPERTY_MEASURE_SIMPLE_TEXTS, true);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #TextMeasurer(JasperReportsContext, JRCommonText)}.
+	 */
+	public TextMeasurer(JRCommonText textElement)
+	{
+		this(DefaultJasperReportsContext.getInstance(), textElement);
 	}
 	
 	/**
@@ -337,10 +348,10 @@ public class TextMeasurer implements JRTextMeasurer
 		this.canOverflow = canOverflow;
 		this.globalAttributes = styledText.getGlobalAttributes();
 		
-		ignoreMissingFont = JRProperties.getBooleanProperty(propertiesHolder, 
+		ignoreMissingFont = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false);
 		
-		boolean saveLineBreakOffsets = JRProperties.getBooleanProperty(propertiesHolder, 
+		boolean saveLineBreakOffsets = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_SAVE_LINE_BREAKS, false);
 		
 		measuredState = new TextMeasuredState(saveLineBreakOffsets);
@@ -866,13 +877,13 @@ public class TextMeasurer implements JRTextMeasurer
 
 	protected boolean isToTruncateAtChar()
 	{
-		return JRProperties.getBooleanProperty(propertiesHolder, 
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(propertiesHolder, 
 				JRTextElement.PROPERTY_TRUNCATE_AT_CHAR, false);
 	}
 
 	protected String getTruncateSuffix()
 	{
-		String truncateSuffx = JRProperties.getProperty(propertiesHolder,
+		String truncateSuffx = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder,
 				JRTextElement.PROPERTY_TRUNCATE_SUFFIX);
 		if (truncateSuffx != null)
 		{

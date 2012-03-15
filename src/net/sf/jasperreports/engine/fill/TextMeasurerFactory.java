@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * Default text measurer factory.
@@ -33,15 +35,23 @@ import net.sf.jasperreports.engine.JRCommonText;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class TextMeasurerFactory implements JRTextMeasurerFactory
+public class TextMeasurerFactory implements net.sf.jasperreports.engine.util.JRTextMeasurerFactory
 {
 
 	/**
 	 * Returns a {@link TextMeasurer} instance for the text object.
 	 */
+	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
+	{
+		return new TextMeasurer(jasperReportsContext, text);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
+	 */
 	public JRTextMeasurer createMeasurer(JRCommonText text)
 	{
-		return new TextMeasurer(text);
+		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);
 	}
 
 }
