@@ -337,7 +337,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		if (parentFiller == null)
 		{
-			fillContext = new JRFillContext();
+			fillContext = new JRFillContext(jasperReportsContext);
 		}
 		else
 		{

@@ -1534,7 +1534,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		if (isXmlReport)
 		{
-			jasperPrint = JRPrintXmlLoader.load(fileName);
+			jasperPrint = JRPrintXmlLoader.loadFromFile(jasperReportsContext, fileName);
 		}
 		else
 		{
@@ -1565,7 +1565,7 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	{
 		if (isXmlReport)
 		{
-			jasperPrint = JRPrintXmlLoader.load(is);
+			jasperPrint = JRPrintXmlLoader.load(jasperReportsContext, is);
 		}
 		else
 		{

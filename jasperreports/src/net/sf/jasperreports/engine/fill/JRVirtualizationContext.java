@@ -37,17 +37,18 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
 import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.PrintElementVisitor;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.base.JRVirtualPrintPage;
 import net.sf.jasperreports.engine.base.VirtualElementsData;
 import net.sf.jasperreports.engine.util.DeepPrintElementVisitor;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.UniformPrintElementVisitor;
 
 import org.apache.commons.collections.ReferenceMap;
@@ -69,6 +70,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	private static final ReferenceMap contexts = new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.WEAK);
 
 	private transient JRVirtualizer virtualizer;
+	private transient JasperReportsContext jasperReportsContext;
 	
 	private Map<String,Renderable> cachedRenderers;
 	private Map<String,JRTemplateElement> cachedTemplates;
@@ -87,12 +89,14 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	/**
 	 * Constructs a context.
 	 */
-	public JRVirtualizationContext()
+	public JRVirtualizationContext(JasperReportsContext jasperReportsContext)
 	{
+		this.jasperReportsContext = jasperReportsContext;
+		
 		cachedRenderers = new ConcurrentHashMap<String,Renderable>(16, 0.75f, 1);
 		cachedTemplates = new ConcurrentHashMap<String,JRTemplateElement>(16, 0.75f, 1);
 		
-		pageElementSize = JRProperties.getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
+		pageElementSize = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0);
 		
 		initLock();
 	}
@@ -100,6 +104,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	protected JRVirtualizationContext(JRVirtualizationContext parentContext)
 	{
 		this.virtualizer = parentContext.virtualizer;
+		this.jasperReportsContext = parentContext.jasperReportsContext;
 
 		// using the same caches as the parent
 		this.cachedRenderers = parentContext.cachedRenderers;
@@ -361,12 +366,14 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	@SuppressWarnings("unchecked")
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
+		setThreadJasperReportsContext();
+
 		GetField fields = in.readFields();
 		cachedRenderers = (Map<String, Renderable>) fields.get("cachedRenderers", null);
 		cachedTemplates = (Map<String, JRTemplateElement>) fields.get("cachedTemplates", null);
 		readOnly = fields.get("readOnly", false);
 		// use configured default if serialized by old version
-		pageElementSize = fields.get("pageElementSize", JRProperties.getIntegerProperty(
+		pageElementSize = fields.get("pageElementSize", JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(
 				JRVirtualPrintPage.PROPERTY_VIRTUAL_PAGE_ELEMENT_SIZE, 0));
 		
 		setThreadVirtualizer();
@@ -380,6 +387,15 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		if (threadVirtualizer != null)
 		{
 			virtualizer = threadVirtualizer;
+		}
+	}
+
+	private void setThreadJasperReportsContext()
+	{
+		JasperReportsContext threadJasperReportsContext = JRVirtualizationHelper.getThreadJasperReportsContext();
+		if (threadJasperReportsContext != null)
+		{
+			jasperReportsContext = threadJasperReportsContext;
 		}
 	}
 	

@@ -32,18 +32,20 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 
 import org.apache.commons.digester.SetNestedPropertiesRule;
@@ -70,15 +72,25 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
+	private JasperReportsContext jasperReportsContext;
 	private JasperPrint jasperPrint;
 	private List<Exception> errors = new ArrayList<Exception>();
 
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link #JRPrintXmlLoader(JasperReportsContext)}.
 	 */
 	protected JRPrintXmlLoader()
 	{
+	}
+	
+
+	/**
+	 *
+	 */
+	protected JRPrintXmlLoader(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
 	}
 	
 
@@ -94,7 +106,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	/**
 	 *
 	 */
-	public static JasperPrint load(String sourceFileName) throws JRException//FIXMEREPO consider rename to loadFromFile
+	public static JasperPrint loadFromFile(JasperReportsContext jasperReportsContext, String sourceFileName) throws JRException
 	{
 		JasperPrint jasperPrint = null;
 
@@ -103,7 +115,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 		try
 		{
 			fis = new FileInputStream(sourceFileName);
-			JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader();
+			JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader(jasperReportsContext);
 			jasperPrint = printXmlLoader.loadXML(fis);
 		}
 		catch(IOException e)
@@ -129,16 +141,43 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 
 	/**
+	 * @deprecated Replaced by {@link #loadFromFile(JasperReportsContext, String)}.
+	 */
+	public static JasperPrint loadFromFile(String sourceFileName) throws JRException
+	{
+		return loadFromFile(DefaultJasperReportsContext.getInstance(), sourceFileName);
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #loadFromFile(String)}.
+	 */
+	public static JasperPrint load(String sourceFileName) throws JRException
+	{
+		return loadFromFile(sourceFileName);
+	}
+
+
+	/**
 	 *
 	 */
-	public static JasperPrint load(InputStream is) throws JRException
+	public static JasperPrint load(JasperReportsContext jasperReportsContext, InputStream is) throws JRException
 	{
 		JasperPrint jasperPrint = null;
 
-		JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader();
+		JRPrintXmlLoader printXmlLoader = new JRPrintXmlLoader(jasperReportsContext);
 		jasperPrint = printXmlLoader.loadXML(is);
 
 		return jasperPrint;
+	}
+
+
+	/**
+	 * @deprecated Replaced by {@link #load(JasperReportsContext, InputStream)}.
+	 */
+	public static JasperPrint load(InputStream is) throws JRException
+	{
+		return load(DefaultJasperReportsContext.getInstance(), is);
 	}
 
 
@@ -307,7 +346,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 	{
 		try
 		{
-			String parserFactoryClass = JRProperties.getProperty(
+			String parserFactoryClass = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
 					JRSaxParserFactory.PROPERTY_PRINT_PARSER_FACTORY);
 			
 			if (log.isDebugEnabled())

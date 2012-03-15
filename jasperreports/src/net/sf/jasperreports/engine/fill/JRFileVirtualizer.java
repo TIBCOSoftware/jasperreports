@@ -38,7 +38,6 @@ import java.io.IOException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizable;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -112,7 +111,7 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		File file = new File(directory, filename);
 		
 		if (file.createNewFile()) {
-			if (JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT)) {
+			if (net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT)) {
 				file.deleteOnExit();
 			}
 

@@ -139,7 +139,7 @@ public class JRViewerController
 	{
 		if (isXmlReport)
 		{
-			jasperPrint = JRPrintXmlLoader.load(fileName);
+			jasperPrint = JRPrintXmlLoader.loadFromFile(jasperReportsContext, fileName);
 		}
 		else
 		{
@@ -168,7 +168,7 @@ public class JRViewerController
 	{
 		if (isXmlReport)
 		{
-			jasperPrint = JRPrintXmlLoader.load(is);
+			jasperPrint = JRPrintXmlLoader.load(jasperReportsContext, is);
 		}
 		else
 		{
