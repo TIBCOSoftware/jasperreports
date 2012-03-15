@@ -111,7 +111,9 @@ public class JRFileVirtualizer extends JRAbstractLRUVirtualizer {
 		File file = new File(directory, filename);
 		
 		if (file.createNewFile()) {
-			if (net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT)) {
+			@SuppressWarnings("deprecation")
+			boolean deleteOnExit = net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_TEMP_FILES_SET_DELETE_ON_EXIT);
+			if (deleteOnExit) {
 				file.deleteOnExit();
 			}
 

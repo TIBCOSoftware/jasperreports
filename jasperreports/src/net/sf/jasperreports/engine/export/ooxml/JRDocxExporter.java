@@ -83,7 +83,6 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRTextAttribute;
@@ -112,7 +111,7 @@ public class JRDocxExporter extends JRAbstractExporter
 
 	/**
 	 * This property is used to mark text elements as being hidden either for printing or on-screen display.
-	 * @see JRProperties
+	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_HIDDEN_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "export.docx.hidden.text";
 

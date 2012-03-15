@@ -70,6 +70,7 @@ public class FileBufferedOutputStream extends OutputStream
 	private boolean closed;
 	private boolean disposed;
 	
+	@SuppressWarnings("deprecation")
 	public FileBufferedOutputStream() {
 		this(JRProperties.getIntegerProperty(PROPERTY_MEMORY_THRESHOLD, INFINIT_MEMORY_THRESHOLD), DEFAULT_INITIAL_MEMORY_BUFFER_SIZE, DEFAULT_INPUT_BUFFER_LENGTH);
 	}

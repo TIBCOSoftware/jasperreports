@@ -229,6 +229,7 @@ public class JRQueryParser
 	}
 
 
+	@SuppressWarnings("deprecation")
 	protected String getTokenSeparators()
 	{
 		return JRProperties.getProperty(JRQueryChunk.PROPERTY_CHUNK_TOKEN_SEPARATOR);

@@ -34,7 +34,7 @@ package net.sf.jasperreports.engine.export.legacy;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
-import net.sf.jasperreports.engine.util.JRProperties;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -108,13 +108,14 @@ public abstract class BorderOffset
 	/**
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public static float getOffset(JRPen pen)
 	{
 		BorderOffset borderOffset = threadInstance.get();
 		if (borderOffset == null)
 		{
 			borderOffset = 
-				JRProperties.getBooleanProperty(BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET)
+				net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET)
 				? LEGACY : DEFAULT;
 		}
 		return borderOffset.getValue(pen);

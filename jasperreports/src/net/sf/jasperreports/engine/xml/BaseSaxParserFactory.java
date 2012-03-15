@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.ClassUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.collections.ReferenceMap;
 import org.apache.commons.logging.Log;
@@ -135,7 +134,8 @@ public abstract class BaseSaxParserFactory implements JRSaxParserFactory
 		parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaSource",
 			schemaLocations.toArray(new String[schemaLocations.size()]));
 		
-		boolean cache = JRProperties.getBooleanProperty(PROPERTY_CACHE_SCHEMAS);
+		@SuppressWarnings("deprecation")
+		boolean cache = net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(PROPERTY_CACHE_SCHEMAS);
 		if (cache)
 		{
 			enableSchemaCaching(parser);

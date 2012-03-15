@@ -88,7 +88,9 @@ public class JRSwapFile
 			}
 			boolean fileExists = swapFile.exists();
 			
-			if (JRProperties.getBooleanProperty(PROPERTY_DELETE_ON_EXIT))
+			@SuppressWarnings("deprecation")
+			boolean deleteOnExit = JRProperties.getBooleanProperty(PROPERTY_DELETE_ON_EXIT);
+			if (deleteOnExit)
 			{
 				swapFile.deleteOnExit();
 			}

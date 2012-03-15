@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.util.JRProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -63,10 +62,11 @@ public class PrintSaxParserFactory extends BaseSaxParserFactory
 	 */
 	public static final String EXPORT_XML_VALIDATION = JRPropertiesUtil.PROPERTY_PREFIX + "export.xml.validation";
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected boolean isValidating()
 	{
-		return JRProperties.getBooleanProperty(EXPORT_XML_VALIDATION);
+		return net.sf.jasperreports.engine.util.JRProperties.getBooleanProperty(EXPORT_XML_VALIDATION);
 	}
 
 	@Override
