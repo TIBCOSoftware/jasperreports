@@ -421,7 +421,7 @@ public class JRApiWriter
 			}
 		}
 		
-		writeTemplates(indent);
+		writeTemplates(report, indent);
 
 		write("\n");
 		
@@ -601,7 +601,7 @@ public class JRApiWriter
 	/**
 	 * 
 	 */
-	protected void writeTemplates(String indent)
+	protected void writeTemplates(JRReport report, String indent)
 	{
 		JRReportTemplate[] templates = report.getTemplates();
 		if (templates != null)
