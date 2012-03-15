@@ -35,7 +35,7 @@ could be designed using either report elements along with their border to form a
 (see the <a href="../list/index.html">Built-in List Component Sample</a>).
 <br/>
 But what if the table deals with a very complex structure, where table headers are present side by side with column headers, or column 
-group footers are mixed together with single column footers, or particular cells span over multiple rows or columns? In this case the tabular or 
+group footers are mixed together with single column footers, or particular cells span over multiple rows and/or columns? In this case tabular and 
 list layouts require more and more elaborated work in order to put all this information together. A dedicated tool is needed instead.
 <br/>
 And here comes the JR built-in table component to demonstrate its utility.
@@ -92,7 +92,7 @@ In addition, columns and/or column groups may contain:
 <li>group footers</li>
 <li>column footers</li>
 </ul>
-A column group may include single columns as well as other column groups, therefore we have the possibility to generate very complex structures 
+A column group may include single columns as well as nested column groups, therefore we have the possibility to generate very complex structures 
 based on just two elementary pieces: <code>c:column</code> and <code>c:columnGroup</code>.
 <br/>
 Now let's see in the table schema how columns and column groups should be declared:
@@ -138,9 +138,9 @@ Now let's see in the table schema how columns and column groups should be declar
 </element>]]></pre>
 So, column and column groups are extensions of a <code>c:BaseColumn</code> element characterized by a series of headers and footers and 
 a <code>jr:printWhenExpression</code>. To be well defined, a <code>BaseColumn</code> requires the <code>width</code> attribute to be set. 
-By default this column width will be inherited by all table cells in the column.
+By default the column width will be inherited by all table cells in the column.
 <br/>
-As already discussed, a column group is a recursive structure consisting in a group of columns and/or column groups that act 
+As already discussed, a column group is a recursive structure consisting in a group of columns and/or nested column groups that act 
 together like a single column, sharing the same footers and headers.
 <br/>
 Single columns provide their specific element: a <code>detailCell</code> to be populated with data and printed out for each iteration through 
@@ -200,18 +200,18 @@ Detail cells are based on the <code>c:TableCell</code> element:
   <attribute name="groupName" use="required" type="string"/>
 </complexType>]]></pre>
 Any <code>TableCell</code> may contain any number of report elements fitting within its bounds. It may have its own border, 
-style and row span. But in order to be well defined, the <code>height</code> attribute is mandatory.
+style and row span. But in order to be well defined, the <code>height</code> attribute is mandatory in a <code>TableCell</code>.
 <br/>
 <br/>
-And finally, to make a table component fully functional, a <code>datasetRun</code> declaration is definitely required.
+Finally, to make a table component fully functional, a <code>datasetRun</code> declaration is required within the <code>table</code> element.
 <br/>
 <br/>
 <subtitle name="sample">The Table Component Sample</subtitle>
 <br/>
 <br/>
-Now let's see a table component in action. The table defined in the <code>TableReport.jrxml</code> consists in three independent 
-columns with column headers and footers, plus a column group with 2 columns sharing a common header but having no common footer. 
-Below is the related code:
+Now let's see a table component in action. The table defined in the <code>TableReport.jrxml</code> is similar to that one defined in the 
+<a href="../tabular/index.html">Tabular Sample</a>: it contains three independent columns with column headers and footers, plus a column 
+group with 2 columns sharing a common header, but owning also individual column headers and footers. Below is the related code:
 <pre><![CDATA[
 <componentElement>
 <reportElement x="0" y="50" width="555" height="100" style="Table" />
@@ -448,6 +448,15 @@ Below is the related code:
   </c:columnGroup>
   </c:table>
 </componentElement>]]></pre>
+Notice that each column declaration contains a <code>columnHeader</code>, <code>columnFooter</code> and a <code>detailCell</code>. 
+The <code>columnGroup</code> includes a <code>columnHeader</code> declaration and two separate columns. The group <code>columnHeader</code> 
+will be shared by all columns in the group, inheriting the width of the column group. Individual column headers will be printed on a separate row, 
+under the common group header. To keep the table rows consistency, the <code>rowSpan="2"</code> setting was required in the header declarations for 
+the first three individual columns in the table.
+<br/> 
+There is no <code>columnFooter</code> declared at column group level in this example.
+<br/>
+It should also be noticed how <code>box</code> elements and <code>style</code> attributes were used to configure borders and styles for different table cells.
 <br/>
 <br/>
 <b>Running the Sample</b>
@@ -460,7 +469,6 @@ In a command prompt/terminal window set the current folder to <code>demo/samples
 It will generate all supported document types containing the sample report in the <code>demo/samples/table/build/reports</code> directory. 
 <br/>
 Then the report will open in the JasperReports internal viewer.
-
     </content>
   </feature>
 
