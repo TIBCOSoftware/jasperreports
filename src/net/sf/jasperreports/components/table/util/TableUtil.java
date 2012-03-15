@@ -321,7 +321,7 @@ public class TableUtil
 		return null;
 	}
 
-	public static JRTextField getColumnValueTextElement(StandardColumn column) {
+	public static JRTextField getColumnDetailTextElement(Column column) {
 		Cell detailCell = column.getDetailCell();
 		List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
 		
@@ -350,5 +350,10 @@ public class TableUtil
 		
 		// success
 		return text;
+	}
+	
+	public static int getColumnIndex(Column column, TableComponent table) {
+		List<BaseColumn> columns = getAllColumns(table);
+		return columns.indexOf(column);
 	}
 }

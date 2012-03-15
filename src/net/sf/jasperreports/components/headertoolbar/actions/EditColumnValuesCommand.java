@@ -30,7 +30,7 @@ public class EditColumnValuesCommand implements Command
 	public void execute() {
 		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 		StandardColumn column = (StandardColumn) tableColumns.get(editColumnValueData.getColumnIndex());
-		textElement = (JRDesignTextField) TableUtil.getColumnValueTextElement(column);
+		textElement = (JRDesignTextField) TableUtil.getColumnDetailTextElement(column);
 		
 		if (textElement != null) {
 			oldEditColumnValueData = new EditColumnValueData();

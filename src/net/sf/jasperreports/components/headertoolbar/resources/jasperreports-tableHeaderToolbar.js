@@ -13,10 +13,6 @@
 				templateData : {
 					popupId: 'popupdiv_template'
 				},
-				common: {	// FIXMEJIVE set commons here instead of template
-					actionBaseUrl: null,
-					actionBaseData: null
-				},
 				drag: {
 					dragStarted: false,
 					canDrop: false,
@@ -26,6 +22,22 @@
 					moveColumnActionData: null,
 					dragMaskPosition: null,
 					whichTableFrameIndex: null
+				},
+				defaultAllColumns: {},
+				allColumns: {},
+				selectedColumn: {
+					tableUuid: null,
+					tableFrameIndex: null,
+					columnIndex: null,
+					columnHeaderClass: null,
+					actionBaseUrl: null,
+					actionBaseData: null
+				},
+				propertiesMenuActions: {
+					/* "actionName": {click: "clickHandler", mouseover: "mouseOverHandler", mouseout: "mouseOutHandler"} */
+					"format": {click: "showFormatDialog"},
+					"hide": {click: "hideColumn"},
+					"unhide": {mouseover: "initUnhideMenu"}
 				}
 	};
 	
@@ -142,10 +154,14 @@
 		            		lastElem = jQuery(columnNameSel + ':last', parentFrame),
 		            		headerNameSel = '.header_' + /header_(\w+)/.exec(self.attr('class'))[1];
 		            	
-		            	headerToolbarMask.data('columnHeaderClass', headerNameSel);
-		            	headerToolbarMask.data('tableFrameUuid', parentFrameUuid);
-//		            	headerToolbarMask.data('tableFrameIndex', jQuery('.jrtableframe[data-uuid=' + parentFrameUuid + ']').index(parentFrame));
-		            	headerToolbarMask.data('tableFrameIndex', tableFrameIndex);
+		            	js.selectedColumn = {
+		    					tableUuid: parentFrameUuid,
+		    					tableFrameIndex: tableFrameIndex,
+		    					columnIndex: parseInt(headerToolbarMask.attr('data-columnIndex')),
+		    					columnHeaderClass: headerNameSel,
+		    					actionBaseUrl: popupDiv.attr('data-actionBaseUrl'),
+		    					actionBaseData: jQuery.parseJSON(popupDiv.attr('data-actionBaseData'))
+		    			};
 		            	
 		            	if (firstElem && lastElem) {
 	            			headerToolbar.css({
@@ -204,13 +220,13 @@
 			            			self.prev().hide();
 			            			
 			            			dragObj.dragStarted = true;
-			            			dragObj.draggedColumnHeaderClass = self.data('columnHeaderClass');
-			            			dragObj.dragTableFrameUuid = self.data('tableFrameUuid');
+			            			dragObj.draggedColumnHeaderClass = js.selectedColumn.columnHeaderClass;
+			            			dragObj.dragTableFrameUuid = js.selectedColumn.tableUuid;
 			            			dragObj.cursorInsideMaskPosition = self.width()/2 - (event.originalEvent.pageX - self.offset().left);	// relative to the middle
 			            			dragObj.dragMaskPosition = self.position();
 			            			
 			            			// which table frame with same uuid
-			            			dragObj.whichTableFrameIndex =  self.data('tableFrameIndex');
+			            			dragObj.whichTableFrameIndex =  js.selectedColumn.tableFrameIndex;
 			            		},
 			            		drag: function(event, ui) {
 			            		},
@@ -222,20 +238,17 @@
 			            			dragObj.dragStarted = false;
 			            			
 			            			if (dragObj.canDrop) {
-						            	var	gm = global.jasperreports.global,
-						            		parentPopupDiv = self.closest('.popupdiv'),
-						            		actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-						            		params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+						            	var	params = js.selectedColumn.actionBaseData,
 				                	    	toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 						            	
 						            	params[jvt.PARAM_ACTION] = gm.toJsonString(dragObj.moveColumnActionData);
 						            	
-				                	   jvt.runReport(self, 
-				                	    			actionBaseUrl,
-				                	    			params, 
-    	    										js.highlightColumn, 
-    	    										[dragObj.moveColumnActionData.moveColumnData.columnToMoveNewIndex, dragObj.whichTableFrameIndex, toolbarId], 
-    	    										true);
+						            	jvt.runReport(self, 
+						            			js.selectedColumn.actionBaseUrl,
+				                	    		params, 
+    	    									js.highlightColumn, 
+    	    									[dragObj.moveColumnActionData.moveColumnData.columnToMoveNewIndex, dragObj.whichTableFrameIndex, toolbarId], 
+    	    									true);
 			            			} else {
 			            				// move mask back to its place
 			            				self.animate(dragObj.dragMaskPosition, function() {
@@ -270,20 +283,18 @@
 			                	    	actionData = {	actionName: 'resize',
 			                	    					resizeColumnData: {
 			                	    						uuid: uuid,
-			                	    						columnIndex: self.attr('data-columnIndex'),
+			                	    						columnIndex: js.selectedColumn.columnIndex,
 			                	    						direction: direction,
 			                	    						width: self.width()
 			                	    					}
 			                	    	},
-			                	    	parentPopupDiv = self.closest('.popupdiv'),
-			                        	actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-			                        	params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+			                        	params = js.selectedColumn.actionBaseData,
 			                	    	toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 			                	    
 			                	    params[jvt.PARAM_ACTION] = gm.toJsonString(actionData);
 			                	    
 			                	    jvt.runReport(jQuery('div.columnHeader:first'), 
-			                	    			actionBaseUrl,
+			                	    			js.selectedColumn.actionBaseUrl,
 			                	    			params, 
 			                	    			jvt.performAction, 
 			                	    			[toolbarId], 
@@ -345,15 +356,13 @@
 			event.preventDefault();
             var self = jQuery(this),
             	jvt = global.jasperreports.reportviewertoolbar, 
-            	parentPopupDiv = self.closest('.popupdiv'),
-            	actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-            	params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+            	params = js.selectedColumn.actionBaseData,
             	toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 
             params[jvt.PARAM_ACTION] = jQuery(this).attr("data-sortData");
             
             jvt.runReport(jQuery('div.columnHeader:first'), 
-            			actionBaseUrl, 
+            			js.selectedColumn.actionBaseUrl, 
             			params, 
             			jvt.performAction, 
 	    				[toolbarId],  
@@ -431,12 +440,10 @@
 			}
 		});
 		
-		jQuery('.submitFilter', filterDiv).bind(('createTouch' in document) ? 'touchend' : 'click', function(event){
+		jQuery('.submitFilterBtn', filterDiv).bind(('createTouch' in document) ? 'touchend' : 'click', function(event){
 			var self = jQuery(this),
 				parentForm = self.parent(),
-				parentPopupDiv = self.closest('.popupdiv'),
-				actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-				params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+				params = js.selectedColumn.actionBaseData,
 				parentFilterDiv = self.closest('.filterdiv'),
 				actionData = jQuery.parseJSON(parentFilterDiv.attr('data-filterData')),
 				filterData = {};
@@ -454,11 +461,24 @@
 			
 			var toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 			jvt.runReport(jQuery('div.columnHeader:first'), 
-						actionBaseUrl,
+						js.selectedColumn.actionBaseUrl,
 						params, 
 						jvt.performAction, 
 						[toolbarId], 
 						true);
+		});
+		
+		jQuery('.fieldValueStart, .fieldValueEnd', filterDiv).bind('templateInit', function (event) {
+			var isEmpty = global.jasperreports.global.isEmpty,
+				self = jQuery(this),
+				parentFormDiv = self.parent();
+			
+			if (!isEmpty(self.val())) {
+				self.removeClass('hidden');
+				self.removeAttr('disabled');
+				parentFormDiv.addClass('filterDivFormExpandedForClear');
+				jQuery('.clearFilterBtn', parentFormDiv).show();
+			}
 		});
 		
 		// show the second filter value for options containing 'between'
@@ -480,12 +500,10 @@
 			}
 		});
 		
-		jQuery('.clearFilter', filterDiv).bind(('createTouch' in document) ? 'touchend' : 'click', function(event){
+		jQuery('.clearFilterBtn', filterDiv).bind(('createTouch' in document) ? 'touchend' : 'click', function(event){
 			var self = jQuery(this),
 				parentForm = self.parent(),
-				parentPopupDiv = self.closest('.popupdiv'),
-				actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-				params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+				params = js.selectedColumn.actionBaseData,
 				parentFilterDiv = self.closest('.filterdiv'),
 				actionData = jQuery.parseJSON(parentFilterDiv.attr('data-clearData')),
 				filterData = actionData.filterData;
@@ -502,7 +520,7 @@
 			
 			var toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 			jvt.runReport(jQuery('div.columnHeader:first'), 
-						actionBaseUrl, 
+						js.selectedColumn.actionBaseUrl, 
 						params, 
 						jvt.performAction, 
 						[toolbarId], 
@@ -513,26 +531,45 @@
 		/**
 		 * Format dialog
 		 */
-        jQuery('.formatDialogBtn', popupDiv).bind('click', function(event) {
-        	event.stopPropagation();
+		jQuery('.jrMenu', popupDiv).on('onShow', function(event) {
+			var self = jQuery(this),
+				visibleColumnsCount = 0,
+				hiddenColumnsCount = 0;
+			jQuery.each(js.allColumns, function (i, colData) {
+				if (colData.enabled == true) {
+					visibleColumnsCount ++;
+				} else {
+					hiddenColumnsCount ++;
+				}
+			});
+			
+			// disable hide if there is only one visible column left
+			if (visibleColumnsCount == 1) {
+				jQuery('.hide', self).removeClass('jrMenuEnabled').addClass('jrMenuDisabled');
+			}
+			
+			// disable unhide if there are no hidden columns
+			if (hiddenColumnsCount == 0) {
+				jQuery('.unhide', self).removeClass('jrMenuEnabled').addClass('jrMenuDisabled');
+			}
+		});
+		
+        jQuery('.formatDialogBtn', popupDiv).on('mouseenter', function(event) {
         	var self = jQuery(this),
-        		dialog = self.closest('.popupdiv').find('.formatDialog');
+        		popupDiv = self.closest('.popupdiv'),
+        		menu = popupDiv.find('.jrMenu');
     	  
-			dialog.css({
-				left: '10px',
+			menu.css({
+				left: '5px',
 				position: 'relative',
-				top: '10px',
+				top: '-15px',
 				'z-index': 1001,
 				'text-align': 'left'
 			});
-			  
-			jQuery('.buttonCancel', dialog).bind('click', function(event) {
-				jQuery(this).closest('.formatDialog').hide();
-			});
-			   
-			dialog.show();
+			
+			menu.trigger('onShow').show();
 		});
-        
+
         jQuery('.formatTab', popupDiv).bind('click', function() {
         	var self = jQuery(this),
         		parentFDialog = self.closest('.formatDialog');
@@ -551,9 +588,7 @@
         jQuery('.headingsTabContent .buttonOK').bind('click', function() {
         	var self = jQuery(this),
         		parentTab = self.closest('.headingsTabContent'),
-        		parentPopupDiv = self.closest('.popupdiv'),
-        		actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-            	params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
+            	params = js.selectedColumn.actionBaseData,
             	actionData = {actionName: 'editColumnHeader'},
         		editColumnHeaderData = {};
         	
@@ -570,7 +605,7 @@
         	
         	var toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
 			jvt.runReport(jQuery('div.columnHeader:first'), 
-						actionBaseUrl, 
+						js.selectedColumn.actionBaseUrl, 
 						params, 
 						jvt.performAction, 
 						[toolbarId], 
@@ -579,12 +614,10 @@
 
         jQuery('.valuesTabContent .buttonOK').bind('click', function() {
         	var self = jQuery(this),
-        	parentTab = self.closest('.valuesTabContent'),
-        	parentPopupDiv = self.closest('.popupdiv'),
-        	actionBaseUrl = parentPopupDiv.attr('data-actionBaseUrl'),
-        	params = jQuery.parseJSON(parentPopupDiv.attr('data-actionBaseData')),
-        	actionData = {actionName: 'editColumnValues'},
-        	editColumnValueData = {};
+	        	parentTab = self.closest('.valuesTabContent'),
+	        	params = js.selectedColumn.actionBaseData,
+	        	actionData = {actionName: 'editColumnValues'},
+	        	editColumnValueData = {};
         	
         	jQuery('.postable', parentTab).each(function(){
         		// prevent disabled inputs to get posted
@@ -599,7 +632,7 @@
         	
         	var toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
         	jvt.runReport(jQuery('div.columnHeader:first'), 
-        			actionBaseUrl, 
+        			js.selectedColumn.actionBaseUrl, 
         			params, 
         			jvt.performAction, 
         			[toolbarId], 
@@ -652,6 +685,10 @@
 							} else {
 								target.val(propValue);
 							}
+							
+							if (target.is('.initable')) {
+								target.trigger('templateInit');
+							}
 						}
 						break;
 				}
@@ -679,10 +716,167 @@
 				
 				js.applyTemplateDataToInstance(templateInstance, tData, uniquePopupId);
 				jQuery(dcuid).append(templateInstance);
+				
+				js.initMenuActions(templateInstance.find('.jrMenu'));
+				
 				return templateInstance;
 			}
 		}
 		return jQuery('#'+uniquePopupId);
+	};
+	
+	js.createMenuClickHandler = function (callbackFn, context) {
+		return function(event) {
+			event.stopPropagation();
+			var callback = global.jasperreports.global.extractCallbackFunction(callbackFn, context);
+			if (callback) {
+				callback.call(this);
+			}
+		}
+	};
+	
+	js.initMenuActions = function (jqMenu) {
+		var prop,
+			actions = js.propertiesMenuActions;
+		
+		jqMenu.on('mouseleave', function (event) {jQuery(this).hide()});
+		
+		for(prop in actions) {
+			if (actions.hasOwnProperty(prop)) {
+				jQuery.each(actions[prop], function (key, val) {
+					jqMenu.on(key, '.' +prop, js.createMenuClickHandler(val, js));
+				});
+			}
+		}
+	};
+
+	/**
+	 * Triggered after each ajax request, ONCE
+	 */
+	js.perActionCleanup = function () {
+		js.allColumns = {};
+		jQuery.extend(true, js.allColumns, js.defaultAllColumns);
+	};
+	
+	/**
+	 * Triggered on first ajax request, ONCE
+	 */
+	js.setAllColumns = function (allColumns) {
+		js.defaultAllColumns = allColumns;
+	};
+	
+	/**
+	 * Triggered after each ajax request, MULTIPLE times
+	 */
+	js.addVisibleColumn = function (colIndex, colLabel) {
+		var o = {};
+		o[colIndex] = {
+				index: colIndex,
+				label: colLabel,
+				enabled: true
+			};
+		jQuery.extend(true, js.allColumns, o);
+	};
+	
+	
+	/********* MENU ACTIONS ************/
+	js.showFormatDialog = function () {
+		var self = jQuery(this),
+			dialog = self.closest('.popupdiv').find('.formatDialog');
+    	
+    	dialog.css({
+    		left: '10px',
+    		position: 'absolute',
+    		top: '0',
+    		'z-index': 1001,
+    		'text-align': 'left'
+    	});
+    	
+    	jQuery('.buttonCancel', dialog).bind('click', function(event) {
+    		jQuery(this).closest('.formatDialog').hide();
+    	});
+    	
+    	dialog.show();
+	};
+	
+	js.hideColumn = function () {
+		var self = jQuery(this),
+			gm = global.jasperreports.global,
+			jvt = global.jasperreports.reportviewertoolbar,
+			params = js.selectedColumn.actionBaseData,
+			actionData = {
+				actionName: 'hideUnhideColumns',
+				columnData: {
+					hide: true,
+					columnIndexes: [js.selectedColumn.columnIndex],
+					tableUuid: js.selectedColumn.tableUuid
+				}
+			},
+			toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
+		
+		params[jvt.PARAM_ACTION] = gm.toJsonString(actionData);
+		
+		jvt.runReport(jQuery('div.columnHeader:first'), 
+				js.selectedColumn.actionBaseUrl,
+				params, 
+				jvt.performAction, 
+				[toolbarId], 
+				true);
+	};
+
+	js.initUnhideMenu = function () {
+		var self = jQuery(this);
+		
+		if (!self.data('hasSubMenu') && !self.is('.jrMenuDisabled')) { 
+			var	subMenu = jQuery("<ul class='jrMenuLst'></ul>"),
+				allCols = js.allColumns,
+				liTemplate = ["<li class='jrMenuLstItm jrMenuEnabled' data-colindexes='",,"'><span class='jrMenuText'>",,"</span></li>"],
+				hiddenColIndexes=[];
+	
+			jQuery.each(allCols, function(i, columnData) {
+				if (columnData.enabled === false) {
+					liTemplate[1] = '[' + columnData.index + ']';
+					liTemplate[3] = columnData.label;
+					subMenu.append(liTemplate.join(''));
+					
+					hiddenColIndexes.push(columnData.index);
+				}
+			});
+			
+			if (hiddenColIndexes.length > 0) {
+				liTemplate[1] = '[' + hiddenColIndexes.join(',') + ']';
+				liTemplate[3] = "&lt;ALL&gt;";
+				subMenu.prepend(liTemplate.join(''));
+				self.append(subMenu);
+				
+				self.on('click', '.jrMenuEnabled', function (event) {
+					var self = jQuery(this),
+						gm = global.jasperreports.global,
+						jvt = global.jasperreports.reportviewertoolbar,
+						params = js.selectedColumn.actionBaseData,
+						actionData = {
+							actionName: 'hideUnhideColumns',
+							columnData: {
+								hide: false,
+								columnIndexes: jQuery.parseJSON(self.attr('data-colindexes')),
+								tableUuid: js.selectedColumn.tableUuid
+							}
+						},
+						toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
+					
+					params[jvt.PARAM_ACTION] = gm.toJsonString(actionData);
+					
+					jvt.runReport(jQuery('div.columnHeader:first'), 
+							js.selectedColumn.actionBaseUrl,
+							params, 
+							jvt.performAction, 
+							[toolbarId], 
+							true);
+				});
+			}
+			
+			self.data('hasSubMenu', true);
+		}
 	};
 	
 	global.jasperreports.tableheadertoolbar = js;

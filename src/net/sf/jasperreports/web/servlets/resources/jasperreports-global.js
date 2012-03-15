@@ -63,11 +63,11 @@ jQuery.noConflict();
 		return dest;
 	};
 	
-	jg.extractCallbackFunction = function (callbackFn) {
+	jg.extractCallbackFunction = function (callbackFn, context) {
 		var result = callbackFn;
 		if (typeof callbackFn === 'string') {
 			var tokens = callbackFn.split('.');
-			result = global;
+			result = context || global;
 			for (var i = 0, ln = tokens.length; i < ln; i++) {
 				if (result[tokens[i]]) {
 					result = result[tokens[i]];

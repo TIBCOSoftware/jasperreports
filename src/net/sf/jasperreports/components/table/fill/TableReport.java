@@ -32,11 +32,13 @@ import java.util.Map;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.TableComponent;
+import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
@@ -74,6 +76,7 @@ import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
+import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
@@ -418,43 +421,12 @@ public class TableReport implements JRReport
 		protected JRDesignFrame createColumnCell(Column column, Cell cell)
 		{
 			JRDesignFrame frame = super.createColumnCell(column, cell);
-			JRTextField sortTextField = getColumnSortTextField(column);
+			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
 			if (sortTextField != null)
 			{
 				addHeaderToolbarElement(column, frame, sortTextField.getExpression().getChunks()[0], sortTextField.getPattern());
 			}
 			return frame;
-		}
-
-		protected JRTextField getColumnSortTextField(Column column)
-		{
-			Cell detailCell = column.getDetailCell();
-			List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
-			// only consider cells with a single text fields
-			if (detailElements == null || detailElements.size() != 1)
-			{
-				return null;
-			}
-			
-			JRChild detailElement = detailElements.get(0);
-			if (!(detailElement instanceof JRTextField))
-			{
-				return null;
-			}
-			
-			// see if the text field expression is $F{..} of $V{..}
-			JRTextField text = (JRTextField) detailElement;
-			JRExpression textExpression = text.getExpression();
-			JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
-			if (chunks == null || chunks.length != 1
-					|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
-					&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
-			{
-				return null;
-			}
-			
-			// success
-			return text;
 		}
 
         protected JRExpression getColumnHeaderLabelExpression(Cell header)
@@ -527,12 +499,14 @@ public class TableReport implements JRReport
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_COLUMN_TYPE, columnType.getName());
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, "Right");
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, "Middle");
+			
+			addColumnLabelParameters(genericElement, table);
 
 			String popupId = name + "_" + column.hashCode();
 			addElementParameter(genericElement, "popupId", popupId);
-			addElementParameter(genericElement, "columnIndex", headerClasses.size());
+			addElementParameter(genericElement, "columnIndex", TableUtil.getColumnIndex(column, table));
 
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + name + "_" + column.hashCode());	// FIXMEJIVE should generate unique html class?
+			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + name + "_" + column.hashCode());
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, name);
 			
@@ -543,7 +517,6 @@ public class TableReport implements JRReport
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
 			}
 			genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, filterPattern);
-			
 			frame.addElement(genericElement);
 		}
 		
@@ -565,6 +538,19 @@ public class TableReport implements JRReport
 			param.setName(name);
 			param.setValueExpression(expression);
 			element.addParameter(param);
+		}
+		
+		protected void addColumnLabelParameters(JRDesignGenericElement element, TableComponent table) {
+			List<BaseColumn> columns = TableUtil.getAllColumns(table);
+			for(int i = 0, ln = columns.size(); i < ln; i++) {
+				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(columns.get(i).getColumnHeader());
+
+				JRDesignPropertyExpression pe = new JRDesignPropertyExpression();
+				pe.setName(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i);
+				pe.setValueExpression(columnHeaderExpression);
+				
+				element.addPropertyExpression(pe);
+			}
 		}
 		
 		@Override
