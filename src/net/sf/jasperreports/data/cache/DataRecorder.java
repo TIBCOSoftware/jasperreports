@@ -23,26 +23,15 @@
  */
 package net.sf.jasperreports.data.cache;
 
-
 /**
- * Report data cache handler.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataCacheHandler
+public interface DataRecorder
 {
-	
-	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
 
-	boolean isRecordingEnabled();
-	
-	DataRecorder createDataRecorder();
-	
-	boolean isSnapshotPopulated();
-	
-	DataSnapshot getDataSnapshot();
-	
-	void invalidateDataSnapshot();
-	
+	DatasetRecorder createRecorder(Object key);
+
+	void setSnapshotPopulated();
+
 }

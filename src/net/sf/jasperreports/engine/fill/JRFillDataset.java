@@ -36,7 +36,9 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
-import net.sf.jasperreports.data.cache.DataCollector;
+import net.sf.jasperreports.data.cache.DataRecorder;
+import net.sf.jasperreports.data.cache.DataSnapshot;
+import net.sf.jasperreports.data.cache.DatasetRecorder;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.EvaluationType;
@@ -227,7 +229,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected DatasetFilter filter;
 
 	protected FillDatasetPosition fillPosition;
-	protected DataCollector dataCacher;
+	protected DatasetRecorder dataRecorder;
 	
 	/**
 	 * Creates a fill dataset object.
@@ -651,41 +653,42 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	protected void cacheInit()
 	{
-		dataCacher = null;
+		dataRecorder = null;
+		
+		if (fillPosition == null)
+		{
+			log.debug("No fill position present, not using the data cache");
+			return;
+		}
 		
 		// TODO lucianc report property to inhibit caching
-		DataCacheHandler cacheHandler = filler.fillContext.getCacheHandler();
-		if (cacheHandler != null && cacheHandler.isCachingEnabled())
+		DataSnapshot dataSnapshot = filler.fillContext.getDataSnapshot();
+		if (dataSnapshot != null)
 		{
-			if (fillPosition == null)
-			{
-				log.debug("No fill position present, not using the data cache");
-				return;
-			}
-			
-			if (cacheHandler.isCachePopulated())
-			{
-				// using cached data
-				dataSource = cacheHandler.getCachedData(fillPosition);
+			// using cached data
+			dataSource = dataSnapshot.getCachedData(fillPosition);
 
-				if (dataSource == null)
-				{
-					log.warn("No cached data found for " + fillPosition);
-				}
-				else
-				{
-					if (log.isDebugEnabled())
-					{
-						log.debug("Using cached data for " + fillPosition);
-					}
-				}
+			if (dataSource == null)
+			{
+				log.warn("No cached data found for " + fillPosition);
 			}
 			else
 			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("Using cached data for " + fillPosition);
+				}
+			}
+		}
+		else
+		{
+			DataRecorder cacheRecorder = filler.fillContext.getDataRecorder();
+			if (cacheRecorder != null)
+			{
 				// populating the cache
-				dataCacher = cacheHandler.getCollector(fillPosition);
+				dataRecorder = cacheRecorder.createRecorder(fillPosition);
 				// this will also remove existing data on rewind
-				dataCacher.init(parent.getFields());
+				dataRecorder.start(parent.getFields());
 				
 				if (log.isDebugEnabled())
 				{
@@ -697,7 +700,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected void cacheRecord()
 	{
-		if (dataCacher != null && !dataCacher.hasEnded())
+		if (dataRecorder != null && !dataRecorder.hasEnded())
 		{
 			Object[] values;
 			if (fields == null)
@@ -713,15 +716,15 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				}
 			}
 			
-			dataCacher.addRecord(values);
+			dataRecorder.addRecord(values);
 		}
 	}
 
 	protected void cacheEnd()
 	{
-		if (dataCacher != null && !dataCacher.hasEnded())
+		if (dataRecorder != null && !dataRecorder.hasEnded())
 		{
-			dataCacher.end();
+			dataRecorder.end();
 		}
 	}
 
@@ -1505,7 +1508,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		DataCacheHandler cacheHandler = filler.fillContext.getCacheHandler();
 		// if we're using a cached data source, return the original record index
-		if (cacheHandler != null && cacheHandler.isCachingEnabled() && cacheHandler.isCachePopulated()
+		if (cacheHandler != null && cacheHandler.isSnapshotPopulated()
 				&& dataSource instanceof IndexedDataSource)
 		{
 			return ((IndexedDataSource) dataSource).getRecordIndex() + 1;//indexes are 1-based

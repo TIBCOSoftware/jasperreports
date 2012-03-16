@@ -23,17 +23,13 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
+public class ColumnDataCacheHandler implements DataCacheHandler
 {
 
 	private static final Log log = LogFactory.getLog(ColumnDataCacheHandler.class);
@@ -52,19 +48,38 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 	private final static int DEFAULT_BUFFER_STORE_SIZE = 4096;
 	
 	private boolean enabled;
-	private volatile boolean populated;
+
+	private volatile DataSnapshot snapshot;
 	private int bufferStoreSize = DEFAULT_BUFFER_STORE_SIZE;
-	
-	private Map<Object, ColumnCacheData> cachedData = new HashMap<Object, ColumnCacheData>();
 	
 	public ColumnDataCacheHandler()
 	{
 		enabled = true;
 	}
 	
-	public boolean isCachingEnabled()
+	public boolean isRecordingEnabled()
 	{
 		return enabled;
+	}
+
+	public DataRecorder createDataRecorder()
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("creating data recorder");
+		}
+		
+		return new DataCollector();
+	}
+
+	public DataSnapshot getDataSnapshot()
+	{
+		return snapshot;
+	}
+	
+	public void invalidateDataSnapshot()
+	{
+		this.snapshot = null;
 	}
 	
 	protected void disableCaching()
@@ -77,64 +92,22 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 		this.enabled = false;
 	}
 
-	public void setCachePopulated()
+	protected void setDataSnapshot(DataSnapshot snapshot)
 	{
-		populated = true;
+		this.snapshot = snapshot;
 	}
 
-	public boolean isCachePopulated()
+	public boolean isSnapshotPopulated()
 	{
-		return populated;
-	}
-
-	public DataCollector getCollector(Object key)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("Creating ColumnDataCollector for " + key);
-		}
-		
-		ColumnDataCollector cacher = new ColumnDataCollector(key);
-		return cacher;
-	}
-
-	public boolean hasCachedData(Object key)
-	{
-		return cachedData.containsKey(key);
-	}
-
-	public IndexedDataSource getCachedData(Object key)
-	{
-		ColumnCacheData cacheData = cachedData.get(key);
-		if (cacheData == null)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("No cached data exists for " + key);
-			}
-			return null;
-		}
-		
-		if (log.isDebugEnabled())
-		{
-			log.debug("Found cached data source of " + cacheData.size() + " records for " + key);
-		}
-		
-		IndexedDataSource dataSource = cacheData.createDataSource();
-		return dataSource;
+		return snapshot != null;
 	}
 	
-	protected void addCacheData(Object key, ColumnCacheData data)
-	{
-		cachedData.put(key, data);
-	}
-	
-	public ColumnStore createColumnStore(JRField field)
+	protected ColumnStore createColumnStore(JRField field)
 	{
 		return new TypedColumnStore(this, field.getValueClass());
 	}
 	
-	public ColumnStore createColumnStore(Class<?> type)
+	protected ColumnStore createColumnStore(Class<?> type)
 	{
 		BufferColumnStore bufferStore = null;
 		if (Integer.class.equals(type))
@@ -212,20 +185,55 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 		return store;
 	}
 	
-	class ColumnDataCollector implements DataCollector
+	class DataCollector implements DataRecorder
 	{
+
+		private final ColumnDataSnapshot dataSnapshot;
+		
+		public DataCollector()
+		{
+			this.dataSnapshot = new ColumnDataSnapshot();
+		}
+
+		public DatasetRecorder createRecorder(Object key)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Creating ColumnDataCollector for " + key);
+			}
+			
+			ColumnDataCollector collector = new ColumnDataCollector(this, key);
+			return collector;
+		}
+		
+		protected void addCacheData(Object key, ColumnCacheData data)
+		{
+			dataSnapshot.addCachedData(key, data);
+		}
+
+		public void setSnapshotPopulated()
+		{
+			setDataSnapshot(dataSnapshot);
+		}
+		
+	}
+	
+	class ColumnDataCollector implements DatasetRecorder
+	{
+		private final DataCollector collector;
 		private final Object key;
 		private JRField[] fields;
 		private ColumnStore[] columns;
 		private int size;
 		private boolean ended;
 		
-		public ColumnDataCollector(Object key)
+		public ColumnDataCollector(DataCollector collector, Object key)
 		{
+			this.collector = collector;
 			this.key = key;
 		}
 
-		public void init(JRField[] datasetFields)
+		public void start(JRField[] datasetFields)
 		{
 			fields = (datasetFields == null) ? new JRField[0] : datasetFields;
 			
@@ -261,7 +269,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 
 		public void addRecord(Object[] values)
 		{
-			if (!isCachingEnabled())
+			if (!isRecordingEnabled())
 			{
 				// nothing to do
 				return;
@@ -282,7 +290,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 
 		public void end()
 		{
-			if (!isCachingEnabled())
+			if (!isRecordingEnabled())
 			{
 				// nothing to do
 				return;
@@ -309,7 +317,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler, Serializable
 			}
 			
 			ColumnCacheData data = new ColumnCacheData(fieldNames, size, values);
-			addCacheData(key, data);
+			collector.addCacheData(key, data);
 			
 			if (log.isDebugEnabled())
 			{

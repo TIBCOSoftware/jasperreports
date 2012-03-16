@@ -23,23 +23,17 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 /**
- * Cache data collector.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataCollector
+public interface DataSnapshot
 {
-
-	void init(JRField[] fields);
-
-	void addRecord(Object[] values);
-
-	void end();
-
-	boolean hasEnded();
-
+	
+	boolean hasCachedData(Object key);
+	
+	IndexedDataSource getCachedData(Object key);
+	
 }

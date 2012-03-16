@@ -23,26 +23,23 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import net.sf.jasperreports.engine.JRField;
 
 /**
- * Report data cache handler.
+ * Cache data collector.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataCacheHandler
+public interface DatasetRecorder
 {
-	
-	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
 
-	boolean isRecordingEnabled();
-	
-	DataRecorder createDataRecorder();
-	
-	boolean isSnapshotPopulated();
-	
-	DataSnapshot getDataSnapshot();
-	
-	void invalidateDataSnapshot();
-	
+	void start(JRField[] fields);
+
+	void addRecord(Object[] values);
+
+	void end();
+
+	boolean hasEnded();
+
 }

@@ -30,6 +30,8 @@ import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.jasperreports.data.cache.DataCacheHandler;
+import net.sf.jasperreports.data.cache.DataRecorder;
+import net.sf.jasperreports.data.cache.DataSnapshot;
 import net.sf.jasperreports.engine.Deduplicable;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -67,6 +69,8 @@ public class JRFillContext
 	private JasperReportsContext jasperReportsContext;
 	private ReportContext reportContext;
 	private DataCacheHandler cacheHandler;
+	private DataSnapshot dataSnapshot;
+	private DataRecorder dataRecorder;
 
 	private JRVirtualizationContext virtualizationContext;
 	
@@ -444,9 +448,16 @@ public class JRFillContext
 		
 		this.cacheHandler = (DataCacheHandler) getContextParameterValue(
 				DataCacheHandler.PARAMETER_DATA_CACHE_HANDLER);
-		if (cacheHandler != null && cacheHandler.isCachingEnabled())
+		if (cacheHandler != null)
 		{
-			
+			if (cacheHandler.isSnapshotPopulated())
+			{
+				dataSnapshot = cacheHandler.getDataSnapshot();
+			}
+			else if (cacheHandler.isRecordingEnabled())
+			{
+				dataRecorder = cacheHandler.createDataRecorder();
+			}
 		}
 	}
 
@@ -466,12 +477,21 @@ public class JRFillContext
 		return cacheHandler;
 	}
 
+	public DataSnapshot getDataSnapshot()
+	{
+		return dataSnapshot;
+	}
+
+	public DataRecorder getDataRecorder()
+	{
+		return dataRecorder;
+	}
+
 	public boolean hasCachedData(FillDatasetPosition position)
 	{
-		if (cacheHandler != null && cacheHandler.isCachingEnabled() 
-				&& cacheHandler.isCachePopulated())
+		if (dataSnapshot != null)
 		{
-			return cacheHandler.hasCachedData(position);
+			return dataSnapshot.hasCachedData(position);
 		}
 		
 		return false;
@@ -479,9 +499,9 @@ public class JRFillContext
 	
 	public void cacheDone()
 	{
-		if (cacheHandler != null && cacheHandler.isCachingEnabled())
+		if (dataRecorder != null)
 		{
-			cacheHandler.setCachePopulated();
+			dataRecorder.setSnapshotPopulated();
 		}
 	}
 }
