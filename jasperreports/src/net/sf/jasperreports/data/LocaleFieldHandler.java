@@ -71,8 +71,7 @@ public class LocaleFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	@SuppressWarnings("rawtypes")
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return Locale.class;
 	}

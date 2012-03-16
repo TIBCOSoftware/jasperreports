@@ -72,8 +72,7 @@ public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	@SuppressWarnings("rawtypes")
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return Locale.class;//FIXMECONTEXT is this correct?
 	}

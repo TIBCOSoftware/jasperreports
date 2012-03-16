@@ -650,14 +650,16 @@ public final class JasperCompileManager
 		
 		String compilerClassName = jasperReport.getCompilerClass();
 
-		Class<?> compilerClass = null;
+		Class<? extends JRCompiler> compilerClass = null;
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader != null)
 		{
 			try
 			{
-				compilerClass = classLoader.loadClass(compilerClassName);
+				@SuppressWarnings("unchecked")
+				Class<? extends JRCompiler> tmpCompilerClass = (Class<? extends JRCompiler>)classLoader.loadClass(compilerClassName);
+				compilerClass = tmpCompilerClass;
 			}
 			catch(ClassNotFoundException e)
 			{
@@ -671,11 +673,15 @@ public final class JasperCompileManager
 			{
 				if (classLoader == null)
 				{
-					compilerClass = Class.forName(compilerClassName);
+					@SuppressWarnings("unchecked")
+					Class<? extends JRCompiler> tmpCompilerClass = (Class<? extends JRCompiler>)Class.forName(compilerClassName);
+					compilerClass = tmpCompilerClass;
 				}
 				else
 				{
-					compilerClass = classLoader.loadClass(compilerClassName);
+					@SuppressWarnings("unchecked")
+					Class<? extends JRCompiler> tmpCompilerClass = (Class<? extends JRCompiler>)classLoader.loadClass(compilerClassName);
+					compilerClass = tmpCompilerClass;
 				}
 			}
 			catch(ClassNotFoundException e)
@@ -687,9 +693,8 @@ public final class JasperCompileManager
 
 		try
 		{
-			@SuppressWarnings("rawtypes")
-			Constructor  constructor = compilerClass.getConstructor(JasperReportsContext.class);//FIXMECONTEXT check all constructors like that
-			compiler = (JRCompiler)constructor.newInstance(jasperReportsContext);
+			Constructor<? extends JRCompiler>  constructor = compilerClass.getConstructor(JasperReportsContext.class);//FIXMECONTEXT check all constructors like that
+			compiler = constructor.newInstance(jasperReportsContext);
 		}
 		catch (Exception e)
 		{

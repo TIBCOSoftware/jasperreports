@@ -1419,9 +1419,10 @@ public class JRVerifier
 					/*
 					if (element.getY() < 0)
 					{
-						System.out.println(
-							"Warning : Element placed outside band area : y=" + element.getY()
-							);
+//						if (log.isWarnEnabled())
+//							log.warn(
+								"Warning : Element placed outside band area : y=" + element.getY()
+								);
 						//addBrokenRule("Element placed outside band area.");
 					}
 					else if (element.getY() + element.getHeight() > band.getHeight())
