@@ -215,6 +215,14 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
     <td colspan="2"><span class="label">Since</span></td>
     <td colspan="2"><span class="description"><xsl:value-of select="since"/></span></td>
   </tr>
+  <xsl:if test="contextUnaware">
+  <tr>
+    <td colspan="5"><br/></td>
+  </tr>
+  <tr>
+    <td colspan="5"><xsl:apply-templates select="contextUnaware"/></td>
+  </tr>
+  </xsl:if>
   </xsl:for-each>
   <tr>
     <td colspan="5"><br/><br/></td>
@@ -240,6 +248,14 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 <xsl:template match="description">
   <xsl:apply-templates/>
+</xsl:template>
+
+
+<xsl:template match="contextUnaware">
+  <span class="label">NOTE: </span><span class="description">Usually this property is not read from the report context. 
+  <xsl:element name="a">
+  <xsl:attribute name="href">http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/faq.html</xsl:attribute>
+  <xsl:attribute name="target">_blank</xsl:attribute>This FAQ</xsl:element> shows the additional steps to follow in order to set it on and get it from the report context.</span>
 </xsl:template>
 
 
