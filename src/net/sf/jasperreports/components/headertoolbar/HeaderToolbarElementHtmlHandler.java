@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.headertoolbar;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -50,7 +52,6 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
@@ -84,7 +85,6 @@ import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -97,9 +97,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final Log log = LogFactory.getLog(HeaderToolbarElementHtmlHandler.class);
 	
 	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
-	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.css";
-	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/headertoolbar/resources/images/delete_edit.gif";
-	private static final String RESOURCE_TRANSPARENT_PIXEL = "net/sf/jasperreports/engine/images/pixel.GIF";
+	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
 
 	private static final String CSS_FILTER_DISABLED = 		"filterBtnDisabled";
 	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
@@ -144,14 +142,14 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		{
 			
 			String tableUUID = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_TABLE_UUID);
-			String sortColumnName = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_NAME);
-			VelocityContext velocityContext = new VelocityContext();
+			String sortColumnName = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_NAME);
+			Map<String, Object> contextMap = new HashMap<String, Object>();
 			
 			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID) != null) {
 				templateAlreadyLoaded = true;
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID, true);
-				setAllColumnNames(element, context.getJasperReportsContext(), velocityContext);
+				setAllColumnNames(element, context.getJasperReportsContext(), contextMap);
 			}
 			
 			if (context.getExportParameters().containsKey(param) && (Boolean)context.getExportParameters().get(param)) {
@@ -160,15 +158,15 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				context.getExportParameters().put(param, Boolean.TRUE);
 			}
 			
-			velocityContext.put("exporterFirstAttempt", exporterFirstAttempt);
+			contextMap.put("exporterFirstAttempt", exporterFirstAttempt);
 			
-			String sortColumnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_LABEL);
-			String sortColumnType = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_SORT_COLUMN_TYPE);
+			String sortColumnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
+			String sortColumnType = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_TYPE);
 			
 			String popupId = (String) element.getParameterValue("popupId");
 			Integer columnIndex = (Integer) element.getParameterValue("columnIndex");
 			
-			velocityContext.put("columnLabel", sortColumnLabel);
+			contextMap.put("columnLabel", sortColumnLabel);
 			
 			FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
 			if (filterType == null)//FIXMEJIVE
@@ -212,44 +210,38 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					break;
 			}
 			
-			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
-			
-			velocityContext.put("valuesFormatPatternMap", valuesFormatPatternMap);
-			velocityContext.put("formatPatternLabel", formatPatternLabel);
-			velocityContext.put("templateAlreadyLoaded", templateAlreadyLoaded);
+			contextMap.put("valuesFormatPatternMap", valuesFormatPatternMap);
+			contextMap.put("formatPatternLabel", formatPatternLabel);
+			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
 
 			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
 			{
 				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
-			String imagesResourcePath = (appContextPath == null ? "" : appContextPath) + webResourcesBasePath;//FIXMEJIVE
 
-
-			velocityContext.put("jasperreports_tableHeaderToolbar_js", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS);
-			velocityContext.put("jasperreports_tableHeaderToolbar_css", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS);
-			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
-			velocityContext.put("elementWidth", element.getWidth());
-			velocityContext.put("elementHeight", element.getHeight());
-			velocityContext.put("transparentPixelSrc", imagesResourcePath + HeaderToolbarElementHtmlHandler.RESOURCE_TRANSPARENT_PIXEL);
+			contextMap.put("jasperreports_tableHeaderToolbar_js", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS);
+			contextMap.put("jasperreports_tableHeaderToolbar_css", getDynamicResourceLink(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS));
+			contextMap.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+			contextMap.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			contextMap.put("elementWidth", element.getWidth());
+			contextMap.put("elementHeight", element.getHeight());
 			
-			velocityContext.put("filterColumnNameLabel", sortColumnLabel != null ? sortColumnLabel : "");
-			velocityContext.put("filterCloseDialogImageResource", imagesResourcePath + HeaderToolbarElementHtmlHandler.RESOURCE_IMAGE_CLOSE);
+			contextMap.put("filterColumnNameLabel", sortColumnLabel != null ? sortColumnLabel : "");
 			
 			
 			
-			velocityContext.put("actionBaseUrl", getActionBaseUrl(context));
-			velocityContext.put("actionBaseData", getActionBaseJsonData(context));
+			contextMap.put("actionBaseUrl", getActionBaseUrl(context));
+			contextMap.put("actionBaseData", getActionBaseJsonData(context));
 
 			// begin:temp
 			if (popupId != null) {
-				velocityContext.put("popupId", popupId);
+				contextMap.put("popupId", popupId);
 			}
 			if (columnIndex != null) {
-				velocityContext.put("columnIndex", columnIndex);
-				setColumnHeaderData(sortColumnLabel, columnIndex, tableUUID, velocityContext, context.getJasperReportsContext(), reportContext);
-				setColumnValueData(sortColumnLabel, columnIndex, tableUUID, velocityContext, context.getJasperReportsContext(), reportContext);
+				contextMap.put("columnIndex", columnIndex);
+				setColumnHeaderData(sortColumnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
+				setColumnValueData(sortColumnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
 			}
 			SortData sortAscData = new SortData(tableUUID, sortColumnName, sortColumnType, HeaderToolbarElement.SORT_ORDER_ASC);
 			SortData sortDescData = new SortData(tableUUID, sortColumnName, sortColumnType, HeaderToolbarElement.SORT_ORDER_DESC);
@@ -270,7 +262,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
 			{
-				velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
+				contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 			}
 
 			String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, tableUUID, sortColumnName, sortColumnType);
@@ -315,7 +307,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			}
 			
 			// params for clear filter
-			velocityContext.put("filterToRemoveParamvalue", sortColumnName);
+			contextMap.put("filterToRemoveParamvalue", sortColumnName);
 			
 			// begin: the params that will generate the JSON post object for filtering
 			FilterData filterData = new FilterData();
@@ -327,27 +319,25 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			filterData.setFieldValueEnd(filterValueEnd);
 //			fd.setFilterTypeOperator(filterTypeOperatorValue);
 			
-			velocityContext.put("filterData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(filterData));
-			velocityContext.put("filterTypeValuesMap", translatedOperators);
-			velocityContext.put("filterTypeOperatorValue", filterTypeOperatorValue);
-			velocityContext.put("filterTableUuid", tableUUID);
+			contextMap.put("filterData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(filterData));
+			contextMap.put("filterTypeValuesMap", translatedOperators);
+			contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
+			contextMap.put("filterTableUuid", tableUUID);
 			// end
 			
 			// begin:temp
-//			velocityContext.put("sortAscData", JacksonUtil.getInstance(context.getExporter().getJasperReportsContext()).getEscapedJsonString(sortAscData));
-			velocityContext.put("sortAscData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortAscData));
-//			velocityContext.put("sortDescData", JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(sortDescData));
-			velocityContext.put("sortDescData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortDescData));
+			contextMap.put("sortAscData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortAscData));
+			contextMap.put("sortDescData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortDescData));
 			
-			velocityContext.put("sortAscActive", sortAscActive);
-			velocityContext.put("sortAscHover", sortAscHover);
-			velocityContext.put("sortDescActive", sortDescActive);
-			velocityContext.put("sortDescHover", sortDescHover);
-			velocityContext.put("filterActive", filterActive);
-			velocityContext.put("filterHover", filterHover);
+			contextMap.put("sortAscActive", sortAscActive);
+			contextMap.put("sortAscHover", sortAscHover);
+			contextMap.put("sortDescActive", sortDescActive);
+			contextMap.put("sortDescHover", sortDescHover);
+			contextMap.put("filterActive", filterActive);
+			contextMap.put("filterHover", filterHover);
 			// end: temp
 			
-			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, velocityContext);
+			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, contextMap);
 		}
 		
 		return htmlFragment;
@@ -488,7 +478,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return result;		
 	}
 	
-	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, VelocityContext velocityContext, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
+	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
@@ -520,10 +510,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				}
 			}
 		}
-		velocityContext.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colHeaderData));
+		contextMap.put("colHeaderData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colHeaderData));
 	}
 
-	private void setColumnValueData(String sortColumnLabel, Integer columnIndex, String tableUuid, VelocityContext velocityContext, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
+	private void setColumnValueData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
 		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
@@ -553,12 +543,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 					colValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
 					
-					velocityContext.put("formatPatternValue", textElement.getPattern());
+					contextMap.put("formatPatternValue", textElement.getPattern());
 				}
 			}
 		}
-		velocityContext.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colValueData));
+		contextMap.put("colValueData", JacksonUtil.getInstance(jasperReportsContext).getJsonString(colValueData));
 	}
+
 	public static class ColumnInfo {
 		private String index;
 		private String label;
@@ -583,17 +574,31 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		}
 	}
 
-	private void setAllColumnNames(JRGenericPrintElement element, JasperReportsContext jasperReportsContext, VelocityContext velocityContext) {
+	private void setAllColumnNames(JRGenericPrintElement element, JasperReportsContext jasperReportsContext, Map<String, Object> contextMap) {
 		
 		List<PropertySuffix> props =  JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(element, HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX);
 		Map<String, ColumnInfo> columnNames = new HashMap<String, ColumnInfo>();
 
 		for (PropertySuffix prop: props) {
-			String columnName = prop.getValue() != null ? prop.getValue() : "Column_" + prop.getSuffix();
+			String columnName = prop.getValue();
+			if (columnName == null || columnName.length() == 0) {
+				columnName = "Column_" + prop.getSuffix();
+			}
 			columnNames.put(prop.getSuffix(), new ColumnInfo(prop.getSuffix(), columnName, false));
 		}
 		
-		velocityContext.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
+		contextMap.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
+	}
+	
+	private String getDynamicResourceLink(String webResourceBasePath, String resourcePath) {
+		String encodedPath;
+		try {
+			encodedPath = URLEncoder.encode(webResourceBasePath, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new JRRuntimeException(e);
+		}
+		
+		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + encodedPath;
 	}
 
 }
