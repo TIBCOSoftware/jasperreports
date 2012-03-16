@@ -149,16 +149,17 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				templateAlreadyLoaded = true;
 			} else {
 				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID, true);
-				setAllColumnNames(element, context.getJasperReportsContext(), contextMap);
 			}
 			
 			if (context.getExportParameters().containsKey(param) && (Boolean)context.getExportParameters().get(param)) {
 				exporterFirstAttempt = false;
 			} else {
 				context.getExportParameters().put(param, Boolean.TRUE);
+
+				setAllColumnNames(element, context.getJasperReportsContext(), contextMap);
+				contextMap.put("exporterFirstAttempt", exporterFirstAttempt);
 			}
 			
-			contextMap.put("exporterFirstAttempt", exporterFirstAttempt);
 			
 			String sortColumnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			String sortColumnType = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_TYPE);

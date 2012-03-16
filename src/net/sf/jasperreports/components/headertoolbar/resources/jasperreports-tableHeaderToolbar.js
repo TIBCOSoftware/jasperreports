@@ -751,18 +751,13 @@
 	};
 
 	/**
-	 * Triggered after each ajax request, ONCE
-	 */
-	js.perActionCleanup = function () {
-		js.allColumns = {};
-		jQuery.extend(true, js.allColumns, js.defaultAllColumns);
-	};
-	
-	/**
 	 * Triggered on first ajax request, ONCE
 	 */
 	js.setAllColumns = function (allColumns) {
 		js.defaultAllColumns = allColumns;
+
+		js.allColumns = {};
+		jQuery.extend(true, js.allColumns, js.defaultAllColumns);
 	};
 	
 	/**
