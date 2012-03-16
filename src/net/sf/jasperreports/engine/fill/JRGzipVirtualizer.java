@@ -56,7 +56,7 @@ public class JRGzipVirtualizer extends JRAbstractLRUVirtualizer
 	 */
 	public JRGzipVirtualizer(int maxSize) {
 		super(maxSize);
-		this.zippedData = Collections.synchronizedMap(new HashMap());
+		this.zippedData = Collections.synchronizedMap(new HashMap<String,byte[]>());
 	}
 
 	protected void dispose(String virtualId) {

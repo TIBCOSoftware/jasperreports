@@ -74,12 +74,12 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 		
 		if (hyperlink.getHyperlinkParameters() != null)
 		{
-			List parameters = hyperlink.getHyperlinkParameters().getParameters();
+			List<JRPrintHyperlinkParameter> parameters = hyperlink.getHyperlinkParameters().getParameters();
 			if (parameters != null)
 			{
 				for (int i = 0; i < parameters.size(); i++)
 				{
-					JRPrintHyperlinkParameter parameter = (JRPrintHyperlinkParameter)parameters.get(i);
+					JRPrintHyperlinkParameter parameter = parameters.get(i);
 					if (ReportServlet.REQUEST_PARAMETER_REPORT_URI.equals(parameter.getName()))
 					{
 						reportUri = (String)parameter.getValue();
