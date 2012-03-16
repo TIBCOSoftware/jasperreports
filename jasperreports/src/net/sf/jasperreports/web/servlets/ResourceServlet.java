@@ -24,6 +24,8 @@
 package net.sf.jasperreports.web.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.web.util.VelocityUtil;
 
 
 /**
@@ -44,6 +47,9 @@ public class ResourceServlet extends HttpServlet
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public static final String RESOURCE_URI = "resource.uri";
+	public static final String RESOURCE_IS_DYNAMIC = "isDynamic";
+	public static final String SERVLET_PATH = "path";
+	
 	public static final String DEFAULT_PATH = "/servlets/resource";
 
 	public void service(
@@ -52,8 +58,23 @@ public class ResourceServlet extends HttpServlet
 		) throws IOException, ServletException
 	{
 		String resource = request.getParameter(RESOURCE_URI);
+		boolean isDynamicResource = Boolean.parseBoolean(request.getParameter(RESOURCE_IS_DYNAMIC));
 		try {
-			byte[] bytes = JRLoader.loadBytesFromResource(resource);
+			byte[] bytes = null;
+			
+			if(resource != null && resource.indexOf(".vm.") != -1 && isDynamicResource) 
+			{
+				Map<String, Object> contextMap = new HashMap<String, Object>();
+				contextMap.put("path", request.getContextPath() + request.getParameter(SERVLET_PATH));
+				String resourceString = VelocityUtil.processTemplate(resource, contextMap);
+				if (resourceString != null) {
+					bytes = resourceString.getBytes();
+				}
+			} else 
+			{
+				bytes = JRLoader.loadBytesFromResource(resource);
+			}
+			
 			if (resource.endsWith(".js")) {//FIXMEJIVE revisit this
 				response.setContentType("text/javascript");
 			} else if (resource.endsWith(".css")) {

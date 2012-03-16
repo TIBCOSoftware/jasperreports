@@ -494,11 +494,9 @@ public class TableReport implements JRReport
 			}
 			
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_TABLE_UUID, ((ContextAwareComponent)table).getContext().getComponentElement().getUUID().toString());
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_COLUMN_NAME, name);
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_COLUMN_TYPE, columnType.getName());
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN, "Right");
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN, "Middle");
+			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_NAME, name);
+			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
+			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_TYPE, columnType.getName());
 			
 			addColumnLabelParameters(genericElement, table);
 

@@ -4,7 +4,7 @@
 	jasperreports.global.appendStyleElementToDOM('_headertoolbarStyle', '${jasperreports_tableHeaderToolbar_css}');
 </script>
 <div class='popupdiv' id='popupdiv_template' data-actionBaseData='${actionBaseData}' data-actionBaseUrl='${actionBaseUrl}' style='display: none;'>
-	<div class='headerToolbar' style="background-image: url('${transparentPixelSrc}');">
+	<div class='headerToolbar'>
 		<button type='button' class='hoverbtn formatDialogBtn' data-hover='' />
 		<button type='button' class='hoverbtn sortAscBtn' data-hover='' data-sortData='' /> 
 		<button type='button' class='hoverbtn sortDescBtn' data-hover='' data-sortData='' />
@@ -13,13 +13,14 @@
 	<div class='headerToolbarMask headerToolbarMaskDefaultStyle' data-columnIndex=''>
 	</div>
 	<div class='filterdiv' style='display: none;' data-filterData='{"actionName":"filter"}' data-clearData='{"actionName":"filter","filterData":{"clearFilter":true}}'>
-        <img class='hidefilter' src='${filterCloseDialogImageResource}' />
+        <button type='button' class='hidefilter'/>
         <div class='filterDivForm'>
         	<input class='postable forClear uuid' type='hidden' name='uuid' value='' />
         	<input class='postable forClear fieldName' type='hidden' name='fieldName' value='' />
         	<input class='postable filterType' type='hidden' name='filterType' value='' />
         	<input class='postable filterPattern' disabled='disabled' type='hidden' name='filterPattern' value='' />
         	<label class='filterColumnNameLabel'></label>
+        	<br/>
 			<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'></select>
         	<input class='postable filterValue fieldValueStart initable' type='text' name='fieldValueStart' value='' />
         	<input class='postable filterValue fieldValueEnd initable hidden' disabled type='text' name='fieldValueEnd' value='' />

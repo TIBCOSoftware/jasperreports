@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Map;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -69,5 +70,9 @@ public class VelocityUtil
 		}
 		
 		return writer.getBuffer().toString();
+	}
+	
+	public static String processTemplate(String templateName, Map<String, Object> contextMap) {
+		return processTemplate(templateName, new VelocityContext(contextMap));
 	}
 }

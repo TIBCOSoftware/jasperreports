@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components.headertoolbar;
 
 import net.sf.jasperreports.engine.JRGenericElementType;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
@@ -38,7 +37,7 @@ public interface HeaderToolbarElement {
 	public static final String ELEMENT_NAME = "headertoolbar";
 	public static final JRGenericElementType ELEMENT_TYPE = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, ELEMENT_NAME);
 	
-	public static final String PARAM_COLUMN_LABEL_PREFIX = "net.sf.jasperreports.export.headertoolbar.column.";
+	public static final String PARAM_COLUMN_LABEL_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.column.";
 
 	public static final String SORT_ORDER_ASC = "Asc";
 	public static final String SORT_ORDER_DESC = "Dsc";
@@ -46,33 +45,12 @@ public interface HeaderToolbarElement {
 	public static final String SORT_COLUMN_TOKEN_SEPARATOR = ":";
 	
 	public static final String PARAMETER_TABLE_UUID = "tableUUID";
-	public static final String PARAMETER_SORT_COLUMN_NAME = "sortColumnName";
-	public static final String PARAMETER_SORT_COLUMN_LABEL = "sortColumnLabel";
-	public static final String PARAMETER_SORT_COLUMN_TYPE = "sortColumnType";
-	public static final String PARAMETER_SORT_HANDLER_COLOR = "sortHandlerColor";
-	public static final String PARAMETER_SORT_HANDLER_FONT_SIZE = "sortHandlerFontSize";
-	public static final String PARAMETER_SORT_HANDLER_VERTICAL_ALIGN = "sortHandlerVerticalAlign";
-	public static final String PARAMETER_SORT_HANDLER_HORIZONTAL_ALIGN = "sortHandlerHorizontalAlign";
+	public static final String PARAMETER_COLUMN_NAME = "sortColumnName";
+	public static final String PARAMETER_COLUMN_LABEL = "sortColumnLabel";
+	public static final String PARAMETER_COLUMN_TYPE = "sortColumnType";
 	
-	public static final String PARAMETER_SORT_HANDLER_FONT = "sortHandlerFont";
-	
-	/**
-	 * 
-	 */
-	public static final String REQUEST_PARAMETER_FILTER_FIELD = "jr.fltrFld";
-	public static final String REQUEST_PARAMETER_FILTER_VALUE_START = "jr.fltrVlStrt";
-	public static final String REQUEST_PARAMETER_FILTER_VALUE_END = "jr.fltrVlEnd";
-	public static final String REQUEST_PARAMETER_REMOVE_FILTER = "jr.rmvFltr";
-	
-	public static final String REQUEST_PARAMETER_SORT_DATA = "jr.sort";
-	public static final String REQUEST_PARAMETER_FILTER_TYPE = "jr.fltrTp"; 
-	public static final String REQUEST_PARAMETER_FILTER_TYPE_OPERATOR = "jr.fltrTpOprtr"; 
-	public static final String REQUEST_PARAMETER_FILTER_PATTERN = "jr.fltrPtrn"; 
-	
-	public static final String PROPERTY_FILTER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export." + HeaderToolbarElement.REQUEST_PARAMETER_FILTER_TYPE;
-	public static final String PROPERTY_FILTER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export." + HeaderToolbarElement.REQUEST_PARAMETER_FILTER_PATTERN;
-
-    public static final String SORT_FIELDS_PARAM_SUFFIX = "." + JRParameter.SORT_FIELDS;
-	public static final String FILTER_FIELDS_PARAM_SUFFIX = "." + JRParameter.FILTER;
+	public static final String PROPERTY_FILTER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.type";
+	public static final String PROPERTY_FILTER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.pattern";
+	public static final String PROPERTY_CAN_SORT_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.sort.filter";
 
 }

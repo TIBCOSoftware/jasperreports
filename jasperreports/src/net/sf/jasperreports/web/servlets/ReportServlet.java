@@ -25,6 +25,8 @@ package net.sf.jasperreports.web.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,6 @@ import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.velocity.VelocityContext;
 
 
 /**
@@ -261,7 +262,7 @@ public class ReportServlet extends AbstractServlet
 	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages, 
 			ReportPageStatus pageStatus)
 	{
-		VelocityContext headerContext = new VelocityContext();
+		Map<String, Object> contextMap = new HashMap<String, Object>();
 		if (hasPages) 
 		{
 			String webResourcesBasePath = JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");//FIXMEJIVE reuse this code
@@ -269,32 +270,32 @@ public class ReportServlet extends AbstractServlet
 			{
 				webResourcesBasePath = request.getContextPath() + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
-			headerContext.put("isAjax", request.getParameter(PARAMETER_IS_AJAX) != null && request.getParameter(PARAMETER_IS_AJAX).equals("true"));
-			headerContext.put("contextPath", request.getContextPath());
-			headerContext.put("globaljs", webResourcesBasePath + RESOURCE_GLOBAL_JS);
-			headerContext.put("globalcss", webResourcesBasePath + RESOURCE_GLOBAL_CSS);
+			contextMap.put("isAjax", request.getParameter(PARAMETER_IS_AJAX) != null && request.getParameter(PARAMETER_IS_AJAX).equals("true"));
+			contextMap.put("contextPath", request.getContextPath());
+			contextMap.put("globaljs", webResourcesBasePath + RESOURCE_GLOBAL_JS);
+			contextMap.put("globalcss", webResourcesBasePath + RESOURCE_GLOBAL_CSS);
 	//		headerContext.put("showToolbar", request.getParameter(PARAMETER_TOOLBAR) != null && request.getParameter(PARAMETER_TOOLBAR).equals("true"));
-			headerContext.put("showToolbar", Boolean.TRUE);
-			headerContext.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
-			headerContext.put("currentUrl", getCurrentUrl(request, webReportContext));
-			headerContext.put("strRunReportParam", ReportServlet.REQUEST_PARAMETER_RUN_REPORT + "=false");
+			contextMap.put("showToolbar", Boolean.TRUE);
+			contextMap.put("toolbarId", "toolbar_" + request.getSession().getId() + "_" + (int)(Math.random() * 99999));
+			contextMap.put("currentUrl", getCurrentUrl(request, webReportContext));
+			contextMap.put("strRunReportParam", ReportServlet.REQUEST_PARAMETER_RUN_REPORT + "=false");
 	
 			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
 					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
-			headerContext.put("totalPages", jasperPrintAccessor.getTotalPageCount());
+			contextMap.put("totalPages", jasperPrintAccessor.getTotalPageCount());
 	
 			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
-			headerContext.put("currentPage", (reportPage != null ? reportPage : "0"));
+			contextMap.put("currentPage", (reportPage != null ? reportPage : "0"));
 			
 			if (!pageStatus.isPageFinal())
 			{
-				headerContext.put("pageTimestamp", String.valueOf(pageStatus.getTimestamp()));
+				contextMap.put("pageTimestamp", String.valueOf(pageStatus.getTimestamp()));
 			}
 			
-			return VelocityUtil.processTemplate(TEMPLATE_HEADER, headerContext);
+			return VelocityUtil.processTemplate(TEMPLATE_HEADER, contextMap);
 		} else 
 		{
-			return VelocityUtil.processTemplate(TEMPLATE_HEADER_NOPAGES, headerContext);
+			return VelocityUtil.processTemplate(TEMPLATE_HEADER_NOPAGES, contextMap);
 		}
 	}
 
@@ -304,8 +305,7 @@ public class ReportServlet extends AbstractServlet
 	 */
 	protected String getBetweenPages(HttpServletRequest request, WebReportContext webReportContext) 
 	{
-		VelocityContext betweenPagesContext = new VelocityContext();
-		return VelocityUtil.processTemplate(TEMPLATE_BETWEEN_PAGES, betweenPagesContext);
+		return VelocityUtil.processTemplate(TEMPLATE_BETWEEN_PAGES, new HashMap<String, Object>());
 	}
 
 
@@ -315,12 +315,12 @@ public class ReportServlet extends AbstractServlet
 	protected String getFooter(HttpServletRequest request, WebReportContext webReportContext, boolean hasPages, 
 			ReportPageStatus pageStatus) 
 	{
-		VelocityContext footerContext = new VelocityContext();
+		Map<String, Object> contextMap = new HashMap<String, Object>();
 		if (hasPages) {
-			return VelocityUtil.processTemplate(TEMPLATE_FOOTER, footerContext);
+			return VelocityUtil.processTemplate(TEMPLATE_FOOTER, contextMap);
 		} else 
 		{
-			return VelocityUtil.processTemplate(TEMPLATE_FOOTER_NOPAGES, footerContext);
+			return VelocityUtil.processTemplate(TEMPLATE_FOOTER_NOPAGES, contextMap);
 		}
 	}
 
