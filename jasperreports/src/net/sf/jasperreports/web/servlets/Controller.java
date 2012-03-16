@@ -111,7 +111,7 @@ public class Controller
 	{
 		DataCacheHandler dataCacheHandler = (DataCacheHandler) webReportContext.getParameterValue(
 				DataCacheHandler.PARAMETER_DATA_CACHE_HANDLER);
-		if (dataCacheHandler != null && !dataCacheHandler.isCachePopulated())
+		if (dataCacheHandler != null && !dataCacheHandler.isSnapshotPopulated())
 		{
 			// if we have an old cache handler which is not yet final, create a new one
 			// TODO lucianc also check for final but disabled caches
