@@ -68,7 +68,7 @@ public final class PersistenceUtil
 	/**
 	 * 
 	 */
-	public PersistenceService getService(Class repositoryServiceType, Class resourceType)
+	public PersistenceService getService(Class<? extends RepositoryService> repositoryServiceType, Class<? extends Resource> resourceType)
 	{
 		List<PersistenceServiceFactory> factories = jasperReportsContext.getExtensions(PersistenceServiceFactory.class);
 		for (PersistenceServiceFactory factory : factories)
@@ -87,7 +87,7 @@ public final class PersistenceUtil
 	/**
 	 * @deprecated Replaced by {@link #getService(Class, Class)}.
 	 */
-	public static PersistenceService getPersistenceService(Class repositoryServiceType, Class resourceType)//FIXMECONTEXT might not need to deprecate, just remove
+	public static PersistenceService getPersistenceService(Class<? extends RepositoryService> repositoryServiceType, Class<? extends Resource> resourceType)//FIXMECONTEXT might not need to deprecate, just remove
 	{
 		return getDefaultInstance().getService(repositoryServiceType, resourceType);
 	}

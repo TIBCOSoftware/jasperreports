@@ -500,7 +500,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 		if (ignoreMissing)
 		{
 			JRValueParameter parameter = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
-			return ((Map<String,Object>)parameter.getValue()).get(parameterName);
+			@SuppressWarnings("unchecked")
+			Map<String,Object> parametersMap = (Map<String,Object>)parameter.getValue(); 			
+			return parametersMap.get(parameterName);
 		}
 		
 		JRValueParameter parameter = getValueParameter(parameterName, ignoreMissing);
@@ -525,7 +527,9 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	protected boolean parameterHasValue(String parameter)
 	{
 		JRValueParameter reportParametersMap = getValueParameter(JRParameter.REPORT_PARAMETERS_MAP, false);
-		return ((Map<String,Object>)reportParametersMap.getValue()).containsKey(parameter);
+		@SuppressWarnings("unchecked")
+		Map<String,Object> parametersMap = (Map<String,Object>)reportParametersMap.getValue();  
+		return parametersMap.containsKey(parameter);
 	}
 	
 	

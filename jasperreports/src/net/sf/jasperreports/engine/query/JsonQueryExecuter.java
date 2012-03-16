@@ -32,6 +32,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 
@@ -56,7 +57,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 	public JsonQueryExecuter(
 		JasperReportsContext jasperReportsContext,
 		JRDataset dataset, 
-		Map parametersMap
+		Map<String, ? extends JRValueParameter> parametersMap
 		)
 	{
 		super(jasperReportsContext, dataset, parametersMap);
@@ -66,7 +67,7 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 	/**
 	 * @deprecated Replaced by {@link #JsonQueryExecuter(JasperReportsContext, JRDataset, Map)}.
 	 */
-	public JsonQueryExecuter(JRDataset dataset, Map parametersMap)
+	public JsonQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}

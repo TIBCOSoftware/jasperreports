@@ -219,7 +219,7 @@ public class XmlUtil
 	/**
 	 *
 	 */
-	public static Object read(InputStream is, Class clazz)
+	public static Object read(InputStream is, Class<?> clazz)
 	{
 		return read(is, getMappingFile(clazz));
 	}
@@ -228,7 +228,7 @@ public class XmlUtil
 	/**
 	 *
 	 */
-	public static Object read(Node node, Class clazz)
+	public static Object read(Node node, Class<?> clazz)
 	{
 		return read(node, getMappingFile(clazz));
 	}
@@ -450,7 +450,7 @@ public class XmlUtil
 	/**
 	 *
 	 */
-	private static String getMappingFile(Class clazz)
+	private static String getMappingFile(Class<?> clazz)
 	{
 		return clazz.getName().replace(".", "/") + ".xml";
 	}

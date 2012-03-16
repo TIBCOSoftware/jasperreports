@@ -300,7 +300,7 @@ public class CastorUtil
 	/**
 	 *
 	 */
-	public static Object read(InputStream is, Class clazz)
+	public static Object read(InputStream is, Class<?> clazz)
 	{
 		return read(is, getMappingFileName(clazz));
 	}
@@ -309,7 +309,7 @@ public class CastorUtil
 	/**
 	 *
 	 */
-	public static Object read(Node node, Class clazz)
+	public static Object read(Node node, Class<?> clazz)
 	{
 		return read(node, getMappingFileName(clazz));
 	}
@@ -531,7 +531,7 @@ public class CastorUtil
 	/**
 	 *
 	 */
-	private static String getMappingFileName(Class clazz)
+	private static String getMappingFileName(Class<?> clazz)
 	{
 		return clazz.getName().replace(".", "/") + ".xml";
 	}
