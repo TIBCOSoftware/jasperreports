@@ -29,7 +29,6 @@
 package net.sf.jasperreports.engine.data;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -38,7 +37,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRDesignField;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuter;
 import net.sf.jasperreports.engine.util.xml.JRXPathExecuterUtils;
@@ -573,28 +571,6 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 		{
 			//nothing to do
 		}
-	}
-
-	public static void main(String[] args) throws Exception {
-		JRXmlDataSource ds = new JRXmlDataSource(new FileInputStream("northwind.xml"), "/Northwind/Customers");
-		JRDesignField field = new JRDesignField();
-		field.setDescription("CustomerID");
-		field.setValueClass(String.class);
-		
-		ds.next();
-		String v = (String) ds.getFieldValue(field);
-		System.out.println(field.getDescription() + "=" + v);
-		
-		JRXmlDataSource subDs = ds.dataSource("/Northwind/Orders");
-
-		JRDesignField field1 = new JRDesignField();
-		field1.setDescription("OrderID");
-		field1.setValueClass(String.class);
-		
-		subDs.next();
-		String v1 = (String) subDs.getFieldValue(field1);
-		System.out.println(field1.getDescription() + "=" + v1);
-		
 	}
 
 }

@@ -153,7 +153,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		currentJsonNode = null;
 		JsonNode result = getJsonData(jsonTree, selectExpression);
 		if (result != null && result.isObject()) {
-//			System.out.println("result is object");
 			final List<JsonNode> list = new ArrayList<JsonNode>();
 			list.add(result);
 			jsonNodesIterator = new Iterator<JsonNode>() {
@@ -172,7 +171,6 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 				}
 			};
 		} else if (result != null && result.isArray()) {
-//			System.out.println("result is array");
 			jsonNodesIterator = result.getElements();
 		}
 	}
@@ -207,8 +205,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 		}
 		Object value = null;
 		
-		@SuppressWarnings("rawtypes")
-		Class valueClass = jrField.getValueClass();
+		Class<?> valueClass = jrField.getValueClass();
 		JsonNode selectedObject = getJsonData(currentJsonNode, expression);
 		
 		if(Object.class != valueClass) 
