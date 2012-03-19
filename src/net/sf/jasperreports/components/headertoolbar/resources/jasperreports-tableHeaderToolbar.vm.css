@@ -122,11 +122,11 @@
 	background-color: rgba(117, 174, 207, 0.6);
 	background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
 	height: 17px; 
-	padding: 3px 3px 0 3px;
+	padding: 3px 5px 0px 5px;
 	position:absolute; 
 	text-align: left;
 	top: -20px; 
-	width: 80px;
+	width: 83px;
 	
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px; 

@@ -582,7 +582,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 
 		for (PropertySuffix prop: props) {
 			String columnName = prop.getValue();
-			if (columnName == null || columnName.length() == 0) {
+			if (columnName == null || columnName.trim().length() == 0) {
 				columnName = "Column_" + prop.getSuffix();
 			}
 			columnNames.put(prop.getSuffix(), new ColumnInfo(prop.getSuffix(), columnName, false));
