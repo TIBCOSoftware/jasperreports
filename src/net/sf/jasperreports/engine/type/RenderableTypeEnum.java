@@ -35,12 +35,12 @@ public enum RenderableTypeEnum implements JREnum
 	/**
 	 * Specifies that the renderable is rendering an image.
 	 */ 
-	IMAGE((byte)1, "Image"),
+	IMAGE((byte)0, "Image"),
 	
 	/**
 	 * Specifies that the renderable is rendering a SVG.
 	 */ 
-	SVG((byte)2, "SVG");
+	SVG((byte)1, "SVG");
 
 	/**
 	 *
