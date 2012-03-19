@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.lang.reflect.Modifier;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,7 +48,7 @@ public class TypedColumnStore implements ColumnStore
 	{
 		this.cacheHandler = cacheHandler;
 		this.baseType = baseType;
-		this.concreteTypeInitialized = !baseType.isInterface() && !baseType.equals(Object.class);
+		this.concreteTypeInitialized = !baseType.isInterface() && Modifier.isFinal(baseType.getModifiers());
 		
 		this.count = 0;
 	}
@@ -63,6 +65,18 @@ public class TypedColumnStore implements ColumnStore
 			Class<?> valueType = value.getClass();
 			if (!concreteTypeInitialized)
 			{
+				if (!baseType.isInstance(value))
+				{
+					// this shouldn't normally happen
+					if (log.isDebugEnabled())
+					{
+						log.debug(this + ": value not instance of type " + baseType);
+					}
+					
+					cacheHandler.disableCaching();
+					return;
+				}
+				
 				// deduce the base type from the first non-null value
 				if (log.isDebugEnabled())
 				{
