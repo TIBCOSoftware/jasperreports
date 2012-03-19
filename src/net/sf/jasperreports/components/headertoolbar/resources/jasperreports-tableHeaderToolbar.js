@@ -93,7 +93,7 @@
 						
 						for (var i = 0, ln = arrHeaderData.length; i < ln; i++) {
 							hd = arrHeaderData[i];
-							if (clickPositionInFrame <= hd.maxRight) {
+							if (clickPositionInFrame <= hd.maxRight && clickPositionInFrame >= hd.maxLeft) {
 								event.stopPropagation(); // cancel event bubbling here to prevent parent frames to respond to the same event
 								currentTarget.find(hd.headerClass).trigger('highlight', [currentTableFrameIndex]);
 								break;
@@ -562,7 +562,7 @@
 			menu.css({
 				left: '5px',
 				position: 'relative',
-				top: '-15px',
+				top: '0px',
 				'z-index': 1001,
 				'text-align': 'left'
 			});

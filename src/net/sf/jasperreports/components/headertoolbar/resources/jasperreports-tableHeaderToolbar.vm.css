@@ -61,6 +61,17 @@
 	width: 15px;
 }
 
+.formatDialogBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format.png');
+	background-color: transparent;
+	border: 0;
+	height: 14px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 23px;
+}
+
 .sortAscBtnDefault {
 	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/sort_asc.png');
 }
@@ -107,20 +118,23 @@
 }
 
 .headerToolbar {
-	background-color: rgb(0, 51, 102); 
-	background-color: rgba(0, 51, 102, 0.6);
+	background-color: rgb(117, 174, 207); 
+	background-color: rgba(117, 174, 207, 0.6);
 	background-image: url('${path}net/sf/jasperreports/engine/images/pixel.GIF');
-	height: 20px; 
+	height: 17px; 
 	padding: 3px 3px 0 3px;
 	position:absolute; 
 	text-align: left;
 	top: -20px; 
-	width: 72px; 
+	width: 80px;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px; 
 }
 
 .headerToolbarMaskDefaultStyle {
-	background-color: rgb(0, 51, 102); 
-	background-color: rgba(0, 51, 102, 0.6);
+	background-color: rgb(117, 174, 207); 
+	background-color: rgba(117, 174, 207, 0.6);
 }
 
 .headerToolbarMaskDroppable {
