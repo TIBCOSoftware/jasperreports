@@ -569,6 +569,8 @@
 
 	<complexType name="BaseColumn">
 		<sequence>
+			<element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
+			<element ref="jr:propertyExpression" minOccurs="0" maxOccurs="unbounded"/>
 			<element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
 			<element name="tableHeader" type="c:TableCell" minOccurs="0"/>
 			<element name="tableFooter" type="c:TableCell" minOccurs="0"/>

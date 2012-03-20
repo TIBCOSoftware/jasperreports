@@ -27,6 +27,8 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 
 /**
  * 
@@ -34,7 +36,7 @@ import net.sf.jasperreports.engine.JRExpression;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BaseColumn extends JRCloneable
+public interface BaseColumn extends JRCloneable, JRPropertiesHolder
 {
 
 	JRExpression getPrintWhenExpression();
@@ -58,5 +60,7 @@ public interface BaseColumn extends JRCloneable
 	Integer getWidth();
 
 	<R> R visitColumn(ColumnVisitor<R> visitor);
+
+	JRPropertyExpression[] getPropertyExpressions();
 
 }

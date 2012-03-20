@@ -612,7 +612,7 @@ public class JRExpressionCollector
 		collectPropertyExpressions(element.getPropertyExpressions());
 	}
 
-	protected void collectPropertyExpressions(
+	public void collectPropertyExpressions(
 			JRPropertyExpression[] propertyExpressions)
 	{
 		if (propertyExpressions != null && propertyExpressions.length > 0)

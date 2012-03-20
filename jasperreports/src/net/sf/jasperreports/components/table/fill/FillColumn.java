@@ -26,6 +26,8 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.List;
 
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 
 /**
  * 
@@ -33,28 +35,31 @@ import net.sf.jasperreports.components.table.BaseColumn;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class FillColumn
+public class FillColumn implements JRPropertiesHolder
 {
 
 	private BaseColumn tableColumn;
 	private int width;
 	private List<FillColumn> subcolumns;
+
+	private JRPropertiesMap properties;
 	
-	public FillColumn(BaseColumn tableColumn)
+	public FillColumn(BaseColumn tableColumn, JRPropertiesMap properties)
 	{
 		this(tableColumn,  
 				tableColumn.getWidth(), 
-				null);
+				null, properties);
 	}
 	
 	public FillColumn(BaseColumn tableColumn, int width,
-			List<FillColumn> subcolumns)
+			List<FillColumn> subcolumns, JRPropertiesMap properties)
 	{
 		super();
 		
 		this.tableColumn = tableColumn;
 		this.width = width;
 		this.subcolumns = subcolumns;
+		this.properties = properties;
 	}
 
 	public BaseColumn getTableColumn()
@@ -103,4 +108,19 @@ public class FillColumn
 		return hash;
 	}
 	
+	public boolean hasProperties()
+	{
+		return properties != null && properties.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return properties;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+
 }
