@@ -30,7 +30,11 @@ import java.util.ListIterator;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -64,6 +68,9 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	private Cell columnFooter;
 	private Integer width;
 
+	private JRPropertiesMap propertiesMap;
+	private List<JRPropertyExpression> propertyExpressions = new ArrayList<JRPropertyExpression>();
+
 	public StandardBaseColumn()
 	{
 		groupHeaders = new ArrayList<GroupCell>();
@@ -83,6 +90,22 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		this.columnFooter = factory.createCell(column.getColumnFooter());
 
 		this.width = column.getWidth();
+
+		propertiesMap = JRPropertiesMap.getPropertiesClone(column);
+		copyPropertyExpressions(column, factory);
+	}
+
+	private void copyPropertyExpressions(BaseColumn column, ColumnFactory factory)
+	{
+		JRPropertyExpression[] props = column.getPropertyExpressions();
+		if (props != null && props.length > 0)
+		{
+			propertyExpressions = new ArrayList<JRPropertyExpression>(props.length);
+			for (int i = 0; i < props.length; i++)
+			{
+				propertyExpressions.add(factory.getBaseObjectFactory().getPropertyExpression(props[i]));
+			}
+		}
 	}
 	
 	public Cell getColumnHeader()
@@ -350,4 +373,106 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 			addGroupHeader(groupCell);
 		}
 	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+
+	public JRPropertyExpression[] getPropertyExpressions()
+	{
+		JRPropertyExpression[] props;
+		if (propertyExpressions.isEmpty())
+		{
+			props = null;
+		}
+		else
+		{
+			props = propertyExpressions.toArray(new JRPropertyExpression[propertyExpressions.size()]);
+		}
+		return props;
+	}
+
+	/**
+	 * Add a dynamic/expression-based property.
+	 * 
+	 * @param propertyExpression the property to add
+	 * @see #getPropertyExpressions()
+	 */
+	public void addPropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		propertyExpressions.add(propertyExpression);
+		getEventSupport().fireCollectionElementAddedEvent(JRDesignElement.PROPERTY_PROPERTY_EXPRESSIONS, 
+				propertyExpression, propertyExpressions.size() - 1);
+	}
+
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param propertyExpression the property expression to remove
+	 * @see #addPropertyExpression(JRPropertyExpression)
+	 */
+	public void removePropertyExpression(JRPropertyExpression propertyExpression)
+	{
+		int idx = propertyExpressions.indexOf(propertyExpression);
+		if (idx >= 0)
+		{
+			propertyExpressions.remove(idx);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(JRDesignElement.PROPERTY_PROPERTY_EXPRESSIONS, 
+					propertyExpression, idx);
+		}
+	}
+	
+	/**
+	 * Remove a property expression.
+	 * 
+	 * @param name the name of the property to remove
+	 * @return the removed property expression (if found)
+	 */
+	public JRPropertyExpression removePropertyExpression(String name)
+	{
+		JRPropertyExpression removed = null;
+		for (ListIterator<JRPropertyExpression> it = propertyExpressions.listIterator(); it.hasNext();)
+		{
+			JRPropertyExpression prop = it.next();
+			if (name.equals(prop.getName()))
+			{
+				removed = prop;
+				int idx = it.previousIndex();
+				
+				it.remove();
+				getEventSupport().fireCollectionElementRemovedEvent(JRDesignElement.PROPERTY_PROPERTY_EXPRESSIONS, 
+						removed, idx);
+				break;
+			}
+		}
+		return removed;
+	}
+	
+	/**
+	 * Returns the list of property expressions.
+	 * 
+	 * @return the list of property expressions ({@link JRPropertyExpression} instances)
+	 * @see #addPropertyExpression(JRPropertyExpression)
+	 */
+	public List<JRPropertyExpression> getPropertyExpressionsList()
+	{
+		return propertyExpressions;
+	}
+	
 }

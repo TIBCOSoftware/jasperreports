@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperReport;
@@ -128,6 +130,37 @@ public class FillTable extends BaseFillComponent
 		return toPrint;
 	}
 	
+	protected JRPropertiesMap evaluateProperties(BaseColumn column, byte evaluation) throws JRException
+	{
+		JRPropertiesMap staticProperties = column.hasProperties() ? column.getPropertiesMap().cloneProperties() : null;
+		JRPropertiesMap mergedProperties = null;
+
+		JRPropertyExpression[] propExprs = column.getPropertyExpressions();
+		if (propExprs == null || propExprs.length == 0)
+		{
+			mergedProperties = staticProperties;
+		}
+		else
+		{
+			JRPropertiesMap dynamicProperties = new JRPropertiesMap();
+			
+			for (int i = 0; i < propExprs.length; i++)
+			{
+				JRPropertyExpression prop = propExprs[i];
+				String value = (String) evaluateExpression(prop.getValueExpression(), evaluation);
+				if (value != null)
+				{
+					dynamicProperties.setProperty(prop.getName(), value);
+				}
+			}
+			
+			mergedProperties = dynamicProperties.cloneProperties();
+			mergedProperties.setBaseProperties(staticProperties);
+		}
+		
+		return mergedProperties;
+	}
+	
 	protected class FillColumnEvaluator implements ColumnVisitor<FillColumn>
 	{
 		final byte evaluation;
@@ -142,7 +175,12 @@ public class FillTable extends BaseFillComponent
 			try
 			{
 				boolean toPrint = toPrintColumn(column, evaluation);
-				return toPrint ? new FillColumn(column) : null;
+				if (toPrint)
+				{
+					JRPropertiesMap properties = evaluateProperties(column, evaluation);
+					return new FillColumn(column, properties); 
+				}
+				return null;
 			}
 			catch (JRException e)
 			{
@@ -179,7 +217,8 @@ public class FillTable extends BaseFillComponent
 					}
 					else
 					{
-						fillColumn = new FillColumn(columnGroup, printWidth, subColumns);
+						JRPropertiesMap properties = evaluateProperties(columnGroup, evaluation);
+						fillColumn = new FillColumn(columnGroup, printWidth, subColumns, properties);
 					}
 				}
 				else

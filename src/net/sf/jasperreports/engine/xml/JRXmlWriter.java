@@ -503,7 +503,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	private void writeProperties(JRPropertiesHolder propertiesHolder) throws IOException
+	public void writeProperties(JRPropertiesHolder propertiesHolder) throws IOException
 	{
 		if (propertiesHolder.hasProperties())
 		{
@@ -834,7 +834,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	}
 
 
-	protected void writePropertyExpressions(
+	public void writePropertyExpressions(
 			JRPropertyExpression[] propertyExpressions) throws IOException
 	{
 		if (propertyExpressions != null)

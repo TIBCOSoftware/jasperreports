@@ -57,6 +57,7 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 	
 	public Void visitColumn(Column column)
 	{
+		mainCollector.collectPropertyExpressions(column.getPropertyExpressions());
 		mainCollector.addExpression(column.getPrintWhenExpression());
 		collectCell(column.getTableHeader());
 		collectCell(column.getTableFooter());
@@ -72,6 +73,7 @@ public class ColumnExpressionCollector implements ColumnVisitor<Void>
 
 	public Void visitColumnGroup(ColumnGroup columnGroup)
 	{
+		mainCollector.collectPropertyExpressions(columnGroup.getPropertyExpressions());
 		mainCollector.addExpression(columnGroup.getPrintWhenExpression());
 		collectCell(columnGroup.getTableHeader());
 		collectCell(columnGroup.getTableFooter());
