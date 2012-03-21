@@ -513,7 +513,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			{
 				for(int i = 0; i < propertyNames.length; i++)
 				{
-					writer.startElement(JRXmlConstants.ELEMENT_property);
+					writer.startElement(JRXmlConstants.ELEMENT_property, getNamespace());
 					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, propertyNames[i]);
 					String value = propertiesMap.getProperty(propertyNames[i]);
 					if (value != null)
@@ -850,7 +850,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	protected void writePropertyExpression(JRPropertyExpression propertyExpression) throws IOException
 	{
 		String expressionText = propertyExpression.getValueExpression().getText();
-		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, expressionText, 
+		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, getNamespace(), expressionText, 
 				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
 	}
 
