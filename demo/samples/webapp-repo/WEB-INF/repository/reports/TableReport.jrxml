@@ -94,7 +94,7 @@
 					<datasetRun subDataset="TableDataset"/>
 					<jr:columnGroup width="750">
 						<jr:groupHeader groupName="CityGroup">
-							<jr:cell height="20">
+							<jr:cell height="55">
 								<textField evaluationTime="Group" evaluationGroup="CityGroup" hyperlinkType="ReportExecution" bookmarkLevel="1">
 									<reportElement style="Sans_Bold" mode="Opaque" x="0" y="5" width="750" height="15" backcolor="#C0C0C0"/>
 									<box leftPadding="10">
@@ -113,6 +113,24 @@
 										<hyperlinkParameterExpression><![CDATA[$V{longitude}]]></hyperlinkParameterExpression>
 									</hyperlinkParameter>
 								</textField>
+								<frame>
+									<reportElement mode="Opaque" x="85" y="25" width="445" height="25" backcolor="#FFC0CB"/>
+									<box>
+										<pen lineWidth="1.0" lineColor="#FF0000"/>
+									</box>
+									<frame>
+										<reportElement mode="Opaque" x="150" y="5" width="150" height="15" backcolor="#90EE90"/>
+										<box>
+											<pen lineWidth="1.0" lineColor="#00FF00"/>
+										</box>
+										<frame>
+											<reportElement mode="Opaque" x="55" y="5" width="20" height="5" backcolor="#9090EE"/>
+											<box>
+												<pen lineWidth="1.0" lineColor="#0000FF"/>
+											</box>
+										</frame>
+									</frame>
+								</frame>
 							</jr:cell>
 						</jr:groupHeader>
 						<jr:groupFooter groupName="CityGroup">

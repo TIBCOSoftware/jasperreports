@@ -13,6 +13,7 @@ import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.base.JRBaseElement;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.web.commands.Command;
@@ -169,9 +170,19 @@ public class ResizeColumnAndParentsCommand implements Command
 //		}
 //	}
 	
-	private void resizeChildren(JRElementGroup elementGroup, int startX, int amount) {
-		if (elementGroup != null) {
-			for (JRChild child: elementGroup.getChildren()) {
+	private void resizeChildren(JRElementGroup elementGroup, int startX, int amount) 
+	{
+		if (elementGroup != null && startX >= 0) 
+		{
+			for (JRChild child: elementGroup.getChildren()) 
+			{
+				int childStartX = startX;
+				int childAmount = amount;
+				if (child instanceof JRFrame)
+				{
+					childStartX = startX - ((JRFrame)child).getX();
+				}
+				
 				if (child instanceof JRBaseElement) 
 				{
 					JRBaseElement be = (JRBaseElement) child;
@@ -194,7 +205,7 @@ public class ResizeColumnAndParentsCommand implements Command
 						else
 						{
 							resizeAmount = amount;
-							moveAmount = amount - resizeAmount;
+							moveAmount = amount - resizeAmount;//0
 						}
 					}
 					else
@@ -203,13 +214,13 @@ public class ResizeColumnAndParentsCommand implements Command
 						{
 							if (startX + amount > be.getX())
 							{
-								resizeAmount = amount - (startX - (be.getX() + be.getWidth()));
+								resizeAmount = amount + (startX - (be.getX() + be.getWidth()));
 								moveAmount = 0;
 							}
 							else
 							{
 								resizeAmount = - be.getWidth();
-								moveAmount = amount - be.getWidth() - (startX - (be.getX() +  be.getWidth()));								
+								moveAmount = startX + amount - be.getX();								
 							}
 						}
 						else
@@ -229,10 +240,14 @@ public class ResizeColumnAndParentsCommand implements Command
 						moveAmount = be.getX() + moveAmount < 0 ? -be.getX() : moveAmount;
 						individualResizeCommandStack.execute(new MoveElementCommand(be, be.getX() + moveAmount));
 					}
+				
+					childAmount = resizeAmount;
 				}
-				if (child instanceof JRElementGroup) {
+				
+				if (child instanceof JRElementGroup) 
+				{
 					JRElementGroup eg = (JRElementGroup) child;
-					resizeChildren(eg, startX, amount);
+					resizeChildren(eg, childStartX, childAmount);
 				}
 			}
 		}

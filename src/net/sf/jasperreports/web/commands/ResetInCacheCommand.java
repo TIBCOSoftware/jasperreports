@@ -41,7 +41,9 @@ public class ResetInCacheCommand implements Command
 
 	public void redo() 
 	{
-		execute();
+		command.redo();
+		
+		JasperDesignCache.getInstance(jasperReportsContext, reportContext).resetJasperReport(uri);
 	}
 
 }
