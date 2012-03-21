@@ -511,7 +511,7 @@ public class TableReport implements JRReport
             
             int columnIndex = TableUtil.getColumnIndex(column, table);
             String columnName = name != null ? name : String.valueOf(columnIndex);
-            String popupId = columnName + "_" + column.hashCode();
+            String popupId = column.getUUID().toString();//columnName + "_" + column.hashCode();
             
             addColumnLabelParameters(genericElement, table);
             addElementParameter(genericElement, "popupId", popupId);
