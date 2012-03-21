@@ -27,6 +27,7 @@
 				allColumns: {},
 				selectedColumn: {
 					self: null,
+					popupId: null,
 					toolbarId: null,
 					tableUuid: null,
 					tableFrameIndex: null,
@@ -158,6 +159,7 @@
 		            	
 		            	js.selectedColumn = {
 		            			self: self,
+		            			popupId: popupId,
 		            			toolbarId: self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
 		    					tableUuid: parentFrameUuid,
 		    					tableFrameIndex: tableFrameIndex,
@@ -245,7 +247,7 @@
 						            	jvt.runReport2(js.selectedColumn, 
 						            			dragObj.moveColumnActionData, 
 						            			js.highlightColumn, 
-						            			[dragObj.moveColumnActionData.moveColumnData.columnToMoveNewIndex, dragObj.whichTableFrameIndex]);
+						            			[js.selectedColumn.popupId, dragObj.whichTableFrameIndex]);
 						            	
 			            			} else {
 			            				// move mask back to its place
@@ -302,12 +304,12 @@
 		
 	};
 	
-	js.highlightColumn = function (columnIndex, tableFrameIndex, toolbarId) {
+	js.highlightColumn = function (popupId, tableFrameIndex, toolbarId) {
 		var jvt = global.jasperreports.reportviewertoolbar;
 		jvt.performAction(toolbarId);
 		
 		var tableFrame = jQuery('.jrtableframe').get(tableFrameIndex);
-		jQuery('.columnHeader:eq(' + columnIndex + ')', tableFrame).trigger('click').trigger('highlight', [tableFrameIndex]);
+		jQuery('.columnHeader[data-popupId=' + popupId + ']', tableFrame).trigger('click').trigger('highlight', [tableFrameIndex]);
 	};
 	
 	js.initTemplate = function (templateId) {
@@ -614,6 +616,9 @@
 					default:
 						if (prop.indexOf('data-') == 0) {
 							jqTemplateInstance.attr(prop, propValue);
+							
+						} else if (prop.indexOf('attr-') == 0) {
+							jqTemplateInstance.attr(/attr-(\w+)/.exec(prop)[1], propValue);
 							
 						} else if (prop.indexOf('@class') == 0) {
 							jqTemplateInstance.addClass(propValue);
