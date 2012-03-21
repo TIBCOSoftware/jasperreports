@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -59,6 +60,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 	public static final String PROPERTY_GROUP_FOOTERS = "groupFooters";
 	public static final String PROPERTY_WIDTH = "width";
 	
+	private UUID uuid;
 	private JRExpression printWhenExpression;
 	private Cell tableHeader;
 	private Cell tableFooter;
@@ -79,6 +81,8 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 
 	public StandardBaseColumn(BaseColumn column, ColumnFactory factory)
 	{
+		this.uuid = column.getUUID();
+
 		this.printWhenExpression = factory.getBaseObjectFactory().getExpression(
 				column.getPrintWhenExpression());
 		
@@ -108,6 +112,18 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		}
 	}
 	
+	/**
+	 *
+	 */
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
+	}
+
 	public Cell getColumnHeader()
 	{
 		return columnHeader;
