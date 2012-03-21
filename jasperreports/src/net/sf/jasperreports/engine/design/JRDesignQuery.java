@@ -64,28 +64,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	protected List<JRQueryChunk> chunks = new ArrayList<JRQueryChunk>();
 
 	
-	private transient final JRQueryChunkHandler chunkAdder = new JRQueryChunkHandler()
-	{
-		public void handleParameterChunk(String text)
-		{
-			addParameterChunk(text);
-		}
-
-		public void handleParameterClauseChunk(String text)
-		{
-			addParameterClauseChunk(text);
-		}
-
-		public void handleTextChunk(String text)
-		{
-			addTextChunk(text);
-		}
-
-		public void handleClauseChunk(String[] tokens)
-		{
-			addClauseChunk(tokens);
-		}
-	};
+	private transient JRQueryChunkHandler chunkAdder;
 
 	/**
 	 *
@@ -171,6 +150,37 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		this.chunks.add(chunk);
 	}
 
+	protected JRQueryChunkHandler chunkAdder()
+	{
+		if (chunkAdder == null)
+		{
+			chunkAdder = new JRQueryChunkHandler()
+			{
+				public void handleParameterChunk(String text)
+				{
+					addParameterChunk(text);
+				}
+
+				public void handleParameterClauseChunk(String text)
+				{
+					addParameterClauseChunk(text);
+				}
+
+				public void handleTextChunk(String text)
+				{
+					addTextChunk(text);
+				}
+
+				public void handleClauseChunk(String[] tokens)
+				{
+					addClauseChunk(tokens);
+				}
+			};
+		}
+		
+		return chunkAdder;
+	}
+	
 	/**
 	 *
 	 */
@@ -178,7 +188,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 	{
 		Object old = getText();
 		chunks = new ArrayList<JRQueryChunk>();
-		JRQueryParser.instance().parse(text, chunkAdder);
+		JRQueryParser.instance().parse(text, chunkAdder());
 		getEventSupport().firePropertyChange(PROPERTY_TEXT, old, getText());
 	}
 			
@@ -276,6 +286,7 @@ public class JRDesignQuery extends JRBaseQuery implements JRChangeEventsSupport
 		JRDesignQuery clone = (JRDesignQuery)super.clone();
 		clone.chunks = JRCloneUtils.cloneList(chunks);
 		clone.eventSupport = null;
+		clone.chunkAdder = null;
 		return clone;
 	}
 }
