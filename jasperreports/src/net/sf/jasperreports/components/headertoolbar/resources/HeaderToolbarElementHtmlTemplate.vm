@@ -21,7 +21,7 @@
         	<input class='postable filterPattern' disabled='disabled' type='hidden' name='filterPattern' value='' />
         	<label class='filterColumnNameLabel'></label>
         	<br/>
-			<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'></select>
+			<select class='postable filterOperatorTypeValueSelector filterTypeOperator' name='filterTypeOperator'></select>
         	<input class='postable filterValue fieldValueStart initable' type='text' name='fieldValueStart' value='' />
         	<input class='postable filterValue fieldValueEnd initable hidden' disabled type='text' name='fieldValueEnd' value='' />
         	<input class='submitFilterBtn' type='button' value='Filter' />
@@ -100,27 +100,27 @@
 (function() {
 	var gm = jasperreports.global,
 		templateJsonData = {
+		#if (!${canSort})
+			headerToolbar: {
+				sortAscBtn: {'@class': 'hidden'},
+				sortDescBtn: {'@class': 'hidden'},
+				filterBtn: {'@class': 'hidden'}
+			},
+		#else
 			headerToolbar: {
 				sortAscBtn: {'data-hover': '${sortAscHover}', '@class': '${sortAscActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortAscData}}'},
 				sortDescBtn: {'data-hover': '${sortDescHover}', '@class': '${sortDescActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortDescData}}'},
 				filterBtn: {'data-hover': '${filterHover}',	'@class': '${filterActive}'	}
 			},
-			headerToolbarMask: {'data-columnIndex': ${columnIndex}},
 			filterdiv: {
-				filterDivForm: ${filterData},
 				filterColumnNameLabel: '${filterColumnNameLabel}',
 				filterOperatorTypeValueSelector: [
 				#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-					#set( $selected = false )
-					#if ($entry.key == ${filterTypeOperatorValue})
-						#set( $selected = true )
-					#end
-					{key: '$entry.key', sel: $selected, val: '$entry.value'},
-				#end]
+					{key: '$entry.key', val: '$entry.value'},
+				#end],
+				filterDivForm: ${filterData}
 			},
-			headingsTabContent: ${colHeaderData},
-			valuesTabContent: ${colValueData},
-			formatPatternLabel: '${formatPatternLabel}', 
+			formatPatternLabel: '${formatPatternLabel}',
 			formatPatternSelector: [
 				#foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
 					#set( $selected = false )
@@ -128,7 +128,11 @@
 						#set( $selected = true )
 					#end
 					{key: '$entry.key', sel: $selected, val: '$entry.value'},
-				#end] 
+				#end],
+		#end
+			headerToolbarMask: {'data-columnIndex': ${columnIndex}},
+			headingsTabContent: ${colHeaderData},
+			valuesTabContent: ${colValueData}
 		};
 #if (${exporterFirstAttempt})
 	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.setAllColumns', [${allColumnNames}]);
