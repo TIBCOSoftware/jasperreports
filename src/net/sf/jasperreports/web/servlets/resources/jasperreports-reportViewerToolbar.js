@@ -349,6 +349,27 @@
 	    }
 	};
 
+	jvt.runReport2 = function(selectedColumn, actionData, callback, arrCallbackArgs, isJSON) {
+		var	gm = global.jasperreports.global,
+			params = selectedColumn.actionBaseData,
+			callback = callback || jvt.performAction,
+			arrCallbackArgs = arrCallbackArgs || [],
+			isJson = isJson || true;
+		
+		if (typeof actionData === 'object') {
+			actionData = gm.toJsonString(actionData);
+		}
+		
+		params[jvt.PARAM_ACTION] = actionData;
+		arrCallbackArgs.splice(arrCallbackArgs.length, 0, selectedColumn.toolbarId);
+		
+		var	ctx = gm.getToolbarExecutionContext(selectedColumn.self, selectedColumn.actionBaseUrl, params, callback, arrCallbackArgs, isJSON);
+		
+		if (ctx) {
+			ctx.run();
+		}
+	};
+
 	global.jasperreports.reportviewertoolbar = jvt;
 	
 } (this));

@@ -422,10 +422,7 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = super.createColumnCell(column, cell);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
-			if (sortTextField != null)
-			{
-				addHeaderToolbarElement(column, frame, sortTextField.getExpression().getChunks()[0], sortTextField.getPattern());
-			}
+			addHeaderToolbarElement(column, frame, sortTextField);
 			return frame;
 		}
 
@@ -452,8 +449,7 @@ public class TableReport implements JRReport
 			return null;
         }
 
-		protected void addHeaderToolbarElement(Column column, JRDesignFrame frame,
-				JRExpressionChunk sortExpression, String filterPattern)
+		protected void addHeaderToolbarElement(Column column, JRDesignFrame frame, JRTextField sortTextField)
 		{
 			Cell header = column.getColumnHeader();
 
@@ -463,58 +459,74 @@ public class TableReport implements JRReport
 			genericElement.setPositionType(net.sf.jasperreports.engine.type.PositionTypeEnum.FIX_RELATIVE_TO_TOP);
 			genericElement.setX(0);
 			genericElement.setY(0);
-//			genericElement.setHeight(header.getHeight());
-//			genericElement.setWidth(fillColumn.getWidth());
 			genericElement.setHeight(0);
 			genericElement.setWidth(0);
 			genericElement.setMode(ModeEnum.TRANSPARENT);
             genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
-			
-			String name = sortExpression.getText();
-			SortFieldTypeEnum columnType;
-			FilterTypesEnum filterType = null;
-			
-			switch (sortExpression.getType())
-			{
-			case JRExpressionChunk.TYPE_FIELD:
-				columnType = SortFieldTypeEnum.FIELD;
-				JRField field = getField(name);
-				filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
-				break;
-				
-			case JRExpressionChunk.TYPE_VARIABLE:
-				columnType = SortFieldTypeEnum.VARIABLE;
-				JRVariable variable = getVariable(name);
-				filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
-				break;
-				
-			default:
-				// never
-				throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
-			}
-			
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_TABLE_UUID, ((ContextAwareComponent)table).getContext().getComponentElement().getUUID().toString());
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_NAME, name);
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
-			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_TYPE, columnType.getName());
-			
-			addColumnLabelParameters(genericElement, table);
+            
+            String name = null;
+            
+            if (sortTextField == null) {
+            	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
+            	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.FALSE.toString());
+            } else {
+            	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
+            	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
+            	
+            	JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
+            	
+            	name = sortExpression.getText();
+            	SortFieldTypeEnum columnType;
+            	FilterTypesEnum filterType = null;
+            	
+            	switch (sortExpression.getType())
+            	{
+            	case JRExpressionChunk.TYPE_FIELD:
+            		columnType = SortFieldTypeEnum.FIELD;
+            		JRField field = getField(name);
+            		filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+            		break;
+            		
+            	case JRExpressionChunk.TYPE_VARIABLE:
+            		columnType = SortFieldTypeEnum.VARIABLE;
+            		JRVariable variable = getVariable(name);
+            		filterType = HeaderToolbarElementUtils.getFilterType(variable.getValueClass());
+            		break;
+            		
+            	default:
+            		// never
+            		throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
+            	}
+            	
+            	addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_TYPE, columnType.getName());
+            	
+            	if (filterType != null)
+            	{
+            		genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
+            	}
+            	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
+            }
 
-			String popupId = name + "_" + column.hashCode();
-			addElementParameter(genericElement, "popupId", popupId);
-			addElementParameter(genericElement, "columnIndex", TableUtil.getColumnIndex(column, table));
+            
+            
+            int columnIndex = TableUtil.getColumnIndex(column, table);
+            String columnName = name != null ? name : String.valueOf(columnIndex);
+            String popupId = columnName + "_" + column.hashCode();
+            
+            addColumnLabelParameters(genericElement, table);
+            addElementParameter(genericElement, "popupId", popupId);
+            addElementParameter(genericElement, "columnIndex", columnIndex);
 
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + name + "_" + column.hashCode());
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, name);
+            addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_NAME, columnName);
+            addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_TABLE_UUID, ((ContextAwareComponent)table).getContext().getComponentElement().getUUID().toString());
+            addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
+
+            frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());
+            frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
+            frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, columnName);
+            
+            headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + columnName);
 			
-			headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + name);
-			
-			if (filterType != null)
-			{
-				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
-			}
-			genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, filterPattern);
 			frame.addElement(genericElement);
 		}
 		

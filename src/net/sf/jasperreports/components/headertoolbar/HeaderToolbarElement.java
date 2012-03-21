@@ -51,6 +51,10 @@ public interface HeaderToolbarElement {
 	
 	public static final String PROPERTY_FILTER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.type";
 	public static final String PROPERTY_FILTER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.pattern";
-	public static final String PROPERTY_CAN_SORT_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.sort.filter";
+	
+	public static final String PROPERTY_CAN_SORT = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.sort";
+	public static final String PROPERTY_CAN_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.filter";
+	public static final String PROPERTY_CAN_MOVE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.move";
+	public static final String PROPERTY_CAN_RESIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.resize";
 
 }
