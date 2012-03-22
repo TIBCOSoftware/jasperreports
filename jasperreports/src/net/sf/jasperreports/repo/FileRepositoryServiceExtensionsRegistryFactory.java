@@ -44,7 +44,15 @@ public class FileRepositoryServiceExtensionsRegistryFactory implements Extension
 	 */
 	public final static String FILE_REPOSITORY_PROPERTY_PREFIX = 
 		DefaultExtensionsRegistry.PROPERTY_REGISTRY_PREFIX + "file.repository.";
+	
+	/**
+	 * Specifies the file repository root location.
+	 */
 	public final static String PROPERTY_FILE_REPOSITORY_ROOT = FILE_REPOSITORY_PROPERTY_PREFIX + "root";
+	
+	/**
+	 * Flag property that indicates whether the absolute path to be used instead, when resources are not found in the file repository.
+	 */
 	public final static String PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH = FILE_REPOSITORY_PROPERTY_PREFIX + "resolve.absolute.path";
 	
 	/**
