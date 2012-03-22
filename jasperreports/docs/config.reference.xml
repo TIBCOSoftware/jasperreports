@@ -65,8 +65,15 @@
       <property ref="net.sf.jasperreports.chart.render.type"/>
       <property ref="net.sf.jasperreports.chart.renderer.factory.{render_type}"/>
       <property ref="net.sf.jasperreports.chart.theme"/>
+      <property ref="net.sf.jasperreports.default.first.line.indent"/>
       <property ref="net.sf.jasperreports.default.font.name"/>
       <property ref="net.sf.jasperreports.default.font.size"/>
+      <property ref="net.sf.jasperreports.default.left.indent"/>
+      <property ref="net.sf.jasperreports.default.line.spacing.size"/>
+      <property ref="net.sf.jasperreports.default.right.indent"/>
+      <property ref="net.sf.jasperreports.default.spacing.after"/>
+      <property ref="net.sf.jasperreports.default.spacing.before"/>
+      <property ref="net.sf.jasperreports.default.tab.stop.width"/>
       <property ref="net.sf.jasperreports.evaluator.class.reference.fix.enabled"/>
       <property ref="net.sf.jasperreports.image.encoder"/>
       <property ref="net.sf.jasperreports.image.reader"/>
@@ -867,6 +874,22 @@ Property used to specify the chart theme name.
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.default.first.line.indent -->
+  
+  <configProperty name="net.sf.jasperreports.default.first.line.indent">
+    <description>
+Specifies the default value (in pixels) for the first line indent, if no explicit information is provided in a JR paragraph. 
+<br/>
+By default the first line in JR paragraphs has no indentation. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_FIRST_LINE_INDENT</api>
+    <default>0</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.default.font.name -->
   
   <configProperty name="net.sf.jasperreports.default.font.name">
@@ -895,6 +918,109 @@ Specifies the default font size when no default font size is explicitly given in
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.default.left.indent -->
+  
+  <configProperty name="net.sf.jasperreports.default.left.indent">
+    <description>
+Specifies the default value (in pixels) for the left indent, if no explicit information is provided in a JR paragraph. 
+<br/>
+By default JR paragraphs provide no left indentation. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_LEFT_INDENT</api>
+    <default>0</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.default.line.spacing.size -->
+  
+  <configProperty name="net.sf.jasperreports.default.line.spacing.size">
+    <description>
+Specifies the default value for the text line spacing size, if no explicit information is provided in a 
+JR paragraph. 
+<br/>
+This value is used in combination with the size-dependent line spacings in 
+<api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html">LineSpacingEnum</api>:
+<ul>
+ <li><api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html#AT_LEAST">AT_LEAST</api></li>
+ <li><api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html#FIXED">FIXED</api></li>
+<li><api href="net/sf/jasperreports/engine/type/LineSpacingEnum.html#PROPORTIONAL">PROPORTIONAL</api></li>
+</ul>
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_LINE_SPACING_SIZE</api>
+    <default>1</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.default.right.indent -->
+  
+  <configProperty name="net.sf.jasperreports.default.right.indent">
+    <description>
+Specifies the default value (in pixels) for the right indent, if no explicit information is provided in a JR paragraph. 
+<br/>
+By default JR paragraphs provide no right indentation. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_RIGHT_INDENT</api>
+    <default>0</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.default.spacing.after -->
+  
+  <configProperty name="net.sf.jasperreports.default.spacing.after">
+    <description>
+Specifies the default value (in pixels) for the spacing after lines, if no explicit information is provided in a JR paragraph. 
+<br/>
+By default JR paragraphs provide no spacing after lines. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_SPACING_AFTER</api>
+    <default>0</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.default.spacing.before -->
+  
+  <configProperty name="net.sf.jasperreports.default.spacing.before">
+    <description>
+Specifies the default value (in pixels) for the spacing before lines, if no explicit information is provided in a JR paragraph. 
+<br/>
+By default JR paragraphs provide no spacing before lines. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_SPACING_BEFORE</api>
+    <default>0</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
+  <!-- net.sf.jasperreports.default.tab.stop.width -->
+  
+  <configProperty name="net.sf.jasperreports.default.tab.stop.width">
+    <description>
+Specifies the default value (in pixels) for the tab stop width, if no explicit information is provided in a paragraph. 
+<br/>
+By default JR paragraphs provide 40 pixels wide tab stops. 
+    </description>
+    <api>net/sf/jasperreports/engine/JRParagraph.html#DEFAULT_TAB_STOP_WIDTH</api>
+    <default>40</default>
+    <scope>Global</scope>
+    <since>4.0.2</since>
+    <contextUnaware/>
+  </configProperty>
+  
+
   <!-- net.sf.jasperreports.image.encoder -->
   
   <configProperty name="net.sf.jasperreports.image.encoder">

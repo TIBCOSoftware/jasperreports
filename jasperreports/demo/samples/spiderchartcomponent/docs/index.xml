@@ -26,8 +26,8 @@ How to configure the built-in spider chart component rendered by the <a href="ht
 <subtitle name="overview">The Built-in Spider Chart Component - Overview</subtitle>
 <br/>
 <br/>
-Spider charts (also known as radar charts) are very useful when multivariate data sets have to be represented. These data sets are displayed as 
-spider webs anchored in a multiple radial axis system. 
+Spider charts (also known as radar charts) are very useful when multivariate data sets have to be represented. Such data sets are usually displayed as 
+overlapping spider webs anchored in a multiple radial axis system. 
 <br/>
 The JR built-in spider chart was developed as component element in order to illustrate how to implement custom components based on the 
 <a href="http://www.jfree.org/jfreechart/">JFreeChart</a> charting engine. The component in this case should output a 
