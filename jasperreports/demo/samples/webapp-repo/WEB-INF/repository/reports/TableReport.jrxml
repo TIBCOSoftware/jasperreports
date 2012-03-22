@@ -147,7 +147,6 @@
 								</staticText>
 							</jr:cell>
 						</jr:groupFooter>
-						<jr:columnGroup width="375">
 							<jr:column width="20">
 								<jr:columnHeader height="60" rowSpan="3">
 									<textField>
@@ -281,7 +280,6 @@
 									</jr:detailCell>
 								</jr:column>
 							</jr:columnGroup>
-						</jr:columnGroup>
 						<jr:columnGroup width="375">
 							<jr:columnHeader height="20">
 								<textField>
