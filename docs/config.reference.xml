@@ -266,6 +266,14 @@
   </category>
   
   <category>
+    <name>JasperReports Repository</name>
+    <content>
+      <property ref="net.sf.jasperreports.file.repository.resolve.absolute.path"/>
+      <property ref="net.sf.jasperreports.file.repository.root"/>
+    </content>
+  </category>
+  
+  <category>
     <name>Other</name>
     <content>
       <property ref="net.sf.jasperreports.awt.check.available.printers"/>
@@ -3639,6 +3647,34 @@ the bookmark will be created as a direct descendant of its nearest parent.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.3</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.file.repository.resolve.absolute.path -->
+  
+  <configProperty name="net.sf.jasperreports.file.repository.resolve.absolute.path">
+    <description>
+Flag property that indicates whether the absolute path to be used instead, when resources are not found in the file repository.
+    </description>
+    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH</api>
+    <default>false</default>
+    <scope>Global</scope>
+    <since>4.1.1</since>
+    <contextUnaware/>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.file.repository.root -->
+  
+  <configProperty name="net.sf.jasperreports.file.repository.root">
+    <description>
+Specifies the file repository root location.
+    </description>
+    <api>net/sf/jasperreports/repo/FileRepositoryServiceExtensionsRegistryFactory.html#PROPERTY_FILE_REPOSITORY_RESOLVE_ABSOLUTE_PATH</api>
+    <default>N/A</default>
+    <scope>Global</scope>
+    <since>4.1.1</since>
+    <contextUnaware/>
   </configProperty>
   
   
