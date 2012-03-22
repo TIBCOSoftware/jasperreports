@@ -77,6 +77,12 @@
 	color: #000000;
 }
 
+.note {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -252,10 +258,23 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="contextUnaware">
-  <span class="label">NOTE: </span><span class="description">Usually this property is not read from the report context. 
-  <xsl:element name="a">
-  <xsl:attribute name="href">http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/faq.html</xsl:attribute>
-  <xsl:attribute name="target">_blank</xsl:attribute>This FAQ</xsl:element> shows the additional steps to follow in order to set it on and get it from the report context.</span>
+  <span class="note">NOTE: By default,  
+	  <xsl:choose>
+	    <xsl:when test="contains(../@name,'{')">properties with this prefix are </xsl:when>
+	    <xsl:otherwise>this property is </xsl:otherwise>
+	  </xsl:choose>not read from the report context. 
+	  <xsl:element name="a">
+	  <xsl:attribute name="href">http://jasperforge.org/uploads/publish/jasperreportswebsite/trunk/faq.html</xsl:attribute>
+	  <xsl:attribute name="target">_blank</xsl:attribute>This FAQ</xsl:element> shows the additional steps to follow in order to set 
+  	  <xsl:choose>
+	    <xsl:when test="contains(../@name,'{')">them </xsl:when>
+	    <xsl:otherwise>it </xsl:otherwise>
+	  </xsl:choose>on and get  
+  	  <xsl:choose>
+	    <xsl:when test="contains(../@name,'{')">them </xsl:when>
+	    <xsl:otherwise>it </xsl:otherwise>
+	  </xsl:choose>from the report context. 
+   </span>
 </xsl:template>
 
 

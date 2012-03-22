@@ -582,6 +582,7 @@ Property that specifies the list of token separators characters for <api href="n
     <default>, ; |</default>
     <scope>Global</scope>
     <since>2.0.5</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -596,6 +597,7 @@ To obtain query executer factories, a property having the query language appende
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.2.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -680,6 +682,7 @@ Property that forces the XML validation of the report template file before compi
     <default>true</default>
     <scope>Global</scope>
     <since>1.0.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -698,6 +701,7 @@ SUN JDK).
     <default>true</default>
     <scope>Global</scope>
     <since>3.1.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -715,6 +719,7 @@ as report parser factory.
     <default><code>net.sf.jasperreports.engine.xml.JRReportSaxParserFactory</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -872,6 +877,7 @@ Specifies the default font name when no default font is explicitly given in a re
     <default>SansSerif</default>
     <scope>Global</scope>
     <since>1.3.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -885,6 +891,7 @@ Specifies the default font size when no default font size is explicitly given in
     <default>10</default>
     <scope>Global</scope>
     <since>1.3.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1035,6 +1042,7 @@ Temporary files will be deleted by explicitly calling <code>cleanup()</code> or 
     <default>true</default>
     <scope>Global</scope>
     <since>1.2.3</since>
+    <contextUnaware/>
   </configProperty>
 
 
@@ -1428,6 +1436,7 @@ the property value at a later time will have no effect.
     <default><code>net.sf.jasperreports.extensions.DefaultExtensionsRegistry</code></default>
     <scope>Global</scope>
     <since>3.1.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1442,6 +1451,7 @@ Property specifying the maximum in-memory buffer length that triggers the creati
     <default>262144</default>
     <scope>Global</scope>
     <since>1.3.4</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1546,6 +1556,7 @@ Property that forces the XML validation, when a document exported to XML format 
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.0.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1576,6 +1587,7 @@ Property indicating the default PDF font, if not specified in the report templat
     <default>Helvetica</default>
     <scope>Global</scope>
     <since>1.3.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1589,6 +1601,7 @@ Property indicating the default PDF encoding, if not specified in the report tem
     <default>Cp1252</default>
     <scope>Global</scope>
     <since>1.3.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1602,6 +1615,7 @@ Property indicating the default PDF font embedding behavior, if not specified in
     <default>false</default>
     <scope>Global</scope>
     <since>1.3.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1712,6 +1726,7 @@ technique that that was used in versions prior to the 2.0.3 release.
     <default><api href="net/sf/jasperreports/engine/export/legacy/BorderOffset.html#DEFAULT">net.sf.jasperreports.export.legacy.BorderOffset.DEFAULT</api></default>
     <scope>Global | Report</scope>
     <since>3.0.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -1814,6 +1829,7 @@ This flag controls the use of an AWT rendering fix which causes the printer job 
     <default>true</default>
     <scope>Global | Report</scope>
     <since>1.2.8</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -2103,6 +2119,7 @@ Prefix of properties that specify font files for the PDF exporter.
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.0.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -2116,6 +2133,7 @@ Prefix of properties that specify font directories for the PDF exporter.
     <default>N/A</default>
     <scope>Global</scope>
     <since>1.0.0</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -3271,6 +3289,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.6.1</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -3283,6 +3302,7 @@ and raise a <api href="net/sf/jasperreports/engine/util/JRFontNotFoundException.
     <default>N/A</default>
     <scope>Global</scope>
     <since>3.1.3</since>
+    <contextUnaware/>
   </configProperty>
   
   
@@ -3441,6 +3461,7 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
     <default>16</default>
     <scope>Global</scope>
     <since>3.5.4</since>
+    <contextUnaware/>
   </configProperty>
   
   
