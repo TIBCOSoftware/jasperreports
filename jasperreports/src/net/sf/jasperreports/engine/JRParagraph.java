@@ -34,14 +34,58 @@ import net.sf.jasperreports.engine.type.LineSpacingEnum;
 public interface JRParagraph extends JRStyleContainer
 {
 	/**
+	 * Specifies the default value for the text line spacing size, if no explicit information is provided in a 
+	 * JR paragraph. This value is used in combination with the size-dependent line spacings in {@link LineSpacingEnum}: 
+	 * <ul>
+	 * <li>AT_LEAST</li>
+	 * <li>FIXED</li>
+	 * <li>PROPORTIONAL</li>
+	 * </ul>
 	 * 
+	 * @see net.sf.jasperreports.engine.export.AbstractTextRenderer#getLineHeight(boolean, JRParagraph, float, float)
 	 */
 	public static final String DEFAULT_LINE_SPACING_SIZE = JRPropertiesUtil.PROPERTY_PREFIX + "default.line.spacing.size";
+	
+	/**
+	 * Specifies the default value (in pixels) for the first line indent, if no explicit information is provided in a JR paragraph. 
+	 * <br/>
+	 * By default the first line in JR paragraphs has no indentation. 
+	 */
 	public static final String DEFAULT_FIRST_LINE_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.first.line.indent";
+	
+	/**
+	 * Specifies the default value (in pixels) for the left indent, if no explicit information is provided in a JR paragraph. 
+	 * <br/>
+	 * By default JR paragraphs provide no left indentation. 
+	 */
 	public static final String DEFAULT_LEFT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.left.indent";
+	
+	/**
+	 * Specifies the default value (in pixels) for the right indent, if no explicit information is provided in a JR paragraph. 
+	 * <br/>
+	 * By default JR paragraphs provide no right indentation. 
+	 */
 	public static final String DEFAULT_RIGHT_INDENT = JRPropertiesUtil.PROPERTY_PREFIX + "default.right.indent";
+	
+	/**
+	 * Specifies the default value (in pixels) for the spacing before lines, if no explicit information is provided in a JR paragraph. 
+	 * <br/>
+	 * By default JR paragraphs provide no spacing before lines. 
+	 */
 	public static final String DEFAULT_SPACING_BEFORE = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.before";
+	
+	/**
+	 * Specifies the default value (in pixels) for the spacing after lines, if no explicit information is provided in a JR paragraph. 
+	 * <br/>
+	 * By default JR paragraphs provide no spacing after lines. 
+	 */
 	public static final String DEFAULT_SPACING_AFTER = JRPropertiesUtil.PROPERTY_PREFIX + "default.spacing.after";
+	
+	/**
+	 * Specifies the default value (in pixels) for the tab stop width, if no explicit information is provided in a paragraph. 
+	 * <br/>
+	 * By default JR paragraphs provide 40 pixels wide tab stops. 
+	 */
 	public static final String DEFAULT_TAB_STOP_WIDTH = JRPropertiesUtil.PROPERTY_PREFIX + "default.tab.stop.width";
 
 	/**
