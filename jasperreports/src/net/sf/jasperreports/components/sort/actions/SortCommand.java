@@ -26,7 +26,12 @@ package net.sf.jasperreports.components.sort.actions;
 import java.util.List;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRGroup;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
@@ -40,17 +45,20 @@ import net.sf.jasperreports.web.commands.CommandStack;
  */
 public class SortCommand implements Command 
 {
+	public static final String PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS = JRPropertiesUtil.PROPERTY_PREFIX + "create.sort.fields.for.groups";
 	
 //	private ReportContext reportContext;
+	private JasperReportsContext jasperReportsContext;
 	protected JRDesignDataset dataset;
 	protected SortData sortData;
 //	protected JasperDesignCache cache;
 	private CommandStack individualCommandStack;
 	
-	public SortCommand(JRDesignDataset dataset, SortData sortData) 
+	public SortCommand(JasperReportsContext jasperReportsContext, JRDesignDataset dataset, SortData sortData) 
 	//public AbstractSortCommand(ReportContext reportContext, SortData sortData) 
 	{
 //		this.reportContext = reportContext;
+		this.jasperReportsContext = jasperReportsContext;
 		this.dataset = dataset;
 		this.sortData = sortData;
 //		this.cache = JasperDesignCache.getInstance(reportContext);
@@ -70,9 +78,47 @@ public class SortCommand implements Command
 		
 		JRSortField oldSortField = null;
 		List<JRSortField> sortFields = dataset.getSortFieldsList();
+		if (
+			JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(dataset, PROPERTY_CREATE_SORT_FIELDS_FOR_GROUPS, false)
+			&& (sortFields == null || sortFields.isEmpty())
+			)
+		{
+			List<JRGroup> groups = dataset.getGroupsList();
+			for (JRGroup group : groups)
+			{
+				JRExpression expression = group.getExpression();
+				if (expression != null)
+				{
+					JRExpressionChunk[] chunks = expression.getChunks();
+					if (chunks != null && chunks.length == 1)
+					{
+						JRExpressionChunk chunk = chunks[0];
+						if (
+							chunk.getType() == JRExpressionChunk.TYPE_FIELD
+							|| chunk.getType() == JRExpressionChunk.TYPE_VARIABLE
+							)
+						{
+							JRDesignSortField groupSortField = 
+								new JRDesignSortField(
+									chunk.getText(),
+									chunk.getType() == JRExpressionChunk.TYPE_FIELD 
+										? SortFieldTypeEnum.FIELD
+										: SortFieldTypeEnum.VARIABLE,
+									SortOrderEnum.ASCENDING
+									);
+							individualCommandStack.execute(new AddSortFieldCommand(dataset, groupSortField));
+						}
+					}
+				}
+			}
+		}
+
 		for (JRSortField crtSortField : sortFields)
 		{
-			if (newSortField.getName().equals(crtSortField.getName()))
+			if (
+				newSortField.getName().equals(crtSortField.getName())
+				&& newSortField.getType() == crtSortField.getType()
+				)
 			{
 				oldSortField = crtSortField;
 				break;

@@ -57,7 +57,7 @@ public class SortAction extends AbstractTableAction
 				// execute command
 				commandStack.execute(
 					new ResetInCacheCommand(
-						new SortCommand(dataset, sortData),
+						new SortCommand(getJasperReportsContext(), dataset, sortData),
 						getJasperReportsContext(),
 						getReportContext(), 
 						target.getUri()
