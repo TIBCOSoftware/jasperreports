@@ -15,15 +15,15 @@
 	<div class='filterdiv' style='display: none;' data-filterData='{"actionName":"filter"}' data-clearData='{"actionName":"filter","filterData":{"clearFilter":true}}'>
         <button type='button' class='hidefilter'/>
         <div class='filterDivForm'>
-        	<input class='postable forClear uuid' type='hidden' name='uuid' value='' />
-        	<input class='postable forClear fieldName' type='hidden' name='fieldName' value='' />
-        	<input class='postable filterType' type='hidden' name='filterType' value='' />
-        	<input class='postable filterPattern' disabled='disabled' type='hidden' name='filterPattern' value='' />
+        	<input class='postable forClear' type='hidden' name='uuid' value='' />
+        	<input class='postable forClear' type='hidden' name='fieldName' value='' />
+        	<input class='postable' type='hidden' name='filterType' value='' />
+        	<input class='postable' disabled='disabled' type='hidden' name='filterPattern' value='' />
         	<label class='filterColumnNameLabel'></label>
         	<br/>
-			<select class='postable filterOperatorTypeValueSelector filterTypeOperator' name='filterTypeOperator'></select>
-        	<input class='postable filterValue fieldValueStart initable' type='text' name='fieldValueStart' value='' />
-        	<input class='postable filterValue fieldValueEnd initable hidden' disabled type='text' name='fieldValueEnd' value='' />
+			<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'></select>
+        	<input class='postable filterValue initable' type='text' name='fieldValueStart' value='' />
+        	<input class='postable filterValue initable hidden' disabled type='text' name='fieldValueEnd' value='' />
         	<input class='submitFilterBtn' type='button' value='Filter' />
         	<input class='clearFilterBtn' style='display:none;' type='button' value='Clear' />
         </div>
@@ -31,7 +31,7 @@
 	<ul class="jrMenuLst jrMenu">
 		<li class="jrMenuLstItm jrMenuEnabled format"><span class="jrMenuText">Formatting</span></li>
 		<li class="jrMenuLstItm jrMenuEnabled hide"><span class="jrMenuText">Hide Column</span></li>
-		<li class="jrMenuLstItm jrMenuEnabled unhide"><span class="jrMenuText">Unhide Columns</span>
+		<li class="jrMenuLstItm jrMenuEnabled unhide"><span class="jrMenuText">Show Columns</span>
 	</ul>
 	<div class="formatDialog">
 		<ul class="formatHeaderUL">
@@ -40,49 +40,61 @@
 			<li class="formatLI"><div class="formatTab" data-tabBody='valuesTabContent'>Values</div></li>
 		</ul>
 		<div class="formatTabBody headingsTabContent selectedTabBody">
-			<input class="postable tableUuid" name="tableUuid" type="hidden" />
-			<input class="postable columnIndex" name="columnIndex" type="hidden" />
-			<label>Name:</label><input class="postable headingName" name="headingName" type="text" />
+			<input class="postable" name="tableUuid" type="hidden" />
+			<input class="postable" name="columnIndex" type="hidden" />
+			<label>Name:</label><input class="postable" name="headingName" type="text" />
 			<br/>
-			<label>Font:</label><input class="postable fontName" name="fontName" type="text" />
+			<label>Font:</label><input class="postable" name="fontName" type="text" />
 			<br/>
-			<label>Size:</label><input class="postable fontSize" name="fontSize" type="text" />
+			<label>Size:</label><input class="postable" name="fontSize" type="text" />
 			<br/>
 			<label>Style</label>
 			<br/>
-			<label>Bold:</label><input class="postable fontBold" name="fontBold" type="text" />
+			<label>Bold:</label><input class="postable" name="fontBold" type="text" />
 			<br/>
-			<label>Italic:</label><input class="postable fontItalic" name="fontItalic" type="text" />
+			<label>Italic:</label><input class="postable" name="fontItalic" type="text" />
 			<br/>
-			<label>Underline:</label><input class="postable fontUnderline" name="fontUnderline" type="text" />
+			<label>Underline:</label><input class="postable" name="fontUnderline" type="text" />
 			<br/>
-			<label>Color:</label><input class="postable fontColor" name="fontColor" type="text" />
+			<label>Color:</label><input class="postable" name="fontColor" type="text" />
 			<br/>
-			<label>Alignment:</label><input class="postable fontHAlign" name="fontHAlign" type="text" />
+			<label>Alignment:</label><input class="postable" name="fontHAlign" type="text" />
 			<br/>
 			<input class="buttonOK" type="button" value="Ok" />
 			<input class="buttonCancel" type="button" value="Cancel" />
 		</div>
 		<div class="formatTabBody valuesTabContent">
-			<input class="postable tableUuid" name="tableUuid" type="hidden" />
-			<input class="postable columnIndex" name="columnIndex" type="hidden" />
-			<label>Font:</label><input class="postable fontName" name="fontName" type="text" />
+			<input class="postable" name="tableUuid" type="hidden" />
+			<input class="postable" name="columnIndex" type="hidden" />
+			<label>Font:</label><input class="postable" name="fontName" type="text" />
 			<br/>
-			<label>Size:</label><input class="postable fontSize" name="fontSize" type="text" />
+			<label>Size:</label><input class="postable" name="fontSize" type="text" />
 			<br/>
 			<label>Style</label>
 			<br/>
-			<label>Bold:</label><input class="postable fontBold" name="fontBold" type="text" />
+			<label>Bold:</label><input class="postable" name="fontBold" type="text" />
 			<br/>
-			<label>Italic:</label><input class="postable fontItalic" name="fontItalic" type="text" value='' />
+			<label>Italic:</label><input class="postable" name="fontItalic" type="text" value='' />
 			<br/>
-			<label>Underline:</label><input class="postable fontUnderline" name="fontUnderline" type="text" value='' />
+			<label>Underline:</label><input class="postable" name="fontUnderline" type="text" value='' />
 			<br/>
-			<label>Color:</label><input class="postable fontColor" name="fontColor" type="text" />
+			<label>Color:</label><input class="postable" name="fontColor" type="text" />
 			<br/>
-			<label>Alignment:</label><input class="postable fontHAlign" name="fontHAlign" type="text" />
+			<label>Alignment:</label><input class="postable" name="fontHAlign" type="text" />
 			<br/>
-			<label class="formatPatternLabel"></label><select class='postable formatPatternSelector' name='formatPattern'></select>
+			<label class="formatPatternLabel"></label>
+			<div class="formatting">
+				<input class="customInput fPattern" data-forselector='formatPattern' name="fPattern" type="text"/>
+				<select class='postable formatPatternSelector customSel' data-forinput='fPattern' name='formatPattern' size='3' data-postvalue=''></select>
+				<br/>
+				<div class="numberFormatButtons">
+					<button type='button' class='numberFormatBtn toggleBtn currencyBtn' title='Set currency symbol' />
+					<button type='button' class='numberFormatBtn toggleBtn percentageBtn' title='Set percentage symbol'/>
+					<button type='button' class='numberFormatBtn toggleBtn commaSeparatorBtn' title='Add comma as thousands separator'/>
+					<button type='button' class='numberFormatBtn increaseDecimalsBtn' title='Increase decimal places'/>
+					<button type='button' class='numberFormatBtn decreaseDecimalsBtn' title='Decrease decimal places'/>
+				</div>
+			</div>
 			<br/>
 			<input class="buttonOK" type="button" value="Ok" />
 			<input class="buttonCancel" type="button" value="Cancel" />
@@ -106,6 +118,10 @@
 				sortDescBtn: {'@class': 'hidden'},
 				filterBtn: {'@class': 'hidden'}
 			},
+			fPattern: {'@class': 'hidden'},
+			formatPatternLabel: {'@class': 'hidden'},
+			formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+			numberFormatButtons: {'@class': 'hidden'},			
 		#else
 			headerToolbar: {
 				sortAscBtn: {'data-hover': '${sortAscHover}', '@class': '${sortAscActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortAscData}}'},
@@ -116,19 +132,25 @@
 				filterColumnNameLabel: '${filterColumnNameLabel}',
 				filterOperatorTypeValueSelector: [
 				#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
-					{key: '$entry.key', val: '$entry.value'},
+					{key: "$entry.key", val: "$entry.value"},
 				#end],
 				filterDivForm: ${filterData}
 			},
-			formatPatternLabel: '${formatPatternLabel}',
-			formatPatternSelector: [
-				#foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
-					#set( $selected = false )
-					#if ($entry.key == ${formatPatternValue})
-						#set( $selected = true )
-					#end
-					{key: '$entry.key', sel: $selected, val: '$entry.value'},
-				#end],
+			#if (${hasPattern})
+				formatPatternLabel: '${formatPatternLabel}',
+				formatPatternSelector: [
+					#foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
+						{key: "$entry.key", val: "$entry.value"},
+					#end],
+				#if (!${isNumeric})
+					numberFormatButtons: {'@class': 'hidden'},
+				#end
+			#else
+				fPattern: {'@class': 'hidden'},
+				formatPatternLabel: {'@class': 'hidden'},
+				formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+				numberFormatButtons: {'@class': 'hidden'},
+			#end
 		#end
 			headerToolbarMask: {'data-columnIndex': ${columnIndex}},
 			headingsTabContent: ${colHeaderData},

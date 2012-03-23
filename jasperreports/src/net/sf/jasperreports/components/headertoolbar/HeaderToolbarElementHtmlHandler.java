@@ -25,7 +25,10 @@ package net.sf.jasperreports.components.headertoolbar;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,11 +51,16 @@ import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
 import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.Cell;
+import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
+import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
@@ -61,6 +69,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
+import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -121,6 +130,39 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 	
+	private static final List<String> datePatterns = new ArrayList<String>(); 
+	private static final Map<String, String> numberPatternsMap = new LinkedHashMap<String, String>(); 
+	
+	static {
+		// date patterns
+		datePatterns.add("dd/MM/yyyy");
+		datePatterns.add("MM/dd/yyyy");
+		datePatterns.add("yyyy/MM/dd");
+		datePatterns.add("EEEEE dd MMMMM yyyy");
+		datePatterns.add("MMMMM dd. yyyy");
+		datePatterns.add("dd/MM");
+		datePatterns.add("dd/MM/yy");
+		datePatterns.add("dd-MMM");
+		datePatterns.add("dd-MMM-yy");
+		datePatterns.add("MMM-yy");
+		datePatterns.add("MMMMM-yy");
+		datePatterns.add("dd/MM/yyyy h.mm a");
+		datePatterns.add("dd/MM/yyyy HH.mm.ss");
+		datePatterns.add("MMM");
+		datePatterns.add("d/M/yyyy");
+		datePatterns.add("dd-MMM-yyyy");
+		datePatterns.add("yyyy.MM.dd G 'at' HH:mm:ss z");
+		datePatterns.add("EEE. MMM d. ''yy");
+		datePatterns.add("yyyy.MMMMM.dd GGG hh:mm aaa");
+		datePatterns.add("EEE. d MMM yyyy HH:mm:ss Z");
+		datePatterns.add("yyMMddHHmmssZ");
+
+		numberPatternsMap.put("###0;-###0", "-1234");
+		numberPatternsMap.put("###0;###0-", "1234-");
+		numberPatternsMap.put("###0;(###0)", "(1234)");
+		numberPatternsMap.put("###0;(-###0)", "(-1234)");
+		numberPatternsMap.put("###0;(###0-)", "(1234-)");
+	}
 	
 	private static class CustomJRExporterParameter extends JRExporterParameter{
 
@@ -218,22 +260,24 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				Map<String, String> translatedOperators = null;
 				Map<String, String> valuesFormatPatternMap = new LinkedHashMap<String, String>();
+				Boolean hasPattern = true;
+				Boolean isNumeric = false;
 				String formatPatternLabel = "";
 				switch (filterType) {
 				case NUMERIC:
 					translatedOperators = getTranslatedOperators(FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
-					valuesFormatPatternMap.put("###,###.###", "123,456.789");
+					valuesFormatPatternMap = numberPatternsMap;//setNumberPatterns(valuesFormatPatternMap, numberPatterns);
 					formatPatternLabel = "Number pattern:";
+					isNumeric = true;
 					break;
 				case DATE:
 					translatedOperators = getTranslatedOperators(FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					valuesFormatPatternMap.put("dd.MM.yy", "30.01.12");
-					valuesFormatPatternMap.put("yyyy-MM-dd", "2012-01-30");
+					setDatePatterns(valuesFormatPatternMap, datePatterns);
 					formatPatternLabel = "Date pattern:";
 					break;
 				case TEXT:
 					translatedOperators = getTranslatedOperators(FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
-					formatPatternLabel = "!?Text pattern!?:";
+					hasPattern = false;
 					break;
 				}
 				
@@ -293,8 +337,12 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					}
 				}
 				
-				contextMap.put("formatPatternLabel", formatPatternLabel);
-				contextMap.put("valuesFormatPatternMap", valuesFormatPatternMap);
+				contextMap.put("hasPattern", hasPattern);
+				contextMap.put("isNumeric", isNumeric);
+				if (hasPattern) {
+					contextMap.put("formatPatternLabel", formatPatternLabel);
+					contextMap.put("valuesFormatPatternMap", valuesFormatPatternMap);
+				}
 				
 				// begin: the params that will generate the JSON post object for filtering
 				FilterData filterData = new FilterData();
@@ -332,6 +380,30 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
+	private void setNumberPatterns(
+			Map<String, String> valuesFormatPatternMap,
+			List<String> numberPatterns) {
+		DecimalFormat df = new DecimalFormat();
+		
+		for(String numberPattern: numberPatterns) {
+			df.applyPattern(numberPattern);
+			valuesFormatPatternMap.put(numberPattern, df.format(123456789));
+		}
+	}
+
+	private void setDatePatterns(
+			Map<String, String> valuesFormatPatternMap,
+			List<String> datePatterns) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		Date today = new Date();
+		
+		for(String datePattern: datePatterns) {
+			sdf.applyPattern(datePattern);
+			valuesFormatPatternMap.put(datePattern, sdf.format(today));
+		}
+	}
+
 	private String getActionBaseUrl(JRHtmlExporterContext context) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
 		hyperlink.setLinkType("ReportExecution");
@@ -518,10 +590,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
 				
-				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
+				JRDesignTextField textElement = (JRDesignTextField)getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
-					colValueData.setHeadingName(sortColumnLabel);
+					colValueData.setHeadingName(urlEncode(sortColumnLabel));
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
 					colValueData.setFontName(textElement.getFontName());
@@ -531,8 +603,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setFontUnderline(textElement.isUnderline());
 					colValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 					colValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
-					
-					contextMap.put("formatPatternValue", textElement.getPattern());
+					colValueData.setFormatPattern(textElement.getPattern());
 				}
 			}
 		}
@@ -580,14 +651,51 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	private String getDynamicResourceLink(String webResourceBasePath, String resourcePath) {
-		String encodedPath;
-		try {
-			encodedPath = URLEncoder.encode(webResourceBasePath, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new JRRuntimeException(e);
+		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + urlEncode(webResourceBasePath);
+	}
+	
+	private String urlEncode(String toEncode) {
+		String result = null;
+		if (toEncode != null) {
+			try {
+				result = URLEncoder.encode(toEncode, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new JRRuntimeException(e);
+			}
+		}
+		return result;
+	}
+	
+	private JRTextField getColumnDetailTextElement(Column column) {
+		Cell detailCell = column.getDetailCell();
+		List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
+		
+		// only consider cells with a single text fields
+		if (detailElements == null || detailElements.size() != 1)
+		{
+			return null;
 		}
 		
-		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + encodedPath;
+		JRChild detailElement = detailElements.get(0);
+		if (detailElement instanceof JRTextField)
+		{
+			return (JRTextField) detailElement;
+		}
+		
+		return null;
 	}
-
+	
+	private boolean isSortableAndFilterable(JRTextField textField) {
+		JRExpression textExpression = textField.getExpression();
+		JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
+		if (chunks == null || chunks.length != 1
+				|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
+				&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 }

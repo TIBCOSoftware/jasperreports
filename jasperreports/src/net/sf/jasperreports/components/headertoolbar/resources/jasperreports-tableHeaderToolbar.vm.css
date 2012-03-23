@@ -236,6 +236,29 @@
 	padding: 10px 15px;
 	width: 365px;
 }
+
+.fPattern {
+	left: 84px;
+	position: relative;
+	width: 220px;
+}
+
+.formatPatternSelector {
+	background-color: #FFFFFF;
+	left: 84px;
+	position: relative;
+	width: 220px;
+}
+
+.numberFormatBtn {
+	border: 0;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 20px;
+}
+
 /********************** </FORMAT DIALOG> ***********************/
 
 /**************************** <MENU> ***************************/
