@@ -439,7 +439,7 @@
 			jvt.runReport2(js.selectedColumn, actionData);
 		});
 		
-		jQuery('.fieldValueStart, .fieldValueEnd', filterDiv).bind('templateInit', function (event) {
+		jQuery('.filterValue', filterDiv).bind('templateInit', function (event) {
 			var isEmpty = global.jasperreports.global.isEmpty,
 				self = jQuery(this),
 				parentFormDiv = self.parent();
@@ -460,12 +460,12 @@
 			
 			if (optionValue && optionValue.toLowerCase().indexOf('between') != -1) {
 				parentFilterDiv.addClass('filterDivFormExpanded');
-				jQuery('.fieldValueEnd', parentFilterDiv)
+				jQuery('[name=fieldValueEnd]', parentFilterDiv)
 					.removeClass('hidden')
 					.removeAttr('disabled');
 			} else {
 				parentFilterDiv.removeClass('filterDivFormExpanded');
-				jQuery('.fieldValueEnd', parentFilterDiv)
+				jQuery('[name=fieldValueEnd]', parentFilterDiv)
 					.addClass('hidden')
 					.attr('disabled', true);
 			}
@@ -547,16 +547,21 @@
         	}
         });
         
-        jQuery('.headingsTabContent .buttonOK').bind('click', function() {
+        jQuery('.headingsTabContent .buttonOK', popupDiv).bind('click', function() {
         	var self = jQuery(this),
         		parentTab = self.closest('.headingsTabContent'),
             	actionData = {actionName: 'editColumnHeader'},
         		editColumnHeaderData = {};
         	
         	jQuery('.postable', parentTab).each(function(){
+        		var self = jQuery(this);
 				// prevent disabled inputs to get posted
-				if(!jQuery(this).is(':disabled')) {
-					editColumnHeaderData[this.name] = this.value;
+				if(!self.is(':disabled')) {
+					if (self.is('.customSel')) {
+						editColumnHeaderData[this.name] = self.attr('data-postvalue');
+					} else {
+						editColumnHeaderData[this.name] = this.value;
+					}
 				}
 			});
         	
@@ -564,21 +569,130 @@
 			jvt.runReport2(js.selectedColumn, actionData);
         });
 
-        jQuery('.valuesTabContent .buttonOK').bind('click', function() {
+        jQuery('.valuesTabContent .buttonOK', popupDiv).bind('click', function() {
         	var self = jQuery(this),
 	        	parentTab = self.closest('.valuesTabContent'),
 	        	actionData = {actionName: 'editColumnValues'},
 	        	editColumnValueData = {};
         	
         	jQuery('.postable', parentTab).each(function(){
-        		// prevent disabled inputs to get posted
-        		if(!jQuery(this).is(':disabled')) {
-        			editColumnValueData[this.name] = this.value;
-        		}
-        	});
+        		var self = jQuery(this);
+				// prevent disabled inputs to get posted
+				if(!self.is(':disabled')) {
+					if (self.is('.customSel')) {
+						editColumnValueData[this.name] = encodeURIComponent(self.attr('data-postvalue'));
+					} else {
+						editColumnValueData[this.name] = this.value;
+					}
+				}
+			});
         	
         	actionData['editColumnValueData'] = editColumnValueData;
         	jvt.runReport2(js.selectedColumn, actionData);
+        });
+        
+        jQuery('.customInput', popupDiv).on('change', function(event) {
+        	var self = jQuery(this),
+        		isEmpty = global.jasperreports.global.isEmpty,
+        		forSelector = jQuery('[name=' + self.attr('data-forselector') + ']', self.parent()),
+        		selOption = null;
+        	
+        	jQuery('option', forSelector).each(function (i, optElem) {
+        		var opt = jQuery(optElem);
+        		if (opt.text() === self.val()) {
+        			selOption = opt;
+        			return false; // break
+        		}
+        	});
+        	
+        	if (selOption != null) {
+        		selOption.attr('selected', 'selected');
+        		forSelector.attr('data-postvalue', selOption.val());
+        	} else {
+        		forSelector.attr('selectedIndex', '-1').children('option:selected').removeAttr('selected');
+        		forSelector.attr('data-postvalue', self.val());
+        	}
+        });
+
+        jQuery('.customSel', popupDiv).on('change', function(event) {
+        	var self = jQuery(this),
+        		forInput = jQuery('[name=' + self.attr('data-forinput') + ']', self.parent()),
+        		selOption = jQuery("option:selected", self);
+        	
+        	forInput.val(selOption.val());
+        	self.attr('data-postvalue', selOption.val());
+        });
+
+        /*********** Number formatting buttons *****************/
+        
+        jQuery('.toggleBtn', popupDiv).on('click', function (event) {
+        	var self = jQuery(this),
+        		toggled;
+        	if (self.is('.toggled')) {
+        		self.removeClass('toggled');
+        		toggled = false;
+        	} else {
+        		self.addClass('toggled');
+        		toggled = true;
+        	}
+        	self.trigger('toggle', [toggled]);
+        });
+        
+        jQuery('.currencyBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        	var parent = jQuery(this).closest('.formatting'),
+        		formatPatternSelector = parent.find('.formatPatternSelector');
+        	
+        	jQuery('option', formatPatternSelector).each(function (i, optElem) {
+        		var opt = jQuery(optElem);
+        		opt.text(js.numberFormat.addRemoveCurrencySymbol(opt.text(), boolToggled));
+        		opt.val(js.numberFormat.addRemoveCurrencySymbol(opt.val(), boolToggled));
+        	});
+        	
+        });
+        
+        jQuery('.percentageBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        	var parent = jQuery(this).closest('.formatting'),
+    			formatPatternSelector = parent.find('.formatPatternSelector');
+    	
+        	jQuery('option', formatPatternSelector).each(function (i, optElem) {
+        		var opt = jQuery(optElem);
+	    		opt.text(js.numberFormat.addRemovePercentageForNumber(opt.text(), boolToggled));
+	    		opt.val(js.numberFormat.addRemovePercentage(opt.val(), boolToggled));
+        	});
+        	
+        });
+        
+        jQuery('.commaSeparatorBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        	var parent = jQuery(this).closest('.formatting'),
+				formatPatternSelector = parent.find('.formatPatternSelector');
+	
+        	jQuery('option', formatPatternSelector).each(function (i, optElem) {
+	    		var opt = jQuery(optElem);
+	    		opt.text(js.numberFormat.addRemoveThousandsSeparator(opt.text(), boolToggled));
+	    		opt.val(js.numberFormat.addRemoveThousandsSeparator(opt.val(), boolToggled));
+	    	});
+        });
+        
+        jQuery('.increaseDecimalsBtn', popupDiv).on('click', function(event) {
+        	var parent = jQuery(this).closest('.formatting'),
+				formatPatternSelector = parent.find('.formatPatternSelector');
+
+	    	jQuery('option', formatPatternSelector).each(function (i, optElem) {
+	    		var opt = jQuery(optElem);
+	    		opt.text(js.numberFormat.addRemoveDecimalPlace(opt.text(), true));
+	    		opt.val(js.numberFormat.addRemoveDecimalPlace(opt.val(), true));
+	    	});
+        });
+        
+        jQuery('.decreaseDecimalsBtn', popupDiv).on('click', function(event) {
+        	var parent = jQuery(this).closest('.formatting'),
+				formatPatternSelector = parent.find('.formatPatternSelector');
+	
+	    	jQuery('option', formatPatternSelector).each(function (i, optElem) {
+	    		var opt = jQuery(optElem);
+	    		opt.text(js.numberFormat.addRemoveDecimalPlace(opt.text(), false));
+	    		opt.val(js.numberFormat.addRemoveDecimalPlace(opt.val(), false));
+	    	});
         });
 	};
 	
@@ -598,10 +712,13 @@
 					o2s = Object.prototype.toString.call(propValue);
 				switch(o2s) {
 					case '[object Array]':
-						target = jQuery('.'+prop, jqTemplateInstance); 
+						var target = jQuery('[name=' + prop + ']', jqTemplateInstance);
+						if (target.size() != 1) {
+							target = jQuery('.'+prop, jqTemplateInstance);
+						}
 						if (target.is('select')) {
-							var i, option;
-							for (i = 0, ln = propValue.length; i < ln; i++) {
+							var option;
+							for (var i = 0, ln = propValue.length; i < ln; i++) {
 								option = "<option value='" + propValue[i].key + "' " + (propValue[i].sel ? 'selected' : '') + ">" + propValue[i].val + "</option>";
 								target.append(option);
 							}
@@ -609,7 +726,10 @@
 						break;
 						
 					case '[object Object]':
-						target = jQuery('.'+prop, jqTemplateInstance); 
+						var target = jQuery('[name=' + prop + ']', jqTemplateInstance);
+						if (target.size() != 1) {
+							target = jQuery('.'+prop, jqTemplateInstance);
+						}
 						js.applyTemplateDataToInstance(target, propValue, null);
 						break;
 						
@@ -624,9 +744,25 @@
 							jqTemplateInstance.addClass(propValue);
 							
 						} else {
-							target = jQuery('.'+prop, jqTemplateInstance); 
+							var target = jQuery('[name=' + prop + ']', jqTemplateInstance);
+							if (target.size() != 1) {
+								target = jQuery('.'+prop, jqTemplateInstance);
+							}
 							if (target.is('label')) {
 								target.html(propValue);
+							} else if (target.is('.customSel')) {
+								var forInput = jQuery('[name=' + target.attr('data-forinput') + ']', jqTemplateInstance),
+									option = jQuery("option[value='" + propValue + "']", target);
+								
+								if (option.size() == 1) {
+									option.attr('selected', 'selected');
+									forInput.val(option.val());
+								} else {
+									forInput.val(propValue);
+								}
+								
+								target.attr('data-postvalue', propValue);
+								
 							} else {
 								target.val(propValue);
 							}
@@ -799,6 +935,195 @@
 			
 			self.data('hasSubMenu', true);
 		}
+	};
+	
+	js.numberFormat = {
+			symbols: {
+				currency: '\u00A4'
+			},
+			addRemoveDecimalPlace: (function () {
+				return function (exp, booleanAdd) {
+					var pozToken = exp.split(';')[0],
+						negToken = exp.split(';')[1];
+					
+					if (booleanAdd) {
+						exp = addDecimalPlaceToToken(pozToken);
+						if (negToken) {
+							exp = exp + ";" + addDecimalPlaceToToken(negToken);
+						}
+						return exp;
+					} else {
+						exp = removeDecimalPlaceFromToken(pozToken);
+						if (negToken) {
+							exp = exp + ";" + removeDecimalPlaceFromToken(negToken);
+						}
+						return exp;
+					}
+				};
+				
+				function addDecimalPlaceToToken (token) {
+					var dotIndex = token.indexOf('.');
+					
+					if (dotIndex != -1) { // already have decimals
+						var decimalPartRegex = /(\.[\d|#]+)/,
+							decimalPart = decimalPartRegex.exec(token)[1];
+						
+						return token.replace(decimalPart, decimalPart + '0');
+
+					} else { // no decimals
+						var numberPartRegex = /([\d|#]+(?!,))/,
+							numberPart = numberPartRegex.exec(token)[1];
+						
+						return token.replace(numberPart, numberPart + '.0');
+					}
+				}
+				
+				function removeDecimalPlaceFromToken (token) {
+					var result = token,
+						dotIndex = result.indexOf('.'),
+						decimalPartRegex = /.*(\.[\d|#]+)/;
+					
+					if (dotIndex != -1) {
+						var decimalPart = decimalPartRegex.exec(result)[1],
+							decimalPartRegex = new RegExp(decimalPart, 'g');
+						
+						if (decimalPart.length > 2) {	// remove last decimal place
+							result = result.replace(decimalPartRegex, decimalPart.substring(0, decimalPart.length - 1));
+						} else {	// remove all (dot and decimal place)
+							result = result.replace(decimalPartRegex, '');
+						}
+					}
+					
+					return result;
+				}
+			}()),
+			
+			addRemoveThousandsSeparator: (function () {
+				return function (exp, booleanAdd) {
+					var indexOfComma = exp.indexOf(','),
+						pozToken = exp.split(';')[0],
+						negToken = exp.split(';')[1];
+						
+					if (booleanAdd) {
+						if (indexOfComma == -1) {	// add
+							exp = addThousandsSeparatorToToken(pozToken);
+							if (negToken) {
+								exp = exp + ';' + addThousandsSeparatorToToken(negToken);
+							}
+						}
+					} else {
+						if (indexOfComma != -1) {	// remove
+							exp = removeThousandsSeparatorFromToken(pozToken);
+							if (negToken) {
+								exp = exp + ';' + removeThousandsSeparatorFromToken(negToken);
+							}
+						}
+					}
+					return exp;
+				};
+				
+				function addThousandsSeparatorToToken (token) {
+					var numericCharPattern = /\d|#/,
+						indexOfNumericChar = token.indexOf(numericCharPattern.exec(token)),
+						firstPart = token.substring(0, indexOfNumericChar + 1);
+					
+					return firstPart + ',' + token.substring(firstPart.length);;
+				}
+				
+				function removeThousandsSeparatorFromToken (token) {
+					return token.replace(',','');
+				}
+			}()),
+			
+			addRemovePercentage: (function () {
+				return function (exp, booleanAdd) {
+					var indexOfPercent = exp.indexOf('%'),
+						pozToken = exp.split(';')[0],
+						negToken = exp.split(';')[1];
+					
+					if (booleanAdd) {	// add
+						if (indexOfPercent == -1) {
+							exp = addPercentageToToken(pozToken);
+							if (negToken) {
+								exp = exp + ";" + addPercentageToToken(negToken);
+							}
+						}
+					} else {	// remove
+						if (indexOfPercent != -1) {
+							exp = removePercentageFromToken(pozToken);
+							if (negToken) {
+								exp = exp + ";" + removePercentageFromToken(negToken);
+							}
+						}
+					}
+					return exp;
+				};
+				
+				function addPercentageToToken (token) {
+					return token + ' %';
+				};
+				
+				function removePercentageFromToken (token) {
+					return token.substring(0, token.length - 2);
+				};
+			}()),
+			
+			/**
+			 * @param negPattern must be in form of: pozSubPattern;negSubPattern
+			 */
+			applyNegativeNumberPattern: function (negPattern) {
+				var pozPatternRegex = new RegExp(negPattern.split(';')[0], 'g'),
+					exp = js.numberFormatExpression || '###0',
+					pozToken = exp.split(';')[0];
+				
+				exp = negPattern.replace(pozPatternRegex, pozToken);
+				return exp; 
+			},
+			
+			addRemovePercentageForNumber: function (numberExp, booleanAdd) {
+				var numberPartRegex = /(\d+(?!,))/,
+					numberPart = numberPartRegex.exec(numberExp)[1];
+				
+				if (booleanAdd) {
+					if (numberExp.indexOf('%') == -1 && numberPart.indexOf('00') == -1) {
+						numberExp = numberExp.replace(numberPart, numberPart + "00");
+						numberExp = numberExp + ' %';
+					}					
+				} else {
+					if (numberExp.indexOf('%') != -1 && numberPart.indexOf('00') != -1) {
+						numberExp = numberExp.replace(numberPart, numberPart.substring(0, numberPart.length - 2));
+						numberExp = numberExp.substring(0, numberExp.length - 2);
+					}
+				}
+				
+				return numberExp;
+			},
+			
+			addRemoveCurrencySymbol: function(exp, booleanAdd) {
+				var cs = js.numberFormat.symbols.currency,
+					indexOfCS = exp.indexOf(cs),
+					pozToken = exp.split(';')[0],
+					negToken = exp.split(';')[1];
+				
+				if (booleanAdd) {
+					if (indexOfCS == -1) {
+						exp = cs + " " + pozToken;
+						if (negToken) {
+							exp = exp + ";" + cs + " " + negToken;
+						}
+					}
+				} else {
+					if (indexOfCS != -1) {
+						exp = pozToken.substring(2);
+						if (negToken) {
+							exp = exp + ";" + negToken.substring(2);
+						}
+					}
+				}
+				
+				return exp;
+			}
+			
 	};
 	
 	global.jasperreports.tableheadertoolbar = js;
