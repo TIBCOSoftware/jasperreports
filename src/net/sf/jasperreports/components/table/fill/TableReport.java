@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
+import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
@@ -79,6 +81,7 @@ import net.sf.jasperreports.engine.design.JRDesignGroup;
 import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
@@ -505,6 +508,26 @@ public class TableReport implements JRReport
             		genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE, filterType.getName());
             	}
             	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
+
+    			//FIXMEJIVE consider moving in separate method
+            	JRSortField[] sortFields = TableReport.this.mainDataset.getSortFields();
+            	if (sortFields != null)
+            	{
+            		for(JRSortField sortField : sortFields)
+            		{
+            			if (
+            				sortField.getName().equals(name)
+            				&& sortField.getType() == columnType
+            				)
+            			{
+            				HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, sortField.getOrderValue());
+            				if (evaluator != null)
+            				{
+                				builtinEvaluators.put(evaluator.getExpression(), evaluator);
+            				}
+            			}
+            		}
+            	}
             }
 
             
@@ -910,19 +933,19 @@ public class TableReport implements JRReport
 			}
 		}
 		
-		public Object evaluate() throws JRExpressionEvalException
+		public Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
 			return tableScriptlet.hasDetailOnPage();
 		}
 
-		public Object evaluateEstimated() throws JRExpressionEvalException
+		public Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
 			return tableScriptlet.hasDetailOnPage();
 		}
 
-		public Object evaluateOld() throws JRExpressionEvalException
+		public Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 		{
 			ensureValue();
 			return tableScriptlet.hasDetailOnPage();

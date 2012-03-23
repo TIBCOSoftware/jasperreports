@@ -73,7 +73,7 @@ public class BuiltinExpressionEvaluatorDecorator implements DatasetExpressionEva
 		BuiltinExpressionEvaluator builtinEvaluator = builtinEvaluators.get(expression);
 		if (builtinEvaluator != null)
 		{
-			return builtinEvaluator.evaluate();
+			return builtinEvaluator.evaluate(decorated);
 		}
 		
 		return decorated.evaluate(expression);
@@ -85,7 +85,7 @@ public class BuiltinExpressionEvaluatorDecorator implements DatasetExpressionEva
 		BuiltinExpressionEvaluator builtinEvaluator = builtinEvaluators.get(expression);
 		if (builtinEvaluator != null)
 		{
-			return builtinEvaluator.evaluateEstimated();
+			return builtinEvaluator.evaluateEstimated(decorated);
 		}
 		
 		return decorated.evaluateEstimated(expression);
@@ -97,7 +97,7 @@ public class BuiltinExpressionEvaluatorDecorator implements DatasetExpressionEva
 		BuiltinExpressionEvaluator builtinEvaluator = builtinEvaluators.get(expression);
 		if (builtinEvaluator != null)
 		{
-			return builtinEvaluator.evaluateOld();
+			return builtinEvaluator.evaluateOld(decorated);
 		}
 		
 		return decorated.evaluateOld(expression);

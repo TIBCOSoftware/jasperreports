@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
@@ -61,17 +62,17 @@ public class ConstantBuiltinExpression implements BuiltinExpressionEvaluator
 		// NOP
 	}
 
-	public Object evaluate() throws JRExpressionEvalException
+	public Object evaluate(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 	{
 		return value;
 	}
 
-	public Object evaluateOld() throws JRExpressionEvalException
+	public Object evaluateOld(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 	{
 		return value;
 	}
 
-	public Object evaluateEstimated() throws JRExpressionEvalException
+	public Object evaluateEstimated(DatasetExpressionEvaluator evaluator) throws JRExpressionEvalException
 	{
 		return value;
 	}
