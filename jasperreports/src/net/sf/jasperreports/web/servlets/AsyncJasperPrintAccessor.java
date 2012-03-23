@@ -56,6 +56,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 	private final Map<Integer, Long> trackedPages = new HashMap<Integer, Long>();
 	
 	private volatile boolean done;
+	private boolean cancelled;
 	private Throwable error;
 	private volatile JasperPrint jasperPrint;
 	private int pageCount;
@@ -120,7 +121,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			}
 		}
 		
-		if (error != null)
+		if (error != null)// TODO lucianc allow pages for cancelled reports
 		{
 			return ReportPageStatus.error(error);
 		}
@@ -206,7 +207,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 
 	public Integer getTotalPageCount()
 	{
-		if (done && jasperPrint != null)
+		if (done && !cancelled && jasperPrint != null)
 		{
 			return jasperPrint.getPages().size();
 		}
@@ -251,6 +252,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		lock();
 		try
 		{
+			cancelled = true;
 			done = true;
 
 			// store an error as cancelled status
