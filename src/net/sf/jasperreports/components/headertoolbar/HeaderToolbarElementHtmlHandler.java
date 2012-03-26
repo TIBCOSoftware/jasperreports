@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
@@ -654,8 +656,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + UrlUtil.urlEncode(webResourceBasePath);
 	}
 	
-	private List<String> getFontExtensionsFontNames() {
-        java.util.List<String> classes = new ArrayList<String>();
+	private Set<String> getFontExtensionsFontNames() {
+		Set<String> classes = new TreeSet<String>(); 
         ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
 
         Collection<String> extensionFonts = JRFontUtil.getFontFamilyNames();
@@ -668,13 +670,16 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
         return classes;
     } 
 
-	private List<String> getSystemFontNames() {
-		java.util.List<String> classes = new ArrayList<String>();
+	private Set<String> getSystemFontNames() {
+		Set<String> fontExtensionsFontNames = getFontExtensionsFontNames();
+		Set<String> classes = new TreeSet<String>();
 
 		String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 		for (int i = 0; i < names.length; i++) {
 			String name = names[i];
-			classes.add(name);
+			if (fontExtensionsFontNames.add(name)) {
+				classes.add(name);
+			}
 		}
 		
 		return classes;
