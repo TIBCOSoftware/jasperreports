@@ -1,9 +1,5 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 public class EditColumnValueData 
@@ -105,24 +101,11 @@ public class EditColumnValueData
 	}
 
 	public String getFormatPattern() {
-		return urlDecode(formatPattern); // FIXMEJIVE don't do this here
+		return formatPattern;
 	}
 
 	public void setFormatPattern(String formatPattern) {
 		this.formatPattern = formatPattern;
 	}
-	
-	private String urlDecode(String toDecode) {
-		String result = null;
-		if (toDecode != null) {
-			try {
-				result = URLDecoder.decode(toDecode, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				throw new JRRuntimeException(e);
-			}
-		}
-		return result;
-	}
-	
 
 }

@@ -41,7 +41,10 @@ public class EditColumnValuesCommand implements Command
 			oldEditColumnValueData.setFontUnderline(textElement.isUnderline());
 			oldEditColumnValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 			oldEditColumnValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
-			oldEditColumnValueData.setFormatPattern(textElement.getPattern());
+			
+			if (TableUtil.isSortableAndFilterable(textElement)) {
+				oldEditColumnValueData.setFormatPattern(textElement.getPattern());
+			}
 			
 			applyColumnHeaderData(editColumnValueData, textElement, true);
 		}
@@ -55,7 +58,10 @@ public class EditColumnValuesCommand implements Command
 		textElement.setUnderline(headerData.getFontUnderline());
 		textElement.setForecolor(JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()));
 		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(headerData.getFontHAlign()));
-		textElement.setPattern(headerData.getFormatPattern());
+		
+		if (TableUtil.isSortableAndFilterable(textElement)) {
+			textElement.setPattern(headerData.getFormatPattern());
+		}
 	}
 
 

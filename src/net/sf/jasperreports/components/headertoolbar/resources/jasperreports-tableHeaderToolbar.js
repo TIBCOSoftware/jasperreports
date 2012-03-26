@@ -523,7 +523,7 @@
     	  
 			menu.css({
 				left: '5px',
-				position: 'relative',
+				position: 'absolute',
 				top: '0px',
 				'z-index': 1001,
 				'text-align': 'left'
@@ -580,7 +580,7 @@
 				// prevent disabled inputs to get posted
 				if(!self.is(':disabled')) {
 					if (self.is('.customSel')) {
-						editColumnValueData[this.name] = encodeURIComponent(self.attr('data-postvalue'));
+						editColumnValueData[this.name] = self.attr('data-postvalue');
 					} else {
 						editColumnValueData[this.name] = this.value;
 					}
@@ -622,12 +622,13 @@
         	forInput.val(selOption.val());
         	self.attr('data-postvalue', selOption.val());
         });
-
+        
         /*********** Number formatting buttons *****************/
         
-        jQuery('.toggleBtn', popupDiv).on('click', function (event) {
+        jQuery('.toggleBtn', popupDiv).on('click', function (event, boolTriggerToggle) {
         	var self = jQuery(this),
-        		toggled;
+        		toggled,
+        		triggerToggle = boolTriggerToggle || true;
         	if (self.is('.toggled')) {
         		self.removeClass('toggled');
         		toggled = false;
@@ -635,7 +636,8 @@
         		self.addClass('toggled');
         		toggled = true;
         	}
-        	self.trigger('toggle', [toggled]);
+        	
+        	triggerToggle && self.trigger('toggle', [toggled]);
         });
         
         jQuery('.currencyBtn', popupDiv).on('toggle', function(event, boolToggled) {
@@ -693,6 +695,46 @@
 	    		opt.text(js.numberFormat.addRemoveDecimalPlace(opt.text(), false));
 	    		opt.val(js.numberFormat.addRemoveDecimalPlace(opt.val(), false));
 	    	});
+        });
+        
+        /*********** Style formatting buttons ***************/
+        jQuery('.styleButtons button', popupDiv).on('toggle', function (event, boolToggled) {
+        	var self = jQuery(this);
+        	if (boolToggled) {
+        		self.val('true');
+        	} else {
+        		self.val('false');
+        	}
+        }).on('templateInit', function (event) {
+        	var self = jQuery(this),
+        		val = self.val();
+        	if (val === 'true') {
+        		// .styleButtons button IS A .toggleBtn
+        		self.trigger('click', [false]);
+        	}
+        });
+        
+        jQuery('.alignmentButtons button', popupDiv).on('toggle', function (event, boolToggled) {
+        	var self = jQuery(this),
+        		parent = self.parent(),
+        		postableInput = self.parent().find('input');
+        	
+        	// untoggle the other toggled button
+        	parent.find('.toggled').not(self).removeClass('toggled');
+        	
+        	if (boolToggled) {
+        		postableInput.val(self.val());
+        	} else {
+        		postableInput.val('');
+        	}
+        });
+        
+        jQuery('.alignmentButtons input[name=fontHAlign]', popupDiv).on('templateInit', function (event) {
+        	var self = jQuery(this),
+        		val = self.val(),
+        		parent = self.parent();
+        	
+        	parent.find("button[value='" + val + "']").trigger('click', [false]);
         });
 	};
 	
@@ -941,6 +983,11 @@
 			symbols: {
 				currency: '\u00A4'
 			},
+			regex: {
+				numberPart: /([\d|#]+(?!,))/,
+				decimalPart: /(\.[\d|#]+)/,
+				numericChar: /[\d|#]/
+			},
 			addRemoveDecimalPlace: (function () {
 				return function (exp, booleanAdd) {
 					var pozToken = exp.split(';')[0],
@@ -965,14 +1012,12 @@
 					var dotIndex = token.indexOf('.');
 					
 					if (dotIndex != -1) { // already have decimals
-						var decimalPartRegex = /(\.[\d|#]+)/,
-							decimalPart = decimalPartRegex.exec(token)[1];
+						var decimalPart = js.numberFormat.regex.decimalPart.exec(token)[1];
 						
 						return token.replace(decimalPart, decimalPart + '0');
 
 					} else { // no decimals
-						var numberPartRegex = /([\d|#]+(?!,))/,
-							numberPart = numberPartRegex.exec(token)[1];
+						var numberPart = js.numberFormat.regex.numberPart.exec(token)[1];
 						
 						return token.replace(numberPart, numberPart + '.0');
 					}
@@ -980,17 +1025,15 @@
 				
 				function removeDecimalPlaceFromToken (token) {
 					var result = token,
-						dotIndex = result.indexOf('.'),
-						decimalPartRegex = /.*(\.[\d|#]+)/;
+						dotIndex = result.indexOf('.');
 					
 					if (dotIndex != -1) {
-						var decimalPart = decimalPartRegex.exec(result)[1],
-							decimalPartRegex = new RegExp(decimalPart, 'g');
+						var decimalPart = js.numberFormat.regex.decimalPart.exec(result)[1];
 						
 						if (decimalPart.length > 2) {	// remove last decimal place
-							result = result.replace(decimalPartRegex, decimalPart.substring(0, decimalPart.length - 1));
+							result = result.replace(decimalPart, decimalPart.substring(0, decimalPart.length - 1));
 						} else {	// remove all (dot and decimal place)
-							result = result.replace(decimalPartRegex, '');
+							result = result.replace(decimalPart, '');
 						}
 					}
 					
@@ -1023,8 +1066,7 @@
 				};
 				
 				function addThousandsSeparatorToToken (token) {
-					var numericCharPattern = /\d|#/,
-						indexOfNumericChar = token.indexOf(numericCharPattern.exec(token)),
+					var indexOfNumericChar = token.indexOf(js.numberFormat.regex.numericChar.exec(token)),
 						firstPart = token.substring(0, indexOfNumericChar + 1);
 					
 					return firstPart + ',' + token.substring(firstPart.length);;
@@ -1081,8 +1123,7 @@
 			},
 			
 			addRemovePercentageForNumber: function (numberExp, booleanAdd) {
-				var numberPartRegex = /(\d+(?!,))/,
-					numberPart = numberPartRegex.exec(numberExp)[1];
+				var numberPart = js.numberFormat.regex.numberPart.exec(numberExp)[1];
 				
 				if (booleanAdd) {
 					if (numberExp.indexOf('%') == -1 && numberPart.indexOf('00') == -1) {

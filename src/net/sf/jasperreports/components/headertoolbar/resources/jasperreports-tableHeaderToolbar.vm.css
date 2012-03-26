@@ -150,7 +150,7 @@
 	display: none;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 13px;
-	height: 432px;
+	height: 566px;
 	width: 395px;
 	
 	border-radius: 5px;
@@ -226,13 +226,13 @@
 }
 
 .headingsTabContent {
-	height: 381px;
+	height: 515px;
 	padding: 10px 15px;
 	width: 365px;
 }
 
 .valuesTabContent {
-	height: 381px;
+	height: 515px;
 	padding: 10px 15px;
 	width: 365px;
 }
@@ -243,6 +243,13 @@
 	width: 220px;
 }
 
+.fontNameSelector, .fontSizeSelector {
+	background-color: #FFFFFF;
+	left: 84px;
+	position: relative;
+	width: 155px;
+}
+
 .formatPatternSelector {
 	background-color: #FFFFFF;
 	left: 84px;
@@ -250,13 +257,67 @@
 	width: 220px;
 }
 
-.numberFormatBtn {
+.numberFormatBtn, .styleButtons button, .alignmentButtons button {
 	border: 0;
-	height: 20px;
+	height: 26px;
 	margin: 0;
 	padding: 0;
 	vertical-align: top;
-	width: 20px;
+	width: 26px;
+}
+
+.numberFormatButtons, .styleButtons, .alignmentButtons {
+	left: 84px;
+	position: relative;
+}
+
+.numberFormatButtons .toggled, .styleButtons .toggled, .alignmentButtons .toggled {
+	border: 1px solid transparent;
+}
+
+.currencyBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/currency.png');
+	width: 34px;
+}
+
+.percentageBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/percentage.png');
+}
+
+.commaSeparatorBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/thousands_sep.png');
+}
+
+.increaseDecimalsBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/add_dec.png');
+}
+
+.decreaseDecimalsBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/format/remove_dec.png');
+}
+
+.fontBoldBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/bold.png');
+}
+
+.fontItalicBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/italic.png');
+}
+
+.fontUnderlineBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/underline.png');
+}
+
+.alignLeftBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_left.png');
+}
+
+.alignCenterBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_center.png');
+}
+
+.alignRightBtn {
+	background-image: url('${path}net/sf/jasperreports/components/headertoolbar/resources/images/style/align_right.png');
 }
 
 /********************** </FORMAT DIALOG> ***********************/

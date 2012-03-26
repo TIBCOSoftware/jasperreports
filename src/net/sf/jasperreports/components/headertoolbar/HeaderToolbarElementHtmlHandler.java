@@ -23,13 +23,14 @@
  */
 package net.sf.jasperreports.components.headertoolbar;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.awt.GraphicsEnvironment;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,16 +52,11 @@ import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
 import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.components.table.BaseColumn;
-import net.sf.jasperreports.components.table.Cell;
-import net.sf.jasperreports.components.table.Column;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.DatasetFilter;
-import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
@@ -69,7 +65,6 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
-import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -84,12 +79,14 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
@@ -233,6 +230,9 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);
+			
+			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames());
+			contextMap.put("systemFontNames", getSystemFontNames());
 			
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
 			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
@@ -590,10 +590,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			if (columnIndex != null) {
 				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
 				
-				JRDesignTextField textElement = (JRDesignTextField)getColumnDetailTextElement(column);
+				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
 				
 				if (textElement != null) {
-					colValueData.setHeadingName(urlEncode(sortColumnLabel));
+					colValueData.setHeadingName(sortColumnLabel);
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
 					colValueData.setFontName(textElement.getFontName());
@@ -651,51 +651,33 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	}
 	
 	private String getDynamicResourceLink(String webResourceBasePath, String resourcePath) {
-		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + urlEncode(webResourceBasePath);
+		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + UrlUtil.urlEncode(webResourceBasePath);
 	}
 	
-	private String urlEncode(String toEncode) {
-		String result = null;
-		if (toEncode != null) {
-			try {
-				result = URLEncoder.encode(toEncode, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				throw new JRRuntimeException(e);
-			}
-		}
-		return result;
-	}
-	
-	private JRTextField getColumnDetailTextElement(Column column) {
-		Cell detailCell = column.getDetailCell();
-		List<JRChild> detailElements = detailCell == null ? null : detailCell.getChildren();
-		
-		// only consider cells with a single text fields
-		if (detailElements == null || detailElements.size() != 1)
-		{
-			return null;
-		}
-		
-		JRChild detailElement = detailElements.get(0);
-		if (detailElement instanceof JRTextField)
-		{
-			return (JRTextField) detailElement;
+	private List<String> getFontExtensionsFontNames() {
+        java.util.List<String> classes = new ArrayList<String>();
+        ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
+
+        Collection<String> extensionFonts = JRFontUtil.getFontFamilyNames();
+        for (Iterator<String> it = extensionFonts.iterator(); it.hasNext();) {
+            String fname = it.next();
+            classes.add(fname);
+        }
+
+        Thread.currentThread().setContextClassLoader(oldCL);
+        return classes;
+    } 
+
+	private List<String> getSystemFontNames() {
+		java.util.List<String> classes = new ArrayList<String>();
+
+		String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		for (int i = 0; i < names.length; i++) {
+			String name = names[i];
+			classes.add(name);
 		}
 		
-		return null;
-	}
-	
-	private boolean isSortableAndFilterable(JRTextField textField) {
-		JRExpression textExpression = textField.getExpression();
-		JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
-		if (chunks == null || chunks.length != 1
-				|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
-				&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
+		return classes;
+	} 
+
 }

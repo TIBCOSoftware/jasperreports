@@ -11,7 +11,8 @@
 					undos: 0,
 					redos: 0
 				},
-				PARAM_ACTION: 'jr.action'
+				PARAM_ACTION: 'jr.action',
+				MODULE_TAG: 'reportviewertoolbar'
 	};
 	
 	jvt.init = function(toolbarId) {
@@ -360,7 +361,12 @@
 			actionData = gm.toJsonString(actionData);
 		}
 		
-		params[jvt.PARAM_ACTION] = actionData;
+		params[jvt.PARAM_ACTION] = encodeURIComponent(actionData);
+		
+		if (gm.isDebugEnabled()) {
+			gm.debug(jvt.MODULE_TAG + " jr.action", actionData);
+		}
+		
 		arrCallbackArgs.splice(arrCallbackArgs.length, 0, selectedColumn.toolbarId);
 		
 		var	ctx = gm.getToolbarExecutionContext(selectedColumn.self, selectedColumn.actionBaseUrl, params, callback, arrCallbackArgs, isJSON);
