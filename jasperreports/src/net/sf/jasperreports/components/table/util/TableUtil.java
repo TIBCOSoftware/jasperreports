@@ -332,28 +332,30 @@ public class TableUtil
 		}
 		
 		JRChild detailElement = detailElements.get(0);
-		if (!(detailElement instanceof JRTextField))
+		if (detailElement instanceof JRTextField)
 		{
-			return null;
+			return (JRTextField) detailElement;
 		}
 		
-		// see if the text field expression is $F{..} of $V{..}
-		JRTextField text = (JRTextField) detailElement;
-		JRExpression textExpression = text.getExpression();
+		return null;
+	}
+
+	public static boolean isSortableAndFilterable(JRTextField textField) {
+		JRExpression textExpression = textField.getExpression();
 		JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
 		if (chunks == null || chunks.length != 1
 				|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
 				&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
 		{
-			return null;
+			return false;
 		}
 		
-		// success
-		return text;
+		return true;
 	}
-	
+
 	public static int getColumnIndex(Column column, TableComponent table) {
 		List<BaseColumn> columns = getAllColumns(table);
 		return columns.indexOf(column);
 	}
+
 }

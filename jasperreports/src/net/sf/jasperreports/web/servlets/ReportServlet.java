@@ -48,6 +48,7 @@ import net.sf.jasperreports.web.actions.Action;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
+import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
@@ -183,7 +184,7 @@ public class ReportServlet extends AbstractServlet
 				webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, Boolean.valueOf(async));
 			}
 
-			Action action = getAction(webReportContext, request.getParameter(REQUEST_PARAMETER_ACTION));
+			Action action = getAction(webReportContext, UrlUtil.urlDecode(request.getParameter(REQUEST_PARAMETER_ACTION)));
 
 			Controller controller = new Controller(getJasperReportsContext());
 			

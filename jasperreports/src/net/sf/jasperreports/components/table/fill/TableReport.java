@@ -469,7 +469,7 @@ public class TableReport implements JRReport
             
             String name = null;
             
-            if (sortTextField == null) {
+            if (!TableUtil.isSortableAndFilterable(sortTextField)) {
             	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
             	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.FALSE.toString());
             } else {

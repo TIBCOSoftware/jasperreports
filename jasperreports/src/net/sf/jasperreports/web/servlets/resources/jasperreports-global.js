@@ -11,6 +11,7 @@ jQuery.noConflict();
 	
 	var jr = {
 				global: {
+					debugEnabled: false,
 					scripts: {},
 					styles: {},
 					APPLICATION_CONTEXT_PATH: '',
@@ -35,6 +36,14 @@ jQuery.noConflict();
 				}
 		},
 		jg = jr.global;
+	
+	jg.isDebugEnabled = function () {
+		return jg.debugEnabled;
+	};
+	
+	jg.enableDebug = function (boolEnable) {
+		jg.debugEnabled = boolEnable;
+	};
 	
 	jg.createImage = function (imageSrc) {
 		var result = new Image();
@@ -383,7 +392,13 @@ jQuery.noConflict();
 				}
 			}
 			console.log("object: " + objName + " = {" + objString.join(', ') + "}");
-		}
+		};
+		
+		jg.debug = function (strTag, strMessage) {
+			if (typeof global.console !== 'undefined') {
+				console.log(strTag + ': ' + strMessage);
+			}
+		};
 		
 		/**
 		 * Obtains an execution context based on parameters
