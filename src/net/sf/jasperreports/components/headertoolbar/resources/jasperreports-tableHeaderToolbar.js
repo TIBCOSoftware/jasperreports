@@ -625,22 +625,22 @@
         
         /*********** Number formatting buttons *****************/
         
-        jQuery('.toggleBtn', popupDiv).on('click', function (event, boolTriggerToggle) {
+        jQuery('.jrToggleBtn', popupDiv).on('click', function (event, boolTriggerToggle) {
         	var self = jQuery(this),
         		toggled,
         		triggerToggle = boolTriggerToggle || true;
-        	if (self.is('.toggled')) {
-        		self.removeClass('toggled');
+        	if (self.is('.jrtoggled')) {
+        		self.removeClass('jrtoggled');
         		toggled = false;
         	} else {
-        		self.addClass('toggled');
+        		self.addClass('jrtoggled');
         		toggled = true;
         	}
         	
-        	triggerToggle && self.trigger('toggle', [toggled]);
+        	triggerToggle && self.trigger('jrtoggle', [toggled]);
         });
         
-        jQuery('.currencyBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        jQuery('.currencyBtn', popupDiv).on('jrtoggle', function(event, boolToggled) {
         	var parent = jQuery(this).closest('.formatting'),
         		formatPatternSelector = parent.find('.formatPatternSelector');
         	
@@ -652,7 +652,7 @@
         	
         });
         
-        jQuery('.percentageBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        jQuery('.percentageBtn', popupDiv).on('jrtoggle', function(event, boolToggled) {
         	var parent = jQuery(this).closest('.formatting'),
     			formatPatternSelector = parent.find('.formatPatternSelector');
     	
@@ -664,7 +664,7 @@
         	
         });
         
-        jQuery('.commaSeparatorBtn', popupDiv).on('toggle', function(event, boolToggled) {
+        jQuery('.commaSeparatorBtn', popupDiv).on('jrtoggle', function(event, boolToggled) {
         	var parent = jQuery(this).closest('.formatting'),
 				formatPatternSelector = parent.find('.formatPatternSelector');
 	
@@ -698,7 +698,7 @@
         });
         
         /*********** Style formatting buttons ***************/
-        jQuery('.styleButtons button', popupDiv).on('toggle', function (event, boolToggled) {
+        jQuery('.styleButtons button', popupDiv).on('jrtoggle', function (event, boolToggled) {
         	var self = jQuery(this);
         	if (boolToggled) {
         		self.val('true');
@@ -709,18 +709,18 @@
         	var self = jQuery(this),
         		val = self.val();
         	if (val === 'true') {
-        		// .styleButtons button IS A .toggleBtn
+        		// .styleButtons button IS A .jrToggleBtn
         		self.trigger('click', [false]);
         	}
         });
         
-        jQuery('.alignmentButtons button', popupDiv).on('toggle', function (event, boolToggled) {
+        jQuery('.alignmentButtons button', popupDiv).on('jrtoggle', function (event, boolToggled) {
         	var self = jQuery(this),
         		parent = self.parent(),
         		postableInput = self.parent().find('input');
         	
         	// untoggle the other toggled button
-        	parent.find('.toggled').not(self).removeClass('toggled');
+        	parent.find('.jrtoggled').not(self).removeClass('jrtoggled');
         	
         	if (boolToggled) {
         		postableInput.val(self.val());

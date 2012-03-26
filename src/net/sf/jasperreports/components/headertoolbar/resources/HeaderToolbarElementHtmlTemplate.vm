@@ -74,9 +74,9 @@
 			<br/>
 			<label>Style:</label>
 			<div class="styleButtons">
-				<button type='button' class='postable toggleBtn initable fontBoldBtn' name="fontBold" />
-				<button type='button' class='postable toggleBtn initable fontItalicBtn' name="fontItalic" />
-				<button type='button' class='postable toggleBtn initable fontUnderlineBtn' name="fontUnderline" />
+				<button type='button' class='postable jrToggleBtn initable fontBoldBtn' name="fontBold" />
+				<button type='button' class='postable jrToggleBtn initable fontItalicBtn' name="fontItalic" />
+				<button type='button' class='postable jrToggleBtn initable fontUnderlineBtn' name="fontUnderline" />
 			</div>
 			<br/>
 			<label>Color:</label><input class="postable" name="fontColor" type="text" />
@@ -84,9 +84,9 @@
 			<label>Alignment:</label>
 			<div class="alignmentButtons">
 				<input class="postable initable" name="fontHAlign" type="hidden" />
-				<button type='button' class='toggleBtn alignLeftBtn' value='Left'/>
-				<button type='button' class='toggleBtn alignCenterBtn' value='Center'/>
-				<button type='button' class='toggleBtn alignRightBtn' value='Right'/>
+				<button type='button' class='jrToggleBtn alignLeftBtn' value='Left'/>
+				<button type='button' class='jrToggleBtn alignCenterBtn' value='Center'/>
+				<button type='button' class='jrToggleBtn alignRightBtn' value='Right'/>
 			</div>
 			<br/>
 			<input class="buttonOK" type="button" value="Ok" />
@@ -125,9 +125,9 @@
 			<br/>
 			<label>Style:</label>
 			<div class="styleButtons">
-				<button type='button' class='postable toggleBtn initable fontBoldBtn' name="fontBold" />
-				<button type='button' class='postable toggleBtn initable fontItalicBtn' name="fontItalic" />
-				<button type='button' class='postable toggleBtn initable fontUnderlineBtn' name="fontUnderline" />
+				<button type='button' class='postable jrToggleBtn initable fontBoldBtn' name="fontBold" />
+				<button type='button' class='postable jrToggleBtn initable fontItalicBtn' name="fontItalic" />
+				<button type='button' class='postable jrToggleBtn initable fontUnderlineBtn' name="fontUnderline" />
 			</div>
 			<br/>
 			<label>Color:</label><input class="postable" name="fontColor" type="text" />
@@ -135,9 +135,9 @@
 			<label>Alignment:</label>
 			<div class="alignmentButtons">
 				<input class="postable initable" name="fontHAlign" type="hidden" />
-				<button type='button' class='toggleBtn alignLeftBtn' value='Left'/>
-				<button type='button' class='toggleBtn alignCenterBtn' value='Center'/>
-				<button type='button' class='toggleBtn alignRightBtn' value='Right'/>
+				<button type='button' class='jrToggleBtn alignLeftBtn' value='Left'/>
+				<button type='button' class='jrToggleBtn alignCenterBtn' value='Center'/>
+				<button type='button' class='jrToggleBtn alignRightBtn' value='Right'/>
 			</div>
 			<br/>
 			<label class="formatPatternLabel"></label>
@@ -146,9 +146,9 @@
 				<select class='postable formatPatternSelector customSel' data-forinput='fPattern' name='formatPattern' size='3' data-postvalue=''></select>
 				<br/>
 				<div class="numberFormatButtons">
-					<button type='button' class='numberFormatBtn toggleBtn currencyBtn' title='Set currency symbol' />
-					<button type='button' class='numberFormatBtn toggleBtn percentageBtn' title='Set percentage symbol'/>
-					<button type='button' class='numberFormatBtn toggleBtn commaSeparatorBtn' title='Add comma as thousands separator'/>
+					<button type='button' class='numberFormatBtn jrToggleBtn currencyBtn' title='Set currency symbol' />
+					<button type='button' class='numberFormatBtn jrToggleBtn percentageBtn' title='Set percentage symbol'/>
+					<button type='button' class='numberFormatBtn jrToggleBtn commaSeparatorBtn' title='Add comma as thousands separator'/>
 					<button type='button' class='numberFormatBtn increaseDecimalsBtn' title='Increase decimal places'/>
 					<button type='button' class='numberFormatBtn decreaseDecimalsBtn' title='Decrease decimal places'/>
 				</div>
