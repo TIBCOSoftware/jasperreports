@@ -38,7 +38,7 @@
 
 	<target name="javac">
 		<mkdir dir="${sample.dir}/build/classes"/> 
-		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
+		<javac srcdir="${sample.dir}/src" destdir="${sample.dir}/build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6" encoding="ISO-8859-1">
 			<classpath refid="classpath"/>
 		</javac>
 		<copy todir="${sample.dir}/build/classes">
