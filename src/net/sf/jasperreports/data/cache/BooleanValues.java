@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,13 +35,27 @@ import java.io.Serializable;
 public class BooleanValues implements ColumnValues, Serializable
 {
 
-	private final int size;
-	private final ColumnValues longValues;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private int size;
+	private ColumnValues longValues;
 
 	public BooleanValues(int size, ColumnValues longValues)
 	{
 		this.size = size;
 		this.longValues = longValues;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(size);
+		out.writeUnshared(longValues);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		size = in.readInt();
+		longValues = (ColumnValues) in.readUnshared();
 	}
 
 	public int size()

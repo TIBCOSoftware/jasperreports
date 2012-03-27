@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -31,11 +34,34 @@ import java.io.Serializable;
  */
 public class ObjectArrayValues implements ColumnValues, Serializable
 {
-	private final Object[] values;
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private Object[] values;
 	
 	public ObjectArrayValues(Object[] values)
 	{
 		this.values = values;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(values.length);
+		for (int i = 0; i < values.length; i++)
+		{
+			// TODO lucianc investigate when writeUnshared would help here
+			out.writeObject(values[i]);
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		int size = in.readInt();
+		values = new Object[size];
+		for (int i = 0; i < size; i++)
+		{
+			values[i] = in.readObject();
+		}
 	}
 	
 	public int size()

@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,13 +35,20 @@ import java.io.Serializable;
 public class EmptyColumnValues implements ColumnValues, Serializable
 {
 
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
 	private static final EmptyColumnValues INSTANCE = new EmptyColumnValues();
 	
 	public static EmptyColumnValues instance()
 	{
 		return INSTANCE;
 	}
-
+	
+	private Object readResolve() throws ObjectStreamException
+	{
+		return INSTANCE;
+	}
+	
 	public int size()
 	{
 		return 0;

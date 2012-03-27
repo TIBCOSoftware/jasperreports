@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 
 /**
@@ -33,15 +36,42 @@ import java.io.Serializable;
 public class IntArrayValues implements ColumnValues, Serializable
 {
 
-	private final int[] values;
-	private final long linearFactor;
-	private final long linearOffset;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private int[] values;
+	private long linearFactor;
+	private long linearOffset;
 	
 	public IntArrayValues(int[] values, long linearFactor, long linearOffset)
 	{
 		this.values = values;
 		this.linearFactor = linearFactor;
 		this.linearOffset = linearOffset;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeLong(linearFactor);
+		out.writeLong(linearOffset);
+		
+		out.writeInt(values.length);
+		for (int i = 0; i < values.length; i++)
+		{
+			out.writeInt(values[i]);
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		linearFactor = in.readLong();
+		linearOffset = in.readLong();
+		
+		int size = in.readInt();
+		values = new int[size];
+		for (int i = 0; i < size; i++)
+		{
+			values[i] = in.readInt();
+		}
 	}
 	
 	public int size()

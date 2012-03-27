@@ -23,9 +23,12 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -34,8 +37,10 @@ import java.math.BigInteger;
 public class BigDecimalValues implements ColumnValues, Serializable
 {
 
-	private final ColumnValues unscaledValues;
-	private final ColumnValues scaleValues;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private ColumnValues unscaledValues;
+	private ColumnValues scaleValues;
 
 	public BigDecimalValues(ColumnValues unscaledValues,
 			ColumnValues scaleValues)
@@ -47,6 +52,18 @@ public class BigDecimalValues implements ColumnValues, Serializable
 		
 		this.unscaledValues = unscaledValues;
 		this.scaleValues = scaleValues;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeUnshared(unscaledValues);
+		out.writeUnshared(scaleValues);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		this.unscaledValues = (ColumnValues) in.readUnshared();
+		this.scaleValues = (ColumnValues) in.readUnshared();
 	}
 
 	public int size()

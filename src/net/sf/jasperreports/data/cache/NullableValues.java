@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,8 +35,22 @@ import java.io.Serializable;
 public class NullableValues implements ColumnValues, Serializable
 {
 
-	private final ColumnValues nullValues;
-	private final ColumnValues values;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private ColumnValues nullValues;
+	private ColumnValues values;
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeUnshared(nullValues);
+		out.writeUnshared(values);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		this.nullValues = (ColumnValues) in.readUnshared();
+		this.values = (ColumnValues) in.readUnshared();
+	}
 
 	public NullableValues(ColumnValues nullValues, ColumnValues values)
 	{
