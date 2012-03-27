@@ -48,6 +48,11 @@ public class RunLengthStore
 	public RunLengthStore(ArrayStore store)
 	{
 		this.store = store;
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("created " + this + " for " + store);
+		}
 	}
 	
 	public void reset()
@@ -141,6 +146,11 @@ public class RunLengthStore
 	public int getMaxRunLength()
 	{
 		return maxRunLength;
+	}
+
+	public String toString()
+	{
+		return "RunLengthStore@" + hashCode();
 	}
 	
 }
