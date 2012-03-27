@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,14 +35,29 @@ import java.io.Serializable;
 public class TransformedColumnValues implements ColumnValues, Serializable
 {
 
-	private final ColumnValues rawValues;
-	private final ValueTransformer transformer;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private ColumnValues rawValues;
+	private ValueTransformer transformer;
 	
 	public TransformedColumnValues(ColumnValues rawValues,
 			ValueTransformer transformer)
 	{
 		this.rawValues = rawValues;
 		this.transformer = transformer;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeUnshared(rawValues);
+		out.writeObject(transformer);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		
+		this.rawValues = (ColumnValues) in.readUnshared();
+		this.transformer = (ValueTransformer) in.readObject();
 	}
 
 	public int size()

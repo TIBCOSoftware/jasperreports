@@ -23,10 +23,12 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 import org.apache.commons.logging.Log;
@@ -40,12 +42,36 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 {
 	
 	private static final Log log = LogFactory.getLog(ColumnDataSnapshot.class);
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map<Object, ColumnCacheData> cachedData;
 
 	public ColumnDataSnapshot()
 	{
 		cachedData = new LinkedHashMap<Object, ColumnCacheData>();
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(cachedData.size());
+		for (Map.Entry<Object, ColumnCacheData> entry : cachedData.entrySet())
+		{
+			out.writeObject(entry.getKey());
+			out.writeObject(entry.getValue());
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		int count = in.readInt();
+		cachedData = new LinkedHashMap<Object, ColumnCacheData>(count * 4 / 3);
+		for (int i = 0; i < count; i++)
+		{
+			Object key = in.readObject();
+			ColumnCacheData data = (ColumnCacheData) in.readObject();
+			cachedData.put(key, data);
+		}
 	}
 
 	public boolean hasCachedData(Object key)

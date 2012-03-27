@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -33,8 +36,10 @@ import java.sql.Timestamp;
 public class TimestampValues implements ColumnValues, Serializable
 {
 
-	private final ColumnValues timeValues;
-	private final ColumnValues nanoValues;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private ColumnValues timeValues;
+	private ColumnValues nanoValues;
 
 	public TimestampValues(ColumnValues timeValues, ColumnValues nanoValues)
 	{
@@ -45,6 +50,18 @@ public class TimestampValues implements ColumnValues, Serializable
 		
 		this.timeValues = timeValues;
 		this.nanoValues = nanoValues;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeUnshared(timeValues);
+		out.writeUnshared(nanoValues);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		this.timeValues = (ColumnValues) in.readUnshared();
+		this.nanoValues = (ColumnValues) in.readUnshared();
 	}
 
 	public int size()

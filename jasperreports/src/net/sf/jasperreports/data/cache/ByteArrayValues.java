@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -31,18 +34,43 @@ import java.io.Serializable;
  */
 public class ByteArrayValues implements ColumnValues, Serializable
 {
-	// TODO lucianc customize serialization
-	// TODO serial uids
 
-	private final byte[] values;
-	private final long linearFactor;
-	private final long linearOffset;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private byte[] values;
+	private long linearFactor;
+	private long linearOffset;
 	
 	public ByteArrayValues(byte[] values, long linearFactor, long linearOffset)
 	{
 		this.values = values;
 		this.linearFactor = linearFactor;
 		this.linearOffset = linearOffset;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeLong(linearFactor);
+		out.writeLong(linearOffset);
+		
+		out.writeInt(values.length);// TODO lucianc write this as short?
+		for (int i = 0; i < values.length; i++)
+		{
+			out.writeByte(values[i]);
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		linearFactor = in.readLong();
+		linearOffset = in.readLong();
+		
+		int size = in.readInt();
+		values = new byte[size];
+		for (int i = 0; i < size; i++)
+		{
+			values[i] = in.readByte();
+		}
 	}
 	
 	public int size()

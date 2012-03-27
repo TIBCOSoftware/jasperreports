@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,11 +35,23 @@ import java.io.Serializable;
 public class SingleObjectValue implements ColumnValues, Serializable
 {
 
-	private final Object value;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private Object value;
 	
 	public SingleObjectValue(Object value)
 	{
 		this.value = value;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeObject(value);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		value = in.readObject();
 	}
 
 	public int size()

@@ -23,8 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 /**
@@ -33,15 +35,47 @@ import net.sf.jasperreports.engine.data.IndexedDataSource;
  */
 public class ColumnCacheData implements Serializable
 {
-	private final String[] fieldNames;
-	private final int size;
-	private final ColumnValues[] values;
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+	
+	private String[] fieldNames;
+	private int size;
+	private ColumnValues[] values;
 	
 	public ColumnCacheData(String[] fieldNames, int size, ColumnValues[] values)
 	{
+		if (fieldNames == null || values == null || fieldNames.length != values.length)
+		{
+			throw new IllegalArgumentException();
+		}
+		
 		this.fieldNames = fieldNames;
 		this.size = size;
 		this.values = values;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(size);
+		out.writeInt(fieldNames.length);
+		for (int i = 0; i < fieldNames.length; i++)
+		{
+			out.writeObject(values[i]);
+			out.writeObject(values[i]);
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		size = in.readInt();
+		int fieldCount = in.readInt();
+		fieldNames = new String[fieldCount];
+		values = new ColumnValues[fieldCount];
+		for (int i = 0; i < fieldCount; i++)
+		{
+			fieldNames[i] = (String) in.readObject();
+			values[i] = (ColumnValues) in.readObject();
+		}
 	}
 	
 	public IndexedDataSource createDataSource()

@@ -81,6 +81,7 @@ public class BigDecimalStore implements BufferColumnStore
 
 	public ColumnValues createValues()
 	{
+		// TODO lucianc check empty
 		ColumnValues unscaledValues = valueStore.createValues();
 		ColumnValues scaleValues = scaleStore.createValues();
 		return new BigDecimalValues(unscaledValues, scaleValues);

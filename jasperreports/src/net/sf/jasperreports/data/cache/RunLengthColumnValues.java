@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,9 +35,11 @@ import java.io.Serializable;
 public class RunLengthColumnValues implements ColumnValues, Serializable
 {
 
-	private final int size;
-	private final ColumnValues values;
-	private final ColumnValues runLengths;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private int size;
+	private ColumnValues values;
+	private ColumnValues runLengths;
 
 	public RunLengthColumnValues(int size, ColumnValues values,
 			ColumnValues runLengths)
@@ -47,6 +52,21 @@ public class RunLengthColumnValues implements ColumnValues, Serializable
 		this.size = size;
 		this.values = values;
 		this.runLengths = runLengths;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(size);
+		out.writeUnshared(values);
+		out.writeUnshared(runLengths);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		
+		this.size = in.readInt();
+		this.values = (ColumnValues) in.readUnshared();
+		this.runLengths = (ColumnValues) in.readUnshared();
 	}
 
 	public int size()

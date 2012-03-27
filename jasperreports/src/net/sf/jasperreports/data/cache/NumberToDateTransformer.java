@@ -27,12 +27,16 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.Date;
 
+import net.sf.jasperreports.engine.JRConstants;
+
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
 public final class NumberToDateTransformer implements ValueTransformer, Serializable
 {
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	private static final NumberToDateTransformer INSTANCE = new NumberToDateTransformer();
 	

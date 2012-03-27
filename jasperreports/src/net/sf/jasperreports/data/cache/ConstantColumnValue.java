@@ -23,7 +23,10 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,20 +35,27 @@ import java.io.Serializable;
 public class ConstantColumnValue implements ColumnValues, Serializable
 {
 
-	private final int size;
-	private final Object value;
-	private final ValueTransformer valueTransformer;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private int size;
+	private Object value;
 	
 	public ConstantColumnValue(int size, Object value)
 	{
-		this(size, value, null);
-	}
-	
-	public ConstantColumnValue(int size, Object value, ValueTransformer valueTransformer)
-	{
 		this.size = size;
 		this.value = value;
-		this.valueTransformer = valueTransformer;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(size);
+		out.writeObject(value);
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		size = in.readInt();
+		value = in.readObject();
 	}
 
 	public int size()
@@ -59,7 +69,7 @@ public class ConstantColumnValue implements ColumnValues, Serializable
 		{
 			public Object get()
 			{
-				return valueTransformer == null ? value : valueTransformer.get(value);
+				return value;
 			}
 		};
 	}

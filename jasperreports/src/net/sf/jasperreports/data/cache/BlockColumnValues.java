@@ -23,8 +23,11 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -33,8 +36,10 @@ import java.util.List;
 public class BlockColumnValues implements ColumnValues, Serializable
 {
 
-	private final int size;
-	private final ColumnValues[] blocks;
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	private int size;
+	private ColumnValues[] blocks;
 	
 	public BlockColumnValues(List<ColumnValues> blocks)
 	{
@@ -47,6 +52,27 @@ public class BlockColumnValues implements ColumnValues, Serializable
 			totalSize += values.size();
 		}
 		this.size = totalSize;
+	}
+	
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeInt(size);
+		out.writeInt(blocks.length);
+		for (int i = 0; i < blocks.length; i++)
+		{
+			out.writeUnshared(blocks[i]);
+		}
+	}
+	
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		size = in.readInt();
+		int blockCount = in.readInt();
+		blocks = new ColumnValues[blockCount];
+		for (int i = 0; i < blockCount; i++)
+		{
+			blocks[i] = (ColumnValues) in.readUnshared();
+		}
 	}
 	
 	public int size()
