@@ -6,7 +6,7 @@
 
 	<target name="compile" description="Compiles the java source files of the library.">
 		<mkdir dir="./build/classes"/> 
-		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.5" source="1.5" encoding="ISO-8859-1">
+		<javac destdir="./build/classes" debug="true" optimize="false" deprecation="true" target="1.6" source="1.6" encoding="ISO-8859-1">
 			<classpath>
 				<pathelement location="./build/classes"/>
 				<fileset dir="./lib">

@@ -32,7 +32,7 @@
 			<include name="*.java"/>
 		</javac>
 		<mkdir dir="./build/component"/> 
-		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="false" source="1.5" target="1.5">
+		<javac srcdir="./src" destdir="./build/component" debug="true" optimize="false" deprecation="false" source="1.6" target="1.6">
 			<classpath refid="classpath"/>
 		</javac>
 		<copy todir="./build/component">
