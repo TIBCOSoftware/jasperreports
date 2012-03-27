@@ -30,30 +30,10 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class LongArrayStore implements BufferColumnStore
+public class LongArrayStore implements BufferColumnStore, ArrayStore
 {
 
 	private static final Log log = LogFactory.getLog(LongArrayStore.class);
-	
-	protected static enum ValueLength
-	{
-		BYTE(1), SHORT(2), INT(4), LONG(8);
-		
-		private final int byteLength;
-		
-		private ValueLength(int byteLength)
-		{
-			this.byteLength = byteLength;
-		}
-		
-		public int byteLength()
-		{
-			return byteLength;
-		}
-	}
-	
-	private static final int MAX_RUN_LENGTH = Short.MAX_VALUE - Short.MIN_VALUE;
-	private static final int RUN_LENGTH_PENALTY = 32;// 32 bytes
 
 	private final boolean useGCD;
 	private final ValueTransformer valueTransformer;
@@ -65,9 +45,7 @@ public class LongArrayStore implements BufferColumnStore
 	private long min;
 	private long max;
 	
-	private int runLengthStart;
-	private int runLengthCount;
-	private int runLengthMax;
+	private RunLengthStore runLengthStore;
 	
 	public LongArrayStore(int size)
 	{
@@ -90,6 +68,7 @@ public class LongArrayStore implements BufferColumnStore
 		this.valueTransformer = valueTransformer;
 		
 		this.values = new long[size];
+		this.runLengthStore = new RunLengthStore(this);
 		reset();
 	}
 	
@@ -100,9 +79,31 @@ public class LongArrayStore implements BufferColumnStore
 		this.min = Long.MAX_VALUE;
 		this.max = Long.MIN_VALUE;
 		
-		this.runLengthStart = -1;
-		this.runLengthCount = 0;
-		this.runLengthMax = 1;
+		this.runLengthStore.reset();
+	}
+
+	@Override
+	public int count()
+	{
+		return count;
+	}
+
+	@Override
+	public boolean valuesEqual(int idx1, int idx2)
+	{
+		return values[idx1] == values[idx2];
+	}
+
+	@Override
+	public void copyValue(int destIdx, int sourceIdx)
+	{
+		values[destIdx] = values[sourceIdx];
+	}
+
+	@Override
+	public void updateCount(int count)
+	{
+		this.count = count;
 	}
 	
 	public void add(long value)
@@ -119,19 +120,7 @@ public class LongArrayStore implements BufferColumnStore
 			max = value;
 		}
 		
-		if (runLengthStart >= 0 && value == values[runLengthStart] 
-				&& (count - runLengthStart) < MAX_RUN_LENGTH)
-		{
-			if (count - runLengthStart > runLengthMax)
-			{
-				runLengthMax = count - runLengthStart;
-			}
-		}
-		else
-		{
-			runLengthStart = count - 1;
-			++runLengthCount;
-		}
+		runLengthStore.valueAdded();
 	}
 
 	public void addValue(Object value)
@@ -232,54 +221,16 @@ public class LongArrayStore implements BufferColumnStore
 			}
 		}
 		
-		ValueLength valueLength = getValueLength(max);
-		ValueLength runLength = getValueLength(runLengthMax - 1);
-		
-		ColumnValues runLengthValues = null;
 		int originalCount = count;
-		if (useRunLength(valueLength, runLength))
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug(this + ": using run lengths count " + runLengthCount + ", original count " + count);
-			}
-			
-			// go with run lengths
-			long[] runLengths = new long[runLengthCount];
-			int runIdx = 0;
-			runLengths[runIdx] = 0;// we start from 0 because we use 1 as offset
-			for (int i = 1; i < count; ++i)
-			{
-				if (values[i] == values[runIdx] && runLengths[runIdx] < MAX_RUN_LENGTH)
-				{
-					++runLengths[runIdx];
-				}
-				else
-				{
-					++runIdx;
-					runLengths[runIdx] = 0;
-					values[runIdx] = values[i];
-				}
-			}
-			
-			// update the values count
-			count = runLengthCount;
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug(this + ": creating run lengths of count " + runLengthCount 
-						+ ", value length " + runLength);
-			}
-			
-			runLengthValues = toValues(runLengthCount, runLengths, runLength, 1, 1);
-		}
+		ValueLength valueLength = ValueLength.getNumberLength(max);
+		ColumnValues runLengthValues = runLengthStore.applyRunLengths(valueLength);
 		
 		if (log.isDebugEnabled())
 		{
 			log.debug(this + ": creating values of count " + count + ", value length " + valueLength);
 		}
 		
-		ColumnValues colValues = toValues(count, values, valueLength, linearFactor, linearOffset);
+		ColumnValues colValues = NumberValuesUtils.instance().toValues(count, values, valueLength, linearFactor, linearOffset);
 		if (valueTransformer != null)
 		{
 			colValues = new TransformedColumnValues(colValues, valueTransformer);
@@ -325,99 +276,6 @@ public class LongArrayStore implements BufferColumnStore
 			b = t;
 		}
 		return b;
-	}
-
-	protected ValueLength getValueLength(long value)
-	{
-		ValueLength valueLength;
-		if ((value & 0xffffffffffffff00L) == 0)
-		{
-			// byte values
-			valueLength = ValueLength.BYTE;
-		}
-		else if ((value & 0xffffffffffff0000L) == 0)
-		{
-			// short values
-			valueLength = ValueLength.SHORT;
-		}
-		else if ((value & 0xffffffff00000000L) == 0)
-		{
-			// int values
-			valueLength = ValueLength.INT;
-		}
-		else
-		{
-			valueLength = ValueLength.LONG;
-		}
-		return valueLength;
-	}
-
-	protected boolean useRunLength(ValueLength valueLength, ValueLength runLength)
-	{
-		return count * valueLength.byteLength() > 
-				runLengthCount * (valueLength.byteLength() + runLength.byteLength()) + RUN_LENGTH_PENALTY;
-	}
-	
-	protected ColumnValues toValues(int count, long[] values, ValueLength valueLength, 
-			long linearFactor, long linearOffset)
-	{
-		ColumnValues colValues;
-		switch (valueLength) {
-		case BYTE:
-			// byte values
-			colValues = toByteValues(count, values, linearFactor, linearOffset);
-			break;
-		case SHORT:
-			// short values
-			colValues = toShortValues(count, values, linearFactor, linearOffset);
-			break;
-		case INT:
-			// int values
-			colValues = toIntValues(count, values, linearFactor, linearOffset);
-			break;
-		default:
-			colValues = toLongValues(count, values, linearFactor, linearOffset);
-			break;
-		}
-		return colValues;
-	}
-
-	protected ColumnValues toByteValues(int count, long[] values, long linearFactor, long linearOffset)
-	{
-		byte[] byteValues = new byte[count];
-		for (int i = 0; i < count; i++)
-		{
-			byteValues[i] = (byte) (values[i] & 0xFF);
-		}
-		return new ByteArrayValues(byteValues, linearFactor, linearOffset);
-	}
-
-	protected ColumnValues toShortValues(int count, long[] values, long linearFactor, long linearOffset)
-	{
-		short[] shortValues = new short[count];
-		for (int i = 0; i < count; i++)
-		{
-			shortValues[i] = (short) (values[i] & 0xFFFF);
-		}
-		return new ShortArrayValues(shortValues, linearFactor, linearOffset);
-	}
-
-	protected ColumnValues toIntValues(int count, long[] values, long linearFactor, long linearOffset)
-	{
-		int[] intValues = new int[count];
-		for (int i = 0; i < count; i++)
-		{
-			intValues[i] = (int) (values[i] & 0xFFFFFFFFL);
-		}
-		return new IntArrayValues(intValues, linearFactor, linearOffset);
-	}
-
-	protected ColumnValues toLongValues(int count, long[] values, long linearFactor, long linearOffset)
-	{
-		// always create a copy
-		long[] longValues = new long[count];
-		System.arraycopy(values, 0, longValues, 0, count);
-		return new LongArrayValues(longValues, linearFactor, linearOffset);
 	}
 
 	public String toString()

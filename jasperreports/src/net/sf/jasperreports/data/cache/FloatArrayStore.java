@@ -30,23 +30,51 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class FloatArrayStore implements BufferColumnStore
+public class FloatArrayStore implements BufferColumnStore, ArrayStore
 {
 
 	private static final Log log = LogFactory.getLog(DoubleArrayStore.class);
 
 	private final float[] values;
 	private int count;
+
+	private RunLengthStore runLengthStore;
 	
 	public FloatArrayStore(int size)
 	{
 		this.values = new float[size];
+		this.runLengthStore = new RunLengthStore(this);
 		reset();
 	}
 	
 	private void reset()
 	{
 		this.count = 0;
+		this.runLengthStore.reset();
+	}
+
+	@Override
+	public int count()
+	{
+		return count;
+	}
+
+	@Override
+	public boolean valuesEqual(int idx1, int idx2)
+	{
+		return values[idx1] == values[idx2];
+	}
+
+	@Override
+	public void copyValue(int destIdx, int sourceIdx)
+	{
+		values[destIdx] = values[sourceIdx];
+	}
+
+	@Override
+	public void updateCount(int count)
+	{
+		this.count = count;
 	}
 
 	public void addValue(Object object)
@@ -59,6 +87,8 @@ public class FloatArrayStore implements BufferColumnStore
 		float value = (Float) object;
 		values[count] = value;
 		++count;
+		
+		runLengthStore.valueAdded();
 	}
 
 	public boolean full()
@@ -94,7 +124,8 @@ public class FloatArrayStore implements BufferColumnStore
 			return new SingleObjectValue(values[0]);
 		}
 		
-		//TODO lucianc run length
+		int originalCount = count;
+		ColumnValues runLengthValues = runLengthStore.applyRunLengths(ValueLength.FLOAT);
 		
 		if (log.isDebugEnabled())
 		{
@@ -103,7 +134,18 @@ public class FloatArrayStore implements BufferColumnStore
 		
 		float[] floatValues = new float[count];
 		System.arraycopy(values, 0, floatValues, 0, count);
-		return new FloatArrayValues(floatValues);
+		FloatArrayValues colValues = new FloatArrayValues(floatValues);
+		
+		ColumnValues finalValues;
+		if (runLengthValues == null)
+		{
+			finalValues = colValues;
+		}
+		else
+		{
+			finalValues = new RunLengthColumnValues(originalCount, colValues, runLengthValues);
+		}
+		return finalValues;
 	}
 
 	public String toString()
