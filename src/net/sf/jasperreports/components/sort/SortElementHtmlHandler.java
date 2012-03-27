@@ -385,7 +385,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private Map<String, String> getTranslatedOperators(String bundleName, JREnum[] operators, Locale locale) {
 		Map<String, String> result = new LinkedHashMap<String, String>();
-		ResourceBundle rb = ResourceBundle.getBundle(bundleName, locale);
+		ResourceBundle rb = ResourceBundle.getBundle(bundleName, locale);//FIXMECONTEXT replace with MessageProvider
 		
 		for (JREnum operator: operators) {
 			result.put(((Enum<?>)operator).name(), rb.getString(((Enum<?>)operator).name()));
