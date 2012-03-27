@@ -119,6 +119,16 @@ public class ObjectArrayStore implements BufferColumnStore, ArrayStore
 			return new SingleObjectValue(values[0]);
 		}
 		
+		if (runLengthStore.getRunCount() == 1)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug(this + ": constant value of size " + count);
+			}
+			
+			return new ConstantColumnValue(count, values[0]);
+		}
+		
 		int originalCount = count;
 		ColumnValues runLengthValues = runLengthStore.applyRunLengths(ValueLength.REFERENCE);
 		
