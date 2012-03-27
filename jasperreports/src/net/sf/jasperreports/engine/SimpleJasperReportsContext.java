@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,19 +42,28 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	
 	private Map<String, Object> values = new HashMap<String, Object>();
 	private Map<String, String> properties;
+	private Map<Class<?>, List<?>> extensionsMap;
 
 	/**
 	 *
 	 */
 	public SimpleJasperReportsContext()
 	{
-		this(null);
+		this(DefaultJasperReportsContext.getInstance());//FIXMECONTEXT consider setting null parent after solving JRS spring bean
 	}
 
 	/**
 	 *
 	 */
 	public SimpleJasperReportsContext(JasperReportsContext parent)
+	{
+		this.parent = parent;
+	}
+
+	/**
+	 *
+	 */
+	public void setParent(JasperReportsContext parent)
 	{
 		this.parent = parent;
 	}
@@ -91,11 +101,75 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 */
 	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
-		if (parent != null)
+		if (extensionsMap == null || !extensionsMap.containsKey(extensionType))
 		{
-			return parent.getExtensions(extensionType);
+			if (parent == null)
+			{
+				return null;
+			}
+			else
+			{
+				return parent.getExtensions(extensionType);
+			}
 		}
-		return null;
+		else
+		{
+			@SuppressWarnings("unchecked")
+			List<T> extensionsList = (List<T>)extensionsMap.get(extensionType);
+			if (parent == null)
+			{
+				return extensionsList;
+			}
+			else
+			{
+				List<T> parentExtensions = parent.getExtensions(extensionType);
+				if (extensionsList == null || extensionsList.isEmpty())
+				{
+					if (parentExtensions == null || parentExtensions.isEmpty())
+					{
+						return null;
+					}
+					else
+					{
+						return parentExtensions;
+					}
+				}
+				else
+				{
+					if (parentExtensions == null || parentExtensions.isEmpty())
+					{
+						return extensionsList;
+					}
+					else
+					{
+						List<T> returnedList = new ArrayList<T>();
+						returnedList.addAll(extensionsList);
+						returnedList.addAll(parentExtensions);
+						return returnedList;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 *
+	 */
+	public <T> void setExtensions(Class<T> extensionType, List<T> extensions)
+	{
+		if (extensionsMap == null)
+		{
+			extensionsMap = new HashMap<Class<?>, List<?>>();
+		}
+		extensionsMap.put(extensionType, extensions);
+	}
+	
+	/**
+	 *
+	 */
+	public void setExtensions(Map<Class<?>, List<?>> extensions)
+	{
+		extensionsMap = extensions;
 	}
 	
 	/**
@@ -106,22 +180,15 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	 */
 	public String getProperty(String key)
 	{
-		if (parent == null)
+		if (properties != null && properties.containsKey(key))
 		{
-			if (properties == null)
-			{
-				return null;
-			}
-			else
-			{
-				return properties.get(key);
-			}
+			return properties.get(key);
 		}
 		else
 		{
-			if (properties != null && properties.containsKey(key))
+			if (parent == null)
 			{
-				return properties.get(key);
+				return null;
 			}
 			else
 			{

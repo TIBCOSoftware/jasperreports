@@ -65,6 +65,8 @@ import net.sf.jasperreports.engine.query.DefaultQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
 import net.sf.jasperreports.engine.scriptlets.DefaultScriptletFactory;
 import net.sf.jasperreports.engine.scriptlets.ScriptletFactory;
+import net.sf.jasperreports.engine.util.MessageProviderFactory;
+import net.sf.jasperreports.engine.util.ResourceBundleMessageProviderFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 
 
@@ -175,6 +177,10 @@ public class DefaultExtensionsRegistryFactory implements ExtensionsRegistryFacto
 				else if (GenericElementHandlerBundle.class.equals(extensionType))
 				{
 					return (List<T>) Collections.singletonList((Object)HANDLER_BUNDLE);
+				}
+				else if (MessageProviderFactory.class.equals(extensionType))
+				{
+					return (List<T>) Collections.singletonList((Object) new ResourceBundleMessageProviderFactory());
 				}
 				return null;
 			}
