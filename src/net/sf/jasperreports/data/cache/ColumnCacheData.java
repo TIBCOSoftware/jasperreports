@@ -60,7 +60,7 @@ public class ColumnCacheData implements Serializable
 		out.writeInt(fieldNames.length);
 		for (int i = 0; i < fieldNames.length; i++)
 		{
-			out.writeObject(values[i]);
+			out.writeObject(fieldNames[i]);
 			out.writeObject(values[i]);
 		}
 	}
