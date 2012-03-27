@@ -34,13 +34,20 @@ public class ConstantColumnValue implements ColumnValues, Serializable
 
 	private final int size;
 	private final Object value;
+	private final ValueTransformer valueTransformer;
 	
 	public ConstantColumnValue(int size, Object value)
 	{
-		this.size = size;
-		this.value = value;
+		this(size, value, null);
 	}
 	
+	public ConstantColumnValue(int size, Object value, ValueTransformer valueTransformer)
+	{
+		this.size = size;
+		this.value = value;
+		this.valueTransformer = valueTransformer;
+	}
+
 	public int size()
 	{
 		return size;
@@ -52,7 +59,7 @@ public class ConstantColumnValue implements ColumnValues, Serializable
 		{
 			public Object get()
 			{
-				return value;
+				return valueTransformer == null ? value : valueTransformer.get(value);
 			}
 		};
 	}

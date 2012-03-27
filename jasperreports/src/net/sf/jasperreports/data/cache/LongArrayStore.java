@@ -184,7 +184,7 @@ public class LongArrayStore implements BufferColumnStore
 				log.debug(this + ": constant value of size " + count);
 			}
 			
-			return new ConstantColumnValue(count, min);//FIXME keep value as primitive
+			return new ConstantColumnValue(count, min, valueTransformer);//FIXME keep value as primitive
 		}
 		
 		long linearOffset = 0;
