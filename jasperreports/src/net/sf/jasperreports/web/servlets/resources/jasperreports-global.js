@@ -49,7 +49,7 @@ jQuery.noConflict();
 		var result = new Image();
 		result.src = imageSrc;
 		return result;
-	}
+	};
 	
 	/**
 	 * Enhances dest with properties of source
@@ -75,12 +75,14 @@ jQuery.noConflict();
 	jg.extractCallbackFunction = function (callbackFn, context) {
 		var result = callbackFn;
 		if (typeof callbackFn === 'string') {
-			var tokens = callbackFn.split('.');
+			var i, ln, tokens = callbackFn.split('.');
 			result = context || global;
-			for (var i = 0, ln = tokens.length; i < ln; i++) {
+			for (i = 0, ln = tokens.length; i < ln; i++) {
 				if (result[tokens[i]]) {
 					result = result[tokens[i]];
-				} else throw new Error('Invalid callback function: ' + callbackFn + '; token: ' + tokens[i]);
+				} else {
+					throw new Error('Invalid callback function: ' + callbackFn + '; token: ' + tokens[i]);
+				}
 			}
 		}
 		return result;
@@ -174,7 +176,7 @@ jQuery.noConflict();
 		for(prop in events) {
 			if (events.hasOwnProperty(prop)) {
 				event = events[prop];
-				if ('object' === typeof event && event.hasOwnProperty('name') && event['name'] === eventName) {
+				if ('object' === typeof event && event.hasOwnProperty('name') && event.name === eventName) {
 					return event;
 				}
 			}
@@ -199,16 +201,16 @@ jQuery.noConflict();
 	};
 	
 	jg.processEvent = function (eventName) {
-		var subscribers = jg.eventSubscribers[eventName];
+		var i, subscribers = jg.eventSubscribers[eventName];
 		if (subscribers) {
-			for (var i = 0; i < subscribers.length; i++) {
+			for (i = 0; i < subscribers.length; i++) {
 				var subscriber = subscribers[i];
 				jg.extractCallbackFunction(subscriber.callbackfn).apply(null, subscriber.callbackargs);
 			}
 			// clear subscribers
 			jg.eventSubscribers[eventName] = undefined;
 		}
-	}
+	};
 	
 	jg.isEmpty = function(element) {
 		if (element == null || element == undefined || element == '') {
@@ -230,9 +232,9 @@ jQuery.noConflict();
 		if(!jg.isEmpty(url)) {
 			var keyValArray = url.slice(url.indexOf("?") + 1).split("&"),
 				keyVal,
-				ln = keyValArray.length;
+				i, ln = keyValArray.length;
 			
-			for (var i=0; i< ln; i++) {
+			for (i=0; i< ln; i++) {
 				keyVal = keyValArray[i].split("=");
 				result[keyVal[0]] = keyVal[1];
 			}
@@ -242,9 +244,9 @@ jQuery.noConflict();
 		
 	jg.getUrlParameter = function (url, paramName) {
 		if(!jg.isEmpty(url)) {
-			var keyValArray = url.slice(url.indexOf("?") + 1).split("&");
-			var keyVal;
-			for (var i=0; i< keyValArray.length; i++) {
+			var keyValArray = url.slice(url.indexOf("?") + 1).split("&"),
+				i, keyVal;
+			for (i=0; i< keyValArray.length; i++) {
 				keyVal = keyValArray[i].split("=");
 				if (paramName == keyVal[0]) {
 					return keyVal[1];
@@ -300,8 +302,8 @@ jQuery.noConflict();
 									if (!scriptObj.attr('src')) { // FIXMEJIVE only scripts that don't load files are run
 										var scriptString = scriptObj.html();
 										if (scriptString) {
-							    			global.eval(scriptString);
-							    		}
+											global.eval(scriptString);
+										}
 									}
 								});
 							}
@@ -367,7 +369,7 @@ jQuery.noConflict();
 				// FIXME: must know if this is an ajax request, to prevent some resources from reloading
 				if (this.requestParams != null) {
 					if ('object' == typeof this.requestParams) {
-						this.requestParams['isajax'] = isajax; // on first ajax request load all resources
+						this.requestParams.isajax = isajax; // on first ajax request load all resources
 					} else if('string' == typeof this.requestParams) {
 						this.requestParams += '&isajax=' + isajax;
 					}
@@ -422,11 +424,8 @@ jQuery.noConflict();
 					contextId = executionContextElement.attr('id'),
 					reqUrlBase = jg.getUrlBase(requestedUrl),
 					reqParams = jg.getUrlParameters(decodeURIComponent(requestedUrl)),
-					contextReqParams = jg.getUrlParameters(decodeURIComponent(contextUrl));
-				
-				// mix params with contextReqParams and reqParams in order to preserve previous params; the order matters
-//				var newParams = jg.merge({}, [contextReqParams, reqParams, params]);
-				var newParams = jg.merge({}, [reqParams, params]);
+					contextReqParams = jg.getUrlParameters(decodeURIComponent(contextUrl)),
+					newParams = jg.merge({}, [reqParams, params]);
 				
 				// update context url
 				executionContextElement.attr('data-contexturl', jg.extendUrl(reqUrlBase, newParams));
@@ -453,7 +452,7 @@ jQuery.noConflict();
 			if (executionContextElement && executionContextElement.size() > 0) {
 				return new jg.AjaxExecutionContext(
 					null,															// contextId
-					requestedUrl, 													// requestUrl
+					requestedUrl,													// requestUrl
 					jQuery('div.result', executionContextElement).filter(':first'), // target 
 					params,															// requestParams
 					'div.result',													// elementToExtract
@@ -487,18 +486,19 @@ jQuery.noConflict();
 		};
 		
 		jg.escapeString = function(str) {
-    		return encodeURIComponent(str.replace(/(\n)|(\r)|(\t)|(\b)/g, '').replace(/\"/g, '\\\"'));
-    	};
+			return encodeURIComponent(str.replace(/(\n)|(\r)|(\t)|(\b)/g, '').replace(/\"/g, '\\\"'));
+		};
 		
 		jg.toJsonString = function(object, boolEscapeStrings) {
-    		var o2s = Object.prototype.toString.call(object),
-    			result = '',
-    			boolEscapeStrings = boolEscapeStrings || false;
-    		
-    		switch (o2s) {
+			var o2s = Object.prototype.toString.call(object),
+				result = '',
+				bEscapeStrings = boolEscapeStrings || false,
+				i, ln, property;
+
+			switch (o2s) {
 				case '[object Array]':
 					result += "[";
-					for (var i = 0, ln = object.length; i < ln; i++) {
+					for (i = 0, ln = object.length; i < ln; i++) {
 						result += jg.toJsonString(object[i]);
 						if (i < ln -1) {
 							result += ",";
@@ -509,23 +509,23 @@ jQuery.noConflict();
 
 				case '[object Object]':
 					result += "{";
-					for (var property in object) {
-		    			if (object.hasOwnProperty(property) && object[property] != null) {
+					for (property in object) {
+						if (object.hasOwnProperty(property) && object[property] != null) {
 							result += "\"" + property + "\":" + jg.toJsonString(object[property]) + ",";
-		    			}
+						}
 					}
 					if (result.indexOf(",") != -1) {
-		    			result = result.substring(0, result.lastIndexOf(","));
-		    		}
+						result = result.substring(0, result.lastIndexOf(","));
+					}
 					result += "}";
 					break;
 
 				case '[object Function]':
-					result += "\"" + escapeString(object.toString()) + "\"";
+					result += "\"" + jg.escapeString(object.toString()) + "\"";
 					break;
 
 				case '[object String]':
-					result += "\"" + (boolEscapeStrings ? jg.escapeString(object) : object) + "\"";
+					result += "\"" + (bEscapeStrings ? jg.escapeString(object) : object) + "\"";
 					break;
 
 				case '[object Null]':
@@ -536,31 +536,31 @@ jQuery.noConflict();
 					result += object;
 					break;
 			}
-    		return result;
-    	};
-    	
-    	jg.showError = function(responseText, loadMaskTarget) {
-    		var errDialogId = 'errDialog';
-    			errDialog = jQuery('#' + errDialogId);
-    		if (errDialog.size != 1) {
-    			errDialog = jQuery("<div id='" + errDialogId + "'></div>");
-    			jQuery('body').append(errDialog);
-    		}
-    		
-    		errDialog.html(responseText);
-    		errDialog.dialog({
-    							title: 'Error',
-    							width: 1100,
-    							height: 500,
-    							close: function(event, ui) {
-    								loadMaskTarget.loadmask('hide');
-    							}
-    						});
-    		
-    		// hide all popup divs
-//    		jQuery('.popupdiv').hide();
-    	};
-    	
+			return result;
+		};
+
+		jg.showError = function(responseText, loadMaskTarget) {
+			var errDialogId = 'errDialog',
+				errDialog = jQuery('#' + errDialogId);
+			if (errDialog.size != 1) {
+				errDialog = jQuery("<div id='" + errDialogId + "'></div>");
+				jQuery('body').append(errDialog);
+			}
+
+			errDialog.html(responseText);
+			errDialog.dialog({
+				title: 'Error',
+				width: 1100,
+				height: 500,
+				close: function(event, ui) {
+					loadMaskTarget.loadmask('hide');
+				}
+			});
+
+			// hide all popup divs
+//			jQuery('.popupdiv').hide();
+		};
+
 		/**
 		 * A jQuery plugin that displays an overlapping image for a specified element 
 		 * (based on element's id)
@@ -592,26 +592,26 @@ jQuery.noConflict();
 					
 					// if the mask element does not exist, create it
 					if (jQuery(jQid).size() == 0) {
-						jQuery(this).parent().append("<div id='" + id + "'></div>")
+						jQuery(this).parent().append("<div id='" + id + "'></div>");
 					}
 					
 					jQuery(jQid).show().css({
-						position : 				'absolute',
-						backgroundImage : 		"url('" + settings.bgimage + "')",
-						opacity : 				settings.opacity,
-						width : 				jQuery(this).css('width'),
-						height : 				jQuery(this).css('height'),
-						top : 					jQuery(this).position().top,
-						left : 					jQuery(this).position().left,
-						'border-top-width' : 	jQuery(this).css('borderTopWidth'),
-						'border-top-style' : 	jQuery(this).css('borderTopStyle'),
-						borderBottomWidth : 	jQuery(this).css('borderBottomWidth'),
-						borderBottomStyle : 	jQuery(this).css('borderBottomStyle'),
-						borderLeftWidth : 		jQuery(this).css('borderLeftWidth'),
-						borderLeftStyle : 		jQuery(this).css('borderLeftStyle'),
-						borderRightWidth : 		jQuery(this).css('borderRightWidth'),
-						borderRightStyle : 		jQuery(this).css('borderRightStyle'),
-						'z-index' : 			1000,
+						position :				'absolute',
+						backgroundImage :		"url('" + settings.bgimage + "')",
+						opacity :				settings.opacity,
+						width :					jQuery(this).css('width'),
+						height :				jQuery(this).css('height'),
+						top :					jQuery(this).position().top,
+						left :					jQuery(this).position().left,
+						'border-top-width' :	jQuery(this).css('borderTopWidth'),
+						'border-top-style' :	jQuery(this).css('borderTopStyle'),
+						borderBottomWidth :		jQuery(this).css('borderBottomWidth'),
+						borderBottomStyle :		jQuery(this).css('borderBottomStyle'),
+						borderLeftWidth :		jQuery(this).css('borderLeftWidth'),
+						borderLeftStyle :		jQuery(this).css('borderLeftStyle'),
+						borderRightWidth :		jQuery(this).css('borderRightWidth'),
+						borderRightStyle :		jQuery(this).css('borderRightStyle'),
+						'z-index' :				1000,
 						cursor:					'wait'
 					});
 				}
