@@ -29,7 +29,6 @@
  */
 package net.sf.jasperreports.ant;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 
 import org.apache.tools.ant.taskdefs.MatchingTask;
@@ -45,6 +44,6 @@ public class JRBaseAntTask extends MatchingTask
 	/**
 	 *
 	 */
-	protected SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext(DefaultJasperReportsContext.getInstance());
+	protected SimpleJasperReportsContext jasperReportsContext = new SimpleJasperReportsContext();
 	
 }
