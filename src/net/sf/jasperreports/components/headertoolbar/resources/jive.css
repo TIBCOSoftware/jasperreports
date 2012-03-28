@@ -1,0 +1,204 @@
+td{border:solid 1px #ccc;vertical-align:center;background:#eee;}
+
+#jive_overlay {
+    position:absolute;
+    z-index:9;
+    background:#eee;
+    border:solid 1px #ccc;
+    opacity:0.3;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+    filter: alpha(opacity=30);
+}
+#jive_marker{
+    position:absolute;
+    width:10px;
+    cursor: ew-resize;
+    border-left:dotted 1px #555;
+}
+#jive_marker_icon{
+    background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.png);
+    width:40px;
+    height:40px;
+    position:relative;
+    top:-40px;
+    left:-21px;
+}
+#jive_foobar {
+    position:absolute;
+    border:solid 1px #ccc;
+    padding:2px;
+    height:16px;
+    background:#eee;
+}
+/*
+.jive_foobar_button {border:none;margin:0 2px;padding:0;height:auto;line-height: 1em;}
+.jive_foobar_button .wrap {width:20px;min-width:20px;padding:0;height:16px;line-height: 1em;}
+*/
+.jive_foobar_button {margin:0 2px;height:16px;padding:0;border:none;overflow: visible;background: transparent;}
+.jive_foobar_button .wrap {}
+.jive_foobar_button .icon {display:inline-block;width:16px;height:16px;.display:inline;}
+
+.jive_dialog {
+    position:absolute;
+    z-index:9;
+    border:solid 1px #ccc;
+    background:#fff;
+}
+.jive_dialog .dialogHeader {
+    background:#e8e8e8;
+    position:relative;
+}
+
+.jive_dialog h2 {
+    text-align: left;
+    margin:0;
+    padding:4px;
+}
+
+.jive_dialog div.dialogBody {
+    position:relative;
+    padding:3px;
+}
+
+.jive_dialog div.footer {
+    position:relative;
+    padding:8px;
+    height:auto;
+    text-align: left;
+    border-top:solid 1px #d3d5d6;
+}
+
+.jive_dialog button {
+    margin:0 !important;
+}
+
+.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;text-align:left;list-style-type: none;width:120px;}
+.pmenuitem {padding:8px 4px;cursor:pointer;color:#333;}
+.pmenuitem:hover {background:#3366ff;color:#fff;}
+
+.tabContainer {
+    position:absolute;
+    right:8px;
+    top:10px;
+    z-index:2; }
+
+.tab {
+    display:inline-block;
+    position:relative;
+    height:19px;
+    border-style: solid;
+    border-width:1px;
+}
+
+/* multisheet tabs */
+.tab.multisheet,
+.tab.dialog {
+    width:100px;
+    cursor:pointer;
+    white-space:nowrap;
+    top:1px;
+    border-color:#c5c5c5;
+    border-bottom:transparent;
+    background-color: #efefef;
+    *float:left; /* for IE 7 */
+    *margin-right:4px;  /* for IE 7 */
+    *top:3px; /* for IE 7*/
+    margin: 0 2px;
+}
+
+.tab.multisheet span,
+.tab.dialog span	{
+    height:100%;
+    line-height:19px;
+    margin:0 auto;
+    display:block;
+    text-align:center;
+}
+
+.tab.multisheet.active,
+.tab.dialog.active {
+    height:22px;
+    top:1px;
+    border:1px solid #c5c5c5;
+    border-top:1px solid #c5c5c5;
+    border-bottom:transparent;
+}
+
+.tab.multisheet.active span,
+.tab.dialog.active span {
+    line-height:23px;
+    font-weight:bold;
+    border:1px solid #f8f8f8;
+    border-right:1px solid #ededed;
+    border-bottom:1px solid #ededed;
+    background: #ededed; /*fallback for non-CSS3 browsers*/
+}
+
+.tab.dialog.active span {
+    background:#fff;
+    border-bottom:1px solid #ffffff;
+}
+
+/* column formatting tab */
+.tab.columntools {
+    display: inline-block;
+    width:auto;
+    height:21px;
+    white-space: nowrap;
+    z-index: 999;
+    border:1px solid #bbc0c5;
+    border-bottom:1px solid #dfe8f2;
+    background-color:#dfe8f2;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0;
+    behavior: url(PIE.htc);
+}
+
+.jive_form td {
+    padding:0;
+    margin:0;
+    vertical-align: top;
+}
+
+div.wrapper {padding:4px;}
+
+.jive_form input, .jive_form select {width:100%;margin:0;height:24px;border:0;}
+
+.jive_form .colorbar {height:24px;border:solid 1px #ccc;}
+.jive_form .buttonbar {background:#fff;overflow:hidden;height:24px;border:solid 1px #ccc;}
+
+.jive_inputbutton {float:left;cursor:pointer;background:#fff;}
+.jive_inputbutton_wrapper {text-align:center;border-left:solid 1px #ccc;background:transparent;}
+.jive_inputbutton_wrapper.first {border-left:none;}
+.jive_inputbutton.selected {background:#faac1f;color:#fff;}
+
+.jive_bIcon {display:inline-block;.display:inline;width:16px;height:16px;margin:4px;}
+
+.boldIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_bold.png);}
+.italicIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_italic.png);}
+.underlineIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_underline.png);}
+.leftIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_left.png);}
+.centerIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_center.png);}
+.rightIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_right.png);}
+.sortAscIcon {
+    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background-position:0 -22px;
+    top:2px;
+    left:3px;
+}
+.sortDescIcon {
+    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background-position:0 -46px;
+}
+.filterIcon {
+    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background-position:0 -75px;
+}
+.formatIcon {
+    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background-position:0 0;
+}
+#jive_colorpicker td {background:#fff;border:solid 1px #fff;}
+#jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
+div.colorpick {width:32px;height:32px;margin:4px;cursor:pointer;}
