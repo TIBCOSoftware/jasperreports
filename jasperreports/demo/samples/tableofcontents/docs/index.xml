@@ -30,7 +30,7 @@ A table of content becomes very necessary when complex documents with a large nu
 determine the total number of pages, or the current content of generated pages at report design time, there is no built-in report element in 
 JasperReports to handle the table of contents.
 <br/>
-The document structure unveils step by step at report filling time. Therefore this is the proper moment for building a table of content. 
+The document structure unveils itself step by step at report filling time. Therefore this is the proper moment for building a table of content. 
 Once a print element is generated, its place within document is completely determined, so from now on we are able to find and reference 
 that element. If the element is starting a new section, we can add a new entry in the table of contents, pointing here. 
 <br/>
