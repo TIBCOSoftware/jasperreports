@@ -25,14 +25,14 @@ package net.sf.jasperreports.components.ofc;
 
 import java.util.HashMap;
 
-import org.apache.commons.collections.ReferenceMap;
-
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.GenericElementPdfHandler;
 import net.sf.jasperreports.engine.export.JRPdfExporterContext;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.repo.RepositoryUtil;
+
+import org.apache.commons.collections.ReferenceMap;
 
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfAnnotation;
@@ -146,6 +146,6 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 
 	protected byte[] readSwf() throws JRException
 	{
-		return RepositoryUtil.getBytes("openflashchart/open-flash-chart.swf");
+		return RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytes2("openflashchart/open-flash-chart.swf");
 	}
 }
