@@ -13,7 +13,7 @@
   
   <feature name="tableofcontents" title="Creating Table-Of-Contents Structures">
     <description>
-How to create a table of contents type of index with hyperlinks at the beginning of a document.
+How to create a table of contents with hyperlinks at the beginning of a document.
     </description>
     <since>0.4.2</since>
     <documentedBy>
