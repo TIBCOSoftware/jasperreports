@@ -1,7 +1,7 @@
 #if (!${templateAlreadyLoaded})
 <script class='jasperreports'>
-    jasperreports.global.appendScriptElementToDOM('_jiveScript', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.js','jive.init');
-    jasperreports.global.appendStyleElementToDOM('_jiveCSS', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.css');
+    jasperreports.global.appendScriptElementToDOM('_jiveScript', '${jasperreports_tableHeaderToolbar_js}','jive.init');
+    jasperreports.global.appendStyleElementToDOM('_jiveCSS', '${jasperreports_tableHeaderToolbar_css}');
 </script>
 
 <div id="jive_overlay" style="display:none;"></div>
@@ -163,7 +163,7 @@
             }
             jive.interactive.column.init();
         }
-        jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js','setupInteractiveColumn');
+        jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '${jiveColumnScript}','setupInteractiveColumn');
     </script>
     #else
     <script class='jasperreports'>
