@@ -77,7 +77,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	Map<String, Object> repeatedValues;	
 
 	/**
-	 * @deprecated Replaced by {@link #JRXlsAbstractMetadataExporter(JasperReportsContext)}.
+	 * @see #JRXlsAbstractMetadataExporter(JasperReportsContext)
 	 */
 	public JRXlsAbstractMetadataExporter()
 	{

@@ -157,7 +157,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #JRPptxExporter(JasperReportsContext)}.
+	 * @see #JRPptxExporter(JasperReportsContext)
 	 */
 	public JRPptxExporter()
 	{

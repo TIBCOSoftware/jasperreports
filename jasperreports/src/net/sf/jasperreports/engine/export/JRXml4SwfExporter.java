@@ -54,7 +54,7 @@ public class JRXml4SwfExporter extends JRXmlExporter
 	
 
 	/**
-	 * @deprecated Replaced by {@link #JRXml4SwfExporter(JasperReportsContext)}.
+	 * @see #JRXml4SwfExporter(JasperReportsContext)
 	 */
 	public JRXml4SwfExporter()
 	{

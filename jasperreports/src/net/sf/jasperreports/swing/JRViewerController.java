@@ -75,7 +75,7 @@ public class JRViewerController
 	private boolean fitWidth;
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewerController(JasperReportsContext, Locale, ResourceBundle)}. 
+	 * @see #JRViewerController(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRViewerController(Locale locale, ResourceBundle resBundle)
 	{

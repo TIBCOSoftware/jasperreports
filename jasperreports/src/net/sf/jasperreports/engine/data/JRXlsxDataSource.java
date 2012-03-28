@@ -134,7 +134,7 @@ public class JRXlsxDataSource extends JRAbstractTextDataSource implements JRRewi
 
 	
 	/**
-	 * @deprecated Replaced by {@link #JRXlsxDataSource(JasperReportsContext, String)}.
+	 * @see #JRXlsxDataSource(JasperReportsContext, String)
 	 */
 	public JRXlsxDataSource(String location) throws JRException, IOException
 	{

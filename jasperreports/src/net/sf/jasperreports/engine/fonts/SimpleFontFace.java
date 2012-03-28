@@ -122,7 +122,7 @@ public class SimpleFontFace implements FontFace
 	
 
 	/**
-	 * @deprecated Replaced by {@link #SimpleFontFace(JasperReportsContext, String)}.
+	 * @see #SimpleFontFace(JasperReportsContext, String)
 	 */
 	public SimpleFontFace(String file)
 	{

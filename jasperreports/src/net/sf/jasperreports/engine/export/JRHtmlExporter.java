@@ -249,7 +249,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 	protected JRHtmlExporterContext exporterContext = new ExporterContext();
 
 	/**
-	 * @deprecated Replaced by {@link #JRHtmlExporter(JasperReportsContext)}.
+	 * @see #JRHtmlExporter(JasperReportsContext)
 	 */
 	public JRHtmlExporter()
 	{

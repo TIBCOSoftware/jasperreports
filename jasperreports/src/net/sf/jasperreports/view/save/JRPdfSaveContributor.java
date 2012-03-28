@@ -50,7 +50,7 @@ public class JRPdfSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_PDF = ".pdf"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRPdfSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRPdfSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRPdfSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

@@ -50,7 +50,7 @@ public class JRDocxSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_DOCX = ".docx";
 
 	/**
-	 * @deprecated Replaced by {@link #JRDocxSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRDocxSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRDocxSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

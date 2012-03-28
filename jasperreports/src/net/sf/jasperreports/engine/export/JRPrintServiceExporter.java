@@ -76,7 +76,7 @@ public class JRPrintServiceExporter extends JRAbstractExporter implements Printa
 	private Boolean[] printStatus;
 	
 	/**
-	 * @deprecated Replaced by {@link #JRPrintServiceExporter(JasperReportsContext)}.
+	 * @see #JRPrintServiceExporter(JasperReportsContext)
 	 */
 	public JRPrintServiceExporter()
 	{

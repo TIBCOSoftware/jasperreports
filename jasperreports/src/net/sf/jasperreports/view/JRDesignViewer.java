@@ -58,7 +58,7 @@ public class JRDesignViewer extends JRViewer
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/**
-	 * @deprecated Replaced by {@link #JRDesignViewer(JasperReportsContext, String, boolean)}.
+	 * @see #JRDesignViewer(JasperReportsContext, String, boolean)
 	 */
 	public JRDesignViewer(String fileName, boolean isXML) throws JRException
 	{
@@ -66,7 +66,7 @@ public class JRDesignViewer extends JRViewer
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JRDesignViewer(JasperReportsContext, InputStream, boolean)}.
+	 * @see #JRDesignViewer(JasperReportsContext, InputStream, boolean)
 	 */
 	public JRDesignViewer(InputStream is, boolean isXML) throws JRException
 	{
@@ -74,7 +74,7 @@ public class JRDesignViewer extends JRViewer
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JRDesignViewer(JasperReportsContext, JRReport)}.
+	 * @see #JRDesignViewer(JasperReportsContext, JRReport)
 	 */
 	public JRDesignViewer(JRReport report) throws JRException
 	{

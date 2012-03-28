@@ -87,7 +87,7 @@ public class JRResultSetDataSource implements JRDataSource
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRResultSetDataSource(JasperReportsContext, ResultSet)}.
+	 * @see #JRResultSetDataSource(JasperReportsContext, ResultSet)
 	 */
 	public JRResultSetDataSource(ResultSet resultSet)
 	{

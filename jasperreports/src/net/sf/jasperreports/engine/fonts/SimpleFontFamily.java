@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 
@@ -59,10 +60,11 @@ public class SimpleFontFamily implements FontFamily
 	private Set<String> locales;
 	
 	/**
-	 * @deprecated Replaced by {@link #SimpleFontFamily(JasperReportsContext)}.
+	 * @see #SimpleFontFamily(JasperReportsContext)
 	 */
 	public SimpleFontFamily()
 	{
+		this(DefaultJasperReportsContext.getInstance());
 	}
 	
 	/**

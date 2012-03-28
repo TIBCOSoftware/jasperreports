@@ -203,7 +203,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 	
 
 	/**
-	 * @deprecated Replaced by {@link #JExcelApiExporter(JasperReportsContext)}.
+	 * @see #JExcelApiExporter(JasperReportsContext)
 	 */
 	public JExcelApiExporter()
 	{

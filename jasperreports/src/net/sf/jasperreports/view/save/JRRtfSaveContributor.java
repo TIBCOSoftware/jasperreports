@@ -50,7 +50,7 @@ public class JRRtfSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_RTF = ".rtf";
 
 	/**
-	 * @deprecated Replaced by {@link #JRRtfSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRRtfSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRRtfSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

@@ -309,7 +309,7 @@ public class JRApiWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport)}.
+	 * @see #write(JRReport)
 	 */
 	public static String writeReport(JRReport report)
 	{
@@ -318,7 +318,7 @@ public class JRApiWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport, String)}.
+	 * @see #write(JRReport, String)
 	 */
 	public static void writeReport(
 		JRReport report,
@@ -330,7 +330,7 @@ public class JRApiWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport, OutputStream)}.
+	 * @see #write(JRReport, OutputStream)
 	 */
 	public static void writeReport(
 		JRReport report,

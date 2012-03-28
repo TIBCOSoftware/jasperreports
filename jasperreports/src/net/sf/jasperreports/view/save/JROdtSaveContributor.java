@@ -50,7 +50,7 @@ public class JROdtSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_ODT = ".odt";
 
 	/**
-	 * @deprecated Replaced by {@link #JROdtSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JROdtSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JROdtSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

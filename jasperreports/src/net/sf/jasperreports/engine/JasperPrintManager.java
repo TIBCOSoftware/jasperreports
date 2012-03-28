@@ -279,7 +279,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(String, boolean)}.
+	 * @see #print(String, boolean)
 	 */
 	public static boolean printReport(
 		String sourceFileName,
@@ -291,7 +291,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(InputStream, boolean)}.
+	 * @see #print(InputStream, boolean)
 	 */
 	public static boolean printReport(
 		InputStream inputStream,
@@ -303,7 +303,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(JasperPrint, boolean)}.
+	 * @see #print(JasperPrint, boolean)
 	 */
 	public static boolean printReport(
 		JasperPrint jasperPrint,
@@ -315,7 +315,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(String, int, boolean)}.
+	 * @see #print(String, int, boolean)
 	 */
 	public static boolean printPage(
 		String sourceFileName,
@@ -328,7 +328,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(InputStream, int, boolean)}.
+	 * @see #print(InputStream, int, boolean)
 	 */
 	public static boolean printPage(
 		InputStream inputStream,
@@ -341,7 +341,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(JasperPrint, int, boolean)}.
+	 * @see #print(JasperPrint, int, boolean)
 	 */
 	public static boolean printPage(
 		JasperPrint jasperPrint,
@@ -354,7 +354,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(String, int, int, boolean)}.
+	 * @see #print(String, int, int, boolean)
 	 */
 	public static boolean printPages(
 		String sourceFileName,
@@ -368,7 +368,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(InputStream, int, int, boolean)}.
+	 * @see #print(InputStream, int, int, boolean)
 	 */
 	public static boolean printPages(
 		InputStream inputStream,
@@ -382,7 +382,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #print(JasperPrint, int, int, boolean)}.
+	 * @see #print(JasperPrint, int, int, boolean)
 	 */
 	public static boolean printPages(
 		JasperPrint jasperPrint,
@@ -396,7 +396,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #printToImage(String, int, float)}.
+	 * @see #printToImage(String, int, float)
 	 */
 	public static Image printPageToImage(
 		String sourceFileName,
@@ -409,7 +409,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #printToImage(InputStream, int, float)}.
+	 * @see #printToImage(InputStream, int, float)
 	 */
 	public static Image printPageToImage(
 		InputStream inputStream,
@@ -422,7 +422,7 @@ public final class JasperPrintManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #printToImage(JasperPrint, int, float)}.
+	 * @see #printToImage(JasperPrint, int, float)
 	 */
 	public static Image printPageToImage(
 		JasperPrint jasperPrint,

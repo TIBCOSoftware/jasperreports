@@ -414,7 +414,7 @@ public final class JasperCompileManager
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #compileToFile(String)}.
+	 * @see #compileToFile(String)
 	 */
 	public static String compileReportToFile(String sourceFileName) throws JRException
 	{
@@ -423,7 +423,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compileToFile(String, String)}.
+	 * @see #compileToFile(String, String)
 	 */
 	public static void compileReportToFile(
 		String sourceFileName,
@@ -435,7 +435,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compileToFile(JasperDesign, String)}.
+	 * @see #compileToFile(JasperDesign, String)
 	 */
 	public static void compileReportToFile(
 		JasperDesign jasperDesign,
@@ -447,7 +447,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compile(String)}. 
+	 * @see #compile(String)
 	 */
 	public static JasperReport compileReport(String sourceFileName) throws JRException
 	{
@@ -456,7 +456,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compileToStream(InputStream, OutputStream)}.
+	 * @see #compileToStream(InputStream, OutputStream)
 	 */
 	public static void compileReportToStream(
 		InputStream inputStream,
@@ -468,7 +468,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compileToStream(JasperDesign, OutputStream)}.
+	 * @see #compileToStream(JasperDesign, OutputStream)
 	 */
 	public static void compileReportToStream(
 		JasperDesign jasperDesign,
@@ -480,7 +480,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compile(InputStream)}.
+	 * @see #compile(InputStream)
 	 */
 	public static JasperReport compileReport(InputStream inputStream) throws JRException
 	{
@@ -489,7 +489,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #compile(JasperDesign)}.
+	 * @see #compile(JasperDesign)
 	 */
 	public static JasperReport compileReport(JasperDesign jasperDesign) throws JRException
 	{
@@ -498,7 +498,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #verify(JasperDesign)}.
+	 * @see #verify(JasperDesign)
 	 */
 	public static Collection<JRValidationFault> verifyDesign(JasperDesign jasperDesign)
 	{
@@ -507,7 +507,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #getEvaluator(JasperReport, JRDataset)}.
+	 * @see #getEvaluator(JasperReport, JRDataset)
 	 */
 	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRDataset dataset) throws JRException
 	{
@@ -516,7 +516,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #getEvaluator(JasperReport, JRCrosstab)}. 
+	 * @see #getEvaluator(JasperReport, JRCrosstab)
 	 */
 	public static JREvaluator loadEvaluator(JasperReport jasperReport, JRCrosstab crosstab) throws JRException
 	{
@@ -525,7 +525,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #getEvaluator(JasperReport)}.
+	 * @see #getEvaluator(JasperReport)
 	 */
 	public static JREvaluator loadEvaluator(JasperReport jasperReport) throws JRException
 	{
@@ -534,7 +534,7 @@ public final class JasperCompileManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #writeToXmlFile(String)}.
+	 * @see #writeToXmlFile(String)
 	 */
 	public static String writeReportToXmlFile(
 		String sourceFileName
@@ -545,7 +545,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeToXmlFile(String, String)}.
+	 * @see #writeToXmlFile(String, String)
 	 */
 	public static void writeReportToXmlFile(
 		String sourceFileName, 
@@ -560,7 +560,7 @@ public final class JasperCompileManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #writeToXmlFile(JRReport, String)}.
+	 * @see #writeToXmlFile(JRReport, String)
 	 */
 	public static void writeReportToXmlFile(
 		JRReport report,
@@ -572,7 +572,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeToXmlStream(InputStream, OutputStream)}.
+	 * @see #writeToXmlStream(InputStream, OutputStream)
 	 */
 	public static void writeReportToXmlStream(
 		InputStream inputStream, 
@@ -584,7 +584,7 @@ public final class JasperCompileManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #writeToXmlStream(JRReport, OutputStream)}.
+	 * @see #writeToXmlStream(JRReport, OutputStream)
 	 */
 	public static void writeReportToXmlStream(
 		JRReport report, 
@@ -596,7 +596,7 @@ public final class JasperCompileManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeToXml(JRReport)}.
+	 * @see #writeToXml(JRReport)
 	 */
 	public static String writeReportToXml(JRReport report)
 	{

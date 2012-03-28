@@ -179,7 +179,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	
 	/**
-	 * @deprecated Replaced by {@link #JRXlsxExporter(JasperReportsContext)}.
+	 * @see #JRXlsxExporter(JasperReportsContext)
 	 */
 	public JRXlsxExporter()
 	{

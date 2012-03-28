@@ -84,7 +84,7 @@ public class JRTextExporter extends JRAbstractExporter
 	protected static final String systemLineSeparator = System.getProperty("line.separator");
 
 	/**
-	 * @deprecated Replaced by {@link #JRTextExporter(JasperReportsContext)}.
+	 * @see #JRTextExporter(JasperReportsContext)
 	 */
 	public JRTextExporter()
 	{

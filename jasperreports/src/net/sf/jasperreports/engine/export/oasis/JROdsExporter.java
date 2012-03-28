@@ -99,7 +99,7 @@ public class JROdsExporter extends JROpenDocumentExporter
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JROdsExporter(JasperReportsContext)}.
+	 * @see #JROdsExporter(JasperReportsContext)
 	 */
 	public JROdsExporter()
 	{

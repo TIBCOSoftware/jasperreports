@@ -655,7 +655,7 @@ public final class JasperFillManager
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, Map, Connection)}.
+	 * @see #fillToFile(String, Map, Connection)
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
@@ -668,7 +668,7 @@ public final class JasperFillManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, Map)}.
+	 * @see #fillToFile(String, Map)
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
@@ -680,7 +680,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, String, Map, Connection)}.
+	 * @see #fillToFile(String, String, Map, Connection)
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
@@ -694,7 +694,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, String, Map)}.
+	 * @see #fillToFile(String, String, Map)
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
@@ -707,7 +707,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(JasperReport, String, Map, Connection)}.
+	 * @see #fillToFile(JasperReport, String, Map, Connection)
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
@@ -721,7 +721,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(JasperReport, String, Map)}.
+	 * @see #fillToFile(JasperReport, String, Map)
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
@@ -734,7 +734,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(String, Map, Connection)}.
+	 * @see #fill(String, Map, Connection)
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
@@ -747,7 +747,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(String, Map)}.
+	 * @see #fill(String, Map)
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
@@ -759,7 +759,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(InputStream, OutputStream, Map, Connection)}.
+	 * @see #fillToStream(InputStream, OutputStream, Map, Connection)
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
@@ -773,7 +773,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(InputStream, OutputStream, Map)}.
+	 * @see #fillToStream(InputStream, OutputStream, Map)
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
@@ -786,7 +786,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(JasperReport, OutputStream, Map, Connection)}.
+	 * @see #fillToStream(JasperReport, OutputStream, Map, Connection)
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
@@ -800,7 +800,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(JasperReport, OutputStream, Map)}.
+	 * @see #fillToStream(JasperReport, OutputStream, Map)
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
@@ -813,7 +813,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(InputStream, Map, Connection)}.
+	 * @see #fill(InputStream, Map, Connection)
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
@@ -826,7 +826,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(InputStream, Map)}.
+	 * @see #fill(InputStream, Map)
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
@@ -838,7 +838,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(JasperReport, Map, Connection)}.
+	 * @see #fill(JasperReport, Map, Connection)
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
@@ -851,7 +851,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(JasperReport, Map)}.
+	 * @see #fill(JasperReport, Map)
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 
@@ -863,7 +863,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, Map, JRDataSource)}.
+	 * @see #fillToFile(String, Map, JRDataSource)
 	 */
 	public static String fillReportToFile(
 		String sourceFileName, 
@@ -876,7 +876,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(String, String, Map, JRDataSource)}.
+	 * @see #fillToFile(String, String, Map, JRDataSource)
 	 */
 	public static void fillReportToFile(
 		String sourceFileName, 
@@ -890,7 +890,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToFile(JasperReport, String, Map, JRDataSource)}.
+	 * @see #fillToFile(JasperReport, String, Map, JRDataSource)
 	 */
 	public static void fillReportToFile(
 		JasperReport jasperReport, 
@@ -904,7 +904,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(String, Map, JRDataSource)}.
+	 * @see #fill(String, Map, JRDataSource)
 	 */
 	public static JasperPrint fillReport(
 		String sourceFileName, 
@@ -917,7 +917,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(InputStream, OutputStream, Map, JRDataSource)}.
+	 * @see #fillToStream(InputStream, OutputStream, Map, JRDataSource)
 	 */
 	public static void fillReportToStream(
 		InputStream inputStream, 
@@ -931,7 +931,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fillToStream(JasperReport, OutputStream, Map, JRDataSource)}.
+	 * @see #fillToStream(JasperReport, OutputStream, Map, JRDataSource)
 	 */
 	public static void fillReportToStream(
 		JasperReport jasperReport, 
@@ -945,7 +945,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(InputStream, Map, JRDataSource)}.
+	 * @see #fill(InputStream, Map, JRDataSource)
 	 */
 	public static JasperPrint fillReport(
 		InputStream inputStream, 
@@ -958,7 +958,7 @@ public final class JasperFillManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #fill(JasperReport, Map, JRDataSource)}.
+	 * @see #fill(JasperReport, Map, JRDataSource)
 	 */
 	public static JasperPrint fillReport(
 		JasperReport jasperReport, 

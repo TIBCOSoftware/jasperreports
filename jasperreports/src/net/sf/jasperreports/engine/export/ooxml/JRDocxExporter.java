@@ -179,7 +179,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #JRDocxExporter(JasperReportsContext)}.
+	 * @see #JRDocxExporter(JasperReportsContext)
 	 */
 	public JRDocxExporter()
 	{

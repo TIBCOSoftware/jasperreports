@@ -47,7 +47,7 @@ import net.sf.jasperreports.engine.util.JRStyledText;
 public class JRCsvExporter extends JRAbstractCsvExporter
 {
 	/**
-	 * @deprecated Replaced by {@link #JRCsvExporter(JasperReportsContext)}.
+	 * @see #JRCsvExporter(JasperReportsContext)
 	 */
 	public JRCsvExporter()
 	{

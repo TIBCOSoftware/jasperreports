@@ -160,7 +160,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, Document)}.
+	 * @see #JRXmlDataSource(JasperReportsContext, Document)}.
 	 */
 	public JRXmlDataSource(Document document) throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), document);
@@ -191,7 +191,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, Document, String)}.
+	 * @see #JRXmlDataSource(JasperReportsContext, Document, String)
 	 */
 	public JRXmlDataSource(Document document, String selectExpression) throws JRException 
 	{
@@ -211,7 +211,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, InputStream)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, InputStream)
 	 */
 	public JRXmlDataSource(InputStream in) throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), in);
@@ -236,7 +236,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, InputStream, String)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, InputStream, String)
 	 */
 	public JRXmlDataSource(InputStream in, String selectExpression)
 			throws JRException {
@@ -255,7 +255,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, String)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, String)
 	 */
 	public JRXmlDataSource(String uri) throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), uri);
@@ -282,7 +282,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, String, String)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, String, String)
 	 */
 	public JRXmlDataSource(String uri, String selectExpression)
 			throws JRException {
@@ -300,7 +300,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, File)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, File)
 	 */
 	public JRXmlDataSource(File file) throws JRException {
 		this(DefaultJasperReportsContext.getInstance(), file);
@@ -318,7 +318,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlDataSource(JasperReportsContext, File, String)}. 
+	 * @see #JRXmlDataSource(JasperReportsContext, File, String)
 	 */
 	public JRXmlDataSource(File file, String selectExpression)
 			throws JRException {

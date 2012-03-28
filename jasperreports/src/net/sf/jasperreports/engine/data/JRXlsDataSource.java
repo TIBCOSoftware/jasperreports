@@ -132,7 +132,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 
 	
 	/**
-	 * @deprecated Replaced by {@link #JRXlsDataSource(JasperReportsContext, String)}.
+	 * @see #JRXlsDataSource(JasperReportsContext, String)
 	 */
 	public JRXlsDataSource(String location) throws JRException, IOException
 	{

@@ -106,7 +106,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 	protected JRGraphics2DExporterContext exporterContext = new ExporterContext();
 	
 	/**
-	 * @deprecated Replaced by {@link #JRGraphics2DExporter(JasperReportsContext)}.
+	 * @see #JRGraphics2DExporter(JasperReportsContext)
 	 */
 	public JRGraphics2DExporter() throws JRException
 	{

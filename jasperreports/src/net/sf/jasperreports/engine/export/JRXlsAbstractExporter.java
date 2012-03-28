@@ -514,7 +514,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRXlsAbstractExporter(JasperReportsContext)}.
+	 * @see #JRXlsAbstractExporter(JasperReportsContext)
 	 */
 	public JRXlsAbstractExporter()
 	{

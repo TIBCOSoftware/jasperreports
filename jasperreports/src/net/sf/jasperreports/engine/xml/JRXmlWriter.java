@@ -307,7 +307,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport, String)}.
+	 * @see #write(JRReport, String)
 	 */
 	public static String writeReport(JRReport report, String encoding)
 	{
@@ -316,7 +316,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport, String, String)}.
+	 * @see #write(JRReport, String, String)
 	 */
 	public static void writeReport(
 		JRReport report,
@@ -329,7 +329,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #write(JRReport, OutputStream, String)}.
+	 * @see #write(JRReport, OutputStream, String)
 	 */
 	public static void writeReport(
 		JRReport report,

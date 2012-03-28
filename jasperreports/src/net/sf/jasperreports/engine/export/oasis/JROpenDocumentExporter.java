@@ -133,7 +133,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	protected ExporterNature nature;
 
 	/**
-	 * @deprecated Replaced by {@link #JROpenDocumentExporter(JasperReportsContext)}.
+	 * @see #JROpenDocumentExporter(JasperReportsContext)
 	 */
 	public JROpenDocumentExporter()
 	{

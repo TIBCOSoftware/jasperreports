@@ -47,7 +47,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	/**
-	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, String, boolean)}.
+	 * @see #JasperDesignViewer(JasperReportsContext, String, boolean)
 	 */
 	public JasperDesignViewer(String sourceFile, boolean isXML)  throws JRException
 	{
@@ -55,7 +55,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, InputStream, boolean)}.
+	 * @see #JasperDesignViewer(JasperReportsContext, InputStream, boolean)
 	 */
 	public JasperDesignViewer(InputStream is, boolean isXML) throws JRException
 	{
@@ -63,7 +63,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JasperDesignViewer(JasperReportsContext, JRReport)}.
+	 * @see #JasperDesignViewer(JasperReportsContext, JRReport)
 	 */
 	public JasperDesignViewer(JRReport report) throws JRException
 	{
@@ -221,7 +221,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, String, boolean)}.
+	 * @see #viewReportDesign(JasperReportsContext, String, boolean)
 	 */
 	public static void viewReportDesign(String sourceFile, boolean isXML) throws JRException
 	{
@@ -229,7 +229,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, InputStream, boolean)}.
+	 * @see #viewReportDesign(JasperReportsContext, InputStream, boolean)
 	 */
 	public static void viewReportDesign(InputStream is, boolean isXML) throws JRException
 	{
@@ -237,7 +237,7 @@ public class JasperDesignViewer extends javax.swing.JFrame
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #viewReportDesign(JasperReportsContext, JRReport)}.
+	 * @see #viewReportDesign(JasperReportsContext, JRReport)
 	 */
 	public static void viewReportDesign(JRReport report) throws JRException
 	{

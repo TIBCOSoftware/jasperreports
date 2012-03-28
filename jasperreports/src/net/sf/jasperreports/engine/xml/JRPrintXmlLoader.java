@@ -141,7 +141,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #loadFromFile(JasperReportsContext, String)}.
+	 * @see #loadFromFile(JasperReportsContext, String)
 	 */
 	public static JasperPrint loadFromFile(String sourceFileName) throws JRException
 	{
@@ -150,7 +150,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #loadFromFile(String)}.
+	 * @see #loadFromFile(String)
 	 */
 	public static JasperPrint load(String sourceFileName) throws JRException
 	{
@@ -173,7 +173,7 @@ public class JRPrintXmlLoader implements ErrorHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #load(JasperReportsContext, InputStream)}.
+	 * @see #load(JasperReportsContext, InputStream)
 	 */
 	public static JasperPrint load(InputStream is) throws JRException
 	{
