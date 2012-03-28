@@ -49,7 +49,7 @@ local anchor hyperlinks with different levels of indentation, depending on the h
 <code>"HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS"</code> in the title section. It will be used to identify the first page of the 
 table of contents in the generated document.<br/> <br/></li>
 <li>A <code>HeadingBean</code> class (see the <code>src/HeadingBean.java</code> file) was created in order to store the meaningful information of individual 
-entries in the table of content. A <code>HeadingBean</code> object exposes the following bean properties:
+entries in the table of contents. A <code>HeadingBean</code> object exposes the following bean properties:
 <ul>
 <li><code>headingType</code> - an integer that indicates the heading type of the entry.</li>
 <li><code>headingText</code> - the text to be written in the table of contents for this entry.</li>
