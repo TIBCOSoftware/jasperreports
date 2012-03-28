@@ -27,7 +27,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.ooxml.GenericElementDocxHandler;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -52,7 +51,8 @@ public class ChartDocxHandler extends BaseChartHandler implements GenericElement
 		exporter.exportText(exporterContext.getTableHelper(), (JRPrintText)newGridCell.getElement(), newGridCell);
 	}
 
-	public JRPrintImage getImage(JasperReportsContext jasperReportsContext, JRGenericPrintElement element)	throws JRException 
+	@Override
+	public JRPrintImage getImage(JRDocxExporterContext exporterContext, JRGenericPrintElement element) throws JRException 
 	{
 		return null;
 	}
