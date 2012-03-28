@@ -66,12 +66,12 @@ public class PieChartXmlWriter implements ComponentXmlWriter
 		
 		reportWriter.writeElementDataset(dataset);
 		
-		writer.writeExpression("keyExpression", dataset.getKeyExpression(), false);
-		writer.writeExpression("valueExpression", dataset.getValueExpression(), false);
+		writer.writeExpression("keyExpression", dataset.getKeyExpression());
+		writer.writeExpression("valueExpression", dataset.getValueExpression());
 		
 		writer.closeElement();//pieDataset
 		
-		writer.writeExpression("titleExpression", chart.getTitleExpression(), false);
+		writer.writeExpression("titleExpression", chart.getTitleExpression());
 		
 		writer.closeElement();//pieChart
 	}
