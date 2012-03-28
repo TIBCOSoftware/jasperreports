@@ -427,7 +427,7 @@ public class TableOfContentsApp extends AbstractSampleApp
 			List pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
-				String key = "HIDDEN TEXT TO MARK THE BEGINNING OF THE TABEL OF CONTENTS";
+				String key = "HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS";
 				JRPrintPage page = null;
 				Collection elements = null;
 				Iterator it = null;

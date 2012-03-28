@@ -178,7 +178,7 @@ still depending on the output format. One can see two handler classes in the <co
 To register these handlers, two properties were defined in the <code>jasperreports_extension.properties</code> file:
 <ul>
 <li><code>net.sf.jasperreports.extension.registry.factory.jr.statistics=net.sf.jasperreports.extensions.SpringExtensionsRegistryFactory</code> - 
-indicates that the extensions registry for <code>jr.statistics</code> is based on the Spring framework.</li>
+indicates that the extensions registry factory for <code>jr.statistics</code> is based on the Spring framework.</li>
 <li><code>net.sf.jasperreports.extension.jr.statistics.spring.beans.resource=net/sf/jasperreports/ohloh/beans.xml</code> - 
 is pointing to the Spring <code>beans.xml</code> XML bundle.</li>
 </ul>

@@ -30,7 +30,7 @@
 				<textElement textAlignment="Justified">
 					<font size="5"/>
 				</textElement>
-				<text><![CDATA[HIDDEN TEXT TO MARK THE BEGINNING OF THE TABEL OF CONTENTS]]></text>
+				<text><![CDATA[HIDDEN TEXT TO MARK THE BEGINNING OF THE TABLE OF CONTENTS]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="10" width="515" height="30" style="Sans_Normal"/>
