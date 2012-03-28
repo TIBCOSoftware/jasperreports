@@ -118,7 +118,7 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 	
 	private void initLock()
 	{
-		lock = new ReentrantLock();
+		lock = new ReentrantLock(true);
 	}
 	
 	/**

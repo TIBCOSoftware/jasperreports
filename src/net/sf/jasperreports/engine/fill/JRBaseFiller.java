@@ -1553,40 +1553,49 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	{
 		LinkedHashMap<PageKey, LinkedMap<Object, EvaluationBoundAction>> pagesMap = boundElements.get(evaluationTime);
 		
-		lockVirtualizationContext();
-		try
+		boolean hasEntry;
+		do
 		{
-			synchronized (pagesMap)
+			// locking once per page so that we don't hold the lock for too long
+			// (that would prevent async exporters from getting page data during a long resolve)
+			lockVirtualizationContext();
+			try
 			{
-				for (Iterator<Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>>> pagesIt = pagesMap.entrySet().iterator();
-						pagesIt.hasNext(); )
+				synchronized (pagesMap)
 				{
-					Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>> pageEntry = pagesIt.next();
-					int pageIdx = pageEntry.getKey().index;
-					
-					LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pageEntry.getValue();
-					// execute the actions
-					while (!boundElementsMap.isEmpty())
+					// resolve a single page
+					Iterator<Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>>> pagesIt = pagesMap.entrySet().iterator();
+					hasEntry = pagesIt.hasNext();
+					if (hasEntry)
 					{
-						EvaluationBoundAction action = boundElementsMap.pop();
-						action.execute(evaluation, evaluationTime);
-					}
-					
-					// remove the entry from the pages map
-					pagesIt.remove();
-					
-					// call the listener to signal that the page has been modified
-					if (fillListener != null)
-					{
-						fillListener.pageUpdated(jasperPrint, pageIdx);
+						Map.Entry<PageKey, LinkedMap<Object, EvaluationBoundAction>> pageEntry = pagesIt.next();
+						int pageIdx = pageEntry.getKey().index;
+						
+						LinkedMap<Object, EvaluationBoundAction> boundElementsMap = pageEntry.getValue();
+						// execute the actions
+						while (!boundElementsMap.isEmpty())
+						{
+							EvaluationBoundAction action = boundElementsMap.pop();
+							action.execute(evaluation, evaluationTime);
+						}
+						
+						// remove the entry from the pages map
+						pagesIt.remove();
+						
+						// call the listener to signal that the page has been modified
+						if (fillListener != null)
+						{
+							fillListener.pageUpdated(jasperPrint, pageIdx);
+						}
 					}
 				}
 			}
+			finally
+			{
+				unlockVirtualizationContext();
+			}
 		}
-		finally
-		{
-			unlockVirtualizationContext();
-		}
+		while(hasEntry);
 	}
 
 	/**
