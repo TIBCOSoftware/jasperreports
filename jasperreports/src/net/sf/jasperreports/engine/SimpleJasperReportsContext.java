@@ -45,11 +45,11 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	private Map<Class<?>, List<?>> extensionsMap;
 
 	/**
-	 *
+	 * Constructs a SimpleJasperReportsContext instance that has the DefaultJasperReportsContext.getInstance() as parent.
 	 */
 	public SimpleJasperReportsContext()
 	{
-		this(DefaultJasperReportsContext.getInstance());//FIXMECONTEXT consider setting null parent after solving JRS spring bean
+		this(DefaultJasperReportsContext.getInstance());
 	}
 
 	/**
