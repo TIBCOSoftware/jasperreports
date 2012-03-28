@@ -109,21 +109,6 @@ public class PieChartCompiler implements ComponentCompiler
 		{
 			verifier.addBrokenRule("No title expression for pie chart", chart);
 		}
-		else
-		{
-			String valueClass = titleExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for pie chart title expression", 
-						titleExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for pie chart title expression. Use java.lang.String instead.",
-						titleExpression);
-			}
-		}
 	}
 
 	protected void verify(JRVerifier verifier, PieDataset dataset)
@@ -135,41 +120,11 @@ public class PieChartCompiler implements ComponentCompiler
 		{
 			verifier.addBrokenRule("No key expression for pie chart dataset", dataset);
 		}
-		else
-		{
-			String valueClass = keyExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for key chart dataset key expression", 
-						keyExpression);
-			}
-			else if (!"java.lang.String".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for key chart dataset key expression. Use java.lang.String instead.",
-						keyExpression);
-			}
-		}
 		
 		JRExpression valueExpression = dataset.getValueExpression();
 		if (valueExpression == null)
 		{
 			verifier.addBrokenRule("No value expression for key chart dataset", dataset);
-		}
-		else
-		{
-			String valueClass = valueExpression.getValueClassName();
-			if (valueClass == null)
-			{
-				verifier.addBrokenRule("No value class for key chart dataset value expression", 
-						valueExpression);
-			}
-			else if (!"java.lang.Number".equals(valueClass))
-			{
-				verifier.addBrokenRule("Class " + valueClass 
-						+ " not supported for key chart dataset value expression. Use java.lang.Number instead.",
-						valueExpression);
-			}
 		}
 	}
 

@@ -42,6 +42,7 @@ public class ChartsDigester implements XmlDigesterConfigurer
 		setBarChartRules(digester);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void setBarChartRules(Digester digester)
 	{
 		String barChartPattern = "*/componentElement/barChart";
@@ -76,6 +77,7 @@ public class ChartsDigester implements XmlDigesterConfigurer
 		digester.addSetNext(valueExpressionPattern, "setValueExpression", JRExpression.class.getName());
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void setPieChartRules(Digester digester)
 	{
 		String pieChartPattern = "*/componentElement/pieChart";
