@@ -46,7 +46,7 @@ public class WebReportContext implements ReportContext
 	public static final String REQUEST_PARAMETER_REPORT_CONTEXT_ID = "jr.ctxid";
 
 	/**
-	 * @deprecated, use {@link #REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR} instead
+	 * @deprecated Replaced by {@link #REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR}.
 	 */
 	public static final String REPORT_CONTEXT_PARAMETER_JASPER_PRINT = "net.sf.jasperreports.web.jasper_print";
 	
