@@ -1,0 +1,230 @@
+#if (!${templateAlreadyLoaded})
+<script class='jasperreports'>
+    jasperreports.global.appendScriptElementToDOM('_jiveScript', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.js','jive.init');
+    jasperreports.global.appendStyleElementToDOM('_jiveCSS', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.css');
+</script>
+
+<div id="jive_overlay" style="display:none;"></div>
+<div id="jive_marker" style="display:none;">
+    <div id="jive_marker_icon">&nbsp;</div>
+</div>
+<div id="jive_foobar" class="action primary" style="display:none;"></div>
+<div id="jive_menus"></div>
+<div id="jive_forms"></div>
+<div id="jive_dialog" class="jive_dialog" style="display:none;">
+    <div class="dialogContent">
+        <div class="dialogHeader">
+            <div class="tabContainer"></div>
+            <h2><span class="dialogTitle"></span></h2>
+        </div>
+        <div class="dialogBody" style="text-align:left;">
+
+        </div>
+        <div class="footer">
+            <button id="dialogOk" class="button action primary up"><span class="wrap">OK<span class="icon"></span></span></button>
+            <button id="dialogCancel" class="button action up"><span class="wrap">Cancel<span class="icon"></span></span></button>
+        </div>
+    </div>
+</div>
+<div id="jive_colorpicker" class="jive_dialog" style="display:none;">
+    <div class="dialogContent">
+        <div class="dialogHeader">
+            <h2>Pick a color</h2>
+        </div>
+        <div class="dialogBody" style="text-align:left;">
+            <table>
+                <tbody>
+                <tr>
+                    <td><div class="colorpick" hexcolor="960000" style="background-color: rgb(152, 0, 0);  " title="RGB (152, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="ff0000" style="background-color: rgb(255, 0, 0);  " title="RGB (255, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="ff9900" style="background-color: rgb(255, 153, 0);  " title="RGB (255, 153, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="ffff00" style="background-color: rgb(255, 255, 0);  " title="RGB (255, 255, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="00ff00" style="background-color: rgb(0, 255, 0);  " title="RGB (0, 255, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="00ffff" style="background-color: rgb(0, 255, 255);  " title="RGB (0, 255, 255)"></div></td>
+                    <td><div class="colorpick" hexcolor="4985e6" style="background-color: rgb(74, 134, 232);  " title="RGB (74, 134, 232)"></div></td>
+                    <td><div class="colorpick" hexcolor="0000ff" style="background-color: rgb(0, 0, 255);  " title="RGB (0, 0, 255)"></div></td>
+                    <td><div class="colorpick" hexcolor="9900ff" style="background-color: rgb(153, 0, 255);  " title="RGB (153, 0, 255)"></div></td>
+                    <td><div class="colorpick" hexcolor="ff00ff" style="background-color: rgb(255, 0, 255);  " title="RGB (255, 0, 255)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(0, 0, 0);  " title="RGB (0, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(67, 67, 67); " title="RGB (67, 67, 67)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(102, 102, 102); " title="RGB (102, 102, 102)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(153, 153, 153);  " title="RGB (153, 153, 153)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(183, 183, 183);  " title="RGB (183, 183, 183)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(204, 204, 204);  " title="RGB (204, 204, 204)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(217, 217, 217);  " title="RGB (217, 217, 217)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(239, 239, 239);  " title="RGB (239, 239, 239)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(243, 243, 243);  " title="RGB (243, 243, 243)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(255, 255, 255);  " title="RGB (255, 255, 255)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(230, 184, 175);  " title="RGB (230, 184, 175)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(244, 204, 204);  " title="RGB (244, 204, 204)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(252, 229, 205);  " title="RGB (252, 229, 205)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(255, 242, 204);  " title="RGB (255, 242, 204)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(217, 234, 211);  " title="RGB (217, 234, 211)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(208, 224, 227);  " title="RGB (208, 224, 227)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(201, 218, 248);  " title="RGB (201, 218, 248)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(207, 226, 243);  " title="RGB (207, 226, 243)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(217, 210, 233);  " title="RGB (217, 210, 233)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(234, 209, 220);  " title="RGB (234, 209, 220)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(221, 126, 107);  " title="RGB (221, 126, 107)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(234, 153, 153);  " title="RGB (234, 153, 153)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(249, 203, 156);  " title="RGB (249, 203, 156)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(255, 229, 153);  " title="RGB (255, 229, 153)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(182, 215, 168);  " title="RGB (182, 215, 168)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(162, 196, 201);  " title="RGB (162, 196, 201)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(164, 194, 244);  " title="RGB (164, 194, 244)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(159, 197, 232);  " title="RGB (159, 197, 232)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(180, 167, 214);  " title="RGB (180, 167, 214)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(213, 166, 189);  " title="RGB (213, 166, 189)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(204, 65, 37);  " title="RGB (204, 65, 37)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(224, 102, 102);  " title="RGB (224, 102, 102)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(246, 178, 107);  " title="RGB (246, 178, 107)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(255, 217, 102);  " title="RGB (255, 217, 102)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(147, 196, 125);  " title="RGB (147, 196, 125)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(118, 165, 175);  " title="RGB (118, 165, 175)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(109, 158, 235);  " title="RGB (109, 158, 235)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(111, 168, 220);  " title="RGB (111, 168, 220)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(142, 124, 195);  " title="RGB (142, 124, 195)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(194, 123, 160);  " title="RGB (194, 123, 160)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(166, 28, 0);  " title="RGB (166, 28, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(204, 0, 0);  " title="RGB (204, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(230, 145, 56);  " title="RGB (230, 145, 56)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(241, 194, 50);  " title="RGB (241, 194, 50)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(106, 168, 79);  " title="RGB (106, 168, 79)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(69, 129, 142);  " title="RGB (69, 129, 142)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(60, 120, 216);  " title="RGB (60, 120, 216)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(61, 133, 198);  " title="RGB (61, 133, 198)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(103, 78, 167);  " title="RGB (103, 78, 167)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(166, 77, 121);  " title="RGB (166, 77, 121)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(133, 32, 12);  " title="RGB (133, 32, 12)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(153, 0, 0);  " title="RGB (153, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(180, 95, 6);  " title="RGB (180, 95, 6)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(191, 144, 0);  " title="RGB (191, 144, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(56, 118, 29);  " title="RGB (56, 118, 29)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(19, 79, 92);  " title="RGB (19, 79, 92)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(17, 85, 204);  " title="RGB (17, 85, 204)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(11, 83, 148);  " title="RGB (11, 83, 148)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(53, 28, 117);  " title="RGB (53, 28, 117)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(116, 27, 71);  " title="RGB (116, 27, 71)"></div></td>
+                </tr>
+                <tr>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(91, 15, 0);  " title="RGB (91, 15, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(102, 0, 0);  " title="RGB (102, 0, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(120, 63, 4);  " title="RGB (120, 63, 4)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(127, 96, 0);  " title="RGB (127, 96, 0)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(39, 78, 19);  " title="RGB (39, 78, 19)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(12, 52, 61);  " title="RGB (12, 52, 61)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(28, 69, 135);  " title="RGB (28, 69, 135)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(7, 55, 99);  " title="RGB (7, 55, 99)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(32, 18, 77);  " title="RGB (32, 18, 77)"></div></td>
+                    <td><div class="colorpick" hexcolor="" style="background-color: rgb(76, 17, 48);  " title="RGB (76, 17, 48)"></div></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="footer">
+            <button class="button action primary up"><span class="wrap">Select color</span></button>
+            <button class="button action up"><span class="wrap">Cancel</span></button>
+        </div>
+    </div>
+</div>
+#end
+
+#if (${exporterFirstAttempt})
+    #if (!${templateAlreadyLoaded})
+    <script class='jasperreports'>
+        function setupInteractiveColumn(){
+            jive.interactive.column.actionBaseData='${actionBaseData}';
+            jive.interactive.column.actionBaseUrl='${actionBaseUrl}';
+            jive.interactive.column.allColumns = ${allColumnNames};
+            jive.interactive.column.fontSizes = [2,4,6,8,10,12,14,16];
+            jive.interactive.column.fonts = {
+                extension: [
+                    #foreach ($fontName in ${fontExtensionsFontNames})
+                        '$fontName',
+                    #end
+                ],
+                system: [
+                    #foreach ($fontName in ${systemFontNames})
+                        '$fontName',
+                    #end
+                ]
+            }
+            jive.interactive.column.init();
+        }
+        jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '/reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js','setupInteractiveColumn');
+    </script>
+    #else
+    <script class='jasperreports'>
+        jive.interactive.column.allColumns = ${allColumnNames};
+        jive.interactive.column.init();
+    </script>
+    #end
+#end
+
+<script class='jasperreports'>
+    jasperreports.global.subscribeToEvent('jive_init', 'jive.initInteractiveElement',[{
+        id: '${popupId}',
+        type: 'column',
+        selector: '.columnHeader',
+        columnIndex: ${columnIndex},
+        columnLabel: '${columnLabel}',
+        filterData: '{"actionName":"filter"}',
+        clearData: '{"actionName":"filter","filterData":{"clearFilter":true}}',
+
+        #if (!${canSort})
+            headerToolbar: {
+                sortAscBtn: {'@class': 'hidden'},
+                sortDescBtn: {'@class': 'hidden'},
+                filterBtn: {'@class': 'hidden'}
+            },
+            fPattern: {'@class': 'hidden'},
+            formatPatternLabel: {'@class': 'hidden'},
+            formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+            numberFormatButtons: {'@class': 'hidden'},
+        #else
+            headerToolbar: {
+                sortAscBtn: {'data-hover': '${sortAscHover}', '@class': '${sortAscActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortAscData}}'},
+                sortDescBtn: {'data-hover': '${sortDescHover}', '@class': '${sortDescActive}', 'data-sortData': '{"actionName":"sort","sortData":${sortDescData}}'},
+                filterBtn: {'data-hover': '${filterHover}',	'@class': '${filterActive}'	}
+            },
+            filterdiv: {
+                filterColumnNameLabel: '${filterColumnNameLabel}',
+                filterOperatorTypeValueSelector: [
+                    #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
+                        {key: "$entry.key", val: "$entry.value"},
+                    #end],
+                filterDivForm: ${filterData}
+            },
+            #if (${hasPattern})
+                formatPatternLabel: '${formatPatternLabel}',
+                formatPatternSelector: [
+                    #foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
+                        {key: "$entry.key", val: "$entry.value"},
+                    #end],
+                #if (!${isNumeric})
+                    numberFormatButtons: {'@class': 'hidden'},
+                #end
+            #else
+                fPattern: {'@class': 'hidden'},
+                formatPatternLabel: {'@class': 'hidden'},
+                formatPatternSelector: {'@class': 'hidden', 'attr-disabled': 'disabled'},
+                numberFormatButtons: {'@class': 'hidden'},
+            #end
+        #end
+        headerToolbarMask: {'data-columnIndex': ${columnIndex}},
+        headingsTabContent: ${colHeaderData},
+        valuesTabContent: ${colValueData}
+    }]);
+</script>
