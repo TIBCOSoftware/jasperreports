@@ -26,7 +26,7 @@ How to create a table of contents with hyperlinks at the beginning of a document
 <subtitle name="overview">Table Of Contents - Overview</subtitle>
 <br/>
 <br/>
-A table of content becomes very necessary when complex documents with a large number of pages are generated. But, being almost impossible to 
+A table of content becomes very necessary when complex documents with huge number of pages are generated. But, being almost impossible to 
 determine the total number of pages, or the current content of generated pages at report design time, there is no built-in report element in 
 JasperReports to handle the table of contents.
 <br/>
