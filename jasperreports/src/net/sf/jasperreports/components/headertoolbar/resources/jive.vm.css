@@ -16,7 +16,7 @@ td{border:solid 1px #ccc;vertical-align:center;background:#eee;}
     border-left:dotted 1px #555;
 }
 #jive_marker_icon{
-    background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.png);
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.png);
     width:40px;
     height:40px;
     position:relative;
@@ -175,28 +175,28 @@ div.wrapper {padding:4px;}
 
 .jive_bIcon {display:inline-block;.display:inline;width:16px;height:16px;margin:4px;}
 
-.boldIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_bold.png);}
-.italicIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_italic.png);}
-.underlineIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_underline.png);}
-.leftIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_left.png);}
-.centerIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_center.png);}
-.rightIcon {background:url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_right.png);}
+.boldIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_bold.png);}
+.italicIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_italic.png);}
+.underlineIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_underline.png);}
+.leftIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_left.png);}
+.centerIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_center.png);}
+.rightIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_right.png);}
 .sortAscIcon {
-    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 -22px;
     top:2px;
     left:3px;
 }
 .sortDescIcon {
-    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 -46px;
 }
 .filterIcon {
-    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 -75px;
 }
 .formatIcon {
-    background: url(reportresource?resource=net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 0;
 }
 #jive_colorpicker td {background:#fff;border:solid 1px #fff;}
