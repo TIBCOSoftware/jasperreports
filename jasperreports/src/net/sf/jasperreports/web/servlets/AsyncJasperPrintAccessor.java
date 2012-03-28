@@ -69,7 +69,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 	public AsyncJasperPrintAccessor(FillHandle fillHandle)
 	{
 		this.fillHandle = fillHandle;
-		lock = new ReentrantLock();
+		lock = new ReentrantLock(true);
 		pageCondition = lock.newCondition();
 		
 		fillHandle.addListener(this);
