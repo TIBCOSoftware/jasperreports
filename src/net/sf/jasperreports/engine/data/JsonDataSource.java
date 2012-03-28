@@ -133,7 +133,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JsonDataSource(JasperReportsContext, String, String)}.
+	 * @see #JsonDataSource(JasperReportsContext, String, String)
 	 */
 	public JsonDataSource(String location, String selectExpression) throws JRException 
 	{

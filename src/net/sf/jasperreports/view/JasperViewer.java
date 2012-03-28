@@ -68,7 +68,7 @@ public class JasperViewer extends javax.swing.JFrame
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		String sourceFile, 
@@ -80,7 +80,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		InputStream is,
@@ -92,7 +92,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		JasperPrint jasperPrint
@@ -103,7 +103,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		String sourceFile,
@@ -116,7 +116,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		InputStream is,
@@ -129,7 +129,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		JasperPrint jasperPrint,
@@ -141,7 +141,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		String sourceFile,
@@ -162,7 +162,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		InputStream is,
@@ -183,7 +183,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #JasperViewer(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public JasperViewer(
 		JasperPrint jasperPrint,
@@ -466,7 +466,7 @@ public class JasperViewer extends javax.swing.JFrame
 
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -477,7 +477,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -488,7 +488,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint
@@ -498,7 +498,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -510,7 +510,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -522,7 +522,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint,
@@ -533,7 +533,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, String, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		String sourceFile,
@@ -553,7 +553,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, InputStream, boolean, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		InputStream is,
@@ -573,7 +573,7 @@ public class JasperViewer extends javax.swing.JFrame
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)}.
+	 * @see #viewReport(JasperReportsContext, JasperPrint, boolean, Locale, ResourceBundle)
 	 */
 	public static void viewReport(
 		JasperPrint jasperPrint,

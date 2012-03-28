@@ -51,7 +51,7 @@ public class JRMultipleSheetsXlsSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_XLS = ".xls"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRMultipleSheetsXlsSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRMultipleSheetsXlsSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRMultipleSheetsXlsSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

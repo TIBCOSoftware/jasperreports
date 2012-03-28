@@ -231,7 +231,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected JRPdfExporterContext exporterContext = new ExporterContext();
 	
 	/**
-	 * @deprecated Replaced by {@link #JRPdfExporter(JasperReportsContext)}.
+	 * @see #JRPdfExporter(JasperReportsContext)
 	 */
 	public JRPdfExporter()
 	{

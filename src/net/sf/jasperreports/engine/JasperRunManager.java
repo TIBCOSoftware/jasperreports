@@ -656,7 +656,7 @@ public final class JasperRunManager
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, Map, Connection)}.
+	 * @see #runToPdfFile(String, Map, Connection)
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
@@ -669,7 +669,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, Map)}.
+	 * @see #runToPdfFile(String, Map)
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
@@ -681,7 +681,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map, Connection)}.
+	 * @see #runToPdfFile(String, String, Map, Connection)
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName, 
@@ -695,7 +695,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map)}.
+	 * @see #runToPdfFile(String, String, Map)
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName, 
@@ -708,7 +708,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map, Connection)}.
+	 * @see #runToPdfStream(InputStream, OutputStream, Map, Connection)
 	 */
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
@@ -722,7 +722,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map)}.
+	 * @see #runToPdfStream(InputStream, OutputStream, Map)
 	 */
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
@@ -735,7 +735,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(String, Map, Connection)}.
+	 * @see #runToPdf(String, Map, Connection)
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
@@ -748,7 +748,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(String, Map)}.
+	 * @see #runToPdf(String, Map)
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
@@ -760,7 +760,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map, Connection)}.
+	 * @see #runToPdf(InputStream, Map, Connection)
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
@@ -773,7 +773,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map)}.
+	 * @see #runToPdf(InputStream, Map)
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
@@ -785,7 +785,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map, Connection)}. 
+	 * @see #runToPdf(JasperReport, Map, Connection)
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
@@ -798,7 +798,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map)}.
+	 * @see #runToPdf(JasperReport, Map)
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
@@ -810,7 +810,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, Map, JRDataSource)}.
+	 * @see #runToPdfFile(String, Map, JRDataSource)
 	 */
 	public static String runReportToPdfFile(
 		String sourceFileName, 
@@ -823,7 +823,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfFile(String, String, Map, JRDataSource)}.
+	 * @see #runToPdfFile(String, String, Map, JRDataSource)
 	 */
 	public static void runReportToPdfFile(
 		String sourceFileName, 
@@ -837,7 +837,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdfStream(InputStream, OutputStream, Map, JRDataSource)}.
+	 * @see #runToPdfStream(InputStream, OutputStream, Map, JRDataSource)
 	 */
 	public static void runReportToPdfStream(
 		InputStream inputStream, 
@@ -851,7 +851,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(String, Map, JRDataSource)}.
+	 * @see #runToPdf(String, Map, JRDataSource)
 	 */
 	public static byte[] runReportToPdf(
 		String sourceFileName, 
@@ -864,7 +864,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(InputStream, Map, JRDataSource)}.
+	 * @see #runToPdf(InputStream, Map, JRDataSource)
 	 */
 	public static byte[] runReportToPdf(
 		InputStream inputStream, 
@@ -877,7 +877,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToPdf(JasperReport, Map, JRDataSource)}.
+	 * @see #runToPdf(JasperReport, Map, JRDataSource)
 	 */
 	public static byte[] runReportToPdf(
 		JasperReport jasperReport, 
@@ -890,7 +890,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map, Connection)}.
+	 * @see #runToHtmlFile(String, Map, Connection)
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
@@ -903,7 +903,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map)}.
+	 * @see #runToHtmlFile(String, Map)
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
@@ -915,7 +915,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map, Connection)}.
+	 * @see #runToHtmlFile(String, String, Map, Connection)
 	 */
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
@@ -929,7 +929,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map)}.
+	 * @see #runToHtmlFile(String, String, Map)
 	 */
 	public static void runReportToHtmlFile(
 		String sourceFileName, 
@@ -942,7 +942,7 @@ public final class JasperRunManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, Map, JRDataSource)}.
+	 * @see #runToHtmlFile(String, Map, JRDataSource)
 	 */
 	public static String runReportToHtmlFile(
 		String sourceFileName, 
@@ -955,7 +955,7 @@ public final class JasperRunManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #runToHtmlFile(String, String, Map, JRDataSource)}.
+	 * @see #runToHtmlFile(String, String, Map, JRDataSource)
 	 */
 	public static void runReportToHtmlFile(
 		String sourceFileName, 

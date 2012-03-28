@@ -72,7 +72,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 	protected JRViewerController viewerContext;
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperReportsContext, String, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperReportsContext, String, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(String fileName, boolean isXML) throws JRException
 	{
@@ -81,7 +81,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperReportsContext, InputStream, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperReportsContext, InputStream, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(InputStream is, boolean isXML) throws JRException
 	{
@@ -90,7 +90,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperReportsContext, JasperPrint, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperReportsContext, JasperPrint, Locale, ResourceBundle)
 	 */
 	public JRViewer(JasperPrint jrPrint)
 	{
@@ -99,7 +99,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperReportsContext, String, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperReportsContext, String, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(String fileName, boolean isXML, Locale locale) throws JRException
 	{
@@ -108,7 +108,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(InputStream, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(InputStream, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(InputStream is, boolean isXML, Locale locale) throws JRException
 	{
@@ -117,7 +117,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperPrint, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperPrint, Locale, ResourceBundle)
 	 */
 	public JRViewer(JasperPrint jrPrint, Locale locale)
 	{
@@ -126,7 +126,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(String, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(String, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(String fileName, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
 	{
@@ -141,7 +141,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(InputStream, boolean, Locale, ResourceBundle)}.
+	 * @see #JRViewer(InputStream, boolean, Locale, ResourceBundle)
 	 */
 	public JRViewer(InputStream is, boolean isXML, Locale locale, ResourceBundle resBundle) throws JRException
 	{
@@ -156,7 +156,7 @@ public class JRViewer extends javax.swing.JPanel implements JRViewerListener
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRViewer(JasperReportsContext, JasperPrint, Locale, ResourceBundle)}.
+	 * @see #JRViewer(JasperReportsContext, JasperPrint, Locale, ResourceBundle)
 	 */
 	public JRViewer(JasperPrint jrPrint, Locale locale, ResourceBundle resBundle)
 	{

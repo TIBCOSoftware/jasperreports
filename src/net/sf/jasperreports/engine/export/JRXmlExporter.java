@@ -172,7 +172,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlExporter(JasperReportsContext)}.
+	 * @see #JRXmlExporter(JasperReportsContext)
 	 */
 	public JRXmlExporter()
 	{

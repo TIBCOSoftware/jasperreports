@@ -85,7 +85,7 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 
 	
 	/**
-	 * @deprecated Replaced by {@link #JRAbstractCsvExporter(JasperReportsContext)}.
+	 * @see #JRAbstractCsvExporter(JasperReportsContext)
 	 */
 	public JRAbstractCsvExporter()
 	{

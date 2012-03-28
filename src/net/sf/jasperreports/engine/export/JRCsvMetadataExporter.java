@@ -64,7 +64,7 @@ public class JRCsvMetadataExporter extends JRAbstractCsvExporter
 	
 
 	/**
-	 * @deprecated Replaced by {@link #JRCsvMetadataExporter(JasperReportsContext)}.
+	 * @see #JRCsvMetadataExporter(JasperReportsContext)
 	 */
 	public JRCsvMetadataExporter()
 	{

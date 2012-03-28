@@ -143,7 +143,7 @@ public class JRRtfExporter extends JRAbstractExporter
 
 	
 	/**
-	 * @deprecated Replaced by {@link #JRRtfExporter(JasperReportsContext)}.
+	 * @see #JRRtfExporter(JasperReportsContext)
 	 */
 	public JRRtfExporter()
 	{

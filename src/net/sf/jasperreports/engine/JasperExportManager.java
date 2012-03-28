@@ -466,7 +466,7 @@ public final class JasperExportManager
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToPdfFile(String)}.
+	 * @see #exportToPdfFile(String)
 	 */
 	public static String exportReportToPdfFile(String sourceFileName) throws JRException
 	{
@@ -475,7 +475,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToPdfFile(String, String)}
+	 * @see #exportToPdfFile(String, String)
 	 */
 	public static void exportReportToPdfFile(
 		String sourceFileName, 
@@ -487,7 +487,7 @@ public final class JasperExportManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToPdfFile(JasperPrint, String)}.
+	 * @see #exportToPdfFile(JasperPrint, String)
 	 */
 	public static void exportReportToPdfFile(
 		JasperPrint jasperPrint, 
@@ -499,7 +499,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToPdfStream(InputStream, OutputStream)}.
+	 * @see #exportToPdfStream(InputStream, OutputStream)
 	 */
 	public static void exportReportToPdfStream(
 		InputStream inputStream, 
@@ -517,7 +517,7 @@ public final class JasperExportManager
 	 * @param jasperPrint  report object to export 
 	 * @param outputStream output stream to write the resulting PDF content to
 	 * @see net.sf.jasperreports.engine.export.JRPdfExporter
-	 * @deprecated Replaced by {@link #exportToPdfStream(JasperPrint, OutputStream)}.
+	 * @see #exportToPdfStream(JasperPrint, OutputStream)
 	 */
 	public static void exportReportToPdfStream(
 		JasperPrint jasperPrint, 
@@ -529,7 +529,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToPdf(JasperPrint)}.
+	 * @see #exportToPdf(JasperPrint)
 	 */
 	public static byte[] exportReportToPdf(JasperPrint jasperPrint) throws JRException
 	{
@@ -538,7 +538,7 @@ public final class JasperExportManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToXmlFile(String, String, boolean)}.
+	 * @see #exportToXmlFile(String, String, boolean)
 	 */
 	public static String exportReportToXmlFile(
 		String sourceFileName, 
@@ -550,7 +550,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToXmlFile(String, String, boolean)}.
+	 * @see #exportToXmlFile(String, String, boolean)
 	 */
 	public static void exportReportToXmlFile(
 		String sourceFileName, 
@@ -563,7 +563,7 @@ public final class JasperExportManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToXmlFile(JasperPrint, String, boolean)}.
+	 * @see #exportToXmlFile(JasperPrint, String, boolean)
 	 */
 	public static void exportReportToXmlFile(
 		JasperPrint jasperPrint, 
@@ -576,7 +576,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToXmlStream(InputStream, OutputStream)}.
+	 * @see #exportToXmlStream(InputStream, OutputStream)
 	 */
 	public static void exportReportToXmlStream(
 		InputStream inputStream, 
@@ -588,7 +588,7 @@ public final class JasperExportManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToXmlStream(JasperPrint, OutputStream)}.
+	 * @see #exportToXmlStream(JasperPrint, OutputStream)
 	 */
 	public static void exportReportToXmlStream(
 		JasperPrint jasperPrint, 
@@ -600,7 +600,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToXml(JasperPrint)}.
+	 * @see #exportToXml(JasperPrint)
 	 */
 	public static String exportReportToXml(JasperPrint jasperPrint) throws JRException
 	{
@@ -609,7 +609,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToHtmlFile(String)}.
+	 * @see #exportToHtmlFile(String)
 	 */
 	public static String exportReportToHtmlFile(
 		String sourceFileName
@@ -620,7 +620,7 @@ public final class JasperExportManager
 
 
 	/**
-	 * @deprecated Replaced by {@link #exportToHtmlFile(String, String)}.
+	 * @see #exportToHtmlFile(String, String)
 	 */
 	public static void exportReportToHtmlFile(
 		String sourceFileName, 
@@ -632,7 +632,7 @@ public final class JasperExportManager
 
 	
 	/**
-	 * @deprecated Replaced by {@link #exportToHtmlFile(JasperPrint, String)}.
+	 * @see #exportToHtmlFile(JasperPrint, String)
 	 */
 	public static void exportReportToHtmlFile(
 		JasperPrint jasperPrint, 

@@ -205,7 +205,7 @@ public class JRXmlTemplateLoader
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #loadTemplate(String)}.
+	 * @see #loadTemplate(String)
 	 */
 	public static JRTemplate load(String location) throws JRException
 	{
@@ -213,7 +213,7 @@ public class JRXmlTemplateLoader
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #loadTemplate(File)}.
+	 * @see #loadTemplate(File)
 	 */
 	public static JRTemplate load(File file)
 	{
@@ -221,7 +221,7 @@ public class JRXmlTemplateLoader
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #loadTemplate(URL)}.
+	 * @see #loadTemplate(URL)
 	 */
 	public static JRTemplate load(URL url)
 	{
@@ -229,7 +229,7 @@ public class JRXmlTemplateLoader
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #loadTemplate(InputStream)}.
+	 * @see #loadTemplate(InputStream)
 	 */
 	public static JRTemplate load(InputStream data)
 	{

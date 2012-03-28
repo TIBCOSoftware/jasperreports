@@ -50,7 +50,7 @@ public class JRCsvSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_CSV = ".csv"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRCsvSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRCsvSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRCsvSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

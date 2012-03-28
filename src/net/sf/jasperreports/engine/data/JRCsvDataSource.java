@@ -186,7 +186,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRCsvDataSource(JasperReportsContext, String)}.
+	 * @see #JRCsvDataSource(JasperReportsContext, String)
 	 */
 	public JRCsvDataSource(String location) throws JRException
 	{
@@ -195,7 +195,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 
 
 	/**
-	 * @deprecated Replaced by {@link #JRCsvDataSource(JasperReportsContext, String, String)}.
+	 * @see #JRCsvDataSource(JasperReportsContext, String, String)
 	 */
 	public JRCsvDataSource(String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{

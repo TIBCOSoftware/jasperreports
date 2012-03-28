@@ -52,7 +52,7 @@ public class JRXmlSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRXmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

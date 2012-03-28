@@ -97,7 +97,7 @@ public class JROdtExporter extends JROpenDocumentExporter
 	}
 	
 	/**
-	 * @deprecated Replaced by {@link #JROdtExporter(JasperReportsContext)}.
+	 * @see #JROdtExporter(JasperReportsContext)
 	 */
 	public JROdtExporter()
 	{

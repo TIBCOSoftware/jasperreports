@@ -49,7 +49,7 @@ public class JRPrintSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_JRPRINT = ".jrprint"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRPrintSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRPrintSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRPrintSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

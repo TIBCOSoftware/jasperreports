@@ -205,7 +205,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 	
 
 	/**
-	 * @deprecated Replaced by {@link #JExcelApiMetadataExporter(JasperReportsContext)}.
+	 * @see #JExcelApiMetadataExporter(JasperReportsContext)
 	 */
 	public JExcelApiMetadataExporter()
 	{

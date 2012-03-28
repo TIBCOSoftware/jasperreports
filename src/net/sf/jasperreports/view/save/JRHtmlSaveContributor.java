@@ -51,7 +51,7 @@ public class JRHtmlSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_HTML = ".html"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JRHtmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JRHtmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JRHtmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

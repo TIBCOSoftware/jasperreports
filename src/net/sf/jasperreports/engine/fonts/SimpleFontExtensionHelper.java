@@ -142,7 +142,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 
 
 	/**
-	 * @deprecated Replaced by {@link #loadFontFamilies(JasperReportsContext, String)}.
+	 * @see #loadFontFamilies(JasperReportsContext, String)
 	 */
 	public List<FontFamily> loadFontFamilies(String file)
 	{

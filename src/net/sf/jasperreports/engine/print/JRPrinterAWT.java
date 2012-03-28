@@ -84,7 +84,7 @@ public class JRPrinterAWT implements Printable
 
 
 	/**
-	 * @deprecated Replaced by {@link #printPages(int, int, boolean)}.
+	 * @see #printPages(int, int, boolean)
 	 */
 	public static boolean printPages(
 		JasperPrint jrPrint,
@@ -103,7 +103,7 @@ public class JRPrinterAWT implements Printable
 
 
 	/**
-	 * @deprecated Replaced by {@link #printPageToImage(int, float)}.
+	 * @see #printPageToImage(int, float)
 	 */
 	public static Image printPageToImage(
 		JasperPrint jrPrint,

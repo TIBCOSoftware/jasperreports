@@ -52,7 +52,7 @@ public class JREmbeddedImagesXmlSaveContributor extends JRSaveContributor
 	private static final String EXTENSION_JRPXML = ".jrpxml"; 
 
 	/**
-	 * @deprecated Replaced by {@link #JREmbeddedImagesXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)}.
+	 * @see #JREmbeddedImagesXmlSaveContributor(JasperReportsContext, Locale, ResourceBundle)
 	 */
 	public JREmbeddedImagesXmlSaveContributor(Locale locale, ResourceBundle resBundle)
 	{

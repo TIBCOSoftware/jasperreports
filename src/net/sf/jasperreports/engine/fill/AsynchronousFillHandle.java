@@ -181,7 +181,7 @@ public class AsynchronousFillHandle extends BaseFillHandle
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #createHandle(JasperReportsContext, JasperReport, Map, JRDataSource)}.
+	 * @see #createHandle(JasperReportsContext, JasperReport, Map, JRDataSource)
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
@@ -194,7 +194,7 @@ public class AsynchronousFillHandle extends BaseFillHandle
 
 
 	/**
-	 * @deprecated Replaced by {@link #createHandle(JasperReportsContext, JasperReport, Map, Connection)}.
+	 * @see #createHandle(JasperReportsContext, JasperReport, Map, Connection)
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
@@ -207,7 +207,7 @@ public class AsynchronousFillHandle extends BaseFillHandle
 
 
 	/**
-	 * @deprecated Replaced by {@link #createHandle(JasperReportsContext, JasperReport, Map)}.
+	 * @see #createHandle(JasperReportsContext, JasperReport, Map)
 	 */
 	public static AsynchronousFillHandle createHandle(
 		JasperReport jasperReport,
