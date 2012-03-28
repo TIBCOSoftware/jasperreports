@@ -1,18 +1,20 @@
 jive.interactive.column = jive.interactive.column || {
     uuid: null,
     actions: {
-        'Sort ascending':{icon: 'sortasc', fn:'sort', arg:['Asc']},
-        'Sort descending': {icon: 'sortdesc', fn: 'sort', arg:['Desc']},
-        'Filter': {icon: 'filter', fn: 'filter'},
-        'Format': {icon: 'format_all', actions:{
+        'Format': {icon: 'formatIcon', actions:{
             'Format header': {fn:'formatHeader'},
             'Format cells': {fn:'formatCells'},
             'Hide column': {fn:'hide', arg:'{"hide":true}'},
             'Show column': {actions:{
                 'All': {fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
-        }}
+        }},
+        'Sort ascending':{icon: 'sortAscIcon', fn:'sort', arg:['Asc']},
+        'Sort descending': {icon: 'sortDescIcon', fn: 'sort', arg:['Desc']},
+        'Filter': {icon: 'filterIcon', fn: 'filter'}
     },
+    dropPoints: {},
+    dropColumnIndex: null,
     dropMarks: {},
     dropColumnsRW: {},
     dropColumnsFF: {},
@@ -33,6 +35,15 @@ jive.interactive.column = jive.interactive.column || {
             m[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
         }
         /*
+         * Load dynamic form data
+         */
+         jQuery.each(it.fonts.extension,function(i,v) {
+            it.formatHeaderForm.elements[1].values.push([v,v]);
+         });
+        jQuery.each(it.fontSizes,function(i,v) {
+            it.formatHeaderForm.elements[2].values.push([v,v]);
+        });
+        /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
         it.dropColumnsIndex = {};
@@ -41,35 +52,36 @@ jive.interactive.column = jive.interactive.column || {
 
             uuid = t.data('uuid');
             if(!it.dropColumnsIndex[uuid]){
-                dropPoints = [];
+                it.dropPoints[uuid] = [];
+                it.dropMarks[uuid] = [];
+                it.dropColumnsRW[uuid] = [];
+                it.dropColumnsFF[uuid] = [];
+                it.dropColumnsIndex[uuid] = {};
                 dropColumns = [];
                 t.find('.columnHeader').each(function(i){
                     c = jQuery(this);
                     dropColumns.push('col_'+c.data('popupcolumn'));
                     var off = c.offset();
-                    dropPoints.push(off.left);
-                    dropPoints.push(off.left + c.width());
+                    it.dropPoints[uuid].push(off.left);
+                    it.dropPoints[uuid].push(off.left + c.width());
                 });
-                it.dropMarks[uuid] = [];
-                it.dropColumnsRW[uuid] = [];
-                it.dropColumnsFF[uuid] = [];
-                it.dropColumnsIndex[uuid] = {};
+
                 for(i=0;i<dropColumns.length;i++) {
                     j = i * 2;
-                    it.dropMarks[uuid].push(dropPoints[j]);
-                    it.dropMarks[uuid].push(dropPoints[j] + (dropPoints[j+1] - dropPoints[j]) / 2);
+                    it.dropMarks[uuid].push(it.dropPoints[uuid][j]);
+                    it.dropMarks[uuid].push(it.dropPoints[uuid][j] + (it.dropPoints[uuid][j+1] - it.dropPoints[uuid][j]) / 2);
 
-                    it.dropColumnsRW[uuid].push(dropPoints[j]);
-                    it.dropColumnsRW[uuid].push(dropPoints[j]);
+                    it.dropColumnsRW[uuid].push(j);
+                    it.dropColumnsRW[uuid].push(j);
 
-                    it.dropColumnsFF[uuid].push(dropPoints[j]);
-                    it.dropColumnsFF[uuid].push(dropPoints[j+1]);
+                    it.dropColumnsFF[uuid].push(j);
+                    it.dropColumnsFF[uuid].push(j+1);
 
                     it.dropColumnsIndex[uuid][dropColumns[i]] = j;
                 }
-                it.dropMarks[uuid].push(dropPoints[j+1]);
-                it.dropColumnsRW[uuid].push(dropPoints[j+1]);
-                it.dropColumnsFF[uuid].push(dropPoints[j+1]);
+                it.dropMarks[uuid].push(it.dropPoints[uuid][j+1]);
+                it.dropColumnsRW[uuid].push(j+1);
+                it.dropColumnsFF[uuid].push(j+1);
             }
         });
     },
@@ -78,9 +90,9 @@ jive.interactive.column = jive.interactive.column || {
         var h = jo.height();
         var lastCell = jQuery('.col_' + jo.attr('data-popupColumn') + ':last', jo.closest('.jrtableframe'));
         if(lastCell && lastCell.length > 0) {
-        var lastElemTop = lastCell.position().top;
-        var lastElemHeight = lastCell.height();
-        h = lastElemTop + lastElemHeight - jo.position().top;
+            var lastElemTop = lastCell.position().top;
+            var lastElemHeight = lastCell.height();
+            h = lastElemTop + lastElemHeight - jo.position().top;
         }
         return {w:jo.width(),h:h};
     },
@@ -96,20 +108,43 @@ jive.interactive.column = jive.interactive.column || {
         var ev = evt.originalEvent.originalEvent || evt;
         if(ev.pageX < this.dropMarks[this.uuid][this.dropLeft]) {
             if(this.dropLeft > 0){
-                jive.ui.marker.jo.css('left',this.dropColumnsRW[this.uuid][this.dropLeft] + this.delta +'px').show();
+                this.dropColumnIndex = this.dropColumnsRW[this.uuid][this.dropLeft];
+                jive.ui.marker.jo.css('left', this.dropPoints[this.uuid][this.dropColumnIndex] + this.delta +'px').show();
                 this.dropLeft = this.dropLeft - 1;
                 this.dropRight = this.dropLeft + 1;
             }
         }
         if(ev.pageX > this.dropMarks[this.uuid][this.dropRight]) {
             if(this.dropRight < (this.dropMarks[this.uuid].length-1)) {
-                jive.ui.marker.jo.css('left',this.dropColumnsFF[this.uuid][this.dropRight] + this.delta + 'px').show();
+                this.dropColumnIndex = this.dropColumnsFF[this.uuid][this.dropRight];
+                jive.ui.marker.jo.css('left', this.dropPoints[this.uuid][this.dropColumnIndex] + this.delta + 'px').show();
                 this.dropRight = this.dropRight + 1;
                 this.dropLeft = this.dropRight - 1;
             }
         }
     },
     onDragStop: function(ev,ui){
+        var jvt = jasperreports.reportviewertoolbar;
+        var selectedColumn = {
+            actionBaseData: jQuery.parseJSON(jive.interactive.column.actionBaseData)
+        };
+        var dropIndex = this.dropColumnIndex % 2 == 1 ? (this.dropColumnIndex + 1) / 2 - 1 : this.dropColumnIndex / 2;
+        if(dropIndex >= 0 && (dropIndex != jive.selected.ie.columnIndex || dropIndex != jive.selected.ie.columnIndex + 1)) {
+            var moveColumnActionData = {
+                actionName: 'move',
+                moveColumnData: {
+                    uuid: this.uuid,
+                    columnToMoveIndex: jive.selected.ie.columnIndex,
+                    columnToMoveNewIndex: dropIndex
+                }
+            };
+
+            jvt.runReport2(selectedColumn,
+                moveColumnActionData,
+                null,
+                [jive.selected.ie.id, 0]
+            );
+        }
     },
     resize: function(width){
         var jvt = jasperreports.reportviewertoolbar,
@@ -118,19 +153,20 @@ jive.interactive.column = jive.interactive.column || {
             table = jive.selected.jo.parent('.jrtableframe'),
             uuid = table.data('uuid');
 
-        var params = jQuery.parseJSON(jive.selected.ie.actionBaseData);
+        var params = jQuery.parseJSON(jive.interactive.column.actionBaseData);
         params[jvt.PARAM_ACTION] = jasperreports.global.toJsonString({
             actionName: 'resize',
             resizeColumnData: {
                 uuid: uuid,
-                columnIndex: jQuery('.columnHeader', table).index(jive.selected.jo),
+                columnIndex: jive.selected.ie.columnIndex,
                 direction: 'right',
                 width: width
             }
         });
 
+        jive.hide();
         jvt.runReport(jQuery('div.columnHeader:first'),
-            jive.selected.ie.actionBaseUrl,
+            jive.interactive.column.actionBaseUrl,
             params,
             jvt.performAction,
             [toolbarId],
@@ -139,11 +175,12 @@ jive.interactive.column = jive.interactive.column || {
     sort: function(argv){
         var jvt = jasperreports.reportviewertoolbar;
         var toolbarId = null; //self.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
-        params = jQuery.parseJSON(jive.selected.ie.actionBaseData);
+        params = jQuery.parseJSON(jive.interactive.column.actionBaseData);
         params[jvt.PARAM_ACTION] = jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn']['data-sortData'];
 
+        jive.hide();
         jvt.runReport(jQuery('div.columnHeader:first'),
-            jive.selected.ie.actionBaseUrl,
+            jive.interactive.column.actionBaseUrl,
             params,
             jvt.performAction,
             [toolbarId],
@@ -163,7 +200,7 @@ jive.interactive.column = jive.interactive.column || {
             jvt = jasperreports.reportviewertoolbar,
             table = jive.selected.jo.parent('.jrtableframe'),
             uuid = table.attr('data-uuid'),
-            params = jQuery.parseJSON(jive.selected.ie.actionBaseData),
+            params = jQuery.parseJSON(jive.interactive.column.actionBaseData),
             actionData = {
                 actionName: 'hideUnhideColumns',
                 columnData: {
@@ -176,8 +213,9 @@ jive.interactive.column = jive.interactive.column || {
 
         params[jvt.PARAM_ACTION] = gm.toJsonString(actionData);
 
+        jive.hide();
         jvt.runReport(jQuery('div.columnHeader:first'),
-            jive.selected.ie.actionBaseUrl,
+            jive.interactive.column.actionBaseUrl,
             params,
             jvt.performAction,
             [toolbarId],
@@ -185,7 +223,7 @@ jive.interactive.column = jive.interactive.column || {
     }
 }
 
-jive.ui.forms.add({
+jive.interactive.column.columnFilterForm = {
     name: 'columnfilter',
     method: 'get',
     elements: [
@@ -238,7 +276,6 @@ jive.ui.forms.add({
                 ['IS_NOT_BETWEEN','Is not between']
             ]
         }
-        console.info(metadata);
         var se = jive.selected.form.jo.find('select[name="filterTypeOperator"]');
         se.empty();
         var htm = [];
@@ -257,17 +294,17 @@ jive.ui.forms.add({
     },
     submit:function(){
         var jvt = jasperreports.reportviewertoolbar;
-            toolbarId = null, // self.closest('.mainReportDiv').find('.toolbarDiv').attr('id')
+        toolbarId = null, // self.closest('.mainReportDiv').find('.toolbarDiv').attr('id')
             params = jQuery.parseJSON(jive.selected.ie.actionBaseData),
             metadata = jive.selected.ie.filterdiv.filterDivForm,
             actionData = {actionName: 'filter'};
-            actionData.filterData = {
-                uuid: metadata.uuid,
-                fieldName: metadata.fieldName,
-                filterType: metadata.filterType,
-                fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
-                filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val()
-            };
+        actionData.filterData = {
+            uuid: metadata.uuid,
+            fieldName: metadata.fieldName,
+            filterType: metadata.filterType,
+            fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
+            filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val()
+        };
 
         if(!jive.selected.form.jo.find('input[name="filterValueEnd"]').is(':hidden')){
             actionData.filterData.fieldValueEnd = jive.selected.form.jo.find('input[name="fieldValueEnd"]').val();
@@ -278,6 +315,7 @@ jive.ui.forms.add({
         }
         params[jvt.PARAM_ACTION] = jasperreports.global.toJsonString(actionData);
 
+        jive.hide();
         jvt.runReport(jQuery('div.columnHeader:first'),
             jive.selected.ie.actionBaseUrl,
             params,
@@ -285,9 +323,10 @@ jive.ui.forms.add({
             [toolbarId],
             true);
     }
-});
+};
+jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
 
-jive.ui.forms.add({
+jive.interactive.column.formatHeaderForm = {
     title: 'Header',
     name: 'formatHeader',
     method: 'get',
@@ -320,7 +359,7 @@ jive.ui.forms.add({
     submit:function(){
         var jvt = jasperreports.reportviewertoolbar,
             toolbarId = null, //self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
-            params = jQuery.parseJSON(jive.selected.ie.actionBaseData),
+            params = jQuery.parseJSON(jive.interactive.column.actionBaseData),
             table = jive.selected.jo.parent('.jrtableframe'),
             uuid = table.attr('data-uuid'),
             actionData = {
@@ -339,18 +378,19 @@ jive.ui.forms.add({
             };
 
         params[jvt.PARAM_ACTION] = jasperreports.global.toJsonString(actionData);
-        console.info(params);
 
+        jive.hide();
         jvt.runReport(jQuery('div.columnHeader:first'),
-            jive.selected.ie.actionBaseUrl,
+            jive.interactive.column.actionBaseUrl,
             params,
             jvt.performAction,
             [toolbarId],
             true);
     }
-});
+};
+jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
 
-jive.ui.forms.add({
+jive.interactive.column.formatCellsForm = {
     title: 'Cells',
     name: 'formatCells',
     method: 'get',
@@ -376,8 +416,9 @@ jive.ui.forms.add({
     submit:function(){
 
     }
-});
+};
 
+jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
 
 
 
