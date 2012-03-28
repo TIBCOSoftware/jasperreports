@@ -151,12 +151,68 @@ Shows how to use file resolver implementations in order to locate file resources
     <since>2.0.5</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
-[Under Construction]
+<subtitle name="toc_overview">File Resolver - Overview</subtitle>
+<br/>
+<br/>
+By default, the JR engine interprets resource locations as file system paths that can be either 
+absolute or relative to the current user directory (given by the Java <code>user.dir</code> system 
+property). If the path constructed this way resolves to an existing file, the report resource 
+will be loaded from this file.
+<br/>
+The default behavior can be changed by using the 
+<api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_FILE_RESOLVER" target="_blank">REPORT_FILE_RESOLVER</api> 
+parameter at fill time to pass a file resolver object. This object needs to be an instance of a class that implements the 
+<api href="net/sf/jasperreports/engine/util/FileResolver.html" target="_blank">FileResolver</api> interface. The interface 
+contains a single method which is responsible for resolving a resource location to an abstract file path (represented by 
+a <code>java.io.File</code> object).
+<br/>
+When a file resolver is set via the report parameter, the engine will use it to interpret 
+resource locations as file paths. If a file resolver returns a non-null file path for a 
+resource location, the file located at the returned path will be used to load the resource. 
+<br/>
+JasperReports ships with the built-in 
+<api href="net/sf/jasperreports/engine/util/SimpleFileResolver.html" target="_blank">SimpleFileResolver</api> implementation 
+that interprets resource locations as paths relative to one or several file system folders. To create such a file resolver, 
+the user has to specify one or more resources folders. When the resolver is asked to resolve a resource location, it interprets 
+the locations as a path relative to each of the resource folders, and returns the first path that corresponds to an existing file.
+<br/>
+The <api href="net/sf/jasperreports/engine/util/SimpleFileResolver.html" target="_blank">SimpleFileResolver</api> is called in this 
+sample at fill time to resolve paths to compiled reports saved with the <code>.jasper</code> extension. See the example in the 
+<code>src/TableOfContentsApp.java</code>:
+<pre><![CDATA[
+public void fill() throws JRException
+{
+  long start = System.currentTimeMillis();
+  //Preparing parameters
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Orders Report");
+
+  SimpleFileResolver fileResolver =
+    new SimpleFileResolver(
+      Arrays.asList(new File[]{new File("build/reports")})
+      );
+  fileResolver.setResolveAbsolutePath(true);
+  
+  parameters.put(JRParameter.REPORT_FILE_RESOLVER, fileResolver);
+  
+  JasperReport jasperReport = (JasperReport)JRLoader.loadObject("build/reports/TableOfContentsReport.jasper");
+
+  JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, getDemoHsqldbConnection());
+  
+  jasperPrint = moveTableOfContents(jasperPrint);
+
+  JRSaver.saveObject(jasperPrint, "build/reports/TableOfContentsReport.jrprint");
+
+  System.err.println("Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+<b>Note: As shown in the API javadoc, the </b><api href="net/sf/jasperreports/engine/JRParameter.html#REPORT_FILE_RESOLVER" target="_blank">REPORT_FILE_RESOLVER</api><b> 
+parameter is now deprecated. It is highly recommended to switch to the </b>
+<api href="net/sf/jasperreports/engine/JasperReportsContext.html" target="_blank">JasperReportsContext</api><b> approach wherever is possible.</b>
     </content>
   </feature>
 
