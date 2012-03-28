@@ -8,7 +8,7 @@
       <feature name="webapp" sample="webapp" title="Deploying Reports in Web Applications" complete="false"/>
       <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool" complete="false"/>
       <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
-      <feature name="fileresolver" sample="tableofcontents" title="File Resolver" complete="false"/>
+      <feature name="fileresolver" sample="tableofcontents" title="File Resolver"/>
     </content>
   </category>
   
@@ -48,17 +48,17 @@
   <category>
     <name>Components</name>
     <content>
-      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
 	  <feature name="barcodes" sample="barcode4j" title="Barcodes"/>
+      <feature name="barbecue" sample="barbecue" title="Barcodes (Barbecue Custom Component)"/>
       <feature name="barcode4j" sample="barcode4j" title="Barcodes (Barcode4J Custom Component)"/>
+      <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
       <feature name="jcharts" sample="jcharts" title="Rendering Images Using Third Party APIs (jCharts Library)" complete="false"/>
       <feature name="jchartscomponent" sample="jchartscomponent" title="Implementing Custom Components to Embed Third Party Visualisation Tools (jCharts Library)" complete="false"/>
-      <feature name="jfreechart" sample="jfreechart" title="Rendering Images Using Third Party APIs (JFreeChart Library)"/>
-      <feature name="list" sample="list" title="Using the Built-in List Component"/>
-      <feature name="map" sample="map" title="Using the Built-in Map Component"/>
       <feature name="openflashchart" sample="openflashchart" title="Implementing Custom Components to Embed Third Party Visualisation Tools (Open Flash Chart Library)" complete="false"/>
-      <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
+      <feature name="list" sample="list" title="Using the Built-in List Component"/>
       <feature name="table" sample="table" title="Using the Built-in Table Component"/>
+      <feature name="map" sample="map" title="Using the Built-in Map Component"/>
+      <feature name="spiderchartcomponent" sample="spiderchartcomponent" title="Using the Built-in Spider Chart Component"/>
     </content>
   </category>
   
