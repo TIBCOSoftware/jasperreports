@@ -27,7 +27,11 @@ jQuery.noConflict();
 						HEADERTOOLBAR_INIT: {
 							name: 'headertoolbar_init',
 							status: 'default'
-						}
+						},
+                        JIVE_INIT: {
+                            name: 'jive_init',
+                            status: 'default'
+                        }
 					},
 					eventSubscribers: {},
 					isFirstAjaxRequest: true,
@@ -623,6 +627,20 @@ jQuery.noConflict();
 	jg.doJqueryStuff();
 
 	global.jasperreports = jr;
+
+    global.jive = {
+        selectors: {},
+        elements: {},
+        interactive:{},
+        ui: {},
+        selected: {
+            ie: null,  // selected interactive element
+            jo: null,  // selected jquery object tied to interactive element
+            form: null // selected form defined by interactive element
+        },
+        selectedform: null,
+        viewerReady: false
+    }
 	
 } (this));
 
