@@ -58,47 +58,13 @@
 					}
 					
 					if (target.is('.undo')) {
-						var firstPopupDiv = jQuery('.popupdiv:first'),
-							actionBaseUrl = firstPopupDiv.attr('data-actionBaseUrl'),
-							params = jQuery.parseJSON(firstPopupDiv.attr('data-actionBaseData'));
-						
-						params[jvt.PARAM_ACTION] = "{\"actionName\": \"undo\"}";
-						
-						jvt.runReport(firstPopupDiv,
-								actionBaseUrl, 
-								params, 
-								jvt.performUndo, 
-								[toolbarId], 
-								true);
+						jive.runAction({actionName: "undo"}, target, jvt.performUndo);
 						
 					} else if (target.is('.redo')) {
-						var firstPopupDiv = jQuery('.popupdiv:first'),
-							actionBaseUrl = firstPopupDiv.attr('data-actionBaseUrl'),
-							params = jQuery.parseJSON(firstPopupDiv.attr('data-actionBaseData'));
-						
-						params[jvt.PARAM_ACTION] = "{\"actionName\": \"redo\"}";
-						
-						jvt.runReport(firstPopupDiv,
-								actionBaseUrl, 
-								params, 
-								jvt.performRedo, 
-								[toolbarId], 
-								true);
+						jive.runAction({actionName: "redo"}, target, jvt.performRedo);
 						
 					} else if (target.is('.save')) {
-						var firstPopupDiv = jQuery('.popupdiv:first'),
-							actionBaseUrl = firstPopupDiv.attr('data-actionBaseUrl'),
-							params = jQuery.parseJSON(firstPopupDiv.attr('data-actionBaseData'));
-						
-						params[jvt.PARAM_ACTION] = "{\"actionName\": \"save\"}";
-						
-						jvt.runReport(firstPopupDiv,
-								actionBaseUrl, 
-								params, 
-								null, 
-								null, 
-								true);
-						
+						jive.interactive.column.runAction({actionName: "save"}, target, null);
 					}
 				}
 			});
@@ -353,13 +319,16 @@
 	jvt.runReport2 = function(selectedColumn, actionData, callback, arrCallbackArgs, isJSON) {
 		var	gm = global.jasperreports.global,
 			params = selectedColumn.actionBaseData,
-			callback = callback || jvt.performAction,
 			arrCallbackArgs = arrCallbackArgs || [],
 			isJson = isJson || true;
 		
 		if (typeof actionData === 'object') {
 			actionData = gm.toJsonString(actionData);
 		}
+		
+		if (callback === undefined) { // only when it's not supplied as function parameter
+    		callback = jvt.performAction;
+    	}
 		
 		params[jvt.PARAM_ACTION] = encodeURIComponent(actionData);
 		

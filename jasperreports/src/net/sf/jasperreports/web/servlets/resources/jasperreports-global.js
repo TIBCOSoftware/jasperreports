@@ -31,7 +31,11 @@ jQuery.noConflict();
                         JIVE_INIT: {
                             name: 'jive_init',
                             status: 'default'
-                        }
+                        },
+						JIVE_COLUMN_INIT: {
+							name: 'jive_column_init',
+							status: 'default'
+						}
 					},
 					eventSubscribers: {},
 					isFirstAjaxRequest: true,
@@ -91,11 +95,27 @@ jQuery.noConflict();
 		}
 		return result;
 	};
+
+	jg.extractContext = function (context) {
+		var result = context || null;
+		if (typeof context === 'string') {
+			var i, ln, tokens = context.split('.');
+			result = global;
+			for (i = 0, ln = tokens.length; i < ln; i++) {
+				if (result[tokens[i]]) {
+					result = result[tokens[i]];
+				} else {
+					throw new Error('Invalid context: ' + context + '; token: ' + tokens[i]);
+				}
+			}
+		}
+		return result;
+	};
 	
 	/** 
 	 * Dynamically loads a js script 
 	 */
-	jg.loadScript = function (scriptName, scriptUrl, callbackFn) {
+	jg.loadScript = function (scriptName, scriptUrl, callbackFn, arrCallbackArgs) {
 		var gotCallback = callbackFn || false;
 		
 		// prevent the script tag from being created more than once 
@@ -109,14 +129,14 @@ jQuery.noConflict();
 					if (scriptElement.readyState === 'loaded' || scriptElement.readyState === 'complete'){
 						scriptElement.onreadystatechange = null;
 						if (gotCallback) {
-							jg.extractCallbackFunction(callbackFn)();
+							jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
 						}
 					}
 				};
 			} else { // for Others - this is not supposed to work on Safari 2
 				scriptElement.onload = function (){
 					if (gotCallback) {
-						jg.extractCallbackFunction(callbackFn)();
+						jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
 					}
 				};
 			}
@@ -126,7 +146,7 @@ jQuery.noConflict();
 			jg.scripts[scriptName] = scriptUrl;
 		} else if (gotCallback) {
 			try {
-				jg.extractCallbackFunction(callbackFn)();
+				jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
 			} catch(ex) {} //swallow this FIXMEJIVE
 		}
 	};
@@ -159,11 +179,11 @@ jQuery.noConflict();
 		}
 	};
 	
-	jg.appendScriptElementToDOM = function (scriptname, scripturi, callbackFn, isAbsoluteUrl) {
+	jg.appendScriptElementToDOM = function (scriptname, scripturi, callbackFn, arrCallbackArgs, isAbsoluteUrl) {
 		if (!isAbsoluteUrl) {
 			scripturi = jg.APPLICATION_CONTEXT_PATH + scripturi;
 		}
-		jg.loadScript(scriptname, scripturi, callbackFn);
+		jg.loadScript(scriptname, scripturi, callbackFn, arrCallbackArgs);
 	};
 	
 	jg.appendStyleElementToDOM = function (styleName, styleUrl, isAbsoluteUrl) {
@@ -187,7 +207,7 @@ jQuery.noConflict();
 		}
 	};
 	
-	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs) {
+	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs, thisContext) {
 		var event = jg.getEventByName(eventName);
 		if (event.status === 'default') { 
 			if (!jg.eventSubscribers[eventName]) {
@@ -196,11 +216,12 @@ jQuery.noConflict();
 			var arrEvent = jg.eventSubscribers[eventName];
 			arrEvent.push({
 				callbackfn: strCallbackFn,
-				callbackargs: arrCallbackArgs
+				callbackargs: arrCallbackArgs,
+				thisContext: thisContext
 			});
 		} else if (event.status === 'finished') { 
 			// The event has finished so we are safe to execute the callback
-			jg.extractCallbackFunction(strCallbackFn).apply(null, arrCallbackArgs);
+			jg.extractCallbackFunction(strCallbackFn).apply(jg.extractContext(thisContext), arrCallbackArgs);
 		}
 	};
 	
@@ -209,7 +230,7 @@ jQuery.noConflict();
 		if (subscribers) {
 			for (i = 0; i < subscribers.length; i++) {
 				var subscriber = subscribers[i];
-				jg.extractCallbackFunction(subscriber.callbackfn).apply(null, subscriber.callbackargs);
+				jg.extractCallbackFunction(subscriber.callbackfn).apply(jg.extractContext(subscriber.thisContext), subscriber.callbackargs);
 			}
 			// clear subscribers
 			jg.eventSubscribers[eventName] = undefined;
@@ -306,6 +327,7 @@ jQuery.noConflict();
 									if (!scriptObj.attr('src')) { // FIXMEJIVE only scripts that don't load files are run
 										var scriptString = scriptObj.html();
 										if (scriptString) {
+//											console.log("script " + idx + ": " + scriptString);
 											global.eval(scriptString);
 										}
 									}
@@ -629,6 +651,8 @@ jQuery.noConflict();
 	global.jasperreports = jr;
 
     global.jive = {
+		actionBaseData: null,
+	    actionBaseUrl: null,
         selectors: {},
         elements: {},
         interactive:{},
@@ -639,7 +663,21 @@ jQuery.noConflict();
             form: null // selected form defined by interactive element
         },
         selectedform: null,
-        viewerReady: false
+        viewerReady: false,
+        runAction: function (actionData, startPoint, callback, arrCallbackArgs) {
+        	var startPoint = startPoint || this.selected.jo,
+        		toolbarId = startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
+        	
+        	jasperreports.reportviewertoolbar.runReport2({
+    				actionBaseData: jQuery.parseJSON(this.actionBaseData),
+    				actionBaseUrl: this.actionBaseUrl,
+    				toolbarId: toolbarId,
+    				self: startPoint
+    			},
+    			actionData,
+    			callback,
+    			arrCallbackArgs);
+        }
     }
 	
 } (this));
