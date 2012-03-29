@@ -30,7 +30,7 @@ import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: DefaultRepositoryServiceExtensionsRegistryFactory.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class DefaultRepositoryExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

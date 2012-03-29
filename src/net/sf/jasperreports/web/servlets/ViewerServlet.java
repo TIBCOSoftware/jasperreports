@@ -45,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ReportServlet.java 4938 2012-01-26 17:03:20Z narcism $
+ * @version $Id$
  */
 public class ViewerServlet extends AbstractServlet
 {

@@ -38,7 +38,7 @@ import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JdbcDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class MondrianDataAdapterService extends JdbcDataAdapterService {
 

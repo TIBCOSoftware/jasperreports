@@ -31,7 +31,7 @@ import javax.sql.DataSource;
 
 /**
  * @author Veaceslav Chicu (schicu@users.sourceforge.net)
- * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class SimpleSQLDataSource implements DataSource {
 	private Connection connection;

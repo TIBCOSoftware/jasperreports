@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: FileRepositoryService.java 4882 2012-01-09 14:54:19Z teodord $
+ * @version $Id$
  */
 public class FileRepositoryPersistenceServiceFactory implements PersistenceServiceFactory
 {

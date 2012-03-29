@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRRenderable.java 4988 2012-02-09 10:48:26Z teodord $
+ * @version $Id$
  */
 @SuppressWarnings("deprecation")
 public interface Renderable extends JRRenderable

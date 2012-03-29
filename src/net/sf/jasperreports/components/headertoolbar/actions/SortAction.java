@@ -40,7 +40,7 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: AbstractFieldComparator.java 5043 2012-03-09 09:55:21Z narcism $
+ * @version $Id$
  */
 public class SortAction extends AbstractTableAction 
 {

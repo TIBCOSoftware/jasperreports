@@ -42,7 +42,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: PdfTextRenderer.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class SimplePdfTextRenderer extends AbstractPdfTextRenderer
 {

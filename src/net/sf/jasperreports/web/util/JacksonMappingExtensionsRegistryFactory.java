@@ -37,7 +37,7 @@ import net.sf.jasperreports.extensions.ListExtensionRegistry;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: SimpleFontExtensionsRegistryFactory.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class JacksonMappingExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

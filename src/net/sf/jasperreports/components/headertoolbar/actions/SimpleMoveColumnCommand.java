@@ -30,7 +30,7 @@ import net.sf.jasperreports.web.commands.Command;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: AbstractFieldComparator.java 5043 2012-03-09 09:55:21Z narcism $
+ * @version $Id$
  */
 public class SimpleMoveColumnCommand implements Command 
 {

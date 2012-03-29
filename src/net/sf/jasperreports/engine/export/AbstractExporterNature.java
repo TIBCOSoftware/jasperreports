@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXlsAbstractExporterNature.java 4751 2011-10-27 10:38:29Z shertage $
+ * @version $Id$
  */
 public abstract class AbstractExporterNature implements ExporterNature
 {

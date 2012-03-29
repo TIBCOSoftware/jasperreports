@@ -33,7 +33,7 @@ import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuterFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class XmlaDataAdapterService extends AbstractDataAdapterService 
 {

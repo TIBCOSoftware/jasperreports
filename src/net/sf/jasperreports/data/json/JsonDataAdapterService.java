@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class JsonDataAdapterService extends AbstractDataAdapterService 
 {

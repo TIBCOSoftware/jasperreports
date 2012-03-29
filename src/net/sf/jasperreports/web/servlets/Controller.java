@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ReportServlet.java 4928 2012-01-23 10:24:41Z teodord $
+ * @version $Id$
  */
 public class Controller
 {

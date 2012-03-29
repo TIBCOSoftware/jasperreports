@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ModeEnum.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public enum RenderableTypeEnum implements JREnum
 {

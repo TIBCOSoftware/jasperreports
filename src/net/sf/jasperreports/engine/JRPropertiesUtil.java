@@ -52,7 +52,7 @@ import org.apache.velocity.texen.util.PropertiesUtil;
  * </p> 
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: JRProperties.java 4838 2011-12-06 11:47:15Z lucianc $
+ * @version $Id$
  */
 public final class JRPropertiesUtil
 {

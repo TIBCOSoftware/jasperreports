@@ -26,7 +26,7 @@ package net.sf.jasperreports.charts;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRLinePlot.java 4614 2011-09-18 09:21:57Z teodord $
+ * @version $Id$
  */
 public interface JRCommonLinePlot
 {
