@@ -30,7 +30,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
@@ -56,6 +55,8 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.engine.util.MessageProvider;
+import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
@@ -142,13 +143,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			Map<String, String> translatedOperators = null;
 			switch (filterType) {
 				case NUMERIC:
-					translatedOperators = getTranslatedOperators(FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
 					break;
 				case DATE:
-					translatedOperators = getTranslatedOperators(FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					break;
 				case TEXT:
-					translatedOperators = getTranslatedOperators(FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					break;
 			}
 			
@@ -383,12 +384,18 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return true;
 	}
 	
-	private Map<String, String> getTranslatedOperators(String bundleName, JREnum[] operators, Locale locale) {
+	private Map<String, String> getTranslatedOperators(
+		JasperReportsContext jasperReportsContext, 
+		String bundleName, 
+		JREnum[] operators, 
+		Locale locale
+		) 
+	{
 		Map<String, String> result = new LinkedHashMap<String, String>();
-		ResourceBundle rb = ResourceBundle.getBundle(bundleName, locale);//FIXMECONTEXT replace with MessageProvider
+		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		
 		for (JREnum operator: operators) {
-			result.put(((Enum<?>)operator).name(), rb.getString(((Enum<?>)operator).name()));
+			result.put(((Enum<?>)operator).name(), messageProvider.getMessage(((Enum<?>)operator).name(), null, locale));
 		}
 		
 		return result;
