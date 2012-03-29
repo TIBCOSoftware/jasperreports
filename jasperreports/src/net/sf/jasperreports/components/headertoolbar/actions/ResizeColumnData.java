@@ -26,7 +26,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: AbstractFieldComparator.java 5043 2012-03-09 09:55:21Z narcism $
+ * @version $Id$
  */
 public class ResizeColumnData 
 {

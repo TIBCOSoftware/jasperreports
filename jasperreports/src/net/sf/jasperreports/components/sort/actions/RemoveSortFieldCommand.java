@@ -31,7 +31,7 @@ import net.sf.jasperreports.web.commands.Command;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: AbstractViewer.java 4931 2012-01-24 12:17:25Z teodord $
+ * @version $Id$
  */
 public class RemoveSortFieldCommand implements Command
 {

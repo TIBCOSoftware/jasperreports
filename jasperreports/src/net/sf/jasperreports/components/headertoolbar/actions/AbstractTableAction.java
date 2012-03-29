@@ -40,7 +40,7 @@ import net.sf.jasperreports.web.commands.CommandTarget;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAntApiWriteTask.java 4997 2012-02-12 20:54:35Z teodord $
+ * @version $Id$
  */
 public abstract class AbstractTableAction extends AbstractAction 
 {

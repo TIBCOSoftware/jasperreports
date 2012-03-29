@@ -30,7 +30,7 @@ import net.sf.jasperreports.data.AbstractDataAdapter;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CsvDataAdapterImpl.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class JsonDataAdapterImpl extends AbstractDataAdapter implements
 		JsonDataAdapter {

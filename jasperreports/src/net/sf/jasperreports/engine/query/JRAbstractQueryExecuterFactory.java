@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRCsvQueryExecuterFactory.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public abstract class JRAbstractQueryExecuterFactory implements QueryExecuterFactory 
 {

@@ -35,7 +35,7 @@ import java.util.TreeMap;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRXlsAbstractExporter.java 4742 2011-10-26 09:09:39Z teodord $
+ * @version $Id$
  */
 public class XlsRowLevelInfo
 {

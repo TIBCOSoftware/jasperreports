@@ -48,7 +48,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: TableReport.java 5113 2012-03-21 18:09:16Z teodord $
+ * @version $Id$
  */
 public class HeaderLabelUtil
 {

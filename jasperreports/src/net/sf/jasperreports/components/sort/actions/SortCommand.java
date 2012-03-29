@@ -41,7 +41,7 @@ import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: SortCommand.java 4935 2012-01-25 14:28:59Z teodord $
+ * @version $Id$
  */
 public class SortCommand implements Command 
 {

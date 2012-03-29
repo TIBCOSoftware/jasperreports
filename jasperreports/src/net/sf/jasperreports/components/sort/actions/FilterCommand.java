@@ -38,7 +38,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id: FieldDateComparator.java 4707 2011-10-18 08:58:14Z narcism $
+ * @version $Id$
  */
 public class FilterCommand implements Command 
 {

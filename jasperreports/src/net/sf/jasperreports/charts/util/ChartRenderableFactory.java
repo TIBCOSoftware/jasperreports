@@ -34,7 +34,7 @@ import org.jfree.chart.JFreeChart;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ChartRendererFactory.java 4988 2012-02-09 10:48:26Z teodord $
+ * @version $Id$
  */
 @SuppressWarnings("deprecation")
 public interface ChartRenderableFactory extends ChartRendererFactory

@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Veaceslov Chicu (schicu@users.sourceforge.net)
- * @version $Id: JsonDataAdapterService.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class SpringHibernateDataAdapterService extends
 		AbstractDataAdapterService {

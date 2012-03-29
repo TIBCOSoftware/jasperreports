@@ -28,7 +28,7 @@ import net.sf.jasperreports.engine.JRIdentifiable;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: WebReportContext.java 4878 2012-01-09 11:22:26Z lucianc $
+ * @version $Id$
  */
 public class CommandTarget 
 {

@@ -29,7 +29,7 @@ import java.io.OutputStream;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: ReportResource.java 4595 2011-09-08 15:55:10Z teodord $
+ * @version $Id$
  */
 public class OutputStreamResource extends ObjectResource
 {
