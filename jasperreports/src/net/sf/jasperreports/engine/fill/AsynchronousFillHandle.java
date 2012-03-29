@@ -30,6 +30,7 @@ import java.util.concurrent.Executor;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -44,6 +45,15 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  */
 public class AsynchronousFillHandle extends BaseFillHandle
 {	
+	
+	/**
+	 * A property that determines whether a report can be generated and displayed asynchronously in a viewer.
+	 * 
+	 * Asynchronous report generation implies displaying report pages before the report is complete.
+	 */
+	// TODO lucianc use in web viewer
+	public static final String PROPERTY_REPORT_ASYNC = JRPropertiesUtil.PROPERTY_PREFIX + "viewer.async";
+	
 	protected Thread fillThread;
 	protected Integer priority;
 	protected String threadName;
