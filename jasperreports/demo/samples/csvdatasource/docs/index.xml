@@ -172,7 +172,7 @@ or <code>Trial</code> states will be taken into account:
 </code>
 <br/>
 <br/>
-<b>Running the Sample</b>
+<subtitle name="runSample">Running the Sample</subtitle>
 <br/>
 <br/>
 Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
@@ -194,8 +194,8 @@ How to fill a report using the CSV query executer.
     <since>4.0.0</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
   	<otherSample ref="ejbql"/>
@@ -203,7 +203,120 @@ How to fill a report using the CSV query executer.
   	<otherSample ref="mondrian"/>
   	<otherSample ref="xmldatasource"/>
     <content>
-[Under Construction]
+<subtitle name="qryExecuter">Using The CSV Query Executer</subtitle>
+<br/>
+<br/>
+The other (and highly recommended) option available for preparing a <api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api> 
+is to let the JasperReports built-in CSV query executer to prepare one for us. When the query language is set to <code>CSV</code> or <code>csv</code>, the 
+CSV query executer registered for this language will take the responsibilty to create and populate the needed CSV data source. JasperReports ships with a 
+default implementation of the CSV query executer, named <api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuter.html" target="_blank">JRCsvQueryExecuter</api>.
+<br/>
+In order to create a valid CSV data source this query executer needs:
+<ul>
+<li>To access the resource containing the CSV data. Depending on its type, the resource could be located using one of the following:
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_READER" target="_blank">CSV_READER</api> parameter, 
+if the resource is available as <code>java.io.Reader</code> object</li>
+<li><api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_INPUT_STREAM" target="_blank">CSV_INPUT_STREAM</api> parameter, 
+if the resource is available as <code>java.io.InpuStream</code> object</li>
+<li><api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_URL" target="_blank">CSV_URL</api> parameter, 
+if the resource is available is located at a given URL</li>
+<li><api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_FILE" target="_blank">CSV_FILE</api> parameter, 
+if the resource is available as <code>java.io.File</code> object</li>
+<li><api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_SOURCE" target="_blank">CSV_SOURCE</api> String parameter or property, 
+representing a valid path to the requested resource</li>
+</ul>
+</li>
+<li>To know the charset encoding for the CSV data, in order to create a data source with an appropriate encoding. The encoding can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_ENCODING" target="_blank">CSV_ENCODING</api> parameter or property.</li>
+<li>To know the <code>java.util.Locale</code> associated with the CSV data, in order to create a properly localized data source. The <code>java.util.Locale</code> can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_LOCALE" target="_blank">CSV_LOCALE</api> or 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_LOCALE_CODE" target="_blank">CSV_LOCALE_CODE</api>
+parameter.</li>
+<li>To know the <code>java.util.TimeZone</code> associated with the CSV data, in order to create a properly localized data source. The <code>java.util.TimeZone</code> can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_TIMEZONE" target="_blank">CSV_TIMEZONE</api> or 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_TIMEZONE_ID" target="_blank">CSV_TIMEZONE_ID</api>
+parameter.</li>
+<li>To know the number format associated with the CSV data, in order to create proper <code>java.lang.Number</code> objects from numeric fields stored in the CSV data. The number format can 
+be set using the <api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_NUMBER_FORMAT" target="_blank">CSV_NUMBER_FORMAT</api> or 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_NUMBER_PATTERN" target="_blank">CSV_NUMBER_PATTERN</api>
+parameter.</li>
+<li>To know the date format associated with the CSV data, in order to create proper <code>java.util.Date</code> objects from date fields stored in the CSV data. The date format can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_DATE_FORMAT" target="_blank">CSV_DATE_FORMAT</api> or 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_DATE_PATTERN" target="_blank">CSV_DATE_PATTERN</api>
+parameter.</li>
+<li>To know the field delimiter character, in order to parse the CSV resource in a proper way. The field delimiter can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_FIELD_DELIMITER" target="_blank">CSV_FIELD_DELIMITER</api> parameter or property. 
+The default field delimiter is a comma.</li>
+<li>To know the record delimiter sequence, in order to parse the CSV resource in a proper way. The record delimiter can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_RECORD_DELIMITER" target="_blank">CSV_RECORD_DELIMITER</api> parameter or property.</li>
+<li>To know the column order and column names, to be used when create the mapping between fields in the report template and fields in the data source. Column names can be set using the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_COLUMN_NAMES" target="_blank">CSV_COLUMN_NAMES</api> parameter or property, 
+or the <api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_COLUMN_NAMES_ARRAY" target="_blank">CSV_COLUMN_NAMES_ARRAY</api> parameter. In 
+various situations the first row of the CSV resource contains no data, but column names. If so, the query executer will read the column names from this row if the 
+<api href="net/sf/jasperreports/engine/query/JRCsvQueryExecuterFactory.html#CSV_USE_FIRST_ROW_AS_HEADER" target="_blank">CSV_USE_FIRST_ROW_AS_HEADER</api> 
+parameter/property is set to <code>true</code>. In this case column names stored in <code>CSV_COLUMN_NAMES</code> or <code>CSV_COLUMN_NAMES_ARRAY</code> will be neglected.</li>
+</ul>
+Once all this input stuff is loaded, the query executer will lookup for the CSV resource to read and extract data to populate the requested 
+<api href="net/sf/jasperreports/engine/data/JRCsvDataSource.html">JRCsvDataSource</api>.
+<br/>
+<br/>
+<subtitle name="qryExecuterSample">The CSV Query Executer Sample</subtitle>
+<br/>
+<br/>
+An example of CSV Query Executer is available in the <code>reports/CsvQueryExecuterReport.jrxml</code> template. 
+<br/>
+There are two properties set at report level:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.csv.column.names" value="city, id, name, address, state"/>
+<property name="net.sf.jasperreports.csv.source" value="data/CsvDataSource.txt"/>]]></pre>
+The first one stores the column names, the last one stores a relative path to the CSV resource file.
+<br/>
+Further we see a report parameter containing the record delimiter sequence:
+<pre><![CDATA[
+<parameter name="net.sf.jasperreports.csv.record.delimiter" class="java.lang.String">
+  <defaultValueExpression><![CDATA["\r\n"]] ></defaultValueExpression>
+</parameter>]]></pre>
+Notice also that the query language is set to <code>csv</code>, meaning that the CSV query executer will be enabled to prepare the data source for the report:
+<pre><![CDATA[
+<queryString language="csv"/>]]></pre>
+Field names in the report are the same as column names set in the <code>net.sf.jasperreports.csv.column.names</code> property:
+<pre><![CDATA[
+<field name="id" class="java.lang.Integer">
+  <fieldDescription><![CDATA[id]] ></fieldDescription>
+</field>
+<field name="name" class="java.lang.String">
+  <fieldDescription><![CDATA[name]] ></fieldDescription>
+</field>
+<field name="address" class="java.lang.String">
+  <fieldDescription><![CDATA[street address]] ></fieldDescription>
+</field>
+<field name="city" class="java.lang.String">
+  <fieldDescription><![CDATA[city]] ></fieldDescription>
+</field>
+<field name="state" class="java.lang.String">
+  <fieldDescription><![CDATA[state]] ></fieldDescription>
+</field>]]></pre>
+In the <code>src/CsvDataSourceApp.java</code> one can see the absence of the data source or connection info at fill time:
+<pre><![CDATA[
+// query executer filling
+{
+  start = System.currentTimeMillis();
+  Map parameters = new HashMap();
+  parameters.put("ReportTitle", "Address Report");
+  parameters.put("DataFile", "CsvDataSource.txt - CSV query executer");
+  Set states = new HashSet();
+  states.add("Active");
+  states.add("Trial");
+  parameters.put("IncludedStates", states);
+
+  JasperFillManager.fillReportToFile("build/reports/CsvQueryExecuterReport.jasper", parameters);
+  System.err.println("Report : CsvQueryExecuterReport.jasper. Filling time : " + (System.currentTimeMillis() - start));
+}]]></pre>
+This is because the report datasource will be provided by the query executer.
+<br/>
+To see the result, run the sample as shown <a href="#runSample">here</a>, and take a look at <code>CsvQueryExecuterReport.*</code> 
+documents in the <code>build/reports</code> output folder.
     </content>
   </feature>
 
