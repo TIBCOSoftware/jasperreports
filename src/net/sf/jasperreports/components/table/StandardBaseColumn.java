@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.components.table;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,6 +184,7 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		clone.columnHeader = JRCloneUtils.nullSafeClone(columnHeader);
 		clone.columnFooter = JRCloneUtils.nullSafeClone(columnFooter);
 		clone.printWhenExpression = JRCloneUtils.nullSafeClone(printWhenExpression);
+		//FIXMECLONE should we deal with propertyExpressions? check all
 		clone.eventSupport = null;
 		return clone;
 	}
@@ -491,4 +494,14 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return propertyExpressions;
 	}
 	
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		
+		if (propertyExpressions == null)
+		{
+			propertyExpressions = new ArrayList<JRPropertyExpression>();
+		}
+	}
 }
