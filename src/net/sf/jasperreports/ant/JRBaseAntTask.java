@@ -36,7 +36,7 @@ import org.apache.tools.ant.taskdefs.MatchingTask;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRAntCompileTask.java 4979 2012-02-07 16:07:16Z teodord $
+ * @version $Id$
  */
 public class JRBaseAntTask extends MatchingTask
 {
