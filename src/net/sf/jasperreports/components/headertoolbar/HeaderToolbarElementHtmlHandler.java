@@ -208,7 +208,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
 				contextMap.put("jasperreports_tableHeaderToolbar_js", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS);
 				contextMap.put("jasperreports_tableHeaderToolbar_css", getDynamicResourceLink(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS));
-				contextMap.put("jiveColumnScript", getDynamicResourceLink(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS));
+				contextMap.put("jiveColumnScript", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS);
 			}
 			
 			if (context.getExportParameters().containsKey(param) && (Boolean)context.getExportParameters().get(param)) {

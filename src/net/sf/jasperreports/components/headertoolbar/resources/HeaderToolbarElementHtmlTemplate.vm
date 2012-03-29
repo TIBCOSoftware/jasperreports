@@ -139,38 +139,32 @@
         </div>
     </div>
 </div>
+<script class='jasperreports'>
+    jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '${jiveColumnScript}');
+    jasperreports.global.subscribeToEvent('jive_column_init', 'jive.interactive.column.setupInteractiveColumn', [{
+	    actionBaseData: '${actionBaseData}',
+	    actionBaseUrl: '${actionBaseUrl}',
+	    fontSizes: [2,4,6,8,10,12,14,16],
+	    fonts: {
+			extension: [
+			#foreach ($fontName in ${fontExtensionsFontNames})
+	        	'$fontName',
+			#end
+			],
+			system: [
+			#foreach ($fontName in ${systemFontNames})
+				'$fontName',
+			#end
+			]
+		}
+    }]);
+</script>
 #end
 
 #if (${exporterFirstAttempt})
-    #if (!${templateAlreadyLoaded})
     <script class='jasperreports'>
-        function setupInteractiveColumn(){
-            jive.interactive.column.actionBaseData='${actionBaseData}';
-            jive.interactive.column.actionBaseUrl='${actionBaseUrl}';
-            jive.interactive.column.allColumns = ${allColumnNames};
-            jive.interactive.column.fontSizes = [2,4,6,8,10,12,14,16];
-            jive.interactive.column.fonts = {
-                extension: [
-                    #foreach ($fontName in ${fontExtensionsFontNames})
-                        '$fontName',
-                    #end
-                ],
-                system: [
-                    #foreach ($fontName in ${systemFontNames})
-                        '$fontName',
-                    #end
-                ]
-            }
-            jive.interactive.column.init();
-        }
-        jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '${jiveColumnScript}','setupInteractiveColumn');
+        jasperreports.global.subscribeToEvent('jive_column_init', 'jive.interactive.column.setAllColumns', [${allColumnNames}], 'jive.interactive.column');
     </script>
-    #else
-    <script class='jasperreports'>
-        jive.interactive.column.allColumns = ${allColumnNames};
-        jive.interactive.column.init();
-    </script>
-    #end
 #end
 
 <script class='jasperreports'>
