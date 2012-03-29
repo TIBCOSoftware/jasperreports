@@ -48,7 +48,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * An integer representing the pixel/character horizontal ratio.
+	 * A float value representing the pixel/character horizontal ratio.
 	 */
 	public static final JRTextExporterParameter CHARACTER_WIDTH = new JRTextExporterParameter("Character Width");
 
@@ -64,7 +64,7 @@ public class JRTextExporterParameter extends JRExporterParameter
 
 
 	/**
-	 * An integer representing the pixel/character horizontal ratio.
+	 * A float value representing the pixel/character horizontal ratio.
 	 */
 	public static final JRTextExporterParameter CHARACTER_HEIGHT = new JRTextExporterParameter("Character Height");
 
