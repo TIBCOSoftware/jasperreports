@@ -40,28 +40,19 @@ jQuery.extend(jive, {
         jasperreports.global.processEvent(jasperreports.global.events.JIVE_INIT.name);
     },
     initInteractiveElement: function(o){
-        if(!jive.elements[o.id]) {
-            jive.elements[o.id] = jQuery.extend({},o);
-            if(!jive.selectors[o.selector]){
-                jive.selectors[o.selector] = o.type;
-            }
-                
-                jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
-                    var jo = jQuery(this);
-                    jive.selectInteractiveElement(jo);
-                });
-        } else {
+        if(jive.elements[o.id]) {
             if(typeof jQuery('div.jrPage').data('events') === 'undefined') {
                 jive.selectors = {};
             }
-            if(!jive.selectors[o.selector]){
-                jive.selectors[o.selector] = o.type;
-                jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
-                    var jo = jQuery(this);
-                    jive.selectInteractiveElement(jo);
-                })
-            }
         }
+        jive.elements[o.id] = jQuery.extend({},o);
+        if(!jive.selectors[o.selector]){
+        	jive.selectors[o.selector] = o.type;
+        }
+    	jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
+    		var jo = jQuery(this);
+    		jive.selectInteractiveElement(jo);
+    	})
     },
     selectInteractiveElement: function(jo){
         jive.selected = {

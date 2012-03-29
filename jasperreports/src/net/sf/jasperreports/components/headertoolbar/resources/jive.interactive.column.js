@@ -43,9 +43,12 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Load dynamic form data
          */
+        it.formatHeaderForm.elements[1].values = [];
          jQuery.each(it.fonts.extension,function(i,v) {
-            it.formatHeaderForm.elements[1].values.push([v,v]);
+        	 it.formatHeaderForm.elements[1].values.push([v,v]);
          });
+
+         it.formatHeaderForm.elements[2].values = [];
         jQuery.each(it.fontSizes,function(i,v) {
             it.formatHeaderForm.elements[2].values.push([v,v]);
         });
@@ -296,7 +299,7 @@ jive.interactive.column.formatHeaderForm = {
     method: 'get',
     elements: [
         {type:'text', id:'headingName', label:'Header text', value:''},
-        {type:'list', id:'headerFonttName', label:'Font', values:[]},
+        {type:'list', id:'headerFontName', label:'Font', values:[]},
         {type:'list', id:'headerFontSize', label:'Font size', values:[]},
         {type:'color', id:'headerFontColor', label:'Header Font Color'},
         {
@@ -312,13 +315,17 @@ jive.interactive.column.formatHeaderForm = {
 
     },
     onShow:function(){
-        var metadata = jive.selected.ie.headingsTabContent;
+        var metadata = jive.selected.ie.headingsTabContent,
+        	inputs = jive.selected.form.inputs;
         //console.info(metadata);
-        metadata.fontBold ? jive.selected.form.inputs['headerFontBold'].set() : jive.selected.form.inputs['headerFontBold'].unset();
-        metadata.fontItalic ?  jive.selected.form.inputs['headerFontItalic'].set() : jive.selected.form.inputs['headerFontItalic'].unset();
-        metadata.fontUnderline ?  jive.selected.form.inputs['headerFontUnderline'].set() : jive.selected.form.inputs['headerFontUnderline'].unset();
-        jive.selected.form.inputs['headerFontAlign'].set(metadata.fontHAlign);
-        jive.selected.form.inputs['headingName'].set(metadata.headingName);
+        metadata.fontBold ? inputs['headerFontBold'].set() : inputs['headerFontBold'].unset();
+        metadata.fontItalic ?  inputs['headerFontItalic'].set() : inputs['headerFontItalic'].unset();
+        metadata.fontUnderline ?  inputs['headerFontUnderline'].set() : inputs['headerFontUnderline'].unset();
+        inputs['headerFontAlign'].set(metadata.fontHAlign);
+        inputs['headingName'].set(metadata.headingName);
+        inputs['headerFontName'].set(metadata.fontName);
+        inputs['headerFontSize'].set(metadata.fontSize);
+        inputs['headerFontColor'].set(metadata.fontColor);
     },
     submit:function(){
         var table = jive.selected.jo.parent('.jrtableframe'),
@@ -333,8 +340,8 @@ jive.interactive.column.formatHeaderForm = {
                     fontBold: jive.selected.form.inputs['headerFontBold'].get(),
                     fontItalic: jive.selected.form.inputs['headerFontItalic'].get(),
                     fontColor: jive.selected.form.inputs['headerFontColor'].get(),
-                    fontName: "DejaVu Sans",
-                    fontSize: 8
+                    fontName: jive.selected.form.inputs['headerFontName'].get(),
+                    fontSize: jive.selected.form.inputs['headerFontSize'].get()
                 }
             };
 
