@@ -238,7 +238,7 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
   </tr>
   <tr>
     <td colspan="5" align="center">
-      <span class="copy">&#169; 2001-2012 Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
+      <span class="copy">&#169; 2001-<script language="javascript">document.write((new Date()).getFullYear())</script> Jaspersoft Corporation <a href="http://www.jaspersoft.com" target="_blank" class="copy">www.jaspersoft.com</a></span>
     </td>
   </tr>
 </table>
