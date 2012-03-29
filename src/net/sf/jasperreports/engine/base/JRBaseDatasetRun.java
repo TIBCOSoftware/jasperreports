@@ -69,6 +69,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	{
 		factory.put(datasetRun, this);
 		
+		uuid = datasetRun.getUUID();
 		datasetName = datasetRun.getDatasetName();
 		parametersMapExpression = factory.getExpression(datasetRun.getParametersMapExpression());
 		connectionExpression = factory.getExpression(datasetRun.getConnectionExpression());
