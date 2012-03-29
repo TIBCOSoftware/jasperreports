@@ -64,7 +64,7 @@
 						jive.runAction({actionName: "redo"}, target, jvt.performRedo);
 						
 					} else if (target.is('.save')) {
-						jive.interactive.column.runAction({actionName: "save"}, target, null);
+						jive.runAction({actionName: "save"}, target, null);
 					}
 				}
 			});
