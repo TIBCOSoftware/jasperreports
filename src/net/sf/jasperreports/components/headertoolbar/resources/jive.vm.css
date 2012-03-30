@@ -1,5 +1,3 @@
-td{border:solid 1px #ccc;vertical-align:center;background:#eee;}
-
 #jive_overlay {
     position:absolute;
     z-index:9;
@@ -156,6 +154,8 @@ td{border:solid 1px #ccc;vertical-align:center;background:#eee;}
 }
 
 .jive_form td {
+	background:#eee;
+	border:solid 1px #ccc;
     padding:0;
     margin:0;
     vertical-align: top;
