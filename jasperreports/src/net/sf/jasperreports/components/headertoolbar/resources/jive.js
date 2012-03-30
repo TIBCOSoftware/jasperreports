@@ -500,7 +500,8 @@ jive.ui.colorpicker = {
         });
         it.jo.on('click touchend','button',function(){
             if(this.innerHTML.indexOf('Select') >= 0) {
-                jive.selected.form.inputs[it.input].set(it.selected.children().eq(0).attr('hexcolor'));
+//            	jive.selected.form.inputs[it.input].set(it.selected.children().eq(0).attr('hexcolor'));
+                jive.selected.form.inputs[it.input].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
                 jive.ui.colorpicker.jo.hide();
                 jive.ui.dialog.jo.show();
             }
@@ -513,5 +514,21 @@ jive.ui.colorpicker = {
         !this.jo && this.setElement();
         this.jo.find('h2').html(this.title);
         this.jo.show().position({of:'div.jrPage', at:'center top', my:'center top', offset: '0 128', collision:'none'});
+    },
+    extractHexColor: function(rgbString) {
+    	var out = "";
+    	if (rgbString && rgbString.toLowerCase().indexOf('rgb') !== -1) {
+	    	var tokens = rgbString.split(','), 
+	    		i, 
+	    		number, 
+	    		conv;
+	    	
+	    	for (i = 0; i < tokens.length; i++) {
+	    		number = parseInt(/\d+/.exec(tokens[i])[0], 10);
+	    		conv = number.toString(16);
+	    		out += (conv.length === 1) ? ('0' + conv) : conv;
+	    	}
+    	}
+    	return out;
     }
 }
