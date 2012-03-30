@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.xml.JRPropertyExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
+import net.sf.jasperreports.engine.xml.UuidPropertyRule;
 import net.sf.jasperreports.engine.xml.XmlConstantPropertyRule;
 
 import org.apache.commons.digester.Digester;
@@ -297,7 +298,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		String columnPattern = "*/column";
 		digester.addObjectCreate(columnPattern, StandardColumn.class);
 		digester.addSetNext(columnPattern, "addColumn");
-		digester.addSetProperties(columnPattern);
+		digester.addSetProperties(columnPattern,
+				//properties to be ignored by this rule
+				new String[]{"uuid"}, 
+				new String[0]);
+		digester.addRule(columnPattern, new UuidPropertyRule("uuid", "UUID"));
 		addExpressionRules(digester, columnPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
@@ -312,7 +317,11 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		String columnGroupPattern = "*/columnGroup";
 		digester.addObjectCreate(columnGroupPattern, StandardColumnGroup.class);
 		digester.addSetNext(columnGroupPattern, "addColumn");
-		digester.addSetProperties(columnGroupPattern);
+		digester.addSetProperties(columnGroupPattern,
+				//properties to be ignored by this rule
+				new String[]{"uuid"}, 
+				new String[0]);
+		digester.addRule(columnGroupPattern, new UuidPropertyRule("uuid", "UUID"));
 		addExpressionRules(digester, columnGroupPattern + "/printWhenExpression", 
 				JRExpressionFactory.BooleanExpressionFactory.class, "setPrintWhenExpression",
 				true);
@@ -531,6 +540,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("column");
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
 					writer.addAttribute("width", column.getWidth());
 					reportWriter.writeProperties(column);
 					reportWriter.writePropertyExpressions(column.getPropertyExpressions());
@@ -559,6 +569,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("columnGroup");
+					writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
 					writer.addAttribute("width", columnGroup.getWidth());
 					reportWriter.writeProperties(columnGroup);
 					reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
