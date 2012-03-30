@@ -90,6 +90,7 @@ import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -416,7 +417,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 
 	private String getActionBaseUrl(JRHtmlExporterContext context) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType("ReportExecution");
+		hyperlink.setLinkType(ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION);
 		return context.getHyperlinkURL(hyperlink);
 	}
 
