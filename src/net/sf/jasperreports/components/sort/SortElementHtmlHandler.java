@@ -35,6 +35,7 @@ import java.util.UUID;
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.sort.actions.SortAction;
+import net.sf.jasperreports.components.sort.actions.SortData;
 import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -209,7 +210,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortDatasetName, sortColumnName, sortColumnType);
 			if (sortField == null) 
 			{
-				velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortDatasetName));
+				SortData sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC);
+				//velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortDatasetName));
+				velocityContext.put("sortHref", getSortLink(context, sortData));
 				velocityContext.put("isSorted", false);
 			}
 			else 
@@ -217,7 +220,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				String[] sortActionData = SortElementUtils.extractColumnInfo(sortField);
 				boolean isAscending = SortElement.SORT_ORDER_ASC.equals(sortActionData[2]);
 				String sortOrder = !isAscending ? SortElement.SORT_ORDER_NONE : SortElement.SORT_ORDER_DESC;
-				velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortDatasetName));
+				SortData sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, sortOrder);
+				//velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortDatasetName));
+				velocityContext.put("sortHref", getSortLink(context, sortData));
 				velocityContext.put("isSorted", true);
 				velocityContext.put("sortSymbolResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC);
 				velocityContext.put("sortSymbolHoverResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC_HOVER : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC_OVER);
@@ -284,6 +289,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
+	/**
+	 * 
+	 *
 	private String getSortLink(JRHtmlExporterContext context, String sortColumnName, String sortColumnType, String sortOrder, String sortTableName) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
 		hyperlink.setLinkType("ReportExecution");
@@ -303,8 +311,44 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"8b9779e9-6eb5-4b3f-a03b-3db4633e8e89\"," +
 				"\"sortColumnName\":\"" + sortColumnName + "\"," +
 				"\"sortColumnType\":\"" + sortColumnType + "\"," +
-				"\"sortOrder\":\"" + sortOrder + "\"," +
-				"\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"}}"
+				"\"sortOrder\":\"" + sortOrder + "\"" +
+				//",\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"" +
+				"}}"
+				)
+			);
+		
+		ReportContext reportContext = context.getExporter().getReportContext();
+		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
+		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
+		
+		hyperlink.setHyperlinkParameters(parameters);
+		
+		return context.getHyperlinkURL(hyperlink);
+	}
+	*/
+	
+	private String getSortLink(JRHtmlExporterContext context, SortData sortData) {
+		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
+		hyperlink.setLinkType("ReportExecution");
+		
+		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
+//		parameters.addParameter(
+//			new JRPrintHyperlinkParameter(
+//				SortElement.REQUEST_PARAMETER_SORT_DATA,
+//				String.class.getName(), 
+//				SortElementUtils.packSortColumnInfo(sortColumnName, sortColumnType, sortOrder))
+//				);
+//		parameters.addParameter(new JRPrintHyperlinkParameter(SortElement.REQUEST_PARAMETER_DATASET_RUN, String.class.getName(), sortTableName));
+		parameters.addParameter(
+			new JRPrintHyperlinkParameter(
+				ReportServlet.REQUEST_PARAMETER_ACTION, 
+				String.class.getName(), 
+				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"" + sortData.getUuid() + "\"," +
+				"\"sortColumnName\":\"" + sortData.getSortColumnName() + "\"," +
+				"\"sortColumnType\":\"" + sortData.getSortColumnType() + "\"," +
+				"\"sortOrder\":\"" + sortData.getSortOrder() + "\"" +
+				//",\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"" +
+				"}}"
 				)
 			);
 		
