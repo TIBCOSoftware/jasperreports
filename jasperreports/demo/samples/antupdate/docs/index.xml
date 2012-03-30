@@ -240,7 +240,7 @@ Then uncomment the line
 <!--
 <updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
 -->]]></pre>
-in the <code>update1</code> target and run the <code>&gt; ant clean test</code> command. The <code>build</code> directory will be once again created, then the <code>update1</code> target will be 
+in the <code>update1</code> target and run again the <code>&gt; ant test</code> command. The <code>build</code> directory will be cleaned up, then the <code>update1</code> target will be 
 executed. The updated JRXMLs will be saved in the destination folder. Then the <code>update1</code> target will be executed, but because there are no newer default updates to be performed, this 
 target will do nothing. It won't override changes performed by the <code>update1</code> target. When opening the updated JRXMLs we'll see that the 
 <code>net.sf.jasperreports.export.legacy.border.offset</code> property added with <code>update1</code> is still there, after the consequent execution of <code>update2</code>.

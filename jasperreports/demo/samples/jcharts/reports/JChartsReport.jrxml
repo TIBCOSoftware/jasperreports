@@ -6,8 +6,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
 		name="JChartsReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" scriptletClass="JChartsScriptlet">
-	<variable name="ChartImage" class="java.awt.Image" calculation="System">
-	</variable>
+	<variable name="ChartImage" class="java.awt.Image" calculation="System"/>
 	<title>
 		<band height="742">
 			<line>
