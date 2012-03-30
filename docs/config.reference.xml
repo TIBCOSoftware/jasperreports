@@ -3388,7 +3388,7 @@ If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowe
   
   <configProperty name="net.sf.jasperreports.export.xls.write.header">
     <description>
-Property that specifies whether the export header (the column names) should be written or not.    
+Property that specifies whether the export header (the column names) should be written or not, when using the XLS metadata exporter.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
     <default>false</default>
