@@ -1,6 +1,5 @@
 jQuery.extend(jive, {
     init:function(settings){
-        console.info('jive init');
         jQuery.extend(jive,settings);
         /*
          * Init event handlers for viewer. One time event?
@@ -79,14 +78,14 @@ jQuery.extend(jive, {
         jive.ui.overlay.show(dim);
         jive.ui.marker.show(dim);
         jive.ui.foobar.show(dim);
-        jive.ui.foobar.showing && jive.ui.foobar.showing.hide();
+        jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
     },
     hide: function(items){
         if(!items){
             jive.ui.marker.jo && jive.ui.marker.jo.hide();
             jive.ui.overlay.jo && jive.ui.overlay.jo.hide();
             jive.ui.foobar.jo && jive.ui.foobar.jo.hide();
-            jive.ui.foobar.showing && jive.ui.foobar.showing.hide();
+            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
         } else {
             jQuery.each(items,function(i,v){
                 jive.ui[v].jo && jive.ui[v].jo.hide();
@@ -172,7 +171,7 @@ jive.ui.overlay = {
 jive.ui.foobar = {
     jo: null,
     current: null,
-    showing: null,
+    dropMenu: null,
     cache: {},
     menus: {},
     setElement: function(selector){
@@ -186,12 +185,14 @@ jive.ui.foobar = {
             } else {
                 if(jo.attr('menu')){
                     var menu = jive.ui.foobar.menus[type][jo.attr('menu')];
-                    menu.show().position({
+                    menu.jo.show().position({
                         of: jQuery(this),
                         my: 'left top',
-                        at: 'left bottom'
+                        at: 'left bottom',
+                        collision: 'none',
+                        offset: '0 2px'
                     });
-                    jive.ui.foobar.showing = menu;
+                    jive.ui.foobar.dropMenu = menu;
                 }
             }
         });
@@ -200,6 +201,7 @@ jive.ui.foobar = {
     show:function(dim){
         !this.jo && this.setElement('#jive_foobar');
         this.render(jive.interactive[jive.selected.ie.type].actions);
+        jive.interactive[jive.selected.ie.type].onToolbarShow();
         this.jo.show();
 
         var wdiff = dim.w - this.jo.width();
@@ -220,7 +222,7 @@ jive.ui.foobar = {
                 if(v.actions) {
                     it.menus[jive.selected.ie.type] = it.menus[jive.selected.ie.type] || {};
                     htm = it.createMenu(k,v.actions);
-                    it.menus[jive.selected.ie.type][k] = jQuery(htm).appendTo('#jive_menus');
+                    it.menus[jive.selected.ie.type][k] ={jo:jQuery(htm).appendTo('#jive_menus')};
                 }
                 tmpl[1] = k;
                 tmpl[3] = v.fn ? 'fn="'+v.fn+'"' : v.actions ? 'menu="'+k+'"' : '';
@@ -237,15 +239,17 @@ jive.ui.foobar = {
     },
     createMenu: function(name, items){
         var it = this;
-        var htm = '<ul class="pmenu" style="display:none;">';
+        var htm = '<ul class="pmenu" label="'+name+'">';
         jQuery.each(items,function(k,v){
-            var attr = v.fn ? 'fn="'+v.fn+'"' : '';
-            attr += v.arg ? " data-args='"+v.arg+"'" : "";
-            htm += '<li class="pmenuitem" '+attr+'>'+k;
-            if(v.actions) {
-                htm += it.createMenu(k,v.actions);
+            if(!v.disabled) {
+                var attr = v.fn ? 'fn="'+v.fn+'"' : '';
+                attr += v.arg ? " data-args='"+v.arg+"'" : "";
+                htm += '<li class="pmenuitem" '+attr+'>'+k;
+                if(v.actions) {
+                    htm += it.createMenu(k,v.actions);
+                }
+                htm += '</li>';
             }
-            htm += '</li>';
         });
         htm += '</ul>';
 

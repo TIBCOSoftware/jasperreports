@@ -70,10 +70,13 @@
     margin:0 !important;
 }
 
-.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;text-align:left;list-style-type: none;width:120px;}
+.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;text-align:left;list-style-type: none;width:120px;display:none;}
 .pmenuitem {padding:8px 4px;cursor:pointer;color:#333;}
 .pmenuitem:hover {background:#3366ff;color:#fff;}
-
+/*
+.pmenuitem > .pmenu {display:none;}
+.pmenuitem:hover > .pmenu {display:block;}
+*/
 .tabContainer {
     position:absolute;
     right:8px;
