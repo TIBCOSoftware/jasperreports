@@ -2547,7 +2547,7 @@ Specifies whether row spans should be collapsed and merging cells across rows sh
   
   <configProperty name="net.sf.jasperreports.export.xls.column.name">
     <description>
-Represents the name for the column that should appear in the XLS export. It must be one of the values in 
+Represents the name for the column that should appear in the metadata-based Excel export. It must be one of the values in 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">PROPERTY_COLUMN_NAMES_PREFIX</api>, 
 if provided.    
     </description>
@@ -2562,7 +2562,7 @@ if provided.
   
   <configProperty name="net.sf.jasperreports.export.xls.column.names">
     <description>
-Properties having this prefix contain comma-separated column names. 
+Properties having this prefix contain comma-separated column names used in the metadata-based Excel export. 
 <br/>
 The order of the columns is important and for accurate results they should be in the same order as the original columns.   
     </description>
@@ -2667,7 +2667,8 @@ This property is by default not set (<code>false</code>).
   <configProperty name="net.sf.jasperreports.export.xls.data">
     <description>
 Property that specifies which value to associate with 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api>.  
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+in the metadata-based Excel export.  
 <br/>
 By default this value is represented by the text value of the report element this property is assigned to.    
     </description>
@@ -3145,7 +3146,7 @@ on the current row.
     <description>
 Property that specifies whether the value associated with 
 <api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
-should be repeated or not when it is missing.    
+should be repeated or not when it is missing. This property is available for the metadata-based Excel export.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE</api>
     <default>false</default>
@@ -3388,7 +3389,7 @@ If set to <code>false</code>, text wrapping is forbidden, otherwise it is allowe
   
   <configProperty name="net.sf.jasperreports.export.xls.write.header">
     <description>
-Property that specifies whether the export header (the column names) should be written or not, when using the XLS metadata exporter.    
+Property that specifies whether the export header (the column names) should be written or not, in the metadata-based Excel export.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
     <default>false</default>
