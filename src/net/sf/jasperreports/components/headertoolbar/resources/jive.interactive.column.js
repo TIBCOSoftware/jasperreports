@@ -42,18 +42,21 @@ jive.interactive.column = jive.interactive.column || {
             m[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
         }
         it.allColumns = allColumns;
-        console.info(m);
         /*
          * Load dynamic form data
          */
          it.formatHeaderForm.elements[1].values = [];
+         it.formatCellsForm.elements[0].values = [];
          jQuery.each(it.fonts.extension,function(i,v) {
         	 it.formatHeaderForm.elements[1].values.push([v,v]);
+             it.formatCellsForm.elements[0].values.push([v,v]);
          });
 
         it.formatHeaderForm.elements[2].values = [];
+        it.formatCellsForm.elements[1].values = [];
         jQuery.each(it.fontSizes,function(i,v) {
             it.formatHeaderForm.elements[2].values.push([v,v]);
+            it.formatCellsForm.elements[1].values.push([v,v]);
         });
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
@@ -99,7 +102,6 @@ jive.interactive.column = jive.interactive.column || {
     },
     getInteractiveElementFromProxy: function(cell){
         var clss = cell.attr('class').split(' ');
-        console.info(clss[1].substring(4));
         return cell.parent().find('div[data-popupcolumn="' + clss[1].substring(4) + '"]');
     },
     getElementSize: function(){
@@ -196,6 +198,232 @@ jive.interactive.column = jive.interactive.column || {
     setDynamicProperties: function (obj) {
     	jive.interactive.column.fontSizes = obj.fontSizes;
     	jive.interactive.column.fonts = obj.fonts;
+    },
+    toggleCurrencyFormat: function(){
+        var it = this;
+        jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), jive.selected.form.inputs['currencyBtn'].selected));
+            opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), jive.selected.form.inputs['currencyBtn'].selected));
+        });
+    },
+    togglePercentageFormat: function(){
+        var it = this;
+        jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            opt.text(it.numberFormat.addRemovePercentageForNumber(opt.text(), jive.selected.form.inputs['percentageBtn'].selected));
+            opt.val(it.numberFormat.addRemovePercentage(opt.val(), jive.selected.form.inputs['percentageBtn'].selected));
+        });
+    },
+    toggleCommaFormat: function(){
+        var it = this;
+        jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            opt.text(it.numberFormat.addRemoveThousandsSeparator(opt.text(), jive.selected.form.inputs['commaBtn'].selected));
+            opt.val(it.numberFormat.addRemoveThousandsSeparator(opt.val(), jive.selected.form.inputs['commaBtn'].selected));
+        });
+    },
+    addDecimal: function(){
+        var it = this;
+        jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), true));
+            opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), true));
+        });
+    },
+    remDecimal: function(){
+        var it = this;
+        jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            opt.text(it.numberFormat.addRemoveDecimalPlace(opt.text(), false));
+            opt.val(it.numberFormat.addRemoveDecimalPlace(opt.val(), false));
+        });
+    },
+    numberFormat: {
+        symbols: {
+            currency: '\u00A4'
+        },
+        regex: {
+            numberPart: /([\d|#]+(?!,))/,
+            decimalPart: /(\.[\d|#]+)/,
+            numericChar: /[\d|#]/
+        },
+        addRemoveDecimalPlace: (function () {
+            return function (exp, booleanAdd) {
+                var pozToken = exp.split(';')[0],
+                    negToken = exp.split(';')[1];
+
+                if (booleanAdd) {
+                    exp = addDecimalPlaceToToken(pozToken);
+                    if (negToken) {
+                        exp = exp + ";" + addDecimalPlaceToToken(negToken);
+                    }
+                    return exp;
+                } else {
+                    exp = removeDecimalPlaceFromToken(pozToken);
+                    if (negToken) {
+                        exp = exp + ";" + removeDecimalPlaceFromToken(negToken);
+                    }
+                    return exp;
+                }
+            };
+
+            function addDecimalPlaceToToken (token) {
+                var dotIndex = token.indexOf('.');
+
+                if (dotIndex != -1) { // already have decimals
+                    var decimalPart = jive.interactive.column.numberFormat.regex.decimalPart.exec(token)[1];
+
+                    return token.replace(decimalPart, decimalPart + '0');
+
+                } else { // no decimals
+                    var numberPart = jive.interactive.column.numberFormat.regex.numberPart.exec(token)[1];
+
+                    return token.replace(numberPart, numberPart + '.0');
+                }
+            }
+
+            function removeDecimalPlaceFromToken (token) {
+                var result = token,
+                    dotIndex = result.indexOf('.');
+
+                if (dotIndex != -1) {
+                    var decimalPart = jive.interactive.column.numberFormat.regex.decimalPart.exec(result)[1];
+
+                    if (decimalPart.length > 2) {	// remove last decimal place
+                        result = result.replace(decimalPart, decimalPart.substring(0, decimalPart.length - 1));
+                    } else {	// remove all (dot and decimal place)
+                        result = result.replace(decimalPart, '');
+                    }
+                }
+
+                return result;
+            }
+        }()),
+
+        addRemoveThousandsSeparator: (function () {
+            return function (exp, booleanAdd) {
+                var indexOfComma = exp.indexOf(','),
+                    pozToken = exp.split(';')[0],
+                    negToken = exp.split(';')[1];
+
+                if (booleanAdd) {
+                    if (indexOfComma == -1) {	// add
+                        exp = addThousandsSeparatorToToken(pozToken);
+                        if (negToken) {
+                            exp = exp + ';' + addThousandsSeparatorToToken(negToken);
+                        }
+                    }
+                } else {
+                    if (indexOfComma != -1) {	// remove
+                        exp = removeThousandsSeparatorFromToken(pozToken);
+                        if (negToken) {
+                            exp = exp + ';' + removeThousandsSeparatorFromToken(negToken);
+                        }
+                    }
+                }
+                return exp;
+            };
+
+            function addThousandsSeparatorToToken (token) {
+                var indexOfNumericChar = token.indexOf(jive.interactive.column.numberFormat.regex.numericChar.exec(token)),
+                    firstPart = token.substring(0, indexOfNumericChar + 1);
+
+                return firstPart + ',' + token.substring(firstPart.length);;
+            }
+
+            function removeThousandsSeparatorFromToken (token) {
+                return token.replace(',','');
+            }
+        }()),
+
+        addRemovePercentage: (function () {
+            return function (exp, booleanAdd) {
+                var indexOfPercent = exp.indexOf('%'),
+                    pozToken = exp.split(';')[0],
+                    negToken = exp.split(';')[1];
+
+                if (booleanAdd) {	// add
+                    if (indexOfPercent == -1) {
+                        exp = addPercentageToToken(pozToken);
+                        if (negToken) {
+                            exp = exp + ";" + addPercentageToToken(negToken);
+                        }
+                    }
+                } else {	// remove
+                    if (indexOfPercent != -1) {
+                        exp = removePercentageFromToken(pozToken);
+                        if (negToken) {
+                            exp = exp + ";" + removePercentageFromToken(negToken);
+                        }
+                    }
+                }
+                return exp;
+            };
+
+            function addPercentageToToken (token) {
+                return token + ' %';
+            };
+
+            function removePercentageFromToken (token) {
+                return token.substring(0, token.length - 2);
+            };
+        }()),
+
+        /**
+         * @param negPattern must be in form of: pozSubPattern;negSubPattern
+         */
+        applyNegativeNumberPattern: function (negPattern) {
+            var pozPatternRegex = new RegExp(negPattern.split(';')[0], 'g'),
+                exp = jive.interactive.column.numberFormatExpression || '###0',
+                pozToken = exp.split(';')[0];
+
+            exp = negPattern.replace(pozPatternRegex, pozToken);
+            return exp;
+        },
+
+        addRemovePercentageForNumber: function (numberExp, booleanAdd) {
+            var numberPart = jive.interactive.column.numberFormat.regex.numberPart.exec(numberExp)[1];
+
+            if (booleanAdd) {
+                if (numberExp.indexOf('%') == -1 && numberPart.indexOf('00') == -1) {
+                    numberExp = numberExp.replace(numberPart, numberPart + "00");
+                    numberExp = numberExp + ' %';
+                }
+            } else {
+                if (numberExp.indexOf('%') != -1 && numberPart.indexOf('00') != -1) {
+                    numberExp = numberExp.replace(numberPart, numberPart.substring(0, numberPart.length - 2));
+                    numberExp = numberExp.substring(0, numberExp.length - 2);
+                }
+            }
+
+            return numberExp;
+        },
+
+        addRemoveCurrencySymbol: function(exp, booleanAdd) {
+            var cs = jive.interactive.column.numberFormat.symbols.currency,
+                indexOfCS = exp.indexOf(cs),
+                pozToken = exp.split(';')[0],
+                negToken = exp.split(';')[1];
+
+            if (booleanAdd) {
+                if (indexOfCS == -1) {
+                    exp = cs + " " + pozToken;
+                    if (negToken) {
+                        exp = exp + ";" + cs + " " + negToken;
+                    }
+                }
+            } else {
+                if (indexOfCS != -1) {
+                    exp = pozToken.substring(2);
+                    if (negToken) {
+                        exp = exp + ";" + negToken.substring(2);
+                    }
+                }
+            }
+
+            return exp;
+        }
     }
 }
 
@@ -304,13 +532,23 @@ jive.interactive.column.formatHeaderForm = {
         {type:'list', id:'headerFontSize', label:'Font size', values:[]},
         {type:'color', id:'headerFontColor', label:'Header Font Color'},
         {
-            type:'checkbox',
-            ids:['headerFontBold','headerFontItalic','headerFontUnderline'],
+            type: 'buttons',
             label:'Text format',
-            values:['bold','italic','underline'],
-            bIcons:['boldIcon','italicIcon','underlineIcon']
+            items: [
+                {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
+                {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
+                {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
+            ]
         },
-        {type:'radio', id:'headerFontAlign', label:'Text alignment', values:['Left','Center','Right'], bIcons:['leftIcon','centerIcon','rightIcon']}
+        {
+            type: 'buttons',
+            label:'Text alignment',
+            items: [
+                {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
+                {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
+                {type:'radio',id:'headerFontAlign',value:'Right',bIcon:'rightIcon'}
+            ]
+        }
     ],
     onCreate:function(jo){
 
@@ -318,10 +556,11 @@ jive.interactive.column.formatHeaderForm = {
     onShow:function(){
         var metadata = jive.selected.ie.headingsTabContent,
         	inputs = jive.selected.form.inputs;
-        //console.info(metadata);
+
         metadata.fontBold ? inputs['headerFontBold'].set() : inputs['headerFontBold'].unset();
         metadata.fontItalic ?  inputs['headerFontItalic'].set() : inputs['headerFontItalic'].unset();
         metadata.fontUnderline ?  inputs['headerFontUnderline'].set() : inputs['headerFontUnderline'].unset();
+
         inputs['headerFontAlign'].set(metadata.fontHAlign);
         inputs['headingName'].set(metadata.headingName);
         inputs['headerFontName'].set(metadata.fontName);
@@ -357,23 +596,71 @@ jive.interactive.column.formatCellsForm = {
     name: 'formatCells',
     method: 'get',
     elements: [
-        {type:'list', id:'cellFontName', label:'Font', values:[]},
-        {type:'list', id:'cellFontSize', label:'Font size', values:[]},
-        {type:'color', id:'cellFontColor', label:'Cell Font Color'},
+        {type:'list', id:'cellsFontName', label:'Font', values:[]},
+        {type:'list', id:'cellsFontSize', label:'Font size', values:[], freeText: true},
+        {type:'color', id:'cellsFontColor', label:'Cell Font Color'},
         {
-            type:'checkbox',
-            ids:['cellFontBold','cellFontItalic','cellFontUnderline'],
+            type: 'buttons',
             label:'Text format',
-            values:['bold','italic','underline'],
-            bIcons:['boldIcon','italicIcon','underlineIcon']
+            items: [
+                {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
+                {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
+                {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
+            ]
         },
-        {type:'radio', id:'cellFontAlign', label:'Text alignment', values:['left','center','right'], bIcons:['leftIcon','centerIcon','rightIcon']}
+        {
+            type: 'buttons',
+            label:'Text alignment',
+            items: [
+                {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
+                {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
+                {type:'radio',id:'cellsFontAlign',value:'Right',bIcon:'rightIcon'}
+            ]
+        },
+        /*
+         formatPatternLabel,
+         formatPatternSelector,
+         */
+        {type:'list', id:'formatPattern', label:'Format Pattern', values:[]},
+        {
+            type:'buttons',
+            items: [
+                {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
+                {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
+                {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
+                {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
+                {type:'action',id:'decreaseDecimalsBtn',fn:'remDecimal',value:'',bIcon:'decreaseDecimalsIcon'}
+            ]
+        }
     ],
     onCreate:function(jo){
 
     },
     onShow:function(){
+        var metadata = jive.selected.ie.valuesTabContent,
+            inputs = jive.selected.form.inputs;
 
+        metadata.fontBold ? inputs['cellsFontBold'].set() : inputs['cellsFontBold'].unset();
+        metadata.fontItalic ?  inputs['cellsFontItalic'].set() : inputs['cellsFontItalic'].unset();
+        metadata.fontUnderline ?  inputs['cellsFontUnderline'].set() : inputs['cellsFontUnderline'].unset();
+
+        inputs['cellsFontAlign'].set(metadata.fontHAlign);
+        inputs['cellsFontName'].set(metadata.fontName);
+        inputs['cellsFontSize'].set(metadata.fontSize);
+        inputs['cellsFontColor'].set(metadata.fontColor);
+
+        var htm = [];
+        if(typeof jive.selected.ie.formatPatternLabel === 'string') {
+            jQuery.each(jive.selected.ie.formatPatternSelector,function(i,o){
+                htm.push('<option value="'+o.key+'">'+o.val+'</option>');
+            })
+            jQuery('#formatPattern').html(htm.join(''));
+            jive.selected.form.jo.find('tr').eq(5).show();
+            jive.selected.ie.formatPatternLabel.indexOf('Number') >= 0 ?
+                jive.selected.form.jo.find('tr').eq(6).show() : jive.selected.form.jo.find('tr').eq(6).hide();
+        } else {
+            jive.selected.form.jo.find('tr').gt(5).hide();
+        }
     },
     submit:function(){
 

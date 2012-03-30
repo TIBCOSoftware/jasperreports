@@ -261,7 +261,7 @@ jive.ui.dialog = {
         var jo, input;
 
         it.jo = jQuery(selector);
-        it.jo.draggable();
+        it.jo.draggable({handle: 'div.dialogHeader'});
         /*
          * Cache jquery objects
          */
@@ -277,6 +277,7 @@ jive.ui.dialog = {
             jo.addClass('active');
             jive.selected.form.jo.hide();
             jive.selected.form = jive.ui.forms[jo.data('form')];
+            jive.selected.form.onShow();
             jive.selected.form.jo.show();
         });
         it.body.on('click touchend','input, select',function(e){
@@ -285,13 +286,18 @@ jive.ui.dialog = {
         it.body.on('click touchend','.jive_inputbutton',function(){
             jo = jQuery(this);
             input = jive.selected.form.inputs[jo.attr('name')];
-            switch(jo.parent().attr('type')) {
+            switch(jo.attr('type')) {
                 case "radio":
                     input.set(jo.attr('value'));
                     break;
                 case "checkbox":
                     input.toggle();
             }
+            input.onClick();
+        });
+        it.body.on('click touchend','.jive_freeTextButton',function(){
+            jo = jQuery(this);
+            jo.parent().next().find('input, select').toggle();
         });
         it.body.on('click touchend','.colorbar',function(){
             it.jo.hide();
@@ -299,12 +305,16 @@ jive.ui.dialog = {
         });
         jQuery('#dialogOk').bind('click touchend',function(e){
             jive.ui.dialog.jo.hide();
-            it.body.children().appendTo('#jive_forms').hide();
+            it.body.children().each(function(){
+                jQuery(this).appendTo('#jive_forms').hide();
+            });
             jive.selected.form.submit();
         });
         jQuery('#dialogCancel').bind('click touchend',function(e){
             jive.ui.dialog.jo.hide();
-            it.body.children().appendTo('#jive_forms').hide();
+            it.body.children().each(function(){
+                jQuery(this).appendTo('#jive_forms').hide();
+            });
         });
     },
     show: function(title, forms, formIndex){
@@ -369,11 +379,17 @@ jive.ui.forms = {
                 }
             }
             if(e.type == 'list') {
-                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><select id="'+e.id+'" name="'+e.id+ '">');
+                var penIcon = '';
+                var freeTextInput = '';
+                if(e.freeText) {
+                    penIcon = '<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>';
+                    freeTextInput = '<input id="" type="text" name="" value="" style="display:none;" />';
+                }
+                tb.push('<td>'+penIcon+'<div class="wrapper">'+label+'</div></td><td><div class="wrapper"><select id="'+e.id+'" name="'+e.id+ '">');
                 jQuery.each(e.values,function(i,options){
                     tb.push('<option value="'+options[0]+'">'+options[1]+'</option>');
                 })
-                tb.push('</select></div></td>');
+                tb.push('</select>'+freeTextInput+'</div></td>');
                 parms.inputs[e.id] = {
                     set:function(v) {
                         jQuery('select[name="'+e.id+'"]').val(v);
@@ -383,51 +399,65 @@ jive.ui.forms = {
                     }
                 }
             }
-            if(e.type == 'checkbox' || e.type == 'radio') {
-                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><div class="buttonbar" type="'+e.type+'">');
-                pw = 100 / e.values.length;
-                jQuery.each(e.values,function(i,v){
-                    inputName = e.type == 'radio' ? e.id : e.ids[i];
-                    form.append('<input type="hidden" name="'+inputName+'" value="" />');
-                    tb.push('<div class="jive_inputbutton" name="'+inputName+'" value="'+v+'" style="width:'+pw+'%;"><div class="jive_inputbutton_wrapper '+(i==0?'first':'')+'">');
-                    if(e.bIcons) tb.push('<span class="jive_bIcon '+e.bIcons[i]+'"></span>');
-                    if(e.bLabels) tb.push('<span class="jive_bLabel">'+e.bLabels[i]+'</span>');
+            if(e.type == 'buttons') {
+                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><div class="buttonbar">');
+                pw = 100 / e.items.length;
+                jQuery.each(e.items,function(i,v){
+                    !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
+
+                    tb.push('<div class="jive_inputbutton" name="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+'%;"><div class="jive_inputbutton_wrapper '+(i==0?'first':'')+'">');
+                    v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
+                    v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
                     tb.push('</div></div>');
-                    if(e.type == 'checkbox') {
-                        parms.inputs[e.ids[i]] = {
+
+                    if(v.type == 'checkbox') {
+                        parms.inputs[v.id] = {
                             selected: false,
                             set:function() {
-                                jQuery('input[name="'+e.ids[i]+'"]').val('true');
-                                jQuery('div.jive_inputbutton[name="'+e.ids[i]+'"]').addClass('selected');
+                                jQuery('input[name="'+v.id+'"]').val('true');
+                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').addClass('selected');
                                 this.selected = true;
                             },
                             unset:function() {
-                                jQuery('input[name="'+e.ids[i]+'"]').val('false');
-                                jQuery('div.jive_inputbutton[name="'+e.ids[i]+'"]').removeClass('selected');
+                                jQuery('input[name="'+v.id+'"]').val('false');
+                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
                                 this.selected = false;
                             },
                             toggle:function(){
                                 this.selected ? this.unset() : this.set();
                             },
                             get:function(){
-                                return jQuery('input[name="'+e.ids[i]+'"]').val();
+                                return jQuery('input[name="'+v.id+'"]').val();
+                            },
+                            onClick: function(){
+                                v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                            }
+                        }
+                    }
+                    if(v.type == 'radio' && !parms.inputs[v.id]) {
+                        parms.inputs[v.id] = {
+                            set:function(val) {
+                                jQuery('input[name="'+v.id+'"]').val(val);
+                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
+                                jQuery('div.jive_inputbutton[name="'+v.id+'"][value="'+val+'"]').addClass('selected');
+                            },
+                            get:function(){
+                                return jQuery('input[name="'+v.id+'"]').val();
+                            },
+                            onClick: function(){
+                                v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                            }
+                        }
+                    }
+                    if(v.type == 'action'){
+                        parms.inputs[v.id] = {
+                            onClick: function(){
+                                jive.interactive[jive.selected.ie.type][v.fn]();
                             }
                         }
                     }
                 })
                 tb.push('</div></div></td>');
-                if(e.type == 'radio') {
-                    parms.inputs[e.id] = {
-                        set:function(v) {
-                            jQuery('input[name="'+e.id+'"]').val(v);
-                            jQuery('div.jive_inputbutton[name="'+e.id+'"]').removeClass('selected');
-                            jQuery('div.jive_inputbutton[name="'+e.id+'"][value="'+v+'"]').addClass('selected');
-                        },
-                        get:function(){
-                            return jQuery('input[name="'+e.id+'"]').val();
-                        }
-                    }
-                }
             }
             if(e.type == 'color') {
                 form.append('<input type="hidden" name="'+e.id+'" value="" />');
@@ -463,19 +493,18 @@ jive.ui.colorpicker = {
         var it = this;
         var jo;
         it.jo = jQuery('#jive_colorpicker');
-        it.jo.draggable();
+        it.jo.draggable({handle: 'div.dialogHeader'});
         it.jo.on('click touchend','div.colorpick',function(){
             it.selected && it.selected.toggleClass('selected');
             it.selected = jQuery(this).parent().toggleClass('selected');
         });
         it.jo.on('click touchend','button',function(){
             if(this.innerHTML.indexOf('Select') >= 0) {
-                console.info(it.selected.children().eq(0).attr('hexcolor'));
                 jive.selected.form.inputs[it.input].set(it.selected.children().eq(0).attr('hexcolor'));
                 jive.ui.colorpicker.jo.hide();
                 jive.ui.dialog.jo.show();
             }
-            if(this.innerHTML.indexOf('Cancel') >= 0) jive.ui.colorpicker.jo.hide();
+            if(this.innerHTML.indexOf('Cancel') >= 0) jive.ui.colorpicker.jo.hide() && jive.ui.dialog.jo.show();
         });
     },
     show: function(title,input) {
@@ -483,6 +512,6 @@ jive.ui.colorpicker = {
         this.input = input;
         !this.jo && this.setElement();
         this.jo.find('h2').html(this.title);
-        this.jo.show().position({of:'div.jrPage', at:'center top', my:'center top', offset: '0 128'});
+        this.jo.show().position({of:'div.jrPage', at:'center top', my:'center top', offset: '0 128', collision:'none'});
     }
 }
