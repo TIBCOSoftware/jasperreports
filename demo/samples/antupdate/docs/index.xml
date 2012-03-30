@@ -20,136 +20,234 @@ or to bring them up-to-date with respect to the JasperReports Schema Reference.
     <since>3.7.1</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
     <content>
-[Under Construction]
-	<!--
-The JRXML files represent the source files for static report templates. These report templates need to be 
-prepared for use at runtime by compiling them into <code>*.jasper</code> files, which are basically serialized 
-<api href="net/sf/jasperreports/engine/JasperReport.html">JasperReport</api> objects, ready for filling with data.
+<subtitle name="overview">The Ant Update Task</subtitle>
 <br/>
 <br/>
-Report template source files having the <code>*.jrxml</code> file extensions are compiled into serialized object files 
-having the <code>*.jasper</code> file extension, just like Java source files having the <code>*.java</code> file extension 
-are transformed into Java bytecode binary files with the <code>*.class</code> file extension.
+A problem that may occur in applications with several report templates stored in the same resource repository is the amount of time required to modify each report template individually when 
+the same change has to be applied for all reports. Manual modification is not the best practice in this case, the entire process should be automatized instead.
 <br/>
-The transformation of <code>*.jrxml</code> files into <code>*.jasper</code> files should be part of the application 
-build process, just as the compilation of <code>*.java</code> files into <code>*.class</code> files is.
-In the majority of cases, when the report templates are static and do not change at runtime (only data feed into them changes), 
-there is no point in deploying source JRXML files  with the application.
+Based on the fact that JRXML templates can be read into <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects that can be easily modified and then saved 
+again as JRXML templates, we only need to know where the initial JRXML templates are located, and which changes are to be applied, in order to process a bulk update on all these templates.
 <br/>
-After all, when deploying a Java application, you deploy <code>*.class</code> files, packaged up in JARs, not source <code>*.java</code> files. 
-The same technique is applicable to JR report template files, where compiled <code>*.jasper</code> files should be created 
-at application built time and then deployed as part of the application classpath as resources.
-<br/>
-<br/>
-The JasperReports library provides a built-in Ant task for compiling source JRXML report template files into <code>*.jasper</code> files. 
-This task is represented by the <api href="net/sf/jasperreports/ant/JRAntCompileTask.html">JRAntCompilerTask</api> task and 
-works very similar to the Ant built-in <a href="http://ant.apache.org/manual/CoreTasks/javac.html">Javac</a> task.
-<br/>
-<br/>
-This task scans source folders and looks up for report template files (usually having the JRXML file extension) 
-and compiles them into <code>*.jasper</code> files which are placed into a destination folder hierarchy.
-<br/>
-The destination folder tree is similar to the source folder tree, meaning that the relative location of source files from 
-the root source folder is preserved for the resulting <code>*.jasper</code> files.
+A very good tool for operations such as scanning source folders for JRXML templates, triggering methods in java objects and performing batch modifications is the Apache Ant build tool. To accomplish 
+our task described above, we can create an Ant task able to execute all the necessary steps. JasperReports provides the built-in task 
+<api href="net/sf/jasperreports/ant/JRAntUpdateTask.html">JRAntUpdateTask</api> for batch-updating JRXML report designs, that:
+<ul>
+<li>Has to know the location of the source report templates. This location should be passed as a valid <code>org.apache.tools.ant.types.Path</code> object and is mandatory.<br/> <br/></li>
+<li>Has to know where to save the updated report templates. This output directory should be passed as a valid <code>java.io.File</code> object. If not set, the 
+base directory set in the build.xml file will be considered instead.<br/> <br/></li>
+<li>Once the source location and destination folder are specified, the next step is to identify the individual report templates that need to be updated. The source folders are scanned for 
+files with the appropriate <code>.jrxml</code> extension, ready to be updated. The update decision is based on timestamp: only JRXML files that either have no corresponding file in the 
+destination directory, or their corresponding report design destination file is older than the source file, will be updated. They will be also updated if a given 
+<api href="net/sf/jasperreports/engine/util/ReportUpdater.html">ReportUpdater</api> is added to the task.<br/> <br/></li>
+<li>After report templates are identified and loaded into <api href="net/sf/jasperreports/engine/design/JasperDesign.html">JasperDesign</api> objects, the update operations are applied on 
+each of them, then the modified report designs will be saved in the destination directory.<br/> <br/></li>
+</ul>
+<subtitle name="updaters">Report Updaters</subtitle>
 <br/>
 <br/>
-Similar to the <code>Javac</code> task, the source folders can be specified using either the <code>srcdir</code> attribute 
-of the task (when there is only one root source folder) or using a nested <code>&lt;src&gt;</code> tag (when source files 
-are scattered across multiple paths).
-<br/>
-<br/>
-Open the <code>build.xml</code> file in the current sample and notice how the custom Ant task called <code>jrc</code> is defined:
-<br/>
-<br/>
+Changes could be very easily applied on report designs using specific <api href="net/sf/jasperreports/engine/util/ReportUpdater.html">ReportUpdater</api> implementation. Classes that 
+inherit from the <api href="net/sf/jasperreports/engine/util/ReportUpdater.html">ReportUpdater</api> interface should implement the 
 <pre><![CDATA[
+public JasperDesign update(JasperDesign jasperDesign)]]></pre>
+method that performs specific modifications on the <code>jasperDesign</code> object. The <api href="net/sf/jasperreports/ant/JRAntUpdateTask.html">JRAntUpdateTask</api> accepts any 
+number of report updaters to be added into its updaters list. The update operations will be applied sequential in the same order as the report updaters were added to the list. An 
+example of report updater implementation is the <api href="net/sf/jasperreports/engine/util/LegacyBorderOffsetUpdater.html">LegacyBorderOffsetUpdater</api> used in this sample. The 
+updater sets the <code>net.sf.jasperreports.export.legacy.border.offset</code> property to <code>true</code>.
+<br/>
+<br/>
+<subtitle name="sample">The Ant Update Sample</subtitle>
+<br/>
+<br/>
+First, let's take a look at how the <code>demo/samples/antupdate</code> sample is structured, to see if this structure is conserved after reports are updated.
+<br/> 
+The <code>reports</code> directory is the root for the following tree:
+<pre><![CDATA[
+                               reports
+                                  |
+                                 com
+                               /  |  \
+                            bar   |   foo
+                             |    |    |
+                BarReport.jrxml   |   FooReport.jrxml
+                                  |
+                             ignoreme.txt]]></pre>
+One can notice the presence of the <code>ignoreme.txt</code> file in the <code>reports/com</code> folder. This is not a report template, hence it will be not considered for update.  
+<br/>
+Both <code>BarReport.jrxml</code> and <code>FooReport.jrxml</code> sources contain a title section with a <code>printWhenExpression</code>:
+<ul>
+<li><code>&lt;printWhenExpression&gt;&lt;![CDATA[com.bar.SomeBarClass.isToPrint()]]&gt;&lt;/printWhenExpression&gt;</code> - in <code>BarReport.jrxml</code></li> 
+<li><code>&lt;printWhenExpression&gt;&lt;![CDATA[com.bar.SomeFooClass.isToPrint()]]&gt;&lt;/printWhenExpression&gt;</code> - in <code>FooReport.jrxml</code></li> 
+</ul>
+The <code>SomeBarClass</code> and <code>SomeFooClass</code> sources are located here:
+<pre><![CDATA[
+                                 src
+                                  |
+                                 com
+                               /     \
+                            bar       foo
+                             |         |
+              SomeBarClass.java       SomeFooClass.java]]></pre>
+and the related classes will be saved into the <code>build/classes</code> directory and added to the classpath.  
+<br/>
+<br/>
+Now let's update these report templates. There are some specific Ant targets declared in the <code>build.xml</code> file:
+<pre><![CDATA[
+<path id="classpath">
+  <pathelement location="../../../build/classes"/>
+  <fileset dir="../../../lib">
+    <include name="**/*.jar"/>
+  </fileset>
+</path>
+
+<path id="runClasspath">
+  <path refid="classpath"/>
+  <pathelement location="../../fonts"/>
+  <pathelement location="./build/classes"/>
+</path>
+
+<taskdef name="jru" classname="net.sf.jasperreports.ant.JRAntUpdateTask"> 
+  <classpath refid="classpath"/>
+</taskdef>
+
+<target name="update1" description="Updates report designs specified using the &quot;srcdir&quot; in the &lt;jru&gt; tag."> 
+  <mkdir dir="./build/reports"/> 
+  <jru 
+      srcdir="./reports"
+      destdir="./build/reports/update1">
+    <classpath refid="runClasspath"/>
+    <include name="**/*.jrxml"/>
+    <!--
+    <updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
+    -->
+  </jru>
+</target> 
+
+<target name="update2" description="Updates report designs specified using a &lt;fileset&gt; in the &lt;src&gt; tag.">
+  <mkdir dir="./build/reports"/> 
+  <jru destdir="./build/reports/update2">
+    <src>
+      <fileset dir="./reports">
+        <include name="**/*.jrxml"/>
+      </fileset>
+    </src>
+    <classpath refid="runClasspath"/>
+  </jru> 
+</target> 
+
 <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
   <classpath refid="classpath"/>
 </taskdef>
-]]>
-</pre>
-This task definition uses a <code>&lt;classpath&gt;</code> element which contains the JasperReports JAR and all its required dependencies.
-<br/>
-<br/>
-Then, the custom <code>jrc</code> task is used to compile report templates having the <code>*.jrxml</code> file extension found under 
-the sample's <code>reports</code> folder. This source folder is specified using the <code>srcdir</code> attribute of the <code>jrc</code> task 
-in the <code>compile1</code> target of the <code>build.xml</code> file:
-<br/>
-<br/>
-<pre><![CDATA[
-<target name="compile1"> 
+
+<target name="javac" description="Compiles the Java source files used in the report designs.">
+  <mkdir dir="./build/classes"/> 
+  <javac srcdir="./src" destdir="./build/classes" debug="true" optimize="false" deprecation="false"/>
+</target> 
+
+<target name="compile" depends="javac" description="Compiles the initial report designs."> 
   <mkdir dir="./build/reports"/> 
+  <delete dir="./build">
+    <include name="**/*.jasper"/>
+  </delete>
   <jrc 
-    srcdir="./reports"
-    destdir="./build/reports"
-    tempdir="./build/reports"
-    keepjava="true"
-    xmlvalidation="true">
-   <classpath refid="runClasspath"/>
-   <include name="**/*.jrxml"/>
+      srcdir="./reports"
+      destdir="./build/reports">
+    <classpath refid="runClasspath"/>
+    <include name="**/*.jrxml"/>
   </jrc>
 </target> 
-]]>
-</pre>
-The <code>compile2</code> target in the same <code>build.xml</code> file performs the same report compilation process, 
-but the source folder is specified using a nested <code>&lt;src&gt;</code> tag with filesets. The nested source tag allows compiling report 
-templates that are scattered through many different locations and are not grouped under a single root report source folder.
-<br/>
-<br/>
-<pre><![CDATA[
-<target name="compile2">
+
+<target name="compileUpdated" depends="javac" description="Compiles the updated report designs."> 
   <mkdir dir="./build/reports"/> 
+  <delete dir="./build">
+    <include name="**/*.jasper"/>
+  </delete>
   <jrc 
-    destdir="./build/reports"
-    tempdir="./build/reports"
-    keepjava="true"
-    xmlvalidation="true">
-   <src>
-    <fileset dir="./reports">
-     <include name="**/*.jrxml"/>
-    </fileset>
-   </src>
-   <classpath refid="runClasspath"/>
-  </jrc> 
+      srcdir="./build/reports"
+      destdir="./build/reports">
+    <classpath refid="runClasspath"/>
+    <include name="**/*.jrxml"/>
+  </jrc>
 </target> 
-]]>
-</pre>
-Notice that both report compilation targets have a <code>&lt;classpath&gt;</code> nested element, used to specify the classpath used by the report 
-compiler. This so called run-classpath contains classes that are referenced inside the report templates themselves, such as scriptlet classes, 
-chart customizers and so forth.
+
+<target name="clean" description="Deletes all the generated files.">
+  <delete dir="./build" />
+</target>
+
+<target name="test" description="Runs the sample.">
+  <echo message="==================================="/>
+  <echo message=" Ant Update Sample"/>
+  <echo message="==================================="/>
+  <antcall target="clean" />
+  <antcall target="update1" />
+  <antcall target="update2" />
+</target>
+]]></pre>
+When <code>update1</code> target is called, the root directory for the JRXML sources, the destination folder and the source file type (<code>*.jrxml</code>) 
+will be passed as parameters to the updater Ant task. The root source directory will be recursively scanned and any JRXML file in the path will be localized. 
+Other file types (see the ignoreme.txt) will be neglected.
 <br/>
-In this particular sample, both source JRXML files make use of such helper classes found in the <code>src</code> folder of the samples. 
-These helper classes have to be compiled before the report templates are compiled, using the <code>javac</code> target of the <code>build.xml</code> file.
-<br/>
-<br/>
-In addition to the <code>srcdir</code> and the <code>destdir</code> attributes, the <code>jrc</code> custom Ant task shipped with JasperReports 
-supports the following attributes:
-<br/>
-<br/>
-<ul>
-<li><code>compiler</code> : Name of the class that implements the <api href="net/sf/jasperreports/engine/design/JRCompiler.html">JRCompiler</api> interface to be used for compiling the reports (optional).</li>
-<li><code>xmlvalidation</code> : Flag to indicate whether the XML validation should be performed on the source report template files (<code>true</code> by default).</li>
-<li><code>tempdir</code> : Location to store the temporarily generated files (the current working directory by default).</li>
-<li><code>keepjava</code> : Flag to indicate if the temporary Java files generated on the fly should be kept and not deleted automatically (<code>false</code> by default).</li>
-</ul>
-<br/>
-<br/>
-In our sample, we use the default report compiler, which is the JDT-based compiler, because the JDT JAR is found in the classpath. 
-This compiler works on the assumption that report expressions are Java expressions and thus it produces a Java class file dynamically containing 
-all the report expressions and compiles it using the JDT Java compiler. Normally, this report compiler does all the Java class file generation 
-and compilation in-memory and does not work with actual files on disk, which makes it very flexible and easy to deploy in all environments. 
-However, if the <code>keepjava</code> flag is turned to <code>true</code>, it will save the report's temporary Java source file on disk, 
-in the specified <code>tempdir</code>. This is useful for debugging report expressions in certain cases.
+Also notice here the commented line 
+<pre><![CDATA[
+<!--
+<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
+-->]]></pre>
+that calls the <code>LegacyBorderOffsetUpdater</code> after source files are scanned. By default, the Ant updater task updates sources based on timestamp 
+differences between source and destination files, or on schema changes. When the <code>&lt;updater&gt;</code> tag is present, the related report updater is 
+also called to perform its specific update operations. In order to see how they act, just uncomment this line and run the sample again.
 <br/>
 <br/>
-Depending on the report expression language they are mapped to, other report compiler implementations might produce script files instead of Java files, 
-for report expression evaluation. The <code>keepjava</code> and the <code>tempdir</code> attributes will still work for them, except that the files 
-that will be kept into the temporary location will not be Java source files but script files, also helpful for debugging.
--->
+When <code>update2</code> target is called, sources are passed to the Ant task as file set in the <code>&lt;src&gt;</code> tag. Once again we can see that only 
+<code>*.jrxml</code> files are allowed. This target does not provide an <code>&lt;updater&gt;</code> tag, so only default updates will be performed.
+<br/>
+After the batch update the destination folder tree will lokk like this:
+<pre><![CDATA[
+                                build
+                                  |
+                               reports
+                                  |
+                                 com
+                               /     \
+                            bar       foo
+                             |         |
+                BarReport.jrxml       FooReport.jrxml]]></pre>
+Both <code>BarReport.jrxml</code> and <code>FooReport.jrxml</code> are present, but the <code>ignoreme.txt</code> is obviously missing.
+<br/>
+<br/>
+If the updated reports have to be also compiled, the  <code>&lt;compileUpdated&gt;</code> specific target can be executed to accomplish this need. It will compile 
+all JRXML files found in the destination folder tree. Compiled reports also conserve the tree structure and will be saved in the <code>build/classes</code> directory.
+<br/>
+<br/>
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/antupdate</code> within the JasperReports source project and run the <code>&gt; ant test</code> command.
+<br/>
+It will generate updated reports in the <code>demo/samples/antupdate/build/reports</code> directory. Compare the updated JRXMLs with the original ones. Notice the replacement of the 
+<code>&lt;DOCTYPE ...&gt;</code> line with schema informations added to the report. Also the title band comes with the <code>splitType</code> attribute and report elements provide the 
+<code>uuid</code> atribute. The deprecated <code>border</code> attribute was replaced by the <code>pen</code> element. All these represent changes applied by default in order to get 
+up-to-date report designs, in accordance with the current JasperReports schema. 
+<br/>
+Then uncomment the line 
+<pre><![CDATA[
+<!--
+<updater>net.sf.jasperreports.engine.util.LegacyBorderOffsetUpdater</updater>
+-->]]></pre>
+in the <code>update1</code> target and run the <code>&gt; ant clean test</code> command. The <code>build</code> directory will be once again created, then the <code>update1</code> target will be 
+executed. The updated JRXMLs will be saved in the destination folder. Then the <code>update1</code> target will be executed, but because there are no newer default updates to be performed, this 
+target will do nothing. It won't override changes performed by the <code>update1</code> target. When opening the updated JRXMLs we'll see that the 
+<code>net.sf.jasperreports.export.legacy.border.offset</code> property added with <code>update1</code> is still there, after the consequent execution of <code>update2</code>.
+<br/>
+<br/>
+To have updated AND compiled reports in the destination folder, just run the run the <code>&gt; ant test compileUpdated</code> command. The compiled <code>*.jasper</code> reports will be available in the 
+<code>demo/samples/antupdate/build/classes</code> directory.
     </content>
   </feature>
 

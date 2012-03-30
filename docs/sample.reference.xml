@@ -6,7 +6,7 @@
     <name>General</name>
     <content>
       <feature name="webapp" sample="webapp" title="Deploying Reports in Web Applications" complete="false"/>
-      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool" complete="false"/>
+      <feature name="antupdate" sample="antupdate" title="Updating Multiple Report Template Files Using the Ant Build Tool"/>
       <feature name="antdecompile" sample="antcompile" title="Generating the JRXML Source Files for Multiple Compiled Report Template Files Using the Ant Build Tool (Decompiling)"/>
       <feature name="fileresolver" sample="tableofcontents" title="File Resolver"/>
     </content>
