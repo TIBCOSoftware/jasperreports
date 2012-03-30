@@ -28,7 +28,8 @@ jive.interactive.column = jive.interactive.column || {
     dropLeft: null,
     dropRight: null,
     delta: null,
-    init: function(){
+
+    init: function(allColumns){
         var t,c,i,j,tid,
             dropPoints = [],
             m = this.actions.Format.actions['Show column'].actions,
@@ -36,19 +37,21 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Update menu for show column
          */
-        for(i in this.allColumns) {
-            c = this.allColumns[i];
+        for(i in allColumns) {
+            c = allColumns[i];
             m[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
         }
+        it.allColumns = allColumns;
+        console.info(m);
         /*
          * Load dynamic form data
          */
-        it.formatHeaderForm.elements[1].values = [];
+         it.formatHeaderForm.elements[1].values = [];
          jQuery.each(it.fonts.extension,function(i,v) {
         	 it.formatHeaderForm.elements[1].values.push([v,v]);
          });
 
-         it.formatHeaderForm.elements[2].values = [];
+        it.formatHeaderForm.elements[2].values = [];
         jQuery.each(it.fontSizes,function(i,v) {
             it.formatHeaderForm.elements[2].values.push([v,v]);
         });
@@ -93,6 +96,11 @@ jive.interactive.column = jive.interactive.column || {
                 it.dropColumnsFF[uuid].push(j+1);
             }
         });
+    },
+    getInteractiveElementFromProxy: function(cell){
+        var clss = cell.attr('class').split(' ');
+        console.info(clss[1].substring(4));
+        return cell.parent().find('div[data-popupcolumn="' + clss[1].substring(4) + '"]');
     },
     getElementSize: function(){
         var jo = jive.selected.jo;
@@ -185,14 +193,7 @@ jive.interactive.column = jive.interactive.column || {
             }
         });
     },
-    setAllColumns: function (allColumns) {
-    	this.allColumns = allColumns;
-    	this.init();
-    },
-    setupInteractiveColumn: function (obj) {
-    	jive.actionBaseUrl = obj.actionBaseUrl;
-    	jive.actionBaseData = obj.actionBaseData;
-    	
+    setDynamicProperties: function (obj) {
     	jive.interactive.column.fontSizes = obj.fontSizes;
     	jive.interactive.column.fonts = obj.fonts;
     }
@@ -378,7 +379,6 @@ jive.interactive.column.formatCellsForm = {
 
     }
 };
-
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
 
 jasperreports.global.events.JIVE_COLUMN_INIT.status = 'finished';
