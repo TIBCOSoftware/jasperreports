@@ -50,8 +50,7 @@ Other methods specified in this interface can be used to obtain the native size 
 actual image that the renderer wraps or the binary data for an image that must be stored 
 in a separate file during export.
 <br/>
-The library comes with a default implementation for the 
-<code>JRRenderable</code> interface that 
+The JasperReports library comes with a default implementation for the <code>JRRenderable</code> interface that 
 wraps images that come from files or binary image data in JPG, GIF, or PNG format. 
 The <api href="net/sf/jasperreports/engine/JRImageRenderer.html">JRImageRenderer</api> class is actually a container 
 for this binary image data, which it uses to load a <code>java.awt.Image</code> object from it, 
@@ -85,9 +84,11 @@ to a <code>JRRenderable</code> object which is designated to render the image.
 This sample shows how to integrate a <code>JFreeChart</code> pie chart into a report, 
 letting the JFreeChart engine to draw itself the chart.
 <br/>
-In order to get both the <code>JFreeChart</code> chart and the <code>JRRenderable</code> renderer, the 
-sample contains a java scriptlet class named <code>JFreeChartScriptlet</code> in the <code>src</code> directory. 
-In its <code>afterReportInit()</code> method, a chart object is created, with all necessary information to be represented:
+In order to put together both the <code>JFreeChart</code> chart and the <code>JRRenderable</code> renderer, the 
+<code>JFreeChartReport.jrxml</code> template provides a scriptlet class atribute: <code>scriptletClass="JFreeChartScriptlet"</code>.
+The scriptlet class source is available as <code>JFreeChartScriptlet.java</code> file in the <code>src</code> directory. 
+<br/>
+In the <code>afterReportInit()</code> method, a chart object is created, with all necessary information to be represented:
 <pre><![CDATA[
   DefaultPieDataset dataset = new DefaultPieDataset();
   dataset.setValue("Java", new Double(43.2));
@@ -132,7 +133,7 @@ and all the rendering stuff will be done by this dedicated API:
     }
   }
 ]]></pre>
-Once the renderer gets available, one have to instruct the JasperReports engine to use it. The new renderer is passed to the engine as a scriptlet variable:
+Once the renderer gets available, one have to instruct the JasperReports engine to use it. The new renderer is passed to the engine in the <code>Chart</code> report variable:
 <pre><![CDATA[
   this.setVariableValue("Chart", new JCommonDrawableRenderer(chart));
 ]]></pre>
@@ -160,12 +161,21 @@ Now, let's take a look at the &lt;image/&gt; element itself:
 </code>
 <br/>
 <br/>
-The image expression class is <code>net.sf.jasperreports.engine.JRRenderable</code>, and its value points to the <code>Chart</code> scriptlet variable 
-defined in the &lt;scriptlet/&gt; element.
+The image expression class is <code>net.sf.jasperreports.engine.JRRenderable</code>, and its value points to the <code>Chart</code> report variable 
+prepared in the report scriptlet.
 <br/>
 <br/>
-In order to figure out more on images rendering, just test this sample by running from the command line the <code>ant test view</code> command. 
-It will generate all supported document types containing the sample report in the /build/reports directory, and then the report will be loaded and visualized into the built-in viewer.
+<b>Running the Sample</b>
+<br/>
+<br/>
+Running the sample requires the <a href="http://ant.apache.org/">Apache Ant</a> library. Make sure that <code>ant</code> is already installed on your system (version 1.5 or later).
+<br/>
+In a command prompt/terminal window set the current folder to <code>demo/samples/jfreechart</code> within the JasperReports source project and run the <code>&gt; ant test view</code> command.
+<br/>
+It will generate all supported document types containing the sample report in the <code>demo/samples/jfreechart/build/reports</code> directory. 
+<br/>
+Then the report will open in the JasperReports internal viewer.
+
     </content>
   </feature>
 
