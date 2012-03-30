@@ -399,6 +399,45 @@ jive.ui.forms = {
                     }
                 }
             }
+            if(e.type == 'grouplist') {
+            	var penIcon = '',
+            		freeTextInput = '',
+            		group,
+            		groups = {},
+            		groupsNo = 0;
+
+            	if(e.freeText) {
+            		penIcon = '<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>';
+            		freeTextInput = '<input id="" type="text" name="" value="" style="display:none;" />';
+            	}
+            	tb.push('<td>'+penIcon+'<div class="wrapper">'+label+'</div></td><td><div class="wrapper"><select id="'+e.id+'" name="'+e.id+ '">');
+            	
+            	jQuery.each(e.values,function(i,options){
+            		options.length === 3 ? group = options[2] : group = 'Other';
+            		if (!groups[group]) {
+            			if (groupsNo > 0) {
+            				tb.push('</optgroup>');
+            			}
+            			tb.push('<optgroup label="' + group + '">');
+            			groups[group] = 1;
+            			groupsNo ++;
+            		}
+            		tb.push('<option value="'+options[0]+'">'+options[1]+'</option>');
+            		if (groupsNo > 0 && i === e.values.length -1) {
+            			tb.push('</optgroup>');
+            		}
+            	})
+            	
+            	tb.push('</select>'+freeTextInput+'</div></td>');
+            	parms.inputs[e.id] = {
+            			set:function(v) {
+            				jQuery('select[name="'+e.id+'"]').val(v);
+            			},
+            			get:function(){
+            				return jQuery('select[name="'+e.id+'"]').val();
+            			}
+            	}
+            }
             if(e.type == 'buttons') {
                 tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><div class="buttonbar">');
                 pw = 100 / e.items.length;
