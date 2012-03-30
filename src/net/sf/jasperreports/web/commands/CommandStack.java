@@ -74,4 +74,10 @@ public class CommandStack {
 			redo();
 		}
 	}
+	
+	public void clear()
+	{
+		commandStack.clear();
+		redoStack.clear();
+	}
 }

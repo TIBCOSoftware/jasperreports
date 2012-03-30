@@ -80,6 +80,16 @@ public class JasperDesignCache
 		return cache;
 	}
 	
+	public static JasperDesignCache getExistingInstance(ReportContext reportContext)
+	{
+		JasperDesignCache cache = null;
+		if (reportContext != null)
+		{
+			cache = (JasperDesignCache) reportContext.getParameterValue(PARAMETER_JASPER_DESIGN_CACHE);
+		}
+		return cache;
+	}
+	
 	/**
 	 * 
 	 */
@@ -204,6 +214,11 @@ public class JasperDesignCache
 		//cachedResourcesMap.put(uri, resource);
 	}
 
+	public void clear()
+	{
+		cachedResourcesMap.clear();
+	}
+	
 	/**
 	 * 
 	 *
