@@ -1,6 +1,7 @@
 jQuery.extend(jive, {
-    init:function(){
+    init:function(settings){
         console.info('jive init');
+        jQuery.extend(jive,settings);
         /*
          * Init event handlers for viewer. One time event?
          */
@@ -41,22 +42,37 @@ jQuery.extend(jive, {
     },
     initInteractiveElement: function(o){
         if(jive.elements[o.id]) {
+            /*
+             * Check if report has been reloaded, if so we need to setup event
+             * listeners.
+             */
             if(typeof jQuery('div.jrPage').data('events') === 'undefined') {
                 jive.selectors = {};
             }
         }
         jive.elements[o.id] = jQuery.extend({},o);
+        /*
+         * Check if event listener has for selector already set.
+         */
         if(!jive.selectors[o.selector]){
         	jive.selectors[o.selector] = o.type;
+            jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
+                var jo = jQuery(this);
+                jive.selectInteractiveElement(jo);
+            })
         }
-    	jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
-    		var jo = jQuery(this);
-    		jive.selectInteractiveElement(jo);
-    	})
+        if(o.proxySelector && !jive.selectors[o.proxySelector]) {
+            jive.selectors[o.proxySelector] = o.type;
+            jQuery('div.jrPage').on('click touchend',o.proxySelector,function(evt){
+                var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
+                jive.selectInteractiveElement(jo);
+            })
+        }
     },
     selectInteractiveElement: function(jo){
         jive.selected = {
-            ie: jive.elements[jo.attr('data-popupId')],
+            //ie: jive.elements[jo.data('popupId')],
+            ie: jive.elements[jo.data('popupid')],
             jo: jo
         };
         var dim = jive.interactive[jive.selected.ie.type].getElementSize();
