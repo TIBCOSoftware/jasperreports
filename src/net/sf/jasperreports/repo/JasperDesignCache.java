@@ -214,6 +214,16 @@ public class JasperDesignCache
 		//cachedResourcesMap.put(uri, resource);
 	}
 
+	public JasperDesignReportResource remove(String uri)
+	{
+		return cachedResourcesMap.remove(uri);
+	}
+	
+	public void set(String uri, JasperDesignReportResource resource)
+	{
+		cachedResourcesMap.put(uri, resource);
+	}
+	
 	public void clear()
 	{
 		cachedResourcesMap.clear();
