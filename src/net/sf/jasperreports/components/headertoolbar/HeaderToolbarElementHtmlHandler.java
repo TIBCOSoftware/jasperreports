@@ -81,6 +81,7 @@ import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
@@ -192,6 +193,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			Integer columnIndex = (Integer) element.getParameterValue("columnIndex");
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
+			contextMap.put("JRStringUtil", JRStringUtil.class);
 			
 			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)

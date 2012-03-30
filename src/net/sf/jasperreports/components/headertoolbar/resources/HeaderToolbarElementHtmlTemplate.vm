@@ -149,12 +149,12 @@
 	    fonts: {
 			extension: [
 			#foreach ($fontName in ${fontExtensionsFontNames})
-	        	'$fontName',
+	        	'$JRStringUtil.escapeJavaScript($fontName)',
 			#end
 			],
 			system: [
 			#foreach ($fontName in ${systemFontNames})
-				'$fontName',
+				'$JRStringUtil.escapeJavaScript($fontName)',
 			#end
 			]
 		}
