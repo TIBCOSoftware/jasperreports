@@ -1858,7 +1858,7 @@
    </sequence>
    <attribute name="uuid" type="string" use="optional">
 	<annotation>
-	 <documentation>This attribute is auto-generated and is used to uniquely identify elements accross multiple report templates.</documentation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify elements across multiple report templates.</documentation>
 	</annotation>
    </attribute>  
    <attribute name="key" type="string" use="optional">

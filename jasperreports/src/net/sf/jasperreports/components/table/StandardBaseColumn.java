@@ -126,6 +126,14 @@ public abstract class StandardBaseColumn implements BaseColumn, Serializable, JR
 		return uuid;
 	}
 
+	/**
+	 *
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+	}
+		
 	public Cell getColumnHeader()
 	{
 		return columnHeader;
