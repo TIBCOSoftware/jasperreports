@@ -1,5 +1,5 @@
 <script class='jasperreports' type='text/javascript'>
-	JasperReports.modules.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'JasperReports.modules.sort.init');
+	jasperreports.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'jasperreports.sort.init');
 </script>
 
 <a href='${sortHref}'
@@ -29,7 +29,7 @@
 #if (${isFilterable})
 <script class='jasperreports' type='text/javascript'>
 	(function () {
-		var gm = JasperReports.modules.global,
+		var gm = jasperreports.global,
 			uid = '${filterDivId}',
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
 			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
@@ -58,7 +58,7 @@
 			                "</form>",
 			                "</div>"];
 			                
-		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'JasperReports.modules.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
+		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'jasperreports.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
 	} ());
 </script>
 #end

@@ -1,8 +1,8 @@
 /**
- * Defines 'sort' module in JasperReports namespace
+ * Defines 'sort' module in jasperreports namespace
  */
 (function(global) {
-	if (typeof global.JasperReports.modules.sort !== 'undefined') {
+	if (typeof global.jasperreports.sort !== 'undefined') {
 		return;
 	}
 	
@@ -20,7 +20,7 @@
 	 * @param filtersJsonString a JSON string of a java.util.List<net.sf.jasperreports.components.sort.FieldFilter>
 	 */
 	js.createFilterDiv = function (uniqueId, arrFilterDiv, filtersJsonString) {
-		var gm = global.JasperReports.modules.global,
+		var gm = global.jasperreports.global,
 			filterContainerId = js.filters.filterContainerId,
 			filterContainerDiv = "<div id='" + filterContainerId + "'></div>",
 			fcuid = '#' + filterContainerId,
@@ -169,7 +169,7 @@
     };
 
 	js.init = function() { 
-		var gm = global.JasperReports.modules.global,
+		var gm = global.jasperreports.global,
 			sortEvent = gm.events.SORT_INIT;
 		
 		// init should be done only once
@@ -332,5 +332,5 @@
 		}
 	};
 	
-	global.JasperReports.modules.sort = js;
+	global.jasperreports.sort = js;
 } (this));
