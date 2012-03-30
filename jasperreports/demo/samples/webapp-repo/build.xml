@@ -133,9 +133,13 @@
 	    </java>
 	</target>
 
-	<target name="jasperreportsAntCleanJar">
+	<target name="jrJar">
+		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
+	</target>
+
+	<target name="jrClean" description="Performs jasperreports clean and jar">
 		<ant antfile="${jasperreports.ant.file}" target="clean" inheritall="false"/>
-		<ant antfile="${jasperreports.ant.file}" target="plainjar" inheritall="false"/>
+		<ant antfile="${jasperreports.ant.file}" target="jar" inheritall="false"/>
 	</target>
 
 	<target name="copyWarToTomcat" depends="clean, war">
@@ -159,7 +163,7 @@
 	
 	<target name="deploy">
 		<antcall target="stopTomcat" />
-		<antcall target="jasperreportsAntCleanJar" />
+		<antcall target="jrJar" />
 		<antcall target="cleanTomcat" />
 		<antcall target="copyWarToTomcat" />
 		<antcall target="startTomcat" inheritall="false" />
@@ -167,7 +171,7 @@
 
 	<target name="deploy_nostart">
 		<antcall target="stopTomcat" />
-		<antcall target="jasperreportsAntCleanJar" />
+		<antcall target="jrJar" />
 		<antcall target="cleanTomcat" />
 		<antcall target="copyWarToTomcat" />
 	</target>
