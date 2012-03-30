@@ -48,8 +48,13 @@ jive.interactive.column = jive.interactive.column || {
          it.formatHeaderForm.elements[1].values = [];
          it.formatCellsForm.elements[0].values = [];
          jQuery.each(it.fonts.extension,function(i,v) {
-        	 it.formatHeaderForm.elements[1].values.push([v,v]);
-             it.formatCellsForm.elements[0].values.push([v,v]);
+        	 it.formatHeaderForm.elements[1].values.push([v,v, 'Extension Fonts']);
+             it.formatCellsForm.elements[0].values.push([v,v, 'Extension Fonts']);
+         });
+
+         jQuery.each(it.fonts.system,function(i,v) {
+        	 it.formatHeaderForm.elements[1].values.push([v,v, 'System Fonts']);
+        	 it.formatCellsForm.elements[0].values.push([v,v, 'System Fonts']);
          });
 
         it.formatHeaderForm.elements[2].values = [];
@@ -143,10 +148,6 @@ jive.interactive.column = jive.interactive.column || {
         }
     },
     onDragStop: function(ev,ui){
-        var jvt = jasperreports.reportviewertoolbar;
-        var selectedColumn = {
-            actionBaseData: jQuery.parseJSON(jive.interactive.column.actionBaseData)
-        };
         var dropIndex = this.dropColumnIndex % 2 == 1 ? (this.dropColumnIndex + 1) / 2 - 1 : this.dropColumnIndex / 2;
         if(dropIndex >= 0 && (dropIndex != jive.selected.ie.columnIndex || dropIndex != jive.selected.ie.columnIndex + 1)) {
             jive.runAction({
@@ -528,7 +529,7 @@ jive.interactive.column.formatHeaderForm = {
     method: 'get',
     elements: [
         {type:'text', id:'headingName', label:'Header text', value:''},
-        {type:'list', id:'headerFontName', label:'Font', values:[]},
+        {type:'grouplist', id:'headerFontName', label:'Font', values:[]},
         {type:'list', id:'headerFontSize', label:'Font size', values:[]},
         {type:'color', id:'headerFontColor', label:'Header Font Color'},
         {
@@ -596,7 +597,7 @@ jive.interactive.column.formatCellsForm = {
     name: 'formatCells',
     method: 'get',
     elements: [
-        {type:'list', id:'cellsFontName', label:'Font', values:[]},
+        {type:'grouplist', id:'cellsFontName', label:'Font', values:[]},
         {type:'list', id:'cellsFontSize', label:'Font size', values:[], freeText: true},
         {type:'color', id:'cellsFontColor', label:'Cell Font Color'},
         {
