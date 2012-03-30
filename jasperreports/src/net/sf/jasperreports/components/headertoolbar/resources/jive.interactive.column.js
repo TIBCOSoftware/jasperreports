@@ -568,20 +568,20 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontColor'].set(metadata.fontColor);
     },
     submit:function(){
-        var table = jive.selected.jo.parent('.jrtableframe'),
-            uuid = table.attr('data-uuid'),
+        var inputs = jive.selected.form.inputs,
             actionData = {
                 actionName: 'editColumnHeader',
                 editColumnHeaderData:{
-                    tableUuid: uuid,
+                    tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
                     columnIndex: jive.selected.ie.columnIndex,
-                    headingName: jive.selected.form.inputs['headingName'].get(),
-                    fontHAlign: jive.selected.form.inputs['headerFontAlign'].get(),
-                    fontBold: jive.selected.form.inputs['headerFontBold'].get(),
-                    fontItalic: jive.selected.form.inputs['headerFontItalic'].get(),
-                    fontColor: jive.selected.form.inputs['headerFontColor'].get(),
-                    fontName: jive.selected.form.inputs['headerFontName'].get(),
-                    fontSize: jive.selected.form.inputs['headerFontSize'].get()
+                    headingName: inputs['headingName'].get(),
+                    fontName: inputs['headerFontName'].get(),
+                    fontSize: inputs['headerFontSize'].get(),
+                    fontBold: inputs['headerFontBold'].get(),
+                    fontItalic: inputs['headerFontItalic'].get(),
+                    fontUnderline: inputs['headerFontUnderline'].get(),
+                    fontHAlign: inputs['headerFontAlign'].get(),
+                    fontColor: inputs['headerFontColor'].get(),
                 }
             };
 
@@ -638,7 +638,10 @@ jive.interactive.column.formatCellsForm = {
     },
     onShow:function(){
         var metadata = jive.selected.ie.valuesTabContent,
-            inputs = jive.selected.form.inputs;
+            inputs = jive.selected.form.inputs,
+            htm = [],
+            ie = jive.selected.ie,
+            jo = jive.selected.form.jo;
 
         metadata.fontBold ? inputs['cellsFontBold'].set() : inputs['cellsFontBold'].unset();
         metadata.fontItalic ?  inputs['cellsFontItalic'].set() : inputs['cellsFontItalic'].unset();
@@ -649,21 +652,46 @@ jive.interactive.column.formatCellsForm = {
         inputs['cellsFontSize'].set(metadata.fontSize);
         inputs['cellsFontColor'].set(metadata.fontColor);
 
-        var htm = [];
-        if(typeof jive.selected.ie.formatPatternLabel === 'string') {
-            jQuery.each(jive.selected.ie.formatPatternSelector,function(i,o){
+        if(typeof ie.formatPatternLabel === 'string') {
+            jQuery.each(ie.formatPatternSelector,function(i,o){
                 htm.push('<option value="'+o.key+'">'+o.val+'</option>');
             })
             jQuery('#formatPattern').html(htm.join(''));
-            jive.selected.form.jo.find('tr').eq(5).show();
-            jive.selected.ie.formatPatternLabel.indexOf('Number') >= 0 ?
-                jive.selected.form.jo.find('tr').eq(6).show() : jive.selected.form.jo.find('tr').eq(6).hide();
+            inputs['formatPattern'].set(metadata.formatPattern);
+            jo.find('tr').eq(5).show();
+            if (ie.formatPatternLabel.indexOf('Number') >= 0) {
+            	jo.find('tr').eq(6).show();
+            	inputs['currencyBtn'].unset();
+            	inputs['percentageBtn'].unset();
+            	inputs['commaBtn'].unset();
+            } else {
+            	jo.find('tr').eq(6).hide();
+            }
         } else {
-            jive.selected.form.jo.find('tr').gt(5).hide();
+            jo.find('tr').eq(5).hide();
+            jo.find('tr').eq(6).hide();
         }
     },
-    submit:function(){
+    submit: function(){
+    	var inputs = jive.selected.form.inputs,
+    		actionData = {
+	            actionName: 'editColumnValues',
+	            editColumnValueData:{
+	                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+	                columnIndex: jive.selected.ie.columnIndex,
+	                fontName: inputs['cellsFontName'].get(),
+	                fontSize: inputs['cellsFontSize'].get(),
+	                fontBold: inputs['cellsFontBold'].get(),
+	                fontItalic: inputs['cellsFontItalic'].get(),
+	                fontUnderline: inputs['cellsFontUnderline'].get(),
+	                fontHAlign: inputs['cellsFontAlign'].get(),
+	                fontColor: inputs['cellsFontColor'].get(),
+	                formatPattern: inputs['formatPattern'].get()
+	            }
+        };
 
+    	jive.hide();
+    	jive.runAction(actionData)
     }
 };
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
