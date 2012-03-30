@@ -161,9 +161,9 @@ td{border:solid 1px #ccc;vertical-align:center;background:#eee;}
     vertical-align: top;
 }
 
-div.wrapper {padding:4px;}
+div.wrapper {position:relative;padding:4px;z-index:1;}
 
-.jive_form input, .jive_form select {width:100%;margin:0;height:24px;border:0;}
+.jive_form input, .jive_form select {position:relative;width:100%;margin:0;height:24px;border:0;}
 
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
 .jive_form .buttonbar {background:#fff;overflow:hidden;height:24px;border:solid 1px #ccc;}
@@ -173,14 +173,21 @@ div.wrapper {padding:4px;}
 .jive_inputbutton_wrapper.first {border-left:none;}
 .jive_inputbutton.selected {background:#faac1f;color:#fff;}
 
-.jive_bIcon {display:inline-block;.display:inline;width:16px;height:16px;margin:4px;}
+.jive_freeTextButton {
+    float:right;
+    position:relative;
+    background:transparent;
+    z-index:2;
+    cursor:pointer;
+}
 
-.boldIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_bold.png);}
-.italicIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_italic.png);}
-.underlineIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit_underline.png);}
-.leftIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_left.png);}
-.centerIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_center.png);}
-.rightIcon {background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/text_align_right.png);}
+.jive_bIcon {display:inline-block;.display:inline;width:20px;height:20px;margin:3px;}
+.jive_freeTextButton .jive_bIcon {
+    width:16px;
+    height:16px;
+    margin:6px;
+}
+
 .sortAscIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 -22px;
@@ -199,6 +206,55 @@ div.wrapper {padding:4px;}
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column_toolbar_buttons_sprite.png);
     background-position:0 0;
 }
+.boldIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -4px;
+}
+.italicIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -50px;
+}
+.underlineIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -96px;
+}
+.leftIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -142px;
+}
+.centerIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -188px;
+}
+.rightIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -234px;
+}
+.currencyIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -280px;
+}
+.percentageIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -327px;
+}
+.commaIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -372px;
+}
+.increaseDecimalsIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -418px;
+}
+.decreaseDecimalsIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    background-position:0 -464px;
+}
+.editIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit.png);
+}
 #jive_colorpicker td {background:#fff;border:solid 1px #fff;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
 div.colorpick {width:32px;height:32px;margin:4px;cursor:pointer;}
+
+.columnHeader{cursor:pointer;}
