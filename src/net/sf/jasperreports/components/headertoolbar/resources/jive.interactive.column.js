@@ -1,6 +1,9 @@
 jive.interactive.column = jive.interactive.column || {
     uuid: null,
     allColumns: null,
+    columnLabels: {},
+    count: 0,
+    ids: {},
     fontSizes:null,
     fonts: {
     	extension: null,
@@ -32,16 +35,9 @@ jive.interactive.column = jive.interactive.column || {
     init: function(allColumns){
         var t,c,i,j,tid,
             dropPoints = [],
-            m = this.actions.Format.actions['Show column'].actions,
             it = this;
-        /*
-         * Update menu for show column
-         */
-        for(i in allColumns) {
-            c = allColumns[i];
-            m[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
-        }
         it.allColumns = allColumns;
+
         /*
          * Load dynamic form data
          */
@@ -66,6 +62,7 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
+        it.columnLabels = {};
         it.dropColumnsIndex = {};
         jQuery('.jrtableframe').each(function(i){
             t = jQuery(this);
@@ -81,6 +78,9 @@ jive.interactive.column = jive.interactive.column || {
                 t.find('.columnHeader').each(function(i){
                     c = jQuery(this);
                     dropColumns.push('col_'+c.data('popupcolumn'));
+
+                    it.columnLabels[jQuery('div > span > span > span',c).html()] = 1;
+
                     var off = c.offset();
                     it.dropPoints[uuid].push(off.left);
                     it.dropPoints[uuid].push(off.left + c.width());
@@ -104,6 +104,15 @@ jive.interactive.column = jive.interactive.column || {
                 it.dropColumnsFF[uuid].push(j+1);
             }
         });
+        /*
+         * Create show column menu
+         */
+        var menu = it.actions.Format.actions['Show column'];
+        for(i in allColumns) {
+            c = allColumns[i];
+            menu.actions[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
+        }
+        it.count = dropColumns.length;
     },
     getInteractiveElementFromProxy: function(cell){
         var clss = cell.attr('class').split(' ');
@@ -119,6 +128,33 @@ jive.interactive.column = jive.interactive.column || {
             h = lastElemTop + lastElemHeight - jo.position().top;
         }
         return {w:jo.width(),h:h};
+    },
+    onToolbarShow: function(){
+        var it = this;
+        var on = false;
+        it.count == 1 ?
+            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).hide() :
+            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).show();
+
+        var allOption = [];
+        var pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show column"]').eq(0);
+        pmenu.children().each(function(i,el){
+            if(it.columnLabels[el.innerHTML]) {
+                el.style.display = 'none';
+            } else {
+                if(el.innerHTML != 'All') {
+                    on = true;
+                    allOption.push(i-1);
+                }
+                el.style.display = 'block';
+            }
+        });
+        if(on){
+            pmenu.children().eq(0).data('args',{hide:false,column:allOption});
+            pmenu.parent().show();
+        } else {
+            pmenu.parent().hide();
+        }
     },
     onDragStart: function(){
         var parent = jive.selected.jo.parent();
@@ -186,12 +222,17 @@ jive.interactive.column = jive.interactive.column || {
         jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells'], 1);
     },
     hide: function(args){
+        var cdata ={
+            hide: args.hide,
+            columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
+            tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid')
+        }
         jive.hide();
         jive.runAction({
             actionName: 'hideUnhideColumns',
             columnData: {
                 hide: args.hide,
-                columnIndexes: !isNaN(args.column) ? [args.column] : [jive.selected.ie.columnIndex],
+                columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
                 tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid')
             }
         });
@@ -582,7 +623,7 @@ jive.interactive.column.formatHeaderForm = {
                     fontItalic: inputs['headerFontItalic'].get(),
                     fontUnderline: inputs['headerFontUnderline'].get(),
                     fontHAlign: inputs['headerFontAlign'].get(),
-                    fontColor: inputs['headerFontColor'].get(),
+                    fontColor: inputs['headerFontColor'].get()
                 }
             };
 
