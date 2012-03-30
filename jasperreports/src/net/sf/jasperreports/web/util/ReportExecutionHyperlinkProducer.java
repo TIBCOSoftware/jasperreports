@@ -27,8 +27,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 
@@ -39,12 +41,15 @@ import net.sf.jasperreports.web.servlets.ReportServlet;
  */
 public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 {
+	private static final String DEFAULT_REPORT_EXECUTION_PATH = "/servlets/viewer";
+	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
+	
 	private HttpServletRequest request;
 	
 	/**
 	 *
 	 */
-	private ReportExecutionHyperlinkProducer(HttpServletRequest request)
+	protected ReportExecutionHyperlinkProducer(HttpServletRequest request)
 	{
 		this.request = request;
 	}
@@ -61,14 +66,27 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	/**
 	 *
 	 */
+	public String getPath() 
+	{
+		String path = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty("net.sf.jasperreports.web.report.execution.path");
+		if (path == null)
+		{
+			path = DEFAULT_REPORT_EXECUTION_PATH;
+		}
+		return path;
+	}
+	
+	
+	/**
+	 *
+	 */
 	public String getHyperlink(JRPrintHyperlink hyperlink) 
 	{
 		String appContext = request.getContextPath();
-//		String servletPath = request.getServletPath();
-		String servletPath = ReportServlet.PATH;
+		String servletPath = getPath();
 		String reportUri = request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI);
-		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
-		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);
+//		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
+//		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);
 		
 		StringBuffer allParams = new StringBuffer();
 		

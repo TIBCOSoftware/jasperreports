@@ -77,7 +77,7 @@ public class ReportServlet extends AbstractServlet
 	protected static final String TEMPLATE_HEADER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/HeaderTemplateNoPages.vm";
 	protected static final String TEMPLATE_FOOTER_NOPAGES = "net/sf/jasperreports/web/servlets/resources/templates/FooterTemplateNoPages.vm";
 	
-	public static final String PATH = "/servlets/report";
+	public static final String DEFAULT_PATH = "/servlets/report";//FIXMEJIVE the use of this constant is not right
 
 	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
 	public static final String REQUEST_PARAMETER_IGNORE_PAGINATION = "jr.ignrpg";
@@ -335,7 +335,7 @@ public class ReportServlet extends AbstractServlet
 					"&" + SortElement.REQUEST_PARAMETER_DATASET_RUN + "=" + webReportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN) +
 					"&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 //		return request.getContextPath() + request.getServletPath() + "?" + newQueryString;
-		return request.getContextPath() + ReportServlet.PATH + "?" + newQueryString;
+		return request.getContextPath() + ReportServlet.DEFAULT_PATH + "?" + newQueryString;
 	}
 
 

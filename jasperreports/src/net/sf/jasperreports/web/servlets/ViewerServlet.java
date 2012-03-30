@@ -136,7 +136,7 @@ public class ViewerServlet extends AbstractServlet
 	protected String getCurrentUrl(HttpServletRequest request, WebReportContext webReportContext) 
 	{
 		String newQueryString = request.getQueryString();
-		return request.getContextPath() + ReportServlet.PATH + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+		return request.getContextPath() + ReportServlet.DEFAULT_PATH + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 	}
 
 
@@ -174,7 +174,7 @@ public class ViewerServlet extends AbstractServlet
 		paramsMap.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.valueOf(webReportContext.getId()));
 //		paramsMap.put(ReportServlet.REQUEST_PARAMETER_TOOLBAR_ID, toolbarId);
 		
-		contextMap.put("reportUrl", request.getContextPath() + ReportServlet.PATH);
+		contextMap.put("reportUrl", request.getContextPath() + ReportServlet.DEFAULT_PATH);
 		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
 		contextMap.put("toolbarId", toolbarId);
 		

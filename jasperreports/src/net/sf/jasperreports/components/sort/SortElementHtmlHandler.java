@@ -63,6 +63,7 @@ import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
+import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
 import org.apache.commons.logging.Log;
@@ -294,7 +295,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	 *
 	private String getSortLink(JRHtmlExporterContext context, String sortColumnName, String sortColumnType, String sortOrder, String sortTableName) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType("ReportExecution");
+		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
 //		parameters.addParameter(
@@ -329,7 +330,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private String getSortLink(JRHtmlExporterContext context, SortData sortData) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType("ReportExecution");
+		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
 //		parameters.addParameter(
@@ -363,7 +364,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private String getFilterFormActionLink(JRHtmlExporterContext context) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType("ReportExecution");
+		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
 		
 		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
 		ReportContext reportContext = context.getExporter().getReportContext();

@@ -25,56 +25,45 @@ package net.sf.jasperreports.web.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
-import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: ReportExecutionHyperlinkProducer.java 5101 2012-03-16 21:03:51Z teodord $
  */
-public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducerFactory
+public class ReportInteractionHyperlinkProducer extends ReportExecutionHyperlinkProducer
 {
-	/**
-	 * @deprecated Replaced by {@link ReportExecutionHyperlinkProducer#HYPERLINK_TYPE_REPORT_EXECUTION}.
-	 */
-	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
-	
-	private HttpServletRequest request;
+	private static final String DEFAULT_REPORT_INTERACTION_PATH = "/servlets/report";
+	public static final String HYPERLINK_TYPE_REPORT_INTERACTION = "ReportInteraction";
 	
 	/**
 	 *
 	 */
-	private ReportExecutionHyperlinkProducerFactory(HttpServletRequest request)
+	protected ReportInteractionHyperlinkProducer(HttpServletRequest request)
 	{
-		this.request = request;
+		super(request);
 	}
 
 	/**
 	 *
 	 */
-	public static ReportExecutionHyperlinkProducerFactory getInstance(HttpServletRequest request)
+	public static ReportInteractionHyperlinkProducer getInstance(HttpServletRequest request)
 	{
-		return new ReportExecutionHyperlinkProducerFactory(request);
+		return new ReportInteractionHyperlinkProducer(request);
 	}
 
-	/**
-	 *
-	 */
-	public JRHyperlinkProducer getHandler(String linkType)
+
+	@Override
+	public String getPath() 
 	{
-		if (linkType != null)
+		String path = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty("net.sf.jasperreports.web.report.interaction.path");
+		if (path == null)
 		{
-			if (ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION.equals(linkType))
-			{
-				return ReportExecutionHyperlinkProducer.getInstance(request);
-			}
-			if (ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION.equals(linkType))
-			{
-				return ReportInteractionHyperlinkProducer.getInstance(request);
-			}
+			path = DEFAULT_REPORT_INTERACTION_PATH;
 		}
-		return null;
+		return path;
 	}
 
 }
