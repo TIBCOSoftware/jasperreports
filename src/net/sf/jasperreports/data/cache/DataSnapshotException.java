@@ -23,17 +23,28 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import net.sf.jasperreports.engine.data.IndexedDataSource;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataSnapshot
+public class DataSnapshotException extends JRException
 {
-	
-	boolean hasCachedData(Object key);
-	
-	IndexedDataSource getCachedData(Object key) throws DataSnapshotException;
-	
+
+	public DataSnapshotException(String message)
+	{
+		super(message);
+	}
+
+	public DataSnapshotException(Throwable t)
+	{
+		super(t);
+	}
+
+	public DataSnapshotException(String message, Throwable t)
+	{
+		super(message, t);
+	}
+
 }

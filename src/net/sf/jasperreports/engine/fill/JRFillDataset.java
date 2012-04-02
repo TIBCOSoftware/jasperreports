@@ -38,6 +38,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
 import net.sf.jasperreports.data.cache.DataSnapshot;
+import net.sf.jasperreports.data.cache.DataSnapshotException;
 import net.sf.jasperreports.data.cache.DatasetRecorder;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -651,7 +652,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		this.fillPosition = fillPosition;
 	}
 	
-	protected void cacheInit()
+	protected void cacheInit() throws DataSnapshotException
 	{
 		dataRecorder = null;
 		

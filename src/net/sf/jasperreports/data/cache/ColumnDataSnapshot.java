@@ -79,7 +79,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 		return cachedData.containsKey(key);
 	}
 
-	public IndexedDataSource getCachedData(Object key)
+	public IndexedDataSource getCachedData(Object key) throws DataSnapshotException
 	{
 		ColumnCacheData cacheData = cachedData.get(key);
 		if (cacheData == null)
@@ -88,7 +88,8 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 			{
 				log.debug("No cached data exists for " + key);
 			}
-			return null;
+			
+			throw new DataSnapshotException("No snapshot data found for key " + key);
 		}
 		
 		if (log.isDebugEnabled())
