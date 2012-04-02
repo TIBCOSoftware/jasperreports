@@ -81,15 +81,23 @@ public class ColumnValuesDataSource implements JRRewindableDataSource, IndexedDa
 		return true;
 	}
 
-	public Object getFieldValue(JRField field) throws JRException
+	public Object getFieldValue(JRField field) throws DataSnapshotException
 	{
 		ColumnValuesIterator iterator = iterators.get(field.getName());
 		if (iterator == null)
 		{
-			throw new JRException("No such field " +  field.getName());
+			throw new DataSnapshotException("Field " +  field.getName() + " not present in data snapshot");
 		}
 		
-		return iterator.get();
+		Object value = iterator.get();
+		
+		if (value != null && !field.getValueClass().isInstance(value))
+		{
+			throw new DataSnapshotException("Field " +  field.getName() + " of type " + field.getValueClassName()
+					+ " has snapshot value of type " + value.getClass().getName());
+		}
+		
+		return value;
 	}
 
 	public void moveFirst()
