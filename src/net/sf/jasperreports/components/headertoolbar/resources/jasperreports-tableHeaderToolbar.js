@@ -23,7 +23,6 @@
 					dragMaskPosition: null,
 					whichTableFrameIndex: null
 				},
-				defaultAllColumns: {},
 				allColumns: {},
 				selectedColumn: {
 					self: null,
@@ -497,7 +496,7 @@
 			var self = jQuery(this),
 				visibleColumnsCount = 0,
 				hiddenColumnsCount = 0;
-			jQuery.each(js.allColumns, function (i, colData) {
+			jQuery.each(js.allColumns[js.selectedColumn.tableUuid], function (i, colData) {
 				if (colData.enabled == true) {
 					visibleColumnsCount ++;
 				} else {
@@ -853,7 +852,7 @@
 			event.stopPropagation();
 			var callback = global.jasperreports.global.extractCallbackFunction(callbackFn, context);
 			if (callback) {
-				callback.call(this);
+				callback.apply(this);
 			}
 		}
 	};
@@ -876,24 +875,21 @@
 	/**
 	 * Triggered on first ajax request, ONCE
 	 */
-	js.setAllColumns = function (allColumns) {
-		js.defaultAllColumns = allColumns;
-
-		js.allColumns = {};
-		jQuery.extend(true, js.allColumns, js.defaultAllColumns);
+	js.setAllColumns = function (allColumns, tableUuid) {
+		js.allColumns[tableUuid] = allColumns;
 	};
 	
 	/**
 	 * Triggered after each ajax request, MULTIPLE times
 	 */
-	js.addVisibleColumn = function (colIndex, colLabel) {
+	js.addVisibleColumn = function (colIndex, colLabel, tableUuid) {
 		var o = {};
 		o[colIndex] = {
 				index: colIndex,
 				label: colLabel,
 				enabled: true
 			};
-		jQuery.extend(true, js.allColumns, o);
+		jQuery.extend(true, js.allColumns[tableUuid], o);
 	};
 	
 	
@@ -939,7 +935,7 @@
 		
 		if (!self.data('hasSubMenu') && !self.is('.jrMenuDisabled')) { 
 			var	subMenu = jQuery("<ul class='jrMenuLst'></ul>"),
-				allCols = js.allColumns,
+				allCols = js.allColumns[js.selectedColumn.tableUuid],
 				liTemplate = ["<li class='jrMenuLstItm jrMenuEnabled' data-colindexes='",,"'><span class='jrMenuText'>",,"</span></li>"],
 				hiddenColIndexes=[];
 	

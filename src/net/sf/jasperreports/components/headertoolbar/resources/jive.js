@@ -221,7 +221,7 @@ jive.ui.foobar = {
             jQuery.each(actionMap,function(k,v){
                 if(v.actions) {
                     it.menus[jive.selected.ie.type] = it.menus[jive.selected.ie.type] || {};
-                    htm = it.createMenu(k,v.actions);
+                    htm = it.createMenu(k, v.label, v.actions);
                     it.menus[jive.selected.ie.type][k] ={jo:jQuery(htm).appendTo('#jive_menus')};
                 }
                 tmpl[1] = k;
@@ -237,16 +237,18 @@ jive.ui.foobar = {
             it.current = jive.selected.ie.type;
         }
     },
-    createMenu: function(name, items){
-        var it = this;
-        var htm = '<ul class="pmenu" label="'+name+'">';
+    createMenu: function(key, label, items){
+        var it = this,
+        	lbl = label || key,
+        	htm = '<ul class="pmenu" label="'+lbl+'">';
         jQuery.each(items,function(k,v){
             if(!v.disabled) {
-                var attr = v.fn ? 'fn="'+v.fn+'"' : '';
+                var attr = v.fn ? 'fn="'+v.fn+'"' : '',
+                	label = v.label || k;
                 attr += v.arg ? " data-args='"+v.arg+"'" : "";
-                htm += '<li class="pmenuitem" '+attr+'>'+k;
+                htm += '<li class="pmenuitem" '+attr+'>'+label;
                 if(v.actions) {
-                    htm += it.createMenu(k,v.actions);
+                    htm += it.createMenu(k, v.label, v.actions);
                 }
                 htm += '</li>';
             }

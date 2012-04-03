@@ -576,10 +576,11 @@ public class TableReport implements JRReport
 		protected void addColumnLabelParameters(JRDesignGenericElement element, TableComponent table) {
 			List<BaseColumn> columns = TableUtil.getAllColumns(table);
 			for(int i = 0, ln = columns.size(); i < ln; i++) {
-				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(columns.get(i).getColumnHeader());
+				BaseColumn column = columns.get(i);
+				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(column.getColumnHeader());
 
 				JRDesignPropertyExpression pe = new JRDesignPropertyExpression();
-				pe.setName(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i);
+				pe.setName(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i + "|" + column.getUUID().toString());
 				pe.setValueExpression(columnHeaderExpression);
 				
 				element.addPropertyExpression(pe);
