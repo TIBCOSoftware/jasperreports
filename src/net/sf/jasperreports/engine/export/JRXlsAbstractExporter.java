@@ -977,7 +977,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				JRExporterGridCell[] gridRow = grid[y];
 
 				int emptyCellColSpan = 0;
-				int emptyCellWidth = 0;
+				//int emptyCellWidth = 0;
 
 				mergeAndSetRowLevels(levelInfo, yCuts.getRowLevelMap(y), rowIndex);
 
@@ -1005,7 +1005,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						{
 							//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
 							emptyCellColSpan = 0;
-							emptyCellWidth = 0;
+							//emptyCellWidth = 0;
 						}
 
 						addOccupiedCell((OccupiedGridCell)gridCell, colIndex, rowIndex);
@@ -1020,7 +1020,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 //								//sheet.addMergedRegion(new Region(y, (short)(x - emptyCellColSpan - 1), y, (short)(x - 1)));
 //							}
 							emptyCellColSpan = 0;
-							emptyCellWidth = 0;
+							//emptyCellWidth = 0;
 						}
 
 						JRPrintElement element = gridCell.getWrapper().getElement();
@@ -1110,7 +1110,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 					else
 					{
 						emptyCellColSpan++;
-						emptyCellWidth += gridCell.getWidth();
+						//emptyCellWidth += gridCell.getWidth();
 						addBlankCell(gridCell, colIndex, rowIndex);
 					}
 				}

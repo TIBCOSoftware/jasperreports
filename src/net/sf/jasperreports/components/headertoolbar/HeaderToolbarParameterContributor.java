@@ -37,8 +37,6 @@ import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -50,8 +48,6 @@ import org.codehaus.jackson.type.TypeReference;
  */
 public class HeaderToolbarParameterContributor implements ParameterContributor
 {
-	private static final Log log = LogFactory.getLog(HeaderToolbarParameterContributor.class);
-	
 	private final ParameterContributorContext context;
 
 	public HeaderToolbarParameterContributor (ParameterContributorContext context)

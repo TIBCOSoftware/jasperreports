@@ -313,7 +313,8 @@ public class JRAntCompileTask extends JRBaseAntTask
 	 */
 	protected void scanSrc() throws BuildException
 	{
-		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
+		for(@SuppressWarnings("unchecked")
+		Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
 			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;

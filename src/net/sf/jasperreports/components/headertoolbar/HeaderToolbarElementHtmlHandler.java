@@ -94,8 +94,6 @@ import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -105,8 +103,6 @@ import org.codehaus.jackson.type.TypeReference;
  */
 public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
-	private static final Log log = LogFactory.getLog(HeaderToolbarElementHtmlHandler.class);
-	
 //	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
 	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
 //	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";

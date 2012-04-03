@@ -97,9 +97,6 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * 
  * 
@@ -108,8 +105,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TableReport implements JRReport
 {
-	private static final Log log = LogFactory.getLog(TableReport.class);
-	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
 	protected static final String HTML_CLASS_COLUMN_PREFIX = "col_";
