@@ -617,7 +617,7 @@ public class BucketingService
 	}
 
 	
-	static protected class MapEntry implements Map.Entry<Bucket, Object>, Comparable
+	static protected class MapEntry implements Map.Entry<Bucket, Object>, Comparable<MapEntry>
 	{
 		final Bucket key;
 
@@ -644,9 +644,9 @@ public class BucketingService
 			throw new UnsupportedOperationException();
 		}
 
-		public int compareTo(Object o)
+		public int compareTo(MapEntry o)
 		{
-			return key.compareTo(((MapEntry) o).key);
+			return key.compareTo(o.key);
 		}
 		
 		public String toString()

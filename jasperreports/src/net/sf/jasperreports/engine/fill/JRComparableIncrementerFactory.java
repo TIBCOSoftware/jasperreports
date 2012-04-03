@@ -125,6 +125,7 @@ final class JRComparableLowestIncrementer extends JRAbstractExtendedIncrementer
 	/**
 	 *
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,
@@ -181,6 +182,7 @@ final class JRComparableHighestIncrementer extends JRAbstractExtendedIncrementer
 	/**
 	 *
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Object increment(
 		JRCalculable variable, 
 		Object expressionValue,

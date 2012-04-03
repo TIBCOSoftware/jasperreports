@@ -290,7 +290,7 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 		getEventSupport().firePropertyChange(PROPERTY_SERIES_COLORS, old, seriesColors);
 	}
 	
-	public static class JRBaseSeriesColor implements JRChartPlot.JRSeriesColor, Serializable, Comparable
+	public static class JRBaseSeriesColor implements JRChartPlot.JRSeriesColor, Serializable, Comparable<JRBaseSeriesColor>
 	{
 		/**
 		 *
@@ -322,13 +322,13 @@ public abstract class JRBaseChartPlot implements JRChartPlot, Serializable, JRCh
 			return color;
 		}
 
-		public int compareTo(Object obj) {
+		public int compareTo(JRBaseSeriesColor obj) {
 			if (obj == null)
 			{
 				throw new IllegalArgumentException();
 			}
 			
-			return seriesOrder - ((JRBaseSeriesColor)obj).getSeriesOrder();
+			return seriesOrder - obj.getSeriesOrder();
 		}
 		
 		public Object clone()

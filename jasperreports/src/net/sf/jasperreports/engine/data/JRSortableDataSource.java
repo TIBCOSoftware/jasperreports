@@ -220,7 +220,7 @@ public class JRSortableDataSource implements JRRewindableDataSource
 	/**
 	 *
 	 */
-	class DataSourceComparator implements Comparator
+	class DataSourceComparator implements Comparator<Object[]>
 	{
 		int[] sortIndexes = null;
 		int[] sortOrders = null;
@@ -233,11 +233,9 @@ public class JRSortableDataSource implements JRRewindableDataSource
 			this.collatorFlags = collatorFlags;
 		}
 
-		public int compare(Object arg1, Object arg2)
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		public int compare(Object[] record1, Object[] record2)
 		{
-			Object[] record1 = (Object[])arg1;
-			Object[] record2 = (Object[])arg2;
-
 			int ret = 0;
 
 			for(int i = 0; i < sortIndexes.length; i++)
