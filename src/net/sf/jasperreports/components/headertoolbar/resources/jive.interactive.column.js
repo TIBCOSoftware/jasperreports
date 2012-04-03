@@ -185,7 +185,7 @@ jive.interactive.column = jive.interactive.column || {
         this.uuid = parent.data('uuid');
         var c = 'col_'+ jive.selected.jo.data('popupcolumn');
         this.dropLeft = this.dropColumnsIndex[this.uuid][c] == 0 ? 0 : this.dropColumnsIndex[this.uuid][c] - 1;
-        this.dropRight =  this.dropColumnsIndex[uuid][c] + 3 == this.dropMarks.length ? this.dropColumnsIndex[uuid][c] + 2 : this.dropColumnsIndex[uuid][c] + 3;
+        this.dropRight =  this.dropColumnsIndex[this.uuid][c] + 3 == this.dropMarks.length ? this.dropColumnsIndex[this.uuid][c] + 2 : this.dropColumnsIndex[this.uuid][c] + 3;
         this.delta = jive.ui.marker.position.left - this.dropMarks[this.uuid][(jive.selected.ie.columnIndex+1)*2];
     },
     onDrag: function(evt,ui){
