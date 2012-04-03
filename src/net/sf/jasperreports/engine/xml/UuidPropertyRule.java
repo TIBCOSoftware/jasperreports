@@ -25,8 +25,6 @@ package net.sf.jasperreports.engine.xml;
 
 import java.util.UUID;
 
-import net.sf.jasperreports.engine.util.JRColorUtil;
-
 /**
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)

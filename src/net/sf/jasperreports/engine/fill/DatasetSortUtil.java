@@ -68,6 +68,7 @@ public class DatasetSortUtil
 			allSortFields.addAll(Arrays.asList(staticSortFields));
 		}
 
+		@SuppressWarnings("unchecked")
 		List<JRSortField> dynamicSortFields = (List<JRSortField>)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		if (dynamicSortFields != null)
 		{
@@ -84,6 +85,7 @@ public class DatasetSortUtil
 	public static boolean needSorting(JRFillDataset dataset)
 	{
 		JRSortField[] staticSortFields = dataset.getSortFields();
+		@SuppressWarnings("unchecked")
 		List<JRSortField> dynamicSortFields = (List<JRSortField>)dataset.getParameterValue(JRParameter.SORT_FIELDS, true);
 		
 		return 
@@ -212,7 +214,7 @@ public class DatasetSortUtil
 /**
  *
  */
-class DataSourceComparator implements Comparator
+class DataSourceComparator implements Comparator<Object[]>
 {
 	Collator collator;
 	SortFieldInfo[] sortFieldInfo;
@@ -223,11 +225,9 @@ class DataSourceComparator implements Comparator
 		this.sortFieldInfo = sortFieldInfo;
 	}
 
-	public int compare(Object arg1, Object arg2)
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public int compare(Object[] record1, Object[] record2)
 	{
-		Object[] record1 = (Object[])arg1;
-		Object[] record2 = (Object[])arg2;
-
 		int ret = 0;
 
 		for(int i = 0; i < sortFieldInfo.length; i++)

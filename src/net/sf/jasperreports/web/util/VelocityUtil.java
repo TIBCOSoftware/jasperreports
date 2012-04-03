@@ -38,12 +38,6 @@ import org.apache.velocity.app.VelocityEngine;
  */
 public class VelocityUtil
 {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private static final VelocityEngine velocityEngine;
 	
 	static {
