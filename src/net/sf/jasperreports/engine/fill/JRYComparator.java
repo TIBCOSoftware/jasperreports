@@ -32,18 +32,15 @@ import net.sf.jasperreports.engine.JRElement;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class JRYComparator implements Comparator
+public class JRYComparator implements Comparator<JRElement>
 {
 	
 
 	/**
 	 *
 	 */
-	public int compare(Object obj1, Object obj2)
+	public int compare(JRElement elem1, JRElement elem2)
 	{
-		JRElement elem1 = (JRElement)obj1;
-		JRElement elem2 = (JRElement)obj2;
-		
 		return elem1.getY() - elem2.getY();
 	}
 

@@ -37,7 +37,6 @@ import java.util.TreeSet;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -1379,8 +1378,6 @@ public class BucketingService
 	
 	protected static abstract class CollectedList
 	{
-		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 		int span;
 		Bucket key;
 		Object orderValue;
@@ -1420,8 +1417,6 @@ public class BucketingService
 	
 	protected static class SequentialCollectedList extends CollectedList
 	{
-		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 		final CrosstabTotalPositionEnum totalPosition;
 		final LinkedList<CollectedList> list;
 		
@@ -1452,8 +1447,6 @@ public class BucketingService
 	
 	protected static class OrderedCollectedList extends CollectedList
 	{
-		private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 		final TreeSet<CollectedList> list;
 		
 		OrderedCollectedList(BucketDefinition bucketDefinition)
@@ -1476,7 +1469,7 @@ public class BucketingService
 		}
 	}
 	
-	protected static class CollectedListComparator implements Comparator
+	protected static class CollectedListComparator implements Comparator<CollectedList>
 	{
 		final BucketDefinition bucketDefinition;
 		final boolean totalFirst;
@@ -1488,15 +1481,12 @@ public class BucketingService
 					== CrosstabTotalPositionEnum.START;
 		}
 
-		public int compare(Object o1, Object o2)
+		public int compare(CollectedList l1, CollectedList l2)
 		{
-			if (o1 == o2)
+			if (l1 == l2)
 			{
 				return 0;
 			}
-			
-			CollectedList l1 = (CollectedList) o1;
-			CollectedList l2 = (CollectedList) o2;
 			
 			int order;
 			if (l1.key.isTotal())
