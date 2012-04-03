@@ -50,8 +50,6 @@ public class JRFillChartAxis implements JRChartAxis
 	 */
 	protected JRFillChart fillChart;
 
-	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
 
 	public JRFillChartAxis(JRChartAxis axis, JRFillObjectFactory factory)
 	{

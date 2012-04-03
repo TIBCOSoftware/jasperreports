@@ -124,7 +124,8 @@ public final class ChartUtil
 			{
 				areaHyperlinks = new ArrayList<JRPrintImageAreaHyperlink>(entityCollection.getEntityCount());
 				
-				for (Iterator<ChartEntity> it = entityCollection.iterator(); it.hasNext();)
+				for (@SuppressWarnings("unchecked")
+				Iterator<ChartEntity> it = entityCollection.iterator(); it.hasNext();)
 				{
 					ChartEntity entity = it.next();
 					JRPrintHyperlink printHyperlink = chartHyperlinkProvider.getEntityHyperlink(entity);

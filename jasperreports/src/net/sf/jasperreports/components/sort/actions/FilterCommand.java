@@ -31,7 +31,6 @@ import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.web.commands.Command;
-import net.sf.jasperreports.web.commands.CommandTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -48,7 +47,7 @@ public class FilterCommand implements Command
 	protected JRDesignDataset dataset;
 	protected FilterData filterData;
 //	private JasperDesignCache cache;
-	private CommandTarget target;
+//	private CommandTarget target;
 	private String oldSerializedFilters;
 	private String newSerializedFilters;
 	

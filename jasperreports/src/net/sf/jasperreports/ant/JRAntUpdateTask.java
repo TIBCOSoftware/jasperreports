@@ -244,9 +244,10 @@ public class JRAntUpdateTask extends JRBaseAntTask
 	/**
 	 * Scans the source directories looking for source files to be updated. 
 	 */
-	protected void scanSrc() throws BuildException
+	protected void scanSrc() throws BuildException //FIXME put this method in base class
 	{
-		for(Iterator<Resource> it = src.iterator(); it.hasNext();)
+		for(@SuppressWarnings("unchecked")
+		Iterator<Resource> it = src.iterator(); it.hasNext();)
 		{
 			Resource resource = it.next();
 			FileResource fileResource = resource instanceof FileResource ? (FileResource)resource : null;

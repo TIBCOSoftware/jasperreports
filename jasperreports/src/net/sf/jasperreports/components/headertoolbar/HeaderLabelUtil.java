@@ -54,8 +54,6 @@ public class HeaderLabelUtil
 {
 	private static final char UP_ARROW_CHAR = 0x25B2;
 	private static final char DOWN_ARROW_CHAR = 0x25BC;
-	private static final String TEXT_FIELD_UP_ARROW_SUFFIX = ") + \" \\u" + Integer.toHexString(UP_ARROW_CHAR) + "\"";
-	private static final String TEXT_FIELD_DOWN_ARROW_SUFFIX = ") + \" \\u" + Integer.toHexString(DOWN_ARROW_CHAR) + "\"";
 	private static final String STATIC_TEXT_UP_ARROW_SUFFIX = " " + UP_ARROW_CHAR;
 	private static final String STATIC_TEXT_DOWN_ARROW_SUFFIX = " " + DOWN_ARROW_CHAR;
 

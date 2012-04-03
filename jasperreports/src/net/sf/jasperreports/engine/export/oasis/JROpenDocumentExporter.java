@@ -443,7 +443,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		for(int row = 0; row < grid.length; row++)
 		{
 			int emptyCellColSpan = 0;
-			int emptyCellWidth = 0;
+			//int emptyCellWidth = 0;
 			int rowHeight = gridLayout.getRowHeight(row);
 
 			tableBuilder.buildRowStyle(row, rowHeight);
@@ -458,7 +458,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 					{
 						//writeEmptyCell(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
 						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
+						//emptyCellWidth = 0;
 					}
 
 					//writeOccupiedCells(1);
@@ -474,7 +474,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 					{
 						//writeEmptyCell(gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
 						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
+						//emptyCellWidth = 0;
 					}
 
 					element = gridCell.getWrapper().getElement();
@@ -514,7 +514,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 				else
 				{
 					emptyCellColSpan++;
-					emptyCellWidth += gridCell.getWidth();
+					//emptyCellWidth += gridCell.getWidth();
 					exportEmptyCell(gridCell, 1);
 				}
 			}

@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 
 /**
@@ -31,6 +32,7 @@ import net.sf.jasperreports.engine.JRException;
  */
 public class DataSnapshotException extends JRException
 {
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public DataSnapshotException(String message)
 	{

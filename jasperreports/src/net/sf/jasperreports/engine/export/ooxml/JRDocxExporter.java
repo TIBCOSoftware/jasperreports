@@ -506,7 +506,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		for(int row = 0; row < grid.length; row++)
 		{
 			int emptyCellColSpan = 0;
-			int emptyCellWidth = 0;
+			//int emptyCellWidth = 0;
 
 			boolean allowRowResize = false;
 			int maxBottomPadding = 0; //for some strange reason, the bottom margin affects the row height; subtracting it here
@@ -548,7 +548,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					{
 						//tableHelper.exportEmptyCell(gridCell, emptyCellColSpan);
 						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
+						//emptyCellWidth = 0;
 					}
 
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
@@ -562,7 +562,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					{
 						//writeEmptyCell(tableHelper, gridCell, emptyCellColSpan, emptyCellWidth, rowHeight);
 						emptyCellColSpan = 0;
-						emptyCellWidth = 0;
+						//emptyCellWidth = 0;
 					}
 
 					element = gridCell.getWrapper().getElement();
@@ -601,7 +601,7 @@ public class JRDocxExporter extends JRAbstractExporter
 				else
 				{
 					emptyCellColSpan++;
-					emptyCellWidth += gridCell.getWidth();
+					//emptyCellWidth += gridCell.getWidth();
 					tableHelper.exportEmptyCell(gridCell, 1);
 				}
 			}
