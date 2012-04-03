@@ -1,7 +1,6 @@
 jive.interactive.column = jive.interactive.column || {
     uuid: null,
-    allColumns: null,
-    columnLabels: {},
+    allColumns: {},
     count: 0,
     ids: {},
     fontSizes:null,
@@ -15,7 +14,7 @@ jive.interactive.column = jive.interactive.column || {
             'Format cells': {fn:'formatCells'},
             'Hide column': {fn:'hide', arg:'{"hide":true}'},
             'Show column': {actions:{
-                'All': {fn: 'hide', arg:'{"hide":false,"column":"all"}'}
+                'All': {label: '&lt;All&gt;', fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
         'Sort ascending':{icon: 'sortAscIcon', fn:'sort', arg:['Asc']},
@@ -32,11 +31,11 @@ jive.interactive.column = jive.interactive.column || {
     dropRight: null,
     delta: null,
 
-    init: function(allColumns){
+    init: function(allColumns, tableUuid){
         var t,c,i,j,tid,
             dropPoints = [],
             it = this;
-        it.allColumns = allColumns;
+        it.allColumns[tableUuid] = allColumns;
 
         /*
          * Load dynamic form data
@@ -62,57 +61,74 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
-        it.columnLabels = {};
         it.dropColumnsIndex = {};
-        jQuery('.jrtableframe').each(function(i){
-            t = jQuery(this);
-
-            uuid = t.data('uuid');
-            if(!it.dropColumnsIndex[uuid]){
-                it.dropPoints[uuid] = [];
-                it.dropMarks[uuid] = [];
-                it.dropColumnsRW[uuid] = [];
-                it.dropColumnsFF[uuid] = [];
-                it.dropColumnsIndex[uuid] = {};
+//        jQuery('.jrtableframe').each(function(i){
+//            t = jQuery(this);
+        
+        	t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']');
+            if(!it.dropColumnsIndex[tableUuid]){
+                it.dropPoints[tableUuid] = [];
+                it.dropMarks[tableUuid] = [];
+                it.dropColumnsRW[tableUuid] = [];
+                it.dropColumnsFF[tableUuid] = [];
+                it.dropColumnsIndex[tableUuid] = {};
                 dropColumns = [];
                 t.find('.columnHeader').each(function(i){
-                    c = jQuery(this);
+					c = jQuery(this);
+					var off = c.offset();
+
+                	it.enableColumn(c.data('popupid'), tableUuid)
+                	
                     dropColumns.push('col_'+c.data('popupcolumn'));
 
-                    it.columnLabels[jQuery('div > span > span > span',c).html()] = 1;
-
-                    var off = c.offset();
-                    it.dropPoints[uuid].push(off.left);
-                    it.dropPoints[uuid].push(off.left + c.width());
+                    it.dropPoints[tableUuid].push(off.left);
+                    it.dropPoints[tableUuid].push(off.left + c.width());
                 });
 
                 for(i=0;i<dropColumns.length;i++) {
                     j = i * 2;
-                    it.dropMarks[uuid].push(it.dropPoints[uuid][j]);
-                    it.dropMarks[uuid].push(it.dropPoints[uuid][j] + (it.dropPoints[uuid][j+1] - it.dropPoints[uuid][j]) / 2);
+                    it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j]);
+                    it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j] + (it.dropPoints[tableUuid][j+1] - it.dropPoints[tableUuid][j]) / 2);
 
-                    it.dropColumnsRW[uuid].push(j);
-                    it.dropColumnsRW[uuid].push(j);
+                    it.dropColumnsRW[tableUuid].push(j);
+                    it.dropColumnsRW[tableUuid].push(j);
 
-                    it.dropColumnsFF[uuid].push(j);
-                    it.dropColumnsFF[uuid].push(j+1);
+                    it.dropColumnsFF[tableUuid].push(j);
+                    it.dropColumnsFF[tableUuid].push(j+1);
 
-                    it.dropColumnsIndex[uuid][dropColumns[i]] = j;
+                    it.dropColumnsIndex[tableUuid][dropColumns[i]] = j;
                 }
-                it.dropMarks[uuid].push(it.dropPoints[uuid][j+1]);
-                it.dropColumnsRW[uuid].push(j+1);
-                it.dropColumnsFF[uuid].push(j+1);
+                it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j+1]);
+                it.dropColumnsRW[tableUuid].push(j+1);
+                it.dropColumnsFF[tableUuid].push(j+1);
             }
-        });
+//        });
         /*
          * Create show column menu
          */
         var menu = it.actions.Format.actions['Show column'];
         for(i in allColumns) {
             c = allColumns[i];
-            menu.actions[c.label] = {fn:'hide',arg:'{"hide":false,"column":'+c.index+'}'};
+           	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false,"column":['+c.index+'], "columnUuid": "' + c.uuid + '"}'};
         }
         it.count = dropColumns.length;
+    },
+    enableColumn: function(columnUuid, tableUuid) {
+    	var col = this.getColumnByUuid(columnUuid, tableUuid);
+    	if (col != null) {
+    		col.enabled = true;
+    	}
+    },
+    getColumnByUuid: function(columnUuid, tableUuid) {
+    	var tableColumns = this.allColumns[tableUuid],
+    		colIdx;
+    	
+    	for (colIdx in tableColumns) {
+    		if (tableColumns[colIdx].uuid === columnUuid) {
+    			return tableColumns[colIdx];
+    		}
+    	}
+    	return null;
     },
     getInteractiveElementFromProxy: function(cell){
         var clss = cell.attr('class').split(' ');
@@ -130,28 +146,36 @@ jive.interactive.column = jive.interactive.column || {
         return {w:jo.width(),h:h};
     },
     onToolbarShow: function(){
-        var it = this;
-        var on = false;
+        var it = this,
+        	allOption = [],
+        	pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show column"]').eq(0),
+        	tableUuid = jive.selected.jo.closest('.jrtableframe').data('uuid'),
+        	allColumns = it.allColumns[tableUuid],
+        	menuItmArgs,
+        	col;
+
         it.count == 1 ?
             jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).hide() :
             jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).show();
 
-        var allOption = [];
-        var pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show column"]').eq(0);
         pmenu.children().each(function(i,el){
-            if(it.columnLabels[el.innerHTML]) {
-                el.style.display = 'none';
-            } else {
-                if(el.innerHTML != 'All') {
-                    on = true;
-                    allOption.push(i-1);
-                }
-                el.style.display = 'block';
-            }
+        	if (i > 0) {
+        		menuItmArgs = jQuery(el).data('args');
+        		col = it.getColumnByUuid(menuItmArgs.columnUuid, tableUuid);
+        		if (col && col.enabled === true) {
+        			el.style.display = 'none';
+        		} else if (col){
+        			allOption.push(col.index);
+        			el.style.display = 'block';
+        		} else {
+        			el.style.display = 'none';
+        		}
+        	}
         });
-        if(on){
+        
+        if(allOption.length > 0){
+        	pmenu.parent().show();
             pmenu.children().eq(0).data('args',{hide:false,column:allOption});
-            pmenu.parent().show();
         } else {
             pmenu.parent().hide();
         }
@@ -222,11 +246,6 @@ jive.interactive.column = jive.interactive.column || {
         jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells'], 1);
     },
     hide: function(args){
-        var cdata ={
-            hide: args.hide,
-            columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
-            tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid')
-        }
         jive.hide();
         jive.runAction({
             actionName: 'hideUnhideColumns',

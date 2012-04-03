@@ -215,9 +215,9 @@
 			valuesTabContent: ${colValueData}
 		};
 #if (${exporterFirstAttempt})
-	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.setAllColumns', [${allColumnNames}]);
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.setAllColumns', [${allColumnNames}, '${tableUUID}']);
 #end
 	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.addTemplateData', ['popupdiv_template', '${popupId}', templateJsonData]);
-	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.addVisibleColumn', [${columnIndex}, '${columnLabel}']);
+	gm.subscribeToEvent(gm.events.HEADERTOOLBAR_INIT.name, 'jasperreports.tableheadertoolbar.addVisibleColumn', [${columnIndex}, '${columnLabel}', '${tableUUID}']);
 } ());
 </script>

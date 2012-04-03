@@ -107,10 +107,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
 	private static final Log log = LogFactory.getLog(HeaderToolbarElementHtmlHandler.class);
 	
-//	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
-	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
-//	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
-	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
+	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
+//	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
+	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
+//	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
 
 	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js";
 
@@ -132,7 +132,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String CSS_SORT_ENABLED_DESC = 		"sortDescBtnEnabled";
 	private static final String CSS_SORT_ENABLED_DESC_HOVER = 	"sortDescBtnEnabledHover";
 	
-	private static final String SORT_ELEMENT_HTML_TEMPLATE = 	"net/sf/jasperreports/components/headertoolbar/resources/HeaderToolbarElementHtmlTemplate.vm";
+//	private static final String SORT_ELEMENT_HTML_TEMPLATE = 	"net/sf/jasperreports/components/headertoolbar/resources/HeaderToolbarElementHtmlTemplate.vm";
+	private static final String SORT_ELEMENT_HTML_TEMPLATE = 	"net/sf/jasperreports/components/headertoolbar/resources/HeaderToolbarElementHtmlTemplate.vm.orig";
 	
 	private static final String PARAM_GENERATED_TEMPLATE_PREFIX = "net.sf.jasperreports.headertoolbar.";
 	
@@ -195,6 +196,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
+			contextMap.put("tableUUID", tableUUID);
 			
 			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
@@ -202,10 +204,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
 			
-			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID) != null) {
+			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null) {
 				templateAlreadyLoaded = true;
 			} else {
-				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX + tableUUID, true);
+				reportContext.setParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX, true);
 				
 				contextMap.put("actionBaseUrl", getActionBaseUrl(context));
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
@@ -214,10 +216,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("jiveColumnScript", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS);
 			}
 			
-			if (context.getExportParameters().containsKey(param) && (Boolean)context.getExportParameters().get(param)) {
+			if (context.getExportParameters().containsKey(param) && tableUUID.equals(context.getExportParameters().get(param))) {
 				exporterFirstAttempt = false;
 			} else {
-				context.getExportParameters().put(param, Boolean.TRUE);
+				context.getExportParameters().put(param, tableUUID);
 
 				setAllColumnNames(element, context.getJasperReportsContext(), contextMap);
 				contextMap.put("exporterFirstAttempt", exporterFirstAttempt);
@@ -630,11 +632,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	public static class ColumnInfo {
 		private String index;
 		private String label;
+		private String uuid;
 		private boolean enabled;
 		
-		private ColumnInfo(String index, String label, boolean enabled) {
+		private ColumnInfo(String index, String label, String uuid, boolean enabled) {
 			this.index = index;
 			this.label = label;
+			this.uuid = uuid;
 			this.enabled = enabled;
 		}
 		
@@ -644,6 +648,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		
 		public String getLabel() {
 			return label;
+		}
+
+		public String getUuid() {
+			return uuid;
 		}
 		
 		public boolean getEnabled() {
@@ -658,10 +666,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 
 		for (PropertySuffix prop: props) {
 			String columnName = prop.getValue();
+			String[] tokens = prop.getSuffix().split("\\|");
 			if (columnName == null || columnName.trim().length() == 0) {
-				columnName = "Column_" + prop.getSuffix();
+				columnName = "Column_" + tokens[0];
 			}
-			columnNames.put(prop.getSuffix(), new ColumnInfo(prop.getSuffix(), columnName, false));
+			columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false));
 		}
 		
 		contextMap.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
