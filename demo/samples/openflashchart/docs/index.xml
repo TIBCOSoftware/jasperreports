@@ -322,8 +322,8 @@ and the bar chart components in the summary section:
   </ofc:barChart>
 </componentElement>]]></pre>
 One can see the very simple configuration requirements for both Open Flash Charts prefixed with the <code>ofc:</code> namespace prefix. They 
-only need to know the dataset and some adequate expressions for series in the dataset, then the rest will be automatized by the Open Flash Chart 
-and JasperReports libraries working together. 
+only need to know the chart data source and some adequate expressions for series in the dataset, all the remaining TODO stuff being automatized 
+by the Open Flash Chart and JasperReports libraries working together. 
 <br/>
 <br/>
 <b>Running the Sample</b>
