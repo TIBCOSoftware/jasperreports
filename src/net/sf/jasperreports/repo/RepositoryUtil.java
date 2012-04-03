@@ -252,7 +252,7 @@ public final class RepositoryUtil
 		}
 		if (resource == null)
 		{
-			throw new JRException("Resource not found at : " + location);
+			throw new JRException("Resource not found at : " + location);//FIXMEREPO decide whether to return null or throw exception; check everywhere
 		}
 		return resource;
 	}
