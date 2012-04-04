@@ -23,7 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -45,6 +47,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.util.Pair;
 
 /**
  * Context class shared by all the fillers involved in a report (master and subfillers).
@@ -71,6 +74,7 @@ public class JRFillContext
 	private DataCacheHandler cacheHandler;
 	private DataSnapshot dataSnapshot;
 	private DataRecorder dataRecorder;
+	private List<Pair<FillDatasetPosition, Object>> recordedData;
 
 	private JRVirtualizationContext virtualizationContext;
 	
@@ -457,6 +461,7 @@ public class JRFillContext
 			else if (cacheHandler.isRecordingEnabled())
 			{
 				dataRecorder = cacheHandler.createDataRecorder();
+				recordedData = new ArrayList<Pair<FillDatasetPosition,Object>>();
 			}
 		}
 	}
@@ -487,6 +492,11 @@ public class JRFillContext
 		return dataRecorder;
 	}
 
+	public void addDataRecordResult(FillDatasetPosition fillPosition, Object recorded)
+	{
+		recordedData.add(new Pair<FillDatasetPosition, Object>(fillPosition, recorded));
+	}
+
 	public boolean hasCachedData(FillDatasetPosition position)
 	{
 		if (dataSnapshot != null)
@@ -501,6 +511,12 @@ public class JRFillContext
 	{
 		if (dataRecorder != null)
 		{
+			// add all recorded data
+			for (Pair<FillDatasetPosition, Object> recorededItem : recordedData)
+			{
+				dataRecorder.addRecordResult(recorededItem.first(), recorededItem.second());
+			}
+			
 			dataRecorder.setSnapshotPopulated();
 		}
 	}

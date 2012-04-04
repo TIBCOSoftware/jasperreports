@@ -30,8 +30,10 @@ package net.sf.jasperreports.data.cache;
 public interface DataRecorder
 {
 
-	DatasetRecorder createRecorder(Object key);
+	DatasetRecorder createRecorder();
 
+	void addRecordResult(Object key, Object recorded);
+	
 	void setSnapshotPopulated();
 
 }

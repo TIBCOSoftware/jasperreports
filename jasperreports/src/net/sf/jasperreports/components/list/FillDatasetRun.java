@@ -103,7 +103,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 		JRFillDataset parentDataset = expressionEvaluator.getFillDataset();
 		datasetPosition = new FillDatasetPosition(parentDataset.getDatasetPosition());
 		datasetPosition.addAttribute("datasetRunUUID", getUUID());
-		datasetPosition.addAttribute("rowIndex", parentDataset.getCacheRecordIndex());		
+		parentDataset.setCacheRecordIndex(datasetPosition, evaluation);
 
 		if (dataSourceExpression != null)
 		{
