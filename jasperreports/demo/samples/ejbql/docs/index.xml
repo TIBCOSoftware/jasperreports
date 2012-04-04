@@ -18,8 +18,8 @@ How to fill reports using embedded EJBQL queries.
     <since>1.2.3</since>
     <documentedBy>
       <author>
-    	<name></name>
-    	<email></email>
+    	<name>Sanda Zaharia</name>
+    	<email>shertage@users.sourceforge.net</email>
       </author>
     </documentedBy>
   	<otherSample ref="csvdatasource"/>
@@ -27,7 +27,77 @@ How to fill reports using embedded EJBQL queries.
   	<otherSample ref="mondrian"/>
   	<otherSample ref="xmldatasource"/>
     <content>
-[Under Construction]
+<subtitle name="overview">The EJB QL/JPA Query Executer</subtitle>
+<br/> 
+<br/>
+The EJB QL report query executer adds support for reporting on EJB 3.0 persistent entities data. For an EJB QL query in a report, the query 
+executer will use the EJB 3.0 Java Persistence API to execute the query against an entity manager provided at runtime, and use the query 
+result as a data source for the report. 
+<br/>
+The built-in <api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuter.html">EJB QL query executer</api> is registered by default for 
+queries having <code>EJBQL</code> or <code>ejbql</code> set as their language. This mapping can be changed by using the related JasperReports 
+properties (see properties in the category  
+<a href="../../config.reference.html#net.sf.jasperreports.query.executer.factory.{language}" target="_blank">
+net.sf.jasperreports.query.executer.factory.{language}
+</a>).
+<br/>
+Two built-in parameters are involved in the query execution:
+<ul>
+<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#PARAMETER_JPA_ENTITY_MANAGER">PARAMETER_JPA_ENTITY_MANAGER</api> - that 
+specifies the entity manager to be used for executing the query, depending on the particular EJB/JPA environment and implementation</li>
+<li><api href="net/sf/jasperreports/engine/query/JRJpaQueryExecuterFactory.html#JPA_QUERY_HINTS_MAP">JPA_QUERY_HINTS_MAP</api> - that contains a map with 
+hint values mapped on hint names, to be used when running the query. Hints can also be specified statically by using report properties. The query executer 
+treats any report property in the category <code>net.sf.jasperreports.ejbql.query.hint.{hintName}</code> as a hint by interpreting the property suffix as 
+the hint name and the property value as the hint value.</li>
+</ul>
+An example of query hint property is the following:
+<pre><![CDATA[
+<property name="net.sf.jasperreports.ejbql.query.hint.cacheType" value="Shared"/>
+]]></pre>
+A separate report property can be used to paginate the query result in order to control the amount of Java heap space used by the query executer while 
+filling the report. The property can be set in the following manner: 
+<pre><![CDATA[
+<property name="net.sf.jasperreports.ejbql.query.page.size" value="500"/>
+]]></pre>
+meaning that the query result will be fetched in chunks containing 500 rows each. The pagination is achieved via the <code>javax.persistence.Query.setMaxResults()</code> 
+and <code>setFirstResult()</code> methods. Obviously, using pagination could result in performance loss. Therefore enabling it is primarily recommended when the query 
+results are very large.
+<br/>
+The result of the query execution is sent to a data source implementation, which iterates over it and extracts report field values. Fields are mapped to specific values 
+in the query result by specifying the mapping as field description or field name. The JPA data source can handle two types of query results: 
+<ul>
+<li>Queries returning a single entity/bean per row - in this case field mappings are interpreted as bean property names.</li>
+<li>Queries returning object tuples as rows - fields are mapped using one of the following forms:
+<ul>
+<li><code>COLUMN_&lt;index&gt;</code> - the field is mapped to a value specified by its position in the resulting tuple. The positions start from 1.</li>
+<li><code>COLUMN_&lt;index&gt;.&lt;property&gt;</code> - the field is mapped to a property of a value specified by its position in the resulting tuple.</li>
+</ul>
+</li>
+</ul>
+<subtitle name="sample">The EJB QL/JPA Query Executer Sample</subtitle>
+<br/> 
+<br/>
+The movie database sample in the <code>demo/samples/ejbql</code> directory is structured as follows:
+<ul>
+<li>the <code>data</code> directory contains a script to create and populate the following tables in the built-in HSQL database:
+<ul>
+<li><code>PERSON</code> - stores people IDs and names</li>
+<li><code>MOVIE</code> - stores movie ID, director, title, genre and release date informations</li>
+<li><code>MOVIE_CAST</code> - stores ID, movie ID, actor ID, character and role importance</li>
+<li><code>MOVIE_VARIA</code> - stores ID, movie ID, type, description, importance</li>
+</ul>
+</li>
+<li>the <code>docs</code> directory contains the xml file used to generate this documentation</li>
+<li>the <code>lib</code> directory contains 3-rd party jars with necessary persistence APIs</li>
+<li>the <code>reports</code> directory contains, as usual, the report templates used to generate pixel-perfect documents</li>
+<li>the <code>reports</code> directory contains
+<ul>
+<li>a <code>META-INF</code> subdirectory with the <code>persistence.xml</code> persistence configuration file</li>
+<li>the entity java bean classes mapped on the tables in the database: <code>Person</code>, <code>Movie</code>, <code>Cast</code> and <code>Varia</code>.</li>
+<li>the <code>EjbqlApp.java</code> file storing class with the main method.</li>
+</ul>
+</li>
+</ul>
     </content>
   </feature>
 

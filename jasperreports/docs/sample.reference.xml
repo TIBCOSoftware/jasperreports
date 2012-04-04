@@ -87,7 +87,7 @@
       <feature name="tablemodeldatasource" sample="datasource" title="TableModel Data Source"/>
       <feature name="datasources" sample="datasource" title="Data Sources"/>
       <feature name="queryexecuters" sample="hibernate" title="Query Executers"/>
-      <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer" complete="false"/>
+      <feature name="ejbql" sample="ejbql" title="EJBQL Query Executer"/>
       <feature name="hibernate" sample="hibernate" title="Hibernate (HQL) Query Executer"/>
       <feature name="mondrian" sample="mondrian" title="Mondrian (MDX) Query Executer" complete="false"/>
       <feature name="query" sample="query" title="Parameterized Queries (Dynamic Queries)"/>
