@@ -43,6 +43,4 @@ public interface DataCacheHandler
 	
 	DataSnapshot getDataSnapshot();
 	
-	void invalidateDataSnapshot();
-	
 }

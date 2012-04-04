@@ -850,6 +850,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		fillingThread = Thread.currentThread();
 		
+		boolean success = false;
 		try
 		{
 			createBoundElemementMaps();
@@ -903,19 +904,20 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			{
 				log.debug("Fill " + fillerId + ": ended");
 			}
-			
-			if (parentFiller == null)
-			{
-				// commit the cached data
-				fillContext.cacheDone();
-			}
 
+			success = true;
 			return jasperPrint;
 		}
 		finally
 		{
 			mainDataset.closeDatasource();
 			mainDataset.disposeParameterContributors();
+			
+			if (success && parentFiller == null)
+			{
+				// commit the cached data
+				fillContext.cacheDone();
+			}
 
 			if (parentFiller != null)
 			{

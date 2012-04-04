@@ -38,7 +38,7 @@ public interface DatasetRecorder
 
 	void addRecord(Object[] values);
 
-	void end();
+	Object end();
 
 	boolean hasEnded();
 

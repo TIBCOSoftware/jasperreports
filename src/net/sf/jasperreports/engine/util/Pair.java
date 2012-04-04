@@ -54,6 +54,16 @@ public class Pair<T, U> implements Serializable
 		this.o2 = o2;
 		this.hash = computeHash();
 	}
+	
+	public T first()
+	{
+		return o1;
+	}
+	
+	public U second()
+	{
+		return o2;
+	}
 
 	private int computeHash()
 	{

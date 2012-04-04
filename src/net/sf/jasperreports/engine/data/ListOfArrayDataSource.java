@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ListOfArrayDataSource implements JRRewindableDataSource, IndexedDataSource
+public class ListOfArrayDataSource implements JRRewindableDataSource
 {
 
 
@@ -119,12 +119,6 @@ public class ListOfArrayDataSource implements JRRewindableDataSource, IndexedDat
 	public int size()
 	{
 		return records.size();
-	}
-
-
-	public int getRecordIndex()
-	{
-		return iterator.previousIndex();
 	}
 	
 }

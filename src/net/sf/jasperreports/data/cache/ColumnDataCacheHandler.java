@@ -77,11 +77,6 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		return snapshot;
 	}
 	
-	public void invalidateDataSnapshot()
-	{
-		this.snapshot = null;
-	}
-	
 	protected void disableCaching()
 	{
 		if (log.isDebugEnabled())
@@ -195,42 +190,47 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			this.dataSnapshot = new ColumnDataSnapshot();
 		}
 
-		public DatasetRecorder createRecorder(Object key)
+		public DatasetRecorder createRecorder()
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug("Creating ColumnDataCollector for " + key);
+				log.debug("Creating ColumnDataCollector");
 			}
 			
-			ColumnDataCollector collector = new ColumnDataCollector(this, key);
+			ColumnDataCollector collector = new ColumnDataCollector();
 			return collector;
 		}
 		
-		protected void addCacheData(Object key, ColumnCacheData data)
+		public void addRecordResult(Object key, Object result)
 		{
+			ColumnCacheData data = (ColumnCacheData) result;
+			if (log.isDebugEnabled())
+			{
+				log.debug("adding cached data of size " + data.size() + " for for " + key);
+			}
+			
 			dataSnapshot.addCachedData(key, data);
 		}
 
 		public void setSnapshotPopulated()
 		{
-			setDataSnapshot(dataSnapshot);
+			if (isRecordingEnabled())
+			{
+				setDataSnapshot(dataSnapshot);
+			}
 		}
 		
 	}
 	
 	class ColumnDataCollector implements DatasetRecorder
 	{
-		private final DataCollector collector;
-		private final Object key;
 		private JRField[] fields;
 		private ColumnStore[] columns;
 		private int size;
 		private boolean ended;
 		
-		public ColumnDataCollector(DataCollector collector, Object key)
+		public ColumnDataCollector()
 		{
-			this.collector = collector;
-			this.key = key;
 		}
 
 		public void start(JRField[] datasetFields)
@@ -247,7 +247,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 					if (log.isDebugEnabled())
 					{
 						log.debug("Field " + field.getName() + " of type " + field.getValueClassName()
-								+ " from " + key + " not cacheable");
+								+ " not cacheable");
 					}
 					
 					disableCaching();
@@ -256,8 +256,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 				
 				if (log.isDebugEnabled())
 				{
-					log.debug("created store " + columnStore + " for field " + field.getName()
-							+ " at key " + key);
+					log.debug("created store " + columnStore + " for field " + field.getName());
 				}
 				
 				columns[i] = columnStore;
@@ -288,13 +287,20 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			++size;
 		}
 
-		public void end()
+		public Object end()
 		{
 			if (!isRecordingEnabled())
 			{
 				// nothing to do
-				return;
+				return null;
 			}
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("Recorded cached data source of " + size + " records");
+			}
+			
+			ended = true;
 			
 			String[] fieldNames;
 			if (fields == null)
@@ -317,14 +323,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			}
 			
 			ColumnCacheData data = new ColumnCacheData(fieldNames, size, values);
-			collector.addCacheData(key, data);
-			
-			if (log.isDebugEnabled())
-			{
-				log.debug("Recorded cached data source of " + size + " records");
-			}
-			
-			ended = true;
+			return data;
 		}
 
 		public boolean hasEnded()

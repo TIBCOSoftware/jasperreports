@@ -35,7 +35,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
-import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
 import net.sf.jasperreports.data.cache.DataSnapshot;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
@@ -231,6 +230,15 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected FillDatasetPosition fillPosition;
 	protected DatasetRecorder dataRecorder;
+	
+	private Map<Integer, CacheRecordIndexCallback> cacheRecordIndexCallbacks;
+	private boolean cachedDataSource;
+	private boolean sortedDataSource;
+	
+	private boolean ended;
+	private int cacheRecordCount;
+	private int previousCacheRecordIndex;
+	private int currentCacheRecordIndex;
 	
 	/**
 	 * Creates a fill dataset object.
@@ -644,6 +652,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			dataSource = DatasetSortUtil.getSortedDataSource(filler, this, locale);
 			setParameter(JRParameter.REPORT_DATA_SOURCE, dataSource);
+			sortedDataSource = true;
 		}
 	}
 
@@ -675,6 +684,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			}
 			else
 			{
+				cachedDataSource = true;
+				
 				if (log.isDebugEnabled())
 				{
 					log.debug("Using cached data for " + fillPosition);
@@ -687,7 +698,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			if (cacheRecorder != null)
 			{
 				// populating the cache
-				dataRecorder = cacheRecorder.createRecorder(fillPosition);
+				dataRecorder = cacheRecorder.createRecorder();
 				// this will also remove existing data on rewind
 				dataRecorder.start(parent.getFields());
 				
@@ -695,6 +706,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				{
 					log.debug("Populating data cache for " + fillPosition);
 				}
+				
+				cacheRecordIndexCallbacks = new HashMap<Integer, CacheRecordIndexCallback>();
 			}
 		}
 	}
@@ -725,7 +738,49 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	{
 		if (dataRecorder != null && !dataRecorder.hasEnded())
 		{
-			dataRecorder.end();
+			// if we had a sorted data source, compute the original filtered record indexes
+			if (sortedDataSource)
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("populating unsorted cache");
+				}
+				
+				int recordIndex = 0;
+				// ugly cast
+				List<SortedDataSource.SortRecord> sortRecords = ((SortedDataSource) dataSource).getRecords();
+				for (SortedDataSource.SortRecord sortRecord : sortRecords)
+				{
+					if (sortRecord.isFiltered())
+					{
+						// add the record to the data snapshot
+						dataRecorder.addRecord(sortRecord.getValues());
+						
+						// current unsorted index
+						++recordIndex;
+						int originalIndex = sortRecord.getRecordIndex() + 1;
+						
+						if (log.isDebugEnabled())
+						{
+							log.debug("unsorted index " + recordIndex + " for original index " + originalIndex);
+						}
+						
+						// call delayed record index callbacks
+						CacheRecordIndexCallback recordIndexCallback = cacheRecordIndexCallbacks.get(originalIndex);
+						if (recordIndexCallback != null)
+						{
+							recordIndexCallback.cacheRecordIndexAvailable(recordIndex);
+						}
+					}
+				}
+			}
+			
+			Object recorded = dataRecorder.end();
+			if (recorded != null)
+			{
+				// adding the recorded data to a temporary list because the fill position might not be final
+				filler.fillContext.addDataRecordResult(fillPosition, recorded);
+			}
 		}
 	}
 
@@ -914,6 +969,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public void closeDatasource()
 	{
+		closeQueryExecuter();
+		reset();
+
+		if (ended)
+		{
+			// if the whole data source was iterated, submit the recorded data
+			cacheEnd();
+		}
+	}
+
+	protected void closeQueryExecuter()
+	{
 		if (queryExecuter != null)
 		{
 			if (log.isDebugEnabled())
@@ -924,8 +991,6 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			queryExecuter.close();
 			queryExecuter = null;
 		}
-		
-		reset();
 	}
 
 	
@@ -939,6 +1004,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		resetVariables();
 		
 		reportCount = 0;
+		ended = false;
+		
+		cacheRecordCount = 0;
+		previousCacheRecordIndex = 0;
+		currentCacheRecordIndex = 0;
 	}
 
 	
@@ -962,18 +1032,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	 */
 	public boolean next() throws JRException
 	{
-		return next(true);
+		return next(false);
 	}
 
 
 	/**
 	 * Moves to the next record in the data source.
 	 * 
-	 * @param filter whether to apply the dataset filter and max count
+	 * @param sorting whether the method is called as part of the data sorting phase
 	 * @return <code>true</code> if the data source was not exhausted
 	 * @throws JRException
 	 */
-	protected boolean next(boolean applyFilter) throws JRException
+	protected boolean next(boolean sorting) throws JRException
 	{
 		boolean hasNext = false;
 
@@ -982,13 +1052,16 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			boolean includeRow = true;
 			do
 			{
-				hasNext = advanceDataSource(applyFilter);
+				// limits are applied after sorting to support top-N reports
+				hasNext = advanceDataSource(!sorting);
 				if (hasNext)
 				{
 					setOldValues();
 
 					calculator.estimateVariables();
-					if (applyFilter)
+					
+					// filters are applied after sorting to support top-N reports
+					if (!sorting)
 					{
 						includeRow = true;
 						
@@ -1003,9 +1076,21 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 						if (includeRow)
 						{
-							// cache the record if the filter expression evaluated to true;
-							// dynamic filters do not exclude records from the cache
-							cacheRecord();
+							advanceCacheRecordIndexes();
+							
+							if (sortedDataSource)
+							{
+								// mark the record as filtered in the sorted data source
+								// ugly cast
+								((SortedDataSource) dataSource).setRecordFilteredIndex(cacheRecordCount - 1);
+							}
+							else
+							{
+								// cache the record if the filter expression evaluated to true;
+								// dynamic filters do not exclude records from the cache.
+								// sorted data source cache records at the end because they compute original indexes.
+								cacheRecord();
+							}
 							
 							if (filter != null)
 							{
@@ -1017,11 +1102,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 							}
 						}
 					}
-					else
-					{
-						cacheRecord();
-					}
-					
+
 					if (!includeRow)
 					{
 						revertToOldValues();
@@ -1038,10 +1119,30 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		if (!hasNext)
 		{
-			cacheEnd();
+			ended = true;
 		}
 
 		return hasNext;
+	}
+
+	protected void advanceCacheRecordIndexes()
+	{
+		++cacheRecordCount;
+		previousCacheRecordIndex = currentCacheRecordIndex;
+		
+		// if we're using a cached data source, return the original record index
+		// this covers both sorting a cached data source and filtering a cached data source
+		if (cachedDataSource)
+		{
+			// ugly cast
+			int dataSourceIndex = ((IndexedDataSource) dataSource).getRecordIndex();
+			// indexes are 1-based
+			currentCacheRecordIndex = dataSourceIndex + 1;
+		}
+		else
+		{
+			currentCacheRecordIndex = cacheRecordCount;
+		}
 	}
 
 
@@ -1505,17 +1606,95 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return fillPosition;
 	}
 	
-	public Integer getCacheRecordIndex()
+	protected static interface CacheRecordIndexCallback
 	{
-		DataCacheHandler cacheHandler = filler.fillContext.getCacheHandler();
-		// if we're using a cached data source, return the original record index
-		if (cacheHandler != null && cacheHandler.isSnapshotPopulated()
-				&& dataSource instanceof IndexedDataSource)
+		void cacheRecordIndexAvailable(int recordIndex);
+	}
+	
+	protected static class FillDatasetPositionRecordIndexCallback implements CacheRecordIndexCallback
+	{
+		protected static void setRecordIndex(FillDatasetPosition position, int recordIndex)
 		{
-			return ((IndexedDataSource) dataSource).getRecordIndex() + 1;//indexes are 1-based
+			position.addAttribute("rowIndex", recordIndex);
 		}
 		
-		// otherwise return the report record index
-		return (Integer) getVariableValue(JRVariable.REPORT_COUNT);
+		private final FillDatasetPosition position;
+
+		public FillDatasetPositionRecordIndexCallback(FillDatasetPosition position)
+		{
+			this.position = position;
+		}
+
+		@Override
+		public void cacheRecordIndexAvailable(int recordIndex)
+		{
+			setRecordIndex(position, recordIndex);
+		}
+	}
+	
+	protected static class CacheRecordIndexChainedCallback implements CacheRecordIndexCallback
+	{
+		private final CacheRecordIndexCallback first;
+		private final CacheRecordIndexCallback second;
+
+		public CacheRecordIndexChainedCallback(CacheRecordIndexCallback first,
+				CacheRecordIndexCallback second)
+		{
+			this.first = first;
+			this.second = second;
+		}
+
+		@Override
+		public void cacheRecordIndexAvailable(int recordIndex)
+		{
+			first.cacheRecordIndexAvailable(recordIndex);
+			second.cacheRecordIndexAvailable(recordIndex);
+		}
+	}
+	
+	protected void addCacheRecordIndexCallback(int recordIndex, CacheRecordIndexCallback callback)
+	{
+		CacheRecordIndexCallback existingCallback = cacheRecordIndexCallbacks.get(recordIndex);
+		if (existingCallback == null)
+		{
+			cacheRecordIndexCallbacks.put(recordIndex, callback);
+		}
+		else
+		{
+			CacheRecordIndexChainedCallback chainedCallback = new CacheRecordIndexChainedCallback(
+					existingCallback, callback);
+			cacheRecordIndexCallbacks.put(recordIndex, chainedCallback);
+		}
+	}
+	
+	public void setCacheRecordIndex(FillDatasetPosition position, byte evaluationType)
+	{
+		int recordIndex;
+		switch (evaluationType)
+		{
+		case JRExpression.EVALUATION_OLD:
+			recordIndex = previousCacheRecordIndex;
+			break;
+		default:
+			recordIndex = currentCacheRecordIndex;
+			break;
+		}
+		
+		if (sortedDataSource && dataRecorder != null)
+		{
+			// when recording a sorted data source, the record indexes are computed at the end
+			// and we need to store a callback
+			FillDatasetPositionRecordIndexCallback callback = new FillDatasetPositionRecordIndexCallback(position);
+			addCacheRecordIndexCallback(recordIndex, callback);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("registered cache callback for index " + recordIndex);
+			}
+		}
+		else
+		{
+			FillDatasetPositionRecordIndexCallback.setRecordIndex(position, recordIndex);
+		}
 	}
 }
