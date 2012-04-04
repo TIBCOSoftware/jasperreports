@@ -40,23 +40,24 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Load dynamic form data
          */
-         it.formatHeaderForm.elements[1].values = [];
-         it.formatCellsForm.elements[0].values = [];
+         it.formatHeaderForm.elements[0][1][0].groups = [{name:'Extension Fonts',values:[]}];
+         it.formatCellsForm.elements[0][0][0].groups = [{name:'Extension Fonts',values:[]}];
          jQuery.each(it.fonts.extension,function(i,v) {
-        	 it.formatHeaderForm.elements[1].values.push([v,v, 'Extension Fonts']);
-             it.formatCellsForm.elements[0].values.push([v,v, 'Extension Fonts']);
+        	 it.formatHeaderForm.elements[0][1][0].groups[0].values.push([v,v]);
+             it.formatCellsForm.elements[0][0][0].groups[0].values.push([v,v]);
          });
-
+         it.formatHeaderForm.elements[0][1][0].groups.push({name:'System Fonts',values:[]});
+         it.formatCellsForm.elements[0][0][0].groups.push({name:'System Fonts',values:[]});
          jQuery.each(it.fonts.system,function(i,v) {
-        	 it.formatHeaderForm.elements[1].values.push([v,v, 'System Fonts']);
-        	 it.formatCellsForm.elements[0].values.push([v,v, 'System Fonts']);
+        	 it.formatHeaderForm.elements[0][1][0].groups[1].values.push([v,v]);
+        	 it.formatCellsForm.elements[0][0][0].groups[1].values.push([v,v]);
          });
 
-        it.formatHeaderForm.elements[2].values = [];
-        it.formatCellsForm.elements[1].values = [];
+        it.formatHeaderForm.elements[0][1][1].values = [];
+        it.formatCellsForm.elements[0][0][1].values = [];
         jQuery.each(it.fontSizes,function(i,v) {
-            it.formatHeaderForm.elements[2].values.push([v,v]);
-            it.formatCellsForm.elements[1].values.push([v,v]);
+            it.formatHeaderForm.elements[0][1][1].values.push([v,v]);
+            it.formatCellsForm.elements[0][0][1].values.push([v,v]);
         });
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
@@ -136,7 +137,7 @@ jive.interactive.column = jive.interactive.column || {
     },
     getElementSize: function(){
         var jo = jive.selected.jo;
-        var h = jo.height();
+        var h;
         var lastCell = jQuery('.col_' + jo.attr('data-popupColumn') + ':last', jo.closest('.jrtableframe'));
         if(lastCell && lastCell.length > 0) {
             var lastElemTop = lastCell.position().top;
@@ -491,22 +492,36 @@ jive.interactive.column = jive.interactive.column || {
 jive.interactive.column.columnFilterForm = {
     name: 'columnfilter',
     method: 'get',
+    jc: {},
     elements: [
-        {type:'list', id:'filterTypeOperator', label:'Filter type', values:[]},
-        {type:'text', id:"fieldValueStart", label:'Filter value', value:''},
-        {type:'text', id:"fieldValueEnd", value:''}
+        [[{type:'radio',id:'clearFilter',label:'Show all rows',value:'true'}]],
+        [
+            [{type:'radio',id:'clearFilter',label:'Show only rows where',value:'false',colspan:4}],
+            [
+                {type:'list', id:'filterTypeOperator', values:[]},
+                {type:'text', id:"fieldValueStart", value:''},
+                {type:'label', value:'and'},
+                {type:'text', id:"fieldValueEnd", value:''}
+            ]
+        ]
     ],
-    buttons: [],
     onCreate:function(jo){
         /*
          *  This method is called when form is created. Can be used to initiate behavior and cache form elements.
          */
-        jQuery('.colfilter',jo).change(function(){
-            var v = jQuery('select',this).val().toLowerCase();
-            v.indexOf('between') >= 0 ? jive.selected.form.jo.find('#fieldValueEnd').show() : jive.selected.form.jo.find('#fieldValueEnd').hide();
+        var it = this;
+        it.jc.filterStart = jQuery('#fieldValueStart');
+        it.jc.filterEnd = jQuery('#fieldValueEnd').prop('disabled',true);
+        it.jc.filterType = jQuery('#filterTypeOperator').change(function(){
+            jQuery(this).val().indexOf('BETWEEN') >= 0 ? it.jc.filterEnd.prop('disabled',false) : it.jc.filterEnd.prop('disabled',true);
         });
+        jQuery('input[name="clearFilter"]').change(function(){
+            for(p in it.jc) (it.jc.hasOwnProperty(p) && jQuery(this).val() == 'true') ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
+            it.jc.filterEnd.prop('disabled', (it.jc.filterType.val().indexOf('BETWEEN') >= 0 && jQuery(this).val() == 'false') ? false : true);
+        })
     },
     onShow:function(){
+        var it = this;
         var metadata = jive.selected.ie.filterdiv.filterDivForm;
         var filtertype = metadata.filterType.toLowerCase();
         var options = {
@@ -541,32 +556,32 @@ jive.interactive.column.columnFilterForm = {
                 ['IS_NOT_BETWEEN','Is not between']
             ]
         }
-        var se = jive.selected.form.jo.find('select[name="filterTypeOperator"]');
-        se.empty();
+        it.jc.filterType.empty();
         var htm = [];
         jQuery.each(options[filtertype],function(i,v){
             htm.push('<option value="'+v[0]+'">'+v[1]+'</option>');
         });
-        se.append(htm.join(''));
+        it.jc.filterType.append(htm.join(''));
+        it.jc.filterType.val(metadata.filterTypeOperator);
+        it.jc.filterStart.val(metadata.fieldValueStart);
 
-        metadata.filterTypeOperator && se.val(metadata.filterTypeOperator);
-        metadata.fieldValueStart ?
-            jive.selected.form.jo.find('input[name="fieldValueStart"]').val(metadata.fieldValueStart) :
-            jive.selected.form.jo.find('input[name="fieldValueStart"]').val('');
-        metadata.fieldValueEnd ?
-            jive.selected.form.jo.find('input[name="fieldValueEnd"]').val(metadata.fieldValueEnd).show() :
-            jive.selected.form.jo.find('input[name="fieldValueEnd"]').hide();
+        var filterOff = metadata.filterTypeOperator == '' ? true : false;
+        jQuery('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);
+        for(p in it.jc) (it.jc.hasOwnProperty(p) && filterOff) ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
+
+        it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', (!filterOff && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) ? false : true);
     },
     submit:function(){
         var metadata = jive.selected.ie.filterdiv.filterDivForm,
             actionData = {actionName: 'filter'};
-        	
+
         actionData.filterData = {
             uuid: metadata.uuid,
             fieldName: metadata.fieldName,
             filterType: metadata.filterType,
             fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
-            filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val()
+            filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
+            clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
         };
 
         if(!jive.selected.form.jo.find('input[name="filterValueEnd"]').is(':hidden')){
@@ -584,33 +599,29 @@ jive.interactive.column.columnFilterForm = {
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
 
 jive.interactive.column.formatHeaderForm = {
-    title: 'Header',
+    title: 'Headings',
     name: 'formatHeader',
     method: 'get',
-    elements: [
-        {type:'text', id:'headingName', label:'Header text', value:''},
-        {type:'grouplist', id:'headerFontName', label:'Font', values:[]},
-        {type:'list', id:'headerFontSize', label:'Font size', values:[]},
-        {type:'color', id:'headerFontColor', label:'Header Font Color'},
-        {
-            type: 'buttons',
-            label:'Text format',
-            items: [
-                {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
-                {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
-                {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
-            ]
-        },
-        {
-            type: 'buttons',
-            label:'Text alignment',
-            items: [
-                {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
-                {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
-                {type:'radio',id:'headerFontAlign',value:'Right',bIcon:'rightIcon'}
-            ]
-        }
-    ],
+    elements: [[
+        [{type:'text', id:'headingName', label:'Header text', value:'',colspan:3}],
+        [
+            {type:'list', id:'headerFontName', label:'Font', values:[], freeText: true, size:6},
+            {type:'list', id:'headerFontSize', label:'Size', values:[], freeText: true, size:6},
+            {
+                type: 'buttons',
+                label:'Style',
+                items: [
+                    {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:'Pick a font color'},
+                    {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
+                    {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
+                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'},
+                    {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
+                    {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
+                    {type:'radio',id:'headerFontAlign',value:'Right',bIcon:'rightIcon'}
+                ]
+            }
+        ]
+    ]],
     onCreate:function(jo){
 
     },
@@ -653,47 +664,42 @@ jive.interactive.column.formatHeaderForm = {
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
 
 jive.interactive.column.formatCellsForm = {
-    title: 'Cells',
+    title: 'Values',
     name: 'formatCells',
     method: 'get',
-    elements: [
-        {type:'grouplist', id:'cellsFontName', label:'Font', values:[]},
-        {type:'list', id:'cellsFontSize', label:'Font size', values:[], freeText: true},
-        {type:'color', id:'cellsFontColor', label:'Cell Font Color'},
-        {
-            type: 'buttons',
-            label:'Text format',
-            items: [
-                {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
-                {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
-                {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
-            ]
-        },
-        {
-            type: 'buttons',
-            label:'Text alignment',
-            items: [
-                {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
-                {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
-                {type:'radio',id:'cellsFontAlign',value:'Right',bIcon:'rightIcon'}
-            ]
-        },
-        /*
-         formatPatternLabel,
-         formatPatternSelector,
-         */
-        {type:'list', id:'formatPattern', label:'Format Pattern', values:[]},
-        {
-            type:'buttons',
-            items: [
-                {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
-                {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
-                {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
-                {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
-                {type:'action',id:'decreaseDecimalsBtn',fn:'remDecimal',value:'',bIcon:'decreaseDecimalsIcon'}
-            ]
-        }
-    ],
+    elements: [[
+        [
+            {type:'list', id:'cellsFontName', label:'Font', values:[], freeText: true, size:6},
+            {type:'list', id:'cellsFontSize', label:'Size', values:[], freeText: true, size:6},
+            {
+                type: 'buttons',
+                label:'Style',
+                items: [
+                    {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:'Pick a font color'},
+                    {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
+                    {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
+                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'},
+                    {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
+                    {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
+                    {type:'radio',id:'cellsFontAlign',value:'Right',bIcon:'rightIcon'}
+                ]
+            }
+        ],
+        [
+            {type:'list',id:'formatPattern',label:'Format Pattern',freeText:true,values:[],colspan:2, size:4},
+            {
+                type:'buttons',
+                id: 'numberFormatButtons',
+                items: [
+                    {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
+                    {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
+                    {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
+                    {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
+                    {type:'action',id:'decreaseDecimalsBtn',fn:'remDecimal',value:'',bIcon:'decreaseDecimalsIcon'}
+                ]
+            }
+        ]
+    ]],
     onCreate:function(jo){
 
     },
@@ -719,18 +725,17 @@ jive.interactive.column.formatCellsForm = {
             })
             jQuery('#formatPattern').html(htm.join(''));
             inputs['formatPattern'].set(metadata.formatPattern);
-            jo.find('tr').eq(5).show();
+            jo.find('tr').eq(1).show();
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
-            	jo.find('tr').eq(6).show();
+                jo.find('tr').eq(1).children().eq(1).children().css('visibility','visible');
             	inputs['currencyBtn'].unset();
             	inputs['percentageBtn'].unset();
             	inputs['commaBtn'].unset();
             } else {
-            	jo.find('tr').eq(6).hide();
+                jo.find('tr').eq(1).children().eq(1).children().css('visibility','hidden');
             }
         } else {
-            jo.find('tr').eq(5).hide();
-            jo.find('tr').eq(6).hide();
+            jo.find('tr').eq(1).hide();
         }
     },
     submit: function(){
