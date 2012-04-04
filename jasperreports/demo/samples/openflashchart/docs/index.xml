@@ -340,11 +340,11 @@ test</code> command.
 It will generate all supported document types containing the sample report in the <code>demo/samples/openflashchart/build/reports</code> directory. 
 <br/>
 You will notice that all generated documents excepting <code>OpenFlashChartReport.html</code> and <code>OpenFlashChartReport.x.html</code> are displaying two text elements labeled 
-<code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML and XHTML pages, they are apparently empty. That's because of security restrictions enabled in browsers, 
-that are blocking embedded Flash objects from automatic playing.
+<code>'[Open Flash Chart Component]'</code>. Also, when opening the HTML and XHTML pages, they are apparently empty. That's because of security restrictions that prevent Flash objects 
+to communicate with the HTML pages wherein they are embedded.
 <br/>
 Such a problem could be avoided using a HTTP server. This exactly happens when the <code>&gt; ant viewHtml</code> command is run in the terminal. A NanoHTTPD server is started and 
-the web page will be prepared and sent to the browser as part of a web application. Now both pie and bar charts can be observed in the browser. 
+the served web page may now access the trusted SWF file. Both pie and bar charts can be observed in the browser, for both HTML and XHTML output formats. 
     </content>
   </feature>
 
