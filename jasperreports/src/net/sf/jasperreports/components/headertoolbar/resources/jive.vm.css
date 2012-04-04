@@ -38,7 +38,7 @@
 
 .jive_dialog {
     position:absolute;
-    z-index:9;
+    z-index:999;
     border:solid 1px #ccc;
     background:#fff;
 }
@@ -156,25 +156,44 @@
     behavior: url(PIE.htc);
 }
 
+.jive_form table {
+    margin-bottom:2px;
+}
+
 .jive_form td {
 	background:#eee;
-	border:solid 1px #ccc;
+	/*border:solid 1px #ccc;*/
     padding:0;
     margin:0;
     vertical-align: top;
 }
 
-div.wrapper {position:relative;padding:4px;z-index:1;}
+.jive_form td.jive_textLabel {
+    text-align: center;
+    vertical-align: middle;
+}
 
-.jive_form input, .jive_form select {position:relative;width:100%;margin:0;height:24px;border:0;}
+div.wrapper {position:relative;padding:4px 10px;z-index:1;}
+
+.jive_form input, .jive_form select {position:relative;width:100%;margin:0;border:0;}
+.jive_form input{height:21px;}
+.jive_form select{height:24px;}
+
+.jive_form input[type="radio"]{width:auto;}
+
+.jive_form select.showList {height:auto; !important}
+.jive_form select.wFreeText {margin-top:8px; !important}
 
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
 .jive_form .buttonbar {background:#fff;overflow:hidden;height:24px;border:solid 1px #ccc;}
 
+.jive_inputLabel {position: relative;top:-6px;left:8px;}
 .jive_inputbutton {float:left;cursor:pointer;background:#fff;}
 .jive_inputbutton_wrapper {text-align:center;border-left:solid 1px #ccc;background:transparent;}
 .jive_inputbutton_wrapper.first {border-left:none;}
 .jive_inputbutton.selected {background:#faac1f;color:#fff;}
+
+.jive_listTextInputTouch {display:none;}
 
 .jive_freeTextButton {
     float:right;
@@ -256,8 +275,11 @@ div.wrapper {position:relative;padding:4px;z-index:1;}
 .editIcon {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/edit.png);
 }
+.fontColorIcon {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/fontColor.png) no-repeat;
+}
 #jive_colorpicker td {background:#fff;border:solid 1px #fff;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
-div.colorpick {width:32px;height:32px;margin:4px;cursor:pointer;}
+div.colorpick {width:16px;height:16px;margin:4px;cursor:pointer;}
 
 .columnHeader{cursor:pointer;}

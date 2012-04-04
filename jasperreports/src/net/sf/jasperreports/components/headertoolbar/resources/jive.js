@@ -283,7 +283,8 @@ jive.ui.dialog = {
             jo.addClass('active');
             jive.selected.form.jo.hide();
             jive.selected.form = jive.ui.forms[jo.data('form')];
-            jive.selected.form.onShow();
+            //jive.selected.form.onShow();
+            console.info(jive.selected.form.jo);
             jive.selected.form.jo.show();
         });
         it.body.on('click touchend','input, select',function(e){
@@ -299,18 +300,15 @@ jive.ui.dialog = {
                 case "checkbox":
                     input.toggle();
             }
-            input.onClick();
+            input.onClick && input.onClick(jo);
         });
         it.body.on('click touchend','.jive_freeTextButton',function(){
             jo = jQuery(this);
             jo.parent().next().find('input, select').toggle();
         });
-        it.body.on('click touchend','.colorbar',function(){
-            it.jo.hide();
-            jive.ui.colorpicker.show(jQuery(this).attr('title'),this.id);
-        });
         jQuery('#dialogOk').bind('click touchend',function(e){
             jive.ui.dialog.jo.hide();
+            jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
             it.body.children().each(function(){
                 jQuery(this).appendTo('#jive_forms').hide();
             });
@@ -318,6 +316,7 @@ jive.ui.dialog = {
         });
         jQuery('#dialogCancel').bind('click touchend',function(e){
             jive.ui.dialog.jo.hide();
+            jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
             it.body.children().each(function(){
                 jQuery(this).appendTo('#jive_forms').hide();
             });
@@ -336,7 +335,7 @@ jive.ui.dialog = {
                 form = jive.ui.forms[v];
                 active = i == fi ? 'active' : '';
                 htm += '<div id="'+form.name+'Tab" data-form="'+form.name+'" class="tab dialog '+active+'"><span>'+form.title+'</span></div>';
-                !form.jo && jive.ui.forms.create(form);
+                !form.jo && jive.ui.forms.render(form);
                 jive.ui.dialog.body.append(form.jo);
             });
             this.tabs.html(htm).show();
@@ -345,13 +344,14 @@ jive.ui.dialog = {
         } else {
             this.tabs.hide();
             jive.selected.form = jive.ui.forms[forms[0]];
-            !jive.selected.form.jo && jive.ui.forms.create(jive.selected.form);
+            !jive.selected.form.jo && jive.ui.forms.render(jive.selected.form);
             this.body.append(jive.selected.form.jo);
         }
         jive.selected.form.onShow();
         this.title.html(title);
+        jive.ui.pageOverlay && jive.ui.pageOverlay.show();
         jive.selected.form.jo.show();
-        this.jo.show().position({of:'div.jrPage', at:'center top', my:'center top', offset: '0 128'});
+        this.jo.show().position({of:jQuery('div.jrPage').parent(), at:'center top', my:'center top', offset: '0 128'});
         jive.hide();
     }
 }
@@ -360,169 +360,170 @@ jive.ui.forms = {
     add:function(parms){
         jive.ui.forms[parms.name] = parms;
     },
-    create:function(parms){
+    render:function(parms){
         var it = jive.ui.forms;
-        var style = 'display:none;width:480px;';
+        var style = 'display:none;width:700px;';
         var form = jQuery('<form id="jive_form_'+parms.name+'" action="" method="'+parms.method+'" class="jive_form" style="'+style+'"/>').appendTo('#jive_forms');
-        /*
-         * Create input elements from form definition
-         */
-        var tb = ['<table width="100%">'];
-        var label,pw, inputName;
+
+        var tb = [];
+        var label,pw,colspan;
         parms.inputs = {};
-        jQuery.each(parms.elements,function(i,e){
-            tb.push('<tr>');
-            label = e.label || '';
-            if(e.type == 'text') {
-                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
-                parms.inputs[e.id] = {
-                    set:function(v) {
-                        jQuery('input[name="'+e.id+'"]').val(v);
-                    },
-                    get:function(){
-                        return jQuery('input[name="'+e.id+'"]').val();
-                    }
-                }
-            }
-            if(e.type == 'list') {
-                var penIcon = '';
-                var freeTextInput = '';
-                if(e.freeText) {
-                    penIcon = '<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>';
-                    freeTextInput = '<input id="" type="text" name="" value="" style="display:none;" />';
-                }
-                tb.push('<td>'+penIcon+'<div class="wrapper">'+label+'</div></td><td><div class="wrapper"><select id="'+e.id+'" name="'+e.id+ '">');
-                jQuery.each(e.values,function(i,options){
-                    tb.push('<option value="'+options[0]+'">'+options[1]+'</option>');
-                })
-                tb.push('</select>'+freeTextInput+'</div></td>');
-                parms.inputs[e.id] = {
-                    set:function(v) {
-                        jQuery('select[name="'+e.id+'"]').val(v);
-                    },
-                    get:function(){
-                        return jQuery('select[name="'+e.id+'"]').val();
-                    }
-                }
-            }
-            if(e.type == 'grouplist') {
-            	var penIcon = '',
-            		freeTextInput = '',
-            		group,
-            		groups = {},
-            		groupsNo = 0;
 
-            	if(e.freeText) {
-            		penIcon = '<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>';
-            		freeTextInput = '<input id="" type="text" name="" value="" style="display:none;" />';
-            	}
-            	tb.push('<td>'+penIcon+'<div class="wrapper">'+label+'</div></td><td><div class="wrapper"><select id="'+e.id+'" name="'+e.id+ '">');
-            	
-            	jQuery.each(e.values,function(i,options){
-            		options.length === 3 ? group = options[2] : group = 'Other';
-            		if (!groups[group]) {
-            			if (groupsNo > 0) {
-            				tb.push('</optgroup>');
-            			}
-            			tb.push('<optgroup label="' + group + '">');
-            			groups[group] = 1;
-            			groupsNo ++;
-            		}
-            		tb.push('<option value="'+options[0]+'">'+options[1]+'</option>');
-            		if (groupsNo > 0 && i === e.values.length -1) {
-            			tb.push('</optgroup>');
-            		}
-            	})
-            	
-            	tb.push('</select>'+freeTextInput+'</div></td>');
-            	parms.inputs[e.id] = {
-            			set:function(v) {
-            				jQuery('select[name="'+e.id+'"]').val(v);
-            			},
-            			get:function(){
-            				return jQuery('select[name="'+e.id+'"]').val();
-            			}
-            	}
-            }
-            if(e.type == 'buttons') {
-                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><div class="buttonbar">');
-                pw = 100 / e.items.length;
-                jQuery.each(e.items,function(i,v){
-                    !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
-
-                    tb.push('<div class="jive_inputbutton" name="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+'%;"><div class="jive_inputbutton_wrapper '+(i==0?'first':'')+'">');
-                    v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
-                    v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
-                    tb.push('</div></div>');
-
-                    if(v.type == 'checkbox') {
-                        parms.inputs[v.id] = {
-                            selected: false,
-                            set:function() {
-                                jQuery('input[name="'+v.id+'"]').val('true');
-                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').addClass('selected');
-                                this.selected = true;
-                            },
-                            unset:function() {
-                                jQuery('input[name="'+v.id+'"]').val('false');
-                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
-                                this.selected = false;
-                            },
-                            toggle:function(){
-                                this.selected ? this.unset() : this.set();
-                            },
-                            get:function(){
-                                return jQuery('input[name="'+v.id+'"]').val();
-                            },
-                            onClick: function(){
-                                v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
-                            }
-                        }
+        jQuery.each(parms.elements,function(i,table){
+            tb.push('<table width="100%">');
+            jQuery.each(table,function(i,row){
+                tb.push('<tr>');
+                jQuery.each(row,function(i,e){
+                    label = e.label || '';
+                    colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '';
+                    if(e.type == 'label') {
+                        tb.push('<td class="jive_textLabel"><div class="wrapper">'+e.value+'</div></td>');
                     }
-                    if(v.type == 'radio' && !parms.inputs[v.id]) {
-                        parms.inputs[v.id] = {
+                    if(e.type == 'text') {
+                        tb.push('<td style="" '+colspan+'>');
+                        e.label && tb.push('<div class="wrapper">'+e.label+'</div>');
+                        tb.push('<div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
+                        parms.inputs[e.id] = {
                             set:function(val) {
-                                jQuery('input[name="'+v.id+'"]').val(val);
-                                jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
-                                jQuery('div.jive_inputbutton[name="'+v.id+'"][value="'+val+'"]').addClass('selected');
+                                jQuery('#'+e.id).val(val);
                             },
                             get:function(){
-                                return jQuery('input[name="'+v.id+'"]').val();
+                                return jQuery('#'+e.id).val();
+                            }
+                        }
+                    }
+                    if(e.type == 'radio') {
+                        tb.push('<td style="" '+colspan+'><div class="wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
+                        parms.inputs[e.id] = {
+                            set:function(val) {
+                                jQuery('input[name="'+e.id+'"]').val(val);
                             },
-                            onClick: function(){
-                                v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                            get:function(){
+                                return jQuery('input[name="'+e.id+'"]').val();
                             }
                         }
                     }
-                    if(v.type == 'action'){
-                        parms.inputs[v.id] = {
-                            onClick: function(){
-                                jive.interactive[jive.selected.ie.type][v.fn]();
+                    if(e.type == 'list') {
+                        var size = e.size ? e.size : 1;
+                        var isTouch = 'ontouchstart' in document.documentElement ? 'Touch' : '';
+                        var showList = ('ontouchstart' in document.documentElement || size == 1) ? '' : 'showList';
+                        var wFreeText = e.freeText ? 'wFreeText' : '';
+
+                        var select = ['<select id="'+e.id+'" name="'+e.id+'" class="'+showList+' '+wFreeText+'" size="'+size+'">'];
+                        jQuery.each(e.values,function(i,options){
+                            select.push('<option value="'+options[0]+'">'+options[1]+'</option>');
+                        });
+                        if(e.groups){
+                            jQuery.each(e.groups,function(i,group){
+                                select.push('<optgroup label="' + group.name + '">');
+                                jQuery.each(group.values,function(i,options){
+                                    select.push('<option value="'+options[0]+'">'+options[1]+'</option>');
+                                });
+                                select.push('</optgroup>');
+                            });
+                            select.push('</select>');
+                        }
+                        tb.push('<td style="" '+colspan+'>');
+                        //isTouch.length && tb.push('<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>');
+                        e.label && tb.push('<div class="wrapper">' + e.label + '</div>');
+                        tb.push('<div class="wrapper">');
+                        e.freeText && tb.push('<input id="'+e.id+'Text" type="text" class="jive_listTextInput'+isTouch+'" name="'+e.id+'Text" value="" />');
+                        tb.push(select.join(''));
+                        tb.push('</div></td>');
+
+                        parms.inputs[e.id] = {
+                            set:function(val) {
+                                jQuery('#'+e.id).val(val);
+                                e.freeText && jQuery('#'+e.id+'Text').val(val);
+                            },
+                            get:function(){
+                                return e.freeText ? jQuery('#'+e.id+'Text').val() : jQuery('#'+e.id).val();
                             }
                         }
                     }
-                })
-                tb.push('</div></div></td>');
-            }
-            if(e.type == 'color') {
-                form.append('<input type="hidden" name="'+e.id+'" value="" />');
-                tb.push('<td><div class="wrapper">'+label+'</div></td><td><div class="wrapper"><div id="'+e.id+'" class="colorbar" style="background:#000;" title="'+label+'">&nbsp;</div></div></td>');
-                parms.inputs[e.id] = {
-                    set:function(v) {
-                        jQuery('input[name="'+e.id+'"]').val(v);
-                        jQuery('#'+e.id).css('background','#'+v);
-                    },
-                    get:function(){
-                        return jQuery('input[name="'+e.id+'"]').val();
+                    if(e.type == 'buttons') {
+                        tb.push('<td style="" '+colspan+'><div class="wrapper">'+label+'</div><div class="wrapper"><div class="buttonbar">');
+                        pw = 100 / e.items.length;
+                        jQuery.each(e.items,function(i,v){
+                            !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
+
+                            tb.push('<div class="jive_inputbutton" name="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+'%;"><div class="jive_inputbutton_wrapper '+(i==0?'first':'')+'">');
+                            v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
+                            v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
+                            tb.push('</div></div>');
+
+                            if(v.type == 'checkbox') {
+                                parms.inputs[v.id] = {
+                                    selected: false,
+                                    set:function() {
+                                        jQuery('input[name="'+v.id+'"]').val('true');
+                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').addClass('selected');
+                                        this.selected = true;
+                                    },
+                                    unset:function() {
+                                        jQuery('input[name="'+v.id+'"]').val('false');
+                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
+                                        this.selected = false;
+                                    },
+                                    toggle:function(){
+                                        this.selected ? this.unset() : this.set();
+                                    },
+                                    get:function(){
+                                        return jQuery('input[name="'+v.id+'"]').val();
+                                    },
+                                    onClick: function(){
+                                        v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                                    }
+                                }
+                            }
+                            if(v.type == 'radio' && !parms.inputs[v.id]) {
+                                parms.inputs[v.id] = {
+                                    set:function(val) {
+                                        jQuery('input[name="'+v.id+'"]').val(val);
+                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
+                                        jQuery('div.jive_inputbutton[name="'+v.id+'"][value="'+val+'"]').addClass('selected');
+                                    },
+                                    get:function(){
+                                        return jQuery('input[name="'+v.id+'"]').val();
+                                    },
+                                    onClick: function(){
+                                        v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                                    }
+                                }
+                            }
+                            if(v.type == 'action'){
+                                parms.inputs[v.id] = {
+                                    onClick: function(){
+                                        jive.interactive[jive.selected.ie.type][v.fn]();
+                                    }
+                                }
+                            }
+                            if(v.type == 'color') {
+                                parms.inputs[v.id] = {
+                                    set:function(val) {
+                                        jQuery('input[name="'+v.id+'"]').val(val);
+                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').find('span.jive_bIcon').css('background-color','#'+val);
+                                    },
+                                    get:function(){
+                                        return jQuery('input[name="'+v.id+'"]').val();
+                                    },
+                                    onClick:function(jo){
+                                        jive.ui.colorpicker.show({
+                                            title: v.title,
+                                            inputId: v.id,
+                                            anchor: jo
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                        tb.push('</div></div></td>');
                     }
-                }
-            }
-            if(e.type == 'hidden') {
-                form.append('<input type="hidden" name="'+e.id+'" value="'+e.value+'"/>');
-            }
-            tb.push('</tr>');
+                });
+                tb.push('</tr>');
+            });
+            tb.push('</table>');
         });
-        tb.push('</table>');
         form.append(tb.join(''));
         it[parms.name].jo = form;
         it[parms.name].onCreate(form);
@@ -533,7 +534,7 @@ jive.ui.colorpicker = {
     jo: null,
     selected: null,
     title: '',
-    input: null,
+    inputId: null,
     setElement: function(){
         var it = this;
         var jo;
@@ -546,19 +547,24 @@ jive.ui.colorpicker = {
         it.jo.on('click touchend','button',function(){
             if(this.innerHTML.indexOf('Select') >= 0) {
 //            	jive.selected.form.inputs[it.input].set(it.selected.children().eq(0).attr('hexcolor'));
-                jive.selected.form.inputs[it.input].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
+                jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
                 jive.ui.colorpicker.jo.hide();
-                jive.ui.dialog.jo.show();
+                'ontouchstart' in document.documentElement && jive.ui.dialog.jo.show();
             }
-            if(this.innerHTML.indexOf('Cancel') >= 0) jive.ui.colorpicker.jo.hide() && jive.ui.dialog.jo.show();
+            if(this.innerHTML.indexOf('Cancel') >= 0) {
+                jive.ui.colorpicker.jo.hide();
+                'ontouchstart' in document.documentElement && jive.ui.dialog.jo.show();
+            }
         });
     },
-    show: function(title,input) {
-        this.title = title || 'Pick a color';
-        this.input = input;
+    show: function(options) {
+        this.title = options.title || 'Pick a color';
+        this.inputId = options.inputId;
         !this.jo && this.setElement();
         this.jo.find('h2').html(this.title);
-        this.jo.show().position({of:'div.jrPage', at:'center top', my:'center top', offset: '0 128', collision:'none'});
+        'ontouchstart' in document.documentElement ?
+            this.jo.show().position({of:jQuery('div.jrPage').parent(), at:'center top', my:'center top', offset: '0 96px', collision:'none'}):
+            this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
     },
     extractHexColor: function(rgbString) {
     	var out = "";
