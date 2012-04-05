@@ -344,7 +344,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			new JRPrintHyperlinkParameter(
 				ReportServlet.REQUEST_PARAMETER_ACTION, 
 				String.class.getName(), 
-				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"" + sortData.getUuid() + "\"," +
+				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"" + sortData.getTableUuid() + "\"," +
 				"\"sortColumnName\":\"" + sortData.getSortColumnName() + "\"," +
 				"\"sortColumnType\":\"" + sortData.getSortColumnType() + "\"," +
 				"\"sortOrder\":\"" + sortData.getSortOrder() + "\"" +
