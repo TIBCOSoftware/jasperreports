@@ -1,6 +1,9 @@
 jQuery.extend(jive, {
     init:function(settings){
         jQuery.extend(jive,settings);
+        jQuery('div.jrPage').parent().on('click touchend',function(){
+            jive.hide();
+        });
         /*
          * Init event handlers for viewer. One time event?
          */
@@ -58,6 +61,7 @@ jQuery.extend(jive, {
             jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
                 var jo = jQuery(this);
                 jive.selectInteractiveElement(jo);
+                evt.stopPropagation();
             })
         }
         if(o.proxySelector && !jive.selectors[o.proxySelector]) {
@@ -65,6 +69,7 @@ jQuery.extend(jive, {
             jQuery('div.jrPage').on('click touchend',o.proxySelector,function(evt){
                 var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
                 jive.selectInteractiveElement(jo);
+                evt.stopPropagation();
             })
         }
     },
@@ -82,9 +87,9 @@ jQuery.extend(jive, {
     },
     hide: function(items){
         if(!items){
-            jive.ui.marker.jo && jive.ui.marker.jo.hide();
-            jive.ui.overlay.jo && jive.ui.overlay.jo.hide();
-            jive.ui.foobar.jo && jive.ui.foobar.jo.hide();
+            jive.ui.marker.jo && jive.ui.marker.jo.appendTo('body').hide();
+            jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('body').hide();
+            jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('body').hide();
             jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
         } else {
             jQuery.each(items,function(i,v){
@@ -108,9 +113,10 @@ jive.ui.marker = {
                 jive.ui.overlay.jo.width(ui.position.left - jive.ui.overlay.left);
             },
             stop:function(ev,ui) {
-                jive.interactive[jive.selected.ie.type].resize(ui.position.left - jive.ui.overlay.left);
+                jive.interactive[jive.selected.ie.type].resize((ui.position.left - jive.ui.overlay.left) / jive.ui.scaleFactor);
             }
         });
+        //this.jo.appendTo('div.jrPage');
     },
     show: function(dim){
         !this.jo && this.setElement('#jive_marker');
@@ -118,7 +124,7 @@ jive.ui.marker = {
             height: dim.h+'px'
         });
         this.jo.show();
-        this.jo.position({of:jive.selected.jo, my: 'left top', at:'right top',collision:'none'});
+        this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top',collision:'none'});
 
         var de = this.jo.get(0);
         var left = this.jo.get(0).style.left;
@@ -156,11 +162,12 @@ jive.ui.overlay = {
                 jive.hide();
             }
         });
+        //this.jo.appendTo('div.jrPage');
     },
     show: function(dim){
         !this.jo && this.setElement('#jive_overlay');
         this.jo.css({
-            width: dim.w,
+            width: dim.w * jive.ui.scaleFactor,
             height: dim.h
         });
         this.jo.show();
@@ -196,18 +203,22 @@ jive.ui.foobar = {
                 }
             }
         });
-
+        //this.jo.appendTo('div.jrPage');
     },
     show:function(dim){
         !this.jo && this.setElement('#jive_foobar');
         this.render(jive.interactive[jive.selected.ie.type].actions);
         jive.interactive[jive.selected.ie.type].onToolbarShow();
         this.jo.show();
+        var top = this.jo.outerHeight() - 1;
+        this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
 
+        /*
         var wdiff = dim.w - this.jo.width();
         wdiff > 32 ?
             this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + this.jo.outerHeight()}) :
             this.jo.position({of:jive.selected.jo, my: 'right top', at:'left top', collision: 'none'});
+        */
     },
     render: function(actionMap){
         var it = this;
@@ -283,12 +294,15 @@ jive.ui.dialog = {
             jo.addClass('active');
             jive.selected.form.jo.hide();
             jive.selected.form = jive.ui.forms[jo.data('form')];
-            //jive.selected.form.onShow();
-            console.info(jive.selected.form.jo);
+            jive.selected.form.onShow();
             jive.selected.form.jo.show();
         });
         it.body.on('click touchend','input, select',function(e){
             jQuery(this).focus();
+        });
+        it.body.on('change','select.wFreeText',function(e){
+            var jo = jQuery(this);
+            jo.prev().val(jo.val());
         });
         it.body.on('click touchend','.jive_inputbutton',function(){
             jo = jQuery(this);

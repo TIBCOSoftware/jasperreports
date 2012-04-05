@@ -21,22 +21,15 @@ jive.interactive.column = jive.interactive.column || {
         'Sort descending': {icon: 'sortDescIcon', fn: 'sort', arg:['Desc']},
         'Filter': {icon: 'filterIcon', fn: 'filter'}
     },
+    dropColumns: {},
     dropPoints: {},
-    dropColumnIndex: null,
-    dropMarks: {},
-    dropColumnsRW: {},
-    dropColumnsFF: {},
-    dropColumnsIndex: {},
-    dropLeft: null,
-    dropRight: null,
+    ldi: null,
+    rdi: null,
     delta: null,
 
     init: function(allColumns, tableUuid){
-        var t,c,i,j,tid,
-            dropPoints = [],
-            it = this;
+        var t,c,lt,i,j,it = this;
         it.allColumns[tableUuid] = allColumns;
-
         /*
          * Load dynamic form data
          */
@@ -62,48 +55,25 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
-        it.dropColumnsIndex = {};
-//        jQuery('.jrtableframe').each(function(i){
-//            t = jQuery(this);
-        
-        	t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']');
-            if(!it.dropColumnsIndex[tableUuid]){
-                it.dropPoints[tableUuid] = [];
-                it.dropMarks[tableUuid] = [];
-                it.dropColumnsRW[tableUuid] = [];
-                it.dropColumnsFF[tableUuid] = [];
-                it.dropColumnsIndex[tableUuid] = {};
-                dropColumns = [];
-                t.find('.columnHeader').each(function(i){
-					c = jQuery(this);
-					var off = c.offset();
+        it.dropPoints[tableUuid] = [];
+        it.dropColumns[tableUuid] = [];
 
-                	it.enableColumn(c.data('popupid'), tableUuid)
-                	
-                    dropColumns.push('col_'+c.data('popupcolumn'));
-
-                    it.dropPoints[tableUuid].push(off.left);
-                    it.dropPoints[tableUuid].push(off.left + c.width());
-                });
-
-                for(i=0;i<dropColumns.length;i++) {
-                    j = i * 2;
-                    it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j]);
-                    it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j] + (it.dropPoints[tableUuid][j+1] - it.dropPoints[tableUuid][j]) / 2);
-
-                    it.dropColumnsRW[tableUuid].push(j);
-                    it.dropColumnsRW[tableUuid].push(j);
-
-                    it.dropColumnsFF[tableUuid].push(j);
-                    it.dropColumnsFF[tableUuid].push(j+1);
-
-                    it.dropColumnsIndex[tableUuid][dropColumns[i]] = j;
-                }
-                it.dropMarks[tableUuid].push(it.dropPoints[tableUuid][j+1]);
-                it.dropColumnsRW[tableUuid].push(j+1);
-                it.dropColumnsFF[tableUuid].push(j+1);
-            }
-//        });
+        t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']').eq(0);
+        t.find('.columnHeader').each(function(i){
+            c = jQuery(this);
+            lt = c.offset().left;
+            it.enableColumn(c.data('popupid'), tableUuid)
+            it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
+            it.dropPoints[tableUuid].push(lt);
+        });
+        it.dropPoints[tableUuid].push(lt + c.width());
+        var markers = [];
+        for(i=0;i<it.dropColumns[tableUuid].length;i++) {
+            markers.push(it.dropPoints[tableUuid][i]);
+            markers.push(it.dropPoints[tableUuid][i] + (it.dropPoints[tableUuid][i+1] - it.dropPoints[tableUuid][i]) / 2);
+        }
+        markers.push(it.dropPoints[tableUuid][i]);
+        it.dropPoints[tableUuid] = markers;
         /*
          * Create show column menu
          */
@@ -112,7 +82,7 @@ jive.interactive.column = jive.interactive.column || {
             c = allColumns[i];
            	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false,"column":['+c.index+'], "columnUuid": "' + c.uuid + '"}'};
         }
-        it.count = dropColumns.length;
+        it.count = it.dropColumns[tableUuid].length;
     },
     enableColumn: function(columnUuid, tableUuid) {
     	var col = this.getColumnByUuid(columnUuid, tableUuid);
@@ -185,32 +155,38 @@ jive.interactive.column = jive.interactive.column || {
         var parent = jive.selected.jo.parent();
         this.uuid = parent.data('uuid');
         var c = 'col_'+ jive.selected.jo.data('popupcolumn');
-        this.dropLeft = this.dropColumnsIndex[this.uuid][c] == 0 ? 0 : this.dropColumnsIndex[this.uuid][c] - 1;
-        this.dropRight =  this.dropColumnsIndex[this.uuid][c] + 3 == this.dropMarks.length ? this.dropColumnsIndex[this.uuid][c] + 2 : this.dropColumnsIndex[this.uuid][c] + 3;
-        this.delta = jive.ui.marker.position.left - this.dropMarks[this.uuid][(jive.selected.ie.columnIndex+1)*2];
+        var ci = jQuery.inArray(c,this.dropColumns[this.uuid]) * 2;
+        this.ldi = ci == 0 ? 0 : ci - 1;
+        this.rdi =  ci + 3 == this.dropPoints[this.uuid].length ? ci + 2 : ci + 3;
+
+        this.delta = jive.ui.marker.position.left - this.dropPoints[this.uuid][ci+2];
     },
     onDrag: function(evt,ui){
         var ev = evt.originalEvent.originalEvent || evt;
-        if(ev.pageX < this.dropMarks[this.uuid][this.dropLeft]) {
-            if(this.dropLeft > 0){
-                this.dropColumnIndex = this.dropColumnsRW[this.uuid][this.dropLeft];
-                jive.ui.marker.jo.css('left', this.dropPoints[this.uuid][this.dropColumnIndex] + this.delta +'px').show();
-                this.dropLeft = this.dropLeft - 1;
-                this.dropRight = this.dropLeft + 1;
+        var markers = this.dropPoints[this.uuid];
+
+        if(ev.pageX < markers[this.ldi]) {
+            if(this.ldi > 0){
+                this.dropColumnIndex = this.ldi % 2 == 1 ? this.ldi - 1 : this.ldi;
+                jive.ui.marker.jo.css('left', markers[this.dropColumnIndex] + this.delta +'px').show();
+                this.rdi = this.ldi;
+                this.ldi--;
             }
         }
-        if(ev.pageX > this.dropMarks[this.uuid][this.dropRight]) {
-            if(this.dropRight < (this.dropMarks[this.uuid].length-1)) {
-                this.dropColumnIndex = this.dropColumnsFF[this.uuid][this.dropRight];
-                jive.ui.marker.jo.css('left', this.dropPoints[this.uuid][this.dropColumnIndex] + this.delta + 'px').show();
-                this.dropRight = this.dropRight + 1;
-                this.dropLeft = this.dropRight - 1;
+        if(ev.pageX > markers[this.rdi]) {
+            if(this.rdi < (markers.length-1)) {
+                this.dropColumnIndex = this.rdi % 2 == 1 ? this.rdi + 1 : this.rdi;
+                jive.ui.marker.jo.css('left', markers[this.dropColumnIndex] + this.delta + 'px').show();
+                this.ldi = this.rdi;
+                this.rdi++;
             }
         }
+
     },
     onDragStop: function(ev,ui){
-        var dropIndex = this.dropColumnIndex % 2 == 1 ? (this.dropColumnIndex + 1) / 2 - 1 : this.dropColumnIndex / 2;
-        if(dropIndex >= 0 && (dropIndex != jive.selected.ie.columnIndex || dropIndex != jive.selected.ie.columnIndex + 1)) {
+        var dropIndex = this.dropColumnIndex / 2;
+
+        if(dropIndex != jive.selected.ie.columnIndex && dropIndex != jive.selected.ie.columnIndex + 1) {
             jive.runAction({
                 actionName: 'move',
                 moveColumnData: {
@@ -229,7 +205,7 @@ jive.interactive.column = jive.interactive.column || {
                 uuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 direction: 'right',
-                width: width
+                width: Math.floor(width)
             }
         });
     },

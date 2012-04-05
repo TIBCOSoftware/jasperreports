@@ -7,7 +7,9 @@
     jasperreports.global.appendStyleElementToDOM('_jiveCSS', '${jasperreports_tableHeaderToolbar_css}');
 </script>
 
-<div id="jive_overlay" style="display:none;"></div>
+<div id="jive_overlay" style="display:none;">
+    <div></div>
+</div>
 <div id="jive_marker" style="display:none;">
     <div id="jive_marker_icon">&nbsp;</div>
 </div>
