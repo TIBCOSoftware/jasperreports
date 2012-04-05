@@ -656,7 +656,9 @@ jQuery.noConflict();
         selectors: {},
         elements: {},
         interactive:{},
-        ui: {},
+        ui: {
+            scaleFactor: 1
+        },
         selected: {
             ie: null,  // selected interactive element
             jo: null,  // selected jquery object tied to interactive element
