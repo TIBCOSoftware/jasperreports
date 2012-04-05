@@ -313,8 +313,13 @@ jQuery.noConflict();
 
 								if (elementToExtract) {
 									toExtract = jQuery(elementToExtract, response);
-									if (toExtract.size() != 1) { // error on server side
-										jg.showError(jqXHR.responseText, loadMaskTarget);
+									if (toExtract.size() != 1) { 
+										// error on server side
+										if (jQuery('div#jrInteractiveError', response).size() === 1){
+											jg.showError(jqXHR.responseText, loadMaskTarget, 'Jasper Interactive Error', 480, 100);
+										} else {
+											jg.showError(jqXHR.responseText, loadMaskTarget, 'Error', 1100, 500);
+										}
 										return;
 									}
 								}
@@ -346,8 +351,7 @@ jQuery.noConflict();
 						},
 						
 						error: function(jqXHR, textStatus, errorThrown) {
-							loadMaskTarget.loadmask('hide');
-							alert('Error: ' + textStatus + ': ' + errorThrown);
+							jg.showError(jqXHR.responseText, loadMaskTarget, 'Error', 1100, 500);
 						}
 					}
 			);
@@ -565,7 +569,7 @@ jQuery.noConflict();
 			return result;
 		};
 
-		jg.showError = function(responseText, loadMaskTarget) {
+		jg.showError = function(responseText, loadMaskTarget, title, width, height) {
 			var errDialogId = 'errDialog',
 				errDialog = jQuery('#' + errDialogId);
 			if (errDialog.size != 1) {
@@ -575,9 +579,9 @@ jQuery.noConflict();
 
 			errDialog.html(responseText);
 			errDialog.dialog({
-				title: 'Error',
-				width: 1100,
-				height: 500,
+				title: title,
+				width: width,
+				height: height,
 				close: function(event, ui) {
 					loadMaskTarget.loadmask('hide');
 				}

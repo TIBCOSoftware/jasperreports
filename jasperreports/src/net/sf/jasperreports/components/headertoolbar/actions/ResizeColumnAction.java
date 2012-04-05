@@ -23,12 +23,8 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.UUID;
-
-import net.sf.jasperreports.engine.JRIdentifiable;
-import net.sf.jasperreports.engine.design.JRDesignComponentElement;
-import net.sf.jasperreports.web.commands.CommandStack;
-import net.sf.jasperreports.web.commands.CommandTarget;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 
@@ -36,50 +32,42 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class ResizeColumnAction extends AbstractTableAction
-{
+public class ResizeColumnAction extends AbstractVerifiableTableAction {
 
-	private ResizeColumnData resizeColumnData;
-	
-	public ResizeColumnAction(){
+	public ResizeColumnAction() {
 	}
 	
 	public void setResizeColumnData(ResizeColumnData resizeColumnData) {
-		this.resizeColumnData = resizeColumnData;
+		columnData = resizeColumnData;
 	}
 
 	public ResizeColumnData getResizeColumnData() {
-		return resizeColumnData;
+		return (ResizeColumnData)columnData;
 	}
 
 	public String getName() {
 		return "resize_column_action";
 	}
 
-	public void performAction() 
+	public void performAction() throws ActionException
 	{
-		if (resizeColumnData != null) 
-		{
-			CommandTarget target = getCommandTarget(UUID.fromString(resizeColumnData.getUuid()));
-			if (target != null)
-			{
-				JRIdentifiable identifiable = target.getIdentifiable();
-				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-				
-				// obtain command stack
-				CommandStack commandStack = getCommandStack();
-				
-				// execute command
-				commandStack.execute(
-					new ResetInCacheCommand(
-						new ResizeColumnCommand(componentElement, resizeColumnData), 
-						getJasperReportsContext(), 
-						getReportContext(), 
-						target.getUri()
-						)
-					);
-			}
+		// execute command
+		try {
+			getCommandStack().execute(
+				new ResetInCacheCommand(
+					new ResizeColumnCommand(table, getResizeColumnData()), 
+					getJasperReportsContext(), 
+					getReportContext(), 
+					targetUri
+					)
+				);
+		} catch (CommandException e) {
+			 throw new ActionException(e.getMessage());
 		}
+	}
+
+	@Override
+	public void verify() throws ActionException {
 	}
 
 }

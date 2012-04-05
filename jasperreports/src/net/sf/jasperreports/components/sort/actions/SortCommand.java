@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.design.JRDesignSortField;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.web.commands.Command;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
@@ -65,7 +66,7 @@ public class SortCommand implements Command
 		this.individualCommandStack = new CommandStack();
 	}
 
-	public void execute() 
+	public void execute() throws CommandException 
 	{
 		SortOrderEnum sortOrder = HeaderToolbarElementUtils.getSortOrder(sortData.getSortOrder());//FIXMEJIVE use labels in JR enum, even if they are longer
 

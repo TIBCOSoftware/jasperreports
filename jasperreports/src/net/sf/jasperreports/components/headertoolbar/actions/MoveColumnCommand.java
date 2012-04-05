@@ -32,6 +32,7 @@ import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.web.commands.Command;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
@@ -43,7 +44,6 @@ public class MoveColumnCommand implements Command
 	
 	private StandardTable table;
 	private MoveColumnData moveColumnData;
-//	private MoveColumnData oldMoveColumnData;
 	private CommandStack individualResizeCommandStack;
 	
 	
@@ -55,15 +55,12 @@ public class MoveColumnCommand implements Command
 	}
 
 	
-	public void execute() 
+	public void execute() throws CommandException 
 	{
 		moveColumns(moveColumnData);
-//		oldMoveColumnData = new MoveColumnData();
-//		oldMoveColumnData.setColumnToMoveIndex(moveColumnData.getColumnToMoveNewIndex());
-//		oldMoveColumnData.setColumnToMoveNewIndex(moveColumnData.getColumnToMoveIndex());
 	}
 	
-	private void moveColumns(MoveColumnData moveColumnData) 
+	private void moveColumns(MoveColumnData moveColumnData) throws CommandException 
 	{
 		int srcColIndex = moveColumnData.getColumnToMoveIndex();
 		int destColIndex = moveColumnData.getColumnToMoveNewIndex();
@@ -106,44 +103,6 @@ public class MoveColumnCommand implements Command
 		}
 	}
 
-//	private void moveColumns(MoveColumnData moveColumnData) {
-//		int colIndex = moveColumnData.getColumnToMoveIndex();
-//		int newColIndex = moveColumnData.getColumnToMoveNewIndex();
-//		
-//		List<BaseColumn> allColumns = TableUtil.getAllColumns(table);
-//		BaseColumn columnToMove = allColumns.get(colIndex);
-//
-//		if (colIndex != newColIndex) {
-//			List<BaseColumn> groupColumns = getGroupColumnsForColumn(columnToMove, table.getColumns());
-//			
-//			if (groupColumns != null) {
-//				groupColumns.remove(colIndex);
-//				if (newColIndex == groupColumns.size()) {
-//					groupColumns.add(columnToMove);
-//				} else {
-//					groupColumns.add(newColIndex, columnToMove);
-//				}
-//			}
-//		}
-//	}
-//
-//	private List<BaseColumn> getGroupColumnsForColumn(BaseColumn column, List<BaseColumn> columns) {
-//		for (BaseColumn bc: columns) {
-//			if (bc instanceof ColumnGroup) {
-//				ColumnGroup cg = (ColumnGroup) bc;
-//				if (cg.getColumns().contains(column)) {
-//					return cg.getColumns();
-//				} else {
-//					return getGroupColumnsForColumn(column, cg.getColumns());
-//				}
-//			}
-//			else {
-//				return columns;
-//			}
-//		}
-//		return null;
-//	}
-	
 	public void undo() 
 	{
 		individualResizeCommandStack.undoAll();

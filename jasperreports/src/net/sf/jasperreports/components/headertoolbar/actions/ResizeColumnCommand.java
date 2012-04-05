@@ -38,8 +38,8 @@ import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRElementGroup;
 import net.sf.jasperreports.engine.JRFrame;
 import net.sf.jasperreports.engine.base.JRBaseElement;
-import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.web.commands.Command;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
@@ -50,34 +50,24 @@ public class ResizeColumnCommand implements Command
 {
 	
 	private StandardTable table;
-	//private JRDesignComponentElement componentElement;
 	private ResizeColumnData resizeColumnData;
 	private CommandStack individualResizeCommandStack;
-	
-//	private StandardColumn modColumn;
-//	private int oldModColumnWidth;
 
-//	private StandardColumnGroup modColumnGroup;
-//	private int oldModColumnGroupWidth;
-//	private int newModColumnGroupWidth;
-	
 
-	public ResizeColumnCommand(JRDesignComponentElement componentElement, ResizeColumnData resizeColumnData) 
+	public ResizeColumnCommand(StandardTable table, ResizeColumnData resizeColumnData) 
 	{
-		//this.componentElement = componentElement;
-		this.table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+		this.table = table;
 		this.resizeColumnData = resizeColumnData;
 		this.individualResizeCommandStack = new CommandStack();
 	}
 
-	public void execute() 
+	public void execute() throws CommandException 
 	{
 		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 		
 		int modIndex = resizeColumnData.getColumnIndex();
 		
 		StandardColumn modColumn = (StandardColumn) tableColumns.get(modIndex);
-//		oldModColumnWidth = modColumn.getWidth();
 		
 		int deltaWidth = resizeColumnData.getWidth() - modColumn.getWidth();
 		int startX = 0;
@@ -89,7 +79,6 @@ public class ResizeColumnCommand implements Command
 				startX += allColumns.get(i).getWidth();
 			}
 		}
-		
 		
 		List<ColumnGroupInfo> parentColumnGroups = new ColumnUtil(resizeColumnData.getColumnIndex()).getParentColumnGroups(table.getColumns());
 		
@@ -104,46 +93,10 @@ public class ResizeColumnCommand implements Command
 			}
 		}
 
-	
-	
-		// resize the column
-//		modColumn.setWidth(resizeColumnData.getWidth());
 		resizeColumn(modColumn, modColumn.getWidth(), deltaWidth);
 	}
 	
-//	public void execute() 
-//	{
-//		
-//		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
-//		
-//		int modIndex = resizeColumnData.getColumnIndex();
-//		
-//		modColumn = (StandardColumn) tableColumns.get(modIndex);
-//		oldModColumnWidth = modColumn.getWidth();
-//		
-//		
-//		int deltaWidth = resizeColumnData.getWidth() - modColumn.getWidth();
-//		
-//		// resize the component that contains the table
-//		individualResizeCommandStack.execute(new ResizeElementCommand(componentElement, componentElement.getWidth() + deltaWidth));
-//		
-//		// resize the column group that contains modColumn
-//		modColumnGroup = (StandardColumnGroup) getColumnGroupForColumn(modColumn, table.getColumns());
-//		if (modColumnGroup != null) {
-//			oldModColumnGroupWidth = modColumnGroup.getWidth();
-//			newModColumnGroupWidth = oldModColumnGroupWidth + deltaWidth;
-//			
-//			modColumnGroup.setWidth(newModColumnGroupWidth);
-//			resizeColumnGroupHF(modColumnGroup, deltaWidth);
-//		}
-//
-//		// resize the column
-//		modColumn.setWidth(resizeColumnData.getWidth());
-//		resizeColumn(modColumn, deltaWidth);
-//		
-//	}
-	
-	private void resizeColumn(BaseColumn column, int startX, int amount) 
+	private void resizeColumn(BaseColumn column, int startX, int amount) throws CommandException 
 	{
 		if (amount < -startX)
 		{
@@ -177,27 +130,7 @@ public class ResizeColumnCommand implements Command
 		}
 	}
 
-//	private void resizeColumn(StandardColumn column, int amount) {
-//		resizeChildren(column.getTableHeader(), amount);
-//		resizeChildren(column.getColumnHeader(), amount);
-//		resizeChildren(column.getDetailCell(), amount);
-//		resizeChildren(column.getColumnFooter(), amount);
-//		resizeChildren(column.getTableFooter(), amount);
-//
-//		resizeColumnGroupHF(column, amount);
-//	}
-
-//	private void resizeColumnGroupHF(StandardBaseColumn column, int amount) {
-//		for (GroupCell header: column.getGroupHeaders()) {
-//			resizeChildren(header.getCell(), amount);
-//		}
-//
-//		for (GroupCell footer: column.getGroupFooters()) {
-//			resizeChildren(footer.getCell(), amount);
-//		}
-//	}
-	
-	private void resizeChildren(JRElementGroup elementGroup, int startX, int amount) 
+	private void resizeChildren(JRElementGroup elementGroup, int startX, int amount) throws CommandException 
 	{
 		if (elementGroup != null && startX >= 0) 
 		{
@@ -280,40 +213,13 @@ public class ResizeColumnCommand implements Command
 		}
 	}
 	
-//moved in TableUtil	
-//	private ColumnGroup getColumnGroupForColumn(BaseColumn column, List<BaseColumn> columns) {
-//		for (BaseColumn bc: columns) {
-//			if (bc instanceof ColumnGroup) {
-//				ColumnGroup cg = (ColumnGroup) bc;
-//				if (cg.getColumns().contains(column)) {
-//					return cg;
-//				} else {
-//					return getColumnGroupForColumn(column, cg.getColumns());
-//				}
-//			}
-//		}
-//		return null;
-//	}
-
 	public void undo() 
 	{
-//		modColumn.setWidth(oldModColumnWidth);
-//		
-//		if (modColumnGroup != null) {
-//			modColumnGroup.setWidth(oldModColumnGroupWidth);
-//		}
-		
 		individualResizeCommandStack.undoAll();
 	}
 
 	public void redo() 
 	{
-//		modColumn.setWidth(resizeColumnData.getWidth());
-//		
-//		if (modColumnGroup != null) {
-//			modColumnGroup.setWidth(newModColumnGroupWidth);
-//		}
-		
 		individualResizeCommandStack.redoAll();
 	}
 

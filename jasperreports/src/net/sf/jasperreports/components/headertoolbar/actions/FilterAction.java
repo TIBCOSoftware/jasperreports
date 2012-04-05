@@ -23,75 +23,60 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.UUID;
-
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
-import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.engine.JRIdentifiable;
-import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.repo.JasperDesignCache;
-import net.sf.jasperreports.web.commands.CommandStack;
-import net.sf.jasperreports.web.commands.CommandTarget;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class FilterAction extends AbstractTableAction 
-{
+public class FilterAction extends AbstractVerifiableTableAction {
 	
-	private FilterData filterData;
-
 	public FilterAction() {
 	}
 
 	public FilterData getFilterData() {
-		return filterData;
+		return (FilterData) columnData;
 	}
 
 	public void setFilterData(FilterData filterData) {
-		this.filterData = filterData;
+		columnData = filterData;
 	}
 
-	public void performAction() 
-	{
-		if (filterData != null) 
-		{
-			CommandTarget target = getCommandTarget(UUID.fromString(filterData.getUuid()));
-			if (target != null)
-			{
-				JRIdentifiable identifiable = target.getIdentifiable();
-				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-				StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-				
-				JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
-				
-				String datasetName = datasetRun.getDatasetName();
-				
-				JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
+	public void performAction() throws ActionException {
+		JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
 
-				JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
-				JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-				
-				// obtain command stack
-				CommandStack commandStack = getCommandStack();
+		String datasetName = datasetRun.getDatasetName();
 		
-				// execute command
-				commandStack.execute(
-					new ResetInCacheCommand(
-						new FilterCommand(dataset, filterData),
-						getJasperReportsContext(),
-						getReportContext(), 
-						target.getUri()
-						)
-					);
-			}
+		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
+		
+		JasperDesign jasperDesign = cache.getJasperDesign(targetUri);
+		JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+		
+		// execute command
+		try {
+			getCommandStack().execute(
+				new ResetInCacheCommand(
+					new FilterCommand(dataset, getFilterData()),
+					getJasperReportsContext(),
+					getReportContext(), 
+					targetUri
+					)
+				);
+		} catch (CommandException e) {
+			throw new ActionException(e.getMessage());
 		}
+	}
+
+	@Override
+	public void verify() throws ActionException {
 	}
 
 }

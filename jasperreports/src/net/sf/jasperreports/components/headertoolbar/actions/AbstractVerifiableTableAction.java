@@ -36,38 +36,25 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.actions.AbstractAction;
+import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandTarget;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class AbstractTableAction extends AbstractAction 
+public abstract class AbstractVerifiableTableAction extends AbstractAction 
 {
+	protected BaseColumnData columnData;
 	
-	public AbstractTableAction() {
+	protected StandardTable table;
+	protected String targetUri;
+	
+	
+	
+	public AbstractVerifiableTableAction()
+	{
 	}
-
-//	public JRDesignDataset getDataset(String uuid) 
-//	{
-//		CommandTarget target = getCommandTarget(UUID.fromString(uuid));
-//		if (target != null)
-//		{
-//			JRIdentifiable identifiable = target.getIdentifiable();
-//			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-//			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-//			
-//			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
-//			
-//			String datasetName = datasetRun.getDatasetName();
-//			
-//			JasperDesignCache cache = JasperDesignCache.getInstance(getReportContext());
-//
-//			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());
-//			return (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-//		}
-//		return null;
-//	}
 
 	public StandardTable getTable(String uuid) 
 	{
@@ -120,5 +107,34 @@ public abstract class AbstractTableAction extends AbstractAction
 		}
 		return null;
 	}
-
+	
+	public void prepare() throws ActionException 
+	{
+		if (columnData == null || columnData.getTableUuid() == null) {
+			throw new ActionException("No column data!");
+		}
+		CommandTarget target = getCommandTarget(UUID.fromString(columnData.getTableUuid()));
+		if (target != null)
+		{
+			JRIdentifiable identifiable = target.getIdentifiable();
+			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
+			
+			if (componentElement == null) {
+				throw new ActionException("No table!");
+			}
+			
+			table = (StandardTable)componentElement.getComponent();
+			targetUri = target.getUri();
+		}
+	}
+	
+	@Override
+	public void run() throws ActionException 
+	{
+		prepare();
+		verify();
+		performAction();
+	}
+	
+	public abstract void verify() throws ActionException;
 }

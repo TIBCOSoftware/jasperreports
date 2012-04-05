@@ -29,5 +29,5 @@ package net.sf.jasperreports.web.actions;
  */
 public interface Action
 {
-	public void run();
+	public void run() throws ActionException;
 }
