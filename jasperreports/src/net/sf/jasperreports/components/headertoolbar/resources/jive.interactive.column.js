@@ -190,7 +190,7 @@ jive.interactive.column = jive.interactive.column || {
             jive.runAction({
                 actionName: 'move',
                 moveColumnData: {
-                    uuid: this.uuid,
+                    tableUuid: this.uuid,
                     columnToMoveIndex: jive.selected.ie.columnIndex,
                     columnToMoveNewIndex: dropIndex
                 }
@@ -202,7 +202,7 @@ jive.interactive.column = jive.interactive.column || {
         jive.runAction({
             actionName: 'resize',
             resizeColumnData: {
-                uuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 direction: 'right',
                 width: Math.floor(width)
@@ -552,7 +552,7 @@ jive.interactive.column.columnFilterForm = {
             actionData = {actionName: 'filter'};
 
         actionData.filterData = {
-            uuid: metadata.uuid,
+            tableUuid: metadata.tableUuid,
             fieldName: metadata.fieldName,
             filterType: metadata.filterType,
             fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
