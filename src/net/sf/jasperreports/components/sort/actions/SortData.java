@@ -23,15 +23,16 @@
  */
 package net.sf.jasperreports.components.sort.actions;
 
+import net.sf.jasperreports.components.headertoolbar.actions.BaseColumnData;
+
 
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class SortData {
+public class SortData extends BaseColumnData {
 	
-	private String uuid;
 	private String sortColumnName;
 	private String sortColumnType;
 	private String sortOrder;
@@ -39,20 +40,11 @@ public class SortData {
 	public SortData() {
 	}
 	
-	public SortData(String uuid, String sortColumnName, String sortColumnType, String sortOrder) 
-	{
-		this.uuid = uuid;
+	public SortData(String tableUuid, String sortColumnName, String sortColumnType, String sortOrder) {
+		super(tableUuid);
 		this.sortColumnName = sortColumnName;
 		this.sortColumnType = sortColumnType;
 		this.sortOrder = sortOrder;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-	
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 
 	public String getSortColumnName() {
@@ -79,8 +71,4 @@ public class SortData {
 		this.sortOrder = sortOrder;
 	}
 
-	@Override
-	public String toString() {
-		return "sortColumnName: " + sortColumnName + "; sortColumnType: " + sortColumnType + "; sortOrder: " + sortOrder;
-	}
 }

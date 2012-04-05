@@ -28,28 +28,23 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class MoveColumnData extends BaseColumnData {
-
-	private int columnToMoveIndex;
-	private int columnToMoveNewIndex;
+public class BaseColumnData {
 	
-	public MoveColumnData() {
-	}
-
-	public int getColumnToMoveIndex() {
-		return columnToMoveIndex;
-	}
-
-	public void setColumnToMoveIndex(int columnToMoveIndex) {
-		this.columnToMoveIndex = columnToMoveIndex;
-	}
-
-	public int getColumnToMoveNewIndex() {
-		return columnToMoveNewIndex;
-	}
-
-	public void setColumnToMoveNewIndex(int columnToMoveNewIndex) {
-		this.columnToMoveNewIndex = columnToMoveNewIndex;
-	}
+	private String tableUuid;
 	
+	public BaseColumnData() {
+	}
+
+	public BaseColumnData(String tableUuid) {
+		this.tableUuid = tableUuid;
+	}
+
+	public String getTableUuid() {
+		return tableUuid;
+	}
+
+	public void setTableUuid(String tableUuid) {
+		this.tableUuid = tableUuid;
+	}
+
 }
