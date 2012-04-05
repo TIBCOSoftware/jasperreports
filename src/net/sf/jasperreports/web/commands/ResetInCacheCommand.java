@@ -52,7 +52,7 @@ public class ResetInCacheCommand implements Command
 		this.uri = uri;
 	}
 
-	public void execute() 
+	public void execute() throws CommandException
 	{
 		command.execute();
 		

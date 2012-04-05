@@ -23,13 +23,9 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.UUID;
-
-import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.engine.JRIdentifiable;
-import net.sf.jasperreports.engine.design.JRDesignComponentElement;
-import net.sf.jasperreports.web.commands.CommandStack;
-import net.sf.jasperreports.web.commands.CommandTarget;
+import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 
@@ -37,50 +33,44 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class MoveColumnAction extends AbstractTableAction
-{
+public class MoveColumnAction extends AbstractVerifiableTableAction {
 
-	private MoveColumnData moveColumnData;
-	
-	public MoveColumnAction(){
+	public MoveColumnAction() {
 	}
 	
 	public void setMoveColumnData(MoveColumnData moveColumnData) {
-		this.moveColumnData = moveColumnData;
+		columnData = moveColumnData;
 	}
 
 	public MoveColumnData getMoveColumnData() {
-		return moveColumnData;
+		return (MoveColumnData)columnData;
 	}
 
 	public String getName() {
 		return "move_column_action";
 	}
+	
+	public void performAction() throws ActionException {
+		// execute command
+		try {
+			getCommandStack().execute(
+				new ResetInCacheCommand(
+					new MoveColumnCommand(table, getMoveColumnData()), 
+					getJasperReportsContext(),
+					getReportContext(), 
+					targetUri
+					)
+				);
+		} catch (CommandException e) {
+			throw new ActionException(e.getMessage());
+		}
+	}
 
-	public void performAction() 
-	{
-		if (moveColumnData != null) 
-		{
-			CommandTarget target = getCommandTarget(UUID.fromString(moveColumnData.getUuid()));
-			if (target != null)
-			{
-				JRIdentifiable identifiable = target.getIdentifiable();
-				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-				StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-				
-				// obtain command stack
-				CommandStack commandStack = getCommandStack();
-				
-				// execute command
-				commandStack.execute(
-					new ResetInCacheCommand(
-						new MoveColumnCommand(table, moveColumnData), 
-						getJasperReportsContext(),
-						getReportContext(), 
-						target.getUri()
-						)
-					);
-			}
+	@Override
+	public void verify() throws ActionException {
+		MoveColumnData colData = getMoveColumnData();
+		if (colData.getColumnToMoveNewIndex() > TableUtil.getAllColumns(table).size() - 1) {
+			throw new ActionException("Invalid position: " + colData.getColumnToMoveNewIndex());
 		}
 	}
 

@@ -33,8 +33,13 @@ public class CommandStack {
 	private LinkedList<Command> commandStack = new LinkedList<Command>();
 	private LinkedList<Command> redoStack = new LinkedList<Command>();
 
-	public void execute(Command command) {
-		command.execute();
+	public void execute(Command command) throws CommandException{
+		try {
+			command.execute();
+		} catch (CommandException e) {
+			command.undo();
+			throw e;
+		}
 		commandStack.addFirst(command);
 		redoStack.clear();
 	}
@@ -79,5 +84,9 @@ public class CommandStack {
 	{
 		commandStack.clear();
 		redoStack.clear();
+	}
+	
+	public int getExecutionStackSize() {
+		return commandStack.size();
 	}
 }

@@ -21,19 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.web.commands;
-
+package net.sf.jasperreports.web;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public interface Command {
+public class JasperInteractiveException extends Exception {
 	
-	public void execute() throws CommandException;
-	
-	public void undo();
-	
-	public void redo();
-	
+	public JasperInteractiveException(String message) {
+		super(message);
+	}
 }

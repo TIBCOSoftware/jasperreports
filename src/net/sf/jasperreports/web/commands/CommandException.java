@@ -23,17 +23,16 @@
  */
 package net.sf.jasperreports.web.commands;
 
+import net.sf.jasperreports.web.JasperInteractiveException;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public interface Command {
-	
-	public void execute() throws CommandException;
-	
-	public void undo();
-	
-	public void redo();
-	
+public class CommandException extends JasperInteractiveException {
+
+	public CommandException(String message) {
+		super(message);
+	}
+
 }

@@ -42,10 +42,10 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import net.sf.jasperreports.web.JasperInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.UrlUtil;
@@ -118,31 +118,29 @@ public class ReportServlet extends AbstractServlet
 			runReport(request, webReportContext);
 			render(request, webReportContext, out);
 		}
+		catch (JasperInteractiveException e) 
+		{
+			log.error("Jasper Interactive error", e);
+			
+			out.println("<div><div id=\"jrInteractiveError\">");
+			out.println(e.getMessage());
+			out.println("</div></div>");
+		}
 		catch (Exception e)
 		{
-			// try to undo
-			CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
-			if (commandStack != null) {
-				commandStack.undo();				
-			}
-			
 			log.error("Error on report execution", e);
 			
 			out.println("<html>");//FIXMEJIVE do we need to render this? or should this be done by the viewer?
 			out.println("<head>");
 			out.println("<title>JasperReports - Web Application Sample</title>");
 			out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" title=\"Style\">");
-			out.println("</head>");
 			
 			out.println("<body bgcolor=\"white\">");
 
 			out.println("<span class=\"bnew\">JasperReports encountered this error :</span>");
 			out.println("<pre>");
-
 			e.printStackTrace(out);
-
 			out.println("</pre>");
-
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -151,12 +149,14 @@ public class ReportServlet extends AbstractServlet
 
 
 	/**
+	 * @throws JasperInteractiveException 
 	 *
 	 */
 	public void runReport(
 		HttpServletRequest request, //FIXMEJIVE put request in report context, maybe as a thread local?
 		WebReportContext webReportContext
 		) throws JRException //IOException, ServletException
+, JasperInteractiveException
 	{
 		JasperPrintAccessor jasperPrintAccessor = 
 			(JasperPrintAccessor) webReportContext.getParameterValue(

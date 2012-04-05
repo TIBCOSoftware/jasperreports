@@ -32,6 +32,8 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.actions.AbstractAction;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -56,11 +58,11 @@ public class SortAction extends AbstractAction
 		this.sortData = sortData;
 	}
 
-	public void performAction() 
+	public void performAction() throws ActionException
 	{
 		if (sortData != null) 
 		{
-			CommandTarget target = getCommandTarget(UUID.fromString(sortData.getUuid()));
+			CommandTarget target = getCommandTarget(UUID.fromString(sortData.getTableUuid()));
 			if (target != null)
 			{
 				JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
@@ -72,14 +74,18 @@ public class SortAction extends AbstractAction
 				CommandStack commandStack = getCommandStack();
 				
 				// execute command
-				commandStack.execute(
-					new ResetInCacheCommand(
-						new SortCommand(getJasperReportsContext(), dataset, sortData),
-						getJasperReportsContext(),
-						getReportContext(),
-						target.getUri()
-						)
-					);
+				try {
+					commandStack.execute(
+						new ResetInCacheCommand(
+							new SortCommand(getJasperReportsContext(), dataset, sortData),
+							getJasperReportsContext(),
+							getReportContext(),
+							target.getUri()
+							)
+						);
+				} catch (CommandException e) {
+					 throw new ActionException(e.getMessage());
+				}
 			}
 		}
 	}

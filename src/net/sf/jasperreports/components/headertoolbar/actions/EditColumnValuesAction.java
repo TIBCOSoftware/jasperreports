@@ -23,13 +23,8 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.UUID;
-
-import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.engine.JRIdentifiable;
-import net.sf.jasperreports.engine.design.JRDesignComponentElement;
-import net.sf.jasperreports.web.commands.CommandStack;
-import net.sf.jasperreports.web.commands.CommandTarget;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
 
 
@@ -37,51 +32,41 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class EditColumnValuesAction extends AbstractTableAction
-{
+public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 
-	private  EditColumnValueData  editColumnValueData;
-	
-	public EditColumnValuesAction(){
+	public EditColumnValuesAction() {
 	}
 	
 	public void setEditColumnValueData(EditColumnValueData editColumnValueData) {
-		this.editColumnValueData = editColumnValueData;
+		columnData = editColumnValueData;
 	}
 
 	public EditColumnValueData getEditColumnValueData() {
-		return editColumnValueData;
+		return (EditColumnValueData)columnData;
 	}
 
 	public String getName() {
 		return "edit_column_value_action";
 	}
 
-	public void performAction() 
-	{
-		if (editColumnValueData != null) 
-		{
-			CommandTarget target = getCommandTarget(UUID.fromString(editColumnValueData.getTableUuid()));
-			if (target != null)
-			{
-				JRIdentifiable identifiable = target.getIdentifiable();
-				JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-				StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-				
-				// obtain command stack
-				CommandStack commandStack = getCommandStack();
-				
-				// execute command
-				commandStack.execute(
-					new ResetInCacheCommand(
-						new EditColumnValuesCommand(table, editColumnValueData), 
-						getJasperReportsContext(), 
-						getReportContext(), 
-						target.getUri()
-						)
-					);
-			}
+	public void performAction() throws ActionException {
+		// execute command
+		try {
+			getCommandStack().execute(
+				new ResetInCacheCommand(
+					new EditColumnValuesCommand(table, getEditColumnValueData()), 
+					getJasperReportsContext(), 
+					getReportContext(), 
+					targetUri
+					)
+				);
+		} catch (CommandException e) {
+			throw new ActionException(e.getMessage());
 		}
+	}
+
+	@Override
+	public void verify() throws ActionException {
 	}
 
 }

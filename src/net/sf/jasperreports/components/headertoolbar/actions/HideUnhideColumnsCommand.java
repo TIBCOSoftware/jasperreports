@@ -30,6 +30,7 @@ import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.web.commands.Command;
+import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 /**
@@ -49,7 +50,7 @@ public class HideUnhideColumnsCommand implements Command {
 	}
 
 
-	public void execute() {
+	public void execute() throws CommandException {
 		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 		int[] columnIndexes = columnData.getColumnIndexes();
 		

@@ -74,7 +74,7 @@ public abstract class AbstractAction implements Action {
 		return reportContext;
 	}
 	
-	public void run() {
+	public void run() throws ActionException {
 		performAction();
 		//resetJasperReport();
 	}
@@ -87,6 +87,6 @@ public abstract class AbstractAction implements Action {
 		return commandStack;
 	}
 	
-	public abstract void performAction();
+	public abstract void performAction() throws ActionException;
 	
 }

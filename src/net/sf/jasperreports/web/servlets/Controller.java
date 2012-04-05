@@ -26,14 +26,19 @@ package net.sf.jasperreports.web.servlets;
 import net.sf.jasperreports.data.cache.ColumnDataCacheHandler;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.AsynchronousFillHandle;
 import net.sf.jasperreports.repo.RepositoryUtil;
+import net.sf.jasperreports.web.JasperInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
+import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
+import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.web.commands.CommandStack;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,18 +71,25 @@ public class Controller
 	
 	
 	/**
+	 * @throws JasperInteractiveException 
 	 *
 	 */
 	public void runReport(
 		WebReportContext webReportContext,
 		Action action
-		) throws JRException
+		) throws JRException, JasperInteractiveException
 	{
 		String reportUri = (String)webReportContext.getParameterValue(REQUEST_PARAMETER_REPORT_URI);
+		int initialStackSize = 0;
+		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
+		if (commandStack != null) {
+			initialStackSize = commandStack.getExecutionStackSize();
+		}
 
 		setDataCache(webReportContext);
 		
-		JasperReport jasperReport = null; 
+		JasperReport jasperReport = null;
+		
 		
 		if (reportUri != null && reportUri.trim().length() > 0)
 		{
@@ -103,7 +115,24 @@ public class Controller
 		}
 		webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, async);
 		
-		runReport(webReportContext, jasperReport, async.booleanValue());
+		try {
+			runReport(webReportContext, jasperReport, async.booleanValue());
+		} catch (JRException e) {
+			undoAction(webReportContext, initialStackSize);
+			throw new JasperInteractiveException(e.getMessage());
+		} catch (JRRuntimeException e) {
+			undoAction(webReportContext, initialStackSize);
+			throw new JasperInteractiveException(e.getMessage());
+		}
+	}
+	
+	private void undoAction(WebReportContext webReportContext, int initialStackSize) {
+		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
+		if (commandStack != null) {
+			for (int i = 0; i < (commandStack.getExecutionStackSize() - initialStackSize); i++) {
+				commandStack.undo();
+			}
+		}
 	}
 
 

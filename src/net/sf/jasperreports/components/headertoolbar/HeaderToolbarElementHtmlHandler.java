@@ -355,7 +355,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				// begin: the params that will generate the JSON post object for filtering
 				FilterData filterData = new FilterData();
-				filterData.setUuid(tableUUID);
+				filterData.setTableUuid(tableUUID);
 				filterData.setFieldName(columnName);
 				filterData.setFilterType(filterType.getName());
 				filterData.setFilterPattern(filterPattern);
