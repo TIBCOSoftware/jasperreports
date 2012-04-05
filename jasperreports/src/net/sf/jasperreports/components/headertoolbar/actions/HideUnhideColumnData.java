@@ -28,21 +28,12 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HideUnhideColumnData 
-{
-	private String tableUuid;
+public class HideUnhideColumnData extends BaseColumnData {
+
 	private int[] columnIndexes;
 	private boolean hide;
 
 	public HideUnhideColumnData() {
-	}
-
-	public String getTableUuid() {
-		return tableUuid;
-	}
-
-	public void setTableUuid(String tableUuid) {
-		this.tableUuid = tableUuid;
 	}
 
 	public int[] getColumnIndexes() {

@@ -28,11 +28,9 @@ package net.sf.jasperreports.components.headertoolbar.actions;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class EditColumnHeaderData 
-{
-	private String tableUuid;
-	private int columnIndex;
+public class EditColumnHeaderData extends BaseColumnData {
 
+	private int columnIndex;
 	private String headingName;
 	private String fontName;
 	private int fontSize;
@@ -43,14 +41,6 @@ public class EditColumnHeaderData
 	private String fontHAlign;
 	
 	public EditColumnHeaderData() {
-	}
-
-	public String getTableUuid() {
-		return tableUuid;
-	}
-
-	public void setTableUuid(String tableUuid) {
-		this.tableUuid = tableUuid;
 	}
 
 	public int getColumnIndex() {

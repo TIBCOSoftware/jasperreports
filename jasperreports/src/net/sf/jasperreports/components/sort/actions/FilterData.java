@@ -23,13 +23,14 @@
  */
 package net.sf.jasperreports.components.sort.actions;
 
+import net.sf.jasperreports.components.headertoolbar.actions.BaseColumnData;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class FilterData {
+public class FilterData extends BaseColumnData {
 	
-	private String uuid;
 	private String fieldName;
 	private String fieldValueStart;
 	private String fieldValueEnd;
@@ -39,14 +40,6 @@ public class FilterData {
 	private boolean clearFilter;
 	
 	public FilterData() {
-	}
-	
-	public String getUuid() {
-		return uuid;
-	}
-	
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
 	}
 	
 	public String getFieldName() {
