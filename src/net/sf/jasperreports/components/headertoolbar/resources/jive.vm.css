@@ -1,8 +1,15 @@
 #jive_overlay {
     position:absolute;
     z-index:9;
+    border-top:solid 1px #ccc;
+}
+#jive_overlay > div {
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
     background:#eee;
-    border:solid 1px #ccc;
     opacity:0.3;
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
     filter: alpha(opacity=30);
@@ -14,19 +21,22 @@
     border-left:dotted 1px #555;
 }
 #jive_marker_icon{
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.png);
-    width:40px;
-    height:40px;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.small.png);
+    width:12px;
+    height:10px;
     position:relative;
-    top:-40px;
-    left:-21px;
+    top:-10px;
+    left:-7px;
 }
 #jive_foobar {
     position:absolute;
     border:solid 1px #ccc;
+    border-bottom:none;
     padding:2px;
     height:16px;
     background:#eee;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #fff;
+
 }
 /*
 .jive_foobar_button {border:none;margin:0 2px;padding:0;height:auto;line-height: 1em;}
@@ -41,16 +51,27 @@
     z-index:999;
     border:solid 1px #ccc;
     background:#fff;
+
+    -moz-box-shadow: 3px 3px 4px #000;
+    -webkit-box-shadow: 3px 3px 4px #000;
+    box-shadow: 3px 3px 4px #000;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 .jive_dialog .dialogHeader {
     background:#e8e8e8;
     position:relative;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #fff;
 }
 
 .jive_dialog h2 {
     text-align: left;
     margin:0;
-    padding:4px;
+    padding:0 4px;
+    font-size:12px;
+    line-height:35px;
 }
 
 .jive_dialog div.dialogBody {
@@ -70,9 +91,9 @@
     margin:0 !important;
 }
 
-.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;text-align:left;list-style-type: none;width:120px;display:none;}
-.pmenuitem {padding:8px 4px;cursor:pointer;color:#333;}
-.pmenuitem:hover {background:#3366ff;color:#fff;}
+.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;border-bottom:none;text-align:left;list-style-type: none;width:120px;display:none;}
+.pmenuitem {padding:8px 4px;cursor:pointer;color:#333;border-bottom:solid 1px #ccc;}
+.pmenuitem:hover {background:#eaf3fa;}
 /*
 .pmenuitem > .pmenu {display:none;}
 .pmenuitem:hover > .pmenu {display:block;}
@@ -140,32 +161,18 @@
     border-bottom:1px solid #ffffff;
 }
 
-/* column formatting tab */
-.tab.columntools {
-    display: inline-block;
-    width:auto;
-    height:21px;
-    white-space: nowrap;
-    z-index: 999;
-    border:1px solid #bbc0c5;
-    border-bottom:1px solid #dfe8f2;
-    background-color:#dfe8f2;
-    -webkit-border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-    behavior: url(PIE.htc);
-}
-
 .jive_form table {
     margin-bottom:2px;
+    border-collapse: collapse;
 }
 
 .jive_form td {
-	background:#eee;
+	background:#fff;
 	/*border:solid 1px #ccc;*/
     padding:0;
     margin:0;
     vertical-align: top;
+    border:solid 1px #eee;
 }
 
 .jive_form td.jive_textLabel {
@@ -173,9 +180,9 @@
     vertical-align: middle;
 }
 
-div.wrapper {position:relative;padding:4px 10px;z-index:1;}
+div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 
-.jive_form input, .jive_form select {position:relative;width:100%;margin:0;border:0;}
+.jive_form input, .jive_form select {position:relative;width:100%;margin:0;padding:0;border:solid 1px #eee;}
 .jive_form input{height:21px;}
 .jive_form select{height:24px;}
 
@@ -193,7 +200,7 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;}
 .jive_inputbutton_wrapper.first {border-left:none;}
 .jive_inputbutton.selected {background:#faac1f;color:#fff;}
 
-.jive_listTextInputTouch {display:none;}
+.jive_listTextInputTouch {display:block;}
 
 .jive_freeTextButton {
     float:right;
@@ -283,3 +290,4 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;}
 div.colorpick {width:16px;height:16px;margin:4px;cursor:pointer;}
 
 .columnHeader{cursor:pointer;}
+
