@@ -127,7 +127,7 @@
 								dragObj.canDrop = true;
 								dragObj.moveColumnActionData = {actionName: 'move',
 															moveColumnData: {
-															uuid: dragObj.dragTableFrameUuid,
+															tableUuid: dragObj.dragTableFrameUuid,
 															columnToMoveIndex: currentColPosition,
 															columnToMoveNewIndex: i,
 														}};
@@ -281,7 +281,7 @@
 			                	    var actionData = {
 			                	    		actionName: 'resize',
 			                	    		resizeColumnData: {
-			                	    			uuid: js.selectedColumn.tableUuid,
+			                	    			tableUuid: js.selectedColumn.tableUuid,
 			                	    			columnIndex: js.selectedColumn.columnIndex,
 			                	    			direction: direction,
 			                	    			width: self.width()
