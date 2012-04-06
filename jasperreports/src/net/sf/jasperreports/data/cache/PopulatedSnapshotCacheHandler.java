@@ -27,33 +27,34 @@ package net.sf.jasperreports.data.cache;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class PopulatedSnapshotCacheHandler implements DataCacheHandler {
+public class PopulatedSnapshotCacheHandler implements DataCacheHandler
+{
 	
 	private final DataSnapshot snapshot;
 	
-	public PopulatedSnapshotCacheHandler(DataSnapshot snapshot) {
+	public PopulatedSnapshotCacheHandler(DataSnapshot snapshot)
+	{
 		this.snapshot = snapshot;
 	}
 
-	public boolean isRecordingEnabled() {
+	public boolean isRecordingEnabled()
+	{
 		return false;
 	}
 
-	public DataRecorder createDataRecorder() {
+	public DataRecorder createDataRecorder()
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isSnapshotPopulated() {
+	public boolean isSnapshotPopulated()
+	{
 		return true;
 	}
 
-	public DataSnapshot getDataSnapshot() {
+	public DataSnapshot getDataSnapshot()
+	{
 		return snapshot;
-	}
-
-	public void invalidateDataSnapshot() {
-		// TODO lucianc remove this
-		throw new UnsupportedOperationException();
 	}
 
 }
