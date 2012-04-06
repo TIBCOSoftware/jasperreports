@@ -281,7 +281,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					break;
 				case DATE:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
-					setDatePatterns(valuesFormatPatternMap, datePatterns);
+					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
 					formatPatternLabel = "Date pattern:";
 					break;
 				case TEXT:
@@ -402,9 +402,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 
 	private void setDatePatterns(
 			Map<String, String> valuesFormatPatternMap,
-			List<String> datePatterns) {
+			List<String> datePatterns,
+			Locale locale) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", locale);
 		Date today = new Date();
 		
 		for(String datePattern: datePatterns) {
