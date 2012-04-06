@@ -18,7 +18,7 @@
         	<input class='postable forClear' type='hidden' name='tableUuid' value='' />
         	<input class='postable forClear' type='hidden' name='fieldName' value='' />
         	<input class='postable' type='hidden' name='filterType' value='' />
-        	<input class='postable' disabled='disabled' type='hidden' name='filterPattern' value='' />
+        	<input class='postable' type='hidden' name='filterPattern' value='' />
         	<label class='filterColumnNameLabel'></label>
         	<br/>
 			<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'></select>
