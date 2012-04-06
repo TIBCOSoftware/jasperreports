@@ -315,8 +315,8 @@ jQuery.noConflict();
 									toExtract = jQuery(elementToExtract, response);
 									if (toExtract.size() != 1) { 
 										// error on server side
-										if (jQuery('div#jrInteractiveError', response).size() === 1){
-											jg.showError(jqXHR.responseText, loadMaskTarget, 'Jasper Interactive Error', 480, 100);
+										if (jQuery('#jrInteractiveError', response).size() === 1){
+											jg.showError(jqXHR.responseText, loadMaskTarget, 'Jasper Interactive Error', 510, 160);
 										} else {
 											jg.showError(jqXHR.responseText, loadMaskTarget, 'Error', 1100, 500);
 										}

@@ -122,9 +122,9 @@ public class ReportServlet extends AbstractServlet
 		{
 			log.error("Jasper Interactive error", e);
 			
-			out.println("<div><div id=\"jrInteractiveError\">");
+			out.println("<div><pre id=\"jrInteractiveError\">");
 			out.println(e.getMessage());
-			out.println("</div></div>");
+			out.println("</pre></div>");
 		}
 		catch (Exception e)
 		{
