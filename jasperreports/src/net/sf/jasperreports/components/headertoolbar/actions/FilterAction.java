@@ -89,16 +89,24 @@ public class FilterAction extends AbstractVerifiableTableAction {
 			
 			if (filterType == FilterTypesEnum.DATE) {
 				if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
-					throw new ActionException("Invalid filter pattern!");
+					errors.addAndThrow("Invalid filter pattern!");
 				} else {
-					SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE));
+					Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
+					if (locale == null) {
+						locale = Locale.getDefault();
+					}
+					SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), locale);
 					try {
 						sdf.parse(fd.getFieldValueStart());
-						if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
-							sdf.parse(fd.getFieldValueEnd());
-						}
 					} catch (ParseException e) {
-						throw new ActionException(e.getMessage());
+						errors.add("Invalid date: " + fd.getFieldValueStart());
+					}
+					if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
+						try {
+							sdf.parse(fd.getFieldValueEnd());
+						} catch (ParseException e) {
+							errors.add("Invalid date: " + fd.getFieldValueEnd());
+						}
 					}
 				}
 			}
