@@ -148,6 +148,10 @@ public class FieldFilter implements DatasetFilter {
 	public void setIsValid(Boolean isValid) {
 		this.isValid = isValid;
 	}
+	
+	public String getFilterPattern() {
+		return filterPattern;
+	}
 
 	public void setFilterPattern(String filterPattern) {
 		this.filterPattern = filterPattern;
