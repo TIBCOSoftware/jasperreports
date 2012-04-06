@@ -23,8 +23,14 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.sort.actions.FilterData;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -77,6 +83,26 @@ public class FilterAction extends AbstractVerifiableTableAction {
 
 	@Override
 	public void verify() throws ActionException {
+		FilterData fd = getFilterData();
+		if (fd.getFieldValueStart() != null && fd.getFieldValueStart().length() > 0 && fd.getFilterType() != null) {
+			FilterTypesEnum filterType = FilterTypesEnum.getByName(fd.getFilterType());
+			
+			if (filterType == FilterTypesEnum.DATE) {
+				if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
+					throw new ActionException("Invalid filter pattern!");
+				} else {
+					SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE));
+					try {
+						sdf.parse(fd.getFieldValueStart());
+						if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
+							sdf.parse(fd.getFieldValueEnd());
+						}
+					} catch (ParseException e) {
+						throw new ActionException(e.getMessage());
+					}
+				}
+			}
+		}
 	}
 
 }
