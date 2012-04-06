@@ -555,6 +555,7 @@ jive.interactive.column.columnFilterForm = {
             tableUuid: metadata.tableUuid,
             fieldName: metadata.fieldName,
             filterType: metadata.filterType,
+            filterPattern: metadata.filterPattern,
             fieldValueStart: jive.selected.form.jo.find('input[name="fieldValueStart"]').val(),
             filterTypeOperator: jive.selected.form.jo.find('select[name="filterTypeOperator"]').val(),
             clearFilter: jive.selected.form.jo.find('input[name="clearFilter"]:checked').val()
