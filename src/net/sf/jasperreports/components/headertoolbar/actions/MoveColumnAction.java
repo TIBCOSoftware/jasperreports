@@ -70,7 +70,7 @@ public class MoveColumnAction extends AbstractVerifiableTableAction {
 	public void verify() throws ActionException {
 		MoveColumnData colData = getMoveColumnData();
 		if (colData.getColumnToMoveNewIndex() > TableUtil.getAllColumns(table).size() - 1) {
-			throw new ActionException("Invalid position: " + colData.getColumnToMoveNewIndex());
+			errors.addAndThrow("Invalid position: " + colData.getColumnToMoveNewIndex());
 		}
 	}
 
