@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import java.lang.reflect.Modifier;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -38,9 +36,9 @@ public class TypedColumnStore implements ColumnStore
 	private static final Log log = LogFactory.getLog(TypedColumnStore.class);
 	
 	private final ColumnDataCacheHandler cacheHandler;
-	private Class<?> baseType;
-	private boolean concreteTypeInitialized;
+	private final Class<?> baseType;
 	private ColumnStore valueStore;
+	private Class<?> valueStoreType;
 	private int count;
 	private ColumnStore nullStore;
 	
@@ -48,9 +46,14 @@ public class TypedColumnStore implements ColumnStore
 	{
 		this.cacheHandler = cacheHandler;
 		this.baseType = baseType;
-		this.concreteTypeInitialized = !baseType.isInterface() && Modifier.isFinal(baseType.getModifiers());
 		
 		this.count = 0;
+	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return baseType;
 	}
 	
 	public void addValue(Object value)
@@ -62,52 +65,29 @@ public class TypedColumnStore implements ColumnStore
 		}
 		else
 		{
-			Class<?> valueType = value.getClass();
-			if (!concreteTypeInitialized)
+			if (!ensureValueStore(value))
 			{
-				if (!baseType.isInstance(value))
-				{
-					// this shouldn't normally happen
-					if (log.isDebugEnabled())
-					{
-						log.debug(this + ": value not instance of type " + baseType);
-					}
-					
-					cacheHandler.disableCaching();
-					return;
-				}
-				
-				// deduce the base type from the first non-null value
-				if (log.isDebugEnabled())
-				{
-					log.debug(this + ": base type deduced from value is " + valueType);
-				}
-				
-				baseType = valueType;
-				concreteTypeInitialized = true;
+				return;
 			}
-			else if (!baseType.equals(valueType))
+
+			if (!valueStoreType.isInstance(value))
 			{
-				// TODO lucianc check if extending type, i.e. Integer on Number field
-				// the value type differs from the base type, not caching
+				// this shouldn't normally happen
 				if (log.isDebugEnabled())
 				{
-					log.debug(this + ": value type " + valueType + " differs from base type " + baseType);
+					log.debug(this + ": value not instance of type " + baseType);
 				}
 				
 				cacheHandler.disableCaching();
 				return;
 			}
 			
-			if (ensureValueStore())
+			valueStore.addValue(value);
+			
+			// we need all values in the null store
+			if (nullStore != null)
 			{
-				valueStore.addValue(value);
-				
-				// we need all values in the null store
-				if (nullStore != null)
-				{
-					nullStore.addValue(false);
-				}
+				nullStore.addValue(false);
 			}
 		}
 
@@ -132,20 +112,37 @@ public class TypedColumnStore implements ColumnStore
 			}
 		}
 	}
-	
-	protected boolean ensureValueStore()
+
+	protected boolean ensureValueStore(Object value)
 	{
 		if (valueStore == null)
 		{
-			valueStore = cacheHandler.createColumnStore(baseType);
+			// using the actual type of the first value to create the store
+			Class<?> valueType = value.getClass();
+			valueStore = cacheHandler.createColumnStore(valueType);
 			
 			if (log.isDebugEnabled())
 			{
-				log.debug(this + ": created value store " + valueStore + " for type " + baseType);
+				log.debug(this + ": created value store " + valueStore + " for type " + valueType);
 			}
 			
 			if (valueStore == null)
 			{
+				// the value type is not supported
+				cacheHandler.disableCaching();
+				return false;
+			}
+			
+			valueStoreType = valueStore.getBaseValuesType();
+			// check that the store values type is a subclass of the base type
+			if (!baseType.isAssignableFrom(valueStoreType))
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug(this + ": store type " + valueStoreType 
+							+ " is not compatible with base type " + baseType);
+				}
+				
 				cacheHandler.disableCaching();
 				return false;
 			}

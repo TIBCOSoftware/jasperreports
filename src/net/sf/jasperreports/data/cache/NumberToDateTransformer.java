@@ -48,6 +48,12 @@ public final class NumberToDateTransformer implements ValueTransformer, Serializ
 	private NumberToDateTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Date.class;
+	}
 	
 	public Object get(Object value)
 	{

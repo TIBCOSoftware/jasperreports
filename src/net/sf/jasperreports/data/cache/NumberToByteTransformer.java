@@ -47,6 +47,12 @@ public final class NumberToByteTransformer implements ValueTransformer, Serializ
 	private NumberToByteTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Byte.class;
+	}
 	
 	public Object get(Object value)
 	{

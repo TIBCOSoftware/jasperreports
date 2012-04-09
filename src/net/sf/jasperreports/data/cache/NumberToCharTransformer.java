@@ -47,6 +47,12 @@ public final class NumberToCharTransformer implements ValueTransformer, Serializ
 	private NumberToCharTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Character.class;
+	}
 	
 	public Object get(Object value)
 	{

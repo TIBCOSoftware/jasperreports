@@ -54,6 +54,12 @@ public class FloatArrayStore implements BufferColumnStore, ArrayStore
 	}
 
 	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return Float.class;
+	}
+
+	@Override
 	public int count()
 	{
 		return count;

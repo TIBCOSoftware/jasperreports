@@ -47,6 +47,12 @@ public final class NumberToIntegerTransformer implements ValueTransformer, Seria
 	private NumberToIntegerTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Integer.class;
+	}
 	
 	public Object get(Object value)
 	{

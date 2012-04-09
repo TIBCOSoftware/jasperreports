@@ -61,6 +61,12 @@ public class LongArrayStore implements BufferColumnStore, ArrayStore
 	{
 		this(size, null, useGCD);
 	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return valueTransformer == null ? Number.class : valueTransformer.getResultType();
+	}
 	
 	public LongArrayStore(int size, ValueTransformer valueTransformer, boolean useGCD)
 	{

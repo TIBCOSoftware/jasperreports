@@ -45,6 +45,12 @@ public class BlockColumnStore implements ColumnStore
 		this.bufferStore = bufferStore;
 	}
 
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return bufferStore.getBaseValuesType();
+	}
+
 	protected void preAdd()
 	{
 		if (bufferStore.full())

@@ -63,6 +63,12 @@ public class BooleanStore implements BufferColumnStore
 		max = false;
 		currentLong = 0;
 	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return Boolean.class;
+	}
 	
 	public void addValue(Object object)
 	{

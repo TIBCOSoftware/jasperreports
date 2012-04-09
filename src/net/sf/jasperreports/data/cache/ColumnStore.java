@@ -30,6 +30,8 @@ package net.sf.jasperreports.data.cache;
 public interface ColumnStore
 {
 
+	Class<?> getBaseValuesType();
+	
 	void addValue(Object value);
 
 	ColumnValues createValues();
