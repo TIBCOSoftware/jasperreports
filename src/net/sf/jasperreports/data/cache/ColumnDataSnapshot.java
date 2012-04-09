@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 import org.apache.commons.logging.Log;
@@ -46,14 +47,21 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map<Object, ColumnCacheData> cachedData;
+	private boolean persistable;
 
 	public ColumnDataSnapshot()
 	{
 		cachedData = new LinkedHashMap<Object, ColumnCacheData>();
+		persistable = true;
 	}
 	
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
+		if (!persistable)
+		{
+			throw new JRRuntimeException("The data snapshot is not persistable");
+		}
+		
 		out.writeInt(cachedData.size());
 		for (Map.Entry<Object, ColumnCacheData> entry : cachedData.entrySet())
 		{
@@ -64,6 +72,8 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
+		this.persistable = true;
+		
 		int count = in.readInt();
 		cachedData = new LinkedHashMap<Object, ColumnCacheData>(count * 4 / 3);
 		for (int i = 0; i < count; i++)
@@ -104,6 +114,16 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 	public void addCachedData(Object key, ColumnCacheData data)
 	{
 		cachedData.put(key, data);
+	}
+
+	public boolean isPersistable()
+	{
+		return persistable;
+	}
+
+	public void setPersistable(boolean persistable)
+	{
+		this.persistable = persistable;
 	}
 
 }

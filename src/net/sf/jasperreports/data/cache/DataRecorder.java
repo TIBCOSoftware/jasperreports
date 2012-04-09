@@ -36,4 +36,8 @@ public interface DataRecorder
 	
 	void setSnapshotPopulated();
 
+	void disableRecording();
+
+	void disablePersistence();
+	
 }

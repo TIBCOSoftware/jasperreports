@@ -47,19 +47,19 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 
 	private final static int DEFAULT_BUFFER_STORE_SIZE = 4096;
 	
-	private boolean enabled;
+	private boolean recordingEnabled;
 
 	private volatile DataSnapshot snapshot;
 	private int bufferStoreSize = DEFAULT_BUFFER_STORE_SIZE;
 	
 	public ColumnDataCacheHandler()
 	{
-		enabled = true;
+		recordingEnabled = true;
 	}
 	
 	public boolean isRecordingEnabled()
 	{
-		return enabled;
+		return recordingEnabled;
 	}
 
 	public DataRecorder createDataRecorder()
@@ -84,7 +84,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			log.debug("caching disabled");
 		}
 		
-		this.enabled = false;
+		this.recordingEnabled = false;
 	}
 
 	protected void setDataSnapshot(DataSnapshot snapshot)
@@ -219,7 +219,18 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 				setDataSnapshot(dataSnapshot);
 			}
 		}
-		
+
+		@Override
+		public void disableRecording()
+		{
+			disableCaching();
+		}
+
+		@Override
+		public void disablePersistence()
+		{
+			dataSnapshot.setPersistable(false);
+		}
 	}
 	
 	class ColumnDataCollector implements DatasetRecorder

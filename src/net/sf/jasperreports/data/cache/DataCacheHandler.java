@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.data.cache;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+
 
 /**
  * Report data cache handler.
@@ -34,6 +36,10 @@ public interface DataCacheHandler
 {
 	
 	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
+	
+	String PROPERTY_DATA_RECORDABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.recordable";
+	
+	String PROPERTY_DATA_PERSISTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.persistable";
 
 	boolean isRecordingEnabled();
 	
