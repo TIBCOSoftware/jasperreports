@@ -23,8 +23,15 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.util.MessageProvider;
+import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -40,31 +47,29 @@ public abstract class AbstractAction implements Action {
 	
 	private JasperReportsContext jasperReportsContext;
 	private ReportContext reportContext;
-//	private String reportUri;
-//	private JasperDesign jasperDesign;
 	private CommandStack commandStack;
+	protected ActionErrors errors;
 	
 	public AbstractAction(){
+	}
+
+	public String getMessagesBundle() {
+		return "net.sf.jasperreports.web.actions.action-messages";
 	}
 	
 	public void init(JasperReportsContext jasperReportsContext, ReportContext reportContext)//, String reportUri) 
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.reportContext = reportContext;
-//		this.reportUri = reportUri;
-		
-//		jasperDesign = JasperDesignCache.getInstance(reportContext).getJasperDesign(reportUri);
 		commandStack = (CommandStack)reportContext.getParameterValue(PARAM_COMMAND_STACK);
 		
 		if (commandStack == null) {
 			commandStack = new CommandStack();
 			reportContext.setParameterValue(PARAM_COMMAND_STACK, commandStack);
 		}
+		errors = new ActionErrors(MessageUtil.getInstance(jasperReportsContext).getMessageProvider(getMessagesBundle()),
+				(Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE));
 	}
-	
-//	public JasperDesign getJasperDesign() {
-//		return jasperDesign;
-//	}
 	
 	public JasperReportsContext getJasperReportsContext() {
 		return jasperReportsContext;
@@ -76,17 +81,60 @@ public abstract class AbstractAction implements Action {
 	
 	public void run() throws ActionException {
 		performAction();
-		//resetJasperReport();
 	}
-	
-//	public void resetJasperReport() {
-//		JasperDesignCache.getInstance(reportContext).set(reportUri, jasperDesign);
-//	}
 	
 	public CommandStack getCommandStack() {
 		return commandStack;
 	}
 	
+	
 	public abstract void performAction() throws ActionException;
+
+
+	public static class ActionErrors {
+		
+		private MessageProvider messageProvider;
+		private Locale locale;
+		private List<String> errorMessages;
+
+
+		public ActionErrors (MessageProvider messageProvider, Locale locale) {
+			this.messageProvider = messageProvider;
+			this.locale = locale;
+			this.errorMessages = new ArrayList<String>();
+		}
+		
+		public void add(String messageKey, Object[] args) {
+			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
+		}
+
+		public void add(String messageKey) {
+			add(messageKey, null);
+		}
+
+		public void addAndThrow(String messageKey, Object[] args) throws ActionException {
+			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
+			throwAll();
+		}
+		
+		public void addAndThrow(String messageKey) throws ActionException {
+			addAndThrow(messageKey, null);
+			throwAll();
+		}
+		
+		public boolean isEmpty() {
+			return errorMessages.size() == 0;
+		}
+		
+		public void throwAll() throws ActionException {
+			if (!errorMessages.isEmpty()) {
+				StringBuffer errBuff = new StringBuffer();
+				for (String errMsg: errorMessages) {
+					errBuff.append(errMsg).append("\n");
+				}
+				throw new ActionException(errBuff.toString());
+			}	
+		}
+	}
 	
 }

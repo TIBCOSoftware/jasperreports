@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -51,11 +49,15 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 	
 	protected StandardTable table;
 	protected String targetUri;
-	protected ActionErrors errors = new ActionErrors();
 	
 	
 	public AbstractVerifiableTableAction()
 	{
+	}
+	
+	@Override
+	public String getMessagesBundle() {
+		return "net.sf.jasperreports.components.headertoolbar.actions.action-messages";
 	}
 
 	public StandardTable getTable(String uuid) 
@@ -113,10 +115,10 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 	public void prepare() throws ActionException 
 	{
 		if (columnData == null) { 
-			errors.addAndThrow("No column data!");
+			errors.addAndThrow("interactive.validate.no.data");
 		}
 		if(columnData.getTableUuid() == null || columnData.getTableUuid().trim().length() == 0) {
-			errors.addAndThrow("No table to map to!");
+			errors.addAndThrow("interactive.validate.no.table");
 		}
 		CommandTarget target = getCommandTarget(UUID.fromString(columnData.getTableUuid()));
 		if (target != null)
@@ -125,7 +127,7 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			
 			if (componentElement == null) {
-				errors.addAndThrow("No matching table for uuid: " + columnData.getTableUuid());
+				errors.addAndThrow("interactive.validate.no.table.match", new Object[] {columnData.getTableUuid()});
 			}
 			
 			table = (StandardTable)componentElement.getComponent();
@@ -143,33 +145,5 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 	}
 	
 	public abstract void verify() throws ActionException;
-	
-	
-	public static class ActionErrors {
-		
-		private List<String> errorMessages = new ArrayList<String>();
-		
-		public void add(String message) {
-			errorMessages.add(message);
-		}
-		
-		public void addAndThrow(String message) throws ActionException {
-			errorMessages.add(message);
-			throwAll();
-		}
-		
-		public boolean isEmpty() {
-			return errorMessages.size() == 0;
-		}
-		
-		public void throwAll() throws ActionException {
-			if (!errorMessages.isEmpty()) {
-				StringBuffer errBuff = new StringBuffer();
-				for (String errMsg: errorMessages) {
-					errBuff.append(errMsg).append("\n");
-				}
-				throw new ActionException(errBuff.toString());
-			}	
-		}
-	}
+
 }
