@@ -52,6 +52,12 @@ public class BigDecimalStore implements BufferColumnStore
 			log.debug(this + ": created scale store " + scaleStore);
 		}
 	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return BigDecimal.class;
+	}
 	
 	public void addValue(Object object)
 	{

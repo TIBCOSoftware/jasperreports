@@ -48,6 +48,12 @@ public final class NumberToSQLTimeTransformer implements ValueTransformer, Seria
 	private NumberToSQLTimeTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Time.class;
+	}
 	
 	public Object get(Object value)
 	{

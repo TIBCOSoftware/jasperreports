@@ -30,6 +30,8 @@ package net.sf.jasperreports.data.cache;
 public interface ValueTransformer
 {
 
+	Class<?> getResultType();
+	
 	Object get(Object value);
 	
 }

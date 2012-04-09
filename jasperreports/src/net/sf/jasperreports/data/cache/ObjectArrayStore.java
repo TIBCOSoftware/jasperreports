@@ -36,13 +36,16 @@ public class ObjectArrayStore implements BufferColumnStore, ArrayStore
 	
 	private static final Log log = LogFactory.getLog(ObjectArrayStore.class);
 	
+	private final Class<String> valuesType;
+	
 	private final Object[] values;
 	private int count;
 	
 	private RunLengthStore runLengthStore;
 	
-	public ObjectArrayStore(int size)
+	public ObjectArrayStore(Class<String> valuesType, int size)
 	{
+		this.valuesType = valuesType;
 		this.values = new Object[size];
 		this.runLengthStore = new RunLengthStore(this);
 		reset();
@@ -52,6 +55,12 @@ public class ObjectArrayStore implements BufferColumnStore, ArrayStore
 	{
 		this.count = 0;
 		this.runLengthStore.reset();
+	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return valuesType;
 	}
 
 	@Override

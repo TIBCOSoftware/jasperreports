@@ -135,29 +135,29 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		}
 		else if (String.class.equals(type))
 		{
-			bufferStore = new ObjectArrayStore(bufferStoreSize); 
+			bufferStore = new ObjectArrayStore(String.class, bufferStoreSize); 
 		}
-		else if (Date.class.equals(type))
-		{
-			bufferStore = new DateStore(bufferStoreSize, NumberToDateTransformer.instance()); 
-		}
-		else if (java.sql.Date.class.equals(type))
+		else if (java.sql.Date.class.isAssignableFrom(type))//allow subclasses
 		{
 			bufferStore = new DateStore(bufferStoreSize, NumberToSQLDateTransformer.instance()); 
 		}
-		else if (Timestamp.class.equals(type))
+		else if (Timestamp.class.isAssignableFrom(type))
 		{
 			bufferStore = new TimestampStore(bufferStoreSize);
 		}
-		else if (Time.class.equals(type))
+		else if (Time.class.isAssignableFrom(type))
 		{
 			bufferStore = new DateStore(bufferStoreSize, NumberToSQLTimeTransformer.instance()); 
 		}
-		else if (BigInteger.class.equals(type))
+		else if (Date.class.isAssignableFrom(type))
+		{
+			bufferStore = new DateStore(bufferStoreSize, NumberToDateTransformer.instance()); 
+		}
+		else if (BigInteger.class.isAssignableFrom(type))
 		{
 			bufferStore = new BigIntegerStore(bufferStoreSize);
 		}
-		else if (BigDecimal.class.equals(type))
+		else if (BigDecimal.class.isAssignableFrom(type))
 		{
 			bufferStore = new BigDecimalStore(bufferStoreSize);
 		}

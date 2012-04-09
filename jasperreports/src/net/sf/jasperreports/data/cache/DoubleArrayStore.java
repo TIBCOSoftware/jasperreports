@@ -54,6 +54,12 @@ public class DoubleArrayStore implements BufferColumnStore, ArrayStore
 	}
 
 	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return Double.class;
+	}
+
+	@Override
 	public int count()
 	{
 		return count;

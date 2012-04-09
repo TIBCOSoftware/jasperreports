@@ -44,6 +44,12 @@ public final class NumberToBigIntegerOffsetTransformer implements ValueTransform
 	{
 		this.offset = offset;
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return BigInteger.class;
+	}
 	
 	public Object get(Object value)
 	{

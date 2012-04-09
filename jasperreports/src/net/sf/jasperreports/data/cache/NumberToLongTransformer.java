@@ -47,6 +47,12 @@ public final class NumberToLongTransformer implements ValueTransformer, Serializ
 	private NumberToLongTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return Long.class;
+	}
 	
 	public Object get(Object value)
 	{

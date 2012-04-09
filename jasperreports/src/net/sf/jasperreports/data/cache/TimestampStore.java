@@ -51,6 +51,12 @@ public class TimestampStore implements BufferColumnStore
 			log.debug(this + ": created nano store " + nanoStore);
 		}
 	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return Timestamp.class;
+	}
 	
 	public void addValue(Object object)
 	{

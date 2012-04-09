@@ -48,6 +48,12 @@ public final class NumberToBigIntegerTransformer implements ValueTransformer, Se
 	private NumberToBigIntegerTransformer()
 	{
 	}
+
+	@Override
+	public Class<?> getResultType()
+	{
+		return BigInteger.class;
+	}
 	
 	public Object get(Object value)
 	{

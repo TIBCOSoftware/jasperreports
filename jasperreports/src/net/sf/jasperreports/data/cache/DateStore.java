@@ -50,6 +50,12 @@ public class DateStore implements BufferColumnStore
 			log.debug(this + ": created time store " + timeStore);
 		}
 	}
+
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return valueTransformer.getResultType();
+	}
 	
 	public void addValue(Object object)
 	{

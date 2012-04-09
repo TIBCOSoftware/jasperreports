@@ -59,6 +59,12 @@ public class BigIntegerStore implements BufferColumnStore
 		this.max = BigInteger.valueOf(Long.MIN_VALUE);
 	}
 
+	@Override
+	public Class<?> getBaseValuesType()
+	{
+		return BigInteger.class;
+	}
+
 	public void addValue(Object object)
 	{
 		if (!(object instanceof BigInteger))
