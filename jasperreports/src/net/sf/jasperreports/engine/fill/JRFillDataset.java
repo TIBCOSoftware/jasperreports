@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
 import net.sf.jasperreports.data.cache.DataSnapshot;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
@@ -53,6 +54,7 @@ import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -671,7 +673,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			return;
 		}
 		
-		// TODO lucianc report property to inhibit caching
+		// try to load a cached data snapshot
+		cacheInitSnapshot();
+		
+		if (!cachedDataSource)
+		{
+			// if no cached data snapshot, initialize data recording
+			cacheInitRecording();
+		}
+	}
+	
+	protected void cacheInitSnapshot() throws DataSnapshotException
+	{
 		DataSnapshot dataSnapshot = filler.fillContext.getDataSnapshot();
 		if (dataSnapshot != null)
 		{
@@ -692,11 +705,31 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				}
 			}
 		}
-		else
+	}
+
+	protected void cacheInitRecording()
+	{
+		DataRecorder cacheRecorder = filler.fillContext.getDataRecorder();
+		if (cacheRecorder != null)
 		{
-			DataRecorder cacheRecorder = filler.fillContext.getDataRecorder();
-			if (cacheRecorder != null)
+			// see if data recording is inhibited
+			boolean dataRecorable = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(
+					this, DataCacheHandler.PROPERTY_DATA_RECORDABLE, true);
+			if (dataRecorable)
 			{
+				// check whether the data snapshot can be persisted
+				boolean dataPersistable = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(
+						this, DataCacheHandler.PROPERTY_DATA_PERSISTABLE, true);
+				if (!dataPersistable)
+				{
+					if (log.isDebugEnabled())
+					{
+						log.debug("data not persistable by property for " + fillPosition);
+					}
+					
+					cacheRecorder.disablePersistence();
+				}
+				
 				// populating the cache
 				dataRecorder = cacheRecorder.createRecorder();
 				// this will also remove existing data on rewind
@@ -708,6 +741,16 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				}
 				
 				cacheRecordIndexCallbacks = new HashMap<Integer, CacheRecordIndexCallback>();
+			}
+			else
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("data recording inhibited by property for " + fillPosition);
+				}
+				
+				// disable all recording
+				cacheRecorder.disableRecording();
 			}
 		}
 	}

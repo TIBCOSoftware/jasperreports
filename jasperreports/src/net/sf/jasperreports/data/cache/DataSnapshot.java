@@ -35,5 +35,7 @@ public interface DataSnapshot
 	boolean hasCachedData(Object key);
 	
 	IndexedDataSource getCachedData(Object key) throws DataSnapshotException;
-	
+
+	boolean isPersistable();
+
 }
