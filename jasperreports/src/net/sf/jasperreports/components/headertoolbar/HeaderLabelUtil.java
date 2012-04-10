@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
-import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 
 /**
@@ -52,32 +51,19 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  */
 public class HeaderLabelUtil
 {
-	private static final char UP_ARROW_CHAR = 0x25B2;
-	private static final char DOWN_ARROW_CHAR = 0x25BC;
-	private static final String STATIC_TEXT_UP_ARROW_SUFFIX = " " + UP_ARROW_CHAR;
-	private static final String STATIC_TEXT_DOWN_ARROW_SUFFIX = " " + DOWN_ARROW_CHAR;
-
-	
 	/**
 	 * 
 	 */
-	public static HeaderLabelBuiltinExpression alterHeaderLabel(JRDesignFrame frame, SortOrderEnum sortOrder)
+	public static HeaderLabelBuiltinExpression alterHeaderLabel(JRDesignFrame frame, String suffix)
 	{
 		HeaderLabelBuiltinExpression evaluator = null;
 		
 		JRElement[] elements = frame.getElements();
 		JRElement element = elements == null ? null : elements[0];
 
-		String suffix = 
-			sortOrder == SortOrderEnum.ASCENDING 
-				? STATIC_TEXT_UP_ARROW_SUFFIX   
-				: (sortOrder == SortOrderEnum.DESCENDING 
-					? STATIC_TEXT_DOWN_ARROW_SUFFIX
-					: "");
-		
 		if (element instanceof JRStaticText)
 		{
-			JRElement elementProxy = getProxy((JRStaticText)element, sortOrder); 
+			JRElement elementProxy = getProxy((JRStaticText)element, suffix); 
 			frame.getChildren().set(0, elementProxy);
 		}
 		else if (element instanceof JRTextField)
@@ -93,7 +79,7 @@ public class HeaderLabelUtil
 	/**
 	 * 
 	 */
-	private static JRStaticText getProxy(final JRStaticText staticText, final SortOrderEnum sortOrder)
+	private static JRStaticText getProxy(final JRStaticText staticText, final String suffix)
 	{
 		return 
 			(JRStaticText)Proxy.newProxyInstance(
@@ -111,11 +97,7 @@ public class HeaderLabelUtil
 						{
 							return 
 								staticText.getText() 
-								+ (sortOrder == SortOrderEnum.ASCENDING 
-										? STATIC_TEXT_UP_ARROW_SUFFIX   
-										: (sortOrder == SortOrderEnum.DESCENDING 
-											? STATIC_TEXT_DOWN_ARROW_SUFFIX
-											: ""));
+								+ suffix;
 						}
 						if ("visit".equals(method.getName()))
 						{

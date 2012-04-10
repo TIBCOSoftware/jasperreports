@@ -446,7 +446,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return result;
 	}
 	
-	private void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {
+	public static void getFieldFilters(DatasetFilter existingFilter, List<FieldFilter> fieldFilters, String fieldName) {//FIXMEJIVE put this in some util and reuse
 		if (existingFilter instanceof FieldFilter) {
 			if ( fieldName == null || (fieldName != null && ((FieldFilter)existingFilter).getField().equals(fieldName))) {
 				fieldFilters.add((FieldFilter)existingFilter);
