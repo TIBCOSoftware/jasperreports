@@ -44,16 +44,16 @@ public class FieldBooleanComparator extends AbstractFieldComparator<Boolean> {
 
 		switch (booleanEnum) {
 			case IS_TRUE:
-				result = compareTo.equals(Boolean.TRUE);
+				result = Boolean.TRUE.equals(compareTo);
 				break;
 			case IS_NOT_TRUE:
-				result = !compareTo.equals(Boolean.TRUE);
+				result = !Boolean.TRUE.equals(compareTo);
 				break;
 			case IS_FALSE:
-				result = compareTo.equals(Boolean.FALSE);
+				result = Boolean.FALSE.equals(compareTo);
 				break;
 			case IS_NOT_FALSE:
-				result = !compareTo.equals(Boolean.FALSE);
+				result = !Boolean.FALSE.equals(compareTo);
 				break;
 		}
 		
