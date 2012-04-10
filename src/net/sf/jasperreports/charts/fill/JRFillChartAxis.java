@@ -26,7 +26,6 @@ package net.sf.jasperreports.charts.fill;
 import net.sf.jasperreports.charts.JRChartAxis;
 import net.sf.jasperreports.charts.type.AxisPositionEnum;
 import net.sf.jasperreports.engine.JRChart;
-import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.fill.JRFillChart;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 

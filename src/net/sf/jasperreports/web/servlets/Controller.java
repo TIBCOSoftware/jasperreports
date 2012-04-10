@@ -37,7 +37,6 @@ import net.sf.jasperreports.web.JasperInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandStack;
 
 import org.apache.commons.logging.Log;

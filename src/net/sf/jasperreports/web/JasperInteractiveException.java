@@ -27,7 +27,7 @@ package net.sf.jasperreports.web;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperInteractiveException extends Exception {
+public class JasperInteractiveException extends Exception {//FIXMEJIVE consider renaming this exception
 	
 	public JasperInteractiveException(String message) {
 		super(message);
