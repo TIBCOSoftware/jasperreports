@@ -116,7 +116,7 @@ public class ImageAlignmentFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return Integer.class;
 	}

@@ -51,13 +51,15 @@ public interface ChartThemesConstants
 	public static final Paint GRAY_PAINT_196 = new Color(196,196,196);
 	public static final Paint GRAY_PAINT_217 = new Color(217, 217, 217);
 	
-	public static final List AEGEAN_INTERVAL_COLORS = new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<Color> AEGEAN_INTERVAL_COLORS = new ArrayList<Color>(){{
 		add(new Color(182, 0, 40));
 		add(new Color(240, 205, 0));
 		add(new Color(0,153,0));
 		}};
 	
-	public static final List EYE_CANDY_SIXTIES_COLORS =	new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<Color> EYE_CANDY_SIXTIES_COLORS =	new ArrayList<Color>(){{
 			add(new Color(250, 97, 18));
 			add(new Color(237, 38, 42));
 			add(new Color(0, 111, 60));
@@ -68,14 +70,15 @@ public interface ChartThemesConstants
 			add(new Color(234, 171, 53));
 			}};
 	
-	public static final List EYE_CANDY_SIXTIES_GRADIENT_PAINTS = new ArrayList(){{
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(0), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(0)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(1), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(1)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(2), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(2)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(3), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(3)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(4), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(4)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(5), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(5)).darker()));
-			add(new GradientPaint(0f, 0f, (Color)EYE_CANDY_SIXTIES_COLORS.get(6), 0f, 0f, ((Color)EYE_CANDY_SIXTIES_COLORS.get(6)).darker()));
+	@SuppressWarnings("serial")
+	public static final List<GradientPaint> EYE_CANDY_SIXTIES_GRADIENT_PAINTS = new ArrayList<GradientPaint>(){{
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(0), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(0)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(1), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(1)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(2), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(2)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(3), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(3)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(4), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(4)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(5), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(5)).darker()));
+			add(new GradientPaint(0f, 0f, EYE_CANDY_SIXTIES_COLORS.get(6), 0f, 0f, (EYE_CANDY_SIXTIES_COLORS.get(6)).darker()));
 	}};
 
 	// generic chart default properties names

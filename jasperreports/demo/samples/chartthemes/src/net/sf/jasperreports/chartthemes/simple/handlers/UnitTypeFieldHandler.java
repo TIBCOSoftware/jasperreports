@@ -72,7 +72,7 @@ public class UnitTypeFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return UnitType.class;
 	}
