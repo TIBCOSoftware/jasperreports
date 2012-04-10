@@ -435,8 +435,8 @@ jive.ui.forms = {
                                 });
                                 select.push('</optgroup>');
                             });
-                            select.push('</select>');
                         }
+                        select.push('</select>');
                         tb.push('<td style="" '+colspan+'>');
                         //isTouch.length && tb.push('<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>');
                         e.label && tb.push('<div class="wrapper">' + e.label + '</div>');
