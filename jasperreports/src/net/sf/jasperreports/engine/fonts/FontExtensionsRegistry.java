@@ -56,7 +56,9 @@ public class FontExtensionsRegistry implements ExtensionsRegistry
 					fontFamilies.addAll(SimpleFontExtensionHelper.getInstance().loadFontFamilies(DefaultJasperReportsContext.getInstance(), location));
 				}
 			}
-			return (List<T>) fontFamilies;
+			@SuppressWarnings("unchecked")
+			List<T> extensions = (List<T>) fontFamilies;
+			return extensions;
 		}
 		return null;
 	}
