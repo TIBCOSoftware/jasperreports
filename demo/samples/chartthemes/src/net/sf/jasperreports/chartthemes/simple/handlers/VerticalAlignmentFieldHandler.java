@@ -74,7 +74,7 @@ public class VerticalAlignmentFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return VerticalAlignment.class;
 	}

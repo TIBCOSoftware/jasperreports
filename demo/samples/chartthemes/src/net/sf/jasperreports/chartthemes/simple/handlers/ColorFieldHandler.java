@@ -71,7 +71,7 @@ public class ColorFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return Color.class;
 	}

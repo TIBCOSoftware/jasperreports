@@ -72,7 +72,7 @@ public class PlotOrientationFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return PlotOrientation.class;
 	}

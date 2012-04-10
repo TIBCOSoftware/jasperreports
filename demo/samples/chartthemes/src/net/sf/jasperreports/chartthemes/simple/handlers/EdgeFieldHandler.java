@@ -72,7 +72,7 @@ public class EdgeFieldHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return EdgeEnum.class;
 	}

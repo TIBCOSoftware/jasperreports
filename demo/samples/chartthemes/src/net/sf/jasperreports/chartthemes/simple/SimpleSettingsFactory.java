@@ -55,7 +55,8 @@ public class SimpleSettingsFactory
 	public static final Color COLOR_6 = new Color(229, 1, 140);
 	public static final Color COLOR_7 = new Color(234, 171, 53);
 
-	public static final List COLORS =	new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<ColorProvider> COLORS = new ArrayList<ColorProvider>(){{
 		add(new ColorProvider(COLOR_0));
 		add(new ColorProvider(COLOR_1));
 		add(new ColorProvider(COLOR_2));
@@ -66,7 +67,8 @@ public class SimpleSettingsFactory
 		add(new ColorProvider(COLOR_7));
 		}};
 		
-	public static final List COLORS_DARKER =	new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<ColorProvider> COLORS_DARKER = new ArrayList<ColorProvider>(){{
 		add(new ColorProvider(COLOR_0.darker()));
 		add(new ColorProvider(COLOR_1.darker()));
 		add(new ColorProvider(COLOR_2.darker()));
@@ -77,7 +79,8 @@ public class SimpleSettingsFactory
 		add(new ColorProvider(COLOR_7.darker()));
 		}};
 		
-	public static final List GRADIENT_PAINTS = new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<GradientPaintProvider> GRADIENT_PAINTS = new ArrayList<GradientPaintProvider>(){{
 		add(new GradientPaintProvider(COLOR_0, COLOR_0.darker()));
 		add(new GradientPaintProvider(COLOR_1, COLOR_1.darker()));
 		add(new GradientPaintProvider(COLOR_2, COLOR_2.darker()));
@@ -88,7 +91,8 @@ public class SimpleSettingsFactory
 		add(new GradientPaintProvider(COLOR_7, COLOR_7.darker()));
 	}};
 
-	public static final List STROKES =	new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<BasicStroke> STROKES = new ArrayList<BasicStroke>(){{
 		add(new BasicStroke(2f));
 		add(new BasicStroke(2f));
 		add(new BasicStroke(2f));
@@ -99,7 +103,8 @@ public class SimpleSettingsFactory
 		add(new BasicStroke(2f));
 		}};
 	
-	public static final List OUTLINE_STROKES =	new ArrayList(){{
+	@SuppressWarnings("serial")
+	public static final List<BasicStroke> OUTLINE_STROKES = new ArrayList<BasicStroke>(){{
 		add(new BasicStroke(3f));
 		add(new BasicStroke(3f));
 		add(new BasicStroke(3f));

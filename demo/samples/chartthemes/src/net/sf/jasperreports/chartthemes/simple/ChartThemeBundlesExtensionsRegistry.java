@@ -36,23 +36,26 @@ import net.sf.jasperreports.extensions.ExtensionsRegistry;
 public class ChartThemeBundlesExtensionsRegistry implements ExtensionsRegistry
 {
 
-	private final List chartThemeBundles;
+	private final List<ChartThemeBundle> chartThemeBundles;
 	
-	public ChartThemeBundlesExtensionsRegistry(List chartThemeBundles)
+	public ChartThemeBundlesExtensionsRegistry(List<ChartThemeBundle> chartThemeBundles)
 	{
 		this.chartThemeBundles = chartThemeBundles;
 	}
 	
 	public ChartThemeBundlesExtensionsRegistry(ChartThemeBundle chartThemeBundle)
 	{
-		this.chartThemeBundles = new ArrayList(1);
+		this.chartThemeBundles = new ArrayList<ChartThemeBundle>(1);
 		this.chartThemeBundles.add(chartThemeBundle);
 	}
 	
-	public List getExtensions(Class extensionType)
+	public <T> List<T> getExtensions(Class<T> extensionType)
 	{
-		if (ChartThemeBundle.class.equals(extensionType)) {
-			return chartThemeBundles;
+		if (ChartThemeBundle.class.equals(extensionType)) 
+		{
+			@SuppressWarnings("unchecked")
+			List<T> extensions = (List<T>)chartThemeBundles;
+			return extensions;
 		}
 		return null;
 	}

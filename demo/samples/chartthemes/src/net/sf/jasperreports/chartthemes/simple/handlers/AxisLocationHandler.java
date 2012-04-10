@@ -76,7 +76,7 @@ public class AxisLocationHandler extends GeneralizedFieldHandler
 	/**
 	 *
 	 */
-	public Class getFieldType()
+	public Class<?> getFieldType()
 	{
 		return AxisLocation.class;
 	}
