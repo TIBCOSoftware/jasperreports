@@ -172,12 +172,12 @@ public class JRBaseFont implements JRFont, Serializable, JRChangeEventsSupport, 
 		
 
 	/**
-	 * @deprecated To be removed.
+	 *
 	 */
 	public JRBaseFont(
 		JRStyleContainer styleContainer,
 		JRFont font
-		)
+		) // constructor used in chart themes
 	{
 		this(styleContainer);
 		
