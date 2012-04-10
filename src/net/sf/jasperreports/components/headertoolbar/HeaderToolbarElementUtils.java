@@ -83,6 +83,10 @@ public class HeaderToolbarElementUtils {
 		{
 			result = FilterTypesEnum.DATE;
 		}
+		else if (Boolean.class.isAssignableFrom(clazz))
+		{
+			result = FilterTypesEnum.BOOLEAN;
+		}
 		return result;
 	}
 }
