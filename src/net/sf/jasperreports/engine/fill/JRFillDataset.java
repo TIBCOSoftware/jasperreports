@@ -710,7 +710,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected void cacheInitRecording()
 	{
 		DataRecorder cacheRecorder = filler.fillContext.getDataRecorder();
-		if (cacheRecorder != null)
+		if (cacheRecorder != null && cacheRecorder.isEnabled())
 		{
 			// see if data recording is inhibited
 			boolean dataRecorable = JRPropertiesUtil.getInstance(getJasperReportsContext()).getBooleanProperty(

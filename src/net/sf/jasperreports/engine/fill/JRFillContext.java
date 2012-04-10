@@ -509,7 +509,7 @@ public class JRFillContext
 	
 	public void cacheDone()
 	{
-		if (dataRecorder != null)
+		if (dataRecorder != null && dataRecorder.isEnabled())
 		{
 			// add all recorded data
 			for (Pair<FillDatasetPosition, Object> recorededItem : recordedData)

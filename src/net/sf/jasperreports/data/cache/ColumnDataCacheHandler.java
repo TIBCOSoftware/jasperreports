@@ -214,7 +214,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 
 		public void setSnapshotPopulated()
 		{
-			if (isRecordingEnabled())
+			if (isEnabled())
 			{
 				setDataSnapshot(dataSnapshot);
 			}
@@ -230,6 +230,12 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		public void disablePersistence()
 		{
 			dataSnapshot.setPersistable(false);
+		}
+
+		@Override
+		public boolean isEnabled()
+		{
+			return isRecordingEnabled();
 		}
 	}
 	

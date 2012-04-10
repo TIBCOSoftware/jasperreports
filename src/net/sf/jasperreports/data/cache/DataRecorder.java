@@ -30,6 +30,8 @@ package net.sf.jasperreports.data.cache;
 public interface DataRecorder
 {
 
+	boolean isEnabled();
+	
 	DatasetRecorder createRecorder();
 
 	void addRecordResult(Object key, Object recorded);
