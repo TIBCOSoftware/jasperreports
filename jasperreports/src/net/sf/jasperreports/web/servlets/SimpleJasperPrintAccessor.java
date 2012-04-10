@@ -77,6 +77,12 @@ public class SimpleJasperPrintAccessor implements JasperPrintAccessor, Serializa
 	}
 
 	@Override
+	public Status getStatus()
+	{
+		return Status.FINISHED;
+	}
+
+	@Override
 	public Throwable getError()
 	{
 		// no error

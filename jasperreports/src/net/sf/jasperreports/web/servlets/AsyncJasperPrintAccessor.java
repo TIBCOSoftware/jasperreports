@@ -340,6 +340,27 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 	}
 
 	@Override
+	public Status getStatus()
+	{
+		if (!done)
+		{
+			return Status.RUNNING;
+		}
+		
+		if (cancelled)
+		{
+			return Status.CANCELED;
+		}
+		
+		if (error != null)
+		{
+			return Status.ERROR;
+		}
+		
+		return Status.FINISHED;
+	}
+
+	@Override
 	public Throwable getError()
 	{
 		return error;
