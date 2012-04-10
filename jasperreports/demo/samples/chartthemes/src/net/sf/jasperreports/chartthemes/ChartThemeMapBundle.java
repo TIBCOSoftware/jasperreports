@@ -35,22 +35,22 @@ import net.sf.jasperreports.charts.ChartThemeBundle;
 public class ChartThemeMapBundle implements ChartThemeBundle
 {
 
-	private Map themes;
+	private Map<String, ChartTheme> themes;
 	
 	public ChartTheme getChartTheme(String themeName)
 	{
-		return (ChartTheme) themes.get(themeName);
+		return themes.get(themeName);
 	}
 
 	public String[] getChartThemeNames()
 	{
-		return (String[]) themes.keySet().toArray(new String[themes.size()]);
+		return themes.keySet().toArray(new String[themes.size()]);
 	}
 
 	/**
 	 * @return the themes
 	 */
-	public Map getThemes()
+	public Map<String, ChartTheme> getThemes()
 	{
 		return themes;
 	}
@@ -58,7 +58,7 @@ public class ChartThemeMapBundle implements ChartThemeBundle
 	/**
 	 * @param themes the themes to set
 	 */
-	public void setThemes(Map themes)
+	public void setThemes(Map<String, ChartTheme> themes)
 	{
 		this.themes = themes;
 	}

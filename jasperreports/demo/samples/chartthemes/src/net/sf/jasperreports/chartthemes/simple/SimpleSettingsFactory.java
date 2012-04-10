@@ -25,6 +25,7 @@ package net.sf.jasperreports.chartthemes.simple;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class SimpleSettingsFactory
 	public static final Color COLOR_7 = new Color(234, 171, 53);
 
 	@SuppressWarnings("serial")
-	public static final List<ColorProvider> COLORS = new ArrayList<ColorProvider>(){{
+	public static final List<PaintProvider> COLORS = new ArrayList<PaintProvider>(){{
 		add(new ColorProvider(COLOR_0));
 		add(new ColorProvider(COLOR_1));
 		add(new ColorProvider(COLOR_2));
@@ -68,7 +69,7 @@ public class SimpleSettingsFactory
 		}};
 		
 	@SuppressWarnings("serial")
-	public static final List<ColorProvider> COLORS_DARKER = new ArrayList<ColorProvider>(){{
+	public static final List<PaintProvider> COLORS_DARKER = new ArrayList<PaintProvider>(){{
 		add(new ColorProvider(COLOR_0.darker()));
 		add(new ColorProvider(COLOR_1.darker()));
 		add(new ColorProvider(COLOR_2.darker()));
@@ -92,7 +93,7 @@ public class SimpleSettingsFactory
 	}};
 
 	@SuppressWarnings("serial")
-	public static final List<BasicStroke> STROKES = new ArrayList<BasicStroke>(){{
+	public static final List<Stroke> STROKES = new ArrayList<Stroke>(){{
 		add(new BasicStroke(2f));
 		add(new BasicStroke(2f));
 		add(new BasicStroke(2f));
@@ -104,7 +105,7 @@ public class SimpleSettingsFactory
 		}};
 	
 	@SuppressWarnings("serial")
-	public static final List<BasicStroke> OUTLINE_STROKES = new ArrayList<BasicStroke>(){{
+	public static final List<Stroke> OUTLINE_STROKES = new ArrayList<Stroke>(){{
 		add(new BasicStroke(3f));
 		add(new BasicStroke(3f));
 		add(new BasicStroke(3f));

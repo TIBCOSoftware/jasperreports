@@ -35,6 +35,7 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import net.sf.jasperreports.charts.ChartTheme;
 import net.sf.jasperreports.chartthemes.ChartThemeMapBundle;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -65,12 +66,12 @@ public class XmlChartThemeExtensionsRegistryFactory implements
 	public ExtensionsRegistry createRegistry(String registryId,
 			JRPropertiesMap properties)
 	{
-		List themeProperties = JRPropertiesUtil.getProperties(properties, 
+		List<PropertySuffix> themeProperties = JRPropertiesUtil.getProperties(properties, 
 				XML_CHART_THEME_PROPERTY_PREFIX);
-		Map themes = new HashMap();
-		for (Iterator it = themeProperties.iterator(); it.hasNext();)
+		Map<String, ChartTheme> themes = new HashMap<String, ChartTheme>();
+		for (Iterator<PropertySuffix> it = themeProperties.iterator(); it.hasNext();)
 		{
-			PropertySuffix themeProp = (PropertySuffix) it.next();
+			PropertySuffix themeProp = it.next();
 			String themeName = themeProp.getSuffix();
 			String themeLocation = themeProp.getValue();
 			XmlChartTheme theme = new XmlChartTheme(themeLocation);

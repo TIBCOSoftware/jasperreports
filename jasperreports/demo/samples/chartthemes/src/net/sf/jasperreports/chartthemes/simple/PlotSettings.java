@@ -89,11 +89,11 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	private Boolean outlineVisible;
 	private PaintProvider outlinePaint;
 	private Stroke outlineStroke;
-	private List seriesColorSequence;
-	private List seriesGradientPaintSequence;
-	private List seriesOutlinePaintSequence;
-	private List seriesStrokeSequence;
-	private List seriesOutlineStrokeSequence;
+	private List<PaintProvider> seriesColorSequence;
+	private List<PaintProvider> seriesGradientPaintSequence;
+	private List<PaintProvider> seriesOutlinePaintSequence;
+	private List<Stroke> seriesStrokeSequence;
+	private List<Stroke> seriesOutlineStrokeSequence;
 	private Boolean domainGridlineVisible;
 	private PaintProvider domainGridlinePaint;
 	private Stroke domainGridlineStroke;
@@ -321,7 +321,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the seriesColorSequence
 	 */
-	public List getSeriesColorSequence()
+	public List<PaintProvider> getSeriesColorSequence()
 	{
 		return seriesColorSequence;
 	}
@@ -329,9 +329,9 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @param seriesColorSequence the seriesColorSequence to set
 	 */
-	public void setSeriesColorSequence(List seriesColorSequence)
+	public void setSeriesColorSequence(List<PaintProvider> seriesColorSequence)
 	{
-		List old = getSeriesColorSequence();
+		List<PaintProvider> old = getSeriesColorSequence();
 		this.seriesColorSequence = seriesColorSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesColorSequence, old, getSeriesColorSequence());
 	}
@@ -339,7 +339,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the seriesGradientPaintSequence
 	 */
-	public List getSeriesGradientPaintSequence()
+	public List<PaintProvider> getSeriesGradientPaintSequence()
 	{
 		return seriesGradientPaintSequence;
 	}
@@ -347,9 +347,9 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @param seriesGradientPaintSequence the seriesGradientPaintSequence to set
 	 */
-	public void setSeriesGradientPaintSequence(List seriesGradientPaintSequence)
+	public void setSeriesGradientPaintSequence(List<PaintProvider> seriesGradientPaintSequence)
 	{
-		List old = getSeriesGradientPaintSequence();
+		List<PaintProvider> old = getSeriesGradientPaintSequence();
 		this.seriesGradientPaintSequence = seriesGradientPaintSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesGradientPaintSequence, old, getSeriesGradientPaintSequence());
 	}
@@ -357,7 +357,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the seriesOutlinePaintSequence
 	 */
-	public List getSeriesOutlinePaintSequence()
+	public List<PaintProvider> getSeriesOutlinePaintSequence()
 	{
 		return seriesOutlinePaintSequence;
 	}
@@ -365,9 +365,9 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @param seriesOutlinePaintSequence the seriesOutlinePaintSequence to set
 	 */
-	public void setSeriesOutlinePaintSequence(List seriesOutlinePaintSequence)
+	public void setSeriesOutlinePaintSequence(List<PaintProvider> seriesOutlinePaintSequence)
 	{
-		List old = getSeriesOutlinePaintSequence();
+		List<PaintProvider> old = getSeriesOutlinePaintSequence();
 		this.seriesOutlinePaintSequence = seriesOutlinePaintSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesOutlinePaintSequence, old, getSeriesOutlinePaintSequence());
 	}
@@ -375,7 +375,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the seriesStrokeSequence
 	 */
-	public List getSeriesStrokeSequence()
+	public List<Stroke> getSeriesStrokeSequence()
 	{
 		return seriesStrokeSequence;
 	}
@@ -383,9 +383,9 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @param seriesStrokeSequence the seriesStrokeSequence to set
 	 */
-	public void setSeriesStrokeSequence(List seriesStrokeSequence)
+	public void setSeriesStrokeSequence(List<Stroke> seriesStrokeSequence)
 	{
-		List old = getSeriesStrokeSequence();
+		List<Stroke> old = getSeriesStrokeSequence();
 		this.seriesStrokeSequence = seriesStrokeSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesStrokeSequence, old, getSeriesStrokeSequence());
 	}
@@ -393,7 +393,7 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @return the seriesOutlineStrokeSequence
 	 */
-	public List getSeriesOutlineStrokeSequence()
+	public List<Stroke> getSeriesOutlineStrokeSequence()
 	{
 		return seriesOutlineStrokeSequence;
 	}
@@ -401,9 +401,9 @@ public class PlotSettings implements JRChangeEventsSupport, Serializable
 	/**
 	 * @param seriesOutlineStrokeSequence the seriesOutlineStrokeSequence to set
 	 */
-	public void setSeriesOutlineStrokeSequence(List seriesOutlineStrokeSequence)
+	public void setSeriesOutlineStrokeSequence(List<Stroke> seriesOutlineStrokeSequence)
 	{
-		List old = getSeriesOutlineStrokeSequence();
+		List<Stroke> old = getSeriesOutlineStrokeSequence();
 		this.seriesOutlineStrokeSequence = seriesOutlineStrokeSequence;
 		getEventSupport().firePropertyChange(PROPERTY_seriesOutlineStrokeSequence, old, getSeriesOutlineStrokeSequence());
 	}
