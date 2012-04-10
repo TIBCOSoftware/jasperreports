@@ -74,4 +74,11 @@ public interface JasperPrintAccessor
 	 */
 	boolean isDone();
 	
+	/**
+	 * Returns the error encountered during the report generation, if any.
+	 * 
+	 * @return the error encountered during the report generation, if any
+	 */
+	Throwable getError();
+
 }

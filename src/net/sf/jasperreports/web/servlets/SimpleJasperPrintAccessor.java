@@ -76,4 +76,11 @@ public class SimpleJasperPrintAccessor implements JasperPrintAccessor, Serializa
 		return true;
 	}
 
+	@Override
+	public Throwable getError()
+	{
+		// no error
+		return null;
+	}
+
 }
