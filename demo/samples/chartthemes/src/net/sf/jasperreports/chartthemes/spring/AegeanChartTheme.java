@@ -343,9 +343,10 @@ public class AegeanChartTheme extends GenericChartTheme
 		CategoryItemRenderer categoryRenderer = categoryPlot.getRenderer();
 		categoryRenderer.setBaseItemLabelsVisible(true);
 		BarRenderer barRenderer = (BarRenderer)categoryRenderer;
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
-		barRenderer.setSeriesPaint(0, (Paint)seriesPaints.get(3));
-		barRenderer.setSeriesPaint(1, (Paint)seriesPaints.get(0));
+		@SuppressWarnings("unchecked")
+		List<Paint> seriesPaints = (List<Paint>)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
+		barRenderer.setSeriesPaint(0, seriesPaints.get(3));
+		barRenderer.setSeriesPaint(1, seriesPaints.get(0));
 		CategoryDataset categoryDataset = categoryPlot.getDataset();
 		if(categoryDataset != null)
 		{
@@ -499,7 +500,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		chartPlot.setTickPaint(Color.BLACK);
 
 		// Now define all of the intervals, setting their range and color
-		List intervals = jrPlot.getIntervals();
+		List<JRMeterInterval> intervals = jrPlot.getIntervals();
 		if (intervals != null  && intervals.size() > 0)
 		{
 			int size = Math.min(3, intervals.size());
@@ -510,7 +511,7 @@ public class AegeanChartTheme extends GenericChartTheme
 			
 			for(int i = 0; i < size; i++)
 			{
-				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				JRMeterInterval interval = intervals.get(i);
 				Color color = i < 3 
 					? (Color)ChartThemesConstants.AEGEAN_INTERVAL_COLORS.get(i)
 					: new Color(255 - colorStep * (i - 3), 0 + colorStep * (i - 3), 0);
@@ -569,7 +570,8 @@ public class AegeanChartTheme extends GenericChartTheme
 
 		// Set the color of the mercury.  Only used when the value is outside of
 		// any defined ranges.
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
+		@SuppressWarnings("unchecked")
+		List<Paint> seriesPaints = (List<Paint>)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 		
 		Paint paint = jrPlot.getMercuryColor();
 		if(paint != null)
@@ -579,7 +581,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		else
 		{
 			//it has no effect, but is kept for backward compatibility reasons
-			paint = (Paint)seriesPaints.get(0);
+			paint = seriesPaints.get(0);
 		}
 		
 		chartPlot.setMercuryPaint(paint);
@@ -728,7 +730,7 @@ public class AegeanChartTheme extends GenericChartTheme
 		dialPlot.addScale(0, scale);
 		
 		
-		List intervals = jrPlot.getIntervals();
+		List<JRMeterInterval> intervals = jrPlot.getIntervals();
 		if (intervals != null && intervals.size() > 0)
 		{
 			int size = Math.min(3, intervals.size());
@@ -739,7 +741,7 @@ public class AegeanChartTheme extends GenericChartTheme
 			
 			for(int i = 0; i < size; i++)
 			{
-				JRMeterInterval interval = (JRMeterInterval)intervals.get(i);
+				JRMeterInterval interval = intervals.get(i);
 				Range intervalRange = convertRange(interval.getDataRange());
 				double intervalLowerBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getLowerBound(), dialUnitScale);
 				double intervalUpperBound = ChartThemesUtilities.getTruncatedValue(intervalRange.getUpperBound(), dialUnitScale);
@@ -851,12 +853,13 @@ public class AegeanChartTheme extends GenericChartTheme
 		XYPlot xyPlot = (XYPlot) jfreeChart.getPlot();
 		CandlestickRenderer renderer = (CandlestickRenderer)xyPlot.getRenderer();
 		DefaultHighLowDataset dataset = (DefaultHighLowDataset)xyPlot.getDataset();
-		List seriesPaints = (List)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
+		@SuppressWarnings("unchecked")
+		List<Paint> seriesPaints = (List<Paint>)getDefaultValue(defaultChartPropertiesMap, ChartThemesConstants.SERIES_COLORS);
 
 		for(int i = 0; i < dataset.getSeriesCount(); i++)
 		{
 			
-			renderer.setSeriesFillPaint(i, (Paint)seriesPaints.get(i));
+			renderer.setSeriesFillPaint(i, seriesPaints.get(i));
 			renderer.setSeriesPaint(i, Color.DARK_GRAY);
 		}
 		return jfreeChart;
