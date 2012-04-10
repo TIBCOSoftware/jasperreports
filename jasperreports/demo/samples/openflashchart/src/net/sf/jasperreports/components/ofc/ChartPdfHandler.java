@@ -40,6 +40,7 @@ import com.lowagie.text.pdf.PdfArray;
 import com.lowagie.text.pdf.PdfDictionary;
 import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfIndirectObject;
+import com.lowagie.text.pdf.PdfIndirectReference;
 import com.lowagie.text.pdf.PdfName;
 import com.lowagie.text.pdf.PdfNameTree;
 import com.lowagie.text.pdf.PdfNumber;
@@ -108,7 +109,7 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 			
 			PdfDictionary content = new PdfDictionary();
 			
-			HashMap assets = new HashMap();
+			HashMap<String, PdfIndirectReference> assets = new HashMap<String, PdfIndirectReference>();
 			assets.put("map.swf", swfRef.getIndirectReference());
 			PdfDictionary assetsDictionary = PdfNameTree.writeTree(assets, writer);
 			content.put(new PdfName("Assets"), assetsDictionary);

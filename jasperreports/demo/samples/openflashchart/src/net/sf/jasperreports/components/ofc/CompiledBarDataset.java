@@ -40,17 +40,17 @@ public class CompiledBarDataset extends JRBaseElementDataset implements BarDatas
 	
 	private static final long serialVersionUID = 1L;
 
-	private List seriesList;
+	private List<BarSeries> seriesList;
 	
 	public CompiledBarDataset(BarDataset dataset, JRBaseObjectFactory factory)
 	{
 		super(dataset, factory);
 		
-		List series = dataset.getSeries();
-		seriesList = new ArrayList(series.size());
-		for (Iterator it = series.iterator(); it.hasNext();)
+		List<BarSeries> series = dataset.getSeries();
+		seriesList = new ArrayList<BarSeries>(series.size());
+		for (Iterator<BarSeries> it = series.iterator(); it.hasNext();)
 		{
-			BarSeries barSeries = (BarSeries) it.next();
+			BarSeries barSeries = it.next();
 			DefaultBarSeries compiledSeries = new DefaultBarSeries();
 			compiledSeries.setSeriesExpression(factory.getExpression(barSeries.getSeriesExpression()));
 			compiledSeries.setCategoryExpression(factory.getExpression(barSeries.getCategoryExpression()));
@@ -64,7 +64,7 @@ public class CompiledBarDataset extends JRBaseElementDataset implements BarDatas
 		BarChartCompiler.collectExpressions(this, collector);
 	}
 
-	public List getSeries()
+	public List<BarSeries> getSeries()
 	{
 		return seriesList;
 	}

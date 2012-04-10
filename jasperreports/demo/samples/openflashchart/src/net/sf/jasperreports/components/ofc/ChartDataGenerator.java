@@ -73,12 +73,12 @@ public class ChartDataGenerator
 			pie.put("colours", colors);
 			
 			JSONArray pieValues = new JSONArray();
-			Iterator labelIt = dataset.getKeys().iterator();
-			Iterator valueIt = dataset.getValues().iterator();
+			Iterator<String> labelIt = dataset.getKeys().iterator();
+			Iterator<Number> valueIt = dataset.getValues().iterator();
 			while (labelIt.hasNext() && valueIt.hasNext())
 			{
-				String label = (String) labelIt.next();
-				Number value = (Number) valueIt.next();
+				String label = labelIt.next();
+				Number value = valueIt.next();
 				JSONObject pieValue = new JSONObject();
 				pieValue.put("value", value);
 				pieValue.put("label", label);
@@ -102,8 +102,8 @@ public class ChartDataGenerator
 	{
 		try
 		{
-			Set seriesKeys = dataset.getSeriesKeys();
-			Set categories = dataset.getCategories();
+			Set<String> seriesKeys = dataset.getSeriesKeys();
+			Set<String> categories = dataset.getCategories();
 			
 			JSONObject chart = new JSONObject();
 			chart.put("bg_colour", BGCOLOR);
@@ -117,9 +117,9 @@ public class ChartDataGenerator
 			JSONArray elements = new JSONArray();
 			int seriesIdx = 0;
 			double max = 0d;
-			for (Iterator seriesIt = seriesKeys.iterator(); seriesIt.hasNext();)
+			for (Iterator<String> seriesIt = seriesKeys.iterator(); seriesIt.hasNext();)
 			{
-				String seriesKey = (String) seriesIt.next();
+				String seriesKey = seriesIt.next();
 				
 				JSONObject bar = new JSONObject();
 				bar.put("type", "bar_glass");
@@ -127,9 +127,9 @@ public class ChartDataGenerator
 				bar.put("alpha", .9);
 				
 				JSONArray values = new JSONArray();
-				for (Iterator catIt = categories.iterator(); catIt.hasNext();)
+				for (Iterator<String> catIt = categories.iterator(); catIt.hasNext();)
 				{
-					String category = (String) catIt.next();
+					String category = catIt.next();
 					Number value = dataset.getValue(seriesKey, category);
 					if (value == null)
 					{

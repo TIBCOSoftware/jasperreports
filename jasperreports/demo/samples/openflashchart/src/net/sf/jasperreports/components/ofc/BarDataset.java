@@ -34,6 +34,6 @@ import net.sf.jasperreports.engine.JRElementDataset;
 public interface BarDataset extends JRElementDataset
 {
 
-	List getSeries();
+	List<BarSeries> getSeries();
 	
 }

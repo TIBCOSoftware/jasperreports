@@ -47,11 +47,11 @@ public class FillBarDataset extends JRFillElementDataset
 	
 	private final BarDataset dataset;
 
-	private List seriesList;
+	private List<FillBarSeries> seriesList;
 	
-	private Set seriesKeys = new LinkedHashSet();
-	private Set categories = new LinkedHashSet();
-	private Map values = new LinkedHashMap();
+	private Set<String> seriesKeys = new LinkedHashSet<String>();
+	private Set<String> categories = new LinkedHashSet<String>();
+	private Map<Pair<String, String>, Number> values = new LinkedHashMap<Pair<String, String>, Number>();
 	
 	public FillBarDataset(BarDataset dataset, JRFillObjectFactory factory)
 	{
@@ -59,11 +59,11 @@ public class FillBarDataset extends JRFillElementDataset
 		
 		this.dataset = dataset;
 		
-		List datasetSeries = dataset.getSeries();
-		seriesList = new ArrayList(datasetSeries.size());
-		for (Iterator it = datasetSeries.iterator(); it.hasNext();)
+		List<BarSeries> datasetSeries = dataset.getSeries();
+		seriesList = new ArrayList<FillBarSeries>(datasetSeries.size());
+		for (Iterator<BarSeries> it = datasetSeries.iterator(); it.hasNext();)
 		{
-			BarSeries series = (BarSeries) it.next();
+			BarSeries series = it.next();
 			FillBarSeries fillSeries = new FillBarSeries(series);
 			seriesList.add(fillSeries);
 		}
@@ -72,25 +72,25 @@ public class FillBarDataset extends JRFillElementDataset
 	protected void customEvaluate(JRCalculator calculator)
 			throws JRExpressionEvalException
 	{
-		for (Iterator it = seriesList.iterator(); it.hasNext();)
+		for (Iterator<FillBarSeries> it = seriesList.iterator(); it.hasNext();)
 		{
-			FillBarSeries series = (FillBarSeries) it.next();
+			FillBarSeries series = it.next();
 			series.evaluate(calculator);
 		}
 	}
 
 	protected void customIncrement()
 	{
-		for (Iterator it = seriesList.iterator(); it.hasNext();)
+		for (Iterator<FillBarSeries> it = seriesList.iterator(); it.hasNext();)
 		{
-			FillBarSeries series = (FillBarSeries) it.next();
+			FillBarSeries series = it.next();
 			String seriesKey = series.getSeriesKey();
 			String category = series.getCategory();
 			Number value = series.getValue();
 			
 			seriesKeys.add(seriesKey);
 			categories.add(category);
-			values.put(new Pair(seriesKey, category), value);
+			values.put(new Pair<String, String>(seriesKey, category), value);
 		}
 	}
 
@@ -111,19 +111,19 @@ public class FillBarDataset extends JRFillElementDataset
 		super.increment();
 	}
 	
-	public Set getSeriesKeys()
+	public Set<String> getSeriesKeys()
 	{
 		return seriesKeys;
 	}
 	
-	public Set getCategories()
+	public Set<String> getCategories()
 	{
 		return categories;
 	}
 	
 	public Number getValue(String seriesKey, String category)
 	{
-		return (Number) values.get(new Pair(seriesKey, category));
+		return values.get(new Pair<String, String>(seriesKey, category));
 	}
 
 }
