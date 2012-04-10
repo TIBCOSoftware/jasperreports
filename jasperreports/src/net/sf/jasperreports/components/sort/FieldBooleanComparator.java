@@ -23,29 +23,41 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class FieldComparatorFactory {
-	private FieldComparatorFactory() {
+public class FieldBooleanComparator extends AbstractFieldComparator<Boolean> {
+
+	public FieldBooleanComparator() {
 	}
 	
-	public static AbstractFieldComparator<?> createFieldComparator(FilterTypesEnum filterTypeEnum, String filterPattern, Locale locale, TimeZone timeZone){
-		switch (filterTypeEnum) {
-			case DATE:
-				return new FieldDateComparator(filterPattern, locale, timeZone);
-			case NUMERIC:
-				return new FieldNumberComparator(filterPattern, locale);
-			case TEXT:
-				return new FieldTextComparator(locale);
-			case BOOLEAN:
-				return new FieldBooleanComparator();
-			default: 
-				return null;
-		}
+	@Override
+	public void initValues() throws Exception {
 	}
+	
+	@Override
+	public boolean compare(String filterTypeOperator) {
+		boolean result = true;
+		FilterTypeBooleanOperatorsEnum booleanEnum = FilterTypeBooleanOperatorsEnum.getByEnumConstantName(filterTypeOperator);
+
+		switch (booleanEnum) {
+			case IS_TRUE:
+				result = compareTo.equals(Boolean.TRUE);
+				break;
+			case IS_NOT_TRUE:
+				result = !compareTo.equals(Boolean.TRUE);
+				break;
+			case IS_FALSE:
+				result = compareTo.equals(Boolean.FALSE);
+				break;
+			case IS_NOT_FALSE:
+				result = !compareTo.equals(Boolean.FALSE);
+				break;
+		}
+		
+		return result;
+	}
+
 }

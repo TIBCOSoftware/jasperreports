@@ -288,6 +288,9 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					hasPattern = false;
 					break;
+				case BOOLEAN:
+					hasPattern = false;
+					break;
 				}
 				
 				SortData sortAscData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_ASC);

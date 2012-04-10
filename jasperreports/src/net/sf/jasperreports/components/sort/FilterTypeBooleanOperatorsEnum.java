@@ -29,19 +29,19 @@ import net.sf.jasperreports.engine.type.JREnum;
 
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public enum FilterTypesEnum implements JREnum
+public enum FilterTypeBooleanOperatorsEnum implements JREnum
 {
-	NUMERIC((byte)1, "Numeric"),
+	IS_TRUE((byte)1, "Is true"),
 	
-	TEXT((byte)2, "Text"),
+	IS_NOT_TRUE((byte)2, "Is not true"),
 
-	DATE((byte)3, "Date"),
+	IS_FALSE((byte)3, "Is false"),
+
+	IS_NOT_FALSE((byte)4, "Is not false");
 	
-	BOOLEAN((byte)4, "Boolean");
-
 	/**
 	 *
 	 */
@@ -49,7 +49,7 @@ public enum FilterTypesEnum implements JREnum
 	private final transient byte value;
 	private final transient String name;
 
-	private FilterTypesEnum(byte value, String name)
+	private FilterTypeBooleanOperatorsEnum(byte value, String name)
 	{
 		this.value = value;
 		this.name = name;
@@ -82,23 +82,31 @@ public enum FilterTypesEnum implements JREnum
 	/**
 	 *
 	 */
-	public static FilterTypesEnum getByName(String name)
+	public static FilterTypeBooleanOperatorsEnum getByName(String name)
 	{
-		return (FilterTypesEnum)EnumUtil.getByName(values(), name);
+		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static FilterTypesEnum getByValue(Byte value)
+	public static FilterTypeBooleanOperatorsEnum getByEnumConstantName(String name)
 	{
-		return (FilterTypesEnum)EnumUtil.getByValue(values(), value);
+		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByEnumConstantName(values(), name);
 	}
 	
 	/**
 	 *
 	 */
-	public static FilterTypesEnum getByValue(byte value)
+	public static FilterTypeBooleanOperatorsEnum getByValue(Byte value)
+	{
+		return (FilterTypeBooleanOperatorsEnum)EnumUtil.getByValue(values(), value);
+	}
+	
+	/**
+	 *
+	 */
+	public static FilterTypeBooleanOperatorsEnum getByValue(byte value)
 	{
 		return getByValue(new Byte(value));
 	}
