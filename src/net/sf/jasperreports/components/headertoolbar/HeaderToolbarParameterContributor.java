@@ -60,21 +60,30 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 		ReportContext reportContext = (ReportContext) parameterValues.get(JRParameter.REPORT_CONTEXT);
 		if (reportContext != null)
 		{
-			
 			String serializedFilters = context.getDataset().getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
 			
-			if (serializedFilters != null) {
-				ObjectMapper mapper = new ObjectMapper();
-				List<DatasetFilter> existingFilters = null;
-				try {
-					existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});
-				} catch (Exception e) {
-					throw new JRRuntimeException(e);
-				}
-				
+			if (serializedFilters != null) 
+			{
+				List<DatasetFilter> existingFilters = getFilters(serializedFilters);
 				parameterValues.put(JRParameter.FILTER, new CompositeDatasetFilter(existingFilters));
 			}
 		}
+	}
+	
+	public static List<DatasetFilter> getFilters(String serializedFilters)//FIXMEJIVE put in some util class?
+	{
+		if (serializedFilters != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			List<DatasetFilter> existingFilters = null;
+			try {
+				existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});
+			} catch (Exception e) {
+				throw new JRRuntimeException(e);
+			}
+			
+			return existingFilters;
+		}
+		return null;
 	}
 	
 	public void dispose() {

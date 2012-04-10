@@ -33,7 +33,11 @@ import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarParameterContributor;
+import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
+import net.sf.jasperreports.components.sort.actions.FilterCommand;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -41,6 +45,8 @@ import net.sf.jasperreports.components.table.ColumnGroup;
 import net.sf.jasperreports.components.table.ColumnVisitor;
 import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.CompositeDatasetFilter;
+import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRChild;
 import net.sf.jasperreports.engine.JRDataset;
@@ -55,6 +61,7 @@ import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRReportTemplate;
@@ -92,6 +99,7 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
@@ -105,6 +113,10 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  */
 public class TableReport implements JRReport
 {
+	private static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char";//0x25B2; //FIXMEJIVE move these from here
+	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";//0x25BC;
+	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";//0x25BC;
+	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
 	protected static final String HTML_CLASS_COLUMN_PREFIX = "col_";
@@ -504,7 +516,10 @@ public class TableReport implements JRReport
             	}
             	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
 
-    			//FIXMEJIVE consider moving in separate method
+				JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
+				String suffix = ""; 
+    				
+            	//FIXMEJIVE consider moving in separate method
             	JRSortField[] sortFields = TableReport.this.mainDataset.getSortFields();
             	if (sortFields != null)
             	{
@@ -515,17 +530,38 @@ public class TableReport implements JRReport
             				&& sortField.getType() == columnType
             				)
             			{
-            				HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, sortField.getOrderValue());
-            				if (evaluator != null)
-            				{
-                				builtinEvaluators.put(evaluator.getExpression(), evaluator);
-            				}
+            				suffix += 
+            					"" 
+            					+ (sortField.getOrderValue() == SortOrderEnum.ASCENDING 
+        							? propUtil.getProperty(PROPERTY_UP_ARROW_CHAR)
+        							: (sortField.getOrderValue() == SortOrderEnum.DESCENDING 
+        								? propUtil.getProperty(PROPERTY_DOWN_ARROW_CHAR)
+        								: ""));
             			}
             		}
             	}
-            }
 
-            
+    			String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
+    			List<DatasetFilter> existingFilters = HeaderToolbarParameterContributor.getFilters(serializedFilters);
+    			if (existingFilters != null)
+    			{
+        			List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+        			SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, name);
+        			if (fieldFilters.size() > 0)
+        			{
+        				suffix += "" + propUtil.getProperty(PROPERTY_FILTER_CHAR);
+        			}
+    			}
+
+    			if (suffix.length() > 0)
+    			{
+    				HeaderLabelBuiltinExpression evaluator = HeaderLabelUtil.alterHeaderLabel(frame, " " + suffix);
+    				if (evaluator != null)
+    				{
+        				builtinEvaluators.put(evaluator.getExpression(), evaluator);
+    				}
+    			}
+            }
             
             int columnIndex = TableUtil.getColumnIndex(column, table);
             String columnName = name != null ? name : String.valueOf(columnIndex);
