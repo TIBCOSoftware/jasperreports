@@ -41,6 +41,7 @@ public abstract class AbstractFieldComparator<T> {
 	protected T compareStart;
 	protected T compareEnd;
 	protected T compareTo;
+	protected Class<?> compareToClass;
 	
 	protected Format formatter;
 	
@@ -61,6 +62,10 @@ public abstract class AbstractFieldComparator<T> {
 	
 	public void setValueEnd(String valueEnd) {
 		this.valueEnd = valueEnd;
+	}
+
+	public void setCompareToClass(Class<?> compareToClass) {
+		this.compareToClass = compareToClass;
 	}
 	
 	public abstract boolean compare(String filterTypeOperator);

@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.EvaluationType;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.fill.DatasetFillContext;
+import net.sf.jasperreports.engine.fill.JRFillDataset;
 
 /**
  * A dataset filter that matches String values based on substrings.
@@ -88,13 +89,12 @@ public class FieldFilter implements DatasetFilter {
 
 	public boolean matches(EvaluationType evaluation) {
 		Object value = context.getFieldValue(field, evaluation);
-		if (value == null) {
-			return false;
-		}
 
 		fieldComparator.setValueStart(filterValueStart);
 		fieldComparator.setValueEnd(filterValueEnd);
 		fieldComparator.setCompareTo(value);
+		fieldComparator.setCompareToClass(((JRFillDataset)context).getFillField(field).getValueClass());
+		
 		
 		if (isValid == null) {
 			isValid = fieldComparator.isValid();

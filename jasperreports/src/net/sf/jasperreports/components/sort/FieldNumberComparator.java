@@ -56,10 +56,10 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 	@Override
 	public void initValues() throws Exception {
 		if (valueStart != null && valueStart.length() > 0) {
-			compareStart = FormatUtils.getFormattedNumber((NumberFormat)formatter, valueStart, compareTo.getClass());
+			compareStart = FormatUtils.getFormattedNumber((NumberFormat)formatter, valueStart, compareToClass);
 		}
 		if (valueEnd != null && valueEnd.length() > 0) {
-			compareEnd = FormatUtils.getFormattedNumber((NumberFormat)formatter, valueEnd, compareTo.getClass());
+			compareEnd = FormatUtils.getFormattedNumber((NumberFormat)formatter, valueEnd, compareToClass);
 		}
 	}
 
@@ -77,38 +77,41 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 		}
 		
 		FilterTypeNumericOperatorsEnum numericEnum = FilterTypeNumericOperatorsEnum.getByEnumConstantName(filterTypeOperator);
-		BigDecimal dbA = new BigDecimal(compareTo.toString());
+		BigDecimal dbA = compareTo != null ? new BigDecimal(compareTo.toString()) : null;
 		BigDecimal dbStart = compareStart != null ? new BigDecimal(compareStart.toString()) : null;
 		BigDecimal dbEnd = compareEnd != null ? new BigDecimal(compareEnd.toString()) : null;
+		
+		boolean validComparison = dbStart != null && dbA != null;
+		boolean validComparison2 = dbEnd != null && dbA != null;
 					
 		switch (numericEnum) {
 			case DOES_NOT_EQUAL:
-				result = dbStart != null ? dbA.compareTo(dbStart) != 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) != 0 : defaultResult;
 				break;
 			case EQUALS:
-				result = dbStart != null ? dbA.compareTo(dbStart) == 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) == 0 : false;
 				break;
 			case GREATER_THAN:
-				result = dbStart != null ? dbA.compareTo(dbStart) > 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) > 0 : false;
 				break;
 			case GREATER_THAN_EQUAL_TO:
-				result = dbStart != null ? dbA.compareTo(dbStart) >= 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
 				break;
 			case IS_BETWEEN:
-				resultPart1 = dbStart != null ? dbA.compareTo(dbStart) >= 0 : defaultResult;
-				resultPart2 = dbEnd != null ? dbA.compareTo(dbEnd) <= 0 : defaultResult;
+				resultPart1 = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
+				resultPart2 = validComparison2 ? dbEnd.compareTo(dbEnd) <= 0 : false;
 				result = resultPart1 && resultPart2;
 				break;
 			case IS_NOT_BETWEEN:
-				resultPart1 = dbStart != null ? dbA.compareTo(dbStart) >= 0 : defaultResult;
-				resultPart2 = dbEnd != null ? dbA.compareTo(dbEnd) <= 0 : defaultResult;
+				resultPart1 = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
+				resultPart2 = validComparison2 ? dbEnd.compareTo(dbA) <= 0 : false;
 				result = !(resultPart1 && resultPart2);
 				break;
 			case LESS_THAN:
-				result = dbStart != null ? dbA.compareTo(dbStart) < 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) < 0 : false;
 				break;
 			case LESS_THAN_EQUAL_TO:
-				result = dbStart != null ? dbA.compareTo(dbStart) <= 0 : defaultResult;
+				result = validComparison ? dbStart.compareTo(dbA) <= 0 : false;
 				break;
 		}
 		

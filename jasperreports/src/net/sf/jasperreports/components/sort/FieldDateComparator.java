@@ -44,10 +44,10 @@ public class FieldDateComparator extends AbstractFieldComparator<Date> {
 	@Override
 	public void initValues() throws Exception {
 		if (valueStart != null && valueStart.length() > 0) {
-			compareStart = FormatUtils.getFormattedDate((DateFormat)formatter, valueStart, compareTo.getClass());
+			compareStart = FormatUtils.getFormattedDate((DateFormat)formatter, valueStart, compareToClass);
 		}
 		if (valueEnd != null && valueEnd.length() > 0) {
-			compareEnd = FormatUtils.getFormattedDate((DateFormat)formatter, valueEnd, compareTo.getClass());
+			compareEnd = FormatUtils.getFormattedDate((DateFormat)formatter, valueEnd, compareToClass);
 		}
 	}
 	
@@ -64,35 +64,38 @@ public class FieldDateComparator extends AbstractFieldComparator<Date> {
 			throw new JRRuntimeException(e);
 		}
 		
+		boolean validComparison = compareStart != null && compareTo != null;
+		boolean validComparison2 = compareEnd != null && compareTo != null;
+		
 		FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(filterTypeOperator);
 		switch (dateEnum) {
 			case EQUALS:
-				result = compareStart != null ? compareTo.compareTo(compareStart) == 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) == 0 : false;
 				break;
 			case IS_AFTER:
-				result = compareStart != null ? compareTo.compareTo(compareStart) > 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) > 0 : false;
 				break;
 			case IS_BEFORE:
-				result = compareStart != null ? compareTo.compareTo(compareStart) < 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) < 0 : false;
 				break;
 			case IS_BETWEEN:
-				resultPart1 = compareStart != null ? compareTo.compareTo(compareStart) >= 0 : defaultResult;
-				resultPart2 = compareEnd != null ? compareTo.compareTo(compareEnd) <= 0 : defaultResult;
+				resultPart1 = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
+				resultPart2 = validComparison2 ? compareEnd.compareTo(compareTo) <= 0 : false;
 				result = resultPart1 && resultPart2;
 				break;
 			case IS_NOT_BETWEEN:
-				resultPart1 = compareStart != null ? compareTo.compareTo(compareStart) >= 0 : defaultResult;
-				resultPart2 = compareEnd != null ? compareTo.compareTo(compareEnd) <= 0 : defaultResult;
+				resultPart1 = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
+				resultPart2 = validComparison2 ? compareEnd.compareTo(compareTo) <= 0 : false;
 				result = !(resultPart1 && resultPart2);
 				break;
 			case IS_NOT_EQUAL_TO:
-				result = compareStart != null ? compareTo.compareTo(compareStart) != 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) != 0 : defaultResult;
 				break;
 			case IS_ON_OR_AFTER:
-				result = compareStart != null ? compareTo.compareTo(compareStart) >= 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
 				break;
 			case IS_ON_OR_BEFORE:
-				result = compareStart != null ? compareTo.compareTo(compareStart) <= 0 : defaultResult;
+				result = validComparison ? compareStart.compareTo(compareTo) <= 0 : false;
 				break;
 		}
 		
