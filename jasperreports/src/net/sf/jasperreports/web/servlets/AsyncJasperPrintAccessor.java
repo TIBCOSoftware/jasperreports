@@ -339,4 +339,10 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return done;
 	}
 
+	@Override
+	public Throwable getError()
+	{
+		return error;
+	}
+
 }
