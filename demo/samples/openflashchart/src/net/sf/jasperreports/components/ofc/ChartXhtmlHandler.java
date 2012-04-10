@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.ofc;
 
-import java.awt.Color;
-
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 

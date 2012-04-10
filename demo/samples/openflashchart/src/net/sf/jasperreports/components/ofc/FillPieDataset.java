@@ -44,8 +44,8 @@ public class FillPieDataset extends JRFillElementDataset
 	private String key;
 	private Number value;
 	
-	private List keys;
-	private List values;
+	private List<String> keys;
+	private List<Number> values;
 	
 	public FillPieDataset(PieDataset dataset,	JRFillObjectFactory factory)
 	{
@@ -69,8 +69,8 @@ public class FillPieDataset extends JRFillElementDataset
 
 	protected void customInitialize()
 	{
-		keys = new ArrayList();
-		values = new ArrayList();
+		keys = new ArrayList<String>();
+		values = new ArrayList<Number>();
 	}
 
 	public void collectExpressions(JRExpressionCollector collector)
@@ -83,12 +83,12 @@ public class FillPieDataset extends JRFillElementDataset
 		super.increment();
 	}
 	
-	public List getKeys()
+	public List<String> getKeys()
 	{
 		return keys;
 	}
 
-	public List getValues()
+	public List<Number> getValues()
 	{
 		return values;
 	}

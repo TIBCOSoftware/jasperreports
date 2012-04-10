@@ -38,14 +38,14 @@ public class DesignBarDataset extends JRDesignElementDataset implements BarDatas
 	
 	private static final long serialVersionUID = 1L;
 
-	private List seriesList = new ArrayList();
+	private List<BarSeries> seriesList = new ArrayList<BarSeries>();
 	
 	public void collectExpressions(JRExpressionCollector collector)
 	{
 		BarChartCompiler.collectExpressions(this, collector);
 	}
 
-	public List getSeries()
+	public List<BarSeries> getSeries()
 	{
 		return seriesList;
 	}

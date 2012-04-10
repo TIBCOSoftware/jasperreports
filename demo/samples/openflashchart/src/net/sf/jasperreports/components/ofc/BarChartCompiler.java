@@ -25,9 +25,6 @@ package net.sf.jasperreports.components.ofc;
 
 import java.util.Iterator;
 
-
-import net.sf.jasperreports.components.ofc.BarDataset;
-import net.sf.jasperreports.components.ofc.BarSeries;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -53,9 +50,9 @@ public class BarChartCompiler implements ComponentCompiler
 		collector.collect(dataset);
 		
 		JRExpressionCollector datasetCollector = collector.getCollector(dataset);
-		for (Iterator it = dataset.getSeries().iterator(); it.hasNext();)
+		for (Iterator<BarSeries> it = dataset.getSeries().iterator(); it.hasNext();)
 		{
-			BarSeries series = (BarSeries) it.next();
+			BarSeries series = it.next();
 			datasetCollector.addExpression(series.getSeriesExpression());
 			datasetCollector.addExpression(series.getCategoryExpression());
 			datasetCollector.addExpression(series.getValueExpression());
