@@ -91,6 +91,14 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	{
 		values.put(key, value);
 	}
+
+	/**
+	 *
+	 */
+	public void removeValue(String key)
+	{
+		values.remove(key);
+	}
 	
 	/**
 	 * Returns a list of extension objects for a specific extension type.
@@ -213,12 +221,65 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	/**
 	 * 
 	 */
+	public void removeProperty(String key)
+	{
+		if (properties != null)
+		{
+			properties.remove(key);
+		}
+	}
+	
+	/**
+	 * 
+	 */
 	public Map<String, String> getProperties()
 	{
-		if (parent != null)
+		if (properties == null)
 		{
-			return parent.getProperties();
+			if (parent == null)
+			{
+				return null;
+			}
+			else
+			{
+				return parent.getProperties();
+			}
 		}
-		return null;
+		else
+		{
+			if (parent == null)
+			{
+				return properties;
+			}
+			else
+			{
+				Map<String, String> parentProperties = parent.getProperties();
+				if (properties == null || properties.isEmpty())
+				{
+					if (parentProperties == null || parentProperties.isEmpty())
+					{
+						return null;
+					}
+					else
+					{
+						return parentProperties;
+					}
+				}
+				else
+				{
+					if (parentProperties == null || parentProperties.isEmpty())
+					{
+						return properties;
+					}
+					else
+					{
+						Map<String, String> returnedMap = new HashMap<String, String>();
+						returnedMap.putAll(parentProperties);
+						returnedMap.putAll(properties);
+						return returnedMap;
+					}
+				}
+			}
+		}
 	}
 }
