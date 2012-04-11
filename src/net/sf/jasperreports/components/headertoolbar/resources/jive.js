@@ -31,13 +31,16 @@ jQuery.extend(jive, {
             }, '.pmenuitem');
             jive.viewerReady = true;
         }
-        jQuery('#jive_overlay').appendTo('body');
-        jQuery('#jive_marker').appendTo('body');
-        jQuery('#jive_foobar').appendTo('body');
-        jQuery('#jive_menus').appendTo('body');
-        jQuery('#jive_forms').appendTo('body');
-        jQuery('#jive_dialog').appendTo('body');
-        jQuery('#jive_colorpicker').appendTo('body');
+        jQuery('#jive_components').length == 0 &&  jQuery('body').append('<div id="jive_components"></div>');
+        jQuery('#jive_components').empty();
+
+        jQuery('#jive_overlay').appendTo('#jive_components');
+        jQuery('#jive_marker').appendTo('#jive_components');
+        jQuery('#jive_foobar').appendTo('#jive_components');
+        jQuery('#jive_menus').appendTo('#jive_components');
+        jQuery('#jive_forms').appendTo('#jive_components');
+        jQuery('#jive_dialog').appendTo('#jive_components');
+        jQuery('#jive_colorpicker').appendTo('#jive_components');
 
         jasperreports.global.events.JIVE_INIT.status = 'finished';
         jasperreports.global.processEvent(jasperreports.global.events.JIVE_INIT.name);
@@ -87,9 +90,9 @@ jQuery.extend(jive, {
     },
     hide: function(items){
         if(!items){
-            jive.ui.marker.jo && jive.ui.marker.jo.appendTo('body').hide();
-            jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('body').hide();
-            jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('body').hide();
+            jive.ui.marker.jo && jive.ui.marker.jo.appendTo('#jive_components').hide();
+            jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('#jive_components').hide();
+            jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
         } else {
             jQuery.each(items,function(i,v){
