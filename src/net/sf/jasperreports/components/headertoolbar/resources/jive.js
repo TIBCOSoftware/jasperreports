@@ -4,35 +4,14 @@ jQuery.extend(jive, {
         jQuery('div.jrPage').parent().on('click touchend',function(){
             jive.hide();
         });
-        /*
-         * Init event handlers for viewer. One time event?
-         */
-        if(!jive.viewerReady){
-            jQuery('div#jive_menus').on({
-                'click': function(evt){
-                    var args = jQuery(this).data('args');
-                    jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
-                },
-                'mouseover': function(evt){
-                    var jo = jQuery(this);
-                    var submenu = jo.children('ul');
-                    if(submenu.length){
-                        submenu.show().position({
-                            of: jQuery(this),
-                            my: 'left top',
-                            at: 'right top'
-                        });
-                    }
-                },
-                'mouseout': function(evt){
-                    var jo = jQuery(this);
-                    jo.children().hide();
-                }
-            }, '.pmenuitem');
-            jive.viewerReady = true;
-        }
+
         jQuery('#jive_components').length == 0 &&  jQuery('body').append('<div id="jive_components"></div>');
         jQuery('#jive_components').empty();
+        jive.ui.marker.jo = null;
+        jive.ui.overlay.jo = null;
+        jive.ui.foobar.jo = null;
+        jive.ui.dialog.jo = null;
+        jive.ui.colorpicker.jo = null;
 
         jQuery('#jive_overlay').appendTo('#jive_components');
         jQuery('#jive_marker').appendTo('#jive_components');
@@ -41,6 +20,31 @@ jQuery.extend(jive, {
         jQuery('#jive_forms').appendTo('#jive_components');
         jQuery('#jive_dialog').appendTo('#jive_components');
         jQuery('#jive_colorpicker').appendTo('#jive_components');
+
+        /*
+         * Init event handlers for viewer. One time event?
+         */
+        jQuery('div#jive_menus').on({
+            'click': function(evt){
+                var args = jQuery(this).data('args');
+                jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
+            },
+            'mouseover': function(evt){
+                var jo = jQuery(this);
+                var submenu = jo.children('ul');
+                if(submenu.length){
+                    submenu.show().position({
+                        of: jQuery(this),
+                        my: 'left top',
+                        at: 'right top'
+                    });
+                }
+            },
+            'mouseout': function(evt){
+                var jo = jQuery(this);
+                jo.children().hide();
+            }
+        }, '.pmenuitem');
 
         jasperreports.global.events.JIVE_INIT.status = 'finished';
         jasperreports.global.processEvent(jasperreports.global.events.JIVE_INIT.name);
@@ -206,7 +210,9 @@ jive.ui.foobar = {
                 }
             }
         });
-        //this.jo.appendTo('div.jrPage');
+        this.cache = {};
+        this.menus = {};
+        this.current = null;
     },
     show:function(dim){
         !this.jo && this.setElement('#jive_foobar');
