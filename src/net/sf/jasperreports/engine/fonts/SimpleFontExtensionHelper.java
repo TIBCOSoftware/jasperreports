@@ -159,7 +159,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		try
 		{
 			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(file);
-			return loadFontFamilies(is);
+			return loadFontFamilies(jasperReportsContext, is);
 		}
 		catch (JRException e)
 		{
@@ -183,7 +183,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 	/**
 	 *
 	 */
-	private List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, InputStream is)
+	public List<FontFamily> loadFontFamilies(JasperReportsContext jasperReportsContext, InputStream is)
 	{
 		List<FontFamily> fontFamilies = null;
 
