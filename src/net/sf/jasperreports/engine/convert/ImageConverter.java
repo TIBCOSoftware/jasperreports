@@ -36,6 +36,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRImage;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintImage;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.RenderableUtil;
@@ -147,6 +148,13 @@ public final class ImageConverter extends ElementConverter
 					);
 		}
 		catch (JRException e)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Creating icon renderer for converted image failed.", e);
+			}
+		}
+		catch (JRRuntimeException e)
 		{
 			if (log.isDebugEnabled())
 			{

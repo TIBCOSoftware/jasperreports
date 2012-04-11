@@ -31,6 +31,9 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.util.JRImageLoader;
@@ -44,6 +47,9 @@ import net.sf.jasperreports.repo.RepositoryUtil;
  */
 public class RenderableUtil
 {
+	
+	private static final Log log = LogFactory.getLog(RenderableUtil.class);
+	
 	/**
 	 *
 	 */
@@ -109,15 +115,22 @@ public class RenderableUtil
 			return new JRImageRenderer(imageLocation);
 		}
 
+		Renderable result;
 		try
 		{
 			byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(imageLocation);
-			return new JRImageRenderer(data);
+			result = new JRImageRenderer(data);
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e);
+			result = handleImageError(e, onErrorType);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType + " for location " + imageLocation, e);
+			}
 		}
+		return result;
 	}
 
 	
@@ -153,14 +166,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(Image image, ImageTypeEnum imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
-			return new JRImageRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType));
+			result = new JRImageRenderer(JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(image, imageType));
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
 		}
+		return result;
 	}
 
 
@@ -169,14 +189,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(InputStream is, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(is));
+			result = new JRImageRenderer(JRLoader.loadBytes(is));
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType); 
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
 		}
+		return result;
 	}
 
 
@@ -185,14 +212,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(URL url, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(url));
+			result = new JRImageRenderer(JRLoader.loadBytes(url));
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType); 
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType + " for URL " + url, e);
+			}
 		}
+		return result;
 	}
 
 
@@ -201,14 +235,21 @@ public class RenderableUtil
 	 */
 	public Renderable getRenderable(File file, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
-			return new JRImageRenderer(JRLoader.loadBytes(file));
+			result = new JRImageRenderer(JRLoader.loadBytes(file));
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType); 
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType + " for file " + file, e);
+			}
 		}
+		return result;
 	}
 
 
@@ -217,32 +258,45 @@ public class RenderableUtil
 	 */
 	public Renderable getOnErrorRendererForDimension(Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
 			renderer.getDimension(jasperReportsContext);
-			return renderer;
+			result = renderer;
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
 		}
+		return result;
 	}
-
 
 	/**
 	 *
 	 */
 	public Renderable getOnErrorRendererForImageData(Renderable renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		Renderable result;
 		try
 		{
 			renderer.getImageData(jasperReportsContext);
-			return renderer;
+			result = renderer;
 		}
-		catch (JRException e)
+		catch (Exception e)
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = handleImageError(e, onErrorType); 
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
 		}
+		return result;
 	}
 
 
@@ -261,12 +315,63 @@ public class RenderableUtil
 			return getOnErrorRenderer(onErrorType, e); 
 		}
 	}
+	*/
 
+	protected Renderable handleImageError(Exception error, OnErrorTypeEnum onErrorType) throws JRException
+	{
+		Renderable errorRenderable;
+		if (error instanceof JRException)
+		{
+			errorRenderable = getOnErrorRenderer(onErrorType, (JRException) error);
+		}
+		else if (error instanceof JRRuntimeException)
+		{
+			errorRenderable = getOnErrorRenderer(onErrorType, (JRRuntimeException) error);
+		}
+		else if (error instanceof RuntimeException)
+		{
+			throw (RuntimeException) error;
+		}
+		else
+		{
+			// we shouldn't get here normally
+			if (log.isDebugEnabled())
+			{
+				log.debug("got unexpected image exception of type " + error.getClass().getName(), error);
+			}
+			
+			throw new JRRuntimeException("Image error", error);
+		}
+		return errorRenderable;
+	}
 
-	/**
-	 * 
-	 */
 	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
+	{
+		Renderable renderer = null;
+		
+		switch (onErrorType)
+		{
+			case ICON :
+			{
+				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
+				//FIXME cache these renderers
+				break;
+			}
+			case BLANK :
+			{
+				break;
+			}
+			case ERROR :
+			default :
+			{
+				throw e;
+			}
+		}
+
+		return renderer;
+	}
+
+	public Renderable getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
 		Renderable renderer = null;
 		
