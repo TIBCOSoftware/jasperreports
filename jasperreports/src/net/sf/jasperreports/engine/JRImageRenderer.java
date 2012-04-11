@@ -39,6 +39,9 @@ import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
@@ -61,6 +64,8 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
+	private static final Log log = LogFactory.getLog(JRImageRenderer.class);
+	
 	/**
 	 *
 	 */
@@ -299,15 +304,31 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 */
 	public static JRImageRenderer getOnErrorRendererForImage(JasperReportsContext jasperReportsContext, JRImageRenderer renderer, OnErrorTypeEnum onErrorType) throws JRException
 	{
+		JRImageRenderer result;
 		try
 		{
 			renderer.getImage(jasperReportsContext);
-			return renderer;
+			result = renderer;
 		}
-		catch (JRException e)
+		catch (JRException e) //FIXME this duplicates RenderableUtil.handleImageError
 		{
-			return getOnErrorRenderer(onErrorType, e); 
+			result = getOnErrorRenderer(onErrorType, e);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
 		}
+		catch (JRRuntimeException e)
+		{
+			result = getOnErrorRenderer(onErrorType, e); 
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("handled image error with type " + onErrorType, e);
+			}
+		}
+		return result;
 	}
 
 
@@ -324,6 +345,32 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 * 
 	 */
 	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRException e) throws JRException
+	{
+		JRImageRenderer renderer = null;
+		
+		switch (onErrorType)
+		{
+			case ICON :
+			{
+				renderer = new JRImageRenderer(JRImageLoader.NO_IMAGE_RESOURCE);
+				//FIXME cache these renderers
+				break;
+			}
+			case BLANK :
+			{
+				break;
+			}
+			case ERROR :
+			default :
+			{
+				throw e;
+			}
+		}
+
+		return renderer;
+	}
+
+	public static JRImageRenderer getOnErrorRenderer(OnErrorTypeEnum onErrorType, JRRuntimeException e) throws JRRuntimeException
 	{
 		JRImageRenderer renderer = null;
 		
