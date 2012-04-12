@@ -70,32 +70,32 @@ public class FieldDateComparator extends AbstractFieldComparator<Date> {
 		FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(filterTypeOperator);
 		switch (dateEnum) {
 			case EQUALS:
-				result = validComparison ? compareStart.compareTo(compareTo) == 0 : false;
+				result = validComparison ? compareTo.compareTo(compareStart) == 0 : false;
 				break;
 			case IS_AFTER:
-				result = validComparison ? compareStart.compareTo(compareTo) > 0 : false;
+				result = validComparison ? compareTo.compareTo(compareStart) > 0 : false;
 				break;
 			case IS_BEFORE:
-				result = validComparison ? compareStart.compareTo(compareTo) < 0 : false;
+				result = validComparison ? compareTo.compareTo(compareStart) < 0 : false;
 				break;
 			case IS_BETWEEN:
-				resultPart1 = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
-				resultPart2 = validComparison2 ? compareEnd.compareTo(compareTo) <= 0 : false;
+				resultPart1 = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
+				resultPart2 = validComparison2 ? compareTo.compareTo(compareEnd) <= 0 : false;
 				result = resultPart1 && resultPart2;
 				break;
 			case IS_NOT_BETWEEN:
-				resultPart1 = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
-				resultPart2 = validComparison2 ? compareEnd.compareTo(compareTo) <= 0 : false;
+				resultPart1 = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
+				resultPart2 = validComparison2 ? compareTo.compareTo(compareEnd) <= 0 : false;
 				result = !(resultPart1 && resultPart2);
 				break;
 			case IS_NOT_EQUAL_TO:
-				result = validComparison ? compareStart.compareTo(compareTo) != 0 : defaultResult;
+				result = validComparison ? compareTo.compareTo(compareStart) != 0 : defaultResult;
 				break;
 			case IS_ON_OR_AFTER:
-				result = validComparison ? compareStart.compareTo(compareTo) >= 0 : false;
+				result = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
 				break;
 			case IS_ON_OR_BEFORE:
-				result = validComparison ? compareStart.compareTo(compareTo) <= 0 : false;
+				result = validComparison ? compareTo.compareTo(compareStart) <= 0 : false;
 				break;
 		}
 		
