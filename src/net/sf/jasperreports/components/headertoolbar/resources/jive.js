@@ -17,6 +17,7 @@ jQuery.extend(jive, {
         jQuery('#jive_marker').appendTo('#jive_components');
         jQuery('#jive_foobar').appendTo('#jive_components');
         jQuery('#jive_menus').appendTo('#jive_components');
+        jQuery('#jive_dropdown').appendTo('#jive_components');
         jQuery('#jive_forms').appendTo('#jive_components');
         jQuery('#jive_dialog').appendTo('#jive_components');
         jQuery('#jive_colorpicker').appendTo('#jive_components');
@@ -44,6 +45,13 @@ jQuery.extend(jive, {
                 var jo = jQuery(this);
                 jo.children().hide();
             }
+        }, '.pmenuitem');
+
+        jQuery('div#jive_dropdown').on({
+        	'click': function(evt){
+        		var args = jQuery(this).data('args');
+        		jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
+        	}
         }, '.pmenuitem');
 
         jasperreports.global.events.JIVE_INIT.status = 'finished';
@@ -474,7 +482,35 @@ jive.ui.forms = {
                             v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
                             v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
                             tb.push('</div></div>');
-
+                            
+                            if(v.type === 'dropdown') {
+                            	parms.inputs[v.id] = {
+                            		_idd: v.id,
+                            		_options: v.options,
+                                    onClick: function() {
+                                        jive.interactive[jive.selected.ie.type][v.fn]();
+                                    },
+                                    showOptions: function() {
+                                    	var dd = jQuery('#jive_dropdown');
+                                    	dd.empty();
+                                    	
+                                    	var htm = '<ul class="pmenu">',
+                                    		args;
+                                    	jQuery.each(this._options, function(k, option) {
+                                    		htm += "<li class='pmenuitem' data-args='{\"val\":\"" + option.value + "\"}' fn='" + option.fn + "'>" + option.label + "</li>";
+                                    	});
+                                    	htm += '</ul>';
+                                    	
+                                    	dd.append(htm);
+                                    	dd.find('.pmenu').show();
+                                    	dd.css({width: '120px', height: '100px'});
+                                    	dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[name="'+this._idd+'"]'), colision: 'none', offset: '0 -10px'});
+                                    },
+                                    hideOptions: function () {
+                                    	jQuery('#jive_dropdown .pmenu').hide();
+                                    }
+                                }
+                            }
                             if(v.type == 'checkbox') {
                                 parms.inputs[v.id] = {
                                     selected: false,
