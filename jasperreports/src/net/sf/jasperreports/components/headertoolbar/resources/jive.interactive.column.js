@@ -237,6 +237,33 @@ jive.interactive.column = jive.interactive.column || {
     	jive.interactive.column.fontSizes = obj.fontSizes;
     	jive.interactive.column.fonts = obj.fonts;
     },
+    showCurrencyDropDown: function(){
+    	jive.selected.form.inputs['currencyBtn1'].showOptions();
+    },
+    applyCurrencyFormat: function(args) {
+    	var it = this,
+    		input = jive.selected.form.inputs['currencyBtn1'],
+    		cSymbol = jQuery('#formatPattern').data('cSymbol');
+    	
+		jQuery('#formatPattern').children().each(function (i, optElem) {
+            var opt = jQuery(optElem);
+            
+            // attempt to remove current symbol, if present
+            if (cSymbol && cSymbol.length > 0) {
+            	opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), false, cSymbol));
+            	opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), false, cSymbol));
+            } 
+
+            // apply new symbol
+            if (args.val && args.val.length > 0) {
+            	opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), true, args.val));
+            	opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), true, args.val));
+            	jQuery('#formatPattern').data('cSymbol', args.val);
+            }
+        });
+    	
+    	input.hideOptions();
+    },
     toggleCurrencyFormat: function(){
         var it = this;
         jQuery('#formatPattern').children().each(function (i, optElem) {
@@ -438,8 +465,8 @@ jive.interactive.column = jive.interactive.column || {
             return numberExp;
         },
 
-        addRemoveCurrencySymbol: function(exp, booleanAdd) {
-            var cs = jive.interactive.column.numberFormat.symbols.currency,
+        addRemoveCurrencySymbol: function(exp, booleanAdd, currencySymbol) {
+            var cs = currencySymbol || jive.interactive.column.numberFormat.symbols.currency,
                 indexOfCS = exp.indexOf(cs),
                 pozToken = exp.split(';')[0],
                 negToken = exp.split(';')[1];
@@ -677,6 +704,20 @@ jive.interactive.column.formatCellsForm = {
                 type:'buttons',
                 id: 'numberFormatButtons',
                 items: [
+                    {	
+                    	type: 'dropdown',
+                    	id: 'currencyBtn1',
+                    	fn: 'showCurrencyDropDown',
+                    	bIcon: 'currencyIcon',
+                    	options: {
+                    		'none': {label: '&lt;None&gt;', value: '', fn: 'applyCurrencyFormat'},
+                    		'locale_specific': {label: '\u00A4 - Locale specific', value: '\u00A4', fn: 'applyCurrencyFormat'},
+                    		'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
+                    		'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
+                    		'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
+                    		'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'},
+                    	}
+                    },
                     {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
                     {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
                     {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
