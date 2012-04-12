@@ -84,29 +84,34 @@ public class FilterAction extends AbstractVerifiableTableAction {
 	@Override
 	public void verify() throws ActionException {
 		FilterData fd = getFilterData();
-		if (fd.getFieldValueStart() != null && fd.getFieldValueStart().length() > 0 && fd.getFilterType() != null) {
-			FilterTypesEnum filterType = FilterTypesEnum.getByName(fd.getFilterType());
-			
-			if (filterType == FilterTypesEnum.DATE) {
-				if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
-					errors.addAndThrow("interactive.filter.invalid.pattern");
-				} else {
-					Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
-					if (locale == null) {
-						locale = Locale.getDefault();
-					}
-					SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), locale);
+		if (fd.getFilterType() == null || fd.getFilterType().length() == 0) {
+			errors.addAndThrow("interactive.filter.invalid.filter.type");
+		}
+		
+		FilterTypesEnum filterType = FilterTypesEnum.getByName(fd.getFilterType());
+		
+		if (filterType == FilterTypesEnum.DATE) {
+			if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
+				errors.addAndThrow("interactive.filter.invalid.pattern");
+			} else {
+				if (fd.getFieldValueStart() == null || fd.getFieldValueStart().length() == 0) {
+					errors.addAndThrow("interactive.filter.empty.date");
+				}
+				Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
+				if (locale == null) {
+					locale = Locale.getDefault();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), locale);
+				try {
+					sdf.parse(fd.getFieldValueStart());
+				} catch (ParseException e) {
+					errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
+				}
+				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
 					try {
-						sdf.parse(fd.getFieldValueStart());
+						sdf.parse(fd.getFieldValueEnd());
 					} catch (ParseException e) {
-						errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
-					}
-					if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
-						try {
-							sdf.parse(fd.getFieldValueEnd());
-						} catch (ParseException e) {
-							errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueEnd()});
-						}
+						errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueEnd()});
 					}
 				}
 			}
