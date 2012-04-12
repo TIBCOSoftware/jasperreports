@@ -118,10 +118,10 @@ public class Controller
 			runReport(webReportContext, jasperReport, async.booleanValue());
 		} catch (JRException e) {
 			undoAction(webReportContext, initialStackSize);
-			throw new JasperInteractiveException(e.getMessage());
+			throw e;
 		} catch (JRRuntimeException e) {
 			undoAction(webReportContext, initialStackSize);
-			throw new JasperInteractiveException(e.getMessage());
+			throw e;
 		}
 	}
 	
