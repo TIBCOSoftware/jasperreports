@@ -98,6 +98,7 @@ public class FilterCommand implements Command
 					filterForCurrentField.setFilterTypeOperator(filterData.getFilterTypeOperator());
 					filterForCurrentField.setFilterValueEnd(filterData.getFieldValueEnd());
 					filterForCurrentField.setFilterValueStart(filterData.getFieldValueStart());
+					filterForCurrentField.setFilterPattern(filterData.getFilterPattern());
 					filterForCurrentField.setIsValid(null);
 				} else {
 					addNewFilter = true;
