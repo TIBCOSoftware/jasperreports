@@ -512,18 +512,22 @@ jive.interactive.column.columnFilterForm = {
         /*
          *  This method is called when form is created. Can be used to initiate behavior and cache form elements.
          */
-        var it = this,
-       		filtertype = jive.selected.ie.filterdiv.filterDivForm.filterType.toLowerCase();
+        var it = this;
         it.jc.filterStart = jQuery('#fieldValueStart');
         it.jc.filterEnd = jQuery('#fieldValueEnd').prop('disabled',true);
         it.jc.filterType = jQuery('#filterTypeOperator').change(function(){
             jQuery(this).val().indexOf('BETWEEN') >= 0 ? it.jc.filterEnd.prop('disabled',false) : it.jc.filterEnd.prop('disabled',true);
         });
         jQuery('input[name="clearFilter"]').change(function(){
-            for(p in it.jc) (it.jc.hasOwnProperty(p) && jQuery(this).val() == 'true') ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
+        	var filtertype = jive.selected.ie.filterdiv.filterDivForm.filterType.toLowerCase();
+            
+        	for(p in it.jc) (it.jc.hasOwnProperty(p) && jQuery(this).val() == 'true') ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
             it.jc.filterEnd.prop('disabled', (it.jc.filterType.val().indexOf('BETWEEN') >= 0 && jQuery(this).val() == 'false') ? false : true);
-            filtertype === 'boolean' ? it.jc.filterStart.prop('disabled',true) : it.jc.filterStart.prop('disabled',false);
-        })
+
+            if (filtertype == 'boolean' && jQuery(this).val() == 'false') {
+           		it.jc.filterStart.prop('disabled', true);
+            }
+        });
     },
     onShow:function(){
         var it = this;
@@ -581,7 +585,10 @@ jive.interactive.column.columnFilterForm = {
         for(p in it.jc) (it.jc.hasOwnProperty(p) && filterOff) ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
 
         it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', (!filterOff && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) ? false : true);
-        filtertype === 'boolean' ? it.jc.filterStart.prop('disabled',true) : it.jc.filterStart.prop('disabled',false);
+        
+        if (filtertype === 'boolean' && !filterOff) {
+        	it.jc.filterStart.prop('disabled',true);
+        }
     },
     submit:function(){
         var metadata = jive.selected.ie.filterdiv.filterDivForm,
