@@ -23,8 +23,8 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
@@ -34,6 +34,8 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
@@ -44,6 +46,8 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @version $Id$
  */
 public class FilterAction extends AbstractVerifiableTableAction {
+	
+	private static FormatFactory formatFactory = new DefaultFormatFactory();
 	
 	public FilterAction() {
 	}
@@ -101,15 +105,15 @@ public class FilterAction extends AbstractVerifiableTableAction {
 				if (locale == null) {
 					locale = Locale.getDefault();
 				}
-				SimpleDateFormat sdf = new SimpleDateFormat(fd.getFilterPattern(), locale);
+				DateFormat df = formatFactory.createDateFormat(fd.getFilterPattern(), locale, null);
 				try {
-					sdf.parse(fd.getFieldValueStart());
+					df.parse(fd.getFieldValueStart());
 				} catch (ParseException e) {
 					errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
 				}
 				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
 					try {
-						sdf.parse(fd.getFieldValueEnd());
+						df.parse(fd.getFieldValueEnd());
 					} catch (ParseException e) {
 						errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueEnd()});
 					}
