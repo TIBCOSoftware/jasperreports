@@ -54,6 +54,10 @@ jQuery.extend(jive, {
         	}
         }, '.pmenuitem');
 
+        jQuery('div#jive_dropdown').on('mouseleave', '.pmenu', function(evt) {
+        	jQuery(this).hide();
+        });
+
         jasperreports.global.events.JIVE_INIT.status = 'finished';
         jasperreports.global.processEvent(jasperreports.global.events.JIVE_INIT.name);
     },
@@ -343,6 +347,9 @@ jive.ui.dialog = {
             it.body.children().each(function(){
                 jQuery(this).appendTo('#jive_forms').hide();
             });
+            
+            jQuery('#jive_dropdown .pmenu').hide();
+            
             jive.selected.form.submit();
         });
         jQuery('#dialogCancel').bind('click touchend',function(e){
@@ -351,6 +358,8 @@ jive.ui.dialog = {
             it.body.children().each(function(){
                 jQuery(this).appendTo('#jive_forms').hide();
             });
+            
+            jQuery('#jive_dropdown .pmenu').hide();
         });
     },
     show: function(title, forms, formIndex){
