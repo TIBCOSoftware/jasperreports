@@ -262,6 +262,7 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .currencyIcon {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -280px;
+    width: 23px;
 }
 .percentageIcon {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
