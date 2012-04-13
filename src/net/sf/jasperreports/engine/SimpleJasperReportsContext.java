@@ -163,7 +163,7 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 	/**
 	 *
 	 */
-	public <T> void setExtensions(Class<T> extensionType, List<T> extensions)
+	public <T> void setExtensions(Class<T> extensionType, List<? extends T> extensions)
 	{
 		if (extensionsMap == null)
 		{
