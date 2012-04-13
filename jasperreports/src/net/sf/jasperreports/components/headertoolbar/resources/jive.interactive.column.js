@@ -264,14 +264,14 @@ jive.interactive.column = jive.interactive.column || {
     	
     	input.hideOptions();
     },
-    toggleCurrencyFormat: function(){
-        var it = this;
-        jQuery('#formatPattern').children().each(function (i, optElem) {
-            var opt = jQuery(optElem);
-            opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), jive.selected.form.inputs['currencyBtn'].selected));
-            opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), jive.selected.form.inputs['currencyBtn'].selected));
-        });
-    },
+//    toggleCurrencyFormat: function(){
+//        var it = this;
+//        jQuery('#formatPattern').children().each(function (i, optElem) {
+//            var opt = jQuery(optElem);
+//            opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), jive.selected.form.inputs['currencyBtn'].selected));
+//            opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), jive.selected.form.inputs['currencyBtn'].selected));
+//        });
+//    },
     togglePercentageFormat: function(){
         var it = this;
         jQuery('#formatPattern').children().each(function (i, optElem) {
@@ -725,7 +725,7 @@ jive.interactive.column.formatCellsForm = {
                     		'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'},
                     	}
                     },
-                    {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
+//                    {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
                     {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
                     {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
                     {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
@@ -762,7 +762,7 @@ jive.interactive.column.formatCellsForm = {
             jo.find('tr').eq(1).show();
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
                 jo.find('tr').eq(1).children().eq(1).children().css('visibility','visible');
-            	inputs['currencyBtn'].unset();
+//            	inputs['currencyBtn'].unset();
             	inputs['percentageBtn'].unset();
             	inputs['commaBtn'].unset();
             } else {
