@@ -9,7 +9,7 @@ jive.interactive.column = jive.interactive.column || {
     	system: null
     },
     actions: {
-        'Format': {icon: 'formatIcon', actions:{
+        'Format': {icon: 'formatIcon', title:'Column options', actions:{
             'Format header': {fn:'formatHeader'},
             'Format cells': {fn:'formatCells'},
             'Hide column': {fn:'hide', arg:'{"hide":true}'},
@@ -17,9 +17,9 @@ jive.interactive.column = jive.interactive.column || {
                 'All': {label: '&lt;All&gt;', fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
-        'Sort ascending':{icon: 'sortAscIcon', fn:'sort', arg:['Asc']},
-        'Sort descending': {icon: 'sortDescIcon', fn: 'sort', arg:['Desc']},
-        'Filter': {icon: 'filterIcon', fn: 'filter'}
+        'Filter': {icon: 'filterIcon', title:'Column filters', fn: 'filter'},
+        'Sort ascending':{icon: 'sortAscIcon', title:'Sort ascending', fn:'sort', arg:['Asc']},
+        'Sort descending': {icon: 'sortDescIcon', title:'Sort descending', fn: 'sort', arg:['Desc']}
     },
     dropColumns: {},
     dropPoints: {},
@@ -722,10 +722,10 @@ jive.interactive.column.formatCellsForm = {
                     		'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
                     		'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
                     		'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
-                    		'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'},
+                    		'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'}
                     	}
                     },
-//                    {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
+//                  {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
                     {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
                     {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
                     {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},

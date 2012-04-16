@@ -13,7 +13,7 @@
 <div id="jive_marker" style="display:none;">
     <div id="jive_marker_icon">&nbsp;</div>
 </div>
-<div id="jive_foobar" class="action primary" style="display:none;"></div>
+<div id="jive_foobar" class="" style="display:none;"></div>
 <div id="jive_menus"></div>
 <div id="jive_dropdown"></div>
 <div id="jive_forms"></div>

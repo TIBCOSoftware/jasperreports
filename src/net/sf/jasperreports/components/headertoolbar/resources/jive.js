@@ -202,7 +202,7 @@ jive.ui.foobar = {
     menus: {},
     setElement: function(selector){
         this.jo = jQuery(selector);
-        this.jo.on('click','button',function(evt){
+        this.jo.on('click touchend','button',function(evt){
             var jo = jQuery(this);
             var type = jive.selected.ie.type;
             var fn = jo.attr('fn');
@@ -220,6 +220,21 @@ jive.ui.foobar = {
                     });
                     jive.ui.foobar.dropMenu = menu;
                 }
+            }
+        });
+        this.jo.on('mouseover','button',function(){
+            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+            var jo = jQuery(this);
+            if(jo.attr('menu')){
+                var menu = jive.ui.foobar.menus[jive.selected.ie.type][jo.attr('menu')];
+                menu.jo.show().position({
+                    of: jQuery(this),
+                    my: 'left top',
+                    at: 'left bottom',
+                    collision: 'none',
+                    offset: '0 2px'
+                });
+                jive.ui.foobar.dropMenu = menu;
             }
         });
         this.cache = {};
@@ -244,7 +259,7 @@ jive.ui.foobar = {
     render: function(actionMap){
         var it = this;
         var tmpl = [
-            '<button class="jive_foobar_button" actionkey="',,'" ',
+            '<button class="jive_foobar_button" title="',,'" actionkey="',,'" ',
             ,'><span class="wrap"><span class="icon ',,'"></span></span></button>'];
 
         if(!it.cache[jive.selected.ie.type]){
@@ -256,9 +271,10 @@ jive.ui.foobar = {
                     htm = it.createMenu(k, v.label, v.actions);
                     it.menus[jive.selected.ie.type][k] ={jo:jQuery(htm).appendTo('#jive_menus')};
                 }
-                tmpl[1] = k;
-                tmpl[3] = v.fn ? 'fn="'+v.fn+'"' : v.actions ? 'menu="'+k+'"' : '';
-                tmpl[5] = v.icon;
+                tmpl[1] = v.title;
+                tmpl[3] = k;
+                tmpl[5] = v.fn ? 'fn="'+v.fn+'"' : v.actions ? 'menu="'+k+'"' : '';
+                tmpl[7] = v.icon;
                 it.cache[jive.selected.ie.type] += tmpl.join('');
             });
         }
