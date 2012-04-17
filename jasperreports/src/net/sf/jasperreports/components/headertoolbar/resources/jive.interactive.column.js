@@ -108,8 +108,11 @@ jive.interactive.column = jive.interactive.column || {
     getElementSize: function(){
         var jo = jive.selected.jo;
         var h;
-        var lastCell = jQuery('.col_' + jo.attr('data-popupColumn') + ':last', jo.closest('.jrtableframe'));
+        var cid = jo.data('popupColumn') || jo.data('popupcolumn');
+        cid = cid.replace(/\./g,'\\.');
+        var lastCell = jQuery('.col_' + cid + ':last', jo.closest('.jrtableframe'));
         if(lastCell && lastCell.length > 0) {
+            console.info('found last');
             var lastElemTop = lastCell.position().top;
             var lastElemHeight = lastCell.height();
             h = lastElemTop + lastElemHeight - jo.position().top;
