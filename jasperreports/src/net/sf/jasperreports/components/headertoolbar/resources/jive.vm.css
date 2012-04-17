@@ -57,15 +57,13 @@
     -moz-box-shadow: 3px 3px 4px #000;
     -webkit-box-shadow: 3px 3px 4px #000;
     box-shadow: 3px 3px 4px #000;
-    /* For IE 8 */
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
-    /* For IE 5.5 - 7 */
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
 .jive_dialog .dialogHeader {
-    background:#e8e8e8;
     position:relative;
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #fff;
+    color: #0872A4;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #e8e8e8;
 }
 
 .jive_dialog h2 {
@@ -73,7 +71,7 @@
     margin:0;
     padding:0 4px;
     font-size:12px;
-    line-height:35px;
+    line-height:28px;
 }
 
 .jive_dialog div.dialogBody {
@@ -90,7 +88,40 @@
 }
 
 .jive_dialog button {
-    margin:0 !important;
+    display:block;
+    float:left;
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+    filter:none;
+}
+
+button.action {
+    /* from(e7e7e7), to(c1c1c1) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.png) repeat-x;
+}
+
+button.action.over {
+    /* from(e4e0e0), to(5a5a5b) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.over.png) repeat-x;
+}
+
+button.action.pressed {
+    /* from(e4e0e0), to(5a5a5b) */
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.pressed.png) repeat-x;
+}
+
+button.action.primary {
+    /* from(3fb8fa), to(2881bb) */
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.png) repeat-x;
+}
+
+button.action.primary.over {
+    /* from(#faac1f), to(#f9771d) */
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.over.png) repeat-x;
+}
+
+button.action.primary.pressed {
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x;
 }
 
 .pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;border-bottom:none;text-align:left;list-style-type: none;width:120px;display:none;}
@@ -103,8 +134,9 @@
 .tabContainer {
     position:absolute;
     right:8px;
-    top:10px;
-    z-index:2; }
+    top:3px;
+    z-index:2;
+}
 
 .tab {
     display:inline-block;
