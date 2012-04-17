@@ -21,6 +21,7 @@
     width:10px;
     cursor: ew-resize;
     border-left:dotted 1px #555;
+    z-index:10;
 }
 #jive_marker_icon{
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.small.png);
@@ -36,7 +37,7 @@
     border-bottom:none;
     padding:2px;
     height:16px;
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #fff;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
     background-position:0 1px;
 }
 /*
