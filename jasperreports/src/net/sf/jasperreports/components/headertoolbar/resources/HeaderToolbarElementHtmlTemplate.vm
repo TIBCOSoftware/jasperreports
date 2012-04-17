@@ -12,6 +12,7 @@
 </div>
 <div id="jive_marker" style="display:none;">
     <div id="jive_marker_icon">&nbsp;</div>
+    <div style="position:absolute;top:0;right:6px;bottom:0;left:-6px;"></div>
 </div>
 <div id="jive_foobar" class="" style="display:none;"></div>
 <div id="jive_menus"></div>

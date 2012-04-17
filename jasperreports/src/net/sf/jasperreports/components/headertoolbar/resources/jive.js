@@ -181,7 +181,6 @@ jive.ui.overlay = {
                 jive.hide();
             }
         });
-        //this.jo.appendTo('div.jrPage');
     },
     show: function(dim){
         !this.jo && this.setElement('#jive_overlay');
