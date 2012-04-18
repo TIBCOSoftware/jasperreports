@@ -86,32 +86,32 @@ public class FieldNumberComparator extends AbstractFieldComparator<Number> {
 					
 		switch (numericEnum) {
 			case DOES_NOT_EQUAL:
-				result = validComparison ? dbStart.compareTo(dbA) != 0 : defaultResult;
+				result = validComparison ? dbA.compareTo(dbStart) != 0 : defaultResult;
 				break;
 			case EQUALS:
-				result = validComparison ? dbStart.compareTo(dbA) == 0 : false;
+				result = validComparison ? dbA.compareTo(dbStart) == 0 : false;
 				break;
 			case GREATER_THAN:
-				result = validComparison ? dbStart.compareTo(dbA) > 0 : false;
+				result = validComparison ? dbA.compareTo(dbStart) > 0 : false;
 				break;
 			case GREATER_THAN_EQUAL_TO:
-				result = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
+				result = validComparison ? dbA.compareTo(dbStart) >= 0 : false;
 				break;
 			case IS_BETWEEN:
-				resultPart1 = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
-				resultPart2 = validComparison2 ? dbEnd.compareTo(dbEnd) <= 0 : false;
+				resultPart1 = validComparison ? dbA.compareTo(dbStart) >= 0 : false;
+				resultPart2 = validComparison2 ? dbA.compareTo(dbEnd) <= 0 : false;
 				result = resultPart1 && resultPart2;
 				break;
 			case IS_NOT_BETWEEN:
-				resultPart1 = validComparison ? dbStart.compareTo(dbA) >= 0 : false;
-				resultPart2 = validComparison2 ? dbEnd.compareTo(dbA) <= 0 : false;
+				resultPart1 = validComparison ? dbA.compareTo(dbStart) >= 0 : false;
+				resultPart2 = validComparison2 ? dbA.compareTo(dbEnd) <= 0 : false;
 				result = !(resultPart1 && resultPart2);
 				break;
 			case LESS_THAN:
-				result = validComparison ? dbStart.compareTo(dbA) < 0 : false;
+				result = validComparison ? dbA.compareTo(dbStart) < 0 : false;
 				break;
 			case LESS_THAN_EQUAL_TO:
-				result = validComparison ? dbStart.compareTo(dbA) <= 0 : false;
+				result = validComparison ? dbA.compareTo(dbStart) <= 0 : false;
 				break;
 		}
 		
