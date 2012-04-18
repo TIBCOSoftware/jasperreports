@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.sort;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -67,35 +68,45 @@ public class FieldDateComparator extends AbstractFieldComparator<Date> {
 		boolean validComparison = compareStart != null && compareTo != null;
 		boolean validComparison2 = compareEnd != null && compareTo != null;
 		
+		Date formattedCompareTo = compareTo;
+		
+		if (compareTo != null) {
+			try {
+				formattedCompareTo =  FormatUtils.getFormattedDate((DateFormat)formatter, ((DateFormat)formatter).format(compareTo), compareToClass);
+			} catch (ParseException e) {
+				throw new JRRuntimeException(e);
+			}
+		}
+		
 		FilterTypeDateOperatorsEnum dateEnum = FilterTypeDateOperatorsEnum.getByEnumConstantName(filterTypeOperator);
 		switch (dateEnum) {
 			case EQUALS:
-				result = validComparison ? compareTo.compareTo(compareStart) == 0 : false;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) == 0 : false;
 				break;
 			case IS_AFTER:
-				result = validComparison ? compareTo.compareTo(compareStart) > 0 : false;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) > 0 : false;
 				break;
 			case IS_BEFORE:
-				result = validComparison ? compareTo.compareTo(compareStart) < 0 : false;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) < 0 : false;
 				break;
 			case IS_BETWEEN:
-				resultPart1 = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
-				resultPart2 = validComparison2 ? compareTo.compareTo(compareEnd) <= 0 : false;
+				resultPart1 = validComparison ? formattedCompareTo.compareTo(compareStart) >= 0 : false;
+				resultPart2 = validComparison2 ? formattedCompareTo.compareTo(compareEnd) <= 0 : false;
 				result = resultPart1 && resultPart2;
 				break;
 			case IS_NOT_BETWEEN:
-				resultPart1 = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
-				resultPart2 = validComparison2 ? compareTo.compareTo(compareEnd) <= 0 : false;
+				resultPart1 = validComparison ? formattedCompareTo.compareTo(compareStart) >= 0 : false;
+				resultPart2 = validComparison2 ? formattedCompareTo.compareTo(compareEnd) <= 0 : false;
 				result = !(resultPart1 && resultPart2);
 				break;
 			case IS_NOT_EQUAL_TO:
-				result = validComparison ? compareTo.compareTo(compareStart) != 0 : defaultResult;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) != 0 : defaultResult;
 				break;
 			case IS_ON_OR_AFTER:
-				result = validComparison ? compareTo.compareTo(compareStart) >= 0 : false;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) >= 0 : false;
 				break;
 			case IS_ON_OR_BEFORE:
-				result = validComparison ? compareTo.compareTo(compareStart) <= 0 : false;
+				result = validComparison ? formattedCompareTo.compareTo(compareStart) <= 0 : false;
 				break;
 		}
 		
