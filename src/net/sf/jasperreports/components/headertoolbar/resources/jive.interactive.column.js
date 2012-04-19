@@ -757,14 +757,13 @@ jive.interactive.column.formatCellsForm = {
 
         if(typeof ie.formatPatternLabel === 'string') {
             jQuery.each(ie.formatPatternSelector,function(i,o){
-                htm.push('<option value="'+o.key+'">'+o.val+'</option>');
+                o && htm.push('<option value="'+o.key+'">'+o.val+'</option>');
             })
             jQuery('#formatPattern').html(htm.join(''));
             inputs['formatPattern'].set(metadata.formatPattern);
             jo.find('tr').eq(1).show();
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
                 jo.find('tr').eq(1).children().eq(1).children().css('visibility','visible');
-//            	inputs['currencyBtn'].unset();
             	inputs['percentageBtn'].unset();
             	inputs['commaBtn'].unset();
             } else {
