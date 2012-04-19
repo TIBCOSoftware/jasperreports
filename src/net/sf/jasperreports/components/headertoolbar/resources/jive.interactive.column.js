@@ -10,10 +10,10 @@ jive.interactive.column = jive.interactive.column || {
     },
     actions: {
         'Format': {icon: 'formatIcon', title:'Column options', actions:{
-            'Format header': {fn:'formatHeader'},
-            'Format cells': {fn:'formatCells'},
+            'Formatting': {fn:'formatHeader'},
+//            'Format cells': {fn:'formatCells'},
             'Hide column': {fn:'hide', arg:'{"hide":true}'},
-            'Show column': {actions:{
+            'Show columns': {actions:{
                 'All': {label: '&lt;All&gt;', fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
@@ -77,7 +77,7 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Create show column menu
          */
-        var menu = it.actions.Format.actions['Show column'];
+        var menu = it.actions.Format.actions['Show columns'];
         for(i in allColumns) {
             c = allColumns[i];
            	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false,"column":['+c.index+'], "columnUuid": "' + c.uuid + '"}'};
@@ -121,7 +121,7 @@ jive.interactive.column = jive.interactive.column || {
     onToolbarShow: function(){
         var it = this,
         	allOption = [],
-        	pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show column"]').eq(0),
+        	pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show columns"]').eq(0),
         	tableUuid = jive.selected.jo.closest('.jrtableframe').data('uuid'),
         	allColumns = it.allColumns[tableUuid],
         	menuItmArgs,
@@ -221,9 +221,9 @@ jive.interactive.column = jive.interactive.column || {
     formatHeader: function(){
         jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells']);
     },
-    formatCells: function(){
-        jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells'], 1);
-    },
+//    formatCells: function(){
+//        jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells'], 1);
+//    },
     hide: function(args){
         jive.hide();
         jive.runAction({
