@@ -24,6 +24,8 @@
 package net.sf.jasperreports.components.headertoolbar.actions;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -93,6 +95,11 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		}
 		
 		FilterTypesEnum filterType = FilterTypesEnum.getByName(fd.getFilterType());
+
+		Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
+		if (locale == null) {
+			locale = Locale.getDefault();
+		}
 		
 		if (filterType == FilterTypesEnum.DATE) {
 			if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
@@ -100,10 +107,6 @@ public class FilterAction extends AbstractVerifiableTableAction {
 			} else {
 				if (fd.getFieldValueStart() == null || fd.getFieldValueStart().length() == 0) {
 					errors.addAndThrow("interactive.filter.empty.date");
-				}
-				Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
-				if (locale == null) {
-					locale = Locale.getDefault();
 				}
 				DateFormat df = formatFactory.createDateFormat(fd.getFilterPattern(), locale, null);
 				try {
@@ -119,7 +122,47 @@ public class FilterAction extends AbstractVerifiableTableAction {
 					}
 				}
 			}
+		} else if (filterType == FilterTypesEnum.NUMERIC) {
+			if (fd.getFieldValueStart() == null || fd.getFieldValueStart().trim().length() == 0) {
+				errors.addAndThrow("interactive.filter.empty.number");
+			}
+			NumberFormat nf = createNumberFormat(fd.getFilterPattern(), locale);
+			try {
+				nf.parse(fd.getFieldValueStart());
+			} catch (ParseException e) {
+				errors.add("interactive.filter.invalid.number", new Object[]{fd.getFieldValueStart()});
+			}
+			if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
+				try {
+					nf.parse(fd.getFieldValueEnd());
+				} catch (ParseException e) {
+					errors.add("interactive.filter.invalid.number", new Object[]{fd.getFieldValueEnd()});
+				}
+			}
 		}
+	}
+	
+	private NumberFormat createNumberFormat(String pattern, Locale locale)
+	{
+		NumberFormat format = null;
+
+		if (locale == null)
+		{
+			format = NumberFormat.getNumberInstance();
+		}
+		else
+		{
+			format = NumberFormat.getNumberInstance(locale);
+		}
+			
+		if (pattern != null && pattern.trim().length() > 0)
+		{
+			if (format instanceof DecimalFormat)
+			{
+				((DecimalFormat) format).applyPattern(pattern);
+			}
+		}
+		return format;
 	}
 
 }
