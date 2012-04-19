@@ -27,7 +27,7 @@
         <div class="dialogBody" style="text-align:left;">
 
         </div>
-        <div class="footer">
+        <div class="dialogFooter">
             <button id="dialogOk" class="button action primary up"><span class="wrap">OK<span class="icon"></span></span></button>
             <button id="dialogCancel" class="button action up"><span class="wrap">Cancel<span class="icon"></span></span></button>
         </div>

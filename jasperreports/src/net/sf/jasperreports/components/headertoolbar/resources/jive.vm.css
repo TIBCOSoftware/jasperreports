@@ -63,6 +63,7 @@
 .jive_dialog .dialogHeader {
     position:relative;
     color: #0872A4;
+    border:solid 1px #e8e8e8;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #e8e8e8;
 }
 
@@ -79,12 +80,13 @@
     padding:3px;
 }
 
-.jive_dialog div.footer {
+.jive_dialog div.dialogFooter {
     position:relative;
     padding:8px;
     height:auto;
     text-align: left;
     border-top:solid 1px #d3d5d6;
+    overflow:hidden;
 }
 
 .jive_dialog button {
@@ -214,13 +216,14 @@ button.action.primary.pressed {
     vertical-align: middle;
 }
 
+div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
 div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 
 .jive_form input, .jive_form select {position:relative;width:100%;margin:0;padding:0;border:solid 1px #eee;}
 .jive_form input{height:21px;}
 .jive_form select{height:24px;}
 
-.jive_form input[type="radio"]{width:auto;}
+.jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;}
 
 .jive_form select.showList {height:auto; !important}
 .jive_form select.wFreeText {margin-top:8px; !important}
@@ -228,7 +231,7 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
 .jive_form .buttonbar {background:#fff;overflow:hidden;height:24px;border:solid 1px #ccc;}
 
-.jive_inputLabel {position: relative;top:-6px;left:8px;}
+.jive_inputLabel {float:left;position:relative;margin-left:8px;}
 .jive_inputbutton {float:left;cursor:pointer;background:#fff;}
 .jive_inputbutton_wrapper {text-align:center;border-left:solid 1px #ccc;background:transparent;}
 .jive_inputbutton_wrapper.first {border-left:none;}
@@ -244,7 +247,7 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
     cursor:pointer;
 }
 
-.jive_bIcon {display:inline-block;.display:inline;width:20px;height:20px;margin:3px;}
+.jive_bIcon {display:inline-block;.display:inline;zoom:1;width:20px;height:20px;margin:3px;}
 .jive_freeTextButton .jive_bIcon {
     width:16px;
     height:16px;

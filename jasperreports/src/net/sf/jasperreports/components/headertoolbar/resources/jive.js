@@ -334,7 +334,9 @@ jive.ui.dialog = {
             jive.selected.form.jo.show();
         });
         it.body.on('click touchend','input, select',function(e){
-            jQuery(this).focus();
+            var jo = jQuery(this);
+            jo.focus();
+            if(jo.attr('type') == 'radio') jo.trigger('change').prop('checked',true);
         });
         it.body.on('change','select.wFreeText',function(e){
             var jo = jQuery(this);
@@ -448,7 +450,7 @@ jive.ui.forms = {
                         }
                     }
                     if(e.type == 'radio') {
-                        tb.push('<td style="" '+colspan+'><div class="wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
+                        tb.push('<td style="" '+colspan+'><div class="thick wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
                         parms.inputs[e.id] = {
                             set:function(val) {
                                 jQuery('input[name="'+e.id+'"]').val(val);
