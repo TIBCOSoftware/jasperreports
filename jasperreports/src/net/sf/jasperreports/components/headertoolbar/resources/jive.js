@@ -25,32 +25,50 @@ jQuery.extend(jive, {
         /*
          * Init event handlers for viewer. One time event?
          */
+        var jmenuitem;
         jQuery('div#jive_menus').on({
-            'click': function(evt){
-                var args = jQuery(this).data('args');
-                jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
+            'mouseup touchend': function(evt){
+                jmenuitem = jQuery(this);
+                var args = jmenuitem.data('args');
+
+                jmenuitem.attr('fn') && jive.interactive[jive.selected.ie.type][jmenuitem.attr('fn')](args);
+
+                if(evt.type == 'touchend') {
+                    var submenu = jmenuitem.children('ul');
+                    if(submenu.length){
+                        submenu.show().position({
+                            of: jmenuitem,
+                            my: 'left top',
+                            at: 'right top'
+                        });
+                    } else {
+                        jive.hide();
+                    }
+                }
+                evt.preventDefault();
             },
             'mouseover': function(evt){
-                var jo = jQuery(this);
-                var submenu = jo.children('ul');
+                jmenuitem = jQuery(this);
+                var submenu = jmenuitem.children('ul');
                 if(submenu.length){
                     submenu.show().position({
-                        of: jQuery(this),
+                        of: jmenuitem,
                         my: 'left top',
                         at: 'right top'
                     });
                 }
             },
             'mouseout': function(evt){
-                var jo = jQuery(this);
-                jo.children().hide();
+                jmenuitem = jQuery(this);
+                jmenuitem.children().hide();
             }
         }, '.pmenuitem');
 
         jQuery('div#jive_dropdown').on({
-        	'click': function(evt){
+        	'mouseup touchend': function(evt){
         		var args = jQuery(this).data('args');
         		jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
+                evt.preventDefault();
         	}
         }, '.pmenuitem');
 
@@ -110,6 +128,7 @@ jQuery.extend(jive, {
             jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+            jQuery('.pmenu').hide();
         } else {
             jQuery.each(items,function(i,v){
                 jive.ui[v].jo && jive.ui[v].jo.hide();
