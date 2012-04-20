@@ -33,6 +33,8 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.actions.AbstractAction;
@@ -50,6 +52,7 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 	protected StandardTable table;
 	protected String targetUri;
 	
+	protected static FormatFactory formatFactory = new DefaultFormatFactory();
 	
 	public AbstractVerifiableTableAction()
 	{
