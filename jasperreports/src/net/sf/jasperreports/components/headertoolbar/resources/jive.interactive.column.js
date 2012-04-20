@@ -109,7 +109,7 @@ jive.interactive.column = jive.interactive.column || {
         var jo = jive.selected.jo;
         var h;
         var cid = jo.data('popupColumn') || jo.data('popupcolumn');
-        cid = cid.replace(/\./g,'\\.');
+        cid = ('' + cid).replace(/\./g,'\\.');
         var lastCell = jQuery('.col_' + cid + ':last', jo.closest('.jrtableframe'));
         if(lastCell && lastCell.length > 0) {
             var lastElemTop = lastCell.position().top;
