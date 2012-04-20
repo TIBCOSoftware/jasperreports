@@ -49,6 +49,7 @@ jQuery.extend(jive, {
             },
             'mouseover': function(evt){
                 jmenuitem = jQuery(this);
+                jmenuitem.addClass('hover');
                 var submenu = jmenuitem.children('ul');
                 if(submenu.length){
                     submenu.show().position({
@@ -57,9 +58,11 @@ jQuery.extend(jive, {
                         at: 'right top'
                     });
                 }
+
             },
             'mouseout': function(evt){
                 jmenuitem = jQuery(this);
+                jmenuitem.removeClass('hover');
                 jmenuitem.children().hide();
             }
         }, '.pmenuitem');

@@ -13,7 +13,6 @@
     bottom:0;
     background:#c0c0c0;
     opacity:0.3;
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
     filter: alpha(opacity=30);
 }
 #jive_marker{
@@ -24,12 +23,12 @@
     z-index:10;
 }
 #jive_marker_icon{
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/drag.marker.small.png);
-    width:12px;
-    height:10px;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dragMarker.png);
+    width:18px;
+    height:16px;
     position:relative;
-    top:-10px;
-    left:-7px;
+    top:-16px;
+    left:-10px;
 }
 #jive_foobar {
     position:absolute;
@@ -39,32 +38,57 @@
     height:16px;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
     background-position:0 1px;
+    z-index:11;
 }
-/*
-.jive_foobar_button {border:none;margin:0 2px;padding:0;height:auto;line-height: 1em;}
-.jive_foobar_button .wrap {width:20px;min-width:20px;padding:0;height:16px;line-height: 1em;}
-*/
-.jive_foobar_button {margin:0 2px;height:16px;padding:0;border:none;overflow: visible;background: transparent;}
+
+.jive_foobar_button {
+    margin:0 2px;
+    height:16px;
+    padding:0;
+    border:none;
+    overflow:visible;
+    background:transparent;
+}
+
 .jive_foobar_button .wrap {}
-.jive_foobar_button .icon {display:inline-block;width:24px;height:16px;.display:inline;zoom:1;cursor:pointer;}
+
+.jive_foobar_button .icon {
+    display:inline-block;
+    width:24px;
+    height:16px;
+    .display:inline;
+    zoom:1;
+    cursor:pointer;
+}
+
+/* NEW */
+/* the styles below target ONLY firefox */
+@-moz-document url-prefix() {
+	.jive_foobar_button {
+		margin:0;
+	}
+
+	.jive_foobar_button .icon {
+		width:22px;
+	}
+}
 
 .jive_dialog {
     position:absolute;
-    z-index:999;
+    z-index:11;
     border:solid 1px #ccc;
     background:#fff;
-
     -moz-box-shadow: 3px 3px 4px #000;
     -webkit-box-shadow: 3px 3px 4px #000;
     box-shadow: 3px 3px 4px #000;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
 }
+
 .jive_dialog .dialogHeader {
     position:relative;
     color: #0872A4;
-    border:solid 1px #e8e8e8;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #e8e8e8;
+    .border-top:solid 1px #e8e8e8;
 }
 
 .jive_dialog h2 {
@@ -87,6 +111,7 @@
     text-align: left;
     border-top:solid 1px #d3d5d6;
     overflow:hidden;
+    .overflow:visible;
 }
 
 .jive_dialog button {
@@ -94,8 +119,30 @@
     float:left;
     margin-top:0 !important;
     margin-bottom:0 !important;
-    filter:none;
 }
+
+.pmenu {
+    position:absolute;
+    background:#fff;
+    z-index:10000;
+    border:solid 1px #ccc;
+    border-bottom:none;
+    text-align:left;
+    list-style-type:none;
+    width:120px;
+    display:none;
+}
+
+.pmenuitem {
+    padding-left:12px;
+    cursor:pointer;
+    color:#666;
+    height:24px;
+    line-height:2em;
+    font-size:12px;
+}
+
+.pmenuitem.hover {background:#fc870e; color:#fff;}
 
 button.action {
     /* from(e7e7e7), to(c1c1c1) */
@@ -126,13 +173,6 @@ button.action.primary.pressed {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x;
 }
 
-.pmenu {position:absolute;background:#fff;z-index:10000;border:solid 1px #ccc;border-bottom:none;text-align:left;list-style-type: none;width:120px;display:none;}
-.pmenuitem {padding:8px 4px;cursor:pointer;color:#333;border-bottom:solid 1px #ccc;}
-.pmenuitem:hover {background:#eaf3fa;}
-/*
-.pmenuitem > .pmenu {display:none;}
-.pmenuitem:hover > .pmenu {display:block;}
-*/
 .tabContainer {
     position:absolute;
     right:8px;

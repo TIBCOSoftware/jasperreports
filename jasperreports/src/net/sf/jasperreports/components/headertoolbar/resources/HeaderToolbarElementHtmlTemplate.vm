@@ -140,7 +140,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="footer">
+        <div class="dialogFooter">
             <button class="button action primary up"><span class="wrap">Select color</span></button>
             <button class="button action up"><span class="wrap">Cancel</span></button>
         </div>
