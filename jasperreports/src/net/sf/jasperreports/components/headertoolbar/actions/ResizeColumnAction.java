@@ -68,6 +68,10 @@ public class ResizeColumnAction extends AbstractVerifiableTableAction {
 
 	@Override
 	public void verify() throws ActionException {
+		ResizeColumnData resizeColData = getResizeColumnData();
+		if (resizeColData.getWidth() < 0) {
+			errors.addAndThrow("interactive.resizecolumn.negative.width");
+		}
 	}
 
 }
