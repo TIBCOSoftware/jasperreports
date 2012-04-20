@@ -23,6 +23,21 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.util.List;
+import java.util.Locale;
+
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
+import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.JRField;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRTextField;
+import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -67,6 +82,50 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 
 	@Override
 	public void verify() throws ActionException {
+		EditColumnValueData colValData = getEditColumnValueData();
+		
+		List<BaseColumn> allCols = TableUtil.getAllColumns(table);
+		StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
+		
+		JRTextField textField = TableUtil.getColumnDetailTextElement(col);
+		if (TableUtil.isSortableAndFilterable(textField)) {
+			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+			String datasetName = datasetRun.getDatasetName();
+			JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
+			JasperDesign jasperDesign = cache.getJasperDesign(targetUri);
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+			
+			String textFieldName = textField.getExpression().getChunks()[0].getText();
+			FilterTypesEnum filterType = null;
+			
+			for (JRField field: dataset.getFields()) {
+				if (textFieldName.equals(field.getName())) {
+					filterType = HeaderToolbarElementUtils.getFilterType(field.getValueClass());
+					break;
+				}
+			}
+			
+			if (filterType != null) {
+				Locale locale = (Locale)getReportContext().getParameterValue(JRParameter.REPORT_LOCALE);
+				if (locale == null) {
+					locale = Locale.getDefault();
+				}
+				
+				if (filterType.equals(FilterTypesEnum.DATE)) {
+					try {
+						formatFactory.createDateFormat(colValData.getFormatPattern(), locale, null);
+					} catch (IllegalArgumentException e){
+						errors.addAndThrow("interactive.editcolumnvalues.invalid.date.pattern", new Object[] {colValData.getFormatPattern()});
+					}
+				} else if (filterType.equals(FilterTypesEnum.NUMERIC)) {
+					try {
+						formatFactory.createNumberFormat(colValData.getFormatPattern(), locale);
+					} catch (IllegalArgumentException e){
+						errors.addAndThrow("interactive.editcolumnvalues.invalid.number.pattern", new Object[] {colValData.getFormatPattern()});
+					}
+				}
+			}
+		}
 	}
 
 }
