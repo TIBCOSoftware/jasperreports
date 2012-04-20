@@ -112,15 +112,17 @@ jQuery.extend(jive, {
     },
     selectInteractiveElement: function(jo){
         jive.selected = {
-            //ie: jive.elements[jo.data('popupId')],
             ie: jive.elements[jo.data('popupid')],
             jo: jo
         };
         var dim = jive.interactive[jive.selected.ie.type].getElementSize();
+
         jive.ui.overlay.show(dim);
         jive.ui.marker.show(dim);
         jive.ui.foobar.show(dim);
         jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+
+        jive.interactive[jive.selected.ie.type].onSelect();
     },
     hide: function(items){
         if(!items){
@@ -262,7 +264,6 @@ jive.ui.foobar = {
     show:function(dim){
         !this.jo && this.setElement('#jive_foobar');
         this.render(jive.interactive[jive.selected.ie.type].actions);
-        jive.interactive[jive.selected.ie.type].onToolbarShow();
         this.jo.show();
         var top = this.jo.outerHeight() - 1;
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
