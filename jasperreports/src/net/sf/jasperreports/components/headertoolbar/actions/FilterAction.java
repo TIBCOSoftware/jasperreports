@@ -36,8 +36,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
@@ -48,8 +46,6 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @version $Id$
  */
 public class FilterAction extends AbstractVerifiableTableAction {
-	
-	private static FormatFactory formatFactory = new DefaultFormatFactory();
 	
 	public FilterAction() {
 	}
@@ -102,18 +98,12 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		}
 		
 		if (filterType == FilterTypesEnum.DATE) {
-			if (fd.getFilterPattern() == null || fd.getFilterPattern().length() == 0) {
-				errors.addAndThrow("interactive.filter.invalid.pattern");
-			} else {
-				if (fd.getFieldValueStart() == null || fd.getFieldValueStart().length() == 0) {
-					errors.addAndThrow("interactive.filter.empty.date");
-				}
+			if (fd.getFieldValueStart() == null || fd.getFieldValueStart().length() == 0) {
+				errors.addAndThrow("interactive.filter.empty.date");
+			}
+			try {
 				DateFormat df = formatFactory.createDateFormat(fd.getFilterPattern(), locale, null);
-				try {
-					df.parse(fd.getFieldValueStart());
-				} catch (ParseException e) {
-					errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
-				}
+				df.parse(fd.getFieldValueStart());
 				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
 					try {
 						df.parse(fd.getFieldValueEnd());
@@ -121,23 +111,29 @@ public class FilterAction extends AbstractVerifiableTableAction {
 						errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueEnd()});
 					}
 				}
+			} catch (ParseException e) {
+				errors.add("interactive.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
+			} catch (IllegalArgumentException e){
+				errors.addAndThrow("interactive.filter.invalid.pattern");
 			}
 		} else if (filterType == FilterTypesEnum.NUMERIC) {
 			if (fd.getFieldValueStart() == null || fd.getFieldValueStart().trim().length() == 0) {
 				errors.addAndThrow("interactive.filter.empty.number");
 			}
-			NumberFormat nf = createNumberFormat(fd.getFilterPattern(), locale);
 			try {
+				NumberFormat nf = createNumberFormat(fd.getFilterPattern(), locale);
 				nf.parse(fd.getFieldValueStart());
+				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
+					try {
+						nf.parse(fd.getFieldValueEnd());
+					} catch (ParseException e) {
+						errors.add("interactive.filter.invalid.number", new Object[]{fd.getFieldValueEnd()});
+					}
+				}
 			} catch (ParseException e) {
 				errors.add("interactive.filter.invalid.number", new Object[]{fd.getFieldValueStart()});
-			}
-			if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
-				try {
-					nf.parse(fd.getFieldValueEnd());
-				} catch (ParseException e) {
-					errors.add("interactive.filter.invalid.number", new Object[]{fd.getFieldValueEnd()});
-				}
+			} catch (IllegalArgumentException e) {
+				errors.addAndThrow("interactive.filter.invalid.pattern");
 			}
 		}
 	}
