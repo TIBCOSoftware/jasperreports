@@ -26,7 +26,9 @@ package net.sf.jasperreports.engine.util;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.repo.DefaultRepositoryService;
@@ -51,6 +53,41 @@ public class LocalJasperReportsContext extends SimpleJasperReportsContext
 	public LocalJasperReportsContext(JasperReportsContext parent)
 	{
 		super(parent);
+	}
+
+	/**
+	 *
+	 */
+	@SuppressWarnings("deprecation")
+	public static JasperReportsContext getLocalContext(JasperReportsContext jasperReportsContext, Map<String,Object> parameterValues)
+	{
+		if (
+			parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER)
+			|| parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY)
+			|| parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER)
+			)
+		{
+			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
+
+			if (parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
+			{
+				localJasperReportsContext.setClassLoader((ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER));
+			}
+
+			if (parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY))
+			{
+				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY));
+			}
+
+			if (parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER))
+			{
+				localJasperReportsContext.setFileResolver((FileResolver)parameterValues.get(JRParameter.REPORT_FILE_RESOLVER));
+			}
+			
+			return localJasperReportsContext;
+		}
+
+		return jasperReportsContext;
 	}
 
 	/**

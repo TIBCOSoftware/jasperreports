@@ -97,6 +97,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	private final JRBaseFiller filler;
 	
 	/**
+	 *
+	 */
+	private JasperReportsContext jasperReportsContext;
+	
+	/**
 	 * The template dataset.
 	 */
 	private final JRDataset parent;
@@ -873,10 +878,15 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		}
 	}
 
+	public void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
 	protected JasperReportsContext getJasperReportsContext()
 	{
 		return filler == null
-				? DefaultJasperReportsContext.getInstance()//FIXMECONTEXT set the context somehow
+				? (jasperReportsContext == null ? DefaultJasperReportsContext.getInstance() : jasperReportsContext)
 				: filler.getJasperReportsContext();
 	}
 	

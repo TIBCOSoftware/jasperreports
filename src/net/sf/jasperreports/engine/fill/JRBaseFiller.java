@@ -29,7 +29,6 @@
 
 package net.sf.jasperreports.engine.fill;
 
-import java.net.URLStreamHandlerFactory;
 import java.sql.Connection;
 import java.text.Format;
 import java.util.ArrayList;
@@ -87,7 +86,6 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
-import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
@@ -937,33 +935,12 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setParametersToContext(Map<String,Object> parameterValues)
 	{
-		if (
-			parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER)
-			|| parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY)
-			|| parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER)
-			)
+		JasperReportsContext localContext = LocalJasperReportsContext.getLocalContext(jasperReportsContext, parameterValues);
+		if (localContext != jasperReportsContext)
 		{
-			LocalJasperReportsContext localJasperReportsContext = new LocalJasperReportsContext(jasperReportsContext);
-
-			if (parameterValues.containsKey(JRParameter.REPORT_CLASS_LOADER))
-			{
-				localJasperReportsContext.setClassLoader((ClassLoader)parameterValues.get(JRParameter.REPORT_CLASS_LOADER));
-			}
-
-			if (parameterValues.containsKey(JRParameter.REPORT_URL_HANDLER_FACTORY))
-			{
-				localJasperReportsContext.setURLStreamHandlerFactory((URLStreamHandlerFactory)parameterValues.get(JRParameter.REPORT_URL_HANDLER_FACTORY));
-			}
-
-			if (parameterValues.containsKey(JRParameter.REPORT_FILE_RESOLVER))
-			{
-				localJasperReportsContext.setFileResolver((FileResolver)parameterValues.get(JRParameter.REPORT_FILE_RESOLVER));
-			}
-			
-			setJasperReportsContext(localJasperReportsContext);
+			setJasperReportsContext(localContext);
 		}
 	}
 		

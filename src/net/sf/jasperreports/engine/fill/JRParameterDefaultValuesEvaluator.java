@@ -26,11 +26,14 @@ package net.sf.jasperreports.engine.fill;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 
 
 /**
@@ -51,7 +54,20 @@ public final class JRParameterDefaultValuesEvaluator
 	 * @return a map containing parameter values indexed by parameter names
 	 * @throws JRException
 	 */
-	public static Map<String,Object> evaluateParameterDefaultValues(JasperReport report, Map<String,Object> initialParameters) throws JRException//FIXMECONTEXT add context
+	public static Map<String,Object> evaluateParameterDefaultValues(JasperReport report, Map<String,Object> initialParameters) throws JRException
+	{
+		return evaluateParameterDefaultValues(DefaultJasperReportsContext.getInstance(), report, initialParameters);
+	}
+
+	/**
+	 * Evaluates the default values for the parameters of a report.
+	 * 
+	 * @param report the report
+	 * @param initialParameters initial parameter value map
+	 * @return a map containing parameter values indexed by parameter names
+	 * @throws JRException
+	 */
+	public static Map<String,Object> evaluateParameterDefaultValues(JasperReportsContext jasperReportsContext, JasperReport report, Map<String,Object> initialParameters) throws JRException
 	{
 		Map<String,Object> valuesMap = initialParameters == null ? new HashMap<String,Object>() : new HashMap<String,Object>(initialParameters);
 		
@@ -60,6 +76,9 @@ public final class JRParameterDefaultValuesEvaluator
 		ObjectFactory factory = new ObjectFactory();
 		JRDataset reportDataset = report.getMainDataset();
 		JRFillDataset fillDataset = factory.getDataset(reportDataset);
+		
+		fillDataset.setJasperReportsContext(LocalJasperReportsContext.getLocalContext(jasperReportsContext, initialParameters));
+		
 		fillDataset.createCalculator(report);
 		fillDataset.initCalculator();
 
