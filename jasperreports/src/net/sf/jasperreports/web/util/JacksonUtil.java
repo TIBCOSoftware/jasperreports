@@ -29,6 +29,7 @@ import java.util.List;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
+import net.sf.jasperreports.web.actions.Action;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
@@ -36,6 +37,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.jsontype.NamedType;
+import org.codehaus.jackson.type.TypeReference;
 
 
 
@@ -122,6 +124,37 @@ public class JacksonUtil
 			try 
 			{
 				result = mapper.readValue(jsonData, AbstractAction.class);
+			}
+			catch (JsonParseException e) 
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (JsonMappingException e) 
+			{
+				throw new JRRuntimeException(e);
+			}
+			catch (IOException e) 
+			{
+				throw new JRRuntimeException(e);
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 * 
+	 */
+	public List<Action> loadActionList(String jsonData)
+	{
+		List<Action> result = null;
+		if (jsonData != null) 
+		{
+			ObjectMapper mapper = getObjectMapper();
+			
+			try 
+			{
+				result = mapper.readValue(jsonData, new TypeReference<List<AbstractAction>>() {});
 			}
 			catch (JsonParseException e) 
 			{

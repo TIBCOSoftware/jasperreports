@@ -622,6 +622,7 @@ jive.interactive.column.columnFilterForm = {
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
 
 jive.interactive.column.formatHeaderForm = {
+	actionDataCache: {},
     title: 'Headings',
     name: 'formatHeader',
     method: 'get',
@@ -649,8 +650,14 @@ jive.interactive.column.formatHeaderForm = {
 
     },
     onShow:function(){
-        var metadata = jive.selected.ie.headingsTabContent,
+        var metadata,
         	inputs = jive.selected.form.inputs;
+        
+        if (this.actionDataCache[this.name]) {
+        	metadata = this.actionDataCache[this.name].editColumnHeaderData;
+        } else {
+        	metadata = jive.selected.ie.headingsTabContent;
+        }
 
         metadata.fontBold ? inputs['headerFontBold'].set() : inputs['headerFontBold'].unset();
         metadata.fontItalic ?  inputs['headerFontItalic'].set() : inputs['headerFontItalic'].unset();
@@ -663,30 +670,46 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontColor'].set(metadata.fontColor);
     },
     submit:function(){
-        var inputs = jive.selected.form.inputs,
-            actionData = {
-                actionName: 'editColumnHeader',
-                editColumnHeaderData:{
-                    tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
-                    columnIndex: jive.selected.ie.columnIndex,
-                    headingName: inputs['headingName'].get(),
-                    fontName: inputs['headerFontName'].get(),
-                    fontSize: inputs['headerFontSize'].get(),
-                    fontBold: inputs['headerFontBold'].get(),
-                    fontItalic: inputs['headerFontItalic'].get(),
-                    fontUnderline: inputs['headerFontUnderline'].get(),
-                    fontHAlign: inputs['headerFontAlign'].get(),
-                    fontColor: inputs['headerFontColor'].get()
-                }
-            };
-
-        jive.hide();
-        jive.runAction(actionData)
+    	var actions = [],
+    		prop;
+    	this.actionDataCache[this.name] = this.getActionData();
+    	
+    	for (prop in this.actionDataCache) {
+    		if (this.actionDataCache.hasOwnProperty(prop)) {
+    			actions.push(this.actionDataCache[prop]);
+    		}
+    	}
+    	
+    	jive.hide();
+        jive.runAction(actions);
+        this.actionDataCache = {};
+    },
+    onHide: function() {
+   		this.actionDataCache[this.name] = this.getActionData();
+    },
+    getActionData: function() {
+    	var inputs = jive.selected.form.inputs;
+    	return {
+            actionName: 'editColumnHeader',
+            editColumnHeaderData: {
+                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                columnIndex: jive.selected.ie.columnIndex,
+                headingName: inputs['headingName'].get(),
+                fontName: inputs['headerFontName'].get(),
+                fontSize: inputs['headerFontSize'].get(),
+                fontBold: inputs['headerFontBold'].get(),
+                fontItalic: inputs['headerFontItalic'].get(),
+                fontUnderline: inputs['headerFontUnderline'].get(),
+                fontHAlign: inputs['headerFontAlign'].get(),
+                fontColor: inputs['headerFontColor'].get()
+            }
+    	};
     }
 };
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
 
 jive.interactive.column.formatCellsForm = {
+	actionDataCache: {},
     title: 'Values',
     name: 'formatCells',
     method: 'get',
@@ -741,11 +764,17 @@ jive.interactive.column.formatCellsForm = {
 
     },
     onShow:function(){
-        var metadata = jive.selected.ie.valuesTabContent,
+        var metadata,
             inputs = jive.selected.form.inputs,
             htm = [],
             ie = jive.selected.ie,
             jo = jive.selected.form.jo;
+        
+        if (this.actionDataCache[this.name]) {
+        	metadata = this.actionDataCache[this.name].editColumnValueData;
+        } else {
+        	metadata = jive.selected.ie.valuesTabContent;
+        }
 
         metadata.fontBold ? inputs['cellsFontBold'].set() : inputs['cellsFontBold'].unset();
         metadata.fontItalic ?  inputs['cellsFontItalic'].set() : inputs['cellsFontItalic'].unset();
@@ -775,25 +804,40 @@ jive.interactive.column.formatCellsForm = {
         }
     },
     submit: function(){
-    	var inputs = jive.selected.form.inputs,
-    		actionData = {
-	            actionName: 'editColumnValues',
-	            editColumnValueData:{
-	                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
-	                columnIndex: jive.selected.ie.columnIndex,
-	                fontName: inputs['cellsFontName'].get(),
-	                fontSize: inputs['cellsFontSize'].get(),
-	                fontBold: inputs['cellsFontBold'].get(),
-	                fontItalic: inputs['cellsFontItalic'].get(),
-	                fontUnderline: inputs['cellsFontUnderline'].get(),
-	                fontHAlign: inputs['cellsFontAlign'].get(),
-	                fontColor: inputs['cellsFontColor'].get(),
-	                formatPattern: inputs['formatPattern'].get()
-	            }
-        };
-
-    	jive.hide();
-    	jive.runAction(actionData)
+    	var actions = [],
+			prop;
+		this.actionDataCache[this.name] = this.getActionData();
+		
+		for (prop in this.actionDataCache) {
+			if (this.actionDataCache.hasOwnProperty(prop)) {
+				actions.push(this.actionDataCache[prop]);
+			}
+		}
+		
+		jive.hide();
+	    jive.runAction(actions);
+	    this.actionDataCache = {};
+    },
+    onHide: function() {
+    	this.actionDataCache[this.name] = this.getActionData();
+    },
+    getActionData: function() {
+    	var inputs = jive.selected.form.inputs;
+		return {
+            actionName: 'editColumnValues',
+            editColumnValueData:{
+                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                columnIndex: jive.selected.ie.columnIndex,
+                fontName: inputs['cellsFontName'].get(),
+                fontSize: inputs['cellsFontSize'].get(),
+                fontBold: inputs['cellsFontBold'].get(),
+                fontItalic: inputs['cellsFontItalic'].get(),
+                fontUnderline: inputs['cellsFontUnderline'].get(),
+                fontHAlign: inputs['cellsFontAlign'].get(),
+                fontColor: inputs['cellsFontColor'].get(),
+                formatPattern: inputs['formatPattern'].get()
+            }
+		};
     }
 };
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);

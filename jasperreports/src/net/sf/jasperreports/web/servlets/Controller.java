@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.web.servlets;
 
+import java.util.List;
+
 import net.sf.jasperreports.data.cache.ColumnDataCacheHandler;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRException;
@@ -75,7 +77,7 @@ public class Controller
 	 */
 	public void runReport(
 		WebReportContext webReportContext,
-		Action action
+		List<Action> actions
 		) throws JRException, JasperInteractiveException
 	{
 		String reportUri = (String)webReportContext.getParameterValue(REQUEST_PARAMETER_REPORT_URI);
@@ -94,9 +96,11 @@ public class Controller
 		{
 			reportUri = reportUri.trim();
 
-			if (action != null) 
+			if (actions != null) 
 			{
-				action.run();
+				for(Action action: actions) {
+					action.run();
+				}
 			}
 
 			jasperReport = RepositoryUtil.getInstance(jasperReportsContext).getReport(webReportContext, reportUri);
