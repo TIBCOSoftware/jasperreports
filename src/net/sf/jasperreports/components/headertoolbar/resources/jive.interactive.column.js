@@ -10,9 +10,9 @@ jive.interactive.column = jive.interactive.column || {
     },
     actions: {
         'Format': {icon: 'formatIcon', title:'Column options', actions:{
-            'Formatting': {fn:'formatHeader'},
+            'Formatting...': {fn:'formatHeader'},
             'Hide column': {fn:'hide', arg:'{"hide":true}'},
-            'Show columns': {actions:{
+            'Show columns': {label: 'Show columns &#x25ba;', actions:{
                 'All': {label: '&lt;All&gt;', fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
@@ -192,7 +192,7 @@ jive.interactive.column = jive.interactive.column || {
         var dropIndex = this.dropColumnIndex / 2;
         dropIndex == this.count && dropIndex--;
 
-        if(dropIndex != jive.selected.ie.columnIndex && dropIndex != jive.selected.ie.columnIndex + 1) {
+        if(dropIndex != jive.selected.ie.columnIndex) {
             jive.runAction({
                 actionName: 'move',
                 moveColumnData: {

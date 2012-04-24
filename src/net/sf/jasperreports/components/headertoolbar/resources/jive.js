@@ -310,7 +310,7 @@ jive.ui.foobar = {
     createMenu: function(key, label, items){
         var it = this,
         	lbl = label || key,
-        	htm = '<ul class="pmenu" label="'+lbl+'">';
+        	htm = '<ul class="pmenu" label="'+key+'">';
         jQuery.each(items,function(k,v){
             if(!v.disabled) {
                 var attr = v.fn ? 'fn="'+v.fn+'"' : '',
