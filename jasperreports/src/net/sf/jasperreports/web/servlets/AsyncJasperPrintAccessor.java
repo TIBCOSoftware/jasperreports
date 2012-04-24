@@ -121,17 +121,12 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 			}
 		}
 		
-		if (error != null)// TODO lucianc allow pages for cancelled reports
-		{
-			return ReportPageStatus.error(error);
-		}
-		
 		if (pageIdx >= pageCount)
 		{
 			return ReportPageStatus.NO_SUCH_PAGE;
 		}
 		
-		if (done || fillHandle.isPageFinal(pageIdx))
+		if ((done && !cancelled && error == null) || fillHandle.isPageFinal(pageIdx))
 		{
 			trackedPages.remove(pageIdx);
 			return ReportPageStatus.PAGE_FINAL;
@@ -205,16 +200,6 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		return jasperPrint;
 	}
 
-	public Integer getTotalPageCount()
-	{
-		if (done && !cancelled && jasperPrint != null)
-		{
-			return jasperPrint.getPages().size();
-		}
-		
-		return null;
-	}
-
 	public void reportFinished(JasperPrint jasperPrint)
 	{
 		if (log.isDebugEnabled())
@@ -254,6 +239,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		{
 			cancelled = true;
 			done = true;
+			pageCount = jasperPrint.getPages().size();
 
 			// store an error as cancelled status
 			error = new JRRuntimeException("Report generation cancelled");
@@ -276,6 +262,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		{
 			error = t;
 			done = true;
+			pageCount = jasperPrint.getPages().size();
 			
 			// signal to pageStatus
 			pageCondition.signalAll();
@@ -334,36 +321,25 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		}
 	}
 
-	public boolean isDone()
-	{
-		return done;
-	}
-
 	@Override
-	public Status getStatus()
+	public ReportExecutionStatus getReportStatus()
 	{
 		if (!done)
 		{
-			return Status.RUNNING;
+			return ReportExecutionStatus.running(pageCount);
 		}
 		
 		if (cancelled)
 		{
-			return Status.CANCELED;
+			return ReportExecutionStatus.canceled(pageCount);
 		}
 		
 		if (error != null)
 		{
-			return Status.ERROR;
+			return ReportExecutionStatus.error(pageCount, error);
 		}
 		
-		return Status.FINISHED;
-	}
-
-	@Override
-	public Throwable getError()
-	{
-		return error;
+		return ReportExecutionStatus.finished(jasperPrint.getPages().size());
 	}
 
 }

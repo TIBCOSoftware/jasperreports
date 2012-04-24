@@ -35,36 +35,6 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public interface JasperPrintAccessor
 {
-
-	/**
-	 * Report execution statuses.
-	 * 
-	 * @see JasperPrintAccessor#getStatus()
-	 */
-	public enum Status
-	{
-		/**
-		 * The report execution is in progress.
-		 */
-		RUNNING, 
-		
-		/**
-		 * The report execution has finished successfully.
-		 */
-		FINISHED,
-		
-		/**
-		 * There was an error during the report execution.
-		 * 
-		 * @see JasperPrintAccessor#getError()
-		 */
-		ERROR,
-		
-		/**
-		 * The report execution was canceled by the user.
-		 */
-		CANCELED;
-	}
 	
 	/**
 	 * Ensures that a page is available in the generated report.
@@ -88,34 +58,12 @@ public interface JasperPrintAccessor
 	 * @return the final generated report
 	 */
 	JasperPrint getFinalJasperPrint();
-	
-	/**
-	 * Returns the total number of pages in the report, or <code>null</code> if not yet known.
-	 * 
-	 * @return the total number of pages in the report if known
-	 */
-	Integer getTotalPageCount();
-	
-	/**
-	 * Determines whether the report generation is done (but not necessarily that 
-	 * it ended successfully).
-	 * 
-	 * @return whether the report generation is done
-	 */
-	boolean isDone();
 
 	/**
 	 * Returns the status of the report execution.
 	 * 
 	 * @return the status of the report execution
 	 */
-	Status getStatus();
-	
-	/**
-	 * Returns the error encountered during the report generation, if any.
-	 * 
-	 * @return the error encountered during the report generation, if any
-	 */
-	Throwable getError();
+	ReportExecutionStatus getReportStatus();
 
 }

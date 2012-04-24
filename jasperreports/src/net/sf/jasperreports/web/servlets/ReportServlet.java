@@ -204,7 +204,14 @@ public class ReportServlet extends AbstractServlet
 	{
 		JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
 				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
-		Integer pageCount = jasperPrintAccessor.getTotalPageCount();
+		
+		ReportExecutionStatus reportStatus = jasperPrintAccessor.getReportStatus();
+		if (reportStatus.getStatus() == ReportExecutionStatus.Status.ERROR)
+		{
+			throw new JRRuntimeException("Error occurred during report generation", reportStatus.getError());
+		}
+		
+		Integer pageCount = reportStatus.getTotalPageCount();
 		// if the page count is null, it means that the fill is not yet done but there is at least a page
 		boolean hasPages = pageCount == null || pageCount > 0;//FIXMEJIVE we should call pageStatus here
 		
@@ -219,11 +226,6 @@ public class ReportServlet extends AbstractServlet
 			Long timestamp = pageTimestamp == null ? null : Long.valueOf(pageTimestamp);
 			
 			pageStatus = jasperPrintAccessor.pageStatus(pageIdx, timestamp);
-			
-			if (pageStatus.getError() != null)
-			{
-				throw new JRRuntimeException("Error occurred during report generation", pageStatus.getError());
-			}
 			
 			if (!pageStatus.pageExists())
 			{
@@ -283,7 +285,7 @@ public class ReportServlet extends AbstractServlet
 	
 			JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
 					WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
-			contextMap.put("totalPages", jasperPrintAccessor.getTotalPageCount());
+			contextMap.put("totalPages", jasperPrintAccessor.getReportStatus().getTotalPageCount());
 	
 			String reportPage = request.getParameter(REQUEST_PARAMETER_PAGE);
 			contextMap.put("currentPage", (reportPage != null ? reportPage : "0"));

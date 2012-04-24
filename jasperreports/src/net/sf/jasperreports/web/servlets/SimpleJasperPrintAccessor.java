@@ -66,27 +66,10 @@ public class SimpleJasperPrintAccessor implements JasperPrintAccessor, Serializa
 		return jasperPrint;
 	}
 
-	public Integer getTotalPageCount()
-	{
-		return jasperPrint.getPages().size();
-	}
-
-	public boolean isDone()
-	{
-		return true;
-	}
-
 	@Override
-	public Status getStatus()
+	public ReportExecutionStatus getReportStatus()
 	{
-		return Status.FINISHED;
-	}
-
-	@Override
-	public Throwable getError()
-	{
-		// no error
-		return null;
+		return ReportExecutionStatus.finished(jasperPrint.getPages().size());
 	}
 
 }
