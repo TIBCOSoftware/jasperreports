@@ -26,6 +26,7 @@ package net.sf.jasperreports.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.components.sort.SortElement;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -184,11 +186,11 @@ public class ReportServlet extends AbstractServlet
 				webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, Boolean.valueOf(async));
 			}
 
-			Action action = getAction(webReportContext, UrlUtil.urlDecode(request.getParameter(REQUEST_PARAMETER_ACTION)));
+			List<Action> actions = getActions(webReportContext, UrlUtil.urlDecode(request.getParameter(REQUEST_PARAMETER_ACTION)));
 
 			Controller controller = new Controller(getJasperReportsContext());
 			
-			controller.runReport(webReportContext, action);
+			controller.runReport(webReportContext, actions);
 		}
 	}
 
@@ -344,13 +346,14 @@ public class ReportServlet extends AbstractServlet
 	/**
 	 *
 	 */
-	private Action getAction(ReportContext webReportContext, String jsonData)
-	//private Action getAction(ReportContext webReportContext, String reportUri, String jsonData)
+	private List<Action> getActions(ReportContext webReportContext, String jsonData)
 	{
-		AbstractAction result = (AbstractAction)JacksonUtil.getInstance(getJasperReportsContext()).load(jsonData, AbstractAction.class);
+		List<Action> result = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadActionList(jsonData);
 		if (result != null) 
 		{
-			result.init(getJasperReportsContext(), webReportContext);//, reportUri);
+			for(Action action: result) {
+				((AbstractAction)action).init(getJasperReportsContext(), webReportContext);
+			}
 		}
 		return result;
 	}

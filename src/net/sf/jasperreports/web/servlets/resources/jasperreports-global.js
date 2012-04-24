@@ -671,8 +671,18 @@ jQuery.noConflict();
         selectedform: null,
         viewerReady: false,
         runAction: function (actionData, startPoint, callback, arrCallbackArgs) {
-        	var startPoint = startPoint || this.selected.jo,
-        		toolbarId = startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id');
+        	var actions = [],
+        		startPoint = startPoint || this.selected.jo,
+        		toolbarId = startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+        		fnToString = Object.prototype.toString;
+        	
+        	if (fnToString.call(actionData) === '[object String]') {
+        		actionData = jQuery.parseJSON(actionData);
+        	}
+        	
+        	if (fnToString.call(actionData) !== '[object Array]') {
+        		actions.push(actionData);
+        	}
         	
         	jasperreports.reportviewertoolbar.runReport2({
     				actionBaseData: jQuery.parseJSON(this.actionBaseData),
@@ -680,7 +690,7 @@ jQuery.noConflict();
     				toolbarId: toolbarId,
     				self: startPoint
     			},
-    			actionData,
+    			actions.length > 0 ? actions : actionData,
     			callback,
     			arrCallbackArgs);
         }

@@ -348,11 +348,19 @@ jive.ui.dialog = {
          * Set behaviors for form elements
          */
         it.tabs.on('click touchend', '.tab',function(e){
-            var jo = jQuery(this);
+            var jo = jQuery(this),
+            	activeTabActionCache;
+            
             it.tabs.find('.tab').removeClass('active');
             jo.addClass('active');
+            jive.selected.form.onHide();
             jive.selected.form.jo.hide();
+            activeTabActionCache = jive.selected.form.actionDataCache;
+            jive.selected.form.actionCache = {};
+            
             jive.selected.form = jive.ui.forms[jo.data('form')];
+            jQuery.extend(jive.selected.form.actionDataCache, activeTabActionCache);
+            
             jive.selected.form.onShow();
             jive.selected.form.jo.show();
         });
@@ -577,7 +585,7 @@ jive.ui.forms = {
                                         this.selected ? this.unset() : this.set();
                                     },
                                     get:function(){
-                                        return jQuery('input[name="'+v.id+'"]').val();
+                                        return jQuery('input[name="'+v.id+'"]').val() === "true";
                                     },
                                     onClick: function(){
                                         v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
