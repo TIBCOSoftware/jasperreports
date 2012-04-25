@@ -86,6 +86,10 @@ public abstract class AbstractAction implements Action {
 	public CommandStack getCommandStack() {
 		return commandStack;
 	}
+
+	public void setCommandStack(CommandStack commandStack) {
+		this.commandStack = commandStack;
+	}
 	
 	
 	public abstract void performAction() throws ActionException;

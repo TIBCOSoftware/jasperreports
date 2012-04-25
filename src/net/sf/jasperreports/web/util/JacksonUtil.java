@@ -24,12 +24,11 @@
 package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.web.actions.AbstractAction;
-import net.sf.jasperreports.web.actions.Action;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
@@ -37,7 +36,6 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.jsontype.NamedType;
-import org.codehaus.jackson.type.TypeReference;
 
 
 
@@ -114,16 +112,16 @@ public class JacksonUtil
 	/**
 	 *
 	 */
-	public Object load(String jsonData, Class<?> clazz)
+	public <T> T loadSingle(String jsonData, Class<T> clazz)
 	{
-		Object result = null;
+		T result = null;
 		if (jsonData != null) 
 		{
 			ObjectMapper mapper = getObjectMapper();
 			
 			try 
 			{
-				result = mapper.readValue(jsonData, AbstractAction.class);
+				result = mapper.readValue(jsonData, clazz);
 			}
 			catch (JsonParseException e) 
 			{
@@ -145,16 +143,16 @@ public class JacksonUtil
 	/**
 	 * 
 	 */
-	public List<Action> loadActionList(String jsonData)
+	public <T> List<T> loadList(String jsonData, Class<T> clazz)
 	{
-		List<Action> result = null;
+		List<T> result = null;
 		if (jsonData != null) 
 		{
 			ObjectMapper mapper = getObjectMapper();
 			
 			try 
 			{
-				result = mapper.readValue(jsonData, new TypeReference<List<AbstractAction>>() {});
+				result = mapper.readValue(jsonData, mapper.getTypeFactory().constructParametricType(List.class, clazz));
 			}
 			catch (JsonParseException e) 
 			{
@@ -172,6 +170,26 @@ public class JacksonUtil
 		return result;
 	}
 
+
+	/*
+	 * 
+	 */
+	public <T> List<T> load(String jsonData, Class<T> clazz) {
+		List<T> result = null;
+		
+		if (jsonData != null) {
+			String trimmedData = jsonData.trim();
+			if (trimmedData.startsWith("{")) {
+				result = new ArrayList<T>();
+				result.add(loadSingle(trimmedData, clazz));
+			} else if (trimmedData.startsWith("[")) {
+				result = loadList(trimmedData, clazz);
+			}
+		}
+		
+		return result;
+	}
+	
 
 	/**
 	 * 
