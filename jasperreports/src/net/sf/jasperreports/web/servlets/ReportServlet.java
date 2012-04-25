@@ -48,6 +48,7 @@ import net.sf.jasperreports.web.JasperInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
+import net.sf.jasperreports.web.actions.MultiAction;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducerFactory;
 import net.sf.jasperreports.web.util.UrlUtil;
@@ -186,11 +187,11 @@ public class ReportServlet extends AbstractServlet
 				webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, Boolean.valueOf(async));
 			}
 
-			List<Action> actions = getActions(webReportContext, UrlUtil.urlDecode(request.getParameter(REQUEST_PARAMETER_ACTION)));
+			Action action = getAction(webReportContext, UrlUtil.urlDecode(request.getParameter(REQUEST_PARAMETER_ACTION)));
 
 			Controller controller = new Controller(getJasperReportsContext());
 			
-			controller.runReport(webReportContext, actions);
+			controller.runReport(webReportContext, action);
 		}
 	}
 
@@ -346,14 +347,19 @@ public class ReportServlet extends AbstractServlet
 	/**
 	 *
 	 */
-	private List<Action> getActions(ReportContext webReportContext, String jsonData)
+	private Action getAction(ReportContext webReportContext, String jsonData)
 	{
-		List<Action> result = JacksonUtil.getInstance(DefaultJasperReportsContext.getInstance()).loadActionList(jsonData);
-		if (result != null) 
+		Action result = null;
+		List<AbstractAction> actions = JacksonUtil.getInstance(getJasperReportsContext()).load(jsonData, AbstractAction.class);
+		if (actions != null)
 		{
-			for(Action action: result) {
-				((AbstractAction)action).init(getJasperReportsContext(), webReportContext);
+			if (actions.size() == 1) {
+				result = actions.get(0);
+			} else if (actions.size() > 1){
+				result = new MultiAction(actions);
 			}
+			
+			((AbstractAction)result).init(getJasperReportsContext(), webReportContext);
 		}
 		return result;
 	}
