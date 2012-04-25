@@ -239,7 +239,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		{
 			cancelled = true;
 			done = true;
-			pageCount = jasperPrint.getPages().size();
+			pageCount = jasperPrint == null ? 0 : jasperPrint.getPages().size();
 
 			// store an error as cancelled status
 			error = new JRRuntimeException("Report generation cancelled");
@@ -262,7 +262,7 @@ public class AsyncJasperPrintAccessor implements JasperPrintAccessor, Asynchrono
 		{
 			error = t;
 			done = true;
-			pageCount = jasperPrint.getPages().size();
+			pageCount = jasperPrint == null ? 0 : jasperPrint.getPages().size();
 			
 			// signal to pageStatus
 			pageCondition.signalAll();
