@@ -63,6 +63,7 @@ import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
+import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
 
@@ -344,12 +345,15 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			new JRPrintHyperlinkParameter(
 				ReportServlet.REQUEST_PARAMETER_ACTION, 
 				String.class.getName(), 
-				"{\"actionName\":\"sortica\",\"sortData\":{\"uuid\":\"" + sortData.getTableUuid() + "\"," +
-				"\"sortColumnName\":\"" + sortData.getSortColumnName() + "\"," +
-				"\"sortColumnType\":\"" + sortData.getSortColumnType() + "\"," +
-				"\"sortOrder\":\"" + sortData.getSortOrder() + "\"" +
-				//",\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"" +
-				"}}"
+				"{\"actionName\":\"sortica\",\"sortData\":" 
+					+ JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortData)
+//				+ "{\"tableUuid\":\"" + sortData.getTableUuid() + "\"," +
+//				"\"sortColumnName\":\"" + sortData.getSortColumnName() + "\"," +
+//				"\"sortColumnType\":\"" + sortData.getSortColumnType() + "\"," +
+//				"\"sortOrder\":\"" + sortData.getSortOrder() + "\"" + 
+//				//",\"sortDatasetName\":\"TableReport_TableDataset_1327925074017_135700\"" +
+//				"}" 
+					+ "}"
 				)
 			);
 		
