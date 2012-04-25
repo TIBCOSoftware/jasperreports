@@ -215,7 +215,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					}
 					catch (Exception e)
 					{
-						throw new JRRuntimeException(e);
+						throw new JRException(e);
 					}
 					
 					((CachedRowSet)resultSet).populate(statement.executeQuery());
@@ -226,7 +226,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					}
 					catch (SQLException e)
 					{
-						log.error("Error while closing statement.", e);
+						if (log.isErrorEnabled())
+							log.error("Error while closing statement.", e);
 					}
 					finally
 					{
