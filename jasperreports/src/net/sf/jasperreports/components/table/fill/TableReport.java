@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
@@ -1524,6 +1525,13 @@ public class TableReport implements JRReport
 	public boolean hasProperties()
 	{
 		return mainDataset.hasProperties();
+	}
+
+	@Override
+	public UUID getUUID()
+	{
+		// using the element's uuid
+		return fillContext.getComponentElement().getUUID();
 	}
 
 }
