@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  * @version $Id$
  * @see JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY
  */
-public class JdkGlyphFixTextMeasurerFactory implements JRTextMeasurerFactory
+public class JdkGlyphFixTextMeasurerFactory extends AbstractTextMeasurerFactory
 {
 
 	/**
@@ -44,14 +44,6 @@ public class JdkGlyphFixTextMeasurerFactory implements JRTextMeasurerFactory
 	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
 	{
 		return new JdkGlyphFixTextMeasurer(jasperReportsContext, text);
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
-	 */
-	public JRTextMeasurer createMeasurer(JRCommonText text)
-	{
-		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);
 	}
 
 }
