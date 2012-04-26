@@ -205,6 +205,7 @@ jive.interactive.column = jive.interactive.column || {
         }
     },
     resize: function(width){
+        var w = width < 8 ? 8 : Math.floor(width);
         jive.hide();
         jive.runAction({
             actionName: 'resize',
@@ -212,7 +213,7 @@ jive.interactive.column = jive.interactive.column || {
                 tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 direction: 'right',
-                width: Math.floor(width)
+                width: w
             }
         });
     },
