@@ -126,6 +126,7 @@ jQuery.noConflict();
 			
 			if (scriptElement.readyState){ // for IE
 				scriptElement.onreadystatechange = function (){
+					arrCallbackArgs = arrCallbackArgs || [];
 					if (scriptElement.readyState === 'loaded' || scriptElement.readyState === 'complete'){
 						scriptElement.onreadystatechange = null;
 						if (gotCallback) {
