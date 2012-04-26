@@ -114,6 +114,8 @@ jive.interactive.column = jive.interactive.column || {
             var lastElemTop = lastCell.position().top;
             var lastElemHeight = lastCell.height();
             h = lastElemTop + lastElemHeight - jo.position().top;
+        } else {
+        	h = jo.height();
         }
         return {w:jo.width(),h:h};
     },
