@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
@@ -172,6 +173,8 @@ public class JasperDesign extends JRBaseReport
 	 */
 	private Map<String, JRDataset> datasetMap = new HashMap<String, JRDataset>();
 	private List<JRDataset> datasetList = new ArrayList<JRDataset>();
+	
+	private boolean ownUUID;
 
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
@@ -1237,6 +1240,31 @@ public class JasperDesign extends JRBaseReport
 			JROrigin origin = new JROrigin(type);
 			((JRDesignSection) section).setOrigin(origin);
 		}
+	}
+	
+	/**
+	 * Sets the unique identifier for the report.
+	 * 
+	 * @param uuid the identifier
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+		this.ownUUID = uuid != null;
+	}
+	
+	/**
+	 * Determines whether the report has an existing unique identifier.
+	 * 
+	 * Note that when no existing identifier is set, {@link #getUUID()} would generate and return
+	 * an identifier.
+	 * 
+	 * @return whether the report has an externally set unique identifier
+	 * @see #setUUID(UUID)
+	 */
+	public boolean hasUUID()
+	{
+		return ownUUID;
 	}
 	
 }

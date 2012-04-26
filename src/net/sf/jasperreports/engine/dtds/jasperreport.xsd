@@ -319,6 +319,11 @@
 	   <documentation>Specifies the name of the class implementing the <code>net.sf.jasperreports.engine.util.FormatFactory</code> interface to use with this report. If omitted, an instance of <code>net.sf.jasperreports.engine.util.DefaultFormatFactory</code> will be created.</documentation>
 	 </annotation>
    </attribute>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify JRXMLs.</documentation>
+	</annotation>
+   </attribute>  
   </complexType>
  </element>
 
@@ -4177,7 +4182,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
    </attribute>
    <attribute name="uuid" type="string" use="optional">
 	<annotation>
-	 <documentation>This attribute is auto-generated and is used to uniquely identify elements accross multiple report templates.</documentation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify dataset runs.</documentation>
 	</annotation>
    </attribute>  
   </complexType>

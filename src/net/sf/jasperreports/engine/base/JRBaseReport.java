@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
@@ -74,6 +75,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	/**
 	 *
 	 */
+	protected UUID uuid;
 	protected String name;
 	protected String language = LANGUAGE_JAVA;
 	protected int columnCount = 1;
@@ -153,6 +155,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	public JRBaseReport(JRReport report, JRBaseObjectFactory factory)
 	{
 		/*   */
+		uuid = report.getUUID();
 		name = report.getName();
 		language = report.getLanguage();
 		columnCount = report.getColumnCount();
@@ -685,6 +688,15 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	public JRBand getNoData() {
 		return noData;
+	}
+	
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
 	}
 	
 	private transient JRPropertyChangeSupport eventSupport;//FIXMECLONE cloneable for reset?
