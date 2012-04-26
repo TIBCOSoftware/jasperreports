@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.query;
 
 import java.util.Map;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
@@ -32,22 +33,20 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
- * @deprecated Replaced by {@link AbstractQueryExecuterFactory}.
+ * @version $Id: JRAbstractQueryExecuterFactory.java 5180 2012-03-29 13:23:12Z teodord $
  */
-public abstract class JRAbstractQueryExecuterFactory implements QueryExecuterFactory 
+public abstract class AbstractQueryExecuterFactory implements QueryExecuterFactory 
 {
 	
 	/**
-	 *
+	 * @deprecated Replaced by {@link #createQueryExecuter(JasperReportsContext, JRDataset, Map)}.
 	 */
-	public JRQueryExecuter createQueryExecuter(
-		JasperReportsContext jasperReportsContext,
+	public final JRQueryExecuter createQueryExecuter(
 		JRDataset dataset, 
 		Map<String, ? extends JRValueParameter> parameters
 		) throws JRException 
 	{
-		return createQueryExecuter(dataset, parameters);
+		return createQueryExecuter(DefaultJasperReportsContext.getInstance(), dataset, parameters);
 	}
 
 }

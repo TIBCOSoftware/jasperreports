@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JsonQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JsonQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
 	/**
 	 * Built-in parameter holding the value of the <code>java.io.InputStream</code> to be used for obtaining the JSON data.

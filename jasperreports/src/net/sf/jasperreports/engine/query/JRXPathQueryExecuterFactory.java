@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXPathQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JRXPathQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
 	/**
 	 * Built-in parameter holding the value of the org.w3c.dom.Document used to run the XPath query.
