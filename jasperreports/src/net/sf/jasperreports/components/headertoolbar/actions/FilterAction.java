@@ -86,6 +86,10 @@ public class FilterAction extends AbstractVerifiableTableAction {
 	@Override
 	public void verify() throws ActionException {
 		FilterData fd = getFilterData();
+		if (fd.isClearFilter()) {
+			return;
+		}
+		
 		if (fd.getFilterType() == null || fd.getFilterType().length() == 0) {
 			errors.addAndThrow("interactive.filter.invalid.filter.type");
 		}
