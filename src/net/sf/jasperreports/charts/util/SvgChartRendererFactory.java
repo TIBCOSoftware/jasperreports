@@ -27,7 +27,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.StringWriter;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -46,20 +45,8 @@ import org.w3c.dom.Document;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class SvgChartRendererFactory implements ChartRenderableFactory
+public class SvgChartRendererFactory extends AbstractChartRenderableFactory
 {
-	
-	/**
-	 * @deprecated Replaced by {@link #getRenderable(JasperReportsContext, JFreeChart, ChartHyperlinkProvider, Rectangle2D)}.
-	 */
-	public net.sf.jasperreports.engine.JRRenderable getRenderer(
-		JFreeChart chart, 
-		ChartHyperlinkProvider chartHyperlinkProvider,
-		Rectangle2D rectangle
-		)
-	{
-		return getRenderable(DefaultJasperReportsContext.getInstance(), chart, chartHyperlinkProvider, rectangle);
-	}
 	
 	public Renderable getRenderable(
 		JasperReportsContext jasperReportsContext,
