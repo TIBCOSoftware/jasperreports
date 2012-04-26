@@ -26,13 +26,19 @@ package net.sf.jasperreports.web.actions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
+import net.sf.jasperreports.repo.JasperDesignCache;
+import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
+import net.sf.jasperreports.web.commands.CommandTarget;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -140,5 +146,24 @@ public abstract class AbstractAction implements Action {
 			}	
 		}
 	}
-	
+
+
+	/**
+	 * 
+	 */
+	public CommandTarget getCommandTarget(UUID uuid)
+	{
+		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
+
+		Map<String, JasperDesignReportResource> cachedResources = cache.getCachedResources();
+		Set<String> uris = cachedResources.keySet();
+		for (String uri : uris)
+		{
+			CommandTarget target = new CommandTarget();
+			target.setUri(uri);
+			return target;
+		}
+		return null;
+	}
+
 }
