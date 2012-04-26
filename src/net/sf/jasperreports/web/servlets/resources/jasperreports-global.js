@@ -672,7 +672,7 @@ jQuery.noConflict();
         viewerReady: false,
         runAction: function (actionData, startPoint, callback, arrCallbackArgs) {
         	var startPoint = startPoint || this.selected.jo,
-        		toolbarId = startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+        		toolbarId = startPoint != null ? startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id') : null,
         		fnToString = Object.prototype.toString;
         	
         	jasperreports.reportviewertoolbar.runReport2({
