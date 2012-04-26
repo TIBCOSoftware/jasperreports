@@ -172,7 +172,7 @@ jive.interactive.column = jive.interactive.column || {
         var ev = evt.originalEvent.originalEvent || evt;
         var markers = this.dropPoints[this.uuid];
 
-        if(ev.pageX < markers[this.ldi]) {
+        if(evt.pageX < markers[this.ldi]) {
             if(this.ldi > 0){
                 this.dropColumnIndex = this.ldi % 2 == 1 ? this.ldi - 1 : this.ldi;
                 jive.ui.marker.jo.css('left', markers[this.dropColumnIndex] + this.delta +'px').show();
@@ -180,7 +180,7 @@ jive.interactive.column = jive.interactive.column || {
                 this.ldi--;
             }
         }
-        if(ev.pageX > markers[this.rdi]) {
+        if(evt.pageX > markers[this.rdi]) {
             if(this.rdi < (markers.length-1)) {
                 this.dropColumnIndex = this.rdi % 2 == 1 ? this.rdi + 1 : this.rdi;
                 jive.ui.marker.jo.css('left', markers[this.dropColumnIndex] + this.delta + 'px').show();
@@ -188,7 +188,6 @@ jive.interactive.column = jive.interactive.column || {
                 this.rdi++;
             }
         }
-
     },
     onDragStop: function(ev,ui){
         var dropIndex = this.dropColumnIndex / 2;
