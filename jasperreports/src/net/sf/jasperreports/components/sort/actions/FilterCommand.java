@@ -46,14 +46,11 @@ public class FilterCommand implements Command
 	
 	protected JRDesignDataset dataset;
 	protected FilterData filterData;
-//	private JasperDesignCache cache;
-//	private CommandTarget target;
 	private String oldSerializedFilters;
 	private String newSerializedFilters;
 	
 	public FilterCommand(JRDesignDataset dataset, FilterData filterData) 
 	{
-//		this.cache = JasperDesignCache.getInstance(reportContext);
 		this.dataset = dataset;
 		this.filterData = filterData;
 	}

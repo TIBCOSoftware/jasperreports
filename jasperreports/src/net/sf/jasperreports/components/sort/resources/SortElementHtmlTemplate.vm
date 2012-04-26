@@ -1,10 +1,15 @@
 <script class='jasperreports' type='text/javascript'>
 	jasperreports.global.appendScriptElementToDOM('_sortScript', '${resourceSortJs}', 'jasperreports.sort.init');
+	jasperreports.global.appendStyleElementToDOM('_headerToolbarCSS', '${jasperreports_tableHeaderToolbar_css}');
+	
+	jive.actionBaseData = '${actionBaseData}';
+	jive.actionBaseUrl = '${actionBaseUrl}';
 </script>
 
 <a href='${sortHref}'
 	class='sortlink ${sortLinkClass}'
 	data-resizecolumn='column_${filterColumnName}'
+	data-actionData='${actionData}'
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
@@ -34,14 +39,13 @@
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
 			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
 			                "<form action='${filterFormAction}' action='GET' class='filterDivForm'>",
-			                "	<input class='postable forClear' type='hidden' name='${filterTableNameParam}' value='${filterTableNameValue}' />",
-			                "	<input class='postable filterField' type='hidden' name='${filterFieldParamName}' value='${filterColumnName}' />",
-			                "	<input class='postable' type='hidden' name='${filterTypeParamName}' value='${filterTypeParamNameValue}' />",
+			                "	<input class='postable forClear' type='hidden' name='tableUuid' value='${tableUuid}' />",
+			                "	<input class='postable filterField' type='hidden' name='fieldName' value='${filterColumnName}' />",
+			                "	<input class='postable' type='hidden' name='filterType' value='${filterTypeParamNameValue}' />",
 			                	#if(${filterPatternParamValue})
-			                "	<input class='postable' type='hidden' name='${filterPatternParamName}' value='${filterPatternParamValue}' />",
+			                "	<input class='postable' type='hidden' name='filterPattern' value='${filterPatternParamValue}' />",
 			                	#end
-			                "	<label class='filterColumnNameLabel' for='${filterTypeOperatorParamName}'>${filterColumnNameLabel}</label>",
-							"	<select class='postable filterOperatorTypeValueSelector' name='${filterTypeOperatorParamName}'>",
+							"	<select class='postable filterOperatorTypeValueSelector' name='filterTypeOperator'>",
 								#foreach( $entry in ${filterTypeValuesMap.entrySet()} )
 									#set( $selected = "" )
 									#if ($entry.key == ${filterTypeOperatorParamValue})
@@ -50,10 +54,9 @@
     						"	<option value='$entry.key' $selected >$entry.value</option>",
 								#end
 							"	</select>",
-			                "	<input class='postable filterValue filterValueStart' type='text' name='${filterValueStartParamName}' value='${filterValueStartParamValue}' style='width: 80px;' />",
-			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='${filterValueEndParamName}'  value='${filterValueEndParamValue}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueStart' type='text' name='fieldValueStart' value='${filterValueStartParamValue}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='fieldValueEnd'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
-			                "	<input class='forClear' type='hidden' name='${filterToRemoveParamName}' value='${filterToRemoveParamvalue}' />",
 			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
 			                "</form>",
 			                "</div>"];

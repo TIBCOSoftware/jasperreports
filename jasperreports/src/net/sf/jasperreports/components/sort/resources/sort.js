@@ -60,31 +60,42 @@
 			});
 			
 			jQuery('.submitFilter', filterDiv).live(('createTouch' in document) ? 'touchend' : 'click', function(event){
-				var params = {},
-					parentForm = jQuery(this).parent(),
+				var parentForm = jQuery(this).parent(),
+					actionBaseData = jive.actionBaseData,
+					actionBaseUrl = jive.actionBaseUrl,
 					currentHref = parentForm.attr("action"),
 					parentFilterDiv = jQuery(this).closest('.filterdiv'),
-					contextStartPoint = jQuery('.' + parentFilterDiv.attr('data-forsortlink') + ':first');
+					contextStartPoint = jQuery('.' + parentFilterDiv.attr('data-forsortlink') + ':first'),
+					toolbarId = contextStartPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+					actionData = {actionName: 'filterica'};
 				
+		        actionData.filterData = {};
+		        
 				// extract form params
 				jQuery('.postable', parentForm).each(function(){
 					// prevent disabled inputs to get posted
 					if(!jQuery(this).is(':disabled')) {
-						params[this.name] = this.value;
+						actionData.filterData[this.name] = this.value;
 					}
 				});
 				
-				var ctx = gm.getExecutionContext(contextStartPoint, currentHref, params);
-				
-				if (ctx) {
-					parentFilterDiv.hide();
-					ctx.run();
-				}		
+				// clear filters
+				jQuery('#' + js.filters.filterContainerId).empty();
+
+				jasperreports.reportviewertoolbar.runReport2({
+	    				actionBaseData: jQuery.parseJSON(actionBaseData),
+	    				actionBaseUrl: actionBaseUrl,
+	    				toolbarId: toolbarId,
+	    				self: contextStartPoint
+	    			},
+	    			actionData
+	    		);
 			});
 			
 			// show the second filter value for options containing 'between'
 			jQuery('.filterOperatorTypeValueSelector', filterDiv).live('change', function (event) {
-				var optionValue = jQuery(this).val();
+				var self = jQuery(this),
+					optionValue = self.val();
 				if (optionValue && optionValue.toLowerCase().indexOf('between') != -1) {
 					jQuery('.filterValueEnd', filterDiv)
 						.removeClass('hidden')
@@ -97,26 +108,38 @@
 			});
 			
 			jQuery('.clearFilter', filterDiv).live(('createTouch' in document) ? 'touchend' : 'click', function(event){
-				var params = {},
-					parentForm = jQuery(this).parent(),
+				var parentForm = jQuery(this).parent(),
+					actionBaseData = jive.actionBaseData,
+					actionBaseUrl = jive.actionBaseUrl,
 					currentHref = parentForm.attr("action"),
 					parentFilterDiv = jQuery(this).closest('.filterdiv'),
-					contextStartPoint = jQuery('.' + parentFilterDiv.attr('data-forsortlink') + ':first');
+					contextStartPoint = jQuery('.' + parentFilterDiv.attr('data-forsortlink') + ':first'),
+					toolbarId = contextStartPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+					actionData = {actionName: 'filterica'};
 				
+		        actionData.filterData = {};
+		        
 				// extract form params
-				jQuery('.forClear', parentForm).each(function(){
+				jQuery('.postable', parentForm).each(function(){
 					// prevent disabled inputs to get posted
 					if(!jQuery(this).is(':disabled')) {
-						params[this.name] = this.value;
+						actionData.filterData[this.name] = this.value;
 					}
 				});
 				
-				var ctx = gm.getExecutionContext(contextStartPoint, currentHref, params);
+				actionData.filterData.clearFilter = true;
 				
-				if (ctx) {
-					parentFilterDiv.hide();
-					ctx.run();
-				}		
+				// clear filters
+				jQuery('#' + js.filters.filterContainerId).empty();
+	
+				jasperreports.reportviewertoolbar.runReport2({
+	    				actionBaseData: jQuery.parseJSON(actionBaseData),
+	    				actionBaseUrl: actionBaseUrl,
+	    				toolbarId: toolbarId,
+	    				self: contextStartPoint
+	    			},
+	    			actionData
+	    		);
 			});
 		} else {
 			// update existing filter with values from filtersJsonString
@@ -160,7 +183,7 @@
 		}
 		
 	};
-
+	
     js.isLongTouch = function(event) {
         if (!js.touchStartOn) return false;
         var isSameElement = event.target == js.touchStartOn.element;
@@ -216,13 +239,21 @@
 	                    event.stopPropagation();
 	                    return false;
 	                }
-        			
-	                var currentHref = jQuery(this).attr("href"),
-	                    ctx = gm.getExecutionContext(this, currentHref, null);
-	
-	                if (ctx) {
-	                    ctx.run();
-	                }
+	                
+	                var self = jQuery(this),
+		    			actionBaseData = jive.actionBaseData,
+						actionBaseUrl = jive.actionBaseUrl,
+						toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+						actionData = jQuery.parseJSON(self.attr('data-actionData'));
+	                
+					jasperreports.reportviewertoolbar.runReport2({
+		    				actionBaseData: jQuery.parseJSON(actionBaseData),
+		    				actionBaseUrl: actionBaseUrl,
+		    				toolbarId: toolbarId,
+		    				self: self
+		    			},
+		    			actionData		    			
+		    		);
 	            });
 				/*
 	             * Show filter div on long touch
@@ -255,15 +286,23 @@
 	            });
 			} else {
 				// add event for clickable sortlinks (up/down arrows)
-//				jQuery('a').live('click', function(event) {
 				jQuery('.sortlink').live('click', function(event){
 	                event.preventDefault();
-	                var currentHref = jQuery(this).attr("href"),
-	                	ctx = gm.getExecutionContext(this, currentHref, null);
-	
-	                if (ctx) {
-	                    ctx.run();
-	                }
+	                
+	                var self = jQuery(this),
+		    			actionBaseData = jive.actionBaseData,
+						actionBaseUrl = jive.actionBaseUrl,
+						toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
+						actionData = jQuery.parseJSON(self.attr('data-actionData'));
+	                
+					jasperreports.reportviewertoolbar.runReport2({
+		    				actionBaseData: jQuery.parseJSON(actionBaseData),
+		    				actionBaseUrl: actionBaseUrl,
+		    				toolbarId: toolbarId,
+		    				self: self
+		    			},
+		    			actionData		    			
+		    		);
 	            });
 	            /**
 	             * Show filter div when right-clicking the table header
@@ -286,21 +325,6 @@
 		                    });
 		                    filterDiv.show();
 		                }
-	                	
-	                	/*
-	                	var copy_what = jQuery(this).attr('data-resizecolumn'),
-	            		absDiv = "<div id='absDiv' style='position: fixed; top: 50px; right: 50px; width: 200px; height: 400px;'></div>",
-	            		jqAbsDiv = jQuery('#absDiv');
-	            	
-		            	if (jqAbsDiv.size() == 0) {
-		            		jQuery('body').append(absDiv);
-		            		jqAbsDiv = jQuery('#absDiv');
-		            	}
-		            	
-		            	jQuery('.' + copy_what).removeClass('selected').each(function (index, element) {
-		            		jQuery(element).parent().clone().appendTo(jqAbsDiv);
-		            	});
-		            	*/
 	                }
 	            });
 	            
@@ -315,17 +339,6 @@
 	            	target.attr("src", target.attr('data-src'));
 	            });
 	            
-	            /*
-	            jQuery('.sortlink').live('mouseover', function(event) {
-	            	var resize_what = jQuery(this).attr('data-resizecolumn');
-	            	jQuery('.' + resize_what).addClass('selected');
-	            });
-
-	            jQuery('.sortlink').live('mouseout', function(event) {
-	            	var resize_what = jQuery(this).attr('data-resizecolumn');
-	            	jQuery('.' + resize_what).removeClass('selected');
-	            });
-	            */
 			}
 			sortEvent.status = 'finished';
 			gm.processEvent(sortEvent.name);

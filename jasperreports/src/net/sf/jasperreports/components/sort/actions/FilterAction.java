@@ -27,6 +27,8 @@ import java.util.UUID;
 
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.util.DefaultFormatFactory;
+import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.ActionException;
@@ -39,27 +41,26 @@ import net.sf.jasperreports.web.commands.ResetInCacheCommand;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class SortAction extends AbstractAction 
-{
+public class FilterAction extends AbstractAction {
 	
-	private SortData sortData;
-
-	public SortAction() {
+	private FilterData filterData;
+	protected static FormatFactory formatFactory = new DefaultFormatFactory();
+	
+	public FilterAction() {
 	}
 
-	public SortData getSortData() {
-		return sortData;
+	public FilterData getFilterData() {
+		return filterData;
 	}
 
-	public void setSortData(SortData sortData) {
-		this.sortData = sortData;
+	public void setFilterData(FilterData filterData) {
+		this.filterData = filterData;
 	}
 
-	public void performAction() throws ActionException
-	{
-		if (sortData != null) 
-		{
-			CommandTarget target = getCommandTarget(UUID.fromString(sortData.getTableUuid()));
+	public void performAction() throws ActionException {
+		
+		if (filterData != null) {
+			CommandTarget target = getCommandTarget(UUID.fromString(filterData.getTableUuid()));
 			if (target != null)
 			{
 				JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
@@ -73,12 +74,11 @@ public class SortAction extends AbstractAction
 				// execute command
 				try {
 					commandStack.execute(
-						new ResetInCacheCommand(
-							new SortCommand(getJasperReportsContext(), dataset, sortData),
-							getJasperReportsContext(),
-							getReportContext(),
-							target.getUri()
-							)
+						new ResetInCacheCommand(new FilterCommand(dataset, getFilterData()),
+								getJasperReportsContext(),
+								getReportContext(), 
+								target.getUri()
+								)
 						);
 				} catch (CommandException e) {
 					 throw new ActionException(e.getMessage());
@@ -86,5 +86,5 @@ public class SortAction extends AbstractAction
 			}
 		}
 	}
-
+	
 }
