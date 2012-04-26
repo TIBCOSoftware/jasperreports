@@ -2094,19 +2094,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		sheets.setFooterMargin(0.0);
 
 		String fitWidth = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
-		if(fitWidth != null && fitWidth.length() > 0)
+		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
+		boolean isFitWidth = fitWidth != null && fitWidth.length() > 0;
+		boolean isFitHeight = fitHeight != null && fitHeight.length() > 0;
+		Integer fWidth = isFitWidth ? Integer.valueOf(fitWidth) : 1;
+		Integer fHeight = isFitHeight ? Integer.valueOf(fitHeight) : 1;
+		
+		if(isFitWidth || isFitHeight)
 		{
-			sheets.setFitWidth(Integer.valueOf(fitWidth));
+			sheets.setFitWidth(fWidth);
+			sheets.setFitHeight(fHeight);
 			sheets.setFitToPages(true);
 		}
 		
-		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
-		if(fitHeight != null && fitHeight.length() > 0)
-		{
-			sheets.setFitHeight(Integer.valueOf(fitHeight));
-			sheets.setFitToPages(true);
-		}
-
 		if(password != null)
 		{
 			sheets.setPassword(password);
