@@ -28,7 +28,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPrintImageAreaHyperlink;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
@@ -46,20 +45,8 @@ import org.jfree.chart.JFreeChart;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ImageChartRendererFactory implements ChartRenderableFactory
+public class ImageChartRendererFactory extends AbstractChartRenderableFactory
 {
-	
-	/**
-	 * @deprecated Replaced by {@link #getRenderable(JasperReportsContext, JFreeChart, ChartHyperlinkProvider, Rectangle2D)}. 
-	 */
-	public net.sf.jasperreports.engine.JRRenderable getRenderer(
-		JFreeChart chart, 
-		ChartHyperlinkProvider chartHyperlinkProvider,
-		Rectangle2D rectangle
-		)
-	{
-		return getRenderable(DefaultJasperReportsContext.getInstance(), chart, chartHyperlinkProvider, rectangle);
-	}
 	
 	/**
 	 * 
