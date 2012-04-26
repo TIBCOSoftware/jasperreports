@@ -33,7 +33,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.query.AbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactoryBundle;
@@ -133,7 +132,7 @@ public final class JRQueryExecuterUtils
 	/**
 	 * @deprecated To be removed.
 	 */
-	public static class WrappingQueryExecuterFactory extends AbstractQueryExecuterFactory
+	public static class WrappingQueryExecuterFactory implements QueryExecuterFactory
 	{
 		private JRQueryExecuterFactory factory;
 		
@@ -149,6 +148,14 @@ public final class JRQueryExecuterUtils
 
 		public JRQueryExecuter createQueryExecuter(
 			JasperReportsContext jasperReportsContext, 
+			JRDataset dataset,
+			Map<String, ? extends JRValueParameter> parameters
+			) throws JRException 
+		{
+			return factory.createQueryExecuter(dataset, parameters);
+		}
+
+		public JRQueryExecuter createQueryExecuter(
 			JRDataset dataset,
 			Map<String, ? extends JRValueParameter> parameters
 			) throws JRException 

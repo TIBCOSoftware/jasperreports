@@ -21,29 +21,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.fill;
+package net.sf.jasperreports.engine.util;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.AbstractTextMeasurerFactory;
+import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 
 /**
- * Default text measurer factory.
- * 
- * This factory produces {@link TextMeasurer} instances. 
+ * Factory of {@link JdkGlyphFixTextMeasurer} instances.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JdkGlyphFixTextMeasurerFactory.java 5089 2012-03-15 12:46:09Z teodord $
+ * @see JRTextMeasurerUtil#PROPERTY_TEXT_MEASURER_FACTORY
  */
-public class TextMeasurerFactory extends AbstractTextMeasurerFactory
+public abstract class AbstractTextMeasurerFactory implements JRTextMeasurerFactory
 {
 
 	/**
-	 * Returns a {@link TextMeasurer} instance for the text object.
+	 * @deprecated Replaced by {@link #createMeasurer(JasperReportsContext, JRCommonText)}.
 	 */
-	public JRTextMeasurer createMeasurer(JasperReportsContext jasperReportsContext, JRCommonText text)
+	public final JRTextMeasurer createMeasurer(JRCommonText text)
 	{
-		return new TextMeasurer(jasperReportsContext, text);
+		return createMeasurer(DefaultJasperReportsContext.getInstance(), text);
 	}
 
 }
