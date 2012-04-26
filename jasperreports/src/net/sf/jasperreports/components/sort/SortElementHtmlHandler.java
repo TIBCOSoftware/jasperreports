@@ -191,7 +191,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
-			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
+//			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
 //			velocityContext.put("filterFieldParamName", SortElement.REQUEST_PARAMETER_FILTER_FIELD);
@@ -224,7 +224,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			if (sortField == null) 
 			{
 				sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC);
-				//velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, SortElement.SORT_ORDER_ASC, sortDatasetName));
 				velocityContext.put("isSorted", false);
 			}
 			else 
@@ -233,13 +232,12 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				boolean isAscending = SortElement.SORT_ORDER_ASC.equals(sortActionData[2]);
 				String sortOrder = !isAscending ? SortElement.SORT_ORDER_NONE : SortElement.SORT_ORDER_DESC;
 				sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, sortOrder);
-				//velocityContext.put("sortHref", getSortLink(context, sortColumnName, sortColumnType, sortOrder, sortDatasetName));
 				velocityContext.put("isSorted", true);
 				velocityContext.put("sortSymbolResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC);
 				velocityContext.put("sortSymbolHoverResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC_HOVER : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC_OVER);
 			}
 			velocityContext.put("tableUuid", element.getUUID().toString());
-			velocityContext.put("sortHref", getSortLink(context, sortData));
+//			velocityContext.put("sortHref", getSortLink(context, sortData));
 			velocityContext.put("actionData", getActionData(context, sortData));
 			
 			// existing filters
@@ -304,43 +302,43 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
-	private String getSortLink(JRHtmlExporterContext context, SortData sortData) {
-		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
-		
-		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-		parameters.addParameter(
-			new JRPrintHyperlinkParameter(
-				ReportServlet.REQUEST_PARAMETER_ACTION, 
-				String.class.getName(), 
-				"{\"actionName\":\"sortica\",\"sortData\":" 
-					+ JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortData)
-					+ "}"
-				)
-			);
-		
-		ReportContext reportContext = context.getExporter().getReportContext();
-		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
-		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
-		
-		hyperlink.setHyperlinkParameters(parameters);
-		
-		return context.getHyperlinkURL(hyperlink);
-	}
+//	private String getSortLink(JRHtmlExporterContext context, SortData sortData) {
+//		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
+//		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
+//		
+//		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
+//		parameters.addParameter(
+//			new JRPrintHyperlinkParameter(
+//				ReportServlet.REQUEST_PARAMETER_ACTION, 
+//				String.class.getName(), 
+//				"{\"actionName\":\"sortica\",\"sortData\":" 
+//					+ JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortData)
+//					+ "}"
+//				)
+//			);
+//		
+//		ReportContext reportContext = context.getExporter().getReportContext();
+//		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
+//		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
+//		
+//		hyperlink.setHyperlinkParameters(parameters);
+//		
+//		return context.getHyperlinkURL(hyperlink);
+//	}
 	
-	private String getFilterFormActionLink(JRHtmlExporterContext context) {
-		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
-		
-		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-		ReportContext reportContext = context.getExporter().getReportContext();
-		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
-		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
-		
-		hyperlink.setHyperlinkParameters(parameters);
-		
-		return context.getHyperlinkURL(hyperlink);
-	}
+//	private String getFilterFormActionLink(JRHtmlExporterContext context) {
+//		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
+//		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
+//		
+//		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
+//		ReportContext reportContext = context.getExporter().getReportContext();
+//		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
+//		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
+//		
+//		hyperlink.setHyperlinkParameters(parameters);
+//		
+//		return context.getHyperlinkURL(hyperlink);
+//	}
 
 	private String getCurrentSortField(JasperReportsContext jasperReportsContext, ReportContext reportContext, String uuid, String sortDatasetName, String sortColumnName, String sortColumnType) 
 	{

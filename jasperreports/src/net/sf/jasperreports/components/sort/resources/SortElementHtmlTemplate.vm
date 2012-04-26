@@ -6,18 +6,17 @@
 	jive.actionBaseUrl = '${actionBaseUrl}';
 </script>
 
-<a href='${sortHref}'
-	class='sortlink ${sortLinkClass}'
+<span class='sortlink ${sortLinkClass}'
 	data-resizecolumn='column_${filterColumnName}'
 	data-actionData='${actionData}'
 	#if (${isFilterable})
 		data-filterid='${filterDivId}'
 	#end
-	style="display: table; position: absolute; left: ${elementX}; top: ${elementY};
+	style="cursor: pointer; display: table; position: absolute; left: ${elementX}; top: ${elementY};
 		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign}; text-decoration: none;
 		background-image: url('${transparentPixelSrc}'); 
 		#if(${backgroundColor}) 
-			background-color: \#${backgroundColor};
+			##background-color: \#${backgroundColor};
 		#end
 ">
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
@@ -28,8 +27,7 @@
 			#if (${isFiltered}) <img class='filterSymbolImage filterSymbol_${filterActiveInactive}' src='${filterSymbolImageResource}' /> #end
 		</span>
 	</span>
-	
-</a>
+</span>
 
 #if (${isFilterable})
 <script class='jasperreports' type='text/javascript'>
@@ -38,7 +36,7 @@
 			uid = '${filterDivId}',
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
 			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
-			                "<form action='${filterFormAction}' action='GET' class='filterDivForm'>",
+			                "<div class='filterDivForm'>",
 			                "	<input class='postable forClear' type='hidden' name='tableUuid' value='${tableUuid}' />",
 			                "	<input class='postable filterField' type='hidden' name='fieldName' value='${filterColumnName}' />",
 			                "	<input class='postable' type='hidden' name='filterType' value='${filterTypeParamNameValue}' />",
@@ -58,8 +56,7 @@
 			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='fieldValueEnd'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
 			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
-			                "</form>",
-			                "</div>"];
+			                "</div></div>"];
 			                
 		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'jasperreports.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
 	} ());
