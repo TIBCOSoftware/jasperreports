@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.query.AbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JREmptyQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
@@ -43,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRMdxQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JRMdxQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
 	
 	private static final Log log = LogFactory.getLog(JRMdxQueryExecuterFactory.class);

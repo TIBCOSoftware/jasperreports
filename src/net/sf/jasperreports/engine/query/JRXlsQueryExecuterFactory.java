@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JRXlsQueryExecuterFactory extends JRAbstractQueryExecuterFactory 
+public class JRXlsQueryExecuterFactory extends AbstractQueryExecuterFactory 
 {
 
 	/**

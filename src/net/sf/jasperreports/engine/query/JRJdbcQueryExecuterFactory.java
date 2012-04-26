@@ -42,7 +42,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @version $Id$
  * @see net.sf.jasperreports.engine.query.JRJdbcQueryExecuter
  */
-public class JRJdbcQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JRJdbcQueryExecuterFactory extends AbstractQueryExecuterFactory
 {	
 	/**
 	 * Property specifying the ResultSet fetch size.

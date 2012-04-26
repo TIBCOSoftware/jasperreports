@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRHibernateQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JRHibernateQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
 
 	/**

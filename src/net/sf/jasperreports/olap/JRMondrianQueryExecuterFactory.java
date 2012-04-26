@@ -29,7 +29,7 @@ import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.query.JRAbstractQueryExecuterFactory;
+import net.sf.jasperreports.engine.query.AbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 
 
@@ -37,7 +37,7 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRMondrianQueryExecuterFactory extends JRAbstractQueryExecuterFactory
+public class JRMondrianQueryExecuterFactory extends AbstractQueryExecuterFactory
 {
 	/**
 	 * Built-in parameter holding the value of the Mondrian connection to be used for creating the query.
