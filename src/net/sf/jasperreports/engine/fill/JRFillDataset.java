@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
 
+import net.sf.jasperreports.data.cache.CachedDataset;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.data.cache.DataRecorder;
 import net.sf.jasperreports.data.cache.DataSnapshot;
@@ -239,7 +240,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected DatasetRecorder dataRecorder;
 	
 	private Map<Integer, CacheRecordIndexCallback> cacheRecordIndexCallbacks;
-	private boolean cachedDataSource;
+	private CachedDataset cachedDataset;
 	private boolean sortedDataSource;
 	
 	private boolean ended;
@@ -618,7 +619,13 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		filter = (DatasetFilter) parameterValues.get(JRParameter.FILTER);
 
+		// initializing cache because we need the cached parameter values
+		cacheInit();
+		
 		setFillParameterValues(parameterValues);
+		
+		// after we have the parameter values, init cache recording
+		cacheInitRecording();
 		
 		// initialize the filter
 		if (filter != null)
@@ -642,8 +649,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		queryExecuter = null;
 		dataSource = null;
 
-		// init data caching
-		cacheInit();
+		if (cachedDataset != null)
+		{
+			// get the cached data source
+			dataSource = cachedDataset.getDataSource();
+		}
 		
 		if (dataSource == null)
 		{
@@ -670,6 +680,8 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	protected void cacheInit() throws DataSnapshotException
 	{
+		// resetting
+		cachedDataset = null;
 		dataRecorder = null;
 		
 		if (fillPosition == null)
@@ -680,12 +692,6 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		// try to load a cached data snapshot
 		cacheInitSnapshot();
-		
-		if (!cachedDataSource)
-		{
-			// if no cached data snapshot, initialize data recording
-			cacheInitRecording();
-		}
 	}
 	
 	protected void cacheInitSnapshot() throws DataSnapshotException
@@ -694,26 +700,28 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (dataSnapshot != null)
 		{
 			// using cached data
-			dataSource = dataSnapshot.getCachedData(fillPosition);
-
-			if (dataSource == null)
+			cachedDataset = dataSnapshot.getCachedData(fillPosition);
+			if (cachedDataset == null)
 			{
-				log.warn("No cached data found for " + fillPosition);
+				throw new DataSnapshotException("No snapshot data found for position " + fillPosition);
 			}
-			else
+			
+			if (log.isDebugEnabled())
 			{
-				cachedDataSource = true;
-				
-				if (log.isDebugEnabled())
-				{
-					log.debug("Using cached data for " + fillPosition);
-				}
+				log.debug("Using cached data for " + fillPosition);
 			}
 		}
 	}
 
 	protected void cacheInitRecording()
 	{
+		if (cachedDataset != null)
+		{
+			// we have a cache dataset, nothing to do
+			return;
+		}
+		
+		// if no cached data snapshot, initialize data recording
 		DataRecorder cacheRecorder = filler.fillContext.getDataRecorder();
 		if (cacheRecorder != null && cacheRecorder.isEnabled())
 		{
@@ -745,6 +753,27 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 					log.debug("Populating data cache for " + fillPosition);
 				}
 				
+				// storing persisted parameter values
+				for (JRFillParameter parameter : parameters)
+				{
+					if (parameter.hasProperties())
+					{
+						boolean includedInCache = isIncludedInDataCache(parameter);
+						if (includedInCache)
+						{
+							if (log.isDebugEnabled())
+							{
+								log.debug("storing value of paramter " + parameter.getName() 
+										+ " in data snapshot");
+							}
+							
+							Object value = parameter.getValue();
+							// we store nulls as well
+							dataRecorder.addParameter(parameter.getName(), value);
+						}
+					}
+				}
+				
 				cacheRecordIndexCallbacks = new HashMap<Integer, CacheRecordIndexCallback>();
 			}
 			else
@@ -758,6 +787,14 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				cacheRecorder.disableRecording();
 			}
 		}
+	}
+
+	protected boolean isIncludedInDataCache(JRFillParameter parameter)
+	{
+		String includedProp = parameter.hasProperties() 
+				? parameter.getPropertiesMap().getProperty(DataCacheHandler.PROPERTY_PARAMETER_INCLUDED)
+				: null;
+		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 
 	protected void cacheRecord()
@@ -844,20 +881,44 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		{
 			for (int i = 0; i < parameters.length; i++)
 			{
+				JRFillParameter parameter = parameters[i];
+				String paramName = parameter.getName();
+				
 				Object value = null;
-				if (parameterValues.containsKey(parameters[i].getName()))
+				if (parameterValues.containsKey(paramName))
 				{
-					value = parameterValues.get(parameters[i].getName());
+					value = parameterValues.get(paramName);
 				}
-				else if (!parameters[i].isSystemDefined())
+				else if (!parameter.isSystemDefined())
 				{
-					value = calculator.evaluate(parameters[i].getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
-					if (value != null)
+					if (isIncludedInDataCache(parameter) && cachedDataset != null)
 					{
-						parameterValues.put(parameters[i].getName(), value);
+						// if it's a cache parameter and we have a cached dataset,
+						// look for the value in the cache
+						if (!cachedDataset.hasParameter(paramName))
+						{
+							// cached data is invalid
+							throw new DataSnapshotException("A value for parameter " + paramName 
+									+ " was not found in the data snapshot");
+						}
+						
+						if (log.isDebugEnabled())
+						{
+							log.debug("loading parameter " + paramName + " value from data snapshot");
+						}
+						
+						value = cachedDataset.getParameterValue(paramName);
+					}
+					else
+					{
+						value = calculator.evaluate(parameter.getDefaultValueExpression(), JRExpression.EVALUATION_DEFAULT);
+						if (value != null)
+						{
+							parameterValues.put(paramName, value);
+						}
 					}
 				}
-				setParameter(parameters[i], value);
+				setParameter(parameter, value);
 			}
 		}
 	}
@@ -1185,7 +1246,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		
 		// if we're using a cached data source, return the original record index
 		// this covers both sorting a cached data source and filtering a cached data source
-		if (cachedDataSource)
+		if (cachedDataset != null)
 		{
 			// ugly cast
 			int dataSourceIndex = ((IndexedDataSource) dataSource).getRecordIndex();

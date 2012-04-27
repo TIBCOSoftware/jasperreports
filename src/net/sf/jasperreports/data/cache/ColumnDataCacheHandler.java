@@ -28,6 +28,7 @@ import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import net.sf.jasperreports.engine.JRField;
 
@@ -209,6 +210,17 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 				log.debug("adding cached data of size " + data.size() + " for for " + key);
 			}
 			
+			if (!data.isSerializable())
+			{
+				if (log.isDebugEnabled())
+				{
+					log.debug("cached data not serializable at key " + key);
+				}
+				
+				// mark the snapshot as unpersistable
+				disablePersistence();
+			}
+			
 			dataSnapshot.addCachedData(key, data);
 		}
 
@@ -245,6 +257,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		private ColumnStore[] columns;
 		private int size;
 		private boolean ended;
+		private LinkedHashMap<String, Object> parameters;
 		
 		public ColumnDataCollector()
 		{
@@ -280,7 +293,19 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 			}
 			
 			size = 0;
+			parameters = null;
 			ended = false;
+		}
+
+		@Override
+		public void addParameter(String name, Object value)
+		{
+			if (parameters == null)
+			{
+				parameters = new LinkedHashMap<String, Object>();
+			}
+			
+			parameters.put(name, value);
 		}
 
 		public void addRecord(Object[] values)
@@ -339,7 +364,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 				values[i] = columns[i].createValues();
 			}
 			
-			ColumnCacheData data = new ColumnCacheData(fieldNames, size, values);
+			StandardColumnCacheData data = new StandardColumnCacheData(fieldNames, size, values, parameters);
 			return data;
 		}
 
