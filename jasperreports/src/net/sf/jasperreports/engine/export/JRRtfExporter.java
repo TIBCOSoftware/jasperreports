@@ -956,7 +956,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			writeAnchor(text.getAnchorName());
 		}
 
-		exportHyperlink(text);
+		boolean startedHyperlink = exportHyperlink(text);
 
 		// add parameters in case of styled text element
 		String plainText = styledText.getText();
@@ -1024,10 +1024,8 @@ public class JRRtfExporter extends JRAbstractExporter
 
 			iterator.setIndex(runLimit);
 		}
-//		if (startedHyperlink)
-//		{
-//			endHyperlink();
-//		}
+		
+		endHyperlink(startedHyperlink);
 
 		writer.write("\\par}}");
 		
@@ -1270,7 +1268,7 @@ public class JRRtfExporter extends JRAbstractExporter
 				writeAnchor(printImage.getAnchorName());
 			}
 			
-			exportHyperlink(printImage);
+//			boolean startedHyperlink = exportHyperlink(printImage);
 			
 			writer.write("{\\sp{\\sn pib}{\\sv {\\pict");
 			if (renderer.getImageTypeValue() == ImageTypeEnum.JPEG)
@@ -1304,6 +1302,7 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			writer.write("\n}}}");
+//			endHyperlink(startedHyperlink);
 			writer.write("}}\n");
 		}
 
@@ -1534,11 +1533,13 @@ public class JRRtfExporter extends JRAbstractExporter
 	}
 
 	
-	protected void exportHyperlink(JRPrintHyperlink link) throws IOException
+	protected boolean exportHyperlink(JRPrintHyperlink link) throws IOException
 	{
 		String hlloc = null;
 		String hlfr = null;
 		String hlsrc = null;
+		String local ="";
+		boolean result = false;
 		
 		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 		if (customHandler == null)
@@ -1560,6 +1561,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					{
 						hlloc = link.getHyperlinkAnchor();
 						hlfr = hlloc;
+						local = "\\\\l ";
 					}
 					break;
 				}
@@ -1569,6 +1571,7 @@ public class JRRtfExporter extends JRAbstractExporter
 					{
 						hlloc = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
 						hlfr = hlloc;
+						local = "\\\\l ";
 					}
 					break;
 				}
@@ -1611,28 +1614,39 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		if (hlfr != null)
 		{
-			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
-			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
-			writer.write("{\\hlfr ");
-			writer.write(hlfr);
-			writer.write(" }");
-			if (hlloc != null)
-			{
-				writer.write("{\\hlloc ");
-				writer.write(hlloc);
-				writer.write(" }");
-			}
-			if (hlsrc != null)
-			{
-				writer.write("{\\hlsrc ");
-				writer.write(hlsrc);
-				writer.write(" }");
-			}
-			writer.write("}}}");
+//			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
+//			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
+//			writer.write("{\\hlfr ");
+//			writer.write(hlfr);
+//			writer.write(" }");
+//			if (hlloc != null)
+//			{
+//				writer.write("{\\hlloc ");
+//				writer.write(hlloc);
+//				writer.write(" }");
+//			}
+//			if (hlsrc != null)
+//			{
+//				writer.write("{\\hlsrc ");
+//				writer.write(hlsrc);
+//				writer.write(" }");
+//			}
+//			writer.write("}}}");
+			writer.write("{\\field{\\*\\fldinst HYPERLINK " + local + "\""+hlfr+"\"}{\\fldrslt ");
+			result = true;
 		}
+		return result;
 	}
 
 
+	protected void endHyperlink(boolean startedHyperlink) throws IOException
+	{
+		if(startedHyperlink)
+		{
+			writer.write("}}");
+		}
+	}
+	
 	protected void writeAnchor(String anchorName) throws IOException
 	{
 		writer.write("{\\*\\bkmkstart ");
