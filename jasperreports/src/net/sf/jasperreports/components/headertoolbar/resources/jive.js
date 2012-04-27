@@ -389,25 +389,18 @@ jive.ui.dialog = {
             jo = jQuery(this);
             jo.parent().next().find('input, select').toggle();
         });
-        jQuery('#dialogOk').bind('click touchend',function(e){
-            jive.ui.dialog.jo.hide();
-            jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
-            it.body.children().each(function(){
-                jQuery(this).appendTo('#jive_forms').hide();
-            });
-            
-            jQuery('#jive_dropdown .pmenu').hide();
-            
-            jive.selected.form.submit();
-        });
-        jQuery('#dialogCancel').bind('click touchend',function(e){
-            jive.ui.dialog.jo.hide();
-            jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
-            it.body.children().each(function(){
-                jQuery(this).appendTo('#jive_forms').hide();
-            });
-            
-            jQuery('#jive_dropdown .pmenu').hide();
+        jQuery('#dialogOk, #dialogCancel').bind('click touchend',function(e){
+            if(this.className.indexOf('disabled') < 0){
+                jive.ui.dialog.jo.hide();
+                jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
+                it.body.children().each(function(){
+                    jQuery(this).appendTo('#jive_forms').hide();
+                });
+
+                jQuery('#jive_dropdown .pmenu').hide();
+
+                this.id == 'dialogOk' && jive.selected.form.submit();
+            }
         });
     },
     show: function(title, forms, formIndex){
@@ -441,6 +434,9 @@ jive.ui.dialog = {
         jive.selected.form.jo.show();
         this.jo.show().position({of:jQuery('div.jrPage').parent(), at:'center top', my:'center top', offset: '0 128'});
         jive.hide();
+    },
+    toggleButtons: function() {
+        jQuery('#dialogOk, #dialogCancel').toggleClass('disabled');
     }
 }
 
@@ -656,31 +652,22 @@ jive.ui.colorpicker = {
         var jo;
         it.jo = jQuery('#jive_colorpicker');
         it.jo.draggable({handle: 'div.dialogHeader'});
-        it.jo.on('click touchend','div.colorpick',function(){
-            it.selected && it.selected.toggleClass('selected');
+        it.jo.on('click touchend','div.colorpick',function(evt){
+            //it.selected && it.selected.toggleClass('selected');
             it.selected = jQuery(this).parent().toggleClass('selected');
-        });
-        it.jo.on('click touchend','button',function(){
-            if(this.innerHTML.indexOf('Select') >= 0) {
-//            	jive.selected.form.inputs[it.input].set(it.selected.children().eq(0).attr('hexcolor'));
-                jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
-                jive.ui.colorpicker.jo.hide();
-                'ontouchstart' in document.documentElement && jive.ui.dialog.jo.show();
-            }
-            if(this.innerHTML.indexOf('Cancel') >= 0) {
-                jive.ui.colorpicker.jo.hide();
-                'ontouchstart' in document.documentElement && jive.ui.dialog.jo.show();
-            }
+            jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
+            jive.ui.colorpicker.jo.hide();
+            jive.ui.modal.hide();
+            evt.preventDefault();
         });
     },
     show: function(options) {
         this.title = options.title || 'Pick a color';
         this.inputId = options.inputId;
         !this.jo && this.setElement();
+        jive.ui.modal.show(this.jo);
         this.jo.find('h2').html(this.title);
-        'ontouchstart' in document.documentElement ?
-            this.jo.show().position({of:jQuery('div.jrPage').parent(), at:'center top', my:'center top', offset: '0 96px', collision:'none'}):
-            this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
+        this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
     },
     extractHexColor: function(rgbString) {
     	var out = "";
@@ -697,5 +684,26 @@ jive.ui.colorpicker = {
 	    	}
     	}
     	return out;
+    }
+}
+
+jive.ui.modal = {
+    whf: null,
+    show: function(whoHasFocus) {
+        this.whf = whoHasFocus;
+        if(jQuery('#jive_modal').length == 0) {
+            jQuery('div.jrPage').parent().append('<div id="jive_modal" style="display:none;position:absolute;z-index:9999;top:0;bottom:0;left:0;right:0;"></div>');
+            jQuery('#jive_modal').on('click touchend',function(evt){
+                jive.ui.modal.hide();
+                evt.preventDefault();
+            })
+        }
+        jive.ui.dialog.toggleButtons();
+        jQuery('#jive_modal').show();
+    },
+    hide: function() {
+        jive.ui.modal.whf.hide();
+        jive.ui.dialog.toggleButtons();
+        jQuery('#jive_modal').hide();
     }
 }

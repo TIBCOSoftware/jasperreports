@@ -6,7 +6,6 @@
     }]);
     jasperreports.global.appendStyleElementToDOM('_jiveCSS', '${jasperreports_tableHeaderToolbar_css}');
 </script>
-
 <div id="jive_overlay" style="display:none;">
     <div></div>
 </div>
@@ -141,8 +140,6 @@
             </table>
         </div>
         <div class="dialogFooter">
-            <button class="button action primary up"><span class="wrap">Select color</span></button>
-            <button class="button action up"><span class="wrap">Cancel</span></button>
         </div>
     </div>
 </div>

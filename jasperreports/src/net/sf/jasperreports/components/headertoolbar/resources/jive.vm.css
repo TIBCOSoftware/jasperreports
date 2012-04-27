@@ -18,7 +18,7 @@
 #jive_marker{
     position:absolute;
     width:10px;
-    cursor: ew-resize;
+    cursor: e-resize;
     border-left:dotted 1px #555;
     z-index:10;
 }
@@ -170,6 +170,11 @@ button.action.primary.over {
 
 button.action.primary.pressed {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x;
+}
+
+div.dialogFooter button.disabled {
+    background: #c1c1c1 !important;
+    color:#ccc !important;
 }
 
 .tabContainer {
@@ -362,6 +367,8 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .fontColorIcon {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/fontColor.png) no-repeat;
 }
+
+#jive_colorpicker {z-index:10000;}
 #jive_colorpicker td {background:#fff;border:solid 1px #fff;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
 div.colorpick {width:16px;height:16px;margin:4px;cursor:pointer;}
