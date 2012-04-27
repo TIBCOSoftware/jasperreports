@@ -23,32 +23,19 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-
+import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 /**
- * Report data cache handler.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataCacheHandler
+public interface CachedDataset
 {
-	
-	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
-	
-	String PROPERTY_DATA_RECORDABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.recordable";
-	
-	String PROPERTY_DATA_PERSISTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.persistable";
-	
-	String PROPERTY_PARAMETER_INCLUDED = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.included";
 
-	boolean isRecordingEnabled();
+	boolean hasParameter(String name);
 	
-	DataRecorder createDataRecorder();
+	Object getParameterValue(String name);
 	
-	boolean isSnapshotPopulated();
-	
-	DataSnapshot getDataSnapshot();
+	IndexedDataSource getDataSource();
 	
 }

@@ -23,32 +23,44 @@
  */
 package net.sf.jasperreports.data.cache;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import java.util.Map;
 
+import net.sf.jasperreports.engine.data.IndexedDataSource;
 
 /**
- * Report data cache handler.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DataCacheHandler
+public class StandardCachedDataset implements CachedDataset
 {
-	
-	String PARAMETER_DATA_CACHE_HANDLER = "net.sf.jasperreports.data.cache.handler";
-	
-	String PROPERTY_DATA_RECORDABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.recordable";
-	
-	String PROPERTY_DATA_PERSISTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.persistable";
-	
-	String PROPERTY_PARAMETER_INCLUDED = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.included";
 
-	boolean isRecordingEnabled();
+	private final IndexedDataSource dataSource;
+	private final Map<String, Object> parameters;
 	
-	DataRecorder createDataRecorder();
-	
-	boolean isSnapshotPopulated();
-	
-	DataSnapshot getDataSnapshot();
-	
+	public StandardCachedDataset(IndexedDataSource dataSource,
+			Map<String, Object> parameters)
+	{
+		this.dataSource = dataSource;
+		this.parameters = parameters;
+	}
+
+	@Override
+	public boolean hasParameter(String name)
+	{
+		// considering nulls
+		return parameters != null && parameters.containsKey(name);
+	}
+
+	@Override
+	public Object getParameterValue(String name)
+	{
+		return parameters.get(name);
+	}
+
+	@Override
+	public IndexedDataSource getDataSource()
+	{
+		return dataSource;
+	}
+
 }

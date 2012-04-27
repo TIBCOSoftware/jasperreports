@@ -140,12 +140,12 @@ public class FillDatasetRun extends JRFillDatasetRun
 			dataset.setConnectionParameterValue(parameterValues, connection);
 		}
 
+		// set fill position for caching
+		dataset.setFillPosition(datasetPosition);
+
 		copyConnectionParameter(parameterValues);
 		dataset.initCalculator();
 		dataset.setParameterValues(parameterValues);
-
-		// set fill position for caching
-		dataset.setFillPosition(datasetPosition);
 		
 		dataset.initDatasource();
 		

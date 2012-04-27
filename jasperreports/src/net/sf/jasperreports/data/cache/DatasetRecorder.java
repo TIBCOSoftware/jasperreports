@@ -35,6 +35,8 @@ public interface DatasetRecorder
 {
 
 	void start(JRField[] fields);
+	
+	void addParameter(String name, Object value);
 
 	void addRecord(Object[] values);
 

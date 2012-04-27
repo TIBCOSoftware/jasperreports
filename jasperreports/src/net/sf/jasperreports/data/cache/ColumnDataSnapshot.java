@@ -47,7 +47,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private Map<Object, ColumnCacheData> cachedData;
-	private boolean persistable;
+	private transient boolean persistable;
 
 	public ColumnDataSnapshot()
 	{
@@ -62,26 +62,14 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 			throw new JRRuntimeException("The data snapshot is not persistable");
 		}
 		
-		out.writeInt(cachedData.size());
-		for (Map.Entry<Object, ColumnCacheData> entry : cachedData.entrySet())
-		{
-			out.writeObject(entry.getKey());
-			out.writeObject(entry.getValue());
-		}
+		out.defaultWriteObject();
 	}
 	
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.persistable = true;
-		
-		int count = in.readInt();
-		cachedData = new LinkedHashMap<Object, ColumnCacheData>(count * 4 / 3);
-		for (int i = 0; i < count; i++)
-		{
-			Object key = in.readObject();
-			ColumnCacheData data = (ColumnCacheData) in.readObject();
-			cachedData.put(key, data);
-		}
+
+		in.defaultReadObject();
 	}
 
 	public boolean hasCachedData(Object key)
@@ -89,7 +77,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 		return cachedData.containsKey(key);
 	}
 
-	public IndexedDataSource getCachedData(Object key) throws DataSnapshotException
+	public CachedDataset getCachedData(Object key) throws DataSnapshotException
 	{
 		ColumnCacheData cacheData = cachedData.get(key);
 		if (cacheData == null)
@@ -99,7 +87,7 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 				log.debug("No cached data exists for " + key);
 			}
 			
-			throw new DataSnapshotException("No snapshot data found for key " + key);
+			return null;
 		}
 		
 		if (log.isDebugEnabled())
@@ -108,7 +96,10 @@ public class ColumnDataSnapshot implements DataSnapshot, Serializable
 		}
 		
 		IndexedDataSource dataSource = cacheData.createDataSource();
-		return dataSource;
+		
+		Map<String, Object> parameters = cacheData.getParameters();
+		StandardCachedDataset dataset = new StandardCachedDataset(dataSource, parameters);
+		return dataset;
 	}
 
 	public void addCachedData(Object key, ColumnCacheData data)
