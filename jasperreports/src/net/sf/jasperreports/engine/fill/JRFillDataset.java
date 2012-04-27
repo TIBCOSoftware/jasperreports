@@ -690,8 +690,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 			return;
 		}
 		
-		// try to load a cached data snapshot
-		cacheInitSnapshot();
+		if (filler != null)
+		{
+			// try to load a cached data snapshot
+			cacheInitSnapshot();
+		}
 	}
 	
 	protected void cacheInitSnapshot() throws DataSnapshotException
@@ -718,6 +721,12 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		if (cachedDataset != null)
 		{
 			// we have a cache dataset, nothing to do
+			return;
+		}
+		
+		if (filler == null)
+		{
+			// not a regular report fill, nothing to do
 			return;
 		}
 		
