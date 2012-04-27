@@ -548,6 +548,12 @@ public class JRGridLayout
 			xCuts.setWidthRatio(widthRatio);
 		}
 
+		String sheetName = nature.getSheetName(element);
+		if(sheetName != null)
+		{
+			xCuts.setSheetName(sheetName);
+		}
+
 		List<PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
 		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
 		{
@@ -932,6 +938,10 @@ public class JRGridLayout
 						element.getX() + elementOffsetX + frame.getLineBox().getLeftPadding().intValue(),
 						xCuts
 						);
+				}
+				if(nature.getSheetName(element) != null)
+				{
+					xCuts.setSheetName(nature.getSheetName(element));
 				}
 			}
 		}

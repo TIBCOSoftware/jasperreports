@@ -843,8 +843,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 						}
 
 						JRPrintPage page = pages.get(pageIndex);
+						
 
-						createSheet(getSheetName(null));
+						CutsInfo xCuts = 
+								JRGridLayout.calculateXCuts(
+									getNature(), pages, pageIndex, pageIndex,
+									jasperPrint.getPageWidth(), globalOffsetX
+									);
+
+						createSheet(getSheetName(xCuts, null));
 
 						// we need to count all sheets generated for all exported documents
 						sheetIndex++;
@@ -859,16 +866,6 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				}
 				else
 				{
-					// Create the sheet before looping.
-					createSheet(getSheetName(jasperPrint.getName()));
-
-					// we need to count all sheets generated for all exported documents
-					sheetIndex++;
-					sheetNamesIndex++;
-					resetAutoFilters();
-
-					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
-					
 					/*
 					 * Make a pass and calculate the X cuts for all pages on this sheet.
 					 * The Y cuts can be calculated as each page is exported.
@@ -878,6 +875,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							getNature(), pages, startPageIndex, endPageIndex,
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
+					
+					// Create the sheet before looping.
+					createSheet(getSheetName(xCuts, jasperPrint.getName()));
+
+					// we need to count all sheets generated for all exported documents
+					sheetIndex++;
+					sheetNamesIndex++;
+					resetAutoFilters();
+
+					setFreezePane(gridRowFreezeIndex, gridColumnFreezeIndex);
+					
 					//clear the filter's internal cache that might have built up
 					if (filter instanceof ResetableExporterFilter)
 					{
@@ -955,7 +963,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				
 				setRowLevels(levelInfo, null);
 
-				createSheet(getSheetName(null));
+				createSheet(getSheetName(xCuts, null));
 				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
@@ -1048,11 +1056,13 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							setFreezePane(rowFreezeIndex, columnFreezeIndex, rowFreezeIndex > 0, columnFreezeIndex > 0);
 						}
 
-						String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
-						if(sheetName != null)
-						{
-							setSheetName(sheetName);
-						}
+						/* this is no more necessary since the sheet name is stored in CutsInfo */
+//						String sheetName = element.getPropertiesMap().getProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+//						if(sheetName != null)
+//						{
+//							setSheetName(sheetName);
+//						}
+
 
 //						boolean start = getPropertiesUtil().getBooleanProperty(element, PROPERTY_AUTO_FILTER_START, false);
 //						if(start && rowIndex < MAX_ROW_INDEX)
@@ -1434,6 +1444,17 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
+	private String getSheetName(CutsInfo xCuts, String sheetName){
+		if(xCuts != null && xCuts.getSheetName() != null){
+			if (sheetNames != null && sheetNamesIndex < sheetNames.length)
+			{
+				sheetNames[sheetNamesIndex] = xCuts.getSheetName();
+			}
+			return getSheetName(xCuts.getSheetName());
+		}
+		return getSheetName(sheetName);
+	}
+	
 	private String getSheetName(String sheetName)
 	{
 		if (sheetNames != null && sheetNamesIndex < sheetNames.length)

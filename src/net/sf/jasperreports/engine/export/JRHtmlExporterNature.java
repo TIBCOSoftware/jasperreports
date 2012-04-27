@@ -195,4 +195,8 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		return null;
 	}
 
+	public String getSheetName(JRPrintElement element)
+	{
+		return null;
+	}
 }
