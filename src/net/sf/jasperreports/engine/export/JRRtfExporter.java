@@ -1235,7 +1235,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			startElement(printImage);
 			exportPen(printImage.getForecolor());//FIXMEBORDER should we have lineColor here, if at all needed?
 			finishElement();
-			
+			boolean startedHyperlink = exportHyperlink(printImage);
+
 			writer.write("{\\shp{\\*\\shpinst\\shpbxpage\\shpbypage\\shpwr5\\shpfhdr0\\shpfblwtxt0\\shpz");
 			writer.write(String.valueOf(zorder++));
 			writer.write("\\shpleft");
@@ -1262,13 +1263,13 @@ public class JRRtfExporter extends JRAbstractExporter
 			writer.write("{\\sp{\\sn cropFromRight}{\\sv ");
 			writer.write(String.valueOf(cropRight));
 			writer.write("}}");
+			
+			writeShapeHyperlink(printImage);
 
 			if(printImage.getAnchorName() != null)
 			{
 				writeAnchor(printImage.getAnchorName());
 			}
-			
-//			boolean startedHyperlink = exportHyperlink(printImage);
 			
 			writer.write("{\\sp{\\sn pib}{\\sv {\\pict");
 			if (renderer.getImageTypeValue() == ImageTypeEnum.JPEG)
@@ -1302,8 +1303,8 @@ public class JRRtfExporter extends JRAbstractExporter
 			}
 
 			writer.write("\n}}}");
-//			endHyperlink(startedHyperlink);
 			writer.write("}}\n");
+			endHyperlink(startedHyperlink);
 		}
 
 		int x = printImage.getX() + getOffsetX();
@@ -1535,11 +1536,88 @@ public class JRRtfExporter extends JRAbstractExporter
 	
 	protected boolean exportHyperlink(JRPrintHyperlink link) throws IOException
 	{
+		String hl = null;
+		String local ="";
+		boolean result = false;
+		
+		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
+		if (customHandler == null)
+		{
+			switch(link.getHyperlinkTypeValue())
+			{
+			case REFERENCE :
+			{
+				if (link.getHyperlinkReference() != null)
+				{
+					hl = link.getHyperlinkReference();
+				}
+				break;
+			}
+			case LOCAL_ANCHOR :
+			{
+				if (link.getHyperlinkAnchor() != null)
+				{
+					hl = link.getHyperlinkAnchor();
+					local = "\\\\l ";
+				}
+				break;
+			}
+			case LOCAL_PAGE :
+			{
+				if (link.getHyperlinkPage() != null)
+				{
+					hl = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					local = "\\\\l ";
+				}
+				break;
+			}
+			case REMOTE_ANCHOR :
+			{
+				if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkAnchor() != null
+						)
+				{
+					hl = link.getHyperlinkReference() + "#" + link.getHyperlinkAnchor();
+				}
+				break;
+			}
+			case REMOTE_PAGE :
+			{
+				if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+				{
+					hl = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
+				}
+				break;
+			}
+			case NONE :
+			default :
+			{
+				break;
+			}
+			}
+		}
+		else
+		{
+			hl = customHandler.getHyperlink(link);
+		}
+		
+		if (hl != null)
+		{
+			writer.write("{\\field{\\*\\fldinst HYPERLINK " + local + "\"" + hl + "\"}{\\fldrslt ");
+			result = true;
+		}
+		return result;
+	}
+	
+	protected void writeShapeHyperlink (JRPrintHyperlink link) throws IOException
+	{
 		String hlloc = null;
 		String hlfr = null;
 		String hlsrc = null;
-		String local ="";
-		boolean result = false;
 		
 		JRHyperlinkProducer customHandler = getHyperlinkProducer(link);
 		if (customHandler == null)
@@ -1561,7 +1639,6 @@ public class JRRtfExporter extends JRAbstractExporter
 					{
 						hlloc = link.getHyperlinkAnchor();
 						hlfr = hlloc;
-						local = "\\\\l ";
 					}
 					break;
 				}
@@ -1571,7 +1648,6 @@ public class JRRtfExporter extends JRAbstractExporter
 					{
 						hlloc = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
 						hlfr = hlloc;
-						local = "\\\\l ";
 					}
 					break;
 				}
@@ -1614,28 +1690,25 @@ public class JRRtfExporter extends JRAbstractExporter
 
 		if (hlfr != null)
 		{
-//			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
-//			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
-//			writer.write("{\\hlfr ");
-//			writer.write(hlfr);
-//			writer.write(" }");
-//			if (hlloc != null)
-//			{
-//				writer.write("{\\hlloc ");
-//				writer.write(hlloc);
-//				writer.write(" }");
-//			}
-//			if (hlsrc != null)
-//			{
-//				writer.write("{\\hlsrc ");
-//				writer.write(hlsrc);
-//				writer.write(" }");
-//			}
-//			writer.write("}}}");
-			writer.write("{\\field{\\*\\fldinst HYPERLINK " + local + "\""+hlfr+"\"}{\\fldrslt ");
-			result = true;
+			writer.write("{\\sp{\\sn fIsButton}{\\sv 1}}");
+			writer.write("{\\sp{\\sn pihlShape}{\\sv {\\*\\hl");
+			writer.write("{\\hlfr ");
+			writer.write(hlfr);
+			writer.write(" }");
+			if (hlloc != null)
+			{
+				writer.write("{\\hlloc ");
+				writer.write(hlloc);
+				writer.write(" }");
+			}
+			if (hlsrc != null)
+			{
+				writer.write("{\\hlsrc ");
+				writer.write(hlsrc);
+				writer.write(" }");
+			}
+			writer.write("}}}");
 		}
-		return result;
 	}
 
 
