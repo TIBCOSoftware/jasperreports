@@ -51,6 +51,7 @@ public class CutsInfo
 	private Cut[] cuts;
 	
 	private Float widthRatio;
+	private String sheetName;
 	
 	public CutsInfo()
 	{
@@ -228,5 +229,13 @@ public class CutsInfo
 	public void setWidthRatio(Float widthRatio)
 	{
 		this.widthRatio = widthRatio;
+	}
+
+	public String getSheetName() {
+		return this.sheetName;
+	}
+
+	public void setSheetName(String sheetName) {
+		this.sheetName = sheetName;
 	}
 }

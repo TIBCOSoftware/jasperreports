@@ -161,5 +161,10 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	{
 		return null;
 	}
+	
+	public String getSheetName(JRPrintElement element)
+	{
+		return null;
+	}
 
 }

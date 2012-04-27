@@ -232,4 +232,17 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		return null;
 		
 	}
+	
+	public String getSheetName(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getProperty(element, JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+			}
+			return null;
+	}
 }

@@ -155,4 +155,9 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 		return null;
 	}
 
+	public String getSheetName(JRPrintElement element)
+	{
+		return null;
+	}
+	
 }

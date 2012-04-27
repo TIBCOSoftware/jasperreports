@@ -161,5 +161,10 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	{
 		return null;
 	}
+	
+	public String getSheetName(JRPrintElement element)
+	{
+		return null;
+	}
 
 }
