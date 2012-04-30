@@ -50,6 +50,8 @@ public class BooleanStore implements BufferColumnStore
 		int longSize = 1 + ((size - 1) >>> 6);
 		this.longArrayStore = new LongArrayStore(longSize);
 		
+		reset();
+		
 		if (log.isDebugEnabled())
 		{
 			log.debug(this + ": created long store " + longArrayStore);
