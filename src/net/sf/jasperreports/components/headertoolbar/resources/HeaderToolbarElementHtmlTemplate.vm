@@ -203,7 +203,9 @@
                 filterOperatorTypeValueSelector: [
                     #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
                         {key: "$entry.key", val: "$entry.value"},
-                    #end],
+                    #end
+                    null
+                ],
                 filterDivForm: ${filterData}
             },
             #if (${hasPattern})
@@ -211,7 +213,9 @@
                 formatPatternSelector: [
                     #foreach( $entry in ${valuesFormatPatternMap.entrySet()} )
                         {key: "$entry.key", val: "$entry.value"},
-                    #end],
+                    #end
+                    null
+                ],
                 #if (!${isNumeric})
                     numberFormatButtons: {'@class': 'hidden'},
                 #end

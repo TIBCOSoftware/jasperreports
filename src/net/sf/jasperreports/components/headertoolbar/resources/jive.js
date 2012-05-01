@@ -353,7 +353,7 @@ jive.ui.dialog = {
             
             it.tabs.find('.tab').removeClass('active');
             jo.addClass('active');
-            jive.selected.form.onHide();
+            jive.selected.form.onBlur();
             jive.selected.form.jo.hide();
             activeTabActionCache = jive.selected.form.actionDataCache;
             jive.selected.form.actionCache = {};
@@ -375,7 +375,7 @@ jive.ui.dialog = {
         });
         it.body.on('click touchend','.jive_inputbutton',function(){
             jo = jQuery(this);
-            input = jive.selected.form.inputs[jo.attr('name')];
+            input = jive.selected.form.inputs[jo.attr('bname')];
             switch(jo.attr('type')) {
                 case "radio":
                     input.set(jo.attr('value'));
@@ -391,15 +391,20 @@ jive.ui.dialog = {
         });
         jQuery('#dialogOk, #dialogCancel').bind('click touchend',function(e){
             if(this.className.indexOf('disabled') < 0){
+                var ids = [];
                 jive.ui.dialog.jo.hide();
                 jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
                 it.body.children().each(function(){
+                    ids.push(this.id.substring(10));
                     jQuery(this).appendTo('#jive_forms').hide();
                 });
 
                 jQuery('#jive_dropdown .pmenu').hide();
 
                 this.id == 'dialogOk' && jive.selected.form.submit();
+                jQuery.each(ids,function(i,v){
+                    jive.ui.forms[v].onHide && jive.ui.forms[v].onHide();
+                });
             }
         });
     },
@@ -527,11 +532,12 @@ jive.ui.forms = {
                     }
                     if(e.type == 'buttons') {
                         tb.push('<td style="" '+colspan+'><div class="wrapper">'+label+'</div><div class="wrapper"><div class="buttonbar">');
-                        pw = 100 / e.items.length;
+                        pw = Math.floor(100 / e.items.length) + '%';
+                        //pw = '32px';
                         jQuery.each(e.items,function(i,v){
                             !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
 
-                            tb.push('<div class="jive_inputbutton" name="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+'%;"><div class="jive_inputbutton_wrapper '+(i==0?'first':'')+'">');
+                            tb.push('<div class="jive_inputbutton" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+';"><div class="jive_inputbutton_wrapper '+((i==e.items.length-1)?'last':'')+'">');
                             v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
                             v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
                             tb.push('</div></div>');
@@ -557,7 +563,7 @@ jive.ui.forms = {
                                     	dd.append(htm);
                                     	dd.find('.pmenu').show();
                                     	dd.css({width: '120px', height: '100px'});
-                                    	dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[name="'+this._idd+'"]'), colision: 'none', offset: '0 -10px'});
+                                    	dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
                                     },
                                     hideOptions: function () {
                                     	jQuery('#jive_dropdown .pmenu').hide();
@@ -569,12 +575,12 @@ jive.ui.forms = {
                                     selected: false,
                                     set:function() {
                                         jQuery('input[name="'+v.id+'"]').val('true');
-                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').addClass('selected');
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').addClass('selected');
                                         this.selected = true;
                                     },
                                     unset:function() {
                                         jQuery('input[name="'+v.id+'"]').val('false');
-                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').removeClass('selected');
                                         this.selected = false;
                                     },
                                     toggle:function(){
@@ -592,8 +598,8 @@ jive.ui.forms = {
                                 parms.inputs[v.id] = {
                                     set:function(val) {
                                         jQuery('input[name="'+v.id+'"]').val(val);
-                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').removeClass('selected');
-                                        jQuery('div.jive_inputbutton[name="'+v.id+'"][value="'+val+'"]').addClass('selected');
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').removeClass('selected');
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"][value="'+val+'"]').addClass('selected');
                                     },
                                     get:function(){
                                         return jQuery('input[name="'+v.id+'"]').val();
@@ -614,7 +620,7 @@ jive.ui.forms = {
                                 parms.inputs[v.id] = {
                                     set:function(val) {
                                         jQuery('input[name="'+v.id+'"]').val(val);
-                                        jQuery('div.jive_inputbutton[name="'+v.id+'"]').find('span.jive_bIcon').css('background-color','#'+val);
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('span.jive_bIcon').css('background-color','#'+val);
                                     },
                                     get:function(){
                                         return jQuery('input[name="'+v.id+'"]').val();

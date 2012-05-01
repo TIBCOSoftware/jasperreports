@@ -521,7 +521,15 @@ jive.interactive.column.columnFilterForm = {
         it.jc.filterStart = jQuery('#fieldValueStart');
         it.jc.filterEnd = jQuery('#fieldValueEnd').prop('disabled',true);
         it.jc.filterType = jQuery('#filterTypeOperator').change(function(){
-            jQuery(this).val().indexOf('BETWEEN') >= 0 ? it.jc.filterEnd.prop('disabled',false) : it.jc.filterEnd.prop('disabled',true);
+            if(jQuery(this).val().indexOf('BETWEEN') >= 0){
+                it.jc.filterEnd.parent().parent().prev().show();
+                it.jc.filterEnd.parent().parent().show();
+                it.jc.filterEnd.prop('disabled',false);
+            } else {
+                it.jc.filterEnd.parent().parent().prev().hide();
+                it.jc.filterEnd.parent().parent().hide();
+                it.jc.filterEnd.prop('disabled',true);
+            }
         });
         jQuery('input[name="clearFilter"]').change(function(){
         	var filtertype = jive.selected.ie.filterdiv.filterDivForm.filterType.toLowerCase();
@@ -538,48 +546,49 @@ jive.interactive.column.columnFilterForm = {
         var it = this;
         var metadata = jive.selected.ie.filterdiv.filterDivForm;
         var filtertype = metadata.filterType.toLowerCase();
-        var options = {
+        var options = jive.selected.ie.filterdiv.filterOperatorTypeValueSelector || {
             text : [
-                ['EQUALS','Equals'],
-                ['IS_NOT_EQUAL_TO','Is not equal to'],
-                ['CONTAINS','Contains'],
-                ['DOES_NOT_CONTAIN','Does not contain'],
-                ['STARTS_WITH','Starts with'],
-                ['DOES_NOT_START_WITH','Does not start with'],
-                ['ENDS_WITH','Ends with'],
-                ['DOES_NOT_END_WITH','Does not end with']
+                {key:'EQUALS',val:'Equals'},
+                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+                {key:'CONTAINS',val:'Contains'},
+                {key:'DOES_NOT_CONTAIN',val:'Does not contain'},
+                {key:'STARTS_WITH',val:'Starts with'},
+                {key:'DOES_NOT_START_WITH',val:'Does not start with'},
+                {key:'ENDS_WITH',val:'Ends with'},
+                {key:'DOES_NOT_END_WITH',val:'Does not end with'}
             ],
             date: [
-                ['EQUALS','Equals'],
-                ['IS_NOT_EQUAL_TO','Is not equal to'],
-                ['IS_BETWEEN','Is between'],
-                ['IS_NOT_BETWEEN','Is not between'],
-                ['IS_ON_OR_BEFORE','Is on or before'],
-                ['IS_BEFORE','Is before'],
-                ['IS_ON_OR_AFTER','Is on or after'],
-                ['IS_AFTER','Is after']
+                {key:'EQUALS',val:'Equals'},
+                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+                {key:'IS_BETWEEN',val:'Is between'},
+                {key:'IS_NOT_BETWEEN',val:'Is not between'},
+                {key:'IS_ON_OR_BEFORE',val:'Is on or before'},
+                {key:'IS_BEFORE',val:'Is before'},
+                {key:'IS_ON_OR_AFTER',val:'Is on or after'},
+                {key:'IS_AFTER',val:'Is after'}
             ],
             numeric: [
-                ['EQUALS','Equals'],
-                ['DOES_NOT_EQUAL','Does not equal'],
-                ['GREATER_THAN','Greater than'],
-                ['GREATER_THAN_EQUAL_TO','Greater than or equal to'],
-                ['LESS_THAN','Less than'],
-                ['LESS_THAN_EQUAL_TO','Less than or equal to'],
-                ['IS_BETWEEN','Is between'],
-                ['IS_NOT_BETWEEN','Is not between']
+                {key:'EQUALS',val:'Equals'},
+                {key:'DOES_NOT_EQUAL',val:'Does not equal'},
+                {key:'GREATER_THAN',val:'Greater than'},
+                {key:'GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
+                {key:'LESS_THAN',val:'Less than'},
+                {key:'LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
+                {key:'IS_BETWEEN',val:'Is between'},
+                {key:'IS_NOT_BETWEEN',val:'Is not between'}
             ],
             boolean: [
-                ['IS_TRUE', 'Is true'],
-                ['IS_NOT_TRUE', 'Is not true'],
-                ['IS_FALSE', 'Is false'],
-                ['IS_NOT_FALSE', 'Is not false']
+                {key:'IS_TRUE', val:'Is true'},
+                {key:'IS_NOT_TRUE', val:'Is not true'},
+                {key:'IS_FALSE', val:'Is false'},
+                {key:'IS_NOT_FALSE', val:'Is not false'}
             ]
-        }
+        }[filtertype];
+
         it.jc.filterType.empty();
         var htm = [];
-        jQuery.each(options[filtertype],function(i,v){
-            htm.push('<option value="'+v[0]+'">'+v[1]+'</option>');
+        jQuery.each(options,function(k,v){
+            v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
         });
         it.jc.filterType.append(htm.join(''));
         it.jc.filterType.val(metadata.filterTypeOperator);
@@ -589,7 +598,15 @@ jive.interactive.column.columnFilterForm = {
         jQuery('input[name="clearFilter"][value="'+filterOff+'"]').prop("checked",true);
         for(p in it.jc) (it.jc.hasOwnProperty(p) && filterOff) ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
 
-        it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', (!filterOff && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) ? false : true);
+        if(!filterOff && metadata.filterTypeOperator.indexOf('BETWEEN') >= 0) {
+            it.jc.filterEnd.parent().parent().prev().show();
+            it.jc.filterEnd.parent().parent().show();
+            it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', false);
+        } else {
+            it.jc.filterEnd.parent().parent().prev().hide();
+            it.jc.filterEnd.parent().parent().hide();
+            it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', true);
+        }
         
         if (filtertype === 'boolean' && !filterOff) {
         	it.jc.filterStart.prop('disabled',true);
@@ -684,10 +701,12 @@ jive.interactive.column.formatHeaderForm = {
     	
     	jive.hide();
         jive.runAction(actions);
-        this.actionDataCache = {};
+    },
+    onBlur: function() {
+        this.actionDataCache[this.name] = this.getActionData();
     },
     onHide: function() {
-   		this.actionDataCache[this.name] = this.getActionData();
+        this.actionDataCache = {};
     },
     getActionData: function() {
     	var inputs = jive.selected.form.inputs;
@@ -705,7 +724,7 @@ jive.interactive.column.formatHeaderForm = {
                 fontHAlign: inputs['headerFontAlign'].get(),
                 fontColor: inputs['headerFontColor'].get()
             }
-    	};
+    	}
     }
 };
 jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
@@ -820,8 +839,11 @@ jive.interactive.column.formatCellsForm = {
 	    jive.runAction(actions);
 	    this.actionDataCache = {};
     },
+    onBlur: function() {
+        this.actionDataCache[this.name] = this.getActionData();
+    },
     onHide: function() {
-    	this.actionDataCache[this.name] = this.getActionData();
+        this.actionDataCache = {};
     },
     getActionData: function() {
     	var inputs = jive.selected.form.inputs;
