@@ -82,6 +82,7 @@
     -webkit-box-shadow: 3px 3px 4px #000;
     box-shadow: 3px 3px 4px #000;
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+    zoom:1;
 }
 
 .jive_dialog .dialogHeader {
@@ -102,6 +103,8 @@
 .jive_dialog div.dialogBody {
     position:relative;
     padding:3px;
+    zoom:1;
+    height:auto;
 }
 
 .jive_dialog div.dialogFooter {
@@ -173,8 +176,8 @@ button.action.primary.pressed {
 }
 
 div.dialogFooter button.disabled {
-    background: #c1c1c1 !important;
-    color:#ccc !important;
+    background: #e7e7e7 !important;
+    color:#aaa !important;
 }
 
 .tabContainer {
@@ -264,8 +267,8 @@ div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden
 div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 
 .jive_form input, .jive_form select {position:relative;width:100%;margin:0;padding:0;border:solid 1px #eee;}
-.jive_form input{height:21px;}
-.jive_form select{height:24px;}
+.jive_form input{height:21px;line-height:21px;}
+.jive_form select{/*height:24px;line-height:24px;*/margin:4px 0;}
 
 .jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;}
 
@@ -273,12 +276,11 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .jive_form select.wFreeText {margin-top:8px; !important}
 
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
-.jive_form .buttonbar {background:#fff;overflow:hidden;height:24px;border:solid 1px #ccc;}
 
 .jive_inputLabel {float:left;position:relative;margin-left:8px;}
 .jive_inputbutton {float:left;cursor:pointer;background:#fff;}
-.jive_inputbutton_wrapper {text-align:center;border-left:solid 1px #ccc;background:transparent;}
-.jive_inputbutton_wrapper.first {border-left:none;}
+.jive_inputbutton_wrapper {height:24px;text-align:center;border-left:solid 1px #ccc;border-top:solid 1px #ccc;border-bottom:solid 1px #ccc;background:transparent;}
+.jive_inputbutton_wrapper.last {border-right:solid 1px #ccc;}
 .jive_inputbutton.selected {background:#faac1f;color:#fff;}
 
 .jive_listTextInputTouch {display:block;}
