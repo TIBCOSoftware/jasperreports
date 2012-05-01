@@ -646,7 +646,7 @@ jive.interactive.column.formatHeaderForm = {
     name: 'formatHeader',
     method: 'get',
     elements: [[
-        [{type:'text', id:'headingName', label:'Header text', value:'',colspan:3}],
+        [{type:'text', id:'headingName', label:'Heading text', value:'',colspan:3}],
         [
             {type:'list', id:'headerFontName', label:'Font', values:[], freeText: true, size:6},
             {type:'list', id:'headerFontSize', label:'Size', values:[], freeText: true, size:6},
