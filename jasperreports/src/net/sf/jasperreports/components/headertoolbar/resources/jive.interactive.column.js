@@ -167,6 +167,7 @@ jive.interactive.column = jive.interactive.column || {
         this.rdi =  ci + 3 == this.dropPoints[this.uuid].length ? ci + 2 : ci + 3;
 
         this.delta = jive.ui.marker.position.left - this.dropPoints[this.uuid][ci+2];
+        this.dropColumnIndex = ci;
     },
     onDrag: function(evt,ui){
         var ev = evt.originalEvent.originalEvent || evt;
