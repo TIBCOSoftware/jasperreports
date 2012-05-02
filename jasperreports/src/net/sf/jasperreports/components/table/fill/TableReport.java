@@ -567,6 +567,7 @@ public class TableReport implements JRReport
             int columnIndex = TableUtil.getColumnIndex(column, table);
             String columnName = name != null ? name : String.valueOf(columnIndex);
             String popupId = column.getUUID().toString();//columnName + "_" + column.hashCode();
+            String popupColumn = columnName + "_" + columnIndex;
             
             addColumnLabelParameters(genericElement, table);
             addElementParameter(genericElement, "popupId", popupId);
@@ -578,9 +579,9 @@ public class TableReport implements JRReport
 
             frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());
             frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
-            frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, columnName);
+            frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
             
-            headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + columnName);
+            headerClasses.put(column.hashCode(), TableReport.HTML_CLASS_COLUMN + " " + TableReport.HTML_CLASS_COLUMN_PREFIX + popupColumn );
 			
 			frame.addElement(genericElement);
 		}
