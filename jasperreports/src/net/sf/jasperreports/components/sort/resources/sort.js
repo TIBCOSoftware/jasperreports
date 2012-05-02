@@ -219,10 +219,6 @@
 	            sortlinks.bind("touchstart",function(event){
 	                event.preventDefault();
 
-	                // change sortSymbol hover image
-	                var sortImage = jQuery('.sortSymbolImage', jQuery(this));
-	                sortImage.attr("src", sortImage.attr('data-hover'));
-	                
 	                !event.isStartData && (js.touchStartOn = {
 	                    element: event.target,
 	                    timeStamp: event.timeStamp
@@ -277,11 +273,6 @@
 	                    });
 	
 	                    filterDiv.show();
-	                    
-		                // change sortSymbol hover image
-		                var sortImage = jQuery('.sortSymbolImage', jQuery(this));
-		                sortImage.attr("src", sortImage.attr('data-src'));
-
 	                }
 	            });
 			} else {
@@ -327,18 +318,7 @@
 		                }
 	                }
 	            });
-	            
-	            jQuery('.sortlink').live('mouseenter', function(event) {
-	            	var target = jQuery('.sortSymbolImage', jQuery(this));
-	            	target.attr("src", target.attr('data-hover'));
-	            	
-	            });
 
-	            jQuery('.sortlink').live('mouseleave', function(event) {
-	            	var target = jQuery('.sortSymbolImage', jQuery(this));
-	            	target.attr("src", target.attr('data-src'));
-	            });
-	            
 			}
 			sortEvent.status = 'finished';
 			gm.processEvent(sortEvent.name);

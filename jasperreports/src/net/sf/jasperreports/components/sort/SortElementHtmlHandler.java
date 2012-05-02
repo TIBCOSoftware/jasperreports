@@ -42,8 +42,6 @@ import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
-import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -67,7 +65,6 @@ import net.sf.jasperreports.web.commands.CommandTarget;
 import net.sf.jasperreports.web.servlets.ReportServlet;
 import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.JacksonUtil;
-import net.sf.jasperreports.web.util.ReportExecutionHyperlinkProducer;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
@@ -88,16 +85,12 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 	
 	private static final String RESOURCE_SORT_JS = "net/sf/jasperreports/components/sort/resources/sort.js";
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
-	private static final String RESOURCE_IMAGE_CLOSE = "net/sf/jasperreports/components/sort/resources/images/delete_edit.gif";
-	private static final String RESOURCE_TRANSPARENT_PIXEL = "net/sf/jasperreports/engine/images/pixel.GIF";
 	
-	private static final String RESOURCE_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter.png";
-	private static final String RESOURCE_WRONG_FILTER_SYMBOL = "net/sf/jasperreports/components/sort/resources/images/filter_wrong.png";
-	private static final String RESOURCE_SORT_SYMBOL_ASC = "net/sf/jasperreports/components/sort/resources/images/sort_asc.png";
-	private static final String RESOURCE_SORT_SYMBOL_ASC_HOVER = "net/sf/jasperreports/components/sort/resources/images/sort_asc_over.png";
-	private static final String RESOURCE_SORT_SYMBOL_DESC = "net/sf/jasperreports/components/sort/resources/images/sort_desc.png";
-	private static final String RESOURCE_SORT_SYMBOL_DESC_OVER = "net/sf/jasperreports/components/sort/resources/images/sort_desc_over.png";
-	
+	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
+	private static final String CSS_FILTER_WRONG = 			"filterBtnWrong";
+	private static final String CSS_SORT_DEFAULT_ASC = 		"sortAscBtnDefault";
+	private static final String CSS_SORT_DEFAULT_DESC = 	"sortDescBtnDefault";
+
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/sort/resources/SortElementHtmlTemplate.vm";
 	
 	protected static final String HTML_VERTICAL_ALIGN_TOP = "top";
@@ -115,7 +108,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		if (reportContext != null)//FIXMEJIVE
 		{
 			String sortColumnName = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_NAME);
-			String sortColumnLabel = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_LABEL);
 			String sortColumnType = (String) element.getParameterValue(SortElement.PARAMETER_SORT_COLUMN_TYPE);
 			
 			String sortHandlerVAlign = (String) element.getParameterValue(SortElement.PARAMETER_SORT_HANDLER_VERTICAL_ALIGN);
@@ -163,16 +155,12 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 					break;
 			}
 			
-			String appContextPath = (String)reportContext.getParameterValue("net.sf.jasperreports.web.app.context.path");//FIXMEJIVE define constant
-			
 			VelocityContext velocityContext = new VelocityContext();
 			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
 			if (webResourcesBasePath == null)
 			{
 				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
 			}
-			String imagesResourcePath = (appContextPath == null ? "" : appContextPath) + webResourcesBasePath;//FIXMEJIVE
-
 			velocityContext.put("actionBaseUrl", getActionBaseUrl(context));
 			velocityContext.put("actionBaseData", getActionBaseJsonData(context));
 			
@@ -187,31 +175,16 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("sortHandlerVAlign", sortHandlerVAlign != null ? sortHandlerVAlign : HTML_VERTICAL_ALIGN_TOP);
 			velocityContext.put("sortHandlerColor", JRColorUtil.getColorHexa(sortHandlerColor));
 			velocityContext.put("sortHandlerFontSize", sortHandlerFont.getFontSize());
-			velocityContext.put("transparentPixelSrc", imagesResourcePath + SortElementHtmlHandler.RESOURCE_TRANSPARENT_PIXEL);
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
-//			velocityContext.put("filterFormAction", getFilterFormActionLink(context));
 			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
 			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
-//			velocityContext.put("filterFieldParamName", SortElement.REQUEST_PARAMETER_FILTER_FIELD);
 			velocityContext.put("filterColumnName", sortColumnName);
-//			velocityContext.put("filterTableNameParam", SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			velocityContext.put("filterTableNameValue", sortDatasetName);
-			velocityContext.put("filterCloseDialogImageResource", imagesResourcePath + SortElementHtmlHandler.RESOURCE_IMAGE_CLOSE);
-
-//			velocityContext.put("filterTypeParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE);
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
-//			velocityContext.put("filterTypeOperatorParamName", SortElement.REQUEST_PARAMETER_FILTER_TYPE_OPERATOR);
-			
-//			velocityContext.put("filterPatternParamName", SortElement.REQUEST_PARAMETER_FILTER_PATTERN);
 			velocityContext.put("filterPatternParamValue", filterPattern);
-
 			velocityContext.put("filterTypeValuesMap", translatedOperators);
-			
-//			velocityContext.put("filterValueStartParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE_START);
-//			velocityContext.put("filterValueEndParamName", SortElement.REQUEST_PARAMETER_FILTER_VALUE_END);
-			
 			
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)
@@ -233,15 +206,12 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				String sortOrder = !isAscending ? SortElement.SORT_ORDER_NONE : SortElement.SORT_ORDER_DESC;
 				sortData = new SortData(element.getUUID().toString(), sortColumnName, sortColumnType, sortOrder);
 				velocityContext.put("isSorted", true);
-				velocityContext.put("sortSymbolResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC);
-				velocityContext.put("sortSymbolHoverResource", isAscending ? imagesResourcePath + RESOURCE_SORT_SYMBOL_ASC_HOVER : imagesResourcePath + RESOURCE_SORT_SYMBOL_DESC_OVER);
+				velocityContext.put("sortSymbolResource", isAscending ? CSS_SORT_DEFAULT_ASC : CSS_SORT_DEFAULT_DESC);
 			}
 			velocityContext.put("tableUuid", element.getUUID().toString());
-//			velocityContext.put("sortHref", getSortLink(context, sortData));
 			velocityContext.put("actionData", getActionData(context, sortData));
 			
 			// existing filters
-//			String currentDataset = (String) reportContext.getParameterValue(SortElement.REQUEST_PARAMETER_DATASET_RUN);
 			String filterValueStart = "";
 			String filterValueEnd = "";
 			String filterTypeOperatorValue = "";
@@ -249,35 +219,29 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			boolean isFiltered = false;
 			boolean enableFilterEndParameter = false;
 			List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
-			String filterSymbolImageResource = imagesResourcePath + SortElementHtmlHandler.RESOURCE_FILTER_SYMBOL;
+			String filterSymbolImageResource = CSS_FILTER_DEFAULT;
 
-//			if (sortDatasetName != null && sortDatasetName.equals(currentDataset))
-//			{
-//				String currentTableFiltersParam = currentDataset + SortElement.FILTER_FIELDS_PARAM_SUFFIX;
-//				DatasetFilter existingFilter = (DatasetFilter) reportContext.getParameterValue(currentTableFiltersParam);
-//				getFieldFilters(existingFilter, fieldFilters, sortColumnName);
-				fieldFilters = getExistingFiltersForField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortColumnName);
-				
-				if (fieldFilters.size() > 0) {
-					FieldFilter ff = fieldFilters.get(0);
-					if (ff.getFilterValueStart() != null) {
-						filterValueStart = ff.getFilterValueStart();
-					}
-					if (ff.getFilterValueEnd() != null) {
-						filterValueEnd = ff.getFilterValueEnd();
-					}
-					filterTypeOperatorValue = ff.getFilterTypeOperator();
-					filterActiveInactive = FILTER_SYMBOL_ACTIVE;
-					isFiltered = true;
-					if (filterTypeOperatorValue != null && filterTypeOperatorValue.toLowerCase().contains("between")) {
-						enableFilterEndParameter = true;
-					}
-					if (ff.getIsValid() != null && !ff.getIsValid()) {
-						filterSymbolImageResource = imagesResourcePath + SortElementHtmlHandler.RESOURCE_WRONG_FILTER_SYMBOL;
-					}
-					
+			fieldFilters = getExistingFiltersForField(context.getJasperReportsContext(), reportContext, element.getUUID().toString(), sortColumnName);
+			
+			if (fieldFilters.size() > 0) {
+				FieldFilter ff = fieldFilters.get(0);
+				if (ff.getFilterValueStart() != null) {
+					filterValueStart = ff.getFilterValueStart();
 				}
-//			}
+				if (ff.getFilterValueEnd() != null) {
+					filterValueEnd = ff.getFilterValueEnd();
+				}
+				filterTypeOperatorValue = ff.getFilterTypeOperator();
+				filterActiveInactive = FILTER_SYMBOL_ACTIVE;
+				isFiltered = true;
+				if (filterTypeOperatorValue != null && filterTypeOperatorValue.toLowerCase().contains("between")) {
+					enableFilterEndParameter = true;
+				}
+				if (ff.getIsValid() != null && !ff.getIsValid()) {
+					filterSymbolImageResource = CSS_FILTER_WRONG;
+				}
+				
+			}
 			
 			velocityContext.put("isFiltered", isFiltered);
 			velocityContext.put("filterSymbolImageResource", filterSymbolImageResource);
@@ -302,44 +266,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
-//	private String getSortLink(JRHtmlExporterContext context, SortData sortData) {
-//		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-//		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
-//		
-//		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-//		parameters.addParameter(
-//			new JRPrintHyperlinkParameter(
-//				ReportServlet.REQUEST_PARAMETER_ACTION, 
-//				String.class.getName(), 
-//				"{\"actionName\":\"sortica\",\"sortData\":" 
-//					+ JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortData)
-//					+ "}"
-//				)
-//			);
-//		
-//		ReportContext reportContext = context.getExporter().getReportContext();
-//		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
-//		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
-//		
-//		hyperlink.setHyperlinkParameters(parameters);
-//		
-//		return context.getHyperlinkURL(hyperlink);
-//	}
-	
-//	private String getFilterFormActionLink(JRHtmlExporterContext context) {
-//		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
-//		hyperlink.setLinkType(ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION);
-//		
-//		JRPrintHyperlinkParameters parameters = new JRPrintHyperlinkParameters();
-//		ReportContext reportContext = context.getExporter().getReportContext();
-//		parameters.addParameter(new JRPrintHyperlinkParameter(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.class.getName(), reportContext.getId()));
-//		parameters.addParameter(new JRPrintHyperlinkParameter(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, String.class.getName(), "true"));
-//		
-//		hyperlink.setHyperlinkParameters(parameters);
-//		
-//		return context.getHyperlinkURL(hyperlink);
-//	}
-
 	private String getCurrentSortField(JasperReportsContext jasperReportsContext, ReportContext reportContext, String uuid, String sortDatasetName, String sortColumnName, String sortColumnType) 
 	{
 		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);

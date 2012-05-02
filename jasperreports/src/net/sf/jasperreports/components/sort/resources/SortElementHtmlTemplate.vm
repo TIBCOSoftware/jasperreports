@@ -14,7 +14,6 @@
 	#end
 	style="cursor: pointer; display: table; position: absolute; left: ${elementX}; top: ${elementY};
 		width: ${elementWidth}px; height: ${elementHeight}px; text-align: ${sortHandlerHAlign}; text-decoration: none;
-		background-image: url('${transparentPixelSrc}'); 
 		#if(${backgroundColor}) 
 			##background-color: \#${backgroundColor};
 		#end
@@ -22,9 +21,9 @@
 	<span style='display: table-cell; vertical-align: ${sortHandlerVAlign}'>
 		<span style='color: #${sortHandlerColor}; font-size: ${sortHandlerFontSize}px;'>
 			#if (${isSorted})
-				<img class='sortSymbolImage' src='${sortSymbolResource}' data-src='${sortSymbolResource}' data-hover='${sortSymbolHoverResource}'/> 
+				<button type='button' class='sortSymbolImage ${sortSymbolResource}' /> 
 			#end 
-			#if (${isFiltered}) <img class='filterSymbolImage filterSymbol_${filterActiveInactive}' src='${filterSymbolImageResource}' /> #end
+			#if (${isFiltered}) <button type='button' class='filterSymbolImage filterSymbol_${filterActiveInactive} ${filterSymbolImageResource}' /> #end
 		</span>
 	</span>
 </span>
@@ -35,7 +34,7 @@
 		var gm = jasperreports.global,
 			uid = '${filterDivId}',
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
-			                "<img class='hidefilter' src='${filterCloseDialogImageResource}' />",
+			                "<div class='hidefilter' />",
 			                "<div class='filterDivForm'>",
 			                "	<input class='postable forClear' type='hidden' name='tableUuid' value='${tableUuid}' />",
 			                "	<input class='postable filterField' type='hidden' name='fieldName' value='${filterColumnName}' />",
