@@ -23,13 +23,29 @@
  */
 package net.sf.jasperreports.web;
 
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRException;
+
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperInteractiveException extends Exception {//FIXMEJIVE consider renaming this exception
-	
-	public JasperInteractiveException(String message) {
+public class JRInteractiveException extends JRException
+{
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public JRInteractiveException(String message)
+	{
 		super(message);
+	}
+
+	public JRInteractiveException(Throwable t)
+	{
+		super(t);
+	}
+
+	public JRInteractiveException(String message, Throwable t)
+	{
+		super(message, t);
 	}
 }
