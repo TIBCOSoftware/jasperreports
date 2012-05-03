@@ -502,7 +502,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		for (JREnum operator: operators) 
 		{
 			String key = bundleName + "." + ((Enum<?>)operator).name();
-			result.put(key, messageProvider.getMessage(key, null, locale));
+			result.put(((Enum<?>)operator).name(), messageProvider.getMessage(key, null, locale));
 		}
 		
 		return result;
