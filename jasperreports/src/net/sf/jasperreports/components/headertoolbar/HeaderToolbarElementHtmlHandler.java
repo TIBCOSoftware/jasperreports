@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components.headertoolbar;
 
 import java.awt.GraphicsEnvironment;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -103,6 +102,8 @@ import org.codehaus.jackson.type.TypeReference;
  */
 public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
+	private static final String COMPONENTS_RESOURCE_BUNDLE = "net.sf.jasperreports.components.messages";
+	
 //	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
 	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
 //	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
@@ -257,6 +258,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				}
 				
 				String filterPattern = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN);
+				String calendarPattern = null;
 				if (filterPattern == null) {
 					filterPattern = "";
 				}
@@ -283,6 +285,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
 					formatPatternLabel = "Date pattern:";
+					filterPattern = getBundleMessage("net.sf.jasperreports.components.filter.date.pattern", context.getJasperReportsContext(), COMPONENTS_RESOURCE_BUNDLE, locale);
+					calendarPattern = getBundleMessage("net.sf.jasperreports.components.calendar.date.pattern", context.getJasperReportsContext(), COMPONENTS_RESOURCE_BUNDLE, locale);
 					break;
 				case TEXT:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
@@ -363,6 +367,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFieldName(columnName);
 				filterData.setFilterType(filterType.getName());
 				filterData.setFilterPattern(filterPattern);
+				filterData.setCalendarPattern(calendarPattern);
 				filterData.setFieldValueStart(filterValueStart);
 				filterData.setFieldValueEnd(filterValueEnd);
 				filterData.setFilterTypeOperator(filterTypeOperatorValue);
@@ -393,17 +398,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return htmlFragment;
 	}
 	
-	private void setNumberPatterns(
-			Map<String, String> valuesFormatPatternMap,
-			List<String> numberPatterns) {
-		DecimalFormat df = new DecimalFormat();
-		
-		for(String numberPattern: numberPatterns) {
-			df.applyPattern(numberPattern);
-			valuesFormatPatternMap.put(numberPattern, df.format(123456789));
-		}
-	}
-
 	private void setDatePatterns(
 			Map<String, String> valuesFormatPatternMap,
 			List<String> datePatterns,
@@ -710,6 +704,11 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		}
 		
 		return classes;
-	} 
+	}
+	
+	private String getBundleMessage(String key, JasperReportsContext jasperReportsContext, String bundleName, Locale locale) {
+		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
+		return messageProvider.getMessage(key, null, locale); 
+	}
 
 }
