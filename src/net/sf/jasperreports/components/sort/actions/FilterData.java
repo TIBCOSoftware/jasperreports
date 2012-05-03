@@ -37,6 +37,7 @@ public class FilterData extends BaseColumnData {
 	private String filterType;
 	private String filterTypeOperator;
 	private String filterPattern;
+	private String calendarPattern;
 	private boolean clearFilter;
 	
 	public FilterData() {
@@ -88,6 +89,14 @@ public class FilterData extends BaseColumnData {
 
 	public void setFilterPattern(String filterPattern) {
 		this.filterPattern = filterPattern;
+	}
+
+	public String getCalendarPattern() {
+		return calendarPattern;
+	}
+
+	public void setCalendarPattern(String calendarPattern) {
+		this.calendarPattern = calendarPattern;
 	}
 
 	public boolean isClearFilter() {
