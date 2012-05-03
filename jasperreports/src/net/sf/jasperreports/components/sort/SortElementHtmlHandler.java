@@ -153,6 +153,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				case TEXT:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					break;
+//FIXMEJIVE		case BOOLEAN:
+//					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
+//					break;
 			}
 			
 			VelocityContext velocityContext = new VelocityContext();
@@ -317,8 +320,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		Map<String, String> result = new LinkedHashMap<String, String>();
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		
-		for (JREnum operator: operators) {
-			result.put(((Enum<?>)operator).name(), messageProvider.getMessage(((Enum<?>)operator).name(), null, locale));
+		for (JREnum operator: operators) 
+		{
+			String key = bundleName + "." + ((Enum<?>)operator).name();
+			result.put(key, messageProvider.getMessage(key, null, locale));
 		}
 		
 		return result;

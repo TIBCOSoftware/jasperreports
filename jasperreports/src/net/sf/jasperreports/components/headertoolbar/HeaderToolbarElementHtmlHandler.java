@@ -289,6 +289,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					hasPattern = false;
 					break;
 				case BOOLEAN:
+					//FIXMEJIVE we need this? translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
 					hasPattern = false;
 					break;
 				}
@@ -493,13 +494,15 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		String bundleName, 
 		JREnum[] operators, 
 		Locale locale
-		) 
+		) //FIXMEJIVE make utility method for translating enums
 	{
 		Map<String, String> result = new LinkedHashMap<String, String>();
 		MessageProvider messageProvider = MessageUtil.getInstance(jasperReportsContext).getMessageProvider(bundleName);
 		
-		for (JREnum operator: operators) {
-			result.put(((Enum<?>)operator).name(), messageProvider.getMessage(((Enum<?>)operator).name(), null, locale));
+		for (JREnum operator: operators) 
+		{
+			String key = bundleName + "." + ((Enum<?>)operator).name();
+			result.put(key, messageProvider.getMessage(key, null, locale));
 		}
 		
 		return result;

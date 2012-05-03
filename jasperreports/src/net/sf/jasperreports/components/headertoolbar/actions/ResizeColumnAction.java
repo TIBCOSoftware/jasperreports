@@ -70,7 +70,7 @@ public class ResizeColumnAction extends AbstractVerifiableTableAction {
 	public void verify() throws ActionException {
 		ResizeColumnData resizeColData = getResizeColumnData();
 		if (resizeColData.getWidth() < 0) {
-			errors.addAndThrow("interactive.resizecolumn.negative.width");
+			errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.resize.column.negative.width");
 		}
 	}
 
