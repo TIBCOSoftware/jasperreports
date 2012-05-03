@@ -23,22 +23,27 @@
  */
 package net.sf.jasperreports.web;
 
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRRuntimeException;
+
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class JasperInteractiveRuntimeException extends RuntimeException {
-	
-	public JasperInteractiveRuntimeException(String message) {
+public class JRInteractiveRuntimeException extends JRRuntimeException
+{
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
+
+	public JRInteractiveRuntimeException(String message) {
 		super(message);
 	}
 	
-	public JasperInteractiveRuntimeException(String message, Throwable cause) {
+	public JRInteractiveRuntimeException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public JasperInteractiveRuntimeException(Throwable cause) {
+	public JRInteractiveRuntimeException(Throwable cause) {
 		super(cause);
 	}
 }

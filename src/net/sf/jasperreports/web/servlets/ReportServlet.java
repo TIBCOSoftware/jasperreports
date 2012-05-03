@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.components.sort.SortElement;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -44,7 +43,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
-import net.sf.jasperreports.web.JasperInteractiveException;
+import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
@@ -121,7 +120,7 @@ public class ReportServlet extends AbstractServlet
 			runReport(request, webReportContext);
 			render(request, webReportContext, out);
 		}
-		catch (JasperInteractiveException e) 
+		catch (JRInteractiveException e) 
 		{
 			log.error("Jasper Interactive error", e);
 			
@@ -152,14 +151,14 @@ public class ReportServlet extends AbstractServlet
 
 
 	/**
-	 * @throws JasperInteractiveException 
+	 * @throws JRInteractiveException 
 	 *
 	 */
 	public void runReport(
 		HttpServletRequest request, //FIXMEJIVE put request in report context, maybe as a thread local?
 		WebReportContext webReportContext
 		) throws JRException //IOException, ServletException
-, JasperInteractiveException
+, JRInteractiveException
 	{
 		JasperPrintAccessor jasperPrintAccessor = 
 			(JasperPrintAccessor) webReportContext.getParameterValue(

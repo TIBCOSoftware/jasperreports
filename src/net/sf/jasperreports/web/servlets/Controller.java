@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.AsynchronousFillHandle;
 import net.sf.jasperreports.repo.RepositoryUtil;
-import net.sf.jasperreports.web.JasperInteractiveException;
+import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
@@ -70,13 +70,13 @@ public class Controller
 	
 	
 	/**
-	 * @throws JasperInteractiveException 
+	 * @throws JRInteractiveException 
 	 *
 	 */
 	public void runReport(
 		WebReportContext webReportContext,
 		Action action
-		) throws JRException, JasperInteractiveException
+		) throws JRException, JRInteractiveException
 	{
 		String reportUri = (String)webReportContext.getParameterValue(REQUEST_PARAMETER_REPORT_URI);
 		int initialStackSize = 0;

@@ -23,16 +23,18 @@
  */
 package net.sf.jasperreports.web.commands;
 
-import net.sf.jasperreports.web.JasperInteractiveException;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.web.JRInteractiveException;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class CommandException extends JasperInteractiveException {
+public class CommandException extends JRInteractiveException 
+{
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 
 	public CommandException(String message) {
 		super(message);
 	}
-
 }
