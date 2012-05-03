@@ -64,7 +64,12 @@
 					function(event) {
 						var target = jQuery(event.target),
 							currentTarget = jQuery(this),
-							arrHeaderData = currentTarget.data('cachedHeaderData');
+							arrHeaderData = currentTarget.data('cachedHeaderData'),
+							clickPositionInFrame = event.pageX - currentTarget.offset().left,
+							currentTableFrameIndex = currentTarget.closest('.jrPage').find('.jrtableframe').index(currentTarget),
+							hd,
+							popupDiv,
+							headerMask;
 						
 						if (!arrHeaderData) {
 							// find headers inside frame
@@ -76,11 +81,14 @@
 							for (var i=0, ln = headers.length; i < ln; i++) {
 								header = jQuery(headers[i]);
 								headerName = /header_(\w+)/.exec(header.attr('class'));
+								popupDiv = js.getPopupFromTemplate(header.attr('data-popupId'), currentTableFrameIndex);
+								headerMask = jQuery('.headerToolbarMask', popupDiv);
 								if(headerName && headerName.length > 1) {
 									arrHeaderData.push({
 										maxLeft: header.position().left,
 										maxRight: header.position().left + header.width(),
 										headerClass: '.header_' + headerName[1],
+										columnIndex: headerMask.attr('data-columnIndex'),
 										toString: function () {return '{' + this.maxRight + ', ' + this.headerClass + '}'}
 									});
 								}
@@ -89,10 +97,6 @@
 						}
 						
 						// determine click position inside frame
-						var clickPositionInFrame = event.pageX - currentTarget.offset().left,
-							currentTableFrameIndex = currentTarget.closest('.jrPage').find('.jrtableframe').index(currentTarget),
-							hd;
-						
 						for (var i = 0, ln = arrHeaderData.length; i < ln; i++) {
 							hd = arrHeaderData[i];
 							if (clickPositionInFrame <= hd.maxRight && clickPositionInFrame >= hd.maxLeft) {
@@ -113,8 +117,6 @@
 						tableFrame = jQuery(tableFrameElement),
 						arrHeaderData = tableFrame.data('cachedHeaderData'),
 						centerOfHeaderMaskPos = event.pageX - tableFrame.offset().left + dragObj.cursorInsideMaskPosition,
-						currentHeader = jQuery(currentDraggedColumnHeader, tableFrame),
-						currentColPosition = jQuery('.columnHeader', tableFrame).index(currentHeader),
 						hd;
 					
 					for (var i = 0, ln = arrHeaderData.length; i < ln; i++) {
@@ -128,8 +130,8 @@
 								dragObj.moveColumnActionData = {actionName: 'move',
 															moveColumnData: {
 															tableUuid: dragObj.dragTableFrameUuid,
-															columnToMoveIndex: currentColPosition,
-															columnToMoveNewIndex: i,
+															columnToMoveIndex: js.selectedColumn.columnIndex,
+															columnToMoveNewIndex: hd.columnIndex,
 														}};
 							}
 							break;
@@ -301,6 +303,18 @@
 			gm.processEvent(headertoolbarEvent.name);
 		}
 		
+	};
+	
+	js.getColumnByUuid = function (columnUuid, tableUuid) {
+	    var tableColumns = this.allColumns[tableUuid],
+			colIdx;
+		
+		for (colIdx in tableColumns) {
+			if (tableColumns[colIdx].uuid === columnUuid) {
+				return tableColumns[colIdx];
+			}
+		}
+		return null;
 	};
 	
 	js.highlightColumn = function (popupId, tableFrameIndex, toolbarId) {
