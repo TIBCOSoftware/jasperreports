@@ -115,13 +115,13 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 					try {
 						formatFactory.createDateFormat(colValData.getFormatPattern(), locale, null);
 					} catch (IllegalArgumentException e){
-						errors.addAndThrow("interactive.editcolumnvalues.invalid.date.pattern", new Object[] {colValData.getFormatPattern()});
+						errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.column.values.invalid.date.pattern", new Object[] {colValData.getFormatPattern()});
 					}
 				} else if (filterType.equals(FilterTypesEnum.NUMERIC)) {
 					try {
 						formatFactory.createNumberFormat(colValData.getFormatPattern(), locale);
 					} catch (IllegalArgumentException e){
-						errors.addAndThrow("interactive.editcolumnvalues.invalid.number.pattern", new Object[] {colValData.getFormatPattern()});
+						errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.column.values.invalid.number.pattern", new Object[] {colValData.getFormatPattern()});
 					}
 				}
 			}

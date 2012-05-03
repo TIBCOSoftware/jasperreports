@@ -60,7 +60,7 @@ public abstract class AbstractAction implements Action {
 	}
 
 	public String getMessagesBundle() {
-		return "net.sf.jasperreports.web.actions.action-messages";
+		return "net.sf.jasperreports.web.actions.messages";
 	}
 	
 	public void init(JasperReportsContext jasperReportsContext, ReportContext reportContext)//, String reportUri) 
