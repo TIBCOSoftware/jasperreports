@@ -157,6 +157,18 @@ jive.interactive.column = jive.interactive.column || {
         } else {
             pmenu.parent().hide();
         }
+        
+        // disable sort/filter if not sortable/filterable
+        var foobarButtons = jive.ui.foobar.jo.find('button');
+        if (!jive.selected.ie.filterdiv) { // FIXMEJIVE set boolean on template if can sort/filter
+        	foobarButtons.eq(1).attr('disabled', true);
+        	foobarButtons.eq(2).attr('disabled', true);
+        	foobarButtons.eq(3).attr('disabled', true);
+        } else {
+        	foobarButtons.eq(1).attr('disabled', false);
+        	foobarButtons.eq(2).attr('disabled', false);
+        	foobarButtons.eq(3).attr('disabled', false);
+        }
     },
     onDragStart: function(){
         var parent = jive.selected.jo.parent();

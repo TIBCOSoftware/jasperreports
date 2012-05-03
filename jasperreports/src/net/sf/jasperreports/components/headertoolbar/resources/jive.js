@@ -229,7 +229,8 @@ jive.ui.foobar = {
             var jo = jQuery(this);
             var type = jive.selected.ie.type;
             var fn = jo.attr('fn');
-            if(fn){
+            var disabled = jo.attr('disabled') === 'disabled';
+            if(fn && !disabled){
                 jive.interactive[type][fn](jive.interactive[type].actions[jo.attr('actionkey')].arg);
             } else {
                 if(jo.attr('menu')){
