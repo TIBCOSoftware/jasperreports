@@ -44,6 +44,7 @@ import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
 import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
 import net.sf.jasperreports.components.sort.FieldFilter;
+import net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum;
@@ -293,7 +294,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					hasPattern = false;
 					break;
 				case BOOLEAN:
-					//FIXMEJIVE we need this? translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
 					hasPattern = false;
 					break;
 				}
