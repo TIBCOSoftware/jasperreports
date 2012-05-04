@@ -39,6 +39,7 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesMap;
@@ -344,8 +345,14 @@ public class FillTable extends BaseFillComponent
 				return FillPrepareResult.NO_PRINT_NO_OVERFLOW;
 			}
 			
-			FillPrepareResult result = fillSubreport.prepareSubreport(
-					availableHeight, filling);
+			JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
+			JRLineBox lineBox = printFrame.getLineBox();
+
+			FillPrepareResult result = 
+				fillSubreport.prepareSubreport(
+					availableHeight - lineBox.getTopPadding() - lineBox.getBottomPadding(), 
+					filling
+					);
 			filling = result.willOverflow();
 			return result;
 		}
@@ -360,10 +367,12 @@ public class FillTable extends BaseFillComponent
 		JRTemplatePrintFrame printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
 		printFrame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_UUID, fillContext.getComponentElement().getUUID().toString());
 
+		JRLineBox lineBox = printFrame.getLineBox();
+		
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
-		printFrame.setWidth(fillWidth);
-		printFrame.setHeight(fillSubreport.getContentsStretchHeight());
+		printFrame.setWidth(fillWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());
+		printFrame.setHeight(fillSubreport.getContentsStretchHeight() + lineBox.getTopPadding() + lineBox.getBottomPadding());
 		
 		List<JRStyle> styles = fillSubreport.getSubreportStyles();
 		for (Iterator<JRStyle> it = styles.iterator(); it.hasNext();)
