@@ -22,12 +22,13 @@ jive.interactive.column = jive.interactive.column || {
     },
     dropColumns: {},
     dropPoints: {},
+    dropColumnIndexes: {},
     ldi: null,
     rdi: null,
     delta: null,
 
     init: function(allColumns, tableUuid){
-        var t,c,lt,i,j,it = this;
+        var t,c,colData,lt,i,j,it = this;
         it.allColumns[tableUuid] = allColumns;
         /*
          * Load dynamic form data
@@ -56,12 +57,17 @@ jive.interactive.column = jive.interactive.column || {
          */
         it.dropPoints[tableUuid] = [];
         it.dropColumns[tableUuid] = [];
+        it.dropColumnIndexes[tableUuid] = [];
 
         t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']').eq(0);
         t.find('.columnHeader').each(function(i){
             c = jQuery(this);
             lt = c.offset().left;
-            it.enableColumn(c.data('popupid'), tableUuid)
+            colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
+            if (colData != null) {
+            	colData.enabled = true;	// enable column
+            	it.dropColumnIndexes[tableUuid].push(colData.index);
+            }
             it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
             it.dropPoints[tableUuid].push(lt);
         });
@@ -82,12 +88,11 @@ jive.interactive.column = jive.interactive.column || {
            	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false,"column":['+c.index+'], "columnUuid": "' + c.uuid + '"}'};
         }
         it.count = it.dropColumns[tableUuid].length;
-    },
-    enableColumn: function(columnUuid, tableUuid) {
-    	var col = this.getColumnByUuid(columnUuid, tableUuid);
-    	if (col != null) {
-    		col.enabled = true;
-    	}
+        
+        /*
+         * Reset foobar
+         */
+        jive.ui.foobar.reset();
     },
     getColumnByUuid: function(columnUuid, tableUuid) {
     	var tableColumns = this.allColumns[tableUuid],
@@ -212,7 +217,7 @@ jive.interactive.column = jive.interactive.column || {
                 moveColumnData: {
                     tableUuid: this.uuid,
                     columnToMoveIndex: jive.selected.ie.columnIndex,
-                    columnToMoveNewIndex: dropIndex
+                    columnToMoveNewIndex: this.dropColumnIndexes[this.uuid][dropIndex]
                 }
             });
         }
