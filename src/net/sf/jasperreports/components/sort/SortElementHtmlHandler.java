@@ -143,6 +143,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			}
 			
 			Map<String, String> translatedOperators = null;
+			boolean isBooleanFilterType = false;
 			switch (filterType) {
 				case NUMERIC:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
@@ -153,9 +154,10 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				case TEXT:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					break;
-//FIXMEJIVE		case BOOLEAN:
-//					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
-//					break;
+				case BOOLEAN:
+					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
+					isBooleanFilterType = true;
+					break;
 			}
 			
 			VelocityContext velocityContext = new VelocityContext();
@@ -188,6 +190,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
 			velocityContext.put("filterPatternParamValue", filterPattern);
 			velocityContext.put("filterTypeValuesMap", translatedOperators);
+			velocityContext.put("isBooleanFilterType", isBooleanFilterType);
 			
 			
 			if (element.getModeValue() == ModeEnum.OPAQUE)

@@ -51,7 +51,7 @@
     						"	<option value='$entry.key' $selected >$entry.value</option>",
 								#end
 							"	</select>",
-			                "	<input class='postable filterValue filterValueStart' type='text' name='fieldValueStart' value='${filterValueStartParamValue}' style='width: 80px;' />",
+			                "	<input class='postable filterValue filterValueStart #if (${isBooleanFilterType})hidden' disabled #else ' #end type='text' name='fieldValueStart' value='${filterValueStartParamValue}' style='width: 80px;' />",
 			                "	<input class='postable filterValue filterValueEnd #if (!${enableFilterEndParameter})hidden' disabled #else ' #end type='text' name='fieldValueEnd'  value='${filterValueEndParamValue}' style='width: 80px;' />",
 			                "	<input class='submitFilter' type='button' value='Filter' />",
 			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
