@@ -31,8 +31,7 @@
 #if (${isFilterable})
 <script class='jasperreports' type='text/javascript'>
 	(function () {
-		var gm = jasperreports.global,
-			uid = '${filterDivId}',
+		var uid = '${filterDivId}',
 			arrFilterDiv = ["<div id='${filterDivId}' class='filterdiv' style='display: none;' data-forsortlink='${sortLinkClass}'>",
 			                "<div class='hidefilter' />",
 			                "<div class='filterDivForm'>",
@@ -57,7 +56,7 @@
 			                "	<input class='clearFilter' #if(!${isFiltered}) style='display:none;' #end type='button' value='Clear' />",
 			                "</div></div>"];
 			                
-		gm.subscribeToEvent(gm.events.SORT_INIT.name, 'jasperreports.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
+		jasperreports.events.subscribeToEvent('jasperreports.sort.init', 'jasperreports.sort.createFilterDiv', [uid, arrFilterDiv, '${filtersJsonString}']);
 	} ());
 </script>
 #end

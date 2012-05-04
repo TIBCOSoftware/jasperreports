@@ -47,11 +47,10 @@
 	 * Initialization and event registration for non-dynamic JR elements
 	 */
 	js.init = function() { 
-		var gm = global.jasperreports.global,
-			headertoolbarEvent = gm.events.HEADERTOOLBAR_INIT;
+		var headertoolbarEvent = jasperreports.events.registerEvent('jasperreports.tableheadertoolbar.init');
 		
 		// init should be done only once
-		if (headertoolbarEvent.status === 'default') {
+		if (!headertoolbarEvent.hasFinished()) {
 			// disable browser contextual menu when right-clicking
 			jQuery(document).bind("contextmenu",function(e){  
 		        return false;  
@@ -299,8 +298,7 @@
 		         	}
             );
             
-			headertoolbarEvent.status = 'finished';
-			gm.processEvent(headertoolbarEvent.name);
+			headertoolbarEvent.trigger();
 		}
 		
 	};
