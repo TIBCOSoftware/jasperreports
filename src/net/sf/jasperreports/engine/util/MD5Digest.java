@@ -21,43 +21,51 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.xml;
+package net.sf.jasperreports.engine.util;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
-
-import org.xml.sax.Attributes;
+import net.sf.jasperreports.engine.JRConstants;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRDatasetFactory extends JRBaseFactory
+public final class MD5Digest implements Serializable
 {
+
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	public Object createObject(Attributes attributes)
+	private final long low;
+	private final long high;
+	
+	public MD5Digest(long low, long high)
 	{
-		JRDesignDataset dataset = new JRDesignDataset(false);
-		
-		dataset.setName(attributes.getValue(JRXmlConstants.ATTRIBUTE_name));
-		dataset.setScriptletClass(attributes.getValue(JRXmlConstants.ATTRIBUTE_scriptletClass));
-		
-		dataset.setResourceBundle(attributes.getValue(JRXmlConstants.ATTRIBUTE_resourceBundle));
+		this.low = low;
+		this.high = high;
+	}
 
-		WhenResourceMissingTypeEnum whenResourceMissingType = WhenResourceMissingTypeEnum.getByName(attributes.getValue(JRXmlConstants.ATTRIBUTE_whenResourceMissingType));
-		if (whenResourceMissingType != null)
+	@Override
+	public int hashCode()
+	{
+		return (int) (low + 47 * high);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof MD5Digest))
 		{
-			dataset.setWhenResourceMissingType(whenResourceMissingType);
+			return false;
 		}
 		
-		String uuid = attributes.getValue(JRXmlConstants.ATTRIBUTE_uuid);
-		if (uuid != null)
-		{
-			dataset.setUUID(UUID.fromString(uuid));
-		}
+		MD5Digest d = (MD5Digest) obj;
+		return low == d.low && high == d.high;
+	}
 
-		return dataset;
+	@Override
+	public String toString()
+	{
+		return String.format("%016x", low) + String.format("%016x", high);
 	}
 }

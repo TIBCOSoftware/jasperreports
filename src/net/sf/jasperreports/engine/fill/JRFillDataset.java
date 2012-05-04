@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import net.sf.jasperreports.data.cache.CachedDataset;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
@@ -77,8 +78,10 @@ import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
 import net.sf.jasperreports.engine.type.ResetTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.DigestUtils;
 import net.sf.jasperreports.engine.util.JRQueryExecuterUtils;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
+import net.sf.jasperreports.engine.util.MD5Digest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -675,6 +678,18 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	public void setFillPosition(FillDatasetPosition fillPosition)
 	{
+		if (fillPosition != null)
+		{
+			// add default attributes
+			fillPosition.addAttribute("datasetUUID", getUUID());
+			
+			if (query != null)
+			{
+				MD5Digest queryMD5 = DigestUtils.instance().md5(query.getText());
+				fillPosition.addAttribute("queryMD5", queryMD5);
+			}
+		}
+
 		this.fillPosition = fillPosition;
 	}
 	
@@ -1601,6 +1616,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 		return variableCalculationReqs.contains(new VariableCalculationReq(var.getName(), calculation));
 	}
 
+	@Override
+	public UUID getUUID()
+	{
+		return parent.getUUID();
+	}
 
 	public String getName()
 	{

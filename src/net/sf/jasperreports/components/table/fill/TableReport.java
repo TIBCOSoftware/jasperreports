@@ -1531,8 +1531,7 @@ public class TableReport implements JRReport
 	@Override
 	public UUID getUUID()
 	{
-		// using the element's uuid
-		return fillContext.getComponentElement().getUUID();
+		return mainDataset.getUUID();
 	}
 
 }

@@ -41,17 +41,17 @@ public class FillDatasetPosition implements Serializable
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
 	private final FillDatasetPosition parent;
-	private final Map<String, String> attributes;
+	private final Map<String, Serializable> attributes;
 	
 	public FillDatasetPosition(FillDatasetPosition parent)
 	{
 		this.parent = parent;
-		this.attributes = new LinkedHashMap<String, String>();
+		this.attributes = new LinkedHashMap<String, Serializable>();
 	}
 	
-	public void addAttribute(String key, Object value)
+	public void addAttribute(String key, Serializable value)
 	{
-		attributes.put(key, value == null ? null : value.toString());
+		attributes.put(key, value == null ? null : value);
 	}
 	
 	@Override
@@ -95,7 +95,7 @@ public class FillDatasetPosition implements Serializable
 		}
 		
 		string.append('{');
-		for (Map.Entry<String, String> entry : attributes.entrySet())
+		for (Map.Entry<String, Serializable> entry : attributes.entrySet())
 		{
 			string.append(entry.getKey());
 			string.append(':');
