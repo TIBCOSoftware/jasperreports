@@ -145,7 +145,7 @@
 </div>
 <script class='jasperreports'>
     jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '${jiveColumnScript}');
-    jasperreports.global.subscribeToEvent('jive_column_init', 'jive.interactive.column.setDynamicProperties', [{
+    jasperreports.events.subscribeToEvent('jive.interactive.column.init', 'jive.interactive.column.setDynamicProperties', [{
 	    fontSizes: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
 	    fonts: {
 			extension: [
@@ -167,12 +167,12 @@
 
 #if (${exporterFirstAttempt})
     <script class='jasperreports'>
-        jasperreports.global.subscribeToEvent('jive_column_init', 'jive.interactive.column.init', [${allColumnNames}, '${tableUUID}'], 'jive.interactive.column');
+        jasperreports.events.subscribeToEvent('jive.interactive.column.init', 'jive.interactive.column.init', [${allColumnNames}, '${tableUUID}'], 'jive.interactive.column');
     </script>
 #end
 
 <script class='jasperreports'>
-    jasperreports.global.subscribeToEvent('jive_init', 'jive.initInteractiveElement',[{
+    jasperreports.events.subscribeToEvent('jive.init', 'jive.initInteractiveElement',[{
         id: '${popupId}',
         type: 'column',
         selector: '.columnHeader',

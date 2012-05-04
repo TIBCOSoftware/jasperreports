@@ -192,11 +192,10 @@
     };
 
 	js.init = function() { 
-		var gm = global.jasperreports.global,
-			sortEvent = gm.events.SORT_INIT;
+		var sortEvent = jasperreports.events.registerEvent('jasperreports.sort.init');
 		
 		// init should be done only once
-		if (sortEvent.status === 'default') {
+		if (!sortEvent.hasFinished()) {
 			// disable browser contextual menu when right-clicking
 			jQuery(document).bind("contextmenu",function(e){  
 		        return false;  
@@ -320,8 +319,7 @@
 	            });
 
 			}
-			sortEvent.status = 'finished';
-			gm.processEvent(sortEvent.name);
+			sortEvent.trigger();
 		}
 	};
 	

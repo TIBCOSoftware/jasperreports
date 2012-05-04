@@ -19,25 +19,6 @@ jQuery.noConflict();
 						CORE: '/jquery/js/jquery-1.7.1.min.js',
 						UI: '/jquery/js/jquery-ui-1.8.18.custom.min.js'
 					},
-					events: {
-						SORT_INIT: {
-							name: 'sort_init',
-							status: 'default'
-						},
-						HEADERTOOLBAR_INIT: {
-							name: 'headertoolbar_init',
-							status: 'default'
-						},
-                        JIVE_INIT: {
-                            name: 'jive_init',
-                            status: 'default'
-                        },
-						JIVE_COLUMN_INIT: {
-							name: 'jive_column_init',
-							status: 'default'
-						}
-					},
-					eventSubscribers: {},
 					isFirstAjaxRequest: true,
 					dialogsContainerSelector: 'div.jrPage:first',		// FIXMEJIVE jrPage hardcoded in JRXHtmlExporter.java
 					reportContainerSelector: 'body'
@@ -192,50 +173,6 @@ jQuery.noConflict();
 			styleUrl = jg.APPLICATION_CONTEXT_PATH + styleUrl;
 		}
 		jg.loadStyle(styleName, styleUrl);
-	};
-	
-	jg.getEventByName = function (eventName) {
-		var events = jg.events,
-			prop,
-			event;
-		for(prop in events) {
-			if (events.hasOwnProperty(prop)) {
-				event = events[prop];
-				if ('object' === typeof event && event.hasOwnProperty('name') && event.name === eventName) {
-					return event;
-				}
-			}
-		}
-	};
-	
-	jg.subscribeToEvent = function (eventName, strCallbackFn, arrCallbackArgs, thisContext) {
-		var event = jg.getEventByName(eventName);
-		if (event.status === 'default') { 
-			if (!jg.eventSubscribers[eventName]) {
-				jg.eventSubscribers[eventName] = [];
-			}
-			var arrEvent = jg.eventSubscribers[eventName];
-			arrEvent.push({
-				callbackfn: strCallbackFn,
-				callbackargs: arrCallbackArgs,
-				thisContext: thisContext
-			});
-		} else if (event.status === 'finished') { 
-			// The event has finished so we are safe to execute the callback
-			jg.extractCallbackFunction(strCallbackFn).apply(jg.extractContext(thisContext), arrCallbackArgs);
-		}
-	};
-	
-	jg.processEvent = function (eventName) {
-		var i, subscribers = jg.eventSubscribers[eventName];
-		if (subscribers) {
-			for (i = 0; i < subscribers.length; i++) {
-				var subscriber = subscribers[i];
-				jg.extractCallbackFunction(subscriber.callbackfn).apply(jg.extractContext(subscriber.thisContext), subscriber.callbackargs);
-			}
-			// clear subscribers
-			jg.eventSubscribers[eventName] = undefined;
-		}
 	};
 	
 	jg.isEmpty = function(element) {
@@ -654,6 +591,70 @@ jQuery.noConflict();
 	jg.doJqueryStuff();
 
 	global.jasperreports = jr;
+	
+	jasperreports.events = {	// FIXMEJIVE consider separating as module
+		_events: {},
+		Event: function () {
+			if (!this instanceof jasperreports.events.Event) {
+				return new jasperreports.events.Event();
+			}
+			this.status = 'default';
+			this.subscribers = [];
+		},
+		registerEvent: function (evtName) {
+			if (!this._events[evtName]) {
+				this._events[evtName] = new jasperreports.events.Event();
+			}
+			return this._events[evtName];
+		},
+		subscribeToEvent: function (evtName, strCallbackFn, arrCallbackArgs, thisContext) {
+			this.registerEvent(evtName).subscribe({
+				callback: strCallbackFn,
+				args: arrCallbackArgs,
+				ctx: thisContext
+			});
+		},
+		triggerEvent: function (evtName) {
+			this.checkRegistered(evtName);
+			this._events[evtName].trigger();
+		},
+		checkRegistered: function (evtName) {
+			if (!this._events[evtName]) {
+				throw new Error('Event not registered:' + evtName);
+			}
+		}
+	};
+	
+	jasperreports.events.Event.prototype = {
+		getName: function() {
+			return this.name;
+		},
+		getStatus: function() {
+			return this.status;
+		},
+		hasFinished: function() {
+			return this.status === 'finished';
+		},
+		subscribe: function(subscriber) {
+			if (!this.hasFinished()) {
+				this.subscribers.push(subscriber);
+			} else {
+				this.processSubscriber(subscriber);
+			}
+		},
+		trigger: function() {
+			var i, ln = this.subscribers.length;
+			for (i = 0; i < ln; i++) {
+				this.processSubscriber(this.subscribers[i]);
+			}
+			this.subscribers = [];
+			this.status = 'finished';
+		},
+		processSubscriber: function(subscriber) {
+			var jg = jasperreports.global;
+			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args);
+		}
+	};
 
     global.jive = {
 		actionBaseData: null,

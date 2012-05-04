@@ -656,7 +656,7 @@ jive.interactive.column.columnFilterForm = {
         jive.runAction(actionData);
     }
 };
-jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
+jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.columnFilterForm]);
 
 jive.interactive.column.formatHeaderForm = {
 	actionDataCache: {},
@@ -745,7 +745,7 @@ jive.interactive.column.formatHeaderForm = {
     	}
     }
 };
-jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
+jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.formatHeaderForm]);
 
 jive.interactive.column.formatCellsForm = {
 	actionDataCache: {},
@@ -882,7 +882,6 @@ jive.interactive.column.formatCellsForm = {
 		};
     }
 };
-jasperreports.global.subscribeToEvent('jive_init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
+jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
 
-jasperreports.global.events.JIVE_COLUMN_INIT.status = 'finished';
-jasperreports.global.processEvent(jasperreports.global.events.JIVE_COLUMN_INIT.name);
+jasperreports.events.registerEvent('jive.interactive.column.init').trigger();

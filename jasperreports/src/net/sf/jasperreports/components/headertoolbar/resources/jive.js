@@ -1,5 +1,7 @@
 jQuery.extend(jive, {
     init:function(settings){
+    	var jiveInitEvent = jasperreports.events.registerEvent('jive.init');
+    	
         jQuery.extend(jive,settings);
         jQuery('div.jrPage').parent().on('click touchend',function(){
             jive.hide();
@@ -79,8 +81,7 @@ jQuery.extend(jive, {
         	jQuery(this).hide();
         });
 
-        jasperreports.global.events.JIVE_INIT.status = 'finished';
-        jasperreports.global.processEvent(jasperreports.global.events.JIVE_INIT.name);
+        jiveInitEvent.trigger();
     },
     initInteractiveElement: function(o){
         if(jive.elements[o.id]) {
