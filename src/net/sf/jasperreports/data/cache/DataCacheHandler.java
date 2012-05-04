@@ -41,7 +41,7 @@ public interface DataCacheHandler
 	
 	String PROPERTY_DATA_PERSISTABLE = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.persistable";
 	
-	String PROPERTY_PARAMETER_INCLUDED = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.included";
+	String PROPERTY_INCLUDED = JRPropertiesUtil.PROPERTY_PREFIX + "data.cache.included";
 
 	boolean isRecordingEnabled();
 	

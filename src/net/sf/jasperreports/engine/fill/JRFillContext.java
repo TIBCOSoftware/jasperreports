@@ -487,6 +487,11 @@ public class JRFillContext
 		return dataSnapshot;
 	}
 
+	public boolean hasDataSnapshot()
+	{
+		return dataSnapshot != null;
+	}
+
 	public DataRecorder getDataRecorder()
 	{
 		return dataRecorder;
@@ -495,16 +500,6 @@ public class JRFillContext
 	public void addDataRecordResult(FillDatasetPosition fillPosition, Object recorded)
 	{
 		recordedData.add(new Pair<FillDatasetPosition, Object>(fillPosition, recorded));
-	}
-
-	public boolean hasCachedData(FillDatasetPosition position)
-	{
-		if (dataSnapshot != null)
-		{
-			return dataSnapshot.hasCachedData(position);
-		}
-		
-		return false;
 	}
 	
 	public void cacheDone()

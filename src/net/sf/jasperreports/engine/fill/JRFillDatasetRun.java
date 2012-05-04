@@ -27,12 +27,16 @@ import java.sql.Connection;
 import java.util.Map;
 import java.util.UUID;
 
+import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRQuery;
 import net.sf.jasperreports.engine.JRScriptletException;
 import net.sf.jasperreports.engine.type.IncrementTypeEnum;
@@ -123,9 +127,13 @@ public class JRFillDatasetRun implements JRDatasetRun
 			filler.mainDataset.setCacheRecordIndex(datasetPosition, evaluation);		
 			dataset.setFillPosition(datasetPosition);
 			
+			String cacheIncludedProp = JRPropertiesUtil.getOwnProperty(this, DataCacheHandler.PROPERTY_INCLUDED); 
+			boolean cacheIncluded = JRPropertiesUtil.asBoolean(cacheIncludedProp, true);// default to true
+			dataset.setCacheSkipped(!cacheIncluded);
+			
 			if (dataSourceExpression != null)
 			{
-				if (!filler.fillContext.hasCachedData(datasetPosition))
+				if (!(filler.fillContext.hasDataSnapshot() && cacheIncluded)) 
 				{
 					JRDataSource dataSource = (JRDataSource) filler.evaluateExpression(dataSourceExpression, evaluation);
 					dataset.setDatasourceParameterValue(parameterValues, dataSource);
@@ -280,5 +288,20 @@ public class JRFillDatasetRun implements JRDatasetRun
 	public Object clone() 
 	{
 		throw new UnsupportedOperationException();
+	}
+	
+	public boolean hasProperties()
+	{
+		return parentDatasetRun.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parentDatasetRun.getPropertiesMap();
+	}
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 }

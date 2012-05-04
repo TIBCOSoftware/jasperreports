@@ -26,11 +26,13 @@ package net.sf.jasperreports.components.list;
 import java.sql.Connection;
 import java.util.Map;
 
+import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.fill.FillDatasetPosition;
@@ -59,6 +61,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 	
 	private Map<String, Object> parameterValues;
 	private FillDatasetPosition datasetPosition;
+	private boolean cacheIncluded;
 	private JRDataSource dataSource;
 	private Connection connection;
 	private boolean first;
@@ -104,10 +107,13 @@ public class FillDatasetRun extends JRFillDatasetRun
 		datasetPosition = new FillDatasetPosition(parentDataset.getDatasetPosition());
 		datasetPosition.addAttribute("datasetRunUUID", getUUID());
 		parentDataset.setCacheRecordIndex(datasetPosition, evaluation);
+		
+		String cacheIncludedProp = JRPropertiesUtil.getOwnProperty(this, DataCacheHandler.PROPERTY_INCLUDED); 
+		cacheIncluded = JRPropertiesUtil.asBoolean(cacheIncludedProp, true);// default to true
 
 		if (dataSourceExpression != null)
 		{
-			if (filler.getFillContext().hasCachedData(datasetPosition))
+			if (filler.getFillContext().hasDataSnapshot() && cacheIncluded) 
 			{
 				dataSource = null;
 			}
@@ -142,6 +148,7 @@ public class FillDatasetRun extends JRFillDatasetRun
 
 		// set fill position for caching
 		dataset.setFillPosition(datasetPosition);
+		dataset.setCacheSkipped(!cacheIncluded);
 
 		copyConnectionParameter(parameterValues);
 		dataset.initCalculator();

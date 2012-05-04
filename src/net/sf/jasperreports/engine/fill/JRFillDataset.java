@@ -243,6 +243,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	protected DatasetRecorder dataRecorder;
 	
 	private Map<Integer, CacheRecordIndexCallback> cacheRecordIndexCallbacks;
+	private boolean cacheSkipped;
 	private CachedDataset cachedDataset;
 	private boolean sortedDataSource;
 	
@@ -688,9 +689,21 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				MD5Digest queryMD5 = DigestUtils.instance().md5(query.getText());
 				fillPosition.addAttribute("queryMD5", queryMD5);
 			}
+			//FIXME optimize storage for repeating subreports/subdatasets
 		}
 
 		this.fillPosition = fillPosition;
+	}
+
+
+	public void setCacheSkipped(boolean cacheSkipped)
+	{
+		this.cacheSkipped = cacheSkipped;
+		
+		if (cacheSkipped && log.isDebugEnabled())
+		{
+			log.debug("data cache skipped at position " + fillPosition);
+		}
 	}
 	
 	protected void cacheInit() throws DataSnapshotException
@@ -714,6 +727,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 	
 	protected void cacheInitSnapshot() throws DataSnapshotException
 	{
+		if (cacheSkipped)
+		{
+			return;
+		}
+
 		DataSnapshot dataSnapshot = filler.fillContext.getDataSnapshot();
 		if (dataSnapshot != null)
 		{
@@ -733,6 +751,11 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected void cacheInitRecording()
 	{
+		if (cacheSkipped)
+		{
+			return;
+		}
+
 		if (cachedDataset != null)
 		{
 			// we have a cache dataset, nothing to do
@@ -815,9 +838,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 
 	protected boolean isIncludedInDataCache(JRFillParameter parameter)
 	{
-		String includedProp = parameter.hasProperties() 
-				? parameter.getPropertiesMap().getProperty(DataCacheHandler.PROPERTY_PARAMETER_INCLUDED)
-				: null;
+		String includedProp = JRPropertiesUtil.getOwnProperty(parameter, DataCacheHandler.PROPERTY_INCLUDED); 
 		return JRPropertiesUtil.asBoolean(includedProp);
 	}
 

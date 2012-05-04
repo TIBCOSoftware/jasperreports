@@ -31,7 +31,7 @@ package net.sf.jasperreports.engine;
  * @see net.sf.jasperreports.engine.JRDataset
  * @see net.sf.jasperreports.engine.JRChartDataset#getDatasetRun()
  */
-public interface JRDatasetRun extends JRCloneable, JRIdentifiable
+public interface JRDatasetRun extends JRCloneable, JRIdentifiable, JRPropertiesHolder
 {
 	/**
 	 * Returns the sub dataset name.
