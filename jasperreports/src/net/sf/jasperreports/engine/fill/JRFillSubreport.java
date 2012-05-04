@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRException;
@@ -44,6 +45,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintRectangle;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRScriptlet;
@@ -89,6 +91,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	private Map<String, Object> parameterValues;
 	private JRSubreportParameter[] parameters;
 	private FillDatasetPosition datasetPosition;
+	private boolean cacheIncluded;
 	private Connection connection;
 	private JRDataSource dataSource;
 	private JasperReport jasperReport;
@@ -366,7 +369,10 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			connection = (Connection) evaluateExpression(
 					getConnectionExpression(), evaluation);
 	
-			if (filler.fillContext.hasCachedData(datasetPosition))
+			String cacheIncludedProp = JRPropertiesUtil.getOwnProperty(this, DataCacheHandler.PROPERTY_INCLUDED); 
+			cacheIncluded = JRPropertiesUtil.asBoolean(cacheIncludedProp, true);// default to true
+
+			if (filler.fillContext.hasDataSnapshot() && cacheIncluded)
 			{
 				// TODO lucianc put something here so that data adapters know not to create a data source
 				dataSource = null;
@@ -462,6 +468,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		subreportFiller.setSubreportRunner(runner);
 		
 		subreportFiller.mainDataset.setFillPosition(datasetPosition);
+		subreportFiller.mainDataset.setCacheSkipped(!cacheIncluded);
 	}
 
 

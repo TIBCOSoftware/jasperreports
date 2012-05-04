@@ -4173,6 +4173,7 @@ should extend <code>net.sf.jasperreports.engine.JRAbstractChartCustomizer</code>
   </annotation>
   <complexType>
    <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:parametersMapExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:datasetParameter" minOccurs="0" maxOccurs="unbounded"/>
     <choice minOccurs="0" maxOccurs="1">

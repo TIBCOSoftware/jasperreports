@@ -189,6 +189,11 @@ public final class JRPropertiesUtil
 		return Boolean.valueOf(value).booleanValue();
 	}
 
+	public static boolean asBoolean(String value, boolean defaultValue)
+	{
+		return value == null ? defaultValue : Boolean.valueOf(value).booleanValue();
+	}
+
 	/**
 	 * Converts a <code>String</code> value into a <code>int</code>.
 	 * 
@@ -755,5 +760,15 @@ public final class JRPropertiesUtil
 	{
 		return value == null || value.length() == 0 ? null 
 				: new Character(value.charAt(0));
+	}
+
+	public static String getOwnProperty(JRPropertiesHolder propertiesHolder, String key)
+	{
+		String value = null;
+		if (propertiesHolder.hasProperties())
+		{
+			value = propertiesHolder.getPropertiesMap().getProperty(key);
+		}
+		return value;
 	}
 }

@@ -30,6 +30,8 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetParameter;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
@@ -49,6 +51,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 	protected JRDatasetParameter[] parameters;
 	protected JRExpression connectionExpression;
 	protected JRExpression dataSourceExpression;
+	protected JRPropertiesMap propertiesMap;
 	
 	
 	/**
@@ -74,6 +77,7 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		parametersMapExpression = factory.getExpression(datasetRun.getParametersMapExpression());
 		connectionExpression = factory.getExpression(datasetRun.getConnectionExpression());
 		dataSourceExpression = factory.getExpression(datasetRun.getDataSourceExpression());
+		propertiesMap = JRPropertiesMap.getPropertiesClone(datasetRun);
 		
 		JRDatasetParameter[] datasetParams = datasetRun.getParameters();
 		if (datasetParams != null && datasetParams.length > 0)
@@ -141,7 +145,27 @@ public class JRBaseDatasetRun implements JRDatasetRun, Serializable
 		clone.dataSourceExpression = JRCloneUtils.nullSafeClone(dataSourceExpression);
 
 		clone.parameters = JRCloneUtils.cloneArray(parameters);
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 
 		return clone;
+	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 }
