@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.base;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
@@ -58,6 +59,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	public static final String PROPERTY_WHEN_RESOURCE_MISSING_TYPE = "whenResourceMissingType";
 
 	protected final boolean isMain;
+	protected UUID uuid;
 	protected String name;
 	protected String scriptletClass;
 	protected JRScriptlet[] scriptlets;
@@ -83,6 +85,7 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 	{
 		factory.put(dataset, this);
 		
+		uuid = dataset.getUUID();
 		name = dataset.getName();
 		scriptletClass = dataset.getScriptletClass();
 		resourceBundle = dataset.getResourceBundle();
@@ -164,6 +167,15 @@ public class JRBaseDataset implements JRDataset, Serializable, JRChangeEventsSup
 		filterExpression = factory.getExpression(dataset.getFilterExpression());
 	}
 
+	
+	public UUID getUUID()
+	{
+		if (uuid == null)
+		{
+			uuid = UUID.randomUUID();
+		}
+		return uuid;
+	}
 	
 	/**
 	 *

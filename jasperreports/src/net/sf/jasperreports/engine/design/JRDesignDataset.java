@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -101,6 +102,8 @@ public class JRDesignDataset extends JRBaseDataset
 	public static final String PROPERTY_SORT_FIELDS = "sortFields";
 	
 	public static final String PROPERTY_VARIABLES = "variables";
+	
+	private boolean ownUUID;
 
 	/**
 	 * Scriptlets mapped by name.
@@ -351,6 +354,31 @@ public class JRDesignDataset extends JRBaseDataset
 		return variable;
 	}
 
+	
+	/**
+	 * Sets the unique identifier for the report.
+	 * 
+	 * @param uuid the identifier
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+		this.ownUUID = uuid != null;
+	}
+	
+	/**
+	 * Determines whether the report has an existing unique identifier.
+	 * 
+	 * Note that when no existing identifier is set, {@link #getUUID()} would generate and return
+	 * an identifier.
+	 * 
+	 * @return whether the report has an externally set unique identifier
+	 * @see #setUUID(UUID)
+	 */
+	public boolean hasUUID()
+	{
+		return ownUUID;
+	}
 	
 	/**
 	 * Sets the name of the dataset.

@@ -396,8 +396,6 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		if (parentFiller == null)
 		{
 			FillDatasetPosition masterFillPosition = new FillDatasetPosition(null);
-			// adding this attribute only to have something at root level
-			masterFillPosition.addAttribute("report", jasperReport.getName());
 			mainDataset.setFillPosition(masterFillPosition);
 		}
 		

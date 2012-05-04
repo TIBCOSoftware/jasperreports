@@ -1046,6 +1046,11 @@
      </restriction>
     </simpleType>
    </attribute>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify subdatasets.</documentation>
+	</annotation>
+   </attribute>  
   </complexType>
  </element>
 

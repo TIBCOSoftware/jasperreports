@@ -40,7 +40,7 @@ import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
  * @see net.sf.jasperreports.engine.JRReport#getMainDataset()
  * @see net.sf.jasperreports.engine.JRReport#getDatasets()
  */
-public interface JRDataset extends JRPropertiesHolder, JRCloneable
+public interface JRDataset extends JRPropertiesHolder, JRCloneable, JRIdentifiable
 {
 
 	

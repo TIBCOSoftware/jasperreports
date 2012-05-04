@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.table.fill;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRAbstractScriptlet;
 import net.sf.jasperreports.engine.JRDataset;
@@ -122,6 +123,12 @@ public class TableReportDataset implements JRDataset
 	public void addFirstGroup(JRGroup group)
 	{
 		groups.add(0, group);
+	}
+
+	@Override
+	public UUID getUUID()
+	{
+		return tableSubdataset.getUUID();
 	}
 
 	public String getName()

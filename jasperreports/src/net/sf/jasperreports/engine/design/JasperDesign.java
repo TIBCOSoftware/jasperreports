@@ -174,8 +174,6 @@ public class JasperDesign extends JRBaseReport
 	private Map<String, JRDataset> datasetMap = new HashMap<String, JRDataset>();
 	private List<JRDataset> datasetList = new ArrayList<JRDataset>();
 	
-	private boolean ownUUID;
-
 	/**
 	 * Constructs a JasperDesign object and fills it with the default variables and parameters.
 	 */
@@ -1249,8 +1247,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public void setUUID(UUID uuid)
 	{
-		this.uuid = uuid;
-		this.ownUUID = uuid != null;
+		mainDesignDataset.setUUID(uuid);
 	}
 	
 	/**
@@ -1264,7 +1261,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public boolean hasUUID()
 	{
-		return ownUUID;
+		return mainDesignDataset.hasUUID();
 	}
 	
 }
