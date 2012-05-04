@@ -327,6 +327,10 @@ jive.ui.foobar = {
         htm += '</ul>';
 
         return htm;
+    },
+    reset: function() {
+    	this.cache = {};
+    	this.menus = {};
     }
 }
 
