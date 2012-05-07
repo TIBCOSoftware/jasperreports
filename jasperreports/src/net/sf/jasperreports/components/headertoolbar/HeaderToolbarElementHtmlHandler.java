@@ -103,7 +103,13 @@ import org.codehaus.jackson.type.TypeReference;
  */
 public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 {
-	private static final String COMPONENTS_RESOURCE_BUNDLE = "net.sf.jasperreports.components.messages";
+	private static final String DEFAULT_DATE_PATTERN_BUNDLE = "net.sf.jasperreports.components.messages";
+	private static final String DEFAULT_DATE_PATTERN_KEY = "net.sf.jasperreports.components.date.pattern";
+	private static final String DEFAULT_CALENDAR_DATE_PATTERN_KEY = "net.sf.jasperreports.components.calendar.date.pattern";
+	private static final String DATE_PATTERN_BUNDLE = DEFAULT_DATE_PATTERN_KEY + ".bundle";
+	private static final String DATE_PATTERN_KEY = DEFAULT_DATE_PATTERN_KEY + ".key";
+	private static final String CALENDAR_DATE_PATTERN_BUNDLE = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".bundle";
+	private static final String CALENDAR_DATE_PATTERN_KEY = DEFAULT_CALENDAR_DATE_PATTERN_KEY + ".key";
 	
 //	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.js";
 	private static final String RESOURCE_HEADERTOOLBAR_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.js";
@@ -286,8 +292,31 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
 					formatPatternLabel = "Date pattern:";
-					filterPattern = getBundleMessage("net.sf.jasperreports.components.filter.date.pattern", context.getJasperReportsContext(), COMPONENTS_RESOURCE_BUNDLE, locale);
-					calendarPattern = getBundleMessage("net.sf.jasperreports.components.calendar.date.pattern", context.getJasperReportsContext(), COMPONENTS_RESOURCE_BUNDLE, locale);
+
+					String datePatternBundleName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(DATE_PATTERN_BUNDLE);
+					if (datePatternBundleName == null)
+					{
+						datePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
+					}
+					String datePatternKey = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(DATE_PATTERN_KEY);
+					if (datePatternKey == null)
+					{
+						datePatternKey = DEFAULT_DATE_PATTERN_KEY;
+					}
+					filterPattern = getBundleMessage(datePatternKey, context.getJasperReportsContext(), datePatternBundleName, locale);
+					
+					String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
+					if (calendarDatePatternBundleName == null)
+					{
+						calendarDatePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
+					}
+					String calendarDatePatternKey = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(CALENDAR_DATE_PATTERN_KEY);
+					if (calendarDatePatternKey == null)
+					{
+						calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
+					}
+					calendarPattern = getBundleMessage(calendarDatePatternKey, context.getJasperReportsContext(), calendarDatePatternBundleName, locale);
+					
 					break;
 				case TEXT:
 					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
