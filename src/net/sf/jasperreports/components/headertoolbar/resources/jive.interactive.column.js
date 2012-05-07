@@ -557,6 +557,7 @@ jive.interactive.column.columnFilterForm = {
 
             if (filtertype == 'boolean' && jQuery(this).val() == 'false') {
            		it.jc.filterStart.prop('disabled', true);
+           		it.jc.filterStart.closest('td').hide();
             }
         });
     },
@@ -566,40 +567,40 @@ jive.interactive.column.columnFilterForm = {
         var filtertype = metadata.filterType.toLowerCase();
         var options = jive.selected.ie.filterdiv.filterOperatorTypeValueSelector || {
             text : [
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.EQUALS',val:'Equals'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.CONTAINS',val:'Contains'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.DOES_NOT_CONTAIN',val:'Does not contain'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.STARTS_WITH',val:'Starts with'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.DOES_NOT_START_WITH',val:'Does not start with'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.ENDS_WITH',val:'Ends with'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeTextOperatorsEnum.DOES_NOT_END_WITH',val:'Does not end with'}
+                {key:'EQUALS',val:'Equals'},
+                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+                {key:'CONTAINS',val:'Contains'},
+                {key:'DOES_NOT_CONTAIN',val:'Does not contain'},
+                {key:'STARTS_WITH',val:'Starts with'},
+                {key:'DOES_NOT_START_WITH',val:'Does not start with'},
+                {key:'ENDS_WITH',val:'Ends with'},
+                {key:'DOES_NOT_END_WITH',val:'Does not end with'}
             ],
             date: [
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.EQUALS',val:'Equals'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_BETWEEN',val:'Is between'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_NOT_BETWEEN',val:'Is not between'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_ON_OR_BEFORE',val:'Is on or before'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_BEFORE',val:'Is before'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_ON_OR_AFTER',val:'Is on or after'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum.IS_AFTER',val:'Is after'}
+                {key:'EQUALS',val:'Equals'},
+                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+                {key:'IS_BETWEEN',val:'Is between'},
+                {key:'IS_NOT_BETWEEN',val:'Is not between'},
+                {key:'IS_ON_OR_BEFORE',val:'Is on or before'},
+                {key:'IS_BEFORE',val:'Is before'},
+                {key:'IS_ON_OR_AFTER',val:'Is on or after'},
+                {key:'IS_AFTER',val:'Is after'}
             ],
             numeric: [
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.EQUALS',val:'Equals'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.DOES_NOT_EQUAL',val:'Does not equal'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.GREATER_THAN',val:'Greater than'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.LESS_THAN',val:'Less than'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.IS_BETWEEN',val:'Is between'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeNumericOperatorsEnum.IS_NOT_BETWEEN',val:'Is not between'}
+                {key:'EQUALS',val:'Equals'},
+                {key:'DOES_NOT_EQUAL',val:'Does not equal'},
+                {key:'GREATER_THAN',val:'Greater than'},
+                {key:'GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
+                {key:'LESS_THAN',val:'Less than'},
+                {key:'LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
+                {key:'IS_BETWEEN',val:'Is between'},
+                {key:'IS_NOT_BETWEEN',val:'Is not between'}
             ],
             boolean: [
-                {key:'net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum.IS_TRUE', val:'Is true'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum.IS_NOT_TRUE', val:'Is not true'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum.IS_FALSE', val:'Is false'},
-                {key:'net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum.IS_NOT_FALSE', val:'Is not false'}
+                {key:'IS_TRUE', val:'Is true'},
+                {key:'IS_NOT_TRUE', val:'Is not true'},
+                {key:'IS_FALSE', val:'Is false'},
+                {key:'IS_NOT_FALSE', val:'Is not false'}
             ]
         }[filtertype];
 
@@ -626,8 +627,11 @@ jive.interactive.column.columnFilterForm = {
             it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', true);
         }
         
-        if (filtertype === 'boolean' && !filterOff) {
+        if (filtertype === 'boolean') {
         	it.jc.filterStart.prop('disabled',true);
+        	it.jc.filterStart.closest('td').hide();
+        } else {
+        	it.jc.filterStart.closest('td').show();
         }
     },
     submit:function(){
