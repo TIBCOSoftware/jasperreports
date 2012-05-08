@@ -676,7 +676,9 @@ jQuery.noConflict();
         	var startPoint = startPoint || this.selected.jo,
         		toolbarId = startPoint != null ? startPoint.closest('.mainReportDiv').find('.toolbarDiv').attr('id') : null,
         		fnToString = Object.prototype.toString;
-        	
+
+            this.hide();
+
         	jasperreports.reportviewertoolbar.runReport2({
     				actionBaseData: jQuery.parseJSON(this.actionBaseData),
     				actionBaseUrl: this.actionBaseUrl,

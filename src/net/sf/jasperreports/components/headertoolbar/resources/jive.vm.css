@@ -1,3 +1,8 @@
+button::-moz-focus-inner {
+    padding: 0 !important;
+    border: 0 none !important;
+}
+
 #jive_overlay {
     position:absolute;
     z-index:9;
@@ -34,20 +39,28 @@
     position:absolute;
     border:solid 1px #ccc;
     border-bottom:none;
-    padding:2px;
-    height:16px;
+    padding:0;
+    height:20px;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/foobar.bg.png) repeat-x #fff;
     background-position:0 1px;
     z-index:11;
 }
 
 .jive_foobar_button {
-    margin:0 2px;
-    height:16px;
+    margin:0;
+    height:20px;
     padding:0;
     border:none;
     overflow:visible;
     background:transparent;
+}
+
+.jive_foobar_button.over {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_column_formatting_sprite.png);
+}
+.jive_foobar_button.pressed {
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_column_formatting_sprite.png);
+    background-position:0 -51px;
 }
 
 .jive_foobar_button .wrap {}
@@ -59,18 +72,6 @@
     .display:inline;
     zoom:1;
     cursor:pointer;
-}
-
-/* NEW */
-/* the styles below target ONLY firefox */
-@-moz-document url-prefix() {
-	.jive_foobar_button {
-		margin:0;
-	}
-
-	.jive_foobar_button .icon {
-		width:22px;
-	}
 }
 
 .jive_dialog {
@@ -94,9 +95,9 @@
 
 .jive_dialog h2 {
     text-align: left;
-    margin:0;
+    margin:0 0 0 10px;
     padding:0 4px;
-    font-size:12px;
+    font-size:11px;
     line-height:28px;
 }
 
@@ -251,11 +252,9 @@ div.dialogFooter button.disabled {
 
 .jive_form td {
 	background:#fff;
-	/*border:solid 1px #ccc;*/
     padding:0;
     margin:0;
     vertical-align: top;
-    border:solid 1px #eee;
 }
 
 .jive_form td.jive_textLabel {
@@ -266,11 +265,24 @@ div.dialogFooter button.disabled {
 div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
 div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 
-.jive_form input, .jive_form select {position:relative;width:100%;margin:0;padding:0;border:solid 1px #eee;}
+.jive_form input,
+.jive_form select {
+    position:relative;
+    width:100%;
+    margin:0;
+    padding:0;
+    border-style: solid;
+    border-width: 1px;
+    border-top-color: #848484;
+    border-right-color: #c1c1c1;
+    border-bottom-color: #e1e1e1;
+    border-left-color: #c1c1c1;
+}
+
 .jive_form input{height:21px;line-height:21px;}
 .jive_form select{/*height:24px;line-height:24px;*/margin:4px 0;}
 
-.jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;}
+.jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;border:none;}
 
 .jive_form select.showList {height:auto; !important}
 .jive_form select.wFreeText {margin-top:8px; !important}
@@ -302,21 +314,42 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 
 .sortDescIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
-    background-position:0 -96px;
+    background-position:3px -94px;
     top:2px;
     left:3px;
 }
 .sortAscIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
-    background-position:0 -65px;
+    background-position:3px -63px;
 }
 .filterIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
-    background-position:0 -32px;
+    background-position:4px -31px;
 }
 .formatIcon {
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/iv_format_button_sprite.png);
-    background-position:0 0;
+    background-position:2px 2px;
+}
+.jive_foobar_button.over .sortDescIcon{
+    background-position:-73px -94px;
+}
+.jive_foobar_button.over .sortAscIcon{
+    background-position:-73px -63px;
+}
+.jive_foobar_button.over .filterIcon{
+    background-position:-72px -31px;
+}
+.jive_foobar_button.over .formatIcon{
+    background-position:-74px 2px;
+}
+.jive_foobar_button.disabled .sortDescIcon{
+    background-position:-35px -94px;
+}
+.jive_foobar_button.disabled .sortAscIcon{
+    background-position:-35px -63px;
+}
+.jive_foobar_button.disabled .filterIcon{
+    background-position:-34px -31px;
 }
 .boldIcon {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
