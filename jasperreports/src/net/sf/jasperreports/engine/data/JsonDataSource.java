@@ -127,7 +127,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 	 */
 	public JsonDataSource(JasperReportsContext jasperReportsContext, String location, String selectExpression) throws JRException 
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location), selectExpression);
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location), selectExpression);
 		
 		toClose = true;
 	}

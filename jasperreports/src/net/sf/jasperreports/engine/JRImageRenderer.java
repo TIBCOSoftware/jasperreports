@@ -490,7 +490,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	{
 		if (imageData == null)
 		{
-			imageData = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(imageLocation);
+			imageData = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(imageLocation);
 			
 			if(imageData != null) 
 			{

@@ -147,6 +147,6 @@ public class ChartPdfHandler implements GenericElementPdfHandler
 
 	protected byte[] readSwf() throws JRException
 	{
-		return RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytes2("openflashchart/open-flash-chart.swf");
+		return RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytesFromLocation("openflashchart/open-flash-chart.swf");
 	}
 }

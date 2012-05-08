@@ -606,7 +606,7 @@ public class JRPdfExporter extends JRAbstractExporter
 					pdfDictionary.put(PdfName.INFO, new PdfString("sRGB IEC61966-2.1"));
 					pdfDictionary.put(PdfName.S, PdfName.GTS_PDFA1);
 					
-					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(iccProfilePath);
+					InputStream iccIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(iccProfilePath);
 					PdfICCBased pdfICCBased = new PdfICCBased(ICC_Profile.getInstance(iccIs));
 					pdfICCBased.remove(PdfName.ALTERNATE);
 					pdfDictionary.put(PdfName.DESTOUTPUTPROFILE, pdfWriter.addToBody(pdfICCBased).getIndirectReference());
@@ -2004,7 +2004,7 @@ public class JRPdfExporter extends JRAbstractExporter
 
 			try
 			{
-				bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(pdfFont.getPdfFontName());
+				bytes = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(pdfFont.getPdfFontName());
 			}
 			catch(JRException e)
 			{
