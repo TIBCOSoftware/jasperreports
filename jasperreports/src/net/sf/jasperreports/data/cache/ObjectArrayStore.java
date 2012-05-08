@@ -31,19 +31,19 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class ObjectArrayStore implements BufferColumnStore, ArrayStore
+public class ObjectArrayStore<T> implements BufferColumnStore, ArrayStore
 {
 	
 	private static final Log log = LogFactory.getLog(ObjectArrayStore.class);
 	
-	private final Class<String> valuesType;
+	private final Class<T> valuesType;
 	
 	private final Object[] values;
 	private int count;
 	
 	private RunLengthStore runLengthStore;
 	
-	public ObjectArrayStore(Class<String> valuesType, int size)
+	public ObjectArrayStore(Class<T> valuesType, int size)
 	{
 		this.valuesType = valuesType;
 		this.values = new Object[size];
@@ -57,6 +57,16 @@ public class ObjectArrayStore implements BufferColumnStore, ArrayStore
 		this.runLengthStore.reset();
 	}
 
+	protected int size()
+	{
+		return values.length;
+	}
+
+	protected Object[] valuesBuffer()
+	{
+		return values;
+	}
+	
 	@Override
 	public Class<?> getBaseValuesType()
 	{
