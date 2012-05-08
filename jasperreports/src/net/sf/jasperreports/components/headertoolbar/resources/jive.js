@@ -133,7 +133,7 @@ jQuery.extend(jive, {
             jive.ui.marker.jo && jive.ui.marker.jo.appendTo('#jive_components').hide();
             jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('#jive_components').hide();
-            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+            jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.appendTo('#jive_menus').hide();
             jQuery('.pmenu').hide();
         } else {
             jQuery.each(items,function(i,v){
@@ -167,7 +167,7 @@ jive.ui.marker = {
         this.jo.css({
             height: dim.h+'px'
         });
-        this.jo.show();
+        this.jo.appendTo('div.jrPage').show();
         this.jo.position({of:jive.ui.overlay.jo, my: 'left top', at:'right top',collision:'none'});
 
         var de = this.jo.get(0);
@@ -213,7 +213,7 @@ jive.ui.overlay = {
             width: dim.w * jive.ui.scaleFactor,
             height: dim.h
         });
-        this.jo.show();
+        this.jo.appendTo('div.jrPage').show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
     }
 };
@@ -226,12 +226,18 @@ jive.ui.foobar = {
     menus: {},
     setElement: function(selector){
         this.jo = jQuery(selector);
-        this.jo.on('click touchend','button',function(evt){
+        this.jo.on('mousedown touchstart','button',function(evt){
             var jo = jQuery(this);
+            !jo.hasClass('disabled') && jo.addClass('pressed');
+            evt.preventDefault();
+        });
+        this.jo.on('mouseup touchend','button',function(evt){
+            var jo = jQuery(this);
+            jo.removeClass('pressed');
             var type = jive.selected.ie.type;
             var fn = jo.attr('fn');
-            var disabled = jo.attr('disabled') === 'disabled';
-            if(fn && !disabled){
+
+            if(fn && !jo.hasClass('disabled')){
                 jive.interactive[type][fn](jive.interactive[type].actions[jo.attr('actionkey')].arg);
             } else {
                 if(jo.attr('menu')){
@@ -246,10 +252,12 @@ jive.ui.foobar = {
                     jive.ui.foobar.dropMenu = menu;
                 }
             }
+            evt.preventDefault();
         });
         this.jo.on('mouseover','button',function(){
             jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
             var jo = jQuery(this);
+            !jo.hasClass('disabled') && jo.addClass('over');
             if(jo.attr('menu')){
                 var menu = jive.ui.foobar.menus[jive.selected.ie.type][jo.attr('menu')];
                 menu.jo.show().position({
@@ -262,6 +270,9 @@ jive.ui.foobar = {
                 jive.ui.foobar.dropMenu = menu;
             }
         });
+        this.jo.on('mouseout','button',function(){
+            jQuery(this).removeClass('over pressed');
+        });
         this.cache = {};
         this.menus = {};
         this.current = null;
@@ -269,16 +280,10 @@ jive.ui.foobar = {
     show:function(dim){
         !this.jo && this.setElement('#jive_foobar');
         this.render(jive.interactive[jive.selected.ie.type].actions);
-        this.jo.show();
+        this.jo.find('button').removeClass('over pressed');
+        this.jo.appendTo('div.jrPage').show();
         var top = this.jo.outerHeight() - 1;
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + top});
-
-        /*
-        var wdiff = dim.w - this.jo.width();
-        wdiff > 32 ?
-            this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top', offset:'0 -' + this.jo.outerHeight()}) :
-            this.jo.position({of:jive.selected.jo, my: 'right top', at:'left top', collision: 'none'});
-        */
     },
     render: function(actionMap){
         var it = this;

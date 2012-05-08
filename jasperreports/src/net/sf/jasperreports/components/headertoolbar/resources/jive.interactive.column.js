@@ -164,16 +164,10 @@ jive.interactive.column = jive.interactive.column || {
         }
         
         // disable sort/filter if not sortable/filterable
-        var foobarButtons = jive.ui.foobar.jo.find('button');
-        if (!jive.selected.ie.filterdiv) { // FIXMEJIVE set boolean on template if can sort/filter
-        	foobarButtons.eq(1).attr('disabled', true);
-        	foobarButtons.eq(2).attr('disabled', true);
-        	foobarButtons.eq(3).attr('disabled', true);
-        } else {
-        	foobarButtons.eq(1).attr('disabled', false);
-        	foobarButtons.eq(2).attr('disabled', false);
-        	foobarButtons.eq(3).attr('disabled', false);
-        }
+        var foobarButtons = jive.ui.foobar.jo.find('button:gt(0)');
+        !jive.selected.ie.filterdiv ? // FIXMEJIVE set boolean on template if can sort/filter
+        	foobarButtons.addClass('disabled') :
+        	foobarButtons.removeClass('disabled');
     },
     onDragStart: function(){
         var parent = jive.selected.jo.parent();
@@ -519,6 +513,30 @@ jive.interactive.column.columnFilterForm = {
     name: 'columnfilter',
     method: 'get',
     jc: {},
+    datePickerFormats: {
+        "yyyy-MM-dd": {dateFormat: "yy-mm-dd"},
+        "dd/MM/yyyy": {dateFormat: "dd/mm/yy"},
+        "MM/dd/yyyy": {dateFormat: "mm/dd/yy"},
+        "yyyy/MM/dd": {dateFormat: "yy/mm/dd"},
+        "EEEEE dd MMMMM yyyy": {dateFormat: "DD dd MM yy"},
+        "MMMMM dd. yyyy": {dateFormat: "MM dd. yy"},
+        "dd/MM": {dateFormat: "dd/mm"},
+        "dd/MM/yy": {dateFormat: "dd/mm/y"},
+        "dd-MMM": {dateFormat: "dd-M"},
+        "dd-MMM-yy": {dateFormat: "dd-M-y"},
+        "MMM-yy": {dateFormat: "M-y"},
+        "MMMMM-yy": {dateFormat: "MM-y"},
+        "dd/MM/yyyy h.mm a": {dateFormat: "dd/mm/yy", timeFormat: "h.mm TT", ampm: true},
+        "dd/MM/yyyy HH.mm.ss": {dateFormat: "dd/mm/yy", timeFormat: "hh.mm.ss"},
+        "MMM": {dateFormat: "M"},
+        "d/M/yyyy": {dateFormat: "d/m/yy"},
+        "dd-MMM-yyyy": {dateFormat: "dd-M-yy"},
+        "yyyy.MM.dd G 'at' HH:mm:ss z": {dateFormat: "yy.mm.dd", timeFormat:"hh:mm:ss", separator: 'at'},
+        "EEE. MMM d. ''yy": {dateFormat: "D. M d. 'y"},
+        "yyyy.MMMMM.dd GGG hh:mm aaa": {dateFormat: "yy.MM.dd AD", timeFormat:"hh:mm TT", ampm: true},
+        "EEE. d MMM yyyy HH:mm:ss Z": {dateFormat: "D. d M yy", timeFormat:"hh:mm:ss z"},
+        "yyMMddHHmmssZ": {dateFormat: "ymmdd", timeFormat:"hhmmssz"}
+    },
     elements: [
         [[{type:'radio',id:'clearFilter',label:'Show all rows',value:'true'}]],
         [
@@ -626,12 +644,31 @@ jive.interactive.column.columnFilterForm = {
             it.jc.filterEnd.parent().parent().hide();
             it.jc.filterEnd.val(metadata.fieldValueEnd).prop('disabled', true);
         }
-        
+
         if (filtertype === 'boolean') {
-        	it.jc.filterStart.prop('disabled',true);
-        	it.jc.filterStart.closest('td').hide();
+            it.jc.filterStart.prop('disabled',true);
+            it.jc.filterStart.closest('td').hide();
         } else {
-        	it.jc.filterStart.closest('td').show();
+            it.jc.filterStart.prop('disabled',false);
+            it.jc.filterStart.closest('td').show();
+        }
+        if(filtertype === 'date') {
+            var fn = 'datepicker';
+            var pickerOptions = {
+                changeMonth: true,
+                changeYear: true
+            }
+            if(it.datePickerFormats[metadata.filterPattern]){
+                jQuery.each(['dateFormat','timeFormat','ampm','separator'],function(i,v){
+                    if(it.datePickerFormats[metadata.filterPattern][v]) pickerOptions[v] = it.datePickerFormats[metadata.filterPattern][v];
+                });
+                fn = it.datePickerFormats[metadata.filterPattern].timeFormat ? 'datetimepicker' : 'datepicker';
+            }
+            it.jc.filterStart[fn](pickerOptions);
+            it.jc.filterEnd[fn](pickerOptions);
+        } else {
+            it.jc.filterStart.datepicker('destroy');
+            it.jc.filterEnd.datepicker('destroy');
         }
     },
     submit:function(){
