@@ -28,12 +28,10 @@ import java.util.List;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignDataset;
 import net.sf.jasperreports.web.commands.Command;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -44,13 +42,15 @@ public class FilterCommand implements Command
 	
 	public static final String DATASET_FILTER_PROPERTY = "net.sf.jasperreports.filters";
 	
+	private JasperReportsContext jasperReportsContext;
 	protected JRDesignDataset dataset;
 	protected FilterData filterData;
 	private String oldSerializedFilters;
 	private String newSerializedFilters;
 	
-	public FilterCommand(JRDesignDataset dataset, FilterData filterData) 
+	public FilterCommand(JasperReportsContext jasperReportsContext, JRDesignDataset dataset, FilterData filterData) 
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.dataset = dataset;
 		this.filterData = filterData;
 	}
@@ -66,13 +66,8 @@ public class FilterCommand implements Command
 		
 		oldSerializedFilters = serializedFilters;
 		
-		List<DatasetFilter> existingFilters = null;
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});	// FIXMEJIVE place all JSON serialization/deserialization into utility class
-		} catch (Exception e) {
-			throw new JRRuntimeException(e);
-		}
+		JacksonUtil jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
+		List<FieldFilter> existingFilters = jacksonUtil.loadList(serializedFilters, FieldFilter.class);
 		
 		if (!filterData.isClearFilter()) {	// add filter
 			boolean addNewFilter = false;
@@ -127,12 +122,8 @@ public class FilterCommand implements Command
 			}
 		}
 		
-		try {
-			newSerializedFilters = mapper.writeValueAsString(existingFilters);
-			propertiesMap.setProperty(DATASET_FILTER_PROPERTY, newSerializedFilters);
-		} catch (Exception e) {
-			throw new JRRuntimeException(e);
-		}
+		newSerializedFilters = jacksonUtil.getJsonString(existingFilters);
+		propertiesMap.setProperty(DATASET_FILTER_PROPERTY, newSerializedFilters);
 	}
 	
 	public void undo() 

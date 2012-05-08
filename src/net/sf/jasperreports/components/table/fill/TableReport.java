@@ -34,7 +34,6 @@ import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElement;
 import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
-import net.sf.jasperreports.components.headertoolbar.HeaderToolbarParameterContributor;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
 import net.sf.jasperreports.components.sort.SortElementHtmlHandler;
@@ -76,6 +75,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
@@ -105,6 +105,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * 
@@ -517,7 +518,8 @@ public class TableReport implements JRReport
             	}
             	genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_FILTER_PATTERN, sortTextField.getPattern());
 
-				JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
+				JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
+            	JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
 				String suffix = ""; 
     				
             	//FIXMEJIVE consider moving in separate method
@@ -543,7 +545,7 @@ public class TableReport implements JRReport
             	}
 
     			String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
-    			List<DatasetFilter> existingFilters = HeaderToolbarParameterContributor.getFilters(serializedFilters);
+    			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
     			if (existingFilters != null)
     			{
         			List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();

@@ -32,13 +32,10 @@ import net.sf.jasperreports.engine.CompositeDatasetFilter;
 import net.sf.jasperreports.engine.DatasetFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.ParameterContributor;
 import net.sf.jasperreports.engine.ParameterContributorContext;
 import net.sf.jasperreports.engine.ReportContext;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * 
@@ -64,24 +61,17 @@ public class HeaderToolbarParameterContributor implements ParameterContributor
 			
 			if (serializedFilters != null) 
 			{
-				List<DatasetFilter> existingFilters = getFilters(serializedFilters);
+				List<? extends DatasetFilter> existingFilters = getFilters(serializedFilters);
 				parameterValues.put(JRParameter.FILTER, new CompositeDatasetFilter(existingFilters));
 			}
 		}
 	}
 	
-	public static List<DatasetFilter> getFilters(String serializedFilters)//FIXMEJIVE put in some util class?
+	protected List<? extends DatasetFilter> getFilters(String serializedFilters)
 	{
-		if (serializedFilters != null) {
-			ObjectMapper mapper = new ObjectMapper();
-			List<DatasetFilter> existingFilters = null;
-			try {
-				existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});
-			} catch (Exception e) {
-				throw new JRRuntimeException(e);
-			}
-			
-			return existingFilters;
+		if (serializedFilters != null) 
+		{
+			return JacksonUtil.getInstance(context.getJasperReportsContext()).loadList(serializedFilters, FieldFilter.class);
 		}
 		return null;
 	}

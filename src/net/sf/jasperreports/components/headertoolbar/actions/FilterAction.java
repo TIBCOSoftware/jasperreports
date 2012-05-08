@@ -72,7 +72,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new FilterCommand(dataset, getFilterData()),
+					new FilterCommand(getJasperReportsContext(), dataset, getFilterData()),
 					getJasperReportsContext(),
 					getReportContext(), 
 					targetUri
