@@ -339,6 +339,7 @@ jive.ui.foobar = {
     	this.menus = {};
     }
 }
+jasperreports.events.registerEvent('jive.ui.foobar').trigger();
 
 jive.ui.dialog = {
     jo: null,
