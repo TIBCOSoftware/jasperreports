@@ -136,7 +136,7 @@ public class ColumnDataCacheHandler implements DataCacheHandler
 		}
 		else if (String.class.equals(type))
 		{
-			bufferStore = new ObjectArrayStore(String.class, bufferStoreSize); 
+			bufferStore = new ObjectArrayStore<String>(String.class, bufferStoreSize); 
 		}
 		else if (java.sql.Date.class.isAssignableFrom(type))//allow subclasses
 		{

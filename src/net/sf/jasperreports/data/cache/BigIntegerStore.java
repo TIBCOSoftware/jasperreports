@@ -37,8 +37,7 @@ public class BigIntegerStore implements BufferColumnStore
 
 	private static final Log log = LogFactory.getLog(BigIntegerStore.class);
 	
-	private final BigInteger[] values;
-	private int count;
+	private final ObjectArrayStore<BigInteger> rawStore;
 	
 	private BigInteger min;
 	private BigInteger max;
@@ -47,13 +46,18 @@ public class BigIntegerStore implements BufferColumnStore
 	
 	public BigIntegerStore(int size)
 	{
-		this.values = new BigInteger[size];
+		this.rawStore = new ObjectArrayStore<BigInteger>(BigInteger.class, size);
 		reset();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("created object store " + rawStore + " for " + this);
+		}
 	}
 	
 	private void reset()
 	{
-		this.count = 0;
+		this.rawStore.resetValues();
 		
 		this.min = BigInteger.valueOf(Long.MAX_VALUE);
 		this.max = BigInteger.valueOf(Long.MIN_VALUE);
@@ -73,8 +77,7 @@ public class BigIntegerStore implements BufferColumnStore
 		}
 		
 		BigInteger value = (BigInteger) object;
-		values[count] = value;
-		++count;
+		rawStore.addValue(value);
 
 		min = min.min(value);
 		max = max.max(value);
@@ -82,7 +85,7 @@ public class BigIntegerStore implements BufferColumnStore
 
 	public boolean full()
 	{
-		return count >= values.length;
+		return rawStore.full();
 	}
 	
 	public void resetValues()
@@ -92,6 +95,7 @@ public class BigIntegerStore implements BufferColumnStore
 	
 	public ColumnValues createValues()
 	{
+		int count = rawStore.count();
 		if (count == 0)
 		{
 			// no values
@@ -138,13 +142,10 @@ public class BigIntegerStore implements BufferColumnStore
 		{
 			if (log.isDebugEnabled())
 			{
-				log.debug(this + ": creating array store of size " + count);
+				log.debug(this + ": creating raw array store of size " + count);
 			}
 			
-			// TODO lucianc 
-			BigInteger[] bigValues = new BigInteger[count];
-			System.arraycopy(values, 0, bigValues, 0, count);
-			columnValues = new ObjectArrayValues(bigValues);
+			return rawStore.createValues();
 		}
 		else
 		{
@@ -160,16 +161,18 @@ public class BigIntegerStore implements BufferColumnStore
 	{
 		if (primitiveStore == null)
 		{
-			primitiveStore = new LongArrayStore(values.length, true);
+			primitiveStore = new LongArrayStore(rawStore.size(), true);
 		}
 		else
 		{
 			primitiveStore.resetValues();
 		}
 		
+		int count = rawStore.count();
+		Object[] values = rawStore.valuesBuffer();
 		for (int i = 0; i < count; i++)
 		{
-			BigInteger value = values[i];
+			BigInteger value = (BigInteger) values[i];
 			if (useOffset)
 			{
 				value = value.subtract(min);
@@ -179,66 +182,6 @@ public class BigIntegerStore implements BufferColumnStore
 		
 		ColumnValues primitiveValues = primitiveStore.createValues();
 		return primitiveValues;
-	}
-
-	protected ColumnValues toByteValues(boolean useOffset)
-	{
-		byte[] byteValues = new byte[count];
-		for (int i = 0; i < count; i++)
-		{
-			BigInteger value = values[i];
-			if (useOffset)
-			{
-				value = value.subtract(min);
-			}
-			byteValues[i] = (byte) (value.byteValue() & 0xFF);
-		}
-		return new ByteArrayValues(byteValues, 1, 0);
-	}
-
-	protected ColumnValues toShortValues(boolean useOffset)
-	{
-		short[] shortValues = new short[count];
-		for (int i = 0; i < count; i++)
-		{
-			BigInteger value = values[i];
-			if (useOffset)
-			{
-				value = value.subtract(min);
-			}
-			shortValues[i] = (short) (value.shortValue() & 0xFFFF);
-		}
-		return new ShortArrayValues(shortValues, 0, 1);
-	}
-
-	protected ColumnValues toIntValues(boolean useOffset)
-	{
-		int[] intValues = new int[count];
-		for (int i = 0; i < count; i++)
-		{
-			BigInteger value = values[i];
-			if (useOffset)
-			{
-				value = value.subtract(min);
-			}
-			intValues[i] = (int) (value.intValue() & 0xFFFFFFFFL);
-		}
-		return new IntArrayValues(intValues, 0, 1);
-	}
-
-	protected ColumnValues toLongValues(boolean useOffset)
-	{
-		long[] longValues = new long[count];
-		for (int i = 0; i < count; i++)
-		{
-			BigInteger value = values[i];
-			if (useOffset)
-			{
-				value = value.subtract(min);
-			}
-			longValues[i] = value.longValue();
-		}
-		return new LongArrayValues(longValues, 1, 0);
 	}
 
 	public String toString()
