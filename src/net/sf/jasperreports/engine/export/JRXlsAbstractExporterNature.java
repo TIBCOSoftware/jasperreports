@@ -258,4 +258,18 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			}
 			return null;
 	}
+
+	public Integer getFirstPageNumber(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
+			}
+			return null;
+	}
+
 }

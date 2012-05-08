@@ -155,6 +155,14 @@ public class XlsxSheetHelper extends BaseHelper
 	{
 		exportFooter(index, jasperPrint, isIgnorePageMargins, autoFilter, null);
 	}
+	
+	/**
+	 *
+	 */
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter, Integer scale)
+	{
+		exportFooter(index, jasperPrint, isIgnorePageMargins, autoFilter, null, null, true);
+	}
 
 
 	/**
@@ -165,7 +173,9 @@ public class XlsxSheetHelper extends BaseHelper
 			JasperPrint jasperPrint, 
 			boolean isIgnorePageMargins, 
 			String autoFilter,
-			Integer scale)
+			Integer scale,
+			Integer firstPageNumber,
+			boolean firstPageNotSet)
 	{
 		if (rowIndex > 0)
 		{
@@ -239,7 +249,23 @@ public class XlsxSheetHelper extends BaseHelper
 		
 		byte pSize = getSuitablePaperSize(jasperPrint);
 		String paperSize = pSize == PaperSizeEnum.UNDEFINED.getValue() ? "" : " paperSize=\"" + pSize + "\"";
-		write(paperSize + "/>\n");	
+		write(paperSize);	
+		
+		if(firstPageNumber!= null && firstPageNumber > 0)
+		{
+			write(" firstPageNumber=\"" + firstPageNumber + "\"");
+			write(" useFirstPageNumber=\"1\"/>\n");
+		}
+		else
+		{
+			write("/>\n");	
+		}
+		
+		if(!firstPageNotSet)
+		{
+			//TODO: support for customized headers/footers in XLSX
+			write("<headerFooter><oddFooter>Page &amp;P</oddFooter></headerFooter>\n");
+		}
 		
 		write("<drawing r:id=\"rIdDr" + index + "\"/></worksheet>");		
 	}

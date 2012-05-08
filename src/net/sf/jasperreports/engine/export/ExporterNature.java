@@ -111,4 +111,6 @@ public interface ExporterNature extends ExporterFilter
 	
 	public Integer getPageScale(JRPrintElement element);
 
+	public Integer getFirstPageNumber(JRPrintElement element);
+
 }

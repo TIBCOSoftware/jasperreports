@@ -165,4 +165,9 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 		return null;
 	}
 	
+	public Integer getFirstPageNumber(JRPrintElement element)
+	{
+		return null;
+	}
+
 }

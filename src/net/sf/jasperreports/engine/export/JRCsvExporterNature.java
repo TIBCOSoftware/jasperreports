@@ -171,4 +171,10 @@ public class JRCsvExporterNature extends AbstractExporterNature
 	{
 		return null;
 	}
+
+	public Integer getFirstPageNumber(JRPrintElement element)
+	{
+		return null;
+	}
+
 }

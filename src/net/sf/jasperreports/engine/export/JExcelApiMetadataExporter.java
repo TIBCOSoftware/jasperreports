@@ -335,6 +335,8 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 					}
 				}
 			}
+			
+			firstPageNotSet = true;
 		}
 		catch (IOException e)
 		{
@@ -2079,6 +2081,22 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		if(sheetFooterRight != null)
 		{
 			sheets.getFooter().getRight().append(sheetFooterRight);
+		}
+		
+		if(sheetFirstPageNumber != null && sheetFirstPageNumber > 0)
+		{
+			sheets.setPageStart(sheetFirstPageNumber);
+			firstPageNotSet = false;
+		}
+		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+		{
+			sheets.setPageStart(documentFirstPageNumber);
+			firstPageNotSet = false;
+		}
+		if(!firstPageNotSet && sheets.getFooter().getCentre().empty())
+		{
+			sheets.getFooter().getCentre().append("Page ");
+			sheets.getFooter().getCentre().appendPageNumber();
 		}
 		
 		maxRowFreezeIndex = 0;

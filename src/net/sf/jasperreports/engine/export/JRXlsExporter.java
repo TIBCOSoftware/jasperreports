@@ -108,6 +108,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -167,7 +168,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	protected HSSFPatriarch patriarch;
 	
 	protected String password;
-
+	
 	protected class ExporterContext extends BaseExporterContext implements JRXlsExporterContext
 	{
 		public String getExportPropertiesPrefix()
@@ -279,6 +280,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		emptyCellStyle.setFillPattern(backgroundMode);
 		dataFormat = workbook.createDataFormat();
 		createHelper = workbook.getCreationHelper();
+		firstPageNotSet = true;
 //		palette =  workbook.getCustomPalette();
 	}
 
@@ -368,6 +370,23 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		{
 			printSetup.setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
+		}
+		
+		if(sheetFirstPageNumber != null && sheetFirstPageNumber > 0)
+		{
+			printSetup.setPageStart((short)sheetFirstPageNumber.intValue());
+			printSetup.setUsePage(true);
+			firstPageNotSet = false;
+		}
+		else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+		{
+			printSetup.setPageStart((short)documentFirstPageNumber.intValue());
+			printSetup.setUsePage(true);
+			firstPageNotSet = false;
+		}
+		if(!firstPageNotSet && (sheet.getFooter().getCenter() == null || sheet.getFooter().getCenter().length() == 0))
+		{
+			sheet.getFooter().setCenter("Page " + HeaderFooter.page());
 		}
 		
 		maxRowFreezeIndex = 0;

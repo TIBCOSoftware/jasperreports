@@ -131,6 +131,7 @@
       <property ref="net.sf.jasperreports.default.pdf.font.name"/>
       <property ref="net.sf.jasperreports.default.pdf.encoding"/>
       <property ref="net.sf.jasperreports.default.pdf.embedded"/>
+      
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.{format}.exclude.origin.keep.first.{suffix}.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.export.filter.factory.{filter_element}"/>
@@ -138,6 +139,7 @@
       <property ref="net.sf.jasperreports.export.{arbitrary_name}.default.filter.factory"/>
       <property ref="net.sf.jasperreports.export.character.encoding"/>
       <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
+      
       <property ref="net.sf.jasperreports.export.csv.column.name"/>
       <property ref="net.sf.jasperreports.export.csv.column.names"/>
       <property ref="net.sf.jasperreports.export.csv.data"/>
@@ -145,12 +147,17 @@
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.repeat.value"/>
       <property ref="net.sf.jasperreports.export.csv.write.header"/>
+      
       <property ref="net.sf.jasperreports.export.docx.flexible.row.height"/>
       <property ref="net.sf.jasperreports.export.docx.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.docx.hidden.text"/>
+      
       <property ref="net.sf.jasperreports.export.flash.element.allow.script.access"/>
+      
       <property ref="net.sf.jasperreports.export.graphics2d.min.job.size"/>
+      
       <property ref="net.sf.jasperreports.export.ignore.page.margins"/>
+      
       <property ref="net.sf.jasperreports.export.html.accessible"/>
       <property ref="net.sf.jasperreports.export.html.frames.as.nested.tables"/>
       <property ref="net.sf.jasperreports.export.html.id"/>
@@ -160,9 +167,12 @@
       <property ref="net.sf.jasperreports.export.html.white.page.background"/>
       <property ref="net.sf.jasperreports.export.html.wrap.break.word"/>
       <property ref="net.sf.jasperreports.export.html.flush.output"/>
+      
       <property ref="net.sf.jasperreports.export.jxl.use.temp.file"/>
       <property ref="net.sf.jasperreports.export.jxl.cell.complex.format"/>
+      
       <property ref="net.sf.jasperreports.export.parameters.override.report.hints"/>
+      
       <property ref="net.sf.jasperreports.export.pdf.128.bit.key"/>
       <property ref="net.sf.jasperreports.export.pdf.compressed"/>
       <property ref="net.sf.jasperreports.export.pdf.create.batch.mode.bookmarks"/>
@@ -188,16 +198,19 @@
       <property ref="net.sf.jasperreports.export.pdf.tag.colspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.rowspan"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.language"/>
+      
       <property ref="net.sf.jasperreports.export.text.character.height"/>
       <property ref="net.sf.jasperreports.export.text.character.width"/>
       <property ref="net.sf.jasperreports.export.text.page.height"/>
       <property ref="net.sf.jasperreports.export.text.page.width"/>
+      
       <property ref="net.sf.jasperreports.export.xls.auto.filter"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.column"/>
       <property ref="net.sf.jasperreports.export.xls.auto.fit.row"/>
       
       <property ref="net.sf.jasperreports.export.xls.break.after.row"/>
       <property ref="net.sf.jasperreports.export.xls.break.before.row"/>
+      
       <property ref="net.sf.jasperreports.export.xls.cell.hidden"/>
       <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
@@ -205,31 +218,40 @@
       <property ref="net.sf.jasperreports.export.xls.column.names"/>
       <property ref="net.sf.jasperreports.export.xls.column.width"/>
       <property ref="net.sf.jasperreports.export.xls.column.width.ratio"/>
-
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
+      
       <property ref="net.sf.jasperreports.export.xls.data"/>
       <property ref="net.sf.jasperreports.export.xls.detect.cell.type"/>
+      
       <property ref="net.sf.jasperreports.export.xls.fit.height"/>
       <property ref="net.sf.jasperreports.export.xls.fit.width"/>
+      <property ref="net.sf.jasperreports.export.xls.first.page.number"/>
       <property ref="net.sf.jasperreports.export.xls.font.size.fix.enabled"/>
       <property ref="net.sf.jasperreports.export.xls.formula"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.column"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.column.edge"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.row"/>
       <property ref="net.sf.jasperreports.export.xls.freeze.row.edge"/>
+      
       <property ref="net.sf.jasperreports.export.xls.ignore.anchors"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.background"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.cell.border"/>
       <property ref="net.sf.jasperreports.export.xls.ignore.graphics"/>
       <property ref="net.sf.jasperreports.export.xls.image.border.fix.enabled"/>
+      
       <property ref="net.sf.jasperreports.export.xls.max.rows.per.sheet"/>
+      
       <property ref="net.sf.jasperreports.export.xls.one.page.per.sheet"/>
+      
+      <property ref="net.sf.jasperreports.export.xls.page.scale"/>
       <property ref="net.sf.jasperreports.export.xls.password"/>
       <property ref="net.sf.jasperreports.export.xls.pattern"/>
+      
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.columns"/>
       <property ref="net.sf.jasperreports.export.xls.remove.empty.space.between.rows"/>
       <property ref="net.sf.jasperreports.export.xls.repeat.value"/>
       <property ref="net.sf.jasperreports.export.xls.row.outline.level.{arbitrary_level}"/>
+      
       <property ref="net.sf.jasperreports.export.xls.sheet.direction"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.center"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.footer.left"/>
@@ -239,7 +261,9 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.header.right"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
+      
       <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
+      
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
       <property ref="net.sf.jasperreports.export.xls.workbook.template"/>
       <property ref="net.sf.jasperreports.export.xls.workbook.template.keep.sheets"/>
@@ -2719,6 +2743,23 @@ Property used at print time to indicate the number of pages width to fit the she
   </configProperty>
   
   
+  <!-- net.sf.jasperreports.export.xls.first.page.number -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.first.page.number">
+    <description>
+Property that specifies the first page number in the page setup dialog.
+<br/>
+When the property is set at Element level, it can be used to set the first page number for the current sheet.
+<br/>
+Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIRST_PAGE_NUMBER</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.7.0</since>
+  </configProperty>
+  
+  
   <!-- net.sf.jasperreports.export.xls.font.size.fix.enabled -->
   
   <configProperty name="net.sf.jasperreports.export.xls.font.size.fix.enabled">
@@ -3050,6 +3091,29 @@ The property is available for:
     <default>N/A</default>
     <scope>Report Element</scope>
     <since>4.1.1</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.page.scale -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.page.scale">
+    <description>
+Property used to adjust the page content to a given percent of the normal size in the print preview pane. Allowed values are 
+positive integers from 10 to 400, representing percents of the normal size.
+<br/>
+When the property is set at Element level, it can be used to set the page scale per sheet
+<br/>
+Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+<br/>
+The property overrides the <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FIT_WIDTH</api> and 
+<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#ROPERTY_FIT_HEIGHT</api> values.
+<br/>
+This property is by default not set (<code>null</code>).                      
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_PAGE_SCALE</api>
+    <default>N/A</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.7.0</since>
   </configProperty>
   
   

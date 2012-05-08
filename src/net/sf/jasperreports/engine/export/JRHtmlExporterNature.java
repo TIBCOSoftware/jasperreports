@@ -204,4 +204,10 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 	{
 		return null;
 	}
+
+	public Integer getFirstPageNumber(JRPrintElement element)
+	{
+		return null;
+	}
+
 }
