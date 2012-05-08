@@ -91,10 +91,7 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 			
 			JasperDesign jasperDesign = cache.getJasperDesign(uri);
 			
-			//FIXMEJIVE now we just look for table components in title and summary bands
-			// this is strongly hardcoded to allow the reports in the webapp-repo sample to work
-			JRBand[] bands = new JRBand[]{jasperDesign.getTitle(), jasperDesign.getSummary()};
-			for (JRBand band : bands)
+			for (JRBand band : jasperDesign.getAllBands())
 			{
 				if (band != null)
 				{
