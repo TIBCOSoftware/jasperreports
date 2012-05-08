@@ -160,4 +160,9 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 		return null;
 	}
 	
+	public Integer getPageScale(JRPrintElement element)
+	{
+		return null;
+	}
+	
 }

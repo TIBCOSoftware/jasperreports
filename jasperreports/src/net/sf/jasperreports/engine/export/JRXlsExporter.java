@@ -287,12 +287,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 	{
 		sheet = workbook.createSheet(name);
 		patriarch = sheet.createDrawingPatriarch();
-		sheet.getPrintSetup().setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
+		HSSFPrintSetup printSetup = sheet.getPrintSetup();
+		printSetup.setLandscape(jasperPrint.getOrientationValue() == OrientationEnum.LANDSCAPE);
 		short paperSize = getSuitablePaperSize(jasperPrint);
 
 		if(paperSize != -1)
 		{
-			sheet.getPrintSetup().setPaperSize(paperSize);
+			printSetup.setPaperSize(paperSize);
 		}
 		if(password != null)
 		{
@@ -320,16 +321,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		}
 
 		String fitWidth = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_WIDTH);
-		if(fitWidth != null && fitWidth.length() > 0)
+		if(!isValidScale(sheetPageScale) && fitWidth != null && fitWidth.length() > 0)
 		{
-			sheet.getPrintSetup().setFitWidth(Short.valueOf(fitWidth));
+			printSetup.setFitWidth(Short.valueOf(fitWidth));
 			sheet.setAutobreaks(true);
 		}
 		
 		String fitHeight = getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FIT_HEIGHT);
-		if(fitHeight != null && fitHeight.length() > 0)
+		if(!isValidScale(sheetPageScale) && fitHeight != null && fitHeight.length() > 0)
 		{
-			sheet.getPrintSetup().setFitHeight(Short.valueOf(fitHeight));
+			printSetup.setFitHeight(Short.valueOf(fitHeight));
 			sheet.setAutobreaks(true);
 		}
 		
@@ -365,7 +366,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 		
 		if(sheetDirection != null)
 		{
-			sheet.getPrintSetup().setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
+			printSetup.setLeftToRight(sheetDirection == RunDirectionEnum.LTR);
 			sheet.setRightToLeft(sheetDirection == RunDirectionEnum.RTL);
 		}
 		
@@ -1910,6 +1911,16 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.setRowSumsBelow(false);
 		}
 	}
+	
+	protected void setScale(Integer scale)
+	{
+		if (isValidScale(scale))
+		{
+			HSSFPrintSetup printSetup = sheet.getPrintSetup();
+			printSetup.setScale((short)scale.intValue());
+		}
+	}
+
 }
 
 

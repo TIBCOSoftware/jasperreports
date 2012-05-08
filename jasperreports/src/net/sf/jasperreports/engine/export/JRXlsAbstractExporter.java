@@ -402,6 +402,24 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_IGNORE_ANCHORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.anchors";
 	
+	/**
+	 * Property used to adjust the page content to a given percent of the normal size in the print preview window. Allowed values are 
+	 * positive integers from 10 to 400, representing percents of the normal size.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code></li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element level settings.
+	 * <br/>
+	 * The property overrides the {@link #PROPERTY_FIT_WIDTH PROPERTY_FIT_WIDTH} and {@link #PROPERTY_FIT_HEIGHT PROPERTY_FIT_HEIGHT} values.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_PAGE_SCALE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.page.scale";
+	
 
 	protected static class TextAlignHolder
 	{
@@ -498,11 +516,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected String autoFilterEnd;		
 
 	protected Float columnWidthRatio;
+	protected Integer documentPageScale;
+	protected Integer sheetPageScale;		
 	
 	protected Boolean keepTemplateSheets;
 	protected String workbookTemplate;
 	
 	protected boolean ignoreAnchors;
+	
 
 	/**
 	 *
@@ -796,6 +817,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		gridRowFreezeIndex = Math.max(0, getPropertiesUtil().getIntegerProperty(jasperPrint, PROPERTY_FREEZE_ROW, 0) - 1);
 		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
 		columnWidthRatio = getPropertiesUtil().getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
+		documentPageScale = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
 		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
 	}
 
@@ -851,6 +873,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									jasperPrint.getPageWidth(), globalOffsetX
 									);
 
+						//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+						setScale(xCuts, false);
 						createSheet(getSheetName(xCuts, null));
 
 						// we need to count all sheets generated for all exported documents
@@ -875,6 +899,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							getNature(), pages, startPageIndex, endPageIndex,
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
+					
+					//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
 					createSheet(getSheetName(xCuts, jasperPrint.getName()));
@@ -943,6 +970,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			setColumnWidths(xCuts);
 		}
 
+		setScale(xCuts, true);
+		
 		CutsInfo yCuts = layout.getYCuts();
 		
 		XlsRowLevelInfo levelInfo = new XlsRowLevelInfo(); 
@@ -962,8 +991,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				updateColumns(xCuts);
 				
 				setRowLevels(levelInfo, null);
-
+				
+				//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+				
 				createSheet(getSheetName(xCuts, null));
+				
+				setScale(xCuts, true);
 				setColumnWidths(xCuts);
 				startRow = 0;
 				rowIndex = 0;
@@ -1244,19 +1277,30 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		Float ratio = xCuts.getWidthRatio();
 		float sheetRatio = 
-			(ratio != null && ratio > 0f) 
-			? ratio 
-			: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
+				(ratio != null && ratio > 0f) 
+				? ratio 
+						: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
 		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
 			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
 				int width = xCuts.getCustomWidth(col)!= null 
-					? xCuts.getCustomWidth(col) 
-					: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
-				setColumnWidth(col, width, xCuts.isAutoFit(col));
+						? xCuts.getCustomWidth(col) 
+								: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
+						setColumnWidth(col, width, xCuts.isAutoFit(col));
 			}
+		}
+	}
+	
+	protected void setScale(CutsInfo xCuts, boolean isToApply)
+	{
+		sheetPageScale = (isValidScale(xCuts.getPageScale()))
+						? xCuts.getPageScale() 
+						: documentPageScale;
+		if(isToApply)
+		{
+			setScale(sheetPageScale);
 		}
 	}
 
@@ -1707,6 +1751,11 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		return value;
 	}
 	
+	protected boolean isValidScale(Integer scale)
+	{
+		return scale != null && scale > 9 && scale < 401;
+	}
+	
 	// property setters
 	
 	public boolean isWorkbookTemplateKeepSheets() {
@@ -1737,6 +1786,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public void setIgnoreAnchors(boolean ignoreAnchors) {
 		this.ignoreAnchors = ignoreAnchors;
 	}
+	
 	
 
 	//abstract methods
@@ -1782,5 +1832,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected abstract void setAutoFilter(String autoFilterRange);
 	
 	protected abstract void setRowLevels(XlsRowLevelInfo levelInfo, String level);
+	
+	protected abstract void setScale(Integer scale);
 	
 }

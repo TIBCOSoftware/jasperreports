@@ -199,4 +199,9 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 	{
 		return null;
 	}
+	
+	public Integer getPageScale(JRPrintElement element)
+	{
+		return null;
+	}
 }

@@ -108,5 +108,7 @@ public interface ExporterNature extends ExporterFilter
 	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
 	
 	public String getSheetName(JRPrintElement element);
+	
+	public Integer getPageScale(JRPrintElement element);
 
 }
