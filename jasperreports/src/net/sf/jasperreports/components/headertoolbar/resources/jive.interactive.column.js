@@ -653,19 +653,13 @@ jive.interactive.column.columnFilterForm = {
             it.jc.filterStart.closest('td').show();
         }
         if(filtertype === 'date') {
-            var fn = 'datepicker';
             var pickerOptions = {
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                dateFormat: metadata.calendarPattern
             }
-            if(it.datePickerFormats[metadata.filterPattern]){
-                jQuery.each(['dateFormat','timeFormat','ampm','separator'],function(i,v){
-                    if(it.datePickerFormats[metadata.filterPattern][v]) pickerOptions[v] = it.datePickerFormats[metadata.filterPattern][v];
-                });
-                fn = it.datePickerFormats[metadata.filterPattern].timeFormat ? 'datetimepicker' : 'datepicker';
-            }
-            it.jc.filterStart[fn](pickerOptions);
-            it.jc.filterEnd[fn](pickerOptions);
+            it.jc.filterStart.datepicker(pickerOptions);
+            it.jc.filterEnd.datepicker(pickerOptions);
         } else {
             it.jc.filterStart.datepicker('destroy');
             it.jc.filterEnd.datepicker('destroy');

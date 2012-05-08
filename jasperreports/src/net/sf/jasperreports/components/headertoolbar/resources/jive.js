@@ -356,6 +356,10 @@ jive.ui.dialog = {
         it.body = jQuery('#jive_dialog div.dialogBody');
         it.title = jQuery('#jive_dialog span.dialogTitle');
         it.tabs = jQuery('#jive_dialog div.tabContainer');
+
+        if(typeof isIE === 'function') {
+            isIE() && it.jo.prepend('<div class="msshadow" />');
+        }
         /*
          * Set behaviors for form elements
          */
