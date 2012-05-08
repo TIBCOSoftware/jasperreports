@@ -92,7 +92,7 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Reset foobar
          */
-        jive.ui.foobar.reset();
+        jasperreports.events.subscribeToEvent('jive.ui.foobar', 'jive.ui.foobar.reset', []);
     },
     getColumnByUuid: function(columnUuid, tableUuid) {
     	var tableColumns = this.allColumns[tableUuid],
