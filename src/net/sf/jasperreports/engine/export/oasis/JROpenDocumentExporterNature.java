@@ -166,5 +166,10 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	{
 		return null;
 	}
+	
+	public Integer getPageScale(JRPrintElement element)
+	{
+		return null;
+	}
 
 }

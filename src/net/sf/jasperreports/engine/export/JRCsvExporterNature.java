@@ -167,4 +167,8 @@ public class JRCsvExporterNature extends AbstractExporterNature
 		return null;
 	}
 
+	public Integer getPageScale(JRPrintElement element)
+	{
+		return null;
+	}
 }

@@ -245,4 +245,17 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			}
 			return null;
 	}
+	
+	public Integer getPageScale(JRPrintElement element)
+	{
+		if (element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE)
+				)
+			{
+				// we make this test to avoid reaching the global default value of the property directly
+				// and thus skipping the report level one, if present
+				return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
+			}
+			return null;
+	}
 }

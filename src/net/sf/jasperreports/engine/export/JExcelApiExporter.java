@@ -2500,6 +2500,19 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 		}
 	}
 	
+	protected void setScale(Integer scale)
+	{
+		if (scale != null && scale > 9 && scale < 401)
+		{
+			SheetSettings sheetSettings = sheet.getSettings();
+			sheetSettings.setScaleFactor(scale);
+			
+			/* the scale factor takes precedence over fitWidth and fitHeight properties */
+			sheetSettings.setFitWidth(0);
+			sheetSettings.setFitHeight(0);
+			sheetSettings.setFitToPages(false);
+		}
+	}
 	
 }
 

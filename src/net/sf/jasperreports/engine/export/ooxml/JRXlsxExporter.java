@@ -164,7 +164,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected String macroTemplate;		
 	
-	protected JasperPrint currentSheetJasperPrint;		
+	protected JasperPrint currentSheetJasperPrint;	
+	
+	protected Integer currentSheetPageScale;		
 	
 	protected JRXlsxExporterContext exporterContext = new ExporterContext();
 
@@ -743,6 +745,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		closeSheet();
 		
 		currentSheetJasperPrint = jasperPrint;
+		currentSheetPageScale = sheetPageScale;
 		
 		wbHelper.exportSheet(sheetIndex + 1, name);
 		ctHelper.exportSheet(sheetIndex + 1);
@@ -774,7 +777,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
-		sheetHelper.exportHeader(gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
+		sheetHelper.exportHeader(sheetPageScale == null ? 0 : sheetPageScale, gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
 		drawingHelper.exportHeader();
 		drawingRelsHelper.exportHeader();
@@ -789,7 +792,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 				sheetIndex, 
 				currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
 				isIgnorePageMargins, 
-				sheetAutoFilter
+				sheetAutoFilter,
+				currentSheetPageScale
 				);
 			sheetHelper.close();
 
@@ -1489,14 +1493,13 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	protected void setSheetName(String sheetName)
 	{
-		//TODO: set sheet name for element-level sheet name properties
+		/* nothing to do here; it's done in createSheet() */
 	}
 
 	@Override
 	protected void setAutoFilter(String autoFilterRange)
 	{
 		sheetAutoFilter = autoFilterRange;
-		
 	}
 	
 	protected void resetAutoFilters()
@@ -1509,7 +1512,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	@Override
 	protected void setRowLevels(XlsRowLevelInfo levelInfo, String level) 
 	{
-		//nothing to do here; it's done on setRowHeight
+		/* nothing to do here; it's done in setRowHeight */
 	}
 	
 	public String getMacroTemplatePath() {
@@ -1519,6 +1522,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 	public void setMacroTemplate(String macroTemplate) {
 		this.macroTemplate = macroTemplate;
+	}
+	
+	protected void setScale(Integer scale)
+	{
+		/* nothing to do here; it's already done in the abstract exporter */
 	}
 	
 }

@@ -96,14 +96,24 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportHeader(int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
 	{
+		exportHeader(0, rowFreeze, columnFreeze, jasperPrint);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportHeader(int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
+	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<worksheet\n");
 		write(" xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"\n");
 		write(" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">\n");
 		
+		/* the scale factor takes precedence over fitWidth and fitHeight properties */
+		boolean noScale = scale < 10 || scale > 400;
 		String fitWidth = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_WIDTH);
 		String fitHeight = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_HEIGHT);
-		String fitToPage = fitHeight != null || fitWidth != null ? "<pageSetUpPr fitToPage=\"1\"/>" : "";
+		String fitToPage = noScale && (fitHeight != null || fitWidth != null) ? "<pageSetUpPr fitToPage=\"1\"/>" : "";
 		write("<sheetPr><outlinePr summaryBelow=\"0\"/>" + fitToPage + "</sheetPr><dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
 		
 		if(rowFreeze > 0 || columnFreeze > 0)
@@ -134,14 +144,28 @@ public class XlsxSheetHelper extends BaseHelper
 	 */
 	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins)
 	{
-		exportFooter(index, jasperPrint, isIgnorePageMargins, null);
+		exportFooter(index, jasperPrint, isIgnorePageMargins, null, null);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter)
+	{
+		exportFooter(index, jasperPrint, isIgnorePageMargins, autoFilter, null);
 	}
 
 
 	/**
 	 *
 	 */
-	public void exportFooter(int index, JasperPrint jasperPrint, boolean isIgnorePageMargins, String autoFilter)
+	public void exportFooter(
+			int index, 
+			JasperPrint jasperPrint, 
+			boolean isIgnorePageMargins, 
+			String autoFilter,
+			Integer scale)
 	{
 		if (rowIndex > 0)
 		{
@@ -192,18 +216,25 @@ public class XlsxSheetHelper extends BaseHelper
 		if (jasperPrint.getOrientationValue() != null)
 		{
 			write(" orientation=\"" + jasperPrint.getOrientationValue().getName().toLowerCase() + "\"");	
-			
 		}
 		
-		String fitWidth = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_WIDTH);
-		if(fitWidth != null && !"1".equals(fitWidth))
+		/* the scale factor takes precedence over fitWidth and fitHeight properties */
+		if(scale != null && scale > 9 && scale < 401)
 		{
-			write(" fitToWidth=\"" + fitWidth + "\"");
+			write(" scale=\"" + scale + "\"");	
 		}
-		String fitHeight = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_HEIGHT);
-		if(fitHeight != null && !"1".equals(fitHeight))
+		else
 		{
-			write(" fitToHeight=\"" + fitHeight + "\"");
+			String fitWidth = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_WIDTH);
+			if(fitWidth != null && !"1".equals(fitWidth))
+			{
+				write(" fitToWidth=\"" + fitWidth + "\"");
+			}
+			String fitHeight = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_HEIGHT);
+			if(fitHeight != null && !"1".equals(fitHeight))
+			{
+				write(" fitToHeight=\"" + fitHeight + "\"");
+			}
 		}
 		
 		byte pSize = getSuitablePaperSize(jasperPrint);

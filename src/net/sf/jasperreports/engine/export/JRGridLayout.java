@@ -554,6 +554,12 @@ public class JRGridLayout
 			xCuts.setSheetName(sheetName);
 		}
 
+		Integer pageScale = nature.getPageScale(element);
+		if(pageScale != null && pageScale > 9 && pageScale < 401)
+		{
+			xCuts.setPageScale(pageScale);
+		}
+
 		List<PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
 		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
 		{
@@ -942,6 +948,10 @@ public class JRGridLayout
 				if(nature.getSheetName(element) != null)
 				{
 					xCuts.setSheetName(nature.getSheetName(element));
+				}
+				if(nature.getPageScale(element) != null)
+				{
+					xCuts.setPageScale(nature.getPageScale(element));
 				}
 			}
 		}
