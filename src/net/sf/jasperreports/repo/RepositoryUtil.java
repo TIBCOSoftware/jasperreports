@@ -205,7 +205,7 @@ public final class RepositoryUtil
 
 		if (jasperReport == null)
 		{
-			ReportResource resource = getResource2(location, ReportResource.class);
+			ReportResource resource = getResourceFromLocation(location, ReportResource.class);
 			if (resource == null)
 			{
 				throw new JRException("Report not found at : " + location);
@@ -235,7 +235,7 @@ public final class RepositoryUtil
 	/**
 	 * 
 	 */
-	public <K extends Resource> K getResource2(String location, Class<K> resourceType) throws JRException //FIXMECONTEXT check its name
+	public <K extends Resource> K getResourceFromLocation(String location, Class<K> resourceType) throws JRException
 	{
 		K resource = null;
 		List<RepositoryService> services = getServices();
@@ -259,18 +259,18 @@ public final class RepositoryUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getResource2(String, Class)}.
+	 * @deprecated Replaced by {@link #getResourceFromLocation(String, Class)}.
 	 */
 	public static <K extends Resource> K getResource(String location, Class<K> resourceType) throws JRException
 	{
-		return getDefaultInstance().getResource2(location, resourceType);
+		return getDefaultInstance().getResourceFromLocation(location, resourceType);
 	}
 
 
 	/**
 	 *
 	 */
-	public InputStream getInputStream2(String location) throws JRException
+	public InputStream getInputStreamFromLocation(String location) throws JRException
 	{
 		InputStream is = findInputStream(location);
 		if (is == null)
@@ -282,11 +282,11 @@ public final class RepositoryUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getInputStream2(String)}.
+	 * @deprecated Replaced by {@link #getInputStreamFromLocation(String)}.
 	 */
 	public static InputStream getInputStream(String location) throws JRException
 	{
-		return getDefaultInstance().getInputStream2(location);
+		return getDefaultInstance().getInputStreamFromLocation(location);
 	}
 	
 	
@@ -315,7 +315,7 @@ public final class RepositoryUtil
 	/**
 	 *
 	 */
-	public byte[] getBytes2(String location) throws JRException
+	public byte[] getBytesFromLocation(String location) throws JRException
 	{
 		InputStream is = findInputStream(location);
 		
@@ -373,10 +373,10 @@ public final class RepositoryUtil
 	
 	
 	/**
-	 * @deprecated Replaced by {@link #getBytes2(String)}.
+	 * @deprecated Replaced by {@link #getBytesFromLocation(String)}.
 	 */
 	public static byte[] getBytes(String location) throws JRException
 	{
-		return getDefaultInstance().getBytes2(location);
+		return getDefaultInstance().getBytesFromLocation(location);
 	}
 }

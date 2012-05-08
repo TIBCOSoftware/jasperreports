@@ -76,7 +76,7 @@ public class FileImageProvider implements ImageProvider
 		{
 			return
 				JRImageLoader.getInstance(DefaultJasperReportsContext.getInstance()).loadAwtImageFromBytes(
-					RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytes2(file)//FIXMECONTEXT
+					RepositoryUtil.getInstance(DefaultJasperReportsContext.getInstance()).getBytesFromLocation(file)//FIXMECONTEXT
 					);
 		}
 		catch (JRException e)

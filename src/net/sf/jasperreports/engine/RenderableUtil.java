@@ -118,7 +118,7 @@ public class RenderableUtil
 		Renderable result;
 		try
 		{
-			byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(imageLocation);
+			byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(imageLocation);
 			result = new JRImageRenderer(data);
 		}
 		catch (Exception e)

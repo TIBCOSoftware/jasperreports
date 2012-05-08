@@ -177,7 +177,7 @@ public class XlsxZip extends FileBufferedZip
 		ZipInputStream templateZipIs = null;
 		try
 		{
-			templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(template);
+			templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(template);
 			if (templateIs == null)
 			{
 				throw new JRRuntimeException("Macro template not found at : " + template);

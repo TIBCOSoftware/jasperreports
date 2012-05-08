@@ -165,7 +165,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location));
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location));
 		
 		toClose = true;
 	}
@@ -179,7 +179,7 @@ public class JRCsvDataSource extends JRAbstractTextDataSource// implements JRDat
 	 */
 	public JRCsvDataSource(JasperReportsContext jasperReportsContext, String location, String charsetName) throws JRException, UnsupportedEncodingException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location), charsetName);
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location), charsetName);
 		
 		toClose = true;
 	}

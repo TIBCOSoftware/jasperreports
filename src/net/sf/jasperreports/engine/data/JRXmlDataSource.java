@@ -275,7 +275,7 @@ public class JRXmlDataSource extends JRAbstractTextDataSource implements JRRewin
 	{
 		this(
 			jasperReportsContext, 
-			RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(uri), 
+			RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(uri), 
 			selectExpression
 			);
 		this.closeInputStream = true;

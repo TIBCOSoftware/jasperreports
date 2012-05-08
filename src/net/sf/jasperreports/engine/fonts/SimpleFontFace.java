@@ -89,7 +89,7 @@ public class SimpleFontFace implements FontFace
 		InputStream is = null;
 		try
 		{
-			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(file);
+			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(file);
 		}
 		catch(JRException e)
 		{

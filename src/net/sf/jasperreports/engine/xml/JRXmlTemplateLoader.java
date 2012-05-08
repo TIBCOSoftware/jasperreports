@@ -107,7 +107,7 @@ public class JRXmlTemplateLoader
 	 */
 	public JRTemplate loadTemplate(String location) throws JRException
 	{
-		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(location);
+		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(location);
 		return load(new ByteArrayInputStream(data));
 	}
 	

@@ -313,7 +313,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			}
 			else
 			{
-				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(workbookTemplate);
+				templateIs = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(workbookTemplate);
 				if (templateIs == null)
 				{
 					throw new JRRuntimeException("Workbook template not found at : " + workbookTemplate);

@@ -94,7 +94,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 				else
 				{
 				*/
-					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStream2(xmlDataAdapter.getFileName());
+					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(xmlDataAdapter.getFileName());
 					try
 					{
 						Document document = JRXmlUtils.parse(dataStream);

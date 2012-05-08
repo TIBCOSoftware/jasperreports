@@ -126,7 +126,7 @@ public class JRXlsDataSource extends JRAbstractTextDataSource implements JRRewin
 	 */
 	public JRXlsDataSource(JasperReportsContext jasperReportsContext, String location) throws JRException, IOException
 	{
-		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(location));
+		this(RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(location));
 		this.closeInputStream = true;
 	}
 

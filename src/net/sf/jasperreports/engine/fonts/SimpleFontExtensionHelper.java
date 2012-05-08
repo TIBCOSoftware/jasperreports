@@ -158,7 +158,7 @@ public final class SimpleFontExtensionHelper implements ErrorHandler
 		
 		try
 		{
-			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStream2(file);
+			is = RepositoryUtil.getInstance(jasperReportsContext).getInputStreamFromLocation(file);
 			return loadFontFamilies(jasperReportsContext, is);
 		}
 		catch (JRException e)

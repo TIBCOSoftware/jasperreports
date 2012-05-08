@@ -171,7 +171,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		if (svgText == null
 				&& svgData == null && svgDataLocation != null)
 		{
-			svgData = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(svgDataLocation);
+			svgData = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(svgDataLocation);
 		}
 	}
 
@@ -357,7 +357,7 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	 */
 	public static BatikRenderer getInstanceFromLocation(JasperReportsContext jasperReportsContext, String location) throws JRException
 	{
-		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytes2(location);
+		byte[] data = RepositoryUtil.getInstance(jasperReportsContext).getBytesFromLocation(location);
 		return new BatikRenderer(data, null);
 	}
 
