@@ -80,6 +80,8 @@
 		if (requestParams) {
 			params += '&' + requestParams;
 		}
+		
+		jive.hide();
 
 		var ctx = jg.getToolbarExecutionContext(toolbar, 
 										currentHref, 
