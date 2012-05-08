@@ -178,7 +178,7 @@
         selector: '.columnHeader',
         proxySelector: '.column',
         columnIndex: ${columnIndex},
-        columnLabel: '${columnLabel}',
+        columnLabel: '$JRStringUtil.escapeJavaScript(${columnLabel})',
         filterData: '{"actionName":"filter"}',
         clearData: '{"actionName":"filter","filterData":{"clearFilter":true}}',
 
@@ -199,7 +199,7 @@
                 filterBtn: {'data-hover': '${filterHover}',	'@class': '${filterActive}'	}
             },
             filterdiv: {
-                filterColumnNameLabel: '${filterColumnNameLabel}',
+                filterColumnNameLabel: '$JRStringUtil.escapeJavaScript(${filterColumnNameLabel})',
                 filterOperatorTypeValueSelector: [
                     #foreach( $entry in ${filterTypeValuesMap.entrySet()} )
                         {key: "$entry.key", val: "$entry.value"},
