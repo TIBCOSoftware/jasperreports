@@ -52,6 +52,7 @@ public class CutsInfo
 	
 	private Float widthRatio;
 	private Integer pageScale;
+	private Integer firstPageNumber;
 	private String sheetName;
 	
 	public CutsInfo()
@@ -232,19 +233,33 @@ public class CutsInfo
 		this.widthRatio = widthRatio;
 	}
 
-	public String getSheetName() {
+	public String getSheetName() 
+	{
 		return this.sheetName;
 	}
 
-	public void setSheetName(String sheetName) {
+	public void setSheetName(String sheetName) 
+	{
 		this.sheetName = sheetName;
 	}
 
-	public Integer getPageScale() {
+	public Integer getPageScale() 
+	{
 		return this.pageScale;
 	}
-
-	public void setPageScale(Integer pageScale) {
+	
+	public void setPageScale(Integer pageScale) 
+	{
 		this.pageScale = pageScale;
+	}
+	
+	public Integer getFirstPageNumber() 
+	{
+		return this.firstPageNumber;
+	}
+
+	public void setFirstPageNumber(Integer firstPageNumber) 
+	{
+		this.firstPageNumber = firstPageNumber;
 	}
 }

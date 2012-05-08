@@ -166,7 +166,9 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	
 	protected JasperPrint currentSheetJasperPrint;	
 	
-	protected Integer currentSheetPageScale;		
+	protected Integer currentSheetPageScale;	
+	
+	protected Integer currentSheetFirstPageNumber;		
 	
 	protected JRXlsxExporterContext exporterContext = new ExporterContext();
 
@@ -746,6 +748,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		currentSheetJasperPrint = jasperPrint;
 		currentSheetPageScale = sheetPageScale;
+		currentSheetFirstPageNumber = sheetFirstPageNumber;
 		
 		wbHelper.exportSheet(sheetIndex + 1, name);
 		ctHelper.exportSheet(sheetIndex + 1);
@@ -788,13 +791,46 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 	{
 		if (sheetHelper != null)
 		{
-			sheetHelper.exportFooter(
-				sheetIndex, 
-				currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
-				isIgnorePageMargins, 
-				sheetAutoFilter,
-				currentSheetPageScale
-				);
+		
+			
+			if(currentSheetFirstPageNumber != null && currentSheetFirstPageNumber > 0)
+			{
+				sheetHelper.exportFooter(
+						sheetIndex, 
+						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						isIgnorePageMargins, 
+						sheetAutoFilter,
+						currentSheetPageScale, 
+						currentSheetFirstPageNumber,
+						false
+						);
+					firstPageNotSet = false;
+			}
+			else if(documentFirstPageNumber != null && documentFirstPageNumber > 0 && firstPageNotSet)
+			{
+				sheetHelper.exportFooter(
+						sheetIndex, 
+						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						isIgnorePageMargins, 
+						sheetAutoFilter,
+						currentSheetPageScale, 
+						documentFirstPageNumber,
+						false
+						);
+					firstPageNotSet = false;
+			}
+			else
+			{
+				sheetHelper.exportFooter(
+						sheetIndex, 
+						currentSheetJasperPrint == null ? jasperPrint : currentSheetJasperPrint, 
+						isIgnorePageMargins, 
+						sheetAutoFilter,
+						currentSheetPageScale, 
+						null,
+						firstPageNotSet
+						);
+			}
 			sheetHelper.close();
 
 			sheetRelsHelper.exportFooter();
@@ -1423,6 +1459,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					isIgnoreCellBackground,
 					isFontSizeFixEnabled
 					);
+			
+			firstPageNotSet = true;
 		}
 		catch (IOException e)
 		{

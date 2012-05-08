@@ -403,22 +403,39 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_IGNORE_ANCHORS = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.ignore.anchors";
 	
 	/**
-	 * Property used to adjust the page content to a given percent of the normal size in the print preview window. Allowed values are 
+	 * Property used to adjust the page content to a given percent of the normal size in the print preview pane. Allowed values are 
 	 * positive integers from 10 to 400, representing percents of the normal size.
 	 * <br/>
 	 * Property scope:
 	 * <ul>
 	 * <li><code>Global</code></li>
 	 * <li><code>Report</code></li>
-	 * <li><code>Element</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the page scale per sheet</li>
 	 * </ul>
-	 * Global settings are overriden by report level settings; report level settings are overriden by element level settings.
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
 	 * <br/>
 	 * The property overrides the {@link #PROPERTY_FIT_WIDTH PROPERTY_FIT_WIDTH} and {@link #PROPERTY_FIT_HEIGHT PROPERTY_FIT_HEIGHT} values.
 	 * 
+	 * @see JRXlsAbstractExporter#PROPERTY_FIT_WIDTH
+	 * @see JRXlsAbstractExporter#PROPERTY_FIT_HEIGHT
 	 * @see JRPropertiesUtil
 	 */
 	public static final String PROPERTY_PAGE_SCALE = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.page.scale";
+	
+	/**
+	 * Property that specifies the first page number in the page setup dialog.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the first page number per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.first.page.number";
 	
 
 	protected static class TextAlignHolder
@@ -518,6 +535,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected Float columnWidthRatio;
 	protected Integer documentPageScale;
 	protected Integer sheetPageScale;		
+	protected Integer documentFirstPageNumber;		
+	protected Integer sheetFirstPageNumber;		
+	protected boolean firstPageNotSet;
 	
 	protected Boolean keepTemplateSheets;
 	protected String workbookTemplate;
@@ -818,6 +838,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		gridColumnFreezeIndex = Math.max(0, getColumnIndex(getPropertiesUtil().getProperty(jasperPrint, PROPERTY_FREEZE_COLUMN)));	
 		columnWidthRatio = getPropertiesUtil().getFloatProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, 0f);
 		documentPageScale = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
+		documentFirstPageNumber = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
 		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
 	}
 
@@ -873,7 +894,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									jasperPrint.getPageWidth(), globalOffsetX
 									);
 
-						//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+						sheetFirstPageNumber = xCuts.getFirstPageNumber();
 						setScale(xCuts, false);
 						createSheet(getSheetName(xCuts, null));
 
@@ -900,7 +921,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
 					
-					//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+					sheetFirstPageNumber = xCuts.getFirstPageNumber();
 					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
@@ -992,7 +1013,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				
 				setRowLevels(levelInfo, null);
 				
-				//sheetPageScale = xCuts.getPageScale() == null ? documentPageScale : xCuts.getPageScale();
+				sheetFirstPageNumber = null;
 				
 				createSheet(getSheetName(xCuts, null));
 				

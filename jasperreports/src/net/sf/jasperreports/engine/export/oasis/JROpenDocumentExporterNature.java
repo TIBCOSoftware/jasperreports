@@ -171,5 +171,10 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	{
 		return null;
 	}
+	
+	public Integer getFirstPageNumber(JRPrintElement element)
+	{
+		return null;
+	}
 
 }
