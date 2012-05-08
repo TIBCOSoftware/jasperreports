@@ -61,7 +61,7 @@ public class CompositeDatasetFilter implements DatasetFilter
 		return combined;
 	}
 	
-	private List<DatasetFilter> filters;
+	private List<? extends DatasetFilter> filters;
 	
 	/**
 	 * Creates a conjunction for several filters.
@@ -73,7 +73,7 @@ public class CompositeDatasetFilter implements DatasetFilter
 		this.filters = Arrays.asList(filters);
 	}
 
-	public CompositeDatasetFilter(List<DatasetFilter> filters)
+	public CompositeDatasetFilter(List<? extends DatasetFilter> filters)
 	{
 		this.filters = filters;
 	}
@@ -101,11 +101,11 @@ public class CompositeDatasetFilter implements DatasetFilter
 		return matches;
 	}
 	
-	public List<DatasetFilter> getFilters() {
+	public List<? extends DatasetFilter> getFilters() {
 		return filters;
 	}
 
-	public void setFilters(List<DatasetFilter> filters) {
+	public void setFilters(List<? extends DatasetFilter> filters) {
 		this.filters = filters;
 	}
 

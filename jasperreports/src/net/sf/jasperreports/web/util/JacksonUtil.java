@@ -112,7 +112,7 @@ public class JacksonUtil
 	/**
 	 *
 	 */
-	public <T> T loadSingle(String jsonData, Class<T> clazz)
+	public <T> T loadObject(String jsonData, Class<T> clazz)
 	{
 		T result = null;
 		if (jsonData != null) 
@@ -174,14 +174,14 @@ public class JacksonUtil
 	/*
 	 * 
 	 */
-	public <T> List<T> load(String jsonData, Class<T> clazz) {
+	public <T> List<T> loadAsList(String jsonData, Class<T> clazz) {
 		List<T> result = null;
 		
 		if (jsonData != null) {
 			String trimmedData = jsonData.trim();
 			if (trimmedData.startsWith("{")) {
 				result = new ArrayList<T>();
-				result.add(loadSingle(trimmedData, clazz));
+				result.add(loadObject(trimmedData, clazz));
 			} else if (trimmedData.startsWith("[")) {
 				result = loadList(trimmedData, clazz);
 			}

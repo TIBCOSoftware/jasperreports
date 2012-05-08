@@ -74,11 +74,12 @@ public class FilterAction extends AbstractAction {
 				// execute command
 				try {
 					commandStack.execute(
-						new ResetInCacheCommand(new FilterCommand(dataset, getFilterData()),
-								getJasperReportsContext(),
-								getReportContext(), 
-								target.getUri()
-								)
+						new ResetInCacheCommand(
+							new FilterCommand(getJasperReportsContext(), dataset, getFilterData()),
+							getJasperReportsContext(),
+							getReportContext(), 
+							target.getUri()
+							)
 						);
 				} catch (CommandException e) {
 					 throw new ActionException(e.getMessage());

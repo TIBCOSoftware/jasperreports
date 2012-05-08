@@ -349,7 +349,7 @@ public class ReportServlet extends AbstractServlet
 	private Action getAction(ReportContext webReportContext, String jsonData)
 	{
 		Action result = null;
-		List<AbstractAction> actions = JacksonUtil.getInstance(getJasperReportsContext()).load(jsonData, AbstractAction.class);
+		List<AbstractAction> actions = JacksonUtil.getInstance(getJasperReportsContext()).loadAsList(jsonData, AbstractAction.class);
 		if (actions != null)
 		{
 			if (actions.size() == 1) {
