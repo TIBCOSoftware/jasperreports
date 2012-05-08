@@ -2756,7 +2756,7 @@ Global settings are overriden by report level settings; report level settings ar
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporterParameter.html#PROPERTY_FIRST_PAGE_NUMBER</api>
     <default>N/A</default>
     <scope>Global | Report | Element</scope>
-    <since>4.7.0</since>
+    <since>4.6.0</since>
   </configProperty>
   
   
@@ -3105,15 +3105,15 @@ When the property is set at Element level, it can be used to set the page scale 
 <br/>
 Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
 <br/>
-The property overrides the <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FIT_WIDTH</api> and 
-<api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#ROPERTY_FIT_HEIGHT</api> values.
+The property overrides the <api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FIT_WIDTH">PROPERTY_FIT_WIDTH</api> and 
+<api href="net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_FIT_HEIGHT">PROPERTY_FIT_HEIGHT</api> values.
 <br/>
 This property is by default not set (<code>null</code>).                      
     </description>
     <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_PAGE_SCALE</api>
     <default>N/A</default>
     <scope>Global | Report | Element</scope>
-    <since>4.7.0</since>
+    <since>4.6.0</since>
   </configProperty>
   
   
