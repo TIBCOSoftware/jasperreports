@@ -20,7 +20,7 @@ jQuery.noConflict();
 						UI: '/jquery/js/jquery-ui-1.8.18.custom.min.js'
 					},
 					isFirstAjaxRequest: true,
-					dialogsContainerSelector: 'div.jrPage:first',		// FIXMEJIVE jrPage hardcoded in JRXHtmlExporter.java
+					dialogsContainerSelector: 'div.jrPage:first',		// 'jrPage' hardcoded in JRXHtmlExporter.java
 					reportContainerSelector: 'body'
 				}
 		},
@@ -129,7 +129,7 @@ jQuery.noConflict();
 		} else if (gotCallback) {
 			try {
 				jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
-			} catch(ex) {} //swallow this FIXMEJIVE
+			} catch(ex) {} // swallow this
 		}
 	};
 	
@@ -267,7 +267,7 @@ jQuery.noConflict();
 								// execute script tags from response after appending to DOM because the script may rely on new DOM elements
 								response.filter('script').each(function(idx, elem) {
 									var scriptObj = jQuery(elem);
-									if (!scriptObj.attr('src')) { // FIXMEJIVE only scripts that don't load files are run
+									if (!scriptObj.attr('src')) { // only scripts that don't load files are run
 										var scriptString = scriptObj.html();
 										if (scriptString) {
 //											console.log("script " + idx + ": " + scriptString);
@@ -415,7 +415,7 @@ jQuery.noConflict();
 
 		jg.getToolbarExecutionContext = function(startPoint, requestedUrl, params, callback, arrCallbackArgs, isJSON) {
 //			var executionContextElement = jQuery(startPoint).closest('div.mainReportDiv');
-			var executionContextElement = jQuery('div.mainReportDiv:first'); // FIXMEJIVE unpredictable when using embeded reports 
+			var executionContextElement = jQuery('div.mainReportDiv:first'); // this could be unpredictable when using embeded reports 
 			
 			if (executionContextElement && executionContextElement.size() > 0) {
 				return new jg.AjaxExecutionContext(

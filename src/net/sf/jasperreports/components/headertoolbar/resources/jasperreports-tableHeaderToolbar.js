@@ -139,7 +139,7 @@
 				}
 			});
 
-            jQuery('.columnHeader').live('highlight',	// FIXMEJIVE 'columnHeader' hardcoded in TableReport.java
+            jQuery('.columnHeader').live('highlight',	// 'columnHeader' hardcoded in TableReport.java
             		function(event, tableFrameIndex) {
             			// hide all other popupdivs
             			jQuery('.popupdiv').fadeOut(100);
@@ -152,7 +152,7 @@
 		            		popupDiv = js.getPopupFromTemplate(popupId, tableFrameIndex),
 		            		headerToolbar = jQuery('.headerToolbar', popupDiv),
 		            		headerToolbarMask = jQuery('.headerToolbarMask', popupDiv),
-		            		columnNameSel = '.col_' + columnName, // FIXMEJIVE 'col_' prefix hardcoded in TableReport.java
+		            		columnNameSel = '.col_' + columnName, // 'col_' prefix hardcoded in TableReport.java
 		            		firstElem = jQuery(columnNameSel + ':first', parentFrame),
 		            		lastElem = jQuery(columnNameSel + ':last', parentFrame),
 		            		headerNameSel = '.header_' + /header_(\w+)/.exec(self.attr('class'))[1];
@@ -368,7 +368,7 @@
             	parentPopupDiv = self.closest('.popupdiv'),
             	filterDiv = parentPopupDiv.find('.filterdiv');
 
-            // hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+            // hide all other open filters; this will close all visible filters from all reports on the same page
             jQuery('.filterdiv').filter(':visible').each(function (index, element) {
                 jQuery(element).hide();
             });
