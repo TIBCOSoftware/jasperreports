@@ -258,7 +258,7 @@
 	                if (js.isLongTouch(event) || event.which == 3) {
 	                    var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
 	
-	                    // hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+	                    // hide all other open filters; this will close all visible filters from all reports on the same page
 	                    jQuery('.filterdiv').filter(':visible').each(function (index, element) {
 	                        jQuery(element).hide();
 	                    });
@@ -301,7 +301,7 @@
 	                if (event.which == 3) {
 	                    var filterDiv = jQuery('#' + jQuery(this).attr('data-filterid'));
 	
-	                    // hide all other open filters FIXMEJIVE: this will close all visible filters from all reports on the same page
+	                    // hide all other open filters; this will close all visible filters from all reports on the same page
 	                    jQuery('.filterdiv').filter(':visible').each(function (index, element) {
 	                        jQuery(element).hide();
 	                    });
