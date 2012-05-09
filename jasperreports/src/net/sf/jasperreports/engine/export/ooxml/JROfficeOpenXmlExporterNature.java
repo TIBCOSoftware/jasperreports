@@ -29,13 +29,13 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.AbstractExporterNature;
+import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
 /**
@@ -121,53 +121,24 @@ public abstract class JROfficeOpenXmlExporterNature extends AbstractExporterNatu
 		return false;
 	}
 	
-	/**
-	 *
-	 */
-	public Boolean getRowAutoFit(JRPrintElement element)
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col)
 	{
-		return null;
+		// nothing to do here
 	}
 	
-	/**
-	 *
-	 */
-	public Boolean getColumnAutoFit(JRPrintElement element)
+	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
 	{
-		return null;
-	}
-
-	/**
-	 *
-	 */
-	public Integer getCustomColumnWidth(JRPrintElement element)
-	{
-		return null;
-	}
-
-	public Float getColumnWidthRatio(JRPrintElement element) 
-	{
-		return null;
+		// nothing to do here
 	}
 	
-	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element)
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row)
 	{
-		return null;
-	}
-
-	public String getSheetName(JRPrintElement element)
-	{
-		return null;
+		// nothing to do here
 	}
 	
-	public Integer getPageScale(JRPrintElement element)
+	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
 	{
-		return null;
+		// nothing to do here
 	}
 	
-	public Integer getFirstPageNumber(JRPrintElement element)
-	{
-		return null;
-	}
-
 }

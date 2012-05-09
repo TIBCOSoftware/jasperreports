@@ -29,7 +29,8 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.SortedMap;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -47,13 +48,11 @@ public class Cut
 	private int position;
 	private int usage;
 	
-	//TODO: to extend the Cut class in order to add attributes to be used in particular output formats only; 
-	private Boolean autoFit;
-	private Integer customWidth;
-	private SortedMap<String, Boolean> rowLevelMap;//FIXME move this in special Cut implementation for rows/y
+	private Map<String, Object> propertiesMap;
 	
 	public Cut()
 	{
+		propertiesMap =  new HashMap<String, Object>();
 	}
 	
 	public int getPosition()
@@ -96,39 +95,9 @@ public class Cut
 		return ((getUsage() & Cut.USAGE_SPANNED) > 0);
 	}
 
-	public boolean isAutoFit()
+	public Map<String, Object> getPropertiesMap() 
 	{
-		return autoFit == null ? false : autoFit.booleanValue();
-	}
-	
-	public void setAutoFit(boolean autoFit)
-	{
-		if (this.autoFit == null)
-		{
-			this.autoFit = autoFit;
-		}
-		else
-		{
-			this.autoFit = this.autoFit && autoFit;
-		}
-	}
-	
-	public Integer getCustomWidth() {
-		return this.customWidth;
-	}
-
-	public void setCustomWidth(Integer customWidth) {
-		this.customWidth = customWidth;
-	}
-
-	public SortedMap<String, Boolean> getRowLevelMap()
-	{
-		return this.rowLevelMap;
-	}
-
-	public void setRowLevelMap(SortedMap<String, Boolean> rowLevelMap)
-	{
-		this.rowLevelMap = rowLevelMap;
+		return propertiesMap;
 	}
 
 }

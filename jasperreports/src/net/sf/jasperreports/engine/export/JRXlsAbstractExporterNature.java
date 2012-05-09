@@ -30,6 +30,9 @@
 package net.sf.jasperreports.engine.export;
 
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
@@ -270,6 +273,107 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 				return getPropertiesUtil().getIntegerProperty(element, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
 			}
 			return null;
+	}
+
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col)
+	{
+		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
+		Cut cut = xCuts.getCut(col);
+		Map<String,Object> cutProperties = cut.getPropertiesMap();
+		
+		Boolean columnAutoFit = getColumnAutoFit(element);
+		if (columnAutoFit != null)
+		{
+			if(!cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN))
+			{
+				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, columnAutoFit);
+			}
+			else
+			{
+				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) && columnAutoFit);
+			}
+		}
+
+		Integer columnCustomWidth = getCustomColumnWidth(element);
+		Integer cutColumnCustomWidth = (Integer)cutProperties.get(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH);
+		if (columnCustomWidth != null && (cutColumnCustomWidth == null || cutColumnCustomWidth < columnCustomWidth))
+		{
+			cutProperties.put(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH, columnCustomWidth);
+		}
+
+		setXProperties(xCutsProperties, element);
+		
+	}
+	
+	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
+	{
+		
+		Float widthRatio = getColumnWidthRatio(element);
+		Float xCutsWidthRatio = (Float)xCutsProperties.get(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO);
+		if(widthRatio != null && (xCutsWidthRatio == null || xCutsWidthRatio < widthRatio))
+		{
+			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_COLUMN_WIDTH_RATIO, widthRatio);
+		}
+
+		String sheetName = getSheetName(element);
+		if(sheetName != null)
+		{
+			xCutsProperties.put(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME, sheetName);
+		}
+
+		Integer pageScale = getPageScale(element);
+		if(pageScale != null && pageScale > 9 && pageScale < 401)
+		{
+			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, pageScale);
+		}
+		
+		Integer firstPageNumber = getFirstPageNumber(element);
+		if(firstPageNumber != null)
+		{
+			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
+		}
+	}
+	
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row)
+	{
+		Map<String,Object> yCutsProperties = yCuts.getPropertiesMap();
+		Cut cut = yCuts.getCut(row);
+		Map<String,Object> cutProperties = cut.getPropertiesMap();
+		
+		Boolean rowAutoFit = getRowAutoFit(element);
+		if (rowAutoFit != null)
+		{
+			if(!cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW))
+			{
+				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, rowAutoFit);
+			}
+			else
+			{
+				cutProperties.put(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW, (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) && rowAutoFit);
+			}
+		}
+
+		List<PropertySuffix> rowLevelSuffixes = getRowLevelSuffixes(element);
+		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
+		{
+			SortedMap<String, Boolean> levelMap = new TreeMap<String, Boolean>();
+			for(PropertySuffix suffix : rowLevelSuffixes)
+			{
+				String level = suffix.getSuffix();
+				String marker = suffix.getValue();
+				
+				levelMap.put(level, "end".equalsIgnoreCase(marker));
+			}
+			
+			cutProperties.put(JRXlsAbstractExporter.PROPERTY_ROW_OUTLINE_LEVEL_PREFIX, levelMap);
+		}
+		
+		setYProperties(yCutsProperties, element);
+	}
+	
+	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
+	{
+		// nothing to do here
 	}
 
 }

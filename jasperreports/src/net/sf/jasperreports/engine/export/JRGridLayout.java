@@ -35,15 +35,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
 import net.sf.jasperreports.engine.JRPrintPage;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.base.JRBasePrintFrame;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRBoxUtil;
@@ -525,61 +522,8 @@ public class JRGridLayout
 				rowSpan
 				);
 
-		Boolean rowAutoFit = nature.getRowAutoFit(element);
-		if (rowAutoFit != null)
-		{
-			yCuts.setAutoFit(row1, rowAutoFit.booleanValue());
-		}
-		Boolean columnAutoFit = nature.getColumnAutoFit(element);
-		if (columnAutoFit != null)
-		{
-			xCuts.setAutoFit(col1, columnAutoFit.booleanValue());
-		}
-
-		Integer columnCustomWidth = nature.getCustomColumnWidth(element);
-		if (columnCustomWidth != null && (xCuts.getCustomWidth(col1) == null || xCuts.getCustomWidth(col1) < columnCustomWidth))
-		{
-			xCuts.setCustomWidth(col1, columnCustomWidth);
-		}
-
-		Float widthRatio = nature.getColumnWidthRatio(element);
-		if(widthRatio != null && (xCuts.getWidthRatio() == null || xCuts.getWidthRatio() < widthRatio))
-		{
-			xCuts.setWidthRatio(widthRatio);
-		}
-
-		String sheetName = nature.getSheetName(element);
-		if(sheetName != null)
-		{
-			xCuts.setSheetName(sheetName);
-		}
-
-		Integer pageScale = nature.getPageScale(element);
-		if(pageScale != null && pageScale > 9 && pageScale < 401)
-		{
-			xCuts.setPageScale(pageScale);
-		}
-		
-		Integer firstPageNumber = nature.getFirstPageNumber(element);
-		if(firstPageNumber != null)
-		{
-			xCuts.setFirstPageNumber(firstPageNumber);
-		}
-
-		List<PropertySuffix> rowLevelSuffixes = nature.getRowLevelSuffixes(element);
-		if(rowLevelSuffixes != null && !rowLevelSuffixes.isEmpty())
-		{
-			SortedMap<String, Boolean> levelMap = new TreeMap<String, Boolean>();
-			for(PropertySuffix suffix : rowLevelSuffixes)
-			{
-				String level = suffix.getSuffix();
-				String marker = suffix.getValue();
-				
-				levelMap.put(level, "end".equalsIgnoreCase(marker));
-			}
-			yCuts.setRowLevelMap(row1, levelMap);
-		}
-		
+		nature.setXProperties(xCuts, element, col1);
+		nature.setYProperties(yCuts, element, row1);
 
 		if (nature.isSpanCells())
 		{
@@ -951,18 +895,8 @@ public class JRGridLayout
 						xCuts
 						);
 				}
-				if(nature.getSheetName(element) != null)
-				{
-					xCuts.setSheetName(nature.getSheetName(element));
-				}
-				if(nature.getPageScale(element) != null)
-				{
-					xCuts.setPageScale(nature.getPageScale(element));
-				}
-				if(nature.getFirstPageNumber(element) != null)
-				{
-					xCuts.setFirstPageNumber(nature.getFirstPageNumber(element));
-				}
+				
+				nature.setXProperties(xCuts.getPropertiesMap(), element);
 			}
 		}
 	}

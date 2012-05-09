@@ -309,7 +309,9 @@ public class XlsxSheetHelper extends BaseHelper
 			write("<sheetData>\n");
 		}
 		rowIndex++;
-		write("<row r=\"" + rowIndex + "\""  + (yCut.isAutoFit() ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
+		boolean isAutoFit = yCut.getPropertiesMap().containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)yCut.getPropertiesMap().get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		write("<row r=\"" + rowIndex + "\""  + (isAutoFit ? " customHeight=\"0\" bestFit=\"1\"" : " customHeight=\"1\"") + " ht=\"" + rowHeight + "\"");
 		if (levelInfo.getLevelMap().size() > 0)
 		{
 			write(" outlineLevel=\"" + levelInfo.getLevelMap().size() + "\"");

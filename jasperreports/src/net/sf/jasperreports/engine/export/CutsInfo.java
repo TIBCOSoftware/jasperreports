@@ -31,8 +31,9 @@ package net.sf.jasperreports.engine.export;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.SortedMap;
+import java.util.Map;
 
 /**
  * Utility class used by grid exporters to create a grid for page layout.
@@ -50,13 +51,11 @@ public class CutsInfo
 //	private int[] cutUsage;
 	private Cut[] cuts;
 	
-	private Float widthRatio;
-	private Integer pageScale;
-	private Integer firstPageNumber;
-	private String sheetName;
+	private Map<String, Object> propertiesMap;
 	
 	public CutsInfo()
 	{
+		propertiesMap = new HashMap<String, Object>();
 		addCutOffset(Integer.valueOf(0));
 	}
 	
@@ -108,21 +107,6 @@ public class CutsInfo
 		cut.setUsage(tmpUsage);
 	}
 	
-	public void setAutoFit(int index, Boolean autoFit)
-	{
-		getCut(index).setAutoFit(autoFit);
-	}
-	
-	public void setCustomWidth(int index, int customWidth)
-	{
-		getCut(index).setCustomWidth(customWidth);
-	}
-	
-	public void setRowLevelMap(int index, SortedMap<String, Boolean> levelMap)
-	{
-		getCut(index).setRowLevelMap(levelMap);
-	}
-	
 	public boolean addCutOffset(Integer cutOffset)
 	{
 		int idx = Collections.binarySearch(cutOffsets, cutOffset);
@@ -146,30 +130,6 @@ public class CutsInfo
 		}
 		
 		return idx;
-	}
-
-	/**
-	 * 
-	 */
-	public boolean isAutoFit(int index)//FIXMEXLS do this in Cut
-	{
-		return getCut(index).isAutoFit();
-	}
-
-	/**
-	 * 
-	 */
-	public Integer getCustomWidth(int index)//FIXMEXLS do this in Cut
-	{
-		return getCut(index).getCustomWidth();
-	}
-
-	/**
-	 * 
-	 */
-	public SortedMap<String, Boolean> getRowLevelMap(int index)//FIXMEXLS do this in Cut
-	{
-		return getCut(index).getRowLevelMap();
 	}
 
 	/**
@@ -223,43 +183,9 @@ public class CutsInfo
 		return hasCuts() ? getLastCutOffset() - getFirstCutOffset() : 0;
 	}
 
-	public Float getWidthRatio()
+	public Map<String, Object> getPropertiesMap() 
 	{
-		return this.widthRatio;
+		return propertiesMap;
 	}
 
-	public void setWidthRatio(Float widthRatio)
-	{
-		this.widthRatio = widthRatio;
-	}
-
-	public String getSheetName() 
-	{
-		return this.sheetName;
-	}
-
-	public void setSheetName(String sheetName) 
-	{
-		this.sheetName = sheetName;
-	}
-
-	public Integer getPageScale() 
-	{
-		return this.pageScale;
-	}
-	
-	public void setPageScale(Integer pageScale) 
-	{
-		this.pageScale = pageScale;
-	}
-	
-	public Integer getFirstPageNumber() 
-	{
-		return this.firstPageNumber;
-	}
-
-	public void setFirstPageNumber(Integer firstPageNumber) 
-	{
-		this.firstPageNumber = firstPageNumber;
-	}
 }
