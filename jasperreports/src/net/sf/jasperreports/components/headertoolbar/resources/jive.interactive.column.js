@@ -646,11 +646,10 @@ jive.interactive.column.columnFilterForm = {
         }
 
         if (filtertype === 'boolean') {
-            it.jc.filterStart.prop('disabled',true);
-            it.jc.filterStart.closest('td').hide();
+			it.jc.filterStart.prop('disabled',true);
+			it.jc.filterStart.closest('td').hide();
         } else {
-            it.jc.filterStart.prop('disabled',false);
-            it.jc.filterStart.closest('td').show();
+			it.jc.filterStart.closest('td').show();
         }
         if(filtertype === 'date') {
             var pickerOptions = {
