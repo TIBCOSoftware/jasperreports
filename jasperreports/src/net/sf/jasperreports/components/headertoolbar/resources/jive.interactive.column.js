@@ -1,6 +1,7 @@
 jive.interactive.column = jive.interactive.column || {
     uuid: null,
     allColumns: {},
+    allColumnsNo: 0,
     count: 0,
     ids: {},
     fontSizes:null,
@@ -22,7 +23,7 @@ jive.interactive.column = jive.interactive.column || {
     },
     dropColumns: {},
     dropPoints: {},
-    dropColumnIndexes: {},
+    visibleColumnsMoveData: {},
     ldi: null,
     rdi: null,
     delta: null,
@@ -56,8 +57,8 @@ jive.interactive.column = jive.interactive.column || {
          * Compute drop boundaries (x-axis only) for DnD visual feedback.
          */
         it.dropPoints[tableUuid] = [];
+        it.visibleColumnsMoveData[tableUuid] = [];
         it.dropColumns[tableUuid] = [];
-        it.dropColumnIndexes[tableUuid] = [];
 
         t = jQuery('.jrtableframe[data-uuid=' + tableUuid + ']').eq(0);
         t.find('.columnHeader').each(function(i){
@@ -66,10 +67,16 @@ jive.interactive.column = jive.interactive.column || {
             colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
             if (colData != null) {
             	colData.enabled = true;	// enable column
-            	it.dropColumnIndexes[tableUuid].push(colData.index);
             }
             it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
             it.dropPoints[tableUuid].push(lt);
+            it.visibleColumnsMoveData[tableUuid].push({
+            	left: lt,
+            	right: lt + c.width(),
+            	width: c.width(),
+            	index: colData != null ? colData.index : null,
+            	uuid: c.data('popupid'),
+            });
         });
         it.dropPoints[tableUuid].push(lt + c.width());
         var markers = [];
@@ -85,7 +92,8 @@ jive.interactive.column = jive.interactive.column || {
         var menu = it.actions.Format.actions['Show columns'];
         for(i in allColumns) {
             c = allColumns[i];
-           	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false,"column":['+c.index+'], "columnUuid": "' + c.uuid + '"}'};
+           	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
+           	it.allColumnsNo ++;
         }
         it.count = it.dropColumns[tableUuid].length;
         
@@ -129,9 +137,7 @@ jive.interactive.column = jive.interactive.column || {
         	allOption = [],
         	pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show columns"]').eq(0),
         	tableUuid = jive.selected.jo.closest('.jrtableframe').data('uuid'),
-        	allColumns = it.allColumns[tableUuid],
-        	menuItmArgs,
-        	col;
+        	allColumns = it.allColumns[tableUuid];
 
         if(it.count == 1) {
             jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).hide();
@@ -143,8 +149,10 @@ jive.interactive.column = jive.interactive.column || {
 
         pmenu.children().each(function(i,el){
         	if (i > 0) {
-        		menuItmArgs = jQuery(el).data('args');
-        		col = it.getColumnByUuid(menuItmArgs.columnUuid, tableUuid);
+        		var menuItmArgs = jQuery(el).data('args');
+        		var col = it.getColumnByUuid(menuItmArgs.columnUuid, tableUuid);
+        		menuItmArgs.column = [col.index];
+        		jQuery(el).attr('data-args', jasperreports.global.toJsonString(menuItmArgs));
         		if (col && col.enabled === true) {
         			el.style.display = 'none';
         		} else if (col){
@@ -170,8 +178,18 @@ jive.interactive.column = jive.interactive.column || {
         	foobarButtons.removeClass('disabled');
     },
     onDragStart: function(){
-        var parent = jive.selected.jo.parent();
+        var parent = jive.selected.jo.parent(), prop, i;
         this.uuid = parent.data('uuid');
+        this.currentColumnsMoveData = this.visibleColumnsMoveData[this.uuid];
+        this.currentColMoveData = null; 
+        
+        for (i = 0; i < this.currentColumnsMoveData.length; i++) {
+        	if (this.currentColumnsMoveData[i].uuid === jive.selected.jo.data('popupid')) {
+        		this.currentColMoveData = this.currentColumnsMoveData[i];
+        		break;
+        	}
+        }
+        
         var c = 'col_'+ jive.selected.jo.data('popupcolumn');
         var ci = jQuery.inArray(c,this.dropColumns[this.uuid]) * 2;
         this.ldi = ci == 0 ? 0 : ci - 1;
@@ -202,19 +220,60 @@ jive.interactive.column = jive.interactive.column || {
         }
     },
     onDragStop: function(ev,ui){
-        var dropIndex = this.dropColumnIndex / 2;
-        dropIndex == this.count && dropIndex--;
-
-        if(dropIndex != jive.selected.ie.columnIndex) {
-            jive.runAction({
-                actionName: 'move',
-                moveColumnData: {
-                    tableUuid: this.uuid,
-                    columnToMoveIndex: jive.selected.ie.columnIndex,
-                    columnToMoveNewIndex: this.dropColumnIndexes[this.uuid][dropIndex]
-                }
-            });
-        }
+    	var i = 0, ln = this.currentColumnsMoveData.length, colMoveData, refColIndex, refColMiddle, colToMoveToIndex, isLeftToRight;
+    	
+    	// determine move direction
+    	if (ev.pageX > this.currentColMoveData.right) {
+    		isLeftToRight = true;
+    	} else if (ev.pageX < this.currentColMoveData.left){
+    		isLeftToRight = false;
+    	}
+    	
+    	// find column based on event.pageX
+    	for (; i < ln; i++) {
+    		colMoveData = this.currentColumnsMoveData[i];
+    		if (ev.pageX <= colMoveData.right) {
+    			refColIndex = parseInt(colMoveData.index);
+    			refColMiddle = colMoveData.left + colMoveData.width / 2;
+    			
+    			if (ev.pageX <= refColMiddle) { // move left, relative to column middle
+    				if (refColIndex > 0) {
+    					colToMoveToIndex = this.currentColMoveData.index;	// this is for the case when the move happens inside the same column (isLeftToRight = undefined)
+    					if (isLeftToRight === true) {
+    						colToMoveToIndex = refColIndex - 1;
+    					} else if (isLeftToRight === false) {
+    						colToMoveToIndex = refColIndex;
+    					}
+    				} else {
+    					colToMoveToIndex = 0;
+    				}
+    			} else { // move right, relative to column middle
+    				colToMoveToIndex = this.currentColMoveData.index;	// this is for the case when the move happens inside the same column (isLeftToRight = undefined)
+    				if (isLeftToRight === true) {
+    					colToMoveToIndex = refColIndex;
+    				} else if (isLeftToRight === false) {
+    					colToMoveToIndex = refColIndex + 1;
+    				}
+    			}
+    			break;
+    		}
+    	}
+    	
+    	if (isLeftToRight && colToMoveToIndex == null) {	// for maximum drag to right, move to index of last visible column
+    		colToMoveToIndex = parseInt(this.currentColumnsMoveData[ln-1].index);
+    	}
+    	
+    	if(colToMoveToIndex != null && colToMoveToIndex != jive.selected.ie.columnIndex) {
+    		jive.runAction({
+    			actionName: 'move',
+    			moveColumnData: {
+					tableUuid: this.uuid,
+					columnToMoveIndex: jive.selected.ie.columnIndex,
+					columnToMoveNewIndex: colToMoveToIndex
+    			}
+    		});
+    	}
+    	
     },
     resize: function(width){
         var w = width < 8 ? 8 : Math.floor(width);
@@ -240,13 +299,14 @@ jive.interactive.column = jive.interactive.column || {
         jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells']);
     },
     hide: function(args){
+    	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').attr('data-uuid');
         jive.hide();
         jive.runAction({
             actionName: 'hideUnhideColumns',
             columnData: {
                 hide: args.hide,
                 columnIndexes: args.column instanceof Array ? args.column : [jive.selected.ie.columnIndex],
-                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid')
+                tableUuid: tableUuid
             }
         });
     },
