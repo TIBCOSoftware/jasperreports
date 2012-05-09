@@ -894,7 +894,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									jasperPrint.getPageWidth(), globalOffsetX
 									);
 
-						sheetFirstPageNumber = xCuts.getFirstPageNumber();
+						sheetFirstPageNumber = xCuts.getPropertiesMap().containsKey(PROPERTY_FIRST_PAGE_NUMBER) 
+								? (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER)
+								: null;
 						setScale(xCuts, false);
 						createSheet(getSheetName(xCuts, null));
 
@@ -921,7 +923,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
 					
-					sheetFirstPageNumber = xCuts.getFirstPageNumber();
+					sheetFirstPageNumber = xCuts.getPropertiesMap().containsKey(PROPERTY_FIRST_PAGE_NUMBER) 
+							? (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER)
+							: null;
 					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
@@ -1041,7 +1045,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				int emptyCellColSpan = 0;
 				//int emptyCellWidth = 0;
 
-				mergeAndSetRowLevels(levelInfo, yCuts.getRowLevelMap(y), rowIndex);
+				Map<String,Object> cutProperties = yCuts.getCut(y).getPropertiesMap();
+				mergeAndSetRowLevels(levelInfo, (SortedMap<String, Boolean>)cutProperties.get(PROPERTY_ROW_OUTLINE_LEVEL_PREFIX), rowIndex);
 
 				setRowHeight(
 					rowIndex,
@@ -1296,28 +1301,40 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
-		Float ratio = xCuts.getWidthRatio();
-		float sheetRatio = 
-				(ratio != null && ratio > 0f) 
+		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
+		Float ratio = xCutsProperties.containsKey(PROPERTY_COLUMN_WIDTH_RATIO) 
+				? (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO) 
+				: null;
+		float sheetRatio = (ratio != null && ratio > 0f) 
 				? ratio 
-						: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
+				: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
 		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
 			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
-				int width = xCuts.getCustomWidth(col)!= null 
-						? xCuts.getCustomWidth(col) 
-								: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
-						setColumnWidth(col, width, xCuts.isAutoFit(col));
+				int width = xCutsProperties.containsKey(PROPERTY_COLUMN_WIDTH) 
+						? (Integer)xCutsProperties.get(PROPERTY_COLUMN_WIDTH) 
+						: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
+				
+				Map<String, Object> cutProperties = xCuts.getCut(col).getPropertiesMap();
+				boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
+						&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
+				
+				setColumnWidth(col, width, isAutoFit);
 			}
 		}
 	}
 	
 	protected void setScale(CutsInfo xCuts, boolean isToApply)
 	{
-		sheetPageScale = (isValidScale(xCuts.getPageScale()))
-						? xCuts.getPageScale() 
+		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
+		Integer scale = xCutsProperties.containsKey(PROPERTY_PAGE_SCALE) 
+				? (Integer)xCutsProperties.get(PROPERTY_PAGE_SCALE) 
+				: null;
+
+		sheetPageScale = (isValidScale(scale))
+						? scale 
 						: documentPageScale;
 		if(isToApply)
 		{
@@ -1334,9 +1351,12 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 			{
 				removeColumn(col);
 			}
-			if (xCuts.isAutoFit(col))
+			Map<String, Object> cutProperties = xCuts.getCut(col).getPropertiesMap();
+			boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
+					&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN);
+			if (isAutoFit)
 			{
-				updateColumn(col, xCut.isAutoFit());
+				updateColumn(col, isAutoFit);
 			}
 		}
 	}
@@ -1509,13 +1529,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	private String getSheetName(CutsInfo xCuts, String sheetName){
-		if(xCuts != null && xCuts.getSheetName() != null){
-			if (sheetNames != null && sheetNamesIndex < sheetNames.length)
+	private String getSheetName(CutsInfo xCuts, String sheetName)
+	{
+		if(xCuts != null)
+		{
+			Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
+			String name = xCutsProperties.containsKey(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME) 
+					? (String)xCutsProperties.get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME) 
+					: null;
+			
+			if(name != null)
 			{
-				sheetNames[sheetNamesIndex] = xCuts.getSheetName();
+				if (sheetNames != null && sheetNamesIndex < sheetNames.length)
+				{
+					sheetNames[sheetNamesIndex] = name;
+				}
+				return getSheetName(name);
 			}
-			return getSheetName(xCuts.getSheetName());
 		}
 		return getSheetName(sheetName);
 	}

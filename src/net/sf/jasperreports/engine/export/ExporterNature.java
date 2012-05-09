@@ -29,11 +29,10 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.List;
+import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -72,26 +71,6 @@ public interface ExporterNature extends ExporterFilter
 	public boolean isBreakAfterRow(JRPrintElement element);
 
 	/**
-	 *
-	 */
-	public Boolean getRowAutoFit(JRPrintElement element);
-
-	/**
-	 *
-	 */
-	public Boolean getColumnAutoFit(JRPrintElement element);
-
-	/**
-	 *
-	 */
-	public Integer getCustomColumnWidth(JRPrintElement element);
-
-	/**
-	 * 
-	 */
-	public Float getColumnWidthRatio(JRPrintElement element);
-	
-	/**
 	 * Flag that specifies that empty cells are to be horizontally merged.
 	 * <p>
 	 * If the flag is set and this nature is {@link #isDeep(JRPrintFrame) deep}, the nature is required
@@ -102,15 +81,11 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public boolean isHorizontallyMergeEmptyCells();
 	
-	/**
-	 * 
-	 */
-	public List<PropertySuffix> getRowLevelSuffixes(JRPrintElement element);
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col);
 	
-	public String getSheetName(JRPrintElement element);
+	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element);
 	
-	public Integer getPageScale(JRPrintElement element);
-
-	public Integer getFirstPageNumber(JRPrintElement element);
-
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row);
+	
+	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element);
 }

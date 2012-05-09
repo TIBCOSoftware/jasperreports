@@ -470,7 +470,10 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			row = sheet.createRow(rowIndex);
 		}
 
-		if (!yCut.isAutoFit())
+		Map<String, Object> cutProperties = yCut.getPropertiesMap();
+		boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		if (!isAutoFit)
 		{
 			row.setHeightInPoints(lastRowHeight);
 		}
@@ -667,7 +670,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell, 
-				isWrapText(textElement) || nature.getColumnAutoFit(textElement),
+				isWrapText(textElement) || ((JRXlsExporterNature)nature).getColumnAutoFit(textElement),
 				isCellLocked(textElement),
 				isCellHidden(textElement)
 				);

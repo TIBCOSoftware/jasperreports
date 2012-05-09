@@ -410,7 +410,10 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 
 	protected void setRowHeight(int rowIndex, int lastRowHeight, Cut yCut, XlsRowLevelInfo levelInfo) throws JRException
 	{
-		if (!yCut.isAutoFit())
+		Map<String, Object> cutProperties = yCut.getPropertiesMap();
+		boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
+				&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
+		if (!isAutoFit)
 		{
 			try
 			{
@@ -608,7 +611,7 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 					rotation, 
 					cellFont,
 					gridCell,
-					isWrapText(text) || nature.getColumnAutoFit(text),
+					isWrapText(text) || ((JExcelApiExporterNature)nature).getColumnAutoFit(text),
 					isCellLocked(text)
 					);
 
