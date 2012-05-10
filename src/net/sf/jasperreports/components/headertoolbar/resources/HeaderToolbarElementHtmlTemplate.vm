@@ -13,6 +13,7 @@
     <div id="jive_marker_icon">&nbsp;</div>
     <div style="position:absolute;top:0;right:6px;bottom:0;left:-6px;"></div>
 </div>
+<div class="jive_drag_label" style="background:#eee;border:solid 1px #555;padding:8px;"></div>
 <div id="jive_foobar" class="" style="display:none;"></div>
 <div id="jive_menus"></div>
 <div id="jive_dropdown"></div>

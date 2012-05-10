@@ -75,7 +75,7 @@ jive.interactive.column = jive.interactive.column || {
             	right: lt + c.width(),
             	width: c.width(),
             	index: colData != null ? colData.index : null,
-            	uuid: c.data('popupid'),
+            	uuid: c.data('popupid')
             });
         });
         it.dropPoints[tableUuid].push(lt + c.width());
@@ -152,7 +152,8 @@ jive.interactive.column = jive.interactive.column || {
         		var menuItmArgs = jQuery(el).data('args');
         		var col = it.getColumnByUuid(menuItmArgs.columnUuid, tableUuid);
         		menuItmArgs.column = [col.index];
-        		jQuery(el).attr('data-args', jasperreports.global.toJsonString(menuItmArgs));
+        		//jQuery(el).data('args', jasperreports.global.toJsonString(menuItmArgs));
+                jQuery(el).data('args', menuItmArgs);
         		if (col && col.enabled === true) {
         			el.style.display = 'none';
         		} else if (col){
@@ -272,7 +273,6 @@ jive.interactive.column = jive.interactive.column || {
     			}
     		});
     	}
-    	
     },
     resize: function(width){
         var w = width < 8 ? 8 : Math.floor(width);
@@ -280,7 +280,7 @@ jive.interactive.column = jive.interactive.column || {
         jive.runAction({
             actionName: 'resize',
             resizeColumnData: {
-                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 direction: 'right',
                 width: w
@@ -298,7 +298,7 @@ jive.interactive.column = jive.interactive.column || {
         jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells']);
     },
     hide: function(args){
-    	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').attr('data-uuid');
+    	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').data('uuid');
         jive.hide();
         jive.runAction({
             actionName: 'hideUnhideColumns',
@@ -824,7 +824,7 @@ jive.interactive.column.formatHeaderForm = {
     	return {
             actionName: 'editColumnHeader',
             editColumnHeaderData: {
-                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 headingName: inputs['headingName'].get(),
                 fontName: inputs['headerFontName'].get(),
@@ -961,7 +961,7 @@ jive.interactive.column.formatCellsForm = {
 		return {
             actionName: 'editColumnValues',
             editColumnValueData:{
-                tableUuid: jive.selected.jo.parent('.jrtableframe').attr('data-uuid'),
+                tableUuid: jive.selected.jo.parent('.jrtableframe').data('uuid'),
                 columnIndex: jive.selected.ie.columnIndex,
                 fontName: inputs['cellsFontName'].get(),
                 fontSize: inputs['cellsFontSize'].get(),

@@ -17,6 +17,7 @@ jQuery.extend(jive, {
 
         jQuery('#jive_overlay').appendTo('#jive_components');
         jQuery('#jive_marker').appendTo('#jive_components');
+        jQuery('div.jive_drag_label').appendTo('#jive_components');
         jQuery('#jive_foobar').appendTo('#jive_components');
         jQuery('#jive_menus').appendTo('#jive_components');
         jQuery('#jive_dropdown').appendTo('#jive_components');
@@ -102,7 +103,7 @@ jQuery.extend(jive, {
             jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
                 var jo = jQuery(this);
                 jive.selectInteractiveElement(jo);
-                evt.stopPropagation();
+                return false;
             })
         }
         if(o.proxySelector && !jive.selectors[o.proxySelector]) {
@@ -110,7 +111,7 @@ jQuery.extend(jive, {
             jQuery('div.jrPage').on('click touchend',o.proxySelector,function(evt){
                 var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
                 jive.selectInteractiveElement(jo);
-                evt.stopPropagation();
+                return false;
             })
         }
     },
@@ -191,9 +192,6 @@ jive.ui.overlay = {
         this.jo = jQuery(selector);
         this.jo.draggable({
             cursorAt: { top: 40, left: -30 },
-            helper: function(event) {
-                return jQuery( "<div class='' style='background:#eee;border:solid 1px #555;padding:8px;'>Drag to new column position.</div>" );
-            },
             start: function(ev,ui) {
                 jive.hide(['foobar','marker']);
                 jive.interactive[jive.selected.ie.type].onDragStart(ev,ui);
@@ -212,6 +210,8 @@ jive.ui.overlay = {
         this.jo.css({
             width: dim.w * jive.ui.scaleFactor,
             height: dim.h
+        }).draggable('option','helper', function(event) {
+            return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html('Drag to new column position.');
         });
         this.jo.appendTo('div.jrPage').show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
@@ -229,7 +229,7 @@ jive.ui.foobar = {
         this.jo.on('mousedown touchstart','button',function(evt){
             var jo = jQuery(this);
             !jo.hasClass('disabled') && jo.addClass('pressed');
-            evt.preventDefault();
+            return false;
         });
         this.jo.on('mouseup touchend','button',function(evt){
             var jo = jQuery(this);
@@ -252,7 +252,7 @@ jive.ui.foobar = {
                     jive.ui.foobar.dropMenu = menu;
                 }
             }
-            evt.preventDefault();
+            return false;
         });
         this.jo.on('mouseover','button',function(){
             jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
