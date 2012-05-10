@@ -13,6 +13,8 @@
 		
 		if (!global.google) {
 			jasperreports.global.loadScript('_googleApi', googleScriptUri);
+		} else {
+			jm.callback();
 		}
 	};
 	global.jasperreports.map = jm;
