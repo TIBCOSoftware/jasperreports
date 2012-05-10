@@ -197,10 +197,13 @@ jive.interactive.column = jive.interactive.column || {
 
         this.delta = jive.ui.marker.position.left - this.dropPoints[this.uuid][ci+2];
         this.dropColumnIndex = ci;
+        
+        this.colToMoveToIndex = this.currentColMoveData.index;
     },
     onDrag: function(evt,ui){
         var ev = evt.originalEvent.originalEvent || evt;
         var markers = this.dropPoints[this.uuid];
+        var i = 0, ln = this.currentColumnsMoveData.length, colMoveData, refColIndex, refColMiddle, isLeftToRight;
 
         if(evt.pageX < markers[this.ldi]) {
             if(this.ldi > 0){
@@ -218,58 +221,54 @@ jive.interactive.column = jive.interactive.column || {
                 this.rdi++;
             }
         }
-    },
-    onDragStop: function(ev,ui){
-    	var i = 0, ln = this.currentColumnsMoveData.length, colMoveData, refColIndex, refColMiddle, colToMoveToIndex, isLeftToRight;
-    	
+        
     	// determine move direction
-    	if (ev.pageX > this.currentColMoveData.right) {
+    	if (evt.pageX > this.currentColMoveData.right) {
     		isLeftToRight = true;
-    	} else if (ev.pageX < this.currentColMoveData.left){
+    	} else if (evt.pageX < this.currentColMoveData.left){
     		isLeftToRight = false;
     	}
     	
     	// find column based on event.pageX
     	for (; i < ln; i++) {
     		colMoveData = this.currentColumnsMoveData[i];
-    		if (ev.pageX <= colMoveData.right) {
+    		if (evt.pageX <= colMoveData.right) {
     			refColIndex = parseInt(colMoveData.index);
     			refColMiddle = colMoveData.left + colMoveData.width / 2;
     			
-    			if (ev.pageX <= refColMiddle) { // move left, relative to column middle
+    			if (evt.pageX <= refColMiddle) { // move left, relative to column middle
     				if (refColIndex > 0) {
-    					colToMoveToIndex = this.currentColMoveData.index;	// this is for the case when the move happens inside the same column (isLeftToRight = undefined)
     					if (isLeftToRight === true) {
-    						colToMoveToIndex = refColIndex - 1;
+    						this.colToMoveToIndex = refColIndex - 1;
     					} else if (isLeftToRight === false) {
-    						colToMoveToIndex = refColIndex;
+    						this.colToMoveToIndex = refColIndex;
     					}
     				} else {
-    					colToMoveToIndex = 0;
+    					this.colToMoveToIndex = 0;
     				}
     			} else { // move right, relative to column middle
-    				colToMoveToIndex = this.currentColMoveData.index;	// this is for the case when the move happens inside the same column (isLeftToRight = undefined)
     				if (isLeftToRight === true) {
-    					colToMoveToIndex = refColIndex;
+    					this.colToMoveToIndex = refColIndex;
     				} else if (isLeftToRight === false) {
-    					colToMoveToIndex = refColIndex + 1;
+    					this.colToMoveToIndex = refColIndex + 1;
     				}
     			}
     			break;
     		}
     	}
     	
-    	if (isLeftToRight && colToMoveToIndex == null) {	// for maximum drag to right, move to index of last visible column
-    		colToMoveToIndex = parseInt(this.currentColumnsMoveData[ln-1].index);
+    	if (isLeftToRight && this.colToMoveToIndex == null) {	// for maximum drag to right, move to index of last visible column
+    		this.colToMoveToIndex = parseInt(this.currentColumnsMoveData[ln-1].index);
     	}
-    	
-    	if(colToMoveToIndex != null && colToMoveToIndex != jive.selected.ie.columnIndex) {
+    },
+    onDragStop: function(ev,ui){
+    	if(this.colToMoveToIndex != null && this.colToMoveToIndex != jive.selected.ie.columnIndex) {
     		jive.runAction({
     			actionName: 'move',
     			moveColumnData: {
 					tableUuid: this.uuid,
 					columnToMoveIndex: jive.selected.ie.columnIndex,
-					columnToMoveNewIndex: colToMoveToIndex
+					columnToMoveNewIndex: this.colToMoveToIndex
     			}
     		});
     	}
