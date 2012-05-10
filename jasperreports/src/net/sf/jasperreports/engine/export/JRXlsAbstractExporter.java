@@ -894,9 +894,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									jasperPrint.getPageWidth(), globalOffsetX
 									);
 
-						sheetFirstPageNumber = xCuts.getPropertiesMap().containsKey(PROPERTY_FIRST_PAGE_NUMBER) 
-								? (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER)
-								: null;
+						sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
 						setScale(xCuts, false);
 						createSheet(getSheetName(xCuts, null));
 
@@ -923,9 +921,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							jasperPrint.getPageWidth(), globalOffsetX
 							);
 					
-					sheetFirstPageNumber = xCuts.getPropertiesMap().containsKey(PROPERTY_FIRST_PAGE_NUMBER) 
-							? (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER)
-							: null;
+					sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
 					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
@@ -1302,9 +1298,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void setColumnWidths(CutsInfo xCuts)
 	{
 		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-		Float ratio = xCutsProperties.containsKey(PROPERTY_COLUMN_WIDTH_RATIO) 
-				? (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO) 
-				: null;
+		Float ratio = (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO);
 		float sheetRatio = (ratio != null && ratio > 0f) 
 				? ratio 
 				: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
@@ -1329,9 +1323,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected void setScale(CutsInfo xCuts, boolean isToApply)
 	{
 		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-		Integer scale = xCutsProperties.containsKey(PROPERTY_PAGE_SCALE) 
-				? (Integer)xCutsProperties.get(PROPERTY_PAGE_SCALE) 
-				: null;
+		Integer scale = (Integer)xCutsProperties.get(PROPERTY_PAGE_SCALE);
 
 		sheetPageScale = (isValidScale(scale))
 						? scale 
@@ -1534,9 +1526,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		if(xCuts != null)
 		{
 			Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-			String name = xCutsProperties.containsKey(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME) 
-					? (String)xCutsProperties.get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME) 
-					: null;
+			String name = (String)xCutsProperties.get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
 			
 			if(name != null)
 			{
