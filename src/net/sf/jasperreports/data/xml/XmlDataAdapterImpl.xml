@@ -28,8 +28,8 @@
 		<field name="locale" type="java.util.Locale" handler="net.sf.jasperreports.data.LocaleFieldHandler">
 			<bind-xml name="locale" node="element"/>
 		</field>
-		<field name="timeZone" type="java.util.TimeZone">
-			<bind-xml name="timeZone" node="element" handler="net.sf.jasperreports.data.TimeZoneFieldHandler"/>
+		<field name="timeZone" type="java.util.TimeZone" handler="net.sf.jasperreports.data.TimeZoneFieldHandler">
+			<bind-xml name="timeZone" node="element"/>
 		</field>
 	</class>
 </mapping>
