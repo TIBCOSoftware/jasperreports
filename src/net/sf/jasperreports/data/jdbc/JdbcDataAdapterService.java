@@ -25,6 +25,7 @@ package net.sf.jasperreports.data.jdbc;
 
 import java.sql.Connection;
 import java.sql.Driver;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -157,6 +158,8 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				connectProps.setProperty("password", password);
 				
 				connection = driver.connect(jdbcDataAdapter.getUrl(), connectProps);
+				if(connection == null)
+					throw new SQLException("No suitable driver found for "+ jdbcDataAdapter.getUrl());
 			}
 			catch (Exception ex)
 			{
