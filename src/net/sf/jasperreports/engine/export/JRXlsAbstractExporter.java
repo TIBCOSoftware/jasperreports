@@ -1299,17 +1299,20 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	{
 		Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
 		Float ratio = (Float)xCutsProperties.get(PROPERTY_COLUMN_WIDTH_RATIO);
-		float sheetRatio = (ratio != null && ratio > 0f) 
-				? ratio 
-				: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
+		float sheetRatio = 
+			(ratio != null && ratio > 0f) 
+			? ratio 
+			: (columnWidthRatio > 0f ? columnWidthRatio : 1f);
 		
 		for(int col = 0; col < xCuts.size() - 1; col++)
 		{
 			if (!isRemoveEmptySpaceBetweenColumns || (xCuts.isCutNotEmpty(col) || xCuts.isCutSpanned(col)))
 			{
-				int width = xCutsProperties.containsKey(PROPERTY_COLUMN_WIDTH) 
-						? (Integer)xCutsProperties.get(PROPERTY_COLUMN_WIDTH) 
-						: (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio);
+				Integer width = (Integer)xCutsProperties.get(PROPERTY_COLUMN_WIDTH);
+				width = 
+					width == null 
+					? (int)((xCuts.getCutOffset(col + 1) - xCuts.getCutOffset(col)) * sheetRatio) 
+					: width;  
 				
 				Map<String, Object> cutProperties = xCuts.getCut(col).getPropertiesMap();
 				boolean isAutoFit = cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN) 
@@ -1523,19 +1526,14 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	private String getSheetName(CutsInfo xCuts, String sheetName)
 	{
-		if(xCuts != null)
+		String name = xCuts == null ? null : (String)xCuts.getPropertiesMap().get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
+		if(name != null)
 		{
-			Map<String, Object> xCutsProperties = xCuts.getPropertiesMap();
-			String name = (String)xCutsProperties.get(JRXlsAbstractExporterParameter.PROPERTY_SHEET_NAME);
-			
-			if(name != null)
+			if (sheetNames != null && sheetNamesIndex < sheetNames.length)
 			{
-				if (sheetNames != null && sheetNamesIndex < sheetNames.length)
-				{
-					sheetNames[sheetNamesIndex] = name;
-				}
-				return getSheetName(name);
+				sheetNames[sheetNamesIndex] = name;
 			}
+			return getSheetName(name);
 		}
 		return getSheetName(sheetName);
 	}
