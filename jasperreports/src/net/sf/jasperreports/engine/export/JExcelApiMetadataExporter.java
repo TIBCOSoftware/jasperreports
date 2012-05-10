@@ -421,7 +421,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 		boolean isAutoFit = cutProperties != null 
 				&& cutProperties.containsKey(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW) 
 				&& (Boolean)cutProperties.get(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_ROW);
-		if (!isAutoFit)
+		if (isAutoFit)
 		{
 			try
 			{
