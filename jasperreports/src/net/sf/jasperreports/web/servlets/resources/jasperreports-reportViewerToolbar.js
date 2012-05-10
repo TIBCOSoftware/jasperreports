@@ -81,7 +81,7 @@
 			params += '&' + requestParams;
 		}
 		
-		jive.hide();
+		jive && jive.hide && jive.hide();
 
 		var ctx = jg.getToolbarExecutionContext(toolbar, 
 										currentHref, 
