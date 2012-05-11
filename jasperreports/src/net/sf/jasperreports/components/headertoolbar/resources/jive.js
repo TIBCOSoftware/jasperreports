@@ -211,7 +211,7 @@ jive.ui.overlay = {
             width: dim.w * jive.ui.scaleFactor,
             height: dim.h
         }).draggable('option','helper', function(event) {
-            return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html('Drag to new column position.');
+            return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html('Drag to new column position.').show();
         });
         this.jo.appendTo('div.jrPage').show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
