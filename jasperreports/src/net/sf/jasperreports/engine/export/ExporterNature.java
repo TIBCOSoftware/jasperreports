@@ -81,11 +81,11 @@ public interface ExporterNature extends ExporterFilter
 	 */
 	public boolean isHorizontallyMergeEmptyCells();
 	
-	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col);
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2);
 	
 	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element);
 	
-	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row);
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2);
 	
 	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element);
 }

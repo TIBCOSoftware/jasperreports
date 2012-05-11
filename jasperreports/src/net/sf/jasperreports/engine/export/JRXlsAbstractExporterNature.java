@@ -275,10 +275,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 			return null;
 	}
 
-	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col)
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> xCutsProperties = xCuts.getPropertiesMap();
-		Cut cut = xCuts.getCut(col);
+		Cut cut = xCuts.getCut(col1);
 		Map<String,Object> cutProperties = cut.getPropertiesMap();
 		
 		Boolean columnAutoFit = getColumnAutoFit(element);
@@ -334,10 +334,10 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		}
 	}
 	
-	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row)
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		Map<String,Object> yCutsProperties = yCuts.getPropertiesMap();
-		Cut cut = yCuts.getCut(row);
+		Cut cut = yCuts.getCut(row1);
 		Map<String,Object> cutProperties = cut.getPropertiesMap();
 		
 		Boolean rowAutoFit = getRowAutoFit(element);

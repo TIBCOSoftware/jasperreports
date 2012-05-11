@@ -29,6 +29,9 @@
 
 package net.sf.jasperreports.engine.export;
 
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 
@@ -61,6 +64,26 @@ public abstract class AbstractExporterNature implements ExporterNature
 	public JRPropertiesUtil getPropertiesUtil()
 	{
 		return propertiesUtil;
+	}
+
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
+	{
+		// nothing to do here
+	}
+	
+	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
+	{
+		// nothing to do here
+	}
+	
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
+	{
+		// nothing to do here
+	}
+	
+	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
+	{
+		// nothing to do here
 	}
 	
 }

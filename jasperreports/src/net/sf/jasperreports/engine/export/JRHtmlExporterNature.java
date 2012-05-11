@@ -163,24 +163,4 @@ public class JRHtmlExporterNature extends AbstractExporterNature
 		return false;
 	}
 	
-	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col)
-	{
-		// nothing to do here
-	}
-	
-	public void setXProperties(Map<String,Object> xCutsProperties, JRPrintElement element)
-	{
-		// nothing to do here
-	}
-	
-	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row)
-	{
-		// nothing to do here
-	}
-	
-	public void setYProperties(Map<String,Object> yCutsProperties, JRPrintElement element)
-	{
-		// nothing to do here
-	}
-
 }
