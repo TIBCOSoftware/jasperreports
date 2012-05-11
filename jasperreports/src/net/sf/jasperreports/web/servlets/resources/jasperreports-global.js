@@ -19,7 +19,6 @@ jQuery.noConflict();
 						CORE: '/jquery/js/jquery-1.7.1.min.js',
 						UI: '/jquery/js/jquery-ui-1.8.18.custom.min.js'
 					},
-					isFirstAjaxRequest: true,
 					dialogsContainerSelector: 'div.jrPage:first',		// 'jrPage' hardcoded in JRXHtmlExporter.java
 					reportContainerSelector: 'body'
 				}
@@ -262,7 +261,7 @@ jQuery.noConflict();
 									}
 								}
 								
-								elementToAppendTo.html(toExtract);
+								elementToAppendTo.html(toExtract.html());
 								
 								// execute script tags from response after appending to DOM because the script may rely on new DOM elements
 								response.filter('script').each(function(idx, elem) {
@@ -317,12 +316,7 @@ jQuery.noConflict();
 			},
 			
 			run : function() {
-				var parent = jQuery(this.target).closest('div.executionContext'),
-					isajax = true;
-				
-				if (jg.isFirstAjaxRequest) {
-					isajax = false; 
-				}
+				var parent = jQuery(this.target).closest('div.executionContext');
 				
 				if (parent.size() == 0) {
 					parent = jQuery(this.target).closest('div.jiveContext');
@@ -333,19 +327,6 @@ jQuery.noConflict();
 				}
 				
 				parent.loadmask();
-				
-				// FIXME: must know if this is an ajax request, to prevent some resources from reloading
-				if (this.requestParams != null) {
-					if ('object' == typeof this.requestParams) {
-						this.requestParams.isajax = isajax; // on first ajax request load all resources
-					} else if('string' == typeof this.requestParams) {
-						this.requestParams += '&isajax=' + isajax;
-					}
-				} else if (this.requestParams == null) {
-					this.requestParams = {
-						isajax: isajax
-					};
-				}
 				
 				jg.ajaxLoad(this.requestUrl, this.target, this.elementToExtract, this.requestParams, this.callback, this.arrCallbackArgs, parent);
 			}
@@ -679,7 +660,7 @@ jQuery.noConflict();
 
             this.hide();
 
-        	jasperreports.reportviewertoolbar.runReport2({
+        	jasperreports.reportviewertoolbar.runReport({
     				actionBaseData: jQuery.parseJSON(this.actionBaseData),
     				actionBaseUrl: this.actionBaseUrl,
     				toolbarId: toolbarId,
@@ -688,6 +669,9 @@ jQuery.noConflict();
     			actionData,
     			callback,
     			arrCallbackArgs);
+        },
+        hide: function () {
+        	// empty body; overwritten in jive.js
         }
     }
 	
