@@ -244,7 +244,7 @@
 			            			dragObj.dragStarted = false;
 			            			
 			            			if (dragObj.canDrop) {
-						            	jvt.runReport2(js.selectedColumn, 
+						            	jvt.runReport(js.selectedColumn, 
 						            			dragObj.moveColumnActionData, 
 						            			js.highlightColumn, 
 						            			[js.selectedColumn.popupId, dragObj.whichTableFrameIndex]);
@@ -289,7 +289,7 @@
 			                	    		}
 			                	    };
 			                	    
-			                	    jvt.runReport2(js.selectedColumn, actionData);
+			                	    jvt.runReport(js.selectedColumn, actionData);
 			                	}
 			                });
 			            	
@@ -356,7 +356,7 @@
 		 */
 		jQuery('.sortAscBtn, .sortDescBtn', popupDiv).bind('click', function(event) {
 			event.preventDefault();
-            jvt.runReport2(js.selectedColumn, jQuery(this).attr("data-sortData")); 
+            jvt.runReport(js.selectedColumn, jQuery(this).attr("data-sortData")); 
 		});
 		
 		/**
@@ -447,7 +447,7 @@
 			});
 			
 			actionData.filterData = filterData;
-			jvt.runReport2(js.selectedColumn, actionData);
+			jvt.runReport(js.selectedColumn, actionData);
 		});
 		
 		jQuery('.filterValue', filterDiv).bind('templateInit', function (event) {
@@ -497,7 +497,7 @@
 				}
 			});
 			
-			jvt.runReport2(js.selectedColumn, actionData);
+			jvt.runReport(js.selectedColumn, actionData);
 		});
 		
 		
@@ -577,7 +577,7 @@
 			});
         	
         	actionData['editColumnHeaderData'] = editColumnHeaderData;
-			jvt.runReport2(js.selectedColumn, actionData);
+			jvt.runReport(js.selectedColumn, actionData);
         });
 
         jQuery('.valuesTabContent .buttonOK', popupDiv).bind('click', function() {
@@ -599,7 +599,7 @@
 			});
         	
         	actionData['editColumnValueData'] = editColumnValueData;
-        	jvt.runReport2(js.selectedColumn, actionData);
+        	jvt.runReport(js.selectedColumn, actionData);
         });
         
         jQuery('.customInput', popupDiv).on('change', function(event) {
@@ -938,7 +938,7 @@
 					}
 				};
 			
-			jvt.runReport2(js.selectedColumn, actionData);
+			jvt.runReport(js.selectedColumn, actionData);
 		}
 	};
 
@@ -979,7 +979,7 @@
 							}
 						};
 					
-					jvt.runReport2(js.selectedColumn, actionData);
+					jvt.runReport(js.selectedColumn, actionData);
 				});
 			}
 			
