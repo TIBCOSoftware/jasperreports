@@ -128,7 +128,7 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 	
 	protected abstract byte getOpenDocumentNature();
 	
-	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int col)
+	public void setXProperties(CutsInfo xCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}
@@ -138,7 +138,7 @@ public abstract class JROpenDocumentExporterNature implements ExporterNature
 		// nothing to do here
 	}
 	
-	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row)
+	public void setYProperties(CutsInfo yCuts, JRPrintElement element, int row1, int col1, int row2, int col2)
 	{
 		// nothing to do here
 	}

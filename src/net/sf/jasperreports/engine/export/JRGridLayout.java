@@ -522,8 +522,8 @@ public class JRGridLayout
 				rowSpan
 				);
 
-		nature.setXProperties(xCuts, element, col1);
-		nature.setYProperties(yCuts, element, row1);
+		nature.setXProperties(xCuts, element, row1, col1, row2, col2);
+		nature.setYProperties(yCuts, element, row1, col1, row2, col2);
 
 		if (nature.isSpanCells())
 		{
