@@ -151,9 +151,10 @@ jive.interactive.column = jive.interactive.column || {
         	if (i > 0) {
         		var menuItmArgs = jQuery(el).data('args');
         		var col = it.getColumnByUuid(menuItmArgs.columnUuid, tableUuid);
-        		menuItmArgs.column = [col.index];
-        		//jQuery(el).data('args', jasperreports.global.toJsonString(menuItmArgs));
-                jQuery(el).data('args', menuItmArgs);
+        		if (col != null) {
+        			menuItmArgs.column = [col.index];
+        			jQuery(el).data('args', menuItmArgs);
+        		}
         		if (col && col.enabled === true) {
         			el.style.display = 'none';
         		} else if (col){
