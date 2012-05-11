@@ -309,16 +309,7 @@
 		jvt.setAutoRefresh(toolbarId);
 	};
 	
-	jvt.runReport = function(startPoint, requestedUrl, params, callback, arrCallbackArgs, isJSON) {
-		var	gm = global.jasperreports.global,
-			ctx = gm.getToolbarExecutionContext(startPoint, requestedUrl, params, callback, arrCallbackArgs, isJSON);
-	
-	    if (ctx) {
-	        ctx.run();
-	    }
-	};
-
-	jvt.runReport2 = function(selectedColumn, actionData, callback, arrCallbackArgs, isJSON) {
+	jvt.runReport = function(selectedColumn, actionData, callback, arrCallbackArgs, isJSON) {
 		var	gm = global.jasperreports.global,
 			params = selectedColumn.actionBaseData,
 			arrCallbackArgs = arrCallbackArgs || [],

@@ -82,7 +82,7 @@
 				// clear filters
 				jQuery('#' + js.filters.filterContainerId).empty();
 
-				jasperreports.reportviewertoolbar.runReport2({
+				jasperreports.reportviewertoolbar.runReport({
 	    				actionBaseData: jQuery.parseJSON(actionBaseData),
 	    				actionBaseUrl: actionBaseUrl,
 	    				toolbarId: toolbarId,
@@ -132,7 +132,7 @@
 				// clear filters
 				jQuery('#' + js.filters.filterContainerId).empty();
 	
-				jasperreports.reportviewertoolbar.runReport2({
+				jasperreports.reportviewertoolbar.runReport({
 	    				actionBaseData: jQuery.parseJSON(actionBaseData),
 	    				actionBaseUrl: actionBaseUrl,
 	    				toolbarId: toolbarId,
@@ -241,7 +241,7 @@
 						toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
 						actionData = jQuery.parseJSON(self.attr('data-actionData'));
 	                
-					jasperreports.reportviewertoolbar.runReport2({
+					jasperreports.reportviewertoolbar.runReport({
 		    				actionBaseData: jQuery.parseJSON(actionBaseData),
 		    				actionBaseUrl: actionBaseUrl,
 		    				toolbarId: toolbarId,
@@ -285,7 +285,7 @@
 						toolbarId = self.closest('.mainReportDiv').find('.toolbarDiv').attr('id'),
 						actionData = jQuery.parseJSON(self.attr('data-actionData'));
 	                
-					jasperreports.reportviewertoolbar.runReport2({
+					jasperreports.reportviewertoolbar.runReport({
 		    				actionBaseData: jQuery.parseJSON(actionBaseData),
 		    				actionBaseUrl: actionBaseUrl,
 		    				toolbarId: toolbarId,
