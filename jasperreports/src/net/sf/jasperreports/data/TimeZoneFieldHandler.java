@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.data;
 
-import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.engine.util.JRDataUtils;
@@ -74,7 +73,7 @@ public class TimeZoneFieldHandler extends GeneralizedFieldHandler
 	 */
 	public Class<?> getFieldType()
 	{
-		return Locale.class;//FIXMECONTEXT is this correct?
+		return TimeZone.class;//FIXMECONTEXT is this correct?
 	}
 
 	/**
