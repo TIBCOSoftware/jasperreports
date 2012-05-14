@@ -643,6 +643,16 @@ jQuery.noConflict();
         selectors: {},
         elements: {},
         interactive:{},
+        i18n: {
+        	keys: {},
+        	get: function (key) {
+        		if (this.keys.hasOwnProperty(key)) {
+        			return this.keys[key];
+        		} else {
+        			return key;
+        		}
+        	}
+        },
         ui: {
             scaleFactor: 1
         },

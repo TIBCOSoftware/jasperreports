@@ -71,7 +71,7 @@ public class ResourceServlet extends AbstractServlet
 				Map<String, Object> contextMap = new HashMap<String, Object>();
 				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
 				locale = locale == null ? Locale.getDefault() : locale;
-				contextMap.put("messsageProvider", MessageUtil.getInstance(getJasperReportsContext()).getLocalizedMessageProvider(resourceBundleName, locale)); 
+				contextMap.put("msgProvider", MessageUtil.getInstance(getJasperReportsContext()).getLocalizedMessageProvider(resourceBundleName, locale)); 
 				String resourceString = VelocityUtil.processTemplate(resource, contextMap);
 				if (resourceString != null) {
 					bytes = resourceString.getBytes();

@@ -115,6 +115,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
 
 	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.vm.js";
+	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.i18n.vm.js";
 
 	private static final String CSS_FILTER_DISABLED = 		"filterBtnDisabled";
 	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
@@ -218,15 +219,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
 				contextMap.put("jasperreports_tableHeaderToolbar_js", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS));
 				contextMap.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
-				contextMap.put(
-					"jiveColumnScript", 
-					webUtil.getResourcePath(
-						webResourcesBasePath, 
-						HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS//, 
-//						"net.sf.jasperreports.components.headertoolbar.messages",
-//						locale
-						)
-					);
+				contextMap.put("jiveColumnScript", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS));
+				contextMap.put("jiveColumnI18n_js",
+								webUtil.getResourcePath(
+										webResourcesBasePath,
+										HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_I18N_JS,
+										"net.sf.jasperreports.components.headertoolbar.messages",
+										locale));
 			}
 			
 			if (context.getExportParameters().containsKey(param) && tableUUID.equals(context.getExportParameters().get(param))) {
