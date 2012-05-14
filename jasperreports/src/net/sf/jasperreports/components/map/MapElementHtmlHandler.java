@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.engine.JRGenericPrintElement;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
@@ -32,8 +31,8 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.velocity.VelocityContext;
 
@@ -68,12 +67,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)
 		{
-			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
-			if (webResourcesBasePath == null)
-			{
-				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
-			}
-			velocityContext.put("resourceMapJs", webResourcesBasePath + MapElementHtmlHandler.RESOURCE_MAP_JS);
+			velocityContext.put("resourceMapJs", WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
 		}
 		velocityContext.put("gotReportContext", reportContext != null);
 		velocityContext.put("latitude", latitude);

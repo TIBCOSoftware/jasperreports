@@ -25,8 +25,7 @@ package net.sf.jasperreports.web.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -35,35 +34,29 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
  */
 public class ReportInteractionHyperlinkProducer extends ReportExecutionHyperlinkProducer
 {
-	private static final String DEFAULT_REPORT_INTERACTION_PATH = "/servlets/report";
 	public static final String HYPERLINK_TYPE_REPORT_INTERACTION = "ReportInteraction";
 	
 	/**
 	 *
 	 */
-	protected ReportInteractionHyperlinkProducer(HttpServletRequest request)
+	protected ReportInteractionHyperlinkProducer(JasperReportsContext jasperReportsContext, HttpServletRequest request)
 	{
-		super(request);
+		super(jasperReportsContext, request);
 	}
 
 	/**
 	 *
 	 */
-	public static ReportInteractionHyperlinkProducer getInstance(HttpServletRequest request)
+	public static ReportInteractionHyperlinkProducer getInstance(JasperReportsContext jasperReportsContext, HttpServletRequest request)
 	{
-		return new ReportInteractionHyperlinkProducer(request);
+		return new ReportInteractionHyperlinkProducer(jasperReportsContext, request);
 	}
 
 
 	@Override
 	public String getPath() 
 	{
-		String path = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty("net.sf.jasperreports.web.report.interaction.path");
-		if (path == null)
-		{
-			path = DEFAULT_REPORT_INTERACTION_PATH;
-		}
-		return path;
+		return WebUtil.getInstance(jasperReportsContext).getReportInteractionPath();
 	}
 
 }

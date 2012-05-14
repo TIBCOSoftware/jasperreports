@@ -25,47 +25,53 @@ package net.sf.jasperreports.web.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebUtil;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public class ResourceServlet extends HttpServlet
+public class ResourceServlet extends AbstractServlet
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
-
-	public static final String RESOURCE_URI = "resource.uri";
-	public static final String RESOURCE_IS_DYNAMIC = "isDynamic";
-	public static final String SERVLET_PATH = "path";
-	
-	public static final String DEFAULT_PATH = "/servlets/resource";
 
 	public void service(
 		HttpServletRequest request,
 		HttpServletResponse response
 		) throws IOException, ServletException
 	{
-		String resource = request.getParameter(RESOURCE_URI);
-		boolean isDynamicResource = Boolean.parseBoolean(request.getParameter(RESOURCE_IS_DYNAMIC));
+		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
+		String resource = webUtil.getResourceUri(request);
+		boolean isDynamicResource = webUtil.isDynamicResource(request);
+		String resourceBundleName = webUtil.getResourceBundleForResource(request);
+		Locale locale = webUtil.getResourceLocale(request);
+		
 		try {
 			byte[] bytes = null;
 			
-			if(resource != null && resource.indexOf(".vm.") != -1 && isDynamicResource) 
+			if(
+				resource != null 
+				&& resource.indexOf(".vm.") != -1 
+				&& (isDynamicResource || resourceBundleName != null || locale != null)
+				) 
 			{
 				Map<String, Object> contextMap = new HashMap<String, Object>();
-				contextMap.put("path", request.getContextPath() + request.getParameter(SERVLET_PATH));
+				contextMap.put("path", request.getContextPath() + webUtil.getResourcesBasePath());
+				locale = locale == null ? Locale.getDefault() : locale;
+				contextMap.put("messsageProvider", MessageUtil.getInstance(getJasperReportsContext()).getLocalizedMessageProvider(resourceBundleName, locale)); 
 				String resourceString = VelocityUtil.processTemplate(resource, contextMap);
 				if (resourceString != null) {
 					bytes = resourceString.getBytes();
@@ -95,6 +101,5 @@ public class ResourceServlet extends HttpServlet
 			e.printStackTrace();
 		}
 	}
-	
 	
 }

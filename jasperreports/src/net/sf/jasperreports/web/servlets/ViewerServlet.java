@@ -35,9 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,9 +62,6 @@ public class ViewerServlet extends AbstractServlet
 	private static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.js";
 	private static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
 	private static final String RESOURCE_VIEWER_TOOLBAR_JS = "net/sf/jasperreports/web/servlets/resources/jasperreports-reportViewerToolbar.js";
-
-	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
-	
 
 	/**
 	 *
@@ -136,22 +135,22 @@ public class ViewerServlet extends AbstractServlet
 	protected String getCurrentUrl(HttpServletRequest request, WebReportContext webReportContext) 
 	{
 		String newQueryString = request.getQueryString();
-		return request.getContextPath() + ReportServlet.DEFAULT_PATH + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+		//return request.getContextPath() + request.getServletPath() + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+		//return request.getContextPath() + ReportServlet.DEFAULT_PATH + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
+		String reportUrl = WebUtil.getInstance(getJasperReportsContext()).getReportInteractionPath();
+		return request.getContextPath() + reportUrl + "?" + newQueryString + "&" + WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID + "=" + webReportContext.getId();
 	}
 
 
 	protected String getHeader(HttpServletRequest request, WebReportContext webReportContext, String toolbarId)
 	{
 		Map<String, Object> contextMap = new HashMap<String, Object>();
-		String webResourcesBasePath = JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");//FIXMEJIVE reuse this code
-		if (webResourcesBasePath == null)
-		{
-			webResourcesBasePath = request.getContextPath() + ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
-		}
+		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
+		String webResourcesBasePath = webUtil.getResourcesBasePath();
 		contextMap.put("contextPath", request.getContextPath());
-		contextMap.put("jasperreports_global_js", webResourcesBasePath + RESOURCE_JR_GLOBAL_JS);
-		contextMap.put("jasperreports_reportViewerToolbar_js", webResourcesBasePath + RESOURCE_VIEWER_TOOLBAR_JS);
-		contextMap.put("jasperreports_global_css", webResourcesBasePath + RESOURCE_JR_GLOBAL_CSS);
+		contextMap.put("jasperreports_global_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_JR_GLOBAL_JS));
+		contextMap.put("jasperreports_reportViewerToolbar_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_VIEWER_TOOLBAR_JS));
+		contextMap.put("jasperreports_global_css", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_JR_GLOBAL_CSS));
 		contextMap.put("showToolbar", Boolean.TRUE);
 		contextMap.put("toolbarId", toolbarId);
 		contextMap.put("currentUrl", getCurrentUrl(request, webReportContext));
@@ -174,7 +173,11 @@ public class ViewerServlet extends AbstractServlet
 		paramsMap.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, String.valueOf(webReportContext.getId()));
 //		paramsMap.put(ReportServlet.REQUEST_PARAMETER_TOOLBAR_ID, toolbarId);
 		
-		contextMap.put("reportUrl", request.getContextPath() + ReportServlet.DEFAULT_PATH);
+		//contextMap.put("reportUrl", request.getContextPath() + request.getServletPath());
+		//contextMap.put("reportUrl", request.getContextPath() + ReportServlet.DEFAULT_PATH);
+		String reportUrl = WebUtil.getInstance(getJasperReportsContext()).getReportInteractionPath();
+		//contextMap.put("contextPath", request.getContextPath());
+		contextMap.put("reportUrl", request.getContextPath() + reportUrl);
 		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
 		contextMap.put("toolbarId", toolbarId);
 		

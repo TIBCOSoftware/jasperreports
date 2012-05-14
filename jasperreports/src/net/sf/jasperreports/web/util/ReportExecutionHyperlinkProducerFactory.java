@@ -25,6 +25,7 @@ package net.sf.jasperreports.web.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 
@@ -40,22 +41,24 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 	 */
 	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
 	
+	private JasperReportsContext jasperReportsContext;
 	private HttpServletRequest request;
 	
 	/**
 	 *
 	 */
-	private ReportExecutionHyperlinkProducerFactory(HttpServletRequest request)
+	private ReportExecutionHyperlinkProducerFactory(JasperReportsContext jasperReportsContext, HttpServletRequest request)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.request = request;
 	}
 
 	/**
 	 *
 	 */
-	public static ReportExecutionHyperlinkProducerFactory getInstance(HttpServletRequest request)
+	public static ReportExecutionHyperlinkProducerFactory getInstance(JasperReportsContext jasperReportsContext, HttpServletRequest request)
 	{
-		return new ReportExecutionHyperlinkProducerFactory(request);
+		return new ReportExecutionHyperlinkProducerFactory(jasperReportsContext, request);
 	}
 
 	/**
@@ -67,11 +70,11 @@ public class ReportExecutionHyperlinkProducerFactory extends JRHyperlinkProducer
 		{
 			if (ReportExecutionHyperlinkProducer.HYPERLINK_TYPE_REPORT_EXECUTION.equals(linkType))
 			{
-				return ReportExecutionHyperlinkProducer.getInstance(request);
+				return ReportExecutionHyperlinkProducer.getInstance(jasperReportsContext, request);
 			}
 			if (ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION.equals(linkType))
 			{
-				return ReportInteractionHyperlinkProducer.getInstance(request);
+				return ReportInteractionHyperlinkProducer.getInstance(jasperReportsContext, request);
 			}
 		}
 		return null;

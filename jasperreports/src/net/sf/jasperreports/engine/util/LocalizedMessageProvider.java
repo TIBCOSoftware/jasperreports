@@ -21,44 +21,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.web.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+/*
+ * Contributors:
+ * Gaganis Giorgos - gaganis@users.sourceforge.net
+ */
+package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-
-
+import java.util.Locale;
 
 /**
- * @author Narcis Marcu (narcism@users.sourceforge.net)
- * @version $Id$
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @version $Id: MessageProvider.java 5180 2012-03-29 13:23:12Z teodord $
  */
-public class UrlUtil {
+public class LocalizedMessageProvider
+{
+	private MessageProvider messageProvider;
+	private Locale locale;
 
-
-	public static String urlEncode(String toEncode) {
-		if (toEncode != null) {
-			try {
-				return URLEncoder.encode(toEncode, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				throw new JRRuntimeException(e);
-			}
-		}
-		return null;
+	/**
+	 *
+	 */
+	public LocalizedMessageProvider(MessageProvider messageProvider, Locale locale)
+	{
+		this.messageProvider = messageProvider;
+		this.locale = locale;
 	}
 
-
-	public static String urlDecode(String toDecode) {
-		if (toDecode != null) {
-			try {
-				return URLDecoder.decode(toDecode, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				throw new JRRuntimeException(e);
-			}
-		}
-		return null;
+	/**
+	 *
+	 */
+	public String getMessage(String code)
+	{
+		return messageProvider.getMessage(code, null, locale);
 	}
-
 }

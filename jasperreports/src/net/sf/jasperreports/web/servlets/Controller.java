@@ -26,6 +26,7 @@ package net.sf.jasperreports.web.servlets;
 import net.sf.jasperreports.data.cache.ColumnDataCacheHandler;
 import net.sf.jasperreports.data.cache.DataCacheHandler;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -38,6 +39,7 @@ import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.Action;
 import net.sf.jasperreports.web.commands.CommandStack;
+import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,9 +52,6 @@ import org.apache.commons.logging.LogFactory;
 public class Controller
 {
 	private static final Log log = LogFactory.getLog(Controller.class);
-
-	public static final String REQUEST_PARAMETER_REPORT_URI = "jr.uri";
-	public static final String REQUEST_PARAMETER_ASYNC = "jr.async";
 
 	/**
 	 *
@@ -78,7 +77,9 @@ public class Controller
 		Action action
 		) throws JRException, JRInteractiveException
 	{
-		String reportUri = (String)webReportContext.getParameterValue(REQUEST_PARAMETER_REPORT_URI);
+		JRPropertiesUtil propUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		String reportUriParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
+		String reportUri = (String)webReportContext.getParameterValue(reportUriParamName);
 		int initialStackSize = 0;
 		CommandStack commandStack = (CommandStack)webReportContext.getParameterValue(AbstractAction.PARAM_COMMAND_STACK);
 		if (commandStack != null) {
@@ -107,12 +108,13 @@ public class Controller
 			throw new JRException("Report not found at : " + reportUri);
 		}
 		
-		Boolean async = (Boolean)webReportContext.getParameterValue(REQUEST_PARAMETER_ASYNC);
+		String asyncParamName = propUtil.getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_ASYNC_REPORT);
+		Boolean async = (Boolean)webReportContext.getParameterValue(asyncParamName);
 		if (async == null)
 		{
 			async = Boolean.FALSE;
 		}
-		webReportContext.setParameterValue(REQUEST_PARAMETER_ASYNC, async);
+		webReportContext.setParameterValue(asyncParamName, async);
 		
 		try {
 			runReport(webReportContext, jasperReport, async.booleanValue());

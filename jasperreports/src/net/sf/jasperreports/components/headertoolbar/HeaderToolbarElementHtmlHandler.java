@@ -87,12 +87,10 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.servlets.ReportServlet;
-import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
-import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebUtil;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -116,7 +114,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 //	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
 
-	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js";
+	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.vm.js";
 
 	private static final String CSS_FILTER_DISABLED = 		"filterBtnDisabled";
 	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
@@ -202,10 +200,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("JRStringUtil", JRStringUtil.class);
 			contextMap.put("tableUUID", tableUUID);
 			
-			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
-			if (webResourcesBasePath == null)
-			{
-				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
+			WebUtil webUtil = WebUtil.getInstance(context.getJasperReportsContext());
+			String webResourcesBasePath = webUtil.getResourcesBasePath();
+			
+			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
+			
+			if (locale == null) {
+				locale = Locale.getDefault();
 			}
 			
 			if (reportContext.getParameterValue(PARAM_GENERATED_TEMPLATE_PREFIX) != null) {
@@ -215,9 +216,17 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				
 				contextMap.put("actionBaseUrl", getActionBaseUrl(context));
 				contextMap.put("actionBaseData", getActionBaseJsonData(context));
-				contextMap.put("jasperreports_tableHeaderToolbar_js", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS);
-				contextMap.put("jasperreports_tableHeaderToolbar_css", getDynamicResourceLink(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS));
-				contextMap.put("jiveColumnScript", webResourcesBasePath + HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS);
+				contextMap.put("jasperreports_tableHeaderToolbar_js", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_JS));
+				contextMap.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, HeaderToolbarElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
+				contextMap.put(
+					"jiveColumnScript", 
+					webUtil.getResourcePath(
+						webResourcesBasePath, 
+						HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_JS//, 
+//						"net.sf.jasperreports.components.headertoolbar.messages",
+//						locale
+						)
+					);
 			}
 			
 			if (context.getExportParameters().containsKey(param) && tableUUID.equals(context.getExportParameters().get(param))) {
@@ -268,12 +277,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				String calendarPattern = null;
 				if (filterPattern == null) {
 					filterPattern = "";
-				}
-				
-				Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
-				
-				if (locale == null) {
-					locale = Locale.getDefault();
 				}
 				
 				Map<String, String> translatedOperators = null;
@@ -452,7 +455,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		Map<String, Object> actionParams = new HashMap<String, Object>();
 		actionParams.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, reportContext.getId());
-		actionParams.put(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, true);
+		String runReportParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
+		actionParams.put(runReportParamName, true);
 		
 //		return JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(actionParams);
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
@@ -701,10 +705,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		}
 		
 		contextMap.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
-	}
-	
-	private String getDynamicResourceLink(String webResourceBasePath, String resourcePath) {
-		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + UrlUtil.urlEncode(webResourceBasePath);
 	}
 	
 	private Set<String> getFontExtensionsFontNames() {

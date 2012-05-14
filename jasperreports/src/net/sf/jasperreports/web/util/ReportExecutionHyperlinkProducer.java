@@ -27,12 +27,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintHyperlink;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
-import net.sf.jasperreports.web.servlets.ReportServlet;
 
 
 /**
@@ -41,39 +40,38 @@ import net.sf.jasperreports.web.servlets.ReportServlet;
  */
 public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 {
-	private static final String DEFAULT_REPORT_EXECUTION_PATH = "/servlets/viewer";
 	public static final String HYPERLINK_TYPE_REPORT_EXECUTION = "ReportExecution";
+	public static final String PARAMETER_REPORT_URI = "jr.report";
+	private static final String PARAMETER_REPORT_URI_OLD = "jr.uri";
+	//private static final String PARAMETER_REPORT_URI_OLD = "_report";
 	
+	protected JasperReportsContext jasperReportsContext;
 	private HttpServletRequest request;
 	
 	/**
 	 *
 	 */
-	protected ReportExecutionHyperlinkProducer(HttpServletRequest request)
+	protected ReportExecutionHyperlinkProducer(JasperReportsContext jasperReportsContext,HttpServletRequest request)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.request = request;
 	}
 
 	/**
 	 *
 	 */
-	public static ReportExecutionHyperlinkProducer getInstance(HttpServletRequest request)
+	public static ReportExecutionHyperlinkProducer getInstance(JasperReportsContext jasperReportsContext, HttpServletRequest request)
 	{
-		return new ReportExecutionHyperlinkProducer(request);
+		return new ReportExecutionHyperlinkProducer(jasperReportsContext, request);
 	}
 
 
 	/**
 	 *
 	 */
-	public String getPath() 
+	protected String getPath() 
 	{
-		String path = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance()).getProperty("net.sf.jasperreports.web.report.execution.path");
-		if (path == null)
-		{
-			path = DEFAULT_REPORT_EXECUTION_PATH;
-		}
-		return path;
+		return WebUtil.getInstance(jasperReportsContext).getReportExecutionPath();
 	}
 	
 	
@@ -84,7 +82,8 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 	{
 		String appContext = request.getContextPath();
 		String servletPath = getPath();
-		String reportUri = request.getParameter(ReportServlet.REQUEST_PARAMETER_REPORT_URI);
+		String reportUriParamName = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
+		String reportUri = request.getParameter(reportUriParamName);
 //		String reportAction = null;//request.getParameter(FillServlet.REPORT_ACTION);
 //		String reportActionData = null;//request.getParameter(FillServlet.REPORT_ACTION_DATA);
 		
@@ -98,7 +97,10 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 				for (int i = 0; i < parameters.size(); i++)
 				{
 					JRPrintHyperlinkParameter parameter = parameters.get(i);
-					if (ReportServlet.REQUEST_PARAMETER_REPORT_URI.equals(parameter.getName()))
+					if (
+						PARAMETER_REPORT_URI.equals(parameter.getName())
+						|| PARAMETER_REPORT_URI_OLD.equals(parameter.getName())
+						)
 					{
 						reportUri = (String)parameter.getValue();
 					}
@@ -120,7 +122,7 @@ public class ReportExecutionHyperlinkProducer implements JRHyperlinkProducer
 		
 		return 
 			appContext + (servletPath != null ? servletPath : "")
-				+ "?" + ReportServlet.REQUEST_PARAMETER_REPORT_URI + "=" + reportUri 
+				+ "?" + reportUriParamName + "=" + reportUri 
 //				+ (reportAction == null ? "" : "&" + FillServlet.REPORT_ACTION + "=" + reportAction) 
 //				+ (reportActionData == null ? "" : "&" + FillServlet.REPORT_ACTION_DATA + "=" + reportActionData)
 				+ allParams.toString();

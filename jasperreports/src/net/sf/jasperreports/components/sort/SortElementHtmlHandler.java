@@ -62,12 +62,10 @@ import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.commands.CommandTarget;
-import net.sf.jasperreports.web.servlets.ReportServlet;
-import net.sf.jasperreports.web.servlets.ResourceServlet;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
-import net.sf.jasperreports.web.util.UrlUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
+import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -161,16 +159,13 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			}
 			
 			VelocityContext velocityContext = new VelocityContext();
-			String webResourcesBasePath = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty("net.sf.jasperreports.web.resources.base.path");
-			if (webResourcesBasePath == null)
-			{
-				webResourcesBasePath = ResourceServlet.DEFAULT_PATH + "?" + ResourceServlet.RESOURCE_URI + "=";
-			}
+			WebUtil webUtil = WebUtil.getInstance(context.getJasperReportsContext());
+			String webResourcesBasePath = webUtil.getResourcesBasePath();
 			velocityContext.put("actionBaseUrl", getActionBaseUrl(context));
 			velocityContext.put("actionBaseData", getActionBaseJsonData(context));
 			
-			velocityContext.put("resourceSortJs", webResourcesBasePath + SortElementHtmlHandler.RESOURCE_SORT_JS);
-			velocityContext.put("jasperreports_tableHeaderToolbar_css", getDynamicResourceLink(webResourcesBasePath, SortElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS));
+			velocityContext.put("resourceSortJs", webUtil.getResourcePath(webResourcesBasePath, SortElementHtmlHandler.RESOURCE_SORT_JS));
+			velocityContext.put("jasperreports_tableHeaderToolbar_css", webUtil.getResourcePath(webResourcesBasePath, SortElementHtmlHandler.RESOURCE_HEADERTOOLBAR_CSS, true));
 			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
 			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 			velocityContext.put("elementWidth", element.getWidth());
@@ -183,8 +178,9 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			
 			velocityContext.put("isFilterable", filterType != null);
 			velocityContext.put("filterDivId", "filter_" + sortDatasetName + "_" + sortColumnName);
-			velocityContext.put("filterReportUriParamName", ReportServlet.REQUEST_PARAMETER_REPORT_URI);
-			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(ReportServlet.REQUEST_PARAMETER_REPORT_URI));
+			String reportUriParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_REPORT_URI);
+			velocityContext.put("filterReportUriParamName", reportUriParamName);
+			velocityContext.put("filterReportUriParamValue", reportContext.getParameterValue(reportUriParamName));
 			velocityContext.put("filterColumnName", sortColumnName);
 			velocityContext.put("filterTableNameValue", sortDatasetName);
 			velocityContext.put("filterTypeParamNameValue", filterType.getName());
@@ -360,10 +356,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		return writer.getBuffer().toString();
 	}
 	
-	private String getDynamicResourceLink(String webResourceBasePath, String resourcePath) {
-		return webResourceBasePath + resourcePath + "&" + ResourceServlet.RESOURCE_IS_DYNAMIC + "=true&" + ResourceServlet.SERVLET_PATH + "=" + UrlUtil.urlEncode(webResourceBasePath);
-	}
-	
 	private String getActionBaseUrl(JRHtmlExporterContext context) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
 		hyperlink.setLinkType(ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION);
@@ -374,7 +366,8 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		Map<String, Object> actionParams = new HashMap<String, Object>();
 		actionParams.put(WebReportContext.REQUEST_PARAMETER_REPORT_CONTEXT_ID, reportContext.getId());
-		actionParams.put(ReportServlet.REQUEST_PARAMETER_RUN_REPORT, true);
+		String runReportParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
+		actionParams.put(runReportParamName, true);
 		
 //		return JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(actionParams);
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
