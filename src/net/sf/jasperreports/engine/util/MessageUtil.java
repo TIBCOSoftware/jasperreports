@@ -30,6 +30,7 @@ package net.sf.jasperreports.engine.util;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -76,5 +77,13 @@ public final class MessageUtil
 			}
 		}
 		throw new JRRuntimeException("Message provider '" + name + "' not found.");
+	}
+	
+	/**
+	 *
+	 */
+	public LocalizedMessageProvider getLocalizedMessageProvider(String name, Locale locale)
+	{
+		return new LocalizedMessageProvider(getMessageProvider(name), locale);
 	}
 }
