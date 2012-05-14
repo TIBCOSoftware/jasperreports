@@ -10,16 +10,16 @@ jive.interactive.column = jive.interactive.column || {
     	system: null
     },
     actions: {
-        'Format': {icon: 'formatIcon', title:'Column options', actions:{
-            'Formatting...': {fn:'formatHeader'},
-            'Hide column': {fn:'hide', arg:'{"hide":true}'},
-            'Show columns': {label: 'Show columns &#x25ba;', actions:{
-                'All': {label: '&lt;All&gt;', fn: 'hide', arg:'{"hide":false,"column":"all"}'}
+        'Format': {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
+            'Formatting...': {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
+            'Hide column': {label: jive.i18n.get('column.format.hidecolumn.label'), fn:'hide', arg:'{"hide":true}'},
+            'Show columns': {label: jive.i18n.get('column.format.showcolumns.label'), actions:{
+                'All': {label: jive.i18n.get('column.format.showcolumns.all.label'), fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
-        'Filter': {icon: 'filterIcon', title:'Column filters', fn: 'filter'},
-        'Sort ascending':{icon: 'sortAscIcon', title:'Sort ascending', fn:'sort', arg:['Asc']},
-        'Sort descending': {icon: 'sortDescIcon', title:'Sort descending', fn: 'sort', arg:['Desc']}
+        'Filter': {icon: 'filterIcon', title: jive.i18n.get('column.filter.title'), fn: 'filter'},
+        'Sort ascending':{icon: 'sortAscIcon', title: jive.i18n.get('column.sortasc.title'), fn:'sort', arg:['Asc']},
+        'Sort descending': {icon: 'sortDescIcon', title: jive.i18n.get('column.sortdesc.title'), fn: 'sort', arg:['Desc']}
     },
     dropColumns: {},
     dropPoints: {},
@@ -34,14 +34,14 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Load dynamic form data
          */
-         it.formatHeaderForm.elements[0][1][0].groups = [{name:'Extension Fonts',values:[]}];
-         it.formatCellsForm.elements[0][0][0].groups = [{name:'Extension Fonts',values:[]}];
+         it.formatHeaderForm.elements[0][1][0].groups = [{name: jive.i18n.get('column.dialog.extfonts'),values:[]}];
+         it.formatCellsForm.elements[0][0][0].groups = [{name: jive.i18n.get('column.dialog.extfonts'),values:[]}];
          jQuery.each(it.fonts.extension,function(i,v) {
         	 it.formatHeaderForm.elements[0][1][0].groups[0].values.push([v,v]);
              it.formatCellsForm.elements[0][0][0].groups[0].values.push([v,v]);
          });
-         it.formatHeaderForm.elements[0][1][0].groups.push({name:'System Fonts',values:[]});
-         it.formatCellsForm.elements[0][0][0].groups.push({name:'System Fonts',values:[]});
+         it.formatHeaderForm.elements[0][1][0].groups.push({name: jive.i18n.get('column.dialog.sysfonts'),values:[]});
+         it.formatCellsForm.elements[0][0][0].groups.push({name: jive.i18n.get('column.dialog.sysfonts'),values:[]});
          jQuery.each(it.fonts.system,function(i,v) {
         	 it.formatHeaderForm.elements[0][1][0].groups[1].values.push([v,v]);
         	 it.formatCellsForm.elements[0][0][0].groups[1].values.push([v,v]);
@@ -598,9 +598,9 @@ jive.interactive.column.columnFilterForm = {
         "yyMMddHHmmssZ": {dateFormat: "ymmdd", timeFormat:"hhmmssz"}
     },
     elements: [
-        [[{type:'radio',id:'clearFilter',label:'Show all rows',value:'true'}]],
+        [[{type:'radio',id:'clearFilter',label: jive.i18n.get('column.filterform.clearfilter.true.label'), value:'true'}]],
         [
-            [{type:'radio',id:'clearFilter',label:'Show only rows where',value:'false',colspan:4}],
+            [{type:'radio',id:'clearFilter',label: jive.i18n.get('column.filterform.clearfilter.false.label'), value:'false',colspan:4}],
             [
                 {type:'list', id:'filterTypeOperator', values:[]},
                 {type:'text', id:"fieldValueStart", value:''},
@@ -754,19 +754,19 @@ jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.in
 
 jive.interactive.column.formatHeaderForm = {
 	actionDataCache: {},
-    title: 'Headings',
+    title: jive.i18n.get('column.formatHeaderForm.title'),
     name: 'formatHeader',
     method: 'get',
     elements: [[
-        [{type:'text', id:'headingName', label:'Heading text', value:'',colspan:3}],
+        [{type:'text', id:'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value:'',colspan:3}],
         [
-            {type:'list', id:'headerFontName', label:'Font', values:[], freeText: true, size:6},
-            {type:'list', id:'headerFontSize', label:'Size', values:[], freeText: true, size:6},
+            {type:'list', id:'headerFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6},
+            {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6},
             {
                 type: 'buttons',
-                label:'Style',
+                label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:'Pick a font color'},
+                    {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title: jive.i18n.get('column.formatforms.fontColor.title')},
                     {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
                     {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
                     {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'},
@@ -843,18 +843,18 @@ jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.in
 
 jive.interactive.column.formatCellsForm = {
 	actionDataCache: {},
-    title: 'Values',
+    title: jive.i18n.get('column.formatCellsForm.title'),
     name: 'formatCells',
     method: 'get',
     elements: [[
         [
-            {type:'list', id:'cellsFontName', label:'Font', values:[], freeText: true, size:6},
-            {type:'list', id:'cellsFontSize', label:'Size', values:[], freeText: true, size:6},
+            {type:'list', id:'cellsFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6},
+            {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6},
             {
                 type: 'buttons',
-                label:'Style',
+                label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:'Pick a font color'},
+                    {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title: jive.i18n.get('column.formatforms.fontColor.title')},
                     {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
                     {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
                     {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'},
@@ -865,7 +865,7 @@ jive.interactive.column.formatCellsForm = {
             }
         ],
         [
-            {type:'list',id:'formatPattern',label:'Format Pattern',freeText:true,values:[],colspan:2, size:4},
+            {type:'list',id:'formatPattern',label: jive.i18n.get('column.formatCellsForm.formatPattern.label'),freeText:true,values:[],colspan:2, size:4},
             {
                 type:'buttons',
                 id: 'numberFormatButtons',
@@ -877,7 +877,7 @@ jive.interactive.column.formatCellsForm = {
                     	bIcon: 'currencyIcon',
                     	options: {
                     		'none': {label: '&lt;None&gt;', value: '', fn: 'applyCurrencyFormat'},
-                    		'locale_specific': {label: '\u00A4 - Locale specific', value: '\u00A4', fn: 'applyCurrencyFormat'},
+                    		'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
                     		'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
                     		'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
                     		'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},

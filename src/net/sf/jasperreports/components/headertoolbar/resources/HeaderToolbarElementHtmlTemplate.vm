@@ -1,9 +1,13 @@
 #if (!${templateAlreadyLoaded})
 <script class='jasperreports'>
-    jasperreports.global.appendScriptElementToDOM('_jiveScript', '${jasperreports_tableHeaderToolbar_js}','jive.init', [{
-        actionBaseData: '${actionBaseData}',
-        actionBaseUrl: '${actionBaseUrl}'
-    }]);
+    jasperreports.global.appendScriptElementToDOM('_jiveColumnI18n', '${jiveColumnI18n_js}');
+    
+    jasperreports.events.subscribeToEvent(
+    	'jive.interactive.column.i18n.init', 
+    	jasperreports.global.appendScriptElementToDOM, 
+    	['_jiveScript', '${jasperreports_tableHeaderToolbar_js}','jive.init', [{actionBaseData: '${actionBaseData}',actionBaseUrl: '${actionBaseUrl}'}]]
+    );
+    
     jasperreports.global.appendStyleElementToDOM('_jiveCSS', '${jasperreports_tableHeaderToolbar_css}');
 </script>
 <div id="jive_overlay" style="display:none;">
@@ -145,7 +149,11 @@
     </div>
 </div>
 <script class='jasperreports'>
-    jasperreports.global.appendScriptElementToDOM('_jiveColumnScript', '${jiveColumnScript}');
+	jasperreports.events.subscribeToEvent(
+    	'jive.interactive.column.i18n.init',
+    	jasperreports.global.appendScriptElementToDOM,
+    	['_jiveColumnScript', '${jiveColumnScript}']
+    );
     jasperreports.events.subscribeToEvent('jive.interactive.column.init', 'jive.interactive.column.setDynamicProperties', [{
 	    fontSizes: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
 	    fonts: {
