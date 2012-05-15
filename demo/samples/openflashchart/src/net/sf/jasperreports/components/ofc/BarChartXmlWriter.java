@@ -72,7 +72,7 @@ public class BarChartXmlWriter implements ComponentXmlWriter
 		{
 			writer.startElement("barSeries");
 			writer.writeExpression("seriesExpression", series.getSeriesExpression());
-			writer.writeExpression("seriesExpression", series.getCategoryExpression());
+			writer.writeExpression("categoryExpression", series.getCategoryExpression());
 			writer.writeExpression("valueExpression", series.getValueExpression());
 			writer.closeElement();//barSeries
 		}
