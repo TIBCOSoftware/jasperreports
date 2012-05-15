@@ -140,10 +140,10 @@ jive.interactive.column = jive.interactive.column || {
         	allColumns = it.allColumns[tableUuid];
 
         if(it.count == 1) {
-            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).hide();
+            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(1).hide();
             jive.ui.overlay.jo.draggable('option','disabled',true);
         }else {
-            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(2).show();
+            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(1).show();
             jive.ui.overlay.jo.draggable('option','disabled',false);
         }
 
