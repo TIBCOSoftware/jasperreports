@@ -293,10 +293,10 @@ jive.interactive.column = jive.interactive.column || {
         jive.runAction(jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn']['data-sortData']);
     },
     filter: function(){
-        jive.ui.dialog.show('Filter Column',['columnfilter']);
+        jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title'), ['columnfilter']);
     },
     formatHeader: function(){
-        jive.ui.dialog.show('Format Column',['formatHeader', 'formatCells']);
+        jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title'), ['formatHeader', 'formatCells']);
     },
     hide: function(args){
     	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').data('uuid');

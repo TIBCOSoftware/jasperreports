@@ -226,6 +226,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 										HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_I18N_JS,
 										"net.sf.jasperreports.components.headertoolbar.messages",
 										locale));
+				contextMap.put("msgProvider", MessageUtil.getInstance(context.getJasperReportsContext()).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale));
 			}
 			
 			if (context.getExportParameters().containsKey(param) && tableUUID.equals(context.getExportParameters().get(param))) {
