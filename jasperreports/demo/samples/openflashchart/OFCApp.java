@@ -33,6 +33,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -81,6 +82,7 @@ public class OFCApp
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_XML4SWF = "xml4swf";
 	private static final String TASK_VIEW_HTML = "viewHtml";
+	private static final String TASK_WRITE_XML = "writeXml";
 	
 	
 	/**
@@ -319,6 +321,11 @@ public class OFCApp
 				exporter.exportReport();
 
 				System.err.println("XML4SWF creation time : " + (System.currentTimeMillis() - start));
+			}
+			else if(TASK_WRITE_XML.equals(taskName))
+			{
+					JasperCompileManager.writeReportToXmlFile("build/reports/OpenFlashChartReport.jasper");
+					System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{

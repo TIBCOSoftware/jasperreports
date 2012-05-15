@@ -4,7 +4,7 @@
 
 	<property name="class.name" value="OFCApp" />
 	<property name="base.file.name" value="OpenFlashChartReport" />
-	<property name="file.name" value="${basedir}/build/${base.file.name}" />
+	<property name="file.name" value="${basedir}/build/reports/${base.file.name}" />
 	<property name="classes.dir" value="../../../build/classes" />
 	<property name="lib.dir" value="../../../lib" />
 	<property name="fonts.dir" value="../../fonts" />
@@ -52,11 +52,11 @@
 	</target>
 
 	<target name="compile" description="Compiles the XML report design and produces the .jasper file.">
-		<mkdir dir="./build"/> 
+		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask"> 
 			<classpath refid="classpath"/>
 		</taskdef>
-		<jrc destdir="./build">
+		<jrc destdir="./build/reports">
 			<src>
 				<fileset dir=".">
 					<include name="*.jrxml"/>
@@ -215,6 +215,28 @@
 		</java>
 	</target>
 
+	<target name="writeXml">
+		<java classname="${class.name}" fork="true">
+			<arg value="writeXml"/>
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+
+	<target name="decompile">
+		<mkdir dir="./build/reports"/> 
+		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
+			<classpath refid="classpath"/>
+		</taskdef>
+		<jrdc destdir="./build/reports">
+			<src>
+				<fileset dir="./build/reports">
+					<include name="**/*.jasper"/>
+				</fileset>
+			</src>
+			<classpath refid="classpath"/>
+		</jrdc> 
+	</target>
+	
 	<target name="viewHtml" description="Displays the HTML and XHTML reports by starting an embedded web server and launching a browser.">
 		<mkdir dir="${web.dir}"/>
 		<copy todir="${web.dir}">

@@ -24,10 +24,15 @@
 package net.sf.jasperreports.components.ofc;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
+import net.sf.jasperreports.engine.component.ComponentsEnvironment;
+import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
@@ -36,11 +41,47 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public class BarChartXmlWriter implements ComponentXmlWriter
 {
-
+	
 	public void writeToXml(ComponentKey componentKey, Component component,
 			JRXmlWriter reportWriter) throws IOException
 	{
-		//TODO
+		BarChartComponent chart = (BarChartComponent) component;
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		
+		String namespaceURI = componentKey.getNamespace();
+		String schemaLocation = ComponentsEnvironment
+			.getComponentsBundle(namespaceURI).getXmlParser().getPublicSchemaLocation();
+		XmlNamespace namespace = new XmlNamespace(namespaceURI, componentKey.getNamespacePrefix(),
+				schemaLocation);
+		
+		writer.startElement("barChart", namespace);
+		
+		writer.addAttribute("evaluationTime", chart.getEvaluationTime(), EvaluationTimeEnum.NOW);
+		if (chart.getEvaluationTime() == EvaluationTimeEnum.GROUP)
+		{
+			writer.addEncodedAttribute("evaluationGroup", chart.getEvaluationGroup());
+		}
+		
+		BarDataset dataset = chart.getDataset();
+		writer.startElement("barDataset");
+		
+		reportWriter.writeElementDataset(dataset);
+		
+		List<BarSeries> seriesList = dataset.getSeries();
+		for(BarSeries series : seriesList)
+		{
+			writer.startElement("barSeries");
+			writer.writeExpression("seriesExpression", series.getSeriesExpression());
+			writer.writeExpression("seriesExpression", series.getCategoryExpression());
+			writer.writeExpression("valueExpression", series.getValueExpression());
+			writer.closeElement();//barSeries
+		}
+		writer.closeElement();//barDataset
+		
+		writer.writeExpression("titleExpression", chart.getTitleExpression());
+		
+		writer.closeElement();//barChart
 	}
 
+	
 }
