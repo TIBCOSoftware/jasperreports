@@ -114,7 +114,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 //	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jasperreports-tableHeaderToolbar.vm.css";
 	private static final String RESOURCE_HEADERTOOLBAR_CSS = "net/sf/jasperreports/components/headertoolbar/resources/jive.vm.css";
 
-	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.vm.js";
+	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js";
 	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.i18n.vm.js";
 
 	private static final String CSS_FILTER_DISABLED = 		"filterBtnDisabled";
