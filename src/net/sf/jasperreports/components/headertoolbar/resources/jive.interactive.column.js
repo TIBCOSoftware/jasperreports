@@ -10,16 +10,16 @@ jive.interactive.column = jive.interactive.column || {
     	system: null
     },
     actions: {
-        'Format': {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
-            'Formatting...': {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
-            'Hide column': {label: jive.i18n.get('column.format.hidecolumn.label'), fn:'hide', arg:'{"hide":true}'},
-            'Show columns': {label: jive.i18n.get('column.format.showcolumns.label'), actions:{
-                'All': {label: jive.i18n.get('column.format.showcolumns.all.label'), fn: 'hide', arg:'{"hide":false,"column":"all"}'}
+        format: {icon: 'formatIcon', title: jive.i18n.get('column.format.title'), actions:{
+            formatHeaderAndValues: {label: jive.i18n.get('column.format.formatmenu.label'), fn:'formatHeader'},
+            hideColumn: {label: jive.i18n.get('column.format.hidecolumn.label'), fn:'hide', arg:'{"hide":true}'},
+            showColumns: {label: jive.i18n.get('column.format.showcolumns.label'), actions:{
+                showAll: {label: jive.i18n.get('column.format.showcolumns.all.label'), fn: 'hide', arg:'{"hide":false,"column":"all"}'}
             }}
         }},
-        'Filter': {icon: 'filterIcon', title: jive.i18n.get('column.filter.title'), fn: 'filter'},
-        'Sort ascending':{icon: 'sortAscIcon', title: jive.i18n.get('column.sortasc.title'), fn:'sort', arg:['Asc']},
-        'Sort descending': {icon: 'sortDescIcon', title: jive.i18n.get('column.sortdesc.title'), fn: 'sort', arg:['Desc']}
+        filter: {icon: 'filterIcon', title: jive.i18n.get('column.filter.title'), fn: 'filter'},
+        sortAscending: {icon: 'sortAscIcon', title: jive.i18n.get('column.sortasc.title'), fn:'sort', arg:['Asc']},
+        sortDescnding: {icon: 'sortDescIcon', title: jive.i18n.get('column.sortdesc.title'), fn: 'sort', arg:['Desc']}
     },
     dropColumns: {},
     dropPoints: {},
@@ -89,7 +89,7 @@ jive.interactive.column = jive.interactive.column || {
         /*
          * Create show column menu
          */
-        var menu = it.actions.Format.actions['Show columns'];
+        var menu = it.actions.format.actions.showColumns;
         for(i in allColumns) {
             c = allColumns[i];
            	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
@@ -135,15 +135,15 @@ jive.interactive.column = jive.interactive.column || {
     onSelect: function(){
         var it = this,
         	allOption = [],
-        	pmenu = jive.ui.foobar.menus.column['Format'].jo.find('ul[label="Show columns"]').eq(0),
+        	pmenu = jive.ui.foobar.menus.column.format.jo.find('ul[label="showColumns"]').eq(0),
         	tableUuid = jive.selected.jo.closest('.jrtableframe').data('uuid'),
         	allColumns = it.allColumns[tableUuid];
 
         if(it.count == 1) {
-            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(1).hide();
+            jive.ui.foobar.menus.column.format.jo.find('li').eq(1).hide();
             jive.ui.overlay.jo.draggable('option','disabled',true);
         }else {
-            jive.ui.foobar.menus.column['Format'].jo.find('li').eq(1).show();
+            jive.ui.foobar.menus.column.format.jo.find('li').eq(1).show();
             jive.ui.overlay.jo.draggable('option','disabled',false);
         }
 
