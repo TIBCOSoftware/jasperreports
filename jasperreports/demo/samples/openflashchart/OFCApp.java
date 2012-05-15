@@ -82,7 +82,6 @@ public class OFCApp
 	private static final String TASK_XHTML = "xhtml";
 	private static final String TASK_XML4SWF = "xml4swf";
 	private static final String TASK_VIEW_HTML = "viewHtml";
-	private static final String TASK_WRITE_XML = "writeXml";
 	
 	
 	/**
@@ -321,11 +320,6 @@ public class OFCApp
 				exporter.exportReport();
 
 				System.err.println("XML4SWF creation time : " + (System.currentTimeMillis() - start));
-			}
-			else if(TASK_WRITE_XML.equals(taskName))
-			{
-					JasperCompileManager.writeReportToXmlFile("build/reports/OpenFlashChartReport.jasper");
-					System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 			}
 			else if (TASK_VIEW_HTML.equals(taskName))
 			{

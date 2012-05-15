@@ -215,13 +215,6 @@
 		</java>
 	</target>
 
-	<target name="writeXml">
-		<java classname="${class.name}" fork="true">
-			<arg value="writeXml"/>
-			<classpath refid="classpath"/>
-		</java>
-	</target>
-
 	<target name="decompile">
 		<mkdir dir="./build/reports"/> 
 		<taskdef name="jrdc" classname="net.sf.jasperreports.ant.JRAntDecompileTask"> 
