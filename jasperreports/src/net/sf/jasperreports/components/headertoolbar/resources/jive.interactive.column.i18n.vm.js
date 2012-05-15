@@ -1,10 +1,12 @@
 jQuery.extend(jive.i18n.keys, {
+		'column.format.dialog.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.formatcolumn')",
 		'column.format.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.format')",
 		'column.format.formatmenu.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.formatting')",
 		'column.format.hidecolumn.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.hidecolumn')",
 		'column.format.showcolumns.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.showcolumns')",
 		'column.format.showcolumns.all.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.showcolumns.all')",
 		
+		'column.filter.dialog.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.filtercolumn')",
 		'column.filter.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.columnfilters')",
 		'column.sortasc.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.sortasc')",
 		'column.sortdesc.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.sortdesc')",
@@ -28,7 +30,6 @@ jQuery.extend(jive.i18n.keys, {
 		'column.formatCellsForm.numberFormatButtons.localespecific.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.localespecific')",
 		
 		'column.move.helper': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.draghelper')"
-
 });
 
 jasperreports.events.registerEvent('jive.interactive.column.i18n.init').trigger();
