@@ -74,7 +74,7 @@ public class ResourceServlet extends AbstractServlet
 				contextMap.put("msgProvider", MessageUtil.getInstance(getJasperReportsContext()).getLocalizedMessageProvider(resourceBundleName, locale)); 
 				String resourceString = VelocityUtil.processTemplate(resource, contextMap);
 				if (resourceString != null) {
-					bytes = resourceString.getBytes();
+					bytes = resourceString.getBytes("UTF-8");
 				}
 			} else 
 			{
