@@ -51,16 +51,7 @@
 				parent.append("<div class='result' style='width:100%; height:100%; overflow:auto;'></div>"); 
 				
 				jQuery('div.result', parent).load(settings.reporturl, params, function(response, status, xhr) {
-					if (status == 'success') {
-						try {
-							JasperReports.modules.global.isFirstAjaxRequest = false;
-						} catch (ex) {
-							if (typeof console !== 'undefined') {
-								console.log(ex.message);
-							}
-						}
-						
-					} else if (status == 'error') {
+					if (status === 'error') {
 						alert('Error: ' + xhr.status + ' ' + xhr.statusText);
 					}
 				});
