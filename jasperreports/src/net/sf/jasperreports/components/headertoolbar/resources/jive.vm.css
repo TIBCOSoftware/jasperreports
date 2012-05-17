@@ -297,7 +297,13 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
 
 .jive_inputLabel {float:left;position:relative;margin-left:8px;}
-.jive_inputbutton {float:left;cursor:pointer;background:#fff;}
+.jive_inputbutton {
+	float:left;
+	cursor:pointer;
+	background:#fff;
+	-webkit-user-select: none;
+    -moz-user-select: none;
+	}
 .jive_inputbutton_wrapper {height:24px;text-align:center;border-left:solid 1px #ccc;border-top:solid 1px #ccc;border-bottom:solid 1px #ccc;background:transparent;}
 .jive_inputbutton_wrapper.last {border-right:solid 1px #ccc;}
 .jive_inputbutton.selected {background:#faac1f;color:#fff;}
