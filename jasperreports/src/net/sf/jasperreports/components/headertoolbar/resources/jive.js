@@ -1,7 +1,7 @@
 jQuery.extend(jive, {
     init:function(settings){
-    	var jiveInitEvent = jasperreports.events.registerEvent('jive.init');
-    	
+        var jiveInitEvent = jasperreports.events.registerEvent('jive.init');
+
         jQuery.extend(jive,settings);
         jQuery('div.jrPage').parent().on('click touchend',function(){
             jive.hide();
@@ -29,7 +29,7 @@ jQuery.extend(jive, {
          * Init event handlers for viewer. One time event?
          */
         var jmenuitem;
-        jQuery('div#jive_menus').on({
+        jQuery('div#jive_menus, div#jive_dropdown').on({
             'mouseup touchend': function(evt){
                 jmenuitem = jQuery(this);
                 var args = jmenuitem.data('args');
@@ -71,15 +71,15 @@ jQuery.extend(jive, {
         }, '.pmenuitem');
 
         jQuery('div#jive_dropdown').on({
-        	'mouseup touchend': function(evt){
-        		var args = jQuery(this).data('args');
-        		jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
+            'mouseup touchend': function(evt){
+                var args = jQuery(this).data('args');
+                jQuery(this).attr('fn') && jive.interactive[jive.selected.ie.type][jQuery(this).attr('fn')](args);
                 evt.preventDefault();
-        	}
+            }
         }, '.pmenuitem');
 
         jQuery('div#jive_dropdown').on('mouseleave', '.pmenu', function(evt) {
-        	jQuery(this).hide();
+            jQuery(this).hide();
         });
 
         jiveInitEvent.trigger();
@@ -99,7 +99,7 @@ jQuery.extend(jive, {
          * Check if event listener has for selector already set.
          */
         if(!jive.selectors[o.selector]){
-        	jive.selectors[o.selector] = o.type;
+            jive.selectors[o.selector] = o.type;
             jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
                 var jo = jQuery(this);
                 jive.selectInteractiveElement(jo);
@@ -211,8 +211,8 @@ jive.ui.overlay = {
             width: dim.w * jive.ui.scaleFactor,
             height: dim.h
         }).draggable('option','helper', function(event) {
-            return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
-        });
+                return jQuery('div.jive_drag_label').clone().appendTo('#jive_components').html(jive.i18n.get('column.move.helper')).show();
+            });
         this.jo.appendTo('div.jrPage').show();
         this.jo.position({of:jive.selected.jo, my: 'left top', at:'left top',collision:'none'});
     }
@@ -316,12 +316,12 @@ jive.ui.foobar = {
     },
     createMenu: function(key, label, items){
         var it = this,
-        	lbl = label || key,
-        	htm = '<ul class="pmenu" label="'+key+'">';
+            lbl = label || key,
+            htm = '<ul class="pmenu" label="'+key+'">';
         jQuery.each(items,function(k,v){
             if(!v.disabled) {
                 var attr = v.fn ? 'fn="'+v.fn+'"' : '',
-                	label = v.label || k;
+                    label = v.label || k;
                 attr += v.arg ? " data-args='"+v.arg+"'" : "";
                 htm += '<li class="pmenuitem" '+attr+'>'+label;
                 if(v.actions) {
@@ -335,8 +335,8 @@ jive.ui.foobar = {
         return htm;
     },
     reset: function() {
-    	this.cache = {};
-    	this.menus = {};
+        this.cache = {};
+        this.menus = {};
     }
 }
 jasperreports.events.registerEvent('jive.ui.foobar').trigger();
@@ -365,18 +365,18 @@ jive.ui.dialog = {
          */
         it.tabs.on('click touchend', '.tab',function(e){
             var jo = jQuery(this),
-            	activeTabActionCache;
-            
+                activeTabActionCache;
+
             it.tabs.find('.tab').removeClass('active');
             jo.addClass('active');
             jive.selected.form.onBlur();
             jive.selected.form.jo.hide();
             activeTabActionCache = jive.selected.form.actionDataCache;
             jive.selected.form.actionCache = {};
-            
+
             jive.selected.form = jive.ui.forms[jo.data('form')];
             jQuery.extend(jive.selected.form.actionDataCache, activeTabActionCache);
-            
+
             jive.selected.form.onShow();
             jive.selected.form.jo.show();
         });
@@ -471,7 +471,7 @@ jive.ui.forms = {
         var form = jQuery('<form id="jive_form_'+parms.name+'" action="" method="'+parms.method+'" class="jive_form" style="'+style+'"/>').appendTo('#jive_forms');
 
         var tb = [];
-        var label,pw,colspan;
+        var label,pw,colspan,rowspan;
         parms.inputs = {};
 
         jQuery.each(parms.elements,function(i,table){
@@ -481,12 +481,13 @@ jive.ui.forms = {
                 jQuery.each(row,function(i,e){
                     label = e.label || '';
                     colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '';
+                    rowspan = e.rowspan ? 'rowspan="'+e.rowspan+'"' : '';
                     if(e.type == 'label') {
                         tb.push('<td class="jive_textLabel"><div class="wrapper">'+e.value+'</div></td>');
                     }
                     if(e.type == 'text') {
-                        tb.push('<td style="" '+colspan+'>');
-                        e.label && tb.push('<div class="wrapper">'+e.label+'</div>');
+                        tb.push('<td style="" '+colspan+' '+rowspan+'>');
+                        e.label && tb.push('<div class="wrapper">'+e.label+':</div>');
                         tb.push('<div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
                         parms.inputs[e.id] = {
                             set:function(val) {
@@ -498,7 +499,7 @@ jive.ui.forms = {
                         }
                     }
                     if(e.type == 'radio') {
-                        tb.push('<td style="" '+colspan+'><div class="thick wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
+                        tb.push('<td style="" '+colspan+' '+rowspan+'><div class="thick wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
                         parms.inputs[e.id] = {
                             set:function(val) {
                                 jQuery('input[name="'+e.id+'"]').val(val);
@@ -528,9 +529,8 @@ jive.ui.forms = {
                             });
                         }
                         select.push('</select>');
-                        tb.push('<td style="" '+colspan+'>');
-                        //isTouch.length && tb.push('<div class="jive_freeTextButton"><span class="jive_bIcon editIcon"></span></div>');
-                        e.label && tb.push('<div class="wrapper">' + e.label + '</div>');
+                        tb.push('<td style="" '+colspan+' '+rowspan+'>');
+                        e.label && tb.push('<div class="wrapper">' + e.label + ':</div>');
                         tb.push('<div class="wrapper">');
                         e.freeText && tb.push('<input id="'+e.id+'Text" type="text" class="jive_listTextInput'+isTouch+'" name="'+e.id+'Text" value="" />');
                         tb.push(select.join(''));
@@ -547,42 +547,41 @@ jive.ui.forms = {
                         }
                     }
                     if(e.type == 'buttons') {
-                        tb.push('<td style="" '+colspan+'><div class="wrapper">'+label+'</div><div class="wrapper"><div class="buttonbar">');
-                        pw = Math.floor(100 / e.items.length) + '%';
-                        //pw = '32px';
+                        tb.push('<td style="" '+colspan+' '+rowspan+'><div class="wrapper">'+label+':</div><div class="wrapper"><div class="buttonbar">');
                         jQuery.each(e.items,function(i,v){
                             !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
 
-                            tb.push('<div class="jive_inputbutton" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'" style="width:'+pw+';"><div class="jive_inputbutton_wrapper '+((i==e.items.length-1)?'last':'')+'">');
+                            tb.push('<div class="jive_inputbutton '+((i==e.items.length-1)?'last':(i==0?'first':''))+' '+ (v.drop ? 'drop' : '') +'" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'">');
+                            v.type == 'color' && tb.push('<div class="colorpick"></div>');
                             v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
                             v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
-                            tb.push('</div></div>');
-                            
+                            tb.push('</div>');
+
                             if(v.type === 'dropdown') {
-                            	parms.inputs[v.id] = {
-                            		_idd: v.id,
-                            		_options: v.options,
+                                parms.inputs[v.id] = {
+                                    _idd: v.id,
+                                    _options: v.options,
                                     onClick: function() {
                                         jive.interactive[jive.selected.ie.type][v.fn]();
                                     },
                                     showOptions: function() {
-                                    	var dd = jQuery('#jive_dropdown');
-                                    	dd.empty();
-                                    	
-                                    	var htm = '<ul class="pmenu">',
-                                    		args;
-                                    	jQuery.each(this._options, function(k, option) {
-                                    		htm += "<li class='pmenuitem' data-args='{\"val\":\"" + option.value + "\"}' fn='" + option.fn + "'>" + option.label + "</li>";
-                                    	});
-                                    	htm += '</ul>';
-                                    	
-                                    	dd.append(htm);
-                                    	dd.find('.pmenu').show();
-                                    	dd.css({width: '120px', height: '100px'});
-                                    	dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
+                                        var dd = jQuery('#jive_dropdown');
+                                        dd.empty();
+
+                                        var htm = '<ul class="pmenu">',
+                                            args;
+                                        jQuery.each(this._options, function(k, option) {
+                                            htm += "<li class='pmenuitem' data-args='{\"val\":\"" + option.value + "\"}' fn='" + option.fn + "'>" + option.label + "</li>";
+                                        });
+                                        htm += '</ul>';
+
+                                        dd.append(htm);
+                                        dd.find('.pmenu').show();
+                                        dd.css({width: '120px', height: '100px'});
+                                        dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
                                     },
                                     hideOptions: function () {
-                                    	jQuery('#jive_dropdown .pmenu').hide();
+                                        jQuery('#jive_dropdown .pmenu').hide();
                                     }
                                 }
                             }
@@ -636,7 +635,7 @@ jive.ui.forms = {
                                 parms.inputs[v.id] = {
                                     set:function(val) {
                                         jQuery('input[name="'+v.id+'"]').val(val);
-                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('span.jive_bIcon').css('background-color','#'+val);
+                                        jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('div.colorpick').css('background-color','#'+val);
                                     },
                                     get:function(){
                                         return jQuery('input[name="'+v.id+'"]').val();
@@ -692,20 +691,20 @@ jive.ui.colorpicker = {
         this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
     },
     extractHexColor: function(rgbString) {
-    	var out = "";
-    	if (rgbString && rgbString.toLowerCase().indexOf('rgb') !== -1) {
-	    	var tokens = rgbString.split(','), 
-	    		i, 
-	    		number, 
-	    		conv;
-	    	
-	    	for (i = 0; i < tokens.length; i++) {
-	    		number = parseInt(/\d+/.exec(tokens[i])[0], 10);
-	    		conv = number.toString(16);
-	    		out += (conv.length === 1) ? ('0' + conv) : conv;
-	    	}
-    	}
-    	return out;
+        var out = "";
+        if (rgbString && rgbString.toLowerCase().indexOf('rgb') !== -1) {
+            var tokens = rgbString.split(','),
+                i,
+                number,
+                conv;
+
+            for (i = 0; i < tokens.length; i++) {
+                number = parseInt(/\d+/.exec(tokens[i])[0], 10);
+                conv = number.toString(16);
+                out += (conv.length === 1) ? ('0' + conv) : conv;
+            }
+        }
+        return out;
     }
 }
 

@@ -758,18 +758,32 @@ jive.interactive.column.formatHeaderForm = {
     name: 'formatHeader',
     method: 'get',
     elements: [[
-        [{type:'text', id:'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value:'',colspan:3}],
+        [{type:'text', id:'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value:'',colspan:4}],
         [
-            {type:'list', id:'headerFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6},
-            {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6},
+            {type:'list', id:'headerFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
+            {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2},
             {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title: jive.i18n.get('column.formatforms.fontColor.title')},
                     {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
                     {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
-                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'},
+                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
+                ]
+            },
+            {
+                type: 'buttons',
+                label:'Color',
+                items: [
+                    {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+                ]
+            }
+        ],
+        [
+            {
+                type: 'buttons',
+                label:'Alignment',
+                items: [
                     {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
                     {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
                     {type:'radio',id:'headerFontAlign',value:'Right',bIcon:'rightIcon'}
@@ -848,16 +862,30 @@ jive.interactive.column.formatCellsForm = {
     method: 'get',
     elements: [[
         [
-            {type:'list', id:'cellsFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6},
-            {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6},
+            {type:'list', id:'cellsFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
+            {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2},
             {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title: jive.i18n.get('column.formatforms.fontColor.title')},
                     {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
                     {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
-                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'},
+                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
+                ]
+            },
+            {
+                type: 'buttons',
+                label:'Color',
+                items: [
+                    {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+                ]
+            }
+        ],
+        [
+            {
+                type: 'buttons',
+                label:'Alignment',
+                items: [
                     {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
                     {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
                     {type:'radio',id:'cellsFontAlign',value:'Right',bIcon:'rightIcon'}
@@ -865,30 +893,40 @@ jive.interactive.column.formatCellsForm = {
             }
         ],
         [
-            {type:'list',id:'formatPattern',label: jive.i18n.get('column.formatCellsForm.formatPattern.label'),freeText:true,values:[],colspan:2, size:4},
+            {type:'list',id:'formatPattern',label: jive.i18n.get('column.formatCellsForm.formatPattern.label'),freeText:true,values:[],colspan:2, size:4, rowspan:2},
             {
                 type:'buttons',
                 id: 'numberFormatButtons',
+                label: 'Number Format',
                 items: [
-                    {	
-                    	type: 'dropdown',
-                    	id: 'currencyBtn1',
-                    	fn: 'showCurrencyDropDown',
-                    	bIcon: 'currencyIcon',
-                    	options: {
-                    		'none': {label: '&lt;None&gt;', value: '', fn: 'applyCurrencyFormat'},
-                    		'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
-                    		'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
-                    		'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
-                    		'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
-                    		'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'}
-                    	}
-                    },
 //                  {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
                     {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
                     {type:'checkbox',id:'commaBtn',fn:'toggleCommaFormat',value:'',bIcon:'commaIcon'},
                     {type:'action',id:'increaseDecimalsBtn',fn:'addDecimal',value:'',bIcon:'increaseDecimalsIcon'},
                     {type:'action',id:'decreaseDecimalsBtn',fn:'remDecimal',value:'',bIcon:'decreaseDecimalsIcon'}
+                ]
+            }
+        ],
+        [
+            {
+                type:'buttons',
+                label: 'Currency',
+                items: [
+                    {
+                        type: 'dropdown',
+                        drop: true,
+                        id: 'currencyBtn1',
+                        fn: 'showCurrencyDropDown',
+                        bIcon: 'currencyIcon',
+                        options: {
+                            'none': {label: '&lt;None&gt;', value: '', fn: 'applyCurrencyFormat'},
+                            'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
+                            'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
+                            'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
+                            'pound': {label: '\u00A3 - GBP', value: '\u00A3', fn: 'applyCurrencyFormat'},
+                            'yen': {label: '\u00A5 - YEN', value: '\u00A5', fn: 'applyCurrencyFormat'}
+                        }
+                    }
                 ]
             }
         ]
@@ -924,16 +962,18 @@ jive.interactive.column.formatCellsForm = {
             })
             jQuery('#formatPattern').html(htm.join(''));
             inputs['formatPattern'].set(metadata.formatPattern);
-            jo.find('tr').eq(1).show();
+            jo.find('tr:gt(1)').show();
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
-                jo.find('tr').eq(1).children().eq(1).children().css('visibility','visible');
+                jo.find('tr:eq(2)').children('td:last').css('visibility','visible');
+                jo.find('tr:eq(3)').children('td:last').css('visibility','visible');
             	inputs['percentageBtn'].unset();
             	inputs['commaBtn'].unset();
             } else {
-                jo.find('tr').eq(1).children().eq(1).children().css('visibility','hidden');
+                jo.find('tr:eq(2)').children('td:last').css('visibility','hidden');
+                jo.find('tr:eq(3)').children('td:last').css('visibility','hidden');
             }
         } else {
-            jo.find('tr').eq(1).hide();
+            jo.find('tr:gt(1)').hide();
         }
     },
     submit: function(){
