@@ -261,6 +261,14 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	/**
 	 * 
 	 */
+	public void setProperty(String key, String value)
+	{
+		properties.put(key, value);
+	}
+	
+	/**
+	 * 
+	 */
 	public Map<String, String> getProperties()
 	{
 		return properties;
