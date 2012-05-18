@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.export;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 /**
  * A context in which an element tranformation takes place.
@@ -34,6 +35,8 @@ import net.sf.jasperreports.engine.JasperPrint;
  */
 public interface GenericElementTransformerContext
 {
+
+	JasperReportsContext getJasperReportsContext();
 	
 	/**
 	 * Returns the report which is currently processed.
