@@ -19,8 +19,24 @@
 	</listener>	
 
 	<servlet>
-		<servlet-name>ViewerServlet</servlet-name>
+		<servlet-name>DefaultViewerServlet</servlet-name>
 		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<servlet-class>net.sf.jasperreports.web.servlets.ViewerServlet</servlet-class>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.header.template</param-name>
+			<param-value>viewer/CustomHeaderTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.body.template</param-name>
+			<param-value>viewer/CustomBodyTemplate.vm</param-value>
+		</init-param>
+		<init-param>
+			<param-name>net.sf.jasperreports.web.servlets.viewer.footer.template</param-name>
+			<param-value>viewer/CustomFooterTemplate.vm</param-value>
+		</init-param>
 	</servlet>
 	<servlet>
 		<servlet-name>ReportServlet</servlet-name>
@@ -37,8 +53,12 @@
 	
 
 	<servlet-mapping>
-		<servlet-name>ViewerServlet</servlet-name>
+		<servlet-name>DefaultViewerServlet</servlet-name>
 		<url-pattern>/servlets/viewer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CustomViewerServlet</servlet-name>
+		<url-pattern>/servlets/myviewer</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ReportServlet</servlet-name>
