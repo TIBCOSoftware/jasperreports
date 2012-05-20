@@ -530,8 +530,8 @@ jQuery.noConflict();
 				} else {
 					var gm = jasperreports.global,
 					settings = {
-							bgimage : gm.APPLICATION_CONTEXT_PATH + '/jasperreports/images/loadmask.png',
-							loadinggif: gm.APPLICATION_CONTEXT_PATH + '/jasperreports/images/loading4.gif',
+							bgimage : gm.APPLICATION_CONTEXT_PATH + '/images/loadmask.png',
+							loadinggif: gm.APPLICATION_CONTEXT_PATH + '/images/loading4.gif',
 							opacity: 0.3
 					};
 					
