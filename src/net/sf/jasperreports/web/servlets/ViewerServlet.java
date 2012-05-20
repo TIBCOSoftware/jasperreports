@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.web.WebReportContext;
 import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
@@ -55,14 +54,84 @@ public class ViewerServlet extends AbstractServlet
 	
 	private static final Log log = LogFactory.getLog(ViewerServlet.class);
 	
-	private static final String TEMPLATE_HEADER = "net/sf/jasperreports/web/servlets/resources/viewer/HeaderTemplate.vm";
-	private static final String TEMPLATE_BODY = "net/sf/jasperreports/web/servlets/resources/viewer/BodyTemplate.vm";
-	private static final String TEMPLATE_FOOTER = "net/sf/jasperreports/web/servlets/resources/viewer/FooterTemplate.vm";
-	
-	private static final String RESOURCE_JR_GLOBAL_JS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.js";
-	private static final String RESOURCE_JR_GLOBAL_CSS = "net/sf/jasperreports/web/servlets/resources/jasperreports-global.css";
-	private static final String RESOURCE_VIEWER_TOOLBAR_JS = "net/sf/jasperreports/web/servlets/resources/jasperreports-reportViewerToolbar.js";
+	public static final String PROPERTY_TEMPLATE_HEADER = "net.sf.jasperreports.web.servlets.viewer.header.template";
+	public static final String PROPERTY_TEMPLATE_BODY = "net.sf.jasperreports.web.servlets.viewer.body.template";
+	public static final String PROPERTY_TEMPLATE_FOOTER = "net.sf.jasperreports.web.servlets.viewer.footer.template";
 
+	public static final String PROPERTY_VIEWER_TOOLBAR_JS = "net.sf.jasperreports.web.servlets.viewer.toolbar.js";
+	
+	private String headerTemplate;
+	private String bodyTemplate;
+	private String footerTemplate;
+
+	private String toolbarJavascript;
+	
+
+	@Override
+	public void init() throws ServletException 
+	{
+		super.init();
+		
+		headerTemplate = getInitParameter(PROPERTY_TEMPLATE_HEADER);
+		bodyTemplate = getInitParameter(PROPERTY_TEMPLATE_BODY);
+		footerTemplate = getInitParameter(PROPERTY_TEMPLATE_FOOTER);
+
+		toolbarJavascript = getInitParameter(PROPERTY_VIEWER_TOOLBAR_JS);
+	}
+
+	
+	/**
+	 *
+	 */
+	public String getHeaderTemplate()
+	{
+		if (headerTemplate == null)
+		{
+			return JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(PROPERTY_TEMPLATE_HEADER);
+		}
+		return headerTemplate;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getBodyTemplate()
+	{
+		if (bodyTemplate == null)
+		{
+			return JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(PROPERTY_TEMPLATE_BODY);
+		}
+		return bodyTemplate;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getFooterTemplate()
+	{
+		if (footerTemplate == null)
+		{
+			return JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(PROPERTY_TEMPLATE_FOOTER);
+		}
+		return footerTemplate;
+	}
+	
+	
+	/**
+	 *
+	 */
+	public String getToolbarJavascript()
+	{
+		if (toolbarJavascript == null)
+		{
+			return JRPropertiesUtil.getInstance(getJasperReportsContext()).getProperty(PROPERTY_VIEWER_TOOLBAR_JS);
+		}
+		return toolbarJavascript;
+	}
+	
+	
 	/**
 	 *
 	 */
@@ -148,14 +217,14 @@ public class ViewerServlet extends AbstractServlet
 		WebUtil webUtil = WebUtil.getInstance(getJasperReportsContext());
 		String webResourcesBasePath = webUtil.getResourcesBasePath();
 		contextMap.put("contextPath", request.getContextPath());
-		contextMap.put("jasperreports_global_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_JR_GLOBAL_JS));
-		contextMap.put("jasperreports_reportViewerToolbar_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_VIEWER_TOOLBAR_JS));
-		contextMap.put("jasperreports_global_css", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, RESOURCE_JR_GLOBAL_CSS));
-		contextMap.put("showToolbar", Boolean.TRUE);
+		contextMap.put("resourcesPath", request.getContextPath() + webResourcesBasePath);
+		contextMap.put("jasperreports_global_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JR_GLOBAL_JS));
+		contextMap.put("jasperreports_reportViewerToolbar_js", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, getToolbarJavascript()));
+		contextMap.put("jasperreports_global_css", request.getContextPath() + webUtil.getResourcePath(webResourcesBasePath, WebUtil.RESOURCE_JR_GLOBAL_CSS));
 		contextMap.put("toolbarId", toolbarId);
 		contextMap.put("currentUrl", getCurrentUrl(request, webReportContext));
 
-		return VelocityUtil.processTemplate(TEMPLATE_HEADER, contextMap);
+		return VelocityUtil.processTemplate(getHeaderTemplate(), contextMap);
 	}
 	
 	protected String getBody(HttpServletRequest request, WebReportContext webReportContext, String toolbarId) {
@@ -181,12 +250,12 @@ public class ViewerServlet extends AbstractServlet
 		contextMap.put("jsonParamsObject", JacksonUtil.getInstance(getJasperReportsContext()).getEscapedJsonString(paramsMap));
 		contextMap.put("toolbarId", toolbarId);
 		
-		return VelocityUtil.processTemplate(TEMPLATE_BODY, contextMap);
+		return VelocityUtil.processTemplate(getBodyTemplate(), contextMap);
 	}
 
 	protected String getFooter() 
 	{
-		return VelocityUtil.processTemplate(TEMPLATE_FOOTER, new HashMap<String, Object>());
+		return VelocityUtil.processTemplate(getFooterTemplate(), new HashMap<String, Object>());
 	}
 
 }
