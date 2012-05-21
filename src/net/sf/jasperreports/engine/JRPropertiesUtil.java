@@ -35,8 +35,6 @@ import java.util.Set;
 
 import net.sf.jasperreports.engine.util.JRLoader;
 
-import org.apache.velocity.texen.util.PropertiesUtil;
-
 /**
  * Class that provides static methods for loading, getting and setting properties.
  * <p>
@@ -146,6 +144,22 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
+	 * 
+	 */
+	public void setProperty(String key, String value)
+	{
+		jasperReportsContext.setProperty(key, value);
+	}
+	
+	/**
+	 * 
+	 */
+	public void removeProperty(String key)
+	{
+		jasperReportsContext.removeProperty(key);
+	}
+	
+	/**
 	 * Returns a property as a boolean value.
 	 * 
 	 * @param key the key
@@ -217,7 +231,7 @@ public final class JRPropertiesUtil
 	}
 	
 	/**
-	 * Class used by {@link PropertiesUtil#getProperties(String)}.
+	 * Class used by {@link JRPropertiesUtil#getProperties(String)}.
 	 * 
 	 * @author Lucian Chirita
 	 */

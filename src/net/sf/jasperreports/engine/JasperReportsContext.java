@@ -64,6 +64,16 @@ public interface JasperReportsContext//FIXMECONTEXT extends ExtensionsRegistry
 	/**
 	 * 
 	 */
+	public void setProperty(String key, String value);
+	
+	/**
+	 * 
+	 */
+	public void removeProperty(String key);
+
+	/**
+	 * 
+	 */
 	public Map<String, String> getProperties();
 
 }

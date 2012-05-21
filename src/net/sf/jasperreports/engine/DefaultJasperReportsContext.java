@@ -269,6 +269,14 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	/**
 	 * 
 	 */
+	public void removeProperty(String key)
+	{
+		properties.remove(key);
+	}
+	
+	/**
+	 * 
+	 */
 	public Map<String, String> getProperties()
 	{
 		return properties;
