@@ -496,7 +496,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 
 	/**
-	 * @deprecated Replaced by {@link #writeReport(JRReport, Writer)}.
+	 * @deprecated Replaced by {@link #writeReport(JRReport, String, Writer)}.
 	 */
 	protected void writeReport(Writer out) throws IOException
 	{

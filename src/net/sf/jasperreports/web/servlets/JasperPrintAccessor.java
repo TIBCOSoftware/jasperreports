@@ -40,7 +40,7 @@ public interface JasperPrintAccessor
 	 * Ensures that a page is available in the generated report.
 	 * 
 	 * @param pageIdx the page index
-	 * @param timestamp 
+	 * @param pageTimestamp 
 	 * @return the status of the requested page
 	 */
 	ReportPageStatus pageStatus(int pageIdx, Long pageTimestamp);

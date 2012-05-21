@@ -69,7 +69,7 @@ public class SpiderChartRendererEvaluator
 	private static DefaultCategoryDataset sampleDataset;
 	
 	/**
-	 * @deprecated Replaced by {@link #evaluateRenderer(JasperReportsContext, JRComponentElement, SpiderChartSharedBean, ChartCustomizer, String, String)}. 
+	 * @deprecated Replaced by {@link #evaluateRenderable(JasperReportsContext, JRComponentElement, SpiderChartSharedBean, ChartCustomizer, String, String)}. 
 	 */
 	public static net.sf.jasperreports.engine.JRRenderable evaluateRenderer(
 		JRComponentElement element, 

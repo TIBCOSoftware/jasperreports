@@ -72,7 +72,7 @@ public abstract class TextElementConverter extends ElementConverter
 
 	
 	/**
-	 * @deprecated Replaced by {@link JRTextMeasurerUtil#measureTextElement(net.sf.jasperreports.engine.JasperReportsContext, JRPrintText)}.
+	 * @deprecated Replaced by {@link JRTextMeasurerUtil#measureTextElement(JRPrintText)}.
 	 */
 	public static void measureTextElement(JRPrintText printText)
 	{

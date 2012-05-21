@@ -202,7 +202,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 	 * @param imageType the type of the image as specified by one of the constants defined in the JRRenderable interface
 	 * @param onErrorType one of the error type constants defined in the {@link OnErrorTypeEnum}.
 	 * @return the image renderer instance
-	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, byte, OnErrorTypeEnum)}.
+	 * @deprecated Replaced by {@link RenderableUtil#getRenderable(Image, ImageTypeEnum, OnErrorTypeEnum)}.
 	 */
 	public static JRRenderable getInstance(Image image, byte imageType, OnErrorTypeEnum onErrorType) throws JRException
 	{
@@ -412,7 +412,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link #getImage(JasperReportsContext))}.
+	 * @deprecated Replaced by {@link #getImage(JasperReportsContext)}.
 	 */
 	public Image getImage() throws JRException
 	{
@@ -503,7 +503,7 @@ public class JRImageRenderer extends JRAbstractRenderer
 
 
 	/**
-	 * @deprecated Replaced by {@link RenderableService#getImageData(JasperReportsContext))}.
+	 * @deprecated Replaced by {@link #getImageData(JasperReportsContext)}.
 	 */
 	public byte[] getImageData() throws JRException
 	{

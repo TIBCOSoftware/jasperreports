@@ -398,7 +398,6 @@ public final class JRStringUtil
 	 * Escapes a text so that it can be used as a Java String literal.
 	 * 
 	 * @param input
-	 * @return
 	 */
 	public static String escapeJavaScript(String input) {
 		if (input == null) {
