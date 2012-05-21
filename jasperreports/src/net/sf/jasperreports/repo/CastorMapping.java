@@ -26,7 +26,7 @@ package net.sf.jasperreports.repo;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @deprecated Replaced by {@link #net.sf.jasperreports.util.CastorMapping}.
+ * @deprecated Replaced by {@link net.sf.jasperreports.util.CastorMapping}.
  */
 public class CastorMapping
 {

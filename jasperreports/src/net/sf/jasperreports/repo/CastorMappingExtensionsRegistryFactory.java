@@ -38,7 +38,7 @@ import net.sf.jasperreports.extensions.ListExtensionRegistry;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
- * @deprecated Replaced by {@link #net.sf.jasperreports.util.CastorMappingExtensionsRegistryFactory}.
+ * @deprecated Replaced by {@link net.sf.jasperreports.util.CastorMappingExtensionsRegistryFactory}.
  */
 public class CastorMappingExtensionsRegistryFactory implements ExtensionsRegistryFactory
 {

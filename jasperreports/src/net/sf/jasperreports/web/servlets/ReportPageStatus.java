@@ -52,7 +52,6 @@ public class ReportPageStatus
 	 * 
 	 * @param timestamp the timestamp of the last modification of the page
 	 * @param modified whether the page was modified since the last request
-	 * @return
 	 */
 	public static ReportPageStatus nonFinal(long timestamp, boolean modified)
 	{

@@ -44,7 +44,7 @@ public interface ChartRendererFactory
 	public static final String PROPERTY_CHART_RENDERER_FACTORY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "chart.renderer.factory.";
 
 	/**
-	 * @deprecated Replaced by {@link ChartRenderableFactory#getRenderable(JFreeChart, ChartHyperlinkProvider, Rectangle2D)}. 
+	 * @deprecated Replaced by {@link ChartRenderableFactory#getRenderer(JFreeChart, ChartHyperlinkProvider, Rectangle2D)}. 
 	 */
 	public JRRenderable getRenderer(
 		JFreeChart chart, 

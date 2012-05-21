@@ -76,7 +76,6 @@ public interface JRQueryExecuterFactory
 	 * This method is called at fill time for reports/datasets having a query supported by
 	 * this factory.
 	 * 
-	 * @param jasperReportsContext the JasperReportsContext
 	 * @param dataset the dataset containing the query, fields, etc
 	 * @param parameters map of value parameters (instances of {@link JRValueParameter JRValueParameter})
 	 * 	indexed by name
