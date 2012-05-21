@@ -120,7 +120,10 @@
 				<include name="**/net/sf/jasperreports/charts/util/XYDatasetLabelGenerator.class"/>
 				<include name="**/net/sf/jasperreports/charts/util/XYZElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/Deduplicable.class"/>
+				<include name="**/net/sf/jasperreports/engine/DefaultJasperReportsContext.class"/>
+				<include name="**/net/sf/jasperreports/engine/ImageMapRenderable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JasperPrint*.class"/>
+				<include name="**/net/sf/jasperreports/engine/JasperReportsContext.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractExporter*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRAbstractSvgRenderer.class"/>
@@ -147,6 +150,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRGraphicElement.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlink.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRHyperlinkHelper*.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRIdentifiable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImage.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImageMapRenderer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRImageRenderer.class"/>
@@ -158,8 +162,7 @@
 				<include name="**/net/sf/jasperreports/engine/JRPen.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPenContainer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRPrint*.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRPropertiesHolder.class"/>
-				<include name="**/net/sf/jasperreports/engine/JRPropertiesMap.class"/>
+				<include name="**/net/sf/jasperreports/engine/JRProperties*.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRectangle.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRenderable.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRRuntimeException.class"/>
@@ -176,6 +179,8 @@
 				<include name="**/net/sf/jasperreports/engine/JRVirtualizer.class"/>
 				<include name="**/net/sf/jasperreports/engine/JRVisitable.class"/>
 				<include name="**/net/sf/jasperreports/engine/PrintElementVisitor.class"/>
+				<include name="**/net/sf/jasperreports/engine/Renderable.class"/>
+				<include name="**/net/sf/jasperreports/engine/RenderableUtil.class"/>
 				<include name="**/net/sf/jasperreports/engine/TabStop.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox.class"/>
 				<include name="**/net/sf/jasperreports/engine/base/JRBaseBox*Pen.class"/>
@@ -339,7 +344,7 @@
 				use="true"
 				windowtitle="JasperReports ${version} API"
 				excludepackagenames="org.w3c.tools.codec"
-				maxmemory="128m"
+				maxmemory="1024m"
 				encoding="ISO-8859-1">
 			<doctitle>
 <![CDATA[
