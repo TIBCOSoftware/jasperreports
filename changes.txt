@@ -2,8 +2,37 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 4.6.0 (2012-0x-xx, SVN xxxx)
+JasperReports 4.6.0 (2012-05-21, SVN 5400)
 ---------------------------------------------
+
+- improved JasperReports configuration infrastructure by the introduction of a JasperReportsContext, 
+an new interface from where JR configuration properties are read and JR extensions are loaded.
+This allows different configurations of the JR engine to exist simultaneously in the same JVM;
+
+- improved JasperReports Web Framework which now features a centralized controller to dispatch
+actions triggered by end user interactions in the report viewer. Actions are backed by atomized 
+commands that modify the report metadata on-the-fly, with support for undo/redo operations, 
+to reflect changes in the report output;
+
+- introduction of reusable Web report viewer APIs, featuring configurable report viewing servlets,
+and built-in Javascript modules that can be used to create custom interactive report viewers in Web
+applications embedding the JasperReports Library.
+This is demonstrated in the new /demo/samples/webapp-repo sample where two different looking versions
+of the same build-in JR interactive report viewer are used to displays interactive reports;
+
+- enhanced interactivity in the table component, with support for column formatting, hiding, resizing,
+moving, sorting and filtering, all leveraging the new action-based JR Web Framework controller and its 
+interactivity supporting report viewer Javascript APIs;
+
+- introduction of a data caching API that helps avoid re-querying the report's data source, 
+for performance reasons, while interactively viewing the report using an interactive report viewer
+created based on the new JR Web Framework;
+
+- added new page related events in the asynchronous report filler to support asynchronous page display
+in interactive report viewers;
+
+- added support for message providers that can be plugged into JR as extensions, to allow 
+internationalization of interactive custom components UIs;
 
 - minor bug fixes and improvements;
 
