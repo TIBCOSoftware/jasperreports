@@ -1364,6 +1364,12 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public JRElement clone(JRElementGroup parentGroup, int y)
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	public boolean hasProperties()
 	{
 		return mergedProperties != null && mergedProperties.hasProperties();

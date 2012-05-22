@@ -546,6 +546,14 @@ public abstract class JRBaseElement implements JRElement, Serializable, JRChange
 		return clone;
 	}
 
+	@Override
+	public JRElement clone(JRElementGroup parentGroup, int y)
+	{
+		JRBaseElement clone = (JRBaseElement) clone(parentGroup);
+		clone.y = y;
+		return clone;
+	}
+
 	public boolean hasProperties()
 	{
 		return propertiesMap != null && propertiesMap.hasProperties();

@@ -191,6 +191,12 @@ public abstract class ElementDecorator implements JRElement
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public JRElement clone(JRElementGroup parentGroup, int y)
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	public void visit(JRVisitor visitor)
 	{
 		element.visit(visitor);

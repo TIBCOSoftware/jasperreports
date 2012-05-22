@@ -175,4 +175,6 @@ public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
 	 * @return an array containing the expression-based properties of this report element
 	 */
 	public JRPropertyExpression[] getPropertyExpressions();
+	
+	public JRElement clone(JRElementGroup parentGroup, int y);
 }
