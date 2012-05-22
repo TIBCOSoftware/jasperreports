@@ -63,7 +63,6 @@ import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -186,7 +185,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	public String getHtmlFragment(JRHtmlExporterContext context, JRGenericPrintElement element)
 	{
 		boolean templateAlreadyLoaded = false;
-		boolean exporterFirstAttempt = true;
 
 		String htmlFragment = null;
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -194,14 +192,15 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		{
 			String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
-			String columnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
+			String columnLabel = element.getPropertiesMap().getProperty(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
 			contextMap.put("tableUUID", tableUUID);
 			
-			WebUtil webUtil = WebUtil.getInstance(context.getJasperReportsContext());
+			JasperReportsContext jrContext = context.getJasperReportsContext();
+			WebUtil webUtil = WebUtil.getInstance(jrContext);
 			String webResourcesBasePath = webUtil.getResourcesBasePath();
 			
 			Locale locale = (Locale) reportContext.getParameterValue(JRParameter.REPORT_LOCALE);
@@ -226,16 +225,19 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 										HeaderToolbarElementHtmlHandler.RESOURCE_JIVE_COLUMN_I18N_JS,
 										"net.sf.jasperreports.components.headertoolbar.messages",
 										locale));
-				contextMap.put("msgProvider", MessageUtil.getInstance(context.getJasperReportsContext()).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale));
+				contextMap.put("msgProvider", MessageUtil.getInstance(jrContext).getLocalizedMessageProvider("net.sf.jasperreports.components.headertoolbar.messages", locale));
 			}
 			
-			if (context.getExportParameters().containsKey(param) && tableUUID.equals(context.getExportParameters().get(param))) {
-				exporterFirstAttempt = false;
-			} else {
-				context.getExportParameters().put(param, tableUUID);
+			if (!(context.getExportParameters().containsKey(param) 
+					&& tableUUID.equals(context.getExportParameters().get(param)))) {
+				Map<String, ColumnInfo> columnNames = getAllColumnNames(element, jrContext, contextMap);
+				// column names are normally set on the first column, but check if we got them
+				if (!columnNames.isEmpty()) {
+					context.getExportParameters().put(param, tableUUID);
 
-				setAllColumnNames(element, context.getJasperReportsContext(), contextMap);
-				contextMap.put("exporterFirstAttempt", exporterFirstAttempt);
+					contextMap.put("allColumnNames", JacksonUtil.getInstance(jrContext).getJsonString(columnNames));
+					contextMap.put("exporterFirstAttempt", true);
+				}
 			}
 			
 			contextMap.put("templateAlreadyLoaded", templateAlreadyLoaded);
@@ -260,8 +262,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames());
 			contextMap.put("systemFontNames", getSystemFontNames());
 			
-			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
-			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
+			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
+			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			
 			if (canSort) {
 				String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
@@ -286,47 +288,47 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				String formatPatternLabel = "";
 				switch (filterType) {
 				case NUMERIC:
-					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(jrContext, FilterTypeNumericOperatorsEnum.class.getName(), FilterTypeNumericOperatorsEnum.values(), locale);
 					valuesFormatPatternMap = numberPatternsMap;//setNumberPatterns(valuesFormatPatternMap, numberPatterns);
 					formatPatternLabel = "Number pattern:";
 					isNumeric = true;
 					break;
 				case DATE:
-					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(jrContext, FilterTypeDateOperatorsEnum.class.getName(), FilterTypeDateOperatorsEnum.values(), locale);
 					setDatePatterns(valuesFormatPatternMap, datePatterns, locale);
 					formatPatternLabel = "Date pattern:";
 
-					String datePatternBundleName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(DATE_PATTERN_BUNDLE);
+					String datePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_BUNDLE);
 					if (datePatternBundleName == null)
 					{
 						datePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
 					}
-					String datePatternKey = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(DATE_PATTERN_KEY);
+					String datePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(DATE_PATTERN_KEY);
 					if (datePatternKey == null)
 					{
 						datePatternKey = DEFAULT_DATE_PATTERN_KEY;
 					}
-					filterPattern = getBundleMessage(datePatternKey, context.getJasperReportsContext(), datePatternBundleName, locale);
+					filterPattern = getBundleMessage(datePatternKey, jrContext, datePatternBundleName, locale);
 					
-					String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
+					String calendarDatePatternBundleName = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_BUNDLE);
 					if (calendarDatePatternBundleName == null)
 					{
 						calendarDatePatternBundleName = DEFAULT_DATE_PATTERN_BUNDLE;
 					}
-					String calendarDatePatternKey = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(CALENDAR_DATE_PATTERN_KEY);
+					String calendarDatePatternKey = JRPropertiesUtil.getInstance(jrContext).getProperty(CALENDAR_DATE_PATTERN_KEY);
 					if (calendarDatePatternKey == null)
 					{
 						calendarDatePatternKey = DEFAULT_CALENDAR_DATE_PATTERN_KEY;
 					}
-					calendarPattern = getBundleMessage(calendarDatePatternKey, context.getJasperReportsContext(), calendarDatePatternBundleName, locale);
+					calendarPattern = getBundleMessage(calendarDatePatternKey, jrContext, calendarDatePatternBundleName, locale);
 					
 					break;
 				case TEXT:
-					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(jrContext, FilterTypeTextOperatorsEnum.class.getName(), FilterTypeTextOperatorsEnum.values(), locale);
 					hasPattern = false;
 					break;
 				case BOOLEAN:
-					translatedOperators = getTranslatedOperators(context.getJasperReportsContext(), FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
+					translatedOperators = getTranslatedOperators(jrContext, FilterTypeBooleanOperatorsEnum.class.getName(), FilterTypeBooleanOperatorsEnum.values(), locale);
 					hasPattern = false;
 					break;
 				}
@@ -346,7 +348,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					filterHover = CSS_FILTER_DEFAULT_HOVER;
 				}
 				
-				String sortField = getCurrentSortField(context.getJasperReportsContext(), reportContext, tableUUID, columnName, columnType);
+				String sortField = getCurrentSortField(jrContext, reportContext, tableUUID, columnName, columnType);
 				if (sortField != null) 
 				{
 					String[] sortActionData = HeaderToolbarElementUtils.extractColumnInfo(sortField);
@@ -367,7 +369,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				String filterValueStart = "";
 				String filterValueEnd = "";
 				String filterTypeOperatorValue = "";
-				List<DatasetFilter> fieldFilters = getExistingFiltersForField(context.getJasperReportsContext(), reportContext, tableUUID, columnName);
+				List<DatasetFilter> fieldFilters = getExistingFiltersForField(jrContext, reportContext, tableUUID, columnName);
 				
 				if (fieldFilters.size() > 0) {
 					FieldFilter ff = (FieldFilter)fieldFilters.get(0);
@@ -405,7 +407,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				filterData.setFieldValueEnd(filterValueEnd);
 				filterData.setFilterTypeOperator(filterTypeOperatorValue);
 				
-				contextMap.put("filterData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(filterData));
+				contextMap.put("filterData", JacksonUtil.getInstance(jrContext).getJsonString(filterData));
 				contextMap.put("filterTypeValuesMap", translatedOperators);
 				contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
 				contextMap.put("filterTableUuid", tableUUID);
@@ -414,8 +416,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				// end
 				
 				// begin: params for sorting
-				contextMap.put("sortAscData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortAscData));
-				contextMap.put("sortDescData", JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(sortDescData));
+				contextMap.put("sortAscData", JacksonUtil.getInstance(jrContext).getJsonString(sortAscData));
+				contextMap.put("sortDescData", JacksonUtil.getInstance(jrContext).getJsonString(sortDescData));
 				contextMap.put("sortAscActive", sortAscActive);
 				contextMap.put("sortAscHover", sortAscHover);
 				contextMap.put("sortDescActive", sortDescActive);
@@ -690,21 +692,21 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		}
 	}
 
-	private void setAllColumnNames(JRGenericPrintElement element, JasperReportsContext jasperReportsContext, Map<String, Object> contextMap) {
-		
-		List<PropertySuffix> props =  JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(element, HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX);
+	private Map<String, ColumnInfo> getAllColumnNames(JRGenericPrintElement element, 
+			JasperReportsContext jasperReportsContext, Map<String, Object> contextMap) {
+		int prefixLength = HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX.length();
 		Map<String, ColumnInfo> columnNames = new HashMap<String, ColumnInfo>();
-
-		for (PropertySuffix prop: props) {
-			String columnName = prop.getValue();
-			String[] tokens = prop.getSuffix().split("\\|");
-			if (columnName == null || columnName.trim().length() == 0) {
-				columnName = "Column_" + tokens[0];
+		for (String paramName : element.getParameterNames()) {
+			if (paramName.startsWith(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX)) {
+				String columnName = (String) element.getParameterValue(paramName);
+				String[] tokens = paramName.substring(prefixLength).split("\\|");
+				if (columnName == null || columnName.trim().length() == 0) {
+					columnName = "Column_" + tokens[0];
+				}
+				columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false));
 			}
-			columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false));
 		}
-		
-		contextMap.put("allColumnNames", JacksonUtil.getInstance(jasperReportsContext).getJsonString(columnNames));
+		return columnNames;
 	}
 	
 	private Set<String> getFontExtensionsFontNames() {

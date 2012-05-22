@@ -37,7 +37,7 @@ public interface HeaderToolbarElement {
 	public static final String ELEMENT_NAME = "headertoolbar";
 	public static final JRGenericElementType ELEMENT_TYPE = new JRGenericElementType(JRXmlConstants.JASPERREPORTS_NAMESPACE, ELEMENT_NAME);
 	
-	public static final String PARAM_COLUMN_LABEL_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.column.";
+	public static final String PARAM_COLUMN_LABEL_PREFIX = "column.";
 
 	public static final String SORT_ORDER_ASC = "Asc";
 	public static final String SORT_ORDER_DESC = "Dsc";
