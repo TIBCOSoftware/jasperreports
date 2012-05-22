@@ -79,7 +79,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.ContextAwareComponent;
 import net.sf.jasperreports.engine.component.FillContext;
 import net.sf.jasperreports.engine.design.JRDesignBand;
-import net.sf.jasperreports.engine.design.JRDesignElement;
 import net.sf.jasperreports.engine.design.JRDesignElementGroup;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
 import net.sf.jasperreports.engine.design.JRDesignFrame;
@@ -105,6 +104,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.type.StretchTypeEnum;
 import net.sf.jasperreports.engine.type.WhenNoDataTypeEnum;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
+import net.sf.jasperreports.engine.util.StyleUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
@@ -199,16 +199,13 @@ public class TableReport implements JRReport
 		{
 			this.band = band;
 		}
-		
-		void addElement(int rowLevel, JRDesignElement element)
+
+		protected void elementAdded(JRElement element)
 		{
 			if (band.getHeight() < element.getHeight() + element.getY())
 			{
 				band.setHeight(element.getHeight() + element.getY());
 			}
-			
-			JRDesignElementGroup rowGroup = getRowElementGroup(rowLevel);
-			rowGroup.addElement(element);
 		}
 		
 		JRDesignElementGroup getRowElementGroup(int rowLevel)
@@ -252,9 +249,13 @@ public class TableReport implements JRReport
 			
 			if (cell != null)
 			{
-				JRDesignFrame cellFrame = createColumnCell(column, cell);
 				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
-				bandInfo.addElement(level + rowSpan - 1, cellFrame);
+				int rowLevel = level + rowSpan - 1;
+				JRDesignElementGroup elementGroup = bandInfo.getRowElementGroup(rowLevel);
+				
+				JRElement cellElement = createColumnCell(column, elementGroup, cell);
+				elementGroup.addElement(cellElement);
+				bandInfo.elementAdded(cellElement);
 				
 				yOffset += cell.getHeight();
 			}
@@ -266,11 +267,16 @@ public class TableReport implements JRReport
 
 		protected abstract Cell columnCell(Column column);
 		
-		protected JRDesignFrame createColumnCell(Column column, Cell cell)
+		protected JRElement createColumnCell(Column column, JRElementGroup parentGroup, Cell cell)
 		{
-			return createCellFrame(cell, 
+			return createColumnCell(column, parentGroup, cell, false);
+		}
+		
+		protected JRElement createColumnCell(Column column, JRElementGroup parentGroup, Cell cell, boolean forceFrame)
+		{
+			return createCell(parentGroup, cell, 
 					column.getWidth(), fillColumn.getWidth(), 
-					xOffset, yOffset, column.hashCode());
+					xOffset, yOffset, column.hashCode(), forceFrame);
 		}
 		
 		public Void visitColumnGroup(ColumnGroup columnGroup)
@@ -281,10 +287,15 @@ public class TableReport implements JRReport
 			if (cell != null)
 			{
 				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
-				JRDesignFrame cellFrame = createCellFrame(cell, 
+				int rowLevel = level + rowSpan - 1;
+				JRDesignElementGroup elementGroup = bandInfo.getRowElementGroup(rowLevel);
+				
+				JRElement cellElement = createCell(elementGroup, cell, 
 						columnGroup.getWidth(), fillColumn.getWidth(), 
-						xOffset, yOffset);
-				bandInfo.addElement(level + rowSpan - 1, cellFrame);
+						xOffset, yOffset, null, false);
+				elementGroup.addElement(cellElement);
+				bandInfo.elementAdded(cellElement);
+				
 				cellHeight = cell.getHeight();
 				sublevel += rowSpan;
 			}
@@ -354,10 +365,15 @@ public class TableReport implements JRReport
 			
 			if (cell != null)
 			{
-				JRDesignFrame cellFrame = createCellFrame(cell, 
+				int rowLevel = level + rowSpan - 1;
+				JRDesignElementGroup elementGroup = bandInfo.getRowElementGroup(rowLevel);
+				
+				JRElement cellElement = createCell(elementGroup, cell, 
 						columnGroup.getWidth(), fillColumn.getWidth(), 
-						origXOffset, yOffset);
-				bandInfo.addElement(level + rowSpan - 1, cellFrame);
+						origXOffset, yOffset, null, false);
+				elementGroup.addElement(cellElement);
+				bandInfo.elementAdded(cellElement);
+				
 				yOffset += cell.getHeight();
 			}
 			
@@ -430,9 +446,9 @@ public class TableReport implements JRReport
 		}
 
 		@Override
-		protected JRDesignFrame createColumnCell(Column column, Cell cell)
+		protected JRDesignFrame createColumnCell(Column column, JRElementGroup parentGroup, Cell cell)
 		{
-			JRDesignFrame frame = super.createColumnCell(column, cell);
+			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
 			addHeaderToolbarElement(column, frame, sortTextField);
 			return frame;
@@ -1052,74 +1068,23 @@ public class TableReport implements JRReport
 		mainDataset.addScriptlet(TABLE_SCRIPTLET_NAME, TableReportScriptlet.class);
 		mainDataset.addFirstGroup(summaryGroup);
 	}
-	
-	protected JRDesignFrame createCellFrame(Cell cell, 
+
+	protected JRElement createCell(JRElementGroup parentGroup, Cell cell, 
 			int originalWidth, int width, 
-			int x, int y)
+			int x, int y, Integer columnHashCode, 
+			boolean forceFrame)
 	{
-		JRDesignFrame frame = new JRDesignFrame(this);
-		frame.setX(x);
-		frame.setY(y);
-		frame.setWidth(width);
-		frame.setHeight(cell.getHeight());
-		frame.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
-		
-		frame.setStyle(cell.getStyle());
-		frame.setStyleNameReference(cell.getStyleNameReference());
-		frame.copyBox(cell.getLineBox());
-		
-		for (Iterator<JRChild> it = cell.getChildren().iterator(); it.hasNext();)
+		if (!forceFrame)
 		{
-			JRChild child = it.next();
-			if (child instanceof JRElement)
+			JRElement cellElement = createCellElement(parentGroup, cell, originalWidth, width, x, y, columnHashCode);
+			if (cellElement != null)
 			{
-				JRElement element = (JRElement) child;
-				// clone the element in order to set the frame as group
-				element = (JRElement) element.clone(frame);
-				if (width != originalWidth)
-				{
-					scaleCellElement(element, originalWidth, width);
-					
-					if (element instanceof JRElementGroup)//i.e. frame
-					{
-						JRElementGroup elementGroup = (JRElementGroup) element;
-						for (JRElement subelement : elementGroup.getElements())
-						{
-							scaleCellElement(subelement, originalWidth, width);
-						}
-					}
-				}
-				frame.addElement(element);
-			}
-			else if (child instanceof JRElementGroup)
-			{
-				JRElementGroup elementGroup = (JRElementGroup) child;
-				// clone the elements in order to set the frame as group
-				elementGroup = (JRElementGroup) elementGroup.clone(frame);
-				frame.addElementGroup(elementGroup);
-				
-				if (width != originalWidth)
-				{
-					for (JRElement element : elementGroup.getElements())
-					{
-						scaleCellElement(element, originalWidth, width);
-					}
-				}
-			}
-			else
-			{
-				throw new JRRuntimeException("Unknown JRChild type " + child.getClass().getName());
+				return cellElement;
 			}
 		}
 		
-		return frame;
-	}
-
-	protected JRDesignFrame createCellFrame(Cell cell, 
-			int originalWidth, int width, 
-			int x, int y, int columnHashCode)
-	{
 		JRDesignFrame frame = new JRDesignFrame(this);
+		frame.setElementGroup(parentGroup);
 		frame.setX(x);
 		frame.setY(y);
 		frame.setWidth(width);
@@ -1130,7 +1095,7 @@ public class TableReport implements JRReport
 		frame.setStyleNameReference(cell.getStyleNameReference());
 		frame.copyBox(cell.getLineBox());
 
-		if (headerHtmlClasses.get(columnHashCode) != null) {
+		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null) {
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
 		}
 		
@@ -1179,6 +1144,71 @@ public class TableReport implements JRReport
 		}
 		
 		return frame;
+	}
+	
+	protected JRElement createCellElement(JRElementGroup elementGroup, Cell cell, 
+			int originalWidth, int width, 
+			int x, int y, Integer columnHashCode)
+	{
+		List<JRChild> children = cell.getChildren();
+		if (children.size() != 1)
+		{
+			// several children
+			return null;
+		}
+		
+		JRChild child = children.get(0);
+		if (!(child instanceof JRStaticText || child instanceof JRTextField))
+		{
+			// only doing this for texts for now
+			return null;
+		}
+		
+		JRElement element = (JRElement) child;
+		if (element.getX() != 0 
+				|| element.getY() != 0 
+				|| element.getWidth() != originalWidth 
+				|| element.getHeight() != cell.getHeight())
+		{
+			// the element is not as large as the cell
+			return null;
+		}
+		
+		ModeEnum elementMode = StyleUtil.instance().resolveElementMode(element);
+		if (elementMode == null || elementMode == ModeEnum.TRANSPARENT)
+		{
+			// if the element is not necessarily opaque, check that the cell is transparent
+			ModeEnum cellMode = StyleUtil.instance().resolveMode(cell);
+			if (cellMode != ModeEnum.TRANSPARENT)
+			{
+				// the cell is not necessarily transparent, we need the frame
+				return null;
+			}
+		}
+		
+		if (StyleUtil.instance().hasBox(cell))
+		{
+			// the cell has box, we need the frame
+			return null;
+		}
+		
+		JRElement cellElement = element.clone(elementGroup, y);
+		cellElement.setX(x);
+		cellElement.setWidth(width);
+		cellElement.setStretchType(StretchTypeEnum.RELATIVE_TO_TALLEST_OBJECT);
+
+		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null)
+		{
+			cellElement.getPropertiesMap().setProperty(
+					JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
+		}
+		
+		if (width != originalWidth)
+		{
+			scaleCellElement(element, originalWidth, width);
+		}
+		
+		return cellElement;
 	}
 
 	protected void scaleCellElement(JRElement element, Integer cellWidth,
