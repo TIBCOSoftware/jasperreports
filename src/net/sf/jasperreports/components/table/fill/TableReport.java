@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil;
 import net.sf.jasperreports.components.headertoolbar.HeaderLabelUtil.HeaderLabelBuiltinExpression;
@@ -85,7 +86,6 @@ import net.sf.jasperreports.engine.design.JRDesignFrame;
 import net.sf.jasperreports.engine.design.JRDesignGenericElement;
 import net.sf.jasperreports.engine.design.JRDesignGenericElementParameter;
 import net.sf.jasperreports.engine.design.JRDesignGroup;
-import net.sf.jasperreports.engine.design.JRDesignPropertyExpression;
 import net.sf.jasperreports.engine.design.JRDesignSection;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.fill.DatasetExpressionEvaluator;
@@ -431,12 +431,15 @@ public class TableReport implements JRReport
 	protected class ColumnHeaderCreator extends ReportBandCreator
 	{
 		private Map<Integer, String> headerClasses;
+		private final AtomicBoolean firstColumn;// we need a mutable boolean reference
 		
 		public ColumnHeaderCreator(ReportBandInfo bandInfo, FillColumn fillColumn,
-				int xOffset, int yOffset, int level, Map<Integer, String> headerClasses)
+				int xOffset, int yOffset, int level, 
+				Map<Integer, String> headerClasses, AtomicBoolean firstColumn)
 		{
 			super(bandInfo, fillColumn, xOffset, yOffset, level);
 			this.headerClasses = headerClasses;
+			this.firstColumn = firstColumn;
 		}
 
 		@Override
@@ -587,7 +590,11 @@ public class TableReport implements JRReport
             String popupId = column.getUUID().toString();//columnName + "_" + column.hashCode();
             String popupColumn = columnName + "_" + columnIndex;
             
-            addColumnLabelParameters(genericElement, table);
+            if (firstColumn.compareAndSet(false, true)) {
+            	// only setting on the first column to save memory
+            	//FIXME a cleaner approach would be to set these another single generic element 
+                addColumnLabelParameters(genericElement, table);
+            }
 
             genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_POPUP_ID, popupId);
             genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, Integer.toString(columnIndex));
@@ -631,11 +638,8 @@ public class TableReport implements JRReport
 				BaseColumn column = columns.get(i);
 				JRExpression columnHeaderExpression = getColumnHeaderLabelExpression(column.getColumnHeader());
 
-				JRDesignPropertyExpression pe = new JRDesignPropertyExpression();
-				pe.setName(HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i + "|" + column.getUUID().toString());
-				pe.setValueExpression(columnHeaderExpression);
-				
-				element.addPropertyExpression(pe);
+				String paramName = HeaderToolbarElement.PARAM_COLUMN_LABEL_PREFIX + i + "|" + column.getUUID().toString();
+				addElementParameter(element, paramName, columnHeaderExpression);
 			}
 		}
 		
@@ -649,7 +653,8 @@ public class TableReport implements JRReport
 		protected ReportBandCreator createSubVisitor(FillColumn subcolumn,
 				int xOffset, int yOffset, int sublevel)
 		{
-			return new ColumnHeaderCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel, headerHtmlClasses);
+			return new ColumnHeaderCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel, 
+					headerHtmlClasses, firstColumn);
 		}
 	}
 
@@ -663,7 +668,8 @@ public class TableReport implements JRReport
 		for (FillColumn subcolumn : fillColumns)
 		{
 			ColumnHeaderCreator subVisitor = new ColumnHeaderCreator(
-					bandInfo, subcolumn, xOffset, 0, 0, headerHtmlClasses);
+					bandInfo, subcolumn, xOffset, 0, 0, headerHtmlClasses,
+					new AtomicBoolean());
 			subVisitor.visit();
 			xOffset = subVisitor.xOffset;
 		}
