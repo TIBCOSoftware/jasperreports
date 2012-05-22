@@ -160,14 +160,14 @@ public class JRFillGenericElement extends JRFillElement implements
 		if (isEvaluateAuto())
 		{
 			JRRecordedValuesGenericPrintElement recordedValuesElement = 
-				new JRRecordedValuesGenericPrintElement(getTemplate(), elementId);
+				new JRRecordedValuesGenericPrintElement(getTemplate(), elementId, parameters.length);
 			copyBasicAttributes(recordedValuesElement);
 			initDelayedEvaluationPrint(recordedValuesElement);
 			printElement = recordedValuesElement;
 		}
 		else
 		{
-			printElement = new JRTemplateGenericPrintElement(getTemplate(), elementId);
+			printElement = new JRTemplateGenericPrintElement(getTemplate(), elementId, parameters.length);
 			copyBasicAttributes(printElement);
 			if (isEvaluateNow())
 			{
