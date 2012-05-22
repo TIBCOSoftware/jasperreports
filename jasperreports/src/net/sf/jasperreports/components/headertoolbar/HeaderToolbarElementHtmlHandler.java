@@ -192,10 +192,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)//FIXMEJIVE
 		{
-			String tableUUID = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_TABLE_UUID);
-			String popupId = (String) element.getParameterValue("popupId");
+			String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
+			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
 			String columnLabel = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
-			Integer columnIndex = (Integer) element.getParameterValue("columnIndex");
+			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
@@ -264,8 +264,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, context.getJasperReportsContext(), reportContext);
 			
 			if (canSort) {
-				String columnName = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_NAME);
-				String columnType = (String) element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_TYPE);
+				String columnName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME);
+				String columnType = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE);
 				
 				FilterTypesEnum filterType = FilterTypesEnum.getByName(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_FILTER_TYPE));
 				if (filterType == null)//FIXMEJIVE
