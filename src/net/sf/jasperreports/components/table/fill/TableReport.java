@@ -526,7 +526,7 @@ public class TableReport implements JRReport
             		throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
             	}
             	
-            	addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_TYPE, columnType.getName());
+                genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
             	
             	if (filterType != null)
             	{
@@ -588,11 +588,12 @@ public class TableReport implements JRReport
             String popupColumn = columnName + "_" + columnIndex;
             
             addColumnLabelParameters(genericElement, table);
-            addElementParameter(genericElement, "popupId", popupId);
-            addElementParameter(genericElement, "columnIndex", columnIndex);
 
-            addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_NAME, columnName);
-            addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_TABLE_UUID, ((ContextAwareComponent)table).getContext().getComponentElement().getUUID().toString());
+            genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_POPUP_ID, popupId);
+            genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX, Integer.toString(columnIndex));
+
+            genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_NAME, columnName);
+            genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, ((ContextAwareComponent)table).getContext().getComponentElement().getUUID().toString());
             addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 
             frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());

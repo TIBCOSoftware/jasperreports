@@ -44,10 +44,12 @@ public interface HeaderToolbarElement {
 	public static final String SORT_ORDER_NONE = "None";
 	public static final String SORT_COLUMN_TOKEN_SEPARATOR = ":";
 	
-	public static final String PARAMETER_TABLE_UUID = "tableUUID";
-	public static final String PARAMETER_COLUMN_NAME = "sortColumnName";
+	public static final String PROPERTY_TABLE_UUID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.tableUUID";
+	public static final String PROPERTY_COLUMN_NAME = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.sortColumnName";
 	public static final String PARAMETER_COLUMN_LABEL = "sortColumnLabel";
-	public static final String PARAMETER_COLUMN_TYPE = "sortColumnType";
+	public static final String PROPERTY_COLUMN_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.sortColumnType";
+	public static final String PROPERTY_POPUP_ID = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.popupId";
+	public static final String PROPERTY_COLUMN_INDEX = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.columnIndex";
 	
 	public static final String PROPERTY_FILTER_TYPE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.type";
 	public static final String PROPERTY_FILTER_PATTERN = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.filter.pattern";
