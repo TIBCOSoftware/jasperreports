@@ -340,17 +340,23 @@ public class TableUtil
 		return null;
 	}
 
-	public static boolean isSortableAndFilterable(JRTextField textField) {
-		JRExpression textExpression = textField.getExpression();
-		JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
-		if (chunks == null || chunks.length != 1
-				|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
-				&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
+	public static boolean isSortableAndFilterable(JRTextField textField) 
+	{
+		if (textField != null)
 		{
-			return false;
+			JRExpression textExpression = textField.getExpression();
+			JRExpressionChunk[] chunks = textExpression == null ? null : textExpression.getChunks();
+			if (chunks == null || chunks.length != 1
+					|| (chunks[0].getType() != JRExpressionChunk.TYPE_FIELD
+					&& chunks[0].getType() != JRExpressionChunk.TYPE_VARIABLE))
+			{
+				return false;
+			}
+			
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	public static int getColumnIndex(Column column, TableComponent table) {
