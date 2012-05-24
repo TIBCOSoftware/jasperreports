@@ -82,7 +82,7 @@ public class ResourceServlet extends AbstractServlet
 			}
 			
 			if (resource.endsWith(".js")) {//FIXMEJIVE revisit this
-				response.setContentType("text/javascript");
+				response.setContentType("text/javascript; charset=UTF-8");
 			} else if (resource.endsWith(".css")) {
 				response.setContentType("text/css");
 			}
