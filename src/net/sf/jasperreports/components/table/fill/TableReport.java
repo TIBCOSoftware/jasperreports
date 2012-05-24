@@ -453,7 +453,9 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
-			addHeaderToolbarElement(column, frame, sortTextField);
+			if (sortTextField != null) {
+				addHeaderToolbarElement(column, frame, sortTextField);
+			}
 			return frame;
 		}
 
