@@ -192,7 +192,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		{
 			String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
-			String columnLabel = element.getPropertiesMap().getProperty(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
+			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
