@@ -24,6 +24,11 @@ jQuery.extend(jive.i18n.keys, {
 		'column.formatforms.fontSize.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.fontsize')",
 		'column.formatforms.fontColor.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.fontcolor')",
 		'column.formatforms.styleButtons.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.style')",
+		'column.formatforms.color.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.color')",
+		'column.formatforms.alignment.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.alignment')",
+		'column.formatforms.numberformat.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.numberformat')",
+		'column.formatforms.currency.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.currency')",
+		'column.formatforms.currency.none.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.currency.none')",
 		
 		'column.formatCellsForm.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.values')",
 		'column.formatCellsForm.formatPattern.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.formatpattern')",
