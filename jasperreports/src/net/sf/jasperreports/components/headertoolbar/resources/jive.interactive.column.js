@@ -773,7 +773,7 @@ jive.interactive.column.formatHeaderForm = {
             },
             {
                 type: 'buttons',
-                label:'Color',
+                label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
                     {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
@@ -782,7 +782,7 @@ jive.interactive.column.formatHeaderForm = {
         [
             {
                 type: 'buttons',
-                label:'Alignment',
+                label: jive.i18n.get('column.formatforms.alignment.label'),
                 items: [
                     {type:'radio',id:'headerFontAlign',value:'Left',bIcon:'leftIcon'},
                     {type:'radio',id:'headerFontAlign',value:'Center',bIcon:'centerIcon'},
@@ -875,7 +875,7 @@ jive.interactive.column.formatCellsForm = {
             },
             {
                 type: 'buttons',
-                label:'Color',
+                label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
                     {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
@@ -884,7 +884,7 @@ jive.interactive.column.formatCellsForm = {
         [
             {
                 type: 'buttons',
-                label:'Alignment',
+                label: jive.i18n.get('column.formatforms.alignment.label'),
                 items: [
                     {type:'radio',id:'cellsFontAlign',value:'Left',bIcon:'leftIcon'},
                     {type:'radio',id:'cellsFontAlign',value:'Center',bIcon:'centerIcon'},
@@ -897,7 +897,7 @@ jive.interactive.column.formatCellsForm = {
             {
                 type:'buttons',
                 id: 'numberFormatButtons',
-                label: 'Number Format',
+                label: jive.i18n.get('column.formatforms.numberformat.label'),
                 items: [
 //                  {type:'checkbox',id:'currencyBtn',fn:'toggleCurrencyFormat',value:'',bIcon:'currencyIcon'},
                     {type:'checkbox',id:'percentageBtn',fn:'togglePercentageFormat',value:'',bIcon:'percentageIcon'},
@@ -910,7 +910,7 @@ jive.interactive.column.formatCellsForm = {
         [
             {
                 type:'buttons',
-                label: 'Currency',
+                label: jive.i18n.get('column.formatforms.currency.label'),
                 items: [
                     {
                         type: 'dropdown',
@@ -919,7 +919,7 @@ jive.interactive.column.formatCellsForm = {
                         fn: 'showCurrencyDropDown',
                         bIcon: 'currencyIcon',
                         options: {
-                            'none': {label: '&lt;None&gt;', value: '', fn: 'applyCurrencyFormat'},
+                            'none': {label: jive.i18n.get('column.formatforms.currency.none.label'), value: '', fn: 'applyCurrencyFormat'},
                             'locale_specific': {label: jive.i18n.get('column.formatCellsForm.numberFormatButtons.localespecific.label'), value: '\u00A4', fn: 'applyCurrencyFormat'},
                             'dollar': {label: '\u0024 - USD', value: '\u0024', fn: 'applyCurrencyFormat'},
                             'euro': {label: '\u20AC - EUR', value: '\u20AC', fn: 'applyCurrencyFormat'},
