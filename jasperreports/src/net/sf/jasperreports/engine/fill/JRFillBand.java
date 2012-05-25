@@ -360,23 +360,8 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		boolean isOverflowAllowed
 		) throws JRException
 	{
+		filler.checkInterrupted();
 		filler.fillContext.ensureMasterPageAvailable();
-
-		if (
-			Thread.interrupted()
-			|| filler.isInterrupted()
-			)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Fill " + filler.fillerId + ": interrupted");
-			}
-
-			// child fillers will stop if this parent filler was marked as interrupted
-			filler.setInterrupted(true);
-
-			throw new JRFillInterruptedException();
-		}
 
 		filler.setBandOverFlowAllowed(isOverflowAllowed);
 
