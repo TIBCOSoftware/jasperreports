@@ -638,6 +638,7 @@ jQuery.noConflict();
 	};
 
     global.jive = {
+        active: false,
 		actionBaseData: null,
 	    actionBaseUrl: null,
         selectors: {},
