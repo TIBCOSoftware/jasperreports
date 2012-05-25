@@ -69,10 +69,10 @@ button::-moz-focus-inner {
     display:inline-block;
     width:24px;
     height:16px;
-.display:inline;
-zoom:1;
-cursor:pointer;
-    }
+    .display:inline;
+    zoom:1;
+    cursor:pointer;
+}
 
 .jive_dialog {
     position:absolute;
@@ -99,8 +99,8 @@ cursor:pointer;
     position:relative;
     color: #0872A4;
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/column.header.png) repeat-x #e8e8e8;
-.border-top:solid 1px #e8e8e8;
-    }
+    .border-top:solid 1px #e8e8e8;
+}
 
 .jive_dialog h2 {
     text-align: left;
@@ -161,7 +161,7 @@ cursor:pointer;
     border:solid 1px #ccc;
     text-align:left;
     list-style-type:none;
-    width:130px;
+    min-width:130px;
     display:none;
     padding:0;
     margin:0;
@@ -169,7 +169,7 @@ cursor:pointer;
 }
 
 .pmenuitem {
-    padding-left:12px;
+    padding:0 12px;
     cursor:pointer;
     color:#666;
     height:24px;
@@ -233,7 +233,7 @@ div.dialogFooter button.disabled {
 /* multisheet tabs */
 .tab.multisheet,
 .tab.dialog {
-    width:100px;
+    min-width:100px;
     cursor:pointer;
     white-space:nowrap;
     top:1px;
@@ -253,6 +253,7 @@ div.dialogFooter button.disabled {
     margin:0 auto;
     display:block;
     text-align:center;
+    padding: 0 4px;
 }
 
 .tab.multisheet.active,
@@ -335,6 +336,8 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
     width:28px;
     height:28px;
     border-right:solid 1px #c1c1c1;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 .jive_inputbutton.over {background-position:-50px -45px;}
 .jive_inputbutton.pressed {background-position:-50px -103px;}
