@@ -5,6 +5,7 @@ jQuery.extend(jive, {
         jQuery.extend(jive,settings);
         jQuery('div.jrPage').parent().on('click touchend',function(){
             jive.hide();
+            jQuery.event.trigger('jive_inactive');
         });
 
         jQuery('#jive_components').length == 0 &&  jQuery('body').append('<div id="jive_components"></div>');
@@ -127,10 +128,12 @@ jQuery.extend(jive, {
         jive.ui.foobar.show(dim);
         jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
 
+        jive.active = true;
         jive.interactive[jive.selected.ie.type].onSelect();
     },
     hide: function(items){
         if(!items){
+            jive.active = false;
             jive.ui.marker.jo && jive.ui.marker.jo.appendTo('#jive_components').hide();
             jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('#jive_components').hide();
@@ -417,7 +420,13 @@ jive.ui.dialog = {
 
                 jQuery('#jive_dropdown .pmenu').hide();
 
-                this.id == 'dialogOk' && jive.selected.form.submit();
+                if(this.id == 'dialogCancel'){
+                    jive.active = false;
+                    jQuery.event.trigger('jive_inactive');
+                } else {
+                    jive.selected.form.submit();
+                }
+
                 jQuery.each(ids,function(i,v){
                     jive.ui.forms[v].onHide && jive.ui.forms[v].onHide();
                 });
