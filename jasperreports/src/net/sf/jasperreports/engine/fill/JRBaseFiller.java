@@ -1550,7 +1550,9 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		
 		boolean hasEntry;
 		do
-		{// TODO lucianc check interrupted
+		{
+			checkInterrupted();
+			
 			// locking once per page so that we don't hold the lock for too long
 			// (that would prevent async exporters from getting page data during a long resolve)
 			lockVirtualizationContext();
