@@ -103,9 +103,20 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 		}
 		catch (InterruptedException e)
 		{
-			if (log.isErrorEnabled())
+			if (subreportFiller.fillContext.isCanceled())
 			{
-				log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+				// only debug when cancel was requested
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + subreportFiller.fillerId + ": exception", e);
+				}
+			}
+			else
+			{
+				if (log.isErrorEnabled())
+				{
+					log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+				}
 			}
 			
 			throw new JRRuntimeException("Error encountered while waiting on the report filling thread.", e);
@@ -186,9 +197,20 @@ public class JRThreadSubreportRunner extends JRSubreportRunnable implements JRSu
 		}
 		catch(InterruptedException e)
 		{
-			if (log.isErrorEnabled())
+			if (subreportFiller.fillContext.isCanceled())
 			{
-				log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+				// only log a debug message if cancel was requested
+				if (log.isDebugEnabled())
+				{
+					log.debug("Fill " + subreportFiller.fillerId + ": exception", e);
+				}
+			}
+			else
+			{
+				if (log.isErrorEnabled())
+				{
+					log.error("Fill " + subreportFiller.fillerId + ": exception", e);
+				}
 			}
 			
 			throw new JRException("Error encountered while waiting on the subreport filling thread.", e);

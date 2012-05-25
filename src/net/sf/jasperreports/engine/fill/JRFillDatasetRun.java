@@ -210,17 +210,7 @@ public class JRFillDatasetRun implements JRDatasetRun
 	
 	protected void checkInterrupted()
 	{
-		if (Thread.interrupted() || filler.isInterrupted())
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Fill " + filler.fillerId + ": interrupting");
-			}
-
-			filler.setInterrupted(true);
-
-			throw new JRFillInterruptedException();
-		}
+		filler.checkInterrupted();
 	}
 
 	

@@ -760,6 +760,24 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		this.isInterrupted = isInterrupted;
 	}
 
+	protected void checkInterrupted()
+	{
+		if (Thread.interrupted())
+		{
+			setInterrupted(true);
+		}
+		
+		if (isInterrupted())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("Fill " + fillerId + ": interrupting");
+			}
+
+			throw new JRFillInterruptedException();
+		}
+	}
+	
 	/**
 	 *
 	 */
@@ -1532,7 +1550,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 		
 		boolean hasEntry;
 		do
-		{
+		{// TODO lucianc check interrupted
 			// locking once per page so that we don't hold the lock for too long
 			// (that would prevent async exporters from getting page data during a long resolve)
 			lockVirtualizationContext();
@@ -1714,6 +1732,8 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 			log.debug("Fill " + fillerId + ": cancelling");
 		}
 
+		fillContext.markCanceled();
+		
 		if (fillContext.cancelRunningQuery())
 		{
 			if (log.isDebugEnabled())

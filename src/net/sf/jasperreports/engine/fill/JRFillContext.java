@@ -82,6 +82,8 @@ public class JRFillContext
 	private Locale masterLocale;
 	private TimeZone masterTimeZone;
 	
+	private volatile boolean canceled;
+	
 	private final AtomicInteger fillerIdSeq = new AtomicInteger();
 	private final AtomicInteger fillElementSeq = new AtomicInteger();
 
@@ -514,5 +516,15 @@ public class JRFillContext
 			
 			dataRecorder.setSnapshotPopulated();
 		}
+	}
+	
+	public void markCanceled()
+	{
+		canceled = true;
+	}
+	
+	public boolean isCanceled()
+	{
+		return canceled;
 	}
 }
