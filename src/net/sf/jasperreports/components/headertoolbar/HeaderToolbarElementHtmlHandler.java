@@ -187,10 +187,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		boolean templateAlreadyLoaded = false;
 
 		String htmlFragment = null;
+		String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
 		ReportContext reportContext = context.getExporter().getReportContext();
-		if (reportContext != null)//FIXMEJIVE
+		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
-			String tableUUID = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID);
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
