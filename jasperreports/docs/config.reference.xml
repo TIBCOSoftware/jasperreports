@@ -858,7 +858,7 @@ when the report is configured to check for overlaps.
 Specifies the default split type for bands. See the splitType attribute of the report band. 
     </description>
     <api>net/sf/jasperreports/engine/JRBand.html#PROPERTY_SPLIT_TYPE</api>
-    <default>false</default>
+    <default>Stretch</default>
     <scope>Global | Report</scope>
     <since>3.5.2</since>
   </configProperty>
