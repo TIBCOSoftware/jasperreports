@@ -112,7 +112,7 @@ public final class JasperCompileManager
 		File destFile = new File(sourceFile.getParent(), jasperDesign.getName() + ".jasper");
 		String destFileName = destFile.toString();
 
-		compileReportToFile(jasperDesign, destFileName);
+		compileToFile(jasperDesign, destFileName);
 		
 		return destFileName;
 	}
@@ -135,7 +135,7 @@ public final class JasperCompileManager
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(sourceFileName);
 
-		compileReportToFile(jasperDesign, destFileName);
+		compileToFile(jasperDesign, destFileName);
 	}
 
 
@@ -153,7 +153,7 @@ public final class JasperCompileManager
 		String destFileName
 		) throws JRException
 	{
-		JasperReport jasperReport = compileReport(jasperDesign);
+		JasperReport jasperReport = compile(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, destFileName);
 	}
@@ -170,7 +170,7 @@ public final class JasperCompileManager
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(sourceFileName);
 
-		return compileReport(jasperDesign);
+		return compile(jasperDesign);
 	}
 
 
@@ -189,7 +189,7 @@ public final class JasperCompileManager
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 
-		compileReportToStream(jasperDesign, outputStream);
+		compileToStream(jasperDesign, outputStream);
 	}
 
 
@@ -206,7 +206,7 @@ public final class JasperCompileManager
 		OutputStream outputStream
 		) throws JRException
 	{
-		JasperReport jasperReport = compileReport(jasperDesign);
+		JasperReport jasperReport = compile(jasperDesign);
 
 		JRSaver.saveObject(jasperReport, outputStream);
 	}
@@ -223,7 +223,7 @@ public final class JasperCompileManager
 	{
 		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 
-		return compileReport(jasperDesign);
+		return compile(jasperDesign);
 	}
 
 
@@ -282,7 +282,7 @@ public final class JasperCompileManager
 	 */
 	public JREvaluator getEvaluator(JasperReport jasperReport) throws JRException
 	{
-		return loadEvaluator(jasperReport, jasperReport.getMainDataset());
+		return getEvaluator(jasperReport, jasperReport.getMainDataset());
 	}
 
 	
@@ -307,10 +307,7 @@ public final class JasperCompileManager
 		File destFile = new File(sourceFile.getParent(), report.getName() + ".jasper.jrxml");
 		String destFileName = destFile.toString();
 		
-		writeReportToXmlFile(
-			report, 
-			destFileName
-			);
+		writeToXmlFile(report, destFileName);
 		
 		return destFileName;
 	}
@@ -330,10 +327,7 @@ public final class JasperCompileManager
 	{
 		JRReport report = (JRReport)JRLoader.loadObjectFromFile(sourceFileName);
 
-		writeReportToXmlFile(
-			report, 
-			destFileName
-			);
+		writeToXmlFile(report, destFileName);
 	}
 
 	
@@ -372,7 +366,7 @@ public final class JasperCompileManager
 	{
 		JRReport report = (JRReport)JRLoader.loadObject(inputStream);
 
-		writeReportToXmlStream(report, outputStream);
+		writeToXmlStream(report, outputStream);
 	}
 
 	
