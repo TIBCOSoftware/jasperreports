@@ -31,8 +31,6 @@ import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
-import net.sf.jasperreports.engine.component.BaseComponentContext;
-import net.sf.jasperreports.engine.component.ComponentContext;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
@@ -52,8 +50,6 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 	public static final String PROPERTY_COLUMNS = "columns";
 	public static final String PROPERTY_WHEN_NO_DATA_TYPE = "whenNoDataType";
 
-	private ComponentContext context;
-
 	private JRDatasetRun datasetRun;
 	private List<BaseColumn> columns;
 	
@@ -66,8 +62,6 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 
 	public StandardTable(TableComponent table, JRBaseObjectFactory factory)
 	{
-		context = new BaseComponentContext(table.getContext(), factory);
-
 		whenNoDataType = table.getWhenNoDataType();
 
 		datasetRun = factory.getDatasetRun(table.getDatasetRun());
@@ -76,16 +70,6 @@ public class StandardTable implements TableComponent, Serializable, JRChangeEven
 		columns = columnFactory.createColumns(table.getColumns());
 	}
 	
-	public void setContext(ComponentContext context)
-	{
-		this.context = context;
-	}
-
-	public ComponentContext getContext()
-	{
-		return context;
-	}
-
 	public List<BaseColumn> getColumns()
 	{
 		return columns;
