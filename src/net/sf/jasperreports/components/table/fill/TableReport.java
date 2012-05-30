@@ -565,14 +565,17 @@ public class TableReport implements JRReport
 				}
 
 				String serializedFilters = TableReport.this.mainDataset.getPropertiesMap().getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
-				List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
-				if (existingFilters != null)
+				if (serializedFilters != null)
 				{
-					List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
-					SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, name);
-					if (fieldFilters.size() > 0)
+					List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
+					if (existingFilters != null)
 					{
-						suffix += "" + propUtil.getProperty(PROPERTY_FILTER_CHAR);
+						List<FieldFilter> fieldFilters = new ArrayList<FieldFilter>();
+						SortElementHtmlHandler.getFieldFilters(new CompositeDatasetFilter(existingFilters), fieldFilters, name);
+						if (fieldFilters.size() > 0)
+						{
+							suffix += "" + propUtil.getProperty(PROPERTY_FILTER_CHAR);
+						}
 					}
 				}
 
