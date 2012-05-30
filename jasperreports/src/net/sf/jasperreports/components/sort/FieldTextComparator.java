@@ -59,31 +59,33 @@ public class FieldTextComparator extends AbstractFieldComparator<String> {
 		
 		if (compareStart != null) {
 			String lcCompareStart = compareStart.toLowerCase(locale);
-			String lcCompareTo = compareTo.toLowerCase(locale);
+			boolean validComparison = compareTo != null;
+			String lcCompareTo = validComparison ? compareTo.toLowerCase(locale) : null;
+			
 			switch (textEnum) {
 				case CONTAINS:
-					result = lcCompareTo.contains(lcCompareStart);
+					result = validComparison ? lcCompareTo.contains(lcCompareStart) : false;
 					break;
 				case DOES_NOT_CONTAIN:
-					result = !lcCompareTo.contains(lcCompareStart);
+					result = validComparison ? !lcCompareTo.contains(lcCompareStart) : false;
 					break;
 				case DOES_NOT_END_WITH:
-					result = !lcCompareTo.endsWith(lcCompareStart);
+					result = validComparison ? !lcCompareTo.endsWith(lcCompareStart) : false;
 					break;
 				case DOES_NOT_START_WITH:
-					result = !lcCompareTo.startsWith(lcCompareStart);
+					result = validComparison ? !lcCompareTo.startsWith(lcCompareStart) : false;
 					break;
 				case ENDS_WITH:
-					result = lcCompareTo.endsWith(lcCompareStart);
+					result = validComparison ? lcCompareTo.endsWith(lcCompareStart) : false;
 					break;
 				case EQUALS:
-					result = lcCompareTo.equals(lcCompareStart);
+					result = validComparison ? lcCompareTo.equals(lcCompareStart) : false;
 					break;
 				case IS_NOT_EQUAL_TO:
-					result = !lcCompareTo.equals(lcCompareStart);
+					result = validComparison ? !lcCompareTo.equals(lcCompareStart) : defaultResult;
 					break;
 				case STARTS_WITH:
-					result = lcCompareTo.startsWith(lcCompareStart);
+					result = validComparison ? lcCompareTo.startsWith(lcCompareStart) : false;
 					break;
 			}
 		}
