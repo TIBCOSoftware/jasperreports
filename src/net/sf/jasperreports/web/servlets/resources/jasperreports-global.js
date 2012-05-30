@@ -639,6 +639,7 @@ jQuery.noConflict();
 
     global.jive = {
         active: false,
+        started: false,
 		actionBaseData: null,
 	    actionBaseUrl: null,
         selectors: {},

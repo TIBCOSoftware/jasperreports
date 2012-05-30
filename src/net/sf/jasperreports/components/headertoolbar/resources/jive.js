@@ -129,6 +129,7 @@ jQuery.extend(jive, {
         jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
 
         jive.active = true;
+        jive.started = true;
         jive.interactive[jive.selected.ie.type].onSelect();
     },
     hide: function(items){
