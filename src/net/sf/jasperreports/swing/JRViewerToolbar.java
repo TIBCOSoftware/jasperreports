@@ -25,14 +25,11 @@ package net.sf.jasperreports.swing;
 
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -43,8 +40,8 @@ import javax.swing.filechooser.FileFilter;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.view.JRSaveContributor;
+import net.sf.jasperreports.view.SaveContributorUtils;
 import net.sf.jasperreports.view.save.JRPrintSaveContributor;
 
 import org.apache.commons.logging.Log;
@@ -670,34 +667,9 @@ public class JRViewerToolbar extends JPanel implements JRViewerListener
 	 */
 	protected void initSaveContributors()
 	{
-		final String[] DEFAULT_CONTRIBUTORS =
-			{
-				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
-				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
-				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
-				"net.sf.jasperreports.view.save.JROdtSaveContributor",
-				"net.sf.jasperreports.view.save.JRDocxSaveContributor",
-				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
-				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
-				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
-				"net.sf.jasperreports.view.save.JRCsvSaveContributor",
-				"net.sf.jasperreports.view.save.JRXmlSaveContributor",
-				"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor"
-			};
-
-		for(int i = 0; i < DEFAULT_CONTRIBUTORS.length; i++)
-		{
-			try
-			{
-				Class<?> saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Constructor<?> constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
-				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{viewerContext.getJasperReportsContext(), getLocale(), viewerContext.getResourceBundle()});
-				saveContributors.add(saveContrib);
-			}
-			catch (Exception e)
-			{
-			}
-		}
+		List<JRSaveContributor> builtinContributors = SaveContributorUtils.createBuiltinContributors(
+				viewerContext.getJasperReportsContext(), getLocale(), viewerContext.getResourceBundle());
+		saveContributors.addAll(builtinContributors);
 	}
 
 	protected void reportLoaded()

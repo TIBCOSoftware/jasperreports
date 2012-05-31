@@ -50,7 +50,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -96,7 +95,6 @@ import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 import net.sf.jasperreports.engine.print.JRPrinterAWT;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
-import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
@@ -532,34 +530,9 @@ public class JRViewer extends javax.swing.JPanel implements JRHyperlinkListener
 	 */
 	protected void initSaveContributors()
 	{
-		final String[] DEFAULT_CONTRIBUTORS =
-			{
-				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
-				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
-				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
-				"net.sf.jasperreports.view.save.JROdtSaveContributor",
-				"net.sf.jasperreports.view.save.JRDocxSaveContributor",
-				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
-				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
-				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
-				"net.sf.jasperreports.view.save.JRCsvSaveContributor",
-				"net.sf.jasperreports.view.save.JRXmlSaveContributor",
-				"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor"
-			};
-
-		for(int i = 0; i < DEFAULT_CONTRIBUTORS.length; i++)
-		{
-			try
-			{
-				Class<?> saveContribClass = JRClassLoader.loadClassForName(DEFAULT_CONTRIBUTORS[i]);
-				Constructor<?> constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
-				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), resourceBundle});
-				saveContributors.add(saveContrib);
-			}
-			catch (Exception e)
-			{
-			}
-		}
+		List<JRSaveContributor> builtinContributors = SaveContributorUtils.createBuiltinContributors(
+				jasperReportsContext, getLocale(), resourceBundle);
+		saveContributors.addAll(builtinContributors);
 	}
 
 
