@@ -32,13 +32,13 @@ import mondrian.olap.Util;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.olap.JRMondrianQueryExecuterFactory;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: MondrianDataAdapterService.java 5180 2012-03-29 13:23:12Z
+ *          teodord $
  */
 public class MondrianDataAdapterService extends JdbcDataAdapterService {
 
@@ -47,16 +47,18 @@ public class MondrianDataAdapterService extends JdbcDataAdapterService {
 	/**
 	 * 
 	 */
-	public MondrianDataAdapterService(JasperReportsContext jasperReportsContext, MondrianDataAdapter jdbcDataAdapter) 
-	{
+	public MondrianDataAdapterService(
+			JasperReportsContext jasperReportsContext,
+			MondrianDataAdapter jdbcDataAdapter) {
 		super(jasperReportsContext, jdbcDataAdapter);
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #MondrianDataAdapterService(JasperReportsContext, MondrianDataAdapter)}.
+	 * @deprecated Replaced by
+	 *             {@link #MondrianDataAdapterService(JasperReportsContext, MondrianDataAdapter)}
+	 *             .
 	 */
-	public MondrianDataAdapterService(MondrianDataAdapter jdbcDataAdapter) 
-	{
+	public MondrianDataAdapterService(MondrianDataAdapter jdbcDataAdapter) {
 		super(DefaultJasperReportsContext.getInstance(), jdbcDataAdapter);
 	}
 
@@ -67,20 +69,15 @@ public class MondrianDataAdapterService extends JdbcDataAdapterService {
 	@Override
 	public void contributeParameters(Map<String, Object> parameters)
 			throws JRException {
-		super.contributeParameters(parameters);
 		MondrianDataAdapter mda = getJdbcDataAdapter();
 		if (mda != null) {
-			java.sql.Connection c = (java.sql.Connection) parameters
-					.get(JRParameter.REPORT_CONNECTION);
-			parameters.remove(JRParameter.REPORT_CONNECTION);
-
 			Util.PropertyList props = new Util.PropertyList();
 			props.put("Catalog", mda.getCatalogURI());
 			props.put("Provider", "mondrian");
 			props.put("Locale", Locale.getDefault().getLanguage());
 
 			connection = DriverManager.getConnection(props, null,
-					new SimpleSQLDataSource(c));
+					new SimpleSQLDataSource(this));
 
 			parameters
 					.put(JRMondrianQueryExecuterFactory.PARAMETER_MONDRIAN_CONNECTION,
