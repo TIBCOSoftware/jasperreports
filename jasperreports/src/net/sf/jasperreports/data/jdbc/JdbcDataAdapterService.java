@@ -33,6 +33,7 @@ import net.sf.jasperreports.data.AbstractClasspathAwareDataAdapterService;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -123,6 +124,15 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 	@Override
 	public void contributeParameters(Map<String, Object> parameters) throws JRException 
 	{
+		try {
+			connection = getConnection();
+		} catch (SQLException e) {
+			throw new JRException(e);
+		}
+		parameters.put(JRParameter.REPORT_CONNECTION, connection);
+	}
+	
+	public Connection getConnection() throws SQLException{
 		JdbcDataAdapter jdbcDataAdapter = getJdbcDataAdapter();
 		if (jdbcDataAdapter != null) 
 		{
@@ -161,18 +171,24 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 				if(connection == null)
 					throw new SQLException("No suitable driver found for "+ jdbcDataAdapter.getUrl());
 			}
-			catch (Exception ex)
-			{
-				throw new JRException(ex);
+			catch (ClassNotFoundException ex){
+				throw new JRRuntimeException(ex);
+			} catch (InstantiationException e) {
+				throw new JRRuntimeException(e);
+			} catch (IllegalAccessException e) {
+				throw new JRRuntimeException(e);
+			} catch (JRException e) {
+				throw new JRRuntimeException(e);
 			}
 			finally
 			{
 				Thread.currentThread().setContextClassLoader(oldThreadClassLoader);
 			}
-
-			parameters.put(JRParameter.REPORT_CONNECTION, connection);
+			return connection;
 		}
+		return null;
 	}
+	 
 
 	public String getPassword() throws JRException {
 		throw new JRException(

@@ -34,11 +34,11 @@ import javax.sql.DataSource;
  * @version $Id$
  */
 public class SimpleSQLDataSource implements DataSource {
-	private Connection connection;
+	private MondrianDataAdapterService connection;
 	private PrintWriter pw = new PrintWriter(System.out);
 	private int loginTimeout = 0;
 
-	public SimpleSQLDataSource(Connection connection) {
+	public SimpleSQLDataSource(MondrianDataAdapterService connection) {
 		this.connection = connection;
 	}
 
@@ -67,12 +67,12 @@ public class SimpleSQLDataSource implements DataSource {
 	}
 
 	public Connection getConnection() throws SQLException {
-		return connection;
+		return connection.getConnection();
 	}
 
 	public Connection getConnection(String username, String password)
 			throws SQLException {
-		return connection;
+		return connection.getConnection();
 	}
 
 }
