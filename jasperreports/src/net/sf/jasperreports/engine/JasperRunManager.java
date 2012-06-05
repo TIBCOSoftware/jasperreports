@@ -924,7 +924,7 @@ public final class JasperRunManager
 		Connection conn
 		) throws JRException
 	{
-		getDefaultInstance().runToHtmlFile(sourceFileName, parameters, conn);
+		getDefaultInstance().runToHtmlFile(sourceFileName, destFileName, parameters, conn);
 	}
 
 
