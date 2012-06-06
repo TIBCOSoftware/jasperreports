@@ -71,15 +71,11 @@
 		}
 	};
 	
-	jvt.refreshPage = function(toolbarId, requestedPage, requestParams) {
+	jvt.refreshPage = function(toolbarId, requestedPage) {
 		var jg = global.jasperreports.global,
 			toolbar = jQuery('#' + toolbarId),
 			currentHref = toolbar.attr('data-url'),
 			params = 'jr.page=' + requestedPage;
-		
-		if (requestParams) {
-			params += '&' + requestParams;
-		}
 		
 		jive && jive.hide && jive.hide();
 
@@ -88,24 +84,26 @@
 										params, 
 										jvt.afterReportLoadCallback, 
 										[toolbarId], 
-										true);
+										false);
 		if (ctx) {
 			ctx.run();
 		}
 	};
 	
 	jvt.setAutoRefresh = function(toolbarId) {
-		var jqToolbar = jQuery('#' + toolbarId),
-			pageTimestamp = jqToolbar.attr('data-pageTimestamp');
+		var jg = global.jasperreports.global,
+			jqToolbar = jQuery('#' + toolbarId),
+			pageTimestamp = jqToolbar.attr('data-pageTimestamp'),
+			totalPages = jqToolbar.attr('data-totalpages');
 		
-		if (pageTimestamp) {
+		if (jg.isEmpty(totalPages) || pageTimestamp) {
 			var timeoutId = global.setTimeout(
-					(function (tid, reqPage, reqParams) {
+					(function (tid, reqPage, pageTimestamp) {
 						return function() {
-							jvt.refreshPage(tid, reqPage, reqParams);
+							jvt.checkPageUpdate(tid, reqPage, pageTimestamp);
 						};
-					}(toolbarId, jqToolbar.attr('data-currentpage'), 'jr.pagetimestamp=' + pageTimestamp)), 
-					5000);//FIXME configure
+					}(toolbarId, jqToolbar.attr('data-currentpage'), pageTimestamp)), 
+					3000);//FIXME configure
 			jqToolbar.attr('data-autoRefreshId', timeoutId);
 		} else {
 			jqToolbar.removeAttr('data-autoRefreshId');
@@ -122,14 +120,53 @@
 			toolbar.removeAttr('data-autoRefreshId');
 		}
 	};
+	
+	jvt.checkPageUpdate = function(toolbarId, page, pageTimestamp) {
+		var jg = global.jasperreports.global,
+			toolbar = jQuery('#' + toolbarId),
+			currentHref = toolbar.attr('data-url'),
+			params = 'jr.pageUpdate';
+		
+		if (pageTimestamp) {
+			params += '&jr.page=' + page + '&jr.pagetimestamp=' + pageTimestamp;
+		}
 
-	jvt.updateCurrentPageForToolbar = function(jQueryToolbar, newCurrentPage, newTotalPages, pageTimestamp) {
-		jQueryToolbar.attr('data-currentpage', newCurrentPage);
+		var ctx = jg.getToolbarExecutionContext(toolbar, 
+										currentHref, 
+										params, 
+										jvt.afterPageUpdateCallback, 
+										[toolbarId, page], 
+										true);
+		if (ctx) {
+			ctx.run();
+		}
+	}
+	
+	jvt.afterPageUpdateCallback = function (toolbarId, page, response) {
+		var jqToolbar = jQuery('#' + toolbarId);
+		jvt.updateTotalPagesForToolbar(jqToolbar, response.totalPages);
+		jvt.updateToolbarPaginationButtons(jqToolbar);
+		
+		if (response.pageModified) {
+			if (page == jqToolbar.attr('data-currentPage')) {
+				jvt.refreshPage(toolbarId, page);
+			}
+		} else {
+			jvt.setAutoRefresh(toolbarId);
+		}
+	};
+
+	jvt.updateTotalPagesForToolbar = function(jQueryToolbar, newTotalPages) {
 		if (typeof(newTotalPages) != 'undefined') {
 			jQueryToolbar.attr('data-totalpages', newTotalPages);
 		} else {
 			jQueryToolbar.attr('data-totalpages', '');
 		}
+	}
+
+	jvt.updateCurrentPageForToolbar = function(jQueryToolbar, newCurrentPage, newTotalPages, pageTimestamp) {
+		jQueryToolbar.attr('data-currentpage', newCurrentPage);
+		jvt.updateTotalPagesForToolbar(jQueryToolbar, newTotalPages);
 		
 		if (pageTimestamp) {
 			jQueryToolbar.attr('data-pagetimestamp', pageTimestamp);
@@ -290,7 +327,7 @@
 									jQuery.parseJSON(jsonParamsObject), // params
 									jvt.afterReportLoadCallback, 		// callback
 									[toolbarId],						// calback args array
-									true);								// is JSON
+									false);								// is JSON
 		if (ctx) {
 			ctx.run();
 		}
@@ -309,7 +346,7 @@
 		jvt.setAutoRefresh(toolbarId);
 	};
 	
-	jvt.runReport = function(selectedColumn, actionData, callback, arrCallbackArgs, isJSON) {
+	jvt.runReport = function(selectedColumn, actionData, callback, arrCallbackArgs) {
 		var	gm = global.jasperreports.global,
 			params = selectedColumn.actionBaseData,
 			arrCallbackArgs = arrCallbackArgs || [],
@@ -331,7 +368,7 @@
 		
 		arrCallbackArgs.splice(arrCallbackArgs.length, 0, selectedColumn.toolbarId);
 		
-		var	ctx = gm.getToolbarExecutionContext(selectedColumn.self, selectedColumn.actionBaseUrl, params, callback, arrCallbackArgs, isJSON);
+		var	ctx = gm.getToolbarExecutionContext(selectedColumn.self, selectedColumn.actionBaseUrl, params, callback, arrCallbackArgs, false);
 		
 		if (ctx) {
 			ctx.run();
