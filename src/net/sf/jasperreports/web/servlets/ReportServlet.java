@@ -26,6 +26,7 @@ package net.sf.jasperreports.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +78,7 @@ public class ReportServlet extends AbstractServlet
 	private static final String REQUEST_PARAMETER_ACTION = "jr.action";
 	private static final String REQUEST_PARAMETER_PAGE = "jr.page";
 	private static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr.pagetimestamp";
+	private static final String REQUEST_PARAMETER_PAGE_UPDATE = "jr.pageUpdate";
 
 
 	/**
@@ -104,8 +106,16 @@ public class ReportServlet extends AbstractServlet
 
 		try
 		{
-			runReport(request, webReportContext);
-			render(request, webReportContext, out);
+			if (request.getParameterMap().containsKey(REQUEST_PARAMETER_PAGE_UPDATE))
+			{
+				//FIXME move this to a different servlet
+				pageUpdate(request, response, webReportContext);
+			}
+			else
+			{
+				runReport(request, webReportContext);
+				render(request, webReportContext, out);
+			}
 		}
 		catch (JRInteractiveException e) 
 		{
@@ -325,6 +335,120 @@ public class ReportServlet extends AbstractServlet
 			((AbstractAction)result).init(getJasperReportsContext(), webReportContext);
 		}
 		return result;
+	}
+
+
+	protected void pageUpdate(HttpServletRequest request, HttpServletResponse response, 
+			WebReportContext webReportContext) throws JRException, IOException
+	{
+		JasperPrintAccessor jasperPrintAccessor = (JasperPrintAccessor) webReportContext.getParameterValue(
+				WebReportContext.REPORT_CONTEXT_PARAMETER_JASPER_PRINT_ACCESSOR);
+		if (jasperPrintAccessor == null)
+		{
+			throw new JRRuntimeException("Did not find the report on the session.");
+		}
+		
+		String pageIdxParam = request.getParameter(REQUEST_PARAMETER_PAGE);
+		Integer pageIndex = pageIdxParam == null ? null : Integer.valueOf(pageIdxParam);
+		String pageTimestampParam = request.getParameter(REQUEST_PARAMETER_PAGE_TIMESTAMP);
+		Long pageTimestamp = pageTimestampParam == null ? null : Long.valueOf(pageTimestampParam);
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("report page update check for pageIndex: " + pageIndex 
+					+ ", pageTimestamp: " + pageTimestamp);
+		}
+		
+		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
+		putReportStatusResult(response, jasperPrintAccessor, result);
+		
+		if (pageIndex != null && pageTimestamp != null)
+		{
+			ReportPageStatus pageStatus = jasperPrintAccessor.pageStatus(pageIndex, pageTimestamp);
+			boolean modified = pageStatus.hasModified();
+			result.put("pageModified", modified);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("page " + pageIndex + " modified " + modified);
+			}
+		}
+		
+		String resultString = JacksonUtil.getInstance(getJasperReportsContext()).getJsonString(result);
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.write(resultString);
+		out.flush();
+	}
+
+	protected void putReportStatusResult(HttpServletResponse response,
+			JasperPrintAccessor printAccessor, LinkedHashMap<String, Object> result) throws JRException
+	{
+		ReportExecutionStatus reportStatus = printAccessor.getReportStatus();
+		result.put("partialPageCount", reportStatus.getCurrentPageCount());
+		
+		String status;
+		switch (reportStatus.getStatus())
+		{
+		case FINISHED:
+			status = "finished";
+			Integer totalPageCount = reportStatus.getTotalPageCount();
+			result.put("totalPages", totalPageCount);
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("report finished " + totalPageCount + " pages");
+			}
+			break;
+		case ERROR:
+			status = "error";
+			handleReportUpdateError(response, reportStatus);
+			break;
+		case CANCELED:
+			status = "canceled";
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("report canceled");
+			}
+			break;
+		case RUNNING:
+		default:
+			status = "running";
+			
+			if (log.isDebugEnabled())
+			{
+				log.debug("report running");
+			}
+			break;
+		}
+		
+		result.put("status", status);
+	}
+
+	protected void handleReportUpdateError(HttpServletResponse response, ReportExecutionStatus reportStatus) 
+			throws JRException
+	{
+		Throwable error = reportStatus.getError();
+		if (log.isDebugEnabled())
+		{
+			log.debug("report error " + error);// only message
+		}
+		// set a header so that the UI knows it's a report execution error
+		response.setHeader("reportError", "true");
+		// set as a header because we don't have other way to pass it
+		response.setHeader("lastPartialPageIndex", Integer.toString(reportStatus.getCurrentPageCount() - 1));
+		
+		// throw an exception to get to the error page
+		if (error instanceof JRException)
+		{
+			throw (JRException) error;
+		}
+		if (error instanceof JRRuntimeException)
+		{
+			throw (JRRuntimeException) error;
+		}
+		throw new JRRuntimeException("Error generating report", error);
 	}
 
 }
