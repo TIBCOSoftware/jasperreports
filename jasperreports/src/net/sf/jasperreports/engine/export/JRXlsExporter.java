@@ -670,7 +670,7 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 				rotation,
 				getLoadedFont(textElement, forecolor, null, getTextLocale(textElement)),
 				gridCell, 
-				isWrapText(textElement) || ((JRXlsExporterNature)nature).getColumnAutoFit(textElement),
+				isWrapText(textElement) || (((JRXlsExporterNature)nature).getColumnAutoFit(textElement) == Boolean.TRUE),
 				isCellLocked(textElement),
 				isCellHidden(textElement)
 				);
