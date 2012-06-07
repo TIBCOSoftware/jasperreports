@@ -635,7 +635,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 					rotation, 
 					cellFont,
 					textElement,
-					isWrapText(textElement) || ((JExcelApiExporterNature)nature).getColumnAutoFit(textElement),
+					isWrapText(textElement) || (((JExcelApiExporterNature)nature).getColumnAutoFit(textElement) == Boolean.TRUE),
 					isCellLocked(textElement)
 					);
 			
