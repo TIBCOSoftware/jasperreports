@@ -187,6 +187,7 @@
       <property ref="net.sf.jasperreports.export.pdf.user.password"/>
       <property ref="net.sf.jasperreports.export.pdf.version"/>
       <property ref="net.sf.jasperreports.export.pdf.collapse.missing.bookmark.levels"/>
+      <property ref="net.sf.jasperreports.export.pdf.size.page.to.content"/>
       <property ref="net.sf.jasperreports.export.pdf.tagged"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.table"/>
       <property ref="net.sf.jasperreports.export.pdf.tag.tr"/>
@@ -3712,6 +3713,21 @@ the bookmark will be created as a direct descendant of its nearest parent.
     <default>false</default>
     <scope>Global | Report</scope>
     <since>3.7.3</since>
+  </configProperty>
+  
+  
+  
+  
+  <!-- net.sf.jasperreports.export.pdf.size.page.to.content -->
+  
+  <configProperty name="net.sf.jasperreports.export.pdf.size.page.to.content">
+    <description>
+Property which specifies if the size of each page should be increased to accommodate its content.
+    </description>
+    <api>net/sf/jasperreports/engine/export/JRPdfExporterParameter.html#PROPERTY_SIZE_PAGE_TO_CONTENT</api>
+    <default>false</default>
+    <scope>Global | Report</scope>
+    <since>4.7.0</since>
   </configProperty>
   
   

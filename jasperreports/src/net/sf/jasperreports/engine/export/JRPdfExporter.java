@@ -644,24 +644,13 @@ public class JRPdfExporter extends JRAbstractExporter
 				setJasperPrint(jasperPrintList.get(reportIndex));
 				loadedImagesMap = new HashMap<Renderable,com.lowagie.text.Image>();
 				
-				Rectangle pageSize;
-				switch (jasperPrint.getOrientationValue())
-				{
-				case LANDSCAPE:
-					// using rotate to indicate landscape page
-					pageSize = new Rectangle(jasperPrint.getPageHeight(),
-							jasperPrint.getPageWidth()).rotate();
-					break;
-				default:
-					pageSize = new Rectangle(jasperPrint.getPageWidth(), 
-							jasperPrint.getPageHeight());
-					break;
-				}
-				document.setPageSize(pageSize);
+				setPageSize(null);
 				
 				BorderOffset.setLegacy(
 					JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, BorderOffset.PROPERTY_LEGACY_BORDER_OFFSET, false)
 					);
+				
+				boolean sizePageToContent = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperPrint, JRPdfExporterParameter.PROPERTY_SIZE_PAGE_TO_CONTENT, false);
 
 				List<JRPrintPage> pages = jasperPrint.getPages();
 				if (pages != null && pages.size() > 0)
@@ -689,6 +678,11 @@ public class JRPdfExporter extends JRAbstractExporter
 
 						JRPrintPage page = pages.get(pageIndex);
 
+						if (sizePageToContent)
+						{
+							setPageSize(page);
+						}
+						
 						document.newPage();
 						
 						pdfContentByte = pdfWriter.getDirectContent();
@@ -774,6 +768,43 @@ public class JRPdfExporter extends JRAbstractExporter
 		colText.go();
 
 		tagHelper.endPageAnchor();
+	}
+
+	/**
+	 *
+	 */
+	protected void setPageSize(JRPrintPage page) throws JRException, DocumentException, IOException
+	{
+		int pageWidth = jasperPrint.getPageWidth(); 
+		int pageHeight = jasperPrint.getPageHeight();
+		
+		if (page != null)
+		{
+			Collection<JRPrintElement> elements = page.getElements();
+			for (JRPrintElement element : elements)
+			{
+				int elementRight = element.getX() + element.getWidth();
+				int elementBottom = element.getY() + element.getHeight();
+				pageWidth = pageWidth < elementRight ? elementRight : pageWidth;
+				pageHeight = pageHeight < elementBottom ? elementBottom : pageHeight;
+			}
+			
+			pageWidth += jasperPrint.getRightMargin();
+			pageHeight += jasperPrint.getBottomMargin();
+		}
+		
+		Rectangle pageSize;
+		switch (jasperPrint.getOrientationValue())
+		{
+		case LANDSCAPE:
+			// using rotate to indicate landscape page
+			pageSize = new Rectangle(pageHeight, pageWidth).rotate();
+			break;
+		default:
+			pageSize = new Rectangle(pageWidth, pageHeight);
+			break;
+		}
+		document.setPageSize(pageSize);
 	}
 
 	/**
