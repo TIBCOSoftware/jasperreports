@@ -349,6 +349,14 @@ public class JRPdfExporterParameter extends JRExporterParameter
 	
 	
 	/**
+	 * Property which specifies if the size of each page should be increased to accommodate its content.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_SIZE_PAGE_TO_CONTENT = JRPropertiesUtil.PROPERTY_PREFIX + "export.pdf.size.page.to.content";
+
+	
+	/**
 	 * The Conformance level of the PDF/A document, as java.lang.String.
 	 * <p/>
 	 * Possible values are:
