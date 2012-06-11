@@ -51,7 +51,7 @@ public class FileBufferedZipEntry implements ExportZipEntry
 	 */
 	public FileBufferedZipEntry(String name)
 	{
-		this(name, null, -1);
+		this(name, null);
 	}
 	
 	/**
@@ -59,7 +59,9 @@ public class FileBufferedZipEntry implements ExportZipEntry
 	 */
 	public FileBufferedZipEntry(String name, int memoryThreshold)
 	{
-		this(name, null, memoryThreshold);
+		this.name = name;
+
+		fbos = new FileBufferedOutputStream(memoryThreshold);
 	}
 	
 	/**
@@ -67,17 +69,13 @@ public class FileBufferedZipEntry implements ExportZipEntry
 	 */
 	public FileBufferedZipEntry(String name, byte[] bytes)
 	{
-		this(name, bytes, -1);
-	}
-	
-	/**
-	 * 
-	 */
-	public FileBufferedZipEntry(String name, byte[] bytes, int memoryThreshold)
-	{
 		this.name = name;
 
-		if(bytes != null)
+		if (bytes == null)
+		{
+			fbos = new FileBufferedOutputStream();
+		}
+		else
 		{
 			fbos = new FileBufferedOutputStream(bytes.length);
 			try
@@ -88,15 +86,6 @@ public class FileBufferedZipEntry implements ExportZipEntry
 			{
 				throw new JRRuntimeException(e);
 			}
-			
-		}
-		else if(memoryThreshold > -1)
-		{
-			fbos = new FileBufferedOutputStream(memoryThreshold);
-		}
-		else
-		{
-			fbos = new FileBufferedOutputStream();
 		}
 	}
 	
