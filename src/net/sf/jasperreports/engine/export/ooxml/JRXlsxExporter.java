@@ -84,6 +84,7 @@ import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
+import net.sf.jasperreports.engine.util.FileBufferedOutputStream;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -704,7 +705,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"xl/media/" + imageName,
-							renderer.getImageData(jasperReportsContext)
+							renderer.getImageData(jasperReportsContext),
+							memoryThreshold
 							)
 						);
 					
@@ -1430,10 +1432,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //		imageMaps = new HashMap();
 		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
+		memoryThreshold = getPropertiesUtil().getIntegerProperty(jasperPrint, FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD, -1);
 
 		try
 		{
-			xlsxZip = new XlsxZip(jasperReportsContext);
+			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold);
 
 			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
