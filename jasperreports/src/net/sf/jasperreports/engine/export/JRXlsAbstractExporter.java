@@ -437,6 +437,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	 */
 	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.first.page.number";
 	
+
 	protected static class TextAlignHolder
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
@@ -543,9 +544,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected boolean ignoreAnchors;
 	
-	protected int memoryThreshold;
 
-	
 	/**
 	 *
 	 */

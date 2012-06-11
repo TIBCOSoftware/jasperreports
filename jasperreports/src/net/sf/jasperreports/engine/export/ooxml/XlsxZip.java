@@ -58,8 +58,6 @@ public class XlsxZip extends FileBufferedZip
 	private ExportZipEntry relsEntry;
 	private ExportZipEntry contentTypesEntry;
 	
-	private int memoryThreshold = -1;
-	
 	/**
 	 * @deprecated Replaced by {@link #XlsxZip(JasperReportsContext)}.
 	 */
@@ -73,34 +71,33 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public XlsxZip(JasperReportsContext jasperReportsContext) throws IOException
 	{
-		this(jasperReportsContext,-1);
+		this(jasperReportsContext, null);
 	}
 	
 	/**
 	 * 
 	 */
-	public XlsxZip(JasperReportsContext jasperReportsContext, int memoryThreshold) throws IOException
+	public XlsxZip(JasperReportsContext jasperReportsContext, Integer memoryThreshold) throws IOException
 	{
-		
+		super(memoryThreshold);
+
 		this.jasperReportsContext = jasperReportsContext;
-		this.memoryThreshold = memoryThreshold;
 		
-		workbookEntry = createEntry("xl/workbook.xml", memoryThreshold);
+		workbookEntry = createEntry("xl/workbook.xml");
 		addEntry(workbookEntry);
 		
-		stylesEntry = createEntry("xl/styles.xml", memoryThreshold);
+		stylesEntry = createEntry("xl/styles.xml");
 		addEntry(stylesEntry);
 		
-		relsEntry = createEntry("xl/_rels/workbook.xml.rels", memoryThreshold);
+		relsEntry = createEntry("xl/_rels/workbook.xml.rels");
 		addEntry(relsEntry);
 		
-		contentTypesEntry = createEntry("[Content_Types].xml", memoryThreshold);
+		contentTypesEntry = createEntry("[Content_Types].xml");
 		addEntry(contentTypesEntry);
 		
-		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels", memoryThreshold);
-		
+		addEntry("_rels/.rels", "net/sf/jasperreports/engine/export/ooxml/xlsx/_rels/xml.rels");
 	}
-
+	
 	/**
 	 *
 	 */
@@ -138,7 +135,7 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addSheet(int index)
 	{
-		ExportZipEntry sheetEntry = createEntry("xl/worksheets/sheet" + index + ".xml", memoryThreshold);
+		ExportZipEntry sheetEntry = createEntry("xl/worksheets/sheet" + index + ".xml");
 
 		exportZipEntries.add(sheetEntry);
 
@@ -150,7 +147,7 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addSheetRels(int index)
 	{
-		ExportZipEntry sheetRelsEntry = createEntry("xl/worksheets/_rels/sheet" + index + ".xml.rels", memoryThreshold);
+		ExportZipEntry sheetRelsEntry = createEntry("xl/worksheets/_rels/sheet" + index + ".xml.rels");
 
 		exportZipEntries.add(sheetRelsEntry);
 		
@@ -162,7 +159,7 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addDrawing(int index)
 	{
-		ExportZipEntry drawingEntry = createEntry("xl/drawings/drawing" + index + ".xml", memoryThreshold);
+		ExportZipEntry drawingEntry = createEntry("xl/drawings/drawing" + index + ".xml");
 
 		exportZipEntries.add(drawingEntry);
 
@@ -174,7 +171,7 @@ public class XlsxZip extends FileBufferedZip
 	 */
 	public ExportZipEntry addDrawingRels(int index)
 	{
-		ExportZipEntry drawingRelsEntry = createEntry("xl/drawings/_rels/drawing" + index + ".xml.rels", memoryThreshold);
+		ExportZipEntry drawingRelsEntry = createEntry("xl/drawings/_rels/drawing" + index + ".xml.rels");
 
 		exportZipEntries.add(drawingRelsEntry);
 
@@ -210,7 +207,7 @@ public class XlsxZip extends FileBufferedZip
 				
 				if (entry != null)
 				{
-					ExportZipEntry macroEntry = createEntry("xl/vbaProject.bin", memoryThreshold);
+					ExportZipEntry macroEntry = createEntry("xl/vbaProject.bin");
 					OutputStream entryOs = macroEntry.getOutputStream();
 
 					long entryLength = entry.getSize();

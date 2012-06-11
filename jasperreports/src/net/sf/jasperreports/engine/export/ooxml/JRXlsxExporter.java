@@ -705,8 +705,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 					xlsxZip.addEntry(//FIXMEDOCX optimize with a different implementation of entry
 						new FileBufferedZipEntry(
 							"xl/media/" + imageName,
-							renderer.getImageData(jasperReportsContext),
-							memoryThreshold
+							renderer.getImageData(jasperReportsContext)
 							)
 						);
 					
@@ -1432,11 +1431,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 //		imageMaps = new HashMap();
 		imagesToProcess = new ArrayList<JRPrintElementIndex>();
 //		hyperlinksMap = new HashMap();
-		memoryThreshold = getPropertiesUtil().getIntegerProperty(jasperPrint, FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD, -1);
 
 		try
 		{
-			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold);
+			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
+			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold == null ? null : JRPropertiesUtil.asInteger(memoryThreshold));
 
 			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
