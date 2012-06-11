@@ -99,7 +99,7 @@ public final class ComponentsEnvironment
 	 */
 	public Collection<ComponentsBundle> getBundles()
 	{
-		Map<String, ComponentsBundle> components = getCachedComponentBundles();
+		Map<String, ComponentsBundle> components = getCachedBundles();
 		return components.values();
 	}
 	
@@ -111,7 +111,7 @@ public final class ComponentsEnvironment
 			Map<String, ComponentsBundle> components = (Map<String, ComponentsBundle>) cache.get(cacheKey);
 			if (components == null)
 			{
-				components = findComponentBundles();
+				components = findBundles();
 				cache.put(cacheKey, components);
 			}
 			return components;
@@ -148,7 +148,7 @@ public final class ComponentsEnvironment
 	 */
 	public ComponentsBundle getBundle(String namespace)
 	{
-		Map<String, ComponentsBundle> components = getCachedComponentBundles();
+		Map<String, ComponentsBundle> components = getCachedBundles();
 		ComponentsBundle componentsBundle = components.get(namespace);
 		if (componentsBundle == null)
 		{
@@ -170,7 +170,7 @@ public final class ComponentsEnvironment
 	public ComponentManager getManager(ComponentKey componentKey)
 	{
 		String namespace = componentKey.getNamespace();
-		ComponentsBundle componentsBundle = getComponentsBundle(namespace);
+		ComponentsBundle componentsBundle = getBundle(namespace);
 		
 		String name = componentKey.getName();
 		return componentsBundle.getComponentManager(name);
