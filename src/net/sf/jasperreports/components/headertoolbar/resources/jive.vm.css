@@ -197,17 +197,17 @@ button.action.pressed {
 
 button.action.primary {
     /* from(3fb8fa), to(2881bb) */
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.png) repeat-x;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.png) repeat-x !important;
     color: #fff;
 }
 
 button.action.primary.over {
     /* from(#faac1f), to(#f9771d) */
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.over.png) repeat-x;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.over.png) repeat-x !important;
 }
 
 button.action.primary.pressed {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x;
+    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x !important;
 }
 
 div.dialogFooter button.disabled {
@@ -220,10 +220,13 @@ div.dialogFooter button.disabled {
     right:8px;
     top:3px;
     z-index:2;
+    width:auto;
 }
 
 .tab {
     display:inline-block;
+    *display:inline;
+    zoom:1;
     position:relative;
     height:19px;
     border-style: solid;
@@ -240,17 +243,17 @@ div.dialogFooter button.disabled {
     border-color:#c5c5c5;
     border-bottom:transparent;
     background-color: #efefef;
-    *float:left; /* for IE 7 */
-    *margin-right:4px;  /* for IE 7 */
-    *top:3px; /* for IE 7*/
+    *margin-right:4px;
+    *top:3px;
     margin: 0 2px;
 }
 
 .tab.multisheet span,
 .tab.dialog span	{
     height:100%;
+    min-width:100px;
+    width:auto;
     line-height:19px;
-    margin:0 auto;
     display:block;
     text-align:center;
     padding: 0 4px;

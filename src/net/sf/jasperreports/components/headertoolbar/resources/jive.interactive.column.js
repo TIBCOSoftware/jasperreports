@@ -135,7 +135,7 @@ jive.interactive.column = jive.interactive.column || {
     onSelect: function(){
         var it = this,
         	allOption = [],
-        	pmenu = jive.ui.foobar.menus.column.format.jo.find('ul[label="showColumns"]').eq(0),
+        	pmenu = jive.ui.foobar.menus.column.showColumns.jo,
         	tableUuid = jive.selected.jo.closest('.jrtableframe').data('uuid'),
         	allColumns = it.allColumns[tableUuid];
 
@@ -167,10 +167,10 @@ jive.interactive.column = jive.interactive.column || {
         });
         
         if(allOption.length > 0){
-        	pmenu.parent().show();
+            jive.ui.foobar.menus.column.format.jo.find('li').eq(2).show();
             pmenu.children().eq(0).data('args',{hide:false,column:allOption});
         } else {
-            pmenu.parent().hide();
+            jive.ui.foobar.menus.column.format.jo.find('li').eq(2).hide();
         }
         
         // disable sort/filter if not sortable/filterable
