@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  */
 public class FileBufferedZip extends AbstractZip
 {
-
 	/**
 	 * 
 	 */
@@ -50,6 +49,31 @@ public class FileBufferedZip extends AbstractZip
 	public ExportZipEntry createEntry(String name)
 	{
 		return new FileBufferedZipEntry(name);
+	}
+	
+	/**
+	 *
+	 */
+	public ExportZipEntry createEntry(String name, int memoryThreshold)
+	{
+		return new FileBufferedZipEntry(name, memoryThreshold);
+	}
+
+	/**
+	 *
+	 */
+	public void addEntry(String name, String resource, int memoryThreshold)
+	{
+		try
+		{
+			addEntry(
+					new FileBufferedZipEntry(name, JRLoader.loadBytesFromResource(resource), memoryThreshold)
+					);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 	
 	/**
