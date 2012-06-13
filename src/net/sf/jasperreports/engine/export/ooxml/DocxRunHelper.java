@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
+import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
@@ -54,6 +56,26 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	private Map<String,String> fontMap;
 	private String exporterKey;
+	
+	@SuppressWarnings("serial")
+	public static final Map<Color,String> HIGHLIGHT_COLORS = new HashMap<Color,String>(){{
+		put(Color.BLACK, "black");
+		put(Color.BLUE, "blue");
+		put(Color.CYAN, "cyan");
+		put(new Color(0, 0, 80), "darkBlue");
+		put(new Color(0, 80, 80), "darkCyan");
+		put(Color.DARK_GRAY, "darkGray");
+		put(new Color(0, 80, 0), "darkGreen");
+		put(new Color(80, 0, 80), "darkMagenta");
+		put(new Color(80, 0, 0), "darkRed");
+		put(new Color(80, 80, 0), "darkYellow");
+		put(Color.GREEN, "green");
+		put(Color.LIGHT_GRAY, "lightGray");
+		put(Color.MAGENTA, "magenta");
+		put(Color.RED, "red");
+		put(Color.WHITE, "white");
+		put(Color.YELLOW, "yellow");
+		}};
 
 
 	/**
@@ -161,11 +183,15 @@ public class DocxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.BACKGROUND);
 		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
 		
-//		if (value != null && !value.equals(oldValue))
-//		{
-//			//FIXME: the highlight does not accept the color hexadecimal expression, but only few color names
-////			writer.write("        <w:highlight w:val=\"" + JRColorUtil.getColorHexa((Color)value) + "\" />\n");
-//		}
+		if (value != null && !value.equals(oldValue) && HIGHLIGHT_COLORS.containsKey(value))
+		{
+			try {
+				//the highlight does not accept the color hexadecimal expression, but only few color names
+				writer.write("        <w:highlight w:val=\"" + HIGHLIGHT_COLORS.get(value) + "\" />\n");
+			} catch (IOException e) {
+				throw new JRRuntimeException(e);
+			}
+		}
 
 		value = attrs.get(TextAttribute.SIZE);
 		oldValue = parentAttrs.get(TextAttribute.SIZE);
@@ -174,7 +200,7 @@ public class DocxRunHelper extends BaseHelper
 		{
 			float fontSize = ((Float)value).floatValue();
 			fontSize = fontSize == 0 ? 0.5f : fontSize;// only the special EMPTY_CELL_STYLE would have font size zero
-			write("        <w:sz w:val=\"" + (2 * (fontSize)) + "\" />\n");
+			write("        <w:sz w:val=\"" + (int)(2 * fontSize) + "\" />\n");
 		}
 		
 		value = attrs.get(TextAttribute.WEIGHT);
