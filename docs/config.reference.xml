@@ -1604,11 +1604,12 @@ the property value at a later time will have no effect.
   <configProperty name="net.sf.jasperreports.file.buffer.os.memory.threshold">
     <description>
 Property specifying the maximum in-memory buffer length that triggers the creation of a temporary file on disk to store further content sent to a 
-<api href="net/sf/jasperreports/engine/util/FileBufferedOutputStream.html">FileBufferedOutputStream</api> instance.
+<api href="net/sf/jasperreports/engine/util/FileBufferedOutputStream.html">FileBufferedOutputStream</api> instance. While the Global level setting 
+is available for all document exporters, the Report level setting is processed for the XLSX output format only. 
     </description>
     <api>net/sf/jasperreports/engine/util/FileBufferedOutputStream.html#PROPERTY_MEMORY_THRESHOLD</api>
     <default>262144</default>
-    <scope>Global</scope>
+    <scope>Global | Report</scope>
     <since>1.3.4</since>
     <contextUnaware/>
   </configProperty>
