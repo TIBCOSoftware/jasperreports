@@ -50,7 +50,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 
 	private static final Log log = LogFactory.getLog(JavaScriptCompiledEvaluator.class);
 
-	protected static final String EXPRESSION_ID_VAR = "_eid";
+	protected static final String EXPRESSION_ID_VAR = "_jreid";
 	
 	private static final ReferenceMap scriptClassLoaders = new ReferenceMap(ReferenceMap.HARD, ReferenceMap.SOFT);
 	
