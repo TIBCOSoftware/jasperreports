@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.JasperReport;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  * @see JasperReport#getCompileData()
+ * @see JavaScriptCompiler
  */
 public class JavaScriptCompileData implements Serializable
 {
@@ -108,6 +109,13 @@ public class JavaScriptCompileData implements Serializable
 			expressions.add(idx, null);
 		}
 		expressions.set(expressionId, expression);
+	}
+	
+	public void addExpression(int expressionId, 
+			String defaultExpression, String estimatedExpression, String oldExpression)
+	{
+		Expression expression = new Expression(defaultExpression, estimatedExpression, oldExpression);
+		addExpression(expressionId, expression);
 	}
 	
 	public Expression getExpression(int id)

@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRRuntimeException;
 
 
 /**
@@ -91,6 +92,36 @@ public final class JRExpressionUtil
 		return value;
 	}
 
+	public static void visitChunks(JRExpression expression, ExpressionChunkVisitor visitor)
+	{
+		JRExpressionChunk[] chunks = expression.getChunks();
+		if (chunks != null)
+		{
+			for (JRExpressionChunk chunk : chunks)
+			{
+				switch (chunk.getType())
+				{
+				case JRExpressionChunk.TYPE_TEXT:
+					visitor.visitTextChunk(chunk);
+					break;
+				case JRExpressionChunk.TYPE_PARAMETER:
+					visitor.visitParameterChunk(chunk);
+					break;
+				case JRExpressionChunk.TYPE_FIELD:
+					visitor.visitFieldChunk(chunk);
+					break;
+				case JRExpressionChunk.TYPE_VARIABLE:
+					visitor.visitVariableChunk(chunk);
+					break;
+				case JRExpressionChunk.TYPE_RESOURCE:
+					visitor.visitResourceChunk(chunk);
+					break;
+				default:
+					throw new JRRuntimeException("Unknown expression chunk type " + chunk.getType());
+				}
+			}
+		}
+	}
 
 	private JRExpressionUtil()
 	{
