@@ -97,7 +97,7 @@ public class JavaScriptEvaluator extends JREvaluator
 		
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		
-		evaluatorScope = new JavaScriptEvaluatorScope(context);
+		evaluatorScope = new JavaScriptEvaluatorScope(context, this);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	

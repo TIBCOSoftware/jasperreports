@@ -105,7 +105,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 		context = ContextFactory.getGlobal().enterContext();//TODO exit context
 		context.getWrapFactory().setJavaPrimitiveWrap(false);
 		
-		evaluatorScope = new JavaScriptEvaluatorScope(context);
+		evaluatorScope = new JavaScriptEvaluatorScope(context, this);
 		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	

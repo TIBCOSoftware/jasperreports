@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
@@ -42,6 +43,8 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JavaScriptEvaluatorScope
 {
+	
+	protected static final String EVALUATOR_VAR = "_jreval";
 	
 	/**
 	 * Base JavaScript value class.
@@ -136,10 +139,11 @@ public class JavaScriptEvaluatorScope
 	private Context context;
 	private ScriptableObject scope;
 
-	public JavaScriptEvaluatorScope(Context context)
+	public JavaScriptEvaluatorScope(Context context, JREvaluator evaluator)
 	{
 		this.context = context;
 		this.scope = context.initStandardObjects();
+		this.scope.put(EVALUATOR_VAR, this.scope, evaluator);
 	}
 	
 	public void init(Map<String, JRFillParameter> parametersMap, 
