@@ -1165,7 +1165,7 @@ public class SimpleChartTheme implements ChartTheme
 		if (jrPiePlot.getLegendLabelFormat() != null)
 		{
 			piePlot.setLegendLabelGenerator(
-				new StandardPieSectionLabelGenerator(((JRPie3DPlot)getPlot()).getLegendLabelFormat())
+				new StandardPieSectionLabelGenerator(((JRPiePlot)getPlot()).getLegendLabelFormat())
 				);
 		}
 		
