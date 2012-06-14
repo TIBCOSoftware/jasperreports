@@ -548,12 +548,6 @@ public class JRDocxExporter extends JRAbstractExporter
 
 			for(int col = 0; col < grid[0].length; col++)
 			{
-//				if(startPage)
-//				{
-//					insertBookmark(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1), docHelper);
-//					startPage = false;
-//				}
-				
 				JRExporterGridCell gridCell = grid[row][col];
 				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
@@ -569,6 +563,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					tableHelper.exportOccupiedCells(elementGridCell, startPage, bookmarkIndex, pageAnchor);
 					if(startPage)
 					{
+						// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
 						bookmarkIndex++;
 					}
 					col += elementGridCell.getColSpan() - 1;
@@ -622,6 +617,7 @@ public class JRDocxExporter extends JRAbstractExporter
 					tableHelper.exportEmptyCell(gridCell, 1, startPage, bookmarkIndex, pageAnchor);
 					if(startPage)
 					{
+						// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
 						bookmarkIndex++;
 					}
 				}
@@ -684,6 +680,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
 		if(startPage)
 		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
 			bookmarkIndex++;
 		}
 		tableHelper.getCellHelper().exportFooter();
@@ -707,6 +704,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
 		if(startPage)
 		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
 			bookmarkIndex++;
 		}
 		tableHelper.getCellHelper().exportFooter();
@@ -730,6 +728,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
 		if(startPage)
 		{
+			// increment the bookmarkIndex for the first cell in the sheet, due to page anchor creation
 			bookmarkIndex++;
 		}
 		tableHelper.getCellHelper().exportFooter();
