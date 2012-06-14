@@ -135,13 +135,19 @@ jQuery.extend(jive, {
         jive.started = true;
         jive.interactive[jive.selected.ie.type].onSelect();
     },
-    hide: function(items){
+    hide: function(items, keepDialogOpen){
         if(!items){
-            jive.active = false;
+        	if (keepDialogOpen) {
+        		jive.active = jive.ui.dialog.isVisible;
+        	} else {
+        		jive.active = false;
+        		jive.ui.dialog.isVisible && jive.ui.dialog.hide();
+        	}
             jive.ui.marker.jo && jive.ui.marker.jo.appendTo('#jive_components').hide();
             jive.ui.overlay.jo && jive.ui.overlay.jo.appendTo('#jive_components').hide();
             jive.ui.foobar.jo && jive.ui.foobar.jo.appendTo('#jive_components').hide();
             jQuery('.pmenu').hide();
+            jive.ui.colorpicker.jo && jive.ui.colorpicker.jo.hide();
         } else {
             jQuery.each(items,function(i,v){
                 jive.ui[v].jo && jive.ui[v].jo.hide();
@@ -449,7 +455,7 @@ jive.ui.dialog = {
         jive.selected.form.jo.show();
         this.jo.show().position({of:jQuery('div.jrPage').parent(), at:'center top', my:'center top', offset: '0 128'});
         this.isVisible = true;
-        jive.hide();
+        jive.hide(null, true);
     },
     hide:function(){
         var it = this;
