@@ -128,6 +128,11 @@ public class DocxTableHelper extends BaseHelper
 	
 	public void exportEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan)
 	{
+		exportEmptyCell(gridCell, emptyCellColSpan, false, 0l, null);
+	}
+	
+	public void exportEmptyCell(JRExporterGridCell gridCell, int emptyCellColSpan, boolean startPage, long bookmarkIndex, String pageAnchor)
+	{
 		write("    <w:tc>\n");
 		write("     <w:tcPr>\n");
 		if (emptyCellColSpan > 1)
@@ -142,12 +147,17 @@ public class DocxTableHelper extends BaseHelper
 		
 		write("     </w:tcPr>\n");
 		
-		paragraphHelper.exportEmptyParagraph();
+		paragraphHelper.exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
 
 		write("    </w:tc>\n");
 	}
 
 	public void exportOccupiedCells(JRExporterGridCell gridCell)
+	{
+		exportOccupiedCells(gridCell, false, 0l, null);
+	}
+	
+	public void exportOccupiedCells(JRExporterGridCell gridCell, boolean startPage, long bookmarkIndex, String pageAnchor)
 	{
 		write("    <w:tc>\n");
 		write("     <w:tcPr>\n");
@@ -161,7 +171,7 @@ public class DocxTableHelper extends BaseHelper
 		
 		write("     </w:tcPr>\n");
 		
-		paragraphHelper.exportEmptyParagraph();
+		paragraphHelper.exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
 
 		cellHelper.exportFooter();
 	}
