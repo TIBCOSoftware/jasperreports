@@ -79,6 +79,7 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.OccupiedGridCell;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
+import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -118,7 +119,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	protected static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
+	public static final String JR_PAGE_ANCHOR_PREFIX = "JR_PAGE_ANCHOR_";
 
 	/**
 	 *
@@ -153,6 +154,10 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected boolean deepGrid;
 
 	protected boolean flexibleRowHeight;
+	
+	protected long bookmarkIndex;
+	
+	protected String pageAnchor;
 	
 	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
 	
@@ -367,7 +372,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			setJasperPrint(jasperPrintList.get(reportIndex));
-
+			bookmarkIndex = 0;
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -460,6 +465,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected void exportPage(JRPrintPage page) throws JRException
 	{
 		startPage = true;
+		pageAnchor = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1);
 		JRGridLayout layout =
 			new JRGridLayout(
 				nature,
@@ -485,6 +491,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException
 	{
+		
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
 
@@ -541,6 +548,12 @@ public class JRDocxExporter extends JRAbstractExporter
 
 			for(int col = 0; col < grid[0].length; col++)
 			{
+//				if(startPage)
+//				{
+//					insertBookmark(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1), docHelper);
+//					startPage = false;
+//				}
+				
 				JRExporterGridCell gridCell = grid[row][col];
 				if (gridCell.getType() == JRExporterGridCell.TYPE_OCCUPIED_CELL)
 				{
@@ -553,7 +566,11 @@ public class JRDocxExporter extends JRAbstractExporter
 
 					OccupiedGridCell occupiedGridCell = (OccupiedGridCell)gridCell;
 					ElementGridCell elementGridCell = (ElementGridCell)occupiedGridCell.getOccupier();
-					tableHelper.exportOccupiedCells(elementGridCell);
+					tableHelper.exportOccupiedCells(elementGridCell, startPage, bookmarkIndex, pageAnchor);
+					if(startPage)
+					{
+						bookmarkIndex++;
+					}
 					col += elementGridCell.getColSpan() - 1;
 				}
 				else if(gridCell.getWrapper() != null)
@@ -602,8 +619,13 @@ public class JRDocxExporter extends JRAbstractExporter
 				{
 					emptyCellColSpan++;
 					//emptyCellWidth += gridCell.getWidth();
-					tableHelper.exportEmptyCell(gridCell, 1);
+					tableHelper.exportEmptyCell(gridCell, 1, startPage, bookmarkIndex, pageAnchor);
+					if(startPage)
+					{
+						bookmarkIndex++;
+					}
 				}
+				startPage = false;
 			}
 
 //			if (emptyCellColSpan > 0)
@@ -659,7 +681,11 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(line, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if(startPage)
+		{
+			bookmarkIndex++;
+		}
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -678,7 +704,11 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(rectangle, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if(startPage)
+		{
+			bookmarkIndex++;
+		}
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -697,7 +727,11 @@ public class JRDocxExporter extends JRAbstractExporter
 		gridCell.setBox(box);//CAUTION: only some exporters set the cell box
 		
 		tableHelper.getCellHelper().exportHeader(ellipse, gridCell);
-		tableHelper.getParagraphHelper().exportEmptyParagraph();
+		tableHelper.getParagraphHelper().exportEmptyParagraph(startPage, bookmarkIndex, pageAnchor);
+		if(startPage)
+		{
+			bookmarkIndex++;
+		}
 		tableHelper.getCellHelper().exportFooter();
 	}
 
@@ -729,14 +763,14 @@ public class JRDocxExporter extends JRAbstractExporter
 		docHelper.write("     <w:p>\n");
 
 		tableHelper.getParagraphHelper().exportProps(text);
-		
-//		insertPageAnchor();
-//		if (text.getAnchorName() != null)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(text.getAnchorName());
-//			tempBodyWriter.write("\"/>");
-//		}
+		if(startPage)
+		{
+			insertBookmark(pageAnchor, docHelper);
+		}
+		if (text.getAnchorName() != null)
+		{
+			insertBookmark(text.getAnchorName(), docHelper);
+		}
 
 		boolean startedHyperlink = startHyperlink(text, true);
 
@@ -971,13 +1005,14 @@ public class JRDocxExporter extends JRAbstractExporter
 				}
 			}
 
-//			insertPageAnchor();
-//			if (image.getAnchorName() != null)
-//			{
-//				tempBodyWriter.write("<text:bookmark text:name=\"");
-//				tempBodyWriter.write(image.getAnchorName());
-//				tempBodyWriter.write("\"/>");
-//			}
+			if(startPage)
+			{
+				insertBookmark(pageAnchor, docHelper);
+			}
+			if (image.getAnchorName() != null)
+			{
+				insertBookmark(image.getAnchorName(), docHelper);
+			}
 
 
 			boolean startedHyperlink = startHyperlink(image,false);
@@ -1348,7 +1383,10 @@ public class JRDocxExporter extends JRAbstractExporter
 //			docHelper.write(">\n");
 
 			docHelper.write("<w:r><w:fldChar w:fldCharType=\"begin\"/></w:r>\n");
-			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK \"" + JRStringUtil.xmlEncode(href) + "\"");
+			String localType = (HyperlinkTypeEnum.LOCAL_ANCHOR == link.getHyperlinkTypeValue() || 
+					HyperlinkTypeEnum.LOCAL_PAGE == link.getHyperlinkTypeValue()) ? "\\l " : "";
+					
+			docHelper.write("<w:r><w:instrText xml:space=\"preserve\"> HYPERLINK " + localType +"\"" + JRStringUtil.xmlEncode(href) + "\"");
 
 			String target = getHyperlinkTarget(link);//FIXMETARGET
 			if (target != null)
@@ -1409,18 +1447,18 @@ public class JRDocxExporter extends JRAbstractExporter
 				}
 				case LOCAL_ANCHOR :
 				{
-//					if (link.getHyperlinkAnchor() != null)
-//					{
-//						href = "#" + link.getHyperlinkAnchor();
-//					}
+					if (link.getHyperlinkAnchor() != null)
+					{
+						href = link.getHyperlinkAnchor();
+					}
 					break;
 				}
 				case LOCAL_PAGE :
 				{
-//					if (link.getHyperlinkPage() != null)
-//					{
-//						href = "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
-//					}
+					if (link.getHyperlinkPage() != null)
+					{
+						href = JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					}
 					break;
 				}
 				case REMOTE_ANCHOR :
@@ -1467,16 +1505,13 @@ public class JRDocxExporter extends JRAbstractExporter
 		docHelper.write("<w:r><w:fldChar w:fldCharType=\"end\"/></w:r>\n");
 	}
 
-//	protected void insertPageAnchor()
-//	{
-//		if(startPage)
-//		{
-//			tempBodyWriter.write("<text:bookmark text:name=\"");
-//			tempBodyWriter.write(JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + (pageIndex + 1));
-//			tempBodyWriter.write("\"/>\n");
-//			startPage = false;
-//		}
-//	}
+	protected void insertBookmark(String bookmark, BaseHelper helper)
+	{
+		helper.write("<w:bookmarkStart w:id=\"" + bookmarkIndex);
+		helper.write("\" w:name=\"" + bookmark);
+		helper.write("\"/><w:bookmarkEnd w:id=\"" + bookmarkIndex++);
+		helper.write("\"/>");
+	}
 	
 	/**
 	 *

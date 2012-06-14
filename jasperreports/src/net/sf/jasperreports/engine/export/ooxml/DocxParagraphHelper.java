@@ -257,13 +257,29 @@ public class DocxParagraphHelper extends BaseHelper
 	 */
 	public void exportEmptyParagraph()
 	{
+		exportEmptyParagraph(false, 0l, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void exportEmptyParagraph(boolean startPage, long bookmarkIndex, String pageAnchor)
+	{
 		write("     <w:p><w:pPr><w:pStyle w:val=\"EMPTY_CELL_STYLE\"/>\n");
 		if (pageBreak)
 		{
 			write("        <w:pageBreakBefore/>\n");
 			pageBreak = false;
 		}
-		write("     </w:pPr></w:p>\n");
+		write("     </w:pPr>");
+		if(startPage)
+		{
+			write("<w:bookmarkStart w:id=\"" + bookmarkIndex);
+			write("\" w:name=\"" + pageAnchor);
+			write("\"/><w:bookmarkEnd w:id=\"" + bookmarkIndex);
+			write("\"/>");
+		}
+		write("</w:p>\n");
 	}
 
 	/**
