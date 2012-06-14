@@ -71,7 +71,7 @@ public class JavaScriptCompiledEvaluator extends JREvaluator
 		
 		if (created && log.isDebugEnabled())
 		{
-			log.debug("created script class loader for " + unitName);
+			log.debug("created script class loader " + loader + " for " + unitName);
 		}
 		return loader;
 	}

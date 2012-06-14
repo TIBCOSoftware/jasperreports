@@ -100,4 +100,22 @@ public class JavaScriptClassLoader extends DefiningClassLoader
 		
 		return (Class<? extends Script>) scriptClass;
 	}
+	
+	public String toString()
+	{
+		return getClass().getSimpleName() + '@' + hashCode();
+	}
+
+	@Override
+	protected void finalize() throws Throwable
+	{
+		super.finalize();
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("finalized " + this);
+		}
+	}
+	
+	
 }
