@@ -256,7 +256,6 @@ public class ReportServlet extends AbstractServlet
 			ReportExecutionHyperlinkProducerFactory.getInstance(getJasperReportsContext(), request)
 			);
 		
-		//TODO lucianc do not export if the page has not modified
 		exporter.exportReport();
 
 	}
