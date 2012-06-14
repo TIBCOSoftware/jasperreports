@@ -24,202 +24,48 @@
 package net.sf.jasperreports.compilers;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRExpressionChunk;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JREvaluator;
 import net.sf.jasperreports.engine.fill.JRFillField;
 import net.sf.jasperreports.engine.fill.JRFillParameter;
 import net.sf.jasperreports.engine.fill.JRFillVariable;
 import net.sf.jasperreports.engine.util.JRClassLoader;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptableObject;
 
 /**
- * JavaScript expression evaluator.
+ * JavaScript expression evaluator that compiles expressions at fill time.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JavaScriptCompiler
  */
 public class JavaScriptEvaluator extends JREvaluator
 {
 	
 	/**
-	 * Base JavaScript value class.
+	 * Property that determines the optimization level used when compiling expressions.
+	 * 
+	 * See <a href="http://www-archive.mozilla.org/rhino/apidocs/org/mozilla/javascript/Context.html#setOptimizationLevel%28int%29"/>
 	 */
-	public abstract static class JSValue
-	{
-		private final ScriptableObject scope;
-
-		protected JSValue(ScriptableObject scope)
-		{
-			this.scope = scope;
-		}
-		
-		protected final Object toJSValue(Object value)
-		{
-			return Context.javaToJS(value, scope);
-		}
-	}
+	public static final String PROPERTY_OPTIMIZATION_LEVEL = JRPropertiesUtil.PROPERTY_PREFIX 
+			+ "javascript.evaluator.optimization.level";
 	
-	/**
-	 * Parameter class used in JavaScript expressions.
-	 */
-	public static class JSParameter extends JSValue
-	{
-		private final JRFillParameter parameter;
-		
-		public JSParameter(JRFillParameter parameter, ScriptableObject scope)
-		{
-			super(scope);
-			this.parameter = parameter;
-		}
-		
-		public Object getValue()
-		{
-			return toJSValue(parameter.getValue());
-		}
-	}
+	private static final Log log = LogFactory.getLog(JavaScriptEvaluator.class);
 	
-	/**
-	 * Field class used in JavaScript expressions.
-	 */
-	public static class JSField extends JSValue
-	{
-		private final JRFillField field;
-		
-		public JSField(JRFillField field, ScriptableObject scope)
-		{
-			super(scope);
-			this.field = field;
-		}
-		
-		public Object getValue()
-		{
-			return toJSValue(field.getValue());
-		}
-		
-		public Object getOldValue()
-		{
-			return toJSValue(field.getOldValue());
-		}
-	}
-	
-	/**
-	 * Variable class used in JavaScript expressions.
-	 */
-	public static class JSVariable extends JSValue
-	{
-		private final JRFillVariable variable;
-		
-		public JSVariable(JRFillVariable variable, ScriptableObject scope)
-		{
-			super(scope);
-			this.variable = variable;
-		}
-		
-		public Object getValue()
-		{
-			return toJSValue(variable.getValue());
-		}
-		
-		public Object getOldValue()
-		{
-			return toJSValue(variable.getOldValue());
-		}
-		
-		public Object getEstimatedValue()
-		{
-			return toJSValue(variable.getEstimatedValue());
-		}
-	}
-	
-	protected static JavaScriptCompileData.Expression createJSExpression(JRExpression expression)
-	{
-		StringBuffer defaultExpr = new StringBuffer();
-		StringBuffer oldExpr = new StringBuffer();
-		StringBuffer estimatedExpr = new StringBuffer();
-		
-		JRExpressionChunk[] chunks = expression.getChunks();
-		if (chunks == null)
-		{
-			defaultExpr.append("null");
-			oldExpr.append("null");
-			estimatedExpr.append("null");
-		}
-		else
-		{
-			for (int i = 0; i < chunks.length; i++)
-			{
-				JRExpressionChunk chunk = chunks[i];
-				switch (chunk.getType())
-				{
-				case JRExpressionChunk.TYPE_TEXT:
-					defaultExpr.append(chunk.getText());
-					oldExpr.append(chunk.getText());
-					estimatedExpr.append(chunk.getText());
-					break;
-				case JRExpressionChunk.TYPE_PARAMETER:
-					String paramName = getParameterVar(chunk.getText());
-					defaultExpr.append(paramName);
-					defaultExpr.append(".getValue()");
-					oldExpr.append(paramName);
-					oldExpr.append(".getValue()");
-					estimatedExpr.append(paramName);
-					estimatedExpr.append(".getValue()");
-					break;
-				case JRExpressionChunk.TYPE_VARIABLE:
-					String varName = getVariableVar(chunk.getText());
-					defaultExpr.append(varName);
-					defaultExpr.append(".getValue()");
-					oldExpr.append(varName);
-					oldExpr.append(".getOldValue()");
-					estimatedExpr.append(varName);
-					estimatedExpr.append(".getEstimatedValue()");
-					break;
-				case JRExpressionChunk.TYPE_FIELD:
-					String fieldName = getFieldVar(chunk.getText());
-					defaultExpr.append(fieldName);
-					defaultExpr.append(".getValue()");
-					oldExpr.append(fieldName);
-					oldExpr.append(".getOldValue()");
-					estimatedExpr.append(fieldName);
-					estimatedExpr.append(".getValue()");
-					break;
-				}
-			}
-		}
-		
-		return new JavaScriptCompileData.Expression(defaultExpr.toString(), estimatedExpr.toString(), oldExpr.toString());
-	}
-
-	protected static String getParameterVar(String name)
-	{
-		return "param_" + JRStringUtil.getJavaIdentifier(name);
-	}
-
-	protected static String getVariableVar(String name)
-	{
-		return "var_" + JRStringUtil.getJavaIdentifier(name);
-	}
-
-	protected static String getFieldVar(String name)
-	{
-		return "field_" + JRStringUtil.getJavaIdentifier(name);
-	}
-	
+	private final JasperReportsContext jrContext;
 	private final JavaScriptCompileData compileData;
 	private Context context;
-	private ScriptableObject scope;
+	private JavaScriptEvaluatorScope evaluatorScope;
 	private Map<String, Class<?>> loadedTypes = new HashMap<String, Class<?>>();
 	private Map<String, Script> compiledExpressions = new HashMap<String, Script>();
 
@@ -228,8 +74,9 @@ public class JavaScriptEvaluator extends JREvaluator
 	 * 
 	 * @param compileData the report compile data
 	 */
-	public JavaScriptEvaluator(JavaScriptCompileData compileData)
+	public JavaScriptEvaluator(JasperReportsContext jrContext, JavaScriptCompileData compileData)
 	{
+		this.jrContext = jrContext;
 		this.compileData = compileData;
 	}
 
@@ -240,38 +87,18 @@ public class JavaScriptEvaluator extends JREvaluator
 			) throws JRException
 	{
 		context = ContextFactory.getGlobal().enterContext();//TODO exit context
-		context.getWrapFactory().setJavaPrimitiveWrap(false);
-		scope = context.initStandardObjects();
 		
-		for (Iterator<Map.Entry<String, JRFillParameter>> it = parametersMap.entrySet().iterator(); it.hasNext();)
+		int optimizationLevel = JRPropertiesUtil.getInstance(jrContext).getIntegerProperty(PROPERTY_OPTIMIZATION_LEVEL);
+		if (log.isDebugEnabled())
 		{
-			Map.Entry<String, JRFillParameter> entry = it.next();
-			String name = entry.getKey();
-			JRFillParameter param = entry.getValue();
-			JSParameter jsParam = new JSParameter(param, scope);
-			scope.put(getParameterVar(name), scope, jsParam);
+			log.debug("optimization level " + optimizationLevel);
 		}
-
-		for (Iterator<Map.Entry<String, JRFillVariable>> it = variablesMap.entrySet().iterator(); it.hasNext();)
-		{
-			Map.Entry<String, JRFillVariable> entry = it.next();
-			String name = entry.getKey();
-			JRFillVariable var = entry.getValue();
-			JSVariable jsVar = new JSVariable(var, scope);
-			scope.put(getVariableVar(name), scope, jsVar);
-		}
-
-		if (fieldsMap != null)
-		{
-			for (Iterator<Map.Entry<String, JRFillField>> it = fieldsMap.entrySet().iterator(); it.hasNext();)
-			{
-				Map.Entry<String, JRFillField> entry = it.next();
-				String name = entry.getKey();
-				JRFillField field = entry.getValue();
-				JSField jsField = new JSField(field, scope);
-				scope.put(getFieldVar(name), scope, jsField);
-			}
-		}
+		context.setOptimizationLevel(optimizationLevel);
+		
+		context.getWrapFactory().setJavaPrimitiveWrap(false);
+		
+		evaluatorScope = new JavaScriptEvaluatorScope(context);
+		evaluatorScope.init(parametersMap, fieldsMap, variablesMap);
 	}
 	
 	protected Object evaluate(int id) throws Throwable //NOSONAR
@@ -308,27 +135,7 @@ public class JavaScriptEvaluator extends JREvaluator
 	protected Object evaluateExpression(String expression)
 	{
 		Script compiledExpression = getCompiledExpression(expression);
-		Object value = compiledExpression.exec(context, scope);
-		
-		Object javaValue;
-		// not converting Number objects because the generic conversion call below
-		// always converts to Double
-		if (value == null || value instanceof Number)
-		{
-			javaValue = value;
-		}
-		else
-		{
-			try
-			{
-				javaValue = Context.jsToJava(value, Object.class);
-			}
-			catch (EvaluatorException e)
-			{
-				throw new JRRuntimeException(e);
-			}
-		}
-		return javaValue;
+		return evaluatorScope.evaluateExpression(compiledExpression);
 	}
 	
 	protected Script getCompiledExpression(String expression)
@@ -336,6 +143,11 @@ public class JavaScriptEvaluator extends JREvaluator
 		Script compiledExpression = compiledExpressions.get(expression);
 		if (compiledExpression == null)
 		{
+			if (log.isTraceEnabled())
+			{
+				log.trace("compiling expression " + expression);
+			}
+			
 			compiledExpression = context.compileString(expression, "expression", 0, null);
 			compiledExpressions.put(expression, compiledExpression);
 		}
