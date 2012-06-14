@@ -24,18 +24,15 @@
 package net.sf.jasperreports.compilers;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.Iterator;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRAbstractCompiler;
-import net.sf.jasperreports.engine.design.JRCompilationSourceCode;
 import net.sf.jasperreports.engine.design.JRCompilationUnit;
-import net.sf.jasperreports.engine.design.JRSourceCompileTask;
-import net.sf.jasperreports.engine.fill.JREvaluator;
+import net.sf.jasperreports.engine.util.CompositeExpressionChunkVisitor;
+import net.sf.jasperreports.engine.util.JRExpressionUtil;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
@@ -44,10 +41,14 @@ import org.mozilla.javascript.EvaluatorException;
 /**
  * Compiler for reports that use JavaScript as expression language.
  * 
+ * This implementation produces evaluators that compile expressions at fill time.
+ * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
+ * @see JavaScriptEvaluator
+ * @see JavaScriptClassCompiler
  */
-public class JavaScriptCompiler extends JRAbstractCompiler
+public class JavaScriptCompiler extends JavaScriptCompilerBase
 {
 
 	/**
@@ -55,7 +56,7 @@ public class JavaScriptCompiler extends JRAbstractCompiler
 	 */
 	public JavaScriptCompiler(JasperReportsContext jasperReportsContext)
 	{
-		super(jasperReportsContext, false);
+		super(jasperReportsContext);
 	}
 
 	/**
@@ -77,8 +78,7 @@ public class JavaScriptCompiler extends JRAbstractCompiler
 		Context context = ContextFactory.getGlobal().enterContext();
 		try
 		{
-			StringBuffer errors = new StringBuffer();
-			int errorCount = 0;
+			Errors errors = new Errors();
 			for (int i = 0; i < units.length; i++)
 			{
 				JRCompilationUnit unit = units[i];
@@ -87,80 +87,43 @@ public class JavaScriptCompiler extends JRAbstractCompiler
 				{
 					JRExpression expr = it.next();
 					int id = unit.getCompileTask().getExpressionId(expr).intValue();
-					JavaScriptCompileData.Expression jsExpr = 
-						JavaScriptEvaluator.createJSExpression(expr);
+					
+					ScriptExpressionVisitor defaultVisitor = defaultExpressionCreator();
+					JRExpressionUtil.visitChunks(expr, defaultVisitor);
+					String defaultExpression = defaultVisitor.getScript();
 					
 					//compile the default expression to catch syntax errors
 					try
 					{
-						context.compileString(jsExpr.getDefaultExpression(), 
-								"expression", 0, null);
+						context.compileString(defaultExpression, "expression", 0, null);
 					}
 					catch (EvaluatorException e)
 					{
-						++errorCount;
-						appendError(errors, errorCount, e);
+						errors.addError(e);
 					}
-					
-					compileData.addExpression(id, jsExpr);
+
+					if (!errors.hasErrors())
+					{
+						ScriptExpressionVisitor oldVisitor = oldExpressionCreator();
+						ScriptExpressionVisitor estimatedVisitor = estimatedExpressionCreator();
+						JRExpressionUtil.visitChunks(expr, new CompositeExpressionChunkVisitor(oldVisitor, estimatedVisitor));
+
+						compileData.addExpression(id, defaultExpression, estimatedVisitor.getScript(), oldVisitor.getScript());
+					}
 				}
-				unit.setCompileData(compileData);
+				
+				if (!errors.hasErrors())
+				{
+					unit.setCompileData(compileData);
+				}
 			}
 			
-			String errorsMessage = null;
-			if (errorCount > 0)
-			{
-				errorsMessage = errorCount + " error(s):\n" + errors;
-			}
-			return errorsMessage;
+			return errors.errorMessage();
 		}
 		finally
 		{
 			Context.exit();
 		}
-	}
-
-	protected void appendError(StringBuffer errors, int errorCount,
-			EvaluatorException e)
-	{
-		errors.append(errorCount);
-		errors.append(". ");
-		String message = e.getMessage();
-		errors.append(message);
-		errors.append(" at column ");
-		errors.append(e.columnNumber());
-		String lineSource = e.lineSource();
-		if (lineSource != null)
-		{
-			errors.append(" in line\n");
-			errors.append(lineSource);
-		}
-		errors.append("\n");
-	}
-
-	protected JRCompilationSourceCode generateSourceCode(
-			JRSourceCompileTask sourceTask) throws JRException
-	{
-		//no source code
-		return null;
-	}
-
-	protected String getSourceFileName(String unitName)
-	{
-		return unitName + ".js";
-	}
-
-	protected JREvaluator loadEvaluator(Serializable compileData,
-			String unitName) throws JRException
-	{
-		if (!(compileData instanceof JavaScriptCompileData))
-		{
-			throw new JRException("Invalid compile data, should be an instance of " 
-					+ JavaScriptCompileData.class.getName());
-		}
-		
-		JavaScriptCompileData jsCompileData = (JavaScriptCompileData) compileData;
-		return new JavaScriptEvaluator(jsCompileData);
 	}
 
 }
