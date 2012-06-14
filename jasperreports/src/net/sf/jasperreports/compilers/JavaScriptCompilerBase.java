@@ -185,7 +185,11 @@ public abstract class JavaScriptCompilerBase extends JRAbstractCompiler
 		@Override
 		public void visitResourceChunk(JRExpressionChunk chunk)
 		{
-			// TODO lucianc implement this
+			String key = chunk.getText();
+			script.append(JavaScriptEvaluatorScope.EVALUATOR_VAR);
+			script.append(".str('");
+			script.append(JRStringUtil.escapeJavaScript(key));
+			script.append("')");
 		}
 	}
 
