@@ -290,7 +290,7 @@ public class FillTable extends BaseFillComponent
 		}
 		
 		JRReportCompileData tableReportCompileData = createTableReportCompileData(
-				parentReport, reportDataset);//reportSubdataset); //FIXMEJIVE check this
+				parentReport, reportSubdataset);
 		
 		JasperReport compiledTableReport = new JasperReport(tableReport, 
 				parentReport.getCompilerClass(), 
