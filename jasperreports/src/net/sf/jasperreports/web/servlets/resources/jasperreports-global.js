@@ -96,7 +96,8 @@ jQuery.noConflict();
 	 * Dynamically loads a js script 
 	 */
 	jg.loadScript = function (scriptName, scriptUrl, callbackFn, arrCallbackArgs) {
-		var gotCallback = callbackFn || false;
+		var gotCallback = callbackFn || false,
+			callbackArgs = arrCallbackArgs || [];
 		
 		// prevent the script tag from being created more than once 
 		if (!jg.scripts[scriptName]) {
@@ -106,18 +107,17 @@ jQuery.noConflict();
 			
 			if (scriptElement.readyState){ // for IE
 				scriptElement.onreadystatechange = function (){
-					arrCallbackArgs = arrCallbackArgs || [];
 					if (scriptElement.readyState === 'loaded' || scriptElement.readyState === 'complete'){
 						scriptElement.onreadystatechange = null;
 						if (gotCallback) {
-							jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
+							jg.extractCallbackFunction(callbackFn).apply(null, callbackArgs);
 						}
 					}
 				};
 			} else { // for Others - this is not supposed to work on Safari 2
 				scriptElement.onload = function (){
 					if (gotCallback) {
-						jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
+						jg.extractCallbackFunction(callbackFn).apply(null, callbackArgs);
 					}
 				};
 			}
@@ -127,7 +127,7 @@ jQuery.noConflict();
 			jg.scripts[scriptName] = scriptUrl;
 		} else if (gotCallback) {
 			try {
-				jg.extractCallbackFunction(callbackFn).apply(null, arrCallbackArgs);
+				jg.extractCallbackFunction(callbackFn).apply(null, callbackArgs);
 			} catch(ex) {} // swallow this
 		}
 	};
