@@ -126,8 +126,8 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
-
-	public static final String IMAGE_LINK_PREFIX = "imgLink_";
+	public static final String IMAGE_LINK_PREFIX = "link_" + IMAGE_NAME_PREFIX;
+	
 	/**
 	 *
 	 */
@@ -138,7 +138,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
 	protected List<JRPrintElementIndex> imagesToProcess;
-	protected Map<String, String> imgLocalPageLinksMap;
 
 	protected int reportIndex;
 	protected int pageIndex;
@@ -161,6 +160,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected String pageAnchor;
 	
 	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
+	
+	protected DocxRelsHelper relsHelper;
+	
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
@@ -190,7 +192,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	public JRDocxExporter()
 	{
 		this(DefaultJasperReportsContext.getInstance());
-		imgLocalPageLinksMap = new HashMap<String, String>();
 	}
 
 
@@ -200,7 +201,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	public JRDocxExporter(JasperReportsContext jasperReportsContext)
 	{
 		super(jasperReportsContext);
-		imgLocalPageLinksMap = new HashMap<String, String>();
 	}
 
 
@@ -211,8 +211,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
 		
-		imgLocalPageLinksMap.clear();
-
 		/*   */
 		setOffset();
 
@@ -353,7 +351,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		docHelper = new DocxDocumentHelper(docWriter);
 		docHelper.exportHeader();
 		
-		DocxRelsHelper relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
+		relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
 		DocxStyleHelper styleHelper = 
@@ -439,33 +437,7 @@ public class JRDocxExporter extends JRAbstractExporter
 						)
 					);
 				
-				String imageId = IMAGE_LINK_PREFIX + imageIndex;
-				String url = image.getHyperlinkTypeValue() == HyperlinkTypeEnum.LOCAL_PAGE ? imgLocalPageLinksMap.get(imageId) : getHyperlinkURL(image);
-				String targetMode = "";
-				if(url != null)
-				{
-					switch (image.getHyperlinkTypeValue())
-					{
-						case LOCAL_ANCHOR:
-						case LOCAL_PAGE:
-						{
-							url = "#"+url;
-							break;
-						}
-						case REMOTE_PAGE:
-						case REMOTE_ANCHOR:
-						case REFERENCE:
-						{
-							targetMode = " TargetMode=\"External\"";
-							break;
-						}
-						default:
-						{
-							break;
-						}
-					}
-				}
-				relsHelper.exportImage(imageName, extension, imageId, url, targetMode);
+				relsHelper.exportImage(imageName, extension);
 			}
 		}
 
@@ -1059,7 +1031,10 @@ public class JRDocxExporter extends JRAbstractExporter
 			int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 			String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
 			docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\">\n");
-			docHelper.write("<a:hlinkClick xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" r:id=\"" + rId + "\"/>\n");
+			if(getHyperlinkURL(image) != null)
+			{
+				docHelper.write("<a:hlinkClick xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" r:id=\"" + rId + "\"/>\n");
+			}
 			docHelper.write("</wp:docPr>\n");
 			docHelper.write("<a:graphic>\n");
 			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
@@ -1096,13 +1071,36 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("</w:drawing>\n");
 			docHelper.write("</w:r>"); 
 
-			if(image.getHyperlinkTypeValue() == HyperlinkTypeEnum.LOCAL_PAGE && (!imgLocalPageLinksMap.containsKey(rId)))
+			String url =  getHyperlinkURL(image);
+
+			if(url != null)
 			{
-				// caching local page links in order to preserve the correct report index when used in the relsHelper
-				String url =  getHyperlinkURL(image);
-				if(url != null)
-				{
-					imgLocalPageLinksMap.put(rId, url);
+				String targetMode = "";
+				try {
+					switch(image.getHyperlinkTypeValue())
+					{
+						case LOCAL_PAGE:
+						case LOCAL_ANCHOR:
+						{
+							relsHelper.exportImageLink(rId, "#"+url, targetMode);
+							break;
+						}
+						
+						case REMOTE_PAGE:
+						case REMOTE_ANCHOR:
+						case REFERENCE:
+						{
+							targetMode = " TargetMode=\"External\"";
+							relsHelper.exportImageLink(rId, url, targetMode);
+							break;
+						}
+						default:
+						{
+							break;
+						}
+					}
+				} catch (IOException e) {
+					throw new JRRuntimeException(e);
 				}
 			}
 			
