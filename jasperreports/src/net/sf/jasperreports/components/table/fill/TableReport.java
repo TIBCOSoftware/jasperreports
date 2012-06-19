@@ -242,11 +242,16 @@ public class TableReport implements JRReport
 			this.level = level;
 		}
 
+		protected boolean isEmpty(Cell cell)
+		{
+			return cell == null;
+		}
+		
 		public Void visitColumn(Column column)
 		{
 			Cell cell = columnCell(column);
 			
-			if (cell != null)
+			if (!isEmpty(cell))
 			{
 				int rowSpan = cell.getRowSpan() == null ? 1 : cell.getRowSpan();
 				int rowLevel = level + rowSpan - 1;
@@ -406,6 +411,20 @@ public class TableReport implements JRReport
 				int xOffset, int yOffset, int sublevel)
 		{
 			return new DetailBandCreator(bandInfo, subcolumn, xOffset, yOffset, sublevel);
+		}
+
+		@Override
+		protected boolean isEmpty(Cell cell)
+		{
+			if (super.isEmpty(cell))
+			{
+				return true;
+			}
+			
+			// also threat zero height cells as empty.
+			// FIXME only doing this for the detail cells to minimize impact, it should apply to all cells
+			List<JRChild> children = cell.getChildren();
+			return cell.getHeight() == 0 && (children == null || children.isEmpty());
 		}
 	}
 	
