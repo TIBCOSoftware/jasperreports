@@ -147,7 +147,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected LinkedList<Color> backcolorStack = new LinkedList<Color>();
 	protected Color backcolor;
 
-	private DocxRunHelper runHelper;
+	protected DocxRunHelper runHelper;
 
 	protected ExporterNature nature;
 
