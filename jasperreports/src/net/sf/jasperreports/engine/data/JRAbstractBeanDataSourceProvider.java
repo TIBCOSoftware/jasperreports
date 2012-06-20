@@ -95,7 +95,7 @@ public abstract class JRAbstractBeanDataSourceProvider implements JRDataSourcePr
 				if (!(descriptor instanceof IndexedPropertyDescriptor) && descriptor.getReadMethod() != null) 
 				{
 					JRDesignField field = new JRDesignField();
-					field.setValueClassName(normalizeClass(descriptor.getPropertyType()).getName());
+					field.setValueClassName(normalizeClass(descriptor.getPropertyType()).getCanonicalName());
 					field.setName(descriptor.getName());
 					
 					fields.add(field);
