@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRDataSourceProvider;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -106,7 +107,8 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 		JRDataSourceProvider dsProvider = getProvider();
 		if (dsProvider != null) 
 		{
-			parameters.put(JRParameter.REPORT_DATA_SOURCE, dsProvider.create(null));
+			JasperReport jr = (JasperReport) parameters.get(JRParameter.JASPER_REPORT);
+			parameters.put(JRParameter.REPORT_DATA_SOURCE, dsProvider.create(jr));
 		}
 	}
 
