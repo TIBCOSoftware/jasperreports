@@ -165,12 +165,8 @@ public class DocxRunHelper extends BaseHelper
 		
 		if (value != null && !value.equals(oldValue) && ColorEnum.getByColor((Color)value) != null)
 		{
-			try {
-				//the highlight does not accept the color hexadecimal expression, but only few color names
-				writer.write("        <w:highlight w:val=\"" + ColorEnum.getByColor((Color)value).getName() + "\" />\n");
-			} catch (IOException e) {
-				throw new JRRuntimeException(e);
-			}
+			//the highlight does not accept the color hexadecimal expression, but only few color names
+			write("        <w:highlight w:val=\"" + ColorEnum.getByColor((Color)value).getName() + "\" />\n");
 		}
 
 		value = attrs.get(TextAttribute.SIZE);
