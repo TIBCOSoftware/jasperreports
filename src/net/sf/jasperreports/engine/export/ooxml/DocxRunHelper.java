@@ -39,6 +39,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.type.ColorEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRFontUtil;
@@ -57,27 +58,6 @@ public class DocxRunHelper extends BaseHelper
 	private Map<String,String> fontMap;
 	private String exporterKey;
 	
-	@SuppressWarnings("serial")
-	public static final Map<Color,String> HIGHLIGHT_COLORS = new HashMap<Color,String>(){{
-		put(Color.BLACK, "black");
-		put(Color.BLUE, "blue");
-		put(Color.CYAN, "cyan");
-		put(new Color(0, 0, 80), "darkBlue");
-		put(new Color(0, 80, 80), "darkCyan");
-		put(Color.DARK_GRAY, "darkGray");
-		put(new Color(0, 80, 0), "darkGreen");
-		put(new Color(80, 0, 80), "darkMagenta");
-		put(new Color(80, 0, 0), "darkRed");
-		put(new Color(80, 80, 0), "darkYellow");
-		put(Color.GREEN, "green");
-		put(Color.LIGHT_GRAY, "lightGray");
-		put(Color.MAGENTA, "magenta");
-		put(Color.RED, "red");
-		put(Color.WHITE, "white");
-		put(Color.YELLOW, "yellow");
-		}};
-
-
 	/**
 	 *
 	 */
@@ -183,11 +163,11 @@ public class DocxRunHelper extends BaseHelper
 		value = attrs.get(TextAttribute.BACKGROUND);
 		oldValue = parentAttrs.get(TextAttribute.BACKGROUND);
 		
-		if (value != null && !value.equals(oldValue) && HIGHLIGHT_COLORS.containsKey(value))
+		if (value != null && !value.equals(oldValue) && ColorEnum.getByColor((Color)value) != null)
 		{
 			try {
 				//the highlight does not accept the color hexadecimal expression, but only few color names
-				writer.write("        <w:highlight w:val=\"" + HIGHLIGHT_COLORS.get(value) + "\" />\n");
+				writer.write("        <w:highlight w:val=\"" + ColorEnum.getByColor((Color)value).getName() + "\" />\n");
 			} catch (IOException e) {
 				throw new JRRuntimeException(e);
 			}
