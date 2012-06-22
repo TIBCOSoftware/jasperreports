@@ -41,7 +41,7 @@ import net.sf.jasperreports.engine.util.SimpleFileResolver;
  */
 public abstract class AbstractClasspathAwareDataAdapterService extends AbstractDataAdapterService 
 {
-
+	public static final String CURRENTCLASSLOADER = "CURRENTCLASSLOADER";
 	/**
 	 *
 	 */
