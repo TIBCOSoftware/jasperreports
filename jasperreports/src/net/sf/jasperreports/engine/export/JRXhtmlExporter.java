@@ -2437,7 +2437,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		
 		if (frame.getPropertiesMap() != null && frame.getPropertiesMap().containsProperty(JRHtmlExporter.PROPERTY_HTML_UUID)) {
 			writer.write(" data-uuid=\"");
-			writer.write(frame.getUUID().toString());
+			writer.write(frame.getPropertiesMap().getProperty(JRHtmlExporter.PROPERTY_HTML_UUID));
 			writer.write("\"");
 			writer.write(" class=\"jrtableframe\"");
 		}
