@@ -295,6 +295,7 @@
 				<include name="**/net/sf/jasperreports/view/JRSaveContributor.class"/>
 				<include name="**/net/sf/jasperreports/view/JRHyperlinkListener.class"/>
 				<include name="**/net/sf/jasperreports/view/JRViewer*.class"/>
+				<include name="**/net/sf/jasperreports/view/SaveContributorUtils.class"/>
 				<include name="**/net/sf/jasperreports/view/viewer.properties"/>
 				<include name="**/net/sf/jasperreports/view/images/*.GIF"/>
 				<include name="**/net/sf/jasperreports/view/save/JRPrintSaveContributor.class"/>
