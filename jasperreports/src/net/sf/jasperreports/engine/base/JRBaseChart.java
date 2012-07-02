@@ -705,7 +705,7 @@ public class JRBaseChart extends JRBaseElement implements JRChart
 		clone.hyperlinkPageExpression = JRCloneUtils.nullSafeClone(hyperlinkPageExpression);
 		clone.hyperlinkTooltipExpression = JRCloneUtils.nullSafeClone(hyperlinkTooltipExpression);
 		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
-		clone.plot = JRCloneUtils.nullSafeClone(plot);
+		clone.plot = plot == null ? null : (JRChartPlot) plot.clone(clone);
 
 		return clone;
 	}
