@@ -3144,7 +3144,7 @@ This property is by default not set (<code>null</code>).
     <description>
 Property whose value is an Excel compatible pattern, to be used as replacement for the text field pattern when exporting to XLS formats.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRAbstractXlsExporter.html#PROPERTY_CELL_PATTERN</api>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_CELL_PATTERN</api>
     <default>N/A</default>
     <scope>Text Element</scope>
     <since>4.1.1</since>
