@@ -71,6 +71,14 @@ public class XlsxRunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale)
 	{
+		export(style,attributes, text, locale, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement)
+	{
 		if (text != null)
 		{
 			write("<r>\n");
@@ -78,7 +86,7 @@ public class XlsxRunHelper extends BaseHelper
 			exportProps(getAttributes(style), attributes, locale);
 			
 			write("<t xml:space=\"preserve\">");
-			write(JRStringUtil.xmlEncode(text));
+			write(JRStringUtil.xmlEncode(text, invalidCharReplacement));
 			write("</t></r>\n");
 		}
 	}

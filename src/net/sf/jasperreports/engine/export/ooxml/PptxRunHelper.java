@@ -72,6 +72,14 @@ public class PptxRunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale)
 	{
+		export(style, attributes, text, locale, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, String invalidCharReplacement)
+	{
 		if (text != null)
 		{
 			StringTokenizer tkzer = new StringTokenizer(text, "\n", true);
@@ -88,7 +96,7 @@ public class PptxRunHelper extends BaseHelper
 					exportProps("a:rPr", getAttributes(style), attributes, locale);
 					//write("<a:t xml:space=\"preserve\">");
 					write("<a:t>");
-					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
+					write(JRStringUtil.xmlEncode(token, invalidCharReplacement));//FIXMEODT try something nicer for replace
 					write("</a:t>\n");
 					write("      </a:r>\n");
 				}

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.awt.Color;
 import java.awt.font.TextAttribute;
-import java.io.IOException;
 import java.io.Writer;
 import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
@@ -34,7 +33,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRPrintText;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
@@ -74,6 +72,14 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText)
 	{
+		export(style, attributes, text, locale, hiddenText, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement)
+	{
 		if (text != null)
 		{
 			write("      <w:r>\n");
@@ -91,7 +97,7 @@ public class DocxRunHelper extends BaseHelper
 				else
 				{
 					write("<w:t xml:space=\"preserve\">");
-					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
+					write(JRStringUtil.xmlEncode(token, invalidCharReplacement));//FIXMEODT try something nicer for replace
 					write("</w:t>\n");
 				}
 			}
