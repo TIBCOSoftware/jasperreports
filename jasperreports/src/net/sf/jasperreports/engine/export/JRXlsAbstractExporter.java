@@ -544,6 +544,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	
 	protected boolean ignoreAnchors;
 	
+	protected String invalidCharReplacement;
 
 	/**
 	 *
@@ -840,8 +841,9 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		documentPageScale = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
 		documentFirstPageNumber = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
 		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
+		invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 	}
-
+	
 	protected abstract void setBackground();
 
 	protected void exportReportToStream(OutputStream os) throws JRException

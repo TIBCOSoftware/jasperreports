@@ -64,6 +64,7 @@ import net.sf.jasperreports.engine.RenderableUtil;
 import net.sf.jasperreports.engine.export.GenericElementHandlerEnviroment;
 import net.sf.jasperreports.engine.export.JRExportProgressMonitor;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.export.zip.ExportZipEntry;
 import net.sf.jasperreports.engine.export.zip.FileBufferedZipEntry;
@@ -128,6 +129,7 @@ public class JRPptxExporter extends JRAbstractExporter
 	protected List<Integer> frameIndexStack;
 	protected int elementIndex;
 	protected boolean startPage;
+	protected String invalidCharReplacement;
 
 	/**
 	 * used for counting the total number of sheets
@@ -337,6 +339,7 @@ public class JRPptxExporter extends JRAbstractExporter
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			setJasperPrint(jasperPrintList.get(reportIndex));
+			setExporterHints();
 
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
@@ -1006,7 +1009,8 @@ public class JRPptxExporter extends JRAbstractExporter
 				style, 
 				iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
-				locale
+				locale,
+				invalidCharReplacement
 				);
 
 			iterator.setIndex(runLimit);
@@ -1817,5 +1821,10 @@ public class JRPptxExporter extends JRAbstractExporter
 		return PPTX_EXPORTER_KEY;
 	}
 
+	protected void setExporterHints()
+	{
+		invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+	}
+	
 }
 
