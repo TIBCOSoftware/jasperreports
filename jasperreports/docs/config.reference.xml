@@ -776,7 +776,7 @@ By default, this property is set to replace invalid chars with question marks. D
 <br/>
 &lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value=""/&gt;
 </li>
-<li>to replace invalid XML chars with a customized char or text sequence, set the text sequence as property value. For instance:
+<li>to replace invalid XML chars with a custom char or text sequence, set the text sequence as property value. For instance:
 <br/>
 &lt;property name="net.sf.jasperreports.export.xml.replace.invalid.chars" value="^^"/&gt;
 </li>
@@ -791,7 +791,6 @@ Below is the property with no value set:
     <default><code>?</code></default>
     <scope>Global | Report</scope>
     <since>4.7.1</since>
-    <contextUnaware/>
   </configProperty>
   
   
