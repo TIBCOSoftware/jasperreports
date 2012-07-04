@@ -768,7 +768,7 @@ as report parser factory.
   
   <configProperty name="net.sf.jasperreports.export.xml.replace.invalid.chars">
     <description>
-Stores the text used to replace invalid XML characters. 
+Stores the text sequence used to replace invalid XML characters. 
 <br/>
 By default, this property is set to replace invalid chars with question marks. Depending on particular needs, the following settings are available:
 <ul>
