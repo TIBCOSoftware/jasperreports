@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.xmlbeans.impl.common.XMLChar;
-
 
 
 
@@ -184,7 +182,7 @@ public final class JRStringUtil
 		for (int i = 0; i < length; i++)
 		{
 			char c = text.charAt(i);
-			if(XMLChar.isInvalid(c))
+			if(Character.isISOControl(c) && c!='\t' && c!='\r' && c!='\n')
 			{
 				last = appendText(text, ret, i, last);
 				if(invalidCharReplacement == null)
