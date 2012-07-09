@@ -33,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
@@ -396,6 +397,15 @@ public class JRVirtualizationContext implements Serializable, VirtualizationList
 		if (threadJasperReportsContext != null)
 		{
 			jasperReportsContext = threadJasperReportsContext;
+		}
+		else if (jasperReportsContext == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("no thread JRContext, using default");
+			}
+			
+			jasperReportsContext = DefaultJasperReportsContext.getInstance();
 		}
 	}
 	
