@@ -622,6 +622,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			writer.addAttribute("height", cell.getHeight());
 			writer.addAttribute("rowSpan", cell.getRowSpan());
 			
+			reportWriter.writeProperties(cell);
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
 			

@@ -1128,6 +1128,7 @@ public class TableReport implements JRReport
 		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null) {
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
 		}
+		// not transferring cell properties to the frame/element for now
 		
 		for (Iterator<JRChild> it = cell.getChildren().iterator(); it.hasNext();)
 		{

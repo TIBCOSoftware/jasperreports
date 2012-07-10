@@ -28,6 +28,8 @@ import java.awt.Color;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -51,6 +53,8 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 	private Integer rowSpan;
 	private Integer height;
 	
+	private JRPropertiesMap propertiesMap;
+	
 	public CompiledCell()
 	{
 		super();
@@ -68,6 +72,8 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 		this.box = cell.getLineBox().clone(this);
 		this.rowSpan = cell.getRowSpan();
 		this.height = cell.getHeight();
+		
+		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
 	}
 
 	public Integer getHeight()
@@ -103,6 +109,32 @@ public class CompiledCell extends JRBaseElementGroup implements Cell
 	public Integer getRowSpan()
 	{
 		return rowSpan;
+	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
+	}
+	
+	public Object clone() 
+	{
+		CompiledCell clone = (CompiledCell) super.clone();
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
+		return clone;
 	}
 
 }
