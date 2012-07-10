@@ -261,6 +261,10 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 					|| currentScriptSource.length() + expressionFragment.length() > scriptMaxLength)
 			{
 				addScriptSource();
+				
+				// currentExpressionId has changed
+				expressionFragment = "case " + currentExpressionId + ":\n"
+						+ expression + "\nbreak\n";
 			}
 			
 			currentScriptSource.append(expressionFragment);
