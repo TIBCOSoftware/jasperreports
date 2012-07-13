@@ -41,6 +41,8 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -414,6 +416,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 			printCell.getPropertiesMap().setProperty(
 					JRCellContents.PROPERTY_COLUMN_SPAN, Integer.toString(horizontalSpan));
 		}
+		// not transferring cell properties for now
 	}
 
 	
@@ -709,6 +712,22 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 	public Color getDefaultLineColor() 
 	{
 		return parentCell.getDefaultLineColor();
+	}
+	
+	public boolean hasProperties()
+	{
+		return parentCell.hasProperties();
+	}
+
+	// not doing anything with the properties at fill time
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parentCell.getPropertiesMap();
+	}
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 }

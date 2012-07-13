@@ -2786,6 +2786,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 			writer.addAttribute(JRCellContentsFactory.ATTRIBUTE_mode, contents.getModeValue());
 			writeStyleReferenceAttr(contents);
 
+			writeProperties(contents);
 			writeBox(contents.getLineBox());
 
 			writeChildElements(contents);

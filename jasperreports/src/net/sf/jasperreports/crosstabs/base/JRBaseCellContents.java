@@ -31,6 +31,8 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseElementGroup;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
@@ -57,6 +59,8 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	protected JRLineBox lineBox;
 	protected int width;
 	protected int height;
+	
+	private JRPropertiesMap propertiesMap;
 
 	public JRBaseCellContents(JRCellContents cell, JRBaseObjectFactory factory)
 	{
@@ -70,6 +74,7 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 		lineBox = cell.getLineBox().clone(this);
 		width = cell.getWidth();
 		height = cell.getHeight();
+		this.propertiesMap = JRPropertiesMap.getPropertiesClone(cell);
 	}
 
 	public Color getBackcolor()
@@ -160,6 +165,26 @@ public class JRBaseCellContents extends JRBaseElementGroup implements JRCellCont
 	{
 		JRBaseCellContents clone = (JRBaseCellContents) super.clone();
 		clone.lineBox = lineBox == null ? null : (JRLineBox) lineBox.clone(clone);
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
+	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 }
