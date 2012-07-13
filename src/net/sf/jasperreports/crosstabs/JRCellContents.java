@@ -27,6 +27,7 @@ import java.awt.Color;
 
 import net.sf.jasperreports.engine.JRBoxContainer;
 import net.sf.jasperreports.engine.JRElementGroup;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -46,7 +47,7 @@ import net.sf.jasperreports.engine.type.ModeEnum;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxContainer
+public interface JRCellContents extends JRElementGroup, JRStyleContainer, JRBoxContainer, JRPropertiesHolder
 {
 
 	/**

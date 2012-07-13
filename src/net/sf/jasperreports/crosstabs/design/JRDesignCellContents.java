@@ -31,6 +31,8 @@ import net.sf.jasperreports.crosstabs.JRCellContents;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDefaultStyleProvider;
 import net.sf.jasperreports.engine.JRLineBox;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.base.JRBaseLineBox;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
@@ -66,6 +68,8 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	private int height = JRCellContents.NOT_CALCULATED;
 
 	private JRCrosstabOrigin origin;
+	
+	private JRPropertiesMap propertiesMap;
 	
 	/**
 	 * Creates an empty cell contents.
@@ -228,6 +232,7 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	{
 		JRDesignCellContents clone = (JRDesignCellContents) super.clone();
 		clone.lineBox = lineBox == null ? null : (JRLineBox) lineBox.clone(clone);
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 
@@ -265,5 +270,24 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 				);
 			box = null;
 		}
+	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 }
