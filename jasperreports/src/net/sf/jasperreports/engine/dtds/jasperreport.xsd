@@ -1706,6 +1706,7 @@
   </annotation>  
   <complexType>
    <sequence>
+    <element ref="jr:property" minOccurs="0" maxOccurs="unbounded"/>
     <element ref="jr:printWhenExpression" minOccurs="0" maxOccurs="1"/>
     <choice minOccurs="0" maxOccurs="unbounded">
      <element ref="jr:break"/>

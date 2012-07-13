@@ -729,6 +729,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttributePositive(JRXmlConstants.ATTRIBUTE_height, band.getHeight());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_splitType, band.getSplitTypeValue());
 
+		writeProperties(band);
 		writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, band.getPrintWhenExpression());
 
 		/*   */

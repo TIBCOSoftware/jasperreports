@@ -30,6 +30,8 @@ import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.base.JRBaseBand;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
@@ -63,6 +65,8 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 	protected JRExpression printWhenExpression;
 	
 	private JROrigin origin;
+	
+	private JRPropertiesMap propertiesMap;
 
 	/**
 	 *
@@ -154,6 +158,7 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 		{
 			clone.origin = (JROrigin)origin.clone();
 		}
+		clone.propertiesMap = JRPropertiesMap.getPropertiesClone(this);
 		return clone;
 	}
 
@@ -186,6 +191,25 @@ public class JRDesignBand extends JRDesignElementGroup implements JRBand
 			
 			splitType = null;
 		}
+	}
+
+	public boolean hasProperties()
+	{
+		return propertiesMap != null && propertiesMap.hasProperties();
+	}
+
+	public JRPropertiesMap getPropertiesMap()
+	{
+		if (propertiesMap == null)
+		{
+			propertiesMap = new JRPropertiesMap();
+		}
+		return propertiesMap;
+	}
+
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 }

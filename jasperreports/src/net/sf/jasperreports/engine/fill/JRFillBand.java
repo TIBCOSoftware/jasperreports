@@ -35,6 +35,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRGroup;
 import net.sf.jasperreports.engine.JROrigin;
+import net.sf.jasperreports.engine.JRPropertiesHolder;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.type.SplitTypeEnum;
 
 import org.apache.commons.logging.Log;
@@ -504,6 +506,22 @@ public class JRFillBand extends JRFillElementContainer implements JRBand, JROrig
 		}
 		
 		return isPageBreakInhibited;
+	}
+	
+	public boolean hasProperties()
+	{
+		return parent.hasProperties();
+	}
+
+	// not doing anything with the properties at fill time
+	public JRPropertiesMap getPropertiesMap()
+	{
+		return parent.getPropertiesMap();
+	}
+	
+	public JRPropertiesHolder getParentProperties()
+	{
+		return null;
 	}
 
 }
