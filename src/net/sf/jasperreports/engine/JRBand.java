@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.type.SplitTypeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRBand extends JRElementGroup
+public interface JRBand extends JRElementGroup, JRPropertiesHolder
 {
 	
 
