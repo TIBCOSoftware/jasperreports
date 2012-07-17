@@ -52,6 +52,12 @@ public final class JRXmlUtils
 	private static final Log log = LogFactory.getLog(JRXmlUtils.class);
 	
 	
+	public static Document parse(InputSource is) throws JRException
+	{
+		return parse(is, false);
+	}
+
+
 	/**
 	 * Parses an input source into a document.
 	 * 
@@ -59,11 +65,11 @@ public final class JRXmlUtils
 	 * @return the parsed document
 	 * @throws JRException
 	 */
-	public static Document parse(InputSource is) throws JRException
+	public static Document parse(InputSource is, boolean isNamespaceAware) throws JRException
 	{
 		try
 		{
-			return createDocumentBuilder().parse(is);
+			return createDocumentBuilder(isNamespaceAware).parse(is);
 		}
 		catch (SAXException e)
 		{
@@ -76,6 +82,12 @@ public final class JRXmlUtils
 	}
 	
 	
+	public static Document parse(String uri) throws JRException
+	{
+		return parse(uri, false);
+	}
+
+
 	/**
 	 * Parses a document specified by an URI.
 	 * 
@@ -83,12 +95,18 @@ public final class JRXmlUtils
 	 * @return the parsed document
 	 * @throws JRException
 	 */
-	public static Document parse(String uri) throws JRException
+	public static Document parse(String uri,  boolean isNamespaceAware) throws JRException
 	{
-		return parse(new InputSource(uri));
+		return parse(new InputSource(uri), isNamespaceAware);
 	}
 
 	
+	public static Document parse(File file) throws JRException
+	{
+		return parse(file, false);
+	}
+
+
 	/**
 	 * Parses a file into a document.
 	 * 
@@ -96,11 +114,11 @@ public final class JRXmlUtils
 	 * @return the document
 	 * @throws JRException
 	 */
-	public static Document parse(File file) throws JRException
+	public static Document parse(File file,  boolean isNamespaceAware) throws JRException
 	{
 		try
 		{
-			return createDocumentBuilder().parse(file);
+			return createDocumentBuilder(isNamespaceAware).parse(file);
 		}
 		catch (SAXException e)
 		{
@@ -112,7 +130,13 @@ public final class JRXmlUtils
 		}
 	}
 
-	
+
+	public static Document parse(InputStream is) throws JRException
+	{
+		return parse(is, false);
+	}
+
+
 	/**
 	 * Parses an input stream into a XML document.
 	 * 
@@ -120,12 +144,18 @@ public final class JRXmlUtils
 	 * @return the document
 	 * @throws JRException
 	 */
-	public static Document parse(InputStream is) throws JRException
+	public static Document parse(InputStream is, boolean isNamespaceAware) throws JRException
 	{
-		return parse(new InputSource(is));
+		return parse(new InputSource(is), isNamespaceAware);
 	}
 
-	
+
+	public static Document parse(URL url) throws JRException
+	{
+		return parse(url, false);
+	}
+
+
 	/**
 	 * Parses an URL stream as a XML document.
 	 * 
@@ -133,13 +163,13 @@ public final class JRXmlUtils
 	 * @return the document
 	 * @throws JRException
 	 */
-	public static Document parse(URL url) throws JRException
+	public static Document parse(URL url, boolean isNamespaceAware) throws JRException
 	{
 		InputStream is = null;
 		try
 		{
 			is = url.openStream();
-			return createDocumentBuilder().parse(is);
+			return createDocumentBuilder(isNamespaceAware).parse(is);
 		}
 		catch (SAXException e)
 		{
@@ -165,19 +195,25 @@ public final class JRXmlUtils
 		}
 	}
 
-	
+
+	public static DocumentBuilder createDocumentBuilder() throws JRException
+	{
+		return createDocumentBuilder(false);
+	}
+
+
 	/**
 	 * Creates a XML document builder.
 	 * 
 	 * @return a XML document builder
 	 * @throws JRException
 	 */
-	public static DocumentBuilder createDocumentBuilder() throws JRException
+	public static DocumentBuilder createDocumentBuilder(boolean isNamespaceAware) throws JRException
 	{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setValidating(false);
 		dbf.setIgnoringComments(true);
-
+		dbf.setNamespaceAware(isNamespaceAware);
 		try
 		{
 			return dbf.newDocumentBuilder();
@@ -189,6 +225,12 @@ public final class JRXmlUtils
 	}
 
 	
+	public static Document createDocument(Node sourceNode) throws JRException
+	{
+		return createDocument(sourceNode, false);
+	}
+
+
 	/**
 	 * Creates a document having a node as root.
 	 * 
@@ -196,9 +238,9 @@ public final class JRXmlUtils
 	 * @return a document having the specified node as root
 	 * @throws JRException
 	 */
-	public static Document createDocument(Node sourceNode) throws JRException
+	public static Document createDocument(Node sourceNode, boolean isNamespaceAware) throws JRException
 	{
-		Document doc = JRXmlUtils.createDocumentBuilder().newDocument();
+		Document doc = JRXmlUtils.createDocumentBuilder(isNamespaceAware).newDocument();
 		Node source;
 		if (sourceNode.getNodeType() == Node.DOCUMENT_NODE) {
 			source = ((Document) sourceNode).getDocumentElement();
