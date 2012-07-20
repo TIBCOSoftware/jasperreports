@@ -27,7 +27,8 @@ package net.sf.jasperreports.engine.analytics.data;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface Measure {
+public interface Measure
+{
 
 	String getName();
 	

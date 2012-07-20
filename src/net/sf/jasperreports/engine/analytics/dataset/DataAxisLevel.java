@@ -21,27 +21,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface DataAxisLevel extends JRCloneable
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	String getName();
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	JRExpression getLabelExpression();
+	
+	JRCrosstabBucket getBucket();// TODO lucianc use a different interface
 	
 }

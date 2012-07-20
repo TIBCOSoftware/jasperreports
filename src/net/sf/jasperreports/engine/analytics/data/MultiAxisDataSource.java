@@ -29,18 +29,15 @@ import java.util.List;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface BidimensionalDataSource {
-
-	List<DimensionLevel> getRowLevels();
-
-	List<DimensionLevel> getColumnLevels();
+public interface MultiAxisDataSource
+{
 	
-	List<Measure> getMeasures();
+	List<? extends AxisLevel> getAxisLevels(Axis axis);
 	
-	DimensionLevelNode getRowRootNode();
+	List<? extends Measure> getMeasures();
 	
-	DimensionLevelNode getColumnRootNode();
+	AxisLevelNode getAxisRootNode(Axis axis);
 	
-	MeasureValues getMeasureValues(DimensionLevelNode rowNode, DimensionLevelNode columnNode);
+	List<? extends MeasureValue> getMeasureValues(AxisLevelNode... nodes);
 	
 }

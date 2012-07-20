@@ -57,7 +57,8 @@ import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabParameter;
 import net.sf.jasperreports.crosstabs.fill.JRFillCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
-import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService;
+import net.sf.jasperreports.crosstabs.fill.calculation.BucketingServiceContext;
+import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabBucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.CrosstabCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.HeaderCell;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
@@ -81,6 +82,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JRVisitor;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -93,7 +95,7 @@ import org.jfree.data.general.Dataset;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROriginProvider
+public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROriginProvider, BucketingServiceContext
 {
 	final protected JRCrosstab parentCrosstab;
 
@@ -109,7 +111,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 
 	protected JRFillCrosstabMeasure[] measures;
 
-	protected BucketingService bucketingService;
+	protected CrosstabBucketingService bucketingService;
 
 	protected JRFillVariable[] variables;
 
@@ -372,7 +374,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		}
 	}
 
-	private BucketingService createService(byte evaluation) throws JRException
+	private CrosstabBucketingService createService(byte evaluation) throws JRException
 	{
 		boolean hasOrderByExpression = false;
 		List<BucketDefinition> rowBuckets = new ArrayList<BucketDefinition>(rowGroups.length);
@@ -408,7 +410,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			colBuckets.get(0).setComputeTotal();
 		}
 		
-		return new BucketingService(this, rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
+		return new CrosstabBucketingService(this, rowBuckets, colBuckets, measureList, dataset.isDataPreSorted(), retrieveTotal);
 	}
 
 	private BucketDefinition createServiceBucket(JRCrosstabGroup group, byte evaluation) throws JRException
@@ -435,7 +437,8 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 				measure.getIncrementerFactory()); 
 	}
 
-	public Object evaluateExpression(JRExpression expression, MeasureValue[] measureValues)
+	@Override
+	public Object evaluateMeasuresExpression(JRExpression expression, MeasureValue[] measureValues)
 			throws JRException
 	{
 		for (int i = 0; i < measures.length; i++)
@@ -474,6 +477,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 			initEvaluator(evaluation);
 
 			bucketingService.processData();
+			bucketingService.createCrosstab();
 
 			hasData = bucketingService.hasData();
 			
@@ -2232,6 +2236,18 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 	{
 		//FIXME get box from style?
 		return parentCrosstab.getLineBox();
+	}
+
+	@Override
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return filler.getJasperReportsContext();
+	}
+
+	@Override
+	public JRFillExpressionEvaluator getExpressionEvaluator()
+	{
+		return expressionEvaluator;
 	}
 
 }

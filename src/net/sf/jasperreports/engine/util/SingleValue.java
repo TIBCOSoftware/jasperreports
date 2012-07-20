@@ -21,27 +21,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.util;
 
-import java.io.Serializable;
-
-
-
-/**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
- */
-public interface JREnum extends NamedEnum, Serializable
+public final class SingleValue implements Comparable<SingleValue>
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	public static final SingleValue VALUE = new SingleValue();
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	private SingleValue()
+	{
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		return obj instanceof SingleValue;
+	}
+	
+	@Override
+	public int compareTo(SingleValue o)
+	{
+		return 0;
+	}
+
+	public String toString()
+	{
+		return "SingleValue";
+	}
 	
 }

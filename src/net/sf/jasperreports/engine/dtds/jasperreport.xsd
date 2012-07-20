@@ -6432,64 +6432,10 @@ property.
    	 <documentation>The measure values class.</documentation>
   	</annotation>
    </attribute>
-   <attribute name="calculation" use="optional" default="Nothing">
+   <attribute name="calculation" type="jr:aggregationCalculationType" use="optional" default="Nothing">
   	<annotation>
    	 <documentation>The calculation type to be performed on the measure values.</documentation>
   	</annotation>
-    <simpleType>
-     <restriction base="string">
-      <enumeration value="Nothing">
-		<annotation>
-		 <documentation>No calculations are performed.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Count">
-		<annotation>
-		 <documentation>The measure stores the number of the not null values.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="DistinctCount">
-		<annotation>
-		 <documentation>The measure stores the number of distinct not null values.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Sum">
-		<annotation>
-		 <documentation>The measure stores the sum of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Average">
-		<annotation>
-		 <documentation>The measure stores the average of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Lowest">
-		<annotation>
-		 <documentation>The measure stores the lowest value.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Highest">
-		<annotation>
-		 <documentation>The measure stores the highest value.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="StandardDeviation">
-		<annotation>
-		 <documentation>The measure stores the standard deviation of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="Variance">
-		<annotation>
-		 <documentation>The measure stores the variance of the not null values.  Numeric measures only.</documentation>
-		</annotation>
-	  </enumeration>
-      <enumeration value="First">
-		<annotation>
-		 <documentation>The measure stores the first value encountered and ignores subsequent values.</documentation>
-		</annotation>
-	  </enumeration>
-     </restriction>
-    </simpleType>
    </attribute>
    <attribute name="incrementerFactoryClass" type="string" use="optional">
   	<annotation>
@@ -6529,6 +6475,69 @@ property.
    </attribute>
   </complexType>
  </element>
+
+ <simpleType name="aggregationCalculationType">
+  <restriction base="string">
+   <enumeration value="Nothing">
+    <annotation>
+     <documentation>No calculations are performed.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Count">
+    <annotation>
+     <documentation>The measure stores the number of the not null
+      values.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="DistinctCount">
+    <annotation>
+     <documentation>The measure stores the number of distinct not null
+      values.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Sum">
+    <annotation>
+     <documentation>The measure stores the sum of the not null values.
+      Numeric measures only.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Average">
+    <annotation>
+     <documentation>The measure stores the average of the not null
+      values. Numeric measures only.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Lowest">
+    <annotation>
+     <documentation>The measure stores the lowest value.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Highest">
+    <annotation>
+     <documentation>The measure stores the highest value.
+     </documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="StandardDeviation">
+    <annotation>
+     <documentation>The measure stores the standard deviation of the not
+      null values. Numeric measures only.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="Variance">
+    <annotation>
+     <documentation>The measure stores the variance of the not null
+      values. Numeric measures only.</documentation>
+    </annotation>
+   </enumeration>
+   <enumeration value="First">
+    <annotation>
+     <documentation>The measure stores the first value encountered and
+      ignores subsequent values.</documentation>
+    </annotation>
+   </enumeration>
+  </restriction>
+ </simpleType>
 
  <element name="measureExpression">
   <annotation>
@@ -6925,6 +6934,74 @@ property.
 	<annotation>
 	 <documentation></documentation>
 	</annotation>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="multiAxisData">
+  <complexType>
+   <sequence>
+    <element ref="jr:multiAxisDataset" minOccurs="1" maxOccurs="1"/>
+    <element ref="jr:dataAxis" minOccurs="1" maxOccurs="unbounded"/>
+    <element ref="jr:multiAxisMeasure" minOccurs="1" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name="multiAxisDataset">
+  <complexType>
+   <sequence>
+    <element ref="jr:dataset" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </element>
+ 
+ <element name="dataAxis">
+  <complexType>
+   <sequence>
+    <element ref="jr:axisLevel" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+   <attribute name="axis" use="required">
+   	<simpleType>
+   	 <restriction base="string">
+   	  <enumeration value="Rows"></enumeration>
+   	  <enumeration value="Columns"></enumeration>
+   	 </restriction>
+   	</simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="axisLevel">
+  <complexType>
+   <sequence>
+    <element name="labelExpression">
+     <complexType mixed="true"/>
+    </element>
+    <element ref="jr:bucket"/>
+   </sequence>
+   <attribute name="name" type="string" use="required">
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name="multiAxisMeasure">
+  <complexType>
+   <sequence>
+    <element name="labelExpression">
+     <complexType mixed="true"/>
+    </element>
+    <element name="valueExpression" minOccurs="0" maxOccurs="1">
+     <complexType mixed="true"/>
+    </element>
+   </sequence>
+   <attribute name="name" type="string" use="required">
+   </attribute>
+   <attribute name="class" type="string" use="optional">
+   </attribute>
+   <attribute name="calculation" type="jr:aggregationCalculationType" use="optional" default="Nothing">
+   </attribute>
+   <attribute name="incrementerFactoryClass" type="string" use="optional">
    </attribute>
   </complexType>
  </element>

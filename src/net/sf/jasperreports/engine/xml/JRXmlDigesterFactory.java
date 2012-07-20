@@ -139,6 +139,12 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.analytics.data.Axis;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisDataset;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataMeasure;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxisLevel;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.component.ComponentsXmlParser;
@@ -152,6 +158,7 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -494,6 +501,8 @@ public final class JRXmlDigesterFactory
 		addComponentRules(digester);
 		
 		addGenericElementRules(digester);
+		
+		addMultiAxisDataRules(digester);
 	}
 
 
@@ -1308,6 +1317,53 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(genericElementParameterExpressionPattern, 
 				"setValueExpression", JRExpression.class.getName());
 		digester.addCallMethod(genericElementParameterExpressionPattern, "setText", 0);
+	}
+
+
+	private static void addMultiAxisDataRules(Digester digester)
+	{
+		String dataPattern = "*/" + JRXmlConstants.ELEMENT_multiAxisData;
+		digester.addObjectCreate(dataPattern, DesignMultiAxisData.class);
+		digester.addSetNext(dataPattern, "setMultiAxisData");// TODO lucianc move to containing element
+		
+		String datasetPattern = dataPattern + "/" + JRXmlConstants.ELEMENT_multiAxisDataset;
+		digester.addObjectCreate(datasetPattern, DesignMultiAxisDataset.class);
+		digester.addSetNext(datasetPattern, "setDataset");
+		
+		String dataAxisPattern = dataPattern + "/" + JRXmlConstants.ELEMENT_dataAxis;
+		digester.addObjectCreate(dataAxisPattern, DesignDataAxis.class);
+		digester.addRule(dataAxisPattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_axis, Axis.values()));
+		digester.addSetNext(dataAxisPattern, "addDataAxis");
+		
+		String axisLevelPattern = dataAxisPattern + "/" + JRXmlConstants.ELEMENT_axisLevel;
+		digester.addObjectCreate(axisLevelPattern, DesignDataAxisLevel.class);
+		digester.addSetProperties(axisLevelPattern);
+		digester.addSetNext(axisLevelPattern, "addLevel");
+		addExpressionRules(digester, axisLevelPattern + "/" + JRXmlConstants.ELEMENT_labelExpression, 
+				"setLabelExpression");
+		
+		String measurePattern = dataPattern + "/" + JRXmlConstants.ELEMENT_multiAxisMeasure;
+		digester.addObjectCreate(measurePattern, DesignDataMeasure.class);
+		digester.addSetNext(measurePattern, "addMeasure");
+		digester.addSetProperties(measurePattern, 
+				new String[]{JRXmlConstants.ATTRIBUTE_class, JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, 
+						JRXmlConstants.ATTRIBUTE_calculation}, 
+				new String[]{"valueClassName", "incrementerFactoryClassName"});
+		digester.addRule(measurePattern, new XmlConstantPropertyRule(
+				JRXmlConstants.ATTRIBUTE_calculation, CalculationEnum.values()));
+		addExpressionRules(digester, measurePattern + "/" + JRXmlConstants.ELEMENT_labelExpression, 
+				"setLabelExpression");
+		addExpressionRules(digester, measurePattern + "/" + JRXmlConstants.ELEMENT_valueExpression, 
+				"setValueExpression");
+	}
+
+	protected static void addExpressionRules(Digester digester, String expressionPattern,
+			String setterMethod)
+	{
+		digester.addFactoryCreate(expressionPattern, JRExpressionFactory.class);
+		digester.addCallMethod(expressionPattern, "setText", 0);
+		digester.addSetNext(expressionPattern, setterMethod,
+				JRExpression.class.getName());
 	}
 	
 	/**

@@ -21,27 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.data;
 
-import java.io.Serializable;
-
-
+import java.util.List;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface AxisLevelNode
 {
-
-	/**
-	 *
-	 */
-	public Byte getValueByte();
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	AxisLevel getLevel();
+	
+	boolean isTotal();
+	
+	Object getValue();
+
+	AxisLevelNode getParent();
+	
+	List<? extends AxisLevelNode> getChildren();
 	
 }

@@ -23,18 +23,91 @@
  */
 package net.sf.jasperreports.engine.analytics.data;
 
-import java.util.List;
-
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DimensionLevelNode {
+public class StandardAxisLevel implements AxisLevel
+{
 	
-	DimensionLevel getLevel();
-	
-	Object getValue();
+	public static final String ROOT_LEVEL_NAME = "$ROOT";
 
-	List<DimensionLevelNode> getChildren();
+	private Axis axis;
+	private Type type = Type.REGULAR;
+	private String name;
+	private String label;
+	private Class<?> valueType;
+	private int depth;
+
+	@Override
+	public Axis getAxis()
+	{
+		return axis;
+	}
+
+	public void setAxis(Axis axis)
+	{
+		this.axis = axis;
+	}
+
+	@Override
+	public Type getType()
+	{
+		return type;
+	}
+
+	public void setType(Type type)
+	{
+		this.type = type;
+	}
+	
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	@Override
+	public String getLabel()
+	{
+		return label;
+	}
+	
+	public void setLabel(String label)
+	{
+		this.label = label;
+	}
+	
+	@Override
+	public Class<?> getValueType()
+	{
+		return valueType;
+	}
+	
+	public void setValueType(Class<?> valueType)
+	{
+		this.valueType = valueType;
+	}
+	
+	@Override
+	public int getDepth()
+	{
+		return depth;
+	}
+	
+	public void setDepth(int depth)
+	{
+		this.depth = depth;
+	}
+
+	public String toString()
+	{
+		return name + " on " + axis;
+	}
 	
 }

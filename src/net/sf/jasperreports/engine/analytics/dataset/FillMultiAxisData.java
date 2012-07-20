@@ -21,27 +21,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public class FillMultiAxisData
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	private final FillMultiAxisDataset fillDataset;
+
+	public FillMultiAxisData(MultiAxisData data, JRFillObjectFactory factory)
+	{
+		factory.put(data, this);
+		
+		this.fillDataset = new FillMultiAxisDataset(data, factory);
+	}
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	public void evaluate(byte evaluationType) throws JRException
+	{
+		fillDataset.evaluateData(evaluationType);
+	}
 	
+	public MultiAxisDataSource getDataSource() throws JRException
+	{
+		return fillDataset.getDataSource();
+	}
 }

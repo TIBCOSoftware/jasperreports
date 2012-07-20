@@ -152,6 +152,10 @@ import net.sf.jasperreports.engine.JRTextElement;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
+import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -3097,5 +3101,45 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		
 		writer.closeElement();//genericElement
+	}
+	
+	public void writeMultiAxisData(MultiAxisData data) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisData, getNamespace());
+		
+		writer.startElement(JRXmlConstants.ELEMENT_multiAxisDataset);
+		writeElementDataset(data.getDataset());
+		writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisDataset
+		
+		for (DataAxis dataAxis : data.getDataAxisList())
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_dataAxis);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_axis, dataAxis.getAxis());
+			
+			for (DataAxisLevel level : dataAxis.getLevels())
+			{
+				writer.startElement(JRXmlConstants.ELEMENT_axisLevel);
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
+				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, level.getLabelExpression());
+				writeBucket(level.getBucket());
+				writer.closeElement();//JRXmlConstants.ELEMENT_axisLevel
+			}
+			
+			writer.closeElement();//JRXmlConstants.ELEMENT_dataAxis
+		}
+		
+		for (DataMeasure measure : data.getMeasures())
+		{
+			writer.startElement(JRXmlConstants.ELEMENT_multiAxisMeasure);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, measure.getName());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_class, measure.getValueClassName());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_calculation, measure.getCalculation());
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_incrementerFactoryClass, measure.getIncrementerFactoryClassName());
+			writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, measure.getLabelExpression());
+			writer.writeExpression(JRXmlConstants.ELEMENT_valueExpression, measure.getValueExpression());
+			writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisMeasure
+		}
+		
+		writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisData
 	}
 }

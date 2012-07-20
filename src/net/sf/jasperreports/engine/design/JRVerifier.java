@@ -107,6 +107,7 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -2602,6 +2603,11 @@ public class JRVerifier
 				addBrokenRule(mandatoryMessage, parent);
 			}
 		}
+	}
+	
+	public void verify(MultiAxisData data)
+	{
+		// TODO lucianc 
 	}
 	
 }

@@ -21,27 +21,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.base.JRBaseElementDataset;
+import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public class BaseMultiAxisDataset extends JRBaseElementDataset implements MultiAxisDataset
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	public BaseMultiAxisDataset(MultiAxisDataset dataset, JRBaseObjectFactory factory)
+	{
+		super(dataset, factory);
+	}
 	
+	@Override
+	public void collectExpressions(JRExpressionCollector collector)
+	{
+		// expressions are collected in JRExpressionCollector directly
+	}
+
 }
