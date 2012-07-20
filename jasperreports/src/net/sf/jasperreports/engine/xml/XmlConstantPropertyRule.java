@@ -68,7 +68,7 @@ public class XmlConstantPropertyRule extends TransformedPropertyRule
 
 	protected Object toPropertyValue(String attributeValue)
 	{
-		Object value = EnumUtil.getByName(values, attributeValue);
+		Object value = EnumUtil.getEnumByName(values, attributeValue);
 		if (value == null)
 		{
 			log.warn("Unrecognized attribute value \"" 

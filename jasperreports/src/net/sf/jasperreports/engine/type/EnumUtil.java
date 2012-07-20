@@ -68,10 +68,10 @@ public final class EnumUtil
 	 */
 	public static JREnum getByName(JREnum[] values, String name)
 	{
-		return EnumUtil.<JREnum>getByName(values, name);
+		return EnumUtil.<JREnum>getEnumByName(values, name);
 	}
 
-	public static <T extends NamedEnum> T getByName(T[] values, String name)
+	public static <T extends NamedEnum> T getEnumByName(T[] values, String name)
 	{
 		if (values != null && name != null)
 		{
