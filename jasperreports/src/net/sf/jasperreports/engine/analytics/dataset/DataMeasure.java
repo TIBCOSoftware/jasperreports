@@ -21,27 +21,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.type.CalculationEnum;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface DataMeasure extends JRCloneable
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	String getName();
 	
-	/**
-	 *
-	 */
-	public byte getValue();
+	JRExpression getLabelExpression();
+	
+	String getValueClassName();
+	
+	Class<?> getValueClass();
+	
+	JRExpression getValueExpression();
+	
+	CalculationEnum getCalculation();
+	
+	String getIncrementerFactoryClassName();
+	
+	Class<?> getIncrementerFactoryClass();
 	
 }

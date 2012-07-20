@@ -128,6 +128,8 @@ import net.sf.jasperreports.engine.JRSubreport;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.FillMultiAxisData;
 import net.sf.jasperreports.engine.base.JRBaseConditionalStyle;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 
@@ -1613,6 +1615,20 @@ public class JRFillObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		setVisitResult(fill);
+	}
+
+	public FillMultiAxisData getBidimensionalData(MultiAxisData data)
+	{
+		FillMultiAxisData fillData = null;
+		if (data != null)
+		{
+			fillData = (FillMultiAxisData) get(data);
+			if (fillData == null)
+			{
+				fillData = new FillMultiAxisData(data, this);
+			}
+		}
+		return fillData;
 	}
 
 }

@@ -27,10 +27,48 @@ package net.sf.jasperreports.engine.analytics.data;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface MeasureValues {
+public class StandardMeasure implements Measure
+{
 
-	boolean hasValue(Measure measure);
+	private String name;
+	private String label;
+	private Class<?> valueType;
+
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	@Override
+	public String getLabel()
+	{
+		return label;
+	}
+
+	public void setLabel(String label)
+	{
+		this.label = label;
+	}
+
+	@Override
+	public Class<?> getValueType()
+	{
+		return valueType;
+	}
+
+	public void setValueType(Class<?> valueType)
+	{
+		this.valueType = valueType;
+	}
 	
-	Object getValue(Measure measure);
-	
+	public String toString()
+	{
+		return name;
+	}
 }

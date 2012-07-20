@@ -21,27 +21,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.engine.JRElementDataset;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface MultiAxisDataset extends JRElementDataset
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
-	
-	/**
-	 *
-	 */
-	public byte getValue();
+	// no specific properties for now
 	
 }

@@ -146,6 +146,16 @@ import net.sf.jasperreports.engine.JRSubreportParameter;
 import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisDataset;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataMeasure;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxisLevel;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
+import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 
 
 /**
@@ -1687,5 +1697,79 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		setVisitResult(base);
+	}
+
+
+	public MultiAxisData getMultiAxisData(MultiAxisData data)
+	{
+		MultiAxisData baseData = null;
+		if (data != null)
+		{
+			baseData = (MultiAxisData) get(data);
+			if (baseData == null)
+			{
+				baseData = new BaseMultiAxisData(data, this);
+			}
+		}
+		return baseData;
+	}
+
+	public MultiAxisDataset getMultiAxisDataset(MultiAxisDataset dataset)
+	{
+		MultiAxisDataset baseDataset = null;
+		if (dataset != null)
+		{
+			baseDataset = (MultiAxisDataset) get(dataset);
+			if (baseDataset == null)
+			{
+				baseDataset = new BaseMultiAxisDataset(dataset, this);
+			}
+		}
+		return baseDataset;
+	}
+
+
+	public DataAxis getDataAxis(DataAxis axis)
+	{
+		DataAxis baseAxis = null;
+		if (axis != null)
+		{
+			baseAxis = (DataAxis) get(axis);
+			if (baseAxis == null)
+			{
+				baseAxis = new BaseDataAxis(axis, this);
+			}
+		}
+		return baseAxis;
+	}
+
+
+	public DataAxisLevel getDataAxisLevel(DataAxisLevel level)
+	{
+		DataAxisLevel baseLevel = null;
+		if (level != null)
+		{
+			baseLevel = (DataAxisLevel) get(level);
+			if (baseLevel == null)
+			{
+				baseLevel = new BaseDataAxisLevel(level, this);
+			}
+		}
+		return baseLevel;
+	}
+
+
+	public DataMeasure getDataMeasure(DataMeasure measure)
+	{
+		DataMeasure baseMeasure = null;
+		if (measure != null)
+		{
+			baseMeasure = (DataMeasure) get(measure);
+			if (baseMeasure == null)
+			{
+				baseMeasure = new BaseDataMeasure(measure, this);
+			}
+		}
+		return baseMeasure;
 	}
 }

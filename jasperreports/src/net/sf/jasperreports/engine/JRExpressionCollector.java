@@ -73,6 +73,11 @@ import net.sf.jasperreports.crosstabs.JRCrosstabMeasure;
 import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
+import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
+import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -1420,5 +1425,43 @@ public class JRExpressionCollector
 			JRGenericElementParameter parameter = parameters[i];
 			addExpression(parameter.getValueExpression());
 		}
+	}
+	
+	public void collect(MultiAxisData data)
+	{
+		if (data == null)
+		{
+			return;
+		}
+		
+		MultiAxisDataset dataset = data.getDataset();
+		collect(dataset);
+		JRExpressionCollector datasetCollector = getCollector(dataset);
+		
+		List<DataAxis> axisList = data.getDataAxisList();
+		for (DataAxis dataAxis : axisList)
+		{
+			for (DataAxisLevel level : dataAxis.getLevels())
+			{
+				collect(level, datasetCollector);
+			}
+		}
+		
+		for (DataMeasure measure : data.getMeasures())
+		{
+			addExpression(measure.getLabelExpression());
+			datasetCollector.addExpression(measure.getValueExpression());
+		}
+	}
+
+	protected void collect(DataAxisLevel level,
+			JRExpressionCollector datasetCollector)
+	{
+		addExpression(level.getLabelExpression());
+		
+		JRCrosstabBucket bucket = level.getBucket();
+		datasetCollector.addExpression(bucket.getExpression());
+		// TODO lucianc crosstabCollector.addExpression(bucket.getOrderByExpression());
+		addExpression(bucket.getComparatorExpression());
 	}
 }

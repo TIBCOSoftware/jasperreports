@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.xml;
 
 import net.sf.jasperreports.engine.type.EnumUtil;
 import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,16 +40,27 @@ public class XmlConstantPropertyRule extends TransformedPropertyRule
 
 	private static final Log log = LogFactory.getLog(XmlConstantPropertyRule.class);
 	
-	private final JREnum[] values;
+	private final NamedEnum[] values;
 
 	public XmlConstantPropertyRule(String attributeName, JREnum[] values)
+	{
+		this(attributeName, (NamedEnum[]) values);
+	}
+
+	public XmlConstantPropertyRule(String attributeName, String propertyName, 
+			JREnum[] values)
+	{
+		this(attributeName, propertyName, (NamedEnum[]) values);
+	}
+
+	public XmlConstantPropertyRule(String attributeName, NamedEnum[] values)
 	{
 		super(attributeName);
 		this.values = values;
 	}
 
 	public XmlConstantPropertyRule(String attributeName, String propertyName, 
-			JREnum[] values)
+			NamedEnum[] values)
 	{
 		super(attributeName, propertyName);
 		this.values = values;

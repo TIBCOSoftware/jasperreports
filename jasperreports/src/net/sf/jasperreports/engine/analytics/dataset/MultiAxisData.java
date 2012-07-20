@@ -21,20 +21,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.analytics.data;
+package net.sf.jasperreports.engine.analytics.dataset;
+
+import java.util.List;
+
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.analytics.data.Axis;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface DimensionLevel {
+public interface MultiAxisData extends JRCloneable
+{
 	
-	String getName();
+	MultiAxisDataset getDataset();
 	
-	String getLabel();
+	List<DataAxis> getDataAxisList();
 	
-	Class<?> getValueType();
+	DataAxis getDataAxis(Axis axis);
+	
+	List<DataMeasure> getMeasures();
 
-	int getDepth();
-	
 }

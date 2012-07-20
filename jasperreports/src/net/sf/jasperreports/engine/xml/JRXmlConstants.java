@@ -757,7 +757,14 @@ public final class JRXmlConstants
 		"genericElementParameterValue";
 
 
-
+	public static final String ELEMENT_multiAxisData = "multiAxisData";
+	public static final String ELEMENT_multiAxisDataset = "multiAxisDataset";
+	public static final String ELEMENT_dataAxis = "dataAxis";
+	public static final String ATTRIBUTE_axis = "axis";
+	public static final String ELEMENT_axisLevel = "axisLevel";
+	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
+	
+	   
 	private JRXmlConstants()
 	{
 	}

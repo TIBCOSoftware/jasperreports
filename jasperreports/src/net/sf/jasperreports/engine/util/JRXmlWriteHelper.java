@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.type.JREnum;
+import net.sf.jasperreports.engine.type.NamedEnum;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -523,6 +524,11 @@ public class JRXmlWriteHelper
 	}
 	
 	public void addAttribute(String name, JREnum value)
+	{
+		addAttribute(name, (NamedEnum) value);
+	}
+	
+	public void addAttribute(String name, NamedEnum value)
 	{
 		if (value != null)
 		{

@@ -21,27 +21,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.type;
+package net.sf.jasperreports.crosstabs.fill.calculation;
 
-import java.io.Serializable;
-
-
+import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface JREnum extends NamedEnum, Serializable
+public interface BucketingServiceContext
 {
 
-	/**
-	 *
-	 */
-	public Byte getValueByte();
+	JasperReportsContext getJasperReportsContext();
+
+	JRFillExpressionEvaluator getExpressionEvaluator();
 	
-	/**
-	 *
-	 */
-	public byte getValue();
-	
+	Object evaluateMeasuresExpression(JRExpression expression, MeasureValue[] measureValues) throws JRException;
+
 }
