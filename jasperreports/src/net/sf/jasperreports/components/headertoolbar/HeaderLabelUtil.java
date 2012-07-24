@@ -59,7 +59,7 @@ public class HeaderLabelUtil
 		HeaderLabelBuiltinExpression evaluator = null;
 		
 		JRElement[] elements = frame.getElements();
-		JRElement element = elements == null ? null : elements[0];
+		JRElement element = (elements == null || elements.length == 0) ? null : elements[0];
 
 		if (element instanceof JRStaticText)
 		{
