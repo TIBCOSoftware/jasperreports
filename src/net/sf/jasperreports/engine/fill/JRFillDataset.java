@@ -888,7 +888,7 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 						// the sort record can also contain sort variable values
 						if (fields.length == recordValues.length)
 						{
-							fieldValues = fields;
+							fieldValues = recordValues;
 						}
 						else
 						{
