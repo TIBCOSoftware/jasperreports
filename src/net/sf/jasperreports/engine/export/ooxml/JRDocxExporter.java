@@ -1518,13 +1518,13 @@ public class JRDocxExporter extends JRAbstractExporter
 				}
 				case REMOTE_PAGE :
 				{
-//					if (
-//						link.getHyperlinkReference() != null &&
-//						link.getHyperlinkPage() != null
-//						)
-//					{
-//						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + "0_" + link.getHyperlinkPage().toString();
-//					}
+					if (
+						link.getHyperlinkReference() != null &&
+						link.getHyperlinkPage() != null
+						)
+					{
+						href = link.getHyperlinkReference() + "#" + JR_PAGE_ANCHOR_PREFIX + reportIndex + "_" + link.getHyperlinkPage().toString();
+					}
 					break;
 				}
 				case NONE :
