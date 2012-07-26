@@ -97,7 +97,7 @@ public class XmlDataAdapterService extends AbstractDataAdapterService
 					InputStream dataStream = RepositoryUtil.getInstance(getJasperReportsContext()).getInputStreamFromLocation(xmlDataAdapter.getFileName());
 					try
 					{
-						Document document = JRXmlUtils.parse(dataStream);
+						Document document = JRXmlUtils.parse(dataStream);	// FIXME add ability to control whether the parsing should be namespace aware or not
 						parameters.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
 					}
 					finally
