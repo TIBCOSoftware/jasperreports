@@ -105,4 +105,10 @@ public class JRFillItemLabel implements JRItemLabel
 	{
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public JRItemLabel clone(JRChart parentChart)
+	{
+		throw new UnsupportedOperationException();
+	}
 }
