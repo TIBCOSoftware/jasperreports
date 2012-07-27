@@ -67,4 +67,7 @@ public interface JRValueDisplay extends JRCloneable
 	 * @return the font to use when writing the value
 	 */
 	public JRFont getFont();
+	
+	public JRValueDisplay clone(JRChart parentChart);
+
 }
