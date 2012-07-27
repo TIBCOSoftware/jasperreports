@@ -30,4 +30,8 @@ package net.sf.jasperreports.data.xml;
  */
 public class RemoteXmlDataAdapterImpl extends XmlDataAdapterImpl implements RemoteXmlDataAdapter
 {
+	@Override
+	public boolean isUseConnection() { 
+		return true;
+	}
 }
