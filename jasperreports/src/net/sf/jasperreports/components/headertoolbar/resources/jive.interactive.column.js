@@ -66,7 +66,7 @@ jive.interactive.column = jive.interactive.column || {
             lt = c.offset().left;
             colData = it.getColumnByUuid(c.data('popupid'), tableUuid);
             if (colData != null) {
-            	colData.enabled = true;	// enable column
+            	colData.visible = true;	// enable column
             }
             it.dropColumns[tableUuid].push('col_'+c.data('popupcolumn'));
             it.dropPoints[tableUuid].push(lt);
@@ -155,7 +155,7 @@ jive.interactive.column = jive.interactive.column || {
         			menuItmArgs.column = [col.index];
         			jQuery(el).data('args', menuItmArgs);
         		}
-        		if (col && col.enabled === true) {
+        		if (col && col.visible === true) {
         			el.style.display = 'none';
         		} else if (col){
         			allOption.push(col.index);
