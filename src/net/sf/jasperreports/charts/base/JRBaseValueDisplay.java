@@ -162,4 +162,12 @@ public class JRBaseValueDisplay implements JRValueDisplay, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	@Override
+	public JRBaseValueDisplay clone(JRChart parentChart)
+	{
+		JRBaseValueDisplay clone = (JRBaseValueDisplay) clone();
+		clone.chart = parentChart;
+		return clone;
+	}
 }
