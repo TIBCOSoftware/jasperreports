@@ -140,7 +140,8 @@ public class TableReport implements JRReport
 	private final Map<Integer, String> headerHtmlClasses;
 	
 	private final JRPropertiesUtil propertiesUtil;
-	private boolean isInteractiveTable = true;
+	private boolean isInteractiveTable;
+	private Map<Column, Boolean> columnInteractivityMapping;
 	
 	public TableReport(
 		FillContext fillContext, 
@@ -158,13 +159,29 @@ public class TableReport implements JRReport
 		this.mainDataset = mainDataset;
 		this.builtinEvaluators = builtinEvaluators;
 		
-		JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
-		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.propertiesUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
 		
-		String interactiveTable = propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport);
-		if (interactiveTable != null) {
-			this.isInteractiveTable = Boolean.valueOf(interactiveTable);
+		// begin: table interactivity
+		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
+
+		this.columnInteractivityMapping = new HashMap<Column, Boolean>();
+		int interactiveColumnCount = 0;
+		for (BaseColumn column: TableUtil.getAllColumns(table)) {
+			boolean interactiveColumn = isInteractiveTable;
+			if (column.getPropertiesMap().containsProperty(PROPERTY_INTERACTIVE_TABLE_COLUMN)) {
+				interactiveColumn = Boolean.valueOf(column.getPropertiesMap().getProperty(PROPERTY_INTERACTIVE_TABLE_COLUMN));
+			}
+			if (interactiveColumn) {
+				interactiveColumnCount++;
+			}
+			columnInteractivityMapping.put((Column)column, interactiveColumn);
 		}
+		
+		if (interactiveColumnCount > 0) {
+			this.isInteractiveTable = true;
+		}
+		// end: table interactivity
+		
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -529,7 +546,7 @@ public class TableReport implements JRReport
 			genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 			
 			String name = null;
-			boolean interactiveColumn = true;
+			boolean interactiveColumn = columnInteractivityMapping.get(column);
 			
 			if (!TableUtil.isSortableAndFilterable(sortTextField)) {
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
@@ -538,7 +555,6 @@ public class TableReport implements JRReport
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
 				
-				interactiveColumn = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_INTERACTIVE_TABLE_COLUMN, true);
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE, String.valueOf(interactiveColumn));
 				
 				JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
