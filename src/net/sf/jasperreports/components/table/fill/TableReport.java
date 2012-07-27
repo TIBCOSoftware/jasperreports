@@ -117,6 +117,8 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
 	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
+	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
+	private static final String PROPERTY_INTERACTIVE_TABLE_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.interactive";
 	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -137,6 +139,9 @@ public class TableReport implements JRReport
 	
 	private final Map<Integer, String> headerHtmlClasses;
 	
+	private final JRPropertiesUtil propertiesUtil;
+	private boolean isTableInteractive = true;
+	
 	public TableReport(
 		FillContext fillContext, 
 		TableComponent table, 
@@ -152,6 +157,10 @@ public class TableReport implements JRReport
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
 		this.builtinEvaluators = builtinEvaluators;
+		
+		JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
+		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.isTableInteractive = propertiesUtil.getBooleanProperty(fillContext.getComponentElement().getPropertiesMap(), PROPERTY_INTERACTIVE_TABLE, true);
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -471,7 +480,7 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
-			if (sortTextField != null) {
+			if (sortTextField != null && isTableInteractive) {
 				addHeaderToolbarElement(column, frame, sortTextField);
 			}
 			return frame;
@@ -516,6 +525,7 @@ public class TableReport implements JRReport
 			genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 			
 			String name = null;
+			boolean interactiveColumn = true;
 			
 			if (!TableUtil.isSortableAndFilterable(sortTextField)) {
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
@@ -523,6 +533,9 @@ public class TableReport implements JRReport
 			} else {
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
+				
+				interactiveColumn = propertiesUtil.getBooleanProperty(column.getPropertiesMap(), PROPERTY_INTERACTIVE_TABLE_COLUMN, true);
+				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE, String.valueOf(interactiveColumn));
 				
 				JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
 				
@@ -626,7 +639,7 @@ public class TableReport implements JRReport
 			genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());
+			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 			

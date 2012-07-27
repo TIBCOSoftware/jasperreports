@@ -58,5 +58,6 @@ public interface HeaderToolbarElement {
 	public static final String PROPERTY_CAN_FILTER = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.filter";
 	public static final String PROPERTY_CAN_MOVE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.move";
 	public static final String PROPERTY_CAN_RESIZE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.can.resize";
+	public static final String PROPERTY_IS_COLUMN_INTERACTIVE = JRPropertiesUtil.PROPERTY_PREFIX + "export.headertoolbar.column.interactive";
 
 }

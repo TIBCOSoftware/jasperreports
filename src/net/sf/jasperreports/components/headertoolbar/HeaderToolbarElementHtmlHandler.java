@@ -194,6 +194,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
+			boolean isInteractive = Boolean.valueOf(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
@@ -258,6 +259,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);
+			contextMap.put("isInteractive", isInteractive);
 			
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames());
 			contextMap.put("systemFontNames", getSystemFontNames());
@@ -666,13 +668,13 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		private String index;
 		private String label;
 		private String uuid;
-		private boolean enabled;
+		private boolean visible;
 		
-		private ColumnInfo(String index, String label, String uuid, boolean enabled) {
+		private ColumnInfo(String index, String label, String uuid, boolean visible) {
 			this.index = index;
 			this.label = label;
 			this.uuid = uuid;
-			this.enabled = enabled;
+			this.visible = visible;
 		}
 		
 		public String getIndex() {
@@ -687,8 +689,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			return uuid;
 		}
 		
-		public boolean getEnabled() {
-			return enabled;
+		public boolean getVisible() {
+			return visible;
 		}
 	}
 

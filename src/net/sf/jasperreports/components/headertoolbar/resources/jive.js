@@ -119,21 +119,23 @@ jQuery.extend(jive, {
         }
     },
     selectInteractiveElement: function(jo){
-        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
-        jive.selected = {
-            ie: jive.elements[jo.data('popupid')],
-            jo: jo
-        };
-        var dim = jive.interactive[jive.selected.ie.type].getElementSize();
-
-        jive.ui.overlay.show(dim);
-        jive.ui.marker.show(dim);
-        jive.ui.foobar.show(dim);
-        jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
-
-        jive.active = true;
-        jive.started = true;
-        jive.interactive[jive.selected.ie.type].onSelect();
+    	if (jo.is('.interactiveElement')) {
+	        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
+	        jive.selected = {
+	            ie: jive.elements[jo.data('popupid')],
+	            jo: jo
+	        };
+	        var dim = jive.interactive[jive.selected.ie.type].getElementSize();
+	
+	        jive.ui.overlay.show(dim);
+	        jive.ui.marker.show(dim);
+	        jive.ui.foobar.show(dim);
+	        jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+	
+	        jive.active = true;
+	        jive.started = true;
+	        jive.interactive[jive.selected.ie.type].onSelect();
+    	}
     },
     hide: function(items, keepDialogOpen){
         if(!items){
