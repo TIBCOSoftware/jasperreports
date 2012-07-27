@@ -211,6 +211,13 @@ public class JRBasePie3DPlot extends JRBaseChartPlot implements JRPie3DPlot
 		this.showLabels = showLabels;
 		getEventSupport().firePropertyChange(PROPERTY_SHOW_LABELS, old, this.showLabels);
 	}
+	
+	public Object clone(JRChart parentChart) 
+	{
+		JRBasePie3DPlot clone = (JRBasePie3DPlot) super.clone(parentChart);
+		clone.itemLabel = itemLabel == null ? null : itemLabel.clone(parentChart);
+		return clone;
+	}
 
 	/*
 	 * These fields are only for serialization backward compatibility.

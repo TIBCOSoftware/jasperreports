@@ -74,4 +74,6 @@ public interface JRItemLabel extends JRCloneable
 	 */
 //	public String getMask();
 
+	public JRItemLabel clone(JRChart parentChart);
+
 }

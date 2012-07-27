@@ -176,4 +176,12 @@ public class JRBaseItemLabel implements JRItemLabel, Serializable
 			throw new JRRuntimeException(e);
 		}
 	}
+
+	@Override
+	public JRItemLabel clone(JRChart parentChart)
+	{
+		JRBaseItemLabel clone = (JRBaseItemLabel) clone();
+		clone.chart = parentChart;
+		return clone;
+	}
 }
