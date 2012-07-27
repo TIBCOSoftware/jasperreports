@@ -140,7 +140,7 @@ public class TableReport implements JRReport
 	private final Map<Integer, String> headerHtmlClasses;
 	
 	private final JRPropertiesUtil propertiesUtil;
-	private boolean isTableInteractive = true;
+	private boolean isInteractiveTable = true;
 	
 	public TableReport(
 		FillContext fillContext, 
@@ -160,7 +160,11 @@ public class TableReport implements JRReport
 		
 		JasperReportsContext jasperReportsContext = fillContext.getFiller().getJasperReportsContext();
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-		this.isTableInteractive = propertiesUtil.getBooleanProperty(fillContext.getComponentElement().getPropertiesMap(), PROPERTY_INTERACTIVE_TABLE, true);
+		
+		String interactiveTable = propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport);
+		if (interactiveTable != null) {
+			this.isInteractiveTable = Boolean.valueOf(interactiveTable);
+		}
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -480,7 +484,7 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
-			if (sortTextField != null && isTableInteractive) {
+			if (sortTextField != null && isInteractiveTable) {
 				addHeaderToolbarElement(column, frame, sortTextField);
 			}
 			return frame;
