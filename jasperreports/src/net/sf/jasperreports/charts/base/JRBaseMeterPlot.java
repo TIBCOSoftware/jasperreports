@@ -297,7 +297,7 @@ public class JRBaseMeterPlot extends JRBaseChartPlot implements JRMeterPlot
 	{
 		JRBaseMeterPlot clone = (JRBaseMeterPlot)super.clone(parentChart);
 		clone.dataRange = JRCloneUtils.nullSafeClone(dataRange);
-		clone.valueDisplay = JRCloneUtils.nullSafeClone(valueDisplay);
+		clone.valueDisplay = valueDisplay == null ? null : valueDisplay.clone(parentChart);
 		clone.intervals = JRCloneUtils.cloneList(intervals);
 		return clone;
 	}

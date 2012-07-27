@@ -97,4 +97,10 @@ public class JRFillValueDisplay implements JRValueDisplay
 	{
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public JRValueDisplay clone(JRChart parentChart)
+	{
+		throw new UnsupportedOperationException();
+	}
 }
