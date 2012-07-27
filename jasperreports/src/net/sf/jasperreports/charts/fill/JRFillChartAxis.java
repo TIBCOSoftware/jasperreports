@@ -87,4 +87,10 @@ public class JRFillChartAxis implements JRChartAxis
 	{
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public JRChartAxis clone(JRChart parentChart)
+	{
+		throw new UnsupportedOperationException();
+	}
 }

@@ -110,6 +110,14 @@ public class JRBaseChartAxis implements JRChartAxis, Serializable
 		
 		return clone;
 	}
+
+	@Override
+	public JRChartAxis clone(JRChart parentChart)
+	{
+		JRBaseChartAxis clone = (JRBaseChartAxis) clone();
+		clone.chart = parentChart;
+		return clone;
+	}
 	
 	/*
 	 * These fields are only for serialization backward compatibility.

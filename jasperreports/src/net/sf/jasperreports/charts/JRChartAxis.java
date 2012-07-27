@@ -56,4 +56,6 @@ public interface JRChartAxis extends JRCloneable
 	 * @return the chart that contains the dataset and plot for this axis
 	 */
 	public JRChart getChart();
+	
+	public JRChartAxis clone(JRChart parentChart);
 }
