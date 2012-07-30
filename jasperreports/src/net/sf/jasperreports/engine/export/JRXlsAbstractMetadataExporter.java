@@ -344,7 +344,7 @@ public abstract class JRXlsAbstractMetadataExporter extends JRXlsAbstractExporte
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
+		return textElement.getFullStyledText(noneSelector);
 	}
 
 	/**

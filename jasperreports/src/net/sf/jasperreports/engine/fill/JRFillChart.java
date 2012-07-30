@@ -97,6 +97,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.JRPrintImage;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVisitor;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
@@ -1393,6 +1394,13 @@ public class JRFillChart extends JRFillElement implements JRChart
 		protected FillChartContext(byte evaluation)
 		{
 			this.evaluation = evaluation;
+			
+			JRFillChart.this.filler.getJasperReportsContext();
+		}
+		
+		public JasperReportsContext getJasperReportsContext()
+		{
+			return JRFillChart.this.filler.getJasperReportsContext();
 		}
 		
 		public String evaluateTextExpression(JRExpression expression) throws JRException {

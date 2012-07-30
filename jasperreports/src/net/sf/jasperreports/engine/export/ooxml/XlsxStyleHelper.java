@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.util.FileBufferedWriter;
 
@@ -62,6 +63,7 @@ public class XlsxStyleHelper extends BaseHelper
 	 * 
 	 */
 	public XlsxStyleHelper(
+		JasperReportsContext jasperReportsContext,
 		Writer writer, 
 		Map<String,String> fontMap, 
 		String exporterKey,
@@ -71,14 +73,14 @@ public class XlsxStyleHelper extends BaseHelper
 		boolean isFontSizeFixEnabled		
 		)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.isWhitePageBackground = isWhitePageBackground;
 		this.isIgnoreCellBackground = isIgnoreCellBackground;
 		
-		formatHelper = new XlsxFormatHelper(formatsWriter);
-		fontHelper = new XlsxFontHelper(fontsWriter, fontMap, exporterKey, isFontSizeFixEnabled);
-		borderHelper = new XlsxBorderHelper(bordersWriter, isIgnoreCellBorder);
+		formatHelper = new XlsxFormatHelper(jasperReportsContext, formatsWriter);
+		fontHelper = new XlsxFontHelper(jasperReportsContext, fontsWriter, fontMap, exporterKey, isFontSizeFixEnabled);
+		borderHelper = new XlsxBorderHelper(jasperReportsContext ,bordersWriter, isIgnoreCellBorder);
 	}
 
 	/**

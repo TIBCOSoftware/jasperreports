@@ -72,8 +72,8 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -167,6 +167,7 @@ public class DefaultChartTheme implements ChartTheme
 	 *
 	 */
 	private ChartContext chartContext;
+	private FontUtil fontUtil;
 	
 
 	/**
@@ -259,6 +260,7 @@ public class DefaultChartTheme implements ChartTheme
 	public JFreeChart createChart(ChartContext chartContext) throws JRException
 	{
 		this.chartContext = chartContext;
+		this.fontUtil = FontUtil.getInstance(chartContext.getJasperReportsContext());
 		
 		JFreeChart jfreeChart = null;
 		
@@ -362,7 +364,7 @@ public class DefaultChartTheme implements ChartTheme
 			TextTitle title = jfreeChart.getTitle();
 			title.setPaint(getChart().getTitleColor());
 
-			title.setFont(JRFontUtil.getAwtFont(getFont(getChart().getTitleFont()), getLocale()));
+			title.setFont(fontUtil.getAwtFont(getFont(getChart().getTitleFont()), getLocale()));
 			title.setPosition(titleEdge);
 		}
 
@@ -372,7 +374,7 @@ public class DefaultChartTheme implements ChartTheme
 			TextTitle subtitle = new TextTitle(subtitleText);
 			subtitle.setPaint(getChart().getSubtitleColor());
 
-			subtitle.setFont(JRFontUtil.getAwtFont(getFont(getChart().getSubtitleFont()), getLocale()));
+			subtitle.setFont(fontUtil.getAwtFont(getFont(getChart().getSubtitleFont()), getLocale()));
 			subtitle.setPosition(titleEdge);
 
 			jfreeChart.addSubtitle(subtitle);
@@ -393,7 +395,7 @@ public class DefaultChartTheme implements ChartTheme
 				legend.setBackgroundPaint(getChart().getLegendBackgroundColor());
 			}
 
-			legend.setItemFont(JRFontUtil.getAwtFont(getFont(getChart().getLegendFont()), getLocale()));
+			legend.setItemFont(fontUtil.getAwtFont(getFont(getChart().getLegendFont()), getLocale()));
 			legend.setPosition(getEdge(getChart().getLegendPositionValue(), RectangleEdge.BOTTOM));
 		}
 		
@@ -516,8 +518,8 @@ public class DefaultChartTheme implements ChartTheme
 		Comparable<?> axisMaxValue
 		)
 	{
-		axis.setLabelFont(JRFontUtil.getAwtFont(getFont(labelFont), getLocale()));
-		axis.setTickLabelFont(JRFontUtil.getAwtFont(getFont(tickLabelFont), getLocale()));
+		axis.setLabelFont(fontUtil.getAwtFont(getFont(labelFont), getLocale()));
+		axis.setTickLabelFont(fontUtil.getAwtFont(getFont(tickLabelFont), getLocale()));
 		if (labelColor != null)
 		{
 			axis.setLabelPaint(labelColor);
@@ -665,7 +667,7 @@ public class DefaultChartTheme implements ChartTheme
 			JRItemLabel itemLabel = bar3DPlot.getItemLabel();
 
 			barRenderer3D.setBaseItemLabelFont(
-				JRFontUtil.getAwtFont(
+				fontUtil.getAwtFont(
 					getFont(itemLabel == null ? null : itemLabel.getFont()), 
 					getLocale()
 					)
@@ -777,7 +779,7 @@ public class DefaultChartTheme implements ChartTheme
 			JRItemLabel itemLabel = barPlot.getItemLabel();
 			
 			categoryRenderer.setBaseItemLabelFont(
-				JRFontUtil.getAwtFont(
+				fontUtil.getAwtFont(
 					getFont(itemLabel == null ? null : itemLabel.getFont()), 
 					getLocale()
 					)
@@ -1045,7 +1047,7 @@ public class DefaultChartTheme implements ChartTheme
 	//		}
 			
 			piePlot3D.setLabelFont(
-				JRFontUtil.getAwtFont(
+				fontUtil.getAwtFont(
 					getFont(itemLabel == null ? null : itemLabel.getFont()), 
 					getLocale()
 					)
@@ -1133,7 +1135,7 @@ public class DefaultChartTheme implements ChartTheme
 	//		}
 
 			piePlot.setLabelFont(
-				JRFontUtil.getAwtFont(
+				fontUtil.getAwtFont(
 					getFont(itemLabel == null ? null : itemLabel.getFont()), 
 					getLocale()
 					)
@@ -1717,7 +1719,7 @@ public class DefaultChartTheme implements ChartTheme
 		// Set the font used for tick labels
 		if(jrPlot.getTickLabelFont() != null)
 		{
-			chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
+			chartPlot.setTickLabelFont(fontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
 		}
 		
 		// Set the spacing between ticks.  I hate the name "tickSize" since to me it
@@ -1753,7 +1755,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont(), getLocale()));
+				chartPlot.setValueFont(fontUtil.getAwtFont(display.getFont(), getLocale()));
 			}
 
 		}
@@ -1835,7 +1837,7 @@ public class DefaultChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont(), getLocale()));
+				chartPlot.setValueFont(fontUtil.getAwtFont(display.getFont(), getLocale()));
 			}
 		}
 
@@ -1916,7 +1918,7 @@ public class DefaultChartTheme implements ChartTheme
 		scale.setTickLabelOffset(0.16);
 		if(jrPlot.getTickLabelFont() != null)
 		{
-			scale.setTickLabelFont(JRFontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
+			scale.setTickLabelFont(fontUtil.getAwtFont(jrPlot.getTickLabelFont(), getLocale()));
 		}
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.3f));
@@ -1964,7 +1966,7 @@ public class DefaultChartTheme implements ChartTheme
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);
 			dvi.setBackgroundPaint(TRANSPARENT_PAINT);
-//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+//			dvi.setFont(fontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
@@ -1992,7 +1994,7 @@ public class DefaultChartTheme implements ChartTheme
 				DialTextAnnotation dialAnnotation = new DialTextAnnotation(textLines[i]);
 				if(displayFont != null)
 				{
-					dialAnnotation.setFont(JRFontUtil.getAwtFont(displayFont, getLocale()));
+					dialAnnotation.setFont(fontUtil.getAwtFont(displayFont, getLocale()));
 				}
 				if(display != null && display.getColor() != null)
 				{

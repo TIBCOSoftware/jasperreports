@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.jfree.data.general.Dataset;
 
@@ -39,6 +40,11 @@ import org.jfree.data.general.Dataset;
 public interface ChartContext
 {
 
+	/**
+	 * 
+	 */
+	public JasperReportsContext getJasperReportsContext();
+	
 	/**
 	 * 
 	 */

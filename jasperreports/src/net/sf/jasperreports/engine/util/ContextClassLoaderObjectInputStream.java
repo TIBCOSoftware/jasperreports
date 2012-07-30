@@ -29,6 +29,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
+
 /**
  * A subclass of {@link ObjectInputStream} that uses
  * {@link Thread#getContextClassLoader() the context class loader} to resolve
@@ -39,6 +43,7 @@ import java.io.ObjectStreamClass;
  */
 public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 {
+	private final JasperReportsContext jasperReportsContext;
 
 	/**
 	 * Creates an object input stream that reads data from the specified
@@ -48,9 +53,11 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 	 * @throws IOException
 	 * @see ObjectInputStream#ObjectInputStream(InputStream)
 	 */
-	public ContextClassLoaderObjectInputStream(InputStream in) throws IOException
+	public ContextClassLoaderObjectInputStream(JasperReportsContext jasperReportsContext, InputStream in) throws IOException
 	{
 		super(in);
+		
+		this.jasperReportsContext = jasperReportsContext;
 		
 		try
 		{
@@ -60,6 +67,14 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 		{
 			//FIXMEFONT we silence this for applets. but are there other similar situations that we need to deal with by signing jars?
 		}
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #ContextClassLoaderObjectInputStream(JasperReportsContext, InputStream)}.
+	 */
+	public ContextClassLoaderObjectInputStream(InputStream in) throws IOException
+	{
+		this(DefaultJasperReportsContext.getInstance(), in);
 	}
 
 	/**.classpath
@@ -114,7 +129,7 @@ public class ContextClassLoaderObjectInputStream extends ObjectInputStream
 			// We load an instance of an AWT font, even if the specified fontName is not available (ignoreMissingFont=true),
 			// because only third-party visualization packages such as JFreeChart (chart themes) store serialized java.awt.Font objects,
 			// and they are responsible for the drawing as well.
-			Font newFont = JRFontUtil.getAwtFontFromBundles(fontName, font.getStyle(), font.getSize(), null, true);
+			Font newFont = FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(fontName, font.getStyle(), font.getSize(), null, true);
 			
 			if (newFont != null)
 			{

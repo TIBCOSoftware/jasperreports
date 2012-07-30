@@ -76,10 +76,10 @@ import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRHtmlExporterContext;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
@@ -261,8 +261,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("canSort", canSort);
 			contextMap.put("isInteractive", isInteractive);
 			
-			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames());
-			contextMap.put("systemFontNames", getSystemFontNames());
+			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
+			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
 			
 			setColumnHeaderData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
 			setColumnValueData(columnLabel, columnIndex, tableUUID, contextMap, jrContext, reportContext);
@@ -711,22 +711,20 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return columnNames;
 	}
 	
-	private Set<String> getFontExtensionsFontNames() {
+	private Set<String> getFontExtensionsFontNames(JasperReportsContext jasperReportsContext) {
 		Set<String> classes = new TreeSet<String>(); 
-        ClassLoader oldCL = Thread.currentThread().getContextClassLoader();
 
-        Collection<String> extensionFonts = JRFontUtil.getFontFamilyNames();
+        Collection<String> extensionFonts = FontUtil.getInstance(jasperReportsContext).getFontFamilyNames();
         for (Iterator<String> it = extensionFonts.iterator(); it.hasNext();) {
             String fname = it.next();
             classes.add(fname);
         }
 
-        Thread.currentThread().setContextClassLoader(oldCL);
         return classes;
     } 
 
-	private Set<String> getSystemFontNames() {
-		Set<String> fontExtensionsFontNames = getFontExtensionsFontNames();
+	private Set<String> getSystemFontNames(JasperReportsContext jasperReportsContext) {
+		Set<String> fontExtensionsFontNames = getFontExtensionsFontNames(jasperReportsContext);
 		Set<String> classes = new TreeSet<String>();
 
 		String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();

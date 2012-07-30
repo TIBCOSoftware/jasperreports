@@ -56,7 +56,6 @@ public class XlsxSheetHelper extends BaseHelper
 	 *
 	 */
 	private XlsxSheetRelsHelper sheetRelsHelper;//FIXMEXLSX truly embed the rels helper here and no longer have it available from outside; check drawing rels too
-	private JasperReportsContext jasperReportsContext;
 	private JRPropertiesUtil propertiesUtil;
 
 	/**
@@ -69,9 +68,8 @@ public class XlsxSheetHelper extends BaseHelper
 		boolean isCollapseRowSpan
 		)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
-		this.jasperReportsContext = jasperReportsContext;
 		this.sheetRelsHelper = sheetRelsHelper;
 		this.isCollapseRowSpan = isCollapseRowSpan;
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);

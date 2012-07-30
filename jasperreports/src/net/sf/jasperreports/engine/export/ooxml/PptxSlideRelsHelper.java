@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -45,9 +46,9 @@ public class PptxSlideRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public PptxSlideRelsHelper(Writer writer)
+	public PptxSlideRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

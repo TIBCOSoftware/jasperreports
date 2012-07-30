@@ -350,14 +350,15 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		docWriter = docxZip.getDocumentEntry().getWriter();
 		
-		docHelper = new DocxDocumentHelper(docWriter);
+		docHelper = new DocxDocumentHelper(jasperReportsContext, docWriter);
 		docHelper.exportHeader();
 		
-		relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
+		relsHelper = new DocxRelsHelper(jasperReportsContext, docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
 		DocxStyleHelper styleHelper = 
 			new DocxStyleHelper(
+				jasperReportsContext,
 				docxZip.getStylesEntry().getWriter(), 
 				fontMap, 
 				getExporterKey()
@@ -367,12 +368,13 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		DocxSettingsHelper settingsHelper = 
 			new DocxSettingsHelper(
+				jasperReportsContext,
 				docxZip.getSettingsEntry().getWriter()
 				);
 		settingsHelper.export(jasperPrint);
 		settingsHelper.close();
 
-		runHelper = new DocxRunHelper(docWriter, fontMap, getExporterKey());
+		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, fontMap, getExporterKey());
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -508,6 +510,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		
 		DocxTableHelper tableHelper = 
 			new DocxTableHelper(
+				jasperReportsContext,
 				docWriter, 
 				xCuts,
 				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)

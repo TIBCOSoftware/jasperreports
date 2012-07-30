@@ -27,6 +27,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 
 
@@ -52,9 +53,9 @@ public class XlsxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public XlsxParagraphHelper(Writer writer, boolean pageBreak)
+	public XlsxParagraphHelper(JasperReportsContext jasperReportsContext, Writer writer, boolean pageBreak)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.pageBreak = pageBreak;
 	}

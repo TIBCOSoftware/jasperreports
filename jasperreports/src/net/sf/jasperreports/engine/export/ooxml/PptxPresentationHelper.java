@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.LengthUtil;
 
 
@@ -38,9 +39,9 @@ public class PptxPresentationHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public PptxPresentationHelper(Writer writer)
+	public PptxPresentationHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

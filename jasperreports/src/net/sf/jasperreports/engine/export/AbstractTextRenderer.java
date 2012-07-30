@@ -53,6 +53,7 @@ public abstract class AbstractTextRenderer
 	public static final FontRenderContext LINE_BREAK_FONT_RENDER_CONTEXT = new FontRenderContext(null, true, true);
 
 	protected final JasperReportsContext jasperReportsContext;
+	protected final JRStyledTextAttributeSelector noBackcolorSelector;
 	protected JRPrintText text;
 	protected JRStyledText styledText;
 	protected String allText;
@@ -96,6 +97,7 @@ public abstract class AbstractTextRenderer
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
 	}
@@ -172,7 +174,7 @@ public abstract class AbstractTextRenderer
 	 */
 	public void initialize(JRPrintText text, int offsetX, int offsetY)
 	{
-		styledText = text.getStyledText(JRStyledTextAttributeSelector.NO_BACKCOLOR);
+		styledText = text.getStyledText(noBackcolorSelector);
 		
 		if (styledText == null)
 		{
@@ -278,7 +280,7 @@ public abstract class AbstractTextRenderer
 	public void render()
 	{
 		AttributedCharacterIterator allParagraphs =  
-			styledText.getAwtAttributedString(ignoreMissingFont).getIterator();
+			styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator();
 
 		int tokenPosition = 0;
 		int lastParagraphStart = 0;

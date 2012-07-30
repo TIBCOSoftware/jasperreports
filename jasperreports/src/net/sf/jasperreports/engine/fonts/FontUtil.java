@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.util;
+package net.sf.jasperreports.engine.fonts;
 
 import java.awt.Font;
 import java.awt.font.TextAttribute;
@@ -38,27 +38,56 @@ import java.util.TreeSet;
 
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.fonts.FontFace;
-import net.sf.jasperreports.engine.fonts.FontFamily;
-import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.extensions.ExtensionsEnvironment;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.JRFontNotFoundException;
+import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.util.JRTextAttribute;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
 /**
- * @deprecated Replaced by {@link FontUtil}.
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: JRFontUtil.java 5180 2012-03-29 13:23:12Z teodord $
  */
-public final class JRFontUtil
+public final class FontUtil
 {
-	private static final Log log = LogFactory.getLog(JRFontUtil.class);
+	private static final Log log = LogFactory.getLog(FontUtil.class);
+
+	private JasperReportsContext jasperReportsContext;
+
 
 	/**
-	 *.
+	 *
 	 */
+	private FontUtil(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
+	
+	/**
+	 *
+	 *
+	private static FontUtil getDefaultInstance()
+	{
+		return new FontUtil(DefaultJasperReportsContext.getInstance());
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static FontUtil getInstance(JasperReportsContext jasperReportsContext)
+	{
+		return new FontUtil(jasperReportsContext);
+	}
+	
+	
+	/**
+	 *.
+	 */ //FIXMECONTEXT this should no longer be a thread local
 	private static final InheritableThreadLocal<Set<String>> threadMissingFontsCache = new InheritableThreadLocal<Set<String>>()
 	{
 		@Override
@@ -115,36 +144,9 @@ public final class JRFontUtil
 	
 
 	/**
-	 * Fills the supplied Map parameter with attributes copied from the JRFont parameter.
-	 * The attributes include the TextAttribute.FONT, which has a java.awt.Font object as value.
-	 * @deprecated Replaced by {@link #getAttributesWithoutAwtFont(Map, JRFont)}.
-	 */
-	public static Map<Attribute,Object> getAttributes(Map<Attribute,Object> attributes, JRFont font, Locale locale)
-	{
-		//Font awtFont = getAwtFont(font);//FIXMEFONT optimize so that we don't load the AWT font for all exporters.
-		Font awtFont = 
-			getAwtFontFromBundles(
-				font.getFontName(), 
-				((font.isBold()?Font.BOLD:Font.PLAIN)|(font.isItalic()?Font.ITALIC:Font.PLAIN)), 
-				font.getFontSize(),
-				locale,
-				true
-				);
-		if (awtFont != null)
-		{
-			attributes.put(TextAttribute.FONT, awtFont); 
-		}
-		
-		getAttributesWithoutAwtFont(attributes, font);
-
-		return attributes;
-	}
-
-
-	/**
 	 *
 	 */
-	public static Map<Attribute,Object> getAttributesWithoutAwtFont(Map<Attribute,Object> attributes, JRFont font)
+	public Map<Attribute,Object> getAttributesWithoutAwtFont(Map<Attribute,Object> attributes, JRFont font)
 	{
 		attributes.put(TextAttribute.FAMILY, font.getFontName());
 
@@ -186,10 +188,10 @@ public final class JRFontUtil
 	 * @param locale the locale
 	 * @return a font info object
 	 */
-	public static FontInfo getFontInfo(String name, Locale locale)
+	public FontInfo getFontInfo(String name, Locale locale)
 	{
 		//FIXMEFONT do some cache
-		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();
@@ -229,11 +231,11 @@ public final class JRFontUtil
 	/**
 	 * Returns the font family names available through extensions, in alphabetical order.
 	 */
-	public static Collection<String> getFontFamilyNames()
+	public Collection<String> getFontFamilyNames()
 	{
 		TreeSet<String> familyNames = new TreeSet<String>();//FIXMEFONT use collator for order?
 		//FIXMEFONT do some cache
-		List<FontFamily> families = ExtensionsEnvironment.getExtensionsRegistry().getExtensions(FontFamily.class);
+		List<FontFamily> families = jasperReportsContext.getExtensions(FontFamily.class);
 		for (Iterator<FontFamily> itf = families.iterator(); itf.hasNext();)
 		{
 			FontFamily family = itf.next();
@@ -244,17 +246,9 @@ public final class JRFontUtil
 
 
 	/**
-	 * @deprecated Replaced by {@link #getAwtFontFromBundles(String, int, int, Locale, boolean)}.
-	 */
-	public static Font getAwtFontFromBundles(String name, int style, int size, Locale locale)
-	{
-		return getAwtFontFromBundles(name, style, size, locale, true);
-	}
-	
-	/**
 	 *
 	 */
-	public static Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
+	public Font getAwtFontFromBundles(String name, int style, int size, Locale locale, boolean ignoreMissingFont)
 	{
 		Font awtFont = null;
 		FontInfo fontInfo = getFontInfo(name, locale);
@@ -328,8 +322,8 @@ public final class JRFontUtil
 	
 	/**
 	 *
-	 */
-	public static void resetThreadMissingFontsCache()
+	 */ //FIXMECONTEXT check how to make this cache effective again
+	public void resetThreadMissingFontsCache()
 	{
 		threadMissingFontsCache.set(new HashSet<String>());
 	}
@@ -338,7 +332,7 @@ public final class JRFontUtil
 	/**
 	 *
 	 */
-	public static void checkAwtFont(String name, boolean ignoreMissingFont)
+	public void checkAwtFont(String name, boolean ignoreMissingFont)
 	{
 		if (!JRGraphEnvInitializer.isAwtFontAvailable(name))
 		{
@@ -369,7 +363,7 @@ public final class JRFontUtil
 	 * found in the font extensions or not. This is because we do need a font to draw with and there is no point
 	 * in raising a font missing exception here, as it is not JasperReports who does the drawing. 
 	 */
-	public static Font getAwtFont(JRFont font, Locale locale)
+	public Font getAwtFont(JRFont font, Locale locale)
 	{
 		if (font == null)
 		{
@@ -414,7 +408,7 @@ public final class JRFontUtil
 	}
 	
 	
-	private JRFontUtil()
+	private FontUtil()
 	{
 	}
 }

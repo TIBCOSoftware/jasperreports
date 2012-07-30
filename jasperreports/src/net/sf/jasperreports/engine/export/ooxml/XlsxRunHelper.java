@@ -33,12 +33,13 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -58,9 +59,9 @@ public class XlsxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public XlsxRunHelper(Writer writer, Map<String,String> fontMap, String exporterKey)
+	public XlsxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
@@ -99,7 +100,7 @@ public class XlsxRunHelper extends BaseHelper
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
-		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -129,7 +130,7 @@ public class XlsxRunHelper extends BaseHelper
 			}
 			else
 			{
-				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+				FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
 				if (fontInfo != null)
 				{
 					//fontName found in font extensions
@@ -237,7 +238,7 @@ public class XlsxRunHelper extends BaseHelper
 		
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
-		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{

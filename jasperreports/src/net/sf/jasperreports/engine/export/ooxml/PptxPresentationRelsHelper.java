@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -36,9 +38,9 @@ public class PptxPresentationRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public PptxPresentationRelsHelper(Writer writer)
+	public PptxPresentationRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

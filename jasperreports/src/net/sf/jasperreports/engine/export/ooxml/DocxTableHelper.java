@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.LengthUtil;
@@ -48,16 +49,17 @@ public class DocxTableHelper extends BaseHelper
 	 * 
 	 */
 	protected DocxTableHelper(
+		JasperReportsContext jasperReportsContext,
 		Writer writer,
 		CutsInfo xCuts,
 		boolean pageBreak
 		) 
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 
 		this.xCuts = xCuts;
-		this.cellHelper = new DocxCellHelper(writer);
-		this.paragraphHelper = new DocxParagraphHelper(writer, pageBreak);
+		this.cellHelper = new DocxCellHelper(jasperReportsContext, writer);
+		this.paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, pageBreak);
 	}
 
 

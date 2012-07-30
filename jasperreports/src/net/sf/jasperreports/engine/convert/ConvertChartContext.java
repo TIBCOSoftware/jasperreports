@@ -37,10 +37,12 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import net.sf.jasperreports.charts.ChartContext;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRChart;
 import net.sf.jasperreports.engine.JRChartDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -82,6 +84,11 @@ public class ConvertChartContext implements ChartContext
 	protected ConvertChartContext(JRChart chart)
 	{
 		this.chart = chart;
+	}
+	
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return DefaultJasperReportsContext.getInstance();//FIXMECONTEXT
 	}
 	
 	public String evaluateTextExpression(JRExpression expression) throws JRException 

@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -41,9 +43,9 @@ public class XlsxDrawingHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxDrawingHelper(Writer writer, XlsxDrawingRelsHelper drawingRelsHelper)
+	public XlsxDrawingHelper(JasperReportsContext jasperReportsContext, Writer writer, XlsxDrawingRelsHelper drawingRelsHelper)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.drawingRelsHelper = drawingRelsHelper;
 	}

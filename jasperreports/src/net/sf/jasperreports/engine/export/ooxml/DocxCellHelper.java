@@ -29,6 +29,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRAlignment;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
@@ -57,11 +58,11 @@ public class DocxCellHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public DocxCellHelper(Writer writer)
+	public DocxCellHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
-		borderHelper = new DocxBorderHelper(writer);
+		borderHelper = new DocxBorderHelper(jasperReportsContext, writer);
 	}
 		
 	/**

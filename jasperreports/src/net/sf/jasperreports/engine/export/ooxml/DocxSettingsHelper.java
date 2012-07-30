@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.export.LengthUtil;
 
@@ -41,9 +42,9 @@ public class DocxSettingsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxSettingsHelper(Writer writer)
+	public DocxSettingsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

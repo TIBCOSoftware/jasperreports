@@ -28,6 +28,7 @@ import java.io.Writer;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
@@ -65,9 +66,9 @@ public class DocxParagraphHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public DocxParagraphHelper(Writer writer, boolean pageBreak)
+	public DocxParagraphHelper(JasperReportsContext jasperReportsContext, Writer writer, boolean pageBreak)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.pageBreak = pageBreak;
 	}

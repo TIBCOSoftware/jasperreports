@@ -44,7 +44,8 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
  */
 public final class JRTextMeasurerUtil
 {
-	private JasperReportsContext jasperReportsContext;
+	private final JasperReportsContext jasperReportsContext;
+	private final JRStyledTextAttributeSelector noBackcolorSelector;//FIXMECONTEXT make this a contect object everywhere and retrieve using a constant key
 
 
 	/**
@@ -53,6 +54,7 @@ public final class JRTextMeasurerUtil
 	private JRTextMeasurerUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
 	}
 	
 	
@@ -188,7 +190,7 @@ public final class JRTextMeasurerUtil
 		}
 		JRStyledText styledText = 
 			JRStyledTextParser.getInstance().getStyledText(
-				JRStyledTextAttributeSelector.NO_BACKCOLOR.getStyledTextAttributes(printText), 
+				noBackcolorSelector.getStyledTextAttributes(printText), 
 				text, 
 				JRCommonText.MARKUP_STYLED_TEXT.equals(printText.getMarkup()),//FIXMEMARKUP only static styled text appears on preview. no other markup
 				JRStyledTextAttributeSelector.getTextLocale(printText)

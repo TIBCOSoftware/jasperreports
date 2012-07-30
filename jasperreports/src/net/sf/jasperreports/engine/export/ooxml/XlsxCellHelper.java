@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.export.data.BooleanTextValue;
 import net.sf.jasperreports.engine.export.data.DateTextValue;
@@ -63,11 +64,12 @@ public class XlsxCellHelper extends BaseHelper
 	 *
 	 */
 	public XlsxCellHelper(
+		JasperReportsContext jasperReportsContext,
 		Writer writer,
 		XlsxStyleHelper styleHelper
 		)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.styleHelper = styleHelper;
 //		borderHelper = new XlsxBorderHelper(writer);
