@@ -118,7 +118,6 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
 	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
-	private static final String PROPERTY_INTERACTIVE_TABLE_COLUMN = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.column.interactive";
 	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -168,8 +167,8 @@ public class TableReport implements JRReport
 		int interactiveColumnCount = 0;
 		for (BaseColumn column: TableUtil.getAllColumns(table)) {
 			boolean interactiveColumn = isInteractiveTable;
-			if (column.getPropertiesMap().containsProperty(PROPERTY_INTERACTIVE_TABLE_COLUMN)) {
-				interactiveColumn = Boolean.valueOf(column.getPropertiesMap().getProperty(PROPERTY_INTERACTIVE_TABLE_COLUMN));
+			if (column.getPropertiesMap().containsProperty(PROPERTY_INTERACTIVE_TABLE)) {
+				interactiveColumn = Boolean.valueOf(column.getPropertiesMap().getProperty(PROPERTY_INTERACTIVE_TABLE));
 			}
 			if (interactiveColumn) {
 				interactiveColumnCount++;
