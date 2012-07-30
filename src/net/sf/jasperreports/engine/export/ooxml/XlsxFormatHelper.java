@@ -27,6 +27,8 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -39,9 +41,9 @@ public class XlsxFormatHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public XlsxFormatHelper(Writer writer)
+	public XlsxFormatHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 	
 	/**

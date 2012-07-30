@@ -297,7 +297,7 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 		tempBodyWriter = tempBodyEntry.getWriter();
 		tempStyleWriter = tempStyleEntry.getWriter();
 
-		styleCache = new StyleCache(tempStyleWriter, fontMap, getExporterKey());
+		styleCache = new StyleCache(jasperReportsContext, tempStyleWriter, fontMap, getExporterKey());
 
 		Writer stylesWriter = oasisZip.getStylesEntry().getWriter();
 

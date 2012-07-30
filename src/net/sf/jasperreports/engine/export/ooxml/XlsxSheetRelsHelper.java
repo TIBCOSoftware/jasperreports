@@ -27,6 +27,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -41,9 +42,9 @@ public class XlsxSheetRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxSheetRelsHelper(Writer writer)
+	public XlsxSheetRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

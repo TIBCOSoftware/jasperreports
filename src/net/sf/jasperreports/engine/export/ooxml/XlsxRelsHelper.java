@@ -25,6 +25,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -37,9 +39,9 @@ public class XlsxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public XlsxRelsHelper(Writer writer)
+	public XlsxRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

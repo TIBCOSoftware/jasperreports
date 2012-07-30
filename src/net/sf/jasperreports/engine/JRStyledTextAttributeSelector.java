@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
 
 /**
@@ -44,6 +44,16 @@ import net.sf.jasperreports.engine.util.JRStyledTextParser;
  */
 public abstract class JRStyledTextAttributeSelector
 {
+	protected final JasperReportsContext jasperReportsContext;
+	
+	/**
+	 * 
+	 */
+	protected JRStyledTextAttributeSelector(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+	}
+	
 	/**
 	 * 
 	 */
@@ -66,51 +76,19 @@ public abstract class JRStyledTextAttributeSelector
 	}
 	
 	/**
-	 * Selects all styled text attributes, i.e. font attributes plus forecolor
-	 * and backcolor.
+	 * @deprecated Replaced by {@link AllSelector}.
 	 */
-	public static final JRStyledTextAttributeSelector ALL = new JRStyledTextAttributeSelector()
-	{
-		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
-		{
-			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
-			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
-			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
-			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-			if (printText.getModeValue() == ModeEnum.OPAQUE)
-			{
-				attributes.put(TextAttribute.BACKGROUND, printText.getBackcolor());
-			}
-			return attributes;
-		}
-	};
+	public static final JRStyledTextAttributeSelector ALL = new AllSelector(DefaultJasperReportsContext.getInstance());
 
 	/**
-	 * Selects all styled text attribute except backcolor, i.e. font attributes
-	 * plus forecolor.
+	 * @deprecated Replaced by {@link NoBackcolorSelector}.
 	 */
-	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new JRStyledTextAttributeSelector()
-	{
-		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
-		{
-			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
-			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
-			JRFontUtil.getAttributesWithoutAwtFont(attributes, printText);
-			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
-			return attributes;
-		}
-	};
+	public static final JRStyledTextAttributeSelector NO_BACKCOLOR = new NoBackcolorSelector(DefaultJasperReportsContext.getInstance());
 
 	/**
-	 * Doesn't select any styled text attribute.
+	 * @deprecated Replaced by {@link NoneSelector}.
 	 */
-	public static final JRStyledTextAttributeSelector NONE = new JRStyledTextAttributeSelector()
-	{
-		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
-		{
-			return null;
-		}
-	};
+	public static final JRStyledTextAttributeSelector NONE = new NoneSelector(DefaultJasperReportsContext.getInstance());
 	
 	/**
 	 * Construct a map containing the selected element-level styled text attributes
@@ -121,4 +99,70 @@ public abstract class JRStyledTextAttributeSelector
 	 */
 	public abstract Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText);
 	
+
+	/**
+	 * Selects all styled text attributes, i.e. font attributes plus forecolor
+	 * and backcolor.
+	 */
+	public static class AllSelector extends JRStyledTextAttributeSelector
+	{
+		public AllSelector(JasperReportsContext jasperReportsContext)
+		{
+			super(jasperReportsContext);
+		}
+		
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
+		{
+			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
+			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, printText);
+			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
+			if (printText.getModeValue() == ModeEnum.OPAQUE)
+			{
+				attributes.put(TextAttribute.BACKGROUND, printText.getBackcolor());
+			}
+			return attributes;
+		}
+	}
+
+
+	/**
+	 * Selects all styled text attribute except backcolor, i.e. font attributes
+	 * plus forecolor.
+	 */
+	public static class NoBackcolorSelector extends JRStyledTextAttributeSelector
+	{
+		public NoBackcolorSelector(JasperReportsContext jasperReportsContext)
+		{
+			super(jasperReportsContext);
+		}
+		
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
+		{
+			Map<Attribute,Object> attributes = new HashMap<Attribute,Object>(); 
+			//JRFontUtil.getAttributes(attributes, printText, getTextLocale(printText));
+			FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, printText);
+			attributes.put(TextAttribute.FOREGROUND, printText.getForecolor());
+			return attributes;
+		}
+	}
+	
+
+	/**
+	 * Doesn't select any styled text attribute.
+	 */
+	public static class NoneSelector extends JRStyledTextAttributeSelector
+	{
+		public NoneSelector(JasperReportsContext jasperReportsContext)
+		{
+			super(jasperReportsContext);
+		}
+		
+		public Map<Attribute,Object> getStyledTextAttributes(JRPrintText printText)
+		{
+			return null;
+		}
+	}
+	
 }
+

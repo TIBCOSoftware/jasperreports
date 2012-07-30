@@ -38,11 +38,12 @@ import java.util.Set;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintGraphicElement;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 
 /**
@@ -54,10 +55,11 @@ public class StyleCache
 	/**
 	 *
 	 */
-	private Writer styleWriter;
-	private Map<String,String> fontMap;
+	private final JasperReportsContext jasperReportsContext;
+	private final Writer styleWriter;
+	private final Map<String,String> fontMap;
 	private Set<String> fontFaces = new HashSet<String>();
-	private String exporterKey;
+	private final String exporterKey;
 
 	/**
 	 *
@@ -77,8 +79,14 @@ public class StyleCache
 	/**
 	 *
 	 */
-	public StyleCache(Writer styleWriter, Map<String,String> fontMap, String exporterKey)
+	public StyleCache(
+		JasperReportsContext jasperReportsContext, 
+		Writer styleWriter, 
+		Map<String,String> fontMap, 
+		String exporterKey
+		)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.styleWriter = styleWriter;
 		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
@@ -225,7 +233,7 @@ public class StyleCache
 		}
 		else
 		{
-			FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
 			if (fontInfo != null)
 			{
 				//fontName found in font extensions

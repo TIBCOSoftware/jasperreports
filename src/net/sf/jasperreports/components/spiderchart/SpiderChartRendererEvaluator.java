@@ -38,7 +38,7 @@ import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.Renderable;
-import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
@@ -148,7 +148,7 @@ public class SpiderChartRendererEvaluator
 		}
 		if(plot.getLabelFont() != null)
 		{
-			spiderWebPlot.setLabelFont(JRFontUtil.getAwtFont(plot.getLabelFont(), Locale.getDefault()));
+			spiderWebPlot.setLabelFont(FontUtil.getInstance(jasperReportsContext).getAwtFont(plot.getLabelFont(), Locale.getDefault()));
 		}
 		if(plot.getLabelGap() != null)
 		{
@@ -179,7 +179,7 @@ public class SpiderChartRendererEvaluator
 		spiderWebPlot.setLabelGenerator(labelGenerator);
 		
 		Font titleFont = chartSettings.getTitleFont() != null 
-			? JRFontUtil.getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
+			? FontUtil.getInstance(jasperReportsContext).getAwtFont(chartSettings.getTitleFont(), Locale.getDefault())
 			: TextTitle.DEFAULT_FONT;
 
 		String titleText = spiderchartBean.getTitleText();
@@ -221,7 +221,7 @@ public class SpiderChartRendererEvaluator
 			if(chartSettings.getSubtitleColor() != null)
 			{
 				Font subtitleFont = chartSettings.getSubtitleFont() != null 
-				? JRFontUtil.getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
+				? FontUtil.getInstance(jasperReportsContext).getAwtFont(chartSettings.getSubtitleFont(), Locale.getDefault())
 				: TextTitle.DEFAULT_FONT;
 				subtitle.setFont(subtitleFont);
 			}
@@ -250,7 +250,7 @@ public class SpiderChartRendererEvaluator
 	
 				if(chartSettings.getLegendFont() != null)
 				{
-					legend.setItemFont(JRFontUtil.getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
+					legend.setItemFont(FontUtil.getInstance(jasperReportsContext).getAwtFont(chartSettings.getLegendFont(), Locale.getDefault()));
 				}
 				legend.setPosition(getEdge(chartSettings.getLegendPosition(), RectangleEdge.BOTTOM));
 			}

@@ -318,13 +318,13 @@ public class JRPptxExporter extends JRAbstractExporter
 
 		presentationWriter = pptxZip.getPresentationEntry().getWriter();
 		
-		presentationHelper = new PptxPresentationHelper(presentationWriter);
+		presentationHelper = new PptxPresentationHelper(jasperReportsContext, presentationWriter);
 		presentationHelper.exportHeader();
 		
-		presentationRelsHelper = new PptxPresentationRelsHelper(pptxZip.getRelsEntry().getWriter());
+		presentationRelsHelper = new PptxPresentationRelsHelper(jasperReportsContext, pptxZip.getRelsEntry().getWriter());
 		presentationRelsHelper.exportHeader();
 		
-		ctHelper = new PptxContentTypesHelper(pptxZip.getContentTypesEntry().getWriter());
+		ctHelper = new PptxContentTypesHelper(jasperReportsContext, pptxZip.getContentTypesEntry().getWriter());
 		ctHelper.exportHeader();
 
 //		DocxStyleHelper styleHelper = 
@@ -465,15 +465,15 @@ public class JRPptxExporter extends JRAbstractExporter
 		
 		ExportZipEntry slideRelsEntry = pptxZip.addSlideRels(slideIndex + 1);
 		Writer slideRelsWriter = slideRelsEntry.getWriter();
-		slideRelsHelper = new PptxSlideRelsHelper(slideRelsWriter);
+		slideRelsHelper = new PptxSlideRelsHelper(jasperReportsContext, slideRelsWriter);
 		
 		ExportZipEntry slideEntry = pptxZip.addSlide(slideIndex + 1);
 		Writer slideWriter = slideEntry.getWriter();
-		slideHelper = new PptxSlideHelper(slideWriter, slideRelsHelper);
+		slideHelper = new PptxSlideHelper(jasperReportsContext, slideWriter, slideRelsHelper);
 
 //		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
 //		
-		runHelper = new PptxRunHelper(slideWriter, fontMap, null);//FIXMEXLSX check this null
+		runHelper = new PptxRunHelper(jasperReportsContext, slideWriter, fontMap, null);//FIXMEXLSX check this null
 		
 		slideHelper.exportHeader();
 		slideRelsHelper.exportHeader();

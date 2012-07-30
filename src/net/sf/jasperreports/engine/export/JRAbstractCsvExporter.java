@@ -45,7 +45,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRStyledTextAttributeSelector;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRStyledText;
 
@@ -277,7 +276,7 @@ public abstract class JRAbstractCsvExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getFullStyledText(JRStyledTextAttributeSelector.NONE);
+		return textElement.getFullStyledText(noneSelector);
 	}
 
 

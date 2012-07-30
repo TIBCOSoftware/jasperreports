@@ -112,6 +112,7 @@ import net.sf.jasperreports.engine.export.data.TextValue;
 import net.sf.jasperreports.engine.export.data.TextValueHandler;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
@@ -120,7 +121,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRImageLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.repo.RepositoryUtil;
@@ -1474,7 +1474,7 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 				}
 				else
 				{
-					FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+					FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
 					if (fontInfo != null)
 					{
 						//fontName found in font extensions

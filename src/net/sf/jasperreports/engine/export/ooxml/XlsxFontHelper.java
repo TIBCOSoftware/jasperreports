@@ -29,10 +29,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRFont;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
-import net.sf.jasperreports.engine.util.JRFontUtil;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
 /**
@@ -51,13 +52,14 @@ public class XlsxFontHelper extends BaseHelper
 	 *
 	 */
 	public XlsxFontHelper(
+		JasperReportsContext jasperReportsContext,
 		Writer writer,
 		Map<String,String> fontMap,
 		String exporterKey,
 		boolean isFontSizeFixEnabled		
 		)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 
 		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
@@ -82,7 +84,7 @@ public class XlsxFontHelper extends BaseHelper
 		}
 		else
 		{
-			FontInfo fontInfo = JRFontUtil.getFontInfo(fontName, locale);
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontName, locale);
 			if (fontInfo != null)
 			{
 				//fontName found in font extensions

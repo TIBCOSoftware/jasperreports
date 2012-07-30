@@ -38,8 +38,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 
 
 /**
@@ -166,9 +169,17 @@ public class JRStyledText implements Cloneable
 	}
 
 	/**
-	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
+	 * @deprecated Replaced by {@link #getAwtAttributedString(JasperReportsContext, boolean)}.
 	 */
 	public AttributedString getAwtAttributedString(boolean ignoreMissingFont)
+	{
+		return getAwtAttributedString(DefaultJasperReportsContext.getInstance(), ignoreMissingFont);
+	}
+
+	/**
+	 * Returns an attributed string that contains the AWT font attribute, as the font is actually loaded.
+	 */
+	public AttributedString getAwtAttributedString(JasperReportsContext jasperReportsContext, boolean ignoreMissingFont)
 	{
 		if (awtAttributedString == null)
 		{
@@ -213,7 +224,7 @@ public class JRStyledText implements Cloneable
 				String familyName = (String)attrs.get(TextAttribute.FAMILY); 
 				
 				Font awtFont = 
-					JRFontUtil.getAwtFontFromBundles(
+					FontUtil.getInstance(jasperReportsContext).getAwtFontFromBundles(
 						familyName, 
 						((TextAttribute.WEIGHT_BOLD.equals(attrs.get(TextAttribute.WEIGHT))?Font.BOLD:Font.PLAIN)
 							|(TextAttribute.POSTURE_OBLIQUE.equals(attrs.get(TextAttribute.POSTURE))?Font.ITALIC:Font.PLAIN)), 
@@ -225,7 +236,7 @@ public class JRStyledText implements Cloneable
 				{
 					// The font was not found in any of the font extensions, so it is expected that the TextAttribute.FAMILY attribute
 					// will be used by AWT. In that case, we want make sure the font family name is available to the JVM.
-					JRFontUtil.checkAwtFont(familyName, ignoreMissingFont);
+					FontUtil.getInstance(jasperReportsContext).checkAwtFont(familyName, ignoreMissingFont);
 				}
 				else
 				{

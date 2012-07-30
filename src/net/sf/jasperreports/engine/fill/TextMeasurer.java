@@ -54,8 +54,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.export.AbstractTextRenderer;
 import net.sf.jasperreports.engine.export.AwtTextRenderer;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DelegatePropertiesHolder;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
@@ -380,7 +380,7 @@ public class TextMeasurer implements JRTextMeasurer
 		}
 
 		AttributedCharacterIterator allParagraphs = 
-			styledText.getAwtAttributedString(ignoreMissingFont).getIterator();
+			styledText.getAwtAttributedString(jasperReportsContext, ignoreMissingFont).getIterator();
 
 		int tokenPosition = remainingTextStart;
 		int lastParagraphStart = remainingTextStart;
@@ -563,11 +563,12 @@ public class TextMeasurer implements JRTextMeasurer
 		if (fontInfo == null)
 		{
 			// check bundled fonts
-			Font font = JRFontUtil.getAwtFontFromBundles(family, style, size.intValue(), styledText.getLocale(), false);
+			FontUtil fontUtil = FontUtil.getInstance(jasperReportsContext);
+			Font font = fontUtil.getAwtFontFromBundles(family, style, size.intValue(), styledText.getLocale(), false);
 			if (font == null)
 			{
 				// checking AWT font
-				JRFontUtil.checkAwtFont(family, ignoreMissingFont);
+				fontUtil.checkAwtFont(family, ignoreMissingFont);
 				// creating AWT font
 				font = Font.getFont(run.attributes);
 			}

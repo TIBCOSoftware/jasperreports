@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -38,13 +39,15 @@ public abstract class BaseHelper
 	/**
 	 *
 	 */
-	protected Writer writer;
+	protected final JasperReportsContext jasperReportsContext;
+	protected final Writer writer;
 
 	/**
 	 *
 	 */
-	public BaseHelper(Writer writer)
+	public BaseHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.writer = writer;
 	}
 	

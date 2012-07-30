@@ -30,6 +30,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRDataUtils;
 
@@ -49,12 +50,12 @@ public class DocxStyleHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxStyleHelper(Writer writer, Map<String,String> fontMap, String exporterKey)
+	public DocxStyleHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
-		paragraphHelper = new DocxParagraphHelper(writer, false);
-		runHelper = new DocxRunHelper(writer, fontMap, exporterKey);
+		paragraphHelper = new DocxParagraphHelper(jasperReportsContext, writer, false);
+		runHelper = new DocxRunHelper(jasperReportsContext, writer, fontMap, exporterKey);
 	}
 
 	/**

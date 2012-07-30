@@ -27,6 +27,7 @@ import java.io.Writer;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
@@ -40,9 +41,9 @@ public class DocxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public DocxBorderHelper(Writer writer)
+	public DocxBorderHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 	
 	/**

@@ -43,10 +43,10 @@ import net.sf.jasperreports.engine.JRTemplate;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.DeduplicableRegistry;
 import net.sf.jasperreports.engine.util.FormatFactory;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.Pair;
 
 /**
@@ -100,7 +100,7 @@ public class JRFillContext
 		loadedTemplates = new HashMap<Object,JRTemplate>();
 		deduplicableRegistry = new DeduplicableRegistry();
 		
-		JRFontUtil.resetThreadMissingFontsCache();
+		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 	}
 	
 	

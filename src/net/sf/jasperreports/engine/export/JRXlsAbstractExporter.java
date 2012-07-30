@@ -1372,8 +1372,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
 		JRStyledTextAttributeSelector selector = textElement.getModeValue() == ModeEnum.OPAQUE 
-				? JRStyledTextAttributeSelector.ALL 
-				: JRStyledTextAttributeSelector.NO_BACKCOLOR;
+				? allSelector 
+				: noBackcolorSelector;
 		return textElement.getFullStyledText(selector);
 	}
 

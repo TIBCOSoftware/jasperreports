@@ -758,7 +758,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 
 		ExportZipEntry sheetRelsEntry = xlsxZip.addSheetRels(sheetIndex + 1);
 		Writer sheetRelsWriter = sheetRelsEntry.getWriter();
-		sheetRelsHelper = new XlsxSheetRelsHelper(sheetRelsWriter);
+		sheetRelsHelper = new XlsxSheetRelsHelper(jasperReportsContext, sheetRelsWriter);
 
 		ExportZipEntry sheetEntry = xlsxZip.addSheet(sheetIndex + 1);
 		Writer sheetWriter = sheetEntry.getWriter();
@@ -772,15 +772,15 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 		
 		ExportZipEntry drawingRelsEntry = xlsxZip.addDrawingRels(sheetIndex + 1);
 		Writer drawingRelsWriter = drawingRelsEntry.getWriter();
-		drawingRelsHelper = new XlsxDrawingRelsHelper(drawingRelsWriter);
+		drawingRelsHelper = new XlsxDrawingRelsHelper(jasperReportsContext, drawingRelsWriter);
 		
 		ExportZipEntry drawingEntry = xlsxZip.addDrawing(sheetIndex + 1);
 		Writer drawingWriter = drawingEntry.getWriter();
-		drawingHelper = new XlsxDrawingHelper(drawingWriter, drawingRelsHelper);
+		drawingHelper = new XlsxDrawingHelper(jasperReportsContext, drawingWriter, drawingRelsHelper);
 		
-		cellHelper = new XlsxCellHelper(sheetWriter, styleHelper);
+		cellHelper = new XlsxCellHelper(jasperReportsContext, sheetWriter, styleHelper);
 		
-		runHelper = new XlsxRunHelper(sheetWriter, fontMap, null);//FIXMEXLSX check this null
+		runHelper = new XlsxRunHelper(jasperReportsContext, sheetWriter, fontMap, null);//FIXMEXLSX check this null
 		
 		sheetHelper.exportHeader(sheetPageScale == null ? 0 : sheetPageScale, gridRowFreezeIndex, gridColumnFreezeIndex, jasperPrint);
 		sheetRelsHelper.exportHeader(sheetIndex + 1);
@@ -1438,11 +1438,11 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			String memoryThreshold = jasperPrint.getPropertiesMap().getProperty(FileBufferedOutputStream.PROPERTY_MEMORY_THRESHOLD);
 			xlsxZip = new XlsxZip(jasperReportsContext, memoryThreshold == null ? null : JRPropertiesUtil.asInteger(memoryThreshold));
 
-			wbHelper = new XlsxWorkbookHelper(xlsxZip.getWorkbookEntry().getWriter());
+			wbHelper = new XlsxWorkbookHelper(jasperReportsContext, xlsxZip.getWorkbookEntry().getWriter());
 			wbHelper.exportHeader();
 
-			relsHelper = new XlsxRelsHelper(xlsxZip.getRelsEntry().getWriter());
-			ctHelper = new XlsxContentTypesHelper(xlsxZip.getContentTypesEntry().getWriter());
+			relsHelper = new XlsxRelsHelper(jasperReportsContext, xlsxZip.getRelsEntry().getWriter());
+			ctHelper = new XlsxContentTypesHelper(jasperReportsContext, xlsxZip.getContentTypesEntry().getWriter());
 			if(macroTemplate != null)
 			{
 				xlsxZip.addMacro(macroTemplate);
@@ -1454,6 +1454,7 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			
 			styleHelper = 
 				new XlsxStyleHelper(
+					jasperReportsContext,
 					xlsxZip.getStylesEntry().getWriter(), 
 					fontMap, 
 					getExporterKey(),

@@ -54,12 +54,12 @@ import net.sf.jasperreports.engine.export.data.DateTextValue;
 import net.sf.jasperreports.engine.export.data.NumberTextValue;
 import net.sf.jasperreports.engine.export.data.StringTextValue;
 import net.sf.jasperreports.engine.export.data.TextValue;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.FormatFactory;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 import net.sf.jasperreports.engine.util.JRDataUtils;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -488,6 +488,9 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JasperReportsContext jasperReportsContext;
 	private JRPropertiesUtil propertiesUtil;
+	protected JRStyledTextAttributeSelector allSelector;
+	protected JRStyledTextAttributeSelector noBackcolorSelector;
+	protected JRStyledTextAttributeSelector noneSelector;
 
 	private ParameterResolver parameterResolver;
 	
@@ -551,7 +554,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRAbstractExporter(JasperReportsContext jasperReportsContext)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		setJasperReportsContext(jasperReportsContext);
 	}
 	
 	
@@ -703,6 +706,19 @@ public abstract class JRAbstractExporter implements JRExporter
 	/**
 	 *
 	 */
+	public void setJasperReportsContext(JasperReportsContext jasperReportsContext)
+	{
+		this.jasperReportsContext = jasperReportsContext;
+		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
+		this.allSelector = new JRStyledTextAttributeSelector.AllSelector(jasperReportsContext);
+		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
+		this.noneSelector = new JRStyledTextAttributeSelector.NoneSelector(jasperReportsContext);
+	}
+
+	
+	/**
+	 *
+	 */
 	public void setReportContext(ReportContext reportContext)
 	{
 		this.reportContext = reportContext;
@@ -723,10 +739,6 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	public JRPropertiesUtil getPropertiesUtil()
 	{
-		if (propertiesUtil == null)
-		{
-			propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-		}
 		return propertiesUtil;
 	}
 
@@ -804,10 +816,10 @@ public abstract class JRAbstractExporter implements JRExporter
 				localJasperReportsContext.setFileResolver((FileResolver)parameters.get(JRExporterParameter.FILE_RESOLVER));
 			}
 			
-			jasperReportsContext = localJasperReportsContext;
+			setJasperReportsContext(localJasperReportsContext);
 		}
 		
-		JRFontUtil.resetThreadMissingFontsCache();
+		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 	}
 		
 
@@ -976,8 +988,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
-		return textElement.getStyledText(
-				setBackcolor ? JRStyledTextAttributeSelector.ALL : JRStyledTextAttributeSelector.NO_BACKCOLOR);
+		return textElement.getStyledText(setBackcolor ? allSelector : noBackcolorSelector);
 	}
 
 	

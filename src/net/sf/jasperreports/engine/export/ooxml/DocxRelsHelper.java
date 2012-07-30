@@ -26,6 +26,8 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.IOException;
 import java.io.Writer;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -37,9 +39,9 @@ public class DocxRelsHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxRelsHelper(Writer writer)
+	public DocxRelsHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 
 	/**

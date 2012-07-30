@@ -153,7 +153,7 @@ public final class ExtensionsEnvironment
 	 * 
 	 * @return the context extensions registry
 	 */
-	public static ExtensionsRegistry getExtensionsRegistry()
+	public static ExtensionsRegistry getExtensionsRegistry()//FIXMECONTEXT check all places where such methods are still used
 	{
 		ExtensionsRegistry registry = getThreadExtensionsRegistry();
 		if (registry == null)

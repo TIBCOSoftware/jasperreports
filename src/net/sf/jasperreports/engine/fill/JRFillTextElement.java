@@ -38,13 +38,13 @@ import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
@@ -281,7 +281,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		{
 			styledTextAttributes = new HashMap<Attribute,Object>(); 
 			//JRFontUtil.getAttributes(styledTextAttributes, this, filler.getLocale());
-			JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, this);
+			FontUtil.getInstance(filler.getJasperReportsContext()).getAttributesWithoutAwtFont(styledTextAttributes, this);
 			styledTextAttributes.put(TextAttribute.FOREGROUND, getForecolor());
 			if (getModeValue() == ModeEnum.OPAQUE)
 			{

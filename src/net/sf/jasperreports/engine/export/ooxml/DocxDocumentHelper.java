@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.export.ooxml;
 import java.io.Writer;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.LengthUtil;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 
@@ -39,9 +40,9 @@ public class DocxDocumentHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public DocxDocumentHelper(Writer writer)
+	public DocxDocumentHelper(JasperReportsContext jasperReportsContext, Writer writer)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 	}
 	
 	/**

@@ -43,12 +43,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRVirtualizationHelper;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
 import org.apache.commons.logging.Log;
@@ -93,6 +95,15 @@ public final class JRLoader
 	 */
 	public static Object loadObject(File file) throws JRException
 	{
+		return loadObject(DefaultJasperReportsContext.getInstance(), file);
+	}
+
+
+	/**
+	 *
+	 */
+	public static Object loadObject(JasperReportsContext jasperReportsContext, File file) throws JRException
+	{
 		if (!file.exists() || !file.isFile())
 		{
 			throw new JRException( new FileNotFoundException(String.valueOf(file)) );
@@ -107,7 +118,7 @@ public final class JRLoader
 		{
 			fis = new FileInputStream(file);
 			BufferedInputStream bufferedIn = new BufferedInputStream(fis);
-			ois = new ContextClassLoaderObjectInputStream(bufferedIn);
+			ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, bufferedIn);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -152,6 +163,15 @@ public final class JRLoader
 	 */
 	public static Object loadObject(URL url) throws JRException
 	{
+		return loadObject(DefaultJasperReportsContext.getInstance(), url);
+	}
+
+
+	/**
+	 *
+	 */
+	public static Object loadObject(JasperReportsContext jasperReportsContext, URL url) throws JRException
+	{
 		Object obj = null;
 
 		InputStream is = null;
@@ -160,7 +180,7 @@ public final class JRLoader
 		try
 		{
 			is = url.openStream();
-			ois = new ContextClassLoaderObjectInputStream(is);
+			ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, is);
 			obj = ois.readObject();
 		}
 		catch (IOException e)
@@ -205,13 +225,22 @@ public final class JRLoader
 	 */
 	public static Object loadObject(InputStream is) throws JRException
 	{
+		return loadObject(DefaultJasperReportsContext.getInstance(), is);
+	}
+
+
+	/**
+	 *
+	 */
+	public static Object loadObject(JasperReportsContext jasperReportsContext, InputStream is) throws JRException
+	{
 		Object obj = null;
 
 		ObjectInputStream ois = null;
 
 		try
 		{
-			ois = new ContextClassLoaderObjectInputStream(is);
+			ois = new ContextClassLoaderObjectInputStream(jasperReportsContext, is);
 			obj = ois.readObject();
 		}
 		catch (IOException e)

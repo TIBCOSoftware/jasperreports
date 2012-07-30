@@ -34,12 +34,13 @@ import java.util.StringTokenizer;
 
 import net.sf.jasperreports.engine.JRPrintText;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBasePrintText;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 
 
@@ -59,9 +60,9 @@ public class PptxRunHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public PptxRunHelper(Writer writer, Map<String,String> fontMap, String exporterKey)
+	public PptxRunHelper(JasperReportsContext jasperReportsContext, Writer writer, Map<String,String> fontMap, String exporterKey)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		this.fontMap = fontMap;
 		this.exporterKey = exporterKey;
 	}
@@ -112,7 +113,7 @@ public class PptxRunHelper extends BaseHelper
 		JRPrintText text = new JRBasePrintText(null);
 		text.setStyle(style);
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); //FIXMEPPTX is this map useless; check all run helpers
-		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (style.getModeValue() == null || style.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -128,7 +129,7 @@ public class PptxRunHelper extends BaseHelper
 	public void exportProps(JRPrintText text, Locale locale)
 	{
 		Map<Attribute,Object> textAttributes = new HashMap<Attribute,Object>(); 
-		JRFontUtil.getAttributesWithoutAwtFont(textAttributes, text);
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(textAttributes, text);
 		textAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (text.getModeValue() == null || text.getModeValue() == ModeEnum.OPAQUE)
 		{
@@ -241,7 +242,7 @@ public class PptxRunHelper extends BaseHelper
 			}
 			else
 			{
-				FontInfo fontInfo = JRFontUtil.getFontInfo(fontFamilyAttr, locale);
+				FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(fontFamilyAttr, locale);
 				if (fontInfo != null)
 				{
 					//fontName found in font extensions
@@ -272,7 +273,7 @@ public class PptxRunHelper extends BaseHelper
 		
 		Map<Attribute,Object> styledTextAttributes = new HashMap<Attribute,Object>(); 
 		//JRFontUtil.getAttributes(styledTextAttributes, text, (Locale)null);//FIXMEDOCX getLocale());
-		JRFontUtil.getAttributesWithoutAwtFont(styledTextAttributes, text);
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(styledTextAttributes, text);
 		styledTextAttributes.put(TextAttribute.FOREGROUND, text.getForecolor());
 		if (text.getModeValue() == ModeEnum.OPAQUE)
 		{

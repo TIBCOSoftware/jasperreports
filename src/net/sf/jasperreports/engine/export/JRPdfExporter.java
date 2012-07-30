@@ -88,13 +88,13 @@ import net.sf.jasperreports.engine.export.legacy.BorderOffset;
 import net.sf.jasperreports.engine.fonts.FontFace;
 import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.util.BreakIteratorSplitCharacter;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRPdfaIccProfileNotFoundException;
 import net.sf.jasperreports.engine.util.JRStyledText;
@@ -746,7 +746,7 @@ public class JRPdfExporter extends JRAbstractExporter
 	protected void writePageAnchor(int pageIndex) throws DocumentException 
 	{
 		Map<Attribute,Object> attributes = new HashMap<Attribute,Object>();
-		JRFontUtil.getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
+		FontUtil.getInstance(jasperReportsContext).getAttributesWithoutAwtFont(attributes, new JRBasePrintText(jasperPrint.getDefaultStyleProvider()));
 		Font pdfFont = getFont(attributes, getLocale(), false);
 		Chunk chunk = new Chunk(" ", pdfFont);
 		
@@ -1898,7 +1898,7 @@ public class JRPdfExporter extends JRAbstractExporter
 		}
 		else
 		{
-			FontInfo fontInfo = JRFontUtil.getFontInfo(jrFont.getFontName(), locale);
+			FontInfo fontInfo = FontUtil.getInstance(jasperReportsContext).getFontInfo(jrFont.getFontName(), locale);
 			if (fontInfo == null)
 			{
 				//fontName NOT found in font extensions

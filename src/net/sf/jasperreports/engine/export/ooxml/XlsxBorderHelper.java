@@ -29,6 +29,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.JRExporterGridCell;
 
 
@@ -45,9 +46,9 @@ public class XlsxBorderHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public XlsxBorderHelper(Writer writer, boolean isIgnoreCellBorder)
+	public XlsxBorderHelper(JasperReportsContext jasperReportsContext, Writer writer, boolean isIgnoreCellBorder)
 	{
-		super(writer);
+		super(jasperReportsContext, writer);
 		
 		this.isIgnoreCellBorder = isIgnoreCellBorder;
 	}

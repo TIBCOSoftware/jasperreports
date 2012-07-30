@@ -30,7 +30,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.AbstractQueryExecuterFactory;
-import net.sf.jasperreports.engine.query.JRAbstractQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.JREmptyQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.olap.xmla.JRXmlaQueryExecuter;
