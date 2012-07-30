@@ -104,17 +104,23 @@ jQuery.extend(jive, {
         if(!jive.selectors[o.selector]){
             jive.selectors[o.selector] = o.type;
             jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
-                var jo = jQuery(this);
-                jive.selectInteractiveElement(jo);
-                return false;
+            	// keep html links functional
+            	if(jQuery(evt.target).closest('a').size() == 0) {
+            		var jo = jQuery(this);
+            		jive.selectInteractiveElement(jo);
+            		return false;
+            	}
             })
         }
         if(o.proxySelector && !jive.selectors[o.proxySelector]) {
             jive.selectors[o.proxySelector] = o.type;
             jQuery('div.jrPage').on('click touchend',o.proxySelector,function(evt){
-                var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
-                jive.selectInteractiveElement(jo);
-                return false;
+            	// keep html links functional
+            	if(jQuery(evt.target).closest('a').size() == 0) {
+            		var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
+            		jive.selectInteractiveElement(jo);
+            		return false;
+            	}
             })
         }
     },
