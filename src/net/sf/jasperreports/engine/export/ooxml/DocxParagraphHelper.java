@@ -327,4 +327,21 @@ public class DocxParagraphHelper extends BaseHelper
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 */
+	public void exportEmptyPage(String pageAnchor, long bookmarkIndex, boolean twice) 
+	{
+		if(twice)
+		{
+			write("  <w:p><w:r><w:br w:type=\"page\"/></w:r></w:p>\n");
+		}
+		write("  <w:p><w:bookmarkStart w:id=\"" + bookmarkIndex);
+		write("\" w:name=\"" + pageAnchor);
+		write("\"/><w:bookmarkEnd w:id=\"" + bookmarkIndex);
+		write("\"/></w:p>\n");
+		write("  <w:p><w:r><w:br w:type=\"page\"/></w:r></w:p>\n");
+	}
+	
 }
