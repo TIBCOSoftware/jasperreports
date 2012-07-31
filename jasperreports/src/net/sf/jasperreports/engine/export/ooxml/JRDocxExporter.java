@@ -165,6 +165,8 @@ public class JRDocxExporter extends JRAbstractExporter
 	
 	protected DocxRelsHelper relsHelper;
 	
+	boolean emptyPageState;
+	
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
@@ -375,6 +377,8 @@ public class JRDocxExporter extends JRAbstractExporter
 		settingsHelper.close();
 
 		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, fontMap, getExporterKey());
+		
+		emptyPageState = false;
 
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
@@ -502,19 +506,42 @@ public class JRDocxExporter extends JRAbstractExporter
 		
 		CutsInfo xCuts = gridLayout.getXCuts();
 		JRExporterGridCell[][] grid = gridLayout.getGrid();
+		DocxTableHelper tableHelper = null;
 
 		if (grid.length > 0 && grid[0].length > 63)
 		{
 			throw new JRException("The DOCX format does not support more than 63 columns in a table.");
 		}
 		
-		DocxTableHelper tableHelper = 
-			new DocxTableHelper(
-				jasperReportsContext,
-				docWriter, 
-				xCuts,
-				frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
-				);
+		// an empty page is encountered; 
+		// if it's the first one in a series of consecutive empty pages, emptyPageState == false, otherwise emptyPageState == true
+		if(grid.length == 0 && (pageIndex < endPageIndex || !emptyPageState))
+		{
+			tableHelper = 
+					new DocxTableHelper(
+						jasperReportsContext,
+						docWriter, 
+						xCuts,
+						false
+						);
+			// while the first and last page need single breaks, all the others require double-breaking 
+			boolean twice = 
+					pageIndex > startPageIndex 
+					&& pageIndex < endPageIndex 
+					&& !emptyPageState;
+			tableHelper.getParagraphHelper().exportEmptyPage(pageAnchor, bookmarkIndex, twice);
+			bookmarkIndex++;
+			emptyPageState = true;
+			return;
+		}
+		
+		tableHelper = 
+				new DocxTableHelper(
+					jasperReportsContext,
+					docWriter, 
+					xCuts,
+					frameIndex == null && (reportIndex != 0 || pageIndex != startPageIndex)
+					);
 
 		tableHelper.exportHeader();
 
@@ -646,6 +673,8 @@ public class JRDocxExporter extends JRAbstractExporter
 			jasperPrint.getPageWidth(), 
 			jasperPrint.getPageHeight()
 			);
+		// if a non-empty page was exported, the series of previous empty pages is ended
+		emptyPageState = false;
 	}
 
 
