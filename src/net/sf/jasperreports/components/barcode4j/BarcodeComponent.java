@@ -70,7 +70,7 @@ public abstract class BarcodeComponent implements Component, Serializable, JRClo
 	
 	private transient JRPropertyChangeSupport eventSupport;
 	
-	private EvaluationTimeEnum evaluationTimeValue;
+	private EvaluationTimeEnum evaluationTimeValue = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	
 	private int orientation;
