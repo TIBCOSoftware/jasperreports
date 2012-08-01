@@ -63,6 +63,7 @@ import net.sf.jasperreports.engine.util.JRDataUtils;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.LocalJasperReportsContext;
 
 
@@ -487,10 +488,11 @@ public abstract class JRAbstractExporter implements JRExporter
 	 *
 	 */
 	protected JasperReportsContext jasperReportsContext;
-	private JRPropertiesUtil propertiesUtil;
+	protected JRPropertiesUtil propertiesUtil;
 	protected JRStyledTextAttributeSelector allSelector;
 	protected JRStyledTextAttributeSelector noBackcolorSelector;
 	protected JRStyledTextAttributeSelector noneSelector;
+	protected JRStyledTextUtil styledTextUtil;
 
 	private ParameterResolver parameterResolver;
 	
@@ -710,9 +712,10 @@ public abstract class JRAbstractExporter implements JRExporter
 	{
 		this.jasperReportsContext = jasperReportsContext;
 		this.propertiesUtil = JRPropertiesUtil.getInstance(jasperReportsContext);
-		this.allSelector = new JRStyledTextAttributeSelector.AllSelector(jasperReportsContext);
-		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
-		this.noneSelector = new JRStyledTextAttributeSelector.NoneSelector(jasperReportsContext);
+		this.allSelector = JRStyledTextAttributeSelector.getAllSelector(jasperReportsContext);
+		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
+		this.noneSelector = JRStyledTextAttributeSelector.getNoneSelector(jasperReportsContext);
+		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 	}
 
 	
@@ -988,7 +991,7 @@ public abstract class JRAbstractExporter implements JRExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement, boolean setBackcolor)
 	{
-		return textElement.getStyledText(setBackcolor ? allSelector : noBackcolorSelector);
+		return styledTextUtil.getStyledText(textElement, setBackcolor ? allSelector : noBackcolorSelector);
 	}
 
 	

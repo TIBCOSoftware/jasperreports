@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine;
 
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
+
 
 
 /**
@@ -54,7 +56,7 @@ public interface JRTextElement extends JRElement, JRAlignment, JRFont, JRCommonT
 	 * </p>
 	 * 
 	 * @see JRPrintText#getFullText()
-	 * @see JRPrintText#getText()
+	 * @see JRStyledTextUtil#getTruncatedText(JRPrintText)
 	 * @see JRPrintText#getTextTruncateIndex()
 	 */
 	public static final String PROPERTY_PRINT_KEEP_FULL_TEXT = JRPropertiesUtil.PROPERTY_PREFIX + "print.keep.full.text";

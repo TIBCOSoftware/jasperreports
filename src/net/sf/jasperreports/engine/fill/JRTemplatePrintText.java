@@ -26,6 +26,7 @@ package net.sf.jasperreports.engine.fill;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JRConstants;
@@ -45,6 +46,7 @@ import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.type.VerticalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 
 
 /**
@@ -71,7 +73,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	private Integer textTruncateIndex;
 	private String textTruncateSuffix;
 	private short[] lineBreakOffsets;
-	private transient String truncatedText;
+	//private transient String truncatedText;
 	private Object value;
 	private float lineSpacingFactor;
 	private float leadingOffset;
@@ -114,36 +116,11 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	}
 
 	/**
-	 *
+	 * @deprecated Replaced by {@link JRStyledTextUtil#getTruncatedText(JRPrintText)}.
 	 */
 	public String getText()
 	{
-		if (truncatedText == null && text != null)
-		{
-			if (getTextTruncateIndex() == null)
-			{
-				truncatedText = text;
-			}
-			else
-			{
-				if (!JRCommonText.MARKUP_NONE.equals(getMarkup()))
-				{
-					truncatedText = JRStyledTextParser.getInstance().write(
-							getFullStyledText(JRStyledTextAttributeSelector.ALL), 
-							0, getTextTruncateIndex().intValue());
-				}
-				else
-				{
-					truncatedText = text.substring(0, getTextTruncateIndex().intValue());
-				}
-			}
-			
-			if (textTruncateSuffix != null)
-			{
-				truncatedText += textTruncateSuffix;
-			}
-		}
-		return truncatedText;
+		return JRStyledTextUtil.getInstance(DefaultJasperReportsContext.getInstance()).getTruncatedText(this);
 	}
 		
 	/**
@@ -152,7 +129,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setText(String text)
 	{
 		this.text = text;
-		this.truncatedText = null;
+		//this.truncatedText = null;
 	}
 
 	public Integer getTextTruncateIndex()
@@ -163,7 +140,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setTextTruncateIndex(Integer textTruncateIndex)
 	{
 		this.textTruncateIndex = textTruncateIndex;
-		this.truncatedText = null;
+		//this.truncatedText = null;
 	}
 
 	public String getTextTruncateSuffix()
@@ -174,7 +151,7 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 	public void setTextTruncateSuffix(String textTruncateSuffix)
 	{
 		this.textTruncateSuffix = textTruncateSuffix;
-		this.truncatedText = null;
+		//this.truncatedText = null;
 	}
 
 	public short[] getLineBreakOffsets()
@@ -202,20 +179,12 @@ public class JRTemplatePrintText extends JRTemplatePrintElement implements JRPri
 		return text;
 	}
 	
+	/**
+	 * @deprecated Replaced by {@link JRStyledTextUtil#getStyledText(JRPrintText, JRStyledTextAttributeSelector)}.
+	 */
 	public JRStyledText getStyledText(JRStyledTextAttributeSelector attributeSelector)
 	{
-		if (getText() == null)
-		{
-			return null;
-		}
-		
-		return 
-			JRStyledTextParser.getInstance().getStyledText(
-				attributeSelector.getStyledTextAttributes(this), 
-				getText(), 
-				!JRCommonText.MARKUP_NONE.equals(getMarkup()),
-				JRStyledTextAttributeSelector.getTextLocale(this)
-				);
+		return JRStyledTextUtil.getInstance(DefaultJasperReportsContext.getInstance()).getStyledText(this, attributeSelector);
 	}
 
 	public JRStyledText getFullStyledText(JRStyledTextAttributeSelector attributeSelector)
