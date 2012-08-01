@@ -104,7 +104,17 @@ public abstract class JRStyledTextAttributeSelector
 	 * Selects all styled text attributes, i.e. font attributes plus forecolor
 	 * and backcolor.
 	 */
-	public static class AllSelector extends JRStyledTextAttributeSelector
+	public static JRStyledTextAttributeSelector getAllSelector(JasperReportsContext jasperReportsContext)
+	{
+		return new AllSelector(jasperReportsContext);
+	}
+	
+
+	/**
+	 * Selects all styled text attributes, i.e. font attributes plus forecolor
+	 * and backcolor.
+	 */
+	private static class AllSelector extends JRStyledTextAttributeSelector
 	{
 		public AllSelector(JasperReportsContext jasperReportsContext)
 		{
@@ -130,7 +140,17 @@ public abstract class JRStyledTextAttributeSelector
 	 * Selects all styled text attribute except backcolor, i.e. font attributes
 	 * plus forecolor.
 	 */
-	public static class NoBackcolorSelector extends JRStyledTextAttributeSelector
+	public static JRStyledTextAttributeSelector getNoBackcolorSelector(JasperReportsContext jasperReportsContext)
+	{
+		return new NoBackcolorSelector(jasperReportsContext);
+	}
+	
+
+	/**
+	 * Selects all styled text attribute except backcolor, i.e. font attributes
+	 * plus forecolor.
+	 */
+	private static class NoBackcolorSelector extends JRStyledTextAttributeSelector
 	{
 		public NoBackcolorSelector(JasperReportsContext jasperReportsContext)
 		{
@@ -151,7 +171,16 @@ public abstract class JRStyledTextAttributeSelector
 	/**
 	 * Doesn't select any styled text attribute.
 	 */
-	public static class NoneSelector extends JRStyledTextAttributeSelector
+	public static JRStyledTextAttributeSelector getNoneSelector(JasperReportsContext jasperReportsContext)
+	{
+		return new NoneSelector(jasperReportsContext);
+	}
+	
+
+	/**
+	 * Doesn't select any styled text attribute.
+	 */
+	private static class NoneSelector extends JRStyledTextAttributeSelector
 	{
 		public NoneSelector(JasperReportsContext jasperReportsContext)
 		{

@@ -45,7 +45,8 @@ import net.sf.jasperreports.engine.fill.JRTextMeasurer;
 public final class JRTextMeasurerUtil
 {
 	private final JasperReportsContext jasperReportsContext;
-	private final JRStyledTextAttributeSelector noBackcolorSelector;//FIXMECONTEXT make this a contect object everywhere and retrieve using a constant key
+	private final JRStyledTextAttributeSelector noBackcolorSelector;//FIXMECONTEXT make this a context object everywhere and retrieve using a constant key
+	private final JRStyledTextUtil styledTextUtil;
 
 
 	/**
@@ -54,7 +55,8 @@ public final class JRTextMeasurerUtil
 	private JRTextMeasurerUtil(JasperReportsContext jasperReportsContext)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
+		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
+		this.styledTextUtil = JRStyledTextUtil.getInstance(jasperReportsContext);
 	}
 	
 	
@@ -180,7 +182,7 @@ public final class JRTextMeasurerUtil
 	 */
 	public void measureTextElement(JRPrintText printText)
 	{
-		String text = printText.getText();
+		String text = styledTextUtil.getTruncatedText(printText);
 		
 		JRTextMeasurer textMeasurer = createTextMeasurer(printText);//FIXME use element properties?
 		

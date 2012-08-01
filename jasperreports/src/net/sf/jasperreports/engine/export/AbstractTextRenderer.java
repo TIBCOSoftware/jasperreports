@@ -41,6 +41,7 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
 import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
+import net.sf.jasperreports.engine.util.JRStyledTextUtil;
 import net.sf.jasperreports.engine.util.ParagraphUtil;
 
 
@@ -97,7 +98,7 @@ public abstract class AbstractTextRenderer
 		)
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.noBackcolorSelector = new JRStyledTextAttributeSelector.NoBackcolorSelector(jasperReportsContext);
+		this.noBackcolorSelector = JRStyledTextAttributeSelector.getNoBackcolorSelector(jasperReportsContext);
 		this.isMinimizePrinterJobSize = isMinimizePrinterJobSize;
 		this.ignoreMissingFont = ignoreMissingFont;
 	}
@@ -174,7 +175,7 @@ public abstract class AbstractTextRenderer
 	 */
 	public void initialize(JRPrintText text, int offsetX, int offsetY)
 	{
-		styledText = text.getStyledText(noBackcolorSelector);
+		styledText = JRStyledTextUtil.getInstance(jasperReportsContext).getStyledText(text, noBackcolorSelector);
 		
 		if (styledText == null)
 		{

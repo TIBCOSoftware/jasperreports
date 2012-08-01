@@ -683,7 +683,7 @@ public class JRTextExporter extends JRAbstractExporter
 	 */
 	protected JRStyledText getStyledText(JRPrintText textElement)
 	{
-		return textElement.getStyledText(noneSelector);
+		return styledTextUtil.getStyledText(textElement, noneSelector);
 	}
 
 	/**
