@@ -313,7 +313,7 @@ public class SimpleFontFamily implements FontFamily
 	 */
 	public boolean supportsLocale(Locale locale)
 	{
-		return locales == null || locales.contains(JRDataUtils.getLocaleCode(locale));
+		return locales == null || locales.isEmpty() || locales.contains(JRDataUtils.getLocaleCode(locale));
 	}
 	
 }
