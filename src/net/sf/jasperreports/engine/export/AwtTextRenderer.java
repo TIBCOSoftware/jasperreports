@@ -73,7 +73,7 @@ public class AwtTextRenderer extends AbstractTextRenderer
 	
 
 	/**
-	 * 
+	 * @deprecated Replaced by {@link #AwtTextRenderer(JasperReportsContext, boolean, boolean)}.
 	 */
 	public AwtTextRenderer(
 		boolean isMinimizePrinterJobSize,

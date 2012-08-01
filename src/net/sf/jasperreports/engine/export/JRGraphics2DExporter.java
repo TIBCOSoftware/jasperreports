@@ -205,6 +205,7 @@ public class JRGraphics2DExporter extends JRAbstractExporter
 		
 		textRenderer = 
 			new AwtTextRenderer(
+				jasperReportsContext,
 				isMinimizePrinterJobSize,
 				getPropertiesUtil().getBooleanProperty(jasperPrint, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
