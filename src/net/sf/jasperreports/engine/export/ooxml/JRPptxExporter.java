@@ -1302,8 +1302,8 @@ public class JRPptxExporter extends JRAbstractExporter
 			slideHelper.write("</p:blipFill>\n");
 			slideHelper.write("  <p:spPr>\n");
 			slideHelper.write("    <a:xfrm>\n");
-			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX()) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY()) + "\"/>\n");
-			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(image.getWidth()) + "\" cy=\"" + LengthUtil.emu(image.getHeight()) + "\"/>\n");
+			slideHelper.write("      <a:off x=\"" + LengthUtil.emu(image.getX() + getOffsetX() + leftPadding) + "\" y=\"" + LengthUtil.emu(image.getY() + getOffsetY() + topPadding) + "\"/>\n");
+			slideHelper.write("      <a:ext cx=\"" + LengthUtil.emu(availableImageWidth) + "\" cy=\"" + LengthUtil.emu(availableImageHeight) + "\"/>\n");
 			slideHelper.write("    </a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>\n");
 			if (image.getModeValue() == ModeEnum.OPAQUE && image.getBackcolor() != null)
 			{
