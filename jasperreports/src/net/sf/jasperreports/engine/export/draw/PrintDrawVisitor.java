@@ -88,6 +88,7 @@ public class PrintDrawVisitor implements PrintElementVisitor<Offset>
 	{
 		AwtTextRenderer textRenderer = 
 			new AwtTextRenderer(
+				jasperReportsContext,
 				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRGraphics2DExporter.MINIMIZE_PRINTER_JOB_SIZE, true),
 				JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(report, JRStyledText.PROPERTY_AWT_IGNORE_MISSING_FONT, false)
 				);
