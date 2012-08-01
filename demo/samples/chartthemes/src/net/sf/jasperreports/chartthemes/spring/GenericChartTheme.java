@@ -77,8 +77,8 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -167,6 +167,7 @@ public class GenericChartTheme implements ChartTheme
 	 *
 	 */
 	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
+	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<FontUtil>();
 	
 
 	/**
@@ -192,6 +193,16 @@ public class GenericChartTheme implements ChartTheme
 	private void setChartContext(ChartContext chartContext)
 	{
 		this.threadLocalChartContext.set(chartContext);
+		this.threadLocalFontUtil.set(FontUtil.getInstance(chartContext.getJasperReportsContext()));
+	}
+
+	
+	/**
+	 *
+	 */
+	private FontUtil getFontUtil()
+	{
+		return threadLocalFontUtil.get();
 	}
 	
 	
@@ -1705,7 +1716,7 @@ public class GenericChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
+//				chartPlot.setValueFont(getFontUtil().getAwtFont(display.getFont()));
 			}
 		}
 
@@ -1836,7 +1847,7 @@ public class GenericChartTheme implements ChartTheme
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);
 			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+//			dvi.setFont(getFontUtil().getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
@@ -2755,10 +2766,10 @@ public class GenericChartTheme implements ChartTheme
 		{
 			themeFont.setFontSize(baseFontSize);
 		}
-		JRFontUtil.copyNonNullOwnProperties(themeFont, font);
-		JRFontUtil.copyNonNullOwnProperties(ownFont, font);
+		FontUtil.copyNonNullOwnProperties(themeFont, font);
+		FontUtil.copyNonNullOwnProperties(ownFont, font);
 		font = new JRBaseFont(getChart(), font);
-		return JRFontUtil.getAwtFont(font, getLocale());
+		return getFontUtil().getAwtFont(font, getLocale());
 	}
 	
 	

@@ -77,8 +77,8 @@ import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.base.JRBaseFont;
 import net.sf.jasperreports.engine.fill.DefaultChartTheme;
+import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.type.ModeEnum;
-import net.sf.jasperreports.engine.util.JRFontUtil;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -163,6 +163,7 @@ public class SimpleChartTheme implements ChartTheme
 	 *
 	 */
 	protected ThreadLocal<ChartContext> threadLocalChartContext = new ThreadLocal<ChartContext>();
+	protected ThreadLocal<FontUtil> threadLocalFontUtil = new ThreadLocal<FontUtil>();
 	
 
 	/**
@@ -275,9 +276,19 @@ public class SimpleChartTheme implements ChartTheme
 	/**
 	 *
 	 */
+	private FontUtil getFontUtil()
+	{
+		return threadLocalFontUtil.get();
+	}
+	
+	
+	/**
+	 *
+	 */
 	private void setChartContext(ChartContext chartContext)
 	{
 		this.threadLocalChartContext.set(chartContext);
+		this.threadLocalFontUtil.set(FontUtil.getInstance(chartContext.getJasperReportsContext()));
 	}
 	
 	
@@ -651,7 +662,7 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			JRItemLabel itemLabel = bar3DPlot.getItemLabel();
 			JRFont font = itemLabel != null && itemLabel.getFont() != null ? itemLabel.getFont() : new JRBaseFont(getChart(), null);
-			barRenderer3D.setBaseItemLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			barRenderer3D.setBaseItemLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 			if(itemLabel != null)
 			{
 				if(itemLabel.getColor() != null)
@@ -762,7 +773,7 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			JRItemLabel itemLabel = barPlot.getItemLabel();
 			JRFont font = itemLabel != null && itemLabel.getFont() != null ? itemLabel.getFont() : new JRBaseFont(getChart(), null);
-			categoryRenderer.setBaseItemLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			categoryRenderer.setBaseItemLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 			if(itemLabel != null)
 			{
 				if(itemLabel.getColor() != null)
@@ -1042,11 +1053,11 @@ public class SimpleChartTheme implements ChartTheme
 			
 			if(itemLabel != null && itemLabel.getFont() != null)
 			{
-				piePlot3D.setLabelFont(JRFontUtil.getAwtFont(itemLabel.getFont(), getLocale()));
+				piePlot3D.setLabelFont(getFontUtil().getAwtFont(itemLabel.getFont(), getLocale()));
 			}
 			else
 			{
-				piePlot3D.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
+				piePlot3D.setLabelFont(getFontUtil().getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
 			}
 	
 			if(itemLabel != null && itemLabel.getColor() != null)
@@ -1132,11 +1143,11 @@ public class SimpleChartTheme implements ChartTheme
 			
 			if(itemLabel != null && itemLabel.getFont() != null)
 			{
-				piePlot.setLabelFont(JRFontUtil.getAwtFont(itemLabel.getFont(), getLocale()));
+				piePlot.setLabelFont(getFontUtil().getAwtFont(itemLabel.getFont(), getLocale()));
 			}
 			else
 			{
-				piePlot.setLabelFont(JRFontUtil.getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
+				piePlot.setLabelFont(getFontUtil().getAwtFont(new JRBaseFont(getChart(), null), getLocale()));
 			}
 	
 			if(itemLabel != null && itemLabel.getColor() != null)
@@ -1749,10 +1760,10 @@ public class SimpleChartTheme implements ChartTheme
 			chartPlot.setNeedlePaint(color);
 
 		JRBaseFont font = new JRBaseFont();
-		JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
-		JRFontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
+		FontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
+		FontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
 		font = new JRBaseFont(getChart(), font);
-		chartPlot.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+		chartPlot.setTickLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 
 		// Set how the value is displayed.
 		JRValueDisplay display = jrPlot.getValueDisplay();
@@ -1769,10 +1780,10 @@ public class SimpleChartTheme implements ChartTheme
 			}
 			
 			font = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), font);
-			JRFontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), font);
+			FontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), font);
+			FontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), font);
 			font = new JRBaseFont(getChart(), font);
-			chartPlot.setValueFont(JRFontUtil.getAwtFont(font, getLocale()));
+			chartPlot.setValueFont(getFontUtil().getAwtFont(font, getLocale()));
 
 		}
 
@@ -1855,7 +1866,7 @@ public class SimpleChartTheme implements ChartTheme
 			}
 			if (display.getFont() != null)
 			{
-//				chartPlot.setValueFont(JRFontUtil.getAwtFont(display.getFont()));
+//				chartPlot.setValueFont(getFontUtil().getAwtFont(display.getFont()));
 			}
 		}
 
@@ -1937,10 +1948,10 @@ public class SimpleChartTheme implements ChartTheme
 		scale.setTickRadius(0.9);
 		scale.setTickLabelOffset(0.16);
 		JRBaseFont font = new JRBaseFont();
-		JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
-		JRFontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
+		FontUtil.copyNonNullOwnProperties(getPlotSettings().getTickLabelFont(), font);
+		FontUtil.copyNonNullOwnProperties(jrPlot.getTickLabelFont(), font);
 		font = new JRBaseFont(getChart(), font);
-		scale.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+		scale.setTickLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 		scale.setMajorTickStroke(new BasicStroke(1f));
 		scale.setMinorTickStroke(new BasicStroke(0.3f));
 		scale.setMajorTickPaint(jrPlot.getTickColor());
@@ -1987,7 +1998,7 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			DialValueIndicator dvi = new DialValueIndicator(0);
 			dvi.setBackgroundPaint(ChartThemesConstants.TRANSPARENT_PAINT);
-//			dvi.setFont(JRFontUtil.getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
+//			dvi.setFont(getFontUtil().getAwtFont(jrFont).deriveFont(10f).deriveFont(Font.BOLD));
 			dvi.setOutlinePaint(ChartThemesConstants.TRANSPARENT_PAINT);
 			dvi.setPaint(Color.WHITE);
 
@@ -2006,10 +2017,10 @@ public class SimpleChartTheme implements ChartTheme
 		if(label != null)
 		{
 			JRFont displayFont = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), displayFont);
-			JRFontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), displayFont);
+			FontUtil.copyNonNullOwnProperties(getPlotSettings().getDisplayFont(), displayFont);
+			FontUtil.copyNonNullOwnProperties(jrPlot.getValueDisplay().getFont(), displayFont);
 			displayFont = new JRBaseFont(getChart(), displayFont);
-			Font themeDisplayFont = JRFontUtil.getAwtFont(displayFont, getLocale());
+			Font themeDisplayFont = getFontUtil().getAwtFont(displayFont, getLocale());
 			
 			String[] textLines = label.split("\\n");
 			for(int i = 0; i < textLines.length; i++)
@@ -2245,10 +2256,10 @@ public class SimpleChartTheme implements ChartTheme
 		{
 			LegendSettings legendSettings = getLegendSettings();
 			JRBaseFont font = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(legendSettings.getFont(), font);
-			JRFontUtil.copyNonNullOwnProperties(getChart().getLegendFont(), font);
+			FontUtil.copyNonNullOwnProperties(legendSettings.getFont(), font);
+			FontUtil.copyNonNullOwnProperties(getChart().getLegendFont(), font);
 			font = new JRBaseFont(getChart(), font);
-			legend.setItemFont(JRFontUtil.getAwtFont(font, getLocale()));
+			legend.setItemFont(getFontUtil().getAwtFont(font, getLocale()));
 
 			Paint forePaint = getChart().getOwnLegendColor();
 			if (forePaint == null && legendSettings.getForegroundPaint() != null)
@@ -2617,10 +2628,10 @@ public class SimpleChartTheme implements ChartTheme
 				axis.setLabelAngle(labelAngle.doubleValue());
 
 			JRBaseFont font = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(axisSettings.getLabelFont(), font);
-			JRFontUtil.copyNonNullOwnProperties(labelFont, font);
+			FontUtil.copyNonNullOwnProperties(axisSettings.getLabelFont(), font);
+			FontUtil.copyNonNullOwnProperties(labelFont, font);
 			font = new JRBaseFont(getChart(), font);
-			axis.setLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			axis.setLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 			
 			RectangleInsets labelInsets = axisSettings.getLabelInsets();
 			if(labelInsets != null)
@@ -2648,10 +2659,10 @@ public class SimpleChartTheme implements ChartTheme
 		if(axisTickLabelsVisible)
 		{
 			JRBaseFont font = new JRBaseFont();
-			JRFontUtil.copyNonNullOwnProperties(axisSettings.getTickLabelFont(), font);
-			JRFontUtil.copyNonNullOwnProperties(tickLabelFont, font);
+			FontUtil.copyNonNullOwnProperties(axisSettings.getTickLabelFont(), font);
+			FontUtil.copyNonNullOwnProperties(tickLabelFont, font);
 			font = new JRBaseFont(getChart(), font);
-			axis.setTickLabelFont(JRFontUtil.getAwtFont(font, getLocale()));
+			axis.setTickLabelFont(getFontUtil().getAwtFont(font, getLocale()));
 			
 			RectangleInsets tickLabelInsets = axisSettings.getTickLabelInsets();
 			if(tickLabelInsets != null)
@@ -3002,10 +3013,10 @@ public class SimpleChartTheme implements ChartTheme
 			RectangleEdge titleEdge)
 	{
 		JRBaseFont font = new JRBaseFont();
-		JRFontUtil.copyNonNullOwnProperties(titleSettings.getFont(), font);
-		JRFontUtil.copyNonNullOwnProperties(titleFont, font);
+		FontUtil.copyNonNullOwnProperties(titleSettings.getFont(), font);
+		FontUtil.copyNonNullOwnProperties(titleFont, font);
 		font = new JRBaseFont(getChart(), font);
-		title.setFont(JRFontUtil.getAwtFont(font, getLocale()));
+		title.setFont(getFontUtil().getAwtFont(font, getLocale()));
 		
 		HorizontalAlignment hAlign = titleSettings.getHorizontalAlignment();
 		if(hAlign != null)
