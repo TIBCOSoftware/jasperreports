@@ -378,13 +378,12 @@ public class JRDocxExporter extends JRAbstractExporter
 
 		runHelper = new DocxRunHelper(jasperReportsContext, docWriter, fontMap, getExporterKey());
 		
-		emptyPageState = false;
-
 		for(reportIndex = 0; reportIndex < jasperPrintList.size(); reportIndex++)
 		{
 			setJasperPrint(jasperPrintList.get(reportIndex));
 			setExporterHints();
 			bookmarkIndex = 0;
+			emptyPageState = false;
 			List<JRPrintPage> pages = jasperPrint.getPages();
 			if (pages != null && pages.size() > 0)
 			{
@@ -524,12 +523,18 @@ public class JRDocxExporter extends JRAbstractExporter
 						xCuts,
 						false
 						);
-			// while the first and last page need single breaks, all the others require double-breaking 
+			int maxReportIndex = jasperPrintList.size() - 1;
+			
+			// while the first and last page in the JasperPrint list need single breaks, all the others require double-breaking 
 			boolean twice = 
-					pageIndex > startPageIndex 
-					&& pageIndex < endPageIndex 
-					&& !emptyPageState;
+					(pageIndex > startPageIndex && pageIndex < endPageIndex && !emptyPageState)
+					||(reportIndex < maxReportIndex && pageIndex == endPageIndex);
 			tableHelper.getParagraphHelper().exportEmptyPage(pageAnchor, bookmarkIndex, twice);
+			tableHelper.exportSection(
+					reportIndex < maxReportIndex && pageIndex == endPageIndex, 
+					jasperPrint.getPageWidth(), 
+					jasperPrint.getPageHeight()
+					);
 			bookmarkIndex++;
 			emptyPageState = true;
 			return;

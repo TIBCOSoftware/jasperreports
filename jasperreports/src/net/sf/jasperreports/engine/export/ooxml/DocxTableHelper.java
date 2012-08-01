@@ -101,6 +101,11 @@ public class DocxTableHelper extends BaseHelper
 	public void exportFooter(boolean lastPage, int pageWidth, int pageHeight) 
 	{
 		write("  </w:tbl>\n");
+		exportSection(lastPage, pageWidth, pageHeight);
+	}
+	
+	public void exportSection(boolean lastPage, int pageWidth, int pageHeight) 
+	{
 		if (lastPage)
 		{
 			write("    <w:p>\n");
