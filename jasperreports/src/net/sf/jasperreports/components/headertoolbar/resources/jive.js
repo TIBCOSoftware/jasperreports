@@ -104,36 +104,44 @@ jQuery.extend(jive, {
         if(!jive.selectors[o.selector]){
             jive.selectors[o.selector] = o.type;
             jQuery('div.jrPage').on('click touchend',o.selector,function(evt){
-                var jo = jQuery(this);
-                jive.selectInteractiveElement(jo);
-                return false;
+            	// keep html links functional
+            	if(jQuery(evt.target).closest('a').size() == 0) {
+            		var jo = jQuery(this);
+            		jive.selectInteractiveElement(jo);
+            		return false;
+            	}
             })
         }
         if(o.proxySelector && !jive.selectors[o.proxySelector]) {
             jive.selectors[o.proxySelector] = o.type;
             jQuery('div.jrPage').on('click touchend',o.proxySelector,function(evt){
-                var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
-                jive.selectInteractiveElement(jo);
-                return false;
+            	// keep html links functional
+            	if(jQuery(evt.target).closest('a').size() == 0) {
+            		var jo = jive.interactive[o.type].getInteractiveElementFromProxy(jQuery(this));
+            		jive.selectInteractiveElement(jo);
+            		return false;
+            	}
             })
         }
     },
     selectInteractiveElement: function(jo){
-        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
-        jive.selected = {
-            ie: jive.elements[jo.data('popupid')],
-            jo: jo
-        };
-        var dim = jive.interactive[jive.selected.ie.type].getElementSize();
-
-        jive.ui.overlay.show(dim);
-        jive.ui.marker.show(dim);
-        jive.ui.foobar.show(dim);
-        jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
-
-        jive.active = true;
-        jive.started = true;
-        jive.interactive[jive.selected.ie.type].onSelect();
+    	if (jo.is('.interactiveElement')) {
+	        jive.ui.dialog.isVisible && jive.ui.dialog.hide();
+	        jive.selected = {
+	            ie: jive.elements[jo.data('popupid')],
+	            jo: jo
+	        };
+	        var dim = jive.interactive[jive.selected.ie.type].getElementSize();
+	
+	        jive.ui.overlay.show(dim);
+	        jive.ui.marker.show(dim);
+	        jive.ui.foobar.show(dim);
+	        jive.ui.foobar.dropMenu && jive.ui.foobar.dropMenu.jo.hide();
+	
+	        jive.active = true;
+	        jive.started = true;
+	        jive.interactive[jive.selected.ie.type].onSelect();
+    	}
     },
     hide: function(items, keepDialogOpen){
         if(!items){

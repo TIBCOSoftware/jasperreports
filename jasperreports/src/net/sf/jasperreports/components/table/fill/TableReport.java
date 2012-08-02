@@ -117,6 +117,7 @@ public class TableReport implements JRReport
 	private static final String PROPERTY_UP_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.up.arrow.char"; //FIXMEJIVE move these from here
 	private static final String PROPERTY_DOWN_ARROW_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.sort.down.arrow.char";
 	private static final String PROPERTY_FILTER_CHAR = JRPropertiesUtil.PROPERTY_PREFIX + "components.filter.char";
+	private static final String PROPERTY_INTERACTIVE_TABLE = JRPropertiesUtil.PROPERTY_PREFIX + "components.table.interactive";
 	
 	protected static final String SUMMARY_GROUP_NAME = "__SummaryGroup";
 
@@ -137,6 +138,10 @@ public class TableReport implements JRReport
 	
 	private final Map<Integer, String> headerHtmlClasses;
 	
+	private final JRPropertiesUtil propertiesUtil;
+	private boolean isInteractiveTable;
+	private Map<Column, Boolean> columnInteractivityMapping;
+	
 	public TableReport(
 		FillContext fillContext, 
 		TableComponent table, 
@@ -152,6 +157,30 @@ public class TableReport implements JRReport
 		this.parentReport = fillContext.getFiller().getJasperReport();
 		this.mainDataset = mainDataset;
 		this.builtinEvaluators = builtinEvaluators;
+		
+		this.propertiesUtil = JRPropertiesUtil.getInstance(fillContext.getFiller().getJasperReportsContext());
+		
+		// begin: table interactivity
+		this.isInteractiveTable  = Boolean.valueOf(propertiesUtil.getProperty(PROPERTY_INTERACTIVE_TABLE, fillContext.getComponentElement(), this.parentReport));
+
+		this.columnInteractivityMapping = new HashMap<Column, Boolean>();
+		int interactiveColumnCount = 0;
+		for (BaseColumn column: TableUtil.getAllColumns(table)) {
+			boolean interactiveColumn = isInteractiveTable;
+			if (column.getPropertiesMap().containsProperty(PROPERTY_INTERACTIVE_TABLE)) {
+				interactiveColumn = Boolean.valueOf(column.getPropertiesMap().getProperty(PROPERTY_INTERACTIVE_TABLE));
+			}
+			if (interactiveColumn) {
+				interactiveColumnCount++;
+			}
+			columnInteractivityMapping.put((Column)column, interactiveColumn);
+		}
+		
+		if (interactiveColumnCount > 0) {
+			this.isInteractiveTable = true;
+		}
+		// end: table interactivity
+		
 		
 		this.columnHeader = createColumnHeader(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
@@ -471,7 +500,7 @@ public class TableReport implements JRReport
 		{
 			JRDesignFrame frame = (JRDesignFrame) createColumnCell(column, parentGroup, cell, true);
 			JRTextField sortTextField = TableUtil.getColumnDetailTextElement(column);
-			if (sortTextField != null) {
+			if (sortTextField != null && isInteractiveTable) {
 				addHeaderToolbarElement(column, frame, sortTextField);
 			}
 			return frame;
@@ -516,6 +545,7 @@ public class TableReport implements JRReport
 			genericElement.setStretchType(StretchTypeEnum.RELATIVE_TO_BAND_HEIGHT);
 			
 			String name = null;
+			boolean interactiveColumn = columnInteractivityMapping.get(column);
 			
 			if (!TableUtil.isSortableAndFilterable(sortTextField)) {
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.FALSE.toString());
@@ -523,6 +553,8 @@ public class TableReport implements JRReport
 			} else {
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
+				
+				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE, String.valueOf(interactiveColumn));
 				
 				JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
 				
@@ -626,7 +658,7 @@ public class TableReport implements JRReport
 			genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_TABLE_UUID, fillContext.getComponentElement().getUUID().toString());
 			addElementParameter(genericElement, HeaderToolbarElement.PARAMETER_COLUMN_LABEL, getColumnHeaderLabelExpression(header));
 
-			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode());
+			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, "columnHeader header_" + columnName + "_" + column.hashCode() + (interactiveColumn ? " interactiveElement" : ""));
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_ID, popupId);
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_POPUP_COLUMN, popupColumn);
 			
@@ -1128,6 +1160,7 @@ public class TableReport implements JRReport
 		if (columnHashCode != null && headerHtmlClasses.get(columnHashCode) != null) {
 			frame.getPropertiesMap().setProperty(JRHtmlExporter.PROPERTY_HTML_CLASS, headerHtmlClasses.get(columnHashCode));
 		}
+		// not transferring cell properties to the frame/element for now
 		
 		for (Iterator<JRChild> it = cell.getChildren().iterator(); it.hasNext();)
 		{

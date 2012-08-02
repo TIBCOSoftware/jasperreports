@@ -182,6 +182,7 @@
 
 <script class='jasperreports'>
     jasperreports.events.subscribeToEvent('jive.init', 'jive.initInteractiveElement',[{
+	#if (${isInteractive})
         id: '${popupId}',
         type: 'column',
         selector: '.columnHeader',
@@ -238,5 +239,10 @@
         headerToolbarMask: {'data-columnIndex': ${columnIndex}},
         headingsTabContent: ${colHeaderData},
         valuesTabContent: ${colValueData}
+    #else
+    	type: 'column',
+        selector: '.columnHeader',
+        proxySelector: '.column'
+	#end
     }]);
 </script>

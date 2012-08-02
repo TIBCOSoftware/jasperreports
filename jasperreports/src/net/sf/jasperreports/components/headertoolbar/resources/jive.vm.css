@@ -471,7 +471,7 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
 div.colorpick {width:16px;height:16px;margin:4px;cursor:pointer;}
 
-.columnHeader{cursor:pointer;}
+.interactiveElement{cursor:pointer;}
 
 div.ui-datepicker {font-size: 11px;}
 
