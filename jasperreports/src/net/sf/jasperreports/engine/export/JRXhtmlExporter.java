@@ -90,6 +90,7 @@ import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.fonts.FontInfo;
 import net.sf.jasperreports.engine.type.HyperlinkTypeEnum;
 import net.sf.jasperreports.engine.type.LineDirectionEnum;
+import net.sf.jasperreports.engine.type.LineSpacingEnum;
 import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
@@ -851,10 +852,10 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportStyledText(JRStyledText styledText, Locale locale) throws IOException
 	{
-		exportStyledText(styledText, null, locale);
+		exportStyledText(styledText, null, locale, null, null);
 	}
 	
-	protected void exportStyledText(JRStyledText styledText, String tooltip, Locale locale) throws IOException
+	protected void exportStyledText(JRStyledText styledText, String tooltip, Locale locale, LineSpacingEnum lineSpacing, Float lineSpacingSize) throws IOException
 	{
 		String text = styledText.getText();
 
@@ -882,7 +883,9 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
 				tooltip,
-				locale
+				locale,
+				lineSpacing,
+				lineSpacingSize
 				);
 
 			iterator.setIndex(runLimit);
@@ -900,14 +903,16 @@ public class JRXhtmlExporter extends JRAbstractExporter
 	 */
 	protected void exportStyledTextRun(Map<Attribute,Object> attributes, String text, Locale locale) throws IOException
 	{
-		exportStyledTextRun(attributes, text, null, locale);
+		exportStyledTextRun(attributes, text, null, locale, null, null);
 	}
 	
 	protected void exportStyledTextRun(
 		Map<Attribute,Object> attributes, 
 		String text,
 		String tooltip,
-		Locale locale
+		Locale locale,
+		LineSpacingEnum lineSpacing,
+		Float lineSpacingSize
 		) throws IOException
 	{
 		String fontFamilyAttr = (String)attributes.get(TextAttribute.FAMILY);//FIXMENOW reuse this font lookup code everywhere
@@ -962,6 +967,41 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		writer.write("font-size: ");
 		writer.write(toSizeUnit(((Float)attributes.get(TextAttribute.SIZE)).intValue()));
 		writer.write(";");
+		
+		switch (lineSpacing)
+		{
+			case SINGLE:
+			default:
+			{
+				writer.write(" line-height: normal;");
+				break;
+			}
+			case ONE_AND_HALF:
+			{
+				writer.write(" line-height: 1.5;");
+				break;
+			}
+			case DOUBLE:
+			{
+				writer.write(" line-height: 2.0;");
+				break;
+			}
+			case PROPORTIONAL:
+			{
+				if (lineSpacingSize != null) {
+					writer.write(" line-height: " + lineSpacingSize.floatValue() + ";");
+				}
+				break;
+			}
+			case AT_LEAST:
+			case FIXED:
+			{
+				if (lineSpacingSize != null) {
+					writer.write(" line-height: " + lineSpacingSize.floatValue() + "px;");
+				}
+				break;
+			}
+		}
 
 		/*
 		if (!horizontalAlignment.equals(CSS_TEXT_ALIGN_LEFT))
@@ -1252,38 +1292,6 @@ public class JRXhtmlExporter extends JRAbstractExporter
 			styleBuffer.append("word-wrap: break-word; ");
 		}
 		
-		switch (text.getParagraph().getLineSpacing())
-		{
-			case SINGLE:
-			default:
-			{
-				styleBuffer.append("line-height: 1.0; ");
-				break;
-			}
-			case ONE_AND_HALF:
-			{
-				styleBuffer.append("line-height: 1.5; ");
-				break;
-			}
-			case DOUBLE:
-			{
-				styleBuffer.append("line-height: 2.0; ");
-				break;
-			}
-			case PROPORTIONAL:
-			{
-				//styleBuffer.append("line-height: " + (int)(100 * text.getParagraph().getLineSpacingSize().floatValue()) + "%; ");
-				styleBuffer.append("line-height: " + text.getParagraph().getLineSpacingSize().floatValue() + "; ");
-				break;
-			}
-			case AT_LEAST:
-			case FIXED:
-			{
-				styleBuffer.append("line-height: " + text.getParagraph().getLineSpacingSize().floatValue() + "px; ");
-				break;
-			}
-		}
-
 		styleBuffer.append("text-indent: " + text.getParagraph().getFirstLineIndent().intValue() + "px; ");
 //		styleBuffer.append("margin-left: " + text.getParagraph().getLeftIndent().intValue() + "px; ");
 //		styleBuffer.append("margin-right: " + text.getParagraph().getRightIndent().intValue() + "px; ");
@@ -1334,7 +1342,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		{
 			//only use text tooltip when no hyperlink present
 			String textTooltip = hyperlinkStarted ? null : text.getHyperlinkTooltip();
-			exportStyledText(styledText, textTooltip, getTextLocale(text));
+			exportStyledText(styledText, textTooltip, getTextLocale(text), text.getParagraph().getLineSpacing(), text.getParagraph().getLineSpacingSize());
 		}
 //		else
 //		{
