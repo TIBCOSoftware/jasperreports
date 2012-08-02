@@ -883,8 +883,21 @@ public class JRFillDataset implements JRDataset, DatasetFillContext
 				{
 					if (sortRecord.isFiltered())
 					{
+						Object[] recordValues = sortRecord.getValues();
+						Object[] fieldValues;
+						// the sort record can also contain sort variable values
+						if (fields.length == recordValues.length)
+						{
+							fieldValues = recordValues;
+						}
+						else
+						{
+							fieldValues = new Object[fields.length];
+							System.arraycopy(recordValues, 0, fieldValues, 0, fields.length);
+						}
+						
 						// add the record to the data snapshot
-						dataRecorder.addRecord(sortRecord.getValues());
+						dataRecorder.addRecord(fieldValues);
 						
 						// current unsorted index
 						++recordIndex;
