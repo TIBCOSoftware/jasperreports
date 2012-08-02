@@ -25,7 +25,12 @@ package net.sf.jasperreports.web.util;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Map;
+
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
+import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -38,12 +43,19 @@ import org.apache.velocity.app.VelocityEngine;
  */
 public class VelocityUtil
 {
+	private static final String VELOCITY_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "velocity.";
 	private static final VelocityEngine velocityEngine;
 	
 	static {
 		velocityEngine = new VelocityEngine();
-		velocityEngine.setProperty("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		velocityEngine.setProperty("file.resource.loader.cache", "true");
+		
+		JRPropertiesUtil propertiesUtil = JRPropertiesUtil.getInstance(DefaultJasperReportsContext.getInstance());
+		List<PropertySuffix> properties = propertiesUtil.getProperties(VELOCITY_PROPERTY_PREFIX);
+		
+		for (PropertySuffix property: properties) {
+			velocityEngine.setProperty(property.getSuffix(), property.getValue());
+		}
+		
 		velocityEngine.init();
 	}
 	
