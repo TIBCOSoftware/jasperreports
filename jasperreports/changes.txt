@@ -2,6 +2,15 @@
 JasperReports Library Change Log
 ===================================
 
+JasperReports 4.7.1 (2012-0x-xx, SVN xxxx)
+---------------------------------------------
+
+- minor bug fixes and improvements;
+
+
+
+
+
 JasperReports 4.7.0 (2012-07-02, SVN 5473)
 ---------------------------------------------
 
