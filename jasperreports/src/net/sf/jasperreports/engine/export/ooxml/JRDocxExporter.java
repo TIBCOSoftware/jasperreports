@@ -126,7 +126,8 @@ public class JRDocxExporter extends JRAbstractExporter
 	 */
 	public static final String IMAGE_NAME_PREFIX = "img_";
 	protected static final int IMAGE_NAME_PREFIX_LEGTH = IMAGE_NAME_PREFIX.length();
-
+	public static final String IMAGE_LINK_PREFIX = "link_" + IMAGE_NAME_PREFIX;
+	
 	/**
 	 *
 	 */
@@ -137,7 +138,6 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected Map<String, String> rendererToImagePathMap;
 //	protected Map imageMaps;
 	protected List<JRPrintElementIndex> imagesToProcess;
-//	protected Map hyperlinksMap;
 
 	protected int reportIndex;
 	protected int pageIndex;
@@ -160,6 +160,9 @@ public class JRDocxExporter extends JRAbstractExporter
 	protected String pageAnchor;
 	
 	protected JRDocxExporterContext mainExporterContext = new ExporterContext(null);
+	
+	protected DocxRelsHelper relsHelper;
+	
 	
 
 	protected class ExporterContext extends BaseExporterContext implements JRDocxExporterContext
@@ -207,7 +210,7 @@ public class JRDocxExporter extends JRAbstractExporter
 	public void exportReport() throws JRException
 	{
 		progressMonitor = (JRExportProgressMonitor)parameters.get(JRExporterParameter.PROGRESS_MONITOR);
-
+		
 		/*   */
 		setOffset();
 
@@ -348,7 +351,7 @@ public class JRDocxExporter extends JRAbstractExporter
 		docHelper = new DocxDocumentHelper(docWriter);
 		docHelper.exportHeader();
 		
-		DocxRelsHelper relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
+		relsHelper = new DocxRelsHelper(docxZip.getRelsEntry().getWriter());
 		relsHelper.exportHeader();
 		
 		DocxStyleHelper styleHelper = 
@@ -1014,7 +1017,7 @@ public class JRDocxExporter extends JRAbstractExporter
 			}
 
 
-			boolean startedHyperlink = startHyperlink(image,false);
+//			boolean startedHyperlink = startHyperlink(image,false);
 
 			docHelper.write("<w:r>\n"); 
 			docHelper.write("<w:drawing>\n");
@@ -1023,11 +1026,16 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("<wp:positionH relativeFrom=\"column\"><wp:align>" + DocxParagraphHelper.getHorizontalAlignment(image.getHorizontalAlignmentValue()) + "</wp:align></wp:positionH>");
 			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:posOffset>0</wp:posOffset></wp:positionV>");
 //			docHelper.write("<wp:positionV relativeFrom=\"line\"><wp:align>" + CellHelper.getVerticalAlignment(new Byte(image.getVerticalAlignment())) + "</wp:align></wp:positionV>");
-			
-			int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
 			docHelper.write("<wp:extent cx=\"" + LengthUtil.emu(width) + "\" cy=\"" + LengthUtil.emu(height) + "\"/>\n");
 			docHelper.write("<wp:wrapNone/>");
-			docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\"/>\n");
+			int imageId = image.hashCode() > 0 ? image.hashCode() : -image.hashCode();
+			String rId = IMAGE_LINK_PREFIX + getElementIndex(gridCell);
+			docHelper.write("<wp:docPr id=\"" + imageId + "\" name=\"Picture\">\n");
+			if(getHyperlinkURL(image) != null)
+			{
+				docHelper.write("<a:hlinkClick xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\" r:id=\"" + rId + "\"/>\n");
+			}
+			docHelper.write("</wp:docPr>\n");
 			docHelper.write("<a:graphic>\n");
 			docHelper.write("<a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/picture\">\n");
 			docHelper.write("<pic:pic>\n");
@@ -1063,10 +1071,43 @@ public class JRDocxExporter extends JRAbstractExporter
 			docHelper.write("</w:drawing>\n");
 			docHelper.write("</w:r>"); 
 
-			if(startedHyperlink)
+			String url =  getHyperlinkURL(image);
+
+			if(url != null)
 			{
-				endHyperlink(false);
+				String targetMode = "";
+				try {
+					switch(image.getHyperlinkTypeValue())
+					{
+						case LOCAL_PAGE:
+						case LOCAL_ANCHOR:
+						{
+							relsHelper.exportImageLink(rId, "#"+url, targetMode);
+							break;
+						}
+						
+						case REMOTE_PAGE:
+						case REMOTE_ANCHOR:
+						case REFERENCE:
+						{
+							targetMode = " TargetMode=\"External\"";
+							relsHelper.exportImageLink(rId, url, targetMode);
+							break;
+						}
+						default:
+						{
+							break;
+						}
+					}
+				} catch (IOException e) {
+					throw new JRRuntimeException(e);
+				}
 			}
+			
+//			if(startedHyperlink)
+//			{
+//				endHyperlink(false);
+//			}
 		}
 
 		docHelper.write("</w:p>");

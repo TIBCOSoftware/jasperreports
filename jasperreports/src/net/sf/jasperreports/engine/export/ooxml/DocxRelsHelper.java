@@ -61,6 +61,17 @@ public class DocxRelsHelper extends BaseHelper
 		writer.write(" <Relationship Id=\"" + imageName + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/image\" Target=\"media/" + imageName + "." + extension + "\"/>\n");
 	}
 	
+	/**
+	 * 
+	 */
+	public void exportImageLink(String imageId, String url, String targetMode) throws IOException
+	{
+		if(url != null)
+		{
+			writer.write(" <Relationship Id=\"" + imageId + "\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink\" Target=\"" + url + "\"" + targetMode + "/>\n");
+		}
+	}
+	
 //	/**
 //	 * 
 //	 */
