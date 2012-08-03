@@ -704,7 +704,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		for (JRGroup group : mainDataset.getGroups())
 		{
 			addBands(group.getGroupHeaderSection(), bands);
-			addBands(group.getGroupHeaderSection(), bands);
+			addBands(group.getGroupFooterSection(), bands);
 		}
 
 		addBands(detailSection, bands);
