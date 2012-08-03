@@ -72,6 +72,14 @@ public class DocxRunHelper extends BaseHelper
 	 */
 	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText)
 	{
+		export(style, attributes, text, locale, hiddenText, null);
+	}
+	
+	/**
+	 *
+	 */
+	public void export(JRStyle style, Map<Attribute,Object> attributes, String text, Locale locale, boolean hiddenText, String invalidCharReplacement)
+	{
 		if (text != null)
 		{
 			write("      <w:r>\n");
@@ -89,7 +97,7 @@ public class DocxRunHelper extends BaseHelper
 				else
 				{
 					write("<w:t xml:space=\"preserve\">");
-					write(JRStringUtil.xmlEncode(token));//FIXMEODT try something nicer for replace
+					write(JRStringUtil.xmlEncode(token, invalidCharReplacement));//FIXMEODT try something nicer for replace
 					write("</w:t>\n");
 				}
 			}

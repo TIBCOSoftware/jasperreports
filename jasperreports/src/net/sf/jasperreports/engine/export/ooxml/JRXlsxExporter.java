@@ -272,7 +272,8 @@ public class JRXlsxExporter extends JRXlsAbstractExporter
 			runHelper.export(
 				style, iterator.getAttributes(), 
 				text.substring(iterator.getIndex(), runLimit),
-				locale
+				locale,
+				invalidCharReplacement
 				);
 
 			iterator.setIndex(runLimit);

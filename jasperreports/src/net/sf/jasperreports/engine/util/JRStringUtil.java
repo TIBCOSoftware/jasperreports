@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.xmlbeans.impl.common.XMLChar;
+
 
 
 
@@ -88,6 +90,88 @@ public final class JRStringUtil
 	 */
 	public static String xmlEncode(String text)
 	{
+//		if (text == null || text.length() == 0)
+//		{
+//			return text;
+//		}
+//		
+//		int length = text.length();
+//		StringBuffer ret = new StringBuffer(length * 12 / 10);
+//
+//		int last = 0;
+//		for (int i = 0; i < length; i ++)
+//		{
+//			char c = text.charAt(i);
+//			switch (c)
+//			{
+////			case ' ' : ret.append("&nbsp;"); break;
+//				case '&' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("&amp;");
+//					break;
+//				case '>' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("&gt;");
+//					break;
+//				case '<' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("&lt;");
+//					break;
+//				case '\"' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("&quot;");
+//					break;
+//				case '\'' :
+//					if (last < i)
+//					{
+//						ret.append(text.substring(last, i));
+//					}
+//					last = i + 1;
+//					
+//					ret.append("&apos;");
+//					break;
+//
+//				default :
+//					break;
+//			}
+//		}
+//
+//		if (last < length)
+//		{
+//			ret.append(text.substring(last));
+//		}
+//		
+//		return ret.toString();
+		
+		return xmlEncode(text, null);
+	}
+
+
+	/**
+	 *
+	 */
+	public static String xmlEncode(String text, String invalidCharReplacement)
+	{
 		if (text == null || text.length() == 0)
 		{
 			return text;
@@ -95,74 +179,72 @@ public final class JRStringUtil
 		
 		int length = text.length();
 		StringBuffer ret = new StringBuffer(length * 12 / 10);
-
 		int last = 0;
-		for (int i = 0; i < length; i ++)
+		
+		for (int i = 0; i < length; i++)
 		{
 			char c = text.charAt(i);
-			switch (c)
+			if(XMLChar.isInvalid(c))
 			{
-//			case ' ' : ret.append("&nbsp;"); break;
-				case '&' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("&amp;");
-					break;
-				case '>' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("&gt;");
-					break;
-				case '<' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("&lt;");
-					break;
-				case '\"' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("&quot;");
-					break;
-				case '\'' :
-					if (last < i)
-					{
-						ret.append(text.substring(last, i));
-					}
-					last = i + 1;
-					
-					ret.append("&apos;");
-					break;
-
-				default :
-					break;
+				last = appendText(text, ret, i, last);
+				if(invalidCharReplacement == null)
+				{
+					//the invalid character is preserved
+					ret.append(c);
+				}
+				else if("".equals(invalidCharReplacement))
+				{
+					//the invalid character is removed
+					continue;
+				}
+				else
+				{
+					//the invalid character is replaced
+					ret.append(invalidCharReplacement);
+				}
+			}
+			else
+			{
+				switch (c)
+				{
+					case '&' :
+						last = appendText(text, ret, i, last);
+						ret.append("&amp;");
+						break;
+					case '>' :
+						last = appendText(text, ret, i, last);
+						ret.append("&gt;");
+						break;
+					case '<' :
+						last = appendText(text, ret, i, last);
+						ret.append("&lt;");
+						break;
+					case '\"' :
+						last = appendText(text, ret, i, last);
+						ret.append("&quot;");
+						break;
+					case '\'' :
+						last = appendText(text, ret, i, last);
+						ret.append("&apos;");
+						break;
+					default :
+						break;
+				}
 			}
 		}
-
-		if (last < length)
-		{
-			ret.append(text.substring(last));
-		}
-		
+		appendText(text, ret, length, last);
 		return ret.toString();
 	}
-
-
+	
+	private static int appendText(String text, StringBuffer ret, int current, int old)
+	{
+		if(old < current)
+		{
+			ret.append(text.substring(old, current));
+		}
+		return current+1;
+	}
+	
 	/**
 	 *
 	 */
