@@ -850,7 +850,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 	protected void writePropertyExpression(JRPropertyExpression propertyExpression) throws IOException
 	{
-		String expressionText = propertyExpression.getValueExpression().getText();
+		JRExpression valueExpression = propertyExpression.getValueExpression();
+		String expressionText = valueExpression == null ? "" : valueExpression.getText();
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_propertyExpression, getNamespace(), expressionText, 
 				JRXmlConstants.ATTRIBUTE_name, propertyExpression.getName());
 	}
