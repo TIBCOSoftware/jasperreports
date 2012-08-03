@@ -103,6 +103,7 @@ public class BarcodeFillComponent extends BaseFillComponent
 		
 		JRTemplatePrintImage image = new JRTemplatePrintImage(templateImage, elementId);
 		JRComponentElement element = fillContext.getComponentElement();
+		image.setUUID(element.getUUID());
 		image.setX(element.getX());
 		image.setY(fillContext.getElementPrintY());
 		image.setWidth(element.getWidth());

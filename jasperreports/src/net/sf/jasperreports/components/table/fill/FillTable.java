@@ -369,6 +369,7 @@ public class FillTable extends BaseFillComponent
 
 		JRLineBox lineBox = printFrame.getLineBox();
 		
+		printFrame.setUUID(fillContext.getComponentElement().getUUID());
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setY(fillContext.getElementPrintY());
 		printFrame.setWidth(fillWidth + lineBox.getLeftPadding() + lineBox.getRightPadding());

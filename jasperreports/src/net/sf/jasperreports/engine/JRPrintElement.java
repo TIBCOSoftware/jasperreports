@@ -23,13 +23,15 @@
  */
 package net.sf.jasperreports.engine;
 
+import java.util.UUID;
+
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
+public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder, JRIdentifiable
 {
 
 	/**
@@ -53,6 +55,11 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	 *
 	 */
 	public int getX();
+	
+	/**
+	 *
+	 */
+	public void setUUID(UUID uuid);
 	
 	/**
 	 *

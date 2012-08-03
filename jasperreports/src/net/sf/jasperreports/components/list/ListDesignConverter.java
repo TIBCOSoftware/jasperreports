@@ -62,6 +62,7 @@ public class ListDesignConverter implements ComponentDesignConverter
 		{
 			JRBasePrintFrame contentsFrame = new JRBasePrintFrame(
 					reportConverter.getDefaultStyleProvider());
+			contentsFrame.setUUID(element.getUUID());
 			contentsFrame.setX(0);
 			contentsFrame.setY(0);
 			contentsFrame.setWidth(element.getWidth());			

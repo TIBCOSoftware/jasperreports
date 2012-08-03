@@ -105,6 +105,7 @@ public abstract class BaseFillList extends BaseFillComponent
 	protected void createPrintFrame()
 	{
 		printFrame = new JRTemplatePrintFrame(getFrameTemplate(), elementId);
+		printFrame.setUUID(fillContext.getComponentElement().getUUID());
 		printFrame.setX(fillContext.getComponentElement().getX());
 		printFrame.setWidth(fillContext.getComponentElement().getWidth());
 	}

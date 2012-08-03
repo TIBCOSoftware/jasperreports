@@ -388,6 +388,7 @@ public class JRFillCellContents extends JRFillElementContainer implements JRCell
 		removeBlankElements();
 
 		JRTemplatePrintFrame printCell = new JRTemplatePrintFrame(getTemplateFrame(), elementId);
+		//printCell.setUUID();
 		printCell.setX(x);
 		printCell.setY(y);
 		printCell.setWidth(width);
