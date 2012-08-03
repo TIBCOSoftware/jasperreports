@@ -841,7 +841,15 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		documentPageScale = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_PAGE_SCALE, 0);
 		documentFirstPageNumber = getPropertiesUtil().getIntegerProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, 0);
 		ignoreAnchors = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_IGNORE_ANCHORS, false);
-		invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
 	}
 	
 	protected abstract void setBackground();

@@ -1175,7 +1175,15 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	
 	protected void setExporterHints()
 	{
-		invalidCharReplacement =  getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		if(jasperPrint.hasProperties() && jasperPrint.getPropertiesMap().containsProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS))
+		{
+			// allows null values for the property
+			invalidCharReplacement = jasperPrint.getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS);
+		}
+		else
+		{
+			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
+		}
 	}
 
 	protected abstract void exportAnchor(String anchorName) throws IOException;
