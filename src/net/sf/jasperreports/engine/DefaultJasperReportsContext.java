@@ -75,7 +75,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	/**
 	 *
 	 */
-	public static DefaultJasperReportsContext getInstance()
+	public static DefaultJasperReportsContext getInstance()//FIXMECONTEXT check this use of this
 	{
 		return INSTANCE;
 	}

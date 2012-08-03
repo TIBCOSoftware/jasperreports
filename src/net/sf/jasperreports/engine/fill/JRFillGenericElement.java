@@ -184,6 +184,7 @@ public class JRFillGenericElement extends JRFillElement implements
 
 	protected void copyBasicAttributes(JRGenericPrintElement printElement)
 	{
+		printElement.setUUID(this.getUUID());
 		printElement.setX(this.getX());
 		printElement.setY(this.getRelativeY());
 		printElement.setWidth(getWidth());

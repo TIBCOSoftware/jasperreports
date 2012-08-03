@@ -193,6 +193,7 @@ public final class CrosstabConverter extends FrameConverter
 		)
 	{
 		JRBasePrintFrame frame = new JRBasePrintFrame(cell.getDefaultStyleProvider());
+		//frame.setUUID(cell.getUUID());
 		frame.setX(x);
 		frame.setY(y);
 		frame.setWidth(cell.getWidth());

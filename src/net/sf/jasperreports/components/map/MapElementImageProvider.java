@@ -81,6 +81,7 @@ public class MapElementImageProvider
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 		
+		printImage.setUUID(element.getUUID());
 		printImage.setX(element.getX());
 		printImage.setY(element.getY());
 		printImage.setWidth(element.getWidth());

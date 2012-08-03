@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.xml;
 
 import java.util.Map;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
@@ -63,6 +64,12 @@ public class JRPrintElementFactory extends JRBaseFactory
 			element.setMode(mode);
 		}
 		
+		String uuid = atts.getValue(JRXmlConstants.ATTRIBUTE_uuid);
+		if (uuid != null)
+		{
+			element.setUUID(UUID.fromString(uuid));
+		}
+
 		String x = atts.getValue(JRXmlConstants.ATTRIBUTE_x);
 		if (x != null && x.length() > 0)
 		{

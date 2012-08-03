@@ -864,6 +864,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	{
 		JRPrintRectangle printRectangle = new JRTemplatePrintRectangle(getJRTemplateRectangle(), elementId);
 
+		printRectangle.setUUID(getUUID());
 		printRectangle.setX(getX());
 		printRectangle.setY(getRelativeY());
 		printRectangle.setWidth(getWidth());

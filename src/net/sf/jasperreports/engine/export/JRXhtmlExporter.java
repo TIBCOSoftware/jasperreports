@@ -1117,6 +1117,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 		else
 		{
 			JRBasePrintText rotatedText = new JRBasePrintText(text.getDefaultStyleProvider());
+			rotatedText.setUUID(text.getUUID());
 			rotatedText.setX(text.getX());
 			rotatedText.setY(text.getY());
 			rotatedText.setWidth(text.getWidth());

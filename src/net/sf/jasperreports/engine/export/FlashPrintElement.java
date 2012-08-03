@@ -143,6 +143,7 @@ public final class FlashPrintElement
 		JRBaseGenericPrintElement flashEl = new JRBaseGenericPrintElement(
 				template.getDefaultStyleProvider());
 		// copy all attribute from the template element
+		flashEl.setUUID(template.getUUID());
 		flashEl.setX(template.getX());
 		flashEl.setY(template.getY());
 		flashEl.setWidth(template.getWidth());

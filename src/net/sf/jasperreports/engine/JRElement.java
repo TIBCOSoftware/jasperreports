@@ -34,7 +34,7 @@ import net.sf.jasperreports.engine.type.StretchTypeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder
+public interface JRElement extends JRChild, JRCommonElement, JRPropertiesHolder, JRIdentifiable
 {
 
 	/**

@@ -256,6 +256,7 @@ public class ConvertVisitor implements JRVisitor
 			if (hasContour)
 			{
 				JRBasePrintRectangle rectangle = new JRBasePrintRectangle(reportConverter.getDefaultStyleProvider());
+				rectangle.setUUID(element.getUUID());
 				rectangle.setX(element.getX());
 				rectangle.setY(element.getY());
 				rectangle.setWidth(element.getWidth());
