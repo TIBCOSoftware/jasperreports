@@ -72,7 +72,6 @@ import net.sf.jasperreports.components.table.TableReportContextXmlRule;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
@@ -85,8 +84,6 @@ import net.sf.jasperreports.engine.type.RotationEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
-import net.sf.jasperreports.engine.xml.JRPropertyDigesterRule;
-import net.sf.jasperreports.engine.xml.JRPropertyExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.StyleContainerRule;
@@ -331,16 +328,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		addTableGroupCellRules(digester, columnGroupPattern + "/groupFooter", "addGroupFooter");
 		addTableCellRules(digester, columnGroupPattern + "/columnHeader", "setColumnHeader");
 		addTableCellRules(digester, columnGroupPattern + "/columnFooter", "setColumnFooter");
-
-		/*   */
-		digester.addRule("*/property", new JRPropertyDigesterRule());
-		
-		String propertyExpressionPattern = "*/" + JRXmlConstants.ELEMENT_propertyExpression;
-		digester.addFactoryCreate(propertyExpressionPattern, JRPropertyExpressionFactory.class.getName());
-		digester.addSetNext(propertyExpressionPattern, "addPropertyExpression", JRPropertyExpression.class.getName());
-		digester.addFactoryCreate(propertyExpressionPattern, JRExpressionFactory.StringExpressionFactory.class.getName());
-		digester.addSetNext(propertyExpressionPattern, "setValueExpression", JRExpression.class.getName());
-		digester.addCallMethod(propertyExpressionPattern, "setText", 0);
 	}
 	
 	protected void addTableCellRules(Digester digester, String pattern, 
