@@ -84,6 +84,14 @@ public class EditColumnValuesAction extends AbstractVerifiableTableAction {
 	public void verify() throws ActionException {
 		EditColumnValueData colValData = getEditColumnValueData();
 		
+		if (colValData.getFontSize() != null) {
+			try {
+				Integer.valueOf(colValData.getFontSize());
+			} catch (NumberFormatException e) {
+				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.values.invalid.font.size", colValData.getFontSize());
+			}
+		}
+		
 		List<BaseColumn> allCols = TableUtil.getAllColumns(table);
 		StandardColumn col = (StandardColumn)allCols.get(colValData.getColumnIndex());
 		
