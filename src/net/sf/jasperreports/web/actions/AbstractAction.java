@@ -30,9 +30,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import net.sf.jasperreports.engine.JRBand;
+import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
+import net.sf.jasperreports.engine.design.JRDesignComponentElement;
+import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.MessageProvider;
 import net.sf.jasperreports.engine.util.MessageUtil;
 import net.sf.jasperreports.repo.JasperDesignCache;
@@ -114,21 +118,21 @@ public abstract class AbstractAction implements Action {
 			this.errorMessages = new ArrayList<String>();
 		}
 		
-		public void add(String messageKey, Object[] args) {
+		public void add(String messageKey, Object... args) {
 			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
 		}
 
 		public void add(String messageKey) {
-			add(messageKey, null);
+			add(messageKey, (Object[])null);
 		}
 
-		public void addAndThrow(String messageKey, Object[] args) throws ActionException {
+		public void addAndThrow(String messageKey, Object... args) throws ActionException {
 			errorMessages.add(messageProvider.getMessage(messageKey, args, locale));
 			throwAll();
 		}
 		
 		public void addAndThrow(String messageKey) throws ActionException {
-			addAndThrow(messageKey, null);
+			addAndThrow(messageKey, (Object[])null);
 			throwAll();
 		}
 		
@@ -161,7 +165,26 @@ public abstract class AbstractAction implements Action {
 		{
 			CommandTarget target = new CommandTarget();
 			target.setUri(uri);
-			return target;
+			
+			JasperDesign jasperDesign = cache.getJasperDesign(uri);
+			
+			for (JRBand band : jasperDesign.getAllBands())
+			{
+				if (band != null)
+				{
+					for (JRElement element : band.getElements())
+					{
+						if (element instanceof JRDesignComponentElement) 
+						{
+							if (uuid.equals(element.getUUID()))
+							{
+								target.setIdentifiable(element);
+								return target;
+							}
+						}
+					}
+				}
+			}
 		}
 		return null;
 	}
