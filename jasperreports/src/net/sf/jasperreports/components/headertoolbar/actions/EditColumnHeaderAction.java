@@ -67,6 +67,14 @@ public class EditColumnHeaderAction extends AbstractVerifiableTableAction {
 
 	@Override
 	public void verify() throws ActionException {
+		EditColumnHeaderData editColumnHeaderData = getEditColumnHeaderData();
+		if (editColumnHeaderData.getFontSize() != null) {
+			try {
+				Integer.valueOf(editColumnHeaderData.getFontSize());
+			} catch (NumberFormatException e) {
+				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.edit.column.header.invalid.font.size", editColumnHeaderData.getFontSize());
+			}
+		}
 	}
 
 }

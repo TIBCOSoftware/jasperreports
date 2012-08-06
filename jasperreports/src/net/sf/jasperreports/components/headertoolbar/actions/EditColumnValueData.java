@@ -34,7 +34,7 @@ public class EditColumnValueData extends BaseColumnData {
 	private int columnIndex;
 	private String headingName;
 	private String fontName;
-	private int fontSize;
+	private String fontSize;
 	private boolean fontBold;
 	private boolean fontItalic;
 	private boolean fontUnderline;
@@ -69,11 +69,11 @@ public class EditColumnValueData extends BaseColumnData {
 		this.fontName = fontName;
 	}
 
-	public int getFontSize() {
+	public String getFontSize() {
 		return fontSize;
 	}
-
-	public void setFontSize(int fontSize) {
+	
+	public void setFontSize(String fontSize) {
 		this.fontSize = fontSize;
 	}
 

@@ -23,20 +23,13 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.table.StandardTable;
-import net.sf.jasperreports.engine.JRBand;
-import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.design.JRDesignComponentElement;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.DefaultFormatFactory;
 import net.sf.jasperreports.engine.util.FormatFactory;
-import net.sf.jasperreports.repo.JasperDesignCache;
-import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.actions.AbstractAction;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandTarget;
@@ -75,43 +68,6 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 		return null;
 	}
 
-	/**
-	 * 
-	 */
-	public CommandTarget getCommandTarget(UUID uuid)
-	{
-		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
-
-		Map<String, JasperDesignReportResource> cachedResources = cache.getCachedResources();
-		Set<String> uris = cachedResources.keySet();
-		for (String uri : uris)
-		{
-			CommandTarget target = new CommandTarget();
-			target.setUri(uri);
-			
-			JasperDesign jasperDesign = cache.getJasperDesign(uri);
-			
-			for (JRBand band : jasperDesign.getAllBands())
-			{
-				if (band != null)
-				{
-					for (JRElement element : band.getElements())
-					{
-						if (element instanceof JRDesignComponentElement) 
-						{
-							if (uuid.equals(element.getUUID()))
-							{
-								target.setIdentifiable(element);
-								return target;
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
 	public void prepare() throws ActionException 
 	{
 		if (columnData == null) { 
@@ -127,7 +83,7 @@ public abstract class AbstractVerifiableTableAction extends AbstractAction
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			
 			if (componentElement == null) {
-				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.validate.no.table.match", new Object[] {columnData.getTableUuid()});
+				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.validate.no.table.match", columnData.getTableUuid());
 			}
 			
 			table = (StandardTable)componentElement.getComponent();

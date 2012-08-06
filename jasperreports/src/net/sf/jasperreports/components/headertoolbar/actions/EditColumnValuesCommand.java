@@ -62,7 +62,7 @@ public class EditColumnValuesCommand implements Command
 		if (textElement != null) {
 			oldEditColumnValueData = new EditColumnValueData();
 			oldEditColumnValueData.setFontName(textElement.getFontName());
-			oldEditColumnValueData.setFontSize(textElement.getFontSize());
+			oldEditColumnValueData.setFontSize(String.valueOf(textElement.getFontSize()));
 			oldEditColumnValueData.setFontBold(textElement.isBold());
 			oldEditColumnValueData.setFontItalic(textElement.isItalic());
 			oldEditColumnValueData.setFontUnderline(textElement.isUnderline());
@@ -79,7 +79,7 @@ public class EditColumnValuesCommand implements Command
 
 	private void applyColumnHeaderData(EditColumnValueData headerData, JRDesignTextField textElement, boolean execute) {
 		textElement.setFontName(headerData.getFontName());
-		textElement.setFontSize(headerData.getFontSize());
+		textElement.setFontSize(Integer.valueOf(headerData.getFontSize()));
 		textElement.setBold(headerData.getFontBold());
 		textElement.setItalic(headerData.getFontItalic());
 		textElement.setUnderline(headerData.getFontUnderline());
