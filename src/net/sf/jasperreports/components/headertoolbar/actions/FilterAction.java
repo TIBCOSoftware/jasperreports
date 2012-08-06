@@ -112,11 +112,11 @@ public class FilterAction extends AbstractVerifiableTableAction {
 					try {
 						df.parse(fd.getFieldValueEnd());
 					} catch (ParseException e) {
-						errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.date", new Object[]{fd.getFieldValueEnd()});
+						errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.date", fd.getFieldValueEnd());
 					}
 				}
 			} catch (ParseException e) {
-				errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.date", new Object[]{fd.getFieldValueStart()});
+				errors.add("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.date", fd.getFieldValueStart());
 			} catch (IllegalArgumentException e){
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.pattern");
 			}
