@@ -66,7 +66,7 @@ public class EditColumnHeaderCommand implements Command
 		if (textElement != null) {
 			oldEditColumnHeaderData = new EditColumnHeaderData();
 			oldEditColumnHeaderData.setFontName(textElement.getFontName());
-			oldEditColumnHeaderData.setFontSize(textElement.getFontSize());
+			oldEditColumnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
 			oldEditColumnHeaderData.setFontBold(textElement.isBold());
 			oldEditColumnHeaderData.setFontItalic(textElement.isItalic());
 			oldEditColumnHeaderData.setFontUnderline(textElement.isUnderline());
@@ -101,7 +101,7 @@ public class EditColumnHeaderCommand implements Command
 			}
 		}
 		textElement.setFontName(headerData.getFontName());
-		textElement.setFontSize(headerData.getFontSize());
+		textElement.setFontSize(Integer.valueOf(headerData.getFontSize()));
 		textElement.setBold(headerData.getFontBold());
 		textElement.setItalic(headerData.getFontItalic());
 		textElement.setUnderline(headerData.getFontUnderline());

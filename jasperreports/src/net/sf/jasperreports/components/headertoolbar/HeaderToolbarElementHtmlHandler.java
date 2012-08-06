@@ -616,7 +616,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colHeaderData.setColumnIndex(columnIndex);
 					colHeaderData.setTableUuid(tableUuid);
 					colHeaderData.setFontName(textElement.getFontName());
-					colHeaderData.setFontSize(textElement.getFontSize());
+					colHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
 					colHeaderData.setFontBold(textElement.isBold());
 					colHeaderData.setFontItalic(textElement.isItalic());
 					colHeaderData.setFontUnderline(textElement.isUnderline());
@@ -651,7 +651,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
 					colValueData.setFontName(textElement.getFontName());
-					colValueData.setFontSize(textElement.getFontSize());
+					colValueData.setFontSize(String.valueOf(textElement.getFontSize()));
 					colValueData.setFontBold(textElement.isBold());
 					colValueData.setFontItalic(textElement.isItalic());
 					colValueData.setFontUnderline(textElement.isUnderline());
