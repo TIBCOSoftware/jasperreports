@@ -57,6 +57,11 @@ public interface JRPrintElement extends JRCommonElement, JRPropertiesHolder
 	/**
 	 *
 	 */
+	public void setUUID(UUID uuid);
+	
+	/**
+	 *
+	 */
 	public void setX(int x);
 	
 	/**

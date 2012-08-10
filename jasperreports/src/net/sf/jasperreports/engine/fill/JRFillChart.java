@@ -927,6 +927,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		JRTemplatePrintImage printImage = new JRTemplatePrintImage(getJRTemplateImage(), elementId);
 
+		printImage.setUUID(getUUID());
 		printImage.setX(getX());
 		printImage.setY(getRelativeY());
 		printImage.setWidth(getWidth());

@@ -98,11 +98,15 @@ public class JRBasePrintElement implements JRPrintElement, Serializable
 	 */
 	public UUID getUUID()
 	{
-		if (uuid == null)
-		{
-			uuid = UUID.randomUUID();
-		}
 		return uuid;
+	}
+
+	/**
+	 *
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	/**

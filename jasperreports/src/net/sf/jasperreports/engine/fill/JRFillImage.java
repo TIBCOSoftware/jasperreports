@@ -790,6 +790,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 			recordedValuesImage = null;
 		}
 		
+		printImage.setUUID(this.getUUID());
 		printImage.setX(this.getX());
 		printImage.setY(this.getRelativeY());
 		printImage.setWidth(getWidth());
@@ -817,6 +818,8 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	protected void copy(JRPrintImage printImage)
 	{
+		printImage.setUUID(getUUID());
+
 		if (imageX != null)
 		{
 			printImage.setX(imageX.intValue());

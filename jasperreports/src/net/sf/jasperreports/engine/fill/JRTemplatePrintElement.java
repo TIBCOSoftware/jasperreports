@@ -63,6 +63,7 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	protected JRTemplateElement template;
 
+	private UUID uuid;
 	private int x;
 	private int y;
 	private int height;
@@ -114,7 +115,15 @@ public class JRTemplatePrintElement implements JRPrintElement, Serializable
 	 */
 	public UUID getUUID()
 	{
-		return template.getUUID();
+		return uuid;
+	}
+
+	/**
+	 *
+	 */
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
 	}
 
 	/**

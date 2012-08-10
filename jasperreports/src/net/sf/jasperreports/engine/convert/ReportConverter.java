@@ -549,6 +549,7 @@ public class ReportConverter
 	
 	public void copyBaseAttributes(JRElement source, JRPrintElement converted)
 	{
+		converted.setUUID(source.getUUID());
 		converted.setX(source.getX());
 		converted.setY(source.getY());
 		converted.setWidth(source.getWidth());			

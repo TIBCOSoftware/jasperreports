@@ -79,7 +79,7 @@ public final class ChartUtil
 	/**
 	 *
 	 */
-	private static ChartUtil getDefaultInstance()
+	private static ChartUtil getDefaultInstance()//FIXMECONTEXT check this use of this
 	{
 		return new ChartUtil(DefaultJasperReportsContext.getInstance());
 	}

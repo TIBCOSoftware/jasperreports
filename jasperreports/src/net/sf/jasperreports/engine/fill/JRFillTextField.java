@@ -692,6 +692,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 			recordedValuesText = null;
 		}
 		
+		text.setUUID(getUUID());
 		text.setX(getX());
 		text.setY(getRelativeY());
 		text.setWidth(getWidth());
