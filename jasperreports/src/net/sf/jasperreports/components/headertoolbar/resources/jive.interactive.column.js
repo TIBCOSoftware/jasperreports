@@ -296,7 +296,7 @@ jive.interactive.column = jive.interactive.column || {
         jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title'), ['columnfilter']);
     },
     formatHeader: function(){
-        jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title'), ['formatHeader', 'formatCells']);
+        jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title'), ['formatHeader', 'formatCells', 'columnConditionalFormatting']);
     },
     hide: function(args){
     	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').data('uuid');
@@ -761,7 +761,7 @@ jive.interactive.column.formatHeaderForm = {
         [{type:'text', id:'headingName', label: jive.i18n.get('column.formatHeaderForm.headingName.label'), value:'',colspan:4}],
         [
             {type:'list', id:'headerFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
-            {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2},
+            {type:'list', id:'headerFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2, restriction: 'numeric'},
             {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
@@ -863,7 +863,7 @@ jive.interactive.column.formatCellsForm = {
     elements: [[
         [
             {type:'list', id:'cellsFontName', label: jive.i18n.get('column.formatforms.fontName.label'), values:[], freeText: true, size:6, rowspan:2},
-            {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2},
+            {type:'list', id:'cellsFontSize', label: jive.i18n.get('column.formatforms.fontSize.label'), values:[], freeText: true, size:6, rowspan:2, restriction: 'numeric'},
             {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
@@ -1017,5 +1017,161 @@ jive.interactive.column.formatCellsForm = {
     }
 };
 jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.formatCellsForm]);
+
+jive.interactive.column.columnConditionalFormattingForm = {
+	name: 'columnConditionalFormatting',
+	title: 'Conditional Formatting',
+    method: 'get',
+    jc: {},
+    templateElements: [
+		{type:'list', id:'conditionTypeOperator', values:[]},
+		{type:'text', id:'conditionStart', value:''},
+		{type:'label', value:'and'},
+		{type:'text', id:'conditionEnd', value:''},
+		{
+	        type: 'buttons',
+	        items: [
+	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon'},
+	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
+	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
+	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+	        ]
+	    },
+		{type:'button', id:'conditionRemove', bLabel:'X', fn: 'removeFormatCondition'}
+	],
+	elements: [
+        [
+         [
+          {type:'label', value:'Condition List'},
+         ],
+         [
+          {type:'label', value:'Condition'},
+          {type:'label', value:'Values', colspan: 3},
+          {type:'label', value:'Style'},
+          {type:'label', value:'Remove'}
+         ]
+        ],
+        [
+         [
+          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition'}
+         ]
+        ]
+    ],
+    onCreate:function(jo){
+    },
+    onShow:function(){
+    	var it = this,
+    		metadata = [
+    	                {
+    	                	conditionEnd: "08-10-2012",
+    	                	conditionStart: "08-01-2012",
+    	                	conditionPattern: "",
+    	                	conditionType: "Date",
+    	                	conditionTypeOperator: "IS_BETWEEN",
+    	                	conditionFontBold: false,
+    	                	conditionFontItalic: true,
+    	                	conditionFontUnderline: false,
+    	                	conditionFontColor: 'CB45AA',
+    	                },
+    	                {
+    	                	conditionEnd: "07-10-2012",
+    	                	conditionStart: "07-01-2012",
+    	                	conditionPattern: "",
+    	                	conditionType: "Date",
+    	                	conditionTypeOperator: "IS_BETWEEN",
+    	                	conditionFontBold: true,
+    	                	conditionFontItalic: false,
+    	                	conditionFontUnderline: true,
+    	                	conditionFontColor: 'B6D7A8',
+    	                }
+    	    ], 
+    	    options = {
+	            text : [
+	                {key:'EQUALS',val:'Equals'},
+	                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+	                {key:'CONTAINS',val:'Contains'},
+	                {key:'DOES_NOT_CONTAIN',val:'Does not contain'},
+	                {key:'STARTS_WITH',val:'Starts with'},
+	                {key:'DOES_NOT_START_WITH',val:'Does not start with'},
+	                {key:'ENDS_WITH',val:'Ends with'},
+	                {key:'DOES_NOT_END_WITH',val:'Does not end with'}
+	            ],
+	            date: [
+	                {key:'EQUALS',val:'Equals'},
+	                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
+	                {key:'IS_BETWEEN',val:'Is between'},
+	                {key:'IS_NOT_BETWEEN',val:'Is not between'},
+	                {key:'IS_ON_OR_BEFORE',val:'Is on or before'},
+	                {key:'IS_BEFORE',val:'Is before'},
+	                {key:'IS_ON_OR_AFTER',val:'Is on or after'},
+	                {key:'IS_AFTER',val:'Is after'}
+	            ],
+	            numeric: [
+	                {key:'EQUALS',val:'Equals'},
+	                {key:'DOES_NOT_EQUAL',val:'Does not equal'},
+	                {key:'GREATER_THAN',val:'Greater than'},
+	                {key:'GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
+	                {key:'LESS_THAN',val:'Less than'},
+	                {key:'LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
+	                {key:'IS_BETWEEN',val:'Is between'},
+	                {key:'IS_NOT_BETWEEN',val:'Is not between'}
+	            ],
+	            boolean: [
+	                {key:'IS_TRUE', val:'Is true'},
+	                {key:'IS_NOT_TRUE', val:'Is not true'},
+	                {key:'IS_FALSE', val:'Is false'},
+	                {key:'IS_NOT_FALSE', val:'Is not false'}
+	            ]
+        	};
+    	
+    	jQuery.each(metadata, function(i,v) {
+    		it.addFormatCondition(jive.selected.form.jo, v, options);
+    	});
+    },
+    onBlur: function() {
+    	jive.selected.form.jo.find('table:first tr.jive_condition').remove();
+    },
+    onHide: function() {
+    	jive.selected.form.jo.find('table:first tr.jive_condition').remove();
+    },
+    submit:function(){
+    },
+    addFormatCondition: function(jo, conditionData, options) {
+    	var form = jo.closest('form'),
+    		table = form.find('table:first'),
+    		tr = [],
+    		parms = this,
+    		row,
+    		inputs = jive.selected.form.inputs,
+    		htm = [];
+    	
+    	tr.push('<tr class="jive_condition">');
+        jQuery.each(this.templateElements, function(i,e) {
+        	jive.ui.forms.createTemplateElement(e, parms, form, tr);
+        });
+        tr.push('</tr>');
+        row = jQuery(tr.join(''));
+        table.append(row);
+        
+        if (conditionData) {
+        	inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
+        	inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
+
+            jQuery.each(options[conditionData.conditionType.toLowerCase()], function(k,v) {
+                v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
+            });
+            row.find('select[name=conditionTypeOperator]').append(htm.join('')).val(conditionData.conditionTypeOperator);
+        }
+        
+    },
+    removeFormatCondition: function(jo) {
+    	jo.closest('tr').remove();
+    }
+};
+jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.interactive.column.columnConditionalFormattingForm]);
 
 jasperreports.events.registerEvent('jive.interactive.column.init').trigger();
