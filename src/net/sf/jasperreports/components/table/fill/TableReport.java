@@ -218,8 +218,23 @@ public class TableReport implements JRReport
 		}
 		if(this.currentElement != null)
 		{
-			this.currentElement.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
-			this.currentElement.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_END);
+			JRPropertiesMap propertiesMap = this.currentElement.getPropertiesMap();
+			if(propertiesMap.containsProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR))
+			{
+				propertiesMap.setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_FULL);
+			}
+			else
+			{
+				propertiesMap.setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
+			}
+			if(this.currentElement == this.firstTableElement)
+			{
+				propertiesMap.setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_FULL);
+			}
+			else
+			{
+				propertiesMap.setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TABLE, JRPdfExporterTagHelper.TAG_END);
+			}
 		}
 	}
 	
@@ -528,6 +543,7 @@ public class TableReport implements JRReport
 	
 	protected JRBand createDetailBand(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		final JRDesignBand detailBand = new JRDesignBand();
 		detailBand.setSplitType(SplitTypeEnum.PREVENT);
@@ -796,6 +812,7 @@ public class TableReport implements JRReport
 
 	protected JRDesignBand createColumnHeader(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand columnHeader = new JRDesignBand();
 		columnHeader.setSplitType(SplitTypeEnum.PREVENT);
@@ -851,6 +868,7 @@ public class TableReport implements JRReport
 
 	protected JRDesignBand createPageFooter(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand pageFooter = new JRDesignBand();
 		pageFooter.setSplitType(SplitTypeEnum.PREVENT);
@@ -917,6 +935,7 @@ public class TableReport implements JRReport
 
 	protected JRDesignBand createTitle(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand title = new JRDesignBand();
 		title.setSplitType(SplitTypeEnum.PREVENT);
@@ -970,6 +989,7 @@ public class TableReport implements JRReport
 
 	protected JRDesignBand createSummary(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand summary = new JRDesignBand();
 		summary.setSplitType(SplitTypeEnum.PREVENT);
@@ -1029,6 +1049,7 @@ public class TableReport implements JRReport
 
 	protected JRBand createGroupHeader(String groupName, List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand header = new JRDesignBand();
 		header.setSplitType(SplitTypeEnum.PREVENT);
@@ -1088,6 +1109,7 @@ public class TableReport implements JRReport
 
 	protected JRBand createGroupFooter(String groupName, List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignBand footer = new JRDesignBand();
 		footer.setSplitType(SplitTypeEnum.PREVENT);
@@ -1189,6 +1211,7 @@ public class TableReport implements JRReport
 	
 	protected void addSummaryGroup(List<FillColumn> fillColumns)
 	{
+		setRowTag();
 		firstRowElement = null;
 		JRDesignGroup summaryGroup = new JRDesignGroup();
 		summaryGroup.setName(SUMMARY_GROUP_NAME);//TODO check for uniqueness
@@ -1697,12 +1720,20 @@ public class TableReport implements JRReport
 			{
 				firstRowElement = element;
 				element.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_START);
-				if(currentElement != null)
-				{
-					currentElement.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
-				}
 			}
 			currentElement = element;
+		}
+	}
+	
+	private void setRowTag()
+	{
+		if(firstRowElement != null && firstRowElement == currentElement)
+		{
+			firstRowElement.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_FULL);
+		}
+		else if(currentElement != null)
+		{
+			currentElement.getPropertiesMap().setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_END);
 		}
 	}
 	
