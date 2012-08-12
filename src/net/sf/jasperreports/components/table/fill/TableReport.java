@@ -188,11 +188,11 @@ public class TableReport implements JRReport
 		
 		this.title = createTitle(fillColumns);
 		this.columnHeader = createColumnHeader(fillColumns);
+		setGroupBands(fillColumns);
 		this.detail = wrapBand(createDetailBand(fillColumns), new JROrigin(BandTypeEnum.DETAIL));
 		this.pageFooter = createPageFooter(fillColumns);
 		this.summary = createSummary(fillColumns); 
 		
-		setGroupBands(fillColumns);
 		
 		if (pageFooter != null && summary != null)
 		{
