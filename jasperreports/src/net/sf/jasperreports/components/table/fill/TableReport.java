@@ -219,7 +219,7 @@ public class TableReport implements JRReport
 		if(this.currentElement != null)
 		{
 			JRPropertiesMap propertiesMap = this.currentElement.getPropertiesMap();
-			if(propertiesMap.containsProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR))
+			if(this.currentElement == this.firstRowElement)
 			{
 				propertiesMap.setProperty(JRPdfExporterTagHelper.PROPERTY_TAG_TR, JRPdfExporterTagHelper.TAG_FULL);
 			}
