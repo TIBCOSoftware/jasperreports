@@ -702,7 +702,8 @@ jive.ui.forms = {
                             jive.ui.colorpicker.show({
                                 title: v.title,
                                 inputId: v.id,
-                                anchor: jo
+                                anchor: jo,
+                                currentColor: jQuery('input[name="'+v.id+'"]').val()
                             });
                         }
                     }
@@ -848,7 +849,8 @@ jive.ui.forms = {
 								jive.ui.colorpicker.show({
 									title: v.title,
 									inputId: vid,
-									anchor: jo
+									anchor: jo,
+									currentColor: jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value')
 								});
 							}
 					}
@@ -870,8 +872,7 @@ jive.ui.colorpicker = {
         it.jo = jQuery('#jive_colorpicker');
         it.jo.draggable({handle: 'div.dialogHeader'});
         it.jo.on('click touchend','div.colorpick',function(evt){
-            //it.selected && it.selected.toggleClass('selected');
-            it.selected = jQuery(this).parent().toggleClass('selected');
+            it.selected = jQuery(this).parent().addClass('selected');
             jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
             jive.ui.colorpicker.jo.hide();
             jive.ui.modal.hide();
@@ -882,6 +883,10 @@ jive.ui.colorpicker = {
         this.title = options.title || 'Pick a color';
         this.inputId = options.inputId;
         !this.jo && this.setElement();
+        this.jo.find('td.selected').removeClass('selected');
+        if (options.currentColor) {
+        	this.jo.find('div.colorpick[hexcolor=' + options.currentColor + ']').parent().addClass('selected');
+        }
         jive.ui.modal.show(this.jo);
         this.jo.find('h2').html(this.title);
         this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
