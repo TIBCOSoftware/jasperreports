@@ -1025,6 +1025,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
     method: 'get',
     options: {
             text : [
+                {key:'IS_ONE_OF',val:'Is one of'},
+                {key:'IS_NOT_ONE_OF',val:'Is not one of'},
                 {key:'EQUALS',val:'Equals'},
                 {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
                 {key:'CONTAINS',val:'Contains'},
@@ -1045,6 +1047,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
                 {key:'IS_AFTER',val:'Is after'}
             ],
             numeric: [
+                {key:'IS_ONE_OF',val:'Is one of'},
+                {key:'IS_NOT_ONE_OF',val:'Is not one of'},
                 {key:'EQUALS',val:'Equals'},
                 {key:'DOES_NOT_EQUAL',val:'Does not equal'},
                 {key:'GREATER_THAN',val:'Greater than'},
@@ -1055,6 +1059,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
                 {key:'IS_NOT_BETWEEN',val:'Is not between'}
             ],
             boolean: [
+                {key:'IS_ONE_OF',val:'Is one of'},
+				{key:'IS_NOT_ONE_OF',val:'Is not one of'},
                 {key:'IS_TRUE', val:'Is true'},
                 {key:'IS_NOT_TRUE', val:'Is not true'},
                 {key:'IS_FALSE', val:'Is false'},
@@ -1141,12 +1147,14 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	});
     },
     onBlur: function() {
+    	var it = this; 
     	this.actionDataCache[this.name] = this.getActionData();
-    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').remove();
+    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
     },
     onHide: function() {
+    	var it = this; 
     	this.actionDataCache = {};
-    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').remove();
+    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
     },
     submit:function(){
     	var actions = [],
@@ -1213,10 +1221,15 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	var row = jo.closest('tr'),
     		table = row.closest('table');
 
-    	// TODO: must clean up the inputs for each element on the row that has an id before removing it
-    	row.remove();
+    	this.removeRow(row);
     	
     	table.trigger('rowchange');
+    },
+    removeRow: function(row) {
+    	var inputs = jive.selected.form.inputs;
+    	row.find('[name^=condition]').each(function() {delete inputs[jQuery(this).attr('id')];});
+    	row.find('.jive_inputbutton[bname^=conditionFont]').each(function() {delete inputs[jQuery(this).attr('bname')];});
+    	row.remove();
     },
     conditionMoveUp: function(jo) {
     	var row = jo.closest('tr'),
