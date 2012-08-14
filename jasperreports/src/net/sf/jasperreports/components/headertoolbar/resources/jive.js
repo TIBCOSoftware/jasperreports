@@ -807,13 +807,13 @@ jive.ui.forms = {
 									!bValue && jQuery('div.jive_inputbutton[bname="'+vid+'"]').removeClass('selected');
 									this.selected = bValue;
 								} else {
-									jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value','true');
+									jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', true);
 									jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
 									this.selected = true;
 								}
 							},
 							unset:function() {
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value','false');
+								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', false);
 								jQuery('div.jive_inputbutton[bname="'+vid+'"]').removeClass('selected');
 								this.selected = false;
 							},
@@ -821,7 +821,7 @@ jive.ui.forms = {
 								this.selected ? this.unset() : this.set();
 							},
 							get:function(){
-								return jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value') === "true";
+								return jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value') === true;
 							},
 							onClick: function(){
 								v.fn && jive.interactive[jive.selected.ie.type][v.fn]();

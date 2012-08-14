@@ -39,6 +39,8 @@ import java.util.TreeSet;
 import java.util.UUID;
 
 import net.sf.jasperreports.components.BaseElementHtmlHandler;
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
@@ -427,6 +429,16 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("filterActive", filterActive);
 				contextMap.put("filterHover", filterHover);
 				// end: temp
+				
+				// begin: params for conditional formatting
+				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName);
+				cfData.setTableUuid(tableUUID);
+				cfData.setFieldName(columnName);
+				cfData.setConditionType(filterType.getName());
+				cfData.setCalendarPattern(calendarPattern);
+				cfData.setConditionPattern(filterPattern);
+				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(cfData));
+				// end
 			}
 			
 			htmlFragment = VelocityUtil.processTemplate(HeaderToolbarElementHtmlHandler.SORT_ELEMENT_HTML_TEMPLATE, contextMap);
@@ -591,6 +603,53 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		}
 		
 		return result;		
+	}
+
+	private ConditionalFormattingData getExistingConditionalFormattingDataForField(
+			JasperReportsContext jasperReportsContext, 
+			ReportContext reportContext, 
+			String uuid, 
+			String filterFieldName
+			) 
+	{
+		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		FilterAction action = new FilterAction();
+		action.init(jasperReportsContext, reportContext);
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		ConditionalFormattingData result = new ConditionalFormattingData();
+		if (target != null)
+		{
+			JRIdentifiable identifiable = target.getIdentifiable();
+			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
+			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+			
+			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+			
+			String datasetName = datasetRun.getDatasetName();
+			
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+			
+			// get existing filter as JSON string
+			String serializedConditionsData = "[]";
+			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
+			if (propertiesMap.getProperty(ConditionalFormattingCommand.DATASET_CONDITIONAL_FORMATTING_PROPERTY) != null) {
+				serializedConditionsData = propertiesMap.getProperty(ConditionalFormattingCommand.DATASET_CONDITIONAL_FORMATTING_PROPERTY);
+			}
+			
+			List<ConditionalFormattingData> existingConditionsData = JacksonUtil.getInstance(jasperReportsContext).loadAsList(serializedConditionsData, ConditionalFormattingData.class);
+
+			if (existingConditionsData.size() > 0) {
+				for (ConditionalFormattingData cfData: existingConditionsData) {
+					if (cfData.getFieldName().equals(filterFieldName)) {
+						result = cfData;
+						break;
+					}
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
