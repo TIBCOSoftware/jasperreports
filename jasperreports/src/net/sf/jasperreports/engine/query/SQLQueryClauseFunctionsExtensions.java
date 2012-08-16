@@ -26,7 +26,7 @@ package net.sf.jasperreports.engine.query;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
-import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
+import net.sf.jasperreports.extensions.ListExtensionsRegistry;
 
 /**
  * Extensions factory that registers built-in query clause functions for SQL queries.
@@ -37,31 +37,40 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFactory
 {
 
-	private static SingletonExtensionRegistry<QueryClauseFunctionBundle> registry;
+	private static ListExtensionsRegistry registry;
 
 	static
 	{
-		StandardSingleQueryClauseFunctionBundle bundle = new StandardSingleQueryClauseFunctionBundle(
+		StandardSingleQueryClauseFunctionBundle functions = new StandardSingleQueryClauseFunctionBundle(
 				JRJdbcQueryExecuter.CANONICAL_LANGUAGE);
 		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_IN, JRSqlInClause.instance());
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());	
+		StandardSingleQueryParameterTypesClauseFunctionBundle typesFunctions = 
+				new StandardSingleQueryParameterTypesClauseFunctionBundle(JRJdbcQueryExecuter.CANONICAL_LANGUAGE);
 		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, JRSqlEqualClause.instance());		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_IN, JRSqlInClause.instance());
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());	
 		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS, JRSqlLessOrGreaterClause.instance());		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, JRSqlLessOrGreaterClause.instance());		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL, JRSqlLessOrGreaterClause.instance());		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, JRSqlLessOrGreaterClause.instance());
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, 
+				new ParameterTypeSelectorClauseFunction(JRSqlAbstractEqualClause.POSITION_PARAMETER));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, 
+				new StandardParameterTypesClauseFunction(JRSqlEqualClause.instance(), Object.class));
 		
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, JRSqlBetweenClause.instance());	
-		bundle.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, JRSqlBetweenClause.instance());	
+		// TODO lucianc change all functions to ParameterTypeSelectorClauseFunction
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
 		
-		registry = new SingletonExtensionRegistry<QueryClauseFunctionBundle>(
-				QueryClauseFunctionBundle.class, bundle);
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS, JRSqlLessOrGreaterClause.instance());		
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, JRSqlLessOrGreaterClause.instance());		
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL, JRSqlLessOrGreaterClause.instance());		
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, JRSqlLessOrGreaterClause.instance());
+		
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, JRSqlBetweenClause.instance());	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, JRSqlBetweenClause.instance());	
+		
+		registry = new ListExtensionsRegistry();
+		registry.add(QueryClauseFunctionBundle.class, functions);
+		registry.add(ParameterTypesClauseFunctionBundle.class, typesFunctions);
 	}
 	
 	@Override

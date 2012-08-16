@@ -35,13 +35,13 @@ public interface QueryClauseFunctionBundle
 {
 
 	/**
-	 * Returns a clause function that applies to the specified query language and function Id.
+	 * Returns a clause function that applies to the specified query language and clause Id.
 	 * 
 	 * @param queryLanguage the query language
-	 * @param functionId the function Id
+	 * @param clauseId the clause Id
 	 * @return a corresponding query function or <code>null</code> if the bundle doesn't know
-	 * of such function
+	 * of such clause
 	 */
-	JRClauseFunction getFunction(String queryLanguage, String functionId);
+	JRClauseFunction getFunction(String queryLanguage, String clauseId);
 
 }

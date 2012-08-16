@@ -23,47 +23,43 @@
  */
 package net.sf.jasperreports.engine.query;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Query clause function bundle for a single query language.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardSingleQueryClauseFunctionBundle 
-	implements QueryClauseFunctionBundle
+public class StandardSingleQueryParameterTypesClauseFunctionBundle implements
+		ParameterTypesClauseFunctionBundle
 {
-
-	// this bundle only knows of one language
-	private final String queryLanguage;
-	private Map<String, JRClauseFunction> functions;
 	
-	/**
-	 * Creates a bundle for a query language
-	 * 
-	 * @param queryLanguage the query language
-	 */
-	public StandardSingleQueryClauseFunctionBundle(String queryLanguage)
+	private final String queryLanguage;
+	private Map<String, Collection<? extends ParameterTypesClauseFunction>> clauseFunctions;
+
+	public StandardSingleQueryParameterTypesClauseFunctionBundle(
+			String queryLanguage)
 	{
 		this.queryLanguage = queryLanguage;
-		this.functions = new HashMap<String, JRClauseFunction>();
+		this.clauseFunctions = new HashMap<String, Collection<? extends ParameterTypesClauseFunction>>();
 	}
-	
-	/**
-	 * Registers a query clause function.
-	 * 
-	 * @param clauseId the clause Id
-	 * @param function the function implementation
-	 */
-	public void addFunction(String clauseId, JRClauseFunction function)
+
+	public void setFunctions(String clauseId, ParameterTypesClauseFunction ...functions)
 	{
-		functions.put(clauseId, function);
+		clauseFunctions.put(clauseId, Arrays.asList(functions));
 	}
-	
+
+	public void setFunctions(String clauseId, ParameterTypesClauseFunction function)
+	{
+		clauseFunctions.put(clauseId, Collections.singleton(function));
+	}
+
 	@Override
-	public JRClauseFunction getFunction(String queryLanguage, String clauseId)
+	public Collection<? extends ParameterTypesClauseFunction> getTypeFunctions(
+			String queryLanguage, String clauseId)
 	{
 		if (!this.queryLanguage.equals(queryLanguage))
 		{
@@ -71,7 +67,7 @@ public class StandardSingleQueryClauseFunctionBundle
 			return null;
 		}
 		
-		return functions.get(clauseId);
+		return clauseFunctions.get(clauseId);
 	}
 
 }
