@@ -48,6 +48,8 @@ import org.apache.commons.logging.LogFactory;
 public class JsonQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JsonQueryExecuter.class);
+
+	protected static final String CANONICAL_LANGUAGE = "JSON";
 	
 	private JsonDataSource datasource;
 	
@@ -70,6 +72,12 @@ public class JsonQueryExecuter extends JRAbstractQueryExecuter
 	public JsonQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return CANONICAL_LANGUAGE;
 	}
 
 	protected String getParameterReplacement(String parameterName)

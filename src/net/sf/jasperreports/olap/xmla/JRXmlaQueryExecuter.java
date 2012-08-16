@@ -53,6 +53,7 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
+import net.sf.jasperreports.olap.JRMdxQueryExecuterFactory;
 import net.sf.jasperreports.olap.JROlapDataSource;
 
 import org.apache.commons.logging.Log;
@@ -100,6 +101,12 @@ public class JRXmlaQueryExecuter extends JRAbstractQueryExecuter
 	public JRXmlaQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parametersMap)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return JRMdxQueryExecuterFactory.CANONICAL_LANGUAGE;
 	}
 
 	protected String getParameterReplacement(String parameterName)

@@ -57,6 +57,8 @@ import org.w3c.dom.Document;
 public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRXPathQueryExecuter.class);
+
+	protected static final String CANONICAL_LANGUAGE = "XPath";
 	
 	private JRXmlDataSource datasource;
 
@@ -80,6 +82,12 @@ public class JRXPathQueryExecuter extends JRAbstractQueryExecuter
 	public JRXPathQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parametersMap)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return CANONICAL_LANGUAGE;
 	}
 
 	protected String getParameterReplacement(String parameterName)

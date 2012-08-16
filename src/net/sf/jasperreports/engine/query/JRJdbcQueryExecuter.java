@@ -67,6 +67,8 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRJdbcQueryExecuter.class);
 
+	protected static final String CANONICAL_LANGUAGE = "SQL";
+	
 	protected static final String CLAUSE_ID_IN = "IN";
 	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
 	
@@ -154,21 +156,14 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	 */
 	protected void registerFunctions()
 	{
-		registerClauseFunction(CLAUSE_ID_IN, JRSqlInClause.instance());
-		registerClauseFunction(CLAUSE_ID_NOTIN, JRSqlNotInClause.instance());	
-		
-		registerClauseFunction(CLAUSE_ID_EQUAL, JRSqlEqualClause.instance());		
-		registerClauseFunction(CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
-		
-		registerClauseFunction(CLAUSE_ID_LESS, JRSqlLessOrGreaterClause.instance());		
-		registerClauseFunction(CLAUSE_ID_GREATER, JRSqlLessOrGreaterClause.instance());		
-		registerClauseFunction(CLAUSE_ID_LESS_OR_EQUAL, JRSqlLessOrGreaterClause.instance());		
-		registerClauseFunction(CLAUSE_ID_GREATER_OR_EQUAL, JRSqlLessOrGreaterClause.instance());
-		
-		registerClauseFunction(CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
-		registerClauseFunction(CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
-		registerClauseFunction(CLAUSE_ID_BETWEEN_LEFT_CLOSED, JRSqlBetweenClause.instance());	
-		registerClauseFunction(CLAUSE_ID_BETWEEN_RIGHT_CLOSED, JRSqlBetweenClause.instance());	
+		// keeping empty for backwards compatibility, the functions are now regustered
+		// as extensions by JDBCQueryClauseFunctionsExtensions
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return CANONICAL_LANGUAGE;
 	}
 
 	protected void setTimeZone()

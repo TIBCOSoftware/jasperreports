@@ -62,6 +62,8 @@ import org.hibernate.type.Type;
 public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRHibernateQueryExecuter.class);
+
+	protected static final String CANONICAL_LANGUAGE = "HQL";
 	
 	private static final Map<Class<?>,Type> hibernateTypeMap;
 	
@@ -124,6 +126,12 @@ public class JRHibernateQueryExecuter extends JRAbstractQueryExecuter
 	public JRHibernateQueryExecuter(JRDataset dataset, Map<String, ? extends JRValueParameter> parameters)
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return CANONICAL_LANGUAGE;
 	}
 	
 	

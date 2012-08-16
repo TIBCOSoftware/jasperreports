@@ -50,6 +50,8 @@ public class JRMdxQueryExecuterFactory extends AbstractQueryExecuterFactory
 	
 	private final static Object[] MDX_BUILTIN_PARAMETERS;
 	
+	public static final String CANONICAL_LANGUAGE = "MDX";
+	
 	static
 	{
 		Object[] mondrianParams = new JRMondrianQueryExecuterFactory().getBuiltinParameters();
