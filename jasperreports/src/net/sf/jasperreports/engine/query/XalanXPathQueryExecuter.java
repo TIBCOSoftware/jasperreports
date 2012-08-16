@@ -99,6 +99,12 @@ public class XalanXPathQueryExecuter extends JRAbstractQueryExecuter
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return JRXPathQueryExecuter.CANONICAL_LANGUAGE;
+	}
+
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));

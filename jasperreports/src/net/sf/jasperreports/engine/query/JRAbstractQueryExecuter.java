@@ -216,12 +216,62 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	 */
 	protected JRClauseFunction resolveFunction(String id)
 	{
+		// first look in explicitly registered functions
+		// this is mostly kept for backward compatibility
 		JRClauseFunction function = clauseFunctions.get(id);
 		if (function == null)
 		{
-			throw new JRRuntimeException("No clause function for id " + id + " found");
+			function = findExtensionQueryFunction(id);
+			if (function == null)
+			{
+				throw new JRRuntimeException("No clause function for id " + id + " found");
+			}
 		}
 		return function;
+	}
+
+	protected JRClauseFunction findExtensionQueryFunction(String id)
+	{
+		JRClauseFunction function = null;
+		//FIXME should we also use the current query language?
+		String queryLanguage = getCanonicalQueryLanguage();
+		// look for extensions
+		List<QueryClauseFunctionBundle> functionBundles = jasperReportsContext.getExtensions(
+				QueryClauseFunctionBundle.class);
+		for (QueryClauseFunctionBundle functionBundle : functionBundles)
+		{
+			function = functionBundle.getFunction(queryLanguage, id);
+			if (function != null)
+			{
+				// use the first found
+				break;
+			}
+		}
+		return function;
+	}
+	
+	/**
+	 * Returns a canonical query language for this query executer implementation.
+	 * 
+	 * <p>
+	 * The canonical language is used to retrieve extensions for the query executer.
+	 * </p>
+	 * 
+	 * <p>
+	 * The default implementation returns the runtime query language used in the dataset,
+	 * but query executer implementations should override this method and return a fixed
+	 * language.
+	 * </p>
+	 * 
+	 * @return a canonical query language
+	 */
+	protected String getCanonicalQueryLanguage()
+	{
+		// by default returning the current query language because we can't force 
+		// existing external implementations to implement the method.
+		// but internal implementations override the method and specify a fixed
+		// language name for extensions.
+		return dataset.getQuery().getLanguage();
 	}
 	
 	/**

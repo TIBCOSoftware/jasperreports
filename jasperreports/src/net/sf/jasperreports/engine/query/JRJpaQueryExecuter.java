@@ -110,6 +110,8 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 {
 
 	private static final Log log = LogFactory.getLog(JRJpaQueryExecuter.class);
+
+	protected static final String CANONICAL_LANGUAGE = "EJBQL";
 	
 	private final Integer reportMaxCount;
 	
@@ -143,6 +145,12 @@ public class JRJpaQueryExecuter extends JRAbstractQueryExecuter
 	public JRJpaQueryExecuter(JRDataset dataset, Map<String,? extends JRValueParameter> parameters) 
 	{
 		this(DefaultJasperReportsContext.getInstance(), dataset, parameters);
+	}
+
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return CANONICAL_LANGUAGE;
 	}
 	
 	public JRDataSource createDatasource() throws JRException {

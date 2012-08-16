@@ -80,6 +80,12 @@ public class JRMondrianQueryExecuter extends JRAbstractQueryExecuter
 		this(DefaultJasperReportsContext.getInstance(), dataset, parametersMap);
 	}
 
+	@Override
+	protected String getCanonicalQueryLanguage()
+	{
+		return JRMdxQueryExecuterFactory.CANONICAL_LANGUAGE;
+	}
+
 	protected String getParameterReplacement(String parameterName)
 	{
 		return String.valueOf(getParameterValue(parameterName));
