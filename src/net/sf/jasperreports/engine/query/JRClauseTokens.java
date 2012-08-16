@@ -37,6 +37,13 @@ import net.sf.jasperreports.engine.JRQueryChunk;
 public class JRClauseTokens
 {
 
+	/**
+	 * The position of the clause Id token.
+	 * 
+	 * @see #getClauseId()
+	 */
+	public static final int CLAUSE_ID_POSITION = 0;
+	
 	private final String[] tokens;
 
 	/**
@@ -47,6 +54,16 @@ public class JRClauseTokens
 	public JRClauseTokens(final String[] tokens)
 	{
 		this.tokens = tokens;
+	}
+	
+	/**
+	 * Returns the clause Id, which is the first token in the clause.
+	 * 
+	 * @return the clause Id
+	 */
+	public String getClauseId()
+	{
+		return getToken(CLAUSE_ID_POSITION);
 	}
 	
 	/**

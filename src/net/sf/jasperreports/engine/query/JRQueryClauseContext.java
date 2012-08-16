@@ -24,6 +24,7 @@
 package net.sf.jasperreports.engine.query;
 
 import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -74,4 +75,21 @@ public interface JRQueryClauseContext
 	 */
 	void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls);
 
+	/**
+	 * Returns the JasperReportsContext associated with the current query execution.
+	 * 
+	 * @return the current JasperReportsContext
+	 */
+	JasperReportsContext getJasperReportsContext();
+
+	/**
+	 * Returns a canonical query language for this query execution.
+	 * 
+	 * <p>
+	 * The canonical language is used to retrieve extensions for the query executer.
+	 * </p>
+	 * 
+	 * @return the canonical query language
+	 */
+	String getCanonicalQueryLanguage();
 }

@@ -53,7 +53,10 @@ import net.sf.jasperreports.engine.util.JRQueryParser;
 public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 {
 	
-	protected static final int CLAUSE_POSITION_ID = 0;
+	/**
+	 * @deprecated use {@link JRClauseTokens#CLAUSE_ID_POSITION} or {@link JRClauseTokens#getClauseId()} instead.
+	 */
+	protected static final int CLAUSE_POSITION_ID = JRClauseTokens.CLAUSE_ID_POSITION;
 
 	/**
 	 * A parameter present in the query.
@@ -455,7 +458,7 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 	protected void appendClauseChunk(final StringBuffer sbuffer, String[] clauseTokens)
 	{
 		JRClauseTokens tokens = new JRClauseTokens(clauseTokens);
-		String id = tokens.getToken(CLAUSE_POSITION_ID);
+		String id = tokens.getClauseId();
 		if (id == null)
 		{
 			throw new JRRuntimeException("Query clause ID/first token missing");
@@ -493,6 +496,18 @@ public abstract class JRAbstractQueryExecuter implements JRQueryExecuter
 			public StringBuffer queryBuffer()
 			{
 				return sbuffer;
+			}
+
+			@Override
+			public JasperReportsContext getJasperReportsContext()
+			{
+				return jasperReportsContext;
+			}
+
+			@Override
+			public String getCanonicalQueryLanguage()
+			{
+				return JRAbstractQueryExecuter.this.getCanonicalQueryLanguage();
 			}
 		});
 	}

@@ -23,55 +23,17 @@
  */
 package net.sf.jasperreports.engine.query;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 
 /**
- * Query clause function bundle for a single query language.
- * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardSingleQueryClauseFunctionBundle 
-	implements QueryClauseFunctionBundle
+public interface ParameterTypesClauseFunction
 {
 
-	// this bundle only knows of one language
-	private final String queryLanguage;
-	private Map<String, JRClauseFunction> functions;
-	
-	/**
-	 * Creates a bundle for a query language
-	 * 
-	 * @param queryLanguage the query language
-	 */
-	public StandardSingleQueryClauseFunctionBundle(String queryLanguage)
-	{
-		this.queryLanguage = queryLanguage;
-		this.functions = new HashMap<String, JRClauseFunction>();
-	}
-	
-	/**
-	 * Registers a query clause function.
-	 * 
-	 * @param clauseId the clause Id
-	 * @param function the function implementation
-	 */
-	public void addFunction(String clauseId, JRClauseFunction function)
-	{
-		functions.put(clauseId, function);
-	}
-	
-	@Override
-	public JRClauseFunction getFunction(String queryLanguage, String clauseId)
-	{
-		if (!this.queryLanguage.equals(queryLanguage))
-		{
-			// not the language of this bundle
-			return null;
-		}
-		
-		return functions.get(clauseId);
-	}
+	Collection<Class<?>> getSupportedTypes();
+
+	JRClauseFunction getFunction();
 
 }
