@@ -25,10 +25,12 @@ package net.sf.jasperreports.extensions;
 
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.HtmlElementDocxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.HtmlElementHtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementJExcelHandler;
 import net.sf.jasperreports.engine.export.HtmlElementPdfHandler;
+import net.sf.jasperreports.engine.export.HtmlElementPptxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
@@ -37,6 +39,8 @@ import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -92,6 +96,16 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementGraphics2DHandler();
+		}		
+		else if (NAME.equals(elementName)
+				&& JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementDocxHandler();
+		}		
+		else if (NAME.equals(elementName)
+				&& JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementPptxHandler();
 		}		
 		return null;
 	}
