@@ -26,6 +26,11 @@ package net.sf.jasperreports.engine.export;
 import java.awt.Dimension;
 
 import javax.swing.JEditorPane;
+import javax.swing.text.Element;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
 
 import net.sf.jasperreports.components.html.HtmlComponent;
 import net.sf.jasperreports.engine.JRComponentElement;
@@ -57,6 +62,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		String verticalAlignment = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_VERTICAL_ALIGN);
 		
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setEditorKitForContentType("text/html", new SynchronousImageLoaderKit());
 		editorPane.setContentType("text/html");
 		
 		editorPane.setText(htmlContent);
@@ -75,7 +81,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		printImage.setMode(element.getModeValue());
 		printImage.setBackcolor(element.getBackcolor());
 		printImage.setForecolor(element.getForecolor());
-		printImage.setRenderer(new AwtComponentRenderer(editorPane));
+		printImage.setRenderable(new AwtComponentRenderer(editorPane));
 
 		return printImage;
 	}
@@ -84,6 +90,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		HtmlComponent html = (HtmlComponent) componentElement.getComponent();
 		
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setEditorKitForContentType("text/html", new SynchronousImageLoaderKit());
 		editorPane.setContentType("text/html");
 		
 		String htmlContent = "";
@@ -109,7 +116,7 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 		printImage.setBackcolor(componentElement.getBackcolor());
 		printImage.setForecolor(componentElement.getForecolor());
 
-		printImage.setRenderer(new AwtComponentRenderer(editorPane));
+		printImage.setRenderable(new AwtComponentRenderer(editorPane));
 		
 		return printImage;
 	}
@@ -117,10 +124,33 @@ public class DefaultHtmlPrintElement implements HtmlPrintElement {
 	public Dimension getComputedSize(JRGenericPrintElement element) {
 		String htmlContent = (String) element.getParameterValue(HtmlPrintElement.PARAMETER_HTML_CONTENT);
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setEditorKitForContentType("text/html", new SynchronousImageLoaderKit());
 		editorPane.setContentType("text/html");
 		editorPane.setText(htmlContent);
 		editorPane.setBorder(null);
 		return editorPane.getPreferredSize();
 	}
 	
+	public class SynchronousImageLoaderKit extends HTMLEditorKit {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+        public ViewFactory getViewFactory() {
+            return new HTMLFactory() {
+
+                @Override
+                public View create(Element elem) {
+                    View view = super.create(elem);
+                    if (view instanceof ImageView) {
+                        ((ImageView) view).setLoadsSynchronously(true);
+                    }
+                    return view;
+                }
+            };
+        }
+	}
+
 }
