@@ -88,7 +88,7 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 			printImage.setHeight(element.getHeight());
 		}
 
-		printImage.setRenderer(renderer);
+		printImage.setRenderable(renderer);
 		return printImage;
 	}
 
@@ -116,7 +116,7 @@ public class FlyingSaucerHtmlPrintElement implements HtmlPrintElement {
 		printImage.setVerticalAlignment(html.getVerticalAlign());
 		
 		FlyingSaucerXhtmlToImageRenderer renderer = new FlyingSaucerXhtmlToImageRenderer(getHtmlDocument(htmlContent), componentElement.getWidth(), componentElement.getHeight());
-		printImage.setRenderer(renderer);
+		printImage.setRenderable(renderer);
 		return printImage;
 	}
 	
