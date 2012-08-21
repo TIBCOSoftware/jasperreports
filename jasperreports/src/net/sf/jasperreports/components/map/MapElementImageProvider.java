@@ -90,7 +90,7 @@ public class MapElementImageProvider
 		printImage.setMode(element.getModeValue());
 		printImage.setBackcolor(element.getBackcolor());
 		printImage.setForecolor(element.getForecolor());
-		printImage.setLazy(true);
+		printImage.setLazy(false);
 		
 		//FIXMEMAP there are no scale image, alignment and onError attributes defined for the map element
 		printImage.setScaleImage(ScaleImageEnum.CLIP);
