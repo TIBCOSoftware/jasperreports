@@ -47,6 +47,34 @@
 		<ant dir="../" target="jxl"/>
 	</target>
 
+	<target name="docx" description="Generates a DOCX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="docx"/>
+	</target>
+
+	<target name="pptx" description="Generates a PPTX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="pptx"/>
+	</target>
+	
+	<target name="xlsx" description="Generates an XLSX version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xlsx"/>
+	</target>
+	
+	<target name="rtf" description="Generates an RTF version of the report by converting the .jrprint file.">
+		<ant dir="../" target="rtf"/>
+	</target>
+	
+	<target name="odt" description="Generates an ODT version of the report by converting the .jrprint file.">
+		<ant dir="../" target="odt"/>
+	</target>
+
+	<target name="ods" description="Generates an ODS version of the report by converting the .jrprint file.">
+		<ant dir="../" target="ods"/>
+	</target>
+	
+	<target name="xml" description="Generates an XML version of the report by converting the .jrprint file.">
+		<ant dir="../" target="xml"/>
+	</target>
+
 	<target name="viewDesignXml" description="Launches the design viewer to preview the XML report design.">
 		<ant dir="../" target="viewDesignXml"/>
 	</target>

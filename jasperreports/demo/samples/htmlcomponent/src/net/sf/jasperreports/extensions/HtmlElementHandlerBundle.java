@@ -25,18 +25,30 @@ package net.sf.jasperreports.extensions;
 
 import net.sf.jasperreports.engine.export.GenericElementHandler;
 import net.sf.jasperreports.engine.export.GenericElementHandlerBundle;
+import net.sf.jasperreports.engine.export.HtmlElementDocxHandler;
 import net.sf.jasperreports.engine.export.HtmlElementGraphics2DHandler;
 import net.sf.jasperreports.engine.export.HtmlElementHtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementJExcelHandler;
+import net.sf.jasperreports.engine.export.HtmlElementOdsHandler;
+import net.sf.jasperreports.engine.export.HtmlElementOdtHandler;
 import net.sf.jasperreports.engine.export.HtmlElementPdfHandler;
+import net.sf.jasperreports.engine.export.HtmlElementPptxHandler;
+import net.sf.jasperreports.engine.export.HtmlElementRtfHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXhtmlHandler;
 import net.sf.jasperreports.engine.export.HtmlElementXlsHandler;
+import net.sf.jasperreports.engine.export.HtmlElementXlsxHandler;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -92,6 +104,36 @@ public final class HtmlElementHandlerBundle implements GenericElementHandlerBund
 				&& JRGraphics2DExporter.GRAPHICS2D_EXPORTER_KEY.equals(exporterKey))
 		{
 			return new HtmlElementGraphics2DHandler();
+		}		
+		else if (NAME.equals(elementName)
+				&& JRDocxExporter.DOCX_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementDocxHandler();
+		}		
+		else if (NAME.equals(elementName)
+				&& JRPptxExporter.PPTX_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementPptxHandler();
+		}
+		else if (NAME.equals(elementName)
+				&& JRXlsxExporter.XLSX_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementXlsxHandler();
+		}
+		else if (NAME.equals(elementName)
+				&& JRRtfExporter.RTF_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementRtfHandler();
+		}
+		else if (NAME.equals(elementName)
+				&& JROdtExporter.ODT_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementOdtHandler();
+		}
+		else if (NAME.equals(elementName)
+				&& JROdsExporter.ODS_EXPORTER_KEY.equals(exporterKey))
+		{
+			return new HtmlElementOdsHandler();
 		}		
 		return null;
 	}

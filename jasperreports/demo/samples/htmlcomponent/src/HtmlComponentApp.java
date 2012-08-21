@@ -31,9 +31,15 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JExcelApiExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.AbstractSampleApp;
 import net.sf.jasperreports.engine.util.JRLoader;
 
@@ -66,6 +72,13 @@ public class HtmlComponentApp extends AbstractSampleApp
 		jxl();
 		html();
 		xhtml();
+		docx();
+		pptx();
+		xlsx();
+		rtf();
+		odt();
+		ods();
+		xml();
 	}
 
 
@@ -171,6 +184,156 @@ public class HtmlComponentApp extends AbstractSampleApp
 
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
 	}
-	
-	
+
+
+	/**
+	 * 
+	 */
+	public void docx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".docx");
+		
+		JRDocxExporter exporter = new JRDocxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("DOCX creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void pptx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".pptx");
+		
+		JRPptxExporter exporter = new JRPptxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+
+		exporter.exportReport();
+
+		System.err.println("PPTX creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void xlsx() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".xlsx");
+		
+		JRXlsxExporter exporter = new JRXlsxExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		
+		exporter.exportReport();
+
+		System.err.println("XLSX creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void rtf() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".rtf");
+		
+		JRRtfExporter exporter = new JRRtfExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("RTF creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void odt() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".odt");
+		
+		JROdtExporter exporter = new JROdtExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		
+		exporter.exportReport();
+
+		System.err.println("ODT creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void ods() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		File sourceFile = new File("build/reports/HtmlComponentReport.jrprint");
+
+		JasperPrint jasperPrint = (JasperPrint)JRLoader.loadObject(sourceFile);
+
+		File destFile = new File(sourceFile.getParent(), jasperPrint.getName() + ".ods");
+		
+		JROdsExporter exporter = new JROdsExporter();
+		
+		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFile.toString());
+		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		
+		exporter.exportReport();
+
+		System.err.println("ODS creation time : " + (System.currentTimeMillis() - start));
+	}
+
+
+	/**
+	 *
+	 */
+	public void xml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperExportManager.exportReportToXmlFile("build/reports/HtmlComponentReport.jrprint", false);
+		System.err.println("XML creation time : " + (System.currentTimeMillis() - start));
+	}
+
 }
