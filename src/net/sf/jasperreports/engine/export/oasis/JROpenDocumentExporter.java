@@ -260,13 +260,13 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 	/**
 	 *
 	 */
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName)
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, String imageName) throws JRException
 	{
 		return getImage(jasperPrintList, getPrintElementIndex(imageName));
 	}
 
 
-	public static JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex)
+	public JRPrintImage getImage(List<JasperPrint> jasperPrintList, JRPrintElementIndex imageIndex) throws JRException
 	{
 		JasperPrint report = jasperPrintList.get(imageIndex.getReportIndex());
 		JRPrintPage page = report.getPages().get(imageIndex.getPageIndex());
@@ -279,9 +279,16 @@ public abstract class JROpenDocumentExporter extends JRAbstractExporter
 			JRPrintFrame frame = (JRPrintFrame) element;
 			element = frame.getElements().get(elementIndexes[i].intValue());
 		}
+		
+		if(element instanceof JRGenericPrintElement)
+		{
+			return getPrintImageForGenericElement((JRGenericPrintElement)element);
+		}
 
 		return (JRPrintImage) element;
 	}
+	
+	protected abstract JRPrintImage getPrintImageForGenericElement(JRGenericPrintElement genericPrintElement) throws JRException;
 
 
 	/**

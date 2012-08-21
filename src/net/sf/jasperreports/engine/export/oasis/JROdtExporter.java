@@ -375,5 +375,17 @@ public class JROdtExporter extends JROpenDocumentExporter
 		return ODT_EXPORTER_KEY;
 	}
 
+
+	/**
+	 * 
+	 */
+	@Override
+	protected JRPrintImage getPrintImageForGenericElement(JRGenericPrintElement genericPrintElement) throws JRException {
+		return ((GenericElementOdtHandler) GenericElementHandlerEnviroment
+				.getInstance(jasperReportsContext).getElementHandler(
+						genericPrintElement.getGenericType(), ODT_EXPORTER_KEY))
+				.getImage(new ExporterContext(null), genericPrintElement);
+	}
+
 }
 
