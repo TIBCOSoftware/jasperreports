@@ -74,6 +74,10 @@ public class DrawVisitor extends UniformElementVisitor
 		setGraphics2D(grx);
 		this.drawVisitor.setClip(true);
 	}
+	public void setClip(boolean clip)
+	{
+		this.drawVisitor.setClip(clip);
+	}
 
 	/**
 	 *
