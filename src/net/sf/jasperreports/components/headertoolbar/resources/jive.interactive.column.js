@@ -1259,7 +1259,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     			actionName: 'conditionalFormatting',
     			conditionalFormattingData: {
     				tableUuid: metadata.tableUuid,
-    				fieldName: metadata.fieldName,
+    				columnIndex: jive.selected.ie.columnIndex,
     				conditionPattern: metadata.conditionPattern,
     				conditionType: metadata.conditionType,
     				conditions: []

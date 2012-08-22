@@ -431,9 +431,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				// end: temp
 				
 				// begin: params for conditional formatting
-				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName);
+				ConditionalFormattingData cfData = getExistingConditionalFormattingDataForField(jrContext, reportContext, tableUUID, columnName, columnIndex);
 				cfData.setTableUuid(tableUUID);
-				cfData.setFieldName(columnName);
 				cfData.setConditionType(filterType.getName());
 				cfData.setCalendarPattern(calendarPattern);
 				cfData.setConditionPattern(filterPattern);
@@ -608,14 +607,14 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private ConditionalFormattingData getExistingConditionalFormattingDataForField(
 			JasperReportsContext jasperReportsContext, 
 			ReportContext reportContext, 
-			String uuid, 
-			String filterFieldName
-			) 
+			String tableUuid, 
+			String fieldName,
+			Integer columnIndex
+			)
 	{
-		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		CommandTarget target = action.getCommandTarget(UUID.fromString(tableUuid));
 		ConditionalFormattingData result = new ConditionalFormattingData();
 		if (target != null)
 		{
@@ -623,27 +622,17 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
 			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
 			
-			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+			List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
 			
-			String datasetName = datasetRun.getDatasetName();
-			
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
-			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-			
-			// get existing filter as JSON string
-			String serializedConditionsData = "[]";
-			JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-			if (propertiesMap.getProperty(ConditionalFormattingCommand.DATASET_CONDITIONAL_FORMATTING_PROPERTY) != null) {
-				serializedConditionsData = propertiesMap.getProperty(ConditionalFormattingCommand.DATASET_CONDITIONAL_FORMATTING_PROPERTY);
-			}
-			
-			List<ConditionalFormattingData> existingConditionsData = JacksonUtil.getInstance(jasperReportsContext).loadAsList(serializedConditionsData, ConditionalFormattingData.class);
-
-			if (existingConditionsData.size() > 0) {
-				for (ConditionalFormattingData cfData: existingConditionsData) {
-					if (cfData.getFieldName().equals(filterFieldName)) {
-						result = cfData;
-						break;
+			if (columnIndex != null) {
+				StandardColumn column = (StandardColumn) tableColumns.get(columnIndex);
+				
+				JRDesignTextField textElement = (JRDesignTextField)TableUtil.getColumnDetailTextElement(column);
+				
+				if (textElement != null) {
+					JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
+					if (propertiesMap.containsProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY)) {
+						result = JacksonUtil.getInstance(jasperReportsContext).loadObject(propertiesMap.getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY), ConditionalFormattingData.class);
 					}
 				}
 			}
@@ -651,7 +640,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		
 		return result;
 	}
-	
+
 	private void setColumnHeaderData(String sortColumnLabel, Integer columnIndex, String tableUuid, Map<String, Object> contextMap, JasperReportsContext jasperReportsContext, ReportContext reportContext) {
 		FilterAction action = new FilterAction();
 		action.init(jasperReportsContext, reportContext);

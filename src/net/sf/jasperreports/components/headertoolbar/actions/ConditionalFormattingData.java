@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class ConditionalFormattingData extends BaseColumnData {
 	
-	private String fieldName;
+	private int columnIndex;
 	private String conditionType;
 	private String conditionPattern;
 	private String calendarPattern;
@@ -41,13 +41,13 @@ public class ConditionalFormattingData extends BaseColumnData {
 	public ConditionalFormattingData() {
 		this.conditions = new ArrayList<FormatCondition>();
 	}
-
-	public String getFieldName() {
-		return fieldName;
+	
+	public int getColumnIndex() {
+		return columnIndex;
 	}
 
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
+	public void setColumnIndex(int columnIndex) {
+		this.columnIndex = columnIndex;
 	}
 
 	public String getConditionType() {

@@ -25,9 +25,13 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 
 import java.util.List;
 
+import net.sf.jasperreports.components.table.BaseColumn;
+import net.sf.jasperreports.components.table.StandardColumn;
+import net.sf.jasperreports.components.table.StandardTable;
+import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.design.JRDesignDataset;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.web.commands.Command;
 import net.sf.jasperreports.web.util.JacksonUtil;
 
@@ -38,59 +42,65 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 public class ConditionalFormattingCommand implements Command 
 {
 	
-	public static final String DATASET_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.conditional.formatting";
+	public static final String COLUMN_CONDITIONAL_FORMATTING_PROPERTY = "net.sf.jasperreports.components.headertoolbar.conditional.formatting";
 	
 	private JasperReportsContext jasperReportsContext;
-	protected JRDesignDataset dataset;
+	protected StandardTable table;
 	protected ConditionalFormattingData conditionalFormattingData;
 	private String oldSerializedConditionsData;
 	private String newSerializedConditionsData;
+	private JRDesignTextField textElement;
 	
-	public ConditionalFormattingCommand(JasperReportsContext jasperReportsContext, JRDesignDataset dataset, ConditionalFormattingData conditionalFormattingData) 
+	public ConditionalFormattingCommand(JasperReportsContext jasperReportsContext, StandardTable table, ConditionalFormattingData conditionalFormattingData) 
 	{
 		this.jasperReportsContext = jasperReportsContext;
-		this.dataset = dataset;
+		this.table = table;
 		this.conditionalFormattingData = conditionalFormattingData;
 	}
 
 	public void execute() 
 	{
-		// get existing conditions data as JSON string
-		String serializedConditionsData = "[]";
-		JRPropertiesMap propertiesMap = dataset.getPropertiesMap();
-		if (propertiesMap.getProperty(DATASET_CONDITIONAL_FORMATTING_PROPERTY) != null) {
-			serializedConditionsData = propertiesMap.getProperty(DATASET_CONDITIONAL_FORMATTING_PROPERTY);
-		}
+		List<BaseColumn> tableColumns = TableUtil.getAllColumns(table);
+		StandardColumn column = (StandardColumn) tableColumns.get(conditionalFormattingData.getColumnIndex());
+		textElement = (JRDesignTextField) TableUtil.getColumnDetailTextElement(column);
 		
-		oldSerializedConditionsData = serializedConditionsData;
-		
-		JacksonUtil jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
-		List<ConditionalFormattingData> existingConditionsData = jacksonUtil.loadList(serializedConditionsData, ConditionalFormattingData.class);
-		boolean foundExistingConditionData = false;
-		
-		for (ConditionalFormattingData cfData: existingConditionsData) {
-			if (cfData.getFieldName().equals(conditionalFormattingData.getFieldName())) {
-				cfData.setConditions(conditionalFormattingData.getConditions());
-				foundExistingConditionData = true;
-				break;
+		if (textElement != null) 
+		{
+			// get existing condition data as JSON string
+			String serializedConditionData = null;
+			JRPropertiesMap propertiesMap = textElement.getPropertiesMap();
+			if (propertiesMap.containsProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY)) {
+				serializedConditionData = propertiesMap.getProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
 			}
-		}
 			
-		if (!foundExistingConditionData && conditionalFormattingData.getConditions().size() > 0) {
-			existingConditionsData.add(conditionalFormattingData);
+			oldSerializedConditionsData = serializedConditionData;
+			
+			JacksonUtil jacksonUtil = JacksonUtil.getInstance(jasperReportsContext);
+			ConditionalFormattingData existingConditionData = jacksonUtil.loadObject(serializedConditionData, ConditionalFormattingData.class);
+			if (existingConditionData != null) {
+				existingConditionData.setConditions(conditionalFormattingData.getConditions());
+			} else {
+				existingConditionData = conditionalFormattingData;
+			}
+				
+			newSerializedConditionsData = jacksonUtil.getJsonString(existingConditionData);
+			propertiesMap.setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
 		}
-		
-		newSerializedConditionsData = jacksonUtil.getJsonString(existingConditionsData);
-		propertiesMap.setProperty(DATASET_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
 	}
 	
 	public void undo() 
 	{
-		dataset.getPropertiesMap().setProperty(DATASET_CONDITIONAL_FORMATTING_PROPERTY, oldSerializedConditionsData);
+		if (textElement != null) 
+		{
+			textElement.getPropertiesMap().setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, oldSerializedConditionsData);
+		}
 	}
 
 	public void redo() 
 	{
-		dataset.getPropertiesMap().setProperty(DATASET_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
+		if (textElement != null) 
+		{
+			textElement.getPropertiesMap().setProperty(COLUMN_CONDITIONAL_FORMATTING_PROPERTY, newSerializedConditionsData);
+		}			
 	}
 }
