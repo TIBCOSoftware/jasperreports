@@ -115,10 +115,14 @@ public class JRDesignCellContents extends JRDesignElementGroup implements JRCell
 	/**
 	 * Sets the computed cell height.
 	 * 
+	 * <p>
+	 * The method should NOT be called by external code.
+	 * </p>
+	 * 
 	 * @param height the cell height
 	 * @see JRCellContents#getHeight()
 	 */
-	protected void setHeight(int height)
+	public void setHeight(int height)
 	{
 		this.height = height;
 	}
