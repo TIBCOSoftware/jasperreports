@@ -27,10 +27,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import net.sf.jasperreports.engine.design.JRDesignDataset;
-import net.sf.jasperreports.engine.design.JRDesignDatasetRun;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.web.actions.ActionException;
 import net.sf.jasperreports.web.commands.CommandException;
 import net.sf.jasperreports.web.commands.ResetInCacheCommand;
@@ -53,20 +49,11 @@ public class ConditionalFormattingAction extends AbstractVerifiableTableAction {
 	}
 
 	public void performAction() throws ActionException {
-		JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
-
-		String datasetName = datasetRun.getDatasetName();
-		
-		JasperDesignCache cache = JasperDesignCache.getInstance(getJasperReportsContext(), getReportContext());
-		
-		JasperDesign jasperDesign = cache.getJasperDesign(targetUri);
-		JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-		
 		// execute command
 		try {
 			getCommandStack().execute(
 				new ResetInCacheCommand(
-					new ConditionalFormattingCommand(getJasperReportsContext(), dataset, getConditionalFormattingData()),
+					new ConditionalFormattingCommand(getJasperReportsContext(), table, getConditionalFormattingData()),
 					getJasperReportsContext(),
 					getReportContext(), 
 					targetUri
