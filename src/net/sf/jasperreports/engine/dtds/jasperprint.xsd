@@ -450,6 +450,11 @@
    <sequence>
     <element ref="jrp:property" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
+   <attribute name="uuid" type="string" use="optional">
+	<annotation>
+	 <documentation>This attribute is auto-generated and is used to uniquely identify elements across multiple report templates.</documentation>
+	</annotation>
+   </attribute>  
    <attribute name="key" type="string" use="optional"/>
    <attribute name="style" type="string" use="optional"/>
    <attribute name="mode" use="optional">
