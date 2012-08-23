@@ -54,7 +54,6 @@ import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.style.StyleProvider;
-import net.sf.jasperreports.engine.style.StyleProviderContext;
 import net.sf.jasperreports.engine.style.StyleProviderFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -78,6 +77,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected JRElement parent;
 	protected JRStyle ownStyle;
 	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
+	protected List<StyleProvider> styleProviders;
 
 	/**
 	 *
@@ -153,34 +153,36 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRFillElement(
-			JRBaseFiller filler,
-			JRElement element,
-			JRFillObjectFactory factory
-			)
-		{
-			factory.put(element, this);
+		JRBaseFiller filler,
+		JRElement element,
+		JRFillObjectFactory factory
+		)
+	{
+		factory.put(element, this);
 
-			this.parent = element;
-			this.filler = filler;
-			this.expressionEvaluator = factory.getExpressionEvaluator();
-			this.defaultStyleProvider = factory.getDefaultStyleProvider();
-			
-			elementId = filler.assignElementId(this);
+		this.parent = element;
+		this.filler = filler;
+		this.expressionEvaluator = factory.getExpressionEvaluator();
+		this.defaultStyleProvider = factory.getDefaultStyleProvider();
+		
+		elementId = filler.assignElementId(this);
 
-			/*   */
-			printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
-			elementGroup = (JRFillElementGroup)factory.getVisitResult(element.getElementGroup());
-			
-			x = element.getX();
-			y = element.getY();
-			width = element.getWidth();
-			height = element.getHeight();
-			
-			staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
-			mergedProperties = staticProperties;
-			
-			factory.registerDelayedStyleSetter(this, parent);
-		}
+		/*   */
+		printWhenGroupChanges = factory.getGroup(element.getPrintWhenGroupChanges());
+		elementGroup = (JRFillElementGroup)factory.getVisitResult(element.getElementGroup());
+		
+		x = element.getX();
+		y = element.getY();
+		width = element.getWidth();
+		height = element.getHeight();
+		
+		staticProperties = element.hasProperties() ? element.getPropertiesMap().cloneProperties() : null;
+		mergedProperties = staticProperties;
+		
+		factory.registerDelayedStyleSetter(this, parent);
+		
+		initStyleProviders();
+	}
 
 	
 	protected JRFillElement(JRFillElement element, JRFillCloneFactory factory)
@@ -212,6 +214,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		staticProperties = element.staticProperties == null ? null : element.staticProperties.cloneProperties();
 		mergedProperties = staticProperties;
+		
+		styleProviders = element.styleProviders;
 	}
 
 
@@ -661,6 +665,31 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
+	protected void initStyleProviders()
+	{
+		List<StyleProviderFactory> styleProviderFactories = filler.getJasperReportsContext().getExtensions(StyleProviderFactory.class);
+		if (styleProviderFactories != null && styleProviderFactories.size() > 0)
+		{
+			FillStyleProviderContext styleProviderContext = new FillStyleProviderContext(this);
+			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
+			{
+				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
+				if (styleProvider != null)
+				{
+					if (styleProviders == null)
+					{
+						styleProviders = new ArrayList<StyleProvider>();
+					}
+					styleProviders.add(styleProvider);
+				}
+			}
+		}
+	}
+
+	
+	/**
+	 *
+	 */
 	protected void reset()
 	{
 		relativeY = y;
@@ -694,15 +723,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	{
 		ownStyle = null;
 
-		List<StyleProviderFactory> styleProviderFactories = filler.getJasperReportsContext().getExtensions(StyleProviderFactory.class);
-		if (styleProviderFactories != null && styleProviderFactories.size() > 0)
+		if (styleProviders != null && styleProviders.size() > 0)
 		{
-			StyleProviderContext styleProviderContext = new StyleProviderContext();
-			styleProviderContext.setElement(this);
-			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
+			for (StyleProvider styleProvider : styleProviders)
 			{
-				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
-				JRStyle style = styleProvider.getStyle();
+				JRStyle style = styleProvider.getStyle(evaluation);
 				if (style != null)
 				{
 					if (ownStyle == null)
@@ -1032,6 +1057,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		if (isDelayedStyleEvaluation())
 		{
 			collectStyleDelayedEvaluations();
+			collectStyleProviderDelayedEvaluations();
 		}
 	}
 
@@ -1052,36 +1078,6 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				
 				// proceed to the parent style
 				style = style.getStyle();
-			}
-		}
-		
-		List<StyleProviderFactory> styleProviderFactories = filler.getJasperReportsContext().getExtensions(StyleProviderFactory.class);
-		if (styleProviderFactories != null && styleProviderFactories.size() > 0)
-		{
-			StyleProviderContext styleProviderContext = new StyleProviderContext();
-			styleProviderContext.setElement(this);
-			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
-			{
-				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
-				String[] fields = styleProvider.getFields();
-				if (fields != null && fields.length > 0)
-				{
-					DelayedEvaluations delayedEvaluations = getDelayedEvaluations(JREvaluationTime.EVALUATION_TIME_NOW);
-					for (String field : fields)
-					{
-						delayedEvaluations.fields.add(field);
-					}
-				}
-				String[] variables = styleProvider.getVariables();
-				if (variables != null && variables.length > 0)
-				{
-					for (String variable : variables)
-					{
-						JREvaluationTime time = autogetVariableEvaluationTime(variable);
-						DelayedEvaluations delayedEvaluations = getDelayedEvaluations(time);
-						delayedEvaluations.variables.add(variable);
-					}
-				}
 			}
 		}
 	}
@@ -1126,6 +1122,36 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 							delayedEvaluations.variables.add(chunk.getText());
 							break;
 						}
+					}
+				}
+			}
+		}
+	}
+
+	
+	protected void collectStyleProviderDelayedEvaluations()
+	{
+		if (styleProviders != null && styleProviders.size() > 0)
+		{
+			for (StyleProvider styleProvider : styleProviders)
+			{
+				String[] fields = styleProvider.getFields();
+				if (fields != null && fields.length > 0)
+				{
+					DelayedEvaluations delayedEvaluations = getDelayedEvaluations(JREvaluationTime.EVALUATION_TIME_NOW);
+					for (String field : fields)
+					{
+						delayedEvaluations.fields.add(field);
+					}
+				}
+				String[] variables = styleProvider.getVariables();
+				if (variables != null && variables.length > 0)
+				{
+					for (String variable : variables)
+					{
+						JREvaluationTime time = autogetVariableEvaluationTime(variable);
+						DelayedEvaluations delayedEvaluations = getDelayedEvaluations(time);
+						delayedEvaluations.variables.add(variable);
 					}
 				}
 			}
