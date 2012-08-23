@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -51,6 +52,10 @@ import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleSetter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.base.JRBaseStyle;
+import net.sf.jasperreports.engine.style.StyleProvider;
+import net.sf.jasperreports.engine.style.StyleProviderContext;
+import net.sf.jasperreports.engine.style.StyleProviderFactory;
 import net.sf.jasperreports.engine.type.CalculationEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -71,6 +76,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRElement parent;
+	protected JRStyle ownStyle;
 	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
 
 	/**
@@ -446,7 +452,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Color getOwnBackcolor()
 	{
-		return parent.getOwnBackcolor();
+		return ownStyle == null || ownStyle.getOwnBackcolor() == null ? parent.getOwnBackcolor() : ownStyle.getOwnBackcolor();
 	}
 
 	/**
@@ -682,6 +688,37 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	/**
 	 *
 	 */
+	protected void evaluateStyle(
+		byte evaluation
+		) throws JRException
+	{
+		ownStyle = null;
+
+		List<StyleProviderFactory> styleProviderFactories = filler.getJasperReportsContext().getExtensions(StyleProviderFactory.class);
+		if (styleProviderFactories != null && styleProviderFactories.size() > 0)
+		{
+			StyleProviderContext styleProviderContext = new StyleProviderContext();
+			styleProviderContext.setElement(this);
+			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
+			{
+				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
+				JRStyle style = styleProvider.getStyle();
+				if (style != null)
+				{
+					if (ownStyle == null)
+					{
+						ownStyle = new JRBaseStyle();
+					}
+					JRStyleResolver.appendStyle(ownStyle, style);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	protected void evaluatePrintWhenExpression(
 		byte evaluation
 		) throws JRException
@@ -722,8 +759,16 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	protected JRTemplateElement getElementTemplate()
 	{
-		JRStyle style = getStyle();
-		JRTemplateElement template = getTemplate(style);
+		JRTemplateElement template = null;
+		JRStyle style = null;
+		
+		if (ownStyle == null)
+		{
+			// no style provider has been used so we can use cache template per style below
+			style = getStyle();
+			template = getTemplate(style);
+		}
+		
 		if (template == null)
 		{
 			template = createElementTemplate();
@@ -732,7 +777,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			// deduplicate to previously created identical objects
 			template = filler.fillContext.deduplicate(template);
 			
-			registerTemplate(style, template);
+			if (style != null)
+			{
+				registerTemplate(style, template);
+			}
 		}
 		return template;
 	}
@@ -868,6 +916,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		
 		// reset the current style
 		this.currentStyle = null;
+		this.ownStyle = null;
 	}
 
 
@@ -1003,6 +1052,36 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				
 				// proceed to the parent style
 				style = style.getStyle();
+			}
+		}
+		
+		List<StyleProviderFactory> styleProviderFactories = filler.getJasperReportsContext().getExtensions(StyleProviderFactory.class);
+		if (styleProviderFactories != null && styleProviderFactories.size() > 0)
+		{
+			StyleProviderContext styleProviderContext = new StyleProviderContext();
+			styleProviderContext.setElement(this);
+			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
+			{
+				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
+				String[] fields = styleProvider.getFields();
+				if (fields != null && fields.length > 0)
+				{
+					DelayedEvaluations delayedEvaluations = getDelayedEvaluations(JREvaluationTime.EVALUATION_TIME_NOW);
+					for (String field : fields)
+					{
+						delayedEvaluations.fields.add(field);
+					}
+				}
+				String[] variables = styleProvider.getVariables();
+				if (variables != null && variables.length > 0)
+				{
+					for (String variable : variables)
+					{
+						JREvaluationTime time = autogetVariableEvaluationTime(variable);
+						DelayedEvaluations delayedEvaluations = getDelayedEvaluations(time);
+						delayedEvaluations.variables.add(variable);
+					}
+				}
 			}
 		}
 	}
