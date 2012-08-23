@@ -37,7 +37,7 @@ public interface StyleProvider
 	/**
 	 * Returns a style.
 	 */
-	public JRStyle getStyle();
+	public JRStyle getStyle(byte evaluation);
 
 
 	/**

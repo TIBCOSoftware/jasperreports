@@ -21,31 +21,53 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.style;
+package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.style.StyleProviderContext;
 
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRDefaultStyleProvider.java 5180 2012-03-29 13:23:12Z teodord $
  */
-public interface StyleProviderContext
+public class FillStyleProviderContext implements StyleProviderContext
 {
+	private JRFillElement element;
+
+	
+	/**
+	 *
+	 */
+	protected FillStyleProviderContext(JRFillElement element)
+	{
+		this.element = element;
+	}
+
+	
+	/**
+	 *
+	 */
+	public JRElement getElement()
+	{
+		return element;
+	}
+
 
 	/**
 	 *
 	 */
-	public JRElement getElement();
+	public Object getFieldValue(String fieldName, byte evaluation)
+	{
+		return element.getField(fieldName).getValue(evaluation);
+	}
+
 
 	/**
 	 *
 	 */
-	public Object getFieldValue(String fieldName, byte evaluation);
-
-	/**
-	 *
-	 */
-	public Object getVariableValue(String variableName, byte evaluation);
-
+	public Object getVariableValue(String variableName, byte evaluation)
+	{
+		return element.getVariable(variableName).getValue(evaluation);
+	}
 }

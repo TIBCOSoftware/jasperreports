@@ -47,7 +47,7 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 	}
 
 	@Override
-	public JRStyle getStyle() 
+	public JRStyle getStyle(byte evaluation) 
 	{
 		if (context.getElement().getPropertiesMap() != null)
 		{
