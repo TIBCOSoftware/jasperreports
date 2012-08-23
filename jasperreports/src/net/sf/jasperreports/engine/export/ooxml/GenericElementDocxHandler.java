@@ -56,6 +56,6 @@ public interface GenericElementDocxHandler extends GenericElementHandler
 	 * @param element the generic element to export
 	 * @return JRPrintImage the equivalent image
 	 */
-	JRPrintImage getImage(JRDocxExporterContext exporterContext, JRGenericPrintElement element) throws JRException;
+	JRPrintImage getImage(JRDocxExporterContext exporterContext, JRGenericPrintElement element) throws JRException;//FIXME consider removing this method by using some sort of callback
 	
 }

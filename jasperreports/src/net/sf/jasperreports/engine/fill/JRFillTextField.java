@@ -417,6 +417,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		) throws JRException
 	{
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		value = evaluateExpression(getExpression(), evaluation);
 		

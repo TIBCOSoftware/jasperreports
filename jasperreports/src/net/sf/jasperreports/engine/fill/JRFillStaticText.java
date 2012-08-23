@@ -109,6 +109,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		
 		evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 
 		resetTextChunk();
 		
