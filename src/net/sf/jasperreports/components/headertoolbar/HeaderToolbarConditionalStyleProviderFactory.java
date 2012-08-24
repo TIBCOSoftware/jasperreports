@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
 import net.sf.jasperreports.engine.style.StyleProviderFactory;
@@ -51,9 +52,9 @@ public final class HeaderToolbarConditionalStyleProviderFactory implements Style
 	/**
 	 *
 	 */
-	public StyleProvider getStyleProvider(StyleProviderContext context)
+	public StyleProvider getStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext)
 	{
-		return new HeaderToolbarConditionalStyleProvider(context);
+		return new HeaderToolbarConditionalStyleProvider(context, jasperreportsContext);
 	}
 	
 }

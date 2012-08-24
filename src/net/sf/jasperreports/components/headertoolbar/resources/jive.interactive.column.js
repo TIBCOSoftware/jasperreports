@@ -1079,7 +1079,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon'},
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
-	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true},
+	            {type:'color',id:'conditionFontBackColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
 	        ]
 	    },
 	    {type:'button', id:'conditionMoveUp', bLabel:'U', fn: 'conditionMoveUp'},
@@ -1213,6 +1214,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor);
         }
         
         table.trigger('rowchange');
@@ -1262,6 +1264,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
     				columnIndex: jive.selected.ie.columnIndex,
     				conditionPattern: metadata.conditionPattern,
     				conditionType: metadata.conditionType,
+    				columnType: metadata.columnType,
+    				fieldOrVariableName: metadata.fieldOrVariableName,
     				conditions: []
     			}
     		};
@@ -1275,7 +1279,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
             	conditionFontBold: inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].get(),
             	conditionFontItalic: inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].get(),
             	conditionFontUnderline: inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].get(),
-            	conditionFontColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].get()
+            	conditionFontColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].get(),
+            	conditionFontBackColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].get()
     		});
     	});
     	

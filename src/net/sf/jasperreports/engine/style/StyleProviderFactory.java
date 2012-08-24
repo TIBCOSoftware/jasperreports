@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.engine.style;
 
-import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -37,7 +37,7 @@ public interface StyleProviderFactory
 	/**
 	 *
 	 */
-	public StyleProvider getStyleProvider(StyleProviderContext context);
+	public StyleProvider getStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext);
 
 
 }

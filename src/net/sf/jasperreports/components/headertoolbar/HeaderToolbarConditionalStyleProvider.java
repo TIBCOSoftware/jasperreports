@@ -25,11 +25,17 @@ package net.sf.jasperreports.components.headertoolbar;
 
 import java.awt.Color;
 
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingCommand;
+import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormattingData;
+import net.sf.jasperreports.components.headertoolbar.actions.FormatCondition;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
+import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
+import net.sf.jasperreports.web.util.JacksonUtil;
 
 /**
  * 
@@ -40,10 +46,12 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 {
 	private final StyleProviderContext context;
+	private JasperReportsContext jasperreportsContext;
 	
-	public HeaderToolbarConditionalStyleProvider(StyleProviderContext context)
+	public HeaderToolbarConditionalStyleProvider(StyleProviderContext context, JasperReportsContext jasperreportsContext)
 	{
 		this.context = context;
+		this.jasperreportsContext = jasperreportsContext;
 	}
 
 	@Override
@@ -51,11 +59,48 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 	{
 		if (context.getElement().getPropertiesMap() != null)
 		{
-			String backcolor = context.getElement().getPropertiesMap().getProperty("net.sf.jasperreports.backcolor");
-			if (backcolor != null)
+			String srlzdConditionalFormattingData = context.getElement().getPropertiesMap().getProperty(ConditionalFormattingCommand.COLUMN_CONDITIONAL_FORMATTING_PROPERTY);
+			if (srlzdConditionalFormattingData != null)
 			{
-				JRStyle style = new JRBaseStyle();
-				style.setBackcolor(JRColorUtil.getColor(backcolor, Color.black));
+				JRStyle style = null;
+				
+				ConditionalFormattingData cfd = JacksonUtil.getInstance(jasperreportsContext).loadObject(srlzdConditionalFormattingData, ConditionalFormattingData.class);
+				if (cfd.getConditions().size() > 0) {
+					SortFieldTypeEnum columnType = SortFieldTypeEnum.getByName(cfd.getColumnType());
+					Object compareTo = columnType.equals(SortFieldTypeEnum.FIELD) ? context.getFieldValue(cfd.getFieldOrVariableName(), evaluation) : context.getVariableValue(cfd.getFieldOrVariableName(), evaluation);
+					for (FormatCondition condition: cfd.getConditions()) 
+					{
+						if(condition.matches(compareTo, cfd.getConditionType(), cfd.getConditionPattern(), condition.getConditionTypeOperator())) 
+						{
+							if (style == null) 
+							{
+								style = new JRBaseStyle();
+							}
+							
+							if (condition.isConditionFontBold() != null) 
+							{
+								style.setBold(condition.isConditionFontBold());
+							}
+							if (condition.isConditionFontItalic() != null)
+							{
+								style.setItalic(condition.isConditionFontItalic());
+							}
+							if (condition.isConditionFontUnderline() != null)
+							{
+								style.setUnderline(condition.isConditionFontUnderline());
+							}
+							if (condition.getConditionFontColor() != null) 
+							{
+								style.setForecolor(JRColorUtil.getColor("#" + condition.getConditionFontColor(), Color.black));
+							}
+							if (condition.getConditionFontBackColor() != null) 
+							{
+								style.setBackcolor(JRColorUtil.getColor("#" + condition.getConditionFontBackColor(), Color.white));
+							}
+						}
+					}
+				}
+				
 				return style;
 			}
 		}
