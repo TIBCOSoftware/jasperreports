@@ -23,6 +23,13 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
+import net.sf.jasperreports.components.sort.AbstractFieldComparator;
+import net.sf.jasperreports.components.sort.FieldComparatorFactory;
+import net.sf.jasperreports.components.sort.FilterTypesEnum;
+
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -33,10 +40,11 @@ public class FormatCondition {
 	private String conditionStart;
 	private String conditionEnd;
 	private String conditionTypeOperator;
-	private boolean conditionFontBold;
-	private boolean conditionFontItalic;
-	private boolean conditionFontUnderline;
-	private String conditionFontColor;	
+	private Boolean conditionFontBold;
+	private Boolean conditionFontItalic;
+	private Boolean conditionFontUnderline;
+	private String conditionFontColor;
+	private String conditionFontBackColor;
 	
 	public FormatCondition() {
 	}
@@ -65,27 +73,27 @@ public class FormatCondition {
 		this.conditionTypeOperator = conditionTypeOperator;
 	}
 
-	public boolean isConditionFontBold() {
+	public Boolean isConditionFontBold() {
 		return conditionFontBold;
 	}
 
-	public void setConditionFontBold(boolean conditionFontBold) {
+	public void setConditionFontBold(Boolean conditionFontBold) {
 		this.conditionFontBold = conditionFontBold;
 	}
 
-	public boolean isConditionFontItalic() {
+	public Boolean isConditionFontItalic() {
 		return conditionFontItalic;
 	}
 
-	public void setConditionFontItalic(boolean conditionFontItalic) {
+	public void setConditionFontItalic(Boolean conditionFontItalic) {
 		this.conditionFontItalic = conditionFontItalic;
 	}
 
-	public boolean isConditionFontUnderline() {
+	public Boolean isConditionFontUnderline() {
 		return conditionFontUnderline;
 	}
 
-	public void setConditionFontUnderline(boolean conditionFontUnderline) {
+	public void setConditionFontUnderline(Boolean conditionFontUnderline) {
 		this.conditionFontUnderline = conditionFontUnderline;
 	}
 
@@ -95,6 +103,30 @@ public class FormatCondition {
 
 	public void setConditionFontColor(String conditionFontColor) {
 		this.conditionFontColor = conditionFontColor;
+	}
+	
+	public String getConditionFontBackColor() {
+		return conditionFontBackColor;
+	}
+	
+	public void setConditionFontBackColor(String conditionFontBackColor) {
+		this.conditionFontBackColor = conditionFontBackColor;
+	}
+	
+	public boolean matches(Object compareTo, String conditionType, String conditionPattern, String conditionTypeOperator) {
+		AbstractFieldComparator<?> fieldComparator = FieldComparatorFactory
+				.createFieldComparator(
+						FilterTypesEnum.getByName(conditionType),
+						conditionPattern,
+						Locale.getDefault(),
+						TimeZone.getDefault());
+		
+		fieldComparator.setValueStart(conditionStart);
+		fieldComparator.setValueEnd(conditionEnd);
+		fieldComparator.setCompareTo(compareTo);
+		fieldComparator.setCompareToClass(compareTo.getClass());
+		
+		return fieldComparator.compare(conditionTypeOperator);
 	}
 	
 }

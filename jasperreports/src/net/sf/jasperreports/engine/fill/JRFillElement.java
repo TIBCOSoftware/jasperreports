@@ -673,7 +673,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			FillStyleProviderContext styleProviderContext = new FillStyleProviderContext(this);
 			for (StyleProviderFactory styleProviderFactory : styleProviderFactories)
 			{
-				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext);
+				StyleProvider styleProvider = styleProviderFactory.getStyleProvider(styleProviderContext, filler.getJasperReportsContext());
 				if (styleProvider != null)
 				{
 					if (styleProviders == null)

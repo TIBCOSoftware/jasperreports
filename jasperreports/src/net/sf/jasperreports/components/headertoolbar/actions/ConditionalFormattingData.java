@@ -36,6 +36,8 @@ public class ConditionalFormattingData extends BaseColumnData {
 	private String conditionType;
 	private String conditionPattern;
 	private String calendarPattern;
+	private String columnType;
+	private String fieldOrVariableName;
 	private List<FormatCondition> conditions;
 	
 	public ConditionalFormattingData() {
@@ -72,6 +74,22 @@ public class ConditionalFormattingData extends BaseColumnData {
 
 	public void setCalendarPattern(String calendarPattern) {
 		this.calendarPattern = calendarPattern;
+	}
+
+	public String getColumnType() {
+		return columnType;
+	}
+	
+	public void setColumnType(String columnType) {
+		this.columnType = columnType;
+	}
+
+	public String getFieldOrVariableName() {
+		return fieldOrVariableName;
+	}
+	
+	public void setFieldOrVariableName(String fieldOrVariableName) {
+		this.fieldOrVariableName = fieldOrVariableName;
 	}
 
 	public List<FormatCondition> getConditions() {

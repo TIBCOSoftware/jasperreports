@@ -581,6 +581,7 @@ public class TableReport implements JRReport
 					throw new JRRuntimeException("Unrecognized filter expression type " + sortExpression.getType());
 				}
 				
+				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME, name);
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_COLUMN_TYPE, columnType.getName());
 				
 				if (filterType != null)

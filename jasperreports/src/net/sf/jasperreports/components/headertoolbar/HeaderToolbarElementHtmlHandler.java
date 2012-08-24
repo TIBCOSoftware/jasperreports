@@ -194,6 +194,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		if (reportContext != null && tableUUID != null)//FIXMEJIVE
 		{
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
+			String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			boolean isInteractive = Boolean.valueOf(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE));
@@ -436,6 +437,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				cfData.setConditionType(filterType.getName());
 				cfData.setCalendarPattern(calendarPattern);
 				cfData.setConditionPattern(filterPattern);
+				cfData.setColumnType(columnType);
+				cfData.setFieldOrVariableName(fieldOrVariableName);
 				contextMap.put("conditionalFormattingData", JacksonUtil.getInstance(jrContext).getJsonString(cfData));
 				// end
 			}
