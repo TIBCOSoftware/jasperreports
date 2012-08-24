@@ -801,17 +801,18 @@ jive.ui.forms = {
 				if(v.type == 'checkbox') {
 					parms.inputs[vid] = {
 							selected: false,
-							set:function(bValue) {
+							setValue: function(bValue) {
 								if (bValue != null) {
 									jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', bValue);
 									bValue && jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
 									!bValue && jQuery('div.jive_inputbutton[bname="'+vid+'"]').removeClass('selected');
 									this.selected = bValue;
-								} else if (bValue === undefined){
-									jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', true);
-									jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
-									this.selected = true;
 								}
+							},
+							set:function() {
+								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', true);
+								jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
+								this.selected = true;
 							},
 							unset:function() {
 								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', false);
