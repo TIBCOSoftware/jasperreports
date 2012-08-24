@@ -83,7 +83,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public FillEnum getOwnFillValue()
 	{
-		return ((JRGraphicElement)this.parent).getOwnFillValue();
+		return ownStyle == null || ownStyle.getOwnFillValue() == null ? ((JRGraphicElement)this.parent).getOwnFillValue() : ownStyle.getOwnFillValue();
 	}
 
 	/**

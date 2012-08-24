@@ -151,7 +151,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 		
 	public String getOwnPattern()
 	{
-		return ((JRTextField)parent).getOwnPattern();
+		return ownStyle == null || ownStyle.getOwnPattern() == null ? ((JRTextField)this.parent).getOwnPattern() : ownStyle.getOwnPattern();
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class JRFillTextField extends JRFillTextElement implements JRTextField
 	 */
 	public Boolean isOwnBlankWhenNull()
 	{
-		return ((JRTextField)parent).isOwnBlankWhenNull();
+		return ownStyle == null || ownStyle.isOwnBlankWhenNull() == null ? ((JRTextField)this.parent).isOwnBlankWhenNull() : ownStyle.isOwnBlankWhenNull();
 	}
 
 	/**
