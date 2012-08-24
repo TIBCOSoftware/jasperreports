@@ -144,7 +144,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return ((JRTextElement)this.parent).getOwnHorizontalAlignmentValue();
+		return ownStyle == null || ownStyle.getOwnHorizontalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnHorizontalAlignmentValue() : ownStyle.getOwnHorizontalAlignmentValue();
 	}
 
 	/**
@@ -165,7 +165,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
-		return ((JRTextElement)this.parent).getOwnVerticalAlignmentValue();
+		return ownStyle == null || ownStyle.getOwnVerticalAlignmentValue() == null ? ((JRTextElement)this.parent).getOwnVerticalAlignmentValue() : ownStyle.getOwnVerticalAlignmentValue();
 	}
 
 	/**
@@ -186,7 +186,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 	public RotationEnum getOwnRotationValue()
 	{
-		return ((JRTextElement)this.parent).getOwnRotationValue();
+		return ownStyle == null || ownStyle.getOwnRotationValue() == null ? ((JRTextElement)this.parent).getOwnRotationValue() : ownStyle.getOwnRotationValue();
 	}
 
 	/**
@@ -234,7 +234,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getOwnMarkup()
 	{
-		return ((JRTextElement)parent).getOwnMarkup();
+		return ownStyle == null || ownStyle.getOwnMarkup() == null ? ((JRTextElement)parent).getOwnMarkup() : ownStyle.getOwnMarkup();
 	}
 
 	/**
@@ -542,7 +542,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getOwnFontName()
 	{
-		return ((JRFont)parent).getOwnFontName();
+		return ownStyle == null || ownStyle.getOwnFontName() == null ? ((JRFont)parent).getOwnFontName() : ownStyle.getOwnFontName();
 	}
 
 	/**
@@ -567,7 +567,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Boolean isOwnBold()
 	{
-		return ((JRFont)parent).isOwnBold();
+		return ownStyle == null || ownStyle.isOwnBold() == null ? ((JRFont)parent).isOwnBold() : ownStyle.isOwnBold();
 	}
 
 	/**
@@ -601,7 +601,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Boolean isOwnItalic()
 	{
-		return ((JRFont)parent).isOwnItalic();
+		return ownStyle == null || ownStyle.isOwnItalic() == null ? ((JRFont)parent).isOwnItalic() : ownStyle.isOwnItalic();
 	}
 
 	/**
@@ -634,7 +634,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Boolean isOwnUnderline()
 	{
-		return ((JRFont)parent).isOwnUnderline();
+		return ownStyle == null || ownStyle.isOwnUnderline() == null ? ((JRFont)parent).isOwnUnderline() : ownStyle.isOwnUnderline();
 	}
 
 	/**
@@ -667,7 +667,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Boolean isOwnStrikeThrough()
 	{
-		return ((JRFont)parent).isOwnStrikeThrough();
+		return ownStyle == null || ownStyle.isOwnStrikeThrough() == null ? ((JRFont)parent).isOwnStrikeThrough() : ownStyle.isOwnStrikeThrough();
 	}
 
 	/**
@@ -700,7 +700,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Integer getOwnFontSize()
 	{
-		return ((JRFont)parent).getOwnFontSize();
+		return ownStyle == null || ownStyle.getOwnFontSize() == null ? ((JRFont)parent).getOwnFontSize() : ownStyle.getOwnFontSize();
 	}
 
 	/**
@@ -733,7 +733,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getOwnPdfFontName()
 	{
-		return ((JRFont)parent).getOwnPdfFontName();
+		return ownStyle == null || ownStyle.getOwnPdfFontName() == null ? ((JRFont)parent).getOwnPdfFontName() : ownStyle.getOwnPdfFontName();
 	}
 
 	/**
@@ -758,7 +758,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public String getOwnPdfEncoding()
 	{
-		return ((JRFont)parent).getOwnPdfEncoding();
+		return ownStyle == null || ownStyle.getOwnPdfEncoding() == null ? ((JRFont)parent).getOwnPdfEncoding() : ownStyle.getOwnPdfEncoding();
 	}
 
 	/**
@@ -783,7 +783,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	 */
 	public Boolean isOwnPdfEmbedded()
 	{
-		return ((JRFont)parent).isOwnPdfEmbedded();
+		return ownStyle == null || ownStyle.isOwnPdfEmbedded() == null ? ((JRFont)parent).isOwnPdfEmbedded() : ownStyle.isOwnPdfEmbedded();
 	}
 
 	/**
