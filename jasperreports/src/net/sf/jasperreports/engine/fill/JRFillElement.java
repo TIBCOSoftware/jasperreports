@@ -304,7 +304,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public ModeEnum getOwnModeValue()
 	{
-		return parent.getOwnModeValue();
+		return ownStyle == null || ownStyle.getOwnModeValue() == null ? parent.getOwnModeValue() : ownStyle.getOwnModeValue();
 	}
 
 	/**
@@ -433,7 +433,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	public Color getOwnForecolor()
 	{
-		return parent.getOwnForecolor();
+		return ownStyle == null || ownStyle.getOwnForecolor() == null ? parent.getOwnForecolor() : ownStyle.getOwnForecolor();
 	}
 
 	/**
