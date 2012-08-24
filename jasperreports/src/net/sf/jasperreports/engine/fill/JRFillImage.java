@@ -128,7 +128,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
-		return ((JRImage)this.parent).getOwnScaleImageValue();
+		return ownStyle == null || ownStyle.getOwnScaleImageValue() == null ? ((JRImage)this.parent).getOwnScaleImageValue() : ownStyle.getOwnScaleImageValue();
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return ((JRImage)this.parent).getOwnHorizontalAlignmentValue();
+		return ownStyle == null || ownStyle.getOwnHorizontalAlignmentValue() == null ? ((JRImage)this.parent).getOwnHorizontalAlignmentValue() : ownStyle.getOwnHorizontalAlignmentValue();
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
-		return ((JRImage)this.parent).getOwnVerticalAlignmentValue();
+		return ownStyle == null || ownStyle.getOwnVerticalAlignmentValue() == null ? ((JRImage)this.parent).getOwnVerticalAlignmentValue() : ownStyle.getOwnVerticalAlignmentValue();
 	}
 
 	/**
