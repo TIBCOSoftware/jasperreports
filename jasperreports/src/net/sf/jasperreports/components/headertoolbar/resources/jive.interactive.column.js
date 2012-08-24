@@ -1210,9 +1210,9 @@ jive.interactive.column.columnConditionalFormattingForm = {
         	row.find('select[name=conditionTypeOperator]').val(conditionData.conditionTypeOperator).trigger('change');
         	inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
         	inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].setValue(conditionData.conditionFontBold);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].setValue(conditionData.conditionFontItalic);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].setValue(conditionData.conditionFontUnderline);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor);
         }
