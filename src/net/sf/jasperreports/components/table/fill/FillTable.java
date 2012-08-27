@@ -292,8 +292,7 @@ public class FillTable extends BaseFillComponent
 		JRReportCompileData tableReportCompileData = createTableReportCompileData(
 				parentReport, reportSubdataset);
 		
-		JasperReport compiledTableReport = new JasperReport(tableReport, 
-				parentReport.getCompilerClass(), 
+		TableJasperReport compiledTableReport = new TableJasperReport(parentReport, tableReport, 
 				tableReportCompileData, 
 				new TableReportBaseObjectFactory(reportDataset),
 				"");// no suffix as already included in the report name
