@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.style.StyleProvider;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.type.SortFieldTypeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.util.JacksonUtil;
@@ -68,6 +69,11 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 				if (cfd.getConditions().size() > 0) {
 					SortFieldTypeEnum columnType = SortFieldTypeEnum.getByName(cfd.getColumnType());
 					Object compareTo = columnType.equals(SortFieldTypeEnum.FIELD) ? context.getFieldValue(cfd.getFieldOrVariableName(), evaluation) : context.getVariableValue(cfd.getFieldOrVariableName(), evaluation);
+					boolean bgColorSet = false;
+					boolean fontBoldSet = false;
+					boolean fontItalicSet = false;
+					boolean fontUnderlineSet = false;
+					boolean foreColorSet = false;
 					for (FormatCondition condition: cfd.getConditions()) 
 					{
 						if(condition.matches(compareTo, cfd.getConditionType(), cfd.getConditionPattern(), condition.getConditionTypeOperator())) 
@@ -77,25 +83,35 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 								style = new JRBaseStyle();
 							}
 							
-							if (condition.isConditionFontBold() != null) 
+							if (condition.isConditionFontBold() != null && !fontBoldSet) 
 							{
 								style.setBold(condition.isConditionFontBold());
+								fontBoldSet = true;
 							}
-							if (condition.isConditionFontItalic() != null)
+							if (condition.isConditionFontItalic() != null && !fontItalicSet)
 							{
 								style.setItalic(condition.isConditionFontItalic());
+								fontItalicSet = true;
 							}
-							if (condition.isConditionFontUnderline() != null)
+							if (condition.isConditionFontUnderline() != null && !fontUnderlineSet)
 							{
 								style.setUnderline(condition.isConditionFontUnderline());
+								fontUnderlineSet = true;
 							}
-							if (condition.getConditionFontColor() != null) 
+							if (condition.getConditionFontColor() != null && !foreColorSet) 
 							{
 								style.setForecolor(JRColorUtil.getColor("#" + condition.getConditionFontColor(), Color.black));
+								foreColorSet = true;
 							}
-							if (condition.getConditionFontBackColor() != null) 
+							if (condition.getConditionFontBackColor() != null && !bgColorSet) 
 							{
-								style.setBackcolor(JRColorUtil.getColor("#" + condition.getConditionFontBackColor(), Color.white));
+								if (condition.getConditionFontBackColor().equalsIgnoreCase("transparent")) {
+									style.setMode(ModeEnum.TRANSPARENT);
+								} else {
+									style.setMode(ModeEnum.OPAQUE);
+									style.setBackcolor(JRColorUtil.getColor("#" + condition.getConditionFontBackColor(), Color.white));
+								}
+								bgColorSet = true;
 							}
 						}
 					}
