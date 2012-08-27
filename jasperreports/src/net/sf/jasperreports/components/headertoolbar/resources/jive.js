@@ -382,18 +382,19 @@ jive.ui.dialog = {
             var jo = jQuery(this),
                 activeTabActionCache;
 
-            it.tabs.find('.tab').removeClass('active');
-            jo.addClass('active');
-            jive.selected.form.onBlur();
-            jive.selected.form.jo.hide();
-            activeTabActionCache = jive.selected.form.actionDataCache;
-            jive.selected.form.actionCache = {};
-
-            jive.selected.form = jive.ui.forms[jo.data('form')];
-            jQuery.extend(jive.selected.form.actionDataCache, activeTabActionCache);
-
-            jive.selected.form.onShow();
-            jive.selected.form.jo.show();
+            if (!jo.hasClass('disabled')) {
+	            it.tabs.find('.tab').removeClass('active');
+	            jo.addClass('active');
+	            jive.selected.form.onBlur();
+	            jive.selected.form.jo.hide();
+	            activeTabActionCache = jive.selected.form.actionDataCache;
+	
+	            jive.selected.form = jive.ui.forms[jo.data('form')];
+	            jQuery.extend(jive.selected.form.actionDataCache, activeTabActionCache);
+	
+	            jive.selected.form.onShow();
+	            jive.selected.form.jo.show();
+            }
         });
         it.body.on('click touchend','input, select',function(e){
             var jo = jQuery(this);
@@ -841,7 +842,7 @@ jive.ui.forms = {
 					parms.inputs[vid] = {
 							set:function(val) {
 								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', val);
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').find('div.colorpick').css('background-color','#'+val);
+								jQuery('div.jive_inputbutton[bname="'+vid+'"]').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
 							},
 							get:function(){
 								return jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value');
@@ -851,7 +852,8 @@ jive.ui.forms = {
 									title: v.title,
 									inputId: vid,
 									anchor: jo,
-									currentColor: jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value')
+									currentColor: jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value'),
+									showTransparent: v.showTransparent
 								});
 							}
 					}
@@ -874,7 +876,7 @@ jive.ui.colorpicker = {
         it.jo.draggable({handle: 'div.dialogHeader'});
         it.jo.on('click touchend','div.colorpick',function(evt){
             it.selected = jQuery(this).parent().addClass('selected');
-            jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('title')));
+            jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('hexcolor')));
             jive.ui.colorpicker.jo.hide();
             jive.ui.modal.hide();
             evt.preventDefault();
@@ -888,14 +890,19 @@ jive.ui.colorpicker = {
         if (options.currentColor) {
         	this.jo.find('div.colorpick[hexcolor=' + options.currentColor + ']').parent().addClass('selected');
         }
+        if (options.showTransparent) {
+        	this.jo.find('tr.transparent_pick').show();
+        } else {
+        	this.jo.find('tr.transparent_pick').hide();
+        }
         jive.ui.modal.show(this.jo);
         this.jo.find('h2').html(this.title);
         this.jo.show().position({of:options.anchor, at:'left bottom', my:'left top', offset: '0 0', collision:'none'});
     },
     extractHexColor: function(rgbString) {
-        var out = "";
         if (rgbString && rgbString.toLowerCase().indexOf('rgb') !== -1) {
-            var tokens = rgbString.split(','),
+        	var out = "",
+            	tokens = rgbString.split(','),
                 i,
                 number,
                 conv;
@@ -905,8 +912,9 @@ jive.ui.colorpicker = {
                 conv = number.toString(16);
                 out += (conv.length === 1) ? ('0' + conv) : conv;
             }
+            return out;
         }
-        return out;
+        return rgbString;
     }
 }
 
