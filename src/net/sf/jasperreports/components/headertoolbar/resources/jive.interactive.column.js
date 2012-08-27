@@ -174,10 +174,10 @@ jive.interactive.column = jive.interactive.column || {
         }
         
         // disable sort/filter if not sortable/filterable
-        var foobarButtons = jive.ui.foobar.jo.find('button:gt(0)');
-        !jive.selected.ie.filterdiv ? // FIXMEJIVE set boolean on template if can sort/filter
-        	foobarButtons.addClass('disabled') :
-        	foobarButtons.removeClass('disabled');
+        var sortButtons = jQuery('button:eq(2), button:eq(3)', jive.ui.foobar.jo),
+        	filterButton = jQuery('button:eq(1)', jive.ui.foobar.jo);
+        !jive.selected.ie.canSort ? sortButtons.addClass('disabled') : sortButtons.removeClass('disabled');
+        !jive.selected.ie.canFilter ? filterButton.addClass('disabled') : filterButton.removeClass('disabled');
     },
     onDragStart: function(){
         var parent = jive.selected.jo.parent(), prop, i;
@@ -290,7 +290,7 @@ jive.interactive.column = jive.interactive.column || {
     },
     sort: function(argv){
         jive.hide();
-        jive.runAction(jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn']['data-sortData']);
+        jive.runAction(jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn'].sortData);
     },
     filter: function(){
         jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title'), ['columnfilter']);
@@ -628,7 +628,7 @@ jive.interactive.column.columnFilterForm = {
             }
         });
         jQuery('input[name="clearFilter"]').change(function(){
-        	var filtertype = jive.selected.ie.filterdiv.filterDivForm.filterType.toLowerCase();
+        	var filtertype = jive.selected.ie.filtering.filterData.filterType.toLowerCase();
             
         	for(p in it.jc) (it.jc.hasOwnProperty(p) && jQuery(this).val() == 'true') ? it.jc[p].prop('disabled',true) : it.jc[p].prop('disabled',false);
             it.jc.filterEnd.prop('disabled', (it.jc.filterType.val().indexOf('BETWEEN') >= 0 && jQuery(this).val() == 'false') ? false : true);
@@ -641,9 +641,9 @@ jive.interactive.column.columnFilterForm = {
     },
     onShow:function(){
         var it = this;
-        var metadata = jive.selected.ie.filterdiv.filterDivForm;
+        var metadata = jive.selected.ie.filtering.filterData;
         var filtertype = metadata.filterType.toLowerCase();
-        var options = jive.selected.ie.filterdiv.filterOperatorTypeValueSelector || {
+        var options = jive.selected.ie.filtering.filterOperatorTypeValueSelector || {
             text : [
                 {key:'EQUALS',val:'Equals'},
                 {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
@@ -725,7 +725,7 @@ jive.interactive.column.columnFilterForm = {
         }
     },
     submit:function(){
-        var metadata = jive.selected.ie.filterdiv.filterDivForm,
+        var metadata = jive.selected.ie.filtering.filterData,
             actionData = {actionName: 'filter'};
 
         actionData.filterData = {
@@ -813,6 +813,11 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontName'].set(metadata.fontName);
         inputs['headerFontSize'].set(metadata.fontSize);
         inputs['headerFontColor'].set(metadata.fontColor);
+        
+        
+        // disable conditional formatting tab
+        var conditionalFormattingTab = jQuery('#columnConditionalFormattingTab');
+        !jive.selected.ie.canFormatConditionally ? conditionalFormattingTab.addClass('disabled') : conditionalFormattingTab.removeClass('disabled');
     },
     submit:function(){
     	var actions = [],
@@ -1080,7 +1085,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
 	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true},
-	            {type:'color',id:'conditionFontBackColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
+	            {type:'color',id:'conditionFontBackColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true, showTransparent: true}
 	        ]
 	    },
 	    {type:'button', id:'conditionMoveUp', bLabel:'U', fn: 'conditionMoveUp'},

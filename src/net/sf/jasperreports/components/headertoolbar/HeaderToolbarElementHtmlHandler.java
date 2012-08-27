@@ -44,7 +44,6 @@ import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormatti
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
-import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
@@ -66,7 +65,6 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -118,24 +116,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 	private static final String RESOURCE_JIVE_COLUMN_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.js";
 	private static final String RESOURCE_JIVE_COLUMN_I18N_JS = "net/sf/jasperreports/components/headertoolbar/resources/jive.interactive.column.i18n.vm.js";
 
-	private static final String CSS_FILTER_DISABLED = 		"filterBtnDisabled";
-	private static final String CSS_FILTER_DEFAULT = 		"filterBtnDefault";
-	private static final String CSS_FILTER_DEFAULT_HOVER = 	"filterBtnDefaultHover";
-	private static final String CSS_FILTER_ENABLED = 		"filterBtnEnabled";
-	private static final String CSS_FILTER_ENABLED_HOVER = 	"filterBtnEnabledHover";
-	private static final String CSS_FILTER_WRONG = 			"filterBtnWrong";
-	private static final String CSS_FILTER_WRONG_HOVER = 	"filterBtnWrongHover";
-	
-	private static final String CSS_SORT_DEFAULT_ASC = 			"sortAscBtnDefault";
-	private static final String CSS_SORT_DEFAULT_ASC_HOVER = 	"sortAscBtnDefaultHover";
-	private static final String CSS_SORT_ENABLED_ASC = 			"sortAscBtnEnabled";
-	private static final String CSS_SORT_ENABLED_ASC_HOVER = 	"sortAscBtnEnabledHover";
-	
-	private static final String CSS_SORT_DEFAULT_DESC = 		"sortDescBtnDefault";
-	private static final String CSS_SORT_DEFAULT_DESC_HOVER = 	"sortDescBtnDefaultHover";
-	private static final String CSS_SORT_ENABLED_DESC = 		"sortDescBtnEnabled";
-	private static final String CSS_SORT_ENABLED_DESC_HOVER = 	"sortDescBtnEnabledHover";
-	
 	private static final String SORT_ELEMENT_HTML_TEMPLATE = 	"net/sf/jasperreports/components/headertoolbar/resources/HeaderToolbarElementHtmlTemplate.vm";
 //	private static final String SORT_ELEMENT_HTML_TEMPLATE = 	"net/sf/jasperreports/components/headertoolbar/resources/HeaderToolbarElementHtmlTemplate.vm.orig";
 	
@@ -197,7 +177,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
-			boolean isInteractive = Boolean.valueOf(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
 			contextMap.put("JRStringUtil", JRStringUtil.class);
@@ -262,7 +241,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			contextMap.put("columnLabel", columnLabel);
 			contextMap.put("columnIndex", columnIndex);
 			contextMap.put("canSort", canSort);
-			contextMap.put("isInteractive", isInteractive);
 			
 			contextMap.put("fontExtensionsFontNames", getFontExtensionsFontNames(jrContext));
 			contextMap.put("systemFontNames", getSystemFontNames(jrContext));
@@ -341,35 +319,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				SortData sortAscData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_ASC);
 				SortData sortDescData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_DESC);
 				
-				String sortAscActive = CSS_SORT_DEFAULT_ASC;
-				String sortAscHover = CSS_SORT_DEFAULT_ASC_HOVER;
-				String sortDescActive = CSS_SORT_DEFAULT_DESC;
-				String sortDescHover = CSS_SORT_DEFAULT_DESC_HOVER;
-				String filterActive = CSS_FILTER_DISABLED;
-				String filterHover = "";
-				
-				if (filterType != null) {
-					filterActive = CSS_FILTER_DEFAULT;
-					filterHover = CSS_FILTER_DEFAULT_HOVER;
-				}
-				
-				String sortField = getCurrentSortField(jrContext, reportContext, tableUUID, columnName, columnType);
-				if (sortField != null) 
-				{
-					String[] sortActionData = HeaderToolbarElementUtils.extractColumnInfo(sortField);
-					
-					boolean isAscending = HeaderToolbarElement.SORT_ORDER_ASC.equals(sortActionData[2]);
-					if (isAscending) {
-						sortAscData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
-						sortAscActive = CSS_SORT_ENABLED_ASC;
-						sortAscHover = CSS_SORT_ENABLED_ASC_HOVER;
-					} else {
-						sortDescData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
-						sortDescActive = CSS_SORT_ENABLED_DESC;
-						sortDescHover = CSS_SORT_ENABLED_DESC_HOVER;
-					}
-				}
-				
 				// existing filters
 				String filterValueStart = "";
 				String filterValueEnd = "";
@@ -385,13 +334,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 						filterValueEnd = ff.getFilterValueEnd();
 					}
 					filterTypeOperatorValue = ff.getFilterTypeOperator();
-					if (ff.getIsValid() != null && !ff.getIsValid()) {
-						filterActive = CSS_FILTER_WRONG;
-						filterHover = CSS_FILTER_WRONG_HOVER;
-					} else {
-						filterActive = CSS_FILTER_ENABLED;
-						filterHover = CSS_FILTER_ENABLED_HOVER;
-					}
 				}
 				
 				contextMap.put("hasPattern", hasPattern);
@@ -423,12 +365,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				// begin: params for sorting
 				contextMap.put("sortAscData", JacksonUtil.getInstance(jrContext).getJsonString(sortAscData));
 				contextMap.put("sortDescData", JacksonUtil.getInstance(jrContext).getJsonString(sortDescData));
-				contextMap.put("sortAscActive", sortAscActive);
-				contextMap.put("sortAscHover", sortAscHover);
-				contextMap.put("sortDescActive", sortDescActive);
-				contextMap.put("sortDescHover", sortDescHover);
-				contextMap.put("filterActive", filterActive);
-				contextMap.put("filterHover", filterHover);
 				// end: temp
 				
 				// begin: params for conditional formatting
@@ -480,57 +416,6 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
 	}
 
-	private String getCurrentSortField(
-		JasperReportsContext jasperReportsContext,
-		ReportContext reportContext, 
-		String uuid, 
-		String sortColumnName, 
-		String sortColumnType
-		) 
-	{
-		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
-		SortAction action = new SortAction();
-		action.init(jasperReportsContext, reportContext);
-		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
-		if (target != null)
-		{
-			JRIdentifiable identifiable = target.getIdentifiable();
-			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
-			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
-			
-			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
-			
-			String datasetName = datasetRun.getDatasetName();
-			
-			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
-			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
-			
-			List<JRSortField> existingFields =  dataset.getSortFieldsList();
-			String sortField = null;
-	
-			if (existingFields != null && existingFields.size() > 0) {
-				for (JRSortField field: existingFields) {
-					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
-						sortField = sortColumnName + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR;
-						switch (field.getOrderValue()) {
-							case ASCENDING:
-								sortField += HeaderToolbarElement.SORT_ORDER_ASC;
-								break;
-							case DESCENDING:
-								sortField += HeaderToolbarElement.SORT_ORDER_DESC;
-								break;
-						}
-						break;
-					}
-				}
-			}
-		
-			return sortField;
-		}
-		
-		return null;
-	}
-	
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
