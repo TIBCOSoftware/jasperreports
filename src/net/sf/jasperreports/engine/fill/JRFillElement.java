@@ -802,7 +802,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			// deduplicate to previously created identical objects
 			template = filler.fillContext.deduplicate(template);
 			
-			if (style != null)
+			if (ownStyle == null)
 			{
 				registerTemplate(style, template);
 			}
