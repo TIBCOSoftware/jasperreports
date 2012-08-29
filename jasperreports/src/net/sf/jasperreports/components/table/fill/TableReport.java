@@ -554,8 +554,6 @@ public class TableReport implements JRReport
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_FILTER, Boolean.TRUE.toString());
 				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_CAN_SORT, Boolean.TRUE.toString());
 				
-				genericElement.getPropertiesMap().setProperty(HeaderToolbarElement.PROPERTY_IS_COLUMN_INTERACTIVE, String.valueOf(interactiveColumn));
-				
 				JRExpressionChunk sortExpression = sortTextField.getExpression().getChunks()[0];
 				
 				name = sortExpression.getText();
