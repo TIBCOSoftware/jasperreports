@@ -2104,6 +2104,13 @@ public class JExcelApiMetadataExporter extends JRXlsAbstractMetadataExporter
 			sheets.getFooter().getCentre().appendPageNumber();
 		}
 		
+		boolean showGridlines = sheetShowGridlines != null 
+				? sheetShowGridlines
+				: (documentShowGridlines != null 
+					? documentShowGridlines
+					: true);
+		sheets.setShowGridLines(showGridlines);
+		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
 	}

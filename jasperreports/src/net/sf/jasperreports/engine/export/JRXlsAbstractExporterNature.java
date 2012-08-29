@@ -191,13 +191,30 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 	public Boolean getColumnAutoFit(JRPrintElement element)
 	{
 		if (
-			element.hasProperties()
-			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
-			)
+				element.hasProperties()
+				&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN)
+				)
 		{
 			// we make this test to avoid reaching the global default value of the property directly
 			// and thus skipping the report level one, if present
 			return getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_AUTO_FIT_COLUMN, false);
+		}
+		return null;
+	}
+	
+	/**
+	 *
+	 */
+	public Boolean getShowGridlines(JRPrintElement element)
+	{
+		if (
+			element.hasProperties()
+			&& element.getPropertiesMap().containsProperty(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES)
+			)
+		{
+			// we make this test to avoid reaching the global default value of the property directly
+			// and thus skipping the report level one, if present
+			return getPropertiesUtil().getBooleanProperty(element, JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, true);
 		}
 		return null;
 	}
@@ -331,6 +348,12 @@ public class JRXlsAbstractExporterNature extends AbstractExporterNature
 		if(firstPageNumber != null)
 		{
 			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_FIRST_PAGE_NUMBER, firstPageNumber);
+		}
+		
+		Boolean showGridlines = getShowGridlines(element);
+		if(showGridlines != null)
+		{
+			xCutsProperties.put(JRXlsAbstractExporter.PROPERTY_SHOW_GRIDLINES, showGridlines);
 		}
 	}
 	
