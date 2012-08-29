@@ -58,10 +58,22 @@ public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFact
 		// TODO lucianc change all functions to ParameterTypeSelectorClauseFunction
 		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
 		
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS, JRSqlLessOrGreaterClause.instance());		
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, JRSqlLessOrGreaterClause.instance());		
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL, JRSqlLessOrGreaterClause.instance());		
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, JRSqlLessOrGreaterClause.instance());
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS, 
+				new ParameterTypeSelectorClauseFunction(JRSqlLessOrGreaterClause.POSITION_PARAMETER));
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, 
+				new ParameterTypeSelectorClauseFunction(JRSqlLessOrGreaterClause.POSITION_PARAMETER));
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL, 
+				new ParameterTypeSelectorClauseFunction(JRSqlLessOrGreaterClause.POSITION_PARAMETER));
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, 
+				new ParameterTypeSelectorClauseFunction(JRSqlLessOrGreaterClause.POSITION_PARAMETER));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_LESS, 
+				new StandardParameterTypesClauseFunction(JRSqlLessOrGreaterClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, 
+				new StandardParameterTypesClauseFunction(JRSqlLessOrGreaterClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL, 
+				new StandardParameterTypesClauseFunction(JRSqlLessOrGreaterClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, 
+				new StandardParameterTypesClauseFunction(JRSqlLessOrGreaterClause.instance(), Object.class));
 		
 		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
 		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
