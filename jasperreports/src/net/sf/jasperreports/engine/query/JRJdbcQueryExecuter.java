@@ -34,7 +34,6 @@ import java.sql.Types;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -67,7 +66,7 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 {
 	private static final Log log = LogFactory.getLog(JRJdbcQueryExecuter.class);
 
-	protected static final String CANONICAL_LANGUAGE = "SQL";
+	public static final String CANONICAL_LANGUAGE = "SQL";
 	
 	protected static final String CLAUSE_ID_IN = "IN";
 	protected static final String CLAUSE_ID_NOTIN = "NOTIN";
@@ -75,10 +74,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	protected static final String CLAUSE_ID_EQUAL = "EQUAL";
 	protected static final String CLAUSE_ID_NOTEQUAL = "NOTEQUAL";
 	
-	protected static final String CLAUSE_ID_LESS = "LESS";
-	protected static final String CLAUSE_ID_GREATER = "GREATER";
-	protected static final String CLAUSE_ID_LESS_OR_EQUAL = "LESS]";
-	protected static final String CLAUSE_ID_GREATER_OR_EQUAL = "[GREATER";
+	public static final String CLAUSE_ID_LESS = "LESS";
+	public static final String CLAUSE_ID_GREATER = "GREATER";
+	public static final String CLAUSE_ID_LESS_OR_EQUAL = "LESS]";
+	public static final String CLAUSE_ID_GREATER_OR_EQUAL = "[GREATER";
 	
 	protected static final String CLAUSE_ID_BETWEEN = "BETWEEN";
 	protected static final String CLAUSE_ID_BETWEEN_CLOSED = "[BETWEEN]";
@@ -315,23 +314,63 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 					statement.setMaxRows(reportMaxCount.intValue());
 				}
 
-				List<QueryParameter> parameterNames = getCollectedParameters();
-				if (!parameterNames.isEmpty())
+				visitQueryParameters(new QueryParameterVisitor()
 				{
-					for(int i = 0, paramIdx = 1; i < parameterNames.size(); i++)
+					int paramIdx = 1;
+					
+					@Override
+					public void visit(QueryParameter queryParameter)
 					{
-						QueryParameter queryParameter = parameterNames.get(i);
-						if (queryParameter.isMulti())
+						try
 						{
-							paramIdx += setStatementMultiParameters(paramIdx, queryParameter.getName(), queryParameter.isIgnoreNulls());
+							if (queryParameter.isMulti())
+							{
+								paramIdx += setStatementMultiParameters(paramIdx, queryParameter.getName(), queryParameter.isIgnoreNulls());
+							}
+							else
+							{
+								setStatementParameter(paramIdx, queryParameter.getName());
+								++paramIdx;
+							}
 						}
-						else
+						catch (SQLException e)
 						{
-							setStatementParameter(paramIdx, queryParameter.getName());
-							++paramIdx;
+							throw new VisitExceptionWrapper(e);
 						}
 					}
-				}
+					
+					@Override
+					public void visit(ValuedQueryParameter valuedQueryParameter)
+					{
+						// assuming a single value for now
+						Class<?> type = valuedQueryParameter.getType();
+						Object value = valuedQueryParameter.getValue();
+						if (type == null)
+						{
+							type = value == null ? Object.class : value.getClass();
+						}
+						
+						if (log.isDebugEnabled())
+						{
+							log.debug("Parameter #" + paramIdx + " (of type " + type.getName() + "): " + value);
+						}
+						
+						try
+						{
+							setStatementParameter(paramIdx, type, value, dataset);// using only dataset properties for now
+							++paramIdx;
+						}
+						catch (SQLException e)
+						{
+							throw new VisitExceptionWrapper(e);
+						}
+					}
+				});
+			}
+			catch (VisitExceptionWrapper e)
+			{
+				throw new JRException("Error preparing statement for executing the report query : " + "\n\n" + queryString + "\n\n", 
+						e.getCause());
 			}
 			catch (SQLException e)
 			{

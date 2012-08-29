@@ -76,6 +76,14 @@ public interface JRQueryClauseContext
 	void addQueryMultiParameters(String parameterName, int count, boolean ignoreNulls);
 
 	/**
+	 * Records a query parameter based on a provided value.
+	 * 
+	 * @param type the parameter type if specified
+	 * @param value the parameter value
+	 */
+	void addQueryParameter(Class<?> type, Object value);
+	
+	/**
 	 * Returns the JasperReportsContext associated with the current query execution.
 	 * 
 	 * @return the current JasperReportsContext
