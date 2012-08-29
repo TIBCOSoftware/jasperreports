@@ -2163,6 +2163,13 @@ public class JExcelApiExporter extends JRXlsAbstractExporter
 			sheets.getFooter().getCentre().append("Page ");
 			sheets.getFooter().getCentre().appendPageNumber();
 		}
+
+		boolean showGridlines = sheetShowGridlines != null 
+				? sheetShowGridlines
+				: (documentShowGridlines != null 
+					? documentShowGridlines
+					: true);
+		sheets.setShowGridLines(showGridlines);
 		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;

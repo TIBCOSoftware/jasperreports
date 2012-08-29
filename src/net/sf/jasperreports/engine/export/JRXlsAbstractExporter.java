@@ -438,6 +438,23 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	public static final String PROPERTY_FIRST_PAGE_NUMBER = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.first.page.number";
 	
 
+	/**
+	 * Flag property that specifies if the gridlines in a given sheet are shown. If multiple elements in a sheet provide this property, 
+	 * the last read value will be considered. Default value is <code>true</code>.
+	 * <br/>
+	 * Property scope:
+	 * <ul>
+	 * <li><code>Global</code></li>
+	 * <li><code>Report</code></li>
+	 * <li><code>Element</code> - this setting can be used to set the property value per sheet.</li>
+	 * </ul>
+	 * Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.
+	 * 
+	 * @see JRPropertiesUtil
+	 */
+	public static final String PROPERTY_SHOW_GRIDLINES = JRPropertiesUtil.PROPERTY_PREFIX + "export.xls.show.gridlines";
+	
+
 	protected static class TextAlignHolder
 	{
 		public final HorizontalAlignEnum horizontalAlignment;
@@ -543,6 +560,8 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 	protected String workbookTemplate;
 	
 	protected boolean ignoreAnchors;
+	protected Boolean documentShowGridlines;
+	protected Boolean sheetShowGridlines;
 	
 	protected String invalidCharReplacement;
 
@@ -850,6 +869,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 		{
 			invalidCharReplacement = getPropertiesUtil().getProperty(JRXmlExporter.PROPERTY_REPLACE_INVALID_CHARS, jasperPrint);
 		}
+		documentShowGridlines = getPropertiesUtil().getBooleanProperty(jasperPrint,	PROPERTY_SHOW_GRIDLINES, true);
 	}
 	
 	protected abstract void setBackground();
@@ -905,6 +925,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 									);
 
 						sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
+						sheetShowGridlines = (Boolean)xCuts.getPropertiesMap().get(PROPERTY_SHOW_GRIDLINES);
 						setScale(xCuts, false);
 						createSheet(getSheetName(xCuts, null));
 
@@ -932,6 +953,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 							);
 					
 					sheetFirstPageNumber = (Integer)xCuts.getPropertiesMap().get(PROPERTY_FIRST_PAGE_NUMBER);
+					sheetShowGridlines = (Boolean)xCuts.getPropertiesMap().get(PROPERTY_SHOW_GRIDLINES);
 					setScale(xCuts, false);
 					
 					// Create the sheet before looping.
@@ -1024,6 +1046,7 @@ public abstract class JRXlsAbstractExporter extends JRAbstractExporter
 				setRowLevels(levelInfo, null);
 				
 				sheetFirstPageNumber = null;
+				sheetShowGridlines = null;
 				
 				createSheet(getSheetName(xCuts, null));
 				

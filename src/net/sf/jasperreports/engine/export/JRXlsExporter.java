@@ -389,6 +389,13 @@ public class JRXlsExporter extends JRXlsAbstractExporter
 			sheet.getFooter().setCenter("Page " + HeaderFooter.page());
 		}
 		
+		boolean showGridlines = sheetShowGridlines != null 
+				? sheetShowGridlines
+				: (documentShowGridlines != null 
+					? documentShowGridlines
+					: true);
+		sheet.setDisplayGridlines(showGridlines);
+		
 		maxRowFreezeIndex = 0;
 		maxColumnFreezeIndex = 0;
 	}

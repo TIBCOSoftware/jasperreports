@@ -100,7 +100,7 @@ public class XlsxSheetHelper extends BaseHelper
 	/**
 	 *
 	 */
-	public void exportHeader(int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
+	public void exportHeader(boolean showGridlines, int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
 	{
 		write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		write("<worksheet\n");
@@ -113,13 +113,17 @@ public class XlsxSheetHelper extends BaseHelper
 		String fitHeight = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FIT_HEIGHT);
 		String fitToPage = noScale && (fitHeight != null || fitWidth != null) ? "<pageSetUpPr fitToPage=\"1\"/>" : "";
 		write("<sheetPr><outlinePr summaryBelow=\"0\"/>" + fitToPage + "</sheetPr><dimension ref=\"A1\"/><sheetViews><sheetView workbookViewId=\"0\"");
+		if(!showGridlines)
+		{
+			write(" showGridLines=\"0\"");
+		}
 		
 		if(rowFreeze > 0 || columnFreeze > 0)
 		{
 			write(">\n<pane" + (columnFreeze > 0 ? (" xSplit=\"" + columnFreeze + "\"") : "") + (rowFreeze > 0 ? (" ySplit=\"" + rowFreeze + "\"") : ""));
 			String columnName = propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN) == null 
-				? "A" 
-				: propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
+					? "A" 
+							: propertiesUtil.getProperty(jasperPrint, JRXlsAbstractExporter.PROPERTY_FREEZE_COLUMN);
 			write(" topLeftCell=\"" + columnName + (rowFreeze + 1) + "\"");
 			String activePane = (rowFreeze > 0 ? "bottom" : "top") + (columnFreeze > 0 ? "Right" : "Left");
 			write(" activePane=\"" + activePane + "\" state=\"frozen\"/>\n");
@@ -134,6 +138,15 @@ public class XlsxSheetHelper extends BaseHelper
 			write("/></sheetViews>\n");
 		}
 		write("<sheetFormatPr defaultRowHeight=\"15\"/>\n");
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void exportHeader(int scale, int rowFreeze, int columnFreeze, JasperPrint jasperPrint)
+	{
+		exportHeader(true, scale, rowFreeze, columnFreeze, jasperPrint);
 	}
 	
 
