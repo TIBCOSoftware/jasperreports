@@ -263,6 +263,8 @@
       <property ref="net.sf.jasperreports.export.xls.sheet.name"/>
       <property ref="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}"/>
       
+      <property ref="net.sf.jasperreports.export.xls.show.gridlines"/>
+      
       <property ref="net.sf.jasperreports.export.xls.use.timezone"/>
       
       <property ref="net.sf.jasperreports.export.xls.white.page.background"/>
@@ -3467,6 +3469,20 @@ These properties are by default not set.
     <default>N/A</default>
     <scope>Report</scope>
     <since>3.5.2</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.export.xls.show.gridlines -->
+  
+  <configProperty name="net.sf.jasperreports.export.xls.show.gridlines">
+    <description>
+Flag property that specifies if the gridlines in a given sheet are shown. If multiple elements in a sheet provide this property, 
+the last read value will be considered.
+Global settings are overriden by report level settings; report level settings are overriden by element (sheet) level settings.    </description>
+    <api>net/sf/jasperreports/engine/export/JRXlsAbstractExporter.html#PROPERTY_SHOW_GRIDLINES</api>
+    <default>true</default>
+    <scope>Global | Report | Element</scope>
+    <since>4.8.0</since>
   </configProperty>
   
   
