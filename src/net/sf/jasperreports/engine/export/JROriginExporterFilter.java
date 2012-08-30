@@ -62,6 +62,7 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	
 	private Map<JROrigin,Boolean> originsToExclude = new HashMap<JROrigin,Boolean>();
 	private Map<Integer,JRPrintElement> firstOccurrences = new HashMap<Integer,JRPrintElement>();
+	private Map<JROrigin,Boolean> matchedOrigins = new HashMap<JROrigin,Boolean>();
 	
 	public void addOrigin(JROrigin origin)
 	{
@@ -87,13 +88,45 @@ public class JROriginExporterFilter implements ResetableExporterFilter
 	{
 		JROrigin origin = element.getOrigin();
 
-		Boolean keepFirst = (origin == null ? null : (Boolean)originsToExclude.get(origin));
+		Boolean keepFirst = null;
+		
+		if (origin != null)
+		{
+			keepFirst = matchedOrigins.get(origin);
+			
+			if (keepFirst == null)
+			{
+				for (JROrigin originToExclude : originsToExclude.keySet())
+				{
+					if (match(originToExclude, origin))
+					{
+						keepFirst = originsToExclude.get(originToExclude);
+						matchedOrigins.put(origin, keepFirst);
+						break;
+					}
+				}
+			}
+		}
+		
 		boolean originMatched = keepFirst != null;
 
 		return
 			!originMatched 
 			|| (keepFirst.booleanValue() 
 				&& isFirst(element));
+	}
+	
+	public boolean match(JROrigin originToExclude, JROrigin origin)
+	{
+		String groupName1 = originToExclude.getGroupName();
+		String reportName1 = originToExclude.getReportName();
+		String groupName2 = origin.getGroupName();
+		String reportName2 = origin.getReportName();
+		return (
+			originToExclude.getBandTypeValue() == origin.getBandTypeValue()
+			&& (("*".equals(groupName1) && groupName2 != null) || (groupName1 == null ? groupName2 == null : groupName2 != null && groupName1.equals(groupName2)))
+			&& (("*".equals(reportName1) && reportName2 != null) || (reportName1 == null ? reportName2 == null : reportName2 != null && reportName1.equals(reportName2)))
+			);
 	}
 	
 	private boolean isFirst(JRPrintElement element)
