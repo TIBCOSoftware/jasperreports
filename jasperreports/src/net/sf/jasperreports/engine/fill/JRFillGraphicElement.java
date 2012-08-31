@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.FillEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -39,6 +40,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public abstract class JRFillGraphicElement extends JRFillElement implements JRGraphicElement
 {
 
+	protected final JRPen pen;
 
 	/**
 	 *
@@ -50,6 +52,8 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 		)
 	{
 		super(filler, graphicElement, factory);
+		
+		pen = graphicElement.getLinePen().clone(this);
 	}
 
 
@@ -59,6 +63,8 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 		)
 	{
 		super(graphicElement, factory);
+		
+		pen = graphicElement.getLinePen().clone(this);
 	}
 
 	
@@ -67,7 +73,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public JRPen getLinePen()
 	{
-		return ((JRGraphicElement)parent).getLinePen();
+		return pen;
 	}
 
 	/**
