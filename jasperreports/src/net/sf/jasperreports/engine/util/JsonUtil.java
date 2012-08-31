@@ -26,7 +26,8 @@ package net.sf.jasperreports.engine.util;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.type.JsonOperatorEnum;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
+
 
 /**
  * 
