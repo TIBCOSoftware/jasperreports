@@ -44,6 +44,7 @@ import net.sf.jasperreports.components.headertoolbar.actions.ConditionalFormatti
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
 import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
 import net.sf.jasperreports.components.headertoolbar.actions.FilterAction;
+import net.sf.jasperreports.components.headertoolbar.actions.SortAction;
 import net.sf.jasperreports.components.sort.FieldFilter;
 import net.sf.jasperreports.components.sort.FilterTypeBooleanOperatorsEnum;
 import net.sf.jasperreports.components.sort.FilterTypeDateOperatorsEnum;
@@ -65,6 +66,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.base.JRBasePrintHyperlink;
@@ -319,6 +321,19 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				SortData sortAscData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_ASC);
 				SortData sortDescData = new SortData(tableUUID, columnName, columnType, HeaderToolbarElement.SORT_ORDER_DESC);
 				
+				String sortField = getCurrentSortField(jrContext, reportContext, tableUUID, columnName, columnType);
+				if (sortField != null) 
+				{
+					String[] sortActionData = HeaderToolbarElementUtils.extractColumnInfo(sortField);
+					
+					boolean isAscending = HeaderToolbarElement.SORT_ORDER_ASC.equals(sortActionData[2]);
+					if (isAscending) {
+						sortAscData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
+					} else {
+						sortDescData.setSortOrder(HeaderToolbarElement.SORT_ORDER_NONE);
+					}
+				}
+				
 				// existing filters
 				String filterValueStart = "";
 				String filterValueEnd = "";
@@ -416,6 +431,57 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
 	}
 
+	private String getCurrentSortField(
+		JasperReportsContext jasperReportsContext,
+		ReportContext reportContext, 
+		String uuid, 
+		String sortColumnName, 
+		String sortColumnType
+		) 
+	{
+		JasperDesignCache cache = JasperDesignCache.getInstance(jasperReportsContext, reportContext);
+		SortAction action = new SortAction();
+		action.init(jasperReportsContext, reportContext);
+		CommandTarget target = action.getCommandTarget(UUID.fromString(uuid));
+		if (target != null)
+		{
+			JRIdentifiable identifiable = target.getIdentifiable();
+			JRDesignComponentElement componentElement = identifiable instanceof JRDesignComponentElement ? (JRDesignComponentElement)identifiable : null;
+			StandardTable table = componentElement == null ? null : (StandardTable)componentElement.getComponent();
+			
+			JRDesignDatasetRun datasetRun = (JRDesignDatasetRun)table.getDatasetRun();
+			
+			String datasetName = datasetRun.getDatasetName();
+			
+			JasperDesign jasperDesign = cache.getJasperDesign(target.getUri());//FIXMEJIVE getJasperReport not design
+			JRDesignDataset dataset = (JRDesignDataset)jasperDesign.getDatasetMap().get(datasetName);
+			
+			List<JRSortField> existingFields =  dataset.getSortFieldsList();
+			String sortField = null;
+	
+			if (existingFields != null && existingFields.size() > 0) {
+				for (JRSortField field: existingFields) {
+					if (field.getName().equals(sortColumnName) && field.getType().getName().equals(sortColumnType)) {
+						sortField = sortColumnName + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR + sortColumnType + HeaderToolbarElement.SORT_COLUMN_TOKEN_SEPARATOR;
+						switch (field.getOrderValue()) {
+							case ASCENDING:
+								sortField += HeaderToolbarElement.SORT_ORDER_ASC;
+								break;
+							case DESCENDING:
+								sortField += HeaderToolbarElement.SORT_ORDER_DESC;
+								break;
+						}
+						break;
+					}
+				}
+			}
+		
+			return sortField;
+		}
+		
+		return null;
+	}
+	
 	public boolean toExport(JRGenericPrintElement element) {
 		return true;
 	}
