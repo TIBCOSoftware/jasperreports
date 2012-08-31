@@ -68,7 +68,7 @@ public class JRCsvMetadataExporterParameter extends JRCsvExporterParameter
 	
 
 	/**
-	 * Property whose value is used as default for the {@link #PROPERTY_WRITE_HEADER PROPERTY_WRITE_HEADER} export parameter.
+	 * Property whose value is used as default for the {@link #WRITE_HEADER WRITE_HEADER} export parameter.
 	 * <p>
 	 * The property itself defaults to <code>false</code>.
 	 * </p>
