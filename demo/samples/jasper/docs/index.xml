@@ -377,7 +377,7 @@ metadata information and to generate consistent columns of data, with or without
 <br/>
 Before starting the export work, the CSV metadata exporter looks for the presence of the 
 <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
-<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">net.sf.jasperreports.export.csv.column.names.{suffix}</api> 
+<a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.names.{suffix}">net.sf.jasperreports.export.csv.column.names.{suffix}</a> 
 properties at report level. If present, they provide a comma-separated list of column names, each one referencing a column that should be exported. For 
 accurate results it's recommended that the column names in the list to follow the same order as the original columns.
 <br/>
@@ -389,25 +389,25 @@ It ensures that only 2 columns will be printed out: the column with names and th
 <br/>
 Now, that we have the column names, it's time to see which elements will be exported into these columns and how. Let's introduce the other metadata properties:
 <ul>
-<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">net.sf.jasperreports.export.csv.column.name</api> 
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.column.name">net.sf.jasperreports.export.csv.column.name</a> 
 - this is an important element-level property. If the 
 <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent property) is not 
 present, this property specifies the name of an exported column and assumes that the current element will be placed in that column. If the 
-<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent prop) was defined, 
+<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter (or equivalent property) was defined, 
 the name specified by this property must be one of the names in the 
 <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter. The element will be placed in 
 that column.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_WRITE_HEADER">net.sf.jasperreports.export.csv.write.header</api> - 
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.write.header">net.sf.jasperreports.export.csv.write.header</a> - 
 a report-level flag property indicating whether the column names should be exported as column headers or not. The equivalent export parameter is 
 <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#WRITE_HEADER">WRITE_HEADER</api>. the default value is <code>false</code>.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE">net.sf.jasperreports.export.csv.repeat.value</api> - 
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.repeat.value">net.sf.jasperreports.export.csv.repeat.value</a> - 
 an element-level flag property indicating whether the value associated to that column should be repeated or not when it is missing.</li>
-<li><api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.csv.data</api> - 
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.csv.data">net.sf.jasperreports.export.csv.data</a> - 
 element-level property containing the exported value for that element. By default is considered the text value of the report element itself.</li>
 </ul>
 In this sample only five columns are exported to CSV format: <code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and 
 <code>OrderDate</code>. Column headers are not exported and for the <code>ShipCity</code> column the exported data is customized using the 
-<api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.csv.data</api> property. All 
+<a href="../../config.reference.html#net.sf.jasperreports.export.csv.data">net.sf.jasperreports.export.csv.data</a> property. All 
 these settings apply to the &lt;detail/&gt; section:
 <pre><![CDATA[
 <detail>
@@ -484,15 +484,15 @@ having the same meanings, but dedicated to the XLS output format:
 Before starting the export work, the CSV metadata exporter looks for the presence of the 
 <ul>
 <li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api> parameter or the equivalent 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX">net.sf.jasperreports.export.xls.column.names.{suffix}</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">net.sf.jasperreports.export.xls.column.name</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_WRITE_HEADER">net.sf.jasperreports.export.xls.write.header</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE">net.sf.jasperreports.export.xls.repeat.value</api></li>
-<li><api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.xls.data</api></li>
+<a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.names.{suffix}">net.sf.jasperreports.export.xls.column.names.{suffix}</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.column.name">net.sf.jasperreports.export.xls.column.name</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.write.header">net.sf.jasperreports.export.xls.write.header</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.repeat.value">net.sf.jasperreports.export.xls.repeat.value</a></li>
+<li><a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a></li>
 </ul>
 In this sample the same five columns are exported to XLS format: <code>ShipCountry</code>, <code>Order</code>, <code>ShipCity</code>, <code>ShipRegion</code> and 
 <code>OrderDate</code>. Column headers are not exported and for the <code>ShipCity</code> column the exported data is customized using the 
-<api href="net/sf/jasperreports/engine/export/JRXlsAbstractMetadataExporterParameter.html#PROPERTY_DATA">net.sf.jasperreports.export.xls.data</api> property. All 
+<a href="../../config.reference.html#net.sf.jasperreports.export.xls.data">net.sf.jasperreports.export.xls.data</a> property. All 
 these settings apply to the &lt;detail/&gt; section:
 <pre><![CDATA[
 <detail>
