@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components.sort;
 
 import java.awt.Color;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -44,7 +43,6 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -70,8 +68,6 @@ import net.sf.jasperreports.web.util.WebUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -250,7 +246,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 			velocityContext.put("filterToRemoveParamName", SortElement.REQUEST_PARAMETER_REMOVE_FILTER);
 			velocityContext.put("filterToRemoveParamvalue", sortColumnName);
 			
-			String filtersJsonString = getJsonString(fieldFilters).replaceAll("\\\"", "\\\\\\\"");
+			String filtersJsonString = JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(fieldFilters);
 			if (log.isDebugEnabled()) {
 				log.debug("filtersJsonString: " + filtersJsonString);
 			}
@@ -341,21 +337,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		}
 	}
 	
-	private String getJsonString(List<FieldFilter> fieldFilters) {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		StringWriter writer = new StringWriter(128);
-		try {
-			mapper.writeValue(writer, fieldFilters);
-			writer.flush();
-			writer.close();
-		} catch (Exception e) {
-			throw new JRRuntimeException(e);
-		}
-		
-		return writer.getBuffer().toString();
-	}
-	
 	private String getActionBaseUrl(JRHtmlExporterContext context) {
 		JRBasePrintHyperlink hyperlink = new JRBasePrintHyperlink();
 		hyperlink.setLinkType(ReportInteractionHyperlinkProducer.HYPERLINK_TYPE_REPORT_INTERACTION);
@@ -369,7 +350,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 		String runReportParamName = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getProperty(WebUtil.PROPERTY_REQUEST_PARAMETER_RUN_REPORT);
 		actionParams.put(runReportParamName, true);
 		
-//		return JacksonUtil.getInstance(context.getJasperReportsContext()).getEscapedJsonString(actionParams);
 		return JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(actionParams);
 	}
 	
@@ -401,14 +381,7 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 					serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
 				}
 				
-				ObjectMapper mapper = new ObjectMapper();
-				List<DatasetFilter> existingFilters = null;
-				try {
-					existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});
-				} catch (Exception e) {
-					throw new JRRuntimeException(e);
-				}
-				
+				List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 				if (existingFilters.size() > 0) {
 					for (DatasetFilter filter: existingFilters) {
 						if (((FieldFilter)filter).getField().equals(filterFieldName)) {
@@ -419,6 +392,6 @@ public class SortElementHtmlHandler extends BaseElementHtmlHandler
 				}
 			}
 			
-			return result;		
+			return result;
 		}
 }
