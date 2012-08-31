@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="demo/samples/datasource/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/jdt-compiler-3.1.1.jar"/>
@@ -31,7 +32,7 @@
 	<classpathentry kind="lib" path="lib/mondrian-3.1.1.12687.jar"/>
 	<classpathentry kind="lib" path="lib/ant-1.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/barcode4j-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/xercesImpl-2.7.0.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-beans-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar"/>
