@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.sort;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +43,6 @@ import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 
 /**
  * 
@@ -237,7 +234,4 @@ public class SortParameterContributor implements ParameterContributor
 	public void dispose() {
 	}
 	
-	public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
-	}
-
 }
