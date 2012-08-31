@@ -141,7 +141,7 @@
       <property ref="net.sf.jasperreports.export.legacy.border.offset"/>
       
       <property ref="net.sf.jasperreports.export.csv.column.name"/>
-      <property ref="net.sf.jasperreports.export.csv.column.names"/>
+      <property ref="net.sf.jasperreports.export.csv.column.names.{suffix}"/>
       <property ref="net.sf.jasperreports.export.csv.data"/>
       <property ref="net.sf.jasperreports.export.csv.field.delimiter"/>
       <property ref="net.sf.jasperreports.export.csv.record.delimiter"/>
@@ -216,7 +216,7 @@
       <property ref="net.sf.jasperreports.export.xls.cell.locked"/>
       <property ref="net.sf.jasperreports.export.xls.collapse.row.span"/>
       <property ref="net.sf.jasperreports.export.xls.column.name"/>
-      <property ref="net.sf.jasperreports.export.xls.column.names"/>
+      <property ref="net.sf.jasperreports.export.xls.column.names.{suffix}"/>
       <property ref="net.sf.jasperreports.export.xls.column.width"/>
       <property ref="net.sf.jasperreports.export.xls.column.width.ratio"/>
       <property ref="net.sf.jasperreports.export.xls.create.custom.palette"/>
@@ -1929,7 +1929,9 @@ technique that that was used in versions prior to the 2.0.3 release.
   
   <configProperty name="net.sf.jasperreports.export.csv.column.name">
     <description>
-    </description>
+A string that represents the name for the column that should appear in the CSV export.
+It must be one of the values in <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#COLUMN_NAMES">COLUMN_NAMES</api>, if provided.    
+	</description>
     <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME</api>
     <default>N/A</default>
     <scope>Element</scope>
@@ -1937,12 +1939,13 @@ technique that that was used in versions prior to the 2.0.3 release.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.csv.column.names -->
+  <!-- net.sf.jasperreports.export.csv.column.names.{suffix} -->
   
-  <configProperty name="net.sf.jasperreports.export.csv.column.names">
+  <configProperty name="net.sf.jasperreports.export.csv.column.names.{suffix}">
     <description>
+Properties having this prefix contain comma-separated column names.
     </description>
-    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES</api>
+    <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAMES_PREFIX</api>
     <default>N/A</default>
     <scope>Report</scope>
     <since>4.0.0</since>
@@ -1953,6 +1956,9 @@ technique that that was used in versions prior to the 2.0.3 release.
   
   <configProperty name="net.sf.jasperreports.export.csv.data">
     <description>
+Property that specifies what value to associate with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api>.
+<br/>
+The property itself defaults to the text value of the report element that this property is assigned to.    
     </description>
     <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_DATA</api>
     <default>N/A</default>
@@ -1993,7 +1999,9 @@ Contains the character or sequence of characters used to delimit two records.
   
   <configProperty name="net.sf.jasperreports.export.csv.repeat.value">
     <description>
-    </description>
+Property that specifies whether the value associated with <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_COLUMN_NAME">PROPERTY_COLUMN_NAME</api> 
+should be repeated or not when it is missing.
+	</description>
     <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_REPEAT_VALUE</api>
     <default>false</default>
     <scope>Element</scope>
@@ -2005,9 +2013,10 @@ Contains the character or sequence of characters used to delimit two records.
   
   <configProperty name="net.sf.jasperreports.export.csv.write.header">
     <description>
+Property whose value is used as default for the <api href="net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#WRITE_HEADER">WRITE_HEADER</api> export parameter.
     </description>
     <api>net/sf/jasperreports/engine/export/JRCsvMetadataExporterParameter.html#PROPERTY_WRITE_HEADER</api>
-    <default></default>
+    <default>false</default>
     <scope>Element</scope>
     <since>4.0.0</since>
   </configProperty>
@@ -2619,9 +2628,9 @@ if provided.
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.export.xls.column.names -->
+  <!-- net.sf.jasperreports.export.xls.column.names.{suffix} -->
   
-  <configProperty name="net.sf.jasperreports.export.xls.column.names">
+  <configProperty name="net.sf.jasperreports.export.xls.column.names.{suffix}">
     <description>
 Properties having this prefix contain comma-separated column names used in the metadata-based Excel export. 
 <br/>
