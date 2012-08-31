@@ -65,7 +65,6 @@ import net.sf.jasperreports.engine.JRIdentifiable;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRSortField;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
@@ -92,9 +91,6 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.ReportInteractionHyperlinkProducer;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
@@ -537,14 +533,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				serializedFilters = propertiesMap.getProperty(FilterCommand.DATASET_FILTER_PROPERTY);
 			}
 			
-			ObjectMapper mapper = new ObjectMapper();
-			List<DatasetFilter> existingFilters = null;
-			try {
-				existingFilters = mapper.readValue(serializedFilters, new TypeReference<List<FieldFilter>>(){});
-			} catch (Exception e) {
-				throw new JRRuntimeException(e);
-			}
-			
+			List<? extends DatasetFilter> existingFilters = JacksonUtil.getInstance(jasperReportsContext).loadList(serializedFilters, FieldFilter.class);
 			if (existingFilters.size() > 0) {
 				for (DatasetFilter filter: existingFilters) {
 					if (((FieldFilter)filter).getField().equals(filterFieldName)) {
