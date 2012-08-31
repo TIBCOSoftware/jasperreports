@@ -42,11 +42,12 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.util.JsonUtil;
 import net.sf.jasperreports.repo.RepositoryUtil;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 
 /**
  * JSON data source implementation
@@ -171,7 +172,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 				}
 			};
 		} else if (result != null && result.isArray()) {
-			jsonNodesIterator = result.getElements();
+			jsonNodesIterator = result.elements();
 		}
 	}
 
@@ -217,7 +218,7 @@ public class JsonDataSource extends JRAbstractTextDataSource implements JRRewind
 						value = selectedObject.asText();
 						
 					} else if (valueClass.equals(Boolean.class)) {
-						value = selectedObject.getBooleanValue();
+						value = selectedObject.booleanValue();
 						
 					} else if (Number.class.isAssignableFrom(valueClass)) {
 							value = convertStringValue(selectedObject.asText(), valueClass);

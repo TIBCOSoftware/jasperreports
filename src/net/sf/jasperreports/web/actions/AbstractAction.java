@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRParameter;
@@ -44,7 +46,6 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
