@@ -69,7 +69,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		
 	public Integer getOwnRadius()
 	{
-		return ownStyle == null || ownStyle.getOwnRadius() == null ? ((JRRectangle)this.parent).getOwnRadius() : ownStyle.getOwnRadius();
+		return providerStyle == null || providerStyle.getOwnRadius() == null ? ((JRRectangle)this.parent).getOwnRadius() : providerStyle.getOwnRadius();
 	}
 
 	/**
@@ -116,6 +116,7 @@ public class JRFillRectangle extends JRFillGraphicElement implements JRRectangle
 		
 		this.evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		setValueRepeating(true);
 	}

@@ -138,7 +138,9 @@ public class JRFillChart extends JRFillElement implements JRChart
 	protected JRFont titleFont;
 	protected JRFont subtitleFont;
 	protected JRFont legendFont;
-	protected final JRLineBox lineBox;
+
+	protected final JRLineBox initLineBox;
+	protected JRLineBox lineBox;
 
 	/**
 	 *
@@ -283,7 +285,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 		subtitleFont = factory.getFont(chart, chart.getSubtitleFont());
 		legendFont =  factory.getFont(this, chart.getLegendFont());
 		
-		lineBox = chart.getLineBox().clone(this);
+		initLineBox = chart.getLineBox().clone(this);
 
 		evaluationGroup = factory.getGroup(chart.getEvaluationGroup());
 
@@ -312,6 +314,25 @@ public class JRFillChart extends JRFillElement implements JRChart
 		if(themeName == null)
 		{
 			themeName = filler.getPropertiesUtil().getProperty(getParentProperties(), JRChart.PROPERTY_CHART_THEME);
+		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateStyle(
+		byte evaluation
+		) throws JRException
+	{
+		super.evaluateStyle(evaluation);
+
+		lineBox = null;
+		
+		if (providerStyle != null)
+		{
+			lineBox = initLineBox.clone(this);
+			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
 		}
 	}
 
@@ -390,7 +411,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	 */
 	public JRLineBox getLineBox()
 	{
-		return lineBox;
+		return lineBox == null ? initLineBox : lineBox;
 	}
 
 	/**
@@ -791,6 +812,7 @@ public class JRFillChart extends JRFillElement implements JRChart
 	{
 		evaluateProperties(evaluation);
 		evaluateDatasetRun(evaluation);
+		evaluateStyle(evaluation);
 
 		ChartTheme theme = ChartUtil.getInstance(filler.getJasperReportsContext()).getTheme(themeName);
 		

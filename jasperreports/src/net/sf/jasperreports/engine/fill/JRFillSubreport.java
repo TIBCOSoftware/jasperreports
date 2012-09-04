@@ -280,7 +280,6 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		reset();
 		
 		evaluatePrintWhenExpression(evaluation);
-		evaluateProperties(evaluation);
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
@@ -356,6 +355,9 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		byte evaluation
 		) throws JRException
 	{
+		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
+
 		jasperReport = evaluateReport(evaluation);
 		
 		if (jasperReport != null)

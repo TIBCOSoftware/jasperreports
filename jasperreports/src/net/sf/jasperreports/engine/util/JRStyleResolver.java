@@ -1579,7 +1579,7 @@ public final class JRStyleResolver
 	/**
 	 * Merges two pens, by appending the properties of the source pen to the ones of the destination pen.
 	 */
-	private static void appendPen(JRPen destPen, JRPen srcPen)
+	public static void appendPen(JRPen destPen, JRPen srcPen)
 	{
 		if (srcPen.getOwnLineWidth() != null)
 		{
@@ -1598,7 +1598,7 @@ public final class JRStyleResolver
 	/**
 	 * Merges two boxes, by appending the properties of the source box to the ones of the destination box.
 	 */
-	private static void appendBox(JRLineBox destBox, JRLineBox srcBox)
+	public static void appendBox(JRLineBox destBox, JRLineBox srcBox)
 	{
 		appendPen(destBox.getPen(), srcBox.getPen());
 		appendPen(destBox.getTopPen(), srcBox.getTopPen());
@@ -1631,7 +1631,7 @@ public final class JRStyleResolver
 	/**
 	 * Merges two paragraphs, by appending the properties of the source paragraph to the ones of the destination paragraph.
 	 */
-	private static void appendParagraph(JRParagraph destParagraph, JRParagraph srcParagraph)
+	public static void appendParagraph(JRParagraph destParagraph, JRParagraph srcParagraph)
 	{
 		if (srcParagraph.getOwnLineSpacing() != null)
 		{
