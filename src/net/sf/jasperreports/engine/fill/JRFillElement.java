@@ -75,7 +75,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 *
 	 */
 	protected JRElement parent;
-	protected JRStyle ownStyle;
+	protected JRStyle providerStyle;
 	protected Map<JRStyle,JRTemplateElement> templates = new HashMap<JRStyle,JRTemplateElement>();
 	protected List<StyleProvider> styleProviders;
 
@@ -304,7 +304,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public ModeEnum getOwnModeValue()
 	{
-		return ownStyle == null || ownStyle.getOwnModeValue() == null ? parent.getOwnModeValue() : ownStyle.getOwnModeValue();
+		return providerStyle == null || providerStyle.getOwnModeValue() == null ? parent.getOwnModeValue() : providerStyle.getOwnModeValue();
 	}
 
 	/**
@@ -433,7 +433,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 
 	public Color getOwnForecolor()
 	{
-		return ownStyle == null || ownStyle.getOwnForecolor() == null ? parent.getOwnForecolor() : ownStyle.getOwnForecolor();
+		return providerStyle == null || providerStyle.getOwnForecolor() == null ? parent.getOwnForecolor() : providerStyle.getOwnForecolor();
 	}
 
 	/**
@@ -456,7 +456,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	 */
 	public Color getOwnBackcolor()
 	{
-		return ownStyle == null || ownStyle.getOwnBackcolor() == null ? parent.getOwnBackcolor() : ownStyle.getOwnBackcolor();
+		return providerStyle == null || providerStyle.getOwnBackcolor() == null ? parent.getOwnBackcolor() : providerStyle.getOwnBackcolor();
 	}
 
 	/**
@@ -721,7 +721,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		byte evaluation
 		) throws JRException
 	{
-		ownStyle = null;
+		providerStyle = null;
 
 		if (styleProviders != null && styleProviders.size() > 0)
 		{
@@ -730,11 +730,11 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 				JRStyle style = styleProvider.getStyle(evaluation);
 				if (style != null)
 				{
-					if (ownStyle == null)
+					if (providerStyle == null)
 					{
-						ownStyle = new JRBaseStyle();
+						providerStyle = new JRBaseStyle();
 					}
-					JRStyleResolver.appendStyle(ownStyle, style);
+					JRStyleResolver.appendStyle(providerStyle, style);
 				}
 			}
 		}
@@ -787,7 +787,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		JRTemplateElement template = null;
 		JRStyle style = null;
 		
-		if (ownStyle == null)
+		if (providerStyle == null)
 		{
 			// no style provider has been used so we can use cache template per style below
 			style = getStyle();
@@ -802,7 +802,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 			// deduplicate to previously created identical objects
 			template = filler.fillContext.deduplicate(template);
 			
-			if (ownStyle == null)
+			if (providerStyle == null)
 			{
 				registerTemplate(style, template);
 			}
@@ -910,6 +910,8 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void performDelayedEvaluation(JRPrintElement element, byte evaluation) 
 			throws JRException
 	{
+		boolean updateTemplate = false;
+		
 		if (isDelayedStyleEvaluation())
 		{
 			JRStyle elementStyle = initStyle;
@@ -928,20 +930,25 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 					// set the evaluated style as current style
 					this.currentStyle = evaluatedStyle;
 					
-					// get/create an element template that corresponds to the
-					// current style
-					JRTemplateElement newTemplate = getElementTemplate();
-					((JRTemplatePrintElement) element).updateElementTemplate(
-							newTemplate);
+					updateTemplate = true;
 				}
 			}
 		}
 		
 		resolveElement(element, evaluation);
 		
+		if (updateTemplate || providerStyle != null)
+		{
+			// get/create an element template that corresponds to the
+			// current style
+			JRTemplateElement newTemplate = getElementTemplate();
+			((JRTemplatePrintElement) element).updateElementTemplate(
+					newTemplate);
+		}
+		
 		// reset the current style
 		this.currentStyle = null;
-		this.ownStyle = null;
+		//this.providerStyle = null;
 	}
 
 

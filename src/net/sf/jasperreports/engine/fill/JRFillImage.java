@@ -80,7 +80,9 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	private Integer hyperlinkPage;
 	private String hyperlinkTooltip;
 	private JRPrintHyperlinkParameters hyperlinkParameters;
-	protected final JRLineBox lineBox;
+
+	protected final JRLineBox initLineBox;
+	protected JRLineBox lineBox;
 
 
 	/**
@@ -94,7 +96,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		super(filler, image, factory);
 		
-		lineBox = image.getLineBox().clone(this);
+		initLineBox = image.getLineBox().clone(this);
 
 		evaluationGroup = factory.getGroup(image.getEvaluationGroup());
 	}
@@ -104,9 +106,28 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	{
 		super(image, factory);
 		
-		lineBox = image.getLineBox().clone(this);
+		initLineBox = image.getLineBox().clone(this);
 
 		evaluationGroup = image.evaluationGroup;
+	}
+
+
+	/**
+	 *
+	 */
+	protected void evaluateStyle(
+		byte evaluation
+		) throws JRException
+	{
+		super.evaluateStyle(evaluation);
+
+		lineBox = null;
+		
+		if (providerStyle != null)
+		{
+			lineBox = initLineBox.clone(this);
+			JRStyleResolver.appendBox(lineBox, providerStyle.getLineBox());
+		}
 	}
 
 
@@ -128,7 +149,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public ScaleImageEnum getOwnScaleImageValue()
 	{
-		return ownStyle == null || ownStyle.getOwnScaleImageValue() == null ? ((JRImage)this.parent).getOwnScaleImageValue() : ownStyle.getOwnScaleImageValue();
+		return providerStyle == null || providerStyle.getOwnScaleImageValue() == null ? ((JRImage)this.parent).getOwnScaleImageValue() : providerStyle.getOwnScaleImageValue();
 	}
 
 	/**
@@ -149,7 +170,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public HorizontalAlignEnum getOwnHorizontalAlignmentValue()
 	{
-		return ownStyle == null || ownStyle.getOwnHorizontalAlignmentValue() == null ? ((JRImage)this.parent).getOwnHorizontalAlignmentValue() : ownStyle.getOwnHorizontalAlignmentValue();
+		return providerStyle == null || providerStyle.getOwnHorizontalAlignmentValue() == null ? ((JRImage)this.parent).getOwnHorizontalAlignmentValue() : providerStyle.getOwnHorizontalAlignmentValue();
 	}
 
 	/**
@@ -170,7 +191,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		
 	public VerticalAlignEnum getOwnVerticalAlignmentValue()
 	{
-		return ownStyle == null || ownStyle.getOwnVerticalAlignmentValue() == null ? ((JRImage)this.parent).getOwnVerticalAlignmentValue() : ownStyle.getOwnVerticalAlignmentValue();
+		return providerStyle == null || providerStyle.getOwnVerticalAlignmentValue() == null ? ((JRImage)this.parent).getOwnVerticalAlignmentValue() : providerStyle.getOwnVerticalAlignmentValue();
 	}
 
 	/**
@@ -271,7 +292,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 	 */
 	public JRLineBox getLineBox()
 	{
-		return lineBox;
+		return lineBox == null ? initLineBox : lineBox;
 	}
 
 	/**
@@ -453,6 +474,7 @@ public class JRFillImage extends JRFillGraphicElement implements JRImage
 		) throws JRException
 	{
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		JRExpression expression = this.getExpression();
 

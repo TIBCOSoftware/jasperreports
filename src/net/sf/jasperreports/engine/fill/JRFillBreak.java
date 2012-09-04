@@ -101,6 +101,7 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		
 		this.evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		setValueRepeating(true);
 	}

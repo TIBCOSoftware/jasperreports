@@ -468,10 +468,12 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		reset();
 
 		evaluatePrintWhenExpression(evaluation);
-		evaluateProperties(evaluation);
 
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			evaluateProperties(evaluation);
+			evaluateStyle(evaluation);
+
 			dataset.evaluateDatasetRun(evaluation);
 
 			initEvaluator(evaluation);

@@ -103,6 +103,7 @@ public class JRFillLine extends JRFillGraphicElement implements JRLine
 		
 		this.evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		setValueRepeating(true);
 	}

@@ -85,6 +85,7 @@ public class JRFillEllipse extends JRFillGraphicElement implements JREllipse
 		
 		this.evaluatePrintWhenExpression(evaluation);
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		setValueRepeating(true);
 	}

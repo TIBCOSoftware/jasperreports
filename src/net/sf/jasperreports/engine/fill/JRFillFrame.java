@@ -140,10 +140,11 @@ public class JRFillFrame extends JRFillElement implements JRFrame
 		reset();
 
 		evaluatePrintWhenExpression(evaluation);
-		evaluateProperties(evaluation);
-
 		if (isPrintWhenExpressionNull() || isPrintWhenTrue())
 		{
+			evaluateProperties(evaluation);
+			evaluateStyle(evaluation);
+
 			frameContainer.evaluate(evaluation);
 			
 			boolean repeating = true;

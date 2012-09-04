@@ -29,7 +29,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGraphicElement;
 import net.sf.jasperreports.engine.JRPen;
 import net.sf.jasperreports.engine.type.FillEnum;
-import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStyleResolver;
 
 
@@ -40,7 +39,8 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
 public abstract class JRFillGraphicElement extends JRFillElement implements JRGraphicElement
 {
 
-	protected final JRPen pen;
+	protected final JRPen initPen;
+	protected JRPen pen;
 
 	/**
 	 *
@@ -53,7 +53,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	{
 		super(filler, graphicElement, factory);
 		
-		pen = graphicElement.getLinePen().clone(this);
+		initPen = graphicElement.getLinePen().clone(this);
 	}
 
 
@@ -64,16 +64,35 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	{
 		super(graphicElement, factory);
 		
-		pen = graphicElement.getLinePen().clone(this);
+		initPen = graphicElement.getLinePen().clone(this);
 	}
 
 	
 	/**
 	 *
 	 */
+	protected void evaluateStyle(
+		byte evaluation
+		) throws JRException
+	{
+		super.evaluateStyle(evaluation);
+
+		pen = null;
+		
+		if (providerStyle != null)
+		{
+			pen = initPen.clone(this);
+			JRStyleResolver.appendPen(pen, providerStyle.getLinePen());
+		}
+	}
+
+
+	/**
+	 *
+	 */
 	public JRPen getLinePen()
 	{
-		return pen;
+		return pen == null ? initPen : pen;
 	}
 
 	/**
@@ -89,7 +108,7 @@ public abstract class JRFillGraphicElement extends JRFillElement implements JRGr
 	 */
 	public FillEnum getOwnFillValue()
 	{
-		return ownStyle == null || ownStyle.getOwnFillValue() == null ? ((JRGraphicElement)this.parent).getOwnFillValue() : ownStyle.getOwnFillValue();
+		return providerStyle == null || providerStyle.getOwnFillValue() == null ? ((JRGraphicElement)this.parent).getOwnFillValue() : providerStyle.getOwnFillValue();
 	}
 
 	/**

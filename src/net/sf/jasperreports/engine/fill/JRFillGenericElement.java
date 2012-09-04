@@ -96,6 +96,7 @@ public class JRFillGenericElement extends JRFillElement implements
 	protected void evaluateElement(byte evaluation) throws JRException
 	{
 		evaluateProperties(evaluation);
+		evaluateStyle(evaluation);
 		
 		parameterValues.clear();
 		for (int i = 0; i < parameters.length; i++)
