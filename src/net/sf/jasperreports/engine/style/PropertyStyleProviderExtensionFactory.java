@@ -1,3 +1,4 @@
+package net.sf.jasperreports.engine.style;
 /*
  * JasperReports - Free Java Reporting Library.
  * Copyright (C) 2001 - 2011 Jaspersoft Corporation. All rights reserved.
@@ -21,38 +22,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.style;
 
-import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
 
+import net.sf.jasperreports.engine.JRPropertiesMap;
+import net.sf.jasperreports.engine.ParameterContributorFactory;
+import net.sf.jasperreports.extensions.ExtensionsRegistry;
+import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
+import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: JRDefaultStyleProvider.java 5180 2012-03-29 13:23:12Z teodord $
+ * Extension factory for {@link HeaderToolbarParameterContributorFactory}.
+ * 
+ * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @version $Id: HeaderToolbarParameterContributorExtensionFactory.java 5050 2012-03-12 10:11:26Z teodord $
  */
-public interface StyleProviderContext
+public class PropertyStyleProviderExtensionFactory implements ExtensionsRegistryFactory
 {
+	
+	private static final ExtensionsRegistry REGISTRY = 
+			new SingletonExtensionRegistry<StyleProviderFactory>(StyleProviderFactory.class, 
+					PropertyStyleProviderFactory.getInstance());
 
-	/**
-	 *
-	 */
-	public JRElement getElement();
-
-	/**
-	 *
-	 */
-	public Object evaluateExpression(JRExpression expression, byte evaluation);
-
-	/**
-	 *
-	 */
-	public Object getFieldValue(String fieldName, byte evaluation);
-
-	/**
-	 *
-	 */
-	public Object getVariableValue(String variableName, byte evaluation);
+	public ExtensionsRegistry createRegistry(String registryId, JRPropertiesMap properties)
+	{
+		return REGISTRY;
+	}
 
 }
