@@ -24,6 +24,9 @@
 package net.sf.jasperreports.engine.fill;
 
 import net.sf.jasperreports.engine.JRElement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
 
 
@@ -51,6 +54,22 @@ public class FillStyleProviderContext implements StyleProviderContext
 	public JRElement getElement()
 	{
 		return element;
+	}
+
+
+	/**
+	 *
+	 */
+	public Object evaluateExpression(JRExpression expression, byte evaluation)
+	{
+		try
+		{
+			return element.evaluateExpression(expression, evaluation);
+		}
+		catch (JRException e)
+		{
+			throw new JRRuntimeException(e);
+		}
 	}
 
 
