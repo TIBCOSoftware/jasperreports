@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine;
 
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 //import java.text.Format;
 
@@ -33,7 +32,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
+public interface JRTextField extends JRTextElement, JREvaluation, JRAnchor, JRHyperlink
 {
 
 	/**
@@ -46,12 +45,6 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 	 * Set to true if the text field should stretch vertically if its text does not fit in one line.
 	 */
 	public void setStretchWithOverflow(boolean isStretchWithOverflow);
-		
-	/**
-	 * Gets the evaluation time for this text field.
-	 * @return one of the evaluation time constants in {@link JRExpression}
-	 */
-	public EvaluationTimeEnum getEvaluationTimeValue();
 		
 	/**
 	 * Gets the pattern used for this text field. The pattern will be used in a <tt>SimpleDateFormat</tt> for dates
@@ -87,12 +80,6 @@ public interface JRTextField extends JRTextElement, JRAnchor, JRHyperlink
 
 	public void setBlankWhenNull(Boolean isBlank);
 
-	/**
-	 * Gets the evaluation group for this text field. Used only when evaluation time is group.
-	 * @see EvaluationTimeEnum#GROUP
-	 */
-	public JRGroup getEvaluationGroup();
-		
 	/**
 	 * Gets the expression for this field. The result obtained after evaluating this expression will be dispayed as
 	 * the field text.

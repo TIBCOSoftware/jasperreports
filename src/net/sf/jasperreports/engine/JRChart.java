@@ -26,7 +26,6 @@ package net.sf.jasperreports.engine;
 import java.awt.Color;
 
 import net.sf.jasperreports.charts.type.EdgeEnum;
-import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 
 
 /**
@@ -36,7 +35,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
  */
-public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContainer
+public interface JRChart extends JRElement, JREvaluation, JRAnchor, JRHyperlink, JRBoxContainer
 {
 
 	/**
@@ -95,16 +94,6 @@ public interface JRChart extends JRElement, JRAnchor, JRHyperlink, JRBoxContaine
 	 *
 	 */
 	public void setShowLegend(Boolean isShowLegend);
-
-	/**
-	 * Returns the evaluation time for this chart.
-	 */
-	public EvaluationTimeEnum getEvaluationTimeValue();
-		
-	/**
-	 * Gets the evaluation group for this chart (only applies when evaluation time is group).
-	 */
-	public JRGroup getEvaluationGroup();
 
 	/**
 	 * Gets the expression whose evaluation will form the title.
