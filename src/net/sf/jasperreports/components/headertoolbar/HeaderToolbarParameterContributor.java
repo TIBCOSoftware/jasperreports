@@ -40,7 +40,7 @@ import net.sf.jasperreports.web.util.JacksonUtil;
 /**
  * 
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
 public class HeaderToolbarParameterContributor implements ParameterContributor

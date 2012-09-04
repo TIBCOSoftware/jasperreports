@@ -32,7 +32,7 @@ import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 /**
  * Extension factory for {@link HeaderToolbarParameterContributorFactory}.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
 public class HeaderToolbarParameterContributorExtensionFactory implements ExtensionsRegistryFactory

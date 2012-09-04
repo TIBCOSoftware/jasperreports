@@ -35,7 +35,6 @@ import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRPropertyExpression;
 import net.sf.jasperreports.engine.JRStyle;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.base.JRBaseStyle;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.ModeEnum;
@@ -45,16 +44,17 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
 /**
  * 
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HeaderToolbarParameterContributor.java 5349 2012-05-08 14:25:05Z teodord $
  */
 public class PropertyStyleProvider implements StyleProvider
 {
 	public static final String STYLE_PROPERTY_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "style.";
+	public static final String STYLE_PROPERTY_MODE = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_mode;
 	public static final String STYLE_PROPERTY_BACKCOLOR = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_backcolor;
+	public static final String STYLE_PROPERTY_FORECOLOR = STYLE_PROPERTY_PREFIX + JRXmlConstants.ATTRIBUTE_forecolor;
 
 	private final StyleProviderContext context;
-	private final JasperReportsContext jasperreportsContext;
 	
 	private final Map<String, JRPropertyExpression> stylePropertyExpressions;
 	private final String[] fields;
@@ -63,12 +63,10 @@ public class PropertyStyleProvider implements StyleProvider
 	
 	public PropertyStyleProvider(
 		StyleProviderContext context, 
-		JasperReportsContext jasperreportsContext,
 		Map<String, JRPropertyExpression> stylePropertyExpressions
 		)
 	{
 		this.context = context;
-		this.jasperreportsContext = jasperreportsContext;
 		this.stylePropertyExpressions = stylePropertyExpressions;
 		
 		List<String> fieldsList = new ArrayList<String>();
@@ -119,12 +117,22 @@ public class PropertyStyleProvider implements StyleProvider
 	{
 		JRStyle style = new JRBaseStyle();
 		
-		style.setMode(ModeEnum.OPAQUE);
+		String mode = getPropertyValue(STYLE_PROPERTY_MODE, evaluation);
+		if (mode != null)
+		{
+			style.setMode(ModeEnum.getByName(mode));
+		}
 
 		String backcolor = getPropertyValue(STYLE_PROPERTY_BACKCOLOR, evaluation);
 		if (backcolor != null)
 		{
 			style.setBackcolor(JRColorUtil.getColor(backcolor, null));
+		}
+
+		String forecolor = getPropertyValue(STYLE_PROPERTY_FORECOLOR, evaluation);
+		if (forecolor != null)
+		{
+			style.setForecolor(JRColorUtil.getColor(forecolor, null));
 		}
 
 		return style;

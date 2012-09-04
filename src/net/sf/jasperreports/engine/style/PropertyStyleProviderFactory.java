@@ -82,7 +82,7 @@ public final class PropertyStyleProviderFactory implements StyleProviderFactory
 			|| (styleProperties != null && styleProperties.size() > 0)
 			)
 		{
-			return new PropertyStyleProvider(context, jasperreportsContext, stylePropertyExpressions);
+			return new PropertyStyleProvider(context, stylePropertyExpressions);
 		}
 		
 		return null;

@@ -25,15 +25,14 @@ package net.sf.jasperreports.engine.style;
 
 
 import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.ParameterContributorFactory;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
 import net.sf.jasperreports.extensions.ExtensionsRegistryFactory;
 import net.sf.jasperreports.extensions.SingletonExtensionRegistry;
 
 /**
- * Extension factory for {@link HeaderToolbarParameterContributorFactory}.
+ * Extension factory for {@link PropertyStyleProviderFactory}.
  * 
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
+ * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: HeaderToolbarParameterContributorExtensionFactory.java 5050 2012-03-12 10:11:26Z teodord $
  */
 public class PropertyStyleProviderExtensionFactory implements ExtensionsRegistryFactory

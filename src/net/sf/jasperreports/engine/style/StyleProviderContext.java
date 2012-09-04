@@ -24,8 +24,8 @@
 package net.sf.jasperreports.engine.style;
 
 import net.sf.jasperreports.engine.JRElement;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JasperReportsContext;
 
 
 /**
@@ -34,6 +34,11 @@ import net.sf.jasperreports.engine.JRExpression;
  */
 public interface StyleProviderContext
 {
+
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext();
 
 	/**
 	 *

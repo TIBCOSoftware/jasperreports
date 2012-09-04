@@ -27,6 +27,7 @@ import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.style.StyleProviderContext;
 
 
@@ -48,6 +49,15 @@ public class FillStyleProviderContext implements StyleProviderContext
 	}
 
 	
+	/**
+	 *
+	 */
+	public JasperReportsContext getJasperReportsContext()
+	{
+		return element.filler.getJasperReportsContext();
+	}
+
+
 	/**
 	 *
 	 */
