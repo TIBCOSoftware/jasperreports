@@ -25,6 +25,7 @@ package net.sf.jasperreports.engine.component;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
@@ -40,6 +41,8 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public interface ComponentXmlWriter
 {
+	public static final String PROPERTY_COMPONENT_ID_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.id.";
+	public static final String PROPERTY_COMPONENT_VERSION_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.version.";
 
 	/**
 	 * Outputs the XML representation of a component.
