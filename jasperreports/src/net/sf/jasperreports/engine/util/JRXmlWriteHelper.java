@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.jasperreports.engine.JRExpression;
+import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.NamedEnum;
 
@@ -62,7 +63,11 @@ public class JRXmlWriteHelper
 	private final List<StackElement> elementStack;
 	private StringBuffer buffer;
 	private StackElement lastElement;
-		
+
+	private String reportVersion;
+	
+	private JRPropertiesMap propertiesMap;
+	
 	protected static class Attribute
 	{
 		String name;
@@ -690,5 +695,21 @@ public class JRXmlWriteHelper
 		//replacing "]]>" by "]]]]><![CDATA[>"
 		Matcher matcher = PATTERN_CDATA_CLOSE.matcher(data);
 		return matcher.replaceAll(ESCAPED_CDATA_CLOSE);
+	}
+
+	public String getReportVersion() {
+		return reportVersion;
+	}
+
+	public void setReportVersion(String reportVersion) {
+		this.reportVersion = reportVersion;
+	}
+
+	public JRPropertiesMap getPropertiesMap() {
+		return propertiesMap;
+	}
+
+	public void setPropertiesMap(JRPropertiesMap propertiesMap) {
+		this.propertiesMap = propertiesMap;
 	}
 }

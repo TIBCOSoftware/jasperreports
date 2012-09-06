@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.TabStop;
@@ -45,6 +46,8 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 public abstract class JRXmlBaseWriter
 {
 	
+	public static final String PROPERTY_REPORT_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "report.version";
+
 	protected JRXmlWriteHelper writer;
 	
 	/**

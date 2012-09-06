@@ -88,6 +88,7 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -685,7 +686,12 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_reportElement);
-		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
+		String reportVersion = xmlWriter.getReportVersion();
+		if(reportVersion == null || JRStringUtil.isNewerVersionOrEqual(reportVersion, "4.7.0"))
+		{
+			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
+		}
+		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)
