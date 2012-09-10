@@ -28,6 +28,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -386,6 +387,16 @@ public class TableApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
+	}
+
+	/**
+	 *
+	 */
+	public void writeXml() throws JRException
+	{
+		long start = System.currentTimeMillis();
+		JasperCompileManager.writeReportToXmlFile("build/reports/TableReport.jasper");
+		System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 	}
 
 

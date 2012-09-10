@@ -3507,7 +3507,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	
 
 	public String getComponentVersion(ComponentKey componentKey){
-		String key = componentKey.getNamespace()+"|"+componentKey.getName();
+		String key = componentKey.getNamespace() + "|" + componentKey.getName();
 		String version = componentVersions.get(key);
 		if(version == null)
 		{

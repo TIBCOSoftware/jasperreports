@@ -47,6 +47,13 @@ import net.sf.jasperreports.engine.util.XmlNamespace;
 public abstract class JRXmlBaseWriter
 {
 	
+	/**
+	 * Property that specifies the JasperReports version associated with this report. Report elements/attributes newer than 
+	 * this version are neglected by the JRXML writers when a report template is generated. If not set, all elements/attributes 
+	 * will be printed out. 
+	 * 
+	 * @see JRXmlWriter
+	 */
 	public static final String PROPERTY_REPORT_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "report.version";
 
 	protected JRXmlWriteHelper writer;

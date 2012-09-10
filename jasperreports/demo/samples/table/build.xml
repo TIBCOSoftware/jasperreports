@@ -110,6 +110,10 @@
 	<target name="clean" description="Deletes all the generated files.">
 		<ant dir="../" target="clean-sample"/>
 	</target>
+
+	<target name="writeXml" description="Regenerates an XML version of the report design by converting the .jasper file.">
+		<ant dir="../" target="writeXml"/>
+	</target>
 	
 	<target name="test" description="Runs the sample.">
 		<echo message="==================================="/>
