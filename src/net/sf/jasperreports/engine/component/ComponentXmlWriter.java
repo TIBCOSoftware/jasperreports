@@ -41,7 +41,20 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public interface ComponentXmlWriter
 {
+	/**
+	 * Property prefix associated with a component ID in a given report. Its value is always written as <component_namespace>|<component_name>
+	 */
 	public static final String PROPERTY_COMPONENT_ID_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.id.";
+	/**
+	 * Property prefix associated with a component version in a given report. The property has no meaning in the absence of the related 
+	 * {@link #PROPERTY_COMPONENT_ID_PREFIX PROPERTY_COMPONENT_ID_PREFIX} property. To give a valid component version, the suffix of this property 
+	 * should be the same as the suffix of the {@link #PROPERTY_COMPONENT_ID_PREFIX PROPERTY_COMPONENT_ID_PREFIX} property.
+	 * <br/>
+	 * If not provided, the component version is considered the same as the report version stored in the 
+	 * {@link JRXmlBaseWriter#PROPERTY_REPORT_VERSION PROPERTY_REPORT_VERSION} property.
+	 * 
+	 * @see JRXmlBaseWriter
+	 */
 	public static final String PROPERTY_COMPONENT_VERSION_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.version.";
 
 	/**

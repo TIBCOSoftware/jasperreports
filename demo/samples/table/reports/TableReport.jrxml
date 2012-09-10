@@ -7,6 +7,9 @@
 	name="TableReport" pageWidth="595" pageHeight="842" columnWidth="555"
 	leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30"
 	isFloatColumnFooter="true" whenNoDataType="AllSectionsNoDetail">
+<property name="net.sf.jasperreports.component.id.1" value="http://jasperreports.sourceforge.net/jasperreports/components|c|table"/>
+<property name="net.sf.jasperreports.component.version.1" value="4.7.0"/>
+<property name="net.sf.jasperreports.report.version" value="4.6.0"/>
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans"
 		fontSize="10" isBold="false" isItalic="false" isUnderline="false"
 		isStrikeThrough="false" />
