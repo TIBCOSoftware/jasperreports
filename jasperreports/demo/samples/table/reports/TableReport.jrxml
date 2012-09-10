@@ -62,7 +62,7 @@
 						<dataSourceExpression>$P{TableDataSource}</dataSourceExpression>
 					</datasetRun>
 					<c:column width="100">
-						<c:columnHeader height="30" style="TableHeader">
+						<c:columnHeader rowSpan="2" height="30" style="TableHeader">
 							<box leftPadding="10">
 								<pen lineColor="black" />
 								<bottomPen lineWidth="0.5" />
