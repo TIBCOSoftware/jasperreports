@@ -423,7 +423,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for(int i = 0; i < styles.length; i++)
 			{
-				writeStyle(styles[i]);
+				writeStyle(styles[i], reportVersion);
 			}
 		}
 
@@ -432,7 +432,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			for (int i = 0; i < datasets.length; ++i)
 			{
-				writeDataset(datasets[i]);
+				writeDataset(datasets[i], reportVersion);
 			}
 		}
 
@@ -1069,7 +1069,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeReportElement(staticText, version);
 		writeBox(staticText.getLineBox());
-		writeTextElement(staticText);
+		writeTextElement(staticText, version);
 
 		writer.writeCDATAElement(JRXmlConstants.ELEMENT_text, staticText.getText());
 
@@ -1080,16 +1080,20 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	/**
 	 *
 	 */
-	private void writeTextElement(JRTextElement textElement) throws IOException
+	private void writeTextElement(JRTextElement textElement, String version) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_textElement);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_textAlignment, textElement.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_verticalAlignment, textElement.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, textElement.getOwnRotationValue());
+		if(JRStringUtil.isNewerVersionOrEqual("4.0.2", version))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, textElement.getParagraph().getLineSpacing());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, textElement.getOwnMarkup());
 
 		writeFont(textElement);
-		writeParagraph(textElement.getParagraph());
+		writeParagraph(textElement.getParagraph(), null, version);
 
 		writer.closeElement();
 	}
@@ -1149,11 +1153,13 @@ public class JRXmlWriter extends JRXmlBaseWriter
 
 		writeReportElement(textField, version);
 		writeBox(textField.getLineBox());
-		writeTextElement(textField);
+		writeTextElement(textField, version);
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_textFieldExpression, textField.getExpression());
-		writer.writeExpression(JRXmlConstants.ELEMENT_patternExpression, textField.getPatternExpression());
-
+		if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.1.1"))
+		{
+			writer.writeExpression(JRXmlConstants.ELEMENT_patternExpression, textField.getPatternExpression());
+		}
 		writer.writeExpression(JRXmlConstants.ELEMENT_anchorNameExpression, textField.getAnchorNameExpression());
 		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkReferenceExpression, textField.getHyperlinkReferenceExpression());
 		writer.writeExpression(JRXmlConstants.ELEMENT_hyperlinkAnchorExpression, textField.getHyperlinkAnchorExpression());
@@ -2715,8 +2721,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_meterColor, plot.getMeterBackgroundColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_needleColor, plot.getNeedleColor());
 		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickColor, plot.getTickColor());
-		writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickCount, plot.getTickCount());
-		
+		if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.6.0"))
+		{
+			writer.addAttribute(JRMeterPlotFactory.ATTRIBUTE_tickCount, plot.getTickCount());
+		}
 		writePlot(chart.getPlot());
 		if (plot.getTickLabelFont() != null)
 		{
@@ -2978,7 +2986,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		writer.addAttribute(JRCrosstabFactory.ATTRIBUTE_ignoreWidth, crosstab.getIgnoreWidth());
 
 		writeReportElement(crosstab, version);
-		writeBox(crosstab.getLineBox());
+		if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.5.0"))
+		{
+			writeBox(crosstab.getLineBox());
+		}
 
 		JRCrosstabParameter[] parameters = crosstab.getParameters();
 		if (parameters != null)
@@ -3353,8 +3364,10 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		{
 			writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, datasetRun.getUUID().toString());
 		}
-
-		writeProperties(datasetRun);
+		if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.6.0"))
+		{
+			writeProperties(datasetRun);
+		}
 
 		writer.writeExpression(JRXmlConstants.ELEMENT_parametersMapExpression, datasetRun.getParametersMapExpression());
 

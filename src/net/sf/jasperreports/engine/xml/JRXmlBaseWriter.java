@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.TabStop;
+import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
@@ -68,6 +69,17 @@ public abstract class JRXmlBaseWriter
 	 */
 	protected void writeStyle(JRStyle style) throws IOException
 	{
+		writeStyle(style, null);
+	}
+	
+	/**
+	 * Writes a style.
+	 * 
+	 * @param style the style to write.
+	 * @throws IOException
+	 */
+	protected void writeStyle(JRStyle style, String version) throws IOException
+	{
 		writer.startElement(JRXmlConstants.ELEMENT_style);
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_name, style.getName());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isDefault, style.isDefault(), false);
@@ -81,6 +93,10 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
+		if(JRStringUtil.isNewerVersionOrEqual("4.0.2", version))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getParagraph().getLineSpacing());
+		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_markup, style.getOwnMarkup());
 		writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_pattern, style.getOwnPattern());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_isBlankWhenNull, style.isOwnBlankWhenNull());
@@ -97,7 +113,7 @@ public abstract class JRXmlBaseWriter
 
 		writePen(style.getLinePen());
 		writeBox(style.getLineBox());
-		writeParagraph(style.getParagraph());
+		writeParagraph(style.getParagraph(), null, version);
 		
 		if (toWriteConditionalStyles())
 		{
@@ -106,7 +122,7 @@ public abstract class JRXmlBaseWriter
 			{
 				for (int i = 0; i < conditionalStyles.length; i++)
 				{
-					writeConditionalStyle(conditionalStyles[i]);
+					writeConditionalStyle(conditionalStyles[i], version);
 				}
 			}
 		}
@@ -144,9 +160,20 @@ public abstract class JRXmlBaseWriter
 	 */
 	protected void writeConditionalStyle(JRConditionalStyle style) throws IOException
 	{
+		writeConditionalStyle(style, null);
+	}
+	
+	/**
+	 * Writes a conditional style.
+	 * 
+	 * @param style the conditional style
+	 * @throws IOException
+	 */
+	protected void writeConditionalStyle(JRConditionalStyle style, String version) throws IOException
+	{
 		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
 		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
-		writeStyle(style);
+		writeStyle(style, version);
 		writer.closeElement();
 	}
 
@@ -202,7 +229,7 @@ public abstract class JRXmlBaseWriter
 
 	public void writeParagraph(JRParagraph paragraph) throws IOException
 	{
-		writeParagraph(paragraph, null);
+		writeParagraph(paragraph, null, null);
 	}
 	
 	/**
@@ -210,7 +237,16 @@ public abstract class JRXmlBaseWriter
 	 */
 	public void writeParagraph(JRParagraph paragraph, XmlNamespace namespace) throws IOException
 	{
-		if (paragraph != null)
+		writeParagraph(paragraph, namespace, null);
+	}
+	
+	
+	/**
+	 *
+	 */
+	public void writeParagraph(JRParagraph paragraph, XmlNamespace namespace, String version) throws IOException
+	{
+		if (paragraph != null && (version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.0.2")))
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_paragraph, namespace);
 			
