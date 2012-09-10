@@ -1,6 +1,6 @@
 /*
  * JasperReports - Free Java Reporting Library.
- * Copyright (C) 2001 - 2011 Jaspersoft Corporation. All rights reserved.
+ * Copyright (C) 2001 - 2009 Jaspersoft Corporation. All rights reserved.
  * http://www.jaspersoft.com
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,6 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -387,16 +386,6 @@ public class TableApp extends AbstractSampleApp
 		exporter.exportReport();
 
 		System.err.println("XHTML creation time : " + (System.currentTimeMillis() - start));
-	}
-
-	/**
-	 *
-	 */
-	public void writeXml() throws JRException
-	{
-		long start = System.currentTimeMillis();
-		JasperCompileManager.writeReportToXmlFile("build/reports/TableReport.jasper");
-		System.err.println("XML design creation time : " + (System.currentTimeMillis() - start));
 	}
 
 
