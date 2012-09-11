@@ -31,28 +31,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition.Bucket;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService.BucketMap;
-import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketingServiceContext;
 import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition;
+import net.sf.jasperreports.crosstabs.fill.calculation.MeasureDefinition.MeasureValue;
 import net.sf.jasperreports.crosstabs.type.CrosstabTotalPositionEnum;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.data.Axis;
-import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
 import net.sf.jasperreports.engine.analytics.data.AxisLevel;
 import net.sf.jasperreports.engine.analytics.data.AxisLevel.Type;
 import net.sf.jasperreports.engine.analytics.data.AxisLevelNode;
 import net.sf.jasperreports.engine.analytics.data.Measure;
+import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
 import net.sf.jasperreports.engine.analytics.data.StandardAxisLevel;
 import net.sf.jasperreports.engine.analytics.data.StandardMeasure;
 import net.sf.jasperreports.engine.analytics.data.StandardMeasureValue;
@@ -64,6 +60,9 @@ import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.SingleValue;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -209,7 +208,7 @@ public class MultiAxisDataService
 
 	protected BucketDefinition createServiceBucket(DataAxisLevel level, byte evaluation) throws JRException
 	{
-		JRCrosstabBucket bucket = level.getBucket();
+		DataLevelBucket bucket = level.getBucket();
 
 		Comparator<Object> comparator = null;
 		JRExpression comparatorExpression = bucket.getComparatorExpression();
@@ -455,7 +454,7 @@ public class MultiAxisDataService
 			Iterator<Bucket> columnBucketIterator = columnBuckets.iterator();
 			for (int idx = 1; idx < axisLevels.get(Axis.COLUMNS.ordinal()).size(); ++idx)
 			{
-				bucketMap = (BucketMap) bucketValue;
+				bucketMap = (BucketMap) bucketValue;// TODO lucianc check null
 				if (columnBucketIterator.hasNext())
 				{
 					// if we have a bucket value, descend on the value

@@ -155,6 +155,7 @@ import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
+import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.component.Component;
@@ -3148,7 +3149,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 				writer.startElement(JRXmlConstants.ELEMENT_axisLevel);
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, level.getName());
 				writer.writeExpression(JRXmlConstants.ELEMENT_labelExpression, level.getLabelExpression());
-				writeBucket(level.getBucket());
+				writeDataLevelBucket(level.getBucket());
 				writer.closeElement();//JRXmlConstants.ELEMENT_axisLevel
 			}
 			
@@ -3168,5 +3169,15 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		}
 		
 		writer.closeElement();//JRXmlConstants.ELEMENT_multiAxisData
+	}
+
+	protected void writeDataLevelBucket(DataLevelBucket bucket) throws IOException
+	{
+		writer.startElement(JRXmlConstants.ELEMENT_axisLevelBucket);
+		writer.addAttribute(JRCrosstabBucketFactory.ATTRIBUTE_order, bucket.getOrderValue(), SortOrderEnum.ASCENDING);
+		writer.addAttribute(JRCrosstabMeasureFactory.ATTRIBUTE_class, bucket.getValueClassName());
+		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_bucketExpression, bucket.getExpression());
+		writer.writeExpression(JRCrosstabBucketFactory.ELEMENT_comparatorExpression, bucket.getComparatorExpression());
+		writer.closeElement();//JRXmlConstants.ELEMENT_axisLevelBucket
 	}
 }

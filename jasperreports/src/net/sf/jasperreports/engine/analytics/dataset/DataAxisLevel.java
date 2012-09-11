@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
-import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 
@@ -38,6 +37,6 @@ public interface DataAxisLevel extends JRCloneable
 	
 	JRExpression getLabelExpression();
 	
-	JRCrosstabBucket getBucket();// TODO lucianc use a different interface
+	DataLevelBucket getBucket();
 	
 }
