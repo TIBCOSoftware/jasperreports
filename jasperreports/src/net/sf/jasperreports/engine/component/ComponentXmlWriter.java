@@ -42,13 +42,18 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 public interface ComponentXmlWriter
 {
 	/**
-	 * Property prefix associated with a component ID in a given report. Its value is always written as <component_namespace>|<component_name>
+	 * Properties having this prefix are associated with a component type in a given report. Its value contains the component namespace 
+	 * followed by a | separator, followed by the component name.
+	 * <br/>
+	 * For instance, for the table component shipped with JR source distribution the associated property may be written as:
+	 * <br/>
+	 * <code>&lt;property name="net.sf.jasperreports.component.type.1" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
 	 */
-	public static final String PROPERTY_COMPONENT_ID_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.id.";
+	public static final String PROPERTY_COMPONENT_TYPE_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.type.";
 	/**
 	 * Property prefix associated with a component version in a given report. The property has no meaning in the absence of the related 
-	 * {@link #PROPERTY_COMPONENT_ID_PREFIX PROPERTY_COMPONENT_ID_PREFIX} property. To give a valid component version, the suffix of this property 
-	 * should be the same as the suffix of the {@link #PROPERTY_COMPONENT_ID_PREFIX PROPERTY_COMPONENT_ID_PREFIX} property.
+	 * {@link #PROPERTY_COMPONENT_TYPE_PREFIX PROPERTY_COMPONENT_TYPE_PREFIX} property. To give a valid component version, the suffix of this property 
+	 * should be the same as the suffix of the {@link #PROPERTY_COMPONENT_TYPE_PREFIX PROPERTY_COMPONENT_TYPE_PREFIX} property.
 	 * <br/>
 	 * If not provided, the component version is considered the same as the report version stored in the 
 	 * {@link JRXmlBaseWriter#PROPERTY_REPORT_VERSION PROPERTY_REPORT_VERSION} property.
