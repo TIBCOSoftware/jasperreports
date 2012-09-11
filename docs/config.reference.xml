@@ -308,12 +308,15 @@
       <property ref="net.sf.jasperreports.awt.ignore.missing.font"/>
       <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
       <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
+      <property ref="net.sf.jasperreports.component.type.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.component.version.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.image.dpi"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.sleep"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.catch.empty.stacktrace"/>
       <property ref="net.sf.jasperreports.properties"/>
+      <property ref="net.sf.jasperreports.report.version"/>
       <property ref="net.sf.jasperreports.viewer.render.buffer.max.size"/>
     </content>
   </category>
@@ -1675,6 +1678,21 @@ Otherwise the <code>jasperreports.properties</code> file is loaded, if found in 
     <default>jasperreports.properties</default>
     <scope>System</scope>
     <since>1.0.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.report.version -->
+  
+  <configProperty name="net.sf.jasperreports.report.version">
+    <description>
+Property that specifies the JasperReports version associated with this report. Report elements/attributes newer than 
+this version will be skipped by the JRXML writers (see the <code><api href="net/sf/jasperreports/engine/xml/JRXmlWriter.html">JRXmlWriter</api></code> class for example) 
+during the report template generation. If not set, all elements/attributes will be printed out.    
+	</description>
+    <api>net/sf/jasperreports/engine/xml/JRXmlBaseWriter.html#PROPERTY_REPORT_VERSION</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.8.0</since>
   </configProperty>
   
   
@@ -3721,6 +3739,52 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
     <scope>Global</scope>
     <since>3.5.4</since>
     <contextUnaware/>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.component.type.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.component.type.{arbitrary_name}">
+    <description>
+Properties having this prefix are associated with a component type in a given report. Its value contains the component namespace 
+followed by a | separator, followed by the component name. For instance, for the table component shipped with JR source distribution 
+the associated property may be written as:
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.component.type.1" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
+    </description>
+    <api>net/sf/jasperreports/engine/component/ComponentXmlWriter.html#PROPERTY_COMPONENT_TYPE_PREFIX</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.8.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.component.version.{arbitrary_name} -->
+  
+  <configProperty name="net.sf.jasperreports.component.version.{arbitrary_name}">
+    <description>
+Properties having this prefix are associated with a component version in a given report. The version property has no meaning in the absence 
+of the related <code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> 
+component type property. To give a valid component version, the {arbitrary_name} suffix should be the same for both 
+<code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> and 
+<code>net.sf.jasperreports.component.version.{arbitrary_name}</code> properties.
+<br/>
+For instance, for the table component shipped with JR source distribution a valid version is given when both associated properties are written as: 
+<br/>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.component.type.1" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
+<br/>
+<code>&lt;property name="net.sf.jasperreports.component.version.1" value="4.0.0" /&gt;</code>
+<br/>
+<br/>
+If not provided, the component version is considered the same as the report version stored in the 
+<code><a href="#net.sf.jasperreports.report.version">net.sf.jasperreports.report.version</a></code> property.
+    </description>
+    <api>net/sf/jasperreports/engine/component/ComponentXmlWriter.html#PROPERTY_COMPONENT_VERSION_PREFIX</api>
+    <default>N/A</default>
+    <scope>Global | Report</scope>
+    <since>4.8.0</since>
   </configProperty>
   
   
