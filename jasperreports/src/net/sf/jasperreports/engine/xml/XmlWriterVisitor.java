@@ -60,8 +60,6 @@ public class XmlWriterVisitor implements JRVisitor
 	
 	private JRXmlWriter xmlWriter;
 	
-	private String version;
-	
 	/**
 	 *
 	 */
@@ -77,7 +75,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeBreak(breakElement, version);
+			xmlWriter.writeBreak(breakElement);
 		}
 		catch (IOException e)
 		{
@@ -92,7 +90,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeChartTag(chart, version);
+			xmlWriter.writeChartTag(chart);
 		}
 		catch (IOException e)
 		{
@@ -107,7 +105,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeCrosstab(crosstab, version);
+			xmlWriter.writeCrosstab(crosstab);
 		}
 		catch (IOException e)
 		{
@@ -122,7 +120,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeElementGroup(elementGroup, version);
+			xmlWriter.writeElementGroup(elementGroup);
 		}
 		catch (IOException e)
 		{
@@ -137,7 +135,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeEllipse(ellipse, version);
+			xmlWriter.writeEllipse(ellipse);
 		}
 		catch (IOException e)
 		{
@@ -152,7 +150,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeFrame(frame, version);
+			xmlWriter.writeFrame(frame);
 		}
 		catch (IOException e)
 		{
@@ -167,7 +165,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeImage(image, version);
+			xmlWriter.writeImage(image);
 		}
 		catch (IOException e)
 		{
@@ -182,7 +180,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeLine(line, version);
+			xmlWriter.writeLine(line);
 		}
 		catch (IOException e)
 		{
@@ -197,7 +195,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeRectangle(rectangle, version);
+			xmlWriter.writeRectangle(rectangle);
 		}
 		catch (IOException e)
 		{
@@ -212,7 +210,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeStaticText(staticText, version);
+			xmlWriter.writeStaticText(staticText);
 		}
 		catch (IOException e)
 		{
@@ -227,7 +225,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeSubreport(subreport, version);
+			xmlWriter.writeSubreport(subreport);
 		}
 		catch (IOException e)
 		{
@@ -242,7 +240,7 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeTextField(textField, version);
+			xmlWriter.writeTextField(textField);
 		}
 		catch (IOException e)
 		{
@@ -266,16 +264,12 @@ public class XmlWriterVisitor implements JRVisitor
 	{
 		try
 		{
-			xmlWriter.writeGenericElement(element, version);
+			xmlWriter.writeGenericElement(element);
 		}
 		catch (IOException e)
 		{
 			throw new JRRuntimeException(e);
 		}
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 }

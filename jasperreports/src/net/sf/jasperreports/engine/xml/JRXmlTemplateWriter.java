@@ -116,22 +116,10 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public static void writeTemplate(JRTemplate template, OutputStream out, String encoding)
 	{
-		writeTemplate(template, out, encoding, null);
-	}
-	
-	/**
-	 * Writes the XML representation of a template to an output stream.
-	 * 
-	 * @param template the template
-	 * @param out the output stream
-	 * @param encoding the XML encoding to use
-	 */
-	public static void writeTemplate(JRTemplate template, OutputStream out, String encoding, String version)
-	{
 		try
 		{
 			Writer writer = new OutputStreamWriter(out, encoding);
-			writeTemplate(template, writer, encoding, version);
+			writeTemplate(template, writer, encoding);
 		}
 		catch (UnsupportedEncodingException e)
 		{
@@ -165,24 +153,12 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public static void writeTemplateToFile(JRTemplate template, String outputFile, String encoding)
 	{
-		writeTemplateToFile(template, outputFile, encoding, null);
-	}
-	
-	/**
-	 * Writes the XML representation of a template to a file.
-	 * 
-	 * @param template the template
-	 * @param outputFile the output file name
-	 * @param encoding the XML encoding to use
-	 */
-	public static void writeTemplateToFile(JRTemplate template, String outputFile, String encoding, String version)
-	{
 		BufferedOutputStream fileOut = null;
 		boolean close = true;
 		try
 		{
 			fileOut = new BufferedOutputStream(new FileOutputStream(outputFile));
-			writeTemplate(template, fileOut, encoding, version);
+			writeTemplate(template, fileOut, encoding);
 			
 			fileOut.flush();
 			close = false;
@@ -214,13 +190,8 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	
 	protected static void writeTemplate(JRTemplate template, Writer out, String encoding) throws IOException
 	{
-		writeTemplate(template, out, encoding, null);
-	}
-	
-	protected static void writeTemplate(JRTemplate template, Writer out, String encoding, String version) throws IOException
-	{
 		JRXmlTemplateWriter writer = new JRXmlTemplateWriter(template, out, encoding);
-		writer.write(version);
+		writer.write();
 		out.flush();
 	}
 	
@@ -248,23 +219,13 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	 */
 	public void write() throws IOException
 	{
-		write(null);
-	}
-	
-	/**
-	 * Writes the template to the output writer.
-	 * 
-	 * @throws IOException
-	 */
-	public void write(String version) throws IOException
-	{
 		writer.writeProlog(encoding);
 		writer.writePublicDoctype(JRXmlConstants.TEMPLATE_ELEMENT_ROOT, 
 				JRXmlConstants.JASPERTEMPLATE_PUBLIC_ID, JRXmlConstants.JASPERTEMPLATE_SYSTEM_ID);
 		
 		writer.startElement(JRXmlConstants.TEMPLATE_ELEMENT_ROOT);
 		writeIncludedTemplates();
-		writeStyles(version);
+		writeStyles();
 		writer.closeElement();
 	}
 
@@ -289,18 +250,13 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 
 	protected void writeStyles() throws IOException
 	{
-		writeStyles(null);
-	}
-	
-	protected void writeStyles(String version) throws IOException
-	{
 		JRStyle[] styles = template.getStyles();
 		if (styles != null)
 		{
 			for (int i = 0; i < styles.length; i++)
 			{
 				JRStyle style = styles[i];
-				writeStyle(style, version);
+				writeStyle(style);
 			}
 		}
 	}

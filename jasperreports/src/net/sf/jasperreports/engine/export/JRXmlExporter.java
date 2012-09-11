@@ -49,6 +49,7 @@ import java.util.Set;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRFont;
@@ -88,7 +89,6 @@ import net.sf.jasperreports.engine.type.OnErrorTypeEnum;
 import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
@@ -422,7 +422,7 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
-		xmlWriter = new JRXmlWriteHelper(writer);
+		xmlWriter = new JRXmlWriteHelper(jasperReportsContext, jasperPrint, writer);
 		
 		xmlWriter.writeProlog(encoding);
 
@@ -686,12 +686,10 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_reportElement);
-		String reportVersion = xmlWriter.getReportVersion();
-		if(reportVersion == null || JRStringUtil.isNewerVersionOrEqual(reportVersion, "4.7.0"))
+		if(xmlWriter.isNewerVersionOrEqual(JRConstants.VERSION_4_7_0))
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
 		}
-		
 		xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_key, element.getKey());
 		JRStyle style = element.getStyle();
 		if (style != null)

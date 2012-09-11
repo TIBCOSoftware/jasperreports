@@ -33,8 +33,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id$
@@ -484,67 +482,6 @@ public final class JRStringUtil
 		return value == null ? null : value.toString();
 	}
 	
-	/**
-	 * Compares two app versions
-	 * @param currentVersion
-	 * @param oldVersion
-	 * @return boolean value of <code>true</code> if the currentVersion is the same or newer than oldVersion and 
-	 * <code>false</code> otherwise
-	 */
-	public static boolean isNewerVersionOrEqual(String currentVersion, String oldVersion)
-	{
-		if(currentVersion == null)
-		{
-			if (oldVersion == null)
-			{
-				return true;
-			} 
-			else 
-			{
-				return false;
-			}
-		} 
-		else if (oldVersion == null || currentVersion.startsWith(oldVersion)) 
-		{
-			return true;
-		}
-		else 
-		{
-			String[] oldVersionChunks = oldVersion.split("\\.");			
-			String[] currentVersionChunks = currentVersion.split("\\.");	
-			int count = Math.min(oldVersionChunks.length, currentVersionChunks.length);
-			for(int i=0, old = 0, current = 0; i < count; i++)
-			{
-				try
-				{
-					//numeric comparison
-					old = Integer.valueOf(oldVersionChunks[i]);
-					current = Integer.valueOf(currentVersionChunks[i]);
-					if (current > old)
-					{
-						return true;
-					}
-					else if (current < old)
-					{
-						return false;
-					}
-				} 
-				catch (NumberFormatException e)
-				{
-					//string comparison
-					if(currentVersionChunks[i].compareTo(oldVersionChunks[i]) > 0)
-					{
-						return true;
-					}
-					else if(currentVersionChunks[i].compareTo(oldVersionChunks[i]) < 0)
-					{
-						return false;
-					}
-				}
-			}
-			return currentVersionChunks.length >= oldVersionChunks.length;
-		}
-	}
 
 	private JRStringUtil()
 	{

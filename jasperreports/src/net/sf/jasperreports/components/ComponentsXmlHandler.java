@@ -71,6 +71,7 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.TableReportContextXmlRule;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -81,7 +82,6 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.util.JRStringUtil;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
@@ -431,14 +431,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.startElement("list", namespace);
 		writer.addAttribute("printOrder", list.getPrintOrderValue());
 		writer.addAttribute("ignoreWidth", list.getIgnoreWidth()); 
-		String version = reportWriter.getComponentVersion(componentKey);
-		reportWriter.writeDatasetRun(list.getDatasetRun(), version);
+		reportWriter.writeDatasetRun(list.getDatasetRun());
 		
 		ListContents contents = list.getContents();
 		writer.startElement("listContents");
 		writer.addAttribute("height", contents.getHeight());
 		writer.addAttribute("width", contents.getWidth());
-		reportWriter.writeChildElements(contents, version);
+		reportWriter.writeChildElements(contents);
 		writer.closeElement();
 		
 		writer.closeElement();
@@ -517,10 +516,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				ComponentsExtensionsRegistryFactory.NAMESPACE, 
 				componentKey.getNamespacePrefix(),
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
+		
 		writer.startElement("table", namespace);
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType(), WhenNoDataTypeTableEnum.BLANK);
-		reportWriter.writeDatasetRun(table.getDatasetRun(), reportWriter.getComponentVersion(componentKey));
-		final String version = reportWriter.getComponentVersion(componentKey);
+		reportWriter.writeDatasetRun(table.getDatasetRun());
 		
 		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()
 		{
@@ -529,7 +528,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("column");
-					if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.7.0"))
+					if(writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_7_0))
 					{
 						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
 					}
@@ -539,13 +538,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression());
-					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter, version);
-					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter, version);
-					writeGroupCells(column.getGroupHeaders(), "groupHeader", reportWriter, version);
-					writeGroupCells(column.getGroupFooters(), "groupFooter", reportWriter, version);
-					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter, version);
-					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter, version);
-					writeTableCell(column.getDetailCell(), "detailCell", reportWriter, version);
+					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(column.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(column.getGroupFooters(), "groupFooter", reportWriter);
+					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter);
+					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
 					writer.closeElement();
 				}
 				catch (IOException e)
@@ -561,7 +560,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				try
 				{
 					writer.startElement("columnGroup");
-					if(version == null || JRStringUtil.isNewerVersionOrEqual(version, "4.7.0"))
+					if(writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_7_0))
 					{
 						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
 					}
@@ -571,12 +570,12 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression());
-					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter, version);
-					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter, version);
-					writeGroupCells(columnGroup.getGroupHeaders(), "groupHeader", reportWriter, version);
-					writeGroupCells(columnGroup.getGroupFooters(), "groupFooter", reportWriter, version);
-					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter, version);
-					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter, version);
+					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(columnGroup.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(columnGroup.getGroupFooters(), "groupFooter", reportWriter);
+					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter);
 					
 					// deep
 					for (BaseColumn column : columnGroup.getColumns())
@@ -606,12 +605,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	protected void writeGroupCells(List<GroupCell> cells, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{
-		writeGroupCells(cells, name, reportWriter, null);
-	}
-	
-	protected void writeGroupCells(List<GroupCell> cells, String name, 
-			JRXmlWriter reportWriter, String version) throws IOException
-	{
 		if (cells != null)
 		{
 			JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
@@ -619,7 +612,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			{
 				writer.startElement(name);
 				writer.addAttribute("groupName", groupCell.getGroupName());
-				writeTableCell(groupCell.getCell(), "cell", reportWriter, version);
+				writeTableCell(groupCell.getCell(), "cell", reportWriter);
 				writer.closeElement();
 			}
 		}
@@ -627,12 +620,6 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 	
 	protected void writeTableCell(Cell cell, String name, 
 			JRXmlWriter reportWriter) throws IOException
-	{
-		writeTableCell(cell, name, reportWriter, null);
-	}
-	
-	protected void writeTableCell(Cell cell, String name, 
-			JRXmlWriter reportWriter, String version) throws IOException
 	{
 		if (cell != null)
 		{
@@ -644,9 +631,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			
 			reportWriter.writeProperties(cell);
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
-			reportWriter.writeChildElements(cell, version);
+			reportWriter.writeChildElements(cell);
 			
 			writer.closeElement();//cell
 		}
 	}
+	
 }
