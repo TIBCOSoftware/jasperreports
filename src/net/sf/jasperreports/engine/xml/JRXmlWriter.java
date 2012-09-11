@@ -3511,7 +3511,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String version = componentVersions.get(key);
 		if(version == null)
 		{
-			List<PropertySuffix> componentIdList = JRPropertiesUtil.getProperties(writer.getPropertiesMap(), ComponentXmlWriter.PROPERTY_COMPONENT_ID_PREFIX);
+			List<PropertySuffix> componentIdList = JRPropertiesUtil.getInstance(jasperReportsContext).getAllProperties(writer.getPropertiesMap(), ComponentXmlWriter.PROPERTY_COMPONENT_ID_PREFIX);
 			for(PropertySuffix suffix : componentIdList)
 			{
 				if(key.equals(suffix.getValue()))
