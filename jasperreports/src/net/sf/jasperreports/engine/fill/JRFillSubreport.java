@@ -419,14 +419,15 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 	protected DatasetExpressionEvaluator loadReportEvaluator() throws JRException
 	{
 		DatasetExpressionEvaluator evaluator = null;
-		if (isUsingCache())
+		boolean usingCache = usingCache();
+		if (usingCache)
 		{
 			evaluator = loadedEvaluators.get(jasperReport);
 		}
 		if (evaluator == null)
 		{
 			evaluator = createEvaluator();
-			if (isUsingCache())
+			if (usingCache)
 			{
 				loadedEvaluators.put(jasperReport, (JREvaluator)evaluator);
 			}
@@ -1029,7 +1030,7 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			verifyBandHeights();
 			checkReturnValues();
 			
-			if (isUsingCache())
+			if (usingCache())
 			{
 				checkedReports.add(jasperReport);
 			}
