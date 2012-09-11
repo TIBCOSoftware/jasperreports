@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.util;
 
+import java.net.URL;
+
 /**
  * A composite classloader that has a parent classloader and an alternate
  * classloader.
@@ -65,6 +67,15 @@ public class CompositeClassloader extends ClassLoader
 		
 		// throw ClassNotFoundException
 		return super.findClass(name);
+	}
+	
+	@Override
+	protected URL findResource(String name) {
+		if (fallback != null)
+		{
+			return fallback.getResource(name);
+		}
+		return super.findResource(name);
 	}
 	
 }
