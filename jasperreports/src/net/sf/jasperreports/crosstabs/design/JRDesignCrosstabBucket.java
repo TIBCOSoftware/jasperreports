@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 
 /**
- * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket corsstab group bucket}
+ * Implementation of {@link net.sf.jasperreports.crosstabs.JRCrosstabBucket crosstab group bucket}
  * to be used for report designing.
  * 
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
