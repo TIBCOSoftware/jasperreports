@@ -460,7 +460,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.addAttribute("checksumRequired", barcode.isChecksumRequired());
 		writer.addAttribute("barWidth", barcode.getBarWidth());
 		writer.addAttribute("barHeight", barcode.getBarHeight());
-		writer.addAttribute("rotation", barcode.getOwnRotation());
+		if (writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_0_0))
+		{
+			writer.addAttribute("rotation", barcode.getOwnRotation());
+		}
 		if (barcode.getEvaluationTimeValue() != EvaluationTimeEnum.NOW)
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationTime, 
@@ -518,7 +521,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("table", namespace);
-		writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType(), WhenNoDataTypeTableEnum.BLANK);
+		if (writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_1_1))
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_whenNoDataType, table.getWhenNoDataType(), WhenNoDataTypeTableEnum.BLANK);
+		}
 		reportWriter.writeDatasetRun(table.getDatasetRun());
 		
 		ColumnVisitor<Void> columnWriter = new ColumnVisitor<Void>()
@@ -533,18 +539,21 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
 					}
 					writer.addAttribute("width", column.getWidth());
-					reportWriter.writeProperties(column);
-					reportWriter.writePropertyExpressions(column.getPropertyExpressions());
+					if(writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_6_0))
+					{
+						reportWriter.writeProperties(column);
+						reportWriter.writePropertyExpressions(column.getPropertyExpressions());
+					}
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							column.getPrintWhenExpression());
-					writeTableCell(column.getTableHeader(), "tableHeader", reportWriter);
-					writeTableCell(column.getTableFooter(), "tableFooter", reportWriter);
-					writeGroupCells(column.getGroupHeaders(), "groupHeader", reportWriter);
-					writeGroupCells(column.getGroupFooters(), "groupFooter", reportWriter);
-					writeTableCell(column.getColumnHeader(), "columnHeader", reportWriter);
-					writeTableCell(column.getColumnFooter(), "columnFooter", reportWriter);
-					writeTableCell(column.getDetailCell(), "detailCell", reportWriter);
+					writeTableCell(componentKey, column.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(componentKey, column.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(componentKey, column.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(componentKey, column.getGroupFooters(), "groupFooter", reportWriter);
+					writeTableCell(componentKey, column.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(componentKey, column.getColumnFooter(), "columnFooter", reportWriter);
+					writeTableCell(componentKey, column.getDetailCell(), "detailCell", reportWriter);
 					writer.closeElement();
 				}
 				catch (IOException e)
@@ -565,17 +574,20 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
 					}
 					writer.addAttribute("width", columnGroup.getWidth());
-					reportWriter.writeProperties(columnGroup);
-					reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
+					if(writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_6_0))
+					{
+						reportWriter.writeProperties(columnGroup);
+						reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
+					}
 					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
 							columnGroup.getPrintWhenExpression());
-					writeTableCell(columnGroup.getTableHeader(), "tableHeader", reportWriter);
-					writeTableCell(columnGroup.getTableFooter(), "tableFooter", reportWriter);
-					writeGroupCells(columnGroup.getGroupHeaders(), "groupHeader", reportWriter);
-					writeGroupCells(columnGroup.getGroupFooters(), "groupFooter", reportWriter);
-					writeTableCell(columnGroup.getColumnHeader(), "columnHeader", reportWriter);
-					writeTableCell(columnGroup.getColumnFooter(), "columnFooter", reportWriter);
+					writeTableCell(componentKey, columnGroup.getTableHeader(), "tableHeader", reportWriter);
+					writeTableCell(componentKey, columnGroup.getTableFooter(), "tableFooter", reportWriter);
+					writeGroupCells(componentKey, columnGroup.getGroupHeaders(), "groupHeader", reportWriter);
+					writeGroupCells(componentKey, columnGroup.getGroupFooters(), "groupFooter", reportWriter);
+					writeTableCell(componentKey, columnGroup.getColumnHeader(), "columnHeader", reportWriter);
+					writeTableCell(componentKey, columnGroup.getColumnFooter(), "columnFooter", reportWriter);
 					
 					// deep
 					for (BaseColumn column : columnGroup.getColumns())
@@ -602,7 +614,7 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 		writer.closeElement();
 	}
 	
-	protected void writeGroupCells(List<GroupCell> cells, String name, 
+	protected void writeGroupCells(ComponentKey componentKey, List<GroupCell> cells, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{
 		if (cells != null)
@@ -612,13 +624,13 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			{
 				writer.startElement(name);
 				writer.addAttribute("groupName", groupCell.getGroupName());
-				writeTableCell(groupCell.getCell(), "cell", reportWriter);
+				writeTableCell(componentKey, groupCell.getCell(), "cell", reportWriter);
 				writer.closeElement();
 			}
 		}
 	}
 	
-	protected void writeTableCell(Cell cell, String name, 
+	protected void writeTableCell(ComponentKey componentKey, Cell cell, String name, 
 			JRXmlWriter reportWriter) throws IOException
 	{
 		if (cell != null)
@@ -629,7 +641,10 @@ public class ComponentsXmlHandler implements XmlDigesterConfigurer, ComponentXml
 			writer.addAttribute("height", cell.getHeight());
 			writer.addAttribute("rowSpan", cell.getRowSpan());
 			
-			reportWriter.writeProperties(cell);
+			if (writer.isNewerVersionOrEqual(componentKey, JRConstants.VERSION_4_8_0))
+			{
+				reportWriter.writeProperties(cell);
+			}
 			reportWriter.writeBox(cell.getLineBox(), JRXmlWriter.JASPERREPORTS_NAMESPACE);
 			reportWriter.writeChildElements(cell);
 			
