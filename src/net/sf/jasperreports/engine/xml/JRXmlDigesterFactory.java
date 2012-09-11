@@ -141,6 +141,7 @@ import net.sf.jasperreports.engine.JRSubreportReturnValue;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.analytics.data.Axis;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisDataset;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataMeasure;
@@ -159,6 +160,7 @@ import net.sf.jasperreports.engine.design.JRDesignReportTemplate;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.type.CalculationEnum;
+import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRProperties;
 import net.sf.jasperreports.engine.util.JRSingletonCache;
@@ -1341,6 +1343,17 @@ public final class JRXmlDigesterFactory
 		digester.addSetNext(axisLevelPattern, "addLevel");
 		addExpressionRules(digester, axisLevelPattern + "/" + JRXmlConstants.ELEMENT_labelExpression, 
 				"setLabelExpression");
+		
+		String bucketPattern = axisLevelPattern + "/" + JRXmlConstants.ELEMENT_axisLevelBucket;
+		digester.addObjectCreate(bucketPattern, DesignDataLevelBucket.class);
+		digester.addSetProperties(bucketPattern, 
+				new String[]{JRXmlConstants.ATTRIBUTE_class, JRXmlConstants.ATTRIBUTE_order}, 
+				new String[]{"valueClassName"});
+		digester.addRule(bucketPattern, new XmlConstantPropertyRule(JRXmlConstants.ATTRIBUTE_order, SortOrderEnum.values()));
+		digester.addSetNext(bucketPattern, "setBucket");
+		
+		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_bucketExpression, "setExpression");
+		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_comparatorExpression, "setComparatorExpression");
 		
 		String measurePattern = dataPattern + "/" + JRXmlConstants.ELEMENT_multiAxisMeasure;
 		digester.addObjectCreate(measurePattern, DesignDataMeasure.class);

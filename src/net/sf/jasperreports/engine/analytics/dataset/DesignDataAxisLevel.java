@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
-import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
@@ -59,7 +58,7 @@ public class DesignDataAxisLevel extends BaseDataAxisLevel
 		getEventSupport().firePropertyChange(PROPERTY_LABEL_EXPRESSION, old, this.labelExpression);
 	}
 	
-	public void setBucket(JRCrosstabBucket bucket)
+	public void setBucket(DataLevelBucket bucket)
 	{
 		Object old = this.bucket;
 		this.bucket = bucket;

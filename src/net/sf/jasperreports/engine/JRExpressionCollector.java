@@ -74,6 +74,7 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
 import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
@@ -1459,9 +1460,8 @@ public class JRExpressionCollector
 	{
 		addExpression(level.getLabelExpression());
 		
-		JRCrosstabBucket bucket = level.getBucket();
+		DataLevelBucket bucket = level.getBucket();
 		datasetCollector.addExpression(bucket.getExpression());
-		// TODO lucianc crosstabCollector.addExpression(bucket.getOrderByExpression());
 		addExpression(bucket.getComparatorExpression());
 	}
 }

@@ -25,7 +25,6 @@ package net.sf.jasperreports.engine.analytics.dataset;
 
 import java.io.Serializable;
 
-import net.sf.jasperreports.crosstabs.JRCrosstabBucket;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -43,7 +42,7 @@ public class BaseDataAxisLevel implements DataAxisLevel, Serializable
 	
 	protected String name;
 	protected JRExpression labelExpression;
-	protected JRCrosstabBucket bucket;
+	protected DataLevelBucket bucket;
 	
 	public BaseDataAxisLevel()
 	{
@@ -55,7 +54,7 @@ public class BaseDataAxisLevel implements DataAxisLevel, Serializable
 		
 		this.name = level.getName();
 		this.labelExpression = factory.getExpression(level.getLabelExpression());
-		this.bucket = factory.getCrosstabBucket(level.getBucket());
+		this.bucket = factory.getDataLevelBucket(level.getBucket());
 	}
 	
 	@Override
@@ -71,7 +70,7 @@ public class BaseDataAxisLevel implements DataAxisLevel, Serializable
 	}
 
 	@Override
-	public JRCrosstabBucket getBucket()
+	public DataLevelBucket getBucket()
 	{
 		return bucket;
 	}

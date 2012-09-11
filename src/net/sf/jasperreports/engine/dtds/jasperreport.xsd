@@ -6978,9 +6978,42 @@ property.
     <element name="labelExpression">
      <complexType mixed="true"/>
     </element>
-    <element ref="jr:bucket"/>
+    <element ref="jr:axisLevelBucket"/>
    </sequence>
    <attribute name="name" type="string" use="required">
+   </attribute>
+  </complexType>
+ </element>
+ 
+ <element name="axisLevelBucket">
+  <complexType>
+   <sequence>
+    <element ref="jr:bucketExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
+   </sequence>
+   <attribute name="class" type="string" use="optional" default="java.lang.String">
+  	<annotation>
+   	 <documentation>Class of the bucket values.</documentation>
+  	</annotation>  
+   </attribute>   
+   <attribute name="order" use="optional" default="Ascending">
+  	<annotation>
+   	 <documentation>The bucket order type.</documentation>
+  	</annotation>
+    <simpleType>
+     <restriction base="string">
+      <enumeration value="Ascending">
+		<annotation>
+		 <documentation>The buckets will be sorted in ascending order by using the specified comparator or by the natural order if no comparator specified.</documentation>
+		</annotation>
+	  </enumeration>
+      <enumeration value="Descending">
+		<annotation>
+		 <documentation>The buckets will be sorted in descending order by using the specified comparator or by the natural order if no comparator specified.</documentation>
+		</annotation>
+	  </enumeration>
+     </restriction>
+    </simpleType>
    </attribute>
   </complexType>
  </element>
