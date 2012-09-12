@@ -310,7 +310,7 @@
       <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
       <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
       <property ref="net.sf.jasperreports.component.type.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.component.{arbitrary_name}.version"/>
+      <property ref="net.sf.jasperreports.component.version.{arbitrary_name}"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.image.dpi"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
@@ -3856,22 +3856,22 @@ the associated property may be written as:
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.component.{arbitrary_name}.version -->
+  <!-- net.sf.jasperreports.component.version.{arbitrary_name} -->
   
-  <configProperty name="net.sf.jasperreports.component.{arbitrary_name}.version">
+  <configProperty name="net.sf.jasperreports.component.version.{arbitrary_name}">
     <description>
 Properties having this prefix are associated with a component version in a given report. The version property has no meaning in the absence 
 of the related <code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> 
 component type property. To give a valid component version, the {arbitrary_name} suffix should be the same for both 
 <code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> and 
-<code>net.sf.jasperreports.component.{arbitrary_name}.version</code> properties.
+<code>net.sf.jasperreports.component.version.{arbitrary_name}</code> properties.
 <br/>
 For instance, for the table component shipped with JR source distribution a valid version is given when both associated properties are written as: 
 <br/>
 <br/>
 <code>&lt;property name="net.sf.jasperreports.component.type.table" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
 <br/>
-<code>&lt;property name="net.sf.jasperreports.component.table.version" value="4.0.0" /&gt;</code>
+<code>&lt;property name="net.sf.jasperreports.component.version.table" value="4.0.0" /&gt;</code>
 <br/>
 <br/>
 If not provided, the component version is considered to be the currently deployed version.
