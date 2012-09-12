@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.html;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -37,12 +38,21 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  * @author Narcis Marcu (narcism@users.sourceforge.net)
  * @version $Id$
  */
-public class HtmlComponentXmlWriter implements ComponentXmlWriter {
+public class HtmlComponentXmlWriter implements ComponentXmlWriter 
+{
 
-	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException {
-		if (component instanceof HtmlComponent) {
+	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
+	{
+		return true;
+	}
+	
+	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
+	{
+		Component component = componentElement.getComponent();
+		if (component instanceof HtmlComponent) 
+		{
 			HtmlComponent htmlComponent = (HtmlComponent) component;
+			ComponentKey componentKey = componentElement.getComponentKey();
 			writeHtmlComponent(htmlComponent, componentKey, reportWriter);
 		}
 	}

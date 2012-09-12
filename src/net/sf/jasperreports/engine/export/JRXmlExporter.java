@@ -91,7 +91,9 @@ import net.sf.jasperreports.engine.type.RenderableTypeEnum;
 import net.sf.jasperreports.engine.type.RunDirectionEnum;
 import net.sf.jasperreports.engine.util.JRValueStringUtils;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
+import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.XmlValueHandlerUtils;
 
@@ -146,6 +148,8 @@ public class JRXmlExporter extends JRAbstractExporter
 	 */
 	protected JRXmlWriteHelper xmlWriter;
 	protected String encoding;
+	protected String version;
+	protected VersionComparator versionComparator = new VersionComparator();
 	
 	protected JRExportProgressMonitor progressMonitor;
 	protected Map<Renderable,String> rendererToImagePathMap;
@@ -422,7 +426,9 @@ public class JRXmlExporter extends JRAbstractExporter
 
 	protected void exportReportToStream(Writer writer) throws JRException, IOException
 	{
-		xmlWriter = new JRXmlWriteHelper(jasperReportsContext, jasperPrint, writer);
+		version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(jasperPrint, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
+		
+		xmlWriter = new JRXmlWriteHelper(writer);
 		
 		xmlWriter.writeProlog(encoding);
 
@@ -686,7 +692,7 @@ public class JRXmlExporter extends JRAbstractExporter
 	protected void exportReportElement(JRPrintElement element) throws IOException
 	{
 		xmlWriter.startElement(JRXmlConstants.ELEMENT_reportElement);
-		if(xmlWriter.isNewerVersionOrEqual(JRConstants.VERSION_4_7_0))
+		if(isNewerVersionOrEqual(JRConstants.VERSION_4_7_0))
 		{
 			xmlWriter.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, element.getUUID() == null ? null : element.getUUID().toString());
 		}
@@ -1234,5 +1240,14 @@ public class JRXmlExporter extends JRAbstractExporter
 	public JRXmlWriteHelper getXmlWriteHelper()
 	{
 		return xmlWriter;
+	}
+
+	
+	/**
+	 *
+	 */
+	protected boolean isNewerVersionOrEqual(String oldVersion)
+	{
+		return versionComparator.compare(version, oldVersion) >= 0;
 	}
 }

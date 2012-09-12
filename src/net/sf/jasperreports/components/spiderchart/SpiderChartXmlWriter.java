@@ -29,6 +29,7 @@ import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.charts.ChartSettings;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRAnchor;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRHyperlinkParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
@@ -88,11 +89,19 @@ public class SpiderChartXmlWriter implements ComponentXmlWriter
 		this.jasperReportsContext = jasperReportsContext;
 	}
 
-	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException
+
+	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
+		return true;//FIXMEVERSION
+	}
+	
+	
+	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
+	{
+		Component component = componentElement.getComponent();
 		SpiderChartComponent spiderChartComponent = (SpiderChartComponent) component;
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		String namespaceURI = componentKey.getNamespace();
 		String schemaLocation = 

@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.ofc;
 
 import java.io.IOException;
 
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentXmlWriter;
@@ -41,11 +42,17 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
 public class PieChartXmlWriter implements ComponentXmlWriter
 {
 
-	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException
+	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter)
 	{
+		return true;
+	}
+	
+	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException
+	{
+		Component component = componentElement.getComponent();
 		PieChartComponent chart = (PieChartComponent) component;
 		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		ComponentKey componentKey = componentElement.getComponentKey();
 		
 		String namespaceURI = componentKey.getNamespace();
 		String schemaLocation = ComponentsEnvironment

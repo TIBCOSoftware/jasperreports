@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,17 +35,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JRPropertiesUtil.PropertySuffix;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.component.ComponentKey;
-import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.type.JREnum;
 import net.sf.jasperreports.engine.type.NamedEnum;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -72,12 +62,6 @@ public class JRXmlWriteHelper
 	private final List<StackElement> elementStack;
 	private StringBuffer buffer;
 	private StackElement lastElement;
-	
-	private final JasperReportsContext jasperReportsContext;
-	private final JRPropertiesHolder propertiesHolder;
-	private final Map<String, String> componentVersions;
-	private final String version;
-	private final VersionComparator versionComparator = new VersionComparator();
 		
 	protected static class Attribute
 	{
@@ -121,18 +105,8 @@ public class JRXmlWriteHelper
 		}
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #JRXmlWriteHelper(JasperReportsContext, JRPropertiesHolder, Writer)}.
-	 */
 	public JRXmlWriteHelper(Writer writer)
 	{
-		this(DefaultJasperReportsContext.getInstance(), null, writer);
-	}
-	
-	public JRXmlWriteHelper(JasperReportsContext jasperReportsContext, JRPropertiesHolder propertiesHolder, Writer writer)
-	{
-		this.jasperReportsContext = jasperReportsContext;
-		this.propertiesHolder = propertiesHolder;
 		this.writer = writer;
 		
 		indents = new ArrayList<char[]>();
@@ -140,9 +114,6 @@ public class JRXmlWriteHelper
 		indent = 0;
 		elementStack = new ArrayList<StackElement>();
 		lastElement = null;
-		
-		componentVersions =  new HashMap<String, String>();
-		version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(propertiesHolder, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
 		
 		clearBuffer();
 	}
@@ -720,140 +691,4 @@ public class JRXmlWriteHelper
 		Matcher matcher = PATTERN_CDATA_CLOSE.matcher(data);
 		return matcher.replaceAll(ESCAPED_CDATA_CLOSE);
 	}
-
-
-	/**
-	 * 
-	 */
-	public String getVersion()
-	{
-		return version;
-	}
-
-
-	/**
-	 * 
-	 */
-	public String getVersion(ComponentKey componentKey)
-	{
-		String type = componentKey.getNamespace() + "|" + componentKey.getName();
-
-		//search for exact component type
-		String version = getVersion(type);
-		if(version == null)
-		{
-			//search for component namespace
-			type = componentKey.getNamespace();
-			version = getVersion(type);
-		}
-
-		if(version != null)
-		{
-			componentVersions.put(type, version);
-		}
-
-		return version;
-	}
-
-
-	/**
-	 * 
-	 */
-	private String getVersion(String type)
-	{
-		String version = componentVersions.get(type);
-
-		if(version == null)
-		{
-			List<PropertySuffix> componentTypeProps = JRPropertiesUtil.getProperties(propertiesHolder, ComponentXmlWriter.PROPERTY_COMPONENT_TYPE_PREFIX);
-			
-			//search for exact component type
-			for(PropertySuffix componentTypePropSuffix : componentTypeProps)
-			{
-				String value = componentTypePropSuffix.getValue();
-				String suffix = componentTypePropSuffix.getSuffix();
-				if (type.equals(value))
-				{
-					version = 
-						JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(
-							propertiesHolder, 
-							ComponentXmlWriter.PROPERTY_COMPONENT_PREFIX + suffix + ComponentXmlWriter.PROPERTY_COMPONENT_VERSION_SUFFIX
-							);
-				}
-				if (version != null)
-				{
-					break;
-				}
-			}
-		}
-		
-		return version;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public boolean isNewerVersionOrEqual(String oldVersion)
-	{
-		return versionComparator.compare(getVersion(), oldVersion) >= 0;
-	}
-
-	
-	/**
-	 * 
-	 */
-	public boolean isNewerVersionOrEqual(ComponentKey componentKey, String oldVersion)
-	{
-		return versionComparator.compare(getVersion(componentKey), oldVersion) >= 0;
-	}
-	
-}
-
-class VersionComparator implements Comparator<String>
-{
-
-	@Override
-	public int compare(String currentVersion, String oldVersion) 
-	{
-		if (oldVersion == null)
-		{
-			throw new IllegalArgumentException("Reference version can't be null.");
-		}
-		
-		if(currentVersion == null || currentVersion.startsWith(oldVersion)) 
-		{
-			return 1;
-		}
-		else 
-		{
-			String[] oldVersionChunks = oldVersion.split("\\.");			
-			String[] currentVersionChunks = currentVersion.split("\\.");	
-			int count = Math.min(oldVersionChunks.length, currentVersionChunks.length);
-			for (int i = 0, old = 0, current = 0; i < count; i++)
-			{
-				try
-				{
-					//numeric comparison
-					old = Integer.valueOf(oldVersionChunks[i]);
-					current = Integer.valueOf(currentVersionChunks[i]);
-					
-					if (current != old)
-					{
-						return current - old;
-					}
-				} 
-				catch (NumberFormatException e)
-				{
-					//string comparison
-					if (currentVersionChunks[i].compareTo(oldVersionChunks[i]) != 0)
-					{
-						return currentVersionChunks[i].compareTo(oldVersionChunks[i]);
-					}
-				}
-			}
-			return currentVersionChunks.length - oldVersionChunks.length;
-		}
-	}
-	
 }

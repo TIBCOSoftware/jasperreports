@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.sort;
 import java.io.IOException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -60,10 +61,19 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 		this.jasperReportsContext = jasperReportsContext;
 	}
 
-	public void writeToXml(ComponentKey componentKey, Component component,
-			JRXmlWriter reportWriter) throws IOException {
+
+	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
+	{
+		return true;//FIXMEVERSION
+	}
+	
+	
+	public void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException 
+	{
+		Component component = componentElement.getComponent();
 		if (component instanceof SortComponent) {
 			SortComponent sortComponent = (SortComponent) component;
+			ComponentKey componentKey = componentElement.getComponentKey();
 			writeSortComponent(sortComponent, componentKey, reportWriter);
 		}
 	}

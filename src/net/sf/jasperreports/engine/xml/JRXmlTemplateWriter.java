@@ -209,7 +209,7 @@ public class JRXmlTemplateWriter extends JRXmlBaseWriter
 	{
 		this.template = template;
 		this.encoding = encoding;
-		useWriter(new JRXmlWriteHelper(out));
+		useWriter(new JRXmlWriteHelper(out), null);//FIXMEVERSION
 	}
 
 	/**

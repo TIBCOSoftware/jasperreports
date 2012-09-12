@@ -25,8 +25,7 @@ package net.sf.jasperreports.engine.component;
 
 import java.io.IOException;
 
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.xml.JRXmlBaseWriter;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
@@ -44,46 +43,20 @@ public interface ComponentXmlWriter
 {
 
 	/**
-	 * Property prefix used by properties associated with a given component. These properties have no meaning in the absence of the related 
-	 * {@link #PROPERTY_COMPONENT_TYPE_PREFIX PROPERTY_COMPONENT_TYPE_PREFIX} property. To specify a valid component property, the prefix of this property 
-	 * should be the same as the suffix of the corresponding {@link #PROPERTY_COMPONENT_TYPE_PREFIX PROPERTY_COMPONENT_TYPE_PREFIX} property.
-	 * 
-	 * @see JRXmlBaseWriter
+	 * Specifies whether this component should be written out. This is useful for versioning.
 	 */
-	public static final String PROPERTY_COMPONENT_PREFIX = JRPropertiesUtil.PROPERTY_PREFIX + "component.";
-
-	/**
-	 * Properties having this prefix are associated with a component type in a given report. Its value contains the component namespace 
-	 * followed by a | separator, followed by the component name.
-	 * <br/>
-	 * For instance, for the table component shipped with JR source distribution the associated property may be written as:
-	 * <br/>
-	 * <code>&lt;property name="net.sf.jasperreports.component.type.1" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
-	 */
-	public static final String PROPERTY_COMPONENT_TYPE_PREFIX = PROPERTY_COMPONENT_PREFIX + "type.";
-
-	/**
-	 * Property suffix associated with a component version in a given report. The prefix for this property should follow the composition rule described for the 
-	 * {@link #PROPERTY_COMPONENT_PREFIX PROPERTY_COMPONENT_PREFIX} property prefix.
-	 * <br/>
-	 * If not provided, the component version is considered to be the currently deployed version of the component. 
-	 * 
-	 * @see JRXmlBaseWriter
-	 */
-	public static final String PROPERTY_COMPONENT_VERSION_SUFFIX = ".version";
+	boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter);
 
 	/**
 	 * Outputs the XML representation of a component.
 	 * 
-	 * @param componentKey the component type key
-	 * @param component the component instance
+	 * @param componentElement the component element
 	 * @param reportWriter the report writer to which output is to be written
 	 * @throws IOException exceptions produced while writing to the
 	 * output stream
 	 * @see ComponentKey#getNamespacePrefix()
 	 * @see JRXmlWriter#getXmlWriteHelper()
 	 */
-	void writeToXml(ComponentKey componentKey, Component component, 
-			JRXmlWriter reportWriter) throws IOException;
+	void writeToXml(JRComponentElement componentElement, JRXmlWriter reportWriter) throws IOException;
 
 }
