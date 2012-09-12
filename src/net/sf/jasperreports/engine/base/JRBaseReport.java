@@ -701,10 +701,14 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 		addBand(pageHeader, bands);
 		addBand(columnHeader, bands);
 
-		for (JRGroup group : mainDataset.getGroups())
+		JRGroup[] groups = mainDataset.getGroups();
+		if (groups != null)
 		{
-			addBands(group.getGroupHeaderSection(), bands);
-			addBands(group.getGroupFooterSection(), bands);
+			for (JRGroup group : groups)
+			{
+				addBands(group.getGroupHeaderSection(), bands);
+				addBands(group.getGroupFooterSection(), bands);
+			}
 		}
 
 		addBands(detailSection, bands);
