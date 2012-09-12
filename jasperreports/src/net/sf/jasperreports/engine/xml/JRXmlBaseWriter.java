@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRStyleContainer;
 import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 
 
@@ -57,15 +58,18 @@ public abstract class JRXmlBaseWriter
 	public static final String PROPERTY_REPORT_VERSION = JRPropertiesUtil.PROPERTY_PREFIX + "report.version";
 
 	protected JRXmlWriteHelper writer;
+	protected String version;
+	protected VersionComparator versionComparator = new VersionComparator();
 	
 	/**
 	 * Sets the XML write helper.
 	 * 
-	 * @param aWriter the XML write helper
+	 * @param writer the XML write helper
 	 */
-	protected void useWriter(JRXmlWriteHelper aWriter)
+	protected void useWriter(JRXmlWriteHelper writer, String version)
 	{
-		this.writer = aWriter;
+		this.writer = writer;
+		this.version = version;
 	}
 	
 	/**
@@ -89,7 +93,7 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
-		if (!writer.isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
+		if (!isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getParagraph().getLineSpacing());
 		}
@@ -222,7 +226,7 @@ public abstract class JRXmlBaseWriter
 	 */
 	public void writeParagraph(JRParagraph paragraph, XmlNamespace namespace) throws IOException
 	{
-		if (paragraph != null && writer.isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
+		if (paragraph != null && isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
 		{
 			writer.startElement(JRXmlConstants.ELEMENT_paragraph, namespace);
 			
@@ -264,6 +268,15 @@ public abstract class JRXmlBaseWriter
 
 			writer.closeElement(true);
 		}
+	}
+
+
+	/**
+	 *
+	 */
+	protected boolean isNewerVersionOrEqual(String oldVersion)
+	{
+		return versionComparator.compare(version, oldVersion) >= 0;
 	}
 
 }

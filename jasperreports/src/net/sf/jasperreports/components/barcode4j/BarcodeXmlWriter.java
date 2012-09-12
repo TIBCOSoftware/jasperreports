@@ -26,13 +26,14 @@ package net.sf.jasperreports.components.barcode4j;
 import java.io.IOException;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
+import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
 import net.sf.jasperreports.engine.util.XmlNamespace;
-import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
+import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
 /**
  * 
@@ -46,12 +47,11 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	private final BarcodeComponent barcodeComponent;
 	private final ComponentKey componentKey;
 	
-	public BarcodeXmlWriter(JRXmlWriter reportWriter, 
-			BarcodeComponent barcode, ComponentKey componentKey)
+	public BarcodeXmlWriter(JRXmlWriter reportWriter, JRComponentElement componentElement)
 	{
 		this.xmlWriteHelper = reportWriter.getXmlWriteHelper();
-		this.barcodeComponent = barcode;
-		this.componentKey = componentKey;
+		this.barcodeComponent = (BarcodeComponent) componentElement.getComponent();
+		this.componentKey = componentElement.getComponentKey();
 	}
 	
 	public void writeBarcode()
