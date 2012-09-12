@@ -52,7 +52,7 @@ import net.sf.jasperreports.engine.xml.JRXmlConstants;
  * 
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: HeaderToolbarParameterContributor.java 5349 2012-05-08 14:25:05Z teodord $
+ * @version $Id$
  */
 public class PropertyStyleProvider implements StyleProvider
 {
