@@ -55,6 +55,7 @@
       <property ref="net.sf.jasperreports.allow.element.negative.width"/>
       <property ref="net.sf.jasperreports.allow.element.negative.y"/>
       <property ref="net.sf.jasperreports.allow.element.overlap"/>
+      <property ref="net.sf.jasperreports.style.{style_property_suffix}"/>
     </content>
   </category>
   
@@ -885,6 +886,101 @@ when the report is configured to check for overlaps.
     <default>true</default>
     <scope>Global | Report</scope>
     <since>3.5.0</since>
+  </configProperty>
+  
+  
+  <!-- net.sf.jasperreports.style.{style_property_suffix} -->
+  
+  <configProperty name="net.sf.jasperreports.style.{style_property_suffix}">
+    <description>
+Properties with this prefix are used in the <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class 
+(which is the default JR implementation of the <api href="net/sf/jasperreports/engine/style/StyleProvider.html">StyleProvider</api> interface) 
+to configure dynamic style features for report elements. If such a property is found at element level, its value will override the related 
+style feature of the element.
+<br/>
+<br/>
+The following style properties are defined in <api href="net/sf/jasperreports/engine/style/PropertyStyleProvider.html">PropertyStyleProvider</api> class: 
+<ul>
+<li>Properties for common style attributes:
+<ul>
+<br/> 
+<li><code>net.sf.jasperreports.style.mode</code></li>
+<li><code>net.sf.jasperreports.style.backcolor</code></li>
+<li><code>net.sf.jasperreports.style.forecolor</code></li>
+<li><code>net.sf.jasperreports.style.fill</code></li>
+<li><code>net.sf.jasperreports.style.radius</code></li>
+<li><code>net.sf.jasperreports.style.scaleImage</code></li>
+<li><code>net.sf.jasperreports.style.hAlign</code></li>
+<li><code>net.sf.jasperreports.style.vAlign</code></li>
+<li><code>net.sf.jasperreports.style.rotation</code></li>
+<li><code>net.sf.jasperreports.style.markup</code></li>
+<li><code>net.sf.jasperreports.style.pattern</code></li>
+<li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>
+<li><code>net.sf.jasperreports.style.fontName</code></li>
+<li><code>net.sf.jasperreports.style.fontSize</code></li>
+<li><code>net.sf.jasperreports.style.isBold</code></li>
+<li><code>net.sf.jasperreports.style.isItalic</code></li>
+<li><code>net.sf.jasperreports.style.isUnderline</code></li>
+<li><code>net.sf.jasperreports.style.isStrikeThrough</code></li>
+<li><code>net.sf.jasperreports.style.pdfFontName</code></li>
+<li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
+<li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for pen style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.pen.lineColor</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for box style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.box.padding</code></li>
+<li><code>net.sf.jasperreports.style.box.topPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.leftPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.rightPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.bottomPadding</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.top.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.left.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.right.pen.lineColor</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineWidth</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineStyle</code></li>
+<li><code>net.sf.jasperreports.style.box.bottom.pen.lineColor</code></li>
+<br/>
+</ul>
+</li>
+<li>Properties for paragraph style attributes:
+<ul>
+<br/>
+<li><code>net.sf.jasperreports.style.paragraph.lineSpacing</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.lineSpacingSize</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.firstLineIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.leftIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.rightIndent</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.spacingBefore</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.spacingAfter</code></li>
+<li><code>net.sf.jasperreports.style.paragraph.tabStopWidth</code></li>
+</ul>
+</li></ul>
+    </description>
+    <api>net/sf/jasperreports/engine/style/PropertyStyleProvider.html#STYLE_PROPERTY_PREFIX</api>
+    <default>N/A</default>
+    <scope>Element</scope>
+    <since>4.8.0</since>
   </configProperty>
   
   
