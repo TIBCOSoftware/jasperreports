@@ -34,6 +34,7 @@ package net.sf.jasperreports.engine.convert;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRElement;
 import net.sf.jasperreports.engine.JRPrintElement;
+import net.sf.jasperreports.engine.component.ComponentDesignConverter;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
@@ -78,11 +79,14 @@ public final class ComponentElementConverter extends ElementConverter
 		{
 			ComponentManager manager = ComponentsEnvironment.getInstance(reportConverter.getJasperReportsContext()).getManager(
 					componentKey);
-			if (manager != null && manager.getDesignConverter() != null)
+			if (manager != null)
 			{
-				// convert using the component converter
-				converted = manager.getDesignConverter().convert(reportConverter, 
-						componentElement);
+				ComponentDesignConverter converter = manager.getDesignConverter(reportConverter.getJasperReportsContext());
+				if (converter != null)
+				{
+					// convert using the component converter
+					converted = converter.convert(reportConverter, componentElement);
+				}
 			}
 		}
 		

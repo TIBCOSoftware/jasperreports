@@ -3078,7 +3078,7 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	{
 		ComponentKey componentKey = componentElement.getComponentKey();
 		ComponentXmlWriter componentXmlWriter = 
-			ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentXmlWriter();
+			ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentXmlWriter(jasperReportsContext);
 		
 		if (componentXmlWriter.isToWrite(componentElement, this))
 		{

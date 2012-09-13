@@ -280,7 +280,7 @@ public class JRVerifier
 		}
 		else
 		{
-			this.expressionCollector = JRExpressionCollector.collector(jasperDesign);
+			this.expressionCollector = JRExpressionCollector.collector(jasperReportsContext, jasperDesign);
 		}
 		
 		allowElementNegativeWidth = JRPropertiesUtil.getInstance(jasperReportsContext).getBooleanProperty(jasperDesign, PROPERTY_ALLOW_ELEMENT_NEGATIVE_WIDTH, false);
@@ -2476,7 +2476,7 @@ public class JRVerifier
 		if (componentKey != null && component != null)
 		{
 			ComponentCompiler compiler = 
-				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentCompiler();
+				ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey).getComponentCompiler(jasperReportsContext);
 			pushCurrentComponentElement(element);
 			try
 			{

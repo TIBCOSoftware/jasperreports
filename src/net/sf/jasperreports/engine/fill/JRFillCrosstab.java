@@ -321,7 +321,7 @@ public class JRFillCrosstab extends JRFillElement implements JRCrosstab, JROrigi
 		retrieveTotal = new boolean[rowGroups.length + 1][columnGroups.length + 1];
 		
 		//FIXME avoid this
-		JRExpressionCollector collector = JRExpressionCollector.collector(filler.getJasperReport(), crosstab);
+		JRExpressionCollector collector = JRExpressionCollector.collector(filler.getJasperReportsContext(), filler.getJasperReport(), crosstab);
 		List<JRExpression> expressions = collector.getExpressions(crosstab);
 		for (Iterator<JRExpression> iter = expressions.iterator(); iter.hasNext();)
 		{

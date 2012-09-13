@@ -47,7 +47,6 @@ import net.sf.jasperreports.components.spiderchart.SpiderChartFillFactory;
 import net.sf.jasperreports.components.table.FillTableFactory;
 import net.sf.jasperreports.components.table.TableCompiler;
 import net.sf.jasperreports.components.table.TableDesignConverter;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
@@ -97,66 +96,64 @@ public class ComponentsExtensionsRegistryFactory implements
 	{
 		final DefaultComponentsBundle bundle = new DefaultComponentsBundle();
 
-		ComponentsXmlHandler xmlHandler = new ComponentsXmlHandler(DefaultJasperReportsContext.getInstance());
-		
 		DefaultComponentXmlParser parser = new DefaultComponentXmlParser();
 		parser.setNamespace(NAMESPACE);
 		parser.setPublicSchemaLocation(XSD_LOCATION);
 		parser.setInternalSchemaResource(XSD_RESOURCE);
-		parser.setDigesterConfigurer(xmlHandler);
+		parser.setDigesterConfigurer(new ComponentsXmlDigesterConfigurer());
 		bundle.setXmlParser(parser);
 		
 		HashMap<String, ComponentManager> componentManagers = new HashMap<String, ComponentManager>();
 		
-		DefaultComponentManager listManager = new DefaultComponentManager();
+		ComponentsManager listManager = new ComponentsManager();
 		listManager.setDesignConverter(new ListDesignConverter());
 		listManager.setComponentCompiler(new ListComponentCompiler());
-		listManager.setComponentXmlWriter(xmlHandler);
+		//listManager.setComponentXmlWriter(xmlHandler);
 		listManager.setComponentFillFactory(new FillListFactory());
 		componentManagers.put(LIST_COMPONENT_NAME, listManager);
 		
-		DefaultComponentManager tableManager = new DefaultComponentManager();
+		ComponentsManager tableManager = new ComponentsManager();
 		tableManager.setDesignConverter(new TableDesignConverter());
 		tableManager.setComponentCompiler(new TableCompiler());
-		tableManager.setComponentXmlWriter(xmlHandler);
+		//tableManager.setComponentXmlWriter(xmlHandler);
 		tableManager.setComponentFillFactory(new FillTableFactory());
 		componentManagers.put(TABLE_COMPONENT_NAME, tableManager);
 		
-		DefaultComponentManager barbecueManager = new DefaultComponentManager();
+		ComponentsManager barbecueManager = new ComponentsManager();
 		barbecueManager.setDesignConverter(new BarbecueDesignConverter());
 		barbecueManager.setComponentCompiler(new BarbecueCompiler());
-		barbecueManager.setComponentXmlWriter(xmlHandler);
+		//barbecueManager.setComponentXmlWriter(xmlHandler);
 		barbecueManager.setComponentFillFactory(new BarbecueFillFactory());
 		componentManagers.put(BARBECUE_COMPONENT_NAME, barbecueManager);
 		
-		DefaultComponentManager barcode4jManager = new DefaultComponentManager();
+		ComponentsManager barcode4jManager = new ComponentsManager();
 		barcode4jManager.setDesignConverter(new BarcodeDesignConverter());
 		barcode4jManager.setComponentCompiler(new BarcodeCompiler());
-		barcode4jManager.setComponentXmlWriter(xmlHandler);
+		//barcode4jManager.setComponentXmlWriter(xmlHandler);
 		barcode4jManager.setComponentFillFactory(new BarcodeFillFactory());
 		for (int i = 0; i < BARCODE4J_COMPONENT_NAMES.length; i++)
 		{
 			componentManagers.put(BARCODE4J_COMPONENT_NAMES[i], barcode4jManager);
 		}
 		
-		DefaultComponentManager spiderChartManager = new DefaultComponentManager();
+		ComponentsManager spiderChartManager = new ComponentsManager();
 		spiderChartManager.setDesignConverter(new SpiderChartDesignConverter());
 		spiderChartManager.setComponentCompiler(new SpiderChartCompiler());
-		spiderChartManager.setComponentXmlWriter(xmlHandler);
+		//spiderChartManager.setComponentXmlWriter(xmlHandler);
 		spiderChartManager.setComponentFillFactory(new SpiderChartFillFactory());
 		componentManagers.put(SPIDERCHART_COMPONENT_NAME, spiderChartManager);
 		
-		DefaultComponentManager mapManager = new DefaultComponentManager();
+		ComponentsManager mapManager = new ComponentsManager();
 		mapManager.setDesignConverter(MapDesignConverter.getInstance());
 		mapManager.setComponentCompiler(new MapCompiler());
-		mapManager.setComponentXmlWriter(xmlHandler);
+		//mapManager.setComponentXmlWriter(xmlHandler);
 		mapManager.setComponentFillFactory(new MapFillFactory());
 		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
 
 		DefaultComponentManager sortManager = new DefaultComponentManager();
 		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
 		sortManager.setComponentCompiler(new SortComponentCompiler());
-		sortManager.setComponentXmlWriter(xmlHandler);
+		//sortManager.setComponentXmlWriter(xmlHandler);
 		sortManager.setComponentFillFactory(new SortComponentFillFactory());
 		componentManagers.put(SORT_COMPONENT_NAME, sortManager);
 		

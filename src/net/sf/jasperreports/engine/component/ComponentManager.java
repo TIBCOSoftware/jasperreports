@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 /**
  * A component manager is the entry point through which the handlers for a
  * single component type can be accessed.
@@ -40,21 +42,21 @@ public interface ComponentManager
 	 * 
 	 * @return the component compiler
 	 */
-	ComponentCompiler getComponentCompiler();
+	ComponentCompiler getComponentCompiler(JasperReportsContext jasperReportsContext);
 
 	/**
 	 * Returns the component XML writer.
 	 * 
 	 * @return the component XML writer
 	 */
-	ComponentXmlWriter getComponentXmlWriter();
+	ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext);
 	
 	/**
 	 * Returns the factory of fill component instances.
 	 * 
 	 * @return the factory of fill component instances
 	 */
-	ComponentFillFactory getComponentFillFactory();
+	ComponentFillFactory getComponentFillFactory(JasperReportsContext jasperReportsContext);
 
 	
 	/**
@@ -67,6 +69,6 @@ public interface ComponentManager
 	 * @return the design component preview converter, or <code>null</code>
 	 * if no such converter exists for the component.
 	 */
-	ComponentDesignConverter getDesignConverter();
+	ComponentDesignConverter getDesignConverter(JasperReportsContext jasperReportsContext);
 	
 }

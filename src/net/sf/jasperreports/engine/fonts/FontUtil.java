@@ -69,15 +69,6 @@ public final class FontUtil
 	
 	/**
 	 *
-	 *
-	private static FontUtil getDefaultInstance()
-	{
-		return new FontUtil(DefaultJasperReportsContext.getInstance());
-	}
-	
-	
-	/**
-	 *
 	 */
 	public static FontUtil getInstance(JasperReportsContext jasperReportsContext)
 	{

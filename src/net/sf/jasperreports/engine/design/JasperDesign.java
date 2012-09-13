@@ -34,6 +34,7 @@ import java.util.UUID;
 
 import net.sf.jasperreports.crosstabs.JRCrosstab;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRDataset;
@@ -967,7 +968,7 @@ public class JasperDesign extends JRBaseReport
 	 */
 	public Collection<JRExpression> getExpressions()
 	{
-		return JRExpressionCollector.collectExpressions(this);
+		return JRExpressionCollector.collectExpressions(DefaultJasperReportsContext.getInstance(), this);
 	}
 
 
