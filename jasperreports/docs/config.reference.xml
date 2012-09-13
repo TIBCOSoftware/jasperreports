@@ -309,8 +309,7 @@
       <property ref="net.sf.jasperreports.awt.ignore.missing.font"/>
       <property ref="net.sf.jasperreports.awt.superscript.fix.enabled"/>
       <property ref="net.sf.jasperreports.big.decimal.minimum.precision"/>
-      <property ref="net.sf.jasperreports.component.type.{arbitrary_name}"/>
-      <property ref="net.sf.jasperreports.component.version.{arbitrary_name}"/>
+      <property ref="net.sf.jasperreports.components.{built_in_component_name}.version"/>
       <property ref="net.sf.jasperreports.file.buffer.os.memory.threshold"/>
       <property ref="net.sf.jasperreports.image.dpi"/>
       <property ref="net.sf.jasperreports.jdk.glyph.fix.text.measurer.attempts"/>
@@ -3838,47 +3837,24 @@ Important note: this property is only effective when Java 1.5 or newer is used. 
   </configProperty>
   
   
-  <!-- net.sf.jasperreports.component.type.{arbitrary_name} -->
+  <!-- net.sf.jasperreports.components.{built_in_component_name}.version -->
   
-  <configProperty name="net.sf.jasperreports.component.type.{arbitrary_name}">
+  <configProperty name="net.sf.jasperreports.components.{built_in_component_name}.version">
     <description>
-Properties having this prefix are associated with a component type in a given report. Its value contains the component namespace 
-followed by a | separator, followed by the component name. For instance, for the table component shipped with JR source distribution 
-the associated property may be written as:
+Properties having this prefix specify the version for the associated built-in component in a given report. Built-in components are those who are shipped as part of the
+JasperReports Library JAR.
+<br/>
+For instance, for the table component shipped with JR distribution, the version is given with a property as follows: 
 <br/>
 <br/>
-<code>&lt;property name="net.sf.jasperreports.component.type.table" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
-    </description>
-    <api>net/sf/jasperreports/engine/component/ComponentXmlWriter.html#PROPERTY_COMPONENT_TYPE_PREFIX</api>
-    <default>N/A</default>
-    <scope>Global | Report</scope>
-    <since>4.8.0</since>
-  </configProperty>
-  
-  
-  <!-- net.sf.jasperreports.component.version.{arbitrary_name} -->
-  
-  <configProperty name="net.sf.jasperreports.component.version.{arbitrary_name}">
-    <description>
-Properties having this prefix are associated with a component version in a given report. The version property has no meaning in the absence 
-of the related <code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> 
-component type property. To give a valid component version, the {arbitrary_name} suffix should be the same for both 
-<code><a href="#net.sf.jasperreports.component.type.{arbitrary_name}">net.sf.jasperreports.component.type.{arbitrary_name}</a></code> and 
-<code>net.sf.jasperreports.component.version.{arbitrary_name}</code> properties.
-<br/>
-For instance, for the table component shipped with JR source distribution a valid version is given when both associated properties are written as: 
+<code>&lt;property name="net.sf.jasperreports.components.table.version" value="4.0.0" /&gt;</code>
 <br/>
 <br/>
-<code>&lt;property name="net.sf.jasperreports.component.type.table" value="http://jasperreports.sourceforge.net/jasperreports/components|table" /&gt;</code>
-<br/>
-<code>&lt;property name="net.sf.jasperreports.component.version.table" value="4.0.0" /&gt;</code>
-<br/>
-<br/>
-If not provided, the component version is considered to be the currently deployed version.
+If not specified, the component version is considered to be the one specified by the <a href="#net.sf.jasperreports.report.version">net.sf.jasperreports.report.version</a>.
     </description>
     <api>net/sf/jasperreports/engine/component/ComponentXmlWriter.html#PROPERTY_COMPONENT_VERSION_PREFIX</api>
     <default>N/A</default>
-    <scope>Global | Report</scope>
+    <scope>Global | Report | Element</scope>
     <since>4.8.0</since>
   </configProperty>
   
