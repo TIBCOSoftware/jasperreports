@@ -58,7 +58,6 @@ public final class ComponentsEnvironment
 			ReferenceMap.WEAK, ReferenceMap.HARD);
 	
 	private JasperReportsContext jasperReportsContext;
-	private static ComponentsEnvironment defaultInstance;
 
 
 	/**
@@ -75,11 +74,7 @@ public final class ComponentsEnvironment
 	 */
 	private static ComponentsEnvironment getDefaultInstance()
 	{
-		if (defaultInstance == null)
-		{
-			defaultInstance = new ComponentsEnvironment(DefaultJasperReportsContext.getInstance());
-		}
-		return defaultInstance;
+		return new ComponentsEnvironment(DefaultJasperReportsContext.getInstance());
 	}
 	
 	

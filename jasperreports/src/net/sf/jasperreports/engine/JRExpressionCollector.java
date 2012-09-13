@@ -74,11 +74,11 @@ import net.sf.jasperreports.crosstabs.JRCrosstabParameter;
 import net.sf.jasperreports.crosstabs.JRCrosstabRowGroup;
 import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
+import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
+import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
-import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
-import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentCompiler;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -100,30 +100,63 @@ import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 public class JRExpressionCollector
 {
 
-	public static JRExpressionCollector collector(JRReport report)
+	public static JRExpressionCollector collector(JasperReportsContext jasperReportsContext, JRReport report)
 	{
-		JRExpressionCollector collector = new JRExpressionCollector(null, report);
+		JRExpressionCollector collector = new JRExpressionCollector(jasperReportsContext, null, report);
 		collector.collect();
 		return collector;
 	}
 
-	public static List<JRExpression> collectExpressions(JRReport report)
+	public static List<JRExpression> collectExpressions(JasperReportsContext jasperReportsContext, JRReport report)
 	{
-		return collector(report).getExpressions();
+		return collector(jasperReportsContext, report).getExpressions();
 	}
 
-	public static JRExpressionCollector collector(JRReport report, JRCrosstab crosstab)
+	public static JRExpressionCollector collector(JasperReportsContext jasperReportsContext, JRReport report, JRCrosstab crosstab)
 	{
-		JRExpressionCollector collector = new JRExpressionCollector(null, report);
+		JRExpressionCollector collector = new JRExpressionCollector(jasperReportsContext, null, report);
 		collector.collect(crosstab);
 		return collector;
 	}
 
-	public static List<JRExpression> collectExpressions(JRReport report, JRCrosstab crosstab)
+	public static List<JRExpression> collectExpressions(JasperReportsContext jasperReportsContext, JRReport report, JRCrosstab crosstab)
 	{
-		return collector(report, crosstab).getExpressions(crosstab);
+		return collector(jasperReportsContext, report, crosstab).getExpressions(crosstab);
 	}
 
+	/**
+	 * @deprecated Replaced by {@link #collector(JasperReportsContext, JRReport)}.
+	 */
+	public static JRExpressionCollector collector(JRReport report)
+	{
+		return collector(DefaultJasperReportsContext.getInstance(), report);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #collectExpressions(JasperReportsContext, JRReport)}.
+	 */
+	public static List<JRExpression> collectExpressions(JRReport report)
+	{
+		return collectExpressions(DefaultJasperReportsContext.getInstance(), report);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #collector(JasperReportsContext, JRReport, JRCrosstab)}.
+	 */
+	public static JRExpressionCollector collector(JRReport report, JRCrosstab crosstab)
+	{
+		return collector(DefaultJasperReportsContext.getInstance(), report, crosstab);
+	}
+
+	/**
+	 * @deprecated Replaced by {@link #collectExpressions(JasperReportsContext, JRReport, JRCrosstab)}.
+	 */
+	public static List<JRExpression> collectExpressions(JRReport report, JRCrosstab crosstab)
+	{
+		return collectExpressions(DefaultJasperReportsContext.getInstance(), report, crosstab);
+	}
+
+	private final JasperReportsContext jasperReportsContext;
 	private final JRReport report;
 	private final JRExpressionCollector parent;
 
@@ -186,8 +219,17 @@ public class JRExpressionCollector
 	private final Set<JRStyle> collectedStyles;
 
 
+	/**
+	 * @deprecated Replaced by {@link #JRExpressionCollector(JasperReportsContext, JRExpressionCollector, JRReport)}.
+	 */
 	protected JRExpressionCollector(JRExpressionCollector parent, JRReport report)
 	{
+		this(DefaultJasperReportsContext.getInstance(), parent, report);
+	}
+	
+	protected JRExpressionCollector(JasperReportsContext jasperReportsContext, JRExpressionCollector parent, JRReport report)
+	{
+		this.jasperReportsContext = jasperReportsContext;
 		this.parent = parent;
 		this.report = report;
 
@@ -321,7 +363,7 @@ public class JRExpressionCollector
 			collector = datasetCollectors.get(datasetName);
 			if (collector == null)
 			{
-				collector = new JRExpressionCollector(this, report);
+				collector = new JRExpressionCollector(jasperReportsContext, this, report);
 				datasetCollectors.put(datasetName, collector);
 			}
 		}
@@ -375,7 +417,7 @@ public class JRExpressionCollector
 			collector = crosstabCollectors.get(crosstab);
 			if (collector == null)
 			{
-				collector = new JRExpressionCollector(this, report);
+				collector = new JRExpressionCollector(jasperReportsContext, this, report);
 				crosstabCollectors.put(crosstab, collector);
 			}
 		}
@@ -1406,9 +1448,9 @@ public class JRExpressionCollector
 		collectElement(componentElement);
 		
 		ComponentKey componentKey = componentElement.getComponentKey();
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
+		ComponentManager manager = ComponentsEnvironment.getInstance(jasperReportsContext).getManager(componentKey);
 		Component component = componentElement.getComponent();
-		manager.getComponentCompiler().collectExpressions(component, this);
+		manager.getComponentCompiler(jasperReportsContext).collectExpressions(component, this);
 	}
 	
 	/**

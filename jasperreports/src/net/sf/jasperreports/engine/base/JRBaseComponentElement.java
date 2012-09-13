@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.engine.base;
 
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -54,8 +55,8 @@ public class JRBaseComponentElement extends JRBaseElement implements
 		
 		componentKey = element.getComponentKey();
 		
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
-		component = manager.getComponentCompiler().toCompiledComponent(
+		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
+		component = manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).toCompiledComponent(
 				element.getComponent(), factory);
 	}
 
@@ -71,8 +72,8 @@ public class JRBaseComponentElement extends JRBaseElement implements
 
 	public void collectExpressions(JRExpressionCollector collector)
 	{
-		ComponentManager manager = ComponentsEnvironment.getComponentManager(componentKey);
-		manager.getComponentCompiler().collectExpressions(component, collector);
+		ComponentManager manager = ComponentsEnvironment.getInstance(DefaultJasperReportsContext.getInstance()).getManager(componentKey);
+		manager.getComponentCompiler(DefaultJasperReportsContext.getInstance()).collectExpressions(component, collector);
 	}
 
 	public void visit(JRVisitor visitor)

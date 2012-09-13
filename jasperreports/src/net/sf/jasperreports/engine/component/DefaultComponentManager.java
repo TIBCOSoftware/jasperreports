@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.component;
 
+import net.sf.jasperreports.engine.JasperReportsContext;
+
 /**
  * A default {@link ComponentManager component manager} implementation.
  * 
@@ -37,7 +39,7 @@ public class DefaultComponentManager implements ComponentManager
 	private ComponentFillFactory componentFillFactory;
 	private ComponentDesignConverter componentDesignConverter;
 
-	public ComponentFillFactory getComponentFillFactory()
+	public ComponentFillFactory getComponentFillFactory(JasperReportsContext jasperReportsContext)
 	{
 		return componentFillFactory;
 	}
@@ -54,7 +56,7 @@ public class DefaultComponentManager implements ComponentManager
 	}
 
 	
-	public ComponentCompiler getComponentCompiler()
+	public ComponentCompiler getComponentCompiler(JasperReportsContext jasperReportsContext)
 	{
 		return componentCompiler;
 	}
@@ -70,7 +72,7 @@ public class DefaultComponentManager implements ComponentManager
 		this.componentCompiler = componentCompiler;
 	}
 	
-	public ComponentXmlWriter getComponentXmlWriter()
+	public ComponentXmlWriter getComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
 		return componentXmlWriter;
 	}
@@ -86,7 +88,7 @@ public class DefaultComponentManager implements ComponentManager
 		this.componentXmlWriter = componentXmlWriter;
 	}
 
-	public ComponentDesignConverter getDesignConverter()
+	public ComponentDesignConverter getDesignConverter(JasperReportsContext jasperReportsContext)
 	{
 		return componentDesignConverter;
 	}
@@ -96,8 +98,7 @@ public class DefaultComponentManager implements ComponentManager
 	 * 
 	 * @param designConverter the design component preview converter
 	 */
-	public void setDesignConverter(
-			ComponentDesignConverter designConverter)
+	public void setDesignConverter(ComponentDesignConverter designConverter)
 	{
 		this.componentDesignConverter = designConverter;
 	}

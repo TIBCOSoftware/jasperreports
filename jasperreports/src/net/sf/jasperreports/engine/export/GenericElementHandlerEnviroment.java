@@ -60,7 +60,6 @@ public final class GenericElementHandlerEnviroment
 			ReferenceMap.WEAK, ReferenceMap.HARD);
 	
 	private JasperReportsContext jasperReportsContext;
-	private static GenericElementHandlerEnviroment defaultInstance;
 
 
 	/**
@@ -77,11 +76,7 @@ public final class GenericElementHandlerEnviroment
 	 */
 	private static GenericElementHandlerEnviroment getDefaultInstance()
 	{
-		if (defaultInstance == null)
-		{
-			defaultInstance = new GenericElementHandlerEnviroment(DefaultJasperReportsContext.getInstance());
-		}
-		return defaultInstance;
+		return new GenericElementHandlerEnviroment(DefaultJasperReportsContext.getInstance());
 	}
 	
 	
