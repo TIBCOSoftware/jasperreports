@@ -47,7 +47,7 @@ public class DefaultJasperReportsContext implements JasperReportsContext
 	/**
 	 * The default properties file.
 	 */
-	private static final String DEFAULT_PROPERTIES_FILE = "jasperreports.properties";
+	public static final String DEFAULT_PROPERTIES_FILE = "jasperreports.properties";
 	
 	/**
 	 * The name of the system property that specifies the properties file name.
