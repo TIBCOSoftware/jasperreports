@@ -456,6 +456,10 @@ public abstract class BucketingService
 		return vals;
 	}
 
+	public MeasureValue[] getZeroUserMeasureValues()
+	{
+		return zeroUserMeasureValues;
+	}
 	
 	/**
 	 * Returns the grand total measure values.

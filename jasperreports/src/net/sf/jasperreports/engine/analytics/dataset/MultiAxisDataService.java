@@ -454,7 +454,13 @@ public class MultiAxisDataService
 			Iterator<Bucket> columnBucketIterator = columnBuckets.iterator();
 			for (int idx = 1; idx < axisLevels.get(Axis.COLUMNS.ordinal()).size(); ++idx)
 			{
-				bucketMap = (BucketMap) bucketValue;// TODO lucianc check null
+				if (bucketValue == null)
+				{
+					// the bucket combination does not exist
+					break;
+				}
+				
+				bucketMap = (BucketMap) bucketValue;
 				if (columnBucketIterator.hasNext())
 				{
 					// if we have a bucket value, descend on the value
@@ -468,8 +474,17 @@ public class MultiAxisDataService
 				}
 			}
 			
-			MeasureValue[] rawValues = (MeasureValue[]) bucketValue;
-			MeasureValue[] values = bucketingService.getUserMeasureValues(rawValues);
+			MeasureValue[] values;
+			if (bucketValue == null)
+			{
+				// the bucket combination does not exist
+				values = bucketingService.getZeroUserMeasureValues();
+			}
+			else
+			{
+				MeasureValue[] rawValues = (MeasureValue[]) bucketValue;
+				values = bucketingService.getUserMeasureValues(rawValues);
+			}
 			
 			List<net.sf.jasperreports.engine.analytics.data.MeasureValue> measureValues = 
 					new ArrayList<net.sf.jasperreports.engine.analytics.data.MeasureValue>(values.length);
@@ -558,7 +573,7 @@ public class MultiAxisDataService
 		@Override
 		public List<? extends AxisLevelNode> getChildren()
 		{
-			if (axisDepth >= axisLevels.get(axis.ordinal()).size())
+			if (axisDepth + 1 >= axisLevels.get(axis.ordinal()).size())
 			{
 				// last level on the axis
 				return Collections.<AxisLevelNode>emptyList();
