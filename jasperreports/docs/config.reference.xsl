@@ -83,6 +83,15 @@
 	font-weight: bold;
 }
 
+.text {
+	font-size: 12px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+
 </style>
 </head>
 <body bgcolor="#FFFFFF">
@@ -296,17 +305,22 @@ piwik_log(piwik_action_name, piwik_idsite, piwik_url);
 
 
 <xsl:template match="text()">
-  <span class="description"><xsl:value-of select="."/></span>
+  <span class="text"><xsl:value-of select="."/></span>
 </xsl:template>
 
 
 <xsl:template match="p/text()">
-  <p><span class="description"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
+  <p><span class="text"><xsl:value-of select="." disable-output-escaping="yes" /></span></p>
 </xsl:template>
 
 
 <xsl:template match="br">
   <br/>
+</xsl:template>
+
+
+<xsl:template match="b">
+  <span class="text bold"><xsl:apply-templates/></span>
 </xsl:template>
 
 
