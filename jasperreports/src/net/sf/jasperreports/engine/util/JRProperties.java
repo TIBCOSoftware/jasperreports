@@ -69,6 +69,7 @@ public final class JRProperties
 {
 	/**
 	 * The default properties file.
+	 * @deprecated Replaced by {@link DefaultJasperReportsContext#DEFAULT_PROPERTIES_FILE}.
 	 */
 	protected static final String DEFAULT_PROPERTIES_FILE = "jasperreports.properties";
 	
@@ -430,6 +431,7 @@ public final class JRProperties
 	public static void setProperty (String key, String value)
 	{
 		properties.put(key, value);
+		DefaultJasperReportsContext.getInstance().setProperty(key, value); // we need to do this because now all JR code is using DefaultJasperReportsContext by default, instead of JRProperties
 	}
 	
 	/**
@@ -440,7 +442,7 @@ public final class JRProperties
 	 */
 	public static void setProperty (String key, boolean value)
 	{
-		properties.put(key, String.valueOf(value));
+		setProperty(key, String.valueOf(value));
 	}
 	
 	/**
