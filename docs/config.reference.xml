@@ -976,9 +976,9 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 </ul>
 </li>
 </ul>
-<b>Note: </b>All the above properties are exclusively used to override features of the element's style, and not to define a 
+<b>Note: All the above properties are exclusively used to override features of the element's style, and not to define a 
 new style in the report. Properties such as <code>net.sf.jasperreports.style.name</code> or <code>net.sf.jasperreports.style.style</code> 
-have no meaning and no effects in this implementation. Conditional styles should be used instead.
+have no meaning and no effects in this implementation. Conditional styles should be used instead.</b>
     </description>
     <api>net/sf/jasperreports/engine/style/PropertyStyleProvider.html#STYLE_PROPERTY_PREFIX</api>
     <default>N/A</default>
