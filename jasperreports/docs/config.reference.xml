@@ -913,7 +913,6 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.vAlign</code></li>
 <li><code>net.sf.jasperreports.style.rotation</code></li>
 <li><code>net.sf.jasperreports.style.markup</code></li>
-<li><code>net.sf.jasperreports.style.pattern</code></li>
 <li><code>net.sf.jasperreports.style.isBlankWhenNull</code></li>
 <li><code>net.sf.jasperreports.style.fontName</code></li>
 <li><code>net.sf.jasperreports.style.fontSize</code></li>
@@ -924,6 +923,7 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.pdfFontName</code></li>
 <li><code>net.sf.jasperreports.style.pdfEncoding</code></li>
 <li><code>net.sf.jasperreports.style.isPdfEmbedded</code></li>
+<li><code>net.sf.jasperreports.style.pattern</code> - the value of this property is overriden by the <code>&lt;patternExpression/&gt;</code>, if present.</li>
 <br/>
 </ul>
 </li>
@@ -974,7 +974,11 @@ The following style properties are defined in <api href="net/sf/jasperreports/en
 <li><code>net.sf.jasperreports.style.paragraph.spacingAfter</code></li>
 <li><code>net.sf.jasperreports.style.paragraph.tabStopWidth</code></li>
 </ul>
-</li></ul>
+</li>
+</ul>
+<b>Note: </b>All the above properties are exclusively used to override features of the element's style, and not to define a 
+new style in the report. Properties such as <code>net.sf.jasperreports.style.name</code> or <code>net.sf.jasperreports.style.style</code> 
+have no meaning and no effects in this implementation. Conditional styles should be used instead.
     </description>
     <api>net/sf/jasperreports/engine/style/PropertyStyleProvider.html#STYLE_PROPERTY_PREFIX</api>
     <default>N/A</default>
