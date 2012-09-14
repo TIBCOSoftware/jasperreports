@@ -272,8 +272,6 @@ public class JRXmlWriter extends JRXmlBaseWriter
 		String encoding
 		) throws JRException
 	{
-		this.report = report;
-		
 		FileOutputStream fos = null;
 
 		try
@@ -363,6 +361,8 @@ public class JRXmlWriter extends JRXmlBaseWriter
 	 */
 	protected void writeReport(JRReport report, String encoding, Writer out) throws IOException
 	{
+		this.report = report;
+		
 		String version = JRPropertiesUtil.getInstance(jasperReportsContext).getProperty(report, JRXmlBaseWriter.PROPERTY_REPORT_VERSION);
 		useWriter(new JRXmlWriteHelper(out), version);
 
