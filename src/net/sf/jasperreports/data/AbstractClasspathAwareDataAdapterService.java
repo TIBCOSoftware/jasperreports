@@ -32,6 +32,7 @@ import java.util.List;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperReportsContext;
+import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.FileResolver;
 import net.sf.jasperreports.engine.util.SimpleFileResolver;
 
@@ -61,8 +62,15 @@ public abstract class AbstractClasspathAwareDataAdapterService extends AbstractD
 	/**
 	 *
 	 */
-	protected ClassLoader getClassLoader()
-	{
+	protected ClassLoader getClassLoader(ClassLoader cloader)
+	{ 
+		Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
+		if(obj != null && obj instanceof ClassLoader)
+			cloader = (ClassLoader)obj ; 
+		return new CompositeClassloader(getPathClassloader(), cloader); 
+	}
+
+	private ClassLoader getPathClassloader() {
 		FileResolver fileResolver = null;//FIXMECONTEXT JRResourcesUtil.getFileResolver(null);
 		if (fileResolver == null)
 		{

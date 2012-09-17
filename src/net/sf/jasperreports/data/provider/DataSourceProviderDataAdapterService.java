@@ -32,7 +32,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -77,13 +76,14 @@ public class DataSourceProviderDataAdapterService extends AbstractClasspathAware
 				
 				try 
 				{
-					ClassLoader cloader = oldThreadClassLoader;
-					Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
-					if(obj != null && obj instanceof ClassLoader)
-						cloader = (ClassLoader)obj ; 
-					Thread.currentThread().setContextClassLoader(
-						new CompositeClassloader(getClassLoader(), cloader)
-						);
+//					ClassLoader cloader = oldThreadClassLoader;
+//					Object obj = getJasperReportsContext().getValue(CURRENT_CLASS_LOADER);
+//					if(obj != null && obj instanceof ClassLoader)
+//						cloader = (ClassLoader)obj ; 
+//					Thread.currentThread().setContextClassLoader(
+//						new CompositeClassloader(getClassLoader(), cloader)
+//						);
+					Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 
 					Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getProviderClass());
 					provider = (JRDataSourceProvider) clazz.newInstance();

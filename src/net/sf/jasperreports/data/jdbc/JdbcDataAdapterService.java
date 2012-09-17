@@ -140,9 +140,7 @@ public class JdbcDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 
 			try 
 			{
-				Thread.currentThread().setContextClassLoader(
-					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
-					);
+				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 				
 				Class<?> clazz = JRClassLoader.loadClassForRealName(jdbcDataAdapter.getDriver());
 				Driver driver = (Driver) clazz.newInstance();
