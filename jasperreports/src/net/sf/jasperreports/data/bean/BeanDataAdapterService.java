@@ -36,7 +36,6 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -78,9 +77,7 @@ public class BeanDataAdapterService extends AbstractClasspathAwareDataAdapterSer
 
 			try 
 			{
-				Thread.currentThread().setContextClassLoader(
-						new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
-						);
+				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 
 				Class<?> clazz = JRClassLoader.loadClassForRealName(beanDataAdapter.getFactoryClass());
 				Method method = clazz.getMethod(beanDataAdapter.getMethodName());

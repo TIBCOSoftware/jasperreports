@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.util.CompositeClassloader;
 import net.sf.jasperreports.engine.util.JRClassLoader;
 
 /**
@@ -76,9 +75,7 @@ public class DataSourceDataAdapterService extends
 
 			try 
 			{
-				Thread.currentThread().setContextClassLoader(
-					new CompositeClassloader(getClassLoader(), oldThreadClassLoader)
-					);
+				Thread.currentThread().setContextClassLoader(getClassLoader(oldThreadClassLoader));
 
 				Class<?> clazz = JRClassLoader.loadClassForRealName(dsDataAdapter.getFactoryClass());
 				Object obj = null;
