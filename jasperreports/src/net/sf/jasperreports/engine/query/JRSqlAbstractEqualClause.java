@@ -43,8 +43,8 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 public abstract class JRSqlAbstractEqualClause implements JRClauseFunction
 {
 	
-	protected static final int POSITION_DB_COLUMN = 1;
-	protected static final int POSITION_PARAMETER = 2;
+	public static final int POSITION_DB_COLUMN = 1;
+	public static final int POSITION_PARAMETER = 2;
 
 	protected JRSqlAbstractEqualClause()
 	{
