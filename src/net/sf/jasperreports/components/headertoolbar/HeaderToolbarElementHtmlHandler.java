@@ -660,12 +660,14 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		private String label;
 		private String uuid;
 		private boolean visible;
+		private boolean interactive;
 		
-		private ColumnInfo(String index, String label, String uuid, boolean visible) {
+		private ColumnInfo(String index, String label, String uuid, boolean visible, boolean interactive) {
 			this.index = index;
 			this.label = label;
 			this.uuid = uuid;
 			this.visible = visible;
+			this.interactive = interactive;
 		}
 		
 		public String getIndex() {
@@ -683,6 +685,10 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 		public boolean getVisible() {
 			return visible;
 		}
+
+		public boolean getInteractive() {
+			return interactive;
+		}
 	}
 
 	private Map<String, ColumnInfo> getAllColumnNames(JRGenericPrintElement element, 
@@ -696,7 +702,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				if (columnName == null || columnName.trim().length() == 0) {
 					columnName = "Column_" + tokens[0];
 				}
-				columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false));
+				columnNames.put(tokens[0], new ColumnInfo(tokens[0], columnName, tokens[1], false, Boolean.valueOf(tokens[2])));
 			}
 		}
 		return columnNames;

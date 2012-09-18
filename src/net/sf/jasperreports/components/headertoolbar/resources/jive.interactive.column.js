@@ -92,7 +92,9 @@ jive.interactive.column = jive.interactive.column || {
         var menu = it.actions.format.actions.showColumns;
         for(i in allColumns) {
             c = allColumns[i];
-           	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
+            if (c.interactive) {
+            	menu.actions[c.uuid] = {label: c.label, fn:'hide', arg:'{"hide":false, "columnUuid": "' + c.uuid + '"}'};
+            }
            	it.allColumnsNo ++;
         }
         it.count = it.dropColumns[tableUuid].length;
@@ -293,10 +295,10 @@ jive.interactive.column = jive.interactive.column || {
         jive.runAction(jive.selected.ie.headerToolbar['sort'+argv[0]+'Btn'].sortData);
     },
     filter: function(){
-        jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title'), ['columnfilter']);
+        jive.ui.dialog.show(jive.i18n.get('column.filter.dialog.title') + ': ' + jive.selected.ie.columnLabel, ['columnfilter']);
     },
     formatHeader: function(){
-        jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title'), ['formatHeader', 'formatCells', 'columnConditionalFormatting']);
+        jive.ui.dialog.show(jive.i18n.get('column.format.dialog.title') + ': ' + jive.selected.ie.columnLabel, ['formatHeader', 'formatCells', 'columnConditionalFormatting']);
     },
     hide: function(args){
     	var it = this, tableUuid = jive.selected.jo.parent('.jrtableframe').data('uuid');
