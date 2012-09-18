@@ -86,6 +86,8 @@ public class JRFillContext
 	
 	private final AtomicInteger fillerIdSeq = new AtomicInteger();
 	private final AtomicInteger fillElementSeq = new AtomicInteger();
+	
+	private Map<String, Object> fillCaches = new HashMap<String, Object>();
 
 	
 	/**
@@ -526,5 +528,15 @@ public class JRFillContext
 	public boolean isCanceled()
 	{
 		return canceled;
+	}
+	
+	public Object getFillCache(String key)
+	{
+		return fillCaches.get(key);
+	}
+	
+	public void setFillCache(String key, Object value)
+	{
+		fillCaches.put(key, value);
 	}
 }
