@@ -1568,4 +1568,9 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 		return filler.getPropertiesUtil().getBooleanProperty(this, 
 				JRStyle.PROPERTY_EVALUATION_TIME_ENABLED, false);
 	}
+	
+	public JRBaseFiller getFiller()
+	{
+		return filler;
+	}
 }

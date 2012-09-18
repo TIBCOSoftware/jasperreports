@@ -35,14 +35,19 @@ import java.text.Bidi;
 import java.text.BreakIterator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.fonts.FontUtil;
 import net.sf.jasperreports.engine.util.JRStyledText;
 import net.sf.jasperreports.engine.util.JRStyledText.Run;
+import net.sf.jasperreports.engine.util.Pair;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,6 +61,9 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	
 	public static final String PROPERTY_MEASURE_EXACT = 
 			JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text.exact";
+	
+	public static final String PROPERTY_ELEMENT_CACHE_SIZE = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "measure.simple.text.element.cache.size";
 
 	public static final String MEASURE_EXACT_ALWAYS = "always";
 	public static final String MEASURE_EXACT_MULTILINE = "multiline";
@@ -69,6 +77,12 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	protected static final int NEXT_BREAK_INDEX_THRESHOLD = 3;
 	protected static final int COMPEX_LAYOUT_START_CHAR = 0x0300;// got this from sun.font.FontUtilities
 	protected static final int COMPEX_LAYOUT_END_CHAR = 0x206F;// got this from sun.font.FontUtilities
+	
+	protected static final String FILL_CACHE_KEY_ELEMENT_FONT_INFOS = 
+			SimpleTextLineWrapper.class.getName() + "#elementFontInfos";
+	
+	protected static final String FILL_CACHE_KEY_GENERAL_FONT_INFOS = 
+			SimpleTextLineWrapper.class.getName() + "#generalFontInfos";
 	
 	protected static final Set<Character.UnicodeBlock> simpleLayoutBlocks;
 	static
@@ -95,11 +109,11 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	private boolean measureSimpleTexts;
 	private boolean measureExact;
 	private boolean measureExactMultiline;
-	private Map<FontKey, FontInfo> fontInfos;
+	private Map<FontKey, ElementFontInfo> fontInfos;
 	
 	private String wholeText;
 	private FontKey fontKey;
-	private FontInfo fontInfo;
+	private ElementFontInfo fontInfo;
 
 	private String paragraphText;
 	private boolean paragraphTruncateAtChar;
@@ -149,7 +163,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 				}
 			}
 
-			fontInfos = new HashMap<FontKey, FontInfo>();
+			fontInfos = new HashMap<FontKey, ElementFontInfo>();
 		}
 	}
 
@@ -220,21 +234,106 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			}
 		}
 		
-		fontKey = new FontKey(family, size.intValue(), style);
-		fontInfo = fontInfos.get(fontKey);//FIXME cache these per report instead of per text element
+		fontKey = new FontKey(family, size.intValue(), style, styledText.getLocale());
+		createFontInfo(run.attributes);
+		
+		return true;
+	}
+
+	protected void createFontInfo(Map<Attribute, Object> textAttributes)
+	{
+		fontInfo = fontInfos.get(fontKey);
+		if (fontInfo != null)
+		{
+			// found in local cache
+			return;
+		}
+		
+		Map<Pair<UUID, FontKey>, ElementFontInfo> elementFontInfos = null;
+		Pair<UUID, FontKey> elementFontKey = null;
+		
+		// look in the fill cache
+		if (context.getElement() instanceof JRFillElement)
+		{
+			JRFillElement fillElement = (JRFillElement) context.getElement();
+			JRFillContext fillContext = fillElement.getFiller().getFillContext();
+			elementFontKey = new Pair<UUID, FontKey>(fillElement.getUUID(), fontKey);
+			
+			elementFontInfos = (Map<Pair<UUID, FontKey>, ElementFontInfo>) fillContext.getFillCache(FILL_CACHE_KEY_ELEMENT_FONT_INFOS);
+			if (elementFontInfos == null)
+			{
+				elementFontInfos = createElementFontInfosFillCache();
+				fillContext.setFillCache(FILL_CACHE_KEY_ELEMENT_FONT_INFOS, elementFontInfos);
+			}
+
+			fontInfo = elementFontInfos.get(elementFontKey);
+		}
+		
 		if (fontInfo == null)
 		{
-			// check bundled fonts
-			FontUtil fontUtil = FontUtil.getInstance(context.getJasperReportsContext());
-			Font font = fontUtil.getAwtFontFromBundles(family, style, size.intValue(), styledText.getLocale(), false);
-			if (font == null)
+			// did not find in the general cache, create the font info
+			// we first need the general font info
+			FontInfo generalFontInfo = getGeneralFontInfo(textAttributes);
+			
+			if (log.isTraceEnabled())
 			{
-				// checking AWT font
-				fontUtil.checkAwtFont(family, context.isIgnoreMissingFont());
-				// creating AWT font
-				font = Font.getFont(run.attributes);
+				log.trace("creating element font info for " + fontKey
+						+ (elementFontKey.first() == null ? "" : (" and element " + elementFontKey.first())));
 			}
 			
+			fontInfo = new ElementFontInfo(generalFontInfo);
+			fontInfos.put(fontKey, fontInfo);
+			
+			if (elementFontInfos != null && elementFontKey.first() != null)//UUID should not be null but check to be sure
+			{
+				elementFontInfos.put(elementFontKey, fontInfo);
+			}
+		}
+	}
+
+	protected HashMap<Pair<UUID, FontKey>, ElementFontInfo> createElementFontInfosFillCache()
+	{
+		final int cacheSize = JRPropertiesUtil.getInstance(context.getJasperReportsContext()).getIntegerProperty(
+				PROPERTY_ELEMENT_CACHE_SIZE, 2000);//hardcoded default
+		if (log.isDebugEnabled())
+		{
+			log.debug("creating element font infos cache of size " + cacheSize);
+		}
+		
+		// creating a LRU map
+		return new LinkedHashMap<Pair<UUID,FontKey>, SimpleTextLineWrapper.ElementFontInfo>(64, 0.75f, true)
+		{
+			@Override
+			protected boolean removeEldestEntry(Entry<Pair<UUID, FontKey>, ElementFontInfo> eldest)
+			{
+				return size() > cacheSize;
+			}
+		};
+	}
+	
+	protected FontInfo getGeneralFontInfo(Map<Attribute, Object> textAttributes)
+	{
+		Map<FontKey, FontInfo> generalFontInfos = null;
+		FontInfo generalFontInfo = null;
+		// look in the fill cache
+		if (context.getElement() instanceof JRFillElement)
+		{
+			JRFillElement fillElement = (JRFillElement) context.getElement();
+			JRFillContext fillContext = fillElement.getFiller().getFillContext();
+			
+			generalFontInfos = (Map<FontKey, FontInfo>) fillContext.getFillCache(FILL_CACHE_KEY_GENERAL_FONT_INFOS);
+			if (generalFontInfos == null)
+			{
+				generalFontInfos = new HashMap<FontKey, FontInfo>();
+				fillContext.setFillCache(FILL_CACHE_KEY_GENERAL_FONT_INFOS, generalFontInfos);
+			}
+			
+			generalFontInfo = generalFontInfos.get(fontKey);			
+		}
+		
+		if (generalFontInfo == null)
+		{
+			Font font = loadFont(textAttributes);
 			boolean complexLayout = determineComplexLayout(font);
 			// computing the leading a single time, assuming that it doesn't change with text
 			//FIXME verify if computing leading for each line is needed
@@ -244,14 +343,34 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 				log.trace("font " + font + " has complex layout " + complexLayout
 						+ ", leading " + leading);
 			}
+
+			generalFontInfo = new FontInfo(font, complexLayout, leading);
 			
-			fontInfo = new FontInfo(font, complexLayout, leading);
-			fontInfos.put(fontKey, fontInfo);
+			if (generalFontInfos != null)
+			{
+				generalFontInfos.put(fontKey, generalFontInfo);
+			}
 		}
 		
-		return true;
+		return generalFontInfo;
 	}
-	
+
+	protected Font loadFont(Map<Attribute, Object> textAttributes)
+	{
+		// check bundled fonts
+		FontUtil fontUtil = FontUtil.getInstance(context.getJasperReportsContext());
+		Font font = fontUtil.getAwtFontFromBundles(fontKey.family, fontKey.style, fontKey.size, fontKey.locale, false);
+		if (font == null)
+		{
+			// checking AWT font
+			fontUtil.checkAwtFont(fontKey.family, context.isIgnoreMissingFont());
+			// creating AWT font
+			// FIXME using the current text attributes might be slightly dangerous as we are sharing font metrics
+			font = Font.getFont(textAttributes);
+		}
+		return font;
+	}
+
 	protected boolean determineComplexLayout(Font font)
 	{
 		// this tries to emulate the tests in Font.getStringBounds()
@@ -328,7 +447,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		// when we have complex text layout or truncating at char,
 		// perform exact break measurement as estimating/guessing could be slower
 		if (measureExact
-				|| fontInfo.complexLayout
+				|| fontInfo.fontInfo.complexLayout
 				|| paragraphTruncateAtChar)
 		{
 			return true;
@@ -408,7 +527,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	{
 		// when missing a character width estimate perform one exact measurement
 		return paragraphMeasureExact
-				|| !hasCharWidthEstimate();
+				|| !fontInfo.hasCharWidthEstimate();
 	}
 	
 	protected TextLine measureExactLine(float width, int endLimit, boolean requireWord)
@@ -429,7 +548,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		//FIXME would it be faster to create and cache a LineBreakMeasurer for the whole paragraph?
 		Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
 		// we only need the font as it includes the size and style
-		attributes.put(TextAttribute.FONT, fontInfo.font);
+		attributes.put(TextAttribute.FONT, fontInfo.fontInfo.font);
 		
 		String textLine = paragraphText.substring(paragraphPosition, endLimit);
 		AttributedString attributedLine = new AttributedString(textLine, attributes);
@@ -543,7 +662,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 
 	protected int estimateBreakIndex(float width, int endLimit)
 	{
-		double avgCharWidth = charWidthEstimate();
+		double avgCharWidth = fontInfo.charWidthEstimate();
 		if ((endLimit - paragraphPosition) * avgCharWidth <= width * FONT_WIDTH_CHECK_FACTOR)
 		{
 			// there are chances that the entire text would fit, let's be optimistic
@@ -582,22 +701,6 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		return estimateIndex;
 	}
 
-	protected boolean hasCharWidthEstimate()
-	{
-		return fontInfo.measurementsCount > 0;
-	}
-
-	protected double charWidthEstimate()
-	{
-		if (fontInfo.measurementsCount <= 0)
-		{
-			throw new IllegalStateException("No measurement available for char width estimate");
-		}
-		
-		double avgCharWidth = fontInfo.characterWidthSum / fontInfo.measurementsCount;
-		return avgCharWidth;
-	}
-
 	protected Rectangle2D measureParagraphFragment(int measureIndex)
 	{
 		int endIndex = measureIndex;
@@ -620,12 +723,11 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		}
 
 		// note that trailing white space will not be included in the advance
-		Rectangle2D bounds = fontInfo.font.getStringBounds(paragraphText, paragraphPosition, endIndex, 
+		Rectangle2D bounds = fontInfo.fontInfo.font.getStringBounds(paragraphText, paragraphPosition, endIndex, 
 				context.getFontRenderContext());
 		
 		// adding the measurement to the font info statistics
-		++fontInfo.measurementsCount;
-		fontInfo.characterWidthSum += bounds.getWidth() / (endIndex - paragraphPosition);
+		fontInfo.recordMeasurement(bounds.getWidth() / (endIndex - paragraphPosition));
 		
 		if (log.isTraceEnabled())
 		{
@@ -640,8 +742,8 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 	{
 		SimpleTextLine textLine = new SimpleTextLine();
 		textLine.setAscent((float) -measuredBounds.getY());
-		textLine.setDescent((float) (measuredBounds.getMaxY() - fontInfo.leading));
-		textLine.setLeading(fontInfo.leading); 
+		textLine.setDescent((float) (measuredBounds.getMaxY() - fontInfo.fontInfo.leading));
+		textLine.setLeading(fontInfo.fontInfo.leading); 
 		textLine.setCharacterCount(measureIndex - paragraphPosition);
 		textLine.setAdvance((float) measuredBounds.getWidth());
 		textLine.setLeftToRight(paragraphLeftToRight);
@@ -698,13 +800,15 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		String family;
 		int size;
 		int style;
+		Locale locale;
 		
-		public FontKey(String family, int size, int style)
+		public FontKey(String family, int size, int style, Locale locale)
 		{
 			super();
 			this.family = family;
 			this.size = size;
 			this.style = style;
+			this.locale = locale;
 		}
 		
 		@Override
@@ -714,6 +818,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			hash = hash*29 + family.hashCode();
 			hash = hash*29 + size;
 			hash = hash*29 + style;
+			hash = hash*29 + locale.hashCode();
 			return hash;
 		}
 		
@@ -721,7 +826,8 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		public boolean equals(Object obj)
 		{
 			FontKey info = (FontKey) obj;
-			return family.equals(info.family) && size == info.size && style == info.style;
+			return family.equals(info.family) && size == info.size && style == info.style
+					&& locale.equals(info.locale);
 		}
 		
 		public String toString()
@@ -738,20 +844,79 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		final Font font;
 		final boolean complexLayout;
 		final float leading;
-		
-		int measurementsCount;
-		double characterWidthSum;
+		final FontStatistics fontStatistics;
 		
 		public FontInfo(Font font, boolean complexLayout, float leading)
 		{
 			this.font = font;
 			this.complexLayout = complexLayout;
 			this.leading = leading;
+			this.fontStatistics = new FontStatistics();
 		}
 		
 		public String toString()
 		{
 			return font.toString();
+		}
+	}
+	
+	protected static class FontStatistics
+	{
+		int measurementsCount;
+		double characterWidthSum;
+		
+		public void recordMeasurement(double avgWidth)
+		{
+			++measurementsCount;
+			characterWidthSum += avgWidth;
+		}
+	}
+	
+	protected static class ElementFontInfo
+	{
+		final FontInfo fontInfo;
+		final FontStatistics fontStatistics;
+		
+		public ElementFontInfo(FontInfo fontInfo)
+		{
+			this.fontInfo = fontInfo;
+			this.fontStatistics = new FontStatistics();
+		}
+		
+		public boolean hasCharWidthEstimate()
+		{
+			return fontStatistics.measurementsCount > 0
+					|| fontInfo.fontStatistics.measurementsCount > 0;
+		}
+
+		public double charWidthEstimate()
+		{
+			double avgCharWidth;
+			if (fontStatistics.measurementsCount > 0)
+			{
+				avgCharWidth = fontStatistics.characterWidthSum / fontStatistics.measurementsCount;
+			}
+			else if (fontInfo.fontStatistics.measurementsCount > 0)
+			{
+				avgCharWidth = fontInfo.fontStatistics.characterWidthSum / fontInfo.fontStatistics.measurementsCount;
+			}
+			else
+			{
+				throw new IllegalStateException("No measurement available for char width estimate");
+			}
+			
+			return avgCharWidth;
+		}
+		
+		public void recordMeasurement(double avgWidth)
+		{
+			fontStatistics.recordMeasurement(avgWidth);
+			fontInfo.fontStatistics.recordMeasurement(avgWidth);
+		}
+		
+		public String toString()
+		{
+			return fontInfo.font.toString();
 		}
 	}
 
