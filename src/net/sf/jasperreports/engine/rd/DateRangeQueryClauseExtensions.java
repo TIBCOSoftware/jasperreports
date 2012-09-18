@@ -46,6 +46,11 @@ public class DateRangeQueryClauseExtensions implements ExtensionsRegistryFactory
 		StandardSingleQueryParameterTypesClauseFunctionBundle typesFunctions = 
 				new StandardSingleQueryParameterTypesClauseFunctionBundle(JRJdbcQueryExecuter.CANONICAL_LANGUAGE);
 		
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLEqualClause.instance(), DateRange.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLNotEqualClause.instance(), DateRange.class));
+		
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_LESS, 
 				new StandardParameterTypesClauseFunction(DateRangeSQLLessOrGreaterClause.instance(), DateRange.class));
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_GREATER, 

@@ -52,11 +52,12 @@ public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFact
 		
 		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, 
 				new ParameterTypeSelectorClauseFunction(JRSqlAbstractEqualClause.POSITION_PARAMETER));
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, 
+				new ParameterTypeSelectorClauseFunction(JRSqlAbstractEqualClause.POSITION_PARAMETER));
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_EQUAL, 
 				new StandardParameterTypesClauseFunction(JRSqlEqualClause.instance(), Object.class));
-		
-		// TODO lucianc change all functions to ParameterTypeSelectorClauseFunction
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, JRSqlNotEqualClause.instance());		
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_NOTEQUAL, 
+				new StandardParameterTypesClauseFunction(JRSqlNotEqualClause.instance(), Object.class));
 		
 		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_LESS, 
 				new ParameterTypeSelectorClauseFunction(JRSqlLessOrGreaterClause.POSITION_PARAMETER));
@@ -75,10 +76,22 @@ public class SQLQueryClauseFunctionsExtensions implements ExtensionsRegistryFact
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, 
 				new StandardParameterTypesClauseFunction(JRSqlLessOrGreaterClause.instance(), Object.class));
 		
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, JRSqlBetweenClause.instance());	
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, JRSqlBetweenClause.instance());	
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, JRSqlBetweenClause.instance());	
-		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, JRSqlBetweenClause.instance());	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, 
+				new ParameterTypeSelectorClauseFunction(JRSqlBetweenClause.POSITION_LEFT_PARAMETER, JRSqlBetweenClause.POSITION_RIGHT_PARAMETER));	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, 
+				new ParameterTypeSelectorClauseFunction(JRSqlBetweenClause.POSITION_LEFT_PARAMETER, JRSqlBetweenClause.POSITION_RIGHT_PARAMETER));	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, 
+				new ParameterTypeSelectorClauseFunction(JRSqlBetweenClause.POSITION_LEFT_PARAMETER, JRSqlBetweenClause.POSITION_RIGHT_PARAMETER));	
+		functions.addFunction(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, 
+				new ParameterTypeSelectorClauseFunction(JRSqlBetweenClause.POSITION_LEFT_PARAMETER, JRSqlBetweenClause.POSITION_RIGHT_PARAMETER));	
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, 
+				new StandardParameterTypesClauseFunction(JRSqlBetweenClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, 
+				new StandardParameterTypesClauseFunction(JRSqlBetweenClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, 
+				new StandardParameterTypesClauseFunction(JRSqlBetweenClause.instance(), Object.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, 
+				new StandardParameterTypesClauseFunction(JRSqlBetweenClause.instance(), Object.class));
 		
 		registry = new ListExtensionsRegistry();
 		registry.add(QueryClauseFunctionBundle.class, functions);
