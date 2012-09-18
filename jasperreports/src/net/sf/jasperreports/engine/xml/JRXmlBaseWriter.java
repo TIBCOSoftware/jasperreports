@@ -93,7 +93,7 @@ public abstract class JRXmlBaseWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_hAlign, style.getOwnHorizontalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_vAlign, style.getOwnVerticalAlignmentValue());
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_rotation, style.getOwnRotationValue());
-		if (!isNewerVersionOrEqual(JRConstants.VERSION_4_0_2))
+		if (isOlderVersionThan(JRConstants.VERSION_4_0_2))
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_lineSpacing, style.getParagraph().getLineSpacing());
 		}
@@ -158,10 +158,18 @@ public abstract class JRXmlBaseWriter
 	 * @param style the conditional style
 	 * @throws IOException
 	 */
+	@SuppressWarnings("deprecation")
 	protected void writeConditionalStyle(JRConditionalStyle style) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
-		writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
+		if (isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
+		{
+			writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
+		}
+		else
+		{
+			writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
+		}
 		writeStyle(style);
 		writer.closeElement();
 	}
@@ -277,6 +285,14 @@ public abstract class JRXmlBaseWriter
 	protected boolean isNewerVersionOrEqual(String oldVersion)
 	{
 		return versionComparator.compare(version, oldVersion) >= 0;
+	}
+	
+	/**
+	 *
+	 */
+	protected boolean isOlderVersionThan(String version)
+	{
+		return versionComparator.compare(this.version, version) < 0;
 	}
 
 }
