@@ -46,6 +46,7 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -109,17 +110,27 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		}
 		else if (component instanceof BarcodeComponent)
 		{
-			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(reportWriter, componentElement);
+			BarcodeXmlWriter barcodeWriter = new BarcodeXmlWriter(
+													reportWriter, 
+													componentElement, 
+													getVersion(componentElement, reportWriter), 
+													versionComparator);
 			barcodeWriter.writeBarcode();
 		}
 		else if (component instanceof SpiderChartComponent)
 		{
-			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(jasperReportsContext);
+			SpiderChartXmlWriter spiderChartWriter = new SpiderChartXmlWriter(
+															jasperReportsContext, 
+															getVersion(componentElement, reportWriter), 
+															versionComparator);
 			spiderChartWriter.writeToXml(componentElement, reportWriter);
 		}
 		else if (component instanceof SortComponent)
 		{
-			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(jasperReportsContext);
+			SortComponentXmlWriter sortWriter = new SortComponentXmlWriter(
+														jasperReportsContext, 
+														getVersion(componentElement, reportWriter), 
+														versionComparator);
 			sortWriter.writeToXml(componentElement, reportWriter);
 		}
 		else if (component instanceof MapComponent)
@@ -141,7 +152,10 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 				ComponentsExtensionsRegistryFactory.XSD_LOCATION);
 		
 		writer.startElement("list", namespace);
-		writer.addAttribute("printOrder", list.getPrintOrderValue());
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_6_1))
+		{
+			writer.addAttribute("printOrder", list.getPrintOrderValue());
+		}
 		writer.addAttribute("ignoreWidth", list.getIgnoreWidth()); 
 		reportWriter.writeDatasetRun(list.getDatasetRun());
 		
@@ -186,10 +200,8 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				barcode.getEvaluationGroup());
 
-		writer.writeExpression("codeExpression", 
-				barcode.getCodeExpression());
-		writer.writeExpression("applicationIdentifierExpression", 
-				barcode.getApplicationIdentifierExpression());
+		writeExpression("codeExpression", barcode.getCodeExpression(), false, componentElement, reportWriter);
+		writeExpression("applicationIdentifierExpression", barcode.getApplicationIdentifierExpression(), false, componentElement, reportWriter);
 		
 		writer.closeElement();
 	}
@@ -252,19 +264,19 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 				try
 				{
 					writer.startElement("column");
-					if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_7_0))
-					{
-						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
-					}
 					writer.addAttribute("width", column.getWidth());
 					if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_6_0))
 					{
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, column.getUUID().toString());
 						reportWriter.writeProperties(column);
 						reportWriter.writePropertyExpressions(column.getPropertyExpressions());
 					}
-					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+					writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
-							column.getPrintWhenExpression());
+							column.getPrintWhenExpression(),
+							false, 
+							componentElement,
+							reportWriter);
 					writeTableCell(componentElement, column.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(componentElement, column.getTableFooter(), "tableFooter", reportWriter);
 					writeGroupCells(componentElement, column.getGroupHeaders(), "groupHeader", reportWriter);
@@ -287,19 +299,19 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 				try
 				{
 					writer.startElement("columnGroup");
-					if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_7_0))
-					{
-						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
-					}
 					writer.addAttribute("width", columnGroup.getWidth());
 					if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_6_0))
 					{
+						writer.addEncodedAttribute(JRXmlConstants.ATTRIBUTE_uuid, columnGroup.getUUID().toString());
 						reportWriter.writeProperties(columnGroup);
 						reportWriter.writePropertyExpressions(columnGroup.getPropertyExpressions());
 					}
-					writer.writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
+					writeExpression(JRXmlConstants.ELEMENT_printWhenExpression, 
 							JRXmlWriter.JASPERREPORTS_NAMESPACE, 
-							columnGroup.getPrintWhenExpression());
+							columnGroup.getPrintWhenExpression(),
+							false, 
+							componentElement,
+							reportWriter);
 					writeTableCell(componentElement, columnGroup.getTableHeader(), "tableHeader", reportWriter);
 					writeTableCell(componentElement, columnGroup.getTableFooter(), "tableFooter", reportWriter);
 					writeGroupCells(componentElement, columnGroup.getGroupHeaders(), "groupHeader", reportWriter);
@@ -374,15 +386,33 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
 		ComponentKey componentKey = componentElement.getComponentKey();
-		if (
-			ComponentsExtensionsRegistryFactory.NAMESPACE.equals(componentKey.getNamespace())
-			&& ComponentsExtensionsRegistryFactory.MAP_COMPONENT_NAME.equals(componentKey.getName())
-			)
+		if (ComponentsExtensionsRegistryFactory.NAMESPACE.equals(componentKey.getNamespace()))
 		{
-			return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
+			if(ComponentsExtensionsRegistryFactory.SORT_COMPONENT_NAME.equals(componentKey.getName())
+					|| ComponentsExtensionsRegistryFactory.MAP_COMPONENT_NAME.equals(componentKey.getName()))
+			{
+				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1);
+			}
+			else if(ComponentsExtensionsRegistryFactory.SPIDERCHART_COMPONENT_NAME.equals(componentKey.getName()))
+			{
+				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_4);
+			}
+			else if(ComponentsExtensionsRegistryFactory.TABLE_COMPONENT_NAME.equals(componentKey.getName()))
+			{
+				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_7_2);
+			}
+			else if(ComponentsExtensionsRegistryFactory.LIST_COMPONENT_NAME.equals(componentKey.getName()))
+			{
+				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_1);
+			}
+			else if(ComponentsExtensionsRegistryFactory.BARBECUE_COMPONENT_NAME.equals(componentKey.getName())
+					|| isBarcode4jName(componentKey.getName()))
+			{
+				return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_3_5_2);
+			}
 		}
-		//we don't go further than 4.0.0 for now
-		return isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_0_0);
+
+		return true;
 	}
 	
 	
@@ -416,4 +446,42 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		return versionComparator.compare(getVersion(componentElement, reportWriter), oldVersion) >= 0;
 	}
 
+	protected boolean isBarcode4jName(String name)
+	{
+		for (String barcode4jName : ComponentsExtensionsRegistryFactory.BARCODE4J_COMPONENT_NAMES)
+		{
+			if(barcode4jName.equals(name)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected void writeExpression(String name, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
+	{
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
+		{
+			writer.writeExpression(name, expression);
+		}
+		else
+		{
+			writer.writeExpression(name, expression, writeClass);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRComponentElement componentElement, JRXmlWriter reportWriter)  throws IOException
+	{
+		JRXmlWriteHelper writer = reportWriter.getXmlWriteHelper();
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_1_1))
+		{
+			writer.writeExpression(name, namespace, expression);
+		}
+		else
+		{
+			writer.writeExpression(name, namespace, expression, writeClass);
+		}
+	}
 }

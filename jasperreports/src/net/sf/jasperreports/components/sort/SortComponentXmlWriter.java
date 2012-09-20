@@ -27,6 +27,8 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentKey;
@@ -34,6 +36,7 @@ import net.sf.jasperreports.engine.component.ComponentXmlWriter;
 import net.sf.jasperreports.engine.component.ComponentsEnvironment;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 
@@ -43,7 +46,12 @@ import net.sf.jasperreports.engine.xml.JRXmlWriter;
  */
 public class SortComponentXmlWriter implements ComponentXmlWriter 
 {
+	// used for versioning backward compatibility only
+	public static final String PROPERTY_HANDLER_FONT_SIZE = "handlerFontSize";
+	
 	private JasperReportsContext jasperReportsContext;
+	private final String version;
+	private final VersionComparator versionComparator;
 	
 	/**
 	 * @deprecated Replaced by {@link #SortComponentXmlWriter(JasperReportsContext)}.
@@ -58,13 +66,21 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 	 */
 	public SortComponentXmlWriter(JasperReportsContext jasperReportsContext)
 	{
+		this(jasperReportsContext, null, new VersionComparator());
+	}
+	
+	
+	public SortComponentXmlWriter(JasperReportsContext jasperReportsContext, String version, VersionComparator versionComparator)
+	{
 		this.jasperReportsContext = jasperReportsContext;
+		this.version = version;
+		this.versionComparator = versionComparator;
 	}
 
 
 	public boolean isToWrite(JRComponentElement componentElement, JRXmlWriter reportWriter) 
 	{
-		return true;//FIXMEVERSION
+		return isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1);
 	}
 	
 	
@@ -90,25 +106,60 @@ public class SortComponentXmlWriter implements ComponentXmlWriter
 		
 		writer.startElement("sort", componentNamespace);
 		
-		
+		if(isOlderVersionThan(version, JRConstants.VERSION_4_1_3))
+		{
+			writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
+			writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
+			writer.addAttribute(PROPERTY_HANDLER_FONT_SIZE, sortComponent.getSymbolFont().getFontSize());
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalAlign());
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign());
+		}
 		if (sortComponent.getEvaluationTime() != EvaluationTimeEnum.NOW) {
 			writer.addAttribute(SortComponent.PROPERTY_EVALUATION_TIME, sortComponent.getEvaluationTime());
 		}
 		writer.addAttribute(SortComponent.PROPERTY_EVALUATION_GROUP, sortComponent.getEvaluationGroup());
 		
-		// write symbol settings
-		writer.startElement("symbol");
-		if (sortComponent.getHandlerColor() != null)
+		if(isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_3))
 		{
-			writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
+			// write symbol settings
+			writer.startElement("symbol");
+			if (sortComponent.getHandlerColor() != null)
+			{
+				writer.addAttribute(SortComponent.PROPERTY_HANDLER_COLOR, sortComponent.getHandlerColor());
+			}
+			writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
+			writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalAlign());
+			writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign());
+			reportWriter.writeFont(sortComponent.getSymbolFont());
+			writer.closeElement();
 		}
-		writer.addAttribute(SortComponent.PROPERTY_COLUMN_TYPE, sortComponent.getSortFieldType());
-		writer.addAttribute(SortComponent.PROPERTY_COLUMN_NAME, sortComponent.getSortFieldName());
-		writer.addAttribute(SortComponent.PROPERTY_HANDLER_HORIZONTAL_ALIGN, sortComponent.getHandlerHorizontalAlign());
-		writer.addAttribute(SortComponent.PROPERTY_HANDLER_VERTICAL_ALIGN, sortComponent.getHandlerVerticalAlign());
-		reportWriter.writeFont(sortComponent.getSymbolFont());
-		writer.closeElement();
 
 		writer.closeElement();
 	}
+	
+	protected boolean isNewerVersionOrEqual(String currentVersion, String oldVersion) 
+	{
+		return versionComparator.compare(currentVersion, oldVersion) >= 0;
+	}
+	
+	protected boolean isOlderVersionThan(String currentVersion, String version) 
+	{
+		return versionComparator.compare(currentVersion, version) < 0;
+	}
+
+	@SuppressWarnings("deprecation")
+	protected void writeExpression(String name, XmlNamespace namespace, JRExpression expression, boolean writeClass, JRXmlWriteHelper writer)  throws IOException
+	{
+		if(isNewerVersionOrEqual(version, JRConstants.VERSION_4_1_1))
+		{
+			writer.writeExpression(name, namespace, expression);
+		}
+		else
+		{
+			writer.writeExpression(name, namespace, expression, writeClass);
+		}
+	}
+	
 }
