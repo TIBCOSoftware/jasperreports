@@ -27,10 +27,13 @@ import java.io.IOException;
 
 import net.sf.jasperreports.components.ComponentsExtensionsRegistryFactory;
 import net.sf.jasperreports.engine.JRComponentElement;
+import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.component.ComponentKey;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.util.JRXmlWriteHelper;
+import net.sf.jasperreports.engine.util.VersionComparator;
 import net.sf.jasperreports.engine.util.XmlNamespace;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -46,12 +49,21 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	private final JRXmlWriteHelper xmlWriteHelper;
 	private final BarcodeComponent barcodeComponent;
 	private final ComponentKey componentKey;
+	private final String version;
+	private final VersionComparator versionComparator;
 	
 	public BarcodeXmlWriter(JRXmlWriter reportWriter, JRComponentElement componentElement)
+	{
+		this(reportWriter, componentElement, null, new VersionComparator());
+	}
+	
+	public BarcodeXmlWriter(JRXmlWriter reportWriter, JRComponentElement componentElement, String version, VersionComparator versionComparator)
 	{
 		this.xmlWriteHelper = reportWriter.getXmlWriteHelper();
 		this.barcodeComponent = (BarcodeComponent) componentElement.getComponent();
 		this.componentKey = componentElement.getComponentKey();
+		this.version = version;
+		this.versionComparator = versionComparator;
 	}
 	
 	public void writeBarcode()
@@ -93,10 +105,8 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 	
 	protected void writeBaseContents(BarcodeComponent barcode) throws IOException
 	{
-		xmlWriteHelper.writeExpression("codeExpression", 
-				barcode.getCodeExpression());
-		xmlWriteHelper.writeExpression("patternExpression", 
-				barcode.getPatternExpression());
+		writeExpression("codeExpression", barcode.getCodeExpression(), false);
+		writeExpression("patternExpression", barcode.getPatternExpression(), false);
 	}
 	
 	public void visitCodabar(CodabarComponent codabar)
@@ -333,5 +343,19 @@ public class BarcodeXmlWriter implements BarcodeVisitor
 			throw new JRRuntimeException(e);
 		}
 	}
+	
+	@SuppressWarnings("deprecation")
+	protected void writeExpression(String name, JRExpression expression, boolean writeClass)  throws IOException
+	{
+		if(versionComparator.compare(version, JRConstants.VERSION_4_1_1) >= 0 )
+		{
+			xmlWriteHelper.writeExpression(name, expression);
+		}
+		else
+		{
+			xmlWriteHelper.writeExpression(name, expression, writeClass);
+		}
+	}
+	
 
 }
