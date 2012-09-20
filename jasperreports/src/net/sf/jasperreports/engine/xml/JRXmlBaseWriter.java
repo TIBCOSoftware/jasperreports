@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import net.sf.jasperreports.engine.JRConditionalStyle;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPen;
@@ -158,18 +159,10 @@ public abstract class JRXmlBaseWriter
 	 * @param style the conditional style
 	 * @throws IOException
 	 */
-	@SuppressWarnings("deprecation")
 	protected void writeConditionalStyle(JRConditionalStyle style) throws IOException
 	{
 		writer.startElement(JRXmlConstants.ELEMENT_conditionalStyle);
-		if (isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
-		{
-			writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression());
-		}
-		else
-		{
-			writer.writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
-		}
+		writeExpression(JRXmlConstants.ELEMENT_conditionExpression, style.getConditionExpression(), false);
 		writeStyle(style);
 		writer.closeElement();
 	}
@@ -293,6 +286,19 @@ public abstract class JRXmlBaseWriter
 	protected boolean isOlderVersionThan(String version)
 	{
 		return versionComparator.compare(this.version, version) < 0;
+	}
+	
+	@SuppressWarnings("deprecation")
+	protected void writeExpression(String name, JRExpression expression, boolean writeClass)  throws IOException
+	{
+		if(isNewerVersionOrEqual(JRConstants.VERSION_4_1_1))
+		{
+			writer.writeExpression(name, expression);
+		}
+		else
+		{
+			writer.writeExpression(name, expression, writeClass);
+		}
 	}
 
 }
