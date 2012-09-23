@@ -150,7 +150,7 @@ public class ComponentsExtensionsRegistryFactory implements
 		mapManager.setComponentFillFactory(new MapFillFactory());
 		componentManagers.put(MAP_COMPONENT_NAME, mapManager);
 
-		DefaultComponentManager sortManager = new DefaultComponentManager();
+		ComponentsManager sortManager = new ComponentsManager();
 		sortManager.setDesignConverter(SortComponentDesignConverter.getInstance());
 		sortManager.setComponentCompiler(new SortComponentCompiler());
 		//sortManager.setComponentXmlWriter(xmlHandler);
