@@ -2,7 +2,7 @@
 JasperReports Library Change Log
 ===================================
 
-JasperReports 4.7.1 (2012-09-22, SVN 5673)
+JasperReports 4.7.1 (2012-09-22, SVN 5678)
 ---------------------------------------------
 
 - improved performance for the newly introduced Javascript report compiler;
