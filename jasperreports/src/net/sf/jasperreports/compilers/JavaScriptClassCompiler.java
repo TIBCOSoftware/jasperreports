@@ -95,7 +95,7 @@ public class JavaScriptClassCompiler extends JavaScriptCompilerBase
 	}
 
 	/**
-	 * @deprecated Replaced by {@link #JavaScriptCompiler(JasperReportsContext)}.
+	 * @deprecated Replaced by {@link #JavaScriptClassCompiler(JasperReportsContext)}.
 	 */
 	public JavaScriptClassCompiler()
 	{
