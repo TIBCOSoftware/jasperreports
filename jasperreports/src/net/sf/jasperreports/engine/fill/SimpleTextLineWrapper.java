@@ -818,7 +818,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			hash = hash*29 + family.hashCode();
 			hash = hash*29 + size;
 			hash = hash*29 + style;
-			hash = hash*29 + locale.hashCode();
+			hash = hash*29 + (locale == null ? 0 : locale.hashCode());
 			return hash;
 		}
 		
@@ -827,7 +827,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 		{
 			FontKey info = (FontKey) obj;
 			return family.equals(info.family) && size == info.size && style == info.style
-					&& locale.equals(info.locale);
+					&& ((locale == null) ? (info.locale == null) : (info.locale != null && locale.equals(info.locale)));
 		}
 		
 		public String toString()
