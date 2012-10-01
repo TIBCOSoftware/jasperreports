@@ -2488,7 +2488,7 @@ public class JRXhtmlExporter extends JRAbstractExporter
 						+ element.getGenericType());
 			}
 		}
-		else
+		else if (handler.toExport(element))
 		{
 //			writer.write("<div");
 //
