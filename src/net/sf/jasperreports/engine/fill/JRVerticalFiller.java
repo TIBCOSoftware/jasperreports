@@ -129,6 +129,13 @@ public class JRVerticalFiller extends JRBaseFiller
 		{
 			lastPageColumnFooterOffsetY -= columnFooter.getHeight();
 		}
+		
+		if (log.isDebugEnabled())
+		{
+			log.debug("Filler " + fillerId + " - pageHeight: " + pageHeight
+					+ ", columnFooterOffsetY: " + columnFooterOffsetY
+					+ ", lastPageColumnFooterOffsetY: " + lastPageColumnFooterOffsetY);
+		}
 	}
 
 
@@ -320,7 +327,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	 {
 		if (log.isDebugEnabled() && !title.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": title");
+			log.debug("Fill " + fillerId + ": title at " + offsetY);
 		}
 
 		title.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
@@ -396,7 +403,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !pageHeader.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": page header");
+			log.debug("Fill " + fillerId + ": page header at " + offsetY);
 		}
 
 		setNewPageColumnInBands();
@@ -475,7 +482,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !columnHeader.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": column header");
+			log.debug("Fill " + fillerId + ": column header at " + offsetY);
 		}
 
 		setNewPageColumnInBands();
@@ -577,7 +584,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (log.isDebugEnabled() && !groupHeaderSection.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": " + group.getName() + " header");
+			log.debug("Fill " + fillerId + ": " + group.getName() + " header at " + offsetY);
 		}
 
 		byte evalPrevPage = (group.isTopLevelChange()?JRExpression.EVALUATION_OLD:JRExpression.EVALUATION_DEFAULT);
@@ -721,7 +728,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !detailSection.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": detail");
+			log.debug("Fill " + fillerId + ": detail at " + offsetY);
 		}
 
 		if (!detailSection.areAllPrintWhenExpressionsNull())
@@ -914,7 +921,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (log.isDebugEnabled() && !groupFooterSection.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": " + group.getName() + " footer");
+			log.debug("Fill " + fillerId + ": " + group.getName() + " footer at " + offsetY);
 		}
 
 		JRFillBand[] groupFooterBands = groupFooterSection.getFillBands();
@@ -960,7 +967,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	 {
 		if (log.isDebugEnabled() && !columnFooter.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": column footer");
+			log.debug("Fill " + fillerId + ": column footer at " + offsetY);
 		}
 
 		setOffsetX();
@@ -1006,7 +1013,7 @@ public class JRVerticalFiller extends JRBaseFiller
 
 		if (log.isDebugEnabled() && !crtPageFooter.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": " + (isLastPageFooter ? "last " : "") + "page footer");
+			log.debug("Fill " + fillerId + ": " + (isLastPageFooter ? "last " : "") + "page footer at " + offsetY);
 		}
 
 		offsetX = leftMargin;
@@ -1032,7 +1039,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !summary.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": summary");
+			log.debug("Fill " + fillerId + ": summary at " + offsetY);
 		}
 
 		offsetX = leftMargin;
@@ -1799,7 +1806,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !background.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": background");
+			log.debug("Fill " + fillerId + ": background at " + offsetY);
 		}
 
 		//offsetX = leftMargin;
@@ -2193,7 +2200,7 @@ public class JRVerticalFiller extends JRBaseFiller
 	{
 		if (log.isDebugEnabled() && !noData.isEmpty())
 		{
-			log.debug("Fill " + fillerId + ": noData");
+			log.debug("Fill " + fillerId + ": noData at " + offsetY);
 		}
 
 		noData.evaluatePrintWhenExpression(JRExpression.EVALUATION_DEFAULT);
