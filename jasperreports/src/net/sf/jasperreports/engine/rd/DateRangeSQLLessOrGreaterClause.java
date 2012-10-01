@@ -63,12 +63,12 @@ public class DateRangeSQLLessOrGreaterClause extends SQLLessOrGreaterBaseClause
 		
 		boolean useRangeStart;
 		if (JRJdbcQueryExecuter.CLAUSE_ID_LESS.equals(clauseId) 
-				|| JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL.equals(clauseId))
+				|| JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL.equals(clauseId))
 		{
 			useRangeStart = true;
 		}
 		else if (JRJdbcQueryExecuter.CLAUSE_ID_GREATER.equals(clauseId) 
-				|| JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL.equals(clauseId))
+				|| JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL.equals(clauseId))
 		{
 			useRangeStart = false;
 		}
