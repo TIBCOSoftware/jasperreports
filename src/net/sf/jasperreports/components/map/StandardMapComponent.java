@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -49,12 +50,14 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_ZOOM_EXPRESSION = "zoomExpression";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
+	public static final String PROPERTY_MAP_TYPE = "mapType";
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
 	private JRExpression zoomExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
+	private String mapType = MapTypeEnum.ROADMAP.getNameUpper();
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -69,6 +72,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
+		this.mapType = map.getMapType() == null ? null : map.getMapType().toUpperCase();
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -162,6 +166,16 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
 		clone.eventSupport = null;
 		return clone;
+	}
+
+	public String getMapType() {
+		return mapType;
+	}
+
+	public void setMapType(String mapType) {
+		Object old = this.mapType;
+		this.mapType = (mapType == null ? mapType : mapType.toUpperCase());
+		getEventSupport().firePropertyChange(PROPERTY_MAP_TYPE, old, this.mapType);
 	}
 
 }

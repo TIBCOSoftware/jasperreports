@@ -226,7 +226,13 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 				map.getEvaluationTime());
 		}
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
-			map.getEvaluationGroup());
+				map.getEvaluationGroup());
+
+		if(map.getMapType() != null && isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0) )
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, 
+					map.getMapType().toLowerCase());
+		}
 
 		writer.writeExpression("latitudeExpression", 
 			map.getLatitudeExpression());

@@ -41,6 +41,7 @@ import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
 import net.sf.jasperreports.components.map.StandardMapComponent;
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignCell;
@@ -215,6 +216,11 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 			new XmlConstantPropertyRule(
 				JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTime",
 				EvaluationTimeEnum.values()));
+		digester.addRule(mapPattern, 
+				new XmlConstantPropertyRule(
+						"mapType", "mapType",
+						MapTypeEnum.values()));
+		
 
 		String latitudeExpressionPattern = mapPattern + "/latitudeExpression";
 		digester.addFactoryCreate(latitudeExpressionPattern, 
