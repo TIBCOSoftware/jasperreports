@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -74,6 +75,11 @@ public class MapCompiler implements ComponentCompiler
 				verifier.addBrokenRule("Map evalution group \"" 
 						+ evaluationGroup + " not found", map);
 			}
+		}
+		String mapType = map.getMapType();
+		if(mapType == null || MapTypeEnum.getByName(mapType.toLowerCase()) == null)
+		{
+			verifier.addBrokenRule("No type set for the map", map);
 		}
 	}
 

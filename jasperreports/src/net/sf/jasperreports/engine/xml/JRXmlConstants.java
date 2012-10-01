@@ -765,6 +765,10 @@ public final class JRXmlConstants
 	public static final String ELEMENT_axisLevelBucket = "axisLevelBucket";
 	public static final String ELEMENT_multiAxisMeasure = "multiAxisMeasure";
 	
+	/**
+	 * map component associated constants
+	 */
+	public static final String ATTRIBUTE_mapType = "mapType";
 	   
 	private JRXmlConstants()
 	{
