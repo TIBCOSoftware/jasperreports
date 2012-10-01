@@ -94,14 +94,6 @@ public enum MapTypeEnum implements JREnum
 	/**
 	 *
 	 */
-	public String getNameUpper()
-	{
-		return name == null ? null : name.toUpperCase();
-	}
-	
-	/**
-	 *
-	 */
 	public static MapTypeEnum getByName(String name)
 	{
 		return (MapTypeEnum)EnumUtil.getByName(values(), name);
