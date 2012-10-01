@@ -285,7 +285,6 @@ div.dialogFooter button.disabled {
 
 .jive_form table {
     margin-bottom:2px;
-    border-collapse: collapse;
 }
 
 .jive_form td {
@@ -302,7 +301,7 @@ div.dialogFooter button.disabled {
 
 div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
 div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
-
+div.t_wrap {padding-right: 4px;}
 .jive_form input,
 .jive_form select {
     font-size: 11px;
@@ -331,31 +330,55 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
 .jive_inputLabel {float:left;position:relative;margin-left:8px;}
 
 .jive_inputbutton {
-    float:left;
-    position:relative;
-    cursor:pointer;
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dialog_button_capsule_sprite.png);
-    background-position: -50px 0;
-    width:28px;
-    height:28px;
-    border-right:solid 1px #c1c1c1;
-    -webkit-user-select: none;
     -moz-user-select: none;
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dialog_button_capsule_sprite.png) repeat scroll 0px 0 transparent;
+    cursor: pointer;
+    float: left;
+    height: 26px;
+    margin-right: 2px;
+    margin-left:2px;
+    position: relative;
+    width: 26px;
 }
+
+.jive_inputbutton.plain {
+	background:none;
+}
+
 .jive_inputbutton.over {background-position:-50px -45px;}
 .jive_inputbutton.pressed {background-position:-50px -103px;}
-.jive_inputbutton.selected {background-position:-50px -154px;}
-.jive_inputbutton.first {background-position: 0 0;}
-.jive_inputbutton.first.over {background-position: 0 -45px;}
-.jive_inputbutton.first.pressed {background-position: 0 -103px;}
-.jive_inputbutton.first.selected {background-position: 0 -154px;}
-.jive_inputbutton.last {background-position: -100px 0;border-right:none;}
-.jive_inputbutton.last.over {background-position: -100px -45px;}
-.jive_inputbutton.last.pressed {background-position: -100px -103px;}
-.jive_inputbutton.last.selected {background-position: -100px -154px;}
+.jive_inputbutton.selected {background-position: 0 -50px;}
+.jive_inputbutton.drop {background-position: -58px 0; width: 34px;}
+.jive_inputbutton.drop > .jive_bIcon {
+    margin-left: 5px;
+    margin-top: 1px;
+    width: 28px;
+}
+.selected .boldIcon {
+    background-position: -30px -3px;
+}
 
-.jive_inputbutton.drop {width:35px;background-position:-238px 0;}
-.jive_inputbutton > div.colorpick {position:absolute;top:16px;margin-left:5px;height:4px;width:14px;}
+.selected .italicIcon {
+    background-position: -30px -49px;
+}
+
+.selected .underlineIcon {
+    background-position: -30px -94px;
+}
+.jive_inputbutton > div.colorpick {
+    cursor: pointer;
+    position: absolute;
+    top: 18px;
+    height:4px;
+}
+div.colorpick.normal {
+    width:16px;
+    margin-left:6px;
+}
+div.colorpick.wide {
+    width: 18px;
+    margin-left:5px;
+}
 
 .jive_listTextInputTouch {display:block;}
 
@@ -367,7 +390,14 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
     cursor:pointer;
 }
 
-.jive_bIcon {display:inline-block;.display:inline;zoom:1;width:20px;height:20px;margin:3px;}
+.jive_bIcon {
+	background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
+    display: inline-block;
+    height: 20px;
+    margin: 3px;
+    width: 20px;
+}
+
 .jive_freeTextButton .jive_bIcon {
     width:16px;
     height:16px;
@@ -414,64 +444,111 @@ div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
     background-position:-34px -31px;
 }
 .boldIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -3px;
 }
 .italicIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -49px;
 }
 .underlineIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
-    background-position:0 -95px;
+    background-position:0 -94px;
+}
+.backgroundColorIcon {
+    background-position: 0 -551px;
+}
+.moveUpIcon {
+    background-position: 0 -598px;
+}
+
+.moveDownIcon {
+    background-position: 0 -640px;
+}
+
+.deleteIcon {
+    background-position: 0 -680px;
 }
 .leftIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -141px;
 }
 .centerIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -187px;
 }
 .rightIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -233px;
 }
 .currencyIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -279px;
     width: 23px;
 }
 .percentageIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -326px;
 }
 .commaIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -371px;
 }
 .increaseDecimalsIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -417px;
 }
 .decreaseDecimalsIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png);
     background-position:0 -463px;
 }
 .fontColorIcon {
-    background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/button_formatting_sprite.png) no-repeat;
-    background-position:0 -507px;
-    margin-left:5px;
-    margin-top:1px;
-    width:28px;
+    background-position:0 -508px;
 }
 
 #jive_colorpicker {z-index:10000;}
 #jive_colorpicker td {background:#fff;border:solid 1px #fff;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
-div.colorpick {width:16px;height:16px;margin:4px;cursor:pointer;}
-
+#jive_colorpicker .pick {width:16px;height:16px;margin:4px;cursor:pointer;}
 .interactiveElement{cursor:pointer;}
 
 div.ui-datepicker {font-size: 11px;}
 
+/* CONDITION LIST */
+.conditionList {
+	border-collapse: separate;
+	border-collapse: collapse \9;
+	border:1px solid #c0c0c0;
+	color:#666666;
+}
+
+.conditionList tr {
+	height:26px;
+}
+
+.conditionList th {
+	background-color: #D4DEE9; /* fallback/image non-cover color */
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E1E9F3), to(#D4DEE9)); /* Safari 4+, Chrome 1-9 */
+	background-image: -webkit-linear-gradient(top, #E1E9F3, #D4DEE9); /* Safari 5.1+, Mobile Safari, Chrome 10+ */
+	background-image: -moz-linear-gradient(top, #E1E9F3, #D4DEE9); /* Firefox 3.6+ */
+	background-image: -ms-linear-gradient(top, #E1E9F3, #D4DEE9); /* IE 10+ */
+	background-image: -o-linear-gradient(top, #E1E9F3, #D4DEE9);	/* Opera 11.10+ */
+	vertical-align:middle;
+	padding:0 6px;
+	font-weight:normal;
+	border-top:none;
+	border-right:1px solid #c0c0c0;
+	border-bottom:1px solid #c0c0c0;
+	*border-bottom:2px solid #c0c0c0;
+	border-left:1px solid #ffffff;
+}
+
+.conditionList td {
+	position:relative;
+	vertical-align:middle;
+	padding:4px 2px;
+	*padding:2px;
+	border-top:1px solid #ffffff;
+	border-right:1px solid #e3e9ef;
+	border-bottom:1px solid #ececec;
+	border-left:1px solid #ffffff;
+	*border-right:1px solid #ffffff;
+	*border-left:1px solid #e3e9ef;
+}
+
+.conditionList .add {
+	background-color:#f6f6f6;
+}
+
+.conditionList .last {
+	border-right:none;
+}

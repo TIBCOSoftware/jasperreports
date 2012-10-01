@@ -1077,9 +1077,9 @@ jive.interactive.column.columnConditionalFormattingForm = {
     templateElements: [
         {type:'label', value:''},
 		{type:'list', id:'conditionTypeOperator', values:[]},
-		{type:'text', id:'conditionStart', value:''},
+		{type:'text', id:'conditionStart', value:'', wrapClass: 't_wrap'},
 		{type:'label', value:'and'},
-		{type:'text', id:'conditionEnd', value:''},
+		{type:'text', id:'conditionEnd', value:'', wrapClass: 't_wrap'},
 		{
 	        type: 'buttons',
 	        items: [
@@ -1087,31 +1087,41 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
 	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true},
-	            {type:'color',id:'conditionFontBackColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true, showTransparent: true}
+	            {type:'color',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true, showTransparent: true, styleClass: 'wide'}
 	        ]
 	    },
-	    {type:'button', id:'conditionMoveUp', bLabel:'U', fn: 'conditionMoveUp'},
-	    {type:'button', id:'conditionMoveDown', bLabel:'D', fn: 'conditionMoveDown'},
-		{type:'button', id:'conditionRemove', bLabel:'X', fn: 'removeFormatCondition'}
+	    {	
+	    	type: 'buttons',
+	    	items: [
+	    	        {type:'action', id:'conditionMoveUp', fn: 'conditionMoveUp', bIcon: 'moveUpIcon', btnClass: 'plain'},
+	    	        {type:'action', id:'conditionMoveDown', fn: 'conditionMoveDown', bIcon: 'moveDownIcon', btnClass: 'plain'}
+	    	       ]
+	    },
+		{type:'button', id:'conditionRemove', bIcon:'deleteIcon', fn: 'removeFormatCondition', btnClass: 'plain', tdClass: 'last'}
 	],
 	elements: [
+		[    
+	      [
+	       {type:'label', value:'Condition List', align: 'left'},
+	      ]
+	    ],
         [
          [
-          {type:'label', value:'Condition List'},
+          {type:'label', value:'#', isHeader: true, tdWidth: '3%', align: 'center'},
+          {type:'label', value:'Operator', isHeader: true, tdWidth: '26%', align: 'center'},
+          {type:'label', value:'Condition', colspan: 3, isHeader: true, tdWidth: '30%', align: 'center'},
+          {type:'label', value:'Format', isHeader: true, tdWidth: '26%', align: 'center'},
+          {type:'label', isHeader: true, tdWidth: '10%', align: 'center'},
+          {type:'label', isHeader: true, tdClass: 'last', tdWidth: '5%', align: 'center'}
          ],
          [
-          {type:'label', value:''},
-          {type:'label', value:'Condition'},
-          {type:'label', value:'', colspan: 3},
-          {type:'label', value:''},
-          {type:'label', value:'', colspan: 2},
-          {type:'label', value:''}
-         ]
-        ],
-        [
-         [
-          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition'}
-         ]
+          {type:'label'},
+          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition', btnClass: 'plain'},
+          {type:'label', nowrap: true, colspan: 3},
+          {type:'label', nowrap: true},
+          {type:'label', nowrap: true},
+          {type:'label', nowrap: true, tdClass: 'last'}
+          ]
         ]
     ],
     onCreate: function(jo){
@@ -1137,9 +1147,13 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	
     	form.on('rowchange', 'table', function(evt) {
     		jQuery(this).find('tr.jive_condition').each(function(i, v) {
-        		jQuery(this).find('.jive_textLabel:first .wrapper').text(i+1);
+        		jQuery(this).find('.jive_textLabel:first div:first').text(i+1);
         	});
     	});
+    	
+    	form.find('table:eq(1)').addClass('conditionList');
+    	
+    	console.log('columnConditionalFormattingForm onCreate');
     },
     onShow:function(){
     	var it = this;
@@ -1157,12 +1171,12 @@ jive.interactive.column.columnConditionalFormattingForm = {
     onBlur: function() {
     	var it = this; 
     	this.actionDataCache[this.name] = this.getActionData();
-    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
+    	jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
     },
     onHide: function() {
     	var it = this; 
     	this.actionDataCache = {};
-    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
+    	jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function() {it.removeRow(jQuery(this));});
     },
     submit:function(){
     	var actions = [],
@@ -1182,7 +1196,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	var conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
     		calendarPattern = jive.selected.ie.conditionalFormatting.calendarPattern,
     		form = jo.closest('form'),
-    		table = form.find('table:eq(0)'),
+    		table = form.find('table:eq(1)'),
     		tr = [],
     		it = this,
     		row,
@@ -1195,7 +1209,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
         });
         tr.push('</tr>');
         row = jQuery(tr.join(''));
-        table.append(row);
+        row.insertBefore(table.find('tr:last'));
         
         jQuery.each(it.options[conditionType], function(k,v) {
         	v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
@@ -1245,7 +1259,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     		prev = row.prev(),
     		table = row.closest('table');
     	
-    	if (table.find('tr').index(row) > 2) {
+    	if (table.find('tr').index(row) > 1) {
     		row.insertBefore(prev);
     		table.trigger('rowchange');
     	}
@@ -1253,9 +1267,10 @@ jive.interactive.column.columnConditionalFormattingForm = {
     conditionMoveDown: function(jo) {
     	var row = jo.closest('tr'),
     		next = row.next(),
-    		table = row.closest('table');
+    		table = row.closest('table'),
+    		rows = table.find('tr');
     	
-    	if (next.size() > 0) {
+    	if (next.size() > 0 && rows.index(row) < (rows.size() - 2)) {
     		row.insertAfter(next);
     		table.trigger('rowchange');
     	}
@@ -1277,7 +1292,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     			}
     		};
     	
-    	jive.selected.form.jo.find('table:eq(0) tr.jive_condition').each(function(i, v) {
+    	jive.selected.form.jo.find('table:eq(1) tr.jive_condition').each(function(i, v) {
     		var row = jQuery(this);
     		actionData.conditionalFormattingData.conditions.push({
     			conditionStart: inputs[row.find('input[name=conditionStart]').attr('id')].get(),
