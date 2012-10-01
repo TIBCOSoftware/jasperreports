@@ -128,7 +128,7 @@ public class MapFillComponent extends BaseFillComponent
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
-		String type = mapType == null ? null : MapComponent.MAP_TYPE_ID_PREFIX + mapType;
+		String type = mapType == null ? null : MapComponent.MAP_TYPE_ID_PREFIX + mapType.toUpperCase();
 		printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID, type);
 	}
 }

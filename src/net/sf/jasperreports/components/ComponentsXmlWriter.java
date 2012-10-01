@@ -231,7 +231,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		if(map.getMapType() != null && isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0) )
 		{
 			writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, 
-					map.getMapType().toLowerCase());
+					map.getMapType());
 		}
 
 		writer.writeExpression("latitudeExpression", 

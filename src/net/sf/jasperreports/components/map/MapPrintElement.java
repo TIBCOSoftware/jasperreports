@@ -76,7 +76,7 @@ public final class MapPrintElement
 	public static final Float DEFAULT_LATITUDE = 0f;
 	public static final Float DEFAULT_LONGITUDE = 0f;
 	public static final Integer DEFAULT_ZOOM = 0;
-	public static final String DEFAULT_MAP_TYPE_ID = MapComponent.MAP_TYPE_ID_PREFIX + MapTypeEnum.ROADMAP.getNameUpper();
+	public static final String DEFAULT_MAP_TYPE_ID = MapComponent.MAP_TYPE_ID_PREFIX + MapTypeEnum.ROADMAP;
 	
 //	/**
 //	 * Creates a map element by copying all base element attributes

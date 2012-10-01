@@ -62,6 +62,9 @@ public class MapElementImageProvider
 		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
 		zoom = zoom == null ? 0 : zoom;
 
+		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
+		mapTypeId = mapTypeId == null ? MapPrintElement.DEFAULT_MAP_TYPE_ID : mapTypeId;
+
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 		
@@ -77,6 +80,8 @@ public class MapElementImageProvider
 			+ "&format=jpg"
 			+ "&zoom="
 			+ zoom
+			+ "&mapTypeId="
+			+ mapTypeId
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
