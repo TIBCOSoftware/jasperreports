@@ -45,102 +45,102 @@
         <div class="dialogBody" style="text-align:left;">
             <table>
                 <tbody>
-                <tr class="transparent_pick"><td colspan="10"><div class="colorpick" hexcolor="transparent" style="border: 1px solid black; width: 240px;">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.colorpicker.none')</div></td></tr>
+                <tr class="transparent_pick"><td colspan="10"><div class="pick" hexcolor="transparent" style="border: 1px solid black; width: 240px;">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.colorpicker.none')</div></td></tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (152, 0, 0)" style="background-color: rgb(152, 0, 0);  " title="RGB (152, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 0, 0)" style="background-color: rgb(255, 0, 0);  " title="RGB (255, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 153, 0)" style="background-color: rgb(255, 153, 0);  " title="RGB (255, 153, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 255, 0)" style="background-color: rgb(255, 255, 0);  " title="RGB (255, 255, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (0, 255, 0)" style="background-color: rgb(0, 255, 0);  " title="RGB (0, 255, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (0, 255, 255)" style="background-color: rgb(0, 255, 255);  " title="RGB (0, 255, 255)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (74, 134, 232)" style="background-color: rgb(74, 134, 232);  " title="RGB (74, 134, 232)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (0, 0, 255)" style="background-color: rgb(0, 0, 255);  " title="RGB (0, 0, 255)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (153, 0, 255)" style="background-color: rgb(153, 0, 255);  " title="RGB (153, 0, 255)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 0, 255)" style="background-color: rgb(255, 0, 255);  " title="RGB (255, 0, 255)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (152, 0, 0)" style="background-color: rgb(152, 0, 0);  " title="RGB (152, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 0, 0)" style="background-color: rgb(255, 0, 0);  " title="RGB (255, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 153, 0)" style="background-color: rgb(255, 153, 0);  " title="RGB (255, 153, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 255, 0)" style="background-color: rgb(255, 255, 0);  " title="RGB (255, 255, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (0, 255, 0)" style="background-color: rgb(0, 255, 0);  " title="RGB (0, 255, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (0, 255, 255)" style="background-color: rgb(0, 255, 255);  " title="RGB (0, 255, 255)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (74, 134, 232)" style="background-color: rgb(74, 134, 232);  " title="RGB (74, 134, 232)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (0, 0, 255)" style="background-color: rgb(0, 0, 255);  " title="RGB (0, 0, 255)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (153, 0, 255)" style="background-color: rgb(153, 0, 255);  " title="RGB (153, 0, 255)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 0, 255)" style="background-color: rgb(255, 0, 255);  " title="RGB (255, 0, 255)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (0, 0, 0)" style="background-color: rgb(0, 0, 0);  " title="RGB (0, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (67, 67, 67)" style="background-color: rgb(67, 67, 67); " title="RGB (67, 67, 67)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (102, 102, 102)" style="background-color: rgb(102, 102, 102); " title="RGB (102, 102, 102)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (153, 153, 153)" style="background-color: rgb(153, 153, 153);  " title="RGB (153, 153, 153)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (183, 183, 183)" style="background-color: rgb(183, 183, 183);  " title="RGB (183, 183, 183)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (204, 204, 204)" style="background-color: rgb(204, 204, 204);  " title="RGB (204, 204, 204)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (217, 217, 217)" style="background-color: rgb(217, 217, 217);  " title="RGB (217, 217, 217)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (239, 239, 239)" style="background-color: rgb(239, 239, 239);  " title="RGB (239, 239, 239)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (243, 243, 243)" style="background-color: rgb(243, 243, 243);  " title="RGB (243, 243, 243)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 255, 255)" style="background-color: rgb(255, 255, 255);  " title="RGB (255, 255, 255)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (0, 0, 0)" style="background-color: rgb(0, 0, 0);  " title="RGB (0, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (67, 67, 67)" style="background-color: rgb(67, 67, 67); " title="RGB (67, 67, 67)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (102, 102, 102)" style="background-color: rgb(102, 102, 102); " title="RGB (102, 102, 102)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (153, 153, 153)" style="background-color: rgb(153, 153, 153);  " title="RGB (153, 153, 153)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (183, 183, 183)" style="background-color: rgb(183, 183, 183);  " title="RGB (183, 183, 183)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (204, 204, 204)" style="background-color: rgb(204, 204, 204);  " title="RGB (204, 204, 204)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (217, 217, 217)" style="background-color: rgb(217, 217, 217);  " title="RGB (217, 217, 217)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (239, 239, 239)" style="background-color: rgb(239, 239, 239);  " title="RGB (239, 239, 239)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (243, 243, 243)" style="background-color: rgb(243, 243, 243);  " title="RGB (243, 243, 243)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 255, 255)" style="background-color: rgb(255, 255, 255);  " title="RGB (255, 255, 255)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (230, 184, 175)" style="background-color: rgb(230, 184, 175);  " title="RGB (230, 184, 175)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (244, 204, 204)" style="background-color: rgb(244, 204, 204);  " title="RGB (244, 204, 204)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (252, 229, 205)" style="background-color: rgb(252, 229, 205);  " title="RGB (252, 229, 205)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 242, 204)" style="background-color: rgb(255, 242, 204);  " title="RGB (255, 242, 204)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (217, 234, 211)" style="background-color: rgb(217, 234, 211);  " title="RGB (217, 234, 211)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (208, 224, 227)" style="background-color: rgb(208, 224, 227);  " title="RGB (208, 224, 227)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (201, 218, 248)" style="background-color: rgb(201, 218, 248);  " title="RGB (201, 218, 248)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (207, 226, 243)" style="background-color: rgb(207, 226, 243);  " title="RGB (207, 226, 243)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (217, 210, 233)" style="background-color: rgb(217, 210, 233);  " title="RGB (217, 210, 233)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (234, 209, 220)" style="background-color: rgb(234, 209, 220);  " title="RGB (234, 209, 220)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (230, 184, 175)" style="background-color: rgb(230, 184, 175);  " title="RGB (230, 184, 175)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (244, 204, 204)" style="background-color: rgb(244, 204, 204);  " title="RGB (244, 204, 204)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (252, 229, 205)" style="background-color: rgb(252, 229, 205);  " title="RGB (252, 229, 205)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 242, 204)" style="background-color: rgb(255, 242, 204);  " title="RGB (255, 242, 204)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (217, 234, 211)" style="background-color: rgb(217, 234, 211);  " title="RGB (217, 234, 211)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (208, 224, 227)" style="background-color: rgb(208, 224, 227);  " title="RGB (208, 224, 227)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (201, 218, 248)" style="background-color: rgb(201, 218, 248);  " title="RGB (201, 218, 248)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (207, 226, 243)" style="background-color: rgb(207, 226, 243);  " title="RGB (207, 226, 243)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (217, 210, 233)" style="background-color: rgb(217, 210, 233);  " title="RGB (217, 210, 233)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (234, 209, 220)" style="background-color: rgb(234, 209, 220);  " title="RGB (234, 209, 220)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (221, 126, 107)" style="background-color: rgb(221, 126, 107);  " title="RGB (221, 126, 107)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (234, 153, 153)" style="background-color: rgb(234, 153, 153);  " title="RGB (234, 153, 153)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (249, 203, 156)" style="background-color: rgb(249, 203, 156);  " title="RGB (249, 203, 156)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 229, 153)" style="background-color: rgb(255, 229, 153);  " title="RGB (255, 229, 153)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (182, 215, 168)" style="background-color: rgb(182, 215, 168);  " title="RGB (182, 215, 168)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (162, 196, 201)" style="background-color: rgb(162, 196, 201);  " title="RGB (162, 196, 201)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (164, 194, 244)" style="background-color: rgb(164, 194, 244);  " title="RGB (164, 194, 244)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (159, 197, 232)" style="background-color: rgb(159, 197, 232);  " title="RGB (159, 197, 232)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (180, 167, 214)" style="background-color: rgb(180, 167, 214);  " title="RGB (180, 167, 214)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (213, 166, 189)" style="background-color: rgb(213, 166, 189);  " title="RGB (213, 166, 189)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (221, 126, 107)" style="background-color: rgb(221, 126, 107);  " title="RGB (221, 126, 107)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (234, 153, 153)" style="background-color: rgb(234, 153, 153);  " title="RGB (234, 153, 153)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (249, 203, 156)" style="background-color: rgb(249, 203, 156);  " title="RGB (249, 203, 156)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 229, 153)" style="background-color: rgb(255, 229, 153);  " title="RGB (255, 229, 153)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (182, 215, 168)" style="background-color: rgb(182, 215, 168);  " title="RGB (182, 215, 168)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (162, 196, 201)" style="background-color: rgb(162, 196, 201);  " title="RGB (162, 196, 201)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (164, 194, 244)" style="background-color: rgb(164, 194, 244);  " title="RGB (164, 194, 244)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (159, 197, 232)" style="background-color: rgb(159, 197, 232);  " title="RGB (159, 197, 232)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (180, 167, 214)" style="background-color: rgb(180, 167, 214);  " title="RGB (180, 167, 214)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (213, 166, 189)" style="background-color: rgb(213, 166, 189);  " title="RGB (213, 166, 189)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (204, 65, 37)" style="background-color: rgb(204, 65, 37);  " title="RGB (204, 65, 37)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (224, 102, 102)" style="background-color: rgb(224, 102, 102);  " title="RGB (224, 102, 102)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (246, 178, 107)" style="background-color: rgb(246, 178, 107);  " title="RGB (246, 178, 107)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (255, 217, 102)" style="background-color: rgb(255, 217, 102);  " title="RGB (255, 217, 102)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (147, 196, 125)" style="background-color: rgb(147, 196, 125);  " title="RGB (147, 196, 125)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (118, 165, 175)" style="background-color: rgb(118, 165, 175);  " title="RGB (118, 165, 175)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (109, 158, 235)" style="background-color: rgb(109, 158, 235);  " title="RGB (109, 158, 235)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (111, 168, 220)" style="background-color: rgb(111, 168, 220);  " title="RGB (111, 168, 220)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (142, 124, 195)" style="background-color: rgb(142, 124, 195);  " title="RGB (142, 124, 195)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (194, 123, 160)" style="background-color: rgb(194, 123, 160);  " title="RGB (194, 123, 160)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (204, 65, 37)" style="background-color: rgb(204, 65, 37);  " title="RGB (204, 65, 37)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (224, 102, 102)" style="background-color: rgb(224, 102, 102);  " title="RGB (224, 102, 102)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (246, 178, 107)" style="background-color: rgb(246, 178, 107);  " title="RGB (246, 178, 107)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (255, 217, 102)" style="background-color: rgb(255, 217, 102);  " title="RGB (255, 217, 102)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (147, 196, 125)" style="background-color: rgb(147, 196, 125);  " title="RGB (147, 196, 125)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (118, 165, 175)" style="background-color: rgb(118, 165, 175);  " title="RGB (118, 165, 175)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (109, 158, 235)" style="background-color: rgb(109, 158, 235);  " title="RGB (109, 158, 235)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (111, 168, 220)" style="background-color: rgb(111, 168, 220);  " title="RGB (111, 168, 220)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (142, 124, 195)" style="background-color: rgb(142, 124, 195);  " title="RGB (142, 124, 195)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (194, 123, 160)" style="background-color: rgb(194, 123, 160);  " title="RGB (194, 123, 160)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (166, 28, 0)" style="background-color: rgb(166, 28, 0);  " title="RGB (166, 28, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (204, 0, 0)" style="background-color: rgb(204, 0, 0);  " title="RGB (204, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (230, 145, 56)" style="background-color: rgb(230, 145, 56);  " title="RGB (230, 145, 56)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (241, 194, 50)" style="background-color: rgb(241, 194, 50);  " title="RGB (241, 194, 50)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (106, 168, 79)" style="background-color: rgb(106, 168, 79);  " title="RGB (106, 168, 79)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (69, 129, 142)" style="background-color: rgb(69, 129, 142);  " title="RGB (69, 129, 142)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (60, 120, 216)" style="background-color: rgb(60, 120, 216);  " title="RGB (60, 120, 216)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (61, 133, 198)" style="background-color: rgb(61, 133, 198);  " title="RGB (61, 133, 198)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (103, 78, 167)" style="background-color: rgb(103, 78, 167);  " title="RGB (103, 78, 167)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (166, 77, 121)" style="background-color: rgb(166, 77, 121);  " title="RGB (166, 77, 121)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (166, 28, 0)" style="background-color: rgb(166, 28, 0);  " title="RGB (166, 28, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (204, 0, 0)" style="background-color: rgb(204, 0, 0);  " title="RGB (204, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (230, 145, 56)" style="background-color: rgb(230, 145, 56);  " title="RGB (230, 145, 56)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (241, 194, 50)" style="background-color: rgb(241, 194, 50);  " title="RGB (241, 194, 50)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (106, 168, 79)" style="background-color: rgb(106, 168, 79);  " title="RGB (106, 168, 79)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (69, 129, 142)" style="background-color: rgb(69, 129, 142);  " title="RGB (69, 129, 142)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (60, 120, 216)" style="background-color: rgb(60, 120, 216);  " title="RGB (60, 120, 216)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (61, 133, 198)" style="background-color: rgb(61, 133, 198);  " title="RGB (61, 133, 198)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (103, 78, 167)" style="background-color: rgb(103, 78, 167);  " title="RGB (103, 78, 167)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (166, 77, 121)" style="background-color: rgb(166, 77, 121);  " title="RGB (166, 77, 121)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (133, 32, 12)" style="background-color: rgb(133, 32, 12);  " title="RGB (133, 32, 12)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (153, 0, 0)" style="background-color: rgb(153, 0, 0);  " title="RGB (153, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (180, 95, 6)" style="background-color: rgb(180, 95, 6);  " title="RGB (180, 95, 6)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (191, 144, 0)" style="background-color: rgb(191, 144, 0);  " title="RGB (191, 144, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (56, 118, 29)" style="background-color: rgb(56, 118, 29);  " title="RGB (56, 118, 29)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (19, 79, 92)" style="background-color: rgb(19, 79, 92);  " title="RGB (19, 79, 92)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (17, 85, 204)" style="background-color: rgb(17, 85, 204);  " title="RGB (17, 85, 204)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (11, 83, 148)" style="background-color: rgb(11, 83, 148);  " title="RGB (11, 83, 148)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (53, 28, 117)" style="background-color: rgb(53, 28, 117);  " title="RGB (53, 28, 117)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (116, 27, 71)" style="background-color: rgb(116, 27, 71);  " title="RGB (116, 27, 71)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (133, 32, 12)" style="background-color: rgb(133, 32, 12);  " title="RGB (133, 32, 12)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (153, 0, 0)" style="background-color: rgb(153, 0, 0);  " title="RGB (153, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (180, 95, 6)" style="background-color: rgb(180, 95, 6);  " title="RGB (180, 95, 6)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (191, 144, 0)" style="background-color: rgb(191, 144, 0);  " title="RGB (191, 144, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (56, 118, 29)" style="background-color: rgb(56, 118, 29);  " title="RGB (56, 118, 29)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (19, 79, 92)" style="background-color: rgb(19, 79, 92);  " title="RGB (19, 79, 92)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (17, 85, 204)" style="background-color: rgb(17, 85, 204);  " title="RGB (17, 85, 204)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (11, 83, 148)" style="background-color: rgb(11, 83, 148);  " title="RGB (11, 83, 148)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (53, 28, 117)" style="background-color: rgb(53, 28, 117);  " title="RGB (53, 28, 117)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (116, 27, 71)" style="background-color: rgb(116, 27, 71);  " title="RGB (116, 27, 71)"></div></td>
                 </tr>
                 <tr>
-                    <td><div class="colorpick" hexcolor="RGB (91, 15, 0)" style="background-color: rgb(91, 15, 0);  " title="RGB (91, 15, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (102, 0, 0)" style="background-color: rgb(102, 0, 0);  " title="RGB (102, 0, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (120, 63, 4)" style="background-color: rgb(120, 63, 4);  " title="RGB (120, 63, 4)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (127, 96, 0)" style="background-color: rgb(127, 96, 0);  " title="RGB (127, 96, 0)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (39, 78, 19)" style="background-color: rgb(39, 78, 19);  " title="RGB (39, 78, 19)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (12, 52, 61)" style="background-color: rgb(12, 52, 61);  " title="RGB (12, 52, 61)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (28, 69, 135)" style="background-color: rgb(28, 69, 135);  " title="RGB (28, 69, 135)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (7, 55, 99)" style="background-color: rgb(7, 55, 99);  " title="RGB (7, 55, 99)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (32, 18, 77)" style="background-color: rgb(32, 18, 77);  " title="RGB (32, 18, 77)"></div></td>
-                    <td><div class="colorpick" hexcolor="RGB (76, 17, 48)" style="background-color: rgb(76, 17, 48);  " title="RGB (76, 17, 48)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (91, 15, 0)" style="background-color: rgb(91, 15, 0);  " title="RGB (91, 15, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (102, 0, 0)" style="background-color: rgb(102, 0, 0);  " title="RGB (102, 0, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (120, 63, 4)" style="background-color: rgb(120, 63, 4);  " title="RGB (120, 63, 4)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (127, 96, 0)" style="background-color: rgb(127, 96, 0);  " title="RGB (127, 96, 0)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (39, 78, 19)" style="background-color: rgb(39, 78, 19);  " title="RGB (39, 78, 19)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (12, 52, 61)" style="background-color: rgb(12, 52, 61);  " title="RGB (12, 52, 61)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (28, 69, 135)" style="background-color: rgb(28, 69, 135);  " title="RGB (28, 69, 135)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (7, 55, 99)" style="background-color: rgb(7, 55, 99);  " title="RGB (7, 55, 99)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (32, 18, 77)" style="background-color: rgb(32, 18, 77);  " title="RGB (32, 18, 77)"></div></td>
+                    <td><div class="pick" hexcolor="RGB (76, 17, 48)" style="background-color: rgb(76, 17, 48);  " title="RGB (76, 17, 48)"></div></td>
                 </tr>
                 </tbody>
             </table>

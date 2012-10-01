@@ -523,15 +523,27 @@ jive.ui.forms = {
     },
     createElement: function(e, parms, form, tb) {
         var label = e.label || '',
-        	colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '',
-        	rowspan = e.rowspan ? 'rowspan="'+e.rowspan+'"' : '';
+        	colspan = e.colspan ? ' colspan="'+e.colspan+'"' : '',
+        	rowspan = e.rowspan ? ' rowspan="'+e.rowspan+'"' : '',
+        	tdClass = e.tdClass ? ' ' + e.tdClass : '',
+        	tdWidth = e.tdWidth ? 'width: ' + e.tdWidth + ';' : '',
+        	cellElem = e.isHeader ? 'th' : 'td',
+        	textAlign = e.align ? 'text-align: ' + e.align + ';' : '',
+  			textWidth = e.width ? ' width: ' + e.width + 'px;' : '',
+  			wrapClass = e.wrapClass || '',
+        	val;
+        
+        tb.push('<' + cellElem + ' ');
+        
         if(e.type == 'label') {
-            tb.push('<td class="jive_textLabel" ' + colspan + '><div class="wrapper">'+e.value+'</div></td>');
+        	val = e.value || '';
+            tb.push('class="jive_textLabel' + tdClass + '" style="' + tdWidth + '"' + colspan + '>');
+            e.nowrap ? tb.push(val) : tb.push('<div class="' + wrapClass + '" style="' + textAlign + textWidth + '">' + val + '</div>');
         }
         if(e.type == 'text') {
-            tb.push('<td style="" '+colspan+' '+rowspan+'>');
+            tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
             e.label && tb.push('<div class="wrapper">'+e.label+':</div>');
-            tb.push('<div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
+            tb.push('<div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div>');
             parms.inputs[e.id] = {
                 set:function(val) {
                     jQuery('#'+e.id).val(val);
@@ -542,7 +554,7 @@ jive.ui.forms = {
             }
         }
         if(e.type == 'radio') {
-            tb.push('<td style="" '+colspan+' '+rowspan+'><div class="thick wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div></td>');
+            tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'><div class="thick wrapper"><input type="radio" id="'+e.id+e.value+'" name="'+e.id+'" value="'+e.value+'"/><label for="'+e.id+e.value+'" class="jive_inputLabel">'+label+'</label></div>');
             parms.inputs[e.id] = {
                 set:function(val) {
                     jQuery('input[name="'+e.id+'"]').val(val);
@@ -573,12 +585,12 @@ jive.ui.forms = {
                 });
             }
             select.push('</select>');
-            tb.push('<td style="" '+colspan+' '+rowspan+'>');
+            tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
             e.label && tb.push('<div class="wrapper">' + e.label + ':</div>');
             tb.push('<div class="wrapper">');
             e.freeText && tb.push('<input id="'+e.id+'Text" type="text" class="' + (isRestricted ? 'jive_restrictedInput ' : '') + 'jive_listTextInput'+isTouch+'" name="'+e.id+'Text" value=""' + (isRestricted ? ' data-restriction="' + e.restriction + '"' : '')+'/>');
             tb.push(select.join(''));
-            tb.push('</div></td>');
+            tb.push('</div>');
 
             parms.inputs[e.id] = {
                 set:function(val) {
@@ -591,12 +603,11 @@ jive.ui.forms = {
             }
         }
         if(e.type == 'button') {
-        	tb.push('<td>');
-        	tb.push('<div class="jive_inputbutton" bname="'+e.id+'">');
+        	tb.push('class="' + tdClass + '" style="' + tdWidth + '">');
+        	tb.push('<div class="jive_inputbutton' + (e.btnClass ? ' ' + ' ' +e.btnClass : '') + '" bname="'+e.id+'">');
         	e.bIcon && tb.push('<span class="jive_bIcon '+e.bIcon+'"></span>');
         	e.bLabel && tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');
         	tb.push('</div>');
-        	tb.push('</td>');
         	parms.inputs[e.id] = {
                 onClick: function(jo){
                 	jive.ui.forms[parms.name][e.fn](jo);
@@ -604,14 +615,15 @@ jive.ui.forms = {
             }
         }
         if(e.type == 'buttons') {
-            tb.push('<td style="" '+colspan+' '+rowspan+'>')
+            tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
             label.length>0 && tb.push('<div class="wrapper">'+label+':</div>');
             tb.push('<div class="wrapper"><div class="buttonbar">');
             jQuery.each(e.items,function(i,v){
                 !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
-
-                tb.push('<div class="jive_inputbutton '+((i==e.items.length-1)?'last':(i==0?'first':''))+' '+ (v.drop ? 'drop' : '') +'" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'">');
-                v.type == 'color' && tb.push('<div class="colorpick"></div>');
+                tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'">');
+                if (v.type == 'color') {
+                	tb.push('<div class="colorpick' + (v.styleClass ? ' ' + v.styleClass : ' normal') +'"></div>');
+                }
                 v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
                 v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
                 tb.push('</div>');
@@ -710,22 +722,30 @@ jive.ui.forms = {
                     }
                 }
             });
-            tb.push('</div></div></td>');
+            tb.push('</div></div>');
         }
+        
+        tb.push('</' + cellElem + '>');
     },
 	createTemplateElement: function(e, parms, form, tb) {
 		var label = e.label || '',
 			colspan = e.colspan ? 'colspan="'+e.colspan+'"' : '',
 			rowspan = e.rowspan ? 'rowspan="'+e.rowspan+'"' : '',
 			elemCount = form.find('*[id^=' + e.id + ']').size(),
-			elemUid = e.id + (elemCount > 0 ? '_' + jQuery.now() : '');
+			elemUid = e.id + (elemCount > 0 ? '_' + jQuery.now() : ''),
+			tdClass = e.tdClass ? ' ' + e.tdClass : '',
+			textAlign = e.align ? 'text-align: ' + e.align + ';' : '',
+			textWidth = e.width ? ' width: ' + e.width + 'px;' : '',
+			wrapClass = e.wrapClass || '';
 		if(e.type == 'label') {
-			tb.push('<td class="jive_textLabel" ' + colspan + '><div class="wrapper">'+e.value+'</div></td>');
+			tb.push('<td class="jive_textLabel' + tdClass + '" ' + colspan + '>');
+			e.nowrap ? tb.push(e.value) : tb.push('<div class="' + wrapClass + '" style="' + textAlign + textWidth + '">'+e.value+'</div>');
+			tb.push('</td>');
 		}
 		if(e.type == 'text') {
-			tb.push('<td style="" '+colspan+' '+rowspan+'>');
-			e.label && tb.push('<div class="wrapper">'+e.label+':</div>');
-			tb.push('<div class="wrapper"><input id="'+elemUid+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
+			tb.push('<td class="' + tdClass + '" '+colspan+' '+rowspan+'>');
+			e.label && tb.push('<div class="' + wrapClass + '">'+e.label+':</div>');
+			tb.push('<div class="' + wrapClass + '"><input id="'+elemUid+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div></td>');
 			parms.inputs[elemUid] = {
 					set:function(val) {
 						jQuery('#'+elemUid).val(val);
@@ -756,9 +776,9 @@ jive.ui.forms = {
 				});
 			}
 			select.push('</select>');
-			tb.push('<td style="" '+colspan+' '+rowspan+'>');
-			e.label && tb.push('<div class="wrapper">' + e.label + ':</div>');
-			tb.push('<div class="wrapper">');
+			tb.push('<td class="' + tdClass + '" '+colspan+' '+rowspan+'>');
+			e.label && tb.push('<div class="' + wrapClass + '">' + e.label + ':</div>');
+			tb.push('<div class="' + wrapClass + '">');
 			e.freeText && tb.push('<input id="'+elemUid+'Text" type="text" class="' + (isRestricted ? 'jive_restrictedInput ' : '') + 'jive_listTextInput'+isTouch+'" name="'+e.id+'Text" value=""' + (isRestricted ? ' data-restriction="' + e.restriction + '"' : '')+'/>');
 			tb.push(select.join(''));
 			tb.push('</div></td>');
@@ -774,8 +794,8 @@ jive.ui.forms = {
 			}
 		}
 		if(e.type == 'button') {
-			tb.push('<td>');
-			tb.push('<div class="jive_inputbutton" bname="'+e.id+'">');
+			tb.push('<td class="' + tdClass + '">');
+			tb.push('<div class="jive_inputbutton' + (e.btnClass ? ' ' + ' ' +e.btnClass : '') + '" bname="'+e.id+'">');
 			e.bIcon && tb.push('<span class="jive_bIcon '+e.bIcon+'"></span>');
 			e.bLabel && tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');
 			tb.push('</div>');
@@ -787,15 +807,17 @@ jive.ui.forms = {
 			}
 		}
 		if(e.type == 'buttons') {
-			tb.push('<td style="" '+colspan+' '+rowspan+'>')
-			label.length>0 && tb.push('<div class="wrapper">'+label+':</div>');
-			tb.push('<div class="wrapper"><div class="buttonbar">');
+			tb.push('<td class="' + tdClass + '" '+colspan+' '+rowspan+'>')
+			label.length>0 && tb.push('<div class="' + wrapClass + '">'+label+':</div>');
+			tb.push('<div class="' + wrapClass + '"><div class="buttonbar">');
 			jQuery.each(e.items,function(i,v){
 				var vidCount = form.find('*[bname^=' + v.id + ']').size(),
 					vid = v.id + (vidCount > 0 ? '_' + jQuery.now() : '');
-				tb.push('<div class="jive_inputbutton '+((i==e.items.length-1)?'last':(i==0?'first':''))+' '+ (v.drop ? 'drop' : '') +'" bname="'+vid+'" value="'+v.value+'" type="'+v.type+'">');
-				v.type == 'color' && tb.push('<div class="colorpick"></div>');
-				v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
+				tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+vid+'" value="'+v.value+'" type="'+v.type+'">');
+				if (v.type == 'color') {
+                	tb.push('<div class="colorpick' + (v.styleClass ? ' ' + v.styleClass : ' normal') +'"></div>');
+                }
+				v.bIcon && tb.push('<span class="jive_bIcon ' + v.bIcon + '"></span>');
 				v.bLabel && tb.push('<span class="jive_bLabel">'+v.bLabel+'</span>');
 				tb.push('</div>');
 				
@@ -833,8 +855,9 @@ jive.ui.forms = {
 				}
 				if(v.type == 'action'){
 					parms.inputs[vid] = {
-							onClick: function(){
-								jive.interactive[jive.selected.ie.type][v.fn]();
+							onClick: function(jo){
+//								jive.interactive[jive.selected.ie.type][v.fn]();
+								jive.ui.forms[parms.name][v.fn](jo);
 							}
 					}
 				}
@@ -874,7 +897,7 @@ jive.ui.colorpicker = {
         var jo;
         it.jo = jQuery('#jive_colorpicker');
         it.jo.draggable({handle: 'div.dialogHeader'});
-        it.jo.on('click touchend','div.colorpick',function(evt){
+        it.jo.on('click touchend','div.pick',function(evt){
             it.selected = jQuery(this).parent().addClass('selected');
             jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('hexcolor')));
             jive.ui.colorpicker.jo.hide();
