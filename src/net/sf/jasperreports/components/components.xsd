@@ -450,6 +450,15 @@
 							</restriction>
 						</simpleType>
 					</attribute>
+					<attribute name="imageType" use="optional" default="jpg">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="jpg"/>
+								<enumeration value="png"/>
+								<enumeration value="gif"/>
+							</restriction>
+						</simpleType>
+					</attribute>
 				</extension>
 			</complexContent>
 		</complexType>

@@ -58,7 +58,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private JRExpression zoomExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
-	private String mapType = MapTypeEnum.ROADMAP.getName();
+	private MapTypeEnum mapType = MapTypeEnum.ROADMAP;
 	private Integer mapScale = 1;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -74,14 +74,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
-		if(map.getMapType() != null)
-		{
-			this.mapType = map.getMapType();
-		}
-		if(map.getMapScale() != null)
-		{
-			this.mapScale = map.getMapScale();
-		}
+		this.mapType = map.getMapType() == null ? MapTypeEnum.ROADMAP : map.getMapType();
+		this.mapScale = map.getMapScale() == null ? 1 : map.getMapScale();
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -177,11 +171,11 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		return clone;
 	}
 
-	public String getMapType() {
+	public MapTypeEnum getMapType() {
 		return mapType;
 	}
 
-	public void setMapType(String mapType) {
+	public void setMapType(MapTypeEnum mapType) {
 		Object old = this.mapType;
 		this.mapType = mapType;
 		getEventSupport().firePropertyChange(PROPERTY_MAP_TYPE, old, this.mapType);

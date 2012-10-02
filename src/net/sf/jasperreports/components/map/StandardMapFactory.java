@@ -24,32 +24,46 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
-import net.sf.jasperreports.engine.JRCloneable;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.xml.JRBaseFactory;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
+
+import org.xml.sax.Attributes;
+
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
+ * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public interface MapComponent extends Component, JRCloneable
+public class StandardMapFactory extends JRBaseFactory
 {
-	public static final Integer DEFAULT_ZOOM = 8;
-	
-	public static final String MAP_TYPE_ID_PREFIX = "gg.MapTypeId.";
-	
-	JRExpression getLatitudeExpression();
+	/**
+	 *
+	 */
+	public Object createObject(Attributes atts)
+	{
+		StandardMapComponent map = new StandardMapComponent();
+		
+		EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationTime));
+		if (evaluationTime != null)
+		{
+			map.setEvaluationTime(evaluationTime);
+		}
 
-	JRExpression getLongitudeExpression();
+		if (map.getEvaluationTime() == EvaluationTimeEnum.GROUP)
+		{
+			String groupName = atts.getValue(JRXmlConstants.ATTRIBUTE_evaluationGroup);
+			map.setEvaluationGroup(groupName);
+		}
+		
+		MapTypeEnum mapType = MapTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mapType));
+		map.setMapType(mapType == null ? MapTypeEnum.ROADMAP : mapType);
 
-	JRExpression getZoomExpression();
-
-	EvaluationTimeEnum getEvaluationTime();
+		String mapScale = atts.getValue(JRXmlConstants.ATTRIBUTE_mapScale);
+		map.setMapScale(mapScale == null ? 1 : Integer.valueOf(mapScale));
+		
+		return map;
+	}
 	
-	String getEvaluationGroup();
-	
-	MapTypeEnum getMapType();
 
-	Integer getMapScale();
 }
