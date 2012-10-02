@@ -46,7 +46,9 @@ public interface MapComponent extends Component, JRCloneable
 
 	EvaluationTimeEnum getEvaluationTime();
 	
-	String getMapType();
-	
 	String getEvaluationGroup();
+	
+	String getMapType();
+
+	Integer getScale();
 }

@@ -228,10 +228,16 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		writer.addAttribute(JRXmlConstants.ATTRIBUTE_evaluationGroup, 
 				map.getEvaluationGroup());
 
-		if(map.getMapType() != null && isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0) )
+		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
 		{
-			writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, 
-					map.getMapType());
+			if(map.getMapType() != null)
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType());
+			}
+			if(map.getScale() != null)
+			{
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_scale, map.getScale());
+			}
 		}
 
 		writer.writeExpression("latitudeExpression", 
