@@ -36,7 +36,7 @@ public interface MapComponent extends Component, JRCloneable
 {
 	public static final Integer DEFAULT_ZOOM = 8;
 	
-	public static final String MAP_TYPE_ID_PREFIX = "google.maps.MapTypeId.";
+	public static final String MAP_TYPE_ID_PREFIX = "gg.MapTypeId.";
 	
 	JRExpression getLatitudeExpression();
 
@@ -50,5 +50,5 @@ public interface MapComponent extends Component, JRCloneable
 	
 	String getMapType();
 
-	Integer getScale();
+	Integer getMapScale();
 }

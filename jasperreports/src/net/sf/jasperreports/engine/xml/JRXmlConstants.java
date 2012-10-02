@@ -769,7 +769,7 @@ public final class JRXmlConstants
 	 * map component associated constants
 	 */
 	public static final String ATTRIBUTE_mapType = "mapType";
-	public static final String ATTRIBUTE_scale = "scale";
+	public static final String ATTRIBUTE_mapScale = "mapScale";
 	   
 	private JRXmlConstants()
 	{

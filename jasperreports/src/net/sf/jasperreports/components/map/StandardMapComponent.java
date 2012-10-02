@@ -51,7 +51,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	public static final String PROPERTY_MAP_TYPE = "mapType";
-	public static final String PROPERTY_SCALE = "scale";
+	public static final String PROPERTY_MAP_SCALE = "mapScale";
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
@@ -59,7 +59,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	private String mapType = MapTypeEnum.ROADMAP.getName();
-	private Integer scale = 1;
+	private Integer mapScale = 1;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -78,9 +78,9 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		{
 			this.mapType = map.getMapType();
 		}
-		if(map.getScale() != null)
+		if(map.getMapScale() != null)
 		{
-			this.scale = map.getScale();
+			this.mapScale = map.getMapScale();
 		}
 	}
 	
@@ -187,14 +187,14 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_MAP_TYPE, old, this.mapType);
 	}
 
-	public Integer getScale() {
-		return scale;
+	public Integer getMapScale() {
+		return mapScale;
 	}
 
-	public void setScale(Integer scale) {
-		Object old = this.scale;
-		this.scale = scale;
-		getEventSupport().firePropertyChange(PROPERTY_SCALE, old, this.scale);
+	public void setMapScale(Integer mapScale) {
+		Object old = this.mapScale;
+		this.mapScale = mapScale;
+		getEventSupport().firePropertyChange(PROPERTY_MAP_SCALE, old, this.mapScale);
 	}
 
 }
