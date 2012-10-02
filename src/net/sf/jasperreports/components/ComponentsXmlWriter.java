@@ -234,9 +234,9 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			{
 				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType());
 			}
-			if(map.getScale() != null)
+			if(map.getMapScale() != null)
 			{
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_scale, map.getScale());
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapScale, map.getMapScale());
 			}
 		}
 

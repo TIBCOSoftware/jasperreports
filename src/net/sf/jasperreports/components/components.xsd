@@ -441,7 +441,7 @@
 							</restriction>
 						</simpleType>
 					</attribute>
-					<attribute name="scale" use="optional" default="1">
+					<attribute name="mapScale" use="optional" default="1">
 						<simpleType>
 							<restriction base="unsignedInt">
 								<enumeration value="1"/>

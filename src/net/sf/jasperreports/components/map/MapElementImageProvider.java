@@ -69,8 +69,8 @@ public class MapElementImageProvider
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 		
-		Integer scale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_SCALE);
-		scale = scale == null ? MapPrintElement.DEFAULT_SCALE : scale;
+		Integer mapScale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
+		mapScale = mapScale == null ? MapPrintElement.DEFAULT_MAP_SCALE : mapScale;
 
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
@@ -87,7 +87,7 @@ public class MapElementImageProvider
 			+ "&maptype="
 			+ mapType
 			+ "&scale="
-			+ scale
+			+ mapScale
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
