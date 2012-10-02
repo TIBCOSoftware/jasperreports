@@ -29,13 +29,10 @@
 
 package net.sf.jasperreports.engine.export.ooxml;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.AbstractExporterNature;
-import net.sf.jasperreports.engine.export.CutsInfo;
 import net.sf.jasperreports.engine.export.ExporterFilter;
 
 /**

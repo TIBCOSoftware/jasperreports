@@ -29,8 +29,6 @@
 
 package net.sf.jasperreports.engine.export;
 
-import java.util.Map;
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRPrintFrame;
