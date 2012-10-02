@@ -40,6 +40,7 @@ public class EditColumnValueData extends BaseColumnData {
 	private boolean fontItalic;
 	private boolean fontUnderline;
 	private String fontColor;
+	private String fontBackColor;
 	private String fontHAlign;
 	private String formatPattern;
 	
@@ -108,6 +109,14 @@ public class EditColumnValueData extends BaseColumnData {
 
 	public void setFontColor(String fontColor) {
 		this.fontColor = fontColor;
+	}
+
+	public String getFontBackColor() {
+		return fontBackColor;
+	}
+
+	public void setFontBackColor(String fontBackColor) {
+		this.fontBackColor = fontBackColor;
 	}
 
 	public String getFontHAlign() {

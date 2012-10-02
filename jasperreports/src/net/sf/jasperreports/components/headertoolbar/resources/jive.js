@@ -606,7 +606,9 @@ jive.ui.forms = {
         	tb.push('class="' + tdClass + '" style="' + tdWidth + '">');
         	tb.push('<div class="jive_inputbutton' + (e.btnClass ? ' ' + ' ' +e.btnClass : '') + '" bname="'+e.id+'">');
         	e.bIcon && tb.push('<span class="jive_bIcon '+e.bIcon+'"></span>');
-        	e.bLabel && tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');
+        	if (e.bLabel) {
+				e.nowrap ? tb.push(e.bLabel) : tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');	
+			}
         	tb.push('</div>');
         	parms.inputs[e.id] = {
                 onClick: function(jo){
@@ -703,24 +705,25 @@ jive.ui.forms = {
                     }
                 }
                 if(v.type == 'color') {
-                    parms.inputs[v.id] = {
-                        set:function(val) {
-                            jQuery('input[name="'+v.id+'"]').val(val);
-                            jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('div.colorpick').css('background-color','#'+val);
-                        },
-                        get:function(){
-                            return jQuery('input[name="'+v.id+'"]').val();
-                        },
-                        onClick:function(jo){
-                            jive.ui.colorpicker.show({
-                                title: v.title,
-                                inputId: v.id,
-                                anchor: jo,
-                                currentColor: jQuery('input[name="'+v.id+'"]').val()
-                            });
-                        }
-                    }
-                }
+					parms.inputs[v.id] = {
+							set:function(val) {
+								jQuery('input[name="'+v.id+'"]').val(val);
+								jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
+							},
+							get:function(){
+								return jQuery('input[name="'+v.id+'"]').val();
+							},
+							onClick:function(jo){
+								jive.ui.colorpicker.show({
+									title: v.title,
+									inputId: v.id,
+									anchor: jo,
+									currentColor: jQuery('input[name="'+v.id+'"]').val(),
+									showTransparent: v.showTransparent
+								});
+							}
+					}
+				}
             });
             tb.push('</div></div>');
         }
@@ -737,6 +740,7 @@ jive.ui.forms = {
 			textAlign = e.align ? 'text-align: ' + e.align + ';' : '',
 			textWidth = e.width ? ' width: ' + e.width + 'px;' : '',
 			wrapClass = e.wrapClass || '';
+		
 		if(e.type == 'label') {
 			tb.push('<td class="jive_textLabel' + tdClass + '" ' + colspan + '>');
 			e.nowrap ? tb.push(e.value) : tb.push('<div class="' + wrapClass + '" style="' + textAlign + textWidth + '">'+e.value+'</div>');
@@ -797,7 +801,9 @@ jive.ui.forms = {
 			tb.push('<td class="' + tdClass + '">');
 			tb.push('<div class="jive_inputbutton' + (e.btnClass ? ' ' + ' ' +e.btnClass : '') + '" bname="'+e.id+'">');
 			e.bIcon && tb.push('<span class="jive_bIcon '+e.bIcon+'"></span>');
-			e.bLabel && tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');
+			if (e.bLabel) {
+				e.nowrap ? tb.push(e.bLabel) : tb.push('<span class="jive_bLabel">'+e.bLabel+'</span>');	
+			}
 			tb.push('</div>');
 			tb.push('</td>');
 			parms.inputs[e.id] = {
@@ -911,7 +917,7 @@ jive.ui.colorpicker = {
         !this.jo && this.setElement();
         this.jo.find('td.selected').removeClass('selected');
         if (options.currentColor) {
-        	this.jo.find('div.colorpick[hexcolor=' + options.currentColor + ']').parent().addClass('selected');
+        	this.jo.find('div.pick[hexcolor=' + options.currentColor + ']').parent().addClass('selected'); // FIXMEJIVE not working anymore
         }
         if (options.showTransparent) {
         	this.jo.find('tr.transparent_pick').show();

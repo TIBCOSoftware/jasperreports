@@ -777,6 +777,7 @@ jive.interactive.column.formatHeaderForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
+                    {type:'color',id:'headerFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
                     {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
             }
@@ -815,7 +816,7 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontName'].set(metadata.fontName);
         inputs['headerFontSize'].set(metadata.fontSize);
         inputs['headerFontColor'].set(metadata.fontColor);
-        
+        inputs['headerFontBackColor'].set(metadata.fontBackColor);
         
         // disable conditional formatting tab
         var conditionalFormattingTab = jQuery('#columnConditionalFormattingTab');
@@ -855,7 +856,8 @@ jive.interactive.column.formatHeaderForm = {
                 fontItalic: inputs['headerFontItalic'].get(),
                 fontUnderline: inputs['headerFontUnderline'].get(),
                 fontHAlign: inputs['headerFontAlign'].get(),
-                fontColor: inputs['headerFontColor'].get()
+                fontColor: inputs['headerFontColor'].get(),
+                fontBackColor: inputs['headerFontBackColor'].get()
             }
     	}
     }
@@ -884,6 +886,7 @@ jive.interactive.column.formatCellsForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
+                    {type:'color',id:'cellsFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
                     {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
             }
@@ -962,6 +965,7 @@ jive.interactive.column.formatCellsForm = {
         inputs['cellsFontName'].set(metadata.fontName);
         inputs['cellsFontSize'].set(metadata.fontSize);
         inputs['cellsFontColor'].set(metadata.fontColor);
+        inputs['cellsFontBackColor'].set(metadata.fontBackColor);
 
         if(typeof ie.formatPatternLabel === 'string') {
             jQuery.each(ie.formatPatternSelector,function(i,o){
@@ -1018,6 +1022,7 @@ jive.interactive.column.formatCellsForm = {
                 fontUnderline: inputs['cellsFontUnderline'].get(),
                 fontHAlign: inputs['cellsFontAlign'].get(),
                 fontColor: inputs['cellsFontColor'].get(),
+                fontBackColor: inputs['cellsFontBackColor'].get(),
                 formatPattern: inputs['formatPattern'].get()
             }
 		};
@@ -1078,7 +1083,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
         {type:'label', value:''},
 		{type:'list', id:'conditionTypeOperator', values:[]},
 		{type:'text', id:'conditionStart', value:'', wrapClass: 't_wrap'},
-		{type:'label', value:'and'},
+		{type:'label', value:'and', wrapClass: 't_wrap', tdClass: 'condition_between_start'},
 		{type:'text', id:'conditionEnd', value:'', wrapClass: 't_wrap'},
 		{
 	        type: 'buttons',
@@ -1086,8 +1091,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon'},
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
-	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true},
-	            {type:'color',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true, showTransparent: true, styleClass: 'wide'}
+	            {type:'color',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
 	        ]
 	    },
 	    {	
@@ -1102,7 +1107,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	elements: [
 		[    
 	      [
-	       {type:'label', value:'Condition List', align: 'left'},
+	       {type:'label', value:'Condition List', align: 'left', wrapClass: 'wrapper'},
 	      ]
 	    ],
         [
@@ -1116,7 +1121,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
          ],
          [
           {type:'label'},
-          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition', btnClass: 'plain'},
+          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition', btnClass: 'plain', nowrap: true},
           {type:'label', nowrap: true, colspan: 3},
           {type:'label', nowrap: true},
           {type:'label', nowrap: true},
@@ -1135,13 +1140,13 @@ jive.interactive.column.columnConditionalFormattingForm = {
     			conditionStart = row.find('input[name^=conditionStart]');
     		
     		if (self.val().indexOf('BETWEEN') >= 0) {
-    			conditionEnd.closest('td').show().prev().show();
+    			conditionEnd.closest('td').addClass('condition_between_end').show().prev().show();
     			conditionEnd.prop('disabled', false);
-    			conditionStart.closest('td').attr('colspan', 1);
+    			conditionStart.closest('td').attr('colspan', 1).addClass('condition_between_start');
     		} else {
-    			conditionEnd.closest('td').hide().prev().hide();
+    			conditionEnd.closest('td').removeClass('condition_between_end').hide().prev().hide();
     			conditionEnd.prop('disabled', true);
-    			conditionStart.closest('td').attr('colspan', 3);
+    			conditionStart.closest('td').attr('colspan', 3).removeClass('condition_between_start');
     		}
     	});
     	
@@ -1151,9 +1156,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
         	});
     	});
     	
-    	form.find('table:eq(1)').addClass('conditionList');
-    	
-    	console.log('columnConditionalFormattingForm onCreate');
+    	form.find('table:eq(1)').addClass('conditionList').find('tr:last').addClass('add');
     },
     onShow:function(){
     	var it = this;

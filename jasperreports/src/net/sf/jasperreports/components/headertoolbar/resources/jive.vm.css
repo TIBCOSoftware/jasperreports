@@ -545,10 +545,22 @@ div.ui-datepicker {font-size: 11px;}
 	*border-left:1px solid #e3e9ef;
 }
 
-.conditionList .add {
+.conditionList tr.add td{
 	background-color:#f6f6f6;
+}
+
+.conditionList tr.add td .jive_inputbutton {
+	height: auto;
 }
 
 .conditionList .last {
 	border-right:none;
+}
+
+.conditionList td.condition_between_start {
+	border-right: none;
+}
+
+.conditionList td.condition_between_end {
+	border-left: none;
 }

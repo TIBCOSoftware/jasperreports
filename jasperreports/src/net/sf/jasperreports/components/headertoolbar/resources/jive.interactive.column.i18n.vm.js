@@ -23,6 +23,7 @@ jQuery.extend(jive.i18n.keys, {
 		'column.formatforms.fontName.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.fontname')",
 		'column.formatforms.fontSize.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.fontsize')",
 		'column.formatforms.fontColor.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.fontcolor')",
+		'column.formatforms.fontBackColor.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.fontbackcolor')",
 		'column.formatforms.styleButtons.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.style')",
 		'column.formatforms.color.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.color')",
 		'column.formatforms.alignment.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.alignment')",
