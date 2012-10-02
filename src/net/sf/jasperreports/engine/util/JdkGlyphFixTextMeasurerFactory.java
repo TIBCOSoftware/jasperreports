@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.engine.util;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRCommonText;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.fill.JRTextMeasurer;

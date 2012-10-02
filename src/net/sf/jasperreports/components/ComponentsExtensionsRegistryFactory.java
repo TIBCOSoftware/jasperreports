@@ -50,7 +50,6 @@ import net.sf.jasperreports.components.table.TableDesignConverter;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.component.ComponentManager;
 import net.sf.jasperreports.engine.component.ComponentsBundle;
-import net.sf.jasperreports.engine.component.DefaultComponentManager;
 import net.sf.jasperreports.engine.component.DefaultComponentXmlParser;
 import net.sf.jasperreports.engine.component.DefaultComponentsBundle;
 import net.sf.jasperreports.extensions.ExtensionsRegistry;
