@@ -1677,9 +1677,12 @@ public class JRXhtmlExporter extends JRAbstractExporter
 				+ getInsideBorderOffset(box.getBottomPen().getLineWidth().floatValue(), true);
 		}
 		
+		int width = element.getWidth() - widthDiff; 
+		int height = element.getHeight() - heightDiff; 
+		
 		appendSizeStyle(
-			element.getWidth() - widthDiff,
-			element.getHeight() - heightDiff,
+			width < 0 ? 0 : width,
+			height < 0 ? 0 : height,
 			styleBuffer
 			);
 	}
