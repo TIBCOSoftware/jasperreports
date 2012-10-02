@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -63,7 +64,7 @@ public class MapElementImageProvider
 		zoom = zoom == null ? 0 : zoom;
 
 		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
-		mapTypeId = mapTypeId == null ? MapPrintElement.DEFAULT_MAP_TYPE_ID : mapTypeId;
+		String mapType = mapTypeId == null ? MapTypeEnum.ROADMAP.getName() : mapTypeId.substring(mapTypeId.lastIndexOf('.')+1).toLowerCase();
 
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
@@ -80,8 +81,8 @@ public class MapElementImageProvider
 			+ "&format=jpg"
 			+ "&zoom="
 			+ zoom
-			+ "&mapTypeId="
-			+ mapTypeId
+			+ "&maptype="
+			+ mapType
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
