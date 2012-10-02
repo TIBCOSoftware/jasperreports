@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.awt.Color;
 import java.util.List;
 
 import net.sf.jasperreports.components.table.BaseColumn;
@@ -31,6 +32,7 @@ import net.sf.jasperreports.components.table.StandardTable;
 import net.sf.jasperreports.components.table.util.TableUtil;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.commands.Command;
 
@@ -67,6 +69,7 @@ public class EditColumnValuesCommand implements Command
 			oldEditColumnValueData.setFontItalic(textElement.isItalic());
 			oldEditColumnValueData.setFontUnderline(textElement.isUnderline());
 			oldEditColumnValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
+			oldEditColumnValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
 			oldEditColumnValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
 			
 			if (TableUtil.isSortableAndFilterable(textElement)) {
@@ -88,6 +91,15 @@ public class EditColumnValuesCommand implements Command
 		
 		if (TableUtil.isSortableAndFilterable(textElement)) {
 			textElement.setPattern(headerData.getFormatPattern());
+		}
+		
+		if (headerData.getFontBackColor() != null) {
+			if (headerData.getFontBackColor().equalsIgnoreCase("transparent")) {
+				textElement.setMode(ModeEnum.TRANSPARENT);
+			} else {
+				textElement.setMode(ModeEnum.OPAQUE);
+				textElement.setBackcolor(JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white));
+			}
 		}
 	}
 

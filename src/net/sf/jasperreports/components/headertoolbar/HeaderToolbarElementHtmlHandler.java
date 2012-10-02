@@ -613,6 +613,12 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colHeaderData.setFontUnderline(textElement.isUnderline());
 					colHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 					colHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+					
+					if (textElement.getModeValue().equals(ModeEnum.TRANSPARENT)) {
+						colHeaderData.setFontBackColor("transparent");
+					} else {
+						colHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+					}
 				}
 			}
 		}
@@ -649,6 +655,12 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
 					colValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
 					colValueData.setFormatPattern(textElement.getPattern());
+					
+					if (textElement.getModeValue().equals(ModeEnum.TRANSPARENT)) {
+						colValueData.setFontBackColor("transparent");
+					} else {
+						colValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+					}
 				}
 			}
 		}

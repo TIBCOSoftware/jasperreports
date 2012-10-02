@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.headertoolbar.actions;
 
+import java.awt.Color;
 import java.util.List;
 
 import net.sf.jasperreports.components.table.BaseColumn;
@@ -34,6 +35,7 @@ import net.sf.jasperreports.engine.design.JRDesignStaticText;
 import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.HorizontalAlignEnum;
+import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.commands.Command;
 
@@ -71,6 +73,7 @@ public class EditColumnHeaderCommand implements Command
 			oldEditColumnHeaderData.setFontItalic(textElement.isItalic());
 			oldEditColumnHeaderData.setFontUnderline(textElement.isUnderline());
 			oldEditColumnHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
+			oldEditColumnHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
 			oldEditColumnHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
 			
 			applyColumnHeaderData(editColumnHeaderData, textElement, true);
@@ -107,6 +110,15 @@ public class EditColumnHeaderCommand implements Command
 		textElement.setUnderline(headerData.getFontUnderline());
 		textElement.setForecolor(JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()));
 		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(headerData.getFontHAlign()));
+		
+		if (headerData.getFontBackColor() != null) {
+			if (headerData.getFontBackColor().equalsIgnoreCase("transparent")) {
+				textElement.setMode(ModeEnum.TRANSPARENT);
+			} else {
+				textElement.setMode(ModeEnum.OPAQUE);
+				textElement.setBackcolor(JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white));
+			}
+		}
 	}
 
 
