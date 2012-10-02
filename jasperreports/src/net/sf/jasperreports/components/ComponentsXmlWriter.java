@@ -232,7 +232,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		{
 			if(map.getMapType() != null)
 			{
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType());
+				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType().getName());
 			}
 			if(map.getMapScale() != null)
 			{
