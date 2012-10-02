@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -46,6 +47,7 @@ public class MapFillComponent extends BaseFillComponent
 	private Float longitude;
 	private Integer zoom;
 	private String mapType;
+	private Integer scale;
 	
 	public MapFillComponent(MapComponent map)
 	{
@@ -71,7 +73,8 @@ public class MapFillComponent extends BaseFillComponent
 		longitude = (Float)fillContext.evaluate(mapComponent.getLongitudeExpression(), evaluation);
 		zoom = (Integer)fillContext.evaluate(mapComponent.getZoomExpression(), evaluation);
 		zoom = zoom == null ? MapComponent.DEFAULT_ZOOM : zoom;
-		mapType = mapComponent.getMapType();
+		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP.getName() : mapComponent.getMapType();
+		scale = mapComponent.getScale() == null ? MapPrintElement.DEFAULT_SCALE : mapComponent.getScale();
 	}
 	
 	protected boolean isEvaluateNow()
@@ -128,7 +131,8 @@ public class MapFillComponent extends BaseFillComponent
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LATITUDE, latitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_LONGITUDE, longitude);
 		printElement.setParameterValue(MapPrintElement.PARAMETER_ZOOM, zoom);
-		String type = mapType == null ? null : MapComponent.MAP_TYPE_ID_PREFIX + mapType.toUpperCase();
-		printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID, type);
+//		String type = mapType == null ? null : MapComponent.MAP_TYPE_ID_PREFIX + mapType.toUpperCase();
+		printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID, MapComponent.MAP_TYPE_ID_PREFIX + mapType.toUpperCase());
+		printElement.setParameterValue(MapPrintElement.PARAMETER_SCALE, scale);
 	}
 }

@@ -66,6 +66,9 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
 		mapTypeId = mapTypeId == null ? MapPrintElement.DEFAULT_MAP_TYPE_ID : mapTypeId;
 
+		Integer scale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_SCALE);
+		scale = scale == null ? MapPrintElement.DEFAULT_SCALE : scale;
+
 		VelocityContext velocityContext = new VelocityContext();
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)
@@ -77,6 +80,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		velocityContext.put("longitude", longitude);
 		velocityContext.put("zoom", zoom);
 		velocityContext.put("mapTypeId", mapTypeId);
+		velocityContext.put("scale", scale);
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		if(context.getExporter() instanceof JRXhtmlExporter)

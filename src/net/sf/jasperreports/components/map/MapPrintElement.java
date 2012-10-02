@@ -66,6 +66,11 @@ public final class MapPrintElement
 	public static final String PARAMETER_MAP_TYPE_ID = "mapTypeId";
 	
 	/**
+	 * The name of the parameter that provides the map scale.
+	 */
+	public static final String PARAMETER_SCALE = "scale";
+	
+	/**
 	 * The cached image renderer.
 	 */
 	public static final String PARAMETER_CACHE_RENDERER = "cacheRenderer";
@@ -77,6 +82,7 @@ public final class MapPrintElement
 	public static final Float DEFAULT_LONGITUDE = 0f;
 	public static final Integer DEFAULT_ZOOM = 0;
 	public static final String DEFAULT_MAP_TYPE_ID = MapComponent.MAP_TYPE_ID_PREFIX + MapTypeEnum.ROADMAP;
+	public static final Integer DEFAULT_SCALE = 1;
 	
 //	/**
 //	 * Creates a map element by copying all base element attributes

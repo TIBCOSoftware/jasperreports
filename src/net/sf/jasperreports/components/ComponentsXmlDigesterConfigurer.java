@@ -216,11 +216,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 			new XmlConstantPropertyRule(
 				JRXmlConstants.ATTRIBUTE_evaluationTime, "evaluationTime",
 				EvaluationTimeEnum.values()));
-		digester.addRule(mapPattern, 
-				new XmlConstantPropertyRule(
-						"mapType", "mapType",
-						MapTypeEnum.values()));
-		
 
 		String latitudeExpressionPattern = mapPattern + "/latitudeExpression";
 		digester.addFactoryCreate(latitudeExpressionPattern, 

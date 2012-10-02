@@ -55,13 +55,13 @@ public class MapElementImageProvider
 	{
 		
 		Float latitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LATITUDE);
-		latitude = latitude == null ? 0 : latitude;
+		latitude = latitude == null ? MapPrintElement.DEFAULT_LATITUDE : latitude;
 
 		Float longitude = (Float)element.getParameterValue(MapPrintElement.PARAMETER_LONGITUDE);
-		longitude = longitude == null ? 0 : longitude;
+		longitude = longitude == null ? MapPrintElement.DEFAULT_LONGITUDE : longitude;
 		
 		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
-		zoom = zoom == null ? 0 : zoom;
+		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
 
 		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
 		String mapType = mapTypeId == null ? MapTypeEnum.ROADMAP.getName() : mapTypeId.substring(mapTypeId.lastIndexOf('.')+1).toLowerCase();
@@ -69,6 +69,9 @@ public class MapElementImageProvider
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 		
+		Integer scale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_SCALE);
+		scale = scale == null ? MapPrintElement.DEFAULT_SCALE : scale;
+
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
 			+ latitude 
@@ -83,6 +86,8 @@ public class MapElementImageProvider
 			+ zoom
 			+ "&maptype="
 			+ mapType
+			+ "&scale="
+			+ scale
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());

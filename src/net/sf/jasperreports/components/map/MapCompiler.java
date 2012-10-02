@@ -76,11 +76,6 @@ public class MapCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", map);
 			}
 		}
-		String mapType = map.getMapType();
-		if(mapType != null && MapTypeEnum.getByName(mapType.toLowerCase()) == null)
-		{
-			verifier.addBrokenRule("No type set for the map", map);
-		}
 	}
 
 }
