@@ -21,17 +21,45 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.rd;
+package net.sf.jasperreports.types.date;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.util.TimeZone;
 
 /**
- * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id: CompositeDatasetFilter.java 5349 2012-05-08 14:25:05Z teodord $
+ * <p>Implementation of {@link net.sf.jasperreports.engine.rd.DateRange} for fixed, non relative timestamp.</p>
+ *
+ * @author Sergey Prilukin
+ * @version $Id:$
  */
-public interface DateRange
+public class FixedTimestamp extends FixedDate implements TimestampRange 
 {
-	public Date getStart();
-	
-	public Date getEnd();
+	public static final String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+	public FixedTimestamp(String expression) {
+		super(expression);
+	}
+
+	public FixedTimestamp(String expression, TimeZone timeZone, String datePattern) {
+		super(expression, timeZone, datePattern);
+	}
+
+	public FixedTimestamp(Timestamp date) {
+		super(date);
+	}
+
+	@Override
+	protected String getDefaultPattern() {
+		return TIMESTAMP_PATTERN;
+	}
+
+	@Override
+	public Timestamp getStart() {
+		return new Timestamp(super.getStart().getTime());
+	}
+
+	@Override
+	public Timestamp getEnd() {
+		return new Timestamp(super.getEnd().getTime());
+	}
 }

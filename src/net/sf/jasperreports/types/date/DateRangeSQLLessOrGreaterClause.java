@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.rd;
+package net.sf.jasperreports.types.date;
 
 import java.util.Date;
 
@@ -33,7 +33,7 @@ import net.sf.jasperreports.engine.query.SQLLessOrGreaterBaseClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: DateRangeSQLLessOrGreaterClause.java 5688 2012-10-01 14:47:00Z lucianc $
  */
 public class DateRangeSQLLessOrGreaterClause extends SQLLessOrGreaterBaseClause
 {
