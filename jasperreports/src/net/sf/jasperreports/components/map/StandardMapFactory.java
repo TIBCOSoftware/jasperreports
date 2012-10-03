@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.xml.JRBaseFactory;
@@ -60,8 +61,16 @@ public class StandardMapFactory extends JRBaseFactory
 		map.setMapType(mapType == null ? MapTypeEnum.ROADMAP : mapType);
 
 		String mapScale = atts.getValue(JRXmlConstants.ATTRIBUTE_mapScale);
-		map.setMapScale(mapScale == null ? 1 : Integer.valueOf(mapScale));
-		
+		if(mapScale != null)
+		{
+			map.setMapScale(Integer.valueOf(mapScale));
+		}
+		MapImageTypeEnum imageType = MapImageTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_imageType));
+		if(imageType != null)
+		{
+			map.setImageType(imageType);
+		}
+
 		return map;
 	}
 	

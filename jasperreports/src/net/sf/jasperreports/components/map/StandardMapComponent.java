@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import java.io.Serializable;
 
+import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -33,6 +34,7 @@ import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
+import net.sf.jasperreports.engine.type.ImageTypeEnum;
 import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
@@ -52,6 +54,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	public static final String PROPERTY_MAP_TYPE = "mapType";
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
+	public static final String PROPERTY_IMAGE_TYPE = "imageType";
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
@@ -59,7 +62,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	private MapTypeEnum mapType = MapTypeEnum.ROADMAP;
-	private Integer mapScale = 1;
+	private Integer mapScale;
+	private MapImageTypeEnum imageType;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -75,7 +79,8 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
 		this.mapType = map.getMapType() == null ? MapTypeEnum.ROADMAP : map.getMapType();
-		this.mapScale = map.getMapScale() == null ? 1 : map.getMapScale();
+		this.mapScale = map.getMapScale();
+		this.imageType = map.getImageType();
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -184,11 +189,21 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public Integer getMapScale() {
 		return mapScale;
 	}
-
+	
 	public void setMapScale(Integer mapScale) {
 		Object old = this.mapScale;
 		this.mapScale = mapScale;
 		getEventSupport().firePropertyChange(PROPERTY_MAP_SCALE, old, this.mapScale);
+	}
+	
+	public MapImageTypeEnum getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(MapImageTypeEnum imageType) {
+		Object old = this.imageType;
+		this.imageType = imageType;
+		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
 	}
 
 }

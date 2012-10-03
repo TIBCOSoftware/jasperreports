@@ -770,6 +770,7 @@ public final class JRXmlConstants
 	 */
 	public static final String ATTRIBUTE_mapType = "mapType";
 	public static final String ATTRIBUTE_mapScale = "mapScale";
+	public static final String ATTRIBUTE_imageType = "imageType";
 	   
 	private JRXmlConstants()
 	{
