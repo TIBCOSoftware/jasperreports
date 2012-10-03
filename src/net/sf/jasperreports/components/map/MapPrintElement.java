@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRGenericElementType;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
@@ -71,6 +72,11 @@ public final class MapPrintElement
 	public static final String PARAMETER_MAP_SCALE = "mapScale";
 	
 	/**
+	 * The name of the parameter that provides the map image format.
+	 */
+	public static final String PARAMETER_IMAGE_TYPE = "imageType";
+	
+	/**
 	 * The cached image renderer.
 	 */
 	public static final String PARAMETER_CACHE_RENDERER = "cacheRenderer";
@@ -82,7 +88,6 @@ public final class MapPrintElement
 	public static final Float DEFAULT_LONGITUDE = 0f;
 	public static final Integer DEFAULT_ZOOM = 0;
 	public static final String DEFAULT_MAP_TYPE_ID = MapComponent.MAP_TYPE_ID_PREFIX + MapTypeEnum.ROADMAP;
-	public static final Integer DEFAULT_MAP_SCALE = 1;
 	
 //	/**
 //	 * Creates a map element by copying all base element attributes

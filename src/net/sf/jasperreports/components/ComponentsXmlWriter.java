@@ -32,6 +32,8 @@ import net.sf.jasperreports.components.barcode4j.BarcodeXmlWriter;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
@@ -230,14 +232,9 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
 		{
-			if(map.getMapType() != null)
-			{
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType().getName());
-			}
-			if(map.getMapScale() != null)
-			{
-				writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapScale, map.getMapScale());
-			}
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_mapScale, map.getMapScale(), Integer.valueOf(1));
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
 		}
 
 		writer.writeExpression("latitudeExpression", 

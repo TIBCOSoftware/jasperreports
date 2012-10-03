@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
@@ -70,7 +71,10 @@ public class MapElementImageProvider
 		int elementHeight = element.getHeight();
 		
 		Integer mapScale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
-		mapScale = mapScale == null ? MapPrintElement.DEFAULT_MAP_SCALE : mapScale;
+		String scale = mapScale == null ? "" : "&scale=" + mapScale;
+
+		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
+		mapFormat = mapFormat == null ? "" : "&format=" + mapFormat;
 
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
@@ -81,13 +85,12 @@ public class MapElementImageProvider
 			+ elementWidth 
 			+ "x" 
 			+ elementHeight 
-			+ "&format=jpg"
 			+ "&zoom="
 			+ zoom
 			+ "&maptype="
 			+ mapType
-			+ "&scale="
-			+ mapScale
+			+ mapFormat
+			+ scale
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
@@ -118,7 +121,6 @@ public class MapElementImageProvider
 		}
 
 		printImage.setRenderable(cacheRenderer);
-		
 		return printImage;
 	}
 }

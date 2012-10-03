@@ -450,12 +450,15 @@
 							</restriction>
 						</simpleType>
 					</attribute>
-					<attribute name="imageType" use="optional" default="jpg">
+					<attribute name="imageType" use="optional" default="png">
 						<simpleType>
 							<restriction base="string">
-								<enumeration value="jpg"/>
 								<enumeration value="png"/>
+								<enumeration value="png8"/>
+								<enumeration value="png32"/>
 								<enumeration value="gif"/>
+								<enumeration value="jpg"/>
+								<enumeration value="jpg-baseline"/>
 							</restriction>
 						</simpleType>
 					</attribute>
