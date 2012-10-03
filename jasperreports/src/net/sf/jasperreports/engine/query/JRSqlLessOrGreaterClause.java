@@ -58,37 +58,10 @@ public class JRSqlLessOrGreaterClause extends SQLLessOrGreaterBaseClause
 	}
 
 	@Override
-	protected ParameterHandler createParameterHandler(JRQueryClauseContext queryContext, 
+	protected ClauseFunctionParameterHandler createParameterHandler(JRQueryClauseContext queryContext, 
 			String clauseId, String parameterName)
 	{
 		Object paramValue = queryContext.getValueParameter(parameterName).getValue();
-		return new DefaultParameterHandler(queryContext, parameterName, paramValue);
-	}
-	
-	protected static class DefaultParameterHandler implements ParameterHandler
-	{
-		final JRQueryClauseContext queryContext;
-		final String parameterName;
-		final Object parameterValue;
-		
-		public DefaultParameterHandler(JRQueryClauseContext queryContext,
-				String parameterName, Object parameterValue)
-		{
-			this.queryContext = queryContext;
-			this.parameterName = parameterName;
-			this.parameterValue = parameterValue;
-		}
-
-		@Override
-		public boolean hasValue()
-		{
-			return parameterValue != null;
-		}
-
-		@Override
-		public void addQueryParameter()
-		{
-			queryContext.addQueryParameter(parameterName);
-		}
+		return new DefaultClauseFunctionParameterHandler(queryContext, parameterName, paramValue);
 	}
 }

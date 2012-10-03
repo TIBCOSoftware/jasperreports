@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.types.date;
 
+import java.util.Date;
+
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.query.JRJdbcQueryExecuter;
 import net.sf.jasperreports.engine.query.ParameterTypesClauseFunctionBundle;
@@ -59,6 +61,15 @@ public class DateRangeQueryClauseExtensions implements ExtensionsRegistryFactory
 				new StandardParameterTypesClauseFunction(DateRangeSQLLessOrGreaterClause.instance(), DateRange.class));
 		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL, 
 				new StandardParameterTypesClauseFunction(DateRangeSQLLessOrGreaterClause.instance(), DateRange.class));
+		
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLBetweenClause.instance(), DateRange.class, Date.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_CLOSED, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLBetweenClause.instance(), DateRange.class, Date.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_LEFT_CLOSED, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLBetweenClause.instance(), DateRange.class, Date.class));
+		typesFunctions.setFunctions(JRJdbcQueryExecuter.CLAUSE_ID_BETWEEN_RIGHT_CLOSED, 
+				new StandardParameterTypesClauseFunction(DateRangeSQLBetweenClause.instance(), DateRange.class, Date.class));
 		
 		registry = new SingletonExtensionRegistry<ParameterTypesClauseFunctionBundle>(
 				ParameterTypesClauseFunctionBundle.class, typesFunctions);
