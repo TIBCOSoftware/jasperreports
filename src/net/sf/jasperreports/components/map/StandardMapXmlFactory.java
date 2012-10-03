@@ -36,7 +36,7 @@ import org.xml.sax.Attributes;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardMapFactory extends JRBaseFactory
+public class StandardMapXmlFactory extends JRBaseFactory
 {
 	/**
 	 *
