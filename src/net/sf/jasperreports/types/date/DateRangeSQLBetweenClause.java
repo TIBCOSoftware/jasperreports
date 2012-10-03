@@ -23,60 +23,59 @@
  */
 package net.sf.jasperreports.types.date;
 
-import net.sf.jasperreports.engine.JRRuntimeException;
-import net.sf.jasperreports.engine.query.ClauseFunctionParameterHandler;
-import net.sf.jasperreports.engine.query.JRJdbcQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryClauseContext;
-import net.sf.jasperreports.engine.query.SQLLessOrGreaterBaseClause;
+import java.util.Date;
 
+import net.sf.jasperreports.engine.JRRuntimeException;
+import net.sf.jasperreports.engine.JRValueParameter;
+import net.sf.jasperreports.engine.query.ClauseFunctionParameterHandler;
+import net.sf.jasperreports.engine.query.DefaultClauseFunctionParameterHandler;
+import net.sf.jasperreports.engine.query.JRQueryClauseContext;
+import net.sf.jasperreports.engine.query.SQLBetweenBaseClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: DateRangeSQLLessOrGreaterClause.java 5688 2012-10-01 14:47:00Z lucianc $
+ * @version $Id$
  */
-public class DateRangeSQLLessOrGreaterClause extends SQLLessOrGreaterBaseClause
+public class DateRangeSQLBetweenClause extends SQLBetweenBaseClause
 {
 
-	protected static final DateRangeSQLLessOrGreaterClause singleton = new DateRangeSQLLessOrGreaterClause();
+	protected static final DateRangeSQLBetweenClause INSTANCE = new DateRangeSQLBetweenClause();
 	
 	/**
 	 * Returns the singleton function instance.
 	 * 
 	 * @return the singleton function instance
 	 */
-	public static DateRangeSQLLessOrGreaterClause instance()
+	public static DateRangeSQLBetweenClause instance()
 	{
-		return singleton;
+		return INSTANCE;
+	}
+	
+	protected DateRangeSQLBetweenClause()
+	{
 	}
 
 	@Override
 	protected ClauseFunctionParameterHandler createParameterHandler(JRQueryClauseContext queryContext, 
-			String clauseId, String parameterName)
+			String clauseId, String parameterName, boolean left)
 	{
-		Object paramValue = queryContext.getValueParameter(parameterName).getValue();
-		if (paramValue != null && !(paramValue instanceof DateRange))
+		JRValueParameter valueParameter = queryContext.getValueParameter(parameterName);
+		Object value = valueParameter.getValue();
+		if (Date.class.isAssignableFrom(valueParameter.getValueClass()) || value instanceof Date)
+		{
+			// treat as regular parameter
+			return new DefaultClauseFunctionParameterHandler(queryContext, parameterName, value);
+		}
+
+		if (value != null && !(value instanceof DateRange))
 		{
 			throw new JRRuntimeException("Parameter " + parameterName + " in clause " + clauseId
-					+ " is not a date range");
+					+ " has unsupported type " + value.getClass().getName());
 		}
 		
-		boolean useRangeStart;
-		if (JRJdbcQueryExecuter.CLAUSE_ID_LESS.equals(clauseId) 
-				|| JRJdbcQueryExecuter.CLAUSE_ID_GREATER_OR_EQUAL.equals(clauseId))
-		{
-			useRangeStart = true;
-		}
-		else if (JRJdbcQueryExecuter.CLAUSE_ID_GREATER.equals(clauseId) 
-				|| JRJdbcQueryExecuter.CLAUSE_ID_LESS_OR_EQUAL.equals(clauseId))
-		{
-			useRangeStart = false;
-		}
-		else
-		{
-			throw new JRRuntimeException("Unknown clause Id " + clauseId + " for date range");
-		}
-		
+		boolean useRangeStart = left ? isLeftClosed(clauseId) : !isRightClosed(clauseId);
 		return new DateRangeParameterHandler(queryContext, parameterName, 
-				(DateRange) paramValue, useRangeStart);
+				(DateRange) value, useRangeStart);
 	}
+
 }

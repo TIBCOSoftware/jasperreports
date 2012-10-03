@@ -93,7 +93,7 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 		}
 
 		
-		ParameterHandler paramHandler = createParameterHandler(queryContext, clauseId, param);
+		ClauseFunctionParameterHandler paramHandler = createParameterHandler(queryContext, clauseId, param);
 		StringBuffer sbuffer = queryContext.queryBuffer();
 		if(!paramHandler.hasValue())
 		{
@@ -110,13 +110,7 @@ public abstract class SQLLessOrGreaterBaseClause implements JRClauseFunction
 		
 	}
 	
-	protected interface ParameterHandler {
-		boolean hasValue();
-		
-		void addQueryParameter();
-	}
-
-	protected abstract ParameterHandler createParameterHandler(JRQueryClauseContext queryContext, 
+	protected abstract ClauseFunctionParameterHandler createParameterHandler(JRQueryClauseContext queryContext, 
 			String clauseId, String parameterName);
 	
 	/**

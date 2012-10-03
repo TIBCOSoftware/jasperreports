@@ -79,10 +79,10 @@ public class JRJdbcQueryExecuter extends JRAbstractQueryExecuter
 	public static final String CLAUSE_ID_LESS_OR_EQUAL = "LESS]";
 	public static final String CLAUSE_ID_GREATER_OR_EQUAL = "[GREATER";
 	
-	protected static final String CLAUSE_ID_BETWEEN = "BETWEEN";
-	protected static final String CLAUSE_ID_BETWEEN_CLOSED = "[BETWEEN]";
-	protected static final String CLAUSE_ID_BETWEEN_LEFT_CLOSED = "[BETWEEN";
-	protected static final String CLAUSE_ID_BETWEEN_RIGHT_CLOSED = "BETWEEN]";
+	public static final String CLAUSE_ID_BETWEEN = "BETWEEN";
+	public static final String CLAUSE_ID_BETWEEN_CLOSED = "[BETWEEN]";
+	public static final String CLAUSE_ID_BETWEEN_LEFT_CLOSED = "[BETWEEN";
+	public static final String CLAUSE_ID_BETWEEN_RIGHT_CLOSED = "BETWEEN]";
 	
 	protected static final String TYPE_FORWARD_ONLY = "forwardOnly";
 	protected static final String TYPE_SCROLL_INSENSITIVE = "scrollInsensitive";
