@@ -40,7 +40,6 @@ import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
-import net.sf.jasperreports.components.map.StandardMapComponent;
 import net.sf.jasperreports.components.map.StandardMapFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;

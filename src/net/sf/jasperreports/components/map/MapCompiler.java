@@ -23,8 +23,6 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
-import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
