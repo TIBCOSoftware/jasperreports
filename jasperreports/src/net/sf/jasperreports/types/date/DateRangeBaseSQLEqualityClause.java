@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.rd;
+package net.sf.jasperreports.types.date;
 
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.query.JRClauseFunction;
@@ -31,7 +31,7 @@ import net.sf.jasperreports.engine.query.JRSqlAbstractEqualClause;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: DateRangeBaseSQLEqualityClause.java 5671 2012-09-18 15:48:16Z lucianc $
  */
 public abstract class DateRangeBaseSQLEqualityClause implements JRClauseFunction
 {
