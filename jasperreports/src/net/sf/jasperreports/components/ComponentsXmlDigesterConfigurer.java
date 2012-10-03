@@ -40,7 +40,7 @@ import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
-import net.sf.jasperreports.components.map.StandardMapFactory;
+import net.sf.jasperreports.components.map.StandardMapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignCell;
@@ -206,7 +206,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	protected void addMapRules(Digester digester)
 	{
 		String mapPattern = "*/componentElement/map";
-		digester.addFactoryCreate(mapPattern, StandardMapFactory.class);
+		digester.addFactoryCreate(mapPattern, StandardMapXmlFactory.class);
 
 		String latitudeExpressionPattern = mapPattern + "/latitudeExpression";
 		digester.addFactoryCreate(latitudeExpressionPattern, 
