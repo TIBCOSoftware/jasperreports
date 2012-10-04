@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
+import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRException;
@@ -48,7 +49,7 @@ public class MapFillComponent extends BaseFillComponent
 	private Float longitude;
 	private Integer zoom;
 	private MapTypeEnum mapType;
-	private Integer mapScale;
+	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
 	
 	public MapFillComponent(MapComponent map)
@@ -137,7 +138,7 @@ public class MapFillComponent extends BaseFillComponent
 		printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID, MapComponent.MAP_TYPE_ID_PREFIX + mapType);
 		if(mapScale != null)
 		{
-			printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_SCALE, mapScale);
+			printElement.setParameterValue(MapPrintElement.PARAMETER_MAP_SCALE, mapScale.getName());
 		}
 		if(imageType != null)
 		{

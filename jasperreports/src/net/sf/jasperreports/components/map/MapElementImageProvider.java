@@ -69,8 +69,8 @@ public class MapElementImageProvider
 		int elementWidth = element.getWidth();
 		int elementHeight = element.getHeight();
 		
-		Integer mapScale = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
-		String scale = mapScale == null ? "" : "&scale=" + mapScale;
+		String mapScale = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
+		mapScale = mapScale == null ? "" : "&scale=" + mapScale;
 
 		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
 		mapFormat = mapFormat == null ? "" : "&format=" + mapFormat;
@@ -89,7 +89,7 @@ public class MapElementImageProvider
 			+ "&maptype="
 			+ mapType
 			+ mapFormat
-			+ scale
+			+ mapScale
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());

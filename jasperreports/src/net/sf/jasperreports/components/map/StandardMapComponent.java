@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.map;
 import java.io.Serializable;
 
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
+import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -61,7 +62,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	private MapTypeEnum mapType = MapTypeEnum.ROADMAP;
-	private Integer mapScale;
+	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
 	
 	private transient JRPropertyChangeSupport eventSupport;
@@ -185,11 +186,11 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		getEventSupport().firePropertyChange(PROPERTY_MAP_TYPE, old, this.mapType);
 	}
 
-	public Integer getMapScale() {
+	public MapScaleEnum getMapScale() {
 		return mapScale;
 	}
 	
-	public void setMapScale(Integer mapScale) {
+	public void setMapScale(MapScaleEnum mapScale) {
 		Object old = this.mapScale;
 		this.mapScale = mapScale;
 		getEventSupport().firePropertyChange(PROPERTY_MAP_SCALE, old, this.mapScale);
