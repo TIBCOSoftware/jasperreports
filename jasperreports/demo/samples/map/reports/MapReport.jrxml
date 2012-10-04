@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MapReport" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true">
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
@@ -62,12 +62,37 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="377">
+		<band height="692">
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Bold" x="0" y="0" width="515" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Bucharest"]]></textFieldExpression>
+			</textField>
 			<componentElement>
-				<reportElement x="0" y="0" width="515" height="377"/>
-				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<reportElement x="0" y="20" width="515" height="326"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
+				</c:map>
+			</componentElement>
+			<textField isBlankWhenNull="true" bookmarkLevel="1">
+				<reportElement style="Sans_Bold" x="0" y="346" width="515" height="20"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["San Francisco"]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="0" y="366" width="515" height="326"/>
+				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+					mapType="satellite" mapScale="2" imageType="jpg">
+					<c:latitudeExpression><![CDATA[37.788056f]]></c:latitudeExpression>
+					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
 				</c:map>
 			</componentElement>
