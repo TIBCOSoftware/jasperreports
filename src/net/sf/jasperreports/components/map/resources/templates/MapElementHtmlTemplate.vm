@@ -28,7 +28,7 @@
 						center: latlng, 
 						mapTypeId: ${mapTypeId},
 					},
-					var map = new gg.Map(document.getElementById('map_canvas'), myOptions);
+					map = new gg.Map(document.getElementById('map_canvas'), myOptions);
 			} 
 			
 			jm.init();
@@ -45,7 +45,7 @@
 					center: latlng, 
 					mapTypeId: ${mapTypeId},
 				},
-				var map = new gg.Map(document.getElementById('map_canvas'), myOptions);
+				map = new gg.Map(document.getElementById('map_canvas'), myOptions);
 		}
 		(function () {
 			var scriptUrl = 'http://maps.google.com/maps/api/js?sensor=false&callback=initGoogleMapsCallback';
