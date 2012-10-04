@@ -23,6 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
+import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -75,11 +76,5 @@ public class MapCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", map);
 			}
 		}
-		Integer mapScale = map.getMapScale();
-		if(mapScale !=  null && !(mapScale.equals(1) || mapScale.equals(2) || mapScale.equals(4)))
-		{
-			verifier.addBrokenRule("The scale value must be a value from the enumeration: [1, 2, 4]", map);
-		}
 	}
-
 }

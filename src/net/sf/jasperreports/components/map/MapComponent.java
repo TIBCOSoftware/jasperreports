@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
+import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
@@ -52,7 +53,7 @@ public interface MapComponent extends Component, JRCloneable
 	
 	MapTypeEnum getMapType();
 
-	Integer getMapScale();
+	MapScaleEnum getMapScale();
 	
 	MapImageTypeEnum getImageType();
 }
