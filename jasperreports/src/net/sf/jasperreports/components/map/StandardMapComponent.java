@@ -61,7 +61,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private JRExpression zoomExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
-	private MapTypeEnum mapType = MapTypeEnum.ROADMAP;
+	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
 	
@@ -78,7 +78,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
-		this.mapType = map.getMapType() == null ? MapTypeEnum.ROADMAP : map.getMapType();
+		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
 	}
