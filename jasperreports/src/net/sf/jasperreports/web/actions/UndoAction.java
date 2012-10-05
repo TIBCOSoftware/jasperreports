@@ -35,7 +35,7 @@ public class UndoAction extends AbstractAction {
 	}
 
 	public String getName() {
-		return "undo_action";
+		return "undo_action";//FIXMEJIVE create interface for getName() or rather getShortName(), if we really plan to use this in javascript
 	}
 
 	public void performAction() {
