@@ -26,7 +26,7 @@
 					myOptions = {
 						zoom: ${zoom},
 						center: latlng, 
-						mapTypeId: ${mapTypeId},
+						mapTypeId: gg.MapTypeId.${mapType}
 					},
 					map = new gg.Map(document.getElementById('map_canvas'), myOptions);
 			} 
@@ -43,7 +43,7 @@
 				myOptions = {
 					zoom: ${zoom},
 					center: latlng, 
-					mapTypeId: ${mapTypeId},
+					mapTypeId: gg.MapTypeId.${mapType}
 				},
 				map = new gg.Map(document.getElementById('map_canvas'), myOptions);
 		}

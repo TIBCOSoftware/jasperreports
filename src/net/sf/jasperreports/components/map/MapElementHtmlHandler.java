@@ -46,7 +46,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	
 	private static final String RESOURCE_MAP_JS = "net/sf/jasperreports/components/map/resources/map.js";
 	private static final String MAP_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/map/resources/templates/MapElementHtmlTemplate.vm";
-	
+
 	public static MapElementHtmlHandler getInstance()
 	{
 		return INSTANCE;
@@ -63,8 +63,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
 		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
 
-		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
-		mapTypeId = mapTypeId == null ? MapPrintElement.DEFAULT_MAP_TYPE_ID : mapTypeId;
+		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
+		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
 		VelocityContext velocityContext = new VelocityContext();
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -76,7 +76,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		velocityContext.put("latitude", latitude);
 		velocityContext.put("longitude", longitude);
 		velocityContext.put("zoom", zoom);
-		velocityContext.put("mapTypeId", mapTypeId);
+		velocityContext.put("mapType", mapType);
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		if(context.getExporter() instanceof JRXhtmlExporter)

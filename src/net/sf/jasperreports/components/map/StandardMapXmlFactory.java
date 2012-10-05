@@ -42,6 +42,13 @@ public class StandardMapXmlFactory extends JRBaseFactory
 	/**
 	 *
 	 */
+	public static final String ATTRIBUTE_mapType = "mapType";
+	public static final String ATTRIBUTE_mapScale = "mapScale";
+	public static final String ATTRIBUTE_imageType = "imageType";
+	   
+	/**
+	 *
+	 */
 	public Object createObject(Attributes atts)
 	{
 		StandardMapComponent map = new StandardMapComponent();
@@ -58,15 +65,17 @@ public class StandardMapXmlFactory extends JRBaseFactory
 			map.setEvaluationGroup(groupName);
 		}
 		
-		MapTypeEnum mapType = MapTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mapType));
-		map.setMapType(mapType == null ? MapTypeEnum.ROADMAP : mapType);
-
-		MapScaleEnum mapScale = MapScaleEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_mapScale));
+		MapTypeEnum mapType = MapTypeEnum.getByName(atts.getValue(ATTRIBUTE_mapType));
+		if(mapType != null)
+		{
+			map.setMapType(mapType);
+		}
+		MapScaleEnum mapScale = MapScaleEnum.getByName(atts.getValue(ATTRIBUTE_mapScale));
 		if(mapScale != null)
 		{
 			map.setMapScale(mapScale);
 		}
-		MapImageTypeEnum imageType = MapImageTypeEnum.getByName(atts.getValue(JRXmlConstants.ATTRIBUTE_imageType));
+		MapImageTypeEnum imageType = MapImageTypeEnum.getByName(atts.getValue(ATTRIBUTE_imageType));
 		if(imageType != null)
 		{
 			map.setImageType(imageType);

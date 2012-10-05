@@ -23,7 +23,6 @@
  */
 package net.sf.jasperreports.components.map;
 
-import net.sf.jasperreports.components.map.type.MapTypeEnum;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -63,17 +62,9 @@ public class MapElementImageProvider
 		Integer zoom = (Integer)element.getParameterValue(MapPrintElement.PARAMETER_ZOOM);
 		zoom = zoom == null ? MapPrintElement.DEFAULT_ZOOM : zoom;
 
-		String mapTypeId = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE_ID);
-		String mapType = mapTypeId == null ? MapTypeEnum.ROADMAP.getName() : mapTypeId.substring(mapTypeId.lastIndexOf('.')+1).toLowerCase();
-
-		int elementWidth = element.getWidth();
-		int elementHeight = element.getHeight();
-		
+		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		String mapScale = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
-		mapScale = mapScale == null ? "" : "&scale=" + mapScale;
-
 		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
-		mapFormat = mapFormat == null ? "" : "&format=" + mapFormat;
 
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
@@ -81,15 +72,14 @@ public class MapElementImageProvider
 			+ "," 
 			+ longitude 
 			+ "&size=" 
-			+ elementWidth 
+			+ element.getWidth() 
 			+ "x" 
-			+ elementHeight 
+			+ element.getHeight() 
 			+ "&zoom="
 			+ zoom
-			+ "&maptype="
-			+ mapType
-			+ mapFormat
-			+ mapScale
+			+ (mapType == null ? "" : "&maptype=" + mapType)
+			+ (mapFormat == null ? "" : "&format=" + mapFormat)
+			+ (mapScale == null ? "" : "&scale=" + mapScale)
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
@@ -120,6 +110,7 @@ public class MapElementImageProvider
 		}
 
 		printImage.setRenderable(cacheRenderer);
+		
 		return printImage;
 	}
 }

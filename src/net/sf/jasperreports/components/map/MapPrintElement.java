@@ -60,10 +60,11 @@ public final class MapPrintElement
 	 * The name of the parameter that provides the zoom.
 	 */
 	public static final String PARAMETER_ZOOM = "zoom";
+
 	/**
-	 * The name of the parameter that provides the map type ID.
+	 * The name of the parameter that provides the map type.
 	 */
-	public static final String PARAMETER_MAP_TYPE_ID = "mapTypeId";
+	public static final String PARAMETER_MAP_TYPE = "mapType";
 	
 	/**
 	 * The name of the parameter that provides the map scale.
@@ -86,7 +87,7 @@ public final class MapPrintElement
 	public static final Float DEFAULT_LATITUDE = 0f;
 	public static final Float DEFAULT_LONGITUDE = 0f;
 	public static final Integer DEFAULT_ZOOM = 0;
-	public static final String DEFAULT_MAP_TYPE_ID = MapComponent.MAP_TYPE_ID_PREFIX + MapTypeEnum.ROADMAP;
+	public static final MapTypeEnum DEFAULT_MAP_TYPE = MapTypeEnum.ROADMAP;
 	
 //	/**
 //	 * Creates a map element by copying all base element attributes
