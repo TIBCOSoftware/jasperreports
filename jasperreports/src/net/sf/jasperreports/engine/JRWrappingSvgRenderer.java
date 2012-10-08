@@ -140,6 +140,17 @@ public class JRWrappingSvgRenderer extends JRAbstractSvgRenderer
 		render(DefaultJasperReportsContext.getInstance(), grx, rectangle);
 	}
 
+	@Override
+	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	{
+		if (renderer instanceof JRAbstractSvgRenderer)
+		{
+			return ((JRAbstractSvgRenderer) renderer).getImageDataDPI(jasperReportsContext);
+		}
+		
+		return super.getImageDataDPI(jasperReportsContext);
+	}
+
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{
 		if (renderer instanceof JRAbstractSvgRenderer)
