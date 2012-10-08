@@ -124,7 +124,7 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 	 */
 	public byte[] getImageData(JasperReportsContext jasperReportsContext) throws JRException
 	{
-		int dpi = JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
+		int dpi = getImageDataDPI(jasperReportsContext);
 		double scale = dpi/72d;
 		
 		Dimension2D dimension = getDimension(jasperReportsContext);
@@ -155,6 +155,12 @@ public abstract class JRAbstractSvgRenderer extends JRAbstractRenderer
 			return JRImageLoader.getInstance(jasperReportsContext).loadBytesFromAwtImage(bi, getImageTypeValue());
 		}
 		return null;
+	}
+
+
+	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	{
+		return JRPropertiesUtil.getInstance(jasperReportsContext).getIntegerProperty(PROPERTY_IMAGE_DPI, 72);
 	}
 
 
