@@ -132,6 +132,19 @@ jQuery.noConflict();
 		}
 	};
 	
+	/**
+	 * Evaluate script string
+	 */
+	jg.executeScript = function (scriptString, callbackFn) {
+		var gotCallback = callbackFn || false;
+		if (scriptString) {
+			global.eval(scriptString);
+			if (gotCallback) {
+				callbackFn();
+			}
+		}
+	}	
+	
 	/** 
 	 * Dynamically loads a css file 
 	 */
@@ -264,16 +277,39 @@ jQuery.noConflict();
 								elementToAppendTo.html(toExtract.html());
 								
 								// execute script tags from response after appending to DOM because the script may rely on new DOM elements
-								response.filter('script').each(function(idx, elem) {
-									var scriptObj = jQuery(elem);
-									if (!scriptObj.attr('src')) { // only scripts that don't load files are run
-										var scriptString = scriptObj.html();
-										if (scriptString) {
-//											console.log("script " + idx + ": " + scriptString);
-											global.eval(scriptString);
-										}
-									}
-								});
+//								response.filter('script').each(function(idx, elem) {
+//									var scriptObj = jQuery(elem);
+//									if (!scriptObj.attr('src')) { // only scripts that don't load files are run
+//										var scriptString = scriptObj.html();
+//										if (scriptString) {
+//											global.eval(scriptString);
+//										}
+//									}
+//								});
+								
+								// execute script tags synchronously
+								var scriptTags = response.filter('script'),
+						    		sz  = scriptTags.size(),
+						    		idx = 0,
+						    		scriptName;
+	
+						    	function iterate() {
+						    		if (idx >= sz) {
+						    			return;
+						    		}
+						    		var scriptObj = jQuery(scriptTags.get(idx));
+						    		if (scriptObj.attr('src')) {
+						    			idx++;
+						    			scriptName = scriptObj.attr('data-custname') || scriptObj.attr('src');
+						    			jg.loadScript(scriptName, scriptObj.attr('src'), iterate);
+						    		} else {
+						    			idx++;
+						    			jg.executeScript(scriptObj.html(), iterate);
+						    		}
+						    	}
+	
+						    	iterate();
+								
 							}
 							
 							if (callback) {
@@ -284,7 +320,7 @@ jQuery.noConflict();
 								callback.apply(null, arrCallbackArgs);
 							}
 							
-							loadMaskTarget.loadmask('hide');
+							loadMaskTarget.loadmask && loadMaskTarget.loadmask('hide');
 						},
 						
 						error: function(jqXHR, textStatus, errorThrown) {
@@ -309,7 +345,7 @@ jQuery.noConflict();
 								callback.apply(null, arrCallbackArgs);
 							}
 							
-							loadMaskTarget.loadmask('hide');
+							loadMaskTarget.loadmask && loadMaskTarget.loadmask('hide');
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							jg.showError(jqXHR.responseText, loadMaskTarget, 'Error', 1100, 500);
@@ -348,10 +384,10 @@ jQuery.noConflict();
 				}
 				
 				if (parent.size() == 0) {
-					parent = this.target;
+					parent = jQuery(this.target);
 				}
 				
-				parent.loadmask();
+				parent.loadmask && parent.loadmask();
 				
 				if (this.isJSONResponse) {
 					jg.ajaxJson(this.requestUrl, this.requestParams, this.callback, this.arrCallbackArgs, parent);
@@ -531,7 +567,7 @@ jQuery.noConflict();
 				width: width,
 				height: height,
 				close: function(event, ui) {
-					loadMaskTarget.loadmask('hide');
+					loadMaskTarget.loadmask && loadMaskTarget.loadmask('hide');
 				}
 			});
 
