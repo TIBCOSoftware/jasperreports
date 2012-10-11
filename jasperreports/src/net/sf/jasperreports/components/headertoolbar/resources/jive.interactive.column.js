@@ -343,28 +343,20 @@ jive.interactive.column = jive.interactive.column || {
     	
     	input.hideOptions();
     },
-//    toggleCurrencyFormat: function(){
-//        var it = this;
-//        jQuery('#formatPattern').children().each(function (i, optElem) {
-//            var opt = jQuery(optElem);
-//            opt.text(it.numberFormat.addRemoveCurrencySymbol(opt.text(), jive.selected.form.inputs['currencyBtn'].selected));
-//            opt.val(it.numberFormat.addRemoveCurrencySymbol(opt.val(), jive.selected.form.inputs['currencyBtn'].selected));
-//        });
-//    },
     togglePercentageFormat: function(){
         var it = this;
         jQuery('#formatPattern').children().each(function (i, optElem) {
             var opt = jQuery(optElem);
-            opt.text(it.numberFormat.addRemovePercentageForNumber(opt.text(), jive.selected.form.inputs['percentageBtn'].selected));
-            opt.val(it.numberFormat.addRemovePercentage(opt.val(), jive.selected.form.inputs['percentageBtn'].selected));
+            opt.text(it.numberFormat.addRemovePercentageForNumber(opt.text(), jive.selected.form.inputs['percentageBtn'].value));
+            opt.val(it.numberFormat.addRemovePercentage(opt.val(), jive.selected.form.inputs['percentageBtn'].value));
         });
     },
     toggleCommaFormat: function(){
         var it = this;
         jQuery('#formatPattern').children().each(function (i, optElem) {
             var opt = jQuery(optElem);
-            opt.text(it.numberFormat.addRemoveThousandsSeparator(opt.text(), jive.selected.form.inputs['commaBtn'].selected));
-            opt.val(it.numberFormat.addRemoveThousandsSeparator(opt.val(), jive.selected.form.inputs['commaBtn'].selected));
+            opt.text(it.numberFormat.addRemoveThousandsSeparator(opt.text(), jive.selected.form.inputs['commaBtn'].value));
+            opt.val(it.numberFormat.addRemoveThousandsSeparator(opt.val(), jive.selected.form.inputs['commaBtn'].value));
         });
     },
     addDecimal: function(){
@@ -768,9 +760,9 @@ jive.interactive.column.formatHeaderForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
-                    {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
-                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
+                    {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon',isTripleState: true},
+                    {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon',isTripleState: true},
+                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon',isTripleState: true}
                 ]
             },
             {
@@ -807,10 +799,10 @@ jive.interactive.column.formatHeaderForm = {
         	metadata = jive.selected.ie.headingsTabContent;
         }
 
-        metadata.fontBold ? inputs['headerFontBold'].set() : inputs['headerFontBold'].unset();
-        metadata.fontItalic ?  inputs['headerFontItalic'].set() : inputs['headerFontItalic'].unset();
-        metadata.fontUnderline ?  inputs['headerFontUnderline'].set() : inputs['headerFontUnderline'].unset();
-
+        inputs['headerFontBold'].set(metadata.fontBold);
+        inputs['headerFontItalic'].set(metadata.fontItalic);
+        inputs['headerFontUnderline'].set(metadata.fontUnderline);
+        
         inputs['headerFontAlign'].set(metadata.fontHAlign);
         inputs['headingName'].set(metadata.headingName);
         inputs['headerFontName'].set(metadata.fontName);
@@ -877,9 +869,9 @@ jive.interactive.column.formatCellsForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
-                    {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
-                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
+                    {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon',isTripleState: true},
+                    {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon',isTripleState: true},
+                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon',isTripleState: true}
                 ]
             },
             {
@@ -957,10 +949,10 @@ jive.interactive.column.formatCellsForm = {
         	metadata = jive.selected.ie.valuesTabContent;
         }
 
-        metadata.fontBold ? inputs['cellsFontBold'].set() : inputs['cellsFontBold'].unset();
-        metadata.fontItalic ?  inputs['cellsFontItalic'].set() : inputs['cellsFontItalic'].unset();
-        metadata.fontUnderline ?  inputs['cellsFontUnderline'].set() : inputs['cellsFontUnderline'].unset();
-
+        inputs['cellsFontBold'].set(metadata.fontBold);
+        inputs['cellsFontItalic'].set(metadata.fontItalic);
+        inputs['cellsFontUnderline'].set(metadata.fontUnderline);
+        
         inputs['cellsFontAlign'].set(metadata.fontHAlign);
         inputs['cellsFontName'].set(metadata.fontName);
         inputs['cellsFontSize'].set(metadata.fontSize);
@@ -977,8 +969,8 @@ jive.interactive.column.formatCellsForm = {
             if (ie.formatPatternLabel.indexOf('Number') >= 0) {
                 jo.find('tr:eq(2)').children('td:last').css('visibility','visible');
                 jo.find('tr:eq(3)').children('td:last').css('visibility','visible');
-            	inputs['percentageBtn'].unset();
-            	inputs['commaBtn'].unset();
+            	inputs['percentageBtn'].set(false);
+            	inputs['commaBtn'].set(false);
             } else {
                 jo.find('tr:eq(2)').children('td:last').css('visibility','hidden');
                 jo.find('tr:eq(3)').children('td:last').css('visibility','hidden');
@@ -1088,9 +1080,9 @@ jive.interactive.column.columnConditionalFormattingForm = {
 		{
 	        type: 'buttons',
 	        items: [
-	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon'},
-	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon'},
-	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon'},
+	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon', isTripleState: true},
+	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon', isTripleState: true},
+	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon', isTripleState: true},
 	            {type:'color',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
 	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
 	        ]
@@ -1234,11 +1226,17 @@ jive.interactive.column.columnConditionalFormattingForm = {
         	row.find('select[name=conditionTypeOperator]').val(conditionData.conditionTypeOperator).trigger('change');
         	inputs[row.find('input[name=conditionEnd]').attr('id')].set(conditionData.conditionEnd);
         	inputs[row.find('input[name=conditionStart]').attr('id')].set(conditionData.conditionStart);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].setValue(conditionData.conditionFontBold);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].setValue(conditionData.conditionFontItalic);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].setValue(conditionData.conditionFontUnderline);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(conditionData.conditionFontBold);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor);
+        } else {
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(null);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(null);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(null);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(null);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(null);
         }
         
         table.trigger('rowchange');

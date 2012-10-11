@@ -606,18 +606,18 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colHeaderData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
 					colHeaderData.setColumnIndex(columnIndex);
 					colHeaderData.setTableUuid(tableUuid);
-					colHeaderData.setFontName(textElement.getFontName());
-					colHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
-					colHeaderData.setFontBold(textElement.isBold());
-					colHeaderData.setFontItalic(textElement.isItalic());
-					colHeaderData.setFontUnderline(textElement.isUnderline());
-					colHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
-					colHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+					colHeaderData.setFontName(textElement.getOwnFontName());
+					colHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+					colHeaderData.setFontBold(textElement.isOwnBold());
+					colHeaderData.setFontItalic(textElement.isOwnItalic());
+					colHeaderData.setFontUnderline(textElement.isOwnUnderline());
+					colHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+					colHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
 					
-					if (textElement.getModeValue().equals(ModeEnum.TRANSPARENT)) {
+					if (textElement.getOwnModeValue() != null && textElement.getOwnModeValue().equals(ModeEnum.TRANSPARENT)) {
 						colHeaderData.setFontBackColor("transparent");
-					} else {
-						colHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+					} else if (textElement.getOwnBackcolor() != null) {
+						colHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getOwnBackcolor()));
 					}
 				}
 			}
@@ -647,19 +647,19 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
-					colValueData.setFontName(textElement.getFontName());
-					colValueData.setFontSize(String.valueOf(textElement.getFontSize()));
-					colValueData.setFontBold(textElement.isBold());
-					colValueData.setFontItalic(textElement.isItalic());
-					colValueData.setFontUnderline(textElement.isUnderline());
-					colValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
-					colValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
-					colValueData.setFormatPattern(textElement.getPattern());
+					colValueData.setFontName(textElement.getOwnFontName());
+					colValueData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+					colValueData.setFontBold(textElement.isOwnBold());
+					colValueData.setFontItalic(textElement.isOwnItalic());
+					colValueData.setFontUnderline(textElement.isOwnUnderline());
+					colValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+					colValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+					colValueData.setFormatPattern(textElement.getOwnPattern());
 					
-					if (textElement.getModeValue().equals(ModeEnum.TRANSPARENT)) {
+					if (textElement.getOwnModeValue() != null && textElement.getOwnModeValue().equals(ModeEnum.TRANSPARENT)) {
 						colValueData.setFontBackColor("transparent");
-					} else {
-						colValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+					} else if (textElement.getOwnBackcolor() != null) {
+						colValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getOwnBackcolor()));
 					}
 				}
 			}

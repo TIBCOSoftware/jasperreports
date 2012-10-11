@@ -34,9 +34,9 @@ public class EditColumnHeaderData extends BaseColumnData {
 	private String headingName;
 	private String fontName;
 	private String fontSize;
-	private boolean fontBold;
-	private boolean fontItalic;
-	private boolean fontUnderline;
+	private Boolean fontBold;
+	private Boolean fontItalic;
+	private Boolean fontUnderline;
 	private String fontColor;
 	private String fontBackColor;
 	private String fontHAlign;
@@ -76,27 +76,27 @@ public class EditColumnHeaderData extends BaseColumnData {
 		this.fontSize = fontSize;
 	}
 
-	public boolean getFontBold() {
+	public Boolean getFontBold() {
 		return fontBold;
 	}
 
-	public void setFontBold(boolean fontBold) {
+	public void setFontBold(Boolean fontBold) {
 		this.fontBold = fontBold;
 	}
 
-	public boolean getFontItalic() {
+	public Boolean getFontItalic() {
 		return fontItalic;
 	}
 
-	public void setFontItalic(boolean fontItalic) {
+	public void setFontItalic(Boolean fontItalic) {
 		this.fontItalic = fontItalic;
 	}
 
-	public boolean getFontUnderline() {
+	public Boolean getFontUnderline() {
 		return fontUnderline;
 	}
 
-	public void setFontUnderline(boolean fontUnderline) {
+	public void setFontUnderline(Boolean fontUnderline) {
 		this.fontUnderline = fontUnderline;
 	}
 
