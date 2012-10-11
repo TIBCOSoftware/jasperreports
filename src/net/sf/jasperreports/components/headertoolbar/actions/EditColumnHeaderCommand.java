@@ -67,14 +67,14 @@ public class EditColumnHeaderCommand implements Command
 		
 		if (textElement != null) {
 			oldEditColumnHeaderData = new EditColumnHeaderData();
-			oldEditColumnHeaderData.setFontName(textElement.getFontName());
-			oldEditColumnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
-			oldEditColumnHeaderData.setFontBold(textElement.isBold());
-			oldEditColumnHeaderData.setFontItalic(textElement.isItalic());
-			oldEditColumnHeaderData.setFontUnderline(textElement.isUnderline());
-			oldEditColumnHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
-			oldEditColumnHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
-			oldEditColumnHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+			oldEditColumnHeaderData.setFontName(textElement.getOwnFontName());
+			oldEditColumnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+			oldEditColumnHeaderData.setFontBold(textElement.isOwnBold());
+			oldEditColumnHeaderData.setFontItalic(textElement.isOwnItalic());
+			oldEditColumnHeaderData.setFontUnderline(textElement.isOwnUnderline());
+			oldEditColumnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+			oldEditColumnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+			oldEditColumnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
 			
 			applyColumnHeaderData(editColumnHeaderData, textElement, true);
 		}
@@ -104,11 +104,11 @@ public class EditColumnHeaderCommand implements Command
 			}
 		}
 		textElement.setFontName(headerData.getFontName());
-		textElement.setFontSize(Integer.valueOf(headerData.getFontSize()));
+		textElement.setFontSize(headerData.getFontSize() != null ? Integer.valueOf(headerData.getFontSize()) : null);
 		textElement.setBold(headerData.getFontBold());
 		textElement.setItalic(headerData.getFontItalic());
 		textElement.setUnderline(headerData.getFontUnderline());
-		textElement.setForecolor(JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()));
+		textElement.setForecolor(headerData.getFontColor() != null ? JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()) : null);
 		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(headerData.getFontHAlign()));
 		
 		if (headerData.getFontBackColor() != null) {
@@ -118,6 +118,9 @@ public class EditColumnHeaderCommand implements Command
 				textElement.setMode(ModeEnum.OPAQUE);
 				textElement.setBackcolor(JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white));
 			}
+		} else {
+			textElement.setBackcolor(null);
+			textElement.setMode(null);
 		}
 	}
 

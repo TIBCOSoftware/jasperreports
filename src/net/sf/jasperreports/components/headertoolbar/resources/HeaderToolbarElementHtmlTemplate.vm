@@ -45,7 +45,8 @@
         <div class="dialogBody" style="text-align:left;">
             <table>
                 <tbody>
-                <tr class="transparent_pick"><td colspan="10"><div class="pick" hexcolor="transparent" style="border: 1px solid black; width: 240px;">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.colorpicker.none')</div></td></tr>
+                <tr class="transparent_pick"><td colspan="10"><div class="pick" hexcolor="transparent">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.colorpicker.transparent')</div></td></tr>
+                <tr class="reset_pick"><td colspan="10"><div class="pick" hexcolor="none">$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.colorpicker.none')</div></td></tr>
                 <tr>
                     <td><div class="pick" hexcolor="RGB (152, 0, 0)" style="background-color: rgb(152, 0, 0);  " title="RGB (152, 0, 0)"></div></td>
                     <td><div class="pick" hexcolor="RGB (255, 0, 0)" style="background-color: rgb(255, 0, 0);  " title="RGB (255, 0, 0)"></div></td>

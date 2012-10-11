@@ -322,7 +322,7 @@ div.t_wrap {padding-right: 4px;}
 
 .jive_form input[type="radio"]{width:auto;height:auto;float:left;position:relative;display:block;border:none;}
 
-.jive_form select.showList {height:auto; !important}
+.jive_form select.showList {height:auto; !important; display: inherit;}
 .jive_form select.wFreeText {margin-top:8px; !important}
 
 .jive_form .colorbar {height:24px;border:solid 1px #ccc;}
@@ -348,7 +348,9 @@ div.t_wrap {padding-right: 4px;}
 .jive_inputbutton.over {background-position:-50px -45px;}
 .jive_inputbutton.pressed {background-position:-50px -103px;}
 .jive_inputbutton.selected {background-position: 0 -50px;}
+.jive_inputbutton.unchanged {background-position: -124px 0px;}
 .jive_inputbutton.drop {background-position: -58px 0; width: 34px;}
+.jive_inputbutton.drop.unchanged {background-position: -182px 0;}
 .jive_inputbutton.drop > .jive_bIcon {
     margin-left: 5px;
     margin-top: 1px;
@@ -365,6 +367,19 @@ div.t_wrap {padding-right: 4px;}
 .selected .underlineIcon {
     background-position: -30px -94px;
 }
+
+.unchanged .boldIcon {
+	background-position: -60px -3px;
+}
+
+.unchanged .italicIcon {
+    background-position: -60px -49px;
+}
+
+.unchanged .underlineIcon {
+    background-position: -60px -94px;
+}
+
 .jive_inputbutton > div.colorpick {
     cursor: pointer;
     position: absolute;
@@ -455,6 +470,9 @@ div.colorpick.wide {
 .backgroundColorIcon {
     background-position: 0 -551px;
 }
+.unchanged .backgroundColorIcon {
+    background-position: -60px -551px;
+}
 .moveUpIcon {
     background-position: 0 -598px;
 }
@@ -494,11 +512,17 @@ div.colorpick.wide {
 .fontColorIcon {
     background-position:0 -508px;
 }
+.unchanged .fontColorIcon {
+    background-position: -60px -508px;
+}
 
 #jive_colorpicker {z-index:10000;}
-#jive_colorpicker td {background:#fff;border:solid 1px #fff;}
+#jive_colorpicker td {background:#fff;border:solid 1px #fff;padding:0;}
 #jive_colorpicker td.selected {background:#eee;border:solid 1px #eee;}
 #jive_colorpicker .pick {width:16px;height:16px;margin:4px;cursor:pointer;}
+#jive_colorpicker table {border-collapse: collapse;}
+#jive_colorpicker tr.transparent_pick div.pick{border: 1px solid black; width: 240px;}
+#jive_colorpicker tr.reset_pick div.pick{border: 1px solid black; width: 240px;}
 .interactiveElement{cursor:pointer;}
 
 div.ui-datepicker {font-size: 11px;}
@@ -506,8 +530,8 @@ div.ui-datepicker {font-size: 11px;}
 /* CONDITION LIST */
 .conditionList {
 	border-collapse: separate;
-	border-collapse: collapse \9;
 	border:1px solid #c0c0c0;
+	border-spacing: 0;
 	color:#666666;
 }
 

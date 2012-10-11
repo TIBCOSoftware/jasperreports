@@ -401,9 +401,14 @@ jive.ui.dialog = {
             jo.focus();
             if(jo.attr('type') == 'radio') jo.trigger('change').prop('checked',true);
         });
+        it.body.on('change', '.jive_listTextInput, .jive_listTextInputTouch', function (e) {
+        	var jo = jQuery(this);
+        	jive.selected.form.inputs[jo.next('select').attr('name')].value = jo.val() !== "" ? jo.val() : null;
+        });
         it.body.on('change','select.wFreeText',function(e){
             var jo = jQuery(this);
             jo.prev().val(jo.val());
+            jive.selected.form.inputs[jo.attr('name')].value = jo.val();
         });
         it.body.on('keypress', '.jive_restrictedInput', function(e) {
         	if (jQuery(this).data('restriction') === "numeric" && isNaN(String.fromCharCode(e.which))) {
@@ -416,7 +421,7 @@ jive.ui.dialog = {
             input = jive.selected.form.inputs[jo.attr('bname')];
             switch(jo.attr('type')) {
                 case "radio":
-                    input.set(jo.attr('value'));
+                    input.set(jo.attr('value'), jo);
                     break;
                 case "checkbox":
                     input.toggle();
@@ -593,12 +598,15 @@ jive.ui.forms = {
             tb.push('</div>');
 
             parms.inputs[e.id] = {
+            	value: null,
                 set:function(val) {
+                	this.value = val;
                     jQuery('#'+e.id).val(val);
                     e.freeText && jQuery('#'+e.id+'Text').val(val);
                 },
                 get:function(){
-                    return e.freeText ? jQuery('#'+e.id+'Text').val() : jQuery('#'+e.id).val();
+//                    return e.freeText ? jQuery('#'+e.id+'Text').val() : jQuery('#'+e.id).val();
+                	return this.value;
                 }
             }
         }
@@ -660,22 +668,29 @@ jive.ui.forms = {
                 }
                 if(v.type == 'checkbox') {
                     parms.inputs[v.id] = {
-                        selected: false,
-                        set:function() {
-                            jQuery('input[name="'+v.id+'"]').val('true');
-                            jQuery('div.jive_inputbutton[bname="'+v.id+'"]').addClass('selected');
-                            this.selected = true;
+                        value: null,
+                        set: function(val) {
+                        	var btn = jQuery('div.jive_inputbutton[bname="'+v.id+'"]');
+                        	this.value = val;
+                        	if (val === true) {
+                        		btn.removeClass('unchanged').addClass('selected');
+                        	} else if (val === false) {
+                        		btn.removeClass('unchanged').removeClass('selected');
+                        	} else if (val === null) {
+                        		if (v.isTripleState) btn.removeClass('selected').addClass('unchanged');
+                        		else this.set(false); 
+                        	}
                         },
-                        unset:function() {
-                            jQuery('input[name="'+v.id+'"]').val('false');
-                            jQuery('div.jive_inputbutton[bname="'+v.id+'"]').removeClass('selected');
-                            this.selected = false;
-                        },
-                        toggle:function(){
-                            this.selected ? this.unset() : this.set();
+                        toggle: function() {
+                        	if (this.value === true) {
+                        		this.set(false);
+                        	} else if (this.value === false) {
+                        		if (v.isTripleState) this.set(null);
+                        		else this.set(true); 
+                        	} else if (v.isTripleState && this.value === null) this.set(true);
                         },
                         get:function(){
-                            return jQuery('input[name="'+v.id+'"]').val() === "true";
+                            return this.value;
                         },
                         onClick: function(){
                             v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
@@ -684,15 +699,21 @@ jive.ui.forms = {
                 }
                 if(v.type == 'radio' && !parms.inputs[v.id]) {
                     parms.inputs[v.id] = {
-                        set:function(val) {
-                            jQuery('input[name="'+v.id+'"]').val(val);
+                    	value: null,
+                        set:function(val, jo) {
+                        	if (jo && jo.is('.selected')) {
+                        		this.set(null);
+                        		return;
+                        	}
+                            this.value = val;
                             jQuery('div.jive_inputbutton[bname="'+v.id+'"]').removeClass('selected');
                             jQuery('div.jive_inputbutton[bname="'+v.id+'"][value="'+val+'"]').addClass('selected');
+
                         },
                         get:function(){
-                            return jQuery('input[name="'+v.id+'"]').val();
+                            return this.value;
                         },
-                        onClick: function(){
+                        onClick: function(jo){
                             v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
                         }
                     }
@@ -706,12 +727,20 @@ jive.ui.forms = {
                 }
                 if(v.type == 'color') {
 					parms.inputs[v.id] = {
+							value: null,
 							set:function(val) {
-								jQuery('input[name="'+v.id+'"]').val(val);
-								jQuery('div.jive_inputbutton[bname="'+v.id+'"]').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
+								var btn = jQuery('div.jive_inputbutton[bname="'+v.id+'"]');
+								this.value = val;
+								if (val === null) {
+									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (val === 'none') {
+									this.set(null);
+								} else {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
+								}
 							},
 							get:function(){
-								return jQuery('input[name="'+v.id+'"]').val();
+								return this.value;
 							},
 							onClick:function(jo){
 								jive.ui.colorpicker.show({
@@ -828,37 +857,37 @@ jive.ui.forms = {
 				tb.push('</div>');
 				
 				if(v.type == 'checkbox') {
-					parms.inputs[vid] = {
-							selected: false,
-							setValue: function(bValue) {
-								if (bValue != null) {
-									jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', bValue);
-									bValue && jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
-									!bValue && jQuery('div.jive_inputbutton[bname="'+vid+'"]').removeClass('selected');
-									this.selected = bValue;
-								}
-							},
-							set:function() {
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', true);
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').addClass('selected');
-								this.selected = true;
-							},
-							unset:function() {
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', false);
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').removeClass('selected');
-								this.selected = false;
-							},
-							toggle:function(){
-								this.selected ? this.unset() : this.set();
-							},
-							get:function(){
-								return jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value');
-							},
-							onClick: function(){
-								v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
-							}
-					}
-				}
+                    parms.inputs[vid] = {
+                        value: null,
+                        set: function(val) {
+                        	var btn = jQuery('div.jive_inputbutton[bname="'+vid+'"]');
+                        	this.value = val;
+                        	if (val === true) {
+                        		btn.removeClass('unchanged').addClass('selected');
+                        	} else if (val === false) {
+                        		btn.removeClass('unchanged').removeClass('selected');
+                        	} else if (val === null) {
+                        		if (v.isTripleState) btn.removeClass('selected').addClass('unchanged');
+                        		else this.set(false); 
+                        	}
+                        },
+                        toggle: function() {
+                        	if (this.value === true) {
+                        		this.set(false);
+                        	} else if (this.value === false) {
+                        		if (v.isTripleState) this.set(null);
+                        		else this.set(true); 
+                        	} else if (v.isTripleState && this.value === null) this.set(true);
+                        },
+                        get:function(){
+                            return this.value;
+                        },
+                        onClick: function(){
+                            v.fn && jive.interactive[jive.selected.ie.type][v.fn]();
+                        }
+                    }
+                }
+				
 				if(v.type == 'action'){
 					parms.inputs[vid] = {
 							onClick: function(jo){
@@ -869,19 +898,27 @@ jive.ui.forms = {
 				}
 				if(v.type == 'color') {
 					parms.inputs[vid] = {
+							value: null,
 							set:function(val) {
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value', val);
-								jQuery('div.jive_inputbutton[bname="'+vid+'"]').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
+								var btn = jQuery('div.jive_inputbutton[bname="'+vid+'"]');
+								this.value = val;
+								if (val === null) {
+									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (val === 'none') {
+									this.set(null);
+								} else {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
+								}
 							},
 							get:function(){
-								return jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value');
+								return this.value;
 							},
 							onClick:function(jo){
 								jive.ui.colorpicker.show({
 									title: v.title,
 									inputId: vid,
 									anchor: jo,
-									currentColor: jQuery('div.jive_inputbutton[bname="'+vid+'"]').data('value'),
+									currentColor: jQuery('input[name="'+vid+'"]').val(),
 									showTransparent: v.showTransparent
 								});
 							}

@@ -63,17 +63,17 @@ public class EditColumnValuesCommand implements Command
 		
 		if (textElement != null) {
 			oldEditColumnValueData = new EditColumnValueData();
-			oldEditColumnValueData.setFontName(textElement.getFontName());
-			oldEditColumnValueData.setFontSize(String.valueOf(textElement.getFontSize()));
-			oldEditColumnValueData.setFontBold(textElement.isBold());
-			oldEditColumnValueData.setFontItalic(textElement.isItalic());
-			oldEditColumnValueData.setFontUnderline(textElement.isUnderline());
-			oldEditColumnValueData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
-			oldEditColumnValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
-			oldEditColumnValueData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+			oldEditColumnValueData.setFontName(textElement.getOwnFontName());
+			oldEditColumnValueData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+			oldEditColumnValueData.setFontBold(textElement.isOwnBold());
+			oldEditColumnValueData.setFontItalic(textElement.isOwnItalic());
+			oldEditColumnValueData.setFontUnderline(textElement.isOwnUnderline());
+			oldEditColumnValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+			oldEditColumnValueData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+			oldEditColumnValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
 			
 			if (TableUtil.isSortableAndFilterable(textElement)) {
-				oldEditColumnValueData.setFormatPattern(textElement.getPattern());
+				oldEditColumnValueData.setFormatPattern(textElement.getOwnPattern());
 			}
 			
 			applyColumnHeaderData(editColumnValueData, textElement, true);
@@ -82,11 +82,11 @@ public class EditColumnValuesCommand implements Command
 
 	private void applyColumnHeaderData(EditColumnValueData headerData, JRDesignTextField textElement, boolean execute) {
 		textElement.setFontName(headerData.getFontName());
-		textElement.setFontSize(Integer.valueOf(headerData.getFontSize()));
+		textElement.setFontSize(headerData.getFontSize() != null ? Integer.valueOf(headerData.getFontSize()) : null);
 		textElement.setBold(headerData.getFontBold());
 		textElement.setItalic(headerData.getFontItalic());
 		textElement.setUnderline(headerData.getFontUnderline());
-		textElement.setForecolor(JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()));
+		textElement.setForecolor(headerData.getFontColor() != null ? JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()) : null);
 		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(headerData.getFontHAlign()));
 		
 		if (TableUtil.isSortableAndFilterable(textElement)) {
@@ -100,6 +100,9 @@ public class EditColumnValuesCommand implements Command
 				textElement.setMode(ModeEnum.OPAQUE);
 				textElement.setBackcolor(JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white));
 			}
+		} else {
+			textElement.setBackcolor(null);
+			textElement.setMode(null);
 		}
 	}
 
