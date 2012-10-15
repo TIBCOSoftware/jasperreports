@@ -698,7 +698,7 @@ jQuery.noConflict();
 		},
 		processSubscriber: function(subscriber) {
 			var jg = jasperreports.global;
-			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args);
+			jg.extractCallbackFunction(subscriber.callback).apply(jg.extractContext(subscriber.ctx), subscriber.args || []);
 		}
 	};
 
