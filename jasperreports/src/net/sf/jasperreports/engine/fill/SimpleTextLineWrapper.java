@@ -278,7 +278,7 @@ public class SimpleTextLineWrapper implements TextLineWrapper
 			if (log.isTraceEnabled())
 			{
 				log.trace("creating element font info for " + fontKey
-						+ (elementFontKey.first() == null ? "" : (" and element " + elementFontKey.first())));
+						+ (elementFontKey == null ? "" : (" and element " + elementFontKey.first())));
 			}
 			
 			fontInfo = new ElementFontInfo(generalFontInfo);
