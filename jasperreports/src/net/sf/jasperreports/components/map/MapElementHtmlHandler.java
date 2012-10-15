@@ -23,6 +23,10 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.GenericElementHtmlHandler;
@@ -34,8 +38,6 @@ import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
 
-import org.apache.velocity.VelocityContext;
-
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id:ChartThemesUtilities.java 2595 2009-02-10 17:56:51Z teodord $
@@ -46,6 +48,15 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 	
 	private static final String RESOURCE_MAP_JS = "net/sf/jasperreports/components/map/resources/map.js";
 	private static final String MAP_ELEMENT_HTML_TEMPLATE = "net/sf/jasperreports/components/map/resources/templates/MapElementHtmlTemplate.vm";
+	
+	private static class CustomJRExporterParameter extends JRExporterParameter{
+
+		protected CustomJRExporterParameter(String name) {
+			super(name);
+		}
+	}
+	
+	private CustomJRExporterParameter param = new MapElementHtmlHandler.CustomJRExporterParameter("exporter_first_attempt");
 
 	public static MapElementHtmlHandler getInstance()
 	{
@@ -66,38 +77,44 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
-		VelocityContext velocityContext = new VelocityContext();
+		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)
 		{
-			velocityContext.put("resourceMapJs", WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
+			contextMap.put("resourceMapJs", WebUtil.getInstance(context.getJasperReportsContext()).getResourcePath(MapElementHtmlHandler.RESOURCE_MAP_JS));
 		}
-		velocityContext.put("gotReportContext", reportContext != null);
-		velocityContext.put("latitude", latitude);
-		velocityContext.put("longitude", longitude);
-		velocityContext.put("zoom", zoom);
-		velocityContext.put("mapType", mapType);
+		contextMap.put("mapCanvasId", "map_canvas_" + element.hashCode());
+		contextMap.put("gotReportContext", reportContext != null);
+		contextMap.put("latitude", latitude);
+		contextMap.put("longitude", longitude);
+		contextMap.put("zoom", zoom);
+		contextMap.put("mapType", mapType);
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		if(context.getExporter() instanceof JRXhtmlExporter)
 		{
-			velocityContext.put("xhtml", "xhtml");
-			velocityContext.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-			velocityContext.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			contextMap.put("xhtml", "xhtml");
+			contextMap.put("elementX", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+			contextMap.put("elementY", ((JRXhtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 		}
 		else
 		{
-			velocityContext.put("elementX", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
-			velocityContext.put("elementY", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
+			contextMap.put("elementX", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getX()));
+			contextMap.put("elementY", ((JRHtmlExporter)context.getExporter()).toSizeUnit(element.getY()));
 		}
-		velocityContext.put("elementWidth", element.getWidth());
-		velocityContext.put("elementHeight", element.getHeight());
+		contextMap.put("elementWidth", element.getWidth());
+		contextMap.put("elementHeight", element.getHeight());
+		
+		if (!(context.getExportParameters().containsKey(param))) {
+			context.getExportParameters().put(param, true);
+			contextMap.put("exporterFirstAttempt", true);
+		}
 		
 		if (element.getModeValue() == ModeEnum.OPAQUE)
 		{
-			velocityContext.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
+			contextMap.put("backgroundColor", JRColorUtil.getColorHexa(element.getBackcolor()));
 		}
-		return VelocityUtil.processTemplate(MAP_ELEMENT_HTML_TEMPLATE, velocityContext);
+		return VelocityUtil.processTemplate(MAP_ELEMENT_HTML_TEMPLATE, contextMap);
 	}
 
 	public boolean toExport(JRGenericPrintElement element) {
