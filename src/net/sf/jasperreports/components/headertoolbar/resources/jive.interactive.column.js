@@ -1027,50 +1027,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	name: 'columnConditionalFormatting',
 	title: 'Conditional Formatting',
     method: 'get',
-    options: {
-            text : [
-                {key:'IS_ONE_OF',val:'Is one of'},
-                {key:'IS_NOT_ONE_OF',val:'Is not one of'},
-                {key:'EQUALS',val:'Equals'},
-                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                {key:'CONTAINS',val:'Contains'},
-                {key:'DOES_NOT_CONTAIN',val:'Does not contain'},
-                {key:'STARTS_WITH',val:'Starts with'},
-                {key:'DOES_NOT_START_WITH',val:'Does not start with'},
-                {key:'ENDS_WITH',val:'Ends with'},
-                {key:'DOES_NOT_END_WITH',val:'Does not end with'}
-            ],
-            date: [
-                {key:'EQUALS',val:'Equals'},
-                {key:'IS_NOT_EQUAL_TO',val:'Is not equal to'},
-                {key:'IS_BETWEEN',val:'Is between'},
-                {key:'IS_NOT_BETWEEN',val:'Is not between'},
-                {key:'IS_ON_OR_BEFORE',val:'Is on or before'},
-                {key:'IS_BEFORE',val:'Is before'},
-                {key:'IS_ON_OR_AFTER',val:'Is on or after'},
-                {key:'IS_AFTER',val:'Is after'}
-            ],
-            numeric: [
-                {key:'IS_ONE_OF',val:'Is one of'},
-                {key:'IS_NOT_ONE_OF',val:'Is not one of'},
-                {key:'EQUALS',val:'Equals'},
-                {key:'DOES_NOT_EQUAL',val:'Does not equal'},
-                {key:'GREATER_THAN',val:'Greater than'},
-                {key:'GREATER_THAN_EQUAL_TO',val:'Greater than or equal to'},
-                {key:'LESS_THAN',val:'Less than'},
-                {key:'LESS_THAN_EQUAL_TO',val:'Less than or equal to'},
-                {key:'IS_BETWEEN',val:'Is between'},
-                {key:'IS_NOT_BETWEEN',val:'Is not between'}
-            ],
-            boolean: [
-                {key:'IS_ONE_OF',val:'Is one of'},
-				{key:'IS_NOT_ONE_OF',val:'Is not one of'},
-                {key:'IS_TRUE', val:'Is true'},
-                {key:'IS_NOT_TRUE', val:'Is not true'},
-                {key:'IS_FALSE', val:'Is false'},
-                {key:'IS_NOT_FALSE', val:'Is not false'}
-            ]
-    },
+    options: null,
     templateElements: [
         {type:'label', value:''},
 		{type:'list', id:'conditionTypeOperator', values:[]},
@@ -1152,6 +1109,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
     },
     onShow:function(){
     	var it = this;
+    	it.options = jive.selected.ie.filtering.filterOperatorTypeValueSelector;
     	
     	if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].conditionalFormattingData.conditions;
@@ -1206,7 +1164,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
         row = jQuery(tr.join(''));
         row.insertBefore(table.find('tr:last'));
         
-        jQuery.each(it.options[conditionType], function(k,v) {
+//        jQuery.each(it.options[conditionType], function(k,v) {
+       	jQuery.each(it.options, function(k,v) {
         	v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
         });
         
