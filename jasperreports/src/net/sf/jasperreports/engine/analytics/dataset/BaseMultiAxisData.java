@@ -153,7 +153,14 @@ public class BaseMultiAxisData implements MultiAxisData, Serializable
 		}
 		
 		clone.dataset = JRCloneUtils.nullSafeClone(dataset);
+		
 		clone.axisList = JRCloneUtils.cloneList(axisList);
+		clone.axes = new DataAxis[Axis.axisCount()];
+		for (DataAxis axis : clone.axisList)
+		{
+			clone.axes[axis.getAxis().ordinal()] = axis;
+		}
+		
 		clone.measures = JRCloneUtils.cloneList(measures);
 		return clone;
 	}
