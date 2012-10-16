@@ -1451,7 +1451,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	/**
 	 *
 	 */
-	protected Format getDateFormat(String pattern)
+	public Format getDateFormat(String pattern)
 	{
 		Locale lc = getLocale();
 		TimeZone tz = getTimeZone();
@@ -1472,7 +1472,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 	/**
 	 *
 	 */
-	protected Format getNumberFormat(String pattern)
+	public Format getNumberFormat(String pattern)
 	{
 		Locale lc = getLocale();
 		String key = pattern + "|" + JRDataUtils.getLocaleCode(lc);
