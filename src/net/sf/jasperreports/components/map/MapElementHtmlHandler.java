@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -77,6 +78,47 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		mapType = (mapType == null ? MapPrintElement.DEFAULT_MAP_TYPE.getName() : mapType).toUpperCase();
 
+		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
+		String markers = "[";
+		if(markerList!= null && !markerList.isEmpty())
+		{
+			for(Map<String,Object> markerProps : markerList)
+			{
+				boolean firstOccurence = true;
+				if(markers.length() == 1)
+				{
+					markers += "{";
+				}
+				else
+				{
+					markers += ", {";
+				}
+				for(String name : markerProps.keySet())
+				{
+					if(firstOccurence)
+					{
+						markers += name +":";
+						firstOccurence = false;
+					}
+					else
+					{
+						markers += ", "+name+":";
+					}
+					Object value = markerProps.get(name);
+					if(value instanceof String)
+					{
+						markers += "'" + value + "'";
+					}
+					else 
+					{
+						markers += value;
+					}
+				}
+				markers += "}";
+			}
+		}
+		markers +="]";
+		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
 		if (reportContext != null)
@@ -89,6 +131,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		contextMap.put("longitude", longitude);
 		contextMap.put("zoom", zoom);
 		contextMap.put("mapType", mapType);
+		contextMap.put("markerList", markers);
+
 //		velocityContext.put("divId", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.id"));
 //		velocityContext.put("divClass", element.getPropertiesMap().getProperty("net.sf.jasperreports.export.html.class"));
 		if(context.getExporter() instanceof JRXhtmlExporter)

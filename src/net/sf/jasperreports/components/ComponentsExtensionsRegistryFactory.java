@@ -37,7 +37,7 @@ import net.sf.jasperreports.components.list.ListComponentCompiler;
 import net.sf.jasperreports.components.list.ListDesignConverter;
 import net.sf.jasperreports.components.map.MapCompiler;
 import net.sf.jasperreports.components.map.MapDesignConverter;
-import net.sf.jasperreports.components.map.MapFillFactory;
+import net.sf.jasperreports.components.map.fill.MapFillFactory;
 import net.sf.jasperreports.components.sort.SortComponentCompiler;
 import net.sf.jasperreports.components.sort.SortComponentDesignConverter;
 import net.sf.jasperreports.components.sort.SortComponentFillFactory;

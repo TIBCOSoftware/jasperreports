@@ -14,17 +14,31 @@
 #if (${gotReportContext})
 	<script class='jasperreports' type='text/javascript'>
 		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps');
-		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', '${latitude}', '${longitude}', ${zoom}, '${mapType}']);
+		var markers = ${markerList};
+		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', '${latitude}', '${longitude}', ${zoom}, '${mapType}', markers]);
 	</script>
 #else
 	#if (${exporterFirstAttempt})
 	<script class='jasperreports' src='http://maps.google.com/maps/api/js?sensor=false'></script>
 	#end
 	<script class='jasperreports' type='text/javascript'>
-		new google.maps.Map(document.getElementById('${mapCanvasId}'), {
-					zoom: ${zoom},
-					center: new google.maps.LatLng('${latitude}', '${longitude}'), 
-					mapTypeId: google.maps.MapTypeId.${mapType}
-				});
+		(function () {
+			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
+						zoom: ${zoom},
+						center: new google.maps.LatLng('${latitude}', '${longitude}'), 
+						mapTypeId: google.maps.MapTypeId.${mapType}
+					});
+			var markers = ${markerList};
+			if(markers){
+				for (var i = 0; i < markers.length; i++) {
+				    var markerProps = markers[i];
+				    var markerLatLng = new google.maps.LatLng(markerProps['latitude'], markerProps['longitude']);
+				    var marker = new google.maps.Marker({
+				        position: markerLatLng,
+				        map: map
+				    });
+				}
+			}
+		}());		
 	</script>
 #end

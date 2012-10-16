@@ -20,7 +20,7 @@
 		<defaultValueExpression>$P{reqLongitude} == null ? Float.valueOf(26.096f) : $P{reqLongitude}</defaultValueExpression>
 	</parameter>
 	<parameter name="zoom" class="java.lang.Integer">
-		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(12) : $P{reqZoom}</defaultValueExpression>
+		<defaultValueExpression>$P{reqZoom} == null ? Integer.valueOf(11) : $P{reqZoom}</defaultValueExpression>
 	</parameter>
 	<title>
 		<band height="70">
@@ -71,9 +71,9 @@
 				<textFieldExpression class="java.lang.String"><![CDATA["Bucharest"]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="0" y="20" width="515" height="326"/>
+				<reportElement x="0" y="20" width="515" height="326" />
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
-					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" evaluationTime="Report">
 					<c:latitudeExpression><![CDATA[$P{latitude}]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[$P{longitude}]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
@@ -93,7 +93,26 @@
 					mapType="satellite" mapScale="2" imageType="jpg">
 					<c:latitudeExpression><![CDATA[37.788056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
-					<c:zoomExpression><![CDATA[$P{zoom}]]></c:zoomExpression>
+					<c:zoomExpression><![CDATA[$P{zoom}+2]]></c:zoomExpression>
+					<c:markerDataset>
+						<dataset/>
+						<c:marker>
+							<c:markerProperty name="latitude" value="37.77">
+								<!--valueExpression><![CDATA[37.77f]]></valueExpression-->
+							</c:markerProperty>
+							<c:markerProperty name="longitude" value="-122.42">
+								<!--valueExpression><![CDATA[-122.42f]]></valueExpression-->
+							</c:markerProperty>
+						</c:marker>
+						<c:marker>
+							<c:markerProperty name="latitude" value="37.788056">
+								<!--valueExpression><![CDATA[37.788056f]]></valueExpression-->
+							</c:markerProperty>
+							<c:markerProperty name="longitude" value="-122.4075">
+								<!--valueExpression><![CDATA[-122.4075f]]></valueExpression-->
+							</c:markerProperty>
+						</c:marker>
+					</c:markerDataset>
 				</c:map>
 			</componentElement>
 		</band>

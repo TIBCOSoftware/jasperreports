@@ -40,7 +40,13 @@ import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
-import net.sf.jasperreports.components.map.StandardMapXmlFactory;
+import net.sf.jasperreports.components.map.Marker;
+import net.sf.jasperreports.components.map.MarkerDataset;
+import net.sf.jasperreports.components.map.MarkerDatasetXmlFactory;
+import net.sf.jasperreports.components.map.MarkerProperty;
+import net.sf.jasperreports.components.map.MarkerPropertyXmlFactory;
+import net.sf.jasperreports.components.map.MarkerXmlFactory;
+import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignCell;
@@ -54,6 +60,7 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
+import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -206,7 +213,7 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 	protected void addMapRules(Digester digester)
 	{
 		String mapPattern = "*/componentElement/map";
-		digester.addFactoryCreate(mapPattern, StandardMapXmlFactory.class);
+		digester.addFactoryCreate(mapPattern, MapXmlFactory.class);
 
 		String latitudeExpressionPattern = mapPattern + "/latitudeExpression";
 		digester.addFactoryCreate(latitudeExpressionPattern, 
@@ -228,6 +235,40 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(zoomExpressionPattern, "setText", 0);
 		digester.addSetNext(zoomExpressionPattern, "setZoomExpression", 
 				JRExpression.class.getName());
+
+		String componentNamespace = digester.getRuleNamespaceURI();
+		String jrNamespace = JRXmlConstants.JASPERREPORTS_NAMESPACE;
+
+		
+		String markerDatasetPattern = mapPattern + "/markerDataset";
+		digester.addFactoryCreate(markerDatasetPattern, MarkerDatasetXmlFactory.class.getName());
+		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", MarkerDataset.class.getName());
+		
+		digester.setRuleNamespaceURI(jrNamespace);
+		String datasetPattern = markerDatasetPattern + "/dataset";
+		digester.addFactoryCreate(datasetPattern, JRElementDatasetFactory.class.getName());
+
+		String datasetIncrementWhenExpressionPath = datasetPattern + "/" + JRXmlConstants.ELEMENT_incrementWhenExpression;
+		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.class.getName());
+		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
+		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
+
+		digester.setRuleNamespaceURI(componentNamespace);
+		String markerPattern = markerDatasetPattern + "/marker";
+		digester.addFactoryCreate(markerPattern, MarkerXmlFactory.class.getName());
+		digester.addSetNext(markerPattern, "addMarker", Marker.class.getName());
+
+		String markerPropertyPattern = markerPattern + "/markerProperty";
+		digester.addFactoryCreate(markerPropertyPattern, MarkerPropertyXmlFactory.class.getName());
+		digester.addSetNext(markerPropertyPattern, "addMarkerProperty", MarkerProperty.class.getName());
+
+		digester.setRuleNamespaceURI(jrNamespace);
+		
+		String markerPropertyValueExpressionPattern = markerPropertyPattern + "/" + JRXmlConstants.ELEMENT_valueExpression;
+		digester.addFactoryCreate(markerPropertyValueExpressionPattern, JRExpressionFactory.class.getName());
+		digester.addCallMethod(markerPropertyValueExpressionPattern, "setText", 0);
+		digester.addSetNext(markerPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
+		
 	}
 
 	@SuppressWarnings("deprecation")

@@ -22,7 +22,7 @@
 					zoom: zoom
 			};
 		},
-		showMap: function(canvasId, latitude, longitude, zoom, mapType) {
+		showMap: function(canvasId, latitude, longitude, zoom, mapType, markers) {
 			var gg = google.maps,
 				myOptions = {
 					zoom: zoom,
@@ -30,6 +30,16 @@
 					mapTypeId: gg.MapTypeId[mapType]
 				},
 				map = new gg.Map(document.getElementById(canvasId), myOptions);
+			if(markers){
+				for (var i = 0; i < markers.length; i++) {
+				    var markerProps = markers[i];
+				    var markerLatLng = new gg.LatLng(markerProps['latitude'], markerProps['longitude']);
+				    var marker = new gg.Marker({
+				        position: markerLatLng,
+				        map: map
+				    });
+				}
+			}
 		},
 	};
 } (this));
