@@ -21,27 +21,58 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.analytics.data;
+package net.sf.jasperreports.engine.util;
 
-import java.util.List;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface AxisLevelNode
+public class ValuePropertiesWrapper implements Comparable<ValuePropertiesWrapper>
 {
-	
-	AxisLevel getLevel();
-	
-	boolean isTotal();
-	
-	Object getValue();
 
-	PropertyValues getNodePropertyValues();
+	private final Object value;
+	private final Object[] propertyValues;
+	
+	public ValuePropertiesWrapper(Object value, Object[] propertyValues)
+	{
+		this.value = value;
+		this.propertyValues = propertyValues;
+	}
 
-	AxisLevelNode getParent();
-	
-	List<? extends AxisLevelNode> getChildren();
-	
+	@Override
+	public int hashCode()
+	{
+		return value == null ? 0 : value.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof ValuePropertiesWrapper))
+		{
+			return false;
+		}
+		
+		ValuePropertiesWrapper wrapper = (ValuePropertiesWrapper) obj;
+		return (value == null) ? (wrapper.value == null) : (wrapper.value != null && value.equals(wrapper.value));
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public int compareTo(ValuePropertiesWrapper o)
+	{
+		return ((Comparable) value).compareTo(o.value);
+	}
+
+	public Object getValue()
+	{
+		return value;
+	}
+
+	public Object[] getPropertyValues()
+	{
+		return propertyValues;
+	}
+
 }

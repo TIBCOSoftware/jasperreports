@@ -24,6 +24,8 @@
 package net.sf.jasperreports.engine.analytics.dataset;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
 import net.sf.jasperreports.engine.JRExpression;
@@ -49,9 +51,12 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 	protected SortOrderEnum orderValue = SortOrderEnum.ASCENDING;
 	protected JRExpression expression;
 	protected JRExpression comparatorExpression;
+	
+	protected List<DataLevelBucketProperty> bucketProperties;
 
 	protected BaseDataLevelBucket()
 	{
+		this.bucketProperties = new ArrayList<DataLevelBucketProperty>();
 	}
 	
 	public BaseDataLevelBucket(DataLevelBucket bucket, JRBaseObjectFactory factory)
@@ -62,6 +67,13 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		this.orderValue = bucket.getOrderValue();
 		this.expression = factory.getExpression(bucket.getExpression());
 		this.comparatorExpression = factory.getExpression(bucket.getComparatorExpression());
+		
+		List<DataLevelBucketProperty> properties = bucket.getBucketProperties();
+		this.bucketProperties = new ArrayList<DataLevelBucketProperty>(properties.size());
+		for (DataLevelBucketProperty property : properties)
+		{
+			this.bucketProperties.add(factory.getDataLevelBucketProperty(property));
+		}
 	}
 
 	public String getValueClassName()
@@ -115,6 +127,13 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		return valueClassRealName;
 	}
 
+	@Override
+	public List<DataLevelBucketProperty> getBucketProperties()
+	{
+		// TODO lucianc unmodifiable?
+		return bucketProperties;
+	}
+
 	public Object clone()
 	{
 		BaseDataLevelBucket clone = null;
@@ -129,6 +148,7 @@ public class BaseDataLevelBucket implements DataLevelBucket, Serializable
 		}
 		clone.expression = JRCloneUtils.nullSafeClone(expression);
 		clone.comparatorExpression = JRCloneUtils.nullSafeClone(comparatorExpression);
+		clone.bucketProperties = JRCloneUtils.cloneList(bucketProperties);
 		return clone;
 	}
 

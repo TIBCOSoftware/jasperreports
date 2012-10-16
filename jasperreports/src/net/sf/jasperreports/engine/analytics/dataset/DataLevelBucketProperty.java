@@ -21,27 +21,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.analytics.data;
+package net.sf.jasperreports.engine.analytics.dataset;
 
-import java.util.List;
+import net.sf.jasperreports.engine.JRCloneable;
+import net.sf.jasperreports.engine.JRExpression;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface AxisLevelNode
+public interface DataLevelBucketProperty extends JRCloneable
 {
-	
-	AxisLevel getLevel();
-	
-	boolean isTotal();
-	
-	Object getValue();
 
-	PropertyValues getNodePropertyValues();
+	String getName();
 
-	AxisLevelNode getParent();
-	
-	List<? extends AxisLevelNode> getChildren();
-	
+	JRExpression getExpression();
+
 }

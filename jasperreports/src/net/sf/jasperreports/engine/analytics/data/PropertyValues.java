@@ -23,25 +23,17 @@
  */
 package net.sf.jasperreports.engine.analytics.data;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface AxisLevelNode
+public interface PropertyValues
 {
-	
-	AxisLevel getLevel();
-	
-	boolean isTotal();
-	
-	Object getValue();
 
-	PropertyValues getNodePropertyValues();
-
-	AxisLevelNode getParent();
+	Set<String> getPropertyNames();
 	
-	List<? extends AxisLevelNode> getChildren();
+	Object getPropertyValue(String name);
 	
 }

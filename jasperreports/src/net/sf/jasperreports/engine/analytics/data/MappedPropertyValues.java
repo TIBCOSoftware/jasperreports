@@ -23,25 +23,57 @@
  */
 package net.sf.jasperreports.engine.analytics.data;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface AxisLevelNode
+public class MappedPropertyValues implements PropertyValues
 {
-	
-	AxisLevel getLevel();
-	
-	boolean isTotal();
-	
-	Object getValue();
 
-	PropertyValues getNodePropertyValues();
+	private static final Log log = LogFactory.getLog(MappedPropertyValues.class);
+	
+	private final Map<String, Integer> propertyIndexes;
+	private final Object[] propertyValues;
+	
+	public MappedPropertyValues(Map<String, Integer> propertyIndexes, Object[] propertyValues)
+	{
+		this.propertyIndexes = propertyIndexes;
+		this.propertyValues = propertyValues;
+	}
+	
+	@Override
+	public Set<String> getPropertyNames()
+	{
+		return Collections.unmodifiableSet(propertyIndexes.keySet());
+	}
 
-	AxisLevelNode getParent();
-	
-	List<? extends AxisLevelNode> getChildren();
-	
+	@Override
+	public Object getPropertyValue(String name)
+	{
+		Integer propertyIndex = propertyIndexes.get(name);
+		Object value;
+		if (propertyIndex == null)
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("property " + name + " not found");
+			}
+			
+			value = null;
+		}
+		else
+		{
+			// assuming the index is in bounds
+			value = propertyValues[propertyIndex];
+		}
+		return value;
+	}
+
 }

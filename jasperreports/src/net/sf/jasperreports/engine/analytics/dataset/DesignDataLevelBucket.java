@@ -45,6 +45,8 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 
 	public static final String PROPERTY_VALUE_CLASS = "valueClassName";
 
+	public static final String PROPERTY_BUCKET_PROPERTIES = "bucketProperties";
+
 	
 	/**
 	 * Creates a bucket.
@@ -119,6 +121,22 @@ public class DesignDataLevelBucket extends BaseDataLevelBucket implements JRChan
 		
 		getEventSupport().firePropertyChange(PROPERTY_VALUE_CLASS, old,
 				this.valueClassName);
+	}
+
+	public void addBucketProperty(DataLevelBucketProperty property)
+	{
+		bucketProperties.add(property);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_BUCKET_PROPERTIES, property, bucketProperties.size() - 1);
+	}
+	
+	public void removeBucketProperty(DataLevelBucketProperty property)
+	{
+		int idx = bucketProperties.indexOf(property);
+		if (idx >= 0)
+		{
+			bucketProperties.remove(idx);
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_BUCKET_PROPERTIES, bucketProperties, idx);
+		}
 	}
 	
 	public Object clone()

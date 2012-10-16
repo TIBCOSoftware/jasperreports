@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.analytics.dataset;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRCloneable;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
@@ -82,4 +84,6 @@ public interface DataLevelBucket extends JRCloneable
 	 */
 	public JRExpression getComparatorExpression();
 
+	public List<DataLevelBucketProperty> getBucketProperties();
+	
 }

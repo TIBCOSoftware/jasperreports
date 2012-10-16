@@ -76,6 +76,7 @@ import net.sf.jasperreports.crosstabs.design.JRDesignCrosstab;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
+import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucketProperty;
 import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
@@ -1505,5 +1506,14 @@ public class JRExpressionCollector
 		DataLevelBucket bucket = level.getBucket();
 		datasetCollector.addExpression(bucket.getExpression());
 		addExpression(bucket.getComparatorExpression());
+		
+		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
+		if (bucketProperties != null)
+		{
+			for (DataLevelBucketProperty bucketProperty : bucketProperties)
+			{
+				datasetCollector.addExpression(bucketProperty.getExpression());
+			}
+		}
 	}
 }
