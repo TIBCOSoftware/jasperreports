@@ -148,12 +148,14 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.JRVariable;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataLevelBucket;
+import net.sf.jasperreports.engine.analytics.dataset.BaseDataLevelBucketProperty;
 import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.BaseMultiAxisDataset;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataMeasure;
 import net.sf.jasperreports.engine.analytics.dataset.BaseDataAxisLevel;
 import net.sf.jasperreports.engine.analytics.dataset.DataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucket;
+import net.sf.jasperreports.engine.analytics.dataset.DataLevelBucketProperty;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.MultiAxisDataset;
 import net.sf.jasperreports.engine.analytics.dataset.DataMeasure;
@@ -1788,5 +1790,20 @@ public class JRBaseObjectFactory extends JRAbstractObjectFactory
 			}
 		}
 		return baseMeasure;
+	}
+
+
+	public DataLevelBucketProperty getDataLevelBucketProperty(DataLevelBucketProperty bucketProperty)
+	{
+		DataLevelBucketProperty baseBucketProperty = null;
+		if (bucketProperty != null)
+		{
+			baseBucketProperty = (DataLevelBucketProperty) get(bucketProperty);
+			if (baseBucketProperty == null)
+			{
+				baseBucketProperty = new BaseDataLevelBucketProperty(bucketProperty, this);
+			}
+		}
+		return baseBucketProperty;
 	}
 }

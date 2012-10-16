@@ -26,9 +26,13 @@ package net.sf.jasperreports.engine.analytics.dataset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.jasperreports.crosstabs.fill.calculation.BucketDefinition;
@@ -47,8 +51,10 @@ import net.sf.jasperreports.engine.analytics.data.Axis;
 import net.sf.jasperreports.engine.analytics.data.AxisLevel;
 import net.sf.jasperreports.engine.analytics.data.AxisLevel.Type;
 import net.sf.jasperreports.engine.analytics.data.AxisLevelNode;
+import net.sf.jasperreports.engine.analytics.data.MappedPropertyValues;
 import net.sf.jasperreports.engine.analytics.data.Measure;
 import net.sf.jasperreports.engine.analytics.data.MultiAxisDataSource;
+import net.sf.jasperreports.engine.analytics.data.PropertyValues;
 import net.sf.jasperreports.engine.analytics.data.StandardAxisLevel;
 import net.sf.jasperreports.engine.analytics.data.StandardMeasure;
 import net.sf.jasperreports.engine.analytics.data.StandardMeasureValue;
@@ -60,6 +66,8 @@ import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRIncrementerFactoryCache;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
 import net.sf.jasperreports.engine.util.SingleValue;
+import net.sf.jasperreports.engine.util.ValuePropertiesWrapper;
+import net.sf.jasperreports.engine.util.ValuePropertiesWrapperComparator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,6 +84,9 @@ public class MultiAxisDataService
 	private final BucketingServiceContext serviceContext;
 	private final MultiAxisData data;
 	private final MultiAxisBucketingService bucketingService;
+	
+	private final Map<DataAxisLevel, Map<String, Integer>> axisLevelBucketPropertyIndexes = 
+			new HashMap<DataAxisLevel, Map<String,Integer>>();
 	
 	private final List<List<AxisLevel>> axisLevels;
 	private final Bucket[] axisRoots;
@@ -209,6 +220,7 @@ public class MultiAxisDataService
 	protected BucketDefinition createServiceBucket(DataAxisLevel level, byte evaluation) throws JRException
 	{
 		DataLevelBucket bucket = level.getBucket();
+		Class<?> valueClass = bucket.getValueClass();
 
 		Comparator<Object> comparator = null;
 		JRExpression comparatorExpression = bucket.getComparatorExpression();
@@ -218,7 +230,26 @@ public class MultiAxisDataService
 					comparatorExpression, evaluation);
 		}
 
-		return new BucketDefinition(bucket.getValueClass(),
+		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
+		if (bucketProperties != null && !bucketProperties.isEmpty())
+		{
+			// wrapping values in a ValuePropertiesWrapper in order to store property values
+			valueClass = ValuePropertiesWrapper.class;
+			if (comparator != null)
+			{
+				comparator = new ValuePropertiesWrapperComparator(comparator);
+			}
+			
+			Map<String, Integer> propertyIndexes = new LinkedHashMap<String, Integer>();
+			for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
+			{
+				DataLevelBucketProperty bucketProperty = it.next();
+				propertyIndexes.put(bucketProperty.getName(), it.previousIndex());
+			}
+			axisLevelBucketPropertyIndexes.put(level, propertyIndexes);
+		}
+		
+		return new BucketDefinition(valueClass,
 				null, comparator, bucket.getOrderValue(), 
 				CrosstabTotalPositionEnum.START);
 	}
@@ -264,7 +295,7 @@ public class MultiAxisDataService
 		{
 			for (DataAxisLevel level : rowAxis.getLevels())
 			{
-				bucketValues[bucketIdx++] = calculator.evaluate(level.getBucket().getExpression());
+				bucketValues[bucketIdx++] = evaluateBucketValue(calculator, level); 
 			}
 		}
 		
@@ -275,7 +306,7 @@ public class MultiAxisDataService
 		{
 			for (DataAxisLevel level : colAxis.getLevels())
 			{
-				bucketValues[bucketIdx++] = calculator.evaluate(level.getBucket().getExpression());
+				bucketValues[bucketIdx++] = evaluateBucketValue(calculator, level);
 			}
 		}
 
@@ -284,6 +315,36 @@ public class MultiAxisDataService
 		{
 			measureValues[measureIdx++] = calculator.evaluate(measure.getValueExpression());
 		}
+	}
+
+	protected Object evaluateBucketValue(JRCalculator calculator,
+			DataAxisLevel level) throws JRExpressionEvalException
+	{
+		DataLevelBucket bucket = level.getBucket();
+		Object mainValue = calculator.evaluate(bucket.getExpression());
+		
+		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
+		Object bucketValue;
+		if (bucketProperties == null || bucketProperties.isEmpty())
+		{
+			bucketValue = mainValue;
+		}
+		else
+		{
+			// evaluate property values
+			//FIXME avoid evaluating these for each record
+			Object[] propertyValues = new Object[bucketProperties.size()];
+			for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
+			{
+				DataLevelBucketProperty bucketProperty = it.next();
+				propertyValues[it.previousIndex()] = calculator.evaluate(bucketProperty.getExpression());
+			}
+			
+			// wrap the main value and property values together
+			bucketValue = new ValuePropertiesWrapper(mainValue, propertyValues);
+		}
+		
+		return bucketValue;
 	}
 	
 	public void addRecord()
@@ -536,6 +597,9 @@ public class MultiAxisDataService
 		protected final Bucket bucket;
 		protected final BucketMap childrenMap;
 		
+		protected Object value;
+		protected PropertyValues propertyValues;
+		
 		public LevelNode(Axis axis, int axisDepth, LevelNode parent, Bucket bucket, BucketMap childrenMap)
 		{
 			this.axis = axis;
@@ -543,6 +607,34 @@ public class MultiAxisDataService
 			this.parent = parent;
 			this.bucket = bucket;
 			this.childrenMap = childrenMap;
+			
+			initValues();
+		}
+
+		private void initValues()
+		{
+			Object bucketValue = bucket.getValue();
+			Object nodeValue = bucketValue;
+			PropertyValues propertyValues = null;
+			
+			if (axisDepth > 0 && bucketValue != null)
+			{
+				DataAxisLevel dataLevel = data.getDataAxis(axis).getLevels().get(axisDepth - 1);
+				List<DataLevelBucketProperty> bucketProperties = dataLevel.getBucket().getBucketProperties();
+				if (bucketProperties != null && !bucketProperties.isEmpty())
+				{
+					// unwrap the raw value and the property values
+					ValuePropertiesWrapper valueWrapper = (ValuePropertiesWrapper) bucketValue;
+					nodeValue = valueWrapper.getValue();
+					
+					Map<String, Integer> propertyIndexes = axisLevelBucketPropertyIndexes.get(dataLevel);
+					Object[] propertyValuesArray = valueWrapper.getPropertyValues();
+					propertyValues = new MappedPropertyValues(propertyIndexes, propertyValuesArray);
+				}
+			}
+			
+			this.value = nodeValue;
+			this.propertyValues = propertyValues;
 		}
 		
 		@Override
@@ -561,7 +653,13 @@ public class MultiAxisDataService
 		@Override
 		public Object getValue()
 		{
-			return bucket.getValue();
+			return value;
+		}
+
+		@Override
+		public PropertyValues getNodePropertyValues()
+		{
+			return propertyValues;
 		}
 
 		@Override

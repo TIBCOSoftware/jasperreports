@@ -142,6 +142,7 @@ import net.sf.jasperreports.engine.TabStop;
 import net.sf.jasperreports.engine.analytics.data.Axis;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataAxis;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucket;
+import net.sf.jasperreports.engine.analytics.dataset.DesignDataLevelBucketProperty;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisData;
 import net.sf.jasperreports.engine.analytics.dataset.DesignMultiAxisDataset;
 import net.sf.jasperreports.engine.analytics.dataset.DesignDataMeasure;
@@ -1354,6 +1355,12 @@ public final class JRXmlDigesterFactory
 		
 		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_bucketExpression, "setExpression");
 		addExpressionRules(digester, bucketPattern + "/" + JRCrosstabBucketFactory.ELEMENT_comparatorExpression, "setComparatorExpression");
+		
+		String bucketExpressionPattern = bucketPattern + "/" + JRXmlConstants.ELEMENT_bucketProperty;
+		digester.addObjectCreate(bucketExpressionPattern, DesignDataLevelBucketProperty.class);
+		digester.addSetProperties(bucketExpressionPattern);
+		digester.addSetNext(bucketExpressionPattern, "addBucketProperty");		
+		addExpressionRules(digester, bucketExpressionPattern, "setExpression");
 		
 		String measurePattern = dataPattern + "/" + JRXmlConstants.ELEMENT_multiAxisMeasure;
 		digester.addObjectCreate(measurePattern, DesignDataMeasure.class);

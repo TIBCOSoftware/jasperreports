@@ -21,27 +21,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.engine.analytics.data;
+package net.sf.jasperreports.engine.util;
 
-import java.util.List;
+import java.util.Comparator;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public interface AxisLevelNode
+public class ValuePropertiesWrapperComparator implements Comparator<Object>
 {
-	
-	AxisLevel getLevel();
-	
-	boolean isTotal();
-	
-	Object getValue();
 
-	PropertyValues getNodePropertyValues();
+	private final Comparator<Object> valueComparator;
+	
+	public ValuePropertiesWrapperComparator(Comparator<Object> valueComparator)
+	{
+		this.valueComparator = valueComparator;
+	}
+	
+	@Override
+	public int compare(Object o1, Object o2)
+	{
+		Object value1 = ((ValuePropertiesWrapper) o1).getValue();
+		Object value2 = ((ValuePropertiesWrapper) o2).getValue();
+		return valueComparator.compare(value1, value2);
+	}
 
-	AxisLevelNode getParent();
-	
-	List<? extends AxisLevelNode> getChildren();
-	
 }

@@ -6990,6 +6990,7 @@ property.
    <sequence>
     <element ref="jr:bucketExpression" minOccurs="0" maxOccurs="1"/>
     <element ref="jr:comparatorExpression" minOccurs="0" maxOccurs="1"/>
+    <element ref="jr:bucketProperty" minOccurs="0" maxOccurs="unbounded"/>
    </sequence>
    <attribute name="class" type="string" use="optional" default="java.lang.String">
   	<annotation>
@@ -7014,6 +7015,16 @@ property.
 	  </enumeration>
      </restriction>
     </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+ 
+ <element name="bucketProperty">
+  <complexType mixed="true">
+   <attribute name="name" type="string" use="required">
+	<annotation>
+	 <documentation>Name of the bucket property.</documentation>
+	</annotation>
    </attribute>
   </complexType>
  </element>
