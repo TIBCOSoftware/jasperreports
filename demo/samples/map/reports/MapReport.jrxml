@@ -4,6 +4,21 @@
 	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+	<subDataset name="MarkersDataset">
+		<property name="net.sf.jasperreports.data.adapter" value="/data/CsvDataAdapter.xml"/>
+		<queryString language="csv">
+			<![CDATA[]]>
+		</queryString>
+		<field name="address" class="java.lang.String">
+			<fieldDescription><![CDATA[street address]]></fieldDescription>
+		</field>
+		<field name="latitude" class="java.lang.String">
+			<fieldDescription><![CDATA[latitude]]></fieldDescription>
+		</field>
+		<field name="longitude" class="java.lang.String">
+			<fieldDescription><![CDATA[longitude]]></fieldDescription>
+		</field>
+	</subDataset>
 	<parameter name="reqLatitude" class="java.lang.Float">
 		<defaultValueExpression>Float.parseFloat((String)$P{REPORT_CONTEXT}.getParameterValue("latitude"))</defaultValueExpression>
 	</parameter>
@@ -93,17 +108,20 @@
 					mapType="satellite" mapScale="2" imageType="jpg">
 					<c:latitudeExpression><![CDATA[37.788056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
-					<c:zoomExpression><![CDATA[$P{zoom}+2]]></c:zoomExpression>
+					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
 					<c:markerDataset>
-						<dataset/>
+						<dataset>
+							<datasetRun subDataset="MarkersDataset"/>
+						</dataset>
 						<c:marker>
 							<c:markerProperty name="latitude">
-								<valueExpression><![CDATA[37.77f]]></valueExpression>
+								<valueExpression>$F{latitude}</valueExpression>
 							</c:markerProperty>
 							<c:markerProperty name="longitude">
-								<valueExpression><![CDATA[-122.42f]]></valueExpression>
+								<valueExpression>$F{longitude}</valueExpression>
 							</c:markerProperty>
 						</c:marker>
+						<!--
 						<c:marker>
 							<c:markerProperty name="latitude">
 								<valueExpression><![CDATA[37.788056f]]></valueExpression>
@@ -112,6 +130,7 @@
 								<valueExpression><![CDATA[-122.4075f]]></valueExpression>
 							</c:markerProperty>
 						</c:marker>
+						-->
 					</c:markerDataset>
 				</c:map>
 			</componentElement>
