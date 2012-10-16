@@ -21,8 +21,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.map.fill;
 
+import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.engine.component.Component;
 import net.sf.jasperreports.engine.component.ComponentFillFactory;
 import net.sf.jasperreports.engine.component.FillComponent;
@@ -32,7 +33,7 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: MapFillFactory.java 4595 2011-09-08 15:55:10Z teodord $
  */
 public class MapFillFactory implements ComponentFillFactory
 {
@@ -41,7 +42,7 @@ public class MapFillFactory implements ComponentFillFactory
 			JRFillObjectFactory factory)
 	{
 		MapComponent map = (MapComponent) component;
-		return new MapFillComponent(map);
+		return new MapFillComponent(map, factory);
 	}
 
 	public FillComponent cloneFillComponent(FillComponent component,

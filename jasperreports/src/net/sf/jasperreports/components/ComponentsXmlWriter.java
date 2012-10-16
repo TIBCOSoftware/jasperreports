@@ -25,14 +25,19 @@ package net.sf.jasperreports.components;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeXmlWriter;
 import net.sf.jasperreports.components.list.ListComponent;
 import net.sf.jasperreports.components.list.ListContents;
 import net.sf.jasperreports.components.map.MapComponent;
-import net.sf.jasperreports.components.map.StandardMapXmlFactory;
+import net.sf.jasperreports.components.map.MapXmlFactory;
+import net.sf.jasperreports.components.map.Marker;
+import net.sf.jasperreports.components.map.MarkerDataset;
+import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -40,6 +45,7 @@ import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
+import net.sf.jasperreports.components.spiderchart.SpiderDataset;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
@@ -234,9 +240,12 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 		if(isNewerVersionOrEqual(componentElement, reportWriter, JRConstants.VERSION_4_8_0))
 		{
-			writer.addAttribute(StandardMapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
-			writer.addAttribute(StandardMapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
-			writer.addAttribute(StandardMapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
+			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapType, map.getMapType(), MapTypeEnum.ROADMAP);
+			writer.addAttribute(MapXmlFactory.ATTRIBUTE_mapScale, map.getMapScale(), MapScaleEnum.ONE);
+			writer.addAttribute(MapXmlFactory.ATTRIBUTE_imageType, map.getImageType(), MapImageTypeEnum.PNG);
+			MarkerDataset dataset = map.getMarkerDataset();
+			writeMarkerDataset(dataset, writer, reportWriter, namespace, componentElement);
+						
 		}
 
 		writer.writeExpression("latitudeExpression", 
@@ -249,6 +258,60 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		writer.closeElement();
 	}
 
+	private void writeMarkerDataset(MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		if(dataset != null)
+		{
+			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
+	
+			reportWriter.writeElementDataset(dataset);
+	
+			/*   */
+			List<Marker> markerList = dataset.getMarkers();
+			if (markerList != null && !markerList.isEmpty())
+			{
+				for(Marker marker : markerList)
+				{
+					if(marker.getMarkerProperties() != null && !marker.getMarkerProperties().isEmpty())
+					{
+						writeMarker(marker, writer, reportWriter, namespace, componentElement);
+					}
+				}
+			}
+	
+			writer.closeElement();
+		}
+	}
+	
+	
+	private void writeMarker(Marker marker, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		writer.startElement(MapXmlFactory.ELEMENT_marker, namespace);
+		Map<String, MarkerProperty> markerProperties = marker.getMarkerProperties();
+		for(String name : markerProperties.keySet())
+		{
+			writeMarkerProperty(markerProperties.get(name), writer, reportWriter, namespace, componentElement);
+		}
+		writer.closeElement();
+	}
+	
+	
+	private void writeMarkerProperty(MarkerProperty markerProperty, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
+	{
+		writer.startElement(MapXmlFactory.ELEMENT_markerProperty, namespace);
+		writer.addAttribute(JRXmlConstants.ATTRIBUTE_name, markerProperty.getName());
+		if(markerProperty.getValue() != null)
+		{
+			writer.addAttribute(JRXmlConstants.ATTRIBUTE_value, markerProperty.getValue());
+		}
+		else
+		{
+			writeExpression(JRXmlConstants.ELEMENT_valueExpression, JRXmlWriter.JASPERREPORTS_NAMESPACE, markerProperty.getValueExpression(), false, componentElement, reportWriter);
+		}
+		writer.closeElement();
+	}
+	
+	
 	protected void writeTable(final JRComponentElement componentElement, final JRXmlWriter reportWriter) throws IOException
 	{
 		Component component = componentElement.getComponent();

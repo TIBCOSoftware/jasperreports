@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.util.List;
+import java.util.Map;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRGenericPrintElement;
@@ -65,6 +68,26 @@ public class MapElementImageProvider
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		String mapScale = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
 		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
+		String markers ="";
+		
+		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
+		if(markerList != null && !markerList.isEmpty())
+		{
+			for(Map<String,Object> map : markerList)
+			{
+				if(markers.length() == 0)
+				{
+					markers +="&markers=";
+				}
+				else
+				{
+					markers +="%7C";
+				}
+				markers +=map.get("'" + MapPrintElement.PARAMETER_LATITUDE + "'");
+				markers +=",";
+				markers +=map.get("'" + MapPrintElement.PARAMETER_LONGITUDE + "'");
+			}
+		}
 
 		String imageLocation = 
 			"http://maps.google.com/maps/api/staticmap?center=" 
@@ -80,6 +103,7 @@ public class MapElementImageProvider
 			+ (mapType == null ? "" : "&maptype=" + mapType)
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
 			+ (mapScale == null ? "" : "&scale=" + mapScale)
+			+ markers 
 			+ "&sensor=false";
 		
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());

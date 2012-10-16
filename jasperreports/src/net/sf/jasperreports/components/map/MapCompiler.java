@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.components.map;
 
+import java.util.List;
+import java.util.Map;
+
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -44,6 +47,32 @@ public class MapCompiler implements ComponentCompiler
 		collector.addExpression(map.getLatitudeExpression());
 		collector.addExpression(map.getLongitudeExpression());
 		collector.addExpression(map.getZoomExpression());
+		collectExpressions(map.getMarkerDataset(), collector);
+	}
+
+	public static void collectExpressions(MarkerDataset dataset, JRExpressionCollector collector)
+	{
+		if(dataset != null)
+		{
+			collector.collect(dataset);
+	
+			List<Marker> markers = dataset.getMarkers();
+			if (markers != null && !markers.isEmpty())
+			{
+				JRExpressionCollector markerCollector = collector.getCollector(dataset);
+				for(Marker marker : markers)
+				{
+					Map<String, MarkerProperty> markerProperties = marker.getMarkerProperties();
+					if(markerProperties != null)
+					{
+						for(String name : markerProperties.keySet())
+						{
+							markerCollector.addExpression(markerProperties.get(name).getValueExpression());
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public Component toCompiledComponent(Component component,
@@ -75,6 +104,43 @@ public class MapCompiler implements ComponentCompiler
 						+ evaluationGroup + " not found", map);
 			}
 		}
+
+		MarkerDataset dataset = map.getMarkerDataset();
+		if (dataset != null)
+		{
+			verify(verifier, dataset);
+		}
 	}
 
+	protected void verify(JRVerifier verifier, MarkerDataset dataset)
+	{
+		verifier.verifyElementDataset(dataset);
+		
+		List<Marker> markers = dataset.getMarkers();
+		if (markers != null)
+		{
+			for (Marker marker : markers)
+			{
+				verifyMarkerProperties(verifier, marker.getMarkerProperties());
+			}
+		}
+	}
+
+	protected void verifyMarkerProperties(JRVerifier verifier, Map<String, MarkerProperty> markerProperties)
+	{
+		if(markerProperties == null || markerProperties.isEmpty())
+		{
+			verifier.addBrokenRule("No properties set for marker. Latitude and longitude properties are required.", markerProperties);
+		}
+		else if(!markerProperties.containsKey(Marker.PROPERTY_latitude) 
+				|| (markerProperties.get(Marker.PROPERTY_latitude).getValue() == null && markerProperties.get(Marker.PROPERTY_latitude).getValueExpression() == null))
+		{
+			verifier.addBrokenRule("No latitude set for marker.", markerProperties);
+		}
+		else if(!markerProperties.containsKey(Marker.PROPERTY_longitude) 
+				|| (markerProperties.get(Marker.PROPERTY_longitude).getValue() == null && markerProperties.get(Marker.PROPERTY_longitude).getValueExpression() == null))
+		{
+			verifier.addBrokenRule("No longitude set for marker.", markerProperties);
+		}
+	}
 }

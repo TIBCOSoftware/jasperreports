@@ -54,4 +54,6 @@ public interface MapComponent extends Component, JRCloneable
 	MapScaleEnum getMapScale();
 	
 	MapImageTypeEnum getImageType();
+	
+	MarkerDataset getMarkerDataset();
 }

@@ -55,6 +55,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_MAP_TYPE = "mapType";
 	public static final String PROPERTY_MAP_SCALE = "mapScale";
 	public static final String PROPERTY_IMAGE_TYPE = "imageType";
+	public static final String PROPERTY_MARKER_DATASET = "markerDataset";
 
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
@@ -64,6 +65,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
+	private MarkerDataset markerDataset;
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
@@ -81,6 +83,10 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.mapType = map.getMapType();
 		this.mapScale = map.getMapScale();
 		this.imageType = map.getImageType();
+		if(map.getMarkerDataset() != null)
+		{
+			this.markerDataset = new StandardMarkerDataset(map.getMarkerDataset(), objectFactory);
+		}
 	}
 	
 	public JRExpression getLatitudeExpression()
@@ -204,6 +210,17 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		Object old = this.imageType;
 		this.imageType = imageType;
 		getEventSupport().firePropertyChange(PROPERTY_IMAGE_TYPE, old, this.imageType);
+	}
+
+	public MarkerDataset getMarkerDataset() {
+		return markerDataset;
+	}
+
+	public void setMarkerDataset(MarkerDataset markerDataset) {
+		Object old = this.markerDataset;
+		this.markerDataset = markerDataset;
+		getEventSupport().firePropertyChange(PROPERTY_MARKER_DATASET, old, this.markerDataset);
+		
 	}
 
 }

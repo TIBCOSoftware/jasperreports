@@ -21,8 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with JasperReports. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sf.jasperreports.components.map;
+package net.sf.jasperreports.components.map.fill;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.components.map.MapComponent;
+import net.sf.jasperreports.components.map.MapPrintElement;
+import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -32,6 +39,7 @@ import net.sf.jasperreports.engine.JRGenericPrintElement;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.component.BaseFillComponent;
 import net.sf.jasperreports.engine.component.FillPrepareResult;
+import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericElement;
 import net.sf.jasperreports.engine.fill.JRTemplateGenericPrintElement;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -39,7 +47,7 @@ import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 /**
  * 
  * @author Teodor Danciu (teodord@users.sourceforge.net)
- * @version $Id$
+ * @version $Id: MapFillComponent.java 5711 2012-10-05 06:28:03Z teodord $
  */
 public class MapFillComponent extends BaseFillComponent
 {
@@ -51,10 +59,20 @@ public class MapFillComponent extends BaseFillComponent
 	private MapTypeEnum mapType;
 	private MapScaleEnum mapScale;
 	private MapImageTypeEnum imageType;
+	private FillMarkerDataset markerDataset;
+	private List<Map<String,Object>> markers;
+	
+	JRFillObjectFactory factory;
 	
 	public MapFillComponent(MapComponent map)
 	{
 		this.mapComponent = map;
+	}
+	
+	public MapFillComponent(MapComponent map, JRFillObjectFactory factory)
+	{
+		this.mapComponent = map;
+		this.factory = factory;
 	}
 	
 	protected MapComponent getMap()
@@ -79,6 +97,18 @@ public class MapFillComponent extends BaseFillComponent
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
+		if(mapComponent.getMarkerDataset() != null)
+		{
+			markerDataset = new FillMarkerDataset(fillContext, mapComponent.getMarkerDataset(), factory);
+			if(markerDataset.getMarkers() != null)
+			{
+				markers = new ArrayList<Map<String, Object>>();
+				for(Marker marker : markerDataset.getMarkers())
+				{
+					markers.add(((FillMarker)marker).evaluateProperties(fillContext, evaluation));
+				}
+			}
+		}
 	}
 	
 	protected boolean isEvaluateNow()
@@ -146,6 +176,10 @@ public class MapFillComponent extends BaseFillComponent
 		if(imageType != null)
 		{
 			printElement.setParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE, imageType.getName());
+		}
+		if(markers != null && !markers.isEmpty())
+		{
+			printElement.setParameterValue(MapPrintElement.PARAMETER_MARKERS, markers);
 		}
 	}
 }

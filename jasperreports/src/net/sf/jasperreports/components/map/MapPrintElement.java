@@ -77,6 +77,11 @@ public final class MapPrintElement
 	public static final String PARAMETER_IMAGE_TYPE = "imageType";
 	
 	/**
+	 * The name of the parameter that provides the list of marker objects for the map.
+	 */
+	public static final String PARAMETER_MARKERS = "markers";
+	
+	/**
 	 * The cached image renderer.
 	 */
 	public static final String PARAMETER_CACHE_RENDERER = "cacheRenderer";
