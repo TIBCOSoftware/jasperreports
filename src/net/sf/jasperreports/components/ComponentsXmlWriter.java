@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.charts.JRCategorySeries;
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeXmlWriter;
@@ -45,7 +44,6 @@ import net.sf.jasperreports.components.sort.SortComponent;
 import net.sf.jasperreports.components.sort.SortComponentXmlWriter;
 import net.sf.jasperreports.components.spiderchart.SpiderChartComponent;
 import net.sf.jasperreports.components.spiderchart.SpiderChartXmlWriter;
-import net.sf.jasperreports.components.spiderchart.SpiderDataset;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.Cell;
 import net.sf.jasperreports.components.table.Column;
