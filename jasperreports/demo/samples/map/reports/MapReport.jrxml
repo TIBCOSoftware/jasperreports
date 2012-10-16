@@ -97,19 +97,19 @@
 					<c:markerDataset>
 						<dataset/>
 						<c:marker>
-							<c:markerProperty name="latitude" value="37.77">
-								<!--valueExpression><![CDATA[37.77f]]></valueExpression-->
+							<c:markerProperty name="latitude">
+								<valueExpression><![CDATA[37.77f]]></valueExpression>
 							</c:markerProperty>
-							<c:markerProperty name="longitude" value="-122.42">
-								<!--valueExpression><![CDATA[-122.42f]]></valueExpression-->
+							<c:markerProperty name="longitude">
+								<valueExpression><![CDATA[-122.42f]]></valueExpression>
 							</c:markerProperty>
 						</c:marker>
 						<c:marker>
-							<c:markerProperty name="latitude" value="37.788056">
-								<!--valueExpression><![CDATA[37.788056f]]></valueExpression-->
+							<c:markerProperty name="latitude">
+								<valueExpression><![CDATA[37.788056f]]></valueExpression>
 							</c:markerProperty>
-							<c:markerProperty name="longitude" value="-122.4075">
-								<!--valueExpression><![CDATA[-122.4075f]]></valueExpression-->
+							<c:markerProperty name="longitude">
+								<valueExpression><![CDATA[-122.4075f]]></valueExpression>
 							</c:markerProperty>
 						</c:marker>
 					</c:markerDataset>

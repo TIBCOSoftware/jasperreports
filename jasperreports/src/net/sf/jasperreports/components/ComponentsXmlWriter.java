@@ -25,7 +25,6 @@ package net.sf.jasperreports.components;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.components.barbecue.BarbecueComponent;
 import net.sf.jasperreports.components.barcode4j.BarcodeComponent;
@@ -270,7 +269,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 			{
 				for(Marker marker : markerList)
 				{
-					if(marker.getMarkerProperties() != null && !marker.getMarkerProperties().isEmpty())
+					if(marker.getProperties() != null && !marker.getProperties().isEmpty())
 					{
 						writeMarker(marker, writer, reportWriter, namespace, componentElement);
 					}
@@ -285,10 +284,10 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 	private void writeMarker(Marker marker, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
 		writer.startElement(MapXmlFactory.ELEMENT_marker, namespace);
-		Map<String, MarkerProperty> markerProperties = marker.getMarkerProperties();
-		for(String name : markerProperties.keySet())
+		List<MarkerProperty> markerProperties = marker.getProperties();
+		for(MarkerProperty property : markerProperties)
 		{
-			writeMarkerProperty(markerProperties.get(name), writer, reportWriter, namespace, componentElement);
+			writeMarkerProperty(property, writer, reportWriter, namespace, componentElement);
 		}
 		writer.closeElement();
 	}

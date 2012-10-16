@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map.fill;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.map.Marker;
@@ -66,16 +67,16 @@ public class FillMarker implements Marker
 	 */
 	public Map<String, Object> evaluateProperties(FillContext fillContext, byte evaluation) throws JRException
 	{
-		Map<String, MarkerProperty> markerProperties = getMarkerProperties();
+		List<MarkerProperty> markerProperties = getProperties();
 		Map<String, Object> result = null;
 		if(markerProperties != null && !markerProperties.isEmpty())
 		{
 			result = new HashMap<String, Object>();
-			for(String name : markerProperties.keySet())
+			for(MarkerProperty property : markerProperties)
 			{
-				FillMarkerProperty markerProperty = new FillMarkerProperty(markerProperties.get(name), factory);
+				FillMarkerProperty markerProperty = new FillMarkerProperty(property, factory);
 				result.put(
-					"'"+name+"'", 
+					"'" + property.getName() + "'",//FIXMEMAP why quotes? 
 					markerProperty.getValue() != null
 					? markerProperty.getValue()
 					: markerProperty.evaluateValueExpression(fillContext, evaluation));
@@ -93,17 +94,9 @@ public class FillMarker implements Marker
 		throw new UnsupportedOperationException();
 	}
 
-
 	@Override
-	public MarkerProperty getMarkerProperty(String name) 
+	public List<MarkerProperty> getProperties() 
 	{
-		return parent.getMarkerProperty(name);
-	}
-
-
-	@Override
-	public Map<String, MarkerProperty> getMarkerProperties() 
-	{
-		return parent.getMarkerProperties();
+		return parent.getProperties();
 	}
 }

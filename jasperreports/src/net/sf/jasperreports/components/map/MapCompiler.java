@@ -24,7 +24,6 @@
 package net.sf.jasperreports.components.map;
 
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -62,12 +61,12 @@ public class MapCompiler implements ComponentCompiler
 				JRExpressionCollector markerCollector = collector.getCollector(dataset);
 				for(Marker marker : markers)
 				{
-					Map<String, MarkerProperty> markerProperties = marker.getMarkerProperties();
+					List<MarkerProperty> markerProperties = marker.getProperties();
 					if(markerProperties != null)
 					{
-						for(String name : markerProperties.keySet())
+						for(MarkerProperty property : markerProperties)
 						{
-							markerCollector.addExpression(markerProperties.get(name).getValueExpression());
+							markerCollector.addExpression(property.getValueExpression());
 						}
 					}
 				}
@@ -121,24 +120,36 @@ public class MapCompiler implements ComponentCompiler
 		{
 			for (Marker marker : markers)
 			{
-				verifyMarkerProperties(verifier, marker.getMarkerProperties());
+				verifyMarkerProperties(verifier, marker.getProperties());
 			}
 		}
 	}
 
-	protected void verifyMarkerProperties(JRVerifier verifier, Map<String, MarkerProperty> markerProperties)
+	protected void verifyMarkerProperties(JRVerifier verifier, List<MarkerProperty> markerProperties)
 	{
-		if(markerProperties == null || markerProperties.isEmpty())
+		boolean hasLatitude = false;
+		boolean hasLongitude = false;
+		
+		if(markerProperties != null)
 		{
-			verifier.addBrokenRule("No properties set for marker. Latitude and longitude properties are required.", markerProperties);
+			for (MarkerProperty marker : markerProperties)
+			{
+				if (Marker.PROPERTY_latitude.equals(marker.getName()))
+				{
+					hasLatitude = true;
+				}
+				else if (Marker.PROPERTY_longitude.equals(marker.getName()))
+				{
+					hasLongitude = true;
+				}
+			}
 		}
-		else if(!markerProperties.containsKey(Marker.PROPERTY_latitude) 
-				|| (markerProperties.get(Marker.PROPERTY_latitude).getValue() == null && markerProperties.get(Marker.PROPERTY_latitude).getValueExpression() == null))
+		
+		if(!hasLatitude) 
 		{
 			verifier.addBrokenRule("No latitude set for marker.", markerProperties);
 		}
-		else if(!markerProperties.containsKey(Marker.PROPERTY_longitude) 
-				|| (markerProperties.get(Marker.PROPERTY_longitude).getValue() == null && markerProperties.get(Marker.PROPERTY_longitude).getValueExpression() == null))
+		if(!hasLongitude) 
 		{
 			verifier.addBrokenRule("No longitude set for marker.", markerProperties);
 		}

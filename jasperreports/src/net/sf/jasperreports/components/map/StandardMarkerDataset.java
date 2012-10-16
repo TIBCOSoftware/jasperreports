@@ -24,6 +24,7 @@
 package net.sf.jasperreports.components.map;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRConstants;
@@ -35,7 +36,8 @@ import net.sf.jasperreports.engine.design.JRDesignElementDataset;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class StandardMarkerDataset extends JRDesignElementDataset implements MarkerDataset {
+public class StandardMarkerDataset extends JRDesignElementDataset implements MarkerDataset 
+{//FIXMEMAP implement clone?
 
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;
 	public static final String PROPERTY_MARKER = "marker";
@@ -50,11 +52,42 @@ public class StandardMarkerDataset extends JRDesignElementDataset implements Mar
 	public StandardMarkerDataset(MarkerDataset dataset, JRBaseObjectFactory factory)
 	{
 		super(dataset, factory);
-		List<Marker> markers = dataset.getMarkers();
-		if(markers != null && !markers.isEmpty())
+		
+		markerList = getCompiledMarkers(dataset.getMarkers(), factory);
+	}
+
+	private static List<Marker> getCompiledMarkers(List<Marker> markers, JRBaseObjectFactory factory)
+	{
+		if (markers == null)
 		{
-			markerList.addAll(markers);
+			return null;
 		}
+		
+		List<Marker> compiledMarkers = new ArrayList<Marker>(markers.size());
+		for (Iterator<Marker> it = markers.iterator(); it.hasNext();)
+		{
+			Marker marker = it.next();
+			Marker compiledMarker = new StandardMarker(getCompiledProperties(marker.getProperties(), factory));
+			compiledMarkers.add(compiledMarker);
+		}
+		return compiledMarkers;
+	}
+
+	private static List<MarkerProperty> getCompiledProperties(List<MarkerProperty> properties, JRBaseObjectFactory factory)
+	{
+		if (properties == null)
+		{
+			return null;
+		}
+		
+		List<MarkerProperty> compiledProperties = new ArrayList<MarkerProperty>(properties.size());
+		for (Iterator<MarkerProperty> it = properties.iterator(); it.hasNext();)
+		{
+			MarkerProperty property = it.next();
+			MarkerProperty compiledProperty = new StandardMarkerProperty(property.getName(), property.getValue(), factory.getExpression(property.getValueExpression()));
+			compiledProperties.add(compiledProperty);
+		}
+		return compiledProperties;
 	}
 
 	@Override
