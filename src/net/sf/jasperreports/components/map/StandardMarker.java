@@ -24,15 +24,13 @@
 package net.sf.jasperreports.components.map;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRConstants;
-import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.design.events.JRChangeEventsSupport;
 import net.sf.jasperreports.engine.design.events.JRPropertyChangeSupport;
+import net.sf.jasperreports.engine.util.JRCloneUtils;
 
 /**
  * @author sanda zaharia (shertage@users.sourceforge.net)
@@ -46,97 +44,15 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 	
 	private transient JRPropertyChangeSupport eventSupport;
 
-	private Map<String, MarkerProperty> markerProperties;
+	private List<MarkerProperty> properties = new ArrayList<MarkerProperty>();
 
 	public StandardMarker()
 	{
-		markerProperties = new HashMap<String, MarkerProperty>();
 	}
 	
-	
-	public MarkerProperty getMarkerProperty(String name)
+	public StandardMarker(List<MarkerProperty> properties)
 	{
-		return markerProperties == null 
-			? null 
-			: markerProperties.get(name);
-	}
-	
-	public Collection<MarkerProperty> getAllMarkerProperties()
-	{
-		return markerProperties == null 
-			? null 
-			: markerProperties.values();
-	}
-	
-	public String getPropertyValue(String name)
-	{
-		return markerProperties == null 
-			? null 
-			: (markerProperties.get(name) == null
-				? null
-				: markerProperties.get(name).getValue());
-	}
-	
-	public JRExpression getPropertyValueExpression(String name)
-	{
-		return markerProperties == null 
-			? null 
-			: (markerProperties.get(name) == null
-				? null
-				: markerProperties.get(name).getValueExpression());
-	}
-	
-	public void addMarkerProperty(MarkerProperty markerProperty)
-	{
-		if(markerProperty != null)
-		{
-			markerProperties.put(markerProperty.getName(), markerProperty);
-		}
-	}
-	
-	public void addAllMarkerProperties(List<MarkerProperty> markerPropertiesList)
-	{
-		if(markerPropertiesList != null)
-		{
-			for(MarkerProperty markerProperty : markerPropertiesList)
-			{
-				if(markerProperty != null)
-				{
-					markerProperties.put(markerProperty.getName(), markerProperty);
-				}
-			}
-		}
-	}
-	
-	public void addAllMarkerProperties(Map<String, MarkerProperty> markerProperties)
-	{
-		if(markerProperties != null)
-		{
-			markerProperties.putAll(markerProperties);
-		}
-	}
-	
-	public MarkerProperty removeMarkerProperty(MarkerProperty markerProperty)
-	{
-		if(markerProperty != null)
-		{
-			return markerProperties.remove(markerProperty.getName());
-		}
-		return markerProperty;
-	}
-	
-	public MarkerProperty removeMarkerProperty(String name)
-	{
-		if(name != null)
-		{
-			return markerProperties.remove(name);
-		}
-		return null;
-	}
-
-	public void removeAllMarkerProperties()
-	{
-		markerProperties.clear();
+		this.properties = properties;
 	}
 	
 	public JRPropertyChangeSupport getEventSupport()
@@ -157,6 +73,7 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 		try
 		{
 			StandardMarker clone = (StandardMarker) super.clone();
+			clone.properties = JRCloneUtils.cloneList(properties);
 			return clone;
 		}
 		catch (CloneNotSupportedException e)
@@ -166,16 +83,15 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 		}
 	}
 
-
-	public Map<String, MarkerProperty> getMarkerProperties() {
-		return this.markerProperties;
+	@Override
+	public List<MarkerProperty> getProperties() 
+	{
+		return properties;
 	}
-
-
-	public void setMarkerProperties(Map<String, MarkerProperty> markerProperties) {
-		Object old = this.markerProperties;
-		this.markerProperties = markerProperties;
-		getEventSupport().firePropertyChange(PROPERTY_MARKER_PROPERTIES, old, this.markerProperties);
-		
+	
+	public void addMarkerProperty(MarkerProperty property)
+	{
+		properties.add(property);
+		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_PROPERTIES, property, properties.size() - 1);
 	}
 }

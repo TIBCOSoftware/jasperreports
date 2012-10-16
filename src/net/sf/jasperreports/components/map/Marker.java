@@ -23,7 +23,7 @@
  */
 package net.sf.jasperreports.components.map;
 
-import java.util.Map;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRCloneable;
 
@@ -36,7 +36,5 @@ public interface Marker extends JRCloneable {
 	public static final String PROPERTY_longitude = "longitude";
 	public static final String PROPERTY_title = "title";
 	
-	public MarkerProperty getMarkerProperty(String name);
-//	public void addMarkerProperty(MarkerProperty markerProperty);
-	public Map<String, MarkerProperty> getMarkerProperties();
+	public List<MarkerProperty> getProperties();
 }
