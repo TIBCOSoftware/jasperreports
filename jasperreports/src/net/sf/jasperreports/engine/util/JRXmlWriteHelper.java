@@ -546,6 +546,11 @@ public class JRXmlWriteHelper
 	
 	public void addAttribute(String name, JREnum value, JREnum defaultValue)
 	{
+		addAttribute(name, (NamedEnum) value, (NamedEnum) defaultValue);
+	}
+	
+	public void addAttribute(String name, NamedEnum value, NamedEnum defaultValue)
+	{
 		if (value != null && !value.equals(defaultValue))
 		{
 			writeAttribute(name, value.getName());
