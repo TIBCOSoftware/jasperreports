@@ -133,7 +133,7 @@ public class FormatCondition {
 		fieldComparator.setValueStart(conditionStart);
 		fieldComparator.setValueEnd(conditionEnd);
 		fieldComparator.setCompareTo(compareTo);
-		fieldComparator.setCompareToClass(compareTo.getClass());
+		fieldComparator.setCompareToClass(compareTo != null ? compareTo.getClass() : Object.class);
 		
 		return fieldComparator.compare(conditionTypeOperator);
 	}
