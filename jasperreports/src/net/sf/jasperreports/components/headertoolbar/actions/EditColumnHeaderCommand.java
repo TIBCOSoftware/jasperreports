@@ -75,6 +75,7 @@ public class EditColumnHeaderCommand implements Command
 			oldEditColumnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
 			oldEditColumnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
 			oldEditColumnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+			oldEditColumnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
 			
 			applyColumnHeaderData(editColumnHeaderData, textElement, true);
 		}
@@ -110,18 +111,8 @@ public class EditColumnHeaderCommand implements Command
 		textElement.setUnderline(headerData.getFontUnderline());
 		textElement.setForecolor(headerData.getFontColor() != null ? JRColorUtil.getColor("#" + headerData.getFontColor(), textElement.getForecolor()) : null);
 		textElement.setHorizontalAlignment(HorizontalAlignEnum.getByName(headerData.getFontHAlign()));
-		
-		if (headerData.getFontBackColor() != null) {
-			if (headerData.getFontBackColor().equalsIgnoreCase("transparent")) {
-				textElement.setMode(ModeEnum.TRANSPARENT);
-			} else {
-				textElement.setMode(ModeEnum.OPAQUE);
-				textElement.setBackcolor(JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white));
-			}
-		} else {
-			textElement.setBackcolor(null);
-			textElement.setMode(null);
-		}
+		textElement.setBackcolor(headerData.getFontBackColor() != null ? JRColorUtil.getColor("#" + headerData.getFontBackColor(), Color.white) : null);
+		textElement.setMode(ModeEnum.getByName(headerData.getMode()));
 	}
 
 

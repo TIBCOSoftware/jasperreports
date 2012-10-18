@@ -631,7 +631,7 @@ jive.ui.forms = {
             jQuery.each(e.items,function(i,v){
                 !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');
                 tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+v.id+'" value="'+v.value+'" type="'+v.type+'">');
-                if (v.type == 'color') {
+                if (v.type === 'color' || v.type === 'backcolor') {
                 	tb.push('<div class="colorpick' + (v.styleClass ? ' ' + v.styleClass : ' normal') +'"></div>');
                 }
                 v.bIcon && tb.push('<span class="jive_bIcon '+v.bIcon+'"></span>');
@@ -733,7 +733,7 @@ jive.ui.forms = {
 								this.value = val;
 								if (val === null) {
 									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
-								} else if (val === 'none') {
+								} else if (val === 'null') {
 									this.set(null);
 								} else {
 									btn.removeClass('unchanged').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
@@ -741,6 +741,46 @@ jive.ui.forms = {
 							},
 							get:function(){
 								return this.value;
+							},
+							onClick:function(jo){
+								jive.ui.colorpicker.show({
+									title: v.title,
+									inputId: v.id,
+									anchor: jo,
+									currentColor: jQuery('input[name="'+v.id+'"]').val(),
+									showTransparent: v.showTransparent
+								});
+							}
+					}
+				}
+                if(v.type == 'backcolor') {
+					parms.inputs[v.id] = {
+							backColor: null,
+							modeValue: null,
+							set: function(backColor, modeValue, isFromPicker) {
+								var btn = jQuery('div.jive_inputbutton[bname="'+v.id+'"]');
+								if (isFromPicker) {
+									if (backColor !== 'keep_existing') {
+										this.backColor = backColor === 'null' ? null : backColor;
+									}
+								} else {
+									this.backColor = backColor;
+								}
+								this.modeValue = modeValue === 'null' ? null : modeValue;
+								
+								if (!this.backColor && !this.modeValue) {
+									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (this.modeValue === 'Transparent' || !this.backColor) {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (this.backColor) {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', '#' + this.backColor);
+								}
+							},
+							getBackColor:function(){
+								return this.backColor;
+							},
+							getModeValue:function(){
+								return this.modeValue;
 							},
 							onClick:function(jo){
 								jive.ui.colorpicker.show({
@@ -849,7 +889,7 @@ jive.ui.forms = {
 				var vidCount = form.find('*[bname^=' + v.id + ']').size(),
 					vid = v.id + (vidCount > 0 ? '_' + jQuery.now() : '');
 				tb.push('<div class="jive_inputbutton ' + (v.btnClass ? ' ' + v.btnClass : '') + (v.drop ? ' drop' : '') +'" bname="'+vid+'" value="'+v.value+'" type="'+v.type+'">');
-				if (v.type == 'color') {
+				if (v.type === 'color' || v.type === 'backcolor') {
                 	tb.push('<div class="colorpick' + (v.styleClass ? ' ' + v.styleClass : ' normal') +'"></div>');
                 }
 				v.bIcon && tb.push('<span class="jive_bIcon ' + v.bIcon + '"></span>');
@@ -904,7 +944,7 @@ jive.ui.forms = {
 								this.value = val;
 								if (val === null) {
 									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
-								} else if (val === 'none') {
+								} else if (val === 'null') {
 									this.set(null);
 								} else {
 									btn.removeClass('unchanged').find('div.colorpick').css('background-color', val === 'transparent' ? val : ('#' + val));
@@ -912,6 +952,46 @@ jive.ui.forms = {
 							},
 							get:function(){
 								return this.value;
+							},
+							onClick:function(jo){
+								jive.ui.colorpicker.show({
+									title: v.title,
+									inputId: vid,
+									anchor: jo,
+									currentColor: jQuery('input[name="'+vid+'"]').val(),
+									showTransparent: v.showTransparent
+								});
+							}
+					}
+				}
+				if(v.type == 'backcolor') {
+					parms.inputs[vid] = {
+							backColor: null,
+							modeValue: null,
+							set: function(backColor, modeValue, isFromPicker) {
+								var btn = jQuery('div.jive_inputbutton[bname="'+vid+'"]');
+								if (isFromPicker) {
+									if (backColor !== 'keep_existing') {
+										this.backColor = backColor === 'null' ? null : backColor;
+									}
+								} else {
+									this.backColor = backColor;
+								}
+								this.modeValue = modeValue === 'null' ? null : modeValue;
+								
+								if (!this.backColor && !this.modeValue) {
+									btn.addClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (this.modeValue === 'Transparent' || !this.backColor) {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', 'transparent');
+								} else if (this.backColor) {
+									btn.removeClass('unchanged').find('div.colorpick').css('background-color', '#' + this.backColor);
+								}
+							},
+							getBackColor:function(){
+								return this.backColor;
+							},
+							getModeValue:function(){
+								return this.modeValue;
 							},
 							onClick:function(jo){
 								jive.ui.colorpicker.show({
@@ -942,7 +1022,7 @@ jive.ui.colorpicker = {
         it.jo.draggable({handle: 'div.dialogHeader'});
         it.jo.on('click touchend','div.pick',function(evt){
             it.selected = jQuery(this).parent().addClass('selected');
-            jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('hexcolor')));
+            jive.selected.form.inputs[it.inputId].set(it.extractHexColor(it.selected.children().eq(0).attr('hexcolor')), it.selected.closest('tr').data('mode'), true);
             jive.ui.colorpicker.jo.hide();
             jive.ui.modal.hide();
             evt.preventDefault();

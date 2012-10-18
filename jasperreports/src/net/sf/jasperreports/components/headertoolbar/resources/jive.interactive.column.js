@@ -769,7 +769,7 @@ jive.interactive.column.formatHeaderForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
-                    {type:'color',id:'headerFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+                    {type:'backcolor',id:'headerFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
                     {type:'color',id:'headerFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
             }
@@ -808,7 +808,7 @@ jive.interactive.column.formatHeaderForm = {
         inputs['headerFontName'].set(metadata.fontName);
         inputs['headerFontSize'].set(metadata.fontSize);
         inputs['headerFontColor'].set(metadata.fontColor);
-        inputs['headerFontBackColor'].set(metadata.fontBackColor);
+        inputs['headerFontBackColor'].set(metadata.fontBackColor, metadata.mode);
         
         // disable conditional formatting tab
         var conditionalFormattingTab = jQuery('#columnConditionalFormattingTab');
@@ -849,7 +849,8 @@ jive.interactive.column.formatHeaderForm = {
                 fontUnderline: inputs['headerFontUnderline'].get(),
                 fontHAlign: inputs['headerFontAlign'].get(),
                 fontColor: inputs['headerFontColor'].get(),
-                fontBackColor: inputs['headerFontBackColor'].get()
+                fontBackColor: inputs['headerFontBackColor'].getBackColor(),
+                mode: inputs['headerFontBackColor'].getModeValue()
             }
     	}
     }
@@ -878,7 +879,7 @@ jive.interactive.column.formatCellsForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.color.label'),
                 items: [
-                    {type:'color',id:'cellsFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+                    {type:'backcolor',id:'cellsFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
                     {type:'color',id:'cellsFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
                 ]
             }
@@ -957,7 +958,7 @@ jive.interactive.column.formatCellsForm = {
         inputs['cellsFontName'].set(metadata.fontName);
         inputs['cellsFontSize'].set(metadata.fontSize);
         inputs['cellsFontColor'].set(metadata.fontColor);
-        inputs['cellsFontBackColor'].set(metadata.fontBackColor);
+        inputs['cellsFontBackColor'].set(metadata.fontBackColor, metadata.mode);
 
         if(typeof ie.formatPatternLabel === 'string') {
             jQuery.each(ie.formatPatternSelector,function(i,o){
@@ -1014,7 +1015,8 @@ jive.interactive.column.formatCellsForm = {
                 fontUnderline: inputs['cellsFontUnderline'].get(),
                 fontHAlign: inputs['cellsFontAlign'].get(),
                 fontColor: inputs['cellsFontColor'].get(),
-                fontBackColor: inputs['cellsFontBackColor'].get(),
+                fontBackColor: inputs['cellsFontBackColor'].getBackColor(),
+                mode: inputs['cellsFontBackColor'].getModeValue(),
                 formatPattern: inputs['formatPattern'].get()
             }
 		};
@@ -1040,7 +1042,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon', isTripleState: true},
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon', isTripleState: true},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon', isTripleState: true},
-	            {type:'color',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+	            {type:'backcolor',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
 	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
 	        ]
 	    },
@@ -1189,13 +1191,13 @@ jive.interactive.column.columnConditionalFormattingForm = {
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(conditionData.conditionFontItalic);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(conditionData.conditionFontUnderline);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(conditionData.conditionFontColor);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(conditionData.conditionFontBackColor, conditionData.conditionMode);
         } else {
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontBold]').attr('bname')].set(null);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].set(null);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].set(null);
         	inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].set(null);
-        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(null);
+        	inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].set(null, null);
         }
         
         table.trigger('rowchange');
@@ -1262,7 +1264,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
             	conditionFontItalic: inputs[row.find('.jive_inputbutton[bname^=conditionFontItalic]').attr('bname')].get(),
             	conditionFontUnderline: inputs[row.find('.jive_inputbutton[bname^=conditionFontUnderline]').attr('bname')].get(),
             	conditionFontColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontColor]').attr('bname')].get(),
-            	conditionFontBackColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].get()
+            	conditionFontBackColor: inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].getBackColor(),
+            	conditionMode: inputs[row.find('.jive_inputbutton[bname^=conditionFontBackColor]').attr('bname')].getModeValue()
     		});
     	});
     	
