@@ -1166,7 +1166,6 @@ jive.interactive.column.columnConditionalFormattingForm = {
         row = jQuery(tr.join(''));
         row.insertBefore(table.find('tr:last'));
         
-//        jQuery.each(it.options[conditionType], function(k,v) {
        	jQuery.each(it.options, function(k,v) {
         	v && htm.push('<option value="'+v.key+'">'+v.val+'</option>');
         });
@@ -1181,6 +1180,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
             }
             row.find('input[name=conditionStart]').datepicker(pickerOptions);
             row.find('input[name=conditionEnd]').datepicker(pickerOptions);
+        } else if (conditionType === 'boolean') {
+        	row.find('input[name=conditionStart]').prop('disabled', true);
         }
         
         if (conditionData) {
