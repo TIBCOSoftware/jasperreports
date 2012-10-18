@@ -40,6 +40,7 @@ public class EditColumnHeaderData extends BaseColumnData {
 	private String fontColor;
 	private String fontBackColor;
 	private String fontHAlign;
+	private String mode;
 	
 	public EditColumnHeaderData() {
 	}
@@ -123,6 +124,13 @@ public class EditColumnHeaderData extends BaseColumnData {
 	public void setFontHAlign(String fontHAlign) {
 		this.fontHAlign = fontHAlign;
 	}
-	
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 
 }

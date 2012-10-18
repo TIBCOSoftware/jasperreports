@@ -613,12 +613,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colHeaderData.setFontUnderline(textElement.isOwnUnderline());
 					colHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
 					colHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-					
-					if (textElement.getOwnModeValue() != null && textElement.getOwnModeValue().equals(ModeEnum.TRANSPARENT)) {
-						colHeaderData.setFontBackColor("transparent");
-					} else if (textElement.getOwnBackcolor() != null) {
-						colHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getOwnBackcolor()));
-					}
+					colHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+					colHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()): null);
 				}
 			}
 		}
@@ -655,12 +651,8 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
 					colValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
 					colValueData.setFormatPattern(textElement.getOwnPattern());
-					
-					if (textElement.getOwnModeValue() != null && textElement.getOwnModeValue().equals(ModeEnum.TRANSPARENT)) {
-						colValueData.setFontBackColor("transparent");
-					} else if (textElement.getOwnBackcolor() != null) {
-						colValueData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getOwnBackcolor()));
-					}
+					colValueData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+					colValueData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()): null);
 				}
 			}
 		}

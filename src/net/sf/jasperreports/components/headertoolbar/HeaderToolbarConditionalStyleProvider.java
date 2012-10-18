@@ -74,6 +74,7 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 					boolean fontItalicSet = false;
 					boolean fontUnderlineSet = false;
 					boolean foreColorSet = false;
+					boolean modeSet = false;
 					for (FormatCondition condition: cfd.getConditions()) 
 					{
 						if(condition.matches(compareTo, cfd.getConditionType(), cfd.getConditionPattern(), condition.getConditionTypeOperator())) 
@@ -103,14 +104,14 @@ public class HeaderToolbarConditionalStyleProvider implements StyleProvider
 								style.setForecolor(JRColorUtil.getColor("#" + condition.getConditionFontColor(), Color.black));
 								foreColorSet = true;
 							}
+							if (condition.getConditionMode() != null && !modeSet)
+							{
+								style.setMode(ModeEnum.getByName(condition.getConditionMode()));
+								modeSet = true;
+							}
 							if (condition.getConditionFontBackColor() != null && !bgColorSet) 
 							{
-								if (condition.getConditionFontBackColor().equalsIgnoreCase("transparent")) {
-									style.setMode(ModeEnum.TRANSPARENT);
-								} else {
-									style.setMode(ModeEnum.OPAQUE);
-									style.setBackcolor(JRColorUtil.getColor("#" + condition.getConditionFontBackColor(), Color.white));
-								}
+								style.setBackcolor(JRColorUtil.getColor("#" + condition.getConditionFontBackColor(), Color.white));
 								bgColorSet = true;
 							}
 						}

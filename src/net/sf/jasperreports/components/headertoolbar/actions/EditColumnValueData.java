@@ -43,6 +43,7 @@ public class EditColumnValueData extends BaseColumnData {
 	private String fontBackColor;
 	private String fontHAlign;
 	private String formatPattern;
+	private String mode;
 	
 	public EditColumnValueData() {
 	}
@@ -133,6 +134,14 @@ public class EditColumnValueData extends BaseColumnData {
 
 	public void setFormatPattern(String formatPattern) {
 		this.formatPattern = formatPattern;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 
 }

@@ -45,6 +45,7 @@ public class FormatCondition {
 	private Boolean conditionFontUnderline;
 	private String conditionFontColor;
 	private String conditionFontBackColor;
+	private String conditionMode;
 	
 	public FormatCondition() {
 	}
@@ -104,13 +105,21 @@ public class FormatCondition {
 	public void setConditionFontColor(String conditionFontColor) {
 		this.conditionFontColor = conditionFontColor;
 	}
-	
+
 	public String getConditionFontBackColor() {
 		return conditionFontBackColor;
 	}
-	
+
 	public void setConditionFontBackColor(String conditionFontBackColor) {
 		this.conditionFontBackColor = conditionFontBackColor;
+	}
+
+	public String getConditionMode() {
+		return conditionMode;
+	}
+
+	public void setConditionMode(String conditionMode) {
+		this.conditionMode = conditionMode;
 	}
 	
 	public boolean matches(Object compareTo, String conditionType, String conditionPattern, String conditionTypeOperator) {
