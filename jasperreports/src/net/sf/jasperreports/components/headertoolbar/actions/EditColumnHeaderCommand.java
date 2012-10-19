@@ -26,6 +26,7 @@ package net.sf.jasperreports.components.headertoolbar.actions;
 import java.awt.Color;
 import java.util.List;
 
+import net.sf.jasperreports.components.headertoolbar.HeaderToolbarElementUtils;
 import net.sf.jasperreports.components.table.BaseColumn;
 import net.sf.jasperreports.components.table.StandardColumn;
 import net.sf.jasperreports.components.table.StandardTable;
@@ -67,16 +68,7 @@ public class EditColumnHeaderCommand implements Command
 		
 		if (textElement != null) {
 			oldEditColumnHeaderData = new EditColumnHeaderData();
-			oldEditColumnHeaderData.setFontName(textElement.getOwnFontName());
-			oldEditColumnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-			oldEditColumnHeaderData.setFontBold(textElement.isOwnBold());
-			oldEditColumnHeaderData.setFontItalic(textElement.isOwnItalic());
-			oldEditColumnHeaderData.setFontUnderline(textElement.isOwnUnderline());
-			oldEditColumnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-			oldEditColumnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
-			oldEditColumnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-			oldEditColumnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
-			
+			HeaderToolbarElementUtils.copyTextElementStyle(oldEditColumnHeaderData, textElement);
 			applyColumnHeaderData(editColumnHeaderData, textElement, true);
 		}
 	}

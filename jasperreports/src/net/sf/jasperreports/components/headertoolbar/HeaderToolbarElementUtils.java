@@ -27,8 +27,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.jasperreports.components.headertoolbar.actions.EditColumnHeaderData;
+import net.sf.jasperreports.components.headertoolbar.actions.EditColumnValueData;
 import net.sf.jasperreports.components.sort.FilterTypesEnum;
+import net.sf.jasperreports.components.table.util.TableUtil;
+import net.sf.jasperreports.engine.design.JRDesignTextElement;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.type.SortOrderEnum;
+import net.sf.jasperreports.engine.util.JRColorUtil;
 
 
 
@@ -88,5 +94,57 @@ public class HeaderToolbarElementUtils {
 			result = FilterTypesEnum.BOOLEAN;
 		}
 		return result;
+	}
+	
+	public static void copyTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
+//		columnHeaderData.setFontName(textElement.getOwnFontName());
+//		columnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+//		columnHeaderData.setFontBold(textElement.isOwnBold());
+//		columnHeaderData.setFontItalic(textElement.isOwnItalic());
+//		columnHeaderData.setFontUnderline(textElement.isOwnUnderline());
+//		columnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+//		columnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+//		columnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+//		columnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+
+		columnHeaderData.setFontName(textElement.getFontName());
+		columnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
+		columnHeaderData.setFontBold(textElement.isBold());
+		columnHeaderData.setFontItalic(textElement.isItalic());
+		columnHeaderData.setFontUnderline(textElement.isUnderline());
+		columnHeaderData.setFontColor(JRColorUtil.getColorHexa(textElement.getForecolor()));
+		columnHeaderData.setFontBackColor(JRColorUtil.getColorHexa(textElement.getBackcolor()));
+		columnHeaderData.setFontHAlign(textElement.getHorizontalAlignmentValue().getName());
+		columnHeaderData.setMode(textElement.getModeValue().getName());
+	}
+
+	public static void copyTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
+//		columnValueData.setFontName(textElement.getOwnFontName());
+//		columnValueData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+//		columnValueData.setFontBold(textElement.isOwnBold());
+//		columnValueData.setFontItalic(textElement.isOwnItalic());
+//		columnValueData.setFontUnderline(textElement.isOwnUnderline());
+//		columnValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+//		columnValueData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+//		columnValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+//		columnValueData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+//		
+//		if (TableUtil.isSortableAndFilterable(textElement)) {
+//			columnValueData.setFormatPattern(textElement.getOwnPattern());
+//		}
+
+		columnValueData.setFontName(textField.getFontName());
+		columnValueData.setFontSize(String.valueOf(textField.getFontSize()));
+		columnValueData.setFontBold(textField.isBold());
+		columnValueData.setFontItalic(textField.isItalic());
+		columnValueData.setFontUnderline(textField.isUnderline());
+		columnValueData.setFontColor(JRColorUtil.getColorHexa(textField.getForecolor()));
+		columnValueData.setFontBackColor(JRColorUtil.getColorHexa(textField.getBackcolor()));
+		columnValueData.setFontHAlign(textField.getHorizontalAlignmentValue().getName());
+		columnValueData.setMode(textField.getModeValue().getName());
+		
+		if (TableUtil.isSortableAndFilterable(textField)) {
+			columnValueData.setFormatPattern(textField.getPattern());
+		}
 	}
 }

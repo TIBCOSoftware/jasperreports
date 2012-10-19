@@ -606,15 +606,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colHeaderData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
 					colHeaderData.setColumnIndex(columnIndex);
 					colHeaderData.setTableUuid(tableUuid);
-					colHeaderData.setFontName(textElement.getOwnFontName());
-					colHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-					colHeaderData.setFontBold(textElement.isOwnBold());
-					colHeaderData.setFontItalic(textElement.isOwnItalic());
-					colHeaderData.setFontUnderline(textElement.isOwnUnderline());
-					colHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-					colHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-					colHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
-					colHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()): null);
+					HeaderToolbarElementUtils.copyTextElementStyle(colHeaderData, textElement);
 				}
 			}
 		}
@@ -643,16 +635,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 					colValueData.setHeadingName(JRStringUtil.escapeJavaScript(sortColumnLabel));
 					colValueData.setColumnIndex(columnIndex);
 					colValueData.setTableUuid(tableUuid);
-					colValueData.setFontName(textElement.getOwnFontName());
-					colValueData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-					colValueData.setFontBold(textElement.isOwnBold());
-					colValueData.setFontItalic(textElement.isOwnItalic());
-					colValueData.setFontUnderline(textElement.isOwnUnderline());
-					colValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-					colValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-					colValueData.setFormatPattern(textElement.getOwnPattern());
-					colValueData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
-					colValueData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()): null);
+					HeaderToolbarElementUtils.copyTextFieldStyle(colValueData, textElement);
 				}
 			}
 		}

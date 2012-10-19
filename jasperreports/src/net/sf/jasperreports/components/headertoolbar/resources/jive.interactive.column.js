@@ -760,9 +760,9 @@ jive.interactive.column.formatHeaderForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon',isTripleState: true},
-                    {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon',isTripleState: true},
-                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon',isTripleState: true}
+                    {type:'checkbox',id:'headerFontBold',value:'bold',bIcon:'boldIcon'},
+                    {type:'checkbox',id:'headerFontItalic',value:'italic',bIcon:'italicIcon'},
+                    {type:'checkbox',id:'headerFontUnderline',value:'underline',bIcon:'underlineIcon'}
                 ]
             },
             {
@@ -870,9 +870,9 @@ jive.interactive.column.formatCellsForm = {
                 type: 'buttons',
                 label: jive.i18n.get('column.formatforms.styleButtons.label'),
                 items: [
-                    {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon',isTripleState: true},
-                    {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon',isTripleState: true},
-                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon',isTripleState: true}
+                    {type:'checkbox',id:'cellsFontBold',value:'bold',bIcon:'boldIcon'},
+                    {type:'checkbox',id:'cellsFontItalic',value:'italic',bIcon:'italicIcon'},
+                    {type:'checkbox',id:'cellsFontUnderline',value:'underline',bIcon:'underlineIcon'}
                 ]
             },
             {
@@ -1042,7 +1042,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	            {type:'checkbox',id:'conditionFontBold',value:'bold',bIcon:'boldIcon', isTripleState: true},
 	            {type:'checkbox',id:'conditionFontItalic',value:'italic',bIcon:'italicIcon', isTripleState: true},
 	            {type:'checkbox',id:'conditionFontUnderline',value:'underline',bIcon:'underlineIcon', isTripleState: true},
-	            {type:'backcolor',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, styleClass: 'wide'},
+	            {type:'backcolor',id:'conditionFontBackColor',bIcon:'backgroundColorIcon',title:jive.i18n.get('column.formatforms.fontBackColor.title'), drop: true, showTransparent: true, showReset: true, styleClass: 'wide'},
 	            {type:'color',id:'conditionFontColor',bIcon:'fontColorIcon',title:jive.i18n.get('column.formatforms.fontColor.title'), drop: true}
 	        ]
 	    },
