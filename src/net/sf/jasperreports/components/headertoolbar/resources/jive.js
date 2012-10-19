@@ -701,7 +701,7 @@ jive.ui.forms = {
                     parms.inputs[v.id] = {
                     	value: null,
                         set:function(val, jo) {
-                        	if (jo && jo.is('.selected')) {
+                        	if (jo && jo.is('.selected') && v.isTripleState) {
                         		this.set(null);
                         		return;
                         	}
@@ -748,7 +748,8 @@ jive.ui.forms = {
 									inputId: v.id,
 									anchor: jo,
 									currentColor: jQuery('input[name="'+v.id+'"]').val(),
-									showTransparent: v.showTransparent
+									showTransparent: v.showTransparent,
+									showReset: v.showReset
 								});
 							}
 					}
@@ -788,7 +789,8 @@ jive.ui.forms = {
 									inputId: v.id,
 									anchor: jo,
 									currentColor: jQuery('input[name="'+v.id+'"]').val(),
-									showTransparent: v.showTransparent
+									showTransparent: v.showTransparent,
+									showReset: v.showReset
 								});
 							}
 					}
@@ -959,7 +961,8 @@ jive.ui.forms = {
 									inputId: vid,
 									anchor: jo,
 									currentColor: jQuery('input[name="'+vid+'"]').val(),
-									showTransparent: v.showTransparent
+									showTransparent: v.showTransparent,
+									showReset: v.showReset
 								});
 							}
 					}
@@ -999,7 +1002,8 @@ jive.ui.forms = {
 									inputId: vid,
 									anchor: jo,
 									currentColor: jQuery('input[name="'+vid+'"]').val(),
-									showTransparent: v.showTransparent
+									showTransparent: v.showTransparent,
+									showReset: v.showReset
 								});
 							}
 					}
@@ -1040,6 +1044,11 @@ jive.ui.colorpicker = {
         	this.jo.find('tr.transparent_pick').show();
         } else {
         	this.jo.find('tr.transparent_pick').hide();
+        }
+        if (options.showReset) {
+        	this.jo.find('tr.reset_pick').show();
+        } else {
+        	this.jo.find('tr.reset_pick').hide();
         }
         jive.ui.modal.show(this.jo);
         this.jo.find('h2').html(this.title);
