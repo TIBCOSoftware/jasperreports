@@ -95,18 +95,20 @@ public class HeaderToolbarElementUtils {
 		}
 		return result;
 	}
-	
-	public static void copyTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
-//		columnHeaderData.setFontName(textElement.getOwnFontName());
-//		columnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-//		columnHeaderData.setFontBold(textElement.isOwnBold());
-//		columnHeaderData.setFontItalic(textElement.isOwnItalic());
-//		columnHeaderData.setFontUnderline(textElement.isOwnUnderline());
-//		columnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-//		columnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
-//		columnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-//		columnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
 
+	public static void copyOwnTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
+		columnHeaderData.setFontName(textElement.getOwnFontName());
+		columnHeaderData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
+		columnHeaderData.setFontBold(textElement.isOwnBold());
+		columnHeaderData.setFontItalic(textElement.isOwnItalic());
+		columnHeaderData.setFontUnderline(textElement.isOwnUnderline());
+		columnHeaderData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
+		columnHeaderData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
+		columnHeaderData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
+		columnHeaderData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
+	}
+
+	public static void copyTextElementStyle(EditColumnHeaderData columnHeaderData, JRDesignTextElement textElement) {
 		columnHeaderData.setFontName(textElement.getFontName());
 		columnHeaderData.setFontSize(String.valueOf(textElement.getFontSize()));
 		columnHeaderData.setFontBold(textElement.isBold());
@@ -118,21 +120,23 @@ public class HeaderToolbarElementUtils {
 		columnHeaderData.setMode(textElement.getModeValue().getName());
 	}
 
-	public static void copyTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
-//		columnValueData.setFontName(textElement.getOwnFontName());
-//		columnValueData.setFontSize(textElement.getOwnFontSize() != null ? String.valueOf(textElement.getOwnFontSize()) : null);
-//		columnValueData.setFontBold(textElement.isOwnBold());
-//		columnValueData.setFontItalic(textElement.isOwnItalic());
-//		columnValueData.setFontUnderline(textElement.isOwnUnderline());
-//		columnValueData.setFontColor(textElement.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnForecolor()) : null);
-//		columnValueData.setFontBackColor(textElement.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textElement.getOwnBackcolor()) : null);
-//		columnValueData.setFontHAlign(textElement.getOwnHorizontalAlignmentValue() != null ? textElement.getOwnHorizontalAlignmentValue().getName() : null);
-//		columnValueData.setMode(textElement.getOwnModeValue() != null ? textElement.getOwnModeValue().getName() : null);
-//		
-//		if (TableUtil.isSortableAndFilterable(textElement)) {
-//			columnValueData.setFormatPattern(textElement.getOwnPattern());
-//		}
+	public static void copyOwnTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
+		columnValueData.setFontName(textField.getOwnFontName());
+		columnValueData.setFontSize(textField.getOwnFontSize() != null ? String.valueOf(textField.getOwnFontSize()) : null);
+		columnValueData.setFontBold(textField.isOwnBold());
+		columnValueData.setFontItalic(textField.isOwnItalic());
+		columnValueData.setFontUnderline(textField.isOwnUnderline());
+		columnValueData.setFontColor(textField.getOwnForecolor() != null ? JRColorUtil.getColorHexa(textField.getOwnForecolor()) : null);
+		columnValueData.setFontBackColor(textField.getOwnBackcolor() != null ? JRColorUtil.getColorHexa(textField.getOwnBackcolor()) : null);
+		columnValueData.setFontHAlign(textField.getOwnHorizontalAlignmentValue() != null ? textField.getOwnHorizontalAlignmentValue().getName() : null);
+		columnValueData.setMode(textField.getOwnModeValue() != null ? textField.getOwnModeValue().getName() : null);
+		
+		if (TableUtil.isSortableAndFilterable(textField)) {
+			columnValueData.setFormatPattern(textField.getOwnPattern());
+		}
+	}
 
+	public static void copyTextFieldStyle(EditColumnValueData columnValueData, JRDesignTextField textField) {
 		columnValueData.setFontName(textField.getFontName());
 		columnValueData.setFontSize(String.valueOf(textField.getFontSize()));
 		columnValueData.setFontBold(textField.isBold());
@@ -147,4 +151,5 @@ public class HeaderToolbarElementUtils {
 			columnValueData.setFormatPattern(textField.getPattern());
 		}
 	}
+
 }

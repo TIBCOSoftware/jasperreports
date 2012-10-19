@@ -64,7 +64,7 @@ public class EditColumnValuesCommand implements Command
 		
 		if (textElement != null) {
 			oldEditColumnValueData = new EditColumnValueData();
-			HeaderToolbarElementUtils.copyTextFieldStyle(oldEditColumnValueData, textElement);
+			HeaderToolbarElementUtils.copyOwnTextFieldStyle(oldEditColumnValueData, textElement);
 			applyColumnHeaderData(editColumnValueData, textElement, true);
 		}
 	}
