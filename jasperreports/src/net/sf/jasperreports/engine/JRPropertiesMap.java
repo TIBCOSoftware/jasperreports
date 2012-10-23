@@ -223,7 +223,10 @@ public class JRPropertiesMap implements Serializable, Cloneable
 		}
 		propertiesMap.put(propName, value);
 
-		getEventSupport().firePropertyChange(PROPERTY_VALUE, old, value);
+		if (hasEventSupport())
+		{
+			getEventSupport().firePropertyChange(PROPERTY_VALUE, old, value);
+		}
 	}
 	
 	
@@ -413,6 +416,11 @@ public class JRPropertiesMap implements Serializable, Cloneable
 
 	
 	private transient JRPropertyChangeSupport eventSupport;
+	
+	protected boolean hasEventSupport()
+	{
+		return eventSupport != null;
+	}
 	
 	public JRPropertyChangeSupport getEventSupport()
 	{
