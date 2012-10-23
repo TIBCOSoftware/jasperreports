@@ -101,8 +101,9 @@ public class JRPropertiesMap implements Serializable, Cloneable
 
 	private void init()
 	{
-		propertiesMap = new HashMap<String, String>();
-		propertiesList = new ArrayList<String>();
+		// start with small collections
+		propertiesMap = new HashMap<String, String>(4, 0.75f);
+		propertiesList = new ArrayList<String>(2);
 	}
 
 	
