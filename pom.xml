@@ -237,9 +237,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>rhino</groupId>
-			<artifactId>js</artifactId>
-			<version>1.7R1</version>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
+			<version>1.7R3</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
