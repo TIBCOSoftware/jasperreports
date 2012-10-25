@@ -174,6 +174,9 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 			String popupId = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_POPUP_ID);
 			String fieldOrVariableName = element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_FIELD_OR_VARIABLE_NAME);
 			String columnLabel = (String)element.getParameterValue(HeaderToolbarElement.PARAMETER_COLUMN_LABEL);
+			if (columnLabel == null) {
+				columnLabel = "";
+			}
 			int columnIndex = Integer.parseInt(element.getPropertiesMap().getProperty(HeaderToolbarElement.PROPERTY_COLUMN_INDEX));
 			
 			Map<String, Object> contextMap = new HashMap<String, Object>();
@@ -370,7 +373,7 @@ public class HeaderToolbarElementHtmlHandler extends BaseElementHtmlHandler
 				contextMap.put("filterTypeOperatorValue", filterTypeOperatorValue);
 				contextMap.put("filterTableUuid", tableUUID);
 				
-				contextMap.put("filterColumnNameLabel", columnLabel != null ? columnLabel : "");
+				contextMap.put("filterColumnNameLabel", columnLabel);
 				// end
 				
 				// begin: params for sorting
