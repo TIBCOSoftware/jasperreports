@@ -272,6 +272,12 @@ public class BucketDefinition
 			this.type = VALUE_TYPE_VALUE;
 		}
 		
+		public Bucket(Object value, byte type)
+		{
+			this.value = value;
+			this.type = type;
+		}
+		
 		
 		/**
 		 * Returns the bucket value.
