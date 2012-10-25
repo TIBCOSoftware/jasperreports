@@ -269,6 +269,8 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addCallMethod(markerPropertyValueExpressionPattern, "setText", 0);
 		digester.addSetNext(markerPropertyValueExpressionPattern, "setValueExpression", JRExpression.class.getName());
 		
+		// leave the digester namespace in the same state
+		digester.setRuleNamespaceURI(componentNamespace);
 	}
 
 	@SuppressWarnings("deprecation")
