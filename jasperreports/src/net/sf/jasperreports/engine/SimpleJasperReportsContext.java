@@ -282,4 +282,14 @@ public class SimpleJasperReportsContext implements JasperReportsContext
 			}
 		}
 	}
+
+	public Map<String, String> getPropertiesMap()
+	{
+		return properties;
+	}
+
+	public void setPropertiesMap(Map<String, String> propertiesMap)
+	{
+		this.properties = propertiesMap;
+	}
 }
