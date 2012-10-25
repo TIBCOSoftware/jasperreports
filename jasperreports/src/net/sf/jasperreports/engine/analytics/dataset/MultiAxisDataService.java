@@ -230,16 +230,11 @@ public class MultiAxisDataService
 					comparatorExpression, evaluation);
 		}
 
+		BucketDefinition bucketDefinition;
 		List<DataLevelBucketProperty> bucketProperties = bucket.getBucketProperties();
 		if (bucketProperties != null && !bucketProperties.isEmpty())
 		{
 			// wrapping values in a ValuePropertiesWrapper in order to store property values
-			valueClass = ValuePropertiesWrapper.class;
-			if (comparator != null)
-			{
-				comparator = new ValuePropertiesWrapperComparator(comparator);
-			}
-			
 			Map<String, Integer> propertyIndexes = new LinkedHashMap<String, Integer>();
 			for (ListIterator<DataLevelBucketProperty> it = bucketProperties.listIterator(); it.hasNext();)
 			{
@@ -247,11 +242,19 @@ public class MultiAxisDataService
 				propertyIndexes.put(bucketProperty.getName(), it.previousIndex());
 			}
 			axisLevelBucketPropertyIndexes.put(level, propertyIndexes);
+			
+			bucketDefinition = new PropertiesWrapperBucketDefintion(
+					comparator, bucket.getOrderValue(), 
+					CrosstabTotalPositionEnum.START);
+		}
+		else
+		{
+			bucketDefinition = new BucketDefinition(valueClass,
+					null, comparator, bucket.getOrderValue(), 
+					CrosstabTotalPositionEnum.START);
 		}
 		
-		return new BucketDefinition(valueClass,
-				null, comparator, bucket.getOrderValue(), 
-				CrosstabTotalPositionEnum.START);
+		return bucketDefinition;
 	}
 
 	protected Measure createMeasure(DataMeasure dataMeasure, byte evaluation) throws JRException
@@ -735,6 +738,30 @@ public class MultiAxisDataService
 				MeasureValue[] measureValues) throws JRException
 		{
 			throw new UnsupportedOperationException();
+		}
+		
+	}
+	
+	protected static class PropertiesWrapperBucketDefintion extends BucketDefinition
+	{
+		public PropertiesWrapperBucketDefintion(Comparator<Object> comparator,
+				SortOrderEnum order, CrosstabTotalPositionEnum totalPosition)
+				throws JRException
+		{
+			super(ValuePropertiesWrapper.class, null, 
+					comparator == null ? null : new ValuePropertiesWrapperComparator(comparator), 
+					order, totalPosition);
+		}
+
+		@Override
+		public Bucket create(Object value)
+		{
+			if (value instanceof ValuePropertiesWrapper && ((ValuePropertiesWrapper) value).getValue() == null)
+			{
+				return new Bucket(value, VALUE_TYPE_NULL);
+			}
+			
+			return super.create(value);
 		}
 		
 	}
