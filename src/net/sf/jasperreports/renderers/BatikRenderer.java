@@ -24,6 +24,7 @@
 package net.sf.jasperreports.renderers;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -86,6 +87,10 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 	private String svgDataLocation;
 	private List<JRPrintImageAreaHyperlink> areaHyperlinks;
 
+	private int minDPI;
+	private boolean antiAlias;
+	
+	
 	private transient GraphicsNode rootNode;
 	private transient Dimension2D documentSize;
 
@@ -259,7 +264,13 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 
 	protected Graphics2D createGraphics(BufferedImage bi)
 	{
-		return GraphicsUtil.createGraphics(bi);
+		Graphics2D graphics = GraphicsUtil.createGraphics(bi);
+		if (antiAlias)
+		{
+			graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			//FIXME use JPG instead of PNG for smaller size?
+		}
+		return graphics;
 	}
 
 	protected void setSvgDataLocation(String svgDataLocation)
@@ -401,5 +412,36 @@ public class BatikRenderer extends JRAbstractSvgRenderer implements ImageMapRend
 		BatikRenderer renderer = new BatikRenderer(null);
 		renderer.setSvgDataLocation(location);
 		return renderer;
+	}
+
+	@Override
+	protected int getImageDataDPI(JasperReportsContext jasperReportsContext)
+	{
+		int dpi = super.getImageDataDPI(jasperReportsContext);
+		if (minDPI > 0 && dpi < minDPI)
+		{
+			dpi = minDPI;
+		}
+		return dpi;
+	}
+
+	public int getMinDPI()
+	{
+		return minDPI;
+	}
+
+	public void setMinDPI(int minDPI)
+	{
+		this.minDPI = minDPI;
+	}
+
+	public boolean isAntiAlias()
+	{
+		return antiAlias;
+	}
+
+	public void setAntiAlias(boolean antiAlias)
+	{
+		this.antiAlias = antiAlias;
 	}
 }
