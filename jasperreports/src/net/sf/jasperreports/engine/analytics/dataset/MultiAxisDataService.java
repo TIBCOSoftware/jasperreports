@@ -419,9 +419,15 @@ public class MultiAxisDataService
 			BucketMap bucketMap = (BucketMap) bucketValueMap.get(axisRoots[Axis.ROWS.ordinal()]);
 			// descend on row total nodes
 			int rowLevelsCount = axisLevels.get(Axis.ROWS.ordinal()).size();
-			for (int idx = 1; idx < rowLevelsCount; ++idx)
+			for (int idx = 1; bucketMap != null && idx < rowLevelsCount; ++idx)
 			{
 				bucketMap = (BucketMap) bucketMap.getTotalEntry().getValue();
+			}
+			
+			if (bucketMap == null)
+			{
+				// this can happen when there was no data
+				return null;
 			}
 			
 			return (BucketMap) bucketMap.get(axisRoots[Axis.COLUMNS.ordinal()]);
@@ -497,45 +503,53 @@ public class MultiAxisDataService
 			}
 			
 			// descend on row total nodes
-			for (int idx = rowNode.axisDepth + 1; idx < axisLevels.get(Axis.ROWS.ordinal()).size(); ++idx)
+			for (int idx = rowNode.axisDepth + 1; bucketMap != null && idx < axisLevels.get(Axis.ROWS.ordinal()).size(); ++idx)
 			{
 				bucketMap = (BucketMap) bucketMap.getTotal();
 			}
 			
-			LinkedList<Bucket> columnBuckets = new LinkedList<Bucket>();
-			if (columnNode != null)
+			Object bucketValue;
+			if (bucketMap != null)
 			{
-				// add all column node parent buckets except the root
-				for (LevelNode node = columnNode; node.axisDepth > 0; node = node.parent)
+				LinkedList<Bucket> columnBuckets = new LinkedList<Bucket>();
+				if (columnNode != null)
 				{
-					columnBuckets.addFirst(node.bucket);
-				}
-			}
-			
-			// descend on the root column node
-			Object bucketValue = bucketMap.get(axisRoots[Axis.COLUMNS.ordinal()]);
-			// descend on regular column nodes
-			Iterator<Bucket> columnBucketIterator = columnBuckets.iterator();
-			for (int idx = 1; idx < axisLevels.get(Axis.COLUMNS.ordinal()).size(); ++idx)
-			{
-				if (bucketValue == null)
-				{
-					// the bucket combination does not exist
-					break;
+					// add all column node parent buckets except the root
+					for (LevelNode node = columnNode; node.axisDepth > 0; node = node.parent)
+					{
+						columnBuckets.addFirst(node.bucket);
+					}
 				}
 				
-				bucketMap = (BucketMap) bucketValue;
-				if (columnBucketIterator.hasNext())
+				// descend on the root column node
+				bucketValue = bucketMap.get(axisRoots[Axis.COLUMNS.ordinal()]);
+				// descend on regular column nodes
+				Iterator<Bucket> columnBucketIterator = columnBuckets.iterator();
+				for (int idx = 1; idx < axisLevels.get(Axis.COLUMNS.ordinal()).size(); ++idx)
 				{
-					// if we have a bucket value, descend on the value
-					Bucket bucket = columnBucketIterator.next();
-					bucketValue = bucketMap.get(bucket);
+					if (bucketValue == null)
+					{
+						// the bucket combination does not exist
+						break;
+					}
+					
+					bucketMap = (BucketMap) bucketValue;
+					if (columnBucketIterator.hasNext())
+					{
+						// if we have a bucket value, descend on the value
+						Bucket bucket = columnBucketIterator.next();
+						bucketValue = bucketMap.get(bucket);
+					}
+					else
+					{
+						// if there's no value, descend on totals
+						bucketValue = bucketMap.getTotal();
+					}
 				}
-				else
-				{
-					// if there's no value, descend on totals
-					bucketValue = bucketMap.getTotal();
-				}
+			}
+			else
+			{
+				bucketValue = null;
 			}
 			
 			MeasureValue[] values;
@@ -677,6 +691,12 @@ public class MultiAxisDataService
 			if (axisDepth + 1 >= axisLevels.get(axis.ordinal()).size())
 			{
 				// last level on the axis
+				return Collections.<AxisLevelNode>emptyList();
+			}
+			
+			if (childrenMap == null)
+			{
+				// this happens for the root node when there was no data
 				return Collections.<AxisLevelNode>emptyList();
 			}
 
