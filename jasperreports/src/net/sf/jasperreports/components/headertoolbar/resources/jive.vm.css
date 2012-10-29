@@ -179,38 +179,38 @@ button::-moz-focus-inner {
 
 .pmenuitem.hover {background:#fc870e; color:#fff;}
 
-button.action {
+#jive_dialog button.action {
     /* from(e7e7e7), to(c1c1c1) */
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.png) repeat-x;
     color: #666;
 }
 
-button.action.over {
+#jive_dialog button.action.over {
     /* from(e4e0e0), to(5a5a5b) */
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.over.png) repeat-x;
 }
 
-button.action.pressed {
+#jive_dialog button.action.pressed {
     /* from(e4e0e0), to(5a5a5b) */
     background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.pressed.png) repeat-x;
 }
 
-button.action.primary {
+#jive_dialog button.action.primary {
     /* from(3fb8fa), to(2881bb) */
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.png) repeat-x !important;
     color: #fff;
 }
 
-button.action.primary.over {
+#jive_dialog button.action.primary.over {
     /* from(#faac1f), to(#f9771d) */
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.over.png) repeat-x !important;
 }
 
-button.action.primary.pressed {
+#jive_dialog button.action.primary.pressed {
     background:url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/action.primary.pressed.png) repeat-x !important;
 }
 
-div.dialogFooter button.disabled {
+#jive_dialog div.dialogFooter button.disabled {
     background: #e7e7e7 !important;
     color:#aaa !important;
 }
