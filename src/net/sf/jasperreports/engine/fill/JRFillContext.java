@@ -60,6 +60,8 @@ import net.sf.jasperreports.engine.util.Pair;
  */
 public class JRFillContext
 {
+	private final JRBaseFiller masterFiller;
+	
 	private Map<Object,JRPrintImage> loadedImages;
 	private Map<Object,JasperReport> loadedSubreports;
 	private Map<Object,JRTemplate> loadedTemplates;
@@ -93,9 +95,10 @@ public class JRFillContext
 	/**
 	 * Constructs a fill context.
 	 */
-	public JRFillContext(JasperReportsContext jasperReportsContext)
+	public JRFillContext(JRBaseFiller masterFiller)
 	{
-		this.jasperReportsContext = jasperReportsContext;
+		this.masterFiller = masterFiller;
+		this.jasperReportsContext = masterFiller.getJasperReportsContext();
 		
 		loadedImages = new HashMap<Object,JRPrintImage>();
 		loadedSubreports = new HashMap<Object,JasperReport>();
@@ -104,8 +107,12 @@ public class JRFillContext
 		
 		FontUtil.getInstance(jasperReportsContext).resetThreadMissingFontsCache();
 	}
-	
-	
+
+	public JRBaseFiller getMasterFiller()
+	{
+		return masterFiller;
+	}
+
 	/**
 	 * Checks whether an image given by source has already been loaded and cached.
 	 * 
@@ -538,5 +545,21 @@ public class JRFillContext
 	public void setFillCache(String key, Object value)
 	{
 		fillCaches.put(key, value);
+	}
+
+	public void dispose()
+	{
+		for (Object cacheObject : fillCaches.values())
+		{
+			if (cacheObject instanceof FillCacheDisposable)
+			{
+				((FillCacheDisposable) cacheObject).dispose();
+			}
+		}
+	}
+	
+	public static interface FillCacheDisposable
+	{
+		void dispose();
 	}
 }

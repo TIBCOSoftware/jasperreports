@@ -23,6 +23,8 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import java.util.concurrent.Executor;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -37,39 +39,41 @@ import org.apache.commons.logging.LogFactory;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public class JRThreadSubreportRunner extends AbstractThreadSubreportRunner
+public class ThreadExecutorSubreportRunner extends AbstractThreadSubreportRunner
 {
 	
-	private static final Log log = LogFactory.getLog(JRThreadSubreportRunner.class);
+	private static final Log log = LogFactory.getLog(ThreadExecutorSubreportRunner.class);
+
+	private Executor threadExecutor;
+	private boolean filling;
 	
-	private Thread fillThread;
-	
-	public JRThreadSubreportRunner(JRFillSubreport fillSubreport, JRBaseFiller subreportFiller)
+	public ThreadExecutorSubreportRunner(JRFillSubreport fillSubreport, JRBaseFiller subreportFiller,
+			Executor threadExecutor)
 	{
 		super(fillSubreport, subreportFiller);
+		this.threadExecutor = threadExecutor;
 	}
 
 	public boolean isFilling()
 	{
-		return fillThread != null;
+		return filling;
 	}
 
 	@Override
 	protected void doStart()
 	{
-		fillThread = new Thread(this, subreportFiller.getJasperReport().getName() + " subreport filler");
+		filling = true;
 		
 		if (log.isDebugEnabled())
 		{
-			log.debug("Fill " + subreportFiller.fillerId + ": starting thread " + fillThread);
+			log.debug("Fill " + subreportFiller.fillerId + ": starting");
 		}
 		
-		fillThread.start();
+		threadExecutor.execute(this);
 	}
 
 	public void reset()
 	{
-		fillThread = null;
+		filling = false;
 	}
-
 }
