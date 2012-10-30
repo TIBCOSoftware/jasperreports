@@ -122,7 +122,7 @@ public abstract class BaseFillHandle implements FillHandle
 				
 				notifyFinish(print);
 			}
-			catch (Exception e)
+			catch (Throwable e) //NOPMD
 			{
 				synchronized (lock)
 				{
