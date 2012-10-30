@@ -65,7 +65,7 @@ public class TableReportGroup implements JRGroup
 
 	public FooterPositionEnum getFooterPositionValue()
 	{
-		return FooterPositionEnum.NORMAL;
+		return datasetGroup.getFooterPositionValue();
 	}
 
 	@Deprecated
@@ -117,7 +117,7 @@ public class TableReportGroup implements JRGroup
 
 	public int getMinHeightToStartNewPage()
 	{
-		return 0;
+		return datasetGroup.getMinHeightToStartNewPage();
 	}
 
 	public String getName()
@@ -127,27 +127,27 @@ public class TableReportGroup implements JRGroup
 
 	public boolean isKeepTogether()
 	{
-		return false;
+		return datasetGroup.isKeepTogether();
 	}
 
 	public boolean isReprintHeaderOnEachPage()
 	{
-		return false;
+		return datasetGroup.isReprintHeaderOnEachPage();
 	}
 
 	public boolean isResetPageNumber()
 	{
-		return false;
+		return datasetGroup.isResetPageNumber();
 	}
 
 	public boolean isStartNewColumn()
 	{
-		return false;
+		return datasetGroup.isStartNewColumn();
 	}
 
 	public boolean isStartNewPage()
 	{
-		return false;
+		return datasetGroup.isStartNewPage();
 	}
 
 	public void setFooterPosition(FooterPositionEnum footerPosition)
