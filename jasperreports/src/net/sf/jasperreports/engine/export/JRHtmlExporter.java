@@ -1333,7 +1333,7 @@ public class JRHtmlExporter extends JRAbstractExporter
 			case SINGLE:
 			default:
 			{
-				writer.write(" line-height: normal;");
+				writer.write(" line-height: 1; *line-height: normal;");
 				break;
 			}
 			case ONE_AND_HALF:
