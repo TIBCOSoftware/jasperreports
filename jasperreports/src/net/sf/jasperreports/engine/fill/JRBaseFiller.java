@@ -335,7 +335,7 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 		if (parentFiller == null)
 		{
-			fillContext = new JRFillContext(jasperReportsContext);
+			fillContext = new JRFillContext(this);
 		}
 		else
 		{
@@ -948,6 +948,11 @@ public abstract class JRBaseFiller implements JRDefaultStyleProvider
 
 			//kill the subreport filler threads
 			killSubfillerThreads();
+			
+			if (parentFiller == null)
+			{
+				fillContext.dispose();
+			}
 		}
 	}
 
