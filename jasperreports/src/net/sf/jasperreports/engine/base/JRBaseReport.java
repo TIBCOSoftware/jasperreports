@@ -331,7 +331,7 @@ public class JRBaseReport implements JRReport, Serializable, JRChangeEventsSuppo
 	 */
 	public void setWhenNoDataType(WhenNoDataTypeEnum whenNoDataTypeValue)
 	{
-		Object old = whenNoDataTypeValue;
+		Object old = this.whenNoDataTypeValue;
 		this.whenNoDataTypeValue = whenNoDataTypeValue;
 		getEventSupport().firePropertyChange(PROPERTY_WHEN_NO_DATA_TYPE, old, whenNoDataTypeValue);
 	}
