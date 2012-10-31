@@ -62,13 +62,13 @@ public class FillMarkerDataset
 	{
 		factory.put(markerDataset, this);
 
-		if (markerDataset.getDatasetRun() != null)//FIXMEMAP deal with missing dataset run
+		if (markerDataset.getDatasetRun() == null)
 		{
-			this.datasetRun = new MarkerFillDatasetRun(markerDataset.getDatasetRun(), factory);
-			this.evaluator = createDatasetExpressionEvaluator();
+			this.evaluator = fillContext;
 		}
 		else
 		{
+			this.datasetRun = new MarkerFillDatasetRun(markerDataset.getDatasetRun(), factory);
 			this.evaluator = createDatasetExpressionEvaluator();
 		}
 
@@ -113,27 +113,36 @@ public class FillMarkerDataset
 	 */
 	public List<Map<String,Object>> evaluateMarkers(byte evaluation) throws JRException
 	{
-		if (datasetRun != null)
-		{
-			datasetRun.evaluate(evaluation);
-		}
+		List<Map<String,Object>> markers = null;
 
-		List<Map<String,Object>> markers = new ArrayList<Map<String, Object>>();
-		
-		datasetRun.start();
-		
-		while(datasetRun.next())
+		if (markerList != null)
 		{
-			if (markerList != null)
+			markers = new ArrayList<Map<String, Object>>();
+
+			if (datasetRun == null)
 			{
 				for(Marker marker : markerList)
 				{
 					markers.add(((FillMarker)marker).evaluateProperties(evaluator, evaluation));
 				}
 			}
-		}
+			else
+			{
+				datasetRun.evaluate(evaluation);
 
-		datasetRun.end();
+				datasetRun.start();
+				
+				while(datasetRun.next())
+				{
+					for(Marker marker : markerList)
+					{
+						markers.add(((FillMarker)marker).evaluateProperties(evaluator, evaluation));
+					}
+				}
+
+				datasetRun.end();
+			}
+		}
 		
 		return markers;
 	}
