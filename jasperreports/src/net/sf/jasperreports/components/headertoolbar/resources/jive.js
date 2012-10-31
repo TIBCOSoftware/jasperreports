@@ -4,8 +4,10 @@ jQuery.extend(jive, {
 
         jQuery.extend(jive,settings);
         jQuery('div.jrPage').parent().on('click touchend',function(){
-            jive.hide();
-            jQuery.event.trigger('jive_inactive');
+        	if (!jive.ui.dialog.isVisible) {
+	            jive.hide();
+	            jQuery.event.trigger('jive_inactive');
+        	}
         });
 
         jQuery('#jive_components').length == 0 &&  jQuery('body').append('<div id="jive_components"></div>');
@@ -441,6 +443,7 @@ jive.ui.dialog = {
                     jive.selected.form.submit();
                 }
                 jive.ui.dialog.hide();
+                jive.ui.dialog.isVisible = false;
             }
         });
     },
