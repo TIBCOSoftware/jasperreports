@@ -25,6 +25,7 @@ package net.sf.jasperreports.components.map;
 
 import java.util.List;
 
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpressionCollector;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
 import net.sf.jasperreports.engine.component.Component;
@@ -53,12 +54,14 @@ public class MapCompiler implements ComponentCompiler
 	{
 		if(dataset != null)
 		{
-			collector.collect(dataset);
-	
+			JRDatasetRun datasetRun = dataset.getDatasetRun();
+			collector.collect(datasetRun);
+
+			JRExpressionCollector datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
+
 			List<Marker> markers = dataset.getMarkers();
 			if (markers != null && !markers.isEmpty())
 			{
-				JRExpressionCollector markerCollector = collector.getCollector(dataset);
 				for(Marker marker : markers)
 				{
 					List<MarkerProperty> markerProperties = marker.getProperties();
@@ -66,7 +69,7 @@ public class MapCompiler implements ComponentCompiler
 					{
 						for(MarkerProperty property : markerProperties)
 						{
-							markerCollector.addExpression(property.getValueExpression());
+							datasetCollector.addExpression(property.getValueExpression());
 						}
 					}
 				}
@@ -113,7 +116,10 @@ public class MapCompiler implements ComponentCompiler
 
 	protected void verify(JRVerifier verifier, MarkerDataset dataset)
 	{
-		verifier.verifyElementDataset(dataset);
+		if(dataset.getDatasetRun() != null)
+		{
+			verifier.verifyDatasetRun(dataset.getDatasetRun());
+		}
 		
 		List<Marker> markers = dataset.getMarkers();
 		if (markers != null)

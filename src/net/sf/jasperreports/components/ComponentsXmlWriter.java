@@ -261,7 +261,7 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 		{
 			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
 	
-			reportWriter.writeElementDataset(dataset);
+			reportWriter.writeDatasetRun(dataset.getDatasetRun());
 	
 			/*   */
 			List<Marker> markerList = dataset.getMarkers();

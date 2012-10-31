@@ -25,16 +25,15 @@ package net.sf.jasperreports.components.map.fill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import net.sf.jasperreports.components.map.MapCompiler;
 import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.MarkerDataset;
-import net.sf.jasperreports.components.map.StandardMarkerDataset;
-import net.sf.jasperreports.engine.JRExpressionCollector;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.component.FillContext;
-import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
-import net.sf.jasperreports.engine.fill.JRFillElementDataset;
+import net.sf.jasperreports.engine.fill.JRFillDataset;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
@@ -42,17 +41,16 @@ import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
  * @author sanda zaharia (shertage@users.sourceforge.net)
  * @version $Id$
  */
-public class FillMarkerDataset extends JRFillElementDataset implements MarkerDataset
+public class FillMarkerDataset
 {
 
 	/**
 	 *
 	 */
 	protected List<Marker> markerList;
-	protected FillContext fillContext;
-
-	private StandardMarkerDataset dataset;
-
+	protected MarkerFillDatasetRun datasetRun;
+	protected JRFillExpressionEvaluator evaluator;
+	
 	/**
 	 *
 	 */
@@ -60,10 +58,19 @@ public class FillMarkerDataset extends JRFillElementDataset implements MarkerDat
 		FillContext fillContext,
 		MarkerDataset markerDataset, 
 		JRFillObjectFactory factory
-		)
+		) throws JRException
 	{
-		super(markerDataset, factory);
-		this.fillContext = fillContext;
+		factory.put(markerDataset, this);
+
+		if (markerDataset.getDatasetRun() != null)//FIXMEMAP deal with missing dataset run
+		{
+			this.datasetRun = new MarkerFillDatasetRun(markerDataset.getDatasetRun(), factory);
+			this.evaluator = createDatasetExpressionEvaluator();
+		}
+		else
+		{
+			this.evaluator = createDatasetExpressionEvaluator();
+		}
 
 		/*   */
 		List<Marker> srcMarkerList = markerDataset.getMarkers();
@@ -80,83 +87,54 @@ public class FillMarkerDataset extends JRFillElementDataset implements MarkerDat
 		}
 	}
 	
+	/**
+	 *
+	 */
+	protected JRFillExpressionEvaluator createDatasetExpressionEvaluator()
+	{
+		return new JRFillExpressionEvaluator()
+		{
+			public Object evaluate(JRExpression expression,
+					byte evaluationType) throws JRException
+			{
+				return datasetRun.evaluateDatasetExpression(
+						expression, evaluationType);
+			}
+
+			public JRFillDataset getFillDataset()
+			{
+				return datasetRun.getDataset();
+			}
+		};
+	}
 	
 	/**
 	 *
 	 */
-	public List<Marker> getMarkers()
+	public List<Map<String,Object>> evaluateMarkers(byte evaluation) throws JRException
 	{
-		return markerList;
-	}
-
-
-	/**
-	 *
-	 */
-	protected void customInitialize()
-	{
-		dataset = null;
-		markerList = null;
-	}
-
-	/**
-	 *
-	 */
-	protected void customEvaluate(JRCalculator calculator) throws JRExpressionEvalException
-	{
-		if (markerList != null && !markerList.isEmpty())
+		if (datasetRun != null)
 		{
-			for(Marker marker : markerList)
-			{
-				//marker.evaluate(calculator);
-			}
+			datasetRun.evaluate(evaluation);
 		}
+
+		List<Map<String,Object>> markers = new ArrayList<Map<String, Object>>();
 		
-	}
-	
-	/**
-	 *
-	 */
-	protected void customIncrement()
-	{
-		if (markerList != null && !markerList.isEmpty())
+		datasetRun.start();
+		
+		while(datasetRun.next())
 		{
-			if (dataset == null)
+			if (markerList != null)
 			{
-				dataset = new StandardMarkerDataset();
-			}
-			
-			for(Marker marker : markerList)
-			{
-				if(marker!= null)
+				for(Marker marker : markerList)
 				{
-					dataset.addMarker(marker);
+					markers.add(((FillMarker)marker).evaluateProperties(evaluator, evaluation));
 				}
 			}
 		}
-	}
 
-	/**
-	 *
-	 */
-	public StandardMarkerDataset getCustomDataset()
-	{
-		return dataset;
+		datasetRun.end();
+		
+		return markers;
 	}
-
-	/**
-	 *
-	 */
-	public void collectExpressions(JRExpressionCollector collector)
-	{
-		MapCompiler.collectExpressions(this, collector);
-	}
-
-	public void finishDataset()
-	{
-		//one last increment is required in certain cases
-		increment();
-	}
-
-	
 }

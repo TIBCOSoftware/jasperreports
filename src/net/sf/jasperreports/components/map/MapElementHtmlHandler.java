@@ -82,6 +82,7 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String markers = "[";
 		if(markerList!= null && !markerList.isEmpty())
 		{
+			String quotedName = null;
 			for(Map<String,Object> markerProps : markerList)
 			{
 				boolean firstOccurence = true;
@@ -95,17 +96,19 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 				}
 				for(String name : markerProps.keySet())
 				{
+					quotedName = "'" + name + "'";
 					if(firstOccurence)
 					{
-						markers += name +":";
+						markers += quotedName +":";
 						firstOccurence = false;
 					}
 					else
 					{
-						markers += ", "+name+":";
+						markers += ", " + quotedName + ":";
 					}
 					Object value = markerProps.get(name);
-					if(value instanceof String)
+					if(value instanceof String 
+						&& !(MapPrintElement.PARAMETER_LATITUDE.equals(name) || MapPrintElement.PARAMETER_LONGITUDE.equals(name)))
 					{
 						markers += "'" + value + "'";
 					}

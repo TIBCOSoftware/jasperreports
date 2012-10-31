@@ -474,7 +474,7 @@
 		</annotation>
 		<complexType>
 			<sequence>
-				<element ref="jr:dataset"/>
+				<element ref="jr:datasetRun" minOccurs="0" maxOccurs="1"/>
 				<element ref="c:marker" minOccurs="0" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>

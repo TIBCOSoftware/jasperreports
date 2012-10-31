@@ -23,13 +23,11 @@
  */
 package net.sf.jasperreports.components.map.fill;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.components.map.MapComponent;
 import net.sf.jasperreports.components.map.MapPrintElement;
-import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.type.MapImageTypeEnum;
 import net.sf.jasperreports.components.map.type.MapScaleEnum;
 import net.sf.jasperreports.components.map.type.MapTypeEnum;
@@ -97,17 +95,11 @@ public class MapFillComponent extends BaseFillComponent
 		mapType = mapComponent.getMapType() == null? MapTypeEnum.ROADMAP : mapComponent.getMapType();
 		mapScale = mapComponent.getMapScale();
 		imageType = mapComponent.getImageType();
-		if(mapComponent.getMarkerDataset() != null)
+		
+		if (mapComponent.getMarkerDataset() != null)
 		{
 			markerDataset = new FillMarkerDataset(fillContext, mapComponent.getMarkerDataset(), factory);
-			if(markerDataset.getMarkers() != null)
-			{
-				markers = new ArrayList<Map<String, Object>>();
-				for(Marker marker : markerDataset.getMarkers())
-				{
-					markers.add(((FillMarker)marker).evaluateProperties(fillContext, evaluation));
-				}
-			}
+			markers = markerDataset.evaluateMarkers(evaluation);
 		}
 	}
 	

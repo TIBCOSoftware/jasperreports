@@ -30,7 +30,7 @@ import java.util.Map;
 import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.component.FillContext;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
@@ -65,7 +65,7 @@ public class FillMarker implements Marker
 	/**
 	 *
 	 */
-	public Map<String, Object> evaluateProperties(FillContext fillContext, byte evaluation) throws JRException
+	public Map<String, Object> evaluateProperties(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
 		List<MarkerProperty> markerProperties = getProperties();
 		Map<String, Object> result = null;
@@ -76,10 +76,10 @@ public class FillMarker implements Marker
 			{
 				FillMarkerProperty markerProperty = new FillMarkerProperty(property, factory);
 				result.put(
-					"'" + property.getName() + "'",//FIXMEMAP why quotes? 
+					property.getName(), 
 					markerProperty.getValue() != null
 					? markerProperty.getValue()
-					: markerProperty.evaluateValueExpression(fillContext, evaluation));
+					: markerProperty.evaluateValueExpression(evaluator, evaluation));
 			}
 		}
 		return result;

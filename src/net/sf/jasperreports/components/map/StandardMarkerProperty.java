@@ -47,14 +47,14 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 	private transient JRPropertyChangeSupport eventSupport;
 
 	private String name;
-	private String value;
+	private Object value;
 	private JRExpression valueExpression;
 
 	public StandardMarkerProperty()
 	{
 	}
 	
-	public StandardMarkerProperty(String name, String value, JRExpression valueExpression)
+	public StandardMarkerProperty(String name, Object value, JRExpression valueExpression)
 	{
 		this.name = name;
 		this.valueExpression = valueExpression;
@@ -73,12 +73,12 @@ public class StandardMarkerProperty implements MarkerProperty, JRChangeEventsSup
 		getEventSupport().firePropertyChange(PROPERTY_NAME, old, this.name);
 	}
 
-	public String getValue()
+	public Object getValue()
 	{
 		return value;
 	}
 	
-	public void setValue(String value)
+	public void setValue(Object value)
 	{
 		Object old = this.value;
 		this.value = value;

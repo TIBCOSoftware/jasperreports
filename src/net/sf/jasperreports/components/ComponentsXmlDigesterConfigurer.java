@@ -40,13 +40,13 @@ import net.sf.jasperreports.components.barcode4j.UPCEComponent;
 import net.sf.jasperreports.components.barcode4j.USPSIntelligentMailComponent;
 import net.sf.jasperreports.components.list.DesignListContents;
 import net.sf.jasperreports.components.list.StandardListComponent;
+import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.map.Marker;
 import net.sf.jasperreports.components.map.MarkerDataset;
 import net.sf.jasperreports.components.map.MarkerDatasetXmlFactory;
 import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.components.map.MarkerPropertyXmlFactory;
 import net.sf.jasperreports.components.map.MarkerXmlFactory;
-import net.sf.jasperreports.components.map.MapXmlFactory;
 import net.sf.jasperreports.components.sort.SortComponentDigester;
 import net.sf.jasperreports.components.spiderchart.SpiderChartDigester;
 import net.sf.jasperreports.components.table.DesignCell;
@@ -60,7 +60,6 @@ import net.sf.jasperreports.engine.component.XmlDigesterConfigurer;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
 import net.sf.jasperreports.engine.type.PrintOrderEnum;
 import net.sf.jasperreports.engine.type.RotationEnum;
-import net.sf.jasperreports.engine.xml.JRElementDatasetFactory;
 import net.sf.jasperreports.engine.xml.JRExpressionFactory;
 import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
@@ -244,15 +243,6 @@ public class ComponentsXmlDigesterConfigurer implements XmlDigesterConfigurer
 		digester.addFactoryCreate(markerDatasetPattern, MarkerDatasetXmlFactory.class.getName());
 		digester.addSetNext(markerDatasetPattern, "setMarkerDataset", MarkerDataset.class.getName());
 		
-		digester.setRuleNamespaceURI(jrNamespace);
-		String datasetPattern = markerDatasetPattern + "/dataset";
-		digester.addFactoryCreate(datasetPattern, JRElementDatasetFactory.class.getName());
-
-		String datasetIncrementWhenExpressionPath = datasetPattern + "/" + JRXmlConstants.ELEMENT_incrementWhenExpression;
-		digester.addFactoryCreate(datasetIncrementWhenExpressionPath, JRExpressionFactory.class.getName());
-		digester.addSetNext(datasetIncrementWhenExpressionPath, "setIncrementWhenExpression", JRExpression.class.getName());
-		digester.addCallMethod(datasetIncrementWhenExpressionPath, "setText", 0);
-
 		digester.setRuleNamespaceURI(componentNamespace);
 		String markerPattern = markerDatasetPattern + "/marker";
 		digester.addFactoryCreate(markerPattern, MarkerXmlFactory.class.getName());

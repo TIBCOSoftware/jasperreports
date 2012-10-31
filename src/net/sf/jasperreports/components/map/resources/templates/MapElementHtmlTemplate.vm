@@ -15,7 +15,7 @@
 	<script class='jasperreports' type='text/javascript'>
 		jasperreports.global.appendScriptElementToDOM('_mapScript', '${resourceMapJs}', 'jasperreports.map.initGoogleMaps');
 		var markers = ${markerList};
-		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', '${latitude}', '${longitude}', ${zoom}, '${mapType}', markers]);
+		jasperreports.events.subscribeToEvent('jasperreports.map.init', 'jasperreports.map.showMap', ['${mapCanvasId}', ${latitude}, ${longitude}, ${zoom}, '${mapType}', markers]);
 	</script>
 #else
 	#if (${exporterFirstAttempt})
@@ -25,7 +25,7 @@
 		(function () {
 			var map = new google.maps.Map(document.getElementById('${mapCanvasId}'), {
 						zoom: ${zoom},
-						center: new google.maps.LatLng('${latitude}', '${longitude}'), 
+						center: new google.maps.LatLng(${latitude}, ${longitude}), 
 						mapTypeId: google.maps.MapTypeId.${mapType}
 					});
 			var markers = ${markerList};
