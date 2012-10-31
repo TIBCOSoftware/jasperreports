@@ -54,10 +54,14 @@ public class MapCompiler implements ComponentCompiler
 	{
 		if(dataset != null)
 		{
-			JRDatasetRun datasetRun = dataset.getDatasetRun();
-			collector.collect(datasetRun);
+			JRExpressionCollector datasetCollector = collector;
 
-			JRExpressionCollector datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
+			JRDatasetRun datasetRun = dataset.getDatasetRun();
+			if (datasetRun != null)
+			{
+				collector.collect(datasetRun);
+				datasetCollector = collector.getDatasetCollector(datasetRun.getDatasetName());
+			}
 
 			List<Marker> markers = dataset.getMarkers();
 			if (markers != null && !markers.isEmpty())
