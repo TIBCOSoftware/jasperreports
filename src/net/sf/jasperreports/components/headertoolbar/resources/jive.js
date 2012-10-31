@@ -48,7 +48,7 @@ jQuery.extend(jive, {
                             at: 'right top'
                         });
                     } else {
-                        jive.hide();
+                        !jive.ui.dialog.isVisible && jive.hide();
                     }
                 }
                 evt.preventDefault();
