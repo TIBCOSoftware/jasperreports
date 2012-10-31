@@ -105,7 +105,7 @@
 				<reportElement x="0" y="366" width="515" height="326"/>
 				<c:map xmlns:c="http://jasperreports.sourceforge.net/jasperreports/components" 
 					xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
-					mapType="satellite" mapScale="2" imageType="jpg">
+					mapType="satellite" mapScale="1" imageType="jpg">
 					<c:latitudeExpression><![CDATA[37.788056f]]></c:latitudeExpression>
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
