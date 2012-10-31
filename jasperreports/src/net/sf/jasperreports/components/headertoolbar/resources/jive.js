@@ -550,7 +550,7 @@ jive.ui.forms = {
         }
         if(e.type == 'text') {
             tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
-            e.label && tb.push('<div class="wrapper">'+e.label+':</div>');
+            e.label && tb.push('<div class="wrapper label">'+e.label+':</div>');
             tb.push('<div class="wrapper"><input id="'+e.id+'" type="text" name="'+e.id+'" value="'+e.value+'"/></div>');
             parms.inputs[e.id] = {
                 set:function(val) {
@@ -594,7 +594,7 @@ jive.ui.forms = {
             }
             select.push('</select>');
             tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
-            e.label && tb.push('<div class="wrapper">' + e.label + ':</div>');
+            e.label && tb.push('<div class="wrapper label">' + e.label + ':</div>');
             tb.push('<div class="wrapper">');
             e.freeText && tb.push('<input id="'+e.id+'Text" type="text" class="' + (isRestricted ? 'jive_restrictedInput ' : '') + 'jive_listTextInput'+isTouch+'" name="'+e.id+'Text" value=""' + (isRestricted ? ' data-restriction="' + e.restriction + '"' : '')+'/>');
             tb.push(select.join(''));
@@ -629,7 +629,7 @@ jive.ui.forms = {
         }
         if(e.type == 'buttons') {
             tb.push('class="' + tdClass + '" style="' + tdWidth + '"' + colspan + rowspan+'>');
-            label.length>0 && tb.push('<div class="wrapper">'+label+':</div>');
+            label.length>0 && tb.push('<div class="wrapper label">'+label+':</div>');
             tb.push('<div class="wrapper"><div class="buttonbar">');
             jQuery.each(e.items,function(i,v){
                 !parms.inputs[v.id] && form.append('<input type="hidden" name="'+v.id+'" value="" />');

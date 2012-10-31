@@ -1058,7 +1058,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	elements: [
 		[    
 	      [
-	       {type:'label', value:'Condition List', align: 'left', wrapClass: 'wrapper'}
+	       {type:'label', value:'Condition List', align: 'left', wrapClass: 'wrapper label'}
 	      ]
 	    ],
         [
