@@ -75,16 +75,13 @@ button::-moz-focus-inner {
 }
 
 .jive_dialog {
-    position:absolute;
-    z-index:2;
-    border:solid 1px #ccc;
-    background:#fff;
-    -moz-box-shadow: 0 0 4px 4px rgba(51,51,51,0.5);
-    -webkit-box-shadow: 0 0 4px 4px rgba(51,51,51,0.5);
-    box-shadow: 0 0 4px 4px rgba(51,51,51,0.5);
-    zoom:1;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 0 4px 4px rgba(51, 51, 51, 0.5);
+    font-family: Verdana;
     font-size: 11px;
-    font-family: Arial;
+    position: absolute;
+    z-index: 2;
 }
 .jive_dialog > div.msshadow  {
     position:absolute;
@@ -169,12 +166,13 @@ button::-moz-focus-inner {
 }
 
 .pmenuitem {
-    padding:0 12px;
-    cursor:pointer;
-    color:#666;
-    height:24px;
-    line-height:2em;
-    font-size:12px;
+    color: #666666;
+    cursor: pointer;
+    font-family: Verdana;
+    font-size: 12px;
+    height: 24px;
+    line-height: 2em;
+    padding: 0 12px;
 }
 
 .pmenuitem.hover {background:#fc870e; color:#fff;}
@@ -250,13 +248,13 @@ button::-moz-focus-inner {
 
 .tab.multisheet span,
 .tab.dialog span	{
-    height:100%;
-    min-width:100px;
-    width:auto;
-    line-height:19px;
-    display:block;
-    text-align:center;
-    padding: 0 4px;
+    display: block;
+    height: 100%;
+    line-height: 19px;
+    min-width: 100px;
+    padding: 0 8px;
+    text-align: center;
+    width: auto;
 }
 
 .tab.multisheet.active,
@@ -331,12 +329,12 @@ div.t_wrap {padding-right: 4px;}
 
 .jive_inputbutton {
     -moz-user-select: none;
-    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dialog_button_capsule_sprite.png) repeat scroll 0px 0 transparent;
+    background: url(${path}net/sf/jasperreports/components/headertoolbar/resources/images/jive/dialog_button_capsule_sprite.png) repeat scroll 0 0 transparent;
     cursor: pointer;
     float: left;
     height: 26px;
-    margin-right: 2px;
-    margin-left:2px;
+    margin-left: 0px;
+    margin-right: 4px;
     position: relative;
     width: 26px;
 }
@@ -485,13 +483,22 @@ div.colorpick.wide {
     background-position: 0 -680px;
 }
 .leftIcon {
-    background-position:0 -141px;
+    background-position:-2px -142px;
+}
+.selected .leftIcon {
+    background-position: -32px -142px;
 }
 .centerIcon {
-    background-position:0 -187px;
+    background-position: -1px -188px;
+}
+.selected .centerIcon {
+    background-position: -31px -188px;
 }
 .rightIcon {
-    background-position:0 -233px;
+    background-position: 0 -234px;
+}
+.selected .rightIcon {
+    background-position: -30px -234px;
 }
 .currencyIcon {
     background-position:0 -279px;
@@ -587,4 +594,19 @@ div.ui-datepicker {font-size: 11px;}
 
 .conditionList td.condition_between_end {
 	border-left: none;
+}
+
+.wrapper {
+	padding-bottom:0px;
+}
+
+.wrapper.label {
+	padding-top:8px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.wrapper.label { /* CRHOME/SAFARI STYLES */
+		margin-top:8px;
+		margin-bottom:0px;
+	}
 }
