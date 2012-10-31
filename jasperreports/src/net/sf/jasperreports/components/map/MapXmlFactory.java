@@ -86,6 +86,4 @@ public class MapXmlFactory extends JRBaseFactory
 
 		return map;
 	}
-	
-
 }

@@ -26,9 +26,7 @@ package net.sf.jasperreports.components.map.fill;
 import net.sf.jasperreports.components.map.MarkerProperty;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.component.FillContext;
-import net.sf.jasperreports.engine.fill.JRCalculator;
-import net.sf.jasperreports.engine.fill.JRExpressionEvalException;
+import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.fill.JRFillObjectFactory;
 
 
@@ -43,7 +41,7 @@ public class FillMarkerProperty implements MarkerProperty
 	 *
 	 */
 	protected MarkerProperty parent;
-	private String value;
+	private Object value;
 	
 	/**
 	 *
@@ -56,7 +54,6 @@ public class FillMarkerProperty implements MarkerProperty
 		factory.put(markerProperty, this);
 
 		parent = markerProperty;
-		value = markerProperty.getValue();
 	}
 
 
@@ -72,7 +69,7 @@ public class FillMarkerProperty implements MarkerProperty
 	/**
 	 * 
 	 */
-	public String getValue()
+	public Object getValue()
 	{
 		return value;
 	}
@@ -90,12 +87,12 @@ public class FillMarkerProperty implements MarkerProperty
 	/**
 	 *
 	 */
-	public Object evaluateValueExpression(FillContext fillContext, byte evaluation) throws JRException
+	public Object evaluateValueExpression(JRFillExpressionEvaluator evaluator, byte evaluation) throws JRException
 	{
-		return getValueExpression() == null ? null : fillContext.evaluate(getValueExpression(), evaluation);
+		return getValueExpression() == null ? null : evaluator.evaluate(getValueExpression(), evaluation);
 	}
-
-
+	
+	
 	/**
 	 *
 	 */

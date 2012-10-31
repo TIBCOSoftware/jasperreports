@@ -110,9 +110,7 @@
 					<c:longitudeExpression><![CDATA[-122.4075f]]></c:longitudeExpression>
 					<c:zoomExpression><![CDATA[$P{zoom} + 1]]></c:zoomExpression>
 					<c:markerDataset>
-						<dataset>
-							<datasetRun subDataset="MarkersDataset"/>
-						</dataset>
+						<datasetRun subDataset="MarkersDataset"/>
 						<c:marker>
 							<c:markerProperty name="latitude">
 								<valueExpression>$F{latitude}</valueExpression>

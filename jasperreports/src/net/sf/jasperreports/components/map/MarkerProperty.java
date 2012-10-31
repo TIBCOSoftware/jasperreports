@@ -35,7 +35,7 @@ public interface MarkerProperty extends JRCloneable
 
 	String getName();
 	
-	String getValue();
+	Object getValue();
 	
 	JRExpression getValueExpression();
 	

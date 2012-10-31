@@ -83,9 +83,9 @@ public class MapElementImageProvider
 				{
 					markers +="%7C";
 				}
-				markers +=map.get("'" + MapPrintElement.PARAMETER_LATITUDE + "'");
+				markers +=map.get(MapPrintElement.PARAMETER_LATITUDE);
 				markers +=",";
-				markers +=map.get("'" + MapPrintElement.PARAMETER_LONGITUDE + "'");
+				markers +=map.get(MapPrintElement.PARAMETER_LONGITUDE);
 			}
 		}
 
