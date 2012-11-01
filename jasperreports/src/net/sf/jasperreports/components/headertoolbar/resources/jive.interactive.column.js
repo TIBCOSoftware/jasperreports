@@ -1110,7 +1110,9 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	form.find('table:eq(1)').addClass('conditionList').find('tr:last').addClass('add');
     },
     onShow:function(){
-    	var it = this;
+    	var it = this,
+    		conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
+    		table = jive.selected.form.jo.find('table:eq(1)');
     	it.options = jive.selected.ie.filtering.filterOperatorTypeValueSelector;
     	
     	if (this.actionDataCache[this.name]) {
@@ -1118,6 +1120,15 @@ jive.interactive.column.columnConditionalFormattingForm = {
         } else {
         	metadata = jive.selected.ie.conditionalFormatting.conditions;
         }
+    	
+    	/**
+    	 * for boolean fields, hide the condition column
+    	 */
+    	if (conditionType === 'boolean') {
+    		table.find('th:eq(2), tr.add td:eq(2)').hide();
+    	} else {
+    		table.find('th:eq(2), tr.add td:eq(2)').show();
+    	}
     	
     	jQuery.each(metadata, function(i,v) {
     		it.addFormatCondition(jive.selected.form.jo, v);
@@ -1182,6 +1193,7 @@ jive.interactive.column.columnConditionalFormattingForm = {
             row.find('input[name=conditionEnd]').datepicker(pickerOptions);
         } else if (conditionType === 'boolean') {
         	row.find('input[name=conditionStart]').prop('disabled', true);
+        	row.find('input[name=conditionStart]').closest('td').hide();
         }
         
         if (conditionData) {
