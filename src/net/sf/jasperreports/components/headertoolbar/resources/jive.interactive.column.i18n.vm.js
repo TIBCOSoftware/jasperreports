@@ -35,7 +35,14 @@ jQuery.extend(jive.i18n.keys, {
 		'column.formatCellsForm.formatPattern.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.formatpattern')",
 		'column.formatCellsForm.numberFormatButtons.localespecific.label': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.localespecific')",
 		
-		'column.move.helper': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.draghelper')"
+		'column.move.helper': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.label.draghelper')",
+		
+		'column.conditionalFormatting.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.title.conditions')",
+		'column.conditionalFormatting.conditions.list.title': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.conditions.list')",
+		'column.conditionalFormatting.condition.operator': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.operator')",
+		'column.conditionalFormatting.condition.condition': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.condition')",
+		'column.conditionalFormatting.condition.format': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.format')",
+		'column.conditionalFormatting.condition.add': "$msgProvider.getMessage('net.sf.jasperreports.components.headertoolbar.condition.add')"
 });
 
 jasperreports.events.registerEvent('jive.interactive.column.i18n.init').trigger();
