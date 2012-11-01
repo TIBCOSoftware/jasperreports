@@ -23,6 +23,9 @@
  */
 package net.sf.jasperreports.engine.fill;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.sf.jasperreports.engine.JRBreak;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpressionCollector;
@@ -38,6 +41,7 @@ import net.sf.jasperreports.engine.type.BreakTypeEnum;
 public class JRFillBreak extends JRFillElement implements JRBreak
 {
 
+	private static final Log log = LogFactory.getLog(JRFillBreak.class);
 
 	/**
 	 *
@@ -207,7 +211,15 @@ public class JRFillBreak extends JRFillElement implements JRBreak
 		
 		if (isToPrint)
 		{
-			if (getTypeValue() == BreakTypeEnum.COLUMN)
+			if (filler.getFillContext().isIgnorePagination())
+			{
+				// unpaginated report, break elements have no effect
+				if (log.isTraceEnabled())
+				{
+					log.trace("unpaginated report, " + getTypeValue() + " break not triggered");
+				}
+			}
+			else if (getTypeValue() == BreakTypeEnum.COLUMN)
 			{
 				//column break
 				if (!filler.isFirstColumnBand || band.firstYElement != null)
