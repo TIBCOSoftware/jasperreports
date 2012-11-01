@@ -793,6 +793,8 @@ jive.interactive.column.formatHeaderForm = {
         var metadata,
         	inputs = jive.selected.form.inputs;
         
+        jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
+        
         if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].editColumnHeaderData;
         } else {
@@ -943,6 +945,8 @@ jive.interactive.column.formatCellsForm = {
             htm = [],
             ie = jive.selected.ie,
             jo = jive.selected.form.jo;
+        
+        jive.selected.form.jo.parent().css({'overflow-y': 'hidden'});
         
         if (this.actionDataCache[this.name]) {
         	metadata = this.actionDataCache[this.name].editColumnValueData;
@@ -1113,6 +1117,8 @@ jive.interactive.column.columnConditionalFormattingForm = {
     	var it = this,
     		conditionType =  jive.selected.ie.conditionalFormatting.conditionType.toLowerCase(),
     		table = jive.selected.form.jo.find('table:eq(1)');
+    	
+    	jive.selected.form.jo.parent().css({'overflow-y': 'auto'});
     	it.options = jive.selected.ie.filtering.filterOperatorTypeValueSelector;
     	
     	if (this.actionDataCache[this.name]) {
