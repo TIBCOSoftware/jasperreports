@@ -299,7 +299,7 @@ public class FillTable extends BaseFillComponent
 		
 		TableSubreport subreport = new TableSubreport(table.getDatasetRun(), fillContext);
 		return new FillTableSubreport(
-				fillContext.getFiller(), subreport, factory, compiledTableReport,
+				fillContext, subreport, factory, compiledTableReport,
 				builtinEvaluators);
 	}
 	

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JROrigin;
 import net.sf.jasperreports.engine.JRPrintElement;
 import net.sf.jasperreports.engine.JRStyle;
+import net.sf.jasperreports.engine.fill.FillContainerContext;
 import net.sf.jasperreports.engine.fill.JRBaseFiller;
 import net.sf.jasperreports.engine.fill.JRFillExpressionEvaluator;
 import net.sf.jasperreports.engine.type.EvaluationTimeEnum;
@@ -153,6 +154,8 @@ public interface FillContext extends JRFillExpressionEvaluator
 	 * @return the filler object
 	 */
 	JRBaseFiller getFiller();
+	
+	FillContainerContext getFillContainerContext();
 	
 	//TODO access to params/fields/vars?
 }

@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.util.JRStyleResolver;
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
  * @version $Id$
  */
-public abstract class JRFillElementContainer extends JRFillElementGroup
+public abstract class JRFillElementContainer extends JRFillElementGroup implements FillContainerContext
 {
 	protected JRBaseFiller filler;
 	
@@ -66,6 +66,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 	
 	private boolean willOverflow;
 	protected boolean isOverflow;
+	private boolean currentOverflow;
+	private boolean currentOverflowAllowed;
 	
 	private int stretchHeight;
 	private int firstY;
@@ -310,7 +312,8 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 		boolean isOverflowAllowed
 		) throws JRException
 	{
-		boolean tmpWillOverflow = false;
+		currentOverflow = false;
+		currentOverflowAllowed = isOverflowAllowed;
 
 		int maxBandStretch = 0;
 		int bandStretch = 0;
@@ -325,12 +328,12 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			{
 				JRFillElement element = ySortedElements[i];
 
-				tmpWillOverflow = 
+				currentOverflow = 
 					element.prepare(
 						availableHeight + getElementFirstY(element),
 						isOverflow
 						) 
-					|| tmpWillOverflow;
+					|| currentOverflow;
 
 				element.moveDependantElements();
 
@@ -362,11 +365,11 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 
 		if (maxBandStretch > availableHeight - getContainerHeight() + firstY)
 		{
-			tmpWillOverflow = true;
+			currentOverflow = true;
 		}
 		
 		// stretchHeight includes firstY, which is subtracted in fillElements
-		if (tmpWillOverflow)
+		if (currentOverflow)
 		{
 			stretchHeight = availableHeight + firstY;
 		}
@@ -375,9 +378,19 @@ public abstract class JRFillElementContainer extends JRFillElementGroup
 			stretchHeight = getContainerHeight() + maxBandStretch;
 		}
 
-		willOverflow = tmpWillOverflow && isOverflowAllowed;
+		willOverflow = currentOverflow && isOverflowAllowed;
 	}
 
+	public boolean isCurrentOverflow()
+	{
+		return currentOverflow;
+	}
+
+	public boolean isCurrentOverflowAllowed()
+	{
+		return currentOverflowAllowed;
+	}
+	
 	private int getElementFirstY(JRFillElement element)
 	{
 		int elemFirstY;
