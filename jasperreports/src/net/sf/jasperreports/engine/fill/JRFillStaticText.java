@@ -203,7 +203,7 @@ public class JRFillStaticText extends JRFillTextElement implements JRStaticText
 		text.setWidth(getWidth());
 //		if (getRotation() == ROTATION_NONE)
 //		{
-			text.setHeight(getStretchHeight());
+			text.setHeight(getPrintElementHeight());
 //		}
 //		else
 //		{
