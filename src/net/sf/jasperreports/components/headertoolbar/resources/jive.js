@@ -661,7 +661,7 @@ jive.ui.forms = {
 
                             dd.append(htm);
                             dd.find('.pmenu').show();
-                            dd.css({width: '120px', height: '100px'});
+                            dd.css({width: '150px', height: '100px'});
                             dd.position({my: 'left top', at: 'left bottom', of: jQuery('div.jive_inputbutton[bname="'+this._idd+'"]'), collision: 'none', offset: '0 -10px'});
                         },
                         hideOptions: function () {
