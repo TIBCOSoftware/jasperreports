@@ -34,7 +34,6 @@
 	<classpathentry kind="lib" path="lib/spring-beans-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/spring-core-2.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/xalan-2.7.1.jar"/>
 	<classpathentry kind="lib" path="lib/jxl-2.6.10.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.7-20101029.jar"/>
@@ -48,5 +47,6 @@
 	<classpathentry kind="lib" path="lib/jackson-annotations-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-databind-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/rhino-1.7R3.jar"/>
+	<classpathentry kind="lib" path="lib/iText-2.1.7.js1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
