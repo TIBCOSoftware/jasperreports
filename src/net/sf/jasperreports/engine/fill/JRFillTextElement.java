@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JRFont;
 import net.sf.jasperreports.engine.JRLineBox;
 import net.sf.jasperreports.engine.JRParagraph;
 import net.sf.jasperreports.engine.JRPrintText;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JRStyle;
 import net.sf.jasperreports.engine.JRTextElement;
@@ -60,6 +61,9 @@ import net.sf.jasperreports.engine.util.MarkupProcessorFactory;
  */
 public abstract class JRFillTextElement extends JRFillElement implements JRTextElement
 {
+	
+	public static final String PROPERTY_CONSUME_SPACE_ON_OVERFLOW = 
+			JRPropertiesUtil.PROPERTY_PREFIX + "consume.space.on.overflow";
 
 	/**
 	 *
@@ -76,6 +80,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	private float lineSpacingFactor;
 	private float leadingOffset;
 	private float textHeight;
+	private int elementStretchHeightDelta;
 	private int textStart;
 	private int textEnd;
 	private short[] lineBreakOffsets;
@@ -86,6 +91,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 	
 	protected final JRLineBox initLineBox;
 	protected final JRParagraph initParagraph;
+	private final boolean consumeSpaceOnOverflow;
 	protected JRLineBox lineBox;
 	protected JRParagraph paragraph;
 
@@ -102,6 +108,10 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 
 		initLineBox = textElement.getLineBox().clone(this);
 		initParagraph = textElement.getParagraph().clone(this);
+
+		// not supporting property expressions for this
+		this.consumeSpaceOnOverflow = JRPropertiesUtil.getInstance(filler.getJasperReportsContext()).getBooleanProperty(
+				textElement, PROPERTY_CONSUME_SPACE_ON_OVERFLOW, true);
 	}
 	
 
@@ -111,6 +121,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		
 		initLineBox = textElement.getLineBox().clone(this);
 		initParagraph = textElement.getParagraph().clone(this);
+		this.consumeSpaceOnOverflow = textElement.consumeSpaceOnOverflow;
 	}
 
 
@@ -421,6 +432,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		textEnd = 0;
 		textTruncateSuffix = null;
 		lineBreakOffsets = null;
+		elementStretchHeightDelta = 0;
 	}
 	
 	/**
@@ -452,6 +464,7 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 		lineSpacingFactor = 0;
 		leadingOffset = 0;
 		textHeight = 0;
+		elementStretchHeightDelta = 0;
 	}
 
 
@@ -524,30 +537,58 @@ public abstract class JRFillTextElement extends JRFillElement implements JRTextE
 			return;
 		}
 
-		/*   */
+		boolean canOverflow = canOverflow();
 		JRMeasuredText measuredText = textMeasurer.measure(
 			tmpStyledText,
 			getTextEnd(),
 			availableStretchHeight,
-			canOverflow()
+			canOverflow
 			);
 		
 		isLeftToRight = measuredText.isLeftToRight();
 		setTextHeight(measuredText.getTextHeight());
+		
+		elementStretchHeightDelta = 0;
 		if (getRotationValue().equals(RotationEnum.NONE))
 		{
-			setStretchHeight((int)getTextHeight() + getLineBox().getTopPadding().intValue() + getLineBox().getBottomPadding().intValue());
+			//FIXME truncating to int here seems wrong as the text measurer compares 
+			// the exact text height against the available height
+			int elementTextHeight = (int) getTextHeight() + getLineBox().getTopPadding() + getLineBox().getBottomPadding();
+			boolean textEnded = measuredText.getTextOffset() >= tmpStyledText.getText().length();
+			if (textEnded || !canOverflow || !consumeSpaceOnOverflow)
+			{
+				setStretchHeight(elementTextHeight);
+			}
+			else
+			{
+				// occupy all remaining space so that no other element renders there
+				// but do not change the print element height
+				int stretchHeight = getHeight() + availableStretchHeight;
+				setStretchHeight(stretchHeight);
+				
+				// store the difference between the consumed stretch height and the text stretch height.
+				// this will be used in fill() to set the print element height, 
+				// which doesn't take into account the consumed empty space
+				int textStretchHeight = elementTextHeight > getHeight() ? elementTextHeight : getHeight();
+				elementStretchHeightDelta = getStretchHeight() - textStretchHeight;
+			}
 		}
 		else
 		{
 			setStretchHeight(getHeight());
 		}
+		
 		setTextStart(getTextEnd());
 		setTextEnd(measuredText.getTextOffset());
 		setLineBreakOffsets(measuredText.getLineBreakOffsets());
 		setTextTruncateSuffix(measuredText.getTextSuffix());
 		setLineSpacingFactor(measuredText.getLineSpacingFactor());
 		setLeadingOffset(measuredText.getLeadingOffset());
+	}
+	
+	protected int getPrintElementHeight()
+	{
+		return getStretchHeight() - elementStretchHeightDelta;
 	}
 	
 	protected abstract boolean canOverflow();
