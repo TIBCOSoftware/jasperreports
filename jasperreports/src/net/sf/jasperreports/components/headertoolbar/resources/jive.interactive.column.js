@@ -1027,7 +1027,7 @@ jasperreports.events.subscribeToEvent('jive.init', 'jive.ui.forms.add', [jive.in
 jive.interactive.column.columnConditionalFormattingForm = {
 	actionDataCache: {},
 	name: 'columnConditionalFormatting',
-	title: 'Conditional Formatting',
+	title: jive.i18n.get('column.conditionalFormatting.title'),
     method: 'get',
     options: null,
     templateElements: [
@@ -1058,21 +1058,21 @@ jive.interactive.column.columnConditionalFormattingForm = {
 	elements: [
 		[    
 	      [
-	       {type:'label', value:'Condition List', align: 'left', wrapClass: 'wrapper label'}
+	       {type:'label', value: jive.i18n.get('column.conditionalFormatting.conditions.list.title'), align: 'left', wrapClass: 'wrapper label'}
 	      ]
 	    ],
         [
          [
           {type:'label', value:'#', isHeader: true, tdWidth: '3%', align: 'center'},
-          {type:'label', value:'Operator', isHeader: true, tdWidth: '26%', align: 'center'},
-          {type:'label', value:'Condition', colspan: 3, isHeader: true, tdWidth: '30%', align: 'center'},
-          {type:'label', value:'Format', isHeader: true, tdWidth: '26%', align: 'center'},
+          {type:'label', value: jive.i18n.get('column.conditionalFormatting.condition.operator'), isHeader: true, tdWidth: '26%', align: 'center'},
+          {type:'label', value: jive.i18n.get('column.conditionalFormatting.condition.condition'), colspan: 3, isHeader: true, tdWidth: '30%', align: 'center'},
+          {type:'label', value: jive.i18n.get('column.conditionalFormatting.condition.format'), isHeader: true, tdWidth: '26%', align: 'center'},
           {type:'label', isHeader: true, tdWidth: '10%', align: 'center'},
           {type:'label', isHeader: true, tdClass: 'last', tdWidth: '5%', align: 'center'}
          ],
          [
           {type:'label'},
-          {type:'button', id:'conditionAdd', bLabel:'Add', fn: 'addFormatCondition', btnClass: 'plain', nowrap: true},
+          {type:'button', id:'conditionAdd', bLabel: jive.i18n.get('column.conditionalFormatting.condition.add'), fn: 'addFormatCondition', btnClass: 'plain', nowrap: true},
           {type:'label', nowrap: true, colspan: 3},
           {type:'label', nowrap: true},
           {type:'label', nowrap: true},
