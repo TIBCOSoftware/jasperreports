@@ -127,6 +127,7 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected Map<JREvaluationTime,DelayedEvaluations> delayedEvaluationsMap;
 
 	protected JRFillElementContainer conditionalStylesContainer;
+	protected FillContainerContext fillContainerContext;
 	
 	protected JRStyle initStyle;
 	
@@ -1333,6 +1334,10 @@ public abstract class JRFillElement implements JRElement, JRFillCloneable, JRSty
 	protected void setConditionalStylesContainer(JRFillElementContainer conditionalStylesContainer)
 	{
 		this.conditionalStylesContainer = conditionalStylesContainer;
+		if (fillContainerContext == null)
+		{
+			fillContainerContext = conditionalStylesContainer;
+		}
 	}
 
 	/**

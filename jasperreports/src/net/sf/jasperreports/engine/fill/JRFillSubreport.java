@@ -687,7 +687,8 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 			return willOverflow;
 		}
 
-		if (availableHeight < getRelativeY() + getHeight())
+		int elementHeight = getHeight();
+		if (availableHeight < getRelativeY() + elementHeight)
 		{
 			setToPrint(false);
 			return true;//willOverflow;
@@ -700,6 +701,26 @@ public class JRFillSubreport extends JRFillElement implements JRSubreport
 		boolean filling = runner.isFilling();
 		boolean toPrint = !isOverflow || isPrintWhenDetailOverflows() || !isAlreadyPrinted();
 		boolean reprinted = isOverflow && isPrintWhenDetailOverflows();
+
+		// for zero height subreports, check if we are at the bottom of the available space
+		// and if the container is already marked to overflow.  in that case, do not
+		// start the subreport here as the column header infinite loop test could throw
+		// a false positive.
+		if (elementHeight == 0 && availableHeight == getRelativeY()
+				// test whether the report is starting now
+				&& !filling && toPrint
+				&& fillContainerContext != null// not sure if we need this
+				&& fillContainerContext.isCurrentOverflow()
+				&& fillContainerContext.isCurrentOverflowAllowed())
+		{
+			if (log.isDebugEnabled())
+			{
+				log.debug("zero height subreport at the bottom, not starting");
+			}
+			
+			setToPrint(false);
+			return true;//willOverflow;
+		}
 		
 		if (!filling && toPrint && reprinted)
 		{
