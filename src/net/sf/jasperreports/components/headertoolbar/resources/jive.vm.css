@@ -108,10 +108,12 @@ button::-moz-focus-inner {
 }
 
 .jive_dialog div.dialogBody {
-    position:relative;
-    padding:3px;
-    zoom:1;
-    height:auto;
+	max-height: 480px;
+    *max-height:460px; /* IE7 */
+    overflow-y: auto;
+    overflow-x:hidden;
+    padding: 3px;
+    position: relative;
 }
 
 .jive_dialog div.dialogFooter {
@@ -215,7 +217,7 @@ button::-moz-focus-inner {
 
 .tabContainer {
     position:absolute;
-    right:8px;
+    right:22px;
     top:3px;
     z-index:2;
     width:auto;
@@ -298,7 +300,16 @@ button::-moz-focus-inner {
 }
 
 div.thick.wrapper {position:relative;padding:10px 10px;z-index:1;overflow:hidden;}
-div.wrapper {position:relative;padding:4px 10px;z-index:1;overflow:hidden;}
+div.wrapper {
+	overflow: hidden;
+    padding: 4px 10px 6px 10px;
+    position: relative;
+    z-index: 1;
+}
+div.wrapper.label {
+	padding:8px 10px 0px 10px;
+	margin-bottom:0px;
+}
 div.t_wrap {padding-right: 4px;}
 .jive_form input,
 .jive_form select {
@@ -596,17 +607,19 @@ div.ui-datepicker {font-size: 11px;}
 	border-left: none;
 }
 
-.wrapper {
-	padding-bottom:0px;
-}
-
-.wrapper.label {
-	padding-top:8px;
-}
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	.wrapper.label { /* CRHOME/SAFARI STYLES */
-		margin-top:8px;
+	div.wrapper.label { /* CRHOME/SAFARI STYLES */
+		margin-top:2px;
 		margin-bottom:0px;
 	}
+}
+
+#jive_form_columnConditionalFormatting {
+	width:700px;
+	display: block;
+    margin: 0 20px 20px 20px;
+}
+
+#jive_form_columnConditionalFormatting .jive_textLabel>div.wrapper.label {
+	padding:8px 10px 2px 0;
 }
