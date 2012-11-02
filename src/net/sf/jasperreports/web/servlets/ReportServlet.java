@@ -80,6 +80,7 @@ public class ReportServlet extends AbstractServlet
 	private static final String REQUEST_PARAMETER_PAGE_TIMESTAMP = "jr.pagetimestamp";
 	private static final String REQUEST_PARAMETER_PAGE_UPDATE = "jr.pageUpdate";
 
+	
 
 	/**
 	 *
@@ -122,7 +123,15 @@ public class ReportServlet extends AbstractServlet
 			log.error("Jasper Interactive error", e);
 			
 			out.println("<div><pre id=\"jrInteractiveError\">");
-			out.println(e.getMessage());
+			if (e.getMessage() != null && e.getMessage().indexOf(AbstractAction.ERR_CONCAT_STRING) != -1) {
+				String[] tokens = e.getMessage().split(AbstractAction.ERR_CONCAT_STRING);
+				for (String token: tokens) {
+					out.println(token);
+				}
+				
+			} else {
+				out.println(e.getMessage());
+			}
 			out.println("</pre></div>");
 		}
 		catch (Exception e)

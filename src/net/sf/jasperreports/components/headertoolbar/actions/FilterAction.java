@@ -107,6 +107,7 @@ public class FilterAction extends AbstractVerifiableTableAction {
 			}
 			try {
 				DateFormat df = formatFactory.createDateFormat(fd.getFilterPattern(), locale, null);
+				df.setLenient(false);
 				df.parse(fd.getFieldValueStart());
 				if (fd.getFieldValueEnd() != null && fd.getFieldValueEnd().length() > 0) {
 					try {
@@ -140,29 +141,6 @@ public class FilterAction extends AbstractVerifiableTableAction {
 				errors.addAndThrow("net.sf.jasperreports.components.headertoolbar.actions.filter.invalid.pattern");
 			}
 		}
-	}
-	
-	private NumberFormat createNumberFormat(String pattern, Locale locale)
-	{
-		NumberFormat format = null;
-
-		if (locale == null)
-		{
-			format = NumberFormat.getNumberInstance();
-		}
-		else
-		{
-			format = NumberFormat.getNumberInstance(locale);
-		}
-			
-		if (pattern != null && pattern.trim().length() > 0)
-		{
-			if (format instanceof DecimalFormat)
-			{
-				((DecimalFormat) format).applyPattern(pattern);
-			}
-		}
-		return format;
 	}
 
 }
