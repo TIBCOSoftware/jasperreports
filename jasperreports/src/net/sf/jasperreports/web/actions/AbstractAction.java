@@ -23,14 +23,14 @@
  */
 package net.sf.jasperreports.web.actions;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRElement;
@@ -46,6 +46,8 @@ import net.sf.jasperreports.repo.JasperDesignReportResource;
 import net.sf.jasperreports.web.commands.CommandStack;
 import net.sf.jasperreports.web.commands.CommandTarget;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 
 /**
  * @author Narcis Marcu (narcism@users.sourceforge.net)
@@ -55,6 +57,7 @@ import net.sf.jasperreports.web.commands.CommandTarget;
 public abstract class AbstractAction implements Action {
 	
 	public static final String PARAM_COMMAND_STACK = "net.sf.jasperreports.command.stack";
+	public static final String ERR_CONCAT_STRING = "<#_#>";
 	
 	private JasperReportsContext jasperReportsContext;
 	private ReportContext reportContext;
@@ -144,8 +147,12 @@ public abstract class AbstractAction implements Action {
 		public void throwAll() throws ActionException {
 			if (!errorMessages.isEmpty()) {
 				StringBuffer errBuff = new StringBuffer();
-				for (String errMsg: errorMessages) {
-					errBuff.append(errMsg).append("\n");
+				for (int i = 0, ln = errorMessages.size(); i < ln; i++) {
+					String errMsg = errorMessages.get(i);
+					errBuff.append(errMsg);
+					if (i < ln -1) {
+						errBuff.append(ERR_CONCAT_STRING);
+					}
 				}
 				throw new ActionException(errBuff.toString());
 			}	
@@ -190,4 +197,30 @@ public abstract class AbstractAction implements Action {
 		return null;
 	}
 
+
+	/**
+	 * 
+	 */
+	public NumberFormat createNumberFormat(String pattern, Locale locale)
+	{
+		NumberFormat format = null;
+
+		if (locale == null)
+		{
+			format = NumberFormat.getNumberInstance();
+		}
+		else
+		{
+			format = NumberFormat.getNumberInstance(locale);
+		}
+			
+		if (pattern != null && pattern.trim().length() > 0)
+		{
+			if (format instanceof DecimalFormat)
+			{
+				((DecimalFormat) format).applyPattern(pattern);
+			}
+		}
+		return format;
+	}
 }
