@@ -94,4 +94,16 @@ public class StandardMarker implements Marker, JRChangeEventsSupport, Serializab
 		properties.add(property);
 		getEventSupport().fireCollectionElementAddedEvent(PROPERTY_MARKER_PROPERTIES, property, properties.size() - 1);
 	}
+	
+	public void removeMarkerProperty(MarkerProperty property)
+	{
+		int idx = properties.indexOf(property);
+		if (idx >= 0)
+		{
+			properties.remove(idx);
+			
+			getEventSupport().fireCollectionElementRemovedEvent(PROPERTY_MARKER_PROPERTIES, 
+					property, idx);
+		}
+	}
 }
