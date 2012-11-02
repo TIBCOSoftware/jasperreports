@@ -45,7 +45,6 @@ public class FillMarker implements Marker
 	 *
 	 */
 	protected Marker parent;
-	private JRFillObjectFactory factory;
 	
 	/**
 	 *
@@ -58,7 +57,6 @@ public class FillMarker implements Marker
 		factory.put(marker, this);
 
 		parent = marker;
-		this.factory = factory;
 	}
 	
 	
@@ -74,12 +72,12 @@ public class FillMarker implements Marker
 			result = new HashMap<String, Object>();
 			for(MarkerProperty property : markerProperties)
 			{
-				FillMarkerProperty markerProperty = new FillMarkerProperty(property, factory);
 				result.put(
 					property.getName(), 
-					markerProperty.getValue() != null
-					? markerProperty.getValue()
-					: markerProperty.evaluateValueExpression(evaluator, evaluation));
+					property.getValueExpression() == null
+						? property.getValue()
+						: evaluator.evaluate(property.getValueExpression(), evaluation)
+					);
 			}
 		}
 		return result;

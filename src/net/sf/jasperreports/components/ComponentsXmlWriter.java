@@ -53,6 +53,7 @@ import net.sf.jasperreports.components.table.TableComponent;
 import net.sf.jasperreports.components.table.WhenNoDataTypeTableEnum;
 import net.sf.jasperreports.engine.JRComponentElement;
 import net.sf.jasperreports.engine.JRConstants;
+import net.sf.jasperreports.engine.JRDatasetRun;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JRReport;
@@ -257,11 +258,15 @@ public class ComponentsXmlWriter implements ComponentXmlWriter
 
 	private void writeMarkerDataset(MarkerDataset dataset, JRXmlWriteHelper writer, JRXmlWriter reportWriter, XmlNamespace namespace, JRComponentElement componentElement) throws IOException
 	{
-		if(dataset != null)
+		if (dataset != null)
 		{
 			writer.startElement(MapXmlFactory.ELEMENT_markerDataset, namespace);
 	
-			reportWriter.writeDatasetRun(dataset.getDatasetRun());
+			JRDatasetRun datasetRun = dataset.getDatasetRun();
+			if (datasetRun != null)
+			{
+				reportWriter.writeDatasetRun(datasetRun);
+			}
 	
 			/*   */
 			List<Marker> markerList = dataset.getMarkers();
