@@ -728,7 +728,6 @@ jQuery.noConflict();
             jo: null,  // selected jquery object tied to interactive element
             form: null // selected form defined by interactive element
         },
-        selectedform: null,
         viewerReady: false,
         runAction: function (actionData, startPoint, callback, arrCallbackArgs) {
         	var startPoint = startPoint || this.selected.jo,

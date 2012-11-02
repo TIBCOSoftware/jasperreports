@@ -474,7 +474,6 @@ jive.ui.dialog = {
         }
         jive.selected.form.onShow();
         this.title.html(title);
-        jive.ui.pageOverlay && jive.ui.pageOverlay.show();
         jive.selected.form.jo.show();
         this.jo.show().position({of:jQuery(window), at:'center top', my:'center top', offset: '0 ' + (128 + jQuery('div.jrPage').offset().top), collision: 'none'});
         this.isVisible = true;
@@ -484,7 +483,6 @@ jive.ui.dialog = {
         var it = this;
         var ids = [];
         jive.ui.dialog.jo.hide();
-        jive.ui.pageOverlay && jive.ui.pageOverlay.hide();
         it.body.children().each(function(){
             ids.push(this.id.substring(10));
             jQuery(this).appendTo('#jive_forms').hide();
