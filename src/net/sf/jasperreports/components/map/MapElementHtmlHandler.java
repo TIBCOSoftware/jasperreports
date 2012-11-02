@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import net.sf.jasperreports.engine.type.ModeEnum;
 import net.sf.jasperreports.engine.util.JRColorUtil;
 import net.sf.jasperreports.engine.util.JRStringUtil;
+import net.sf.jasperreports.web.util.JacksonUtil;
 import net.sf.jasperreports.web.util.VelocityUtil;
 import net.sf.jasperreports.web.util.WebUtil;
 
@@ -82,48 +83,71 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		String language = (String)element.getParameterValue(MapPrintElement.PARAMETER_LANGUAGE);
 
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
-		String markers = "[";
-		if(markerList!= null && !markerList.isEmpty())
-		{
-			String quotedName = null;
-			for(Map<String,Object> markerProps : markerList)
-			{
-				boolean firstOccurence = true;
-				if(markers.length() == 1)
-				{
-					markers += "{";
-				}
-				else
-				{
-					markers += ", {";
-				}
-				for(String name : markerProps.keySet())
-				{
-					quotedName = "'" + name + "'";
-					if(firstOccurence)
-					{
-						markers += quotedName +":";
-						firstOccurence = false;
-					}
-					else
-					{
-						markers += ", " + quotedName + ":";
-					}
-					Object value = markerProps.get(name);
-					if(value instanceof String 
-						&& !(MapPrintElement.PARAMETER_LATITUDE.equals(name) || MapPrintElement.PARAMETER_LONGITUDE.equals(name)))
-					{
-						markers += "'" + JRStringUtil.escapeJavaScript((String)value) + "'";
-					}
-					else 
-					{
-						markers += value;
-					}
-				}
-				markers += "}";
-			}
-		}
-		markers +="]";
+		// FIXME: adjustment for empty latitude/longitude fields
+//		if(markerList!= null)
+//		{
+//			for(Map<String,Object> markerProps : markerList)
+//			{
+//				if(markerProps.get(MapPrintElement.PARAMETER_LATITUDE) == null 
+//						|| "".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE))
+//						|| markerProps.get(MapPrintElement.PARAMETER_LATITUDE) == null 
+//						|| "".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE)))
+//				{
+//					markerList.remove(markerProps);
+//				}
+//				
+//			}
+//		}
+		
+//		String markers = "[";
+//		
+//		if(markerList!= null && !markerList.isEmpty())
+//		{
+//			String quotedName = null;
+//			for(Map<String,Object> markerProps : markerList)
+//			{
+//				if(markerProps.get(MapPrintElement.PARAMETER_LATITUDE) != null 
+//						&& !"".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE))
+//						&& markerProps.get(MapPrintElement.PARAMETER_LATITUDE) != null 
+//						&& !"".equals(markerProps.get(MapPrintElement.PARAMETER_LATITUDE)))
+//				{
+//					boolean firstOccurence = true;
+//					if(markers.length() == 1)
+//					{
+//						markers += "{";
+//					}
+//					else
+//					{
+//						markers += ", {";
+//					}
+//					for(String name : markerProps.keySet())
+//					{
+//						quotedName = "'" + name + "'";
+//						if(firstOccurence)
+//						{
+//							markers += quotedName +":";
+//							firstOccurence = false;
+//						}
+//						else
+//						{
+//							markers += ", " + quotedName + ":";
+//						}
+//						Object value = markerProps.get(name);
+//						if(value instanceof String 
+//							&& !(MapPrintElement.PARAMETER_LATITUDE.equals(name) || MapPrintElement.PARAMETER_LONGITUDE.equals(name)))
+//						{
+//							markers += "'" + JRStringUtil.escapeJavaScript((String)value) + "'";
+//						}
+//						else 
+//						{
+//							markers += value;
+//						}
+//					}
+//					markers += "}";
+//				}
+//			}
+//		}
+//		markers +="]";
 		
 		Map<String, Object> contextMap = new HashMap<String, Object>();
 		ReportContext reportContext = context.getExporter().getReportContext();
@@ -138,6 +162,8 @@ public class MapElementHtmlHandler implements GenericElementHtmlHandler
 		contextMap.put("longitude", longitude);
 		contextMap.put("zoom", zoom);
 		contextMap.put("mapType", mapType);
+//		contextMap.put("markerList", markers);
+		String markers = markerList == null || markerList.isEmpty() ? "[]" : JacksonUtil.getInstance(context.getJasperReportsContext()).getJsonString(markerList);
 		contextMap.put("markerList", markers);
 		if(language != null)
 		{
