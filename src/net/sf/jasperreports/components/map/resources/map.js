@@ -7,9 +7,13 @@
 	}
 	global.jasperreports.map = {
 		data: {},
-		initGoogleMaps: function() {
+		initGoogleMaps: function(language) {
 			if (!global.google) {
-				jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init');
+				if(language) {
+					jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init&language='+language);
+				} else {
+					jasperreports.global.loadScript('_googleApi', 'http://maps.google.com/maps/api/js?sensor=false&callback=jasperreports.map.init');
+				}
 			}
 		},
 		init: function() {
@@ -31,13 +35,20 @@
 				},
 				map = new gg.Map(document.getElementById(canvasId), myOptions);
 			if(markers){
+				var j;
 				for (var i = 0; i < markers.length; i++) {
 				    var markerProps = markers[i];
 				    var markerLatLng = new gg.LatLng(markerProps['latitude'], markerProps['longitude']);
-				    var marker = new gg.Marker({
-				        position: markerLatLng,
-				        map: map
-				    });
+				    var markerOptions = {
+					        position: markerLatLng,
+					        map: map
+					    };
+				    for (j in markerProps) {
+						if (markerProps.hasOwnProperty(j) && !markerOptions.hasOwnProperty(j)) {
+								markerOptions[j] = markerProps[j];
+						}
+					}
+				    var marker = new gg.Marker(markerOptions);
 				}
 			}
 		},

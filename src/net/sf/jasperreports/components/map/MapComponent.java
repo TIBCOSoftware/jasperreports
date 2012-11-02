@@ -44,6 +44,8 @@ public interface MapComponent extends Component, JRCloneable
 	JRExpression getLongitudeExpression();
 
 	JRExpression getZoomExpression();
+	
+	JRExpression getLanguageExpression();
 
 	EvaluationTimeEnum getEvaluationTime();
 	

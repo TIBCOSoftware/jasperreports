@@ -50,6 +50,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	public static final String PROPERTY_LATITUDE_EXPRESSION = "latitudeExpression";
 	public static final String PROPERTY_LONGITUDE_EXPRESSION = "longitudeExpression";
 	public static final String PROPERTY_ZOOM_EXPRESSION = "zoomExpression";
+	public static final String PROPERTY_LANGUAGE_EXPRESSION = "languageExpression";
 	public static final String PROPERTY_EVALUATION_TIME = "evaluationTime";
 	public static final String PROPERTY_EVALUATION_GROUP = "evaluationGroup";
 	public static final String PROPERTY_MAP_TYPE = "mapType";
@@ -60,6 +61,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	private JRExpression latitudeExpression;
 	private JRExpression longitudeExpression;
 	private JRExpression zoomExpression;
+	private JRExpression languageExpression;
 	private EvaluationTimeEnum evaluationTime = EvaluationTimeEnum.NOW;
 	private String evaluationGroup;
 	private MapTypeEnum mapType;
@@ -78,6 +80,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		this.latitudeExpression = objectFactory.getExpression(map.getLatitudeExpression());
 		this.longitudeExpression = objectFactory.getExpression(map.getLongitudeExpression());
 		this.zoomExpression = objectFactory.getExpression(map.getZoomExpression());
+		this.languageExpression = objectFactory.getExpression(map.getLanguageExpression());
 		this.evaluationTime = map.getEvaluationTime();
 		this.evaluationGroup = map.getEvaluationGroup();
 		this.mapType = map.getMapType();
@@ -117,12 +120,24 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 	{
 		return zoomExpression;
 	}
-
+	
 	public void setZoomExpression(JRExpression zoomExpression)
 	{
 		Object old = this.zoomExpression;
 		this.zoomExpression = zoomExpression;
 		getEventSupport().firePropertyChange(PROPERTY_ZOOM_EXPRESSION, old, this.zoomExpression);
+	}
+	
+	public JRExpression getLanguageExpression()
+	{
+		return languageExpression;
+	}
+
+	public void setLanguageExpression(JRExpression languageExpression)
+	{
+		Object old = this.languageExpression;
+		this.languageExpression = languageExpression;
+		getEventSupport().firePropertyChange(PROPERTY_LANGUAGE_EXPRESSION, old, this.languageExpression);
 	}
 
 	public EvaluationTimeEnum getEvaluationTime()
@@ -178,6 +193,7 @@ public class StandardMapComponent implements MapComponent, Serializable, JRChang
 		clone.latitudeExpression = JRCloneUtils.nullSafeClone(latitudeExpression);
 		clone.longitudeExpression = JRCloneUtils.nullSafeClone(longitudeExpression);
 		clone.zoomExpression = JRCloneUtils.nullSafeClone(zoomExpression);
+		clone.languageExpression = JRCloneUtils.nullSafeClone(languageExpression);
 		clone.eventSupport = null;
 		return clone;
 	}

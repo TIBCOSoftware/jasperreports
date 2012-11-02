@@ -68,6 +68,7 @@ public class MapElementImageProvider
 		String mapType = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_TYPE);
 		String mapScale = (String)element.getParameterValue(MapPrintElement.PARAMETER_MAP_SCALE);
 		String mapFormat = (String)element.getParameterValue(MapPrintElement.PARAMETER_IMAGE_TYPE);
+		String language = (String)element.getParameterValue(MapPrintElement.PARAMETER_LANGUAGE);
 		String markers ="";
 		
 		List<Map<String,Object>> markerList = (List<Map<String,Object>>)element.getParameterValue(MapPrintElement.PARAMETER_MARKERS);
@@ -104,8 +105,9 @@ public class MapElementImageProvider
 			+ (mapFormat == null ? "" : "&format=" + mapFormat)
 			+ (mapScale == null ? "" : "&scale=" + mapScale)
 			+ markers 
-			+ "&sensor=false";
-		
+			+ "&sensor=false"
+			+ (language == null ? "" : "&language=" + language);
+
 		JRBasePrintImage printImage = new JRBasePrintImage(element.getDefaultStyleProvider());
 		
 		printImage.setUUID(element.getUUID());
